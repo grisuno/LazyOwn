@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
 import subprocess
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -38,12 +39,22 @@ class PluginSpec:
 
 
 def _replace_placeholders(command: str, params: dict[str, Any]) -> str:
-    """Replace {key} tokens in a command string with values from params."""
+    """Replace {key} tokens with shell-safe values from params.
+
+    Every substituted value is wrapped in :func:`shlex.quote` because
+    the resulting string runs under ``shell=True`` and values arrive
+    from scan data and operator config. Safe tokens (IPs, hostnames)
+    pass through unquoted; metacharacters are neutralized inside
+    single quotes. Multi-word values become one shell word — per-run
+    flags travel as free args, appended verbatim after the template.
+    """
 
     def _subst(match: re.Match) -> str:
+        token = match.group(0)
         key = match.group(1).strip()
-        val = params.get(key, match.group(0))
-        return str(val)
+        if key not in params:
+            return token
+        return shlex.quote(str(params[key]))
 
     return re.sub(r"\{([^}]+)\}", _subst, command)
 

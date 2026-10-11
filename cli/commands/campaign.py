@@ -17,6 +17,7 @@ from pathlib import Path
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from core.safe_import import filter_columns, safe_copy_tree, safe_extract_zip
 from modules.db import LazyOwnDB
 from utils import (
     miscellaneous_category,
@@ -204,8 +205,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
 
-            with zipfile.ZipFile(archive, "r") as zf:
-                zf.extractall(tmp)
+            safe_extract_zip(archive, tmp)
 
             manifest_path = tmp / "manifest.json"
             if not manifest_path.exists():
@@ -253,9 +253,16 @@ class CampaignCommandSet(LazyOwnCommandSet):
                         if not rows:
                             continue
 
-                        columns = rows[0].keys()
-                        col_str = ", ".join(columns)
+                        with db._cursor() as cur:
+                            dest_columns = [
+                                info[1]
+                                for info in cur.execute(f"PRAGMA table_info({table})").fetchall()
+                            ]
+                        columns = filter_columns(list(rows[0].keys()), dest_columns)
+                        if not columns:
+                            continue
                         placeholders = ", ".join(["?" for _ in columns])
+                        col_str = ", ".join(columns)
 
                         for row in rows:
                             values = [row[c] for c in columns]
@@ -284,14 +291,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
 
             sessions_src = tmp / "sessions"
             if sessions_src.exists() and sessions_src.is_dir():
-                session_imported = 0
-                for f in sessions_src.rglob("*"):
-                    if f.is_file():
-                        rel = f.relative_to(sessions_src)
-                        dest = SESSIONS_DIR / rel
-                        dest.parent.mkdir(parents=True, exist_ok=True)
-                        shutil.copy2(f, dest)
-                        session_imported += 1
+                session_imported = safe_copy_tree(sessions_src, SESSIONS_DIR)
                 if session_imported:
                     print_msg(f"  + {session_imported} session files restored")
 

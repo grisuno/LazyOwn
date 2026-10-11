@@ -29,6 +29,8 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from core.host_policy import is_valid_host as _is_valid_host_policy
+
 log = logging.getLogger("core.hardening")
 
 MAX_SSH_COMMAND_LENGTH = 4096
@@ -303,6 +305,10 @@ def validate_port_spec(ports: str) -> bool:
 def validate_host(host: str) -> bool:
     """Validate a hostname or IP address.
 
+    Single policy shared with the CLI gates: plain IPs, CIDR blocks
+    and hostnames pass, shell metacharacters fail. CIDR-only strings
+    are additionally accepted by the network pattern below.
+
     Args:
         host: Hostname or IP to validate.
 
@@ -313,13 +319,7 @@ def validate_host(host: str) -> bool:
         return False
     if _NETWORK_CIDR_PATTERN.match(host):
         return True
-    host_pattern = re.compile(
-        r"^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)*"
-        r"[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?|"
-        r"(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"
-        r"(?:25[0-5]|2[0-4]\d|[01]?\d\d?)?)$"
-    )
-    return bool(host_pattern.match(host))
+    return _is_valid_host_policy(host)
 
 
 def require_encryption_key(

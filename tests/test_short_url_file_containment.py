@@ -19,6 +19,7 @@ from lazyc2.security.validators import resolve_contained_file_path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LAZYC2 = REPO_ROOT / "lazyc2.py"
+PHISHING_BP = REPO_ROOT / "lazyc2" / "blueprints" / "phishing.py"
 
 
 @pytest.fixture()
@@ -99,3 +100,38 @@ class TestRouteStatusContract:
                 assert reraises, "redirect_to_file must re-raise HTTPException"
                 return
         pytest.fail("redirect_to_file not found")
+
+
+class TestBlueprintRouteContainment:
+    """The phishing blueprint ``/<short_url>`` route serves the same
+    registry as the monolith route, so it must enforce the same
+    containment: resolve through ``resolve_contained_file_path`` and
+    never serve a raw ``abspath`` of registry input.
+    """
+
+    def test_blueprint_redirect_uses_contained_resolver(self) -> None:
+        tree = ast.parse(PHISHING_BP.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name == "redirect_to_file":
+                names = {
+                    n.attr if isinstance(n, ast.Attribute) else n.id
+                    for n in ast.walk(node)
+                    if isinstance(n, (ast.Attribute, ast.Name))
+                }
+                assert "resolve_contained_file_path" in names, (
+                    "blueprint redirect_to_file must resolve via "
+                    "resolve_contained_file_path"
+                )
+                abspath_calls = [
+                    n
+                    for n in ast.walk(node)
+                    if isinstance(n, ast.Call)
+                    and isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "abspath"
+                ]
+                assert not abspath_calls, (
+                    "blueprint redirect_to_file must not serve os.path.abspath "
+                    "of registry input"
+                )
+                return
+        pytest.fail("redirect_to_file not found in phishing blueprint")

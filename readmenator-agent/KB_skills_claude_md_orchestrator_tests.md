@@ -28,3 +28,5 @@
   - `test_boy_scout_returns_report` (function, line 237) `def test_boy_scout_returns_report(config)`
   - `test_cicd_agent_writes_pipeline` (function, line 260) `def test_cicd_agent_writes_pipeline(config)`
   - `test_models_spec_round_trip` (function, line 294) `def test_models_spec_round_trip()`
+  - `test_cicd_deploy_gate_checks_secret` (function, line 310) `def test_cicd_deploy_gate_checks_secret(config)`
+  - `test_cicd_deploy_gate_is_timing_safe` (function, line 332) `def test_cicd_deploy_gate_is_timing_safe()`

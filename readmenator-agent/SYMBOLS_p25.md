@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5905` | `` |
+| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:6517` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:246` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:581` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:839` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:934` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1054` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1113` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:2624` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3014` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3195` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3982` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4524` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4763` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4927` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5505` | `` |
+| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5896` | `` |
 | `_createClass` | function | `static/js/html2pdf.bundle.min.js:6496` | `` |
 | `_eachEntry` | function | `static/js/html2pdf.bundle.min.js:7895` | `` |
 | `_enumerate` | function | `static/js/html2pdf.bundle.min.js:7889` | `` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `renderLinearGradient` | function | `static/js/html2pdf.bundle.min.js:697` | `` |
 | `renderNode` | function | `static/js/html2pdf.bundle.min.js:5536` | `` |
 | `renderNodeBackgroundAndBorders` | function | `static/js/html2pdf.bundle.min.js:5582` | `` |
-| `renderNodeContent` | function | `static/js/html2pdf.bundle.min.js:5544` | `` |
-| `renderRadialGradient` | function | `static/js/html2pdf.bundle.min.js:706` | `` |
-| `renderRepeat` | function | `static/js/html2pdf.bundle.min.js:736` | `` |
-| `renderStack` | function | `static/js/html2pdf.bundle.min.js:5677` | `` |
-| `renderStackContent` | function | `static/js/html2pdf.bundle.min.js:5699` | `` |
-| `renderTextNode` | function | `static/js/html2pdf.bundle.min.js:745` | `` |
-| `resizeImage` | function | `static/js/html2pdf.bundle.min.js:795` | `` |
-| `resolve` | function | `static/js/html2pdf.bundle.min.js:7591` | `` |
-| `resolve` | function | `static/js/html2pdf.bundle.min.js:7699` | `` |
-| `resolvePseudoContent` | function | `static/js/html2pdf.bundle.min.js:6215` | `` |
-| `restoreOwnerScroll` | function | `static/js/html2pdf.bundle.min.js:6831` | `` |
-| `restoreOwnerScroll` | function | `static/js/html2pdf.bundle.min.js:6831` | `` |
-| `result` | function | `static/js/html2pdf.bundle.min.js:7256` | `` |
-| `reverse` | function | `static/js/html2pdf.bundle.min.js:1094` | `` |
-| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
-| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
-| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

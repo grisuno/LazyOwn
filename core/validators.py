@@ -11,45 +11,17 @@ from __future__ import annotations
 from typing import Any
 
 from core.console import GREEN, RESET, WHITE, print_error
+from core.host_policy import _SHELL_META_CHARS
+from core.host_policy import is_valid_host as _is_valid_host
+from core.host_policy import rejects_shell_meta as _rejects_shell_meta
 
-_HOST_RE = __import__("re").compile(r"^(?=.{1,253}$)([A-Za-z0-9]([A-Za-z0-9._-]{0,251}[A-Za-z0-9])?)$")
-_SHELL_META_CHARS = frozenset(";&|`$(){}!><*?~#\\'\"\n\r")
-
-
-def _rejects_shell_meta(value: str) -> bool:
-    """Return True when value contains characters usable for shell injection."""
-    return any(ch in _SHELL_META_CHARS for ch in value)
-
-
-def _is_valid_host(value: object) -> bool:
-    """Check value is a plain IP, CIDR, or hostname without shell metacharacters."""
-    if not isinstance(value, str):
-        return False
-    text = value.strip()
-    if not text or len(text) > 253 or _rejects_shell_meta(text):
-        return False
-    import ipaddress
-
-    candidate = text.split("/")[0] if "/" in text else text
-    try:
-        ipaddress.ip_address(candidate)
-        return "/" not in text or _is_valid_cidr(text)
-    except ValueError:
-        pass
-    if "/" in text:
-        return _is_valid_cidr(text)
-    return _HOST_RE.match(text) is not None
-
-
-def _is_valid_cidr(value: str) -> bool:
-    """Check value is a valid CIDR block."""
-    import ipaddress
-
-    try:
-        ipaddress.ip_network(value, strict=False)
-        return True
-    except ValueError:
-        return False
+__all__ = [
+    "_SHELL_META_CHARS",
+    "check_rhost",
+    "check_lhost",
+    "check_lport",
+    "check_port",
+]
 
 
 def check_rhost(rhost: Any) -> bool:
@@ -103,4 +75,60 @@ def check_port(port: Any, name: str = "port") -> bool:
     return True
 
 
-__all__ = ["check_rhost", "check_lhost", "check_lport", "check_port"]
+def require_rhost(params: Any) -> bool:
+    """Gate a command on a valid ``rhost`` looked up from ``params``.
+
+    Replaces the ``params['rhost']`` + ``check_rhost`` two-liner with a
+    single fail-closed call that never raises ``KeyError`` on a
+    missing key.
+
+    Args:
+        params: Live params mapping (``self.params`` in CommandSets).
+
+    Returns:
+        Result of :func:`check_rhost` on the looked-up value.
+    """
+    value = params.get("rhost") if hasattr(params, "get") else None
+    return check_rhost(value)
+
+
+def require_lhost(params: Any) -> bool:
+    """Gate a command on a valid ``lhost`` looked up from ``params``.
+
+    Args:
+        params: Live params mapping (``self.params`` in CommandSets).
+
+    Returns:
+        Result of :func:`check_lhost` on the looked-up value.
+    """
+    value = params.get("lhost") if hasattr(params, "get") else None
+    return check_lhost(value)
+
+
+def require_lport(params: Any) -> bool:
+    """Gate a command on a valid ``lport`` looked up from ``params``.
+
+    Args:
+        params: Live params mapping (``self.params`` in CommandSets).
+
+    Returns:
+        Result of :func:`check_lport` on the looked-up value.
+    """
+    value = params.get("lport") if hasattr(params, "get") else None
+    return check_lport(value)
+
+
+def require_rport(params: Any) -> bool:
+    """Gate a command on a valid ``rport`` looked up from ``params``.
+
+    Args:
+        params: Live params mapping (``self.params`` in CommandSets).
+
+    Returns:
+        Result of :func:`check_port` on the looked-up value.
+    """
+    value = params.get("rport") if hasattr(params, "get") else None
+    return check_port(value, name="rport")
+
+
+__all__ = ["check_rhost", "check_lhost", "check_lport", "check_port", "require_rhost", "require_lhost", "require_lport", "require_rport"]

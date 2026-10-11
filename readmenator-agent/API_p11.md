@@ -73,15 +73,15 @@ Imported by: `cli/commands/active_directory.py`
 - `try_kdialog` (function) `modules/gui_askpass.sh:40`
 
 ## modules/hash_cracker.py
-Depends on: `core/logging.py`, `modules/db.py`
+Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
 Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
-- `HashCracker.__init__` (method) `modules/hash_cracker.py:168` `def __init__(self, wordlist, rules, use_hashcat, timeout)`
-- `HashCracker.identify` (method) `modules/hash_cracker.py:190` `def identify(self, line)` -- Identify the hash type of a single line.
-- `HashCracker.identify_file` (method) `modules/hash_cracker.py:277` `def identify_file(self, filepath)` -- Parse a hash file and group hashes by type.
-- `HashCracker.crack_hash` (method) `modules/hash_cracker.py:299` `def crack_hash(self, hash_value, hash_type, wordlist)` -- Attempt to crack a single hash.
-- `HashCracker.crack_file` (method) `modules/hash_cracker.py:353` `def crack_file(self, filepath, wordlist, hash_types)` -- Crack all hashes in a file.
-- `HashCracker.import_to_db` (method) `modules/hash_cracker.py:409` `def import_to_db(self, results, rhost, workspace_name)` -- Import cracked results into the LazyOwnDB credentials table.
-- `HashCracker.crack_secretsdump_output` (method) `modules/hash_cracker.py:699` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
+- `HashCracker.__init__` (method) `modules/hash_cracker.py:164` `def __init__(self, wordlist, rules, use_hashcat, timeout)`
+- `HashCracker.identify` (method) `modules/hash_cracker.py:186` `def identify(self, line)` -- Identify the hash type of a single line.
+- `HashCracker.identify_file` (method) `modules/hash_cracker.py:273` `def identify_file(self, filepath)` -- Parse a hash file and group hashes by type.
+- `HashCracker.crack_hash` (method) `modules/hash_cracker.py:295` `def crack_hash(self, hash_value, hash_type, wordlist)` -- Attempt to crack a single hash.
+- `HashCracker.crack_file` (method) `modules/hash_cracker.py:349` `def crack_file(self, filepath, wordlist, hash_types)` -- Crack all hashes in a file.
+- `HashCracker.import_to_db` (method) `modules/hash_cracker.py:405` `def import_to_db(self, results, rhost, workspace_name)` -- Import cracked results into the LazyOwnDB credentials table.
+- `HashCracker.crack_secretsdump_output` (method) `modules/hash_cracker.py:695` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
 
 ## modules/hive_invoke.py
 Depends on: `modules/toposwarm_bridge.py`

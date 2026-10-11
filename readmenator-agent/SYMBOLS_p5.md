@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `truncate_summary` | method | `cli/palette_command.py:107` | `def truncate_summary(self, summary)` |
+| `GraphIndex` | class | `cli/palette_graph.py:74` | `class GraphIndex` |
+| `GraphIndexError` | class | `cli/palette_graph.py:39` | `class GraphIndexError(RuntimeError)` |
+| `GraphLookupConfig` | class | `cli/palette_graph.py:44` | `class GraphLookupConfig` |
 | `_build_adjacency` | method | `cli/palette_graph.py:90` | `def _build_adjacency(document)` |
 | `_command_name_from_label` | method | `cli/palette_graph.py:68` | `def _command_name_from_label(label)` |
 | `_filter_neighbours` | method | `cli/palette_graph.py:161` | `def _filter_neighbours(neighbours)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_truncate` | method | `cli/toast_bus.py:482` | `def _truncate(self, value)` |
 | `build_default_bus` | method | `cli/toast_bus.py:679` | `def build_default_bus(payload, sessions_dir, console)` |
 | `build_toast_renderable` | method | `cli/toast_bus.py:867` | `def build_toast_renderable(events, payload, width, config)` |
-| `collect` | method | `cli/toast_bus.py:510` | `def collect(self)` |
-| `digest_line` | method | `cli/toast_bus.py:409` | `def digest_line(dropped)` |
-| `duration_for` | method | `cli/toast_bus.py:391` | `def duration_for(self, event)` |
-| `emit_toast` | method | `cli/toast_bus.py:778` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

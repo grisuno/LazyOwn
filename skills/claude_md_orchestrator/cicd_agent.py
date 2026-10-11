@@ -14,6 +14,7 @@ release pipelines. The skill stays portable across LazyOwn releases.
 
 from __future__ import annotations
 
+import hmac
 import re
 import subprocess
 from dataclasses import dataclass
@@ -220,7 +221,11 @@ def run(
             )
             if commit.returncode != 0:
                 findings.append(f"git commit failed: {commit.stderr.strip()}")
-    if deploy_token and deploy_token == config.deploy_gate_token and config.deploy_gate_token:
+    if (
+        deploy_token
+        and config.deploy_gate_token
+        and hmac.compare_digest(deploy_token, config.deploy_gate_token)
+    ):
         deployed = True
     return CicdResult(
         branch=branch,

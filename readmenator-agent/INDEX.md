@@ -10,7 +10,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `bootstrap.sh` | LazyOwn bootstrap installer (one-liner entry point). | root | 16 | 0 |
 | `cli/__init__.py` | LazyOwn CLI infrastructure. | cli | 0 | 8 |
 | `cli/aliases.py` | Declarative cmd2 alias loader. | cli | 7 | 10 |
-| `cli/assign.py` | ``assign`` business logic. | cli | 1 | 14 |
+| `cli/assign.py` | ``assign`` business logic. | cli | 1 | 15 |
 | `cli/auto_crypto.py` | Automatic encryption of sensitive session data on app open/close. | cli | 12 | 3 |
 | `cli/autosuggest.py` | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | cli | 27 | 5 |
 | `cli/banner_config.py` | Configurable Neon Box banner for the LazyOwn interactive shell. | cli | 120 | 6 |
@@ -20,7 +20,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/command_explorer.py` | Interactive command explorer by phase and goal for the LazyOwn shell. | cli | 7 | 1 |
 | `cli/command_form.py` | Textual form-mode launcher for LazyOwn commands. | cli | 31 | 1 |
 | `cli/commands/__init__.py` | Phase-scoped CommandSet modules. | commands | 0 | 1 |
-| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 87 |
+| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 88 |
 | `cli/commands/_dormancy.py` | Dormancy marker for incrementally migrated command sets. | commands | 2 | 9 |
 | `cli/commands/active_directory.py` | Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting. | commands | 8 | 0 |
 | `cli/commands/ai.py` | Artificial Intelligence command set. | commands | 8 | 1 |
@@ -47,6 +47,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/commands/crystal_ball.py` | Crystal Ball CLI command set — privilege escalation vector prediction. | commands | 5 | 0 |
 | `cli/commands/daemon_ctl.py` | Autonomous daemon control extracted from the miscellaneous cluster. | commands | 8 | 1 |
 | `cli/commands/database.py` | Database commands — workspace isolation, host/service/vuln management, nmap import, export, and... | commands | 16 | 0 |
+| `cli/commands/defaults.py` | Build-defaults inspection and override command set. | commands | 4 | 0 |
 | `cli/commands/demo.py` | End-to-end demo command — MCP registration plus the golden path. | commands | 2 | 0 |
 | `cli/commands/diagnostics.py` | Diagnostics CommandSet (Tier 2 pilot). | commands | 3 | 1 |
 | `cli/commands/dns_exfil.py` | DNS exfiltration and covert channel command set. | commands | 12 | 0 |
@@ -198,36 +199,38 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `contrib/legacy/lazyvsftp.py` | - | legacy | 3 | 0 |
 | `contrib/legacy/lazywerkzeug.py` | - | legacy | 0 | 0 |
 | `contrib/legacy/sql.py` | - | legacy | 3 | 0 |
-| `core/__init__.py` | Core primitives for the LazyOwn framework. | core | 0 | 1 |
+| `core/__init__.py` | Core primitives for the LazyOwn framework. | core | 0 | 3 |
 | `core/api_authz.py` | Tenant-bound API authorization for the LazyOwn C2 dashboard. | core | 31 | 4 |
 | `core/command_bridge.py` | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | core | 9 | 1 |
-| `core/config.py` | Configuration loader and Config wrapper. | core | 17 | 31 |
-| `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 52 |
+| `core/config.py` | Configuration loader and Config wrapper. | core | 17 | 34 |
+| `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 50 |
 | `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 3 |
-| `core/credentials.py` | Credential management utilities for the LazyOwn framework. | core | 13 | 1 |
 | `core/crypto.py` | Symmetric primitives used by the framework. | core | 7 | 9 |
+| `core/defaults.py` | Build-time default constants loaded from ``config/defaults.toml``. | core | 8 | 6 |
 | `core/dependencies.py` | Graceful optional-import handling for heavy third-party dependencies. | core | 23 | 3 |
 | `core/error_advice.py` | Actionable error advice with fix command and documentation link. | core | 5 | 0 |
 | `core/errors.py` | Error taxonomy for the LazyOwn framework. | core | 23 | 1 |
 | `core/executor.py` | Centralised subprocess wrapper for the LazyOwn framework. | core | 6 | 1 |
-| `core/hardening.py` | Centralized security hardening utilities for the LazyOwn framework. | core | 16 | 17 |
+| `core/hardening.py` | Centralized security hardening utilities for the LazyOwn framework. | core | 16 | 18 |
+| `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
 | `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 123 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
-| `core/parsers.py` | Parsing utilities for the LazyOwn framework. | core | 21 | 8 |
-| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 10 |
+| `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
+| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 11 |
 | `core/process.py` | Process and subprocess utilities for the LazyOwn framework. | core | 12 | 11 |
 | `core/profiles.py` | Runtime profiles: ``light`` vs ``full`` installations. | core | 3 | 3 |
 | `core/prompt.py` | Prompt builder for LazyOwn CLI and C2 dashboard banner. | core | 8 | 3 |
 | `core/protocols.py` | Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration. | core | 12 | 1 |
 | `core/safe_console.py` | Terminal-safe Rich console factory. | core | 5 | 5 |
-| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 15 |
+| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 16 |
+| `core/safe_import.py` | Fail-closed import of attacker-supplied campaign packages. | core | 4 | 2 |
 | `core/safe_subprocess.py` | Safe subprocess runner for the LazyOwn framework. | core | 7 | 6 |
 | `core/scheduler.py` | Centralized task scheduler for the LazyOwn framework. | core | 17 | 0 |
 | `core/security.py` | Security helpers for LazyOwn — anti-debug, certificate generation. | core | 2 | 0 |
 | `core/text_utils.py` | Shared text helpers for terminal surfaces. | core | 1 | 8 |
-| `core/validators.py` | Input validators for runtime configuration values. | core | 7 | 9 |
+| `core/validators.py` | Input validators for runtime configuration values. | core | 8 | 12 |
 | `deploy/range/ad-mini/traffic-gen.py` | Fake network traffic generator for the AD mini range. | misc | 2 | 0 |
 | `discord_c2.py` | - | root | 21 | 0 |
 | `external/install_external.sh` | Nombre del script: download_resources.sh Autor: Gris Iscomeback Correo electrónico... | misc | 2 | 0 |
@@ -236,13 +239,13 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `install.sh` | LazyOwn installer. | root | 16 | 0 |
 | `key.py` | - | root | 1 | 0 |
 | `lazy_sentinel4.py` | RAGManager: Manages RAG functionality with CAG caching for document processing and querying. | root | 47 | 0 |
-| `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 271 | 0 |
+| `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 277 | 0 |
 | `lazyc2/__init__.py` | - | lazyc2 | 0 | 2 |
 | `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 38 | 3 |
 | `lazyc2/app_factory.py` | Flask application factory for the LazyOwn C2 server. | lazyc2 | 9 | 0 |
 | `lazyc2/blueprints/__init__.py` | Flask Blueprints for lazydown C2. | blueprints | 0 | 2 |
 | `lazyc2/blueprints/addons.py` | LazyAddon creator blueprint for the C2 dashboard. | blueprints | 14 | 3 |
-| `lazyc2/blueprints/api.py` | API blueprint for the LazyOwn C2 server. | blueprints | 8 | 3 |
+| `lazyc2/blueprints/api.py` | API blueprint for the LazyOwn C2 server. | blueprints | 10 | 4 |
 | `lazyc2/blueprints/api_v1.py` | Versioned REST API (``/api/v1``) for the LazyOwn C2 server. | blueprints | 12 | 2 |
 | `lazyc2/blueprints/auth.py` | Authentication and authorisation blueprint for the LazyOwn C2 server. | blueprints | 19 | 4 |
 | `lazyc2/blueprints/beacon.py` | Beacon communication blueprint for the LazyOwn C2 server. | blueprints | 7 | 1 |
@@ -264,7 +267,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `lazyc2/security/https_redirect.py` | HTTPS redirect policy for the LazyOwn C2 web layer. | security | 5 | 2 |
 | `lazyc2/security/services.py` | Security services for the LazyOwn C2 web layer. | security | 16 | 3 |
 | `lazyc2/security/trusted_proxy.py` | Trusted proxy resolver for the LazyOwn C2 web layer. | security | 5 | 2 |
-| `lazyc2/security/validators.py` | Input validators for the LazyOwn C2 web layer. | security | 9 | 4 |
+| `lazyc2/security/validators.py` | Input validators for the LazyOwn C2 web layer. | security | 9 | 5 |
 | `lazyc2/state.py` | Global C2 server state — namespace for shared mutable objects. | lazyc2 | 0 | 1 |
 | `lazygui/__init__.py` | LazyOwn Operator Console. | lazygui | 0 | 0 |
 | `lazygui/__main__.py` | Entry point for ``python -m lazygui``. | lazygui | 1 | 0 |
@@ -364,11 +367,11 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/cgi-bin/lazywebshell.py` | - | cgi-bin | 0 | 0 |
 | `modules/cgi-bin/lazywebshell.sh` | - | cgi-bin | 0 | 0 |
 | `modules/cicd_enumerator.py` | CI/CD Pipeline Enumeration Module. | modules | 12 | 1 |
-| `modules/cli_auth.py` | CLI authentication module — login against users.json with remember-me. | modules | 18 | 9 |
+| `modules/cli_auth.py` | CLI authentication module — login against users.json with remember-me. | modules | 18 | 10 |
 | `modules/cloud_enum.py` | Native cloud enumeration modules for AWS, Azure, and GCP. | modules | 17 | 1 |
 | `modules/collab_bp.py` | modules/collab_bp.py | modules | 49 | 7 |
 | `modules/colors.py` | retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k... | modules | 3 | 7 |
-| `modules/command_executor.py` | UnifiedCommandExecutor — shared shell command execution service. | modules | 13 | 0 |
+| `modules/command_executor.py` | UnifiedCommandExecutor — shared shell command execution service. | modules | 17 | 2 |
 | `modules/compliance.py` | modules/compliance.py | modules | 25 | 1 |
 | `modules/conditional_hooks.py` | Conditional Hooks System for LazyOwn (Mythic-style triggers). | modules | 23 | 4 |
 | `modules/config_store.py` | Thread-safe singleton facade over core.config for payload.json. | modules | 11 | 1 |
@@ -493,8 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/memory_store.py` | — Episodic memory for the LazyOwn auto_loop. | modules | 33 | 2 |
 | `modules/metrics.py` | LazyOwn metrics surface. | modules | 24 | 6 |
 | `modules/mfa_bypass.py` | MFA Bypass Toolkit — techniques for circumventing multi-factor authentication. | modules | 10 | 1 |
-| `modules/mkcloudflaretunnel.sh` | Download cloudflared and create a tunnel to localhost on a specified port. | modules | 0 | 0 |
-| `modules/module_registry.py` | Unified module registry for LazyOwn — catalog, search, use/run workflow. | modules | 29 | 6 |
-| `modules/moe_router.py` | modules/moe_router.py | modules | 39 | 5 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

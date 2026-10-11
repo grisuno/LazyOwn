@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_ask_groq` | method | `modules/llm_client.py:174` | `def _ask_groq(self, prompt, model, system, temperature)` |
 | `_ask_ollama` | method | `modules/llm_client.py:215` | `def _ask_ollama(self, prompt, model)` |
 | `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
 | `ask` | method | `modules/llm_client.py:251` | `def ask(prompt)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `to_dict` | method | `modules/operation.py:98` | `def to_dict(self)` |
 | `OperatorProfile` | class | `modules/operator_profiles.py:38` | `class OperatorProfile` |
 | `OperatorProfileManager` | class | `modules/operator_profiles.py:77` | `class OperatorProfileManager` |
+| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

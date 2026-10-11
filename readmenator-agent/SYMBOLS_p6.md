@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `collect` | method | `cli/toast_bus.py:510` | `def collect(self)` |
+| `digest_line` | method | `cli/toast_bus.py:409` | `def digest_line(dropped)` |
+| `duration_for` | method | `cli/toast_bus.py:391` | `def duration_for(self, event)` |
+| `emit_toast` | method | `cli/toast_bus.py:778` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
 | `ephemeral_enabled` | method | `cli/toast_bus.py:732` | `def ephemeral_enabled(payload, config)` |
 | `flush` | method | `cli/toast_bus.py:164` | `def flush(self)` |
 | `format` | method | `cli/toast_bus.py:324` | `def format(self, event)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `overridden_keys` | method | `core/config.py:233` | `def overridden_keys(self)` |
 | `resolve_aes_key` | method | `core/config.py:250` | `def resolve_aes_key(config_dict)` |
 | `save_payload` | method | `core/config.py:385` | `def save_payload(payload, path)` |
-| `_emit` | function | `core/console.py:208` | `def _emit(line)` |
-| `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
-| `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
-| `colors_enabled` | function | `core/console.py:98` | `def colors_enabled()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

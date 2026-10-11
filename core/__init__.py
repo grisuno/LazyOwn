@@ -56,21 +56,6 @@ from core.console import (
     print_succ,
     print_warn,
 )
-from core.credentials import (
-    Spray,
-    crack_password,
-    find_ea,
-    find_ps,
-    find_ss,
-    format_openssh_key,
-    format_rsa_key,
-    generate_emails,
-    get_credentials,
-    get_domain,
-    get_hash,
-    get_users_dic,
-    return_creds,
-)
 from core.crypto import AESdecrypt, AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt
 from core.dependencies import MissingDependencyError, optional_attr, optional_import
 from core.errors import (  # noqa: F401
@@ -106,29 +91,7 @@ from core.network import (
     parse_proc_net_file,
     send_packet,
 )
-from core.parsers import (
-    aggressive_yaml_fix,
-    clean_html,
-    clean_output,
-    clean_url,
-    create_synthetic_yaml,
-    de_htmlify,
-    extract_banners,
-    fix_common_yaml_issues,
-    get_domain_from_xml,
-    get_xml,
-    htmlify,
-    is_exist,
-    list_binaries,
-    load_adversary,
-    load_knowledge_base,
-    load_user_aliases,
-    manual_yaml_extraction,
-    parse_nmap_csv,
-    parse_yaml_response,
-    select_binary,
-    strip_ansi,
-)
+from core.parsers import strip_ansi
 from core.payload_schema import (
     SCHEMA,
     FieldKind,

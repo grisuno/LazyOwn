@@ -1,6 +1,45 @@
 # Subsystem: tests (page 10 of 15)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_mcp_lazy.py
+- Doc: Contract for the unified MCP lazy-import helper.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestEnsureOptional` (class, line 42) `class TestEnsureOptional`
+  - `TestWrappersDelegate` (class, line 86) `class TestWrappersDelegate`
+  - `test_success_binds_and_caches` (method, line 43) `def test_success_binds_and_caches(self)`
+  - `test_cached_value_returned_untouched` (method, line 58) `def test_cached_value_returned_untouched(self)`
+  - `test_exception_fails_closed` (method, line 66) `def test_exception_fails_closed(self)`
+  - `test_false_loader_with_fallback` (method, line 75) `def test_false_loader_with_fallback(self)`
+  - `test_all_wrappers_delegate_to_helper` (method, line 87) `def test_all_wrappers_delegate_to_helper(self)`
+  - `loader` (method, line 47) `def loader(ns)`
+  - `loader` (method, line 61) `def loader(ns)`
+  - `loader` (method, line 69) `def loader(ns)`
+  - `loader` (method, line 78) `def loader(ns)`
+- Depends on: `skills/mcp_lazy.py`
+
+## tests/test_metrics.py
+- Doc: Tests for ``modules/metrics.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_build_recorder` (function, line 35) `def _build_recorder(tmp_path)`
+  - `test_legacy_registry_inc_and_render` (function, line 42) `def test_legacy_registry_inc_and_render()`
+  - `test_recorder_appends_record_line` (function, line 57) `def test_recorder_appends_record_line(tmp_path)`
+  - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
+  - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
+  - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
+  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
+  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
+  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
+  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
+  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
+  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
+  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
+  - `worker` (function, line 180) `def worker(tag)`
+- Depends on: `modules/metrics.py`
+
 ## tests/test_metrics_aware_selector.py
 - Doc: Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``.
 - Layer: testing

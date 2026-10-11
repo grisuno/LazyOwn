@@ -28,6 +28,10 @@ Depends on: `cli/commands/_base.py`, `modules/db.py`, `modules/finding_lifecycle
 - `DatabaseCommandSet.do_db_status` (method) `cli/commands/database.py:545` `def do_db_status(self, line)` -- Show entity counts for the active workspace.
 - `DatabaseCommandSet.shlex_split` (method) `cli/commands/database.py:562` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
 
+## cli/commands/defaults.py
+Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/defaults.py`, `utils.py`
+- `DefaultsCommandSet.do_defaults` (method) `cli/commands/defaults.py:45` `def do_defaults(self, line)` -- Show or override build-time defaults (TOML + payload.json).
+
 ## cli/commands/demo.py
 Depends on: `cli/commands/_base.py`, `utils.py`
 - `DemoCommandSet.do_demo` (method) `cli/commands/demo.py:29` `def do_demo(self, line)` -- Run the end-to-end demo: MCP registration, session init, recommend, scan.
@@ -450,27 +454,27 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morph
 - `PersistMigratedCommandSet.do_pwncat` (method) `cli/commands/persist_migrated.py:33` `def do_pwncat(self, line)` -- Runs `pwncat` with the specified port for listening.
 - `PersistMigratedCommandSet.do_ftp` (method) `cli/commands/persist_migrated.py:77` `def do_ftp(self, line)` -- Connects to an ftp host using credentials from a file and a specified port.
 - `PersistMigratedCommandSet.do_rdp` (method) `cli/commands/persist_migrated.py:136` `def do_rdp(self, line)` -- Reads credentials from a file, encrypts the password, and executes the RDP connection command.
-- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:211` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
-- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:257` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
-- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:301` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
-- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:339` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:379` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:425` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
-- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:471` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
-- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:552` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
-- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:652` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
-- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:726` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
-- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:844` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
-- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:910` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
-- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:973` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
-- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1061` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
-- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1094` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
-- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1162` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
-- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1197` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1264` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1331` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
-- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1404` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
-- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1427` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
+- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:210` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
+- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:256` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
+- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:300` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
+- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:338` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:378` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:424` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
+- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:470` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
+- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:551` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
+- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:651` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
+- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:725` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
+- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:843` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
+- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:909` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
+- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:972` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
+- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1060` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
+- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1093` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
+- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1161` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
+- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1196` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1263` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1330` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1403` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
+- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1426` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
 
 ## cli/commands/phishing_wizard.py
 Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`

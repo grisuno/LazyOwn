@@ -26,6 +26,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/command_form.py` -> `cli/commands/containers.py`
 - `cli/command_form.py` -> `cli/palette.py`
 - `cli/command_form.py` -> `cli/themes.py`
+- `cli/commands/_base.py` -> `core/validators.py`
 - `cli/commands/_base.py` -> `utils.py`
 - `cli/commands/_dormancy.py` -> `cli/commands/_base.py`
 - `cli/commands/active_directory.py` -> `cli/commands/_base.py`
@@ -77,6 +78,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/caldera.py` -> `modules/ttp_coverage.py`
 - `cli/commands/caldera.py` -> `utils.py`
 - `cli/commands/campaign.py` -> `cli/commands/_base.py`
+- `cli/commands/campaign.py` -> `core/safe_import.py`
 - `cli/commands/campaign.py` -> `modules/db.py`
 - `cli/commands/campaign.py` -> `utils.py`
 - `cli/commands/catalog.py` -> `cli/commands/_base.py`
@@ -123,6 +125,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/cred.py` -> `modules/categories.py`
 - `cli/commands/cred.py` -> `utils.py`
 - `cli/commands/cred_migrated.py` -> `cli/commands/_base.py`
+- `cli/commands/cred_migrated.py` -> `core/defaults.py`
 - `cli/commands/cred_migrated.py` -> `utils.py`
 - `cli/commands/crystal_ball.py` -> `cli/commands/_base.py`
 - `cli/commands/crystal_ball.py` -> `modules/privesc_predictor.py`
@@ -137,6 +140,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/database.py` -> `modules/finding_lifecycle.py`
 - `cli/commands/database.py` -> `skills/autonomous_daemon.py`
 - `cli/commands/database.py` -> `utils.py`
+- `cli/commands/defaults.py` -> `cli/assign.py`
+- `cli/commands/defaults.py` -> `cli/commands/_base.py`
+- `cli/commands/defaults.py` -> `core/config.py`
+- `cli/commands/defaults.py` -> `core/defaults.py`
+- `cli/commands/defaults.py` -> `utils.py`
 - `cli/commands/demo.py` -> `cli/commands/_base.py`
 - `cli/commands/demo.py` -> `utils.py`
 - `cli/commands/diagnostics.py` -> `cli/commands/_base.py`
@@ -488,13 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/tips_engine.py` -> `cli/ops_commands.py`
 - `cli/tips_engine.py` -> `cli/palette.py`
 - `cli/tips_engine.py` -> `cli/phase_labels.py`
-- `cli/tips_engine.py` -> `cli/reactive_hints.py`
-- `cli/tips_engine.py` -> `cli/recommendation_signals.py`
-- `cli/tips_engine.py` -> `cli/themes.py`
-- `cli/tips_engine.py` -> `core/console.py`
-- `cli/tips_engine.py` -> `core/logging.py`
-- `cli/tips_engine.py` -> `core/safe_console.py`
-- `cli/tips_engine.py` -> `core/text_utils.py`
-- `cli/tips_engine.py` -> `modules/cli_auth.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

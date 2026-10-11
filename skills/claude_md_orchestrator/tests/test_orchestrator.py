@@ -305,3 +305,47 @@ def test_models_spec_round_trip() -> None:
     rebuilt = Spec.from_dict(payload)
     assert rebuilt.contract_id == spec.contract_id
     assert rebuilt.sad_paths[0].condition == "missing"
+
+
+def test_cicd_deploy_gate_checks_secret(config: Config) -> None:
+    """The deploy gate ships only on the exact shared secret."""
+    contract = Contract(
+        contract_id="C-800",
+        title="gate check",
+        rationale="the operator ships only with the shared secret",
+        scope=["deploy gate"],
+    )
+    spec = sdd_agent.run(contract, config).spec
+    config.deploy_gate_token = "gate-secret-token"
+    shipped = cicd_agent.run(
+        contract, spec, None, config, deploy_token="gate-secret-token"
+    )
+    assert shipped.deployed is True
+    rejected = cicd_agent.run(
+        contract, spec, None, config, deploy_token="wrong-token"
+    )
+    assert rejected.deployed is False
+    closed = cicd_agent.run(contract, spec, None, config, deploy_token=None)
+    assert closed.deployed is False
+
+
+def test_cicd_deploy_gate_is_timing_safe() -> None:
+    """The deploy gate compares secrets with hmac.compare_digest."""
+    import ast as _ast
+
+    source = (Path(cicd_agent.__file__)).read_text(encoding="utf-8")
+    tree = _ast.parse(source)
+    for node in _ast.walk(tree):
+        if isinstance(node, _ast.FunctionDef) and node.name == "run":
+            calls = {
+                n.func.attr
+                for n in _ast.walk(node)
+                if isinstance(n, _ast.Call)
+                and isinstance(n.func, _ast.Attribute)
+            }
+            assert "compare_digest" in calls, (
+                "cicd run must compare deploy tokens with "
+                "hmac.compare_digest"
+            )
+            return
+    raise AssertionError("cicd run not found")

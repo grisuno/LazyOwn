@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
 | `_ensure_team_ca` | method | `modules/operator_profiles.py:93` | `def _ensure_team_ca(self)` |
 | `_generate_operator_cert` | method | `modules/operator_profiles.py:130` | `def _generate_operator_cert(self, username)` |
 | `_profile_dir` | method | `modules/operator_profiles.py:124` | `def _profile_dir(self, username)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `best_expert_for_state` | method | `modules/rl_trainer.py:389` | `def best_expert_for_state(self, state, candidates)` |
 | `encode` | method | `modules/rl_trainer.py:105` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
 | `encode` | method | `modules/rl_trainer.py:131` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
+| `encode_state` | method | `modules/rl_trainer.py:304` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

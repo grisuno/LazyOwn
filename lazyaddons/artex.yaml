@@ -1,0 +1,15 @@
+name: artex
+description: |
+  ARTEX AI autonomous pentest system (Go backend + Next.js frontend) pinned to commit 0ec51e3 v0.3.12 final. Clone keeps full git history and tags for AI tag search. First run builds frontend and backend, needs Go 1.26+ npm Postgres. Postgres and LLM key via UI or env, never as CLI args. Run artex then open http://localhost:8787 setup. Extra flags append as free args, e.g. artex -proxy 127.0.0.1:8789.
+author: Hinln
+version: "0.3.12"
+enabled: true
+os: any
+trigger: []
+category: "16. Artificial Intelligence"
+tool:
+  name: ARTEX
+  repo_url: https://github.com/Hinln/ARTEX.git
+  install_path: external/.exploit/artex
+  install_command: git fetch --unshallow || true && git fetch --tags || true && git checkout 0ec51e37993aa50047317b009a05593c61bbdf1e && (cd web && npm ci && npm run build:static) && rm -rf server/webui/dist && cp -r web/out server/webui/dist && CGO_ENABLED=0 go build -tags embedui -trimpath -o artex ./cmd/artex && chmod +x start.sh && cp -n config.example.json config.json
+  execute_command: ./start.sh -addr :8787

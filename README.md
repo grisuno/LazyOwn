@@ -321,21 +321,50 @@ We love your post bro :D Thank you so much.
 ## Knowledge Base
 
 This project has been analyzed by [ReadMenator](https://github.com/grisuno/ReadMenator),
-a zero-token polyglot static analysis tool. Analysis outputs are available:
+a zero-token polyglot static analysis tool. Regenerate with
+`pip install readmenator && readmenator . --rebuild`. Analysis outputs:
 
 - **[KNOWLEDGE_BASE.md](./KNOWLEDGE_BASE.md)** -- Full architecture reference with all
   classes, functions, imports, dependency graphs, UML class diagrams, security
-  audit findings, community analysis, and more.
+  audit findings, community analysis, taint paths, hotspots, cycles, and more.
 - **[readmenator-agent/](./readmenator-agent/)** -- Agent-friendly, grep-optimized index.
   - `INDEX.md` -- Quick reference: what each file does
+  - `SYMBOLS.md` -- Every symbol with file:line
+  - `ARCHITECTURE.md` -- Internal dependency pairs + external imports
   - `API.md` -- Public function contracts
-  - `GOTCHAS.md` -- Change warnings
-  - `SECURITY.md` -- Findings by severity
+  - `GOTCHAS.md` -- Change warnings (blast radius, cycles, hotspots)
+  - `SECURITY.md` -- Findings by severity with fix hints
+  - `MEMORY.md` -- Rules, workflow, style, deliverables, session log
+  - `MANIFEST.json` -- Freshness (git_commit + source_fingerprint) + read order
+  - `KB_<subsystem>.md` -- Per-subsystem context
+  - `recipes/*.md` -- Grounded task guides (add-function, fix-cycle, ...)
 - **[readmenator-wiki/](./readmenator-wiki/)** -- Navigable wiki (start here for the big picture).
   - `index.md` -- Entry point: overview, reading order, god nodes, connections
   - `community_*.md` -- One synthesis page per code community
+  - `connections.json` -- Typed bridges between communities
+  - `queries.md` -- Suggested questions + answer log
   - `REPORT.md` -- Honest audit: coverage, confidence, limits
+- **[readmenator-graphrag/](./readmenator-graphrag/)** -- Zero-token GraphRAG index.
+  - `index.json` + `REPORTS.md` -- Query with `readmenator . ask "<question>"`
+- **[readmenator-maps/](./readmenator-maps/)** -- Interactive gallery (`index.html`).
+  - 5 system maps: architecture, workflow, sequence, dataflow, lifecycle
+  - `graph-force.html` -- Force-graph explorer (2D/3D, reach, paths, lenses)
+  - `graph-bundle.html` -- Edge bundle explorer (circle + sphere)
+  - `components.html` -- Component diagrams
+- **[docs/](./docs/)** -- Static site (GitHub Pages ready).
+  - Gallery copy + `llms.txt` (agent entry point) + `md/` docs + video
+- **[readmenator-diagrams/](./readmenator-diagrams/)** -- Component diagrams.
+  - `analysis.json` + `graph LR` markdown + per-component pages + `index.html`
+- **[readmenator-rules/](./readmenator-rules/)** -- Suggested Semgrep rules (`*.yml`),
+  `yara_rules.yar` (YARA-lite) + `exclusions.yaml` (false-positive blocklist)
+- **[readmenator.mp4](./readmenator.mp4)** -- Cinematic synthwave overview video
+- **[.cursorrules](./.cursorrules)** -- Generated AI assistant rules
+- **[readmenator_audit.sarif](./readmenator_audit.sarif)** -- SARIF v2.1.0 audit (when security scan is on)
+
+Cache (`.readmenator_cache/`), packaged agent skills (`.claude/skills/`), and the
+GitHub wiki mirror are also produced on `run`/`--rebuild`.
 
 AI agents: Read `readmenator-wiki/index.md` first for the big picture, then `readmenator-agent/INDEX.md` for grep-friendly lookup.
-Developers: Read `KNOWLEDGE_BASE.md` for full architecture reference.
+Developers: Read `KNOWLEDGE_BASE.md` for full architecture reference, open `readmenator-maps/index.html` for the visual gallery.
 <!-- /readmenator-kb-link -->
+

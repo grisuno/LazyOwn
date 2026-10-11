@@ -47,6 +47,8 @@ for _p in [str(_mcp_lazyown / "modules"), str(_mcp_root)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
+from mcp_lazy import ensure_optional as _ensure_optional
+
 _ENGINE_AVAILABLE = None
 _BRIDGE_AVAILABLE = None
 _STATE_AVAILABLE = None
@@ -70,295 +72,200 @@ _AutoMapper = None
 
 
 def _ensure_engine():
-    global _ENGINE_AVAILABLE
-    if _ENGINE_AVAILABLE is not None:
-        return _ENGINE_AVAILABLE
-    try:
-        global process_new_rows, read_events, ack_event, add_rule, load_rules, _hb_is_running
-        from event_engine import (
-            ack_event,
-            add_rule,
-            load_rules,
-            process_new_rows,
-            read_events,
+    def _load(ns):
+        from event_engine import ack_event, add_rule, load_rules, process_new_rows, read_events
+        from event_engine import is_running as _hb_is_running
+        ns.update(
+            process_new_rows=process_new_rows,
+            read_events=read_events,
+            ack_event=ack_event,
+            add_rule=add_rule,
+            load_rules=load_rules,
+            _hb_is_running=_hb_is_running,
         )
-        from event_engine import (
-            is_running as _hb_is_running,
-        )
+        return True
 
-        _ENGINE_AVAILABLE = True
-    except ImportError:
-        _ENGINE_AVAILABLE = False
-    return _ENGINE_AVAILABLE
+    return _ensure_optional(globals(), "_ENGINE_AVAILABLE", _load)
 
 
 def _ensure_bridge():
-    global _BRIDGE_AVAILABLE
-    if _BRIDGE_AVAILABLE is not None:
-        return _BRIDGE_AVAILABLE
-    try:
-        global start_agent, get_agent_status, get_agent_result, list_agents
-        from mcp_agent_bridge import (
-            get_agent_result,
-            get_agent_status,
-            list_agents,
-            start_agent,
+    def _load(ns):
+        from mcp_agent_bridge import get_agent_result, get_agent_status, list_agents, start_agent
+        ns.update(
+            start_agent=start_agent,
+            get_agent_status=get_agent_status,
+            get_agent_result=get_agent_result,
+            list_agents=list_agents,
         )
+        return True
 
-        _BRIDGE_AVAILABLE = True
-    except ImportError:
-        _BRIDGE_AVAILABLE = False
-    return _BRIDGE_AVAILABLE
+    return _ensure_optional(globals(), "_BRIDGE_AVAILABLE", _load)
 
 
 def _ensure_state():
-    global _STATE_AVAILABLE
-    if _STATE_AVAILABLE is not None:
-        return _STATE_AVAILABLE
-    try:
-        global _state_load, _state_refresh
+    def _load(ns):
         from session_state import load as _state_load
         from session_state import refresh as _state_refresh
+        ns.update(_state_load=_state_load, _state_refresh=_state_refresh)
+        return True
 
-        _STATE_AVAILABLE = True
-    except ImportError:
-        _STATE_AVAILABLE = False
-    return _STATE_AVAILABLE
+    return _ensure_optional(globals(), "_STATE_AVAILABLE", _load)
 
 
 def _ensure_recommender():
-    global _RECOMMENDER_AVAILABLE
-    if _RECOMMENDER_AVAILABLE is not None:
-        return _RECOMMENDER_AVAILABLE
-    try:
-        global _recommend
+    def _load(ns):
         from recommender import recommend_and_save as _recommend
+        ns.update(_recommend=_recommend)
+        return True
 
-        _RECOMMENDER_AVAILABLE = True
-    except ImportError:
-        _RECOMMENDER_AVAILABLE = False
-    return _RECOMMENDER_AVAILABLE
+    return _ensure_optional(globals(), "_RECOMMENDER_AVAILABLE", _load)
 
 
 def _ensure_narrator():
-    global _NARRATOR_AVAILABLE
-    if _NARRATOR_AVAILABLE is not None:
-        return _NARRATOR_AVAILABLE
-    try:
-        global _narrate, _load_timeline
+    def _load(ns):
         from timeline_narrator import load_timeline as _load_timeline
         from timeline_narrator import narrate as _narrate
+        ns.update(_narrate=_narrate, _load_timeline=_load_timeline)
+        return True
 
-        _NARRATOR_AVAILABLE = True
-    except ImportError:
-        _NARRATOR_AVAILABLE = False
-    return _NARRATOR_AVAILABLE
+    return _ensure_optional(globals(), "_NARRATOR_AVAILABLE", _load)
 
 
 def _ensure_policy():
-    global _POLICY_AVAILABLE, _policy
-    if _POLICY_AVAILABLE is not None:
-        return _POLICY_AVAILABLE
-    try:
+    def _load(ns):
         from lazyown_policy import LazyOwnPolicyIntegration as _PI
+        ns.update(_policy=_PI())
+        return True
 
-        _policy = _PI()
-        _POLICY_AVAILABLE = True
-    except Exception:
-        _POLICY_AVAILABLE = False
-    return _POLICY_AVAILABLE
+    return _ensure_optional(globals(), "_POLICY_AVAILABLE", _load)
 
 
 def _ensure_facts():
-    global _FACTS_AVAILABLE, _facts
-    if _FACTS_AVAILABLE is not None:
-        return _FACTS_AVAILABLE
-    try:
-        from lazyown_facts import FactStore as _FS
-        from lazyown_facts import create_tool_file as _ctf
+    def _load(ns):
+        try:
+            from lazyown_facts import FactStore as _FS
+            from lazyown_facts import create_tool_file as _ctf
+        except Exception:
+            def _create_tool_file(*_a, **_kw):
+                raise RuntimeError("lazyown_facts not available")
 
-        global _create_tool_file
-        _facts = _FS()
-        _create_tool_file = _ctf
-        _FACTS_AVAILABLE = True
-    except Exception:
-        _FACTS_AVAILABLE = False
+            ns.update(_create_tool_file=_create_tool_file)
+            return False
+        ns.update(_facts=_FS(), _create_tool_file=_ctf)
+        return True
 
-        def _create_tool_file(*_a, **_kw):
-            raise RuntimeError("lazyown_facts not available")
-
-    return _FACTS_AVAILABLE
+    return _ensure_optional(globals(), "_FACTS_AVAILABLE", _load)
 
 
 def _ensure_objectives():
-    global _OBJECTIVES_AVAILABLE, _objectives
-    if _OBJECTIVES_AVAILABLE is not None:
-        return _OBJECTIVES_AVAILABLE
-    try:
-        from lazyown_objective import (
-            ObjectiveStore as _OS,
+    def _load(ns):
+        from lazyown_objective import ObjectiveStore as _OS
+        from lazyown_objective import current_plan as _cp
+        from lazyown_objective import full_context_for_claude as _fc
+        from lazyown_objective import read_soul as _rs
+        from lazyown_objective import write_soul as _ws
+        ns.update(
+            _objectives=_OS(),
+            _read_soul=_rs,
+            _write_soul=_ws,
+            _current_plan=_cp,
+            _full_context_for_claude=_fc,
         )
-        from lazyown_objective import (
-            current_plan as _cp,
-        )
-        from lazyown_objective import (
-            full_context_for_claude as _fc,
-        )
-        from lazyown_objective import (
-            read_soul as _rs,
-        )
-        from lazyown_objective import (
-            write_soul as _ws,
-        )
+        return True
 
-        global _read_soul, _write_soul, _current_plan, _full_context_for_claude
-        _objectives = _OS()
-        _read_soul = _rs
-        _write_soul = _ws
-        _current_plan = _cp
-        _full_context_for_claude = _fc
-        _OBJECTIVES_AVAILABLE = True
-    except Exception:
-        _OBJECTIVES_AVAILABLE = False
-    return _OBJECTIVES_AVAILABLE
+    return _ensure_optional(globals(), "_OBJECTIVES_AVAILABLE", _load)
 
 
 def _ensure_llm():
-    global _LLM_AVAILABLE
-    if _LLM_AVAILABLE is not None:
-        return _LLM_AVAILABLE
-    try:
-        global _llm_ask, _build_bridge
+    def _load(ns):
         from lazyown_llm import build_bridge as _build_bridge
         from lazyown_llm import llm_ask as _llm_ask
+        ns.update(_llm_ask=_llm_ask, _build_bridge=_build_bridge)
+        return True
 
-        _LLM_AVAILABLE = True
-    except Exception:
-        _LLM_AVAILABLE = False
-    return _LLM_AVAILABLE
+    return _ensure_optional(globals(), "_LLM_AVAILABLE", _load)
 
 
 def _ensure_automapper():
-    global _AUTOMAPPER_AVAILABLE, _AutoMapper
-    if _AUTOMAPPER_AVAILABLE is not None:
-        return _AUTOMAPPER_AVAILABLE
-    try:
+    def _load(ns):
         from lazyown_automapper import AutoMapper as _AM
+        ns.update(_AutoMapper=_AM)
+        return True
 
-        _AutoMapper = _AM
-        _AUTOMAPPER_AVAILABLE = True
-    except Exception:
-        _AUTOMAPPER_AVAILABLE = False
-    return _AUTOMAPPER_AVAILABLE
+    return _ensure_optional(globals(), "_AUTOMAPPER_AVAILABLE", _load)
 
 
 def _ensure_pdb():
-    global _PDB_AVAILABLE, _get_pdb
-    if _PDB_AVAILABLE is not None:
-        return _PDB_AVAILABLE
-    try:
-        from lazyown_parquet_db import get_pdb as _gpdb
+    def _load(ns):
+        try:
+            from lazyown_parquet_db import get_pdb as _gpdb
+        except Exception:
+            def _get_pdb(_=None):
+                return None
 
-        _get_pdb = _gpdb
-        _PDB_AVAILABLE = True
-    except Exception:
-        _PDB_AVAILABLE = False
+            ns.update(_get_pdb=_get_pdb)
+            return False
+        ns.update(_get_pdb=_gpdb)
+        return True
 
-        def _get_pdb(_=None):
-            return None
-
-    return _PDB_AVAILABLE
+    return _ensure_optional(globals(), "_PDB_AVAILABLE", _load)
 
 
 def _ensure_hive():
-    global _HIVE_AVAILABLE
-    if _HIVE_AVAILABLE is not None:
-        return _HIVE_AVAILABLE
-    try:
-        global _get_hive, _hive_spawn, _hive_status, _hive_recall
-        global _hive_plan, _hive_result, _hive_collect, _hive_forget, _hive_recover
-        from hive_mind import (
-            get_hive as _get_hive,
+    def _load(ns):
+        from hive_mind import get_hive as _get_hive
+        from hive_mind import mcp_hive_collect as _hive_collect
+        from hive_mind import mcp_hive_forget as _hive_forget
+        from hive_mind import mcp_hive_plan as _hive_plan
+        from hive_mind import mcp_hive_recall as _hive_recall
+        from hive_mind import mcp_hive_recover as _hive_recover
+        from hive_mind import mcp_hive_result as _hive_result
+        from hive_mind import mcp_hive_spawn as _hive_spawn
+        from hive_mind import mcp_hive_status as _hive_status
+        ns.update(
+            _get_hive=_get_hive,
+            _hive_spawn=_hive_spawn,
+            _hive_status=_hive_status,
+            _hive_recall=_hive_recall,
+            _hive_plan=_hive_plan,
+            _hive_result=_hive_result,
+            _hive_collect=_hive_collect,
+            _hive_forget=_hive_forget,
+            _hive_recover=_hive_recover,
         )
-        from hive_mind import (
-            mcp_hive_collect as _hive_collect,
-        )
-        from hive_mind import (
-            mcp_hive_forget as _hive_forget,
-        )
-        from hive_mind import (
-            mcp_hive_plan as _hive_plan,
-        )
-        from hive_mind import (
-            mcp_hive_recall as _hive_recall,
-        )
-        from hive_mind import (
-            mcp_hive_recover as _hive_recover,
-        )
-        from hive_mind import (
-            mcp_hive_result as _hive_result,
-        )
-        from hive_mind import (
-            mcp_hive_spawn as _hive_spawn,
-        )
-        from hive_mind import (
-            mcp_hive_status as _hive_status,
-        )
+        return True
 
-        _HIVE_AVAILABLE = True
-    except Exception:
-        _HIVE_AVAILABLE = False
-    return _HIVE_AVAILABLE
+    return _ensure_optional(globals(), "_HIVE_AVAILABLE", _load)
 
 
 def _ensure_auto():
-    global _AUTO_AVAILABLE
-    if _AUTO_AVAILABLE is not None:
-        return _AUTO_AVAILABLE
-    try:
-        global _auto_start, _auto_stop, _auto_status, _auto_inject, _auto_events
-        from autonomous_daemon import (
-            mcp_autonomous_events as _auto_events,
+    def _load(ns):
+        from autonomous_daemon import mcp_autonomous_events as _auto_events
+        from autonomous_daemon import mcp_autonomous_inject as _auto_inject
+        from autonomous_daemon import mcp_autonomous_start as _auto_start
+        from autonomous_daemon import mcp_autonomous_status as _auto_status
+        from autonomous_daemon import mcp_autonomous_stop as _auto_stop
+        ns.update(
+            _auto_start=_auto_start,
+            _auto_stop=_auto_stop,
+            _auto_status=_auto_status,
+            _auto_inject=_auto_inject,
+            _auto_events=_auto_events,
         )
-        from autonomous_daemon import (
-            mcp_autonomous_inject as _auto_inject,
-        )
-        from autonomous_daemon import (
-            mcp_autonomous_start as _auto_start,
-        )
-        from autonomous_daemon import (
-            mcp_autonomous_status as _auto_status,
-        )
-        from autonomous_daemon import (
-            mcp_autonomous_stop as _auto_stop,
-        )
+        return True
 
-        _AUTO_AVAILABLE = True
-    except Exception:
-        _AUTO_AVAILABLE = False
-    return _AUTO_AVAILABLE
+    return _ensure_optional(globals(), "_AUTO_AVAILABLE", _load)
 
 
 def _ensure_aci():
-    global _ACI_AVAILABLE
-    if _ACI_AVAILABLE is not None:
-        return _ACI_AVAILABLE
-    try:
-        global _aci_plan, _aci_status, _aci_replan
-        from aci_planner import (
-            mcp_aci_plan as _aci_plan,
-        )
-        from aci_planner import (
-            mcp_aci_replan as _aci_replan,
-        )
-        from aci_planner import (
-            mcp_aci_status as _aci_status,
-        )
+    def _load(ns):
+        from aci_planner import mcp_aci_plan as _aci_plan
+        from aci_planner import mcp_aci_replan as _aci_replan
+        from aci_planner import mcp_aci_status as _aci_status
+        ns.update(_aci_plan=_aci_plan, _aci_status=_aci_status, _aci_replan=_aci_replan)
+        return True
 
-        _ACI_AVAILABLE = True
-    except Exception:
-        _ACI_AVAILABLE = False
-    return _ACI_AVAILABLE
+    return _ensure_optional(globals(), "_ACI_AVAILABLE", _load)
 
 
 # Stubs for names referenced before lazy init (avoid NameError at parse time)
@@ -965,6 +872,24 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
             pass
 
     return _make_text(tool_name, output)
+
+
+@register_handler("lazyown_ack_event")
+async def _h_ack_event(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    if not _ensure_engine():
+        return _make_text(tool_name, "Event engine not available.")
+    event_id = arguments["event_id"]
+    found = await asyncio.get_event_loop().run_in_executor(None, lambda: ack_event(event_id))
+    return _make_text(
+        tool_name,
+        f"Event {event_id} marked as processed." if found else f"Event {event_id} not found.",
+    )
+
+
+@register_handler("lazyown_c2_status")
+async def _h_c2_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    result = await asyncio.get_event_loop().run_in_executor(None, lambda: _c2_request("/api/data"))
+    return _make_text(tool_name, json.dumps(result, indent=2))
 
 
 REA_BINARY = "rea"
@@ -5758,55 +5683,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     except Exception:
         pass
 
-    # ── run_command ──────────────────────────────────────────────────────────
-    if name == "lazyown_run_command":
-        command = arguments["command"]
-        timeout = int(arguments.get("timeout", 30))
-        dry_run = bool(arguments.get("dry_run", False))
-
-        if dry_run:
-            preflight = preflight_command(command, _load_payload(), SESSIONS_DIR)
-            return text(json.dumps(preflight, indent=2))
-
-        if needs_confirmation(name, arguments):
-            return text(
-                f"CONFIRMATION REQUIRED for command: {command}\n"
-                f"Re-call with confirm=true to execute. "
-                f"This command appears destructive (rm -rf, exfil, wipe, encrypt-file)."
-            )
-
-        # Prefer stateful C2 shell (/api/run) when C2 is reachable
-        def _run_with_fallback(cmd: str, to: int) -> str:
-            c2_result = _c2_request("/api/run", method="POST", body={"command": cmd})
-            # Fall back if: urllib error (_error key), C2 body error (error key), or no useful output
-            if "_error" in c2_result or "error" in c2_result:
-                return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
-            output = c2_result.get("output", c2_result.get("result", ""))
-            if not output:
-                return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
-            return f"[via C2 /api/run]\n{output}"
-
-        output = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_with_fallback(command, timeout))
-
-        # Feed every executed command into the policy engine asynchronously
-        if _POLICY_AVAILABLE and _policy is not None:
-            _cfg = _load_payload()
-            _target = _cfg.get("rhost", "") or _cfg.get("lhost", "127.0.0.1")
-            _parts = command.strip().split(None, 1)
-            _cmd_name = _parts[0] if _parts else command
-            _cmd_args = _parts[1] if len(_parts) > 1 else ""
-            try:
-                await asyncio.get_event_loop().run_in_executor(
-                    None,
-                    lambda: _policy.on_command_complete(_target, _cmd_name, _cmd_args, output, None),
-                )
-            except Exception:
-                pass  # policy errors must never affect command execution
-
-        return text(output)
-
     # ── palette ──────────────────────────────────────────────────────────────
-    elif name == "lazyown_palette":
+    if name == "lazyown_palette":
         from cli.palette import CommandIndexError as _PaletteIndexError
         from cli.palette import load_index as _palette_load_index
         from cli.palette_command import render_json as _palette_render_json
@@ -5936,10 +5814,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"error: {e}")
 
     # ── c2_status ─────────────────────────────────────────────────────────────
-    elif name == "lazyown_c2_status":
-        result = await asyncio.get_event_loop().run_in_executor(None, lambda: _c2_request("/api/data"))
-        return text(json.dumps(result, indent=2))
-
     # ── create_addon ──────────────────────────────────────────────────────────
     elif name == "lazyown_create_addon":
         addon_name = arguments["name"].strip().replace(" ", "_")
@@ -7291,13 +7165,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         return text("\n".join(lines))
 
     # ── ack_event ──────────────────────────────────────────────────────────────
-    elif name == "lazyown_ack_event":
-        if not _ensure_engine():
-            return text("Event engine not available.")
-        event_id = arguments["event_id"]
-        found = await asyncio.get_event_loop().run_in_executor(None, lambda: ack_event(event_id))
-        return text(f"Event {event_id} marked as processed." if found else f"Event {event_id} not found.")
-
     # ── add_rule ───────────────────────────────────────────────────────────────
     elif name == "lazyown_add_rule":
         if not _ensure_engine():

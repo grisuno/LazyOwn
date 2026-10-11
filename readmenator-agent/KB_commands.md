@@ -12,15 +12,15 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `extract_flag` (function, line 34) `def extract_flag(args, flag)`
-  - `LazyOwnCommandSet` (class, line 51) `class LazyOwnCommandSet(CommandSet)`
-  - `_resolve_shell` (method, line 65) `def _resolve_shell(self)`
-  - `params` (method, line 86) `def params(self)`
-  - `payload` (method, line 97) `def payload(self)`
-  - `__getattr__` (method, line 110) `def __getattr__(self, name)`
-  - `__setattr__` (method, line 162) `def __setattr__(self, name, value)`
-- Depends on: `utils.py`
-- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+  - `extract_flag` (function, line 35) `def extract_flag(args, flag)`
+  - `LazyOwnCommandSet` (class, line 52) `class LazyOwnCommandSet(CommandSet)`
+  - `_resolve_shell` (method, line 66) `def _resolve_shell(self)`
+  - `params` (method, line 87) `def params(self)`
+  - `payload` (method, line 98) `def payload(self)`
+  - `__getattr__` (method, line 111) `def __getattr__(self, name)`
+  - `__setattr__` (method, line 163) `def __setattr__(self, name, value)`
+- Depends on: `core/validators.py`, `utils.py`
+- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/_dormancy.py
 - Doc: Dormancy marker for incrementally migrated command sets.
@@ -213,14 +213,14 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CampaignCommandSet` (class, line 36) `class CampaignCommandSet(LazyOwnCommandSet)`
-  - `do_campaign` (method, line 43) `def do_campaign(self, line)`
-  - `_gather_campaign_manifest` (method, line 92) `def _gather_campaign_manifest(self, name)`
-  - `_campaign_export` (method, line 134) `def _campaign_export(self, name)`
-  - `_campaign_import` (method, line 183) `def _campaign_import(self, package_path)`
+  - `CampaignCommandSet` (class, line 37) `class CampaignCommandSet(LazyOwnCommandSet)`
+  - `do_campaign` (method, line 44) `def do_campaign(self, line)`
+  - `_gather_campaign_manifest` (method, line 93) `def _gather_campaign_manifest(self, name)`
+  - `_campaign_export` (method, line 135) `def _campaign_export(self, name)`
+  - `_campaign_import` (method, line 184) `def _campaign_import(self, package_path)`
   - `_campaign_list` (method, line 308) `def _campaign_list(self)`
   - `_campaign_status` (method, line 340) `def _campaign_status(self)`
-- Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `core/safe_import.py`, `modules/db.py`, `utils.py`
 
 ## cli/commands/catalog.py
 - Doc: Command catalog — browse all registered commands by keyword, phase or category.
@@ -389,40 +389,40 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CredMigratedCommandSet` (class, line 29) `class CredMigratedCommandSet(LazyOwnCommandSet)`
-  - `_rotate_existing_credentials` (method, line 33) `def _rotate_existing_credentials(self, credentials_file_path)`
-  - `do_createhash` (method, line 61) `def do_createhash(self, line)`
-  - `do_createcredentials` (method, line 115) `def do_createcredentials(self, line)`
-  - `do_cred` (method, line 163) `def do_cred(self, line)`
-  - `do_searchhash` (method, line 216) `def do_searchhash(self, line)`
-  - `do_smalldic` (method, line 252) `def do_smalldic(self, list)`
-  - `do_dacledit` (method, line 290) `def do_dacledit(self, line)`
-  - `do_generatedic` (method, line 360) `def do_generatedic(self, line)`
-  - `do_createmail` (method, line 625) `def do_createmail(self, line)`
-  - `do_passwordspray` (method, line 673) `def do_passwordspray(self, line)`
-  - `do_addusers` (method, line 705) `def do_addusers(self, line)`
-  - `do_passtightvnc` (method, line 727) `def do_passtightvnc(self, line)`
-  - `do_transform` (method, line 774) `def do_transform(self, line)`
-  - `do_username_anarchy` (method, line 802) `def do_username_anarchy(self, line)`
-  - `do_john2keepas` (method, line 903) `def do_john2keepas(self, line)`
-  - `do_keepass` (method, line 952) `def do_keepass(self, line)`
-  - `do_crack_cisco_7_password` (method, line 1016) `def do_crack_cisco_7_password(self, line)`
-  - `do_cubespraying` (method, line 1038) `def do_cubespraying(self, line)`
-  - `do_john2zip` (method, line 1100) `def do_john2zip(self, line)`
-  - `do_createusers_and_hashs` (method, line 1161) `def do_createusers_and_hashs(self, line)`
-  - `do_refill_password` (method, line 1204) `def do_refill_password(self, line)`
-  - `do_rocky` (method, line 1240) `def do_rocky(self, line)`
-  - `do_adsso_spray` (method, line 1276) `def do_adsso_spray(self, line)`
-  - `single_combo` (method, line 385) `def single_combo(name, characters, file, total, flag)`
-  - `double_combo` (method, line 408) `def double_combo(name, characters, file, total, flag)`
-  - `triple_combo` (method, line 432) `def triple_combo(name, characters, file, total, flag)`
-  - `fourth_combo` (method, line 457) `def fourth_combo(name, characters, file, total, flag)`
-  - `fifth_combo` (method, line 483) `def fifth_combo(name, characters, file, total, flag)`
-  - `sixth_combo` (method, line 510) `def sixth_combo(name, characters, file, total, flag)`
-  - `intercalate_combo` (method, line 535) `def intercalate_combo(name, characters, file, total, flag)`
-  - `expand_regex` (method, line 567) `def expand_regex(regex)`
-  - `alternate_case` (method, line 551) `def alternate_case(s)`
-- Depends on: `cli/commands/_base.py`, `utils.py`
+  - `CredMigratedCommandSet` (class, line 30) `class CredMigratedCommandSet(LazyOwnCommandSet)`
+  - `_rotate_existing_credentials` (method, line 34) `def _rotate_existing_credentials(self, credentials_file_path)`
+  - `do_createhash` (method, line 62) `def do_createhash(self, line)`
+  - `do_createcredentials` (method, line 116) `def do_createcredentials(self, line)`
+  - `do_cred` (method, line 164) `def do_cred(self, line)`
+  - `do_searchhash` (method, line 217) `def do_searchhash(self, line)`
+  - `do_smalldic` (method, line 253) `def do_smalldic(self, list)`
+  - `do_dacledit` (method, line 291) `def do_dacledit(self, line)`
+  - `do_generatedic` (method, line 361) `def do_generatedic(self, line)`
+  - `do_createmail` (method, line 626) `def do_createmail(self, line)`
+  - `do_passwordspray` (method, line 674) `def do_passwordspray(self, line)`
+  - `do_addusers` (method, line 706) `def do_addusers(self, line)`
+  - `do_passtightvnc` (method, line 728) `def do_passtightvnc(self, line)`
+  - `do_transform` (method, line 775) `def do_transform(self, line)`
+  - `do_username_anarchy` (method, line 803) `def do_username_anarchy(self, line)`
+  - `do_john2keepas` (method, line 904) `def do_john2keepas(self, line)`
+  - `do_keepass` (method, line 953) `def do_keepass(self, line)`
+  - `do_crack_cisco_7_password` (method, line 1017) `def do_crack_cisco_7_password(self, line)`
+  - `do_cubespraying` (method, line 1039) `def do_cubespraying(self, line)`
+  - `do_john2zip` (method, line 1101) `def do_john2zip(self, line)`
+  - `do_createusers_and_hashs` (method, line 1162) `def do_createusers_and_hashs(self, line)`
+  - `do_refill_password` (method, line 1205) `def do_refill_password(self, line)`
+  - `do_rocky` (method, line 1241) `def do_rocky(self, line)`
+  - `do_adsso_spray` (method, line 1277) `def do_adsso_spray(self, line)`
+  - `single_combo` (method, line 386) `def single_combo(name, characters, file, total, flag)`
+  - `double_combo` (method, line 409) `def double_combo(name, characters, file, total, flag)`
+  - `triple_combo` (method, line 433) `def triple_combo(name, characters, file, total, flag)`
+  - `fourth_combo` (method, line 458) `def fourth_combo(name, characters, file, total, flag)`
+  - `fifth_combo` (method, line 484) `def fifth_combo(name, characters, file, total, flag)`
+  - `sixth_combo` (method, line 511) `def sixth_combo(name, characters, file, total, flag)`
+  - `intercalate_combo` (method, line 536) `def intercalate_combo(name, characters, file, total, flag)`
+  - `expand_regex` (method, line 568) `def expand_regex(regex)`
+  - `alternate_case` (method, line 552) `def alternate_case(s)`
+- Depends on: `cli/commands/_base.py`, `core/defaults.py`, `utils.py`
 - Imported by: `tests/test_credentials_rotation.py`
 
 ## cli/commands/crystal_ball.py
@@ -476,6 +476,17 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_db_status` (method, line 545) `def do_db_status(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/db.py`, `modules/finding_lifecycle.py`, `skills/autonomous_daemon.py`, `utils.py`
 
+## cli/commands/defaults.py
+- Doc: Build-defaults inspection and override command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DefaultsCommandSet` (class, line 38) `class DefaultsCommandSet(LazyOwnCommandSet)`
+  - `do_defaults` (method, line 45) `def do_defaults(self, line)`
+  - `_show` (method, line 60) `def _show(self, section)`
+  - `_set` (method, line 77) `def _set(self, name, value)`
+- Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/defaults.py`, `utils.py`
+
 ## cli/commands/demo.py
 - Doc: End-to-end demo command — MCP registration plus the golden path.
 - Layer: utility
@@ -484,17 +495,6 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `DemoCommandSet` (class, line 22) `class DemoCommandSet(LazyOwnCommandSet)`
   - `do_demo` (method, line 29) `def do_demo(self, line)`
 - Depends on: `cli/commands/_base.py`, `utils.py`
-
-## cli/commands/diagnostics.py
-- Doc: Diagnostics CommandSet (Tier 2 pilot).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DiagnosticsCommandSet` (class, line 23) `class DiagnosticsCommandSet(LazyOwnCommandSet)`
-  - `do_sys_runtime` (method, line 30) `def do_sys_runtime(self, _statement)`
-  - `do_sys_payload_keys` (method, line 41) `def do_sys_payload_keys(self, _statement)`
-- Depends on: `cli/commands/_base.py`
-- Imported by: `tests/test_cli_command_sets.py`
 
 
 Next: [KB_commands_p2.md](KB_commands_p2.md)

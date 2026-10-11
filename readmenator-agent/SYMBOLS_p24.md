@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
+| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
+| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
+| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
+| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
+| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
+| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
+| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
+| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
+| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
+| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
+| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
+| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
+| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
+| `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
+| `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
+| `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
 | `__init__` | method | `skills/unified_orchestrator.py:413` | `def __init__(self, config, factory, payload)` |
 | `__init__` | method | `skills/unified_orchestrator.py:610` | `def __init__(self, config, factory)` |
 | `__init__` | method | `skills/unified_orchestrator.py:711` | `def __init__(self, config, factory)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:4930` | `` |
 | `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5067` | `` |
 | `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5522` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5905` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:6517` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:246` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:581` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:839` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:934` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1054` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1113` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:2624` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3014` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3195` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3982` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4524` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4763` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4927` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5505` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5896` | `` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

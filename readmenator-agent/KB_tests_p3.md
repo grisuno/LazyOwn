@@ -151,6 +151,47 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_public_endpoints_stay_open` (function, line 115) `def test_public_endpoints_stay_open(routes)`
   - `test_all_protected_endpoints_exist` (function, line 120) `def test_all_protected_endpoints_exist(routes)`
 
+## tests/test_c2_shell_lazy.py
+- Doc: The C2 must not build the CLI shell at module load.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_module_tree` (function, line 21) `def _module_tree()`
+  - `_load_proxy_class` (function, line 25) `def _load_proxy_class()`
+  - `TestNoEagerCliBuild` (class, line 62) `class TestNoEagerCliBuild`
+  - `TestLazyShellProxy` (class, line 103) `class TestLazyShellProxy`
+  - `_FakeShell` (class, line 40) `class _FakeShell`
+  - `_init_shell` (method, line 51) `def _init_shell()`
+  - `test_no_lazyown_import_at_top_level` (method, line 63) `def test_no_lazyown_import_at_top_level(self)`
+  - `test_no_eager_shell_build` (method, line 76) `def test_no_eager_shell_build(self)`
+  - `test_lazy_accessor_with_boot_sequence` (method, line 88) `def test_lazy_accessor_with_boot_sequence(self)`
+  - `test_reads_forward_and_share_target` (method, line 104) `def test_reads_forward_and_share_target(self)`
+  - `test_writes_forward` (method, line 111) `def test_writes_forward(self)`
+  - `test_shell_output_attribute` (method, line 118) `def test_shell_output_attribute(self)`
+  - `__init__` (method, line 41) `def __init__(self)`
+  - `one_cmd` (method, line 45) `def one_cmd(self, command)`
+
+## tests/test_campaign_import_safety.py
+- Doc: Campaign import trust boundaries hold against hostile packages.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_evil_zip` (function, line 27) `def _make_evil_zip(path)`
+  - `TestZipSlip` (class, line 35) `class TestZipSlip`
+  - `TestColumnFiltering` (class, line 55) `class TestColumnFiltering`
+  - `TestCopyTree` (class, line 80) `class TestCopyTree`
+  - `TestCampaignRoutesThroughHelpers` (class, line 96) `class TestCampaignRoutesThroughHelpers`
+  - `test_evil_members_skipped` (method, line 36) `def test_evil_members_skipped(self, tmp_path)`
+  - `test_legit_tree_extracted` (method, line 46) `def test_legit_tree_extracted(self, tmp_path)`
+  - `test_identifier_policy` (method, line 56) `def test_identifier_policy(self)`
+  - `test_unknown_and_hostile_dropped` (method, line 62) `def test_unknown_and_hostile_dropped(self)`
+  - `test_order_preserved` (method, line 67) `def test_order_preserved(self)`
+  - `test_filtered_insert_roundtrip` (method, line 70) `def test_filtered_insert_roundtrip(self, tmp_path)`
+  - `test_symlinks_not_followed` (method, line 81) `def test_symlinks_not_followed(self, tmp_path)`
+  - `test_no_raw_extractall_on_import` (method, line 97) `def test_no_raw_extractall_on_import(self)`
+  - `test_uses_safe_helpers` (method, line 108) `def test_uses_safe_helpers(self)`
+- Depends on: `core/safe_import.py`
+
 ## tests/test_categories.py
 - Doc: Tests for modules/categories.py — category constants and look-up tables.
 - Layer: testing
@@ -314,6 +355,20 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_no_completion_for_value_position` (method, line 250) `def test_no_completion_for_value_position(self)`
   - `saver` (method, line 72) `def saver(p)`
 - Depends on: `cli/assign.py`, `cli/show.py`, `core/config.py`
+
+## tests/test_cli_auth_remember.py
+- Doc: Remember-me token comparison must be timing-safe.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `isolated_auth` (function, line 24) `def isolated_auth(tmp_path, monkeypatch)`
+  - `TestRememberMeComparison` (class, line 48) `class TestRememberMeComparison`
+  - `test_valid_token_logs_in` (method, line 49) `def test_valid_token_logs_in(self, isolated_auth)`
+  - `test_wrong_token_rejected` (method, line 63) `def test_wrong_token_rejected(self, isolated_auth)`
+  - `test_comparison_is_timing_safe` (method, line 76) `def test_comparison_is_timing_safe(self)`
+  - `test_save_delegates_to_canonical_writer` (method, line 92) `def test_save_delegates_to_canonical_writer(self)`
+  - `test_save_writes_valid_json_and_audits` (method, line 109) `def test_save_writes_valid_json_and_audits(self, isolated_auth)`
+- Depends on: `modules/cli_auth.py`
 
 ## tests/test_cli_command_sets.py
 - Doc: ``cli`` package declarativeness and ``CommandSet`` registration tests.

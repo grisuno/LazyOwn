@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/tips_engine.py` -> `cli/reactive_hints.py`
+- `cli/tips_engine.py` -> `cli/recommendation_signals.py`
+- `cli/tips_engine.py` -> `cli/themes.py`
+- `cli/tips_engine.py` -> `core/console.py`
+- `cli/tips_engine.py` -> `core/logging.py`
+- `cli/tips_engine.py` -> `core/safe_console.py`
+- `cli/tips_engine.py` -> `core/text_utils.py`
+- `cli/tips_engine.py` -> `modules/cli_auth.py`
 - `cli/tips_engine.py` -> `modules/killchain.py`
 - `cli/tips_engine.py` -> `modules/lazy_rbac.py`
 - `cli/toast_bus.py` -> `cli/themes.py`
@@ -46,7 +54,6 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `contrib/legacy/sql.py` -> `cli/commands/pwn.py`
 - `core/__init__.py` -> `core/config.py`
 - `core/__init__.py` -> `core/console.py`
-- `core/__init__.py` -> `core/credentials.py`
 - `core/__init__.py` -> `core/crypto.py`
 - `core/__init__.py` -> `core/dependencies.py`
 - `core/__init__.py` -> `core/errors.py`
@@ -62,14 +69,13 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/credential_vault.py` -> `core/config.py`
 - `core/credential_vault.py` -> `core/crypto.py`
 - `core/credential_vault.py` -> `core/logging.py`
-- `core/credentials.py` -> `core/console.py`
 - `core/error_advice.py` -> `core/console.py`
 - `core/errors.py` -> `cli/commands/enum.py`
 - `core/executor.py` -> `core/logging.py`
+- `core/hardening.py` -> `core/host_policy.py`
 - `core/hardening.py` -> `core/logging.py`
 - `core/http.py` -> `core/console.py`
 - `core/network.py` -> `core/console.py`
-- `core/parsers.py` -> `core/console.py`
 - `core/payload_schema.py` -> `cli/commands/enum.py`
 - `core/payload_schema.py` -> `modules/llm_factory.py`
 - `core/process.py` -> `core/console.py`
@@ -85,6 +91,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/scheduler.py` -> `core/logging.py`
 - `core/security.py` -> `core/logging.py`
 - `core/validators.py` -> `core/console.py`
+- `core/validators.py` -> `core/host_policy.py`
 - `discord_c2.py` -> `core/parsers.py`
 - `discord_c2.py` -> `lazyown.py`
 - `discord_c2.py` -> `modules/llm_adapter.py`
@@ -154,6 +161,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/addons.py` -> `lazyc2/extensions/decoy.py`
 - `lazyc2/blueprints/addons.py` -> `lazyc2/security/csrf.py`
 - `lazyc2/blueprints/api.py` -> `core/api_authz.py`
+- `lazyc2/blueprints/api.py` -> `core/config.py`
+- `lazyc2/blueprints/api.py` -> `core/defaults.py`
 - `lazyc2/blueprints/api.py` -> `core/logging.py`
 - `lazyc2/blueprints/api_v1.py` -> `core/logging.py`
 - `lazyc2/blueprints/api_v1.py` -> `core/safe_exec.py`
@@ -173,6 +182,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/operations.py` -> `lazyc2/extensions/storage.py`
 - `lazyc2/blueprints/phishing.py` -> `core/logging.py`
 - `lazyc2/blueprints/phishing.py` -> `lazyc2/extensions/short_urls.py`
+- `lazyc2/blueprints/phishing.py` -> `lazyc2/security/validators.py`
 - `lazyc2/blueprints/phishing.py` -> `modules/security_sanitizers.py`
 - `lazyc2/blueprints/phishing.py` -> `utils.py`
 - `lazyc2/extensions/short_urls.py` -> `core/logging.py`
@@ -394,10 +404,11 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyown.py` -> `core/config.py`
 - `lazyown.py` -> `core/console.py`
 - `lazyown.py` -> `core/credential_vault.py`
+- `lazyown.py` -> `core/defaults.py`
 - `lazyown.py` -> `core/hardening.py`
 - `lazyown.py` -> `core/logging.py`
-- `lazyown.py` -> `core/safe_exec.py`
 - `lazyown.py` -> `modules/cli_auth.py`
+- `lazyown.py` -> `modules/command_executor.py`
 - `lazyown.py` -> `modules/event_bus.py`
 - `lazyown.py` -> `modules/event_consumers.py`
 - `lazyown.py` -> `modules/llm_factory.py`
@@ -428,6 +439,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/auto_purple.py` -> `core/logging.py`
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
+- `modules/autonomous_exploit_engine.py` -> `core/defaults.py`
 - `modules/autonomous_exploit_engine.py` -> `core/safe_exec.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/auto_pivot.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/db.py`
@@ -448,10 +460,12 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/c2_profile_engine.py` -> `core/config.py`
 - `modules/c2_profile_engine.py` -> `core/logging.py`
 - `modules/cli_auth.py` -> `cli/engagement_hooks.py`
+- `modules/cli_auth.py` -> `core/config.py`
 - `modules/cli_auth.py` -> `modules/lazy_rbac.py`
 - `modules/collab_bp.py` -> `core/logging.py`
 - `modules/collab_bp.py` -> `modules/lazy_rbac.py`
 - `modules/command_executor.py` -> `core/logging.py`
+- `modules/command_executor.py` -> `core/safe_exec.py`
 - `modules/command_executor.py` -> `modules/event_bus.py`
 - `modules/compliance.py` -> `core/logging.py`
 - `modules/conditional_hooks.py` -> `core/logging.py`
@@ -482,19 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/event_bus.py` -> `modules/collab_bp.py`
 - `modules/event_bus.py` -> `modules/engagement_hooks.py`
 - `modules/event_consumers.py` -> `core/logging.py`
-- `modules/event_consumers.py` -> `modules/event_bus.py`
-- `modules/event_consumers.py` -> `modules/state_manager.py`
-- `modules/exploit_recommender.py` -> `lazygui/version.py`
-- `modules/exploit_recommender.py` -> `modules/world_model.py`
-- `modules/exploitgym_gym.py` -> `modules/redteam_gym.py`
-- `modules/finding_lifecycle.py` -> `modules/osint_enrich.py`
-- `modules/hash_cracker.py` -> `core/logging.py`
-- `modules/hash_cracker.py` -> `modules/db.py`
-- `modules/hive_invoke.py` -> `modules/toposwarm_bridge.py`
-- `modules/ia_code_analysis.py` -> `core/console.py`
-- `modules/ia_code_analysis.py` -> `core/logging.py`
-- `modules/ia_code_analysis.py` -> `modules/logging_config.py`
-- `modules/ia_logs_analysis.py` -> `core/console.py`
-- `modules/ia_logs_analysis.py` -> `core/logging.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

@@ -41,9 +41,11 @@
   - `ping` (method, line 120) `def ping()`
   - `require_api_auth_with_store` (method, line 129) `def require_api_auth_with_store(view)`
   - `health_tenant` (method, line 157) `def health_tenant()`
+  - `get_defaults` (method, line 182) `def get_defaults()`
+  - `set_default` (method, line 210) `def set_default()`
   - `guarded` (method, line 146) `def guarded()`
-- Depends on: `core/api_authz.py`, `core/logging.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_security_hardening_v5.py`
+- Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
 
 ## lazyc2/blueprints/api_v1.py
 - Doc: Versioned REST API (``/api/v1``) for the LazyOwn C2 server.
@@ -133,14 +135,14 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_get_config` (function, line 41) `def _get_config(key, default)`
-  - `create_short_url` (function, line 47) `def create_short_url()`
-  - `track_interaction` (function, line 87) `def track_interaction(short_url)`
-  - `update_short_url` (function, line 123) `def update_short_url(short_url)`
-  - `redirect_to_file` (function, line 149) `def redirect_to_file(short_url)`
-  - `webserver_report` (function, line 172) `def webserver_report(filename)`
-  - `download_files` (function, line 190) `def download_files(filename)`
-- Depends on: `core/logging.py`, `lazyc2/extensions/short_urls.py`, `modules/security_sanitizers.py`, `utils.py`
+  - `_get_config` (function, line 43) `def _get_config(key, default)`
+  - `create_short_url` (function, line 49) `def create_short_url()`
+  - `track_interaction` (function, line 89) `def track_interaction(short_url)`
+  - `update_short_url` (function, line 125) `def update_short_url(short_url)`
+  - `redirect_to_file` (function, line 151) `def redirect_to_file(short_url)`
+  - `webserver_report` (function, line 174) `def webserver_report(filename)`
+  - `download_files` (function, line 192) `def download_files(filename)`
+- Depends on: `core/logging.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/security/validators.py`, `modules/security_sanitizers.py`, `utils.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
 
 ## lazyc2/blueprints/session_auth.py

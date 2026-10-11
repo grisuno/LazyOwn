@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `parse_claude_md` | method | `skills/claude_md_orchestrator/parser.py:167` | `def parse_claude_md(path)` |
 | `AnalyzerResult` | class | `skills/claude_md_orchestrator/reviewer_agent.py:30` | `class AnalyzerResult` |
 | `_parse_tool_findings` | method | `skills/claude_md_orchestrator/reviewer_agent.py:88` | `def _parse_tool_findings(result, path_prefix)` |
 | `_resolve_targets` | method | `skills/claude_md_orchestrator/reviewer_agent.py:72` | `def _resolve_targets(state, config)` |
@@ -31,6 +30,8 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `test_bdd_agent_lands_green` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:116` | `def test_bdd_agent_lands_green(config)` |
 | `test_boy_scout_returns_report` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:237` | `def test_boy_scout_returns_report(config)` |
 | `test_cicd_agent_writes_pipeline` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:260` | `def test_cicd_agent_writes_pipeline(config)` |
+| `test_cicd_deploy_gate_checks_secret` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:310` | `def test_cicd_deploy_gate_checks_secret(config)` |
+| `test_cicd_deploy_gate_is_timing_safe` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:332` | `def test_cicd_deploy_gate_is_timing_safe()` |
 | `test_documentation_agent_emits_fenced_markdown` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:221` | `def test_documentation_agent_emits_fenced_markdown(config)` |
 | `test_dod_validators_block_absolute_paths` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:152` | `def test_dod_validators_block_absolute_paths()` |
 | `test_dod_validators_block_emoji` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:131` | `def test_dod_validators_block_emoji()` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `parse` | method | `skills/lazyown_facts.py:450` | `def parse(self, host, content, source_file)` |
 | `parse` | method | `skills/lazyown_facts.py:505` | `def parse(self, host, content, source_file)` |
 | `parse` | method | `skills/lazyown_facts.py:548` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:584` | `def parse(self, host, content, source_file)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

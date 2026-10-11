@@ -13,6 +13,7 @@ import logging
 import os
 import secrets
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import urlparse
 
 from flask import (
@@ -33,6 +34,7 @@ from lazyc2.extensions.short_urls import (
     load_short_urls,
     save_short_urls,
 )
+from lazyc2.security.validators import resolve_contained_file_path
 from modules.security_sanitizers import SessionPathResolver
 
 redirect_bp = Blueprint("redirect", __name__)
@@ -149,9 +151,9 @@ def update_short_url(short_url):
 def redirect_to_file(short_url):
     """Resolve a short URL and redirect (or serve a local file).
 
-    If the original URL points to a local file under the sessions
-    directory the file is served directly; otherwise an HTTP
-    redirect is issued.
+    File targets are resolved through ``resolve_contained_file_path``
+    so only files inside the sessions directory are served; anything
+    else fails closed with 404. Remote targets issue an HTTP redirect.
     """
     short_urls = load_short_urls()
     if short_url not in short_urls or not short_urls[short_url]["active"]:
@@ -159,9 +161,9 @@ def redirect_to_file(short_url):
     original_url = short_urls[short_url]["original_url"]
     parsed = urlparse(original_url)
     if parsed.scheme == "file" or not parsed.scheme:
-        file_path = parsed.path if parsed.scheme == "file" else original_url
-        file_path = os.path.abspath(file_path)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
+        sessions_dir = _get_config("SESSIONS_DIR", "sessions")
+        file_path = resolve_contained_file_path(original_url, Path(sessions_dir))
+        if file_path is not None and file_path.is_file():
             return send_file(file_path)
         abort(404)
     return redirect(original_url)

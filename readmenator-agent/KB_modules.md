@@ -412,53 +412,53 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `TargetProfile` (class, line 58) `class TargetProfile`
-  - `ExploitCandidate` (class, line 73) `class ExploitCandidate`
-  - `ExploitResult` (class, line 88) `class ExploitResult`
-  - `AutonomousExploitEngine` (class, line 100) `class AutonomousExploitEngine`
-  - `__init__` (method, line 113) `def __init__(self)`
-  - `get_instance` (method, line 133) `def get_instance(cls)`
-  - `hunt` (method, line 144) `def hunt(self, target, max_exploits, profile)`
-  - `retry_with_credentials` (method, line 183) `def retry_with_credentials(self, target, credentials)`
-  - `_credential_aware_rank` (method, line 240) `def _credential_aware_rank(self, profile, credentials)`
-  - `_filter_placeholder_creds` (method, line 283) `def _filter_placeholder_creds(credentials)`
-  - `profile` (method, line 327) `def profile(self, target)`
-  - `rank_exploits` (method, line 388) `def rank_exploits(self, profile)`
-  - `execute_candidate` (method, line 411) `def execute_candidate(self, candidate, profile)`
-  - `_match_exploit_db` (method, line 453) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 491) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 961) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1018) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1058) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1087) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1104) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1236) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1329) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1357) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1387) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1415) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1426) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1523) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1541) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1620) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1636) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1647) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1673) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1708) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1756) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1936) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 1962) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 1990) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2059) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2102) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2292) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2392) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2457) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2518) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2563) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2582) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
-  - `_is_placeholder` (method, line 298) `def _is_placeholder(value)`
-- Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
+  - `TargetProfile` (class, line 59) `class TargetProfile`
+  - `ExploitCandidate` (class, line 74) `class ExploitCandidate`
+  - `ExploitResult` (class, line 89) `class ExploitResult`
+  - `AutonomousExploitEngine` (class, line 101) `class AutonomousExploitEngine`
+  - `__init__` (method, line 114) `def __init__(self)`
+  - `get_instance` (method, line 134) `def get_instance(cls)`
+  - `hunt` (method, line 145) `def hunt(self, target, max_exploits, profile)`
+  - `retry_with_credentials` (method, line 184) `def retry_with_credentials(self, target, credentials)`
+  - `_credential_aware_rank` (method, line 241) `def _credential_aware_rank(self, profile, credentials)`
+  - `_filter_placeholder_creds` (method, line 284) `def _filter_placeholder_creds(credentials)`
+  - `profile` (method, line 328) `def profile(self, target)`
+  - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
+  - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
+  - `_match_exploit_db` (method, line 454) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 492) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 962) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1019) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1059) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1088) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1105) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1237) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1330) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1358) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1388) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1416) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1427) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1524) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1542) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1621) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1637) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1648) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1674) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1709) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1757) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1937) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 1963) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 1991) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2060) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2103) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2293) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2393) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2458) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2519) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2564) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2583) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_is_placeholder` (method, line 299) `def _is_placeholder(value)`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py

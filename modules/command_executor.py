@@ -21,12 +21,16 @@ Design (SOLID)
 from __future__ import annotations
 
 import logging
+import select
+import shlex
 import subprocess
 import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+
+from core.safe_exec import needs_shell as _shared_needs_shell
 
 log = logging.getLogger("command_executor")
 
@@ -104,8 +108,115 @@ class CommandExecutor:
         return result
 
     def _needs_shell(self, command: str) -> bool:
-        """Check if command needs bash -c due to shell operators."""
-        return any(op in command for op in ("2>", ">", "<", "|", "&&", "||", "`", "$("))
+        """Check if command needs bash -c due to shell operators.
+
+        Shared policy from :func:`core.safe_exec.needs_shell` so every
+        runner splits argv versus shell identically.
+        """
+        return _shared_needs_shell(command)
+
+    def _argv(self, command: str) -> list[str] | str:
+        """Return the spawn target honoring the shared shell policy."""
+        if self._needs_shell(command):
+            return ["bash", "-c", command]
+        return shlex.split(command)
+
+    def run_passthrough(self, command: str, env: dict | None = None) -> int:
+        """Run a command with stdio inherited, returning its exit code.
+
+        Used for the NOLOGS path: output goes straight to the
+        operator terminal (colors intact), nothing is captured.
+
+        Args:
+            command: Shell command string to execute.
+            env: Child environment mapping, or None to inherit.
+
+        Returns:
+            The child exit code.
+        """
+        return subprocess.call(self._argv(command), env=env)
+
+    def run_tee(
+        self,
+        command: str,
+        *,
+        env: dict | None = None,
+        writer: Callable[[str], object] | None = None,
+        log_file: str | Path | None = None,
+        timeout: float | None = None,
+    ) -> ExecutionResult:
+        """Run a command teeing raw output bytes to a writer and a log file.
+
+        Bytes are forwarded untouched (ANSI colors preserved); stderr is
+        merged into stdout exactly like an interactive terminal row.
+
+        Args:
+            command: Shell command string to execute.
+            env: Child environment mapping, or None to inherit. Pass
+                :func:`core.hardening.terminal_env` to keep child colors.
+            writer: Called with every stdout chunk. Defaults to writing
+                and flushing ``sys.stdout``.
+            log_file: Optional path appended with the same chunks.
+            timeout: Wall-clock seconds for ``wait``; None waits forever.
+                On expiry the child is killed and
+                :class:`subprocess.TimeoutExpired` propagates.
+
+        Returns:
+            ExecutionResult with the full output and exit code.
+        """
+        start = time.monotonic()
+        emit = writer if writer is not None else self._default_writer
+        handle = open(log_file, "w") if log_file is not None else None
+        proc = None
+        try:
+            proc = subprocess.Popen(
+                self._argv(command),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                env=env,
+            )
+            output_parts: list[str] = []
+            deadline = None if timeout is None else start + timeout
+            while True:
+                remaining = None if deadline is None else deadline - time.monotonic()
+                if remaining is not None and remaining <= 0:
+                    raise subprocess.TimeoutExpired(command, timeout)
+                ready, _, _ = select.select([proc.stdout], [], [], remaining)
+                if not ready:
+                    raise subprocess.TimeoutExpired(command, timeout)
+                line = proc.stdout.readline()
+                if not line:
+                    break
+                emit(line)
+                if handle is not None:
+                    handle.write(line)
+                    handle.flush()
+                output_parts.append(line)
+            proc.wait()
+        except BaseException:
+            if proc is not None:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+            raise
+        finally:
+            if handle is not None:
+                handle.close()
+        return ExecutionResult(
+            command=command,
+            output="".join(output_parts),
+            exit_code=proc.returncode,
+            success=proc.returncode == 0,
+            duration_ms=int((time.monotonic() - start) * 1000),
+        )
+
+    @staticmethod
+    def _default_writer(line: str) -> None:
+        """Write a chunk to stdout, flushing immediately."""
+        sys.stdout.write(line)
+        sys.stdout.flush()
 
     def _run_capture(self, command: str, timeout: int) -> ExecutionResult:
         import shlex
@@ -170,47 +281,23 @@ class CommandExecutor:
         )
 
     def run_with_tee(self, command: str, output_path: str, timeout: int = 120) -> ExecutionResult:
-        """Execute a command and tee output to a file."""
-        import shlex
+        """Execute a command and tee output to a file.
 
+        Args:
+            command: Shell command string to execute.
+            output_path: Log file receiving the same raw bytes shown.
+            timeout: Wall-clock seconds; expiry yields an error result.
+
+        Returns:
+            ExecutionResult with the full output and exit code.
+        """
         start = time.monotonic()
         try:
-            with open(output_path, "w") as log_file:
-                if self._needs_shell(command):
-                    proc = subprocess.Popen(
-                        ["bash", "-c", command],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                    )
-                else:
-                    proc = subprocess.Popen(
-                        shlex.split(command),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                    )
-                output_parts = []
-                for line in proc.stdout:
-                    sys.stdout.write(line)
-                    sys.stdout.flush()
-                    log_file.write(line)
-                    log_file.flush()
-                    output_parts.append(line)
-                try:
-                    proc.wait(timeout=timeout)
-                except subprocess.TimeoutExpired:
-                    proc.kill()
-                    proc.wait()
-                    raise
-            exit_code = proc.returncode
-            output = "".join(output_parts)
-            result = ExecutionResult(
-                command=command,
-                output=output,
-                exit_code=exit_code,
-                success=exit_code == 0,
-                duration_ms=int((time.monotonic() - start) * 1000),
+            result = self.run_tee(
+                command,
+                writer=self._default_writer,
+                log_file=output_path,
+                timeout=timeout,
             )
         except subprocess.TimeoutExpired:
             result = ExecutionResult(

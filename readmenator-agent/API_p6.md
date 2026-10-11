@@ -14,7 +14,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:208` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:223` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:233` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -24,7 +24,7 @@ Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/com
 - `Config.save_payload` (method) `core/config.py:385` `def save_payload(payload, path)` -- Atomically write ``payload`` as pretty-printed JSON to ``path``.
 
 ## core/console.py
-Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
+Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
 - `colors_enabled` (function) `core/console.py:98` `def colors_enabled()` -- Return False when NO_COLOR or ANSI_COLORS_DISABLED is set.
 - `format_line` (function) `core/console.py:121` `def format_line(prefix, message, glyph)` -- Build a single log line with standard prefix and sanitized message.
 - `print_error` (function) `core/console.py:137` `def print_error(error)` -- Print a red error message to stdout (never raises on broken pipes).
@@ -45,23 +45,6 @@ Imported by: `cli/commands/security.py`, `lazyown.py`, `tests/test_credential_va
 - `rotate_aes_key` (function) `core/credential_vault.py:186` `def rotate_aes_key(payload, current_key)` -- Generate a new AES key, re-encrypt all sealed values under it.
 - `generate_secure_defaults` (function) `core/credential_vault.py:215` `def generate_secure_defaults()` -- Generate cryptographically random default values for sensitive keys.
 
-## core/credentials.py
-Depends on: `core/console.py`
-Imported by: `core/__init__.py`
-- `get_credentials` (function) `core/credentials.py:17` `def get_credentials(file, ncred)` -- Search for credential files and return parsed (user, pass) tuples.
-- `get_domain` (function) `core/credentials.py:67` `def get_domain(url)` -- Extract the domain from a URL.
-- `get_hash` (function) `core/credentials.py:81` `def get_hash(dir)` -- Read and return hash file content from the sessions directory.
-- `get_users_dic` (function) `core/credentials.py:115` `def get_users_dic(txt)` -- Read a user list file.
-- `return_creds` (function) `core/credentials.py:146` `def return_creds()` -- Interactive credential retriever.
-- `generate_emails` (function) `core/credentials.py:160` `def generate_emails(full_name, domain)` -- Generate common email patterns from a full name and domain.
-- `crack_password` (function) `core/credentials.py:183` `def crack_password(crypttext)` -- Attempt to crack a Unix crypt-style password using common formats.
-- `find_ea` (function) `core/credentials.py:220` `def find_ea(keyword)` -- Search for files matching a pattern using ``locate`` or ``find``.
-- `find_ps` (function) `core/credentials.py:249` `def find_ps(keyword)` -- Search for scripts and process-related files.
-- `find_ss` (function) `core/credentials.py:261` `def find_ss(keyword)` -- Search for screenshots and media files.
-- `Spray` (function) `core/credentials.py:273` `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` -- Perform password spraying via SOAP/ADFS.
-- `format_openssh_key` (function) `core/credentials.py:341` `def format_openssh_key(raw_key)` -- Format a raw key string as an OpenSSH public key entry.
-- `format_rsa_key` (function) `core/credentials.py:355` `def format_rsa_key(raw_key)` -- Format a raw RSA key.
-
 ## core/crypto.py
 Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `utils.py`
 - `generate_salt` (function) `core/crypto.py:24` `def generate_salt(length)` -- Generate a cryptographically random salt.
@@ -71,6 +54,17 @@ Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init_
 - `AESencrypt` (function) `core/crypto.py:98` `def AESencrypt(plaintext, key)` -- Encrypt ``plaintext`` with AES-256-GCM using a random nonce.
 - `AESdecrypt` (function) `core/crypto.py:123` `def AESdecrypt(data, key)` -- Decrypt data produced by ``AESencrypt``.
 - `dropFile` (function) `core/crypto.py:154` `def dropFile(key, ciphertext)` -- Write AES key and ciphertext to ``sessions/cipher.bin`` and ``sessions/key.bin``.
+
+## core/defaults.py
+Imported by: `cli/commands/cred_migrated.py`, `cli/commands/defaults.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/hash_cracker.py`
+- `load_defaults` (function) `core/defaults.py:21` `def load_defaults(path)` -- Load and cache the defaults document.
+- `clear_cache` (function) `core/defaults.py:44` `def clear_cache()` -- Drop cached documents (tests only).
+- `get` (function) `core/defaults.py:49` `def get(section, key, default)` -- Return ``defaults[section][key]`` or ``default`` when absent.
+- `default_lport` (function) `core/defaults.py:63` `def default_lport()` -- Return the fallback listener port as an int.
+- `default_rport` (function) `core/defaults.py:72` `def default_rport()` -- Return the fallback remote port as an int.
+- `rockyou_wordlist` (function) `core/defaults.py:81` `def rockyou_wordlist()` -- Return the default wordlist path.
+- `common_wordlists` (function) `core/defaults.py:90` `def common_wordlists()` -- Return the ordered wordlist fallback candidates.
+- `sessions_dir` (function) `core/defaults.py:100` `def sessions_dir()` -- Return the sessions directory path.
 
 ## core/dependencies.py
 Imported by: `core/__init__.py`, `tests/test_dependencies.py`, `utils.py`
@@ -116,23 +110,29 @@ Imported by: `tests/test_core_executor.py`
 - `run_shell` (function) `core/executor.py:149` `def run_shell(cmd)` -- Execute a shell command and return its stdout.
 
 ## core/hardening.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
-- `reject_option_injection` (function) `core/hardening.py:40` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
-- `escape_powershell_single_quoted` (function) `core/hardening.py:59` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
-- `SecurityViolation.terminal_env` (method) `core/hardening.py:84` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
-- `SecurityViolation.safe_subprocess_run` (method) `core/hardening.py:105` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `SecurityViolation.safe_clipboard_copy` (method) `core/hardening.py:150` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `SecurityViolation.build_sshpass_command` (method) `core/hardening.py:189` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `SecurityViolation.set_sshpass_env` (method) `core/hardening.py:218` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `SecurityViolation.escape_html_content` (method) `core/hardening.py:237` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `SecurityViolation.safe_path_join` (method) `core/hardening.py:249` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `SecurityViolation.validate_network_cidr` (method) `core/hardening.py:275` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `SecurityViolation.validate_port_spec` (method) `core/hardening.py:287` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `SecurityViolation.validate_host` (method) `core/hardening.py:303` `def validate_host(host)` -- Validate a hostname or IP address.
+Depends on: `core/host_policy.py`, `core/logging.py`
+Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_host_policy.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+- `reject_option_injection` (function) `core/hardening.py:42` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
+- `escape_powershell_single_quoted` (function) `core/hardening.py:61` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
+- `SecurityViolation.terminal_env` (method) `core/hardening.py:86` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
+- `SecurityViolation.safe_subprocess_run` (method) `core/hardening.py:107` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
+- `SecurityViolation.safe_clipboard_copy` (method) `core/hardening.py:152` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
+- `SecurityViolation.build_sshpass_command` (method) `core/hardening.py:191` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
+- `SecurityViolation.set_sshpass_env` (method) `core/hardening.py:220` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
+- `SecurityViolation.escape_html_content` (method) `core/hardening.py:239` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
+- `SecurityViolation.safe_path_join` (method) `core/hardening.py:251` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
+- `SecurityViolation.validate_network_cidr` (method) `core/hardening.py:277` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
+- `SecurityViolation.validate_port_spec` (method) `core/hardening.py:289` `def validate_port_spec(ports)` -- Validate a port specification string.
+- `SecurityViolation.validate_host` (method) `core/hardening.py:305` `def validate_host(host)` -- Validate a hostname or IP address.
 - `SecurityViolation.require_encryption_key` (method) `core/hardening.py:325` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
 - `SecurityViolation.defused_xml_parse` (method) `core/hardening.py:353` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
 - `SecurityViolation.sanitize_filename` (method) `core/hardening.py:375` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
+
+## core/host_policy.py
+Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`
+- `rejects_shell_meta` (function) `core/host_policy.py:20` `def rejects_shell_meta(value)` -- Return True when value contains characters usable for shell injection.
+- `is_valid_cidr` (function) `core/host_policy.py:32` `def is_valid_cidr(value)` -- Check value is a valid CIDR block.
+- `is_valid_host` (function) `core/host_policy.py:48` `def is_valid_host(value)` -- Check value is a plain IP, CIDR, or hostname without shell metacharacters.
 
 ## core/http.py
 Depends on: `core/console.py`
@@ -198,33 +198,12 @@ Imported by: `core/__init__.py`
 - `get_network_info` (function) `core/network.py:154` `def get_network_info()` -- Collect local network information.
 
 ## core/parsers.py
-Depends on: `core/console.py`
-Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `utils.py`
-- `strip_ansi` (function) `core/parsers.py:21` `def strip_ansi(text)` -- Remove ANSI escape sequences and readline markers from a string.
-- `clean_output` (function) `core/parsers.py:40` `def clean_output(output)` -- Remove ANSI escape sequences from a string.
-- `clean_html` (function) `core/parsers.py:52` `def clean_html(html_string)` -- Strip HTML tags from a string.
-- `clean_url` (function) `core/parsers.py:64` `def clean_url(host)` -- Normalize a URL by stripping protocol and trailing slash.
-- `htmlify` (function) `core/parsers.py:79` `def htmlify(data)` -- Encode text as HTML entities.
-- `de_htmlify` (function) `core/parsers.py:91` `def de_htmlify(data)` -- Decode HTML entities back to plain text.
-- `is_exist` (function) `core/parsers.py:105` `def is_exist(file)` -- Check if a file exists.
-- `get_xml` (function) `core/parsers.py:120` `def get_xml(directory)` -- Find all XML files in a directory.
-- `get_domain_from_xml` (function) `core/parsers.py:136` `def get_domain_from_xml(xml_file)` -- Extract the hostname from an Nmap XML file.
-- `extract_banners` (function) `core/parsers.py:160` `def extract_banners(xml_file)` -- Extract service banners from an Nmap XML file.
-- `parse_nmap_csv` (function) `core/parsers.py:190` `def parse_nmap_csv(csv_path)` -- Parse an Nmap CSV output file.
-- `manual_yaml_extraction` (function) `core/parsers.py:210` `def manual_yaml_extraction(content)` -- Fallback YAML parser for malformed content.
-- `fix_common_yaml_issues` (function) `core/parsers.py:231` `def fix_common_yaml_issues(yaml_content)` -- Fix common YAML formatting issues.
-- `aggressive_yaml_fix` (function) `core/parsers.py:256` `def aggressive_yaml_fix(yaml_content)` -- Aggressively fix YAML by normalizing indentation.
-- `create_synthetic_yaml` (function) `core/parsers.py:282` `def create_synthetic_yaml(nmap_services)` -- Build a YAML string from parsed Nmap service data.
-- `parse_yaml_response` (function) `core/parsers.py:305` `def parse_yaml_response(content)` -- Parse a YAML string, trying multiple strategies.
-- `load_adversary` (function) `core/parsers.py:325` `def load_adversary()` -- Load adversary profile from ``adversary.json``.
-- `load_knowledge_base` (function) `core/parsers.py:338` `def load_knowledge_base(knowledge_file)` -- Load the knowledge base JSON file.
-- `load_user_aliases` (function) `core/parsers.py:354` `def load_user_aliases()` -- Load user-defined aliases from ``user_aliases.json``.
-- `list_binaries` (function) `core/parsers.py:368` `def list_binaries(directory)` -- List files in the sessions directory.
-- `select_binary` (function) `core/parsers.py:383` `def select_binary(binaries)` -- Interactive binary selector (fallback).
+Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `tests/test_single_implementation.py`, `utils.py`
+- `strip_ansi` (function) `core/parsers.py:15` `def strip_ansi(text)` -- Remove ANSI escape sequences and readline markers from a string.
 
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
-Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
+Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 - `ValidationIssue.field_for` (method) `core/payload_schema.py:1489` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
 - `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1494` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
 - `ValidationIssue.validate_value` (method) `core/payload_schema.py:1517` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
@@ -285,7 +264,7 @@ Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, 
 
 ## core/safe_exec.py
 Depends on: `core/logging.py`
-Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 - `UrlValidationError.needs_shell` (method) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
 - `UrlValidationError.safe_system` (method) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
 - `UrlValidationError.safe_run_argv` (method) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
@@ -296,6 +275,13 @@ Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/comma
 - `UrlValidationError.safe_ip_show` (method) `core/safe_exec.py:268` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
 - `UrlValidationError.safe_find_tool` (method) `core/safe_exec.py:305` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
 - `UrlValidationError.safe_file_read` (method) `core/safe_exec.py:321` `def safe_file_read(path)` -- Read a file safely with a size limit.
+
+## core/safe_import.py
+Imported by: `cli/commands/campaign.py`, `tests/test_campaign_import_safety.py`
+- `is_safe_identifier` (function) `core/safe_import.py:20` `def is_safe_identifier(name)` -- Return True when ``name`` is a bare SQL identifier.
+- `filter_columns` (function) `core/safe_import.py:32` `def filter_columns(src_columns, dest_columns)` -- Intersect source columns with destination columns, safely.
+- `safe_extract_zip` (function) `core/safe_import.py:51` `def safe_extract_zip(archive, dest)` -- Extract a zip archive with ZipSlip protection.
+- `safe_copy_tree` (function) `core/safe_import.py:93` `def safe_copy_tree(src, dest)` -- Copy a directory tree without symlink escape.
 
 ## core/safe_subprocess.py
 Depends on: `core/hardening.py`, `core/safe_exec.py`
@@ -326,12 +312,16 @@ Imported by: `cli/autosuggest.py`, `cli/graph_overlay.py`, `cli/palette_command.
 - `truncate_text` (function) `core/text_utils.py:10` `def truncate_text(value, max_len, marker)` -- Truncate value to max_len using marker.
 
 ## core/validators.py
-Depends on: `core/console.py`
-Imported by: `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_input_fuzz.py`, `utils.py`
-- `check_rhost` (function) `core/validators.py:55` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
-- `check_lhost` (function) `core/validators.py:69` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
-- `check_lport` (function) `core/validators.py:83` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
-- `check_port` (function) `core/validators.py:93` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
+Depends on: `core/console.py`, `core/host_policy.py`
+Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
+- `check_rhost` (function) `core/validators.py:27` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
+- `check_lhost` (function) `core/validators.py:41` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
+- `check_lport` (function) `core/validators.py:55` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
+- `check_port` (function) `core/validators.py:65` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
+- `require_rhost` (function) `core/validators.py:78` `def require_rhost(params)` -- Gate a command on a valid ``rhost`` looked up from ``params``.
+- `require_lhost` (function) `core/validators.py:95` `def require_lhost(params)` -- Gate a command on a valid ``lhost`` looked up from ``params``.
+- `require_lport` (function) `core/validators.py:108` `def require_lport(params)` -- Gate a command on a valid ``lport`` looked up from ``params``.
+- `require_rport` (function) `core/validators.py:121` `def require_rport(params)` -- Gate a command on a valid ``rport`` looked up from ``params``.
 
 ## deploy/range/ad-mini/traffic-gen.py
 - `main` (function) `deploy/range/ad-mini/traffic-gen.py:35` `def main()` -- Loop forever emitting fake background traffic.

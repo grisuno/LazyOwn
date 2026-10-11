@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
 | `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
@@ -417,23 +416,23 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
 | `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
 | `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
-| `CrackResult` | class | `modules/hash_cracker.py:131` | `class CrackResult` |
-| `HashCracker` | class | `modules/hash_cracker.py:155` | `class HashCracker` |
-| `HashIdentifier` | class | `modules/hash_cracker.py:144` | `class HashIdentifier` |
-| `__init__` | method | `modules/hash_cracker.py:168` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
-| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:504` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_batch_john` | method | `modules/hash_cracker.py:614` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_hashcat` | method | `modules/hash_cracker.py:458` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_crack_john` | method | `modules/hash_cracker.py:564` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_parse_hashcat_output` | method | `modules/hash_cracker.py:675` | `def _parse_hashcat_output(stdout, stderr, original)` |
-| `_parse_john_show` | method | `modules/hash_cracker.py:690` | `def _parse_john_show(show_output, original)` |
-| `_resolve_wordlist` | method | `modules/hash_cracker.py:182` | `def _resolve_wordlist(self)` |
-| `crack_file` | method | `modules/hash_cracker.py:353` | `def crack_file(self, filepath, wordlist, hash_types)` |
-| `crack_hash` | method | `modules/hash_cracker.py:299` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
-| `crack_secretsdump_output` | method | `modules/hash_cracker.py:699` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
-| `identify` | method | `modules/hash_cracker.py:190` | `def identify(self, line)` |
-| `identify_file` | method | `modules/hash_cracker.py:277` | `def identify_file(self, filepath)` |
-| `import_to_db` | method | `modules/hash_cracker.py:409` | `def import_to_db(self, results, rhost, workspace_name)` |
+| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
+| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
+| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
+| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
+| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
+| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
+| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
+| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
+| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
+| `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
+| `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
+| `crack_secretsdump_output` | method | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
+| `identify` | method | `modules/hash_cracker.py:186` | `def identify(self, line)` |
+| `identify_file` | method | `modules/hash_cracker.py:273` | `def identify_file(self, filepath)` |
+| `import_to_db` | method | `modules/hash_cracker.py:405` | `def import_to_db(self, results, rhost, workspace_name)` |
 | `_find_claude` | function | `modules/hive_invoke.py:115` | `def _find_claude()` |
 | `_get_toposwarm` | function | `modules/hive_invoke.py:50` | `def _get_toposwarm()` |
 | `_parse_argv` | function | `modules/hive_invoke.py:120` | `def _parse_argv(argv)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
 | `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
 | `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
+| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

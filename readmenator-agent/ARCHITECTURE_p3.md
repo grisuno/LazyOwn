@@ -2,6 +2,21 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `modules/event_consumers.py` -> `modules/event_bus.py`
+- `modules/event_consumers.py` -> `modules/state_manager.py`
+- `modules/exploit_recommender.py` -> `lazygui/version.py`
+- `modules/exploit_recommender.py` -> `modules/world_model.py`
+- `modules/exploitgym_gym.py` -> `modules/redteam_gym.py`
+- `modules/finding_lifecycle.py` -> `modules/osint_enrich.py`
+- `modules/hash_cracker.py` -> `core/defaults.py`
+- `modules/hash_cracker.py` -> `core/logging.py`
+- `modules/hash_cracker.py` -> `modules/db.py`
+- `modules/hive_invoke.py` -> `modules/toposwarm_bridge.py`
+- `modules/ia_code_analysis.py` -> `core/console.py`
+- `modules/ia_code_analysis.py` -> `core/logging.py`
+- `modules/ia_code_analysis.py` -> `modules/logging_config.py`
+- `modules/ia_logs_analysis.py` -> `core/console.py`
+- `modules/ia_logs_analysis.py` -> `core/logging.py`
 - `modules/ia_logs_analysis.py` -> `modules/logging_config.py`
 - `modules/ia_network_analysis.py` -> `core/console.py`
 - `modules/ia_network_analysis.py` -> `core/logging.py`
@@ -368,6 +383,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/lazyown_mcp.py` -> `skills/lazyown_permissions.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_policy.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_session.py`
+- `skills/lazyown_mcp.py` -> `skills/mcp_lazy.py`
 - `skills/lazyown_mcp.py` -> `skills/swan_agent.py`
 - `skills/lazyown_mcp_opencode.py` -> `modules/backdoor/server.c`
 - `skills/lazyown_mcp_opencode.py` -> `skills/lazyown_mcp.py`
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `tests/test_api_key_resolution.py` -> `utils.py`
 - `tests/test_api_v1.py` -> `core/api_authz.py`
 - `tests/test_api_v1.py` -> `lazyc2/blueprints/api_v1.py`
-- `tests/test_api_v1.py` -> `modules/beacon_history.py`
-- `tests/test_api_v1.py` -> `modules/db.py`
-- `tests/test_asset_gate.py` -> `cli/commands/lazyops.py`
-- `tests/test_asset_gate.py` -> `modules/intel_fusion.py`
-- `tests/test_asset_gate.py` -> `modules/lazy_loop.py`
-- `tests/test_attack_surface3d.py` -> `modules/attack_surface3d.py`
-- `tests/test_attack_surface3d.py` -> `modules/intel_fusion.py`
-- `tests/test_auto_crypto.py` -> `cli/auto_crypto.py`
-- `tests/test_auto_registry.py` -> `modules/auto_registry.py`
-- `tests/test_autonomous_ops.py` -> `modules/__init__.py`
-- `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
-- `tests/test_autonomous_ops.py` -> `modules/db.py`
-- `tests/test_autonomous_ops.py` -> `modules/enrich.py`
-- `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
-- `tests/test_autonomous_ops.py` -> `modules/llm_pool.py`
-- `tests/test_autonomous_ops.py` -> `modules/notify.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

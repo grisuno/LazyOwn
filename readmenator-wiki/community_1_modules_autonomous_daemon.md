@@ -1,14 +1,14 @@
 # modules: autonomous_daemon
 
-*Community 1 | 114 files | cohesion 0.58*
+*Community 1 | 115 files | cohesion 0.57*
 
 ## Definition
 
-This community groups 114 file(s) rooted at `modules` with dominant language py (cohesion 0.58). Central symbols: `AIExploitChainer`, `AIResult`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `AccessFact`, `ActionCategory`. Core file: `skills/autonomous_daemon.py` (148 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 115 file(s) rooted at `modules` with dominant language py (cohesion 0.57). Central symbols: `AIExploitChainer`, `AIResult`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `AccessFact`, `ActionCategory`. Core file: `tests/test_improvements_spec.py` (160 symbols). Documented purpose: Phase-scoped CommandSet modules.  Each submodule defines one or more ``cmd2.CommandSet`` subclasses grouping commands that share a kill-chain phase or attack do.
 
 ## Files
 
-### `modules` (44 files)
+### `modules` (42 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -24,7 +24,7 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 | `tests/test_autonomous_ops.py` | py | testing | 17 | yes |
 | `tests/test_autonomous_replay.py` | py | testing | 18 | yes |
 
-### `skills` (25 files)
+### `skills` (26 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -40,13 +40,13 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 | `skills/tests/test_facts.py` | py | testing | 37 | yes |
 | `skills/tests/test_harness_e2e.py` | py | testing | 10 | yes |
 
-### `cli/commands` (3 files)
+### `cli/commands` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `cli/commands/__init__.py` | py | utility | 0 | yes |
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
 | `cli/commands/enum.py` | py | utility | 11 | yes |
-| `cli/commands/exploitgym.py` | py | utility | 10 | yes |
 
 ### `modules/integrations` (3 files)
 
@@ -55,25 +55,20 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 | `modules/integrations/__init__.py` | py | utility | 0 | yes |
 | `modules/integrations/misp_export.py` | py | utility | 38 | yes |
 
+### `cli` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/reasoning_stream.py` | py | utility | 10 | yes |
+| `cli/scope_guard.py` | py | utility | 12 | yes |
+
 ### `contrib/legacy` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazyaddon_creator.py` | py | utility | 14 | yes |
 
-### `lazyc2/security` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2/security/command_allowlist.py` | py | utility | 8 | yes |
-
-### `static/js` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `static/js/chart.min.js` | js | utility | 88 | yes |
-
-*... and 94 more files in this community.*
+*... and 95 more files in this community.*
 
 
 ## Key Symbols
@@ -111,18 +106,19 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 636
-- Cross-boundary resolved imports (EXTRACTED): 292
+- Internal resolved imports (EXTRACTED): 639
+- Cross-boundary resolved imports (EXTRACTED): 266
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
-- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports modules/bof_registry.py.
+- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
+- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [cycle] `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
@@ -136,22 +132,24 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 - [cycle] `skills/lazyown_mcp.py` -> `skills/lazyown_llm.py` -> `skills/lazyown_mcp.py`
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
-- [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 
 ## Open Questions
 
 - Why do 2 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in modules: autonomous_daemon changed?
-- Should modules: autonomous_daemon be split, given cohesion 0.58?
+- Should modules: autonomous_daemon be split, given cohesion 0.57?
 
 ## Sources
 
+- `cli/commands/__init__.py`
 - `cli/commands/caldera.py`
 - `cli/commands/enum.py`
 - `cli/commands/exploitgym.py`
+- `cli/commands/orchestration.py`
+- `cli/reasoning_stream.py`
+- `cli/scope_guard.py`
 - `contrib/legacy/lazyaddon_creator.py`
-- `lazyc2/security/command_allowlist.py`
 - `modules/__init__.py`
 - `modules/ai_exploit_chain.py`
 - `modules/ai_fallback.py`
@@ -159,12 +157,9 @@ This community groups 114 file(s) rooted at `modules` with dominant language py 
 - `modules/atomic_enricher.py`
 - `modules/auto_pivot.py`
 - `modules/autonomous_exploit_engine.py`
-- `modules/bof_registry.py`
 - `modules/config_store.py`
 - `modules/cve_matcher.py`
-- `modules/dashboard_bp.py`
 - `modules/detection_feed.py`
 - `modules/detection_oracle.py`
 - `modules/engage_summary.py`
-- `modules/enrich.py`
-- *... and 94 more*
+- *... and 95 more*

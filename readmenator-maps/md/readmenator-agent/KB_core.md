@@ -5,8 +5,8 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Doc: Core primitives for the LazyOwn framework.
 - Layer: utility
 - Language: py
-- Depends on: `core/config.py`, `core/console.py`, `core/credentials.py`, `core/crypto.py`, `core/dependencies.py`, `core/errors.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/payload_schema.py`, `core/process.py`, `core/validators.py`
-- Imported by: `tests/test_llm_budget.py`
+- Depends on: `core/config.py`, `core/console.py`, `core/crypto.py`, `core/dependencies.py`, `core/errors.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/payload_schema.py`, `core/process.py`, `core/validators.py`
+- Imported by: `tests/test_core_defaults.py`, `tests/test_llm_budget.py`, `tests/test_single_implementation.py`
 
 ## core/api_authz.py
 - Doc: Tenant-bound API authorization for the LazyOwn C2 dashboard.
@@ -86,7 +86,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `as_params` (method, line 223) `def as_params(self)`
   - `overridden_keys` (method, line 233) `def overridden_keys(self)`
 - Depends on: `core/logging.py`, `core/payload_schema.py`
-- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
+- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
 
 ## core/console.py
 - Doc: ANSI color constants and console output helpers.
@@ -104,7 +104,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `ensure_blocking_stdio` (function, line 161) `def ensure_blocking_stdio()`
   - `write_stdout` (function, line 180) `def write_stdout(text)`
   - `_emit` (function, line 208) `def _emit(line)`
-- Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
+- Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
 
 ## core/credential_vault.py
 - Doc: Credential vault — AES-256-GCM encryption for sensitive config values.
@@ -122,27 +122,6 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
 - Imported by: `cli/commands/security.py`, `lazyown.py`, `tests/test_credential_vault.py`
 
-## core/credentials.py
-- Doc: Credential management utilities for the LazyOwn framework.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `get_credentials` (function, line 17) `def get_credentials(file, ncred)`
-  - `get_domain` (function, line 67) `def get_domain(url)`
-  - `get_hash` (function, line 81) `def get_hash(dir)`
-  - `get_users_dic` (function, line 115) `def get_users_dic(txt)`
-  - `return_creds` (function, line 146) `def return_creds()`
-  - `generate_emails` (function, line 160) `def generate_emails(full_name, domain)`
-  - `crack_password` (function, line 183) `def crack_password(crypttext)`
-  - `find_ea` (function, line 220) `def find_ea(keyword)`
-  - `find_ps` (function, line 249) `def find_ps(keyword)`
-  - `find_ss` (function, line 261) `def find_ss(keyword)`
-  - `Spray` (function, line 273) `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
-  - `format_openssh_key` (function, line 341) `def format_openssh_key(raw_key)`
-  - `format_rsa_key` (function, line 355) `def format_rsa_key(raw_key)`
-- Depends on: `core/console.py`
-- Imported by: `core/__init__.py`
-
 ## core/crypto.py
 - Doc: Symmetric primitives used by the framework.
 - Layer: utility
@@ -156,6 +135,21 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `AESdecrypt` (function, line 123) `def AESdecrypt(data, key)`
   - `dropFile` (function, line 154) `def dropFile(key, ciphertext)`
 - Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `utils.py`
+
+## core/defaults.py
+- Doc: Build-time default constants loaded from ``config/defaults.toml``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `load_defaults` (function, line 21) `def load_defaults(path)`
+  - `clear_cache` (function, line 44) `def clear_cache()`
+  - `get` (function, line 49) `def get(section, key, default)`
+  - `default_lport` (function, line 63) `def default_lport()`
+  - `default_rport` (function, line 72) `def default_rport()`
+  - `rockyou_wordlist` (function, line 81) `def rockyou_wordlist()`
+  - `common_wordlists` (function, line 90) `def common_wordlists()`
+  - `sessions_dir` (function, line 100) `def sessions_dir()`
+- Imported by: `cli/commands/cred_migrated.py`, `cli/commands/defaults.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/hash_cracker.py`
 
 ## core/dependencies.py
 - Doc: Graceful optional-import handling for heavy third-party dependencies.
@@ -249,24 +243,34 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `reject_option_injection` (function, line 40) `def reject_option_injection(argv)`
-  - `escape_powershell_single_quoted` (function, line 59) `def escape_powershell_single_quoted(value)`
-  - `SecurityViolation` (class, line 80) `class SecurityViolation(PermissionError)`
-  - `terminal_env` (method, line 84) `def terminal_env(base)`
-  - `safe_subprocess_run` (method, line 105) `def safe_subprocess_run(argv)`
-  - `safe_clipboard_copy` (method, line 150) `def safe_clipboard_copy(content)`
-  - `build_sshpass_command` (method, line 189) `def build_sshpass_command(password, ssh_args)`
-  - `set_sshpass_env` (method, line 218) `def set_sshpass_env(password)`
-  - `escape_html_content` (method, line 237) `def escape_html_content(value)`
-  - `safe_path_join` (method, line 249) `def safe_path_join(base_dir, user_path)`
-  - `validate_network_cidr` (method, line 275) `def validate_network_cidr(cidr)`
-  - `validate_port_spec` (method, line 287) `def validate_port_spec(ports)`
-  - `validate_host` (method, line 303) `def validate_host(host)`
+  - `reject_option_injection` (function, line 42) `def reject_option_injection(argv)`
+  - `escape_powershell_single_quoted` (function, line 61) `def escape_powershell_single_quoted(value)`
+  - `SecurityViolation` (class, line 82) `class SecurityViolation(PermissionError)`
+  - `terminal_env` (method, line 86) `def terminal_env(base)`
+  - `safe_subprocess_run` (method, line 107) `def safe_subprocess_run(argv)`
+  - `safe_clipboard_copy` (method, line 152) `def safe_clipboard_copy(content)`
+  - `build_sshpass_command` (method, line 191) `def build_sshpass_command(password, ssh_args)`
+  - `set_sshpass_env` (method, line 220) `def set_sshpass_env(password)`
+  - `escape_html_content` (method, line 239) `def escape_html_content(value)`
+  - `safe_path_join` (method, line 251) `def safe_path_join(base_dir, user_path)`
+  - `validate_network_cidr` (method, line 277) `def validate_network_cidr(cidr)`
+  - `validate_port_spec` (method, line 289) `def validate_port_spec(ports)`
+  - `validate_host` (method, line 305) `def validate_host(host)`
   - `require_encryption_key` (method, line 325) `def require_encryption_key(env_key, secret_file)`
   - `defused_xml_parse` (method, line 353) `def defused_xml_parse(source)`
   - `sanitize_filename` (method, line 375) `def sanitize_filename(filename, max_length)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+- Depends on: `core/host_policy.py`, `core/logging.py`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_host_policy.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+
+## core/host_policy.py
+- Doc: Single source of truth for host and network shape validation.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `rejects_shell_meta` (function, line 20) `def rejects_shell_meta(value)`
+  - `is_valid_cidr` (function, line 32) `def is_valid_cidr(value)`
+  - `is_valid_host` (function, line 48) `def is_valid_host(value)`
+- Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`
 
 ## core/http.py
 - Doc: HTTP and API utilities for the LazyOwn framework.
@@ -374,33 +378,12 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Imported by: `core/__init__.py`
 
 ## core/parsers.py
-- Doc: Parsing utilities for the LazyOwn framework.
+- Doc: Shared text kernel for the LazyOwn framework.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `strip_ansi` (function, line 21) `def strip_ansi(text)`
-  - `clean_output` (function, line 40) `def clean_output(output)`
-  - `clean_html` (function, line 52) `def clean_html(html_string)`
-  - `clean_url` (function, line 64) `def clean_url(host)`
-  - `htmlify` (function, line 79) `def htmlify(data)`
-  - `de_htmlify` (function, line 91) `def de_htmlify(data)`
-  - `is_exist` (function, line 105) `def is_exist(file)`
-  - `get_xml` (function, line 120) `def get_xml(directory)`
-  - `get_domain_from_xml` (function, line 136) `def get_domain_from_xml(xml_file)`
-  - `extract_banners` (function, line 160) `def extract_banners(xml_file)`
-  - `parse_nmap_csv` (function, line 190) `def parse_nmap_csv(csv_path)`
-  - `manual_yaml_extraction` (function, line 210) `def manual_yaml_extraction(content)`
-  - `fix_common_yaml_issues` (function, line 231) `def fix_common_yaml_issues(yaml_content)`
-  - `aggressive_yaml_fix` (function, line 256) `def aggressive_yaml_fix(yaml_content)`
-  - `create_synthetic_yaml` (function, line 282) `def create_synthetic_yaml(nmap_services)`
-  - `parse_yaml_response` (function, line 305) `def parse_yaml_response(content)`
-  - `load_adversary` (function, line 325) `def load_adversary()`
-  - `load_knowledge_base` (function, line 338) `def load_knowledge_base(knowledge_file)`
-  - `load_user_aliases` (function, line 354) `def load_user_aliases()`
-  - `list_binaries` (function, line 368) `def list_binaries(directory)`
-  - `select_binary` (function, line 383) `def select_binary(binaries)`
-- Depends on: `core/console.py`
-- Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `utils.py`
+  - `strip_ansi` (function, line 15) `def strip_ansi(text)`
+- Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `tests/test_single_implementation.py`, `utils.py`
 
 ## core/payload_schema.py
 - Doc: Declarative schema and validation for ``payload.json``.
@@ -435,7 +418,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `default_payload` (method, line 1644) `def default_payload()`
   - `categories` (method, line 1652) `def categories()`
 - Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
-- Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
+- Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 
 ## core/process.py
 - Doc: Process and subprocess utilities for the LazyOwn framework.
@@ -482,6 +465,25 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `getprompt` (function, line 127) `def getprompt()`
 - Depends on: `core/config.py`
 - Imported by: `contrib/legacy/lazybinenc.py`, `key.py`, `static/js/quill-2.0.3.js`
+
+## core/protocols.py
+- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Selector` (class, line 17) `class Selector(Protocol)`
+  - `LLMBackend` (class, line 37) `class LLMBackend(Protocol)`
+  - `MemoryStore` (class, line 51) `class MemoryStore(Protocol)`
+  - `BridgeCatalog` (class, line 62) `class BridgeCatalog(Protocol)`
+  - `OutcomeEvaluator` (class, line 70) `class OutcomeEvaluator(Protocol)`
+  - `suggest` (method, line 27) `def suggest(self, target, phase, context)`
+  - `complete` (method, line 40) `def complete(self, system, user, max_tokens, temperature)`
+  - `put` (method, line 54) `def put(self, key, value)`
+  - `get` (method, line 56) `def get(self, key, default)`
+  - `search` (method, line 58) `def search(self, query, k)`
+  - `filter` (method, line 65) `def filter(self, phase, os_id)`
+  - `evaluate` (method, line 73) `def evaluate(self, command, output, target, phase)`
+- Imported by: `tests/test_core.py`
 
 
 Next: [KB_core_p2.md](KB_core_p2.md)

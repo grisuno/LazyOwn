@@ -112,6 +112,28 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_render_falls_back_to_bare_names` (method, line 214) `def test_render_falls_back_to_bare_names(self, tmp_sessions_with_csv)`
 - Depends on: `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`
 
+## tests/test_executor_kernel.py
+- Doc: Single execution kernel shared by every command runner.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_executor` (function, line 29) `def _executor()`
+  - `TestColorsPreserved` (class, line 33) `class TestColorsPreserved`
+  - `TestExitCodes` (class, line 62) `class TestExitCodes`
+  - `TestShellPolicy` (class, line 87) `class TestShellPolicy`
+  - `TestSingleSpawnPath` (class, line 113) `class TestSingleSpawnPath`
+  - `test_writer_receives_raw_ansi_bytes` (method, line 34) `def test_writer_receives_raw_ansi_bytes(self)`
+  - `test_log_file_is_byte_identical_to_writer` (method, line 42) `def test_log_file_is_byte_identical_to_writer(self, tmp_path)`
+  - `test_stderr_merged_into_stream` (method, line 52) `def test_stderr_merged_into_stream(self)`
+  - `test_shell_path_exit_code` (method, line 63) `def test_shell_path_exit_code(self)`
+  - `test_argv_path_exit_code` (method, line 70) `def test_argv_path_exit_code(self)`
+  - `test_passthrough_returns_exit_code` (method, line 76) `def test_passthrough_returns_exit_code(self)`
+  - `test_matches_shared_policy` (method, line 101) `def test_matches_shared_policy(self)`
+  - `test_timeout_kills_and_raises` (method, line 106) `def test_timeout_kills_and_raises(self)`
+  - `test_cmd_delegates_spawning_to_kernel` (method, line 114) `def test_cmd_delegates_spawning_to_kernel(self)`
+  - `test_cmd_keeps_telemetry` (method, line 142) `def test_cmd_keeps_telemetry(self)`
+- Depends on: `core/safe_exec.py`, `modules/command_executor.py`
+
 ## tests/test_exploitgym_gym.py
 - Doc: Tests for the ExploitGym integration module.
 - Layer: testing
@@ -350,6 +372,22 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_registry_registers_target` (method, line 105) `def test_registry_registers_target()`
   - `test_no_command_collisions_with_source` (method, line 112) `def test_no_command_collisions_with_source()`
 - Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
+
+## tests/test_host_policy.py
+- Doc: Single host-validation policy shared by CLI gates and hardening.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSharedPolicy` (class, line 51) `class TestSharedPolicy`
+  - `TestCliGatesDelegate` (class, line 73) `class TestCliGatesDelegate`
+  - `test_valid_hosts_accepted` (method, line 52) `def test_valid_hosts_accepted(self)`
+  - `test_invalid_hosts_rejected` (method, line 57) `def test_invalid_hosts_rejected(self)`
+  - `test_shell_meta_rejected` (method, line 62) `def test_shell_meta_rejected(self)`
+  - `test_pinned_quirks_unchanged` (method, line 67) `def test_pinned_quirks_unchanged(self)`
+  - `test_check_rhost_matches_policy` (method, line 74) `def test_check_rhost_matches_policy(self, capsys)`
+  - `test_check_lhost_matches_policy` (method, line 81) `def test_check_lhost_matches_policy(self, capsys)`
+  - `test_check_lport_unchanged` (method, line 88) `def test_check_lport_unchanged(self, capsys)`
+- Depends on: `core/hardening.py`, `core/host_policy.py`, `core/validators.py`
 
 ## tests/test_html_sanitizer.py
 - Doc: TDD tests for the bleach-based HTML sanitizer contract.

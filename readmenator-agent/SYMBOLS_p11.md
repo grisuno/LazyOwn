@@ -3,11 +3,6 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `get_ja3_hash` | method | `modules/c2_profile_engine.py:155` | `def get_ja3_hash(self)` |
-| `is_available` | method | `modules/c2_profile_engine.py:429` | `def is_available(self)` |
-| `list_slots` | method | `modules/c2_profile_engine.py:487` | `def list_slots(self)` |
-| `rotate` | method | `modules/c2_profile_engine.py:469` | `def rotate(self)` |
-| `rotate` | method | `modules/c2_profile_engine.py:672` | `def rotate(self)` |
 | `rotator` | method | `modules/c2_profile_engine.py:663` | `def rotator(self)` |
 | `smb_profile` | method | `modules/c2_profile_engine.py:653` | `def smb_profile(self)` |
 | `tls_profile` | method | `modules/c2_profile_engine.py:643` | `def tls_profile(self)` |
@@ -39,24 +34,24 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `generate_ci_attack_matrix` | method | `modules/cicd_enumerator.py:322` | `def generate_ci_attack_matrix(self)` |
 | `scan` | method | `modules/cicd_enumerator.py:60` | `def scan(self)` |
 | `scan_build_log` | method | `modules/cicd_enumerator.py:297` | `def scan_build_log(self, log_content, source)` |
-| `_clear_cli_session` | function | `modules/cli_auth.py:474` | `def _clear_cli_session()` |
-| `_load_payload` | function | `modules/cli_auth.py:84` | `def _load_payload()` |
-| `_load_users` | function | `modules/cli_auth.py:33` | `def _load_users()` |
-| `_read_cli_session` | function | `modules/cli_auth.py:425` | `def _read_cli_session()` |
-| `_save_payload` | function | `modules/cli_auth.py:99` | `def _save_payload(payload)` |
-| `_save_users` | function | `modules/cli_auth.py:51` | `def _save_users(users)` |
-| `_write_cli_session` | function | `modules/cli_auth.py:440` | `def _write_cli_session(username, elo, role)` |
-| `_write_cli_session_raw` | function | `modules/cli_auth.py:458` | `def _write_cli_session_raw(data)` |
-| `get_current_operator` | function | `modules/cli_auth.py:392` | `def get_current_operator()` |
-| `login` | function | `modules/cli_auth.py:236` | `def login(username, password, remember)` |
-| `logout` | function | `modules/cli_auth.py:289` | `def logout()` |
-| `needs_login` | function | `modules/cli_auth.py:483` | `def needs_login()` |
-| `register` | function | `modules/cli_auth.py:141` | `def register(username, password)` |
-| `sync_elo_from_session` | function | `modules/cli_auth.py:404` | `def sync_elo_from_session(elo)` |
-| `try_auto_login` | function | `modules/cli_auth.py:324` | `def try_auto_login()` |
-| `user_exists` | function | `modules/cli_auth.py:118` | `def user_exists(username)` |
-| `verify_password` | function | `modules/cli_auth.py:210` | `def verify_password(username, password)` |
-| `whoami` | function | `modules/cli_auth.py:362` | `def whoami()` |
+| `_clear_cli_session` | function | `modules/cli_auth.py:478` | `def _clear_cli_session()` |
+| `_load_payload` | function | `modules/cli_auth.py:85` | `def _load_payload()` |
+| `_load_users` | function | `modules/cli_auth.py:34` | `def _load_users()` |
+| `_read_cli_session` | function | `modules/cli_auth.py:429` | `def _read_cli_session()` |
+| `_save_payload` | function | `modules/cli_auth.py:100` | `def _save_payload(payload)` |
+| `_save_users` | function | `modules/cli_auth.py:52` | `def _save_users(users)` |
+| `_write_cli_session` | function | `modules/cli_auth.py:444` | `def _write_cli_session(username, elo, role)` |
+| `_write_cli_session_raw` | function | `modules/cli_auth.py:462` | `def _write_cli_session_raw(data)` |
+| `get_current_operator` | function | `modules/cli_auth.py:396` | `def get_current_operator()` |
+| `login` | function | `modules/cli_auth.py:240` | `def login(username, password, remember)` |
+| `logout` | function | `modules/cli_auth.py:293` | `def logout()` |
+| `needs_login` | function | `modules/cli_auth.py:487` | `def needs_login()` |
+| `register` | function | `modules/cli_auth.py:145` | `def register(username, password)` |
+| `sync_elo_from_session` | function | `modules/cli_auth.py:408` | `def sync_elo_from_session(elo)` |
+| `try_auto_login` | function | `modules/cli_auth.py:328` | `def try_auto_login()` |
+| `user_exists` | function | `modules/cli_auth.py:122` | `def user_exists(username)` |
+| `verify_password` | function | `modules/cli_auth.py:214` | `def verify_password(username, password)` |
+| `whoami` | function | `modules/cli_auth.py:366` | `def whoami()` |
 | `CloudEnumerator` | class | `modules/cloud_enum.py:23` | `class CloudEnumerator` |
 | `__init__` | method | `modules/cloud_enum.py:34` | `def __init__(self, provider, session, timeout)` |
 | `_check_aws_privesc` | method | `modules/cloud_enum.py:526` | `def _check_aws_privesc(data)` |
@@ -126,19 +121,23 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `delete_lines` | function | `modules/colors.py:68` | `def delete_lines(content, to_delete)` |
 | `no_html` | function | `modules/colors.py:74` | `def no_html(content)` |
 | `retModel` | function | `modules/colors.py:40` | `def retModel()` |
-| `CommandExecutor` | class | `modules/command_executor.py:47` | `class CommandExecutor` |
-| `ExecutionResult` | class | `modules/command_executor.py:38` | `class ExecutionResult` |
-| `__init__` | method | `modules/command_executor.py:59` | `def __init__(self)` |
-| `_fire_hooks` | method | `modules/command_executor.py:232` | `def _fire_hooks(self, result)` |
-| `_needs_shell` | method | `modules/command_executor.py:106` | `def _needs_shell(self, command)` |
-| `_publish_event` | method | `modules/command_executor.py:239` | `def _publish_event(self, result)` |
-| `_run_capture` | method | `modules/command_executor.py:110` | `def _run_capture(self, command, timeout)` |
-| `_run_stream` | method | `modules/command_executor.py:135` | `def _run_stream(self, command, timeout)` |
-| `add_hook` | method | `modules/command_executor.py:68` | `def add_hook(self, hook)` |
-| `get_executor` | method | `modules/command_executor.py:264` | `def get_executor()` |
-| `instance` | method | `modules/command_executor.py:63` | `def instance(cls)` |
-| `run` | method | `modules/command_executor.py:72` | `def run(self, command, timeout, stream)` |
-| `run_with_tee` | method | `modules/command_executor.py:172` | `def run_with_tee(self, command, output_path, timeout)` |
+| `CommandExecutor` | class | `modules/command_executor.py:51` | `class CommandExecutor` |
+| `ExecutionResult` | class | `modules/command_executor.py:42` | `class ExecutionResult` |
+| `__init__` | method | `modules/command_executor.py:63` | `def __init__(self)` |
+| `_argv` | method | `modules/command_executor.py:118` | `def _argv(self, command)` |
+| `_default_writer` | method | `modules/command_executor.py:216` | `def _default_writer(line)` |
+| `_fire_hooks` | method | `modules/command_executor.py:319` | `def _fire_hooks(self, result)` |
+| `_needs_shell` | method | `modules/command_executor.py:110` | `def _needs_shell(self, command)` |
+| `_publish_event` | method | `modules/command_executor.py:326` | `def _publish_event(self, result)` |
+| `_run_capture` | method | `modules/command_executor.py:221` | `def _run_capture(self, command, timeout)` |
+| `_run_stream` | method | `modules/command_executor.py:246` | `def _run_stream(self, command, timeout)` |
+| `add_hook` | method | `modules/command_executor.py:72` | `def add_hook(self, hook)` |
+| `get_executor` | method | `modules/command_executor.py:351` | `def get_executor()` |
+| `instance` | method | `modules/command_executor.py:67` | `def instance(cls)` |
+| `run` | method | `modules/command_executor.py:76` | `def run(self, command, timeout, stream)` |
+| `run_passthrough` | method | `modules/command_executor.py:124` | `def run_passthrough(self, command, env)` |
+| `run_tee` | method | `modules/command_executor.py:139` | `def run_tee(self, command)` |
+| `run_with_tee` | method | `modules/command_executor.py:283` | `def run_with_tee(self, command, output_path, timeout)` |
 | `ComplianceEngine` | class | `modules/compliance.py:632` | `class ComplianceEngine` |
 | `ComplianceFinding` | class | `modules/compliance.py:620` | `class ComplianceFinding` |
 | `EvidenceChain` | class | `modules/compliance.py:349` | `class EvidenceChain` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

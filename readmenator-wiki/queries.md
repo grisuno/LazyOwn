@@ -8,15 +8,15 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (93 connections)
+### Q: What does utils.py depend on, and what depends on it? (95 connections)
 
 - Status: unanswered
 
-### Q: What does _base.py depend on, and what depends on it? (88 connections)
+### Q: What does _base.py depend on, and what depends on it? (90 connections)
 
 - Status: unanswered
 
-### Q: How are the 161 files in 'cli/commands' related to each other?
+### Q: How are the 118 files in 'cli/commands' related to each other?
 
 - Status: unanswered
 

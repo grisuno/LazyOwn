@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `renderNodeContent` | function | `static/js/html2pdf.bundle.min.js:5544` | `` |
+| `renderRadialGradient` | function | `static/js/html2pdf.bundle.min.js:706` | `` |
+| `renderRepeat` | function | `static/js/html2pdf.bundle.min.js:736` | `` |
+| `renderStack` | function | `static/js/html2pdf.bundle.min.js:5677` | `` |
+| `renderStackContent` | function | `static/js/html2pdf.bundle.min.js:5699` | `` |
+| `renderTextNode` | function | `static/js/html2pdf.bundle.min.js:745` | `` |
+| `resizeImage` | function | `static/js/html2pdf.bundle.min.js:795` | `` |
+| `resolve` | function | `static/js/html2pdf.bundle.min.js:7591` | `` |
+| `resolve` | function | `static/js/html2pdf.bundle.min.js:7699` | `` |
+| `resolvePseudoContent` | function | `static/js/html2pdf.bundle.min.js:6215` | `` |
+| `restoreOwnerScroll` | function | `static/js/html2pdf.bundle.min.js:6831` | `` |
+| `restoreOwnerScroll` | function | `static/js/html2pdf.bundle.min.js:6831` | `` |
+| `result` | function | `static/js/html2pdf.bundle.min.js:7256` | `` |
+| `reverse` | function | `static/js/html2pdf.bundle.min.js:1094` | `` |
+| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
+| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
+| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
 | `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
 | `s` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
 | `s` | function | `static/js/html2pdf.bundle.min.js:146` | `` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `bk` | function | `static/js/vis-network.min.js:33` | `` |
 | `cO` | function | `static/js/vis-network.min.js:48` | `` |
 | `d` | function | `static/js/vis-network.min.js:33` | `` |
-| `dE` | function | `static/js/vis-network.min.js:33` | `` |
-| `did` | class | `static/js/vis-network.min.js:48` | `` |
-| `did` | class | `static/js/vis-network.min.js:48` | `` |
-| `dk` | function | `static/js/vis-network.min.js:33` | `` |
-| `does` | function | `static/js/vis-network.min.js:33` | `` |
-| `does` | function | `static/js/vis-network.min.js:48` | `` |
-| `dx` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:48` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `fO` | function | `static/js/vis-network.min.js:48` | `` |
-| `fk` | function | `static/js/vis-network.min.js:33` | `` |
-| `g` | function | `static/js/vis-network.min.js:26` | `` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `render_requirements_status` | method | `cli/contextual_help.py:281` | `def render_requirements_status(self)` |
+| `DashboardLayoutConfig` | class | `cli/dashboard_layout.py:14` | `class DashboardLayoutConfig` |
+| `hidden_panels` | method | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
+| `layout_mode` | method | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
 | `CommandRequested` | class | `cli/dashboard_tui.py:97` | `class CommandRequested(Message)` |
 | `CommandsPanel` | class | `cli/dashboard_tui.py:460` | `class CommandsPanel(Static)` |
 | `ConfigPanel` | class | `cli/dashboard_tui.py:430` | `class ConfigPanel(Static)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `render_search` | method | `cli/palette_command.py:541` | `def render_search(self, query, rows)` |
 | `search` | method | `cli/palette_command.py:218` | `def search(self, query)` |
 | `to_dict` | method | `cli/palette_command.py:502` | `def to_dict(self)` |
-| `truncate_summary` | method | `cli/palette_command.py:107` | `def truncate_summary(self, summary)` |
-| `GraphIndex` | class | `cli/palette_graph.py:74` | `class GraphIndex` |
-| `GraphIndexError` | class | `cli/palette_graph.py:39` | `class GraphIndexError(RuntimeError)` |
-| `GraphLookupConfig` | class | `cli/palette_graph.py:44` | `class GraphLookupConfig` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

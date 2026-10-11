@@ -197,6 +197,17 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `_broken_factory` (method, line 235) `def _broken_factory()`
 - Depends on: `cli/exploration.py`, `cli/lazynmap_post.py`, `cli/recon_plan.py`
 
+## tests/test_legacy_shims.py
+- Doc: Legacy shim contract plus referenced-script existence.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLegacyShims` (class, line 23) `class TestLegacyShims`
+  - `TestReferencedScriptsExist` (class, line 43) `class TestReferencedScriptsExist`
+  - `test_no_regular_file_clones` (method, line 24) `def test_no_regular_file_clones(self)`
+  - `test_symlinks_resolve_into_contrib` (method, line 32) `def test_symlinks_resolve_into_contrib(self)`
+  - `test_exploit_migrated_script_paths` (method, line 44) `def test_exploit_migrated_script_paths(self)`
+
 ## tests/test_lesson_ingestor.py
 - Doc: Tests for modules/lesson_ingestor.py.
 - Layer: testing
@@ -427,6 +438,18 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_sanitize_line_strips_ansi_and_cr` (function, line 126) `def test_sanitize_line_strips_ansi_and_cr()`
 - Depends on: `core/console.py`, `modules/loop_progress.py`
 
+## tests/test_mcp_dispatch.py
+- Doc: call_tool dispatches through the handler registry.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registered` (function, line 23) `def _registered()`
+  - `_fallback_branches` (function, line 40) `def _fallback_branches()`
+  - `TestRegistryDispatch` (class, line 51) `class TestRegistryDispatch`
+  - `test_no_dead_duplicate_branches` (method, line 52) `def test_no_dead_duplicate_branches(self)`
+  - `test_migrated_handlers_registered` (method, line 56) `def test_migrated_handlers_registered(self)`
+  - `test_migrated_handlers_absent_from_fallback` (method, line 61) `def test_migrated_handlers_absent_from_fallback(self)`
+
 ## tests/test_mcp_improvements.py
 - Doc: Tests for the high/medium/low impact MCP improvements.
 - Layer: testing
@@ -467,27 +490,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `runner` (function, line 300) `def runner(cmd, timeout)`
   - `runner` (function, line 320) `def runner(cmd, timeout)`
 - Depends on: `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`
-
-## tests/test_metrics.py
-- Doc: Tests for ``modules/metrics.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_build_recorder` (function, line 35) `def _build_recorder(tmp_path)`
-  - `test_legacy_registry_inc_and_render` (function, line 42) `def test_legacy_registry_inc_and_render()`
-  - `test_recorder_appends_record_line` (function, line 57) `def test_recorder_appends_record_line(tmp_path)`
-  - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
-  - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
-  - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
-  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
-  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
-  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
-  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
-  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
-  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
-  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
-  - `worker` (function, line 180) `def worker(tag)`
-- Depends on: `modules/metrics.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

@@ -1,0 +1,24 @@
+[ports]
+# Fallback ports used when the engagement payload leaves them unset.
+# Live values live in payload.json (lport/rport); these are build defaults.
+default_lport = 1337
+default_rport = 443
+
+[wordlists]
+# Default dictionary when a command receives no --wordlist and the
+# payload has no wordlist key set. Override per engagement with:
+#   assign wordlist /path/to/list.txt
+rockyou = "/usr/share/wordlists/rockyou.txt"
+
+# Ordered candidates probed when no explicit wordlist is given.
+fallbacks = [
+    "/usr/share/wordlists/rockyou.txt",
+    "/usr/share/wordlists/rockyou.txt.gz",
+    "/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt",
+    "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt",
+    "/usr/share/wordlists/fasttrack.txt",
+]
+
+[paths]
+sessions_dir = "sessions"
+logs_dir = "sessions/logs"

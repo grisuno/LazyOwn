@@ -1,25 +1,6 @@
 # Subsystem: core (page 2 of 2)
 Previous: [KB_core.md](KB_core.md)
 
-## core/protocols.py
-- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `Selector` (class, line 17) `class Selector(Protocol)`
-  - `LLMBackend` (class, line 37) `class LLMBackend(Protocol)`
-  - `MemoryStore` (class, line 51) `class MemoryStore(Protocol)`
-  - `BridgeCatalog` (class, line 62) `class BridgeCatalog(Protocol)`
-  - `OutcomeEvaluator` (class, line 70) `class OutcomeEvaluator(Protocol)`
-  - `suggest` (method, line 27) `def suggest(self, target, phase, context)`
-  - `complete` (method, line 40) `def complete(self, system, user, max_tokens, temperature)`
-  - `put` (method, line 54) `def put(self, key, value)`
-  - `get` (method, line 56) `def get(self, key, default)`
-  - `search` (method, line 58) `def search(self, query, k)`
-  - `filter` (method, line 65) `def filter(self, phase, os_id)`
-  - `evaluate` (method, line 73) `def evaluate(self, command, output, target, phase)`
-- Imported by: `tests/test_core.py`
-
 ## core/safe_console.py
 - Doc: Terminal-safe Rich console factory.
 - Layer: utility
@@ -51,7 +32,18 @@ Previous: [KB_core.md](KB_core.md)
   - `safe_find_tool` (method, line 305) `def safe_find_tool(name)`
   - `safe_file_read` (method, line 321) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+
+## core/safe_import.py
+- Doc: Fail-closed import of attacker-supplied campaign packages.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `is_safe_identifier` (function, line 20) `def is_safe_identifier(name)`
+  - `filter_columns` (function, line 32) `def filter_columns(src_columns, dest_columns)`
+  - `safe_extract_zip` (function, line 51) `def safe_extract_zip(archive, dest)`
+  - `safe_copy_tree` (function, line 93) `def safe_copy_tree(src, dest)`
+- Imported by: `cli/commands/campaign.py`, `tests/test_campaign_import_safety.py`
 
 ## core/safe_subprocess.py
 - Doc: Safe subprocess runner for the LazyOwn framework.
@@ -114,13 +106,14 @@ Previous: [KB_core.md](KB_core.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_rejects_shell_meta` (function, line 19) `def _rejects_shell_meta(value)`
-  - `_is_valid_host` (function, line 24) `def _is_valid_host(value)`
-  - `_is_valid_cidr` (function, line 44) `def _is_valid_cidr(value)`
-  - `check_rhost` (function, line 55) `def check_rhost(rhost)`
-  - `check_lhost` (function, line 69) `def check_lhost(lhost)`
-  - `check_lport` (function, line 83) `def check_lport(lport)`
-  - `check_port` (function, line 93) `def check_port(port, name)`
-- Depends on: `core/console.py`
-- Imported by: `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_input_fuzz.py`, `utils.py`
+  - `check_rhost` (function, line 27) `def check_rhost(rhost)`
+  - `check_lhost` (function, line 41) `def check_lhost(lhost)`
+  - `check_lport` (function, line 55) `def check_lport(lport)`
+  - `check_port` (function, line 65) `def check_port(port, name)`
+  - `require_rhost` (function, line 78) `def require_rhost(params)`
+  - `require_lhost` (function, line 95) `def require_lhost(params)`
+  - `require_lport` (function, line 108) `def require_lport(params)`
+  - `require_rport` (function, line 121) `def require_rport(params)`
+- Depends on: `core/console.py`, `core/host_policy.py`
+- Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
 

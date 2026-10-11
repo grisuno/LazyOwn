@@ -1,56 +1,57 @@
 # cli/commands
 
-*Community 0 | 161 files | cohesion 0.62*
+*Community 0 | 118 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 161 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.62). Central symbols: `A`, `AESdecrypt`, `AESencrypt`, `AddonInfo`, `AddonRegistry`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `As`. Core file: `static/js/html2pdf.bundle.min.js` (695 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
+This community groups 118 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.56). Central symbols: `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AliasResolver`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `AuditCommandSet`, `BitMCommandSet`. Core file: `utils.py` (121 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
 
 ## Files
 
-### `cli/commands` (54 files)
+### `cli/commands` (47 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/__init__.py` | py | utility | 0 | yes |
 | `cli/commands/_base.py` | py | utility | 7 | yes |
 | `cli/commands/_dormancy.py` | py | utility | 2 | yes |
+| `cli/commands/anti_forensics.py` | py | utility | 7 | yes |
 
-### `tests` (39 files)
+### `tests` (28 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/test_aes_key_propagation.py` | py | testing | 12 | yes |
 | `tests/test_api_key_resolution.py` | py | testing | 9 | yes |
-| `tests/test_autosuggest.py` | py | testing | 41 | yes |
+| `tests/test_bdd_infra_range_report.py` | py | testing | 5 | yes |
+| `tests/test_campaign_import_safety.py` | py | testing | 14 | yes |
 
-### `modules` (29 files)
+### `modules` (23 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/auto_purple.py` | py | utility | 40 | yes |
-| `modules/beacon_config_builder.py` | py | infrastructure | 14 | yes |
+| `modules/bitm_engine.py` | py | utility | 18 | yes |
+| `modules/c2_builder.py` | py | infrastructure | 21 | yes |
+| `modules/categories.py` | py | utility | 0 | yes |
 
-### `cli` (14 files)
+### `cli` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/aliases.py` | py | utility | 7 | yes |
-| `cli/assign.py` | py | utility | 1 | yes |
+| `cli/cli_enhancements.py` | py | utility | 69 | yes |
 
-### `static/js` (10 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `static/js/3d-force-graph-1.73.4.min.js` | js | utility | 176 | yes |
-| `static/js/bootstrap-4.5.2.min.js` | js | infrastructure | 7 | yes |
-
-### `core` (9 files)
+### `core` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `core/config.py` | py | infrastructure | 17 | yes |
-| `core/credential_vault.py` | py | utility | 8 | yes |
+| `core/hardening.py` | py | utility | 16 | yes |
+| `core/host_policy.py` | py | business_logic | 3 | yes |
+
+### `contrib/legacy` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
+| `contrib/legacy/lazyhttpreverseshell.py` | py | utility | 10 | no |
 
 ### `.` (2 files)
 
@@ -59,23 +60,11 @@ This community groups 161 file(s) rooted at `cli/commands` with dominant languag
 | `banner.py` | py | utility | 3 | yes |
 | `utils.py` | py | utility | 121 | yes |
 
-### `contrib/legacy` (1 files)
+### `modules/backdoor` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `contrib/legacy/lazysmbrelay.py` | py | utility | 7 | no |
-
-### `lazyown-docker` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyown-docker/init.sh` | sh | utility | 0 | no |
-
-### `modules/rootkit` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
+| `modules/backdoor/server.c` | c | utility | 1 | no |
 
 ### `scripts/devtools` (1 files)
 
@@ -83,7 +72,13 @@ This community groups 161 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `scripts/devtools/core_smoke.py` | py | utility | 4 | yes |
 
-*... and 141 more files in this community.*
+### `skills` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/lazyown_mcp_opencode.py` | py | utility | 3 | yes |
+
+*... and 98 more files in this community.*
 
 
 ## Key Symbols
@@ -98,86 +93,82 @@ This community groups 161 file(s) rooted at `cli/commands` with dominant languag
 - `template_placeholders` (method, `cli/aliases.py:56`) `def template_placeholders(template)` - Return the ``{name}`` placeholders referenced by ``template``.
 - `empty_placeholders` (method, `cli/aliases.py:72`) `def empty_placeholders(template, context)` - Return placeholders whose rendered value against ``context`` is empty.
 - `load_aliases` (method, `cli/aliases.py:77`) `def load_aliases(payload, path, lazy)` - Return the cmd2 alias map.
-- `apply_assign` (function, `cli/assign.py:36`) `def apply_assign(params, key, value)` - Validate, mutate and persist a single payload assignment.
-- `SuggestionContext` (class, `cli/autosuggest.py:50`) `class SuggestionContext` - Inputs available to every suggestion provider.
-- `Suggestion` (class, `cli/autosuggest.py:71`) `class Suggestion` - One next-command suggestion with its rationale.
-- `SuggestionProvider` (class, `cli/autosuggest.py:92`) `class SuggestionProvider(Protocol)` - Provider contract: examine context, return one suggestion or ``None``.
-- `suggest` (method, `cli/autosuggest.py:95`) `def suggest(self, context)`
-- `CompositeProvider` (class, `cli/autosuggest.py:98`) `class CompositeProvider` - Aggregator that returns the highest-scoring suggestion across providers.
-- `__init__` (method, `cli/autosuggest.py:105`) `def __init__(self, providers)` - Store the provider chain.
-- `suggest` (method, `cli/autosuggest.py:115`) `def suggest(self, context)` - Return the best suggestion across the chain, or ``None``.
-- `KillChainProvider` (class, `cli/autosuggest.py:134`) `class KillChainProvider` - Provider backed by the static kill-chain adjacency map.
-- `__init__` (method, `cli/autosuggest.py:143`) `def __init__(self, chain, phase_priority)` - Configure the provider.
-- `suggest` (method, `cli/autosuggest.py:162`) `def suggest(self, context)` - Return the first unseen adjacency, or phase fallback, or ``None``.
-- `GraphProvider` (class, `cli/autosuggest.py:189`) `class GraphProvider` - Provider backed by the graphify knowledge-graph advisor.
-- `__init__` (method, `cli/autosuggest.py:197`) `def __init__(self, advisor)` - Configure the provider.
-- `suggest` (method, `cli/autosuggest.py:221`) `def suggest(self, context)` - Query the advisor and adapt the top result to a :class:`Suggestion`.
-- `AutoSuggestEngine` (class, `cli/autosuggest.py:245`) `class AutoSuggestEngine` - Stateful holder for the active ghost-text suggestion.
-- `__init__` (method, `cli/autosuggest.py:254`) `def __init__(self, provider)` - Store the provider and enabled flag.
-- `enabled` (method, `cli/autosuggest.py:270`) `def enabled(self)` - Whether the engine refreshes suggestions on each command.
-- `set_enabled` (method, `cli/autosuggest.py:274`) `def set_enabled(self, value)` - Toggle the engine without losing the provider chain.
-- `current` (method, `cli/autosuggest.py:284`) `def current(self)` - Return the suggestion last computed, or ``None`` when cleared.
-- `clear` (method, `cli/autosuggest.py:288`) `def clear(self)` - Drop the active suggestion (called after accept or abort).
+- `PayloadProvider` (class, `cli/cli_enhancements.py:40`) `class PayloadProvider(Protocol)` - Read-only view onto ``payload.json`` style configuration.
+- `get` (method, `cli/cli_enhancements.py:43`) `def get(self, key, default)`
+- `keys` (method, `cli/cli_enhancements.py:44`) `def keys(self)`
+- `CommandLister` (class, `cli/cli_enhancements.py:47`) `class CommandLister(Protocol)` - Source of command metadata for indexing / fuzzy matching.
+- `commands` (method, `cli/cli_enhancements.py:50`) `def commands(self)`
+- `TerminalIO` (class, `cli/cli_enhancements.py:53`) `class TerminalIO(Protocol)` - Minimal duck-typed prompt/print pair so tests can fake it.
+- `prompt` (method, `cli/cli_enhancements.py:56`) `def prompt(self, message, default)`
+- `emit` (method, `cli/cli_enhancements.py:57`) `def emit(self, line)`
+- `CommandInfo` (class, `cli/cli_enhancements.py:61`) `class CommandInfo` - Lightweight description of a shell command.
+- `FuzzyMatch` (class, `cli/cli_enhancements.py:75`) `class FuzzyMatch` - A scored fuzzy match against a CommandInfo.
+- `FuzzyCommandIndex` (class, `cli/cli_enhancements.py:83`) `class FuzzyCommandIndex` - Search a command catalogue with token-aware fuzzy matching.
+- `__init__` (method, `cli/cli_enhancements.py:91`) `def __init__(self, source)`
+- `search` (method, `cli/cli_enhancements.py:94`) `def search(self, query, limit)` - Return the top ``limit`` matches ordered by descending score.
+- `_score` (method, `cli/cli_enhancements.py:109`) `def _score(info, q)`
+- `CompletionResult` (class, `cli/cli_enhancements.py:138`) `class CompletionResult` - A single tab-completion suggestion.
+- `PayloadAwareCompleter` (class, `cli/cli_enhancements.py:145`) `class PayloadAwareCompleter` - Suggest values from ``payload.json`` for context-sensitive arguments.
+- `__init__` (method, `cli/cli_enhancements.py:164`) `def __init__(self, payload, addon_lister, plugin_lister, credential_lister)`
+- `complete` (method, `cli/cli_enhancements.py:176`) `def complete(self, command, partial)` - Return suggestions for ``partial`` given the leading ``command``.
+- `_suggest_payload_keys` (method, `cli/cli_enhancements.py:196`) `def _suggest_payload_keys(self, partial)`
+- `_suggest_targets` (method, `cli/cli_enhancements.py:202`) `def _suggest_targets(self, partial)`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 697
-- Cross-boundary resolved imports (EXTRACTED): 387
+- Internal resolved imports (EXTRACTED): 374
+- Cross-boundary resolved imports (EXTRACTED): 257
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
-- [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
-- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
-- [EXTRACTED] depends_on community 0 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports cli/engagement_hooks.py.
-- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports modules/bof_registry.py.
-- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
+- [EXTRACTED] depends_on community 0 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
+- [EXTRACTED] depends_on community 13 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/cli_auth.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 14 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/listener_manager.py.
 - [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
-- [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/exploit_migrated.py imports cli/commands/_base.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
-- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
+- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
+- [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
+- [dataflow UNCHECKED_ALLOC] `banner.py:29` `image_to_bash` `img`: Result of allocator stored in `img` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `cli/commands/dns_exfil.py:117` `do_dns_exfil_listen` `sock`: Result of allocator stored in `sock` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `cli/commands/evasive_payload.py:648` `_apply_bypass` `s`: Result of allocator stored in `s` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `cli/commands/exfiltration.py:1382` `do_exfil_dns` `data`: Result of allocator stored in `data` is never checked against NULL.
 
 ## Open Questions
 
-- Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazysmbrelay.py`)? What purpose do they serve?
+- Why do 5 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
-- Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
 - What would break if the most connected file in cli/commands changed?
-- Should cli/commands be split, given cohesion 0.62?
+- Should cli/commands be split, given cohesion 0.56?
 
 ## Sources
 
 - `banner.py`
 - `cli/aliases.py`
-- `cli/assign.py`
-- `cli/autosuggest.py`
-- `cli/banner_config.py`
-- `cli/commands/__init__.py`
+- `cli/cli_enhancements.py`
 - `cli/commands/_base.py`
 - `cli/commands/_dormancy.py`
 - `cli/commands/anti_forensics.py`
 - `cli/commands/applocker_bypass.py`
+- `cli/commands/audit.py`
 - `cli/commands/bitm.py`
-- `cli/commands/bof_registry.py`
-- `cli/commands/c2_profile.py`
+- `cli/commands/campaign.py`
 - `cli/commands/catalog.py`
 - `cli/commands/cicd.py`
 - `cli/commands/cloud.py`
@@ -185,4 +176,7 @@ This community groups 161 file(s) rooted at `cli/commands` with dominant languag
 - `cli/commands/command_and_control_migrated.py`
 - `cli/commands/cred.py`
 - `cli/commands/cred_migrated.py`
-- *... and 141 more*
+- `cli/commands/daemon_ctl.py`
+- `cli/commands/demo.py`
+- `cli/commands/diagnostics.py`
+- *... and 98 more*

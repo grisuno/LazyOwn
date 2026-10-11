@@ -132,6 +132,7 @@ This community groups 55 file(s) rooted at `static/js` with dominant language py
 
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
+- [taint high] `cli/banner_config.py` -> `core/process.py` via `subprocess` (5 hops)
 - [layer strict] `tests/test_core_defaults.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
@@ -144,7 +145,6 @@ This community groups 55 file(s) rooted at `static/js` with dominant language py
 - [dataflow DEAD_STORE] `modules/exp.c:406` `set_trigger_set_and_overwrite` `exprid`: `exprid` assigned at line 406 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:423` `set_trigger_set_and_overwrite` `seq`: `seq` assigned at line 423 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:453` `spray_mqueue` `unresolved`: `unresolved` assigned at line 453 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:455` `spray_mqueue` `priority`: `priority` assigned at line 455 but never read afterwards.
 
 ## Open Questions
 

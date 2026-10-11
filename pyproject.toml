@@ -95,7 +95,7 @@ ml = [
     "joblib",
 ]
 dev = [
-    "ruff==0.16.8",
+    "ruff==0.16.10",
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "pytest-timeout>=2.3",

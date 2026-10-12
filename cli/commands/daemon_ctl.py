@@ -248,8 +248,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
             return
         try:
             from modules.goals import load_constraints
-            from modules.intercept import Guard
-            from modules.intercept import scope_blocked
+            from modules.intercept import Guard, scope_blocked
         except Exception as exc:
             print_error(f"gatecheck unavailable: {exc}")
             return

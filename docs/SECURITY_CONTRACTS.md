@@ -243,7 +243,7 @@ Files hardened (v4):
 | Fix | File |
 |-----|------|
 | URL injection prevention | `poc_tui/plugin_loader.py` |
-| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/bot.py`, `modules/ia_*.py`, `cli/commands/recon_migrated.py`, `cli/commands/misc_migrated.py` |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/ia_*.py`, `cli/commands/recon_migrated.py`, `cli/commands/misc_migrated.py` |
 | shell=False enforced | `lazyc2.py` `execute_command` |
 | shell=True eliminated | `modules/dpapi_harvester.py`, `modules/edr_detector.py` |
 | Injection prevention | `modules/conditional_hooks.py` (`shlex.quote`) |

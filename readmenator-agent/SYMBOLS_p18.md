@@ -1,500 +1,500 @@
-# Symbols (page 18 of 38)
+# Symbols (page 18 of 40)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `validate_shell` | method | `modules/toolset.py:128` | `def validate_shell(role, command)` |
-| `OnlineFeedbackLoop` | class | `modules/toposwarm_bridge.py:273` | `class OnlineFeedbackLoop` |
-| `RoutedCall` | class | `modules/toposwarm_bridge.py:71` | `class RoutedCall` |
-| `TopoSwarmBridge` | class | `modules/toposwarm_bridge.py:424` | `class TopoSwarmBridge` |
-| `__init__` | method | `modules/toposwarm_bridge.py:296` | `def __init__(self, maxsize)` |
-| `__init__` | method | `modules/toposwarm_bridge.py:432` | `def __init__(self)` |
-| `_hook` | method | `modules/toposwarm_bridge.py:508` | `def _hook(m, i, o)` |
-| `_keyword_route` | method | `modules/toposwarm_bridge.py:202` | `def _keyword_route(prompt)` |
-| `_load_toposwarm_modules` | method | `modules/toposwarm_bridge.py:241` | `def _load_toposwarm_modules()` |
-| `_neural_route` | method | `modules/toposwarm_bridge.py:493` | `def _neural_route(self, prompt)` |
-| `_try_load` | method | `modules/toposwarm_bridge.py:452` | `def _try_load(self)` |
-| `available` | method | `modules/toposwarm_bridge.py:444` | `def available(self)` |
-| `execute_via_orchestrator` | method | `modules/toposwarm_bridge.py:613` | `def execute_via_orchestrator(self, prompt, no_model)` |
-| `feedback` | method | `modules/toposwarm_bridge.py:318` | `def feedback(self, result_id, good, comment, routing_head)` |
-| `feedback` | method | `modules/toposwarm_bridge.py:562` | `def feedback(self, result_id, good, comment)` |
-| `get_bridge` | method | `modules/toposwarm_bridge.py:645` | `def get_bridge()` |
-| `lazyown_command` | method | `modules/toposwarm_bridge.py:81` | `def lazyown_command(self)` |
-| `load_feedback_for_training` | method | `modules/toposwarm_bridge.py:389` | `def load_feedback_for_training(self)` |
-| `model_loaded` | method | `modules/toposwarm_bridge.py:449` | `def model_loaded(self)` |
-| `pending_count` | method | `modules/toposwarm_bridge.py:379` | `def pending_count(self)` |
-| `register` | method | `modules/toposwarm_bridge.py:303` | `def register(self, result, hidden)` |
-| `route` | method | `modules/toposwarm_bridge.py:586` | `def route(self, prompt)` |
-| `stats` | method | `modules/toposwarm_bridge.py:382` | `def stats(self)` |
-| `TrafficMorpher` | class | `modules/traffic_morpher.py:18` | `class TrafficMorpher` |
-| `__init__` | method | `modules/traffic_morpher.py:77` | `def __init__(self)` |
-| `generate_beacon_profile` | method | `modules/traffic_morpher.py:270` | `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` |
-| `generate_cloudflare_worker_proxy_config` | method | `modules/traffic_morpher.py:205` | `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` |
-| `generate_dns_tunnel_payload` | method | `modules/traffic_morpher.py:138` | `def generate_dns_tunnel_payload(self, data, domain)` |
-| `generate_icmp_exfil_payload` | method | `modules/traffic_morpher.py:164` | `def generate_icmp_exfil_payload(self, data, chunk_size)` |
-| `generate_jitter` | method | `modules/traffic_morpher.py:125` | `def generate_jitter(self, base_delay, jitter_pct)` |
-| `generate_traffic_padding` | method | `modules/traffic_morpher.py:108` | `def generate_traffic_padding(self, min_bytes, max_bytes)` |
-| `generate_websocket_masking` | method | `modules/traffic_morpher.py:190` | `def generate_websocket_masking(self, data)` |
-| `get_cdn_fronting_hosts` | method | `modules/traffic_morpher.py:91` | `def get_cdn_fronting_hosts(self, provider, count)` |
-| `get_random_http_headers` | method | `modules/traffic_morpher.py:81` | `def get_random_http_headers(self)` |
-| `Exchange` | class | `modules/traffic_recorder.py:66` | `class Exchange` |
-| `RecorderConfig` | class | `modules/traffic_recorder.py:22` | `class RecorderConfig` |
-| `TrafficRecorder` | class | `modules/traffic_recorder.py:77` | `class TrafficRecorder` |
-| `__init__` | method | `modules/traffic_recorder.py:80` | `def __init__(self, base_dir)` |
-| `_connect` | method | `modules/traffic_recorder.py:90` | `def _connect(self)` |
-| `count` | method | `modules/traffic_recorder.py:158` | `def count(self)` |
-| `get_body` | method | `modules/traffic_recorder.py:148` | `def get_body(self, exchange_id)` |
-| `query` | method | `modules/traffic_recorder.py:129` | `def query(self, host, status, limit, offset)` |
-| `record` | method | `modules/traffic_recorder.py:96` | `def record(self, method, url, status, req_body, resp_body, content_type)` |
-| `url_template` | method | `modules/traffic_recorder.py:54` | `def url_template(url)` |
-| `TTPCoverage` | class | `modules/ttp_coverage.py:65` | `class TTPCoverage` |
-| `TTPRow` | class | `modules/ttp_coverage.py:55` | `class TTPRow` |
-| `__init__` | method | `modules/ttp_coverage.py:68` | `def __init__(self)` |
-| `_blocking_facts` | method | `modules/ttp_coverage.py:168` | `def _blocking_facts(self, tactic)` |
-| `_load_state` | method | `modules/ttp_coverage.py:248` | `def _load_state(self)` |
-| `_save_state` | method | `modules/ttp_coverage.py:241` | `def _save_state(self)` |
-| `add` | method | `modules/ttp_coverage.py:125` | `def add(self, technique_id, name, tactic, status, operation_id)` |
-| `compute_ready` | method | `modules/ttp_coverage.py:149` | `def compute_ready(self, available_facts)` |
-| `get_coverage` | method | `modules/ttp_coverage.py:260` | `def get_coverage()` |
-| `matrix` | method | `modules/ttp_coverage.py:190` | `def matrix(self)` |
-| `rebuild_from_operations` | method | `modules/ttp_coverage.py:76` | `def rebuild_from_operations(self)` |
-| `status_by_id` | method | `modules/ttp_coverage.py:231` | `def status_by_id(self, technique_id)` |
-| `to_dict` | method | `modules/ttp_coverage.py:234` | `def to_dict(self)` |
-| `DelegateResult` | class | `modules/unified_bridge.py:52` | `class DelegateResult` |
-| `KeywordBackend` | class | `modules/unified_bridge.py:68` | `class KeywordBackend(RouteBackend)` |
-| `LazyownBridgeBackend` | class | `modules/unified_bridge.py:116` | `class LazyownBridgeBackend(RouteBackend)` |
-| `RouteBackend` | class | `modules/unified_bridge.py:60` | `class RouteBackend(ABC)` |
-| `RouteResult` | class | `modules/unified_bridge.py:39` | `class RouteResult` |
-| `TopoSwarmBackend` | class | `modules/unified_bridge.py:154` | `class TopoSwarmBackend(RouteBackend)` |
-| `UnifiedBridge` | class | `modules/unified_bridge.py:188` | `class UnifiedBridge` |
-| `__init__` | method | `modules/unified_bridge.py:207` | `def __init__(self)` |
-| `_detect_phase` | method | `modules/unified_bridge.py:355` | `def _detect_phase(self)` |
-| `_get_active_target` | method | `modules/unified_bridge.py:364` | `def _get_active_target(self)` |
-| `_init_backends` | method | `modules/unified_bridge.py:212` | `def _init_backends(self)` |
-| `_publish` | method | `modules/unified_bridge.py:226` | `def _publish(self, category, event_type, payload)` |
-| `available` | method | `modules/unified_bridge.py:62` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:95` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:119` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:157` | `def available(self)` |
-| `delegate` | method | `modules/unified_bridge.py:293` | `def delegate(self, goal, backend, timeout)` |
-| `delegate_task` | method | `modules/unified_bridge.py:379` | `def delegate_task(goal, backend)` |
-| `get` | method | `modules/unified_bridge.py:218` | `def get(cls)` |
-| `list_backends` | method | `modules/unified_bridge.py:352` | `def list_backends(self)` |
-| `route` | method | `modules/unified_bridge.py:65` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:98` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:127` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:166` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:246` | `def route(self, prompt, context)` |
-| `route_prompt` | method | `modules/unified_bridge.py:374` | `def route_prompt(prompt, context)` |
-| `set_publish_callback` | method | `modules/unified_bridge.py:223` | `def set_publish_callback(self, cb)` |
-| `UnifiedDashboard` | class | `modules/unified_dashboard.py:37` | `class UnifiedDashboard` |
-| `__init__` | method | `modules/unified_dashboard.py:44` | `def __init__(self, sessions_dir)` |
-| `_collect_daemon_status` | method | `modules/unified_dashboard.py:124` | `def _collect_daemon_status(self)` |
-| `_collect_dashboard` | method | `modules/unified_dashboard.py:163` | `def _collect_dashboard(self)` |
-| `_collect_graph_advice` | method | `modules/unified_dashboard.py:145` | `def _collect_graph_advice(self)` |
-| `_collect_hive_status` | method | `modules/unified_dashboard.py:104` | `def _collect_hive_status(self)` |
-| `_collect_live_graph` | method | `modules/unified_dashboard.py:133` | `def _collect_live_graph(self)` |
-| `_collect_policy_status` | method | `modules/unified_dashboard.py:114` | `def _collect_policy_status(self)` |
-| `_collect_world_model` | method | `modules/unified_dashboard.py:95` | `def _collect_world_model(self)` |
-| `_get_dashboard` | method | `modules/unified_dashboard.py:49` | `def _get_dashboard(self)` |
-| `_get_graph` | method | `modules/unified_dashboard.py:65` | `def _get_graph(self)` |
-| `build_unified_snapshot` | method | `modules/unified_dashboard.py:76` | `def build_unified_snapshot(self)` |
-| `export_json` | method | `modules/unified_dashboard.py:254` | `def export_json(self)` |
-| `get_unified_dashboard` | method | `modules/unified_dashboard.py:259` | `def get_unified_dashboard(sessions_dir)` |
-| `render_unified` | method | `modules/unified_dashboard.py:173` | `def render_unified(self)` |
-| `GatekeeperStatus` | function | `modules/venator.py:651` | `def GatekeeperStatus(output_file)` |
-| `SIPStatus` | function | `modules/venator.py:637` | `def SIPStatus(output_file)` |
-| `amzn_canonical_req` | function | `modules/venator.py:856` | `def amzn_canonical_req(filename_path, headers_list)` |
-| `amzn_sig` | function | `modules/venator.py:846` | `def amzn_sig(secret_access_key, data, aws_region, aws_service)` |
-| `checkSignature` | function | `modules/venator.py:132` | `def checkSignature(file, bundle)` |
-| `datetime_handler` | function | `modules/venator.py:210` | `def datetime_handler(x)` |
-| `getApps` | function | `modules/venator.py:741` | `def getApps(path, output_file, ignoreVFlag)` |
-| `getBashHistory` | function | `modules/venator.py:786` | `def getBashHistory(output_file, users)` |
-| `getChromeDownloads` | function | `modules/venator.py:388` | `def getChromeDownloads(chromeHistoryDbPath, output_file)` |
-| `getChromeExtensions` | function | `modules/venator.py:357` | `def getChromeExtensions(path, output_file)` |
-| `getConnections` | function | `modules/venator.py:609` | `def getConnections(output_file)` |
-| `getCronJobs` | function | `modules/venator.py:494` | `def getCronJobs(users, output_file)` |
-| `getEmond` | function | `modules/venator.py:513` | `def getEmond(output_file)` |
-| `getEnv` | function | `modules/venator.py:577` | `def getEnv(output_file)` |
-| `getEventTaps` | function | `modules/venator.py:763` | `def getEventTaps(output_file)` |
-| `getFirefoxExtensions` | function | `modules/venator.py:442` | `def getFirefoxExtensions(path, output_file)` |
-| `getHash` | function | `modules/venator.py:112` | `def getHash(file, ignoreVFlag)` |
-| `getInstallHistory` | function | `modules/venator.py:477` | `def getInstallHistory(output_file)` |
-| `getKext` | function | `modules/venator.py:530` | `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)` |
-| `getLaunchAgents` | function | `modules/venator.py:287` | `def getLaunchAgents(path, output_file, ignoreVFlag)` |
-| `getLaunchDaemons` | function | `modules/venator.py:302` | `def getLaunchDaemons(path, output_file, ignoreVFlag)` |
-| `getLoginItems` | function | `modules/venator.py:706` | `def getLoginItems(path, output_file, ignoreVFlag)` |
-| `getPeriodicScripts` | function | `modules/venator.py:592` | `def getPeriodicScripts(output_file)` |
-| `getSafariExtensions` | function | `modules/venator.py:338` | `def getSafariExtensions(path, output_file)` |
-| `getShellStartupScripts` | function | `modules/venator.py:804` | `def getShellStartupScripts(users, output_file)` |
-| `getSystemInfo` | function | `modules/venator.py:66` | `def getSystemInfo(output_file)` |
-| `getUUID` | function | `modules/venator.py:38` | `def getUUID()` |
-| `getUsers` | function | `modules/venator.py:317` | `def getUsers(output_file)` |
-| `getVTResult` | function | `modules/venator.py:83` | `def getVTResult(fileHash)` |
-| `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
-| `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
-| `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
-| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
-| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
-| `LazyOwnShellWrapper` | class | `modules/vuln_agent.py:41` | `class LazyOwnShellWrapper` |
-| `VulnBotCLI` | class | `modules/vuln_agent.py:125` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vuln_agent.py:44` | `def __init__(self, script_path)` |
-| `__init__` | method | `modules/vuln_agent.py:126` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_model` | method | `modules/vuln_agent.py:141` | `def _load_model(self)` |
-| `_load_shell_with_deps` | method | `modules/vuln_agent.py:50` | `def _load_shell_with_deps(self)` |
-| `_register_fallback_tools` | method | `modules/vuln_agent.py:212` | `def _register_fallback_tools(self)` |
-| `_register_pentesting_tools` | method | `modules/vuln_agent.py:184` | `def _register_pentesting_tools(self)` |
-| `_setup_agent` | method | `modules/vuln_agent.py:160` | `def _setup_agent(self)` |
-| `_stream_response` | method | `modules/vuln_agent.py:285` | `def _stream_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vuln_agent.py:244` | `def add_to_knowledge_base(self, prompt, response)` |
-| `configure_logging` | function | `modules/vuln_agent.py:36` | `def configure_logging(debug)` |
-| `execute_command` | method | `modules/vuln_agent.py:87` | `def execute_command(self, command)` |
-| `generate` | method | `modules/vuln_agent.py:286` | `def generate()` |
-| `get_available_commands` | method | `modules/vuln_agent.py:113` | `def get_available_commands(self)` |
-| `get_relevant_knowledge` | method | `modules/vuln_agent.py:239` | `def get_relevant_knowledge(self, prompt)` |
-| `interactive_mode` | method | `modules/vuln_agent.py:304` | `def interactive_mode(bot)` |
-| `load_knowledge_base` | method | `modules/vuln_agent.py:229` | `def load_knowledge_base(self)` |
-| `main` | method | `modules/vuln_agent.py:325` | `def main()` |
-| `parse_args` | method | `modules/vuln_agent.py:292` | `def parse_args()` |
-| `process_with_context` | method | `modules/vuln_agent.py:250` | `def process_with_context(self, file_path, event)` |
-| `read_file` | method | `modules/vuln_agent.py:213` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vuln_agent.py:219` | `def read_file_content(self, file_path)` |
-| `run_cli_command` | method | `modules/vuln_agent.py:193` | `def run_cli_command(command)` |
-| `save_knowledge_base` | method | `modules/vuln_agent.py:235` | `def save_knowledge_base(self, kb)` |
-| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
-| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
-| `VulnBotCLI` | class | `modules/vulnbot.py:29` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | method | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
-| `generate` | method | `modules/vulnbot.py:139` | `def generate()` |
-| `generate` | method | `modules/vulnbot.py:207` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | method | `modules/vulnbot.py:86` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
-| `read_file` | method | `modules/vulnbot.py:90` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
-| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
-| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
-| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
-| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
-| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
-| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
-| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
-| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
-| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
-| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
-| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
-| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
-| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
-| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
-| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
-| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
-| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
-| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
-| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
-| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
-| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
-| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
-| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
-| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
-| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:143` | `` |
-| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:224` | `` |
-| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:212` | `` |
-| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
-| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
-| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
-| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:201` | `` |
-| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
-| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
-| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:30` | `` |
-| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
-| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
-| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
-| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
-| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
-| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
-| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
-| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
-| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
-| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:382` | `void ensure_pid_file_exists()` |
-| `freePIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:162` | `void freePIDArray(PIDArray *array)` |
-| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:166` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
-| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:475` | `BOOL giveGift()` |
-| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:526` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `initPIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:146` | `void initPIDArray(PIDArray *array)` |
-| `main` | function | `modules/win_rootkit/win_ring3_rootkit.c:865` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:755` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:94` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:32` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:33` | `#define HIDDEN_FILE` |
-| `HIDE_USER` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:34` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:35` | `#define MAX_HIDE_PIDS` |
-| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:42` | `char* get_username_from_pid(DWORD pid)` |
-| `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
-| `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
-| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
-| `CredentialEntry` | class | `modules/world_model.py:188` | `class CredentialEntry` |
-| `DomainEntry` | class | `modules/world_model.py:214` | `class DomainEntry` |
-| `EmailEntry` | class | `modules/world_model.py:206` | `class EmailEntry` |
-| `EngagementPhase` | class | `modules/world_model.py:167` | `class EngagementPhase(StrEnum)` |
-| `HostEntry` | class | `modules/world_model.py:364` | `class HostEntry` |
-| `HostState` | class | `modules/world_model.py:151` | `class HostState(StrEnum)` |
-| `NetworkGraph` | class | `modules/world_model.py:244` | `class NetworkGraph` |
-| `NetworkRelation` | class | `modules/world_model.py:222` | `class NetworkRelation` |
-| `ServiceInfo` | class | `modules/world_model.py:179` | `class ServiceInfo` |
-| `VulnerabilityEntry` | class | `modules/world_model.py:197` | `class VulnerabilityEntry` |
-| `WorldModel` | class | `modules/world_model.py:541` | `class WorldModel` |
-| `_PhaseDeriver` | class | `modules/world_model.py:416` | `class _PhaseDeriver` |
-| `__init__` | method | `modules/world_model.py:267` | `def __init__(self)` |
-| `__init__` | method | `modules/world_model.py:549` | `def __init__(self, path)` |
-| `_derive_crypto_key` | function | `modules/world_model.py:58` | `def _derive_crypto_key(password, salt)` |
-| `_load` | method | `modules/world_model.py:1048` | `def _load(self)` |
-| `_master_password` | function | `modules/world_model.py:67` | `def _master_password()` |
-| `_save` | method | `modules/world_model.py:1029` | `def _save(self)` |
-| `add_credential` | method | `modules/world_model.py:653` | `def add_credential(self, value, host, service)` |
-| `add_domain` | method | `modules/world_model.py:748` | `def add_domain(self, domain, host, context)` |
-| `add_email` | method | `modules/world_model.py:742` | `def add_email(self, address, host, context)` |
-| `add_host` | method | `modules/world_model.py:565` | `def add_host(self, ip)` |
-| `add_note` | method | `modules/world_model.py:609` | `def add_note(self, ip, note)` |
-| `add_relation` | method | `modules/world_model.py:274` | `def add_relation(self, relation)` |
-| `add_relation` | method | `modules/world_model.py:927` | `def add_relation(self, source, target, relation, weight)` |
-| `add_service` | method | `modules/world_model.py:373` | `def add_service(self, svc)` |
-| `add_service` | method | `modules/world_model.py:592` | `def add_service(self, ip, port, name, version, protocol)` |
-| `add_vulnerability` | method | `modules/world_model.py:736` | `def add_vulnerability(self, description, host, cve, severity)` |
-| `advance` | method | `modules/world_model.py:377` | `def advance(self, new_state)` |
-| `advance_host` | method | `modules/world_model.py:583` | `def advance_host(self, ip, new_state)` |
-| `can_advance_to` | method | `modules/world_model.py:163` | `def can_advance_to(self, next_state)` |
-| `consume_policy_facts` | method | `modules/world_model.py:835` | `def consume_policy_facts(self, facts_path)` |
-| `degree_centrality` | method | `modules/world_model.py:294` | `def degree_centrality(self)` |
-| `derive` | method | `modules/world_model.py:430` | `def derive(self, hosts)` |
-| `from_dict` | method | `modules/world_model.py:348` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/world_model.py:397` | `def from_dict(cls, d)` |
-| `get_host` | method | `modules/world_model.py:630` | `def get_host(self, ip)` |
-| `get_hosts_summary` | method | `modules/world_model.py:642` | `def get_hosts_summary(self)` |
-| `get_phase` | method | `modules/world_model.py:963` | `def get_phase(self)` |
-| `get_suggested_tools` | method | `modules/world_model.py:967` | `def get_suggested_tools(self)` |
-| `get_world_model` | method | `modules/world_model.py:1126` | `def get_world_model(path)` |
-| `graph_snapshot` | method | `modules/world_model.py:956` | `def graph_snapshot(self)` |
-| `in_degree` | method | `modules/world_model.py:286` | `def in_degree(self, node)` |
-| `link_credential_to_failure` | method | `modules/world_model.py:706` | `def link_credential_to_failure(self, value, host)` |
-| `link_credential_to_success` | method | `modules/world_model.py:685` | `def link_credential_to_success(self, value, host)` |
-| `neighbors` | method | `modules/world_model.py:282` | `def neighbors(self, node)` |
-| `out_degree` | method | `modules/world_model.py:290` | `def out_degree(self, node)` |
-| `pivot_candidates` | method | `modules/world_model.py:309` | `def pivot_candidates(self, top_k)` |
-| `pivot_candidates` | method | `modules/world_model.py:948` | `def pivot_candidates(self, top_k)` |
-| `rank` | method | `modules/world_model.py:160` | `def rank(self)` |
-| `read_state_dict` | function | `modules/world_model.py:72` | `def read_state_dict(path)` |
-| `reload` | method | `modules/world_model.py:1078` | `def reload(self)` |
-| `reset` | method | `modules/world_model.py:1094` | `def reset(self)` |
-| `reset_host` | method | `modules/world_model.py:573` | `def reset_host(self, ip)` |
-| `set_os_hint` | method | `modules/world_model.py:616` | `def set_os_hint(self, ip, os_hint)` |
-| `snapshot` | method | `modules/world_model.py:1105` | `def snapshot(self)` |
-| `to_context_string` | method | `modules/world_model.py:970` | `def to_context_string(self)` |
-| `to_dict` | method | `modules/world_model.py:331` | `def to_dict(self)` |
-| `to_dict` | method | `modules/world_model.py:385` | `def to_dict(self)` |
-| `update_from_findings` | method | `modules/world_model.py:762` | `def update_from_findings(self, findings)` |
-| `write_state_dict` | function | `modules/world_model.py:118` | `def write_state_dict(path, data)` |
-| `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
-| `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
-| `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
-| `create_yaml_addon` | method | `modules/yaml_generator.py:109` | `def create_yaml_addon(self, user_request, output_dir)` |
-| `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
-| `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
-| `load_payload` | method | `modules/yaml_generator.py:25` | `def load_payload(self)` |
-| `main` | method | `modules/yaml_generator.py:141` | `def main()` |
-| `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
-| `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
-| `_format_match` | method | `modules/yara_scanner.py:162` | `def _format_match(self, match)` |
-| `_load_external_vars` | method | `modules/yara_scanner.py:45` | `def _load_external_vars(self)` |
-| `_scan_with_timeout` | method | `modules/yara_scanner.py:129` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
-| `_sha256` | method | `modules/yara_scanner.py:250` | `def _sha256(filepath)` |
-| `add_rule` | method | `modules/yara_scanner.py:258` | `def add_rule(self, name, content)` |
-| `compile_all` | method | `modules/yara_scanner.py:54` | `def compile_all(self)` |
-| `create_default_rules` | method | `modules/yara_scanner.py:371` | `def create_default_rules()` |
-| `download_community_rules` | method | `modules/yara_scanner.py:300` | `def download_community_rules(self)` |
-| `ensure_directory` | method | `modules/yara_scanner.py:41` | `def ensure_directory(self)` |
-| `ioc_scan` | method | `modules/yara_scanner.py:328` | `def ioc_scan(self, target_path, iocs)` |
-| `list_rules` | method | `modules/yara_scanner.py:277` | `def list_rules(self)` |
-| `scan_directory` | method | `modules/yara_scanner.py:187` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
-| `scan_file` | method | `modules/yara_scanner.py:98` | `def scan_file(self, filepath, timeout)` |
-| `target` | method | `modules/yara_scanner.py:137` | `def target()` |
-| `all` | function | `plugins/generate_c_reverse_shell.lua:108` | `` |
-| `generate_c_reverse_shell` | function | `plugins/generate_c_reverse_shell.lua:1` | `` |
-| `generate_cleanup_commands` | function | `plugins/generate_cleanup_commands.lua:3` | `` |
-| `generate_html_payload` | function | `plugins/generate_html_payload.lua:1` | `` |
-| `generate_lateral_command` | function | `plugins/generate_lateral_command.lua:4` | `` |
-| `all` | function | `plugins/generate_linux_asm_reverse_shell.lua:121` | `` |
-| `generate_linux_asm_reverse_shell` | function | `plugins/generate_linux_asm_reverse_shell.lua:1` | `` |
-| `generate_linux_raw_shellcode` | function | `plugins/generate_linux_raw_shellcode.lua:1` | `` |
-| `Xor` | function | `plugins/generate_lolbird.lua:64` | `` |
-| `generate_lolbird_ps1` | function | `plugins/generate_lolbird.lua:44` | `` |
-| `read_file` | function | `plugins/generate_lolbird.lua:12` | `` |
-| `write_file` | function | `plugins/generate_lolbird.lua:4` | `` |
-| `xor_hex_string` | function | `plugins/generate_lolbird.lua:21` | `` |
-| `xor_string` | function | `plugins/generate_lolbird.lua:31` | `` |
-| `execute_command_to_file` | function | `plugins/generate_msfvenom_loader.lua:2` | `` |
-| `generate_loader` | function | `plugins/generate_msfvenom_loader.lua:49` | `` |
-| `generate_msfvenom_loader` | function | `plugins/generate_msfvenom_loader.lua:104` | `` |
-| `hex_to_nasm` | function | `plugins/generate_msfvenom_loader.lua:18` | `` |
-| `read_file` | function | `plugins/generate_msfvenom_loader.lua:7` | `` |
-| `generate_msfvenom_loader_windows` | function | `plugins/generate_msfvenom_loader_windows.lua:2` | `` |
-| `generate_reverse_shell` | function | `plugins/generate_reverse_shell.lua:1` | `` |
-| `generate_stub_ps1` | function | `plugins/generate_stub.lua:43` | `` |
-| `read_file` | function | `plugins/generate_stub.lua:12` | `` |
-| `write_file` | function | `plugins/generate_stub.lua:4` | `` |
-| `xor_data` | function | `plugins/generate_stub.lua:21` | `` |
-| `xor_string` | function | `plugins/generate_stub.lua:30` | `` |
-| `load_plugin` | function | `plugins/init_plugins.lua:6` | `` |
-| `kerberos_harvest` | function | `plugins/kerberos_harvest.lua:1` | `` |
-| `read_file` | function | `plugins/lolbas_certutil_download_exec.lua:13` | `` |
-| `write_file` | function | `plugins/lolbas_certutil_download_exec.lua:5` | `` |
-| `xor_data` | function | `plugins/lolbas_certutil_download_exec.lua:21` | `` |
-| `run_msfvenom` | function | `plugins/lolbas_certutil_exe.lua:2` | `` |
-| `write_file` | function | `plugins/lolbas_wmic_xsl_execution.lua:4` | `` |
-| `parse_nmap_with_xmlstarlet` | function | `plugins/parse_nmap_with_xmlstarlet.lua:1` | `` |
-| `run_nuclei_on_nmap_files` | function | `plugins/run_nuclei_on_nmap_files.lua:1` | `` |
-| `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
-| `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
-| `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
-| `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
-| `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
-| `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
-| `hex_list_to_byte_values` | function | `plugins/validate_shellcode.lua:65` | `` |
-| `hex_to_bytes` | function | `plugins/validate_shellcode.lua:2` | `` |
-| `validate_shellcode` | function | `plugins/validate_shellcode.lua:81` | `` |
-| `visualize_network` | function | `plugins/visualize_network.lua:1` | `` |
-| `DashboardPanel` | class | `poc_tui/app.py:137` | `class DashboardPanel(Static)` |
-| `LazyOwnTUI` | class | `poc_tui/app.py:297` | `class LazyOwnTUI(App)` |
-| `OutputPanel` | class | `poc_tui/app.py:240` | `class OutputPanel(VerticalScroll)` |
-| `PluginBrowser` | class | `poc_tui/app.py:195` | `class PluginBrowser(Static)` |
-| `ShellBackend` | class | `poc_tui/app.py:44` | `class ShellBackend` |
-| `__init__` | method | `poc_tui/app.py:47` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:140` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:198` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:248` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:394` | `def __init__(self, base_dir)` |
-| `_auto_refresh_dashboard` | method | `poc_tui/app.py:464` | `def _auto_refresh_dashboard(self)` |
-| `_drain_queue` | method | `poc_tui/app.py:495` | `def _drain_queue(self)` |
-| `_guess_category` | method | `poc_tui/app.py:223` | `def _guess_category(name, help_text)` |
-| `_init_backend` | method | `poc_tui/app.py:429` | `def _init_backend()` |
-| `_log` | method | `poc_tui/app.py:255` | `def _log(self)` |
-| `_on_backend_ready` | method | `poc_tui/app.py:444` | `def _on_backend_ready(self)` |
-| `_show_result` | method | `poc_tui/app.py:525` | `def _show_result(self, result)` |
-| `_tab_complete` | method | `poc_tui/app.py:605` | `def _tab_complete(self, inp)` |
-| `_work` | method | `poc_tui/app.py:510` | `def _work()` |
-| `action_clear_output` | method | `poc_tui/app.py:539` | `def action_clear_output(self)` |
-| `action_quit` | method | `poc_tui/app.py:561` | `def action_quit(self)` |
-| `action_refresh_dashboard` | method | `poc_tui/app.py:555` | `def action_refresh_dashboard(self)` |
-| `action_tab_complete` | method | `poc_tui/app.py:544` | `def action_tab_complete(self)` |
-| `action_toggle_sidebar` | method | `poc_tui/app.py:549` | `def action_toggle_sidebar(self)` |
-| `append_command` | method | `poc_tui/app.py:268` | `def append_command(self, cmd)` |
-| `append_error` | method | `poc_tui/app.py:283` | `def append_error(self, text)` |
-| `append_result` | method | `poc_tui/app.py:273` | `def append_result(self, text, success)` |
-| `append_system` | method | `poc_tui/app.py:287` | `def append_system(self, text)` |
-| `compose` | method | `poc_tui/app.py:144` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:201` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:252` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:405` | `def compose(self)` |
-| `execute_command` | method | `poc_tui/app.py:470` | `def execute_command(self, cmd_str)` |
-| `get_aliases` | method | `poc_tui/app.py:119` | `def get_aliases(self)` |
-| `get_commands` | method | `poc_tui/app.py:106` | `def get_commands(self)` |
-| `import_shell_class` | method | `poc_tui/app.py:53` | `def import_shell_class(self)` |
-| `main` | method | `poc_tui/app.py:629` | `def main()` |
-| `on_command_submitted` | method | `poc_tui/app.py:577` | `def on_command_submitted(self, event)` |
-| `on_key` | method | `poc_tui/app.py:586` | `def on_key(self, event)` |
-| `on_mount` | method | `poc_tui/app.py:418` | `def on_mount(self)` |
-| `refresh_data` | method | `poc_tui/app.py:165` | `def refresh_data(self, backend, cmd_count)` |
-| `run` | method | `poc_tui/app.py:83` | `def run(self, cmd)` |
-| `start` | method | `poc_tui/app.py:71` | `def start(self)` |
-| `stop` | method | `poc_tui/app.py:124` | `def stop(self)` |
-| `update_commands` | method | `poc_tui/app.py:207` | `def update_commands(self, commands)` |
-| `write_markup` | method | `poc_tui/app.py:263` | `def write_markup(self, text)` |
-| `write_renderable` | method | `poc_tui/app.py:258` | `def write_renderable(self, renderable)` |
-| `PayloadConfig` | class | `poc_tui/config.py:12` | `class PayloadConfig` |
-| `__contains__` | method | `poc_tui/config.py:53` | `def __contains__(self, key)` |
-| `__getitem__` | method | `poc_tui/config.py:47` | `def __getitem__(self, key)` |
-| `__post_init__` | method | `poc_tui/config.py:18` | `def __post_init__(self)` |
-| `__setitem__` | method | `poc_tui/config.py:50` | `def __setitem__(self, key, value)` |
-| `get` | method | `poc_tui/config.py:35` | `def get(self, key, default)` |
-| `items` | method | `poc_tui/config.py:44` | `def items(self)` |
-| `keys` | method | `poc_tui/config.py:41` | `def keys(self)` |
-| `reload` | method | `poc_tui/config.py:21` | `def reload(self)` |
-| `save` | method | `poc_tui/config.py:28` | `def save(self)` |
-| `set` | method | `poc_tui/config.py:38` | `def set(self, key, value)` |
-| `PluginLoader` | class | `poc_tui/plugin_loader.py:84` | `class PluginLoader` |
-| `PluginSpec` | class | `poc_tui/plugin_loader.py:29` | `class PluginSpec` |
-| `_LuaAppProxy` | class | `poc_tui/plugin_loader.py:291` | `class _LuaAppProxy` |
-| `__init__` | method | `poc_tui/plugin_loader.py:91` | `def __init__(self, config, base_dir)` |
-| `__init__` | method | `poc_tui/plugin_loader.py:294` | `def __init__(self, config)` |
-| `_list_files` | method | `poc_tui/plugin_loader.py:131` | `def _list_files(self, directory)` |
-| `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:223` | `def _load_lua_plugins(self)` |
-| `_load_tool_files` | method | `poc_tui/plugin_loader.py:248` | `def _load_tool_files(self)` |
-| `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:148` | `def _load_yaml_addons(self)` |
-| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
-| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
-| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
-| `_replace_placeholders` | method | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
-| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
-| `_subst` | method | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
-| `_validate_clone_url` | method | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
-| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
-| `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
-| `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
-| `wrapper` | method | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
-| `wrapper` | method | `poc_tui/plugin_loader.py:172` | `def wrapper(arg)` |
-| `wrapper` | method | `poc_tui/plugin_loader.py:269` | `def wrapper(arg)` |
+| `reverse_shell_exit` | function | `modules/reverse-shell.c:16` | `static void __exit reverse_shell_exit(void)` |
+| `reverse_shell_init` | function | `modules/reverse-shell.c:12` | `static int __init reverse_shell_init(void)` |
+| `DllMain` | function | `modules/revshell.c:10` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `xlAutoOpen` | function | `modules/revshell.c:5` | `void __cdecl xlAutoOpen()` |
+| `RichDashboard` | class | `modules/rich_tui.py:66` | `class RichDashboard` |
+| `__init__` | method | `modules/rich_tui.py:74` | `def __init__(self, dashboard_engine, refresh_interval, live)` |
+| `_keyboard_listener` | method | `modules/rich_tui.py:146` | `def _keyboard_listener(self)` |
+| `_render` | method | `modules/rich_tui.py:137` | `def _render(self)` |
+| `_render_beacons` | method | `modules/rich_tui.py:372` | `def _render_beacons(self, snapshot)` |
+| `_render_header` | method | `modules/rich_tui.py:193` | `def _render_header(self, snapshot)` |
+| `_render_layout` | method | `modules/rich_tui.py:168` | `def _render_layout(self, snapshot)` |
+| `_render_pivots` | method | `modules/rich_tui.py:337` | `def _render_pivots(self, snapshot)` |
+| `_render_pivots_beacons` | method | `modules/rich_tui.py:321` | `def _render_pivots_beacons(self, snapshot)` |
+| `_render_recommendations` | method | `modules/rich_tui.py:261` | `def _render_recommendations(self, snapshot)` |
+| `_render_shortcuts` | method | `modules/rich_tui.py:413` | `def _render_shortcuts(self)` |
+| `_render_topology` | method | `modules/rich_tui.py:221` | `def _render_topology(self, snapshot)` |
+| `run` | method | `modules/rich_tui.py:96` | `def run(self)` |
+| `stop` | method | `modules/rich_tui.py:132` | `def stop(self)` |
+| `BucketedStateEncoder` | class | `modules/rl_trainer.py:114` | `class BucketedStateEncoder(IStateEncoder)` |
+| `EpsilonTracker` | class | `modules/rl_trainer.py:215` | `class EpsilonTracker` |
+| `IStateEncoder` | class | `modules/rl_trainer.py:101` | `class IStateEncoder(ABC)` |
+| `QValueStore` | class | `modules/rl_trainer.py:150` | `class QValueStore` |
+| `RLConfig` | class | `modules/rl_trainer.py:84` | `class RLConfig` |
+| `RLTrainer` | class | `modules/rl_trainer.py:267` | `class RLTrainer` |
+| `__init__` | method | `modules/rl_trainer.py:156` | `def __init__(self, path, optimistic_init)` |
+| `__init__` | method | `modules/rl_trainer.py:218` | `def __init__(self, start, minimum, decay, path)` |
+| `__init__` | method | `modules/rl_trainer.py:284` | `def __init__(self, config, state_encoder, q_store, epsilon_tracker)` |
+| `_load` | method | `modules/rl_trainer.py:200` | `def _load(self)` |
+| `_load` | method | `modules/rl_trainer.py:250` | `def _load(self)` |
+| `_penalize` | method | `modules/rl_trainer.py:407` | `def _penalize(self, reward, detection_prob)` |
+| `_persist` | method | `modules/rl_trainer.py:192` | `def _persist(self)` |
+| `_save` | method | `modules/rl_trainer.py:241` | `def _save(self)` |
+| `argmax` | method | `modules/rl_trainer.py:182` | `def argmax(self, state, candidates)` |
+| `best_expert_for_state` | method | `modules/rl_trainer.py:389` | `def best_expert_for_state(self, state, candidates)` |
+| `encode` | method | `modules/rl_trainer.py:105` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
+| `encode` | method | `modules/rl_trainer.py:131` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
+| `encode_state` | method | `modules/rl_trainer.py:304` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
+| `epsilon` | method | `modules/rl_trainer.py:233` | `def epsilon(self)` |
+| `epsilon` | method | `modules/rl_trainer.py:402` | `def epsilon(self)` |
+| `get` | method | `modules/rl_trainer.py:168` | `def get(self, state, action)` |
+| `get_trainer` | function | `modules/rl_trainer.py:425` | `def get_trainer(config)` |
+| `max_q` | method | `modules/rl_trainer.py:176` | `def max_q(self, state, candidates)` |
+| `q_values_for_state` | method | `modules/rl_trainer.py:393` | `def q_values_for_state(self, state, candidates)` |
+| `save` | method | `modules/rl_trainer.py:188` | `def save(self)` |
+| `save` | method | `modules/rl_trainer.py:397` | `def save(self)` |
+| `select_action` | method | `modules/rl_trainer.py:313` | `def select_action(self, state, candidates, force_exploit)` |
+| `set` | method | `modules/rl_trainer.py:172` | `def set(self, state, action, value)` |
+| `step` | method | `modules/rl_trainer.py:236` | `def step(self)` |
+| `update` | method | `modules/rl_trainer.py:347` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
+| `BUFFER_SIZE` | macro | `modules/rootkit/mr.c:32` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/rootkit/mr.c:43` | `` |
+| `DESIRED_LD_PRELOAD` | macro | `modules/rootkit/mr.c:34` | `#define DESIRED_LD_PRELOAD` |
+| `HIDE_FILE` | macro | `modules/rootkit/mr.c:36` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/rootkit/mr.c:37` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/rootkit/mr.c:33` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/rootkit/mr.c:39` | `#define PASSWORD` |
+| `PATH_MAX` | macro | `modules/rootkit/mr.c:41` | `#define PATH_MAX` |
+| `PID_FILE` | macro | `modules/rootkit/mr.c:35` | `#define PID_FILE` |
+| `PORT` | macro | `modules/rootkit/mr.c:31` | `#define PORT` |
+| `VirtualFile` | struct | `modules/rootkit/mr.c:49` | `` |
+| `check_elevate` | function | `modules/rootkit/mr.c:136` | `int check_elevate()` |
+| `copy_binary` | function | `modules/rootkit/mr.c:215` | `void copy_binary(const char *source, const char *destination)` |
+| `crontab` | function | `modules/rootkit/mr.c:156` | `void crontab(const char *path)` |
+| `ensure_hide_file_exists` | function | `modules/rootkit/mr.c:271` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/rootkit/mr.c:253` | `void ensure_key_file_exists()` |
+| `ensure_ld_preload` | function | `modules/rootkit/mr.c:100` | `void ensure_ld_preload()` |
+| `ensure_pid_file_exists` | function | `modules/rootkit/mr.c:117` | `void ensure_pid_file_exists()` |
+| `generate_random_string` | function | `modules/rootkit/mr.c:168` | `char *generate_random_string()` |
+| `get_ld_preload` | function | `modules/rootkit/mr.c:84` | `char *get_ld_preload()` |
+| `handle_client` | function | `modules/rootkit/mr.c:321` | `void *handle_client(void *client_socket)` |
+| `infect_command` | function | `modules/rootkit/mr.c:289` | `void infect_command()` |
+| `kde_plasma` | function | `modules/rootkit/mr.c:200` | `void kde_plasma(const char *path)` |
+| `load_rootkit` | function | `modules/rootkit/mr.c:303` | `void load_rootkit()` |
+| `main` | function | `modules/rootkit/mr.c:639` | `int main()` |
+| `mon_shell` | function | `modules/rootkit/mr.c:521` | `void *mon_shell(void *data)` |
+| `persist` | function | `modules/rootkit/mr.c:234` | `void persist(const char *path)` |
+| `reboot_system` | function | `modules/rootkit/mr.c:615` | `void reboot_system()` |
+| `set_ld_preload` | function | `modules/rootkit/mr.c:87` | `void set_ld_preload(const char *ld_preload)` |
+| `signal_handler` | function | `modules/rootkit/mr.c:609` | `void signal_handler(int signum)` |
+| `unload_rootkit` | function | `modules/rootkit/mr.c:314` | `void unload_rootkit()` |
+| `write_file` | function | `modules/rootkit/mr.c:145` | `void write_file(const char *path, const char *content, mode_t mode)` |
+| `xdg` | function | `modules/rootkit/mr.c:178` | `void xdg(const char *path, int admin)` |
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:50` | `#define FILE_HIDE_PATH` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:33` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde.c:34` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde.c:35` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde.c:36` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde.c:37` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde.c:38` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde.c:39` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde.c:40` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:46` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:48` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:49` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde.c:283` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde.c:503` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:178` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde.c:557` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde.c:618` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde.c:125` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:548` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:93` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:73` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde.c:459` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde.c:678` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde.c:327` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde.c:371` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:51` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde.c:222` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde.c:145` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde.c:212` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:197` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde.c:415` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde.c:113` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde.c:157` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde2.c:34` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde2.c:35` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde2.c:36` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde2.c:37` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde2.c:38` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:44` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:46` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:47` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde2.c:238` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde2.c:423` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:148` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde2.c:470` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde2.c:527` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde2.c:95` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:461` | `` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:63` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde2.c:386` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde2.c:583` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde2.c:275` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde2.c:312` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:48` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde2.c:182` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde2.c:115` | `int remove(const char *pathname)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:167` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde2.c:349` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde2.c:83` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde2.c:127` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:53` | `#define C2_PORT` |
+| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:52` | `#define C2_SERVER_IP` |
+| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:54` | `#define CQE_TIMEOUT_MS` |
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:49` | `#define FILE_HIDE_PATH` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde3.c:36` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde3.c:37` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde3.c:38` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde3.c:39` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde3.c:40` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:45` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_USER` |
+| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:51` | `#define IO_URING_BUFFER_SIZE` |
+| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:50` | `#define IO_URING_QUEUE_DEPTH` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
+| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
+| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:76` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
+| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
+| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:73` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
+| `fopen` | function | `modules/rootkit/mrhyde3.c:407` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde3.c:535` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:297` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde3.c:569` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde3.c:605` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
+| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:176` | `static int init_root_ring(void)` |
+| `io_uring` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
+| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
+| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:57` | `` |
+| `kill` | function | `modules/rootkit/mrhyde3.c:373` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:560` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:282` | `void load_hidden_files(void)` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:268` | `void load_hidden_pids(void)` |
+| `lstat` | function | `modules/rootkit/mrhyde3.c:511` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `open` | function | `modules/rootkit/mrhyde3.c:430` | `int open(const char *pathname, int flags, ...)` |
+| `openat` | function | `modules/rootkit/mrhyde3.c:458` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:312` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde3.c:336` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde3.c:383` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:329` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:320` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde3.c:487` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:253` | `static char *traditional_read_file(const char *path)` |
+| `unlink` | function | `modules/rootkit/mrhyde3.c:367` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde3.c:389` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:163` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
+| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:130` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
+| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
+| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
+| `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
+| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
+| `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
+| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
+| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:26` | `#define HIDDEN_PROCESS_NAME` |
+| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:28` | `#define LISTENER_IP` |
+| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:29` | `#define LISTENER_PORT` |
+| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:31` | `#define SPECIAL_STRING` |
+| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:34` | `#define SPECIAL_STRING_PORT` |
+| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:181` | `static void disable_module_signature_verification(void)` |
+| `hook_syscalls` | function | `modules/rootkit/rootkit.c:195` | `static int __init hook_syscalls(void)` |
+| `hooked_getdents` | function | `modules/rootkit/rootkit.c:75` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:101` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_read` | function | `modules/rootkit/rootkit.c:127` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `regs_override_return` | function | `modules/rootkit/rootkit.c:43` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
+| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:208` | `static void __exit unhook_syscalls(void)` |
+| `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
+| `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
+| `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
+| `__init__` | method | `modules/saas_attacks.py:163` | `def __init__(self, config)` |
+| `detect_external_sharing` | method | `modules/saas_attacks.py:327` | `def detect_external_sharing(self)` |
+| `enumerate_all` | method | `modules/saas_attacks.py:166` | `def enumerate_all(self)` |
+| `google_workspace_commands` | method | `modules/saas_attacks.py:100` | `def google_workspace_commands()` |
+| `google_workspace_domain_wide_delegation` | method | `modules/saas_attacks.py:228` | `def google_workspace_domain_wide_delegation(self)` |
+| `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
+| `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
+| `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
+| `salesforce_report_mining` | method | `modules/saas_attacks.py:257` | `def salesforce_report_mining(self)` |
+| `servicenow_commands` | method | `modules/saas_attacks.py:135` | `def servicenow_commands()` |
+| `slack_data_mining` | method | `modules/saas_attacks.py:286` | `def slack_data_mining(self)` |
+| `summary` | method | `modules/saas_attacks.py:352` | `def summary(self)` |
+| `BindAddressResolver` | class | `modules/security_sanitizers.py:256` | `class BindAddressResolver` |
+| `CommandRedactor` | class | `modules/security_sanitizers.py:318` | `class CommandRedactor` |
+| `HeaderValueSanitizer` | class | `modules/security_sanitizers.py:101` | `class HeaderValueSanitizer` |
+| `OutputSanitizer` | class | `modules/security_sanitizers.py:406` | `class OutputSanitizer` |
+| `SecurityConfig` | class | `modules/security_sanitizers.py:37` | `class SecurityConfig` |
+| `SessionPathResolver` | class | `modules/security_sanitizers.py:162` | `class SessionPathResolver` |
+| `__init__` | method | `modules/security_sanitizers.py:115` | `def __init__(self, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:174` | `def __init__(self, base_dir, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:269` | `def __init__(self, config, preferred_addresses)` |
+| `__init__` | method | `modules/security_sanitizers.py:333` | `def __init__(self, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:418` | `def __init__(self, config)` |
+| `_display_password` | method | `modules/security_sanitizers.py:353` | `def _display_password(self, password)` |
+| `_display_username` | method | `modules/security_sanitizers.py:345` | `def _display_username(self, username)` |
+| `_is_well_formed` | method | `modules/security_sanitizers.py:285` | `def _is_well_formed(self, candidate)` |
+| `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
+| `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
+| `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
+| `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
+| `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
+| `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
+| `render` | method | `modules/security_sanitizers.py:359` | `def render(self, template, substitutions, username, password)` |
+| `resolve` | method | `modules/security_sanitizers.py:196` | `def resolve(self, untrusted_name)` |
+| `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
+| `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
+| `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
+| `ReleaseArtifact` | class | `modules/selfupdate.py:24` | `class ReleaseArtifact` |
+| `Updater` | class | `modules/selfupdate.py:38` | `class Updater` |
+| `__init__` | method | `modules/selfupdate.py:47` | `def __init__(self, live_path)` |
+| `_git` | function | `modules/selfupdate.py:90` | `def _git(args, runner, cwd, timeout)` |
+| `_run` | function | `modules/selfupdate.py:85` | `def _run(argv, cwd, timeout)` |
+| `apply` | function | `modules/selfupdate.py:140` | `def apply(branch, confirm, runner)` |
+| `check` | function | `modules/selfupdate.py:108` | `def check(branch, runner)` |
+| `current_branch` | function | `modules/selfupdate.py:96` | `def current_branch(runner)` |
+| `dirty` | function | `modules/selfupdate.py:102` | `def dirty(runner)` |
+| `rollback` | method | `modules/selfupdate.py:77` | `def rollback(self)` |
+| `stage` | method | `modules/selfupdate.py:57` | `def stage(self, artifact, directory)` |
+| `verify` | method | `modules/selfupdate.py:52` | `def verify(self, artifact)` |
+| `_compose_down` | function | `modules/session_cleanup.py:66` | `def _compose_down(compose_file, label)` |
+| `_run_quiet` | function | `modules/session_cleanup.py:49` | `def _run_quiet(argv, timeout)` |
+| `cleanup_ephemeral_infra` | function | `modules/session_cleanup.py:120` | `def cleanup_ephemeral_infra()` |
+| `find_cloudflared_pids` | function | `modules/session_cleanup.py:28` | `def find_cloudflared_pids(ps_output)` |
+| `stop_cloudflared_processes` | function | `modules/session_cleanup.py:94` | `def stop_cloudflared_processes()` |
+| `SessionRAG` | class | `modules/session_rag.py:188` | `class SessionRAG` |
+| `_KeywordFallback` | class | `modules/session_rag.py:103` | `class _KeywordFallback` |
+| `_RagState` | class | `modules/session_rag.py:168` | `class _RagState` |
+| `__init__` | method | `modules/session_rag.py:111` | `def __init__(self)` |
+| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
+| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
+| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
+| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
+| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
+| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
+| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
+| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
+| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
+| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
+| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
+| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
+| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
+| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
+| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
+| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
+| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
+| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
+| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
+| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
+| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
+| `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
+| `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
+| `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
+| `ImplantCSVReader` | class | `modules/session_reader.py:137` | `class ImplantCSVReader(AbstractReader)` |
+| `ImplantRecord` | class | `modules/session_reader.py:39` | `class ImplantRecord` |
+| `SessionAggregator` | class | `modules/session_reader.py:313` | `class SessionAggregator` |
+| `SessionSummary` | class | `modules/session_reader.py:85` | `class SessionSummary` |
+| `TaskReader` | class | `modules/session_reader.py:232` | `class TaskReader(AbstractReader)` |
+| `TaskWriter` | class | `modules/session_reader.py:257` | `class TaskWriter` |
+| `__init__` | method | `modules/session_reader.py:260` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/session_reader.py:319` | `def __init__(self, implant_reader, output_reader, host_reader, task_reader)` |
+| `active_client_ids` | method | `modules/session_reader.py:94` | `def active_client_ids(self)` |
+| `aggregate` | method | `modules/session_reader.py:331` | `def aggregate(self, sessions_dir)` |
+| `append` | method | `modules/session_reader.py:263` | `def append(self, title, description, operator, status)` |
+| `get_aggregator` | function | `modules/session_reader.py:347` | `def get_aggregator()` |
+| `ip_list` | method | `modules/session_reader.py:69` | `def ip_list(self)` |
+| `is_privileged` | method | `modules/session_reader.py:55` | `def is_privileged(self)` |
+| `latest_for` | method | `modules/session_reader.py:114` | `def latest_for(self, client_id)` |
+| `platform` | method | `modules/session_reader.py:60` | `def platform(self)` |
+| `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
+| `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
+| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
+| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
+| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
+| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
+| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
+| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
+| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
+| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
+| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
+| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
+| `load` | function | `modules/session_state.py:251` | `def load()` |
+| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
+| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
+| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
+| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
+| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
+| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
+| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
+| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
+| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
+| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
+| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
+| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
+| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
+| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
+| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
+| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
+| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
+| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
+| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
+| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
+| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
+| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
+| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
+| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
+| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
+| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
+| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
+| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
+| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
+| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
+| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
+| `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
+| `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
+| `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
+| `SocksValidator` | class | `modules/socks_proxy.py:244` | `class SocksValidator` |
+| `__init__` | method | `modules/socks_proxy.py:381` | `def __init__(self, config)` |
+| `_check_access_control` | method | `modules/socks_proxy.py:340` | `def _check_access_control(host, port, config)` |
+| `_find_oldest_session` | method | `modules/socks_proxy.py:515` | `def _find_oldest_session(self)` |
+| `add_bytes` | method | `modules/socks_proxy.py:486` | `def add_bytes(self, session_id, sent, received)` |
+| `build_spec` | method | `modules/socks_proxy.py:413` | `def build_spec(self)` |
+| `cleanup_expired` | method | `modules/socks_proxy.py:497` | `def cleanup_expired(self)` |
+| `config` | method | `modules/socks_proxy.py:387` | `def config(self)` |
+| `create_session` | method | `modules/socks_proxy.py:436` | `def create_session(self, session_id, target_host, target_port, beacon_client_id)` |
+| `elapsed_seconds` | method | `modules/socks_proxy.py:144` | `def elapsed_seconds(self)` |
+| `from_dict` | method | `modules/socks_proxy.py:218` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/socks_proxy.py:522` | `def from_dict(cls, raw)` |
+| `from_payload` | method | `modules/socks_proxy.py:528` | `def from_payload(cls, payload)` |
+| `get_session` | method | `modules/socks_proxy.py:482` | `def get_session(self, session_id)` |
+| `list_sessions` | method | `modules/socks_proxy.py:511` | `def list_sessions(self)` |
+| `message` | method | `modules/socks_proxy.py:103` | `def message(self)` |
+| `remove_session` | method | `modules/socks_proxy.py:475` | `def remove_session(self, session_id)` |
+| `session_count` | method | `modules/socks_proxy.py:397` | `def session_count(self)` |
+| `sessions` | method | `modules/socks_proxy.py:392` | `def sessions(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:150` | `def to_dict(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:199` | `def to_dict(self)` |
+| `validate` | method | `modules/socks_proxy.py:401` | `def validate(self, config)` |
+| `validate_config` | method | `modules/socks_proxy.py:253` | `def validate_config(config)` |
+| `validate_request` | method | `modules/socks_proxy.py:300` | `def validate_request(command, address_type, host, port, config)` |
+| `StageDeliveryConfig` | class | `modules/staged_delivery.py:25` | `class StageDeliveryConfig` |
+| `StagedDeliveryFactory` | class | `modules/staged_delivery.py:51` | `class StagedDeliveryFactory` |
+| `__init__` | method | `modules/staged_delivery.py:83` | `def __init__(self, config, output_dir)` |
+| `_build_primary_volume_descriptor` | method | `modules/staged_delivery.py:336` | `def _build_primary_volume_descriptor(self, files)` |
+| `_gmail_phish` | method | `modules/staged_delivery.py:504` | `def _gmail_phish(self)` |
+| `_obfuscate_powershell` | method | `modules/staged_delivery.py:88` | `def _obfuscate_powershell(self, code)` |
+| `_obfuscate_vbscript` | method | `modules/staged_delivery.py:95` | `def _obfuscate_vbscript(self, code)` |
+| `_office365_phish` | method | `modules/staged_delivery.py:476` | `def _office365_phish(self)` |
+| `_outlook_phish` | method | `modules/staged_delivery.py:532` | `def _outlook_phish(self)` |
+| `_payload_command` | method | `modules/staged_delivery.py:102` | `def _payload_command(self)` |
+| `generate_all` | method | `modules/staged_delivery.py:420` | `def generate_all(self)` |
+| `generate_hta` | method | `modules/staged_delivery.py:134` | `def generate_hta(self)` |
+| `generate_iso` | method | `modules/staged_delivery.py:301` | `def generate_iso(self, inner_files)` |
+| `generate_lnk` | method | `modules/staged_delivery.py:237` | `def generate_lnk(self)` |
+| `generate_phishing_page` | method | `modules/staged_delivery.py:460` | `def generate_phishing_page(self, template)` |
+| `generate_vba_macro` | method | `modules/staged_delivery.py:171` | `def generate_vba_macro(self)` |
+| `generate_vhd` | method | `modules/staged_delivery.py:370` | `def generate_vhd(self, inner_files)` |
+| `generate_xlm_macro` | method | `modules/staged_delivery.py:219` | `def generate_xlm_macro(self)` |
+| `HostSummary` | class | `modules/state_manager.py:65` | `class HostSummary` |
+| `SessionSnapshot` | class | `modules/state_manager.py:76` | `class SessionSnapshot` |
+| `StateManager` | class | `modules/state_manager.py:92` | `class StateManager` |
+| `__init__` | method | `modules/state_manager.py:107` | `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)` |
+| `_cred_list_for_host` | method | `modules/state_manager.py:192` | `def _cred_list_for_host(self, host_id)` |
+| `_ensure_workspace` | method | `modules/state_manager.py:151` | `def _ensure_workspace(self)` |
+| `_find_host` | method | `modules/state_manager.py:184` | `def _find_host(self, address)` |
+| `_load_json` | function | `modules/state_manager.py:43` | `def _load_json(path)` |
+| `_publish` | method | `modules/state_manager.py:169` | `def _publish(self, category, event_type, payload)` |
+| `_save_json` | function | `modules/state_manager.py:53` | `def _save_json(path, data)` |
+| `_sync_world_model_cache` | method | `modules/state_manager.py:556` | `def _sync_world_model_cache(self)` |
+| `_vuln_list_for_host` | method | `modules/state_manager.py:197` | `def _vuln_list_for_host(self, host_id)` |
+| `add_credential` | method | `modules/state_manager.py:328` | `def add_credential(self, host_address, username, password, realm, cred_type, origin)` |
+| `add_host` | method | `modules/state_manager.py:213` | `def add_host(self, address, mac, hostname, os, state)` |
+| `add_loot` | method | `modules/state_manager.py:411` | `def add_loot(self, name, loot_type, path, notes, host_address)` |
+| `add_note` | method | `modules/state_manager.py:450` | `def add_note(self, data, note_type, host_address)` |
+| `add_service` | method | `modules/state_manager.py:287` | `def add_service(self, host_address, port, protocol, name, product, version, state)` |
+| `add_vulnerability` | method | `modules/state_manager.py:373` | `def add_vulnerability(self, host_address, name, severity, description, refs)` |
+| `advance_host` | method | `modules/state_manager.py:249` | `def advance_host(self, address, new_state)` |
+| `close` | method | `modules/state_manager.py:202` | `def close(self)` |
+| `db` | method | `modules/state_manager.py:137` | `def db(self)` |
+| `delete_host` | method | `modules/state_manager.py:275` | `def delete_host(self, address)` |
+| `export_csv` | method | `modules/state_manager.py:757` | `def export_csv(self, table)` |
+| `export_summary` | method | `modules/state_manager.py:761` | `def export_summary(self)` |
+| `get_host` | method | `modules/state_manager.py:236` | `def get_host(self, address)` |
+| `get_state_manager` | function | `modules/state_manager.py:776` | `def get_state_manager()` |
+| `get_world_model_cache` | method | `modules/state_manager.py:606` | `def get_world_model_cache(self)` |
+| `import_nmap_from_facts` | method | `modules/state_manager.py:495` | `def import_nmap_from_facts(self, facts)` |
+| `import_nmap_xml` | method | `modules/state_manager.py:479` | `def import_nmap_xml(self, xml_path)` |
+| `instance` | method | `modules/state_manager.py:129` | `def instance(cls)` |
+| `list_credentials` | method | `modules/state_manager.py:362` | `def list_credentials(self, host_address)` |
+| `list_hosts` | method | `modules/state_manager.py:245` | `def list_hosts(self)` |
+| `list_loot` | method | `modules/state_manager.py:444` | `def list_loot(self)` |
+| `list_notes` | method | `modules/state_manager.py:473` | `def list_notes(self)` |
+| `list_services` | method | `modules/state_manager.py:319` | `def list_services(self, host_address)` |
+| `list_vulnerabilities` | method | `modules/state_manager.py:398` | `def list_vulnerabilities(self, host_address, severity)` |
+| `load_world_model` | method | `modules/state_manager.py:612` | `def load_world_model(self)` |
+| `session_snapshot` | method | `modules/state_manager.py:653` | `def session_snapshot(self)` |
+| `set_payload` | method | `modules/state_manager.py:165` | `def set_payload(self, payload)` |
+| `status` | method | `modules/state_manager.py:550` | `def status(self)` |
+| `workspace_id` | method | `modules/state_manager.py:146` | `def workspace_id(self)` |
+| `get_controlling_tty` | function | `modules/sudo_tiocsti.py:52` | `def get_controlling_tty()` |
+| `get_sudo_pids_on_tty` | function | `modules/sudo_tiocsti.py:102` | `def get_sudo_pids_on_tty(tty_path)` |
+| `inject_byte` | function | `modules/sudo_tiocsti.py:64` | `def inject_byte(fd, byte_char)` |
+| `inject_payload` | function | `modules/sudo_tiocsti.py:79` | `def inject_payload(fd, payload, char_delay)` |
+| `main` | function | `modules/sudo_tiocsti.py:198` | `def main()` |
+| `mode_cache` | function | `modules/sudo_tiocsti.py:185` | `def mode_cache(fd)` |
+| `mode_poll` | function | `modules/sudo_tiocsti.py:149` | `def mode_poll(fd, tty_path)` |
+| `mode_prefill` | function | `modules/sudo_tiocsti.py:175` | `def mode_prefill(fd)` |
+| `sudo_cache_valid` | function | `modules/sudo_tiocsti.py:139` | `def sudo_cache_valid()` |
+| `discovery_targets` | function | `modules/surface_ops.py:31` | `def discovery_targets(sessions_dir)` |
+| `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
+| `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
+| `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
+| `decrypt_cookie` | function | `modules/tel.py:46` | `def decrypt_cookie(encrypted, key, iv)` |
+| `get_machine_id` | function | `modules/tel.py:10` | `def get_machine_id()` |
+| `get_version` | function | `modules/tel.py:24` | `def get_version()` |
+| `main` | function | `modules/tel.py:53` | `def main()` |
+| `to_hex` | function | `modules/tel.py:41` | `def to_hex(byte_list)` |
+| `to_numbers` | function | `modules/tel.py:36` | `def to_numbers(hex_str)` |
+| `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
+| `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

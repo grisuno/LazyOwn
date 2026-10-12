@@ -9,7 +9,6 @@ Covers:
   - poc_tui/plugin_loader.py: URL injection via git clone
   - modules/morse.py: os.system removed
   - modules/c2_builder.py: os.system replaced with Python-native ops
-  - modules/bot.py: os.system replaced with subprocess
   - lazyc2.py: execute_command uses shell=False
   - cli/commands/misc_migrated.py: os.system and shell=True removed
   - cli/commands/recon_migrated.py: os.system replaced with Python
@@ -550,29 +549,6 @@ class TestSafeClearScreen:
 
         source = inspect.getsource(safe_clear_screen)
         assert "subprocess.run" in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 14: bot.py — no os.system
-# ---------------------------------------------------------------------------
-
-
-class TestBotNoOsSystem:
-    """CONTRACT: modules/bot.py must not use os.system."""
-
-    def test_no_os_system(self):
-        """BDD: Given the bot.py module, When I scan its source,
-        Then it must not contain os.system."""
-        bot_path = Path(__file__).parent.parent / "modules" / "bot.py"
-        content = bot_path.read_text(encoding="utf-8")
-        assert "os.system" not in content
-
-    def test_uses_subprocess(self):
-        """BDD: Given the bot.py module, When I scan its source,
-        Then it must use subprocess for formatting."""
-        bot_path = Path(__file__).parent.parent / "modules" / "bot.py"
-        content = bot_path.read_text(encoding="utf-8")
-        assert "subprocess.run" in content
 
 
 # ---------------------------------------------------------------------------

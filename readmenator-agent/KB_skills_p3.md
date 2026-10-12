@@ -1,6 +1,35 @@
 # Subsystem: skills (page 3 of 5)
 Previous: [KB_skills_p2.md](KB_skills_p2.md)
 
+## skills/lazyown_parquet_db.py
+- Doc: LazyOwn Parquet Knowledge Base
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_cmd2_category_map` (function, line 146) `def _build_cmd2_category_map(lazyown_py)`
+  - `_stable_id` (function, line 178) `def _stable_id(start, cmd, args, dest_ip)`
+  - `_classify_row` (function, line 203) `def _classify_row(command, args, phase_hint)`
+  - `ParquetDB` (class, line 244) `class ParquetDB`
+  - `verify_model_integrity` (function, line 892) `def verify_model_integrity(model_path, encoder_path, hash_path)`
+  - `_slim` (function, line 930) `def _slim(row)`
+  - `get_pdb` (function, line 948) `def get_pdb(lazyown_dir)`
+  - `main` (function, line 961) `def main()`
+  - `__init__` (method, line 295) `def __init__(self, lazyown_dir)`
+  - `_load_session` (method, line 307) `def _load_session(self)`
+  - `sync` (method, line 316) `def sync(self, csv_path)`
+  - `annotate` (method, line 405) `def annotate(self, row_id, success, category, outcome)`
+  - `annotate_rich` (method, line 434) `def annotate_rich(self, row_id, output, finding_type, target_service, target_port, campaign_id, success, category...`
+  - `query_session` (method, line 490) `def query_session(self, phase, target, success_only, limit)`
+  - `query_knowledge` (method, line 526) `def query_knowledge(self, keyword, parquet_name, columns, limit)`
+  - `query_atomic` (method, line 576) `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
+  - `context_for_phase` (method, line 630) `def context_for_phase(self, phase, target, limit)`
+  - `stats` (method, line 729) `def stats(self)`
+  - `list_parquets` (method, line 743) `def list_parquets(self)`
+  - `train_classifier` (method, line 748) `def train_classifier(self, min_rows)`
+  - `predict_success` (method, line 843) `def predict_success(self, command, category)`
+- Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
+
 ## skills/lazyown_permissions.py
 - Doc: LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS...
 - Layer: utility
@@ -33,7 +62,7 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `Config` (class, line 54) `class Config`
   - `ActionCategory` (class, line 131) `class ActionCategory(StrEnum)`
   - `OutcomeType` (class, line 146) `class OutcomeType(StrEnum)`
-  - `infer_category` (method, line 267) `def infer_category(command, args)`
+  - `infer_category` (function, line 267) `def infer_category(command, args)`
   - `ClassificationResult` (class, line 306) `class ClassificationResult`
   - `StepRecord` (class, line 330) `class StepRecord`
   - `EpisodeRecord` (class, line 347) `class EpisodeRecord`
@@ -65,18 +94,18 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `StdinApprovalSink` (class, line 1503) `class StdinApprovalSink(IApprovalSink)`
   - `CompositeApprovalSink` (class, line 1556) `class CompositeApprovalSink(IApprovalSink)`
   - `ApprovalGate` (class, line 1606) `class ApprovalGate`
-  - `_default_sleep` (method, line 1721) `def _default_sleep(seconds)`
-  - `_load_scope_guard` (method, line 1739) `def _load_scope_guard()`
-  - `_default_in_scope` (method, line 1779) `def _default_in_scope(target, entries)`
-  - `_normalize_scope` (method, line 1800) `def _normalize_scope(entries)`
+  - `_default_sleep` (function, line 1721) `def _default_sleep(seconds)`
+  - `_load_scope_guard` (function, line 1739) `def _load_scope_guard()`
+  - `_default_in_scope` (function, line 1779) `def _default_in_scope(target, entries)`
+  - `_normalize_scope` (function, line 1800) `def _normalize_scope(entries)`
   - `ScopeBoundAutoGate` (class, line 1820) `class ScopeBoundAutoGate`
   - `HistoryBootstrapper` (class, line 1922) `class HistoryBootstrapper`
-  - `_setup_logging` (method, line 1960) `def _setup_logging(cfg)`
-  - `_cmd_bootstrap` (method, line 1970) `def _cmd_bootstrap(cfg, _args)`
-  - `_cmd_analyze` (method, line 1977) `def _cmd_analyze(cfg, args)`
-  - `_cmd_recommend` (method, line 1991) `def _cmd_recommend(cfg, args)`
-  - `_cmd_report` (method, line 2012) `def _cmd_report(cfg, _args)`
-  - `main` (method, line 2036) `def main()`
+  - `_setup_logging` (function, line 1960) `def _setup_logging(cfg)`
+  - `_cmd_bootstrap` (function, line 1970) `def _cmd_bootstrap(cfg, _args)`
+  - `_cmd_analyze` (function, line 1977) `def _cmd_analyze(cfg, args)`
+  - `_cmd_recommend` (function, line 1991) `def _cmd_recommend(cfg, args)`
+  - `_cmd_report` (function, line 2012) `def _cmd_report(cfg, _args)`
+  - `main` (function, line 2036) `def main()`
   - `default` (method, line 82) `def default(cls)`
   - `ollama_url` (method, line 123) `def ollama_url(self)`
   - `unknown` (method, line 317) `def unknown(cls, tier)`
@@ -166,8 +195,8 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
 - Symbols:
   - `_redact_sensitive` (function, line 47) `def _redact_sensitive(value)`
   - `SessionTranscript` (class, line 71) `class SessionTranscript`
-  - `get_transcript` (method, line 281) `def get_transcript(sessions_dir, session_id)`
-  - `reset_transcript` (method, line 294) `def reset_transcript(sessions_dir, session_id)`
+  - `get_transcript` (function, line 281) `def get_transcript(sessions_dir, session_id)`
+  - `reset_transcript` (function, line 294) `def reset_transcript(sessions_dir, session_id)`
   - `__init__` (method, line 82) `def __init__(self, sessions_dir, session_id)`
   - `_init_meta` (method, line 90) `def _init_meta(self)`
   - `append` (method, line 106) `def append(self, event_type, data)`

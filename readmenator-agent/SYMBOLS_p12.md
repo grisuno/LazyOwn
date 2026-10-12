@@ -1,24 +1,197 @@
-# Symbols (page 12 of 38)
+# Symbols (page 12 of 40)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `find_unconstrained_targets` | method | `modules/delegation_attacks.py:181` | `def find_unconstrained_targets(self)` |
+| `parse_bloodhound_output` | method | `modules/delegation_attacks.py:151` | `def parse_bloodhound_output(self, bloodhound_json)` |
+| `summary` | method | `modules/delegation_attacks.py:296` | `def summary(self)` |
+| `obtener_informacion` | function | `modules/detailed_search.py:40` | `def obtener_informacion(url)` |
+| `DetectionFeed` | class | `modules/detection_feed.py:73` | `class DetectionFeed` |
+| `FeedResult` | class | `modules/detection_feed.py:64` | `class FeedResult` |
+| `__init__` | method | `modules/detection_feed.py:83` | `def __init__(self, cache_dir, sources)` |
+| `_cache_rules` | method | `modules/detection_feed.py:219` | `def _cache_rules(self, rules, source)` |
+| `_extract_categories` | method | `modules/detection_feed.py:206` | `def _extract_categories(self, doc)` |
+| `_extract_keywords` | method | `modules/detection_feed.py:189` | `def _extract_keywords(self, doc)` |
+| `_extract_log_source` | method | `modules/detection_feed.py:172` | `def _extract_log_source(self, doc)` |
+| `_extract_mitre` | method | `modules/detection_feed.py:180` | `def _extract_mitre(self, doc)` |
+| `_parse_sigma_feed` | method | `modules/detection_feed.py:125` | `def _parse_sigma_feed(self, text)` |
+| `adjust_from_feedback` | method | `modules/detection_feed.py:270` | `def adjust_from_feedback(self, feedback_file)` |
+| `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
+| `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
+| `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
+| `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
+| `DetectionOracle` | class | `modules/detection_oracle.py:317` | `class DetectionOracle(IDetectionOracle)` |
+| `IDetectionOracle` | class | `modules/detection_oracle.py:90` | `class IDetectionOracle(ABC)` |
+| `SigmaRule` | class | `modules/detection_oracle.py:50` | `class SigmaRule` |
+| `__init__` | method | `modules/detection_oracle.py:332` | `def __init__(self, rules, feed)` |
+| `_aggregate_probability` | method | `modules/detection_oracle.py:427` | `def _aggregate_probability(self, matched, action_category)` |
+| `_build_recommendation` | method | `modules/detection_oracle.py:444` | `def _build_recommendation(probability, matched, action_category)` |
+| `_effective_probability` | method | `modules/detection_oracle.py:417` | `def _effective_probability(rule, action_category)` |
+| `_match_rules` | method | `modules/detection_oracle.py:397` | `def _match_rules(self, text, action_category)` |
+| `assess` | method | `modules/detection_oracle.py:94` | `def assess(self, command, args, action_category)` |
+| `assess` | method | `modules/detection_oracle.py:371` | `def assess(self, command, args, action_category)` |
+| `get_oracle` | function | `modules/detection_oracle.py:478` | `def get_oracle()` |
+| `is_critical_risk` | method | `modules/detection_oracle.py:80` | `def is_critical_risk(self)` |
+| `is_high_risk` | method | `modules/detection_oracle.py:75` | `def is_high_risk(self)` |
+| `probability` | method | `modules/detection_oracle.py:103` | `def probability(self, command, args, action_category)` |
+| `probability` | method | `modules/detection_oracle.py:392` | `def probability(self, command, args, action_category)` |
+| `refresh` | method | `modules/detection_oracle.py:336` | `def refresh(self)` |
+| `DNSBeacon` | class | `modules/dns_beacon.py:23` | `class DNSBeacon` |
+| `DNSC2Server` | class | `modules/dns_beacon.py:199` | `class DNSC2Server` |
+| `__init__` | method | `modules/dns_beacon.py:38` | `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)` |
+| `__init__` | method | `modules/dns_beacon.py:211` | `def __init__(self, domain, log_source, interface)` |
+| `_build_query` | method | `modules/dns_beacon.py:96` | `def _build_query(self, msg_type, payload)` |
+| `_decode` | method | `modules/dns_beacon.py:70` | `def _decode(self, data)` |
+| `_dns_query` | method | `modules/dns_beacon.py:84` | `def _dns_query(self, name, qtype)` |
+| `_encode` | method | `modules/dns_beacon.py:63` | `def _encode(self, data)` |
+| `_ensure_dnspython` | method | `modules/dns_beacon.py:57` | `def _ensure_dnspython(self)` |
+| `_handle_result` | method | `modules/dns_beacon.py:294` | `def _handle_result(self, labels, query)` |
+| `_jittered_sleep` | method | `modules/dns_beacon.py:78` | `def _jittered_sleep(self)` |
+| `check_in` | method | `modules/dns_beacon.py:105` | `def check_in(self)` |
+| `get_results` | method | `modules/dns_beacon.py:327` | `def get_results(self, beacon_id)` |
+| `list_beacons` | method | `modules/dns_beacon.py:235` | `def list_beacons(self)` |
+| `process_query_log` | method | `modules/dns_beacon.py:248` | `def process_query_log(self, line)` |
+| `register_beacon` | method | `modules/dns_beacon.py:225` | `def register_beacon(self, beacon_id, hostname)` |
+| `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
+| `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
+| `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
+| `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
+| `DomainDominance` | class | `modules/domain_dominance.py:89` | `class DomainDominance` |
+| `DomainInfo` | class | `modules/domain_dominance.py:49` | `class DomainInfo` |
+| `DominanceResult` | class | `modules/domain_dominance.py:75` | `class DominanceResult` |
+| `__init__` | method | `modules/domain_dominance.py:103` | `def __init__(self)` |
+| `_asrep_roast` | method | `modules/domain_dominance.py:575` | `def _asrep_roast(self, domain_info)` |
+| `_attempt_dcsync` | method | `modules/domain_dominance.py:768` | `def _attempt_dcsync(self, dc_ip)` |
+| `_discover_dc` | method | `modules/domain_dominance.py:340` | `def _discover_dc(self, domain, dns_servers)` |
+| `_domain_to_dn` | method | `modules/domain_dominance.py:838` | `def _domain_to_dn(self, domain)` |
+| `_enumerate_computers` | method | `modules/domain_dominance.py:469` | `def _enumerate_computers(self, dc_ip)` |
+| `_enumerate_groups` | method | `modules/domain_dominance.py:495` | `def _enumerate_groups(self, dc_ip)` |
+| `_enumerate_spns` | method | `modules/domain_dominance.py:516` | `def _enumerate_spns(self, dc_ip)` |
+| `_enumerate_trusts` | method | `modules/domain_dominance.py:546` | `def _enumerate_trusts(self, domain, dc_ip)` |
+| `_enumerate_users` | method | `modules/domain_dominance.py:426` | `def _enumerate_users(self, dc_ip)` |
+| `_find_dcs` | method | `modules/domain_dominance.py:366` | `def _find_dcs(self, domain, dc_ip)` |
+| `_find_domain_admins` | method | `modules/domain_dominance.py:392` | `def _find_domain_admins(self, domain, dc_ip)` |
+| `_kerberoast` | method | `modules/domain_dominance.py:625` | `def _kerberoast(self, domain_info)` |
+| `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
+| `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
+| `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
+| `_save_credential` | method | `modules/domain_dominance.py:849` | `def _save_credential(self, username, secret, secret_type, source)` |
+| `_save_dominance_report` | method | `modules/domain_dominance.py:885` | `def _save_dominance_report(self)` |
+| `_save_session` | method | `modules/domain_dominance.py:865` | `def _save_session(self, session_id, target, method, user)` |
+| `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
+| `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
+| `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
+| `escalate` | method | `modules/domain_dominance.py:260` | `def escalate(self, domain_info, stash)` |
+| `extract_credentials` | method | `modules/domain_dominance.py:227` | `def extract_credentials(self, domain_info, known_creds)` |
+| `get_instance` | method | `modules/domain_dominance.py:110` | `def get_instance(cls)` |
+| `persist` | method | `modules/domain_dominance.py:314` | `def persist(self, domain_info)` |
+| `DotNetPayloadConfig` | class | `modules/dotnet_payload.py:293` | `class DotNetPayloadConfig` |
+| `DotNetPayloadFactory` | class | `modules/dotnet_payload.py:315` | `class DotNetPayloadFactory` |
+| `__init__` | method | `modules/dotnet_payload.py:327` | `def __init__(self, output_dir)` |
+| `_detect_compiler` | method | `modules/dotnet_payload.py:333` | `def _detect_compiler()` |
+| `_resolve_template` | method | `modules/dotnet_payload.py:368` | `def _resolve_template(self, config)` |
+| `compile` | method | `modules/dotnet_payload.py:403` | `def compile(self, config, source_code)` |
+| `generate` | method | `modules/dotnet_payload.py:454` | `def generate(self, config)` |
+| `generate_inline_assembly` | method | `modules/dotnet_payload.py:500` | `def generate_inline_assembly(self, config)` |
+| `generate_powershell_reflective` | method | `modules/dotnet_payload.py:481` | `def generate_powershell_reflective(self, config)` |
+| `generate_source` | method | `modules/dotnet_payload.py:389` | `def generate_source(self, config)` |
+| `list_templates` | method | `modules/dotnet_payload.py:364` | `def list_templates()` |
+| `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
+| `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
+| `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
+| `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
+| `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
+| `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
+| `_crack_cookies` | method | `modules/dpapi_harvester.py:320` | `def _crack_cookies(self, cookies_path, key, source)` |
+| `_crack_login_data` | method | `modules/dpapi_harvester.py:286` | `def _crack_login_data(self, login_db_path, key, source)` |
+| `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
+| `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
+| `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
+| `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
+| `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
+| `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
+| `_harvest_rdp` | method | `modules/dpapi_harvester.py:250` | `def _harvest_rdp(self)` |
+| `_harvest_wifi` | method | `modules/dpapi_harvester.py:210` | `def _harvest_wifi(self)` |
+| `_harvest_windows_vault` | method | `modules/dpapi_harvester.py:262` | `def _harvest_windows_vault(self)` |
+| `export_credentials` | method | `modules/dpapi_harvester.py:367` | `def export_credentials(self)` |
+| `harvest_all` | method | `modules/dpapi_harvester.py:90` | `def harvest_all(self)` |
+| `masterkey_report` | method | `modules/dpapi_harvester.py:386` | `def masterkey_report(self)` |
+| `EDRDetector` | class | `modules/edr_detector.py:191` | `class EDRDetector` |
+| `EDRFinding` | class | `modules/edr_detector.py:174` | `class EDRFinding` |
+| `EDRProfile` | class | `modules/edr_detector.py:182` | `class EDRProfile` |
+| `_generate_recommendations` | method | `modules/edr_detector.py:370` | `def _generate_recommendations(profile)` |
+| `_local_drivers` | method | `modules/edr_detector.py:322` | `def _local_drivers()` |
+| `_local_processes` | method | `modules/edr_detector.py:292` | `def _local_processes()` |
+| `_local_services` | method | `modules/edr_detector.py:305` | `def _local_services()` |
+| `_match_signatures` | method | `modules/edr_detector.py:335` | `def _match_signatures(profile)` |
+| `_severity` | method | `modules/edr_detector.py:428` | `def _severity(profile)` |
+| `detect_local` | method | `modules/edr_detector.py:202` | `def detect_local()` |
+| `detect_remote_commands` | method | `modules/edr_detector.py:221` | `def detect_remote_commands(remote_type)` |
+| `generate_edr_check_script` | method | `modules/edr_detector.py:440` | `def generate_edr_check_script(remote_type)` |
+| `init_board` | function | `modules/eegg.sh:26` | `` |
+| `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
+| `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
+| `show_board` | function | `modules/eegg.sh:40` | `` |
+| `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
+| `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
+| `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
+| `marker_lines` | function | `modules/engage_summary.py:35` | `def marker_lines(text, limit)` |
+| `next_actions` | function | `modules/engage_summary.py:150` | `def next_actions(target, sessions_dir, limit)` |
+| `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
+| `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
+| `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
+| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
+| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
+| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
+| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
+| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
+| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
+| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
+| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
+| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
+| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
+| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
+| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
+| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
+| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
+| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
+| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
+| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
+| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
+| `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
+| `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
+| `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
+| `deliver` | method | `modules/engagement_hooks.py:159` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:181` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
+| `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
+| `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
+| `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
+| `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
 | `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
 | `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
 | `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
-| `publish_shell_obtained` | method | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
+| `publish_shell_obtained` | function | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
 | `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
-| `resolve_approval` | method | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
+| `resolve_approval` | function | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
 | `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
 | `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
 | `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
 | `_run` | method | `modules/enrich.py:121` | `def _run(self, target)` |
-| `fetch_http` | method | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
-| `resolve_dns` | method | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
-| `scan_files_for` | method | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
-| `shared_engine` | method | `modules/enrich.py:137` | `def shared_engine()` |
-| `should_rescan` | method | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
+| `fetch_http` | function | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
+| `resolve_dns` | function | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
+| `scan_files_for` | function | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
+| `shared_engine` | function | `modules/enrich.py:137` | `def shared_engine()` |
+| `should_rescan` | function | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
 | `shutdown` | method | `modules/enrich.py:128` | `def shutdown(self, wait)` |
 | `submit` | method | `modules/enrich.py:108` | `def submit(self, target)` |
 | `EntraIDAttackEngine` | class | `modules/entra_id_attacks.py:81` | `class EntraIDAttackEngine` |
@@ -33,51 +206,61 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `poll_device_code` | method | `modules/entra_id_attacks.py:129` | `def poll_device_code(self, device_code, interval, timeout)` |
 | `service_principal_credential_theft` | method | `modules/entra_id_attacks.py:203` | `def service_principal_credential_theft(self)` |
 | `summary` | method | `modules/entra_id_attacks.py:368` | `def summary(self)` |
-| `_from_raw` | function | `modules/estorides_fusion.py:129` | `def _from_raw(document)` |
-| `_norm` | function | `modules/estorides_fusion.py:110` | `def _norm(value)` |
-| `community_for` | function | `modules/estorides_fusion.py:167` | `def community_for(kind, value)` |
-| `estorides_checkout` | function | `modules/estorides_fusion.py:43` | `def estorides_checkout()` |
-| `find_export` | function | `modules/estorides_fusion.py:55` | `def find_export(sessions_dir)` |
-| `load_export` | function | `modules/estorides_fusion.py:115` | `def load_export(path)` |
-| `merge_estorides` | function | `modules/estorides_fusion.py:174` | `def merge_estorides(nodes, edges, est, cap)` |
-| `run_export` | function | `modules/estorides_fusion.py:71` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
+| `_from_raw` | function | `modules/estorides_fusion.py:142` | `def _from_raw(document)` |
+| `_norm` | function | `modules/estorides_fusion.py:123` | `def _norm(value)` |
+| `community_for` | function | `modules/estorides_fusion.py:180` | `def community_for(kind, value)` |
+| `estorides_checkout` | function | `modules/estorides_fusion.py:48` | `def estorides_checkout()` |
+| `find_export` | function | `modules/estorides_fusion.py:68` | `def find_export(sessions_dir)` |
+| `find_lan_bundle` | function | `modules/estorides_fusion.py:268` | `def find_lan_bundle(sessions_dir)` |
+| `load_export` | function | `modules/estorides_fusion.py:128` | `def load_export(path)` |
+| `load_lan_bundle` | function | `modules/estorides_fusion.py:288` | `def load_lan_bundle(path)` |
+| `merge_estorides` | function | `modules/estorides_fusion.py:187` | `def merge_estorides(nodes, edges, est, cap)` |
+| `run_export` | function | `modules/estorides_fusion.py:84` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
+| `split_lan_targets` | function | `modules/estorides_fusion.py:323` | `def split_lan_targets(est)` |
 | `EstoridesCaseReader` | class | `modules/estorides_importer.py:385` | `class EstoridesCaseReader` |
 | `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
 | `EstoridesStixParser` | class | `modules/estorides_importer.py:495` | `class EstoridesStixParser` |
-| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:585` | `class EstoridesToLazyOwnBridge` |
-| `FeedbackLoop` | class | `modules/estorides_importer.py:766` | `class FeedbackLoop` |
+| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:700` | `class EstoridesToLazyOwnBridge` |
+| `FeedbackLoop` | class | `modules/estorides_importer.py:881` | `class FeedbackLoop` |
 | `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
+| `LanBundleReader` | class | `modules/estorides_importer.py:622` | `class LanBundleReader` |
 | `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
 | `__init__` | method | `modules/estorides_importer.py:388` | `def __init__(self, db_path)` |
 | `__init__` | method | `modules/estorides_importer.py:511` | `def __init__(self, stix_path)` |
-| `__init__` | method | `modules/estorides_importer.py:588` | `def __init__(self, db_path, config_path)` |
-| `__init__` | method | `modules/estorides_importer.py:777` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
+| `__init__` | method | `modules/estorides_importer.py:632` | `def __init__(self, lan_dir)` |
+| `__init__` | method | `modules/estorides_importer.py:703` | `def __init__(self, db_path, config_path)` |
+| `__init__` | method | `modules/estorides_importer.py:892` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
 | `_ensure_conn` | method | `modules/estorides_importer.py:396` | `def _ensure_conn(self)` |
 | `_extract_value` | method | `modules/estorides_importer.py:563` | `def _extract_value(obj, stix_type)` |
-| `_gather_seeds` | method | `modules/estorides_importer.py:886` | `def _gather_seeds(self, methods, seen)` |
-| `_import_to_db` | method | `modules/estorides_importer.py:640` | `def _import_to_db(self, imports, result)` |
-| `_import_to_scope` | method | `modules/estorides_importer.py:686` | `def _import_to_scope(self, imports, result)` |
+| `_gather_seeds` | method | `modules/estorides_importer.py:1001` | `def _gather_seeds(self, methods, seen)` |
+| `_import_to_db` | method | `modules/estorides_importer.py:755` | `def _import_to_db(self, imports, result)` |
+| `_import_to_scope` | method | `modules/estorides_importer.py:801` | `def _import_to_scope(self, imports, result)` |
+| `attack_targets` | method | `modules/estorides_importer.py:683` | `def attack_targets(self)` |
 | `available` | method | `modules/estorides_importer.py:393` | `def available(self)` |
 | `available` | method | `modules/estorides_importer.py:515` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:636` | `def available(self)` |
 | `close` | method | `modules/estorides_importer.py:489` | `def close(self)` |
-| `ensure_directories` | method | `modules/estorides_importer.py:579` | `def ensure_directories()` |
-| `export_combined_graph` | method | `modules/estorides_importer.py:912` | `def export_combined_graph(output_path)` |
-| `extract_seeds_from_db` | method | `modules/estorides_importer.py:203` | `def extract_seeds_from_db(db_path)` |
-| `extract_seeds_from_hosts_file` | method | `modules/estorides_importer.py:175` | `def extract_seeds_from_hosts_file(path)` |
-| `extract_seeds_from_scope` | method | `modules/estorides_importer.py:242` | `def extract_seeds_from_scope(scope_entries)` |
-| `extract_seeds_from_world_model` | method | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
+| `ensure_directories` | function | `modules/estorides_importer.py:694` | `def ensure_directories()` |
+| `export_combined_graph` | function | `modules/estorides_importer.py:1027` | `def export_combined_graph(output_path)` |
+| `extract_seeds_from_db` | function | `modules/estorides_importer.py:203` | `def extract_seeds_from_db(db_path)` |
+| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:175` | `def extract_seeds_from_hosts_file(path)` |
+| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:242` | `def extract_seeds_from_scope(scope_entries)` |
+| `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
+| `find_lan_bundle_files` | function | `modules/estorides_importer.py:586` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
 | `get_all_entities` | method | `modules/estorides_importer.py:473` | `def get_all_entities(self, case_id)` |
-| `get_combined_surface` | method | `modules/estorides_importer.py:719` | `def get_combined_surface(self)` |
+| `get_combined_surface` | method | `modules/estorides_importer.py:834` | `def get_combined_surface(self)` |
 | `get_entities` | method | `modules/estorides_importer.py:414` | `def get_entities(self, case_id, entity_types, limit)` |
 | `get_host_entities` | method | `modules/estorides_importer.py:469` | `def get_host_entities(self, case_id)` |
-| `import_entities` | method | `modules/estorides_importer.py:596` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
+| `import_entities` | method | `modules/estorides_importer.py:711` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
 | `list_cases` | method | `modules/estorides_importer.py:402` | `def list_cases(self, limit)` |
 | `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
 | `parse` | method | `modules/estorides_importer.py:518` | `def parse(self)` |
+| `parse` | method | `modules/estorides_importer.py:652` | `def parse(self)` |
 | `parse_by_type` | method | `modules/estorides_importer.py:552` | `def parse_by_type(self, entity_types)` |
-| `run` | method | `modules/estorides_importer.py:793` | `def run(self, seed_methods)` |
-| `run_estorides_discover` | method | `modules/estorides_importer.py:272` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
-| `run_estorides_run` | method | `modules/estorides_importer.py:332` | `def run_estorides_run(query, out_json, timeout)` |
+| `read_devices` | method | `modules/estorides_importer.py:639` | `def read_devices(self)` |
+| `run` | method | `modules/estorides_importer.py:908` | `def run(self, seed_methods)` |
+| `run_estorides_discover` | function | `modules/estorides_importer.py:272` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
+| `run_estorides_run` | function | `modules/estorides_importer.py:332` | `def run_estorides_run(query, out_json, timeout)` |
 | `stats` | method | `modules/estorides_importer.py:476` | `def stats(self)` |
 | `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
 | `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
@@ -144,12 +327,12 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `close` | method | `modules/event_bus.py:226` | `def close(self)` |
 | `drain` | method | `modules/event_bus.py:354` | `def drain(self)` |
 | `from_dict` | method | `modules/event_bus.py:115` | `def from_dict(cls, d)` |
-| `get_event_bus` | method | `modules/event_bus.py:570` | `def get_event_bus()` |
+| `get_event_bus` | function | `modules/event_bus.py:570` | `def get_event_bus()` |
 | `history` | method | `modules/event_bus.py:556` | `def history(self, n, category)` |
 | `history_since` | method | `modules/event_bus.py:564` | `def history_since(self, since_ts)` |
 | `instance` | method | `modules/event_bus.py:287` | `def instance(cls)` |
 | `publish` | method | `modules/event_bus.py:336` | `def publish(self, event)` |
-| `publish_event` | method | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
+| `publish_event` | function | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
 | `shutdown` | method | `modules/event_bus.py:372` | `def shutdown(self)` |
 | `subscribe` | method | `modules/event_bus.py:300` | `def subscribe(self, subscriber_id, callback)` |
 | `subscribe_async` | method | `modules/event_bus.py:315` | `def subscribe_async(self, subscriber_id)` |
@@ -178,8 +361,8 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
 | `_update_soul` | function | `modules/event_consumers.py:110` | `def _update_soul(phase, credentials, access)` |
 | `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | method | `modules/event_consumers.py:409` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | method | `modules/event_consumers.py:380` | `def wire_all_consumers(bus)` |
+| `unwire_all_consumers` | function | `modules/event_consumers.py:409` | `def unwire_all_consumers(bus)` |
+| `wire_all_consumers` | function | `modules/event_consumers.py:380` | `def wire_all_consumers(bus)` |
 | `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
 | `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
 | `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
@@ -193,12 +376,12 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
 | `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
 | `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
-| `_validate_hash` | method | `modules/evidence.py:42` | `def _validate_hash(value)` |
+| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
 | `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
 | `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
 | `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
 | `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
-| `hash_bytes` | method | `modules/evidence.py:37` | `def hash_bytes(data)` |
+| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
 | `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
 | `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
 | `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
@@ -265,7 +448,7 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `VulnerabilityMatch` | class | `modules/exploit_chain.py:41` | `class VulnerabilityMatch` |
 | `__init__` | method | `modules/exploit_chain.py:292` | `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)` |
 | `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
-| `_compare_versions` | method | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
+| `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
 | `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
 | `_is_richer` | method | `modules/exploit_chain.py:361` | `def _is_richer(new_svc, existing)` |
 | `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:346` | `def _parse_all_nmap_xml(self)` |
@@ -288,7 +471,7 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_try_nvd` | method | `modules/exploit_recommender.py:211` | `def _try_nvd(self, cve_id)` |
 | `format_for_llm` | method | `modules/exploit_recommender.py:390` | `def format_for_llm(self, matches, max_items)` |
 | `match_services` | method | `modules/exploit_recommender.py:244` | `def match_services(self, hosts)` |
-| `parse_version` | method | `modules/exploit_recommender.py:25` | `def parse_version(v)` |
+| `parse_version` | function | `modules/exploit_recommender.py:25` | `def parse_version(v)` |
 | `persist_recommendations` | method | `modules/exploit_recommender.py:370` | `def persist_recommendations(self, matches)` |
 | `recommend` | method | `modules/exploit_recommender.py:337` | `def recommend(self, hosts, top_n)` |
 | `set_nvd_api_key` | method | `modules/exploit_recommender.py:132` | `def set_nvd_api_key(self, key)` |
@@ -313,188 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
 | `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
 | `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
-| `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
-| `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
-| `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
-| `cmd_restart` | function | `modules/fast_run_service.sh:480` | `` |
-| `cmd_start` | function | `modules/fast_run_service.sh:445` | `` |
-| `cmd_status` | function | `modules/fast_run_service.sh:486` | `` |
-| `cmd_stop` | function | `modules/fast_run_service.sh:465` | `` |
-| `config_truthy` | function | `modules/fast_run_service.sh:155` | `` |
-| `ensure_log_file` | function | `modules/fast_run_service.sh:211` | `` |
-| `is_pid_alive` | function | `modules/fast_run_service.sh:189` | `` |
-| `is_service_running` | function | `modules/fast_run_service.sh:194` | `` |
-| `load_config` | function | `modules/fast_run_service.sh:139` | `` |
-| `log_error` | function | `modules/fast_run_service.sh:81` | `` |
-| `log_file_for` | function | `modules/fast_run_service.sh:171` | `` |
-| `log_info` | function | `modules/fast_run_service.sh:73` | `` |
-| `log_timestamp` | function | `modules/fast_run_service.sh:69` | `` |
-| `log_warn` | function | `modules/fast_run_service.sh:77` | `` |
-| `main` | function | `modules/fast_run_service.sh:557` | `` |
-| `managed_services_in_order` | function | `modules/fast_run_service.sh:429` | `` |
-| `pid_file_for` | function | `modules/fast_run_service.sh:166` | `` |
-| `prepare_runtime_dirs` | function | `modules/fast_run_service.sh:126` | `` |
-| `read_pid_value` | function | `modules/fast_run_service.sh:176` | `` |
-| `require_deps` | function | `modules/fast_run_service.sh:97` | `` |
-| `require_paths` | function | `modules/fast_run_service.sh:113` | `` |
-| `require_root` | function | `modules/fast_run_service.sh:89` | `` |
-| `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
-| `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
-| `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
-| `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
-| `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
-| `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
-| `start_ollama_service` | function | `modules/fast_run_service.sh:410` | `` |
-| `start_telegram_service` | function | `modules/fast_run_service.sh:390` | `` |
-| `start_vpn_service` | function | `modules/fast_run_service.sh:363` | `` |
-| `start_www_service` | function | `modules/fast_run_service.sh:356` | `` |
-| `stop_named_service` | function | `modules/fast_run_service.sh:292` | `` |
-| `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
-| `usage` | function | `modules/fast_run_service.sh:528` | `` |
-| `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
-| `_load` | function | `modules/finding_lifecycle.py:39` | `def _load(sessions_dir)` |
-| `_save` | function | `modules/finding_lifecycle.py:52` | `def _save(sessions_dir, data)` |
-| `_store_path` | function | `modules/finding_lifecycle.py:34` | `def _store_path(sessions_dir)` |
-| `add_dead_end` | function | `modules/finding_lifecycle.py:98` | `def add_dead_end(kind, value, reason, sessions_dir)` |
-| `apply_confirmation` | function | `modules/finding_lifecycle.py:153` | `def apply_confirmation(nodes, sessions_dir)` |
-| `confirm` | function | `modules/finding_lifecycle.py:60` | `def confirm(finding_id, evidence, sessions_dir, by)` |
-| `is_dead_end` | function | `modules/finding_lifecycle.py:112` | `def is_dead_end(kind, value, sessions_dir)` |
-| `reject` | function | `modules/finding_lifecycle.py:86` | `def reject(finding_id, reason, sessions_dir, by)` |
-| `resolve` | function | `modules/finding_lifecycle.py:127` | `def resolve(node, sessions_dir)` |
-| `suppressed_values` | function | `modules/finding_lifecycle.py:120` | `def suppressed_values(sessions_dir)` |
-| `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
-| `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
-| `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
-| `amcache_parse` | method | `modules/forensic_cleaner.py:259` | `def amcache_parse(self)` |
-| `linux_cleanup` | method | `modules/forensic_cleaner.py:165` | `def linux_cleanup(self)` |
-| `macos_cleanup` | method | `modules/forensic_cleaner.py:193` | `def macos_cleanup(self)` |
-| `windows_cleanup` | method | `modules/forensic_cleaner.py:70` | `def windows_cleanup(self)` |
-| `windows_prefetch_parse` | method | `modules/forensic_cleaner.py:221` | `def windows_prefetch_parse(self, prefetch_path)` |
-| `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
-| `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
-| `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
-| `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
-| `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
-| `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
-| `enumerate_iam_policy` | method | `modules/gcp_attacks.py:93` | `def enumerate_iam_policy(self, resource)` |
-| `gcs_enumeration` | method | `modules/gcp_attacks.py:194` | `def gcs_enumeration(self)` |
-| `organization_escalation` | method | `modules/gcp_attacks.py:261` | `def organization_escalation(self)` |
-| `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
-| `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
-| `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
-| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
-| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
-| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
-| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
-| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
-| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
-| `constraint_block_text` | method | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
-| `decompose_rule_based` | method | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
-| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
-| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
-| `load_constraints` | method | `modules/goals.py:83` | `def load_constraints(payload)` |
-| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
-| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
-| `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
-| `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
-| `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
-| `__init__` | method | `modules/gpo_abuse.py:118` | `def __init__(self, domain, dc_ip)` |
-| `detect_risky_gpos` | method | `modules/gpo_abuse.py:406` | `def detect_risky_gpos(self)` |
-| `generate_all_plans` | method | `modules/gpo_abuse.py:382` | `def generate_all_plans(self, command, username)` |
-| `parse_bloodhound_gpos` | method | `modules/gpo_abuse.py:160` | `def parse_bloodhound_gpos(self, bloodhound_nodes)` |
-| `parse_gpo_list` | method | `modules/gpo_abuse.py:124` | `def parse_gpo_list(self, raw_gpo_output)` |
-| `plan_local_admin_addition` | method | `modules/gpo_abuse.py:266` | `def plan_local_admin_addition(self, gpo, username, group)` |
-| `plan_logon_script` | method | `modules/gpo_abuse.py:238` | `def plan_logon_script(self, gpo, command)` |
-| `plan_registry_preference` | method | `modules/gpo_abuse.py:322` | `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` |
-| `plan_scheduled_task` | method | `modules/gpo_abuse.py:182` | `def plan_scheduled_task(self, gpo, command, task_name)` |
-| `plan_service_installation` | method | `modules/gpo_abuse.py:356` | `def plan_service_installation(self, gpo, service_name, binary_path)` |
-| `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
-| `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
-| `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
-| `has` | function | `modules/gui_askpass.sh:22` | `` |
-| `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
-| `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
-| `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
-| `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
-| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
-| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
-| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
-| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
-| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
-| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
-| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
-| `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
-| `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
-| `crack_secretsdump_output` | method | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
-| `identify` | method | `modules/hash_cracker.py:186` | `def identify(self, line)` |
-| `identify_file` | method | `modules/hash_cracker.py:273` | `def identify_file(self, filepath)` |
-| `import_to_db` | method | `modules/hash_cracker.py:405` | `def import_to_db(self, results, rhost, workspace_name)` |
-| `_find_claude` | function | `modules/hive_invoke.py:115` | `def _find_claude()` |
-| `_get_toposwarm` | function | `modules/hive_invoke.py:50` | `def _get_toposwarm()` |
-| `_parse_argv` | function | `modules/hive_invoke.py:120` | `def _parse_argv(argv)` |
-| `_run_interactive_mode` | function | `modules/hive_invoke.py:172` | `def _run_interactive_mode(prompt, effort, claude_bin)` |
-| `_run_print_mode` | function | `modules/hive_invoke.py:150` | `def _run_print_mode(prompt, effort, claude_bin)` |
-| `_run_toposwarm_mode` | function | `modules/hive_invoke.py:205` | `def _run_toposwarm_mode(prompt, effort, bridge)` |
-| `main` | function | `modules/hive_invoke.py:255` | `def main(argv)` |
-| `extract_ips_from_arp` | function | `modules/hostdiscover.sh:21` | `` |
-| `extract_listening_ips_from_netstat` | function | `modules/hostdiscover.sh:26` | `` |
-| `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
-| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
-| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
-| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
-| `analyze_with_deepseek` | method | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
-| `parse_args` | method | `modules/ia_code_analysis.py:178` | `def parse_args()` |
-| `save_results_to_json` | method | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
-| `start_analysis` | method | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
-| `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
-| `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
-| `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
-| `analyze_with_deepseek` | method | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
-| `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
-| `parse_args` | method | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
-| `start_monitoring` | method | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
-| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
-| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
-| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
-| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
-| `check_sudo` | function | `modules/icmp_client.py:57` | `def check_sudo()` |
-| `checksum` | function | `modules/icmp_client.py:64` | `def checksum(source_string)` |
-| `decrypt_data` | function | `modules/icmp_client.py:34` | `def decrypt_data(data, key)` |
-| `encrypt_data` | function | `modules/icmp_client.py:18` | `def encrypt_data(data, key)` |
-| `main` | function | `modules/icmp_client.py:130` | `def main()` |
-| `receive_icmp_reply` | function | `modules/icmp_client.py:117` | `def receive_icmp_reply(sock)` |
-| `send_icmp_packet` | function | `modules/icmp_client.py:82` | `def send_icmp_packet(dest_addr, data, key)` |
-| `check_sudo` | function | `modules/icmp_server.py:44` | `def check_sudo()` |
-| `checksum` | function | `modules/icmp_server.py:132` | `def checksum(source_string)` |
-| `decrypt_data` | function | `modules/icmp_server.py:71` | `def decrypt_data(data, key)` |
-| `encrypt_data` | function | `modules/icmp_server.py:55` | `def encrypt_data(data, key)` |
-| `execute_command` | function | `modules/icmp_server.py:93` | `def execute_command(command)` |
-| `handle_packet` | function | `modules/icmp_server.py:150` | `def handle_packet(packet, addr, key, sock)` |
-| `listen_for_icmp` | function | `modules/icmp_server.py:175` | `def listen_for_icmp(interface, key)` |
-| `main` | function | `modules/icmp_server.py:202` | `def main()` |
-| `send_icmp_reply` | function | `modules/icmp_server.py:112` | `def send_icmp_reply(sock, addr, data, key)` |
-| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
-| `main` | function | `modules/img2bin.py:43` | `def main()` |
-| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
-| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
-| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
-| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
-| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
-| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
-| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
-| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
-| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
-| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
-| `_DictFinding` | class | `modules/integrations/misp_export.py:451` | `class _DictFinding` |
-| `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
-| `__init__` | method | `modules/integrations/misp_export.py:454` | `def __init__(self, data)` |
-| `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
-| `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
-| `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
-| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

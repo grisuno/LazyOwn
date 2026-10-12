@@ -22,8 +22,8 @@
   - `ServiceMapper` (class, line 218) `class ServiceMapper(FindingMapper)`
   - `MISPExporter` (class, line 254) `class MISPExporter`
   - `_DictFinding` (class, line 451) `class _DictFinding`
-  - `get_exporter` (method, line 469) `def get_exporter()`
-  - `_main` (method, line 482) `def _main()`
+  - `get_exporter` (function, line 469) `def get_exporter()`
+  - `_main` (function, line 482) `def _main()`
   - `map` (method, line 90) `def map(self, finding)`
   - `map` (method, line 106) `def map(self, finding)`
   - `_is_ip` (method, line 118) `def _is_ip(finding)`
@@ -62,8 +62,8 @@
   - `LocalTemplateIndex` (class, line 104) `class LocalTemplateIndex(TemplateSelector)`
   - `NucleiRunner` (class, line 279) `class NucleiRunner`
   - `NucleiBridge` (class, line 389) `class NucleiBridge`
-  - `get_bridge` (method, line 443) `def get_bridge()`
-  - `_main` (method, line 456) `def _main()`
+  - `get_bridge` (function, line 443) `def get_bridge()`
+  - `_main` (function, line 456) `def _main()`
   - `select` (method, line 91) `def select(self, services, cves)`
   - `__init__` (method, line 114) `def __init__(self, templates_dir)`
   - `select` (method, line 121) `def select(self, services, cves)`
@@ -124,10 +124,10 @@
   - `SearchsploitCLI` (class, line 93) `class SearchsploitCLI(ExploitSource)`
   - `ExploitDBAPI` (class, line 193) `class ExploitDBAPI(ExploitSource)`
   - `SearchsploitClient` (class, line 271) `class SearchsploitClient`
-  - `get_client` (method, line 333) `def get_client()`
-  - `search_cve` (method, line 341) `def search_cve(cve_id)`
-  - `search_service` (method, line 346) `def search_service(name, version)`
-  - `_main` (method, line 356) `def _main()`
+  - `get_client` (function, line 333) `def get_client()`
+  - `search_cve` (function, line 341) `def search_cve(cve_id)`
+  - `search_service` (function, line 346) `def search_service(name, version)`
+  - `_main` (function, line 356) `def _main()`
   - `search_cve` (method, line 80) `def search_cve(self, cve_id)`
   - `search_service` (method, line 84) `def search_service(self, name, version)`
   - `__init__` (method, line 102) `def __init__(self)`

@@ -1,5 +1,57 @@
-# Subsystem: tests (page 6 of 15)
+# Subsystem: tests (page 6 of 16)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
+
+## tests/test_daemon_control.py
+- Doc: Unit tests for skills.daemon_control.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 46) `def sessions_dir(tmp_path)`
+  - `test_default_state_roundtrip` (function, line 52) `def test_default_state_roundtrip(sessions_dir)`
+  - `test_set_mode_persists_and_normalises_invalid` (function, line 63) `def test_set_mode_persists_and_normalises_invalid(sessions_dir)`
+  - `test_state_from_dict_sanitises_unknown_mode` (function, line 74) `def test_state_from_dict_sanitises_unknown_mode()`
+  - `test_state_from_dict_preserves_pending` (function, line 80) `def test_state_from_dict_preserves_pending()`
+  - `test_pause_resume_round_trip` (function, line 102) `def test_pause_resume_round_trip(sessions_dir)`
+  - `test_add_remove_clear_veto` (function, line 112) `def test_add_remove_clear_veto(sessions_dir)`
+  - `test_add_veto_rejects_empty_token` (function, line 128) `def test_add_veto_rejects_empty_token(sessions_dir)`
+  - `test_is_vetoed_uses_first_token` (function, line 135) `def test_is_vetoed_uses_first_token(sessions_dir)`
+  - `test_set_focus_replaces_list` (function, line 143) `def test_set_focus_replaces_list(sessions_dir)`
+  - `test_target_in_focus_defaults_to_true_when_no_focus` (function, line 153) `def test_target_in_focus_defaults_to_true_when_no_focus(sessions_dir)`
+  - `test_propose_decide_consume_cycle` (function, line 163) `def test_propose_decide_consume_cycle(sessions_dir)`
+  - `test_decide_rejects_invalid_decision` (function, line 183) `def test_decide_rejects_invalid_decision(sessions_dir)`
+  - `test_decide_with_unknown_id_returns_none` (function, line 191) `def test_decide_with_unknown_id_returns_none(sessions_dir)`
+  - `test_consume_expires_overdue_pending` (function, line 198) `def test_consume_expires_overdue_pending(sessions_dir)`
+  - `test_pending_action_is_expired_only_when_still_pending` (function, line 209) `def test_pending_action_is_expired_only_when_still_pending()`
+  - `test_wait_for_decision_returns_approved` (function, line 221) `def test_wait_for_decision_returns_approved(sessions_dir)`
+  - `test_wait_for_decision_expires_after_ttl` (function, line 237) `def test_wait_for_decision_expires_after_ttl(sessions_dir)`
+  - `test_wait_for_decision_polls_until_decided` (function, line 252) `def test_wait_for_decision_polls_until_decided(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_when_already_running` (function, line 274) `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)`
+  - `test_wait_until_unpaused_returns_false_after_max_wait` (function, line 288) `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_after_resume` (function, line 310) `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)`
+  - `test_save_writes_atomic_file_with_restricted_mode` (function, line 331) `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)`
+  - `test_load_returns_defaults_on_invalid_json` (function, line 342) `def test_load_returns_defaults_on_invalid_json(sessions_dir)`
+  - `test_concurrent_save_serialised_by_lock` (function, line 352) `def test_concurrent_save_serialised_by_lock(sessions_dir)`
+  - `_sleep` (function, line 257) `def _sleep(_seconds)`
+  - `_now` (function, line 293) `def _now()`
+  - `_sleep` (function, line 296) `def _sleep(_seconds)`
+  - `_sleep` (function, line 315) `def _sleep(_seconds)`
+- Depends on: `skills/daemon_control.py`
+
+## tests/test_daemon_ctl_command_set.py
+- Doc: Daemon command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 28) `def _add_repo_root_to_syspath()`
+  - `DaemonSuiteConfig` (class, line 34) `class DaemonSuiteConfig`
+  - `_methods_of` (function, line 53) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 65) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_daemon_cluster` (function, line 74) `def test_target_exposes_full_daemon_cluster()`
+  - `test_target_phase_metadata` (function, line 81) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 87) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 93) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 100) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/daemon_ctl.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
 
 ## tests/test_daemon_loop.py
 - Doc: BDD tests for the integrated autonomous loop in the daemon.
@@ -11,15 +63,15 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `_Parser` (class, line 50) `class _Parser`
   - `_Strategy` (class, line 58) `class _Strategy`
   - `_EmptyPlanner` (class, line 75) `class _EmptyPlanner`
-  - `_patch` (method, line 82) `def _patch(monkeypatch, tmp_path)`
-  - `_events` (method, line 104) `def _events(tmp_path)`
-  - `_run` (method, line 112) `def _run(monkeypatch, tmp_path, objective, commands, planner, world, max_steps)`
-  - `test_loop_ends_when_no_new_direction` (method, line 126) `def test_loop_ends_when_no_new_direction(monkeypatch, tmp_path)`
-  - `test_loop_skips_unapproved_gated_command` (method, line 134) `def test_loop_skips_unapproved_gated_command(monkeypatch, tmp_path)`
-  - `test_loop_stops_when_objective_proven` (method, line 155) `def test_loop_stops_when_objective_proven(monkeypatch, tmp_path)`
-  - `test_loop_skips_duplicate_success` (method, line 164) `def test_loop_skips_duplicate_success(monkeypatch, tmp_path)`
-  - `test_decompose_goal_splits_compound` (method, line 197) `def test_decompose_goal_splits_compound(tmp_path)`
-  - `test_marker_helpers_extract_real_output` (method, line 216) `def test_marker_helpers_extract_real_output()`
+  - `_patch` (function, line 82) `def _patch(monkeypatch, tmp_path)`
+  - `_events` (function, line 104) `def _events(tmp_path)`
+  - `_run` (function, line 112) `def _run(monkeypatch, tmp_path, objective, commands, planner, world, max_steps)`
+  - `test_loop_ends_when_no_new_direction` (function, line 126) `def test_loop_ends_when_no_new_direction(monkeypatch, tmp_path)`
+  - `test_loop_skips_unapproved_gated_command` (function, line 134) `def test_loop_skips_unapproved_gated_command(monkeypatch, tmp_path)`
+  - `test_loop_stops_when_objective_proven` (function, line 155) `def test_loop_stops_when_objective_proven(monkeypatch, tmp_path)`
+  - `test_loop_skips_duplicate_success` (function, line 164) `def test_loop_skips_duplicate_success(monkeypatch, tmp_path)`
+  - `test_decompose_goal_splits_compound` (function, line 197) `def test_decompose_goal_splits_compound(tmp_path)`
+  - `test_marker_helpers_extract_real_output` (function, line 216) `def test_marker_helpers_extract_real_output()`
   - `__init__` (method, line 25) `def __init__(self, value)`
   - `__init__` (method, line 31) `def __init__(self, state)`
   - `get_phase` (method, line 35) `def get_phase(self)`
@@ -31,8 +83,8 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `next_command` (method, line 64) `def next_command(self, target, phase, services, os_hint)`
   - `register_output` (method, line 70) `def register_output(self, _output, _command, platform, success)`
   - `plan` (method, line 76) `def plan(self, _target, max_candidates)`
-  - `_fake_os` (method, line 90) `def _fake_os(_target, _loop)`
-  - `_fake_get_db` (method, line 98) `def _fake_get_db(db_path)`
+  - `_fake_os` (function, line 90) `def _fake_os(_target, _loop)`
+  - `_fake_get_db` (function, line 98) `def _fake_get_db(db_path)`
   - `_RepeatPlanner` (class, line 168) `class _RepeatPlanner`
   - `__init__` (method, line 169) `def __init__(self)`
   - `plan` (method, line 173) `def plan(self, target, max_candidates)`
@@ -44,17 +96,17 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
 - Language: py
 - Symbols:
   - `_TestUser` (class, line 16) `class _TestUser(UserMixin)`
-  - `client` (method, line 22) `def client(tmp_path)`
-  - `_write_credentials_file` (method, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
-  - `_write_hashes_file` (method, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
-  - `_write_loot_file` (method, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
-  - `_write_csv_report` (method, line 60) `def _write_csv_report(sessions_dir, rows)`
-  - `_write_events_jsonl` (method, line 69) `def _write_events_jsonl(sessions_dir, events)`
+  - `client` (function, line 22) `def client(tmp_path)`
+  - `_write_credentials_file` (function, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
+  - `_write_hashes_file` (function, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
+  - `_write_loot_file` (function, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
+  - `_write_csv_report` (function, line 60) `def _write_csv_report(sessions_dir, rows)`
+  - `_write_events_jsonl` (function, line 69) `def _write_events_jsonl(sessions_dir, events)`
   - `TestLootRoute` (class, line 75) `class TestLootRoute`
   - `TestTimelineRoute` (class, line 180) `class TestTimelineRoute`
   - `TestDashboardIndexRoute` (class, line 391) `class TestDashboardIndexRoute`
   - `__init__` (method, line 17) `def __init__(self, user_id)`
-  - `load_user` (method, line 34) `def load_user(user_id)`
+  - `load_user` (function, line 34) `def load_user(user_id)`
   - `test_loot_route_returns_200_with_data` (method, line 78) `def test_loot_route_returns_200_with_data(self, client)`
   - `test_loot_empty_returns_200` (method, line 107) `def test_loot_empty_returns_200(self, client)`
   - `test_loot_skips_comment_lines` (method, line 117) `def test_loot_skips_comment_lines(self, client)`
@@ -247,7 +299,7 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_overall_status_fail_trips_healthy` (method, line 171) `def test_overall_status_fail_trips_healthy(self)`
   - `test_gather_report_populates_all_sections` (method, line 185) `def test_gather_report_populates_all_sections(self, tmp_path)`
   - `test_run_returns_report_without_raising` (method, line 194) `def test_run_returns_report_without_raising(self, tmp_path)`
-  - `boom` (method, line 90) `def boom(name)`
+  - `boom` (function, line 90) `def boom(name)`
 - Depends on: `cli/__init__.py`, `cli/wizard.py`
 
 ## tests/test_encoding_command_set.py
@@ -257,13 +309,13 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
 - Symbols:
   - `_add_repo_root_to_syspath` (function, line 28) `def _add_repo_root_to_syspath()`
   - `EncodingSuiteConfig` (class, line 34) `class EncodingSuiteConfig`
-  - `_methods_of` (method, line 59) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (method, line 71) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_encoding_cluster` (method, line 80) `def test_target_exposes_full_encoding_cluster()`
-  - `test_target_phase_metadata` (method, line 87) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (method, line 93) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (method, line 99) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (method, line 106) `def test_no_command_collisions_with_source()`
+  - `_methods_of` (function, line 59) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 71) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_encoding_cluster` (function, line 80) `def test_target_exposes_full_encoding_cluster()`
+  - `test_target_phase_metadata` (function, line 87) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 93) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 99) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 106) `def test_no_command_collisions_with_source()`
 - Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/encoding.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
 
 ## tests/test_engage_gates.py
@@ -273,19 +325,19 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
 - Symbols:
   - `_ScriptedRunner` (class, line 23) `class _ScriptedRunner`
   - `_RecorderNarrator` (class, line 44) `class _RecorderNarrator`
-  - `_approved_gate` (method, line 56) `def _approved_gate()`
-  - `temp_sessions` (method, line 63) `def temp_sessions(tmp_path, monkeypatch)`
-  - `_orch` (method, line 74) `def _orch(target, scripted, plan, guard)`
-  - `test_denied_command_never_executes` (method, line 89) `def test_denied_command_never_executes(temp_sessions)`
-  - `test_duplicate_success_is_skipped` (method, line 109) `def test_duplicate_success_is_skipped(temp_sessions)`
-  - `test_scan_step_skipped_when_scan_held` (method, line 123) `def test_scan_step_skipped_when_scan_held(temp_sessions)`
-  - `test_executed_steps_leave_transcript_and_evidence` (method, line 138) `def test_executed_steps_leave_transcript_and_evidence(temp_sessions)`
-  - `test_notify_journal_written_for_findings` (method, line 153) `def test_notify_journal_written_for_findings(temp_sessions)`
-  - `test_no_new_direction_when_world_unchanged` (method, line 164) `def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch)`
-  - `test_planner_intent_executes_mapped_verb` (method, line 175) `def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch)`
-  - `test_planner_fallback_pushes_forward` (method, line 196) `def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch)`
-  - `test_latest_hint_renders_newest_event` (method, line 225) `def test_latest_hint_renders_newest_event(tmp_path)`
-  - `test_engage_summary_counts_ran_and_skipped` (method, line 241) `def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch)`
+  - `_approved_gate` (function, line 56) `def _approved_gate()`
+  - `temp_sessions` (function, line 63) `def temp_sessions(tmp_path, monkeypatch)`
+  - `_orch` (function, line 74) `def _orch(target, scripted, plan, guard)`
+  - `test_denied_command_never_executes` (function, line 89) `def test_denied_command_never_executes(temp_sessions)`
+  - `test_duplicate_success_is_skipped` (function, line 109) `def test_duplicate_success_is_skipped(temp_sessions)`
+  - `test_scan_step_skipped_when_scan_held` (function, line 123) `def test_scan_step_skipped_when_scan_held(temp_sessions)`
+  - `test_executed_steps_leave_transcript_and_evidence` (function, line 138) `def test_executed_steps_leave_transcript_and_evidence(temp_sessions)`
+  - `test_notify_journal_written_for_findings` (function, line 153) `def test_notify_journal_written_for_findings(temp_sessions)`
+  - `test_no_new_direction_when_world_unchanged` (function, line 164) `def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch)`
+  - `test_planner_intent_executes_mapped_verb` (function, line 175) `def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch)`
+  - `test_planner_fallback_pushes_forward` (function, line 196) `def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch)`
+  - `test_latest_hint_renders_newest_event` (function, line 225) `def test_latest_hint_renders_newest_event(tmp_path)`
+  - `test_engage_summary_counts_ran_and_skipped` (function, line 241) `def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch)`
   - `__init__` (method, line 26) `def __init__(self, scripted)`
   - `run` (method, line 31) `def run(self, command, timeout)`
   - `name` (method, line 39) `def name(self)`
@@ -311,7 +363,7 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `TestNotificationBroadcaster` (class, line 139) `class TestNotificationBroadcaster`
   - `TestShellObtainedPublisher` (class, line 191) `class TestShellObtainedPublisher`
   - `TestIsValidTarget` (class, line 241) `class TestIsValidTarget`
-  - `policy_module` (method, line 270) `def policy_module(temp_sessions, monkeypatch)`
+  - `policy_module` (function, line 270) `def policy_module(temp_sessions, monkeypatch)`
   - `_RecordingSink` (class, line 280) `class _RecordingSink`
   - `TestApprovalGate` (class, line 294) `class TestApprovalGate`
   - `TestFileApprovalSink` (class, line 385) `class TestFileApprovalSink`
@@ -375,7 +427,7 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `_CountingSink` (class, line 145) `class _CountingSink(INotificationSink)`
   - `_BoomSink` (class, line 165) `class _BoomSink(INotificationSink)`
   - `_GoodSink` (class, line 173) `class _GoodSink(INotificationSink)`
-  - `_injected_sleep` (method, line 330) `def _injected_sleep(_seconds)`
+  - `_injected_sleep` (function, line 330) `def _injected_sleep(_seconds)`
   - `__init__` (method, line 146) `def __init__(self, name)`
   - `name` (method, line 150) `def name(self)`
   - `deliver` (method, line 153) `def deliver(self, event)`
@@ -401,78 +453,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_write_report_persists_markdown` (function, line 114) `def test_write_report_persists_markdown(tmp_path)`
   - `test_render_markdown_lists_evidence_and_next` (function, line 125) `def test_render_markdown_lists_evidence_and_next()`
 - Depends on: `modules/engage_summary.py`, `modules/evidence.py`
-
-## tests/test_engagement_and_ping.py
-- Doc: tests/test_engagement_and_ping.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_command_location` (function, line 30) `def _command_location(name)`
-  - `TestEngagementState` (class, line 58) `class TestEngagementState`
-  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
-  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
-  - `TestPingOsId` (class, line 283) `class TestPingOsId`
-  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
-  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
-  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
-  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
-  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
-  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
-  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
-  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
-  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
-  - `_make_state` (method, line 178) `def _make_state(self, seen)`
-  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
-  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
-  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
-  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
-  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
-  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
-  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
-  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
-  - `_make_params` (method, line 289) `def _make_params(self)`
-  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
-  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
-  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
-  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
-  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
-  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
-  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
-  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
-  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
-  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
-  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
-  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
-  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
-  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
-  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
-  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
-- Depends on: `cli/engagement_hooks.py`
-
-## tests/test_engagement_command_gate.py
-- Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_redirect_paths` (function, line 34) `def _redirect_paths(tmp_path)`
-  - `_restore_paths` (function, line 56) `def _restore_paths(saved)`
-  - `TestIsRecordableCommand` (class, line 68) `class TestIsRecordableCommand`
-  - `TestHookRejectsNoise` (class, line 106) `class TestHookRejectsNoise`
-  - `TestSanitizeSeen` (class, line 141) `class TestSanitizeSeen`
-  - `TestHealCommandsSeen` (class, line 187) `class TestHealCommandsSeen`
-  - `test_accepts_command_shaped_tokens` (method, line 72) `def test_accepts_command_shaped_tokens(self, cmd)`
-  - `test_rejects_syntactic_garbage` (method, line 81) `def test_rejects_syntactic_garbage(self, cmd)`
-  - `test_quoted_path_rejected` (method, line 86) `def test_quoted_path_rejected(self)`
-  - `test_do_prefixed_input_is_accepted` (method, line 91) `def test_do_prefixed_input_is_accepted(self)`
-  - `test_normalize_is_idempotent` (method, line 96) `def test_normalize_is_idempotent(self)`
-  - `test_garbage_does_not_enter_commands_seen` (method, line 109) `def test_garbage_does_not_enter_commands_seen(self, tmp_path)`
-  - `test_real_command_recorded_between_garbage` (method, line 123) `def test_real_command_recorded_between_garbage(self, tmp_path)`
-  - `test_syntactic_only_drops_ugly_garbage` (method, line 144) `def test_syntactic_only_drops_ugly_garbage(self)`
-  - `test_roster_drops_valid_but_unknown_tokens` (method, line 158) `def test_roster_drops_valid_but_unknown_tokens(self)`
-  - `test_load_state_heals_polluted_file` (method, line 165) `def test_load_state_heals_polluted_file(self, tmp_path)`
-  - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
-  - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
-- Depends on: `cli/engagement_hooks.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

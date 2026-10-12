@@ -11,12 +11,12 @@
 - Language: py
 - Symbols:
   - `MigrationError` (class, line 28) `class MigrationError(Exception)`
-  - `find_migrated_sets` (method, line 32) `def find_migrated_sets()`
-  - `extract_command_names` (method, line 42) `def extract_command_names(migrated_path)`
-  - `find_in_lazyown` (method, line 52) `def find_in_lazyown(command_names)`
-  - `remove_from_lazyown` (method, line 62) `def remove_from_lazyown(locations, dry_run)`
-  - `activate_migrated_file` (method, line 75) `def activate_migrated_file(migrated_path, dry_run)`
-  - `main` (method, line 88) `def main()`
+  - `find_migrated_sets` (function, line 32) `def find_migrated_sets()`
+  - `extract_command_names` (function, line 42) `def extract_command_names(migrated_path)`
+  - `find_in_lazyown` (function, line 52) `def find_in_lazyown(command_names)`
+  - `remove_from_lazyown` (function, line 62) `def remove_from_lazyown(locations, dry_run)`
+  - `activate_migrated_file` (function, line 75) `def activate_migrated_file(migrated_path, dry_run)`
+  - `main` (function, line 88) `def main()`
 
 ## scripts/backfill_addon_os_trigger.py
 - Doc: One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon.
@@ -35,16 +35,16 @@
 - Language: py
 - Symbols:
   - `ManifestConfig` (class, line 34) `class ManifestConfig`
-  - `_top_level_names` (method, line 72) `def _top_level_names(path)`
-  - `_module_path` (method, line 100) `def _module_path(module, config)`
-  - `_dotted_symbol_exists` (method, line 112) `def _dotted_symbol_exists(token, config)`
-  - `_iter_table_cells` (method, line 127) `def _iter_table_cells(text)`
-  - `_extract_path_tokens` (method, line 138) `def _extract_path_tokens(text, config)`
-  - `_resolve_reference` (method, line 154) `def _resolve_reference(token, config)`
-  - `_collect_doc_imports` (method, line 163) `def _collect_doc_imports(text)`
-  - `check_manifest` (method, line 176) `def check_manifest(config)`
-  - `_extract_dotted_tokens` (method, line 209) `def _extract_dotted_tokens(text, config)`
-  - `main` (method, line 229) `def main(argv)`
+  - `_top_level_names` (function, line 72) `def _top_level_names(path)`
+  - `_module_path` (function, line 100) `def _module_path(module, config)`
+  - `_dotted_symbol_exists` (function, line 112) `def _dotted_symbol_exists(token, config)`
+  - `_iter_table_cells` (function, line 127) `def _iter_table_cells(text)`
+  - `_extract_path_tokens` (function, line 138) `def _extract_path_tokens(text, config)`
+  - `_resolve_reference` (function, line 154) `def _resolve_reference(token, config)`
+  - `_collect_doc_imports` (function, line 163) `def _collect_doc_imports(text)`
+  - `check_manifest` (function, line 176) `def check_manifest(config)`
+  - `_extract_dotted_tokens` (function, line 209) `def _extract_dotted_tokens(text, config)`
+  - `main` (function, line 229) `def main(argv)`
   - `__post_init__` (method, line 53) `def __post_init__(self)`
   - `_resolve` (method, line 58) `def _resolve(self, path)`
 - Imported by: `tests/test_contract_manifest.py`
@@ -71,12 +71,12 @@
 - Symbols:
   - `JournalError` (class, line 48) `class JournalError(RuntimeError)`
   - `JournalConfig` (class, line 53) `class JournalConfig`
-  - `_run_git` (method, line 90) `def _run_git(args)`
-  - `_git_remote_slug` (method, line 114) `def _git_remote_slug()`
-  - `_default_runner` (method, line 124) `def _default_runner(args)`
+  - `_run_git` (function, line 90) `def _run_git(args)`
+  - `_git_remote_slug` (function, line 114) `def _git_remote_slug()`
+  - `_default_runner` (function, line 124) `def _default_runner(args)`
   - `Journal` (class, line 149) `class Journal`
-  - `_build_parser` (method, line 245) `def _build_parser()`
-  - `main` (method, line 264) `def main(argv)`
+  - `_build_parser` (function, line 245) `def _build_parser()`
+  - `main` (function, line 264) `def main(argv)`
   - `from_git_remote` (method, line 71) `def from_git_remote(cls, remote, category)`
   - `_graphql` (method, line 163) `def _graphql(self, query, variables)`
   - `repo_id` (method, line 184) `def repo_id(self)`

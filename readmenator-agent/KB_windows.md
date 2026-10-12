@@ -68,7 +68,7 @@
   - `_tick_clock` (method, line 386) `def _tick_clock(self)`
   - `status_badge` (method, line 393) `def status_badge(self)`
   - `panels` (method, line 398) `def panels(self)`
-  - `_toggle` (method, line 303) `def _toggle()`
-  - `_apply` (method, line 314) `def _apply()`
+  - `_toggle` (function, line 303) `def _toggle()`
+  - `_apply` (function, line 314) `def _apply()`
 - Depends on: `lazygui/config/constants.py`, `lazygui/config/settings.py`, `lazygui/panels/registry.py`, `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/models.py`, `lazygui/theme/manager.py`, `lazygui/theme/tokens.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/command_palette_window.py`
 - Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`

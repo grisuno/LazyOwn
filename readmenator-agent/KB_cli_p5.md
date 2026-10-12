@@ -1,0 +1,151 @@
+# Subsystem: cli (page 5 of 5)
+Previous: [KB_cli_p4.md](KB_cli_p4.md)
+
+## cli/toast_bus.py
+- Doc: Non-blocking toast notification subsystem for the LazyOwn shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ToastConfig` (class, line 43) `class ToastConfig`
+  - `ToastEvent` (class, line 110) `class ToastEvent`
+  - `ToastState` (class, line 121) `class ToastState`
+  - `ToastReader` (class, line 203) `class ToastReader`
+  - `ToastFormatter` (class, line 330) `class ToastFormatter`
+  - `ToastBus` (class, line 511) `class ToastBus`
+  - `_is_truthy` (function, line 645) `def _is_truthy(value, config, default)`
+  - `_is_dumb_stream` (function, line 659) `def _is_dumb_stream(stream)`
+  - `toasts_enabled` (function, line 679) `def toasts_enabled(payload, config)`
+  - `_budget` (function, line 687) `def _budget(payload, config)`
+  - `build_default_bus` (function, line 702) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (function, line 731) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ephemeral_enabled` (function, line 755) `def ephemeral_enabled(payload, config)`
+  - `render_ephemeral_toasts` (function, line 771) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
+  - `emit_toast` (function, line 801) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (function, line 846) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (function, line 890) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 129) `def __init__(self, config, root)`
+  - `path` (method, line 144) `def path(self)`
+  - `get` (method, line 148) `def get(self, name)`
+  - `set` (method, line 153) `def set(self, name, offset)`
+  - `reset` (method, line 159) `def reset(self)`
+  - `flush` (method, line 164) `def flush(self)`
+  - `_ensure_loaded` (method, line 182) `def _ensure_loaded(self)`
+  - `__init__` (method, line 206) `def __init__(self, config, root)`
+  - `root` (method, line 217) `def root(self)`
+  - `read_unseen` (method, line 221) `def read_unseen(self, name, start_offset)`
+  - `_parse` (method, line 252) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 267) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 290) `def _coerce_str(value)`
+  - `_summary` (method, line 298) `def _summary(record)`
+  - `__init__` (method, line 333) `def __init__(self, config, theme)`
+  - `format` (method, line 338) `def format(self, event)`
+  - `is_prominent` (method, line 350) `def is_prominent(self, event)`
+  - `format_prominent` (method, line 360) `def format_prominent(self, event)`
+  - `format_ephemeral` (method, line 377) `def format_ephemeral(self, event)`
+  - `duration_for` (method, line 405) `def duration_for(self, event)`
+  - `digest_line` (method, line 430) `def digest_line(dropped)`
+  - `format_many` (method, line 438) `def format_many(self, events, width)`
+  - `_console_width` (method, line 492) `def _console_width(self)`
+  - `_role_for` (method, line 499) `def _role_for(self, severity)`
+  - `_truncate` (method, line 505) `def _truncate(self, value)`
+  - `__init__` (method, line 518) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 533) `def collect(self)`
+  - `render` (method, line 545) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 574) `def mark_all_seen(self)`
+  - `render_ephemeral` (method, line 581) `def render_ephemeral(self, enabled, duration)`
+  - `_schedule_erase` (method, line 614) `def _schedule_erase(self, delay)`
+  - `_erase_lines` (method, line 630) `def _erase_lines(stream, rows)`
+- Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
+
+## cli/tui_theme.py
+- Doc: Operator-facing ``tui_theme`` command logic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_set_theme` (function, line 30) `def _set_theme(payload, name)`
+  - `_format_listing` (function, line 45) `def _format_listing(current)`
+  - `_cycle` (function, line 65) `def _cycle(payload, direction)`
+  - `run` (function, line 87) `def run(args, payload, save)`
+- Depends on: `cli/themes.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/tutorial.py
+- Doc: Interactive post-install tutorial for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TutorialConfig` (class, line 76) `class TutorialConfig`
+  - `is_done` (function, line 83) `def is_done(config)`
+  - `mark_done` (function, line 89) `def mark_done(config)`
+  - `render_header` (function, line 96) `def render_header()`
+  - `render_phase_table` (function, line 113) `def render_phase_table()`
+  - `run_step` (function, line 128) `def run_step(index, command, description, why, params, command_runner)`
+  - `run` (function, line 185) `def run(params, command_runner)`
+- Depends on: `core/console.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/wizard.py
+- Doc: Guided first-run setup wizard for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BinarySpec` (class, line 90) `class BinarySpec`
+  - `BinaryStatus` (class, line 141) `class BinaryStatus`
+  - `ReadinessItem` (class, line 150) `class ReadinessItem`
+  - `WizardResult` (class, line 160) `class WizardResult`
+  - `run` (function, line 169) `def run(params, save)`
+  - `run_non_interactive` (function, line 234) `def run_non_interactive(params, save, values)`
+  - `_rotate_default_secrets` (function, line 300) `def _rotate_default_secrets(params, save)`
+  - `_print_secret_rotation` (function, line 348) `def _print_secret_rotation(rotated)`
+  - `_print_header` (function, line 364) `def _print_header()`
+  - `_print_glossary_panel` (function, line 379) `def _print_glossary_panel()`
+  - `_spec_long_help` (function, line 404) `def _spec_long_help(key)`
+  - `_print_long_help` (function, line 412) `def _print_long_help(key)`
+  - `_collect_values` (function, line 419) `def _collect_values(params)`
+  - `_ask_rhost` (function, line 457) `def _ask_rhost(current)`
+  - `_ask_lhost` (function, line 484) `def _ask_lhost(current)`
+  - `_ask_domain` (function, line 515) `def _ask_domain(current)`
+  - `_ask_device` (function, line 537) `def _ask_device(current)`
+  - `_ask_os_id` (function, line 563) `def _ask_os_id(current)`
+  - `_normalize_provider_answer` (function, line 585) `def _normalize_provider_answer(raw)`
+  - `_mask_secret` (function, line 606) `def _mask_secret(value)`
+  - `_ask_llm` (function, line 621) `def _ask_llm(params)`
+  - `_ask_wordlists` (function, line 692) `def _ask_wordlists(params)`
+  - `_ask_operator_login` (function, line 724) `def _ask_operator_login(params)`
+  - `_wizard_login_flow` (function, line 786) `def _wizard_login_flow()`
+  - `_wizard_register_flow` (function, line 809) `def _wizard_register_flow()`
+  - `_ask_marketplace_config` (function, line 852) `def _ask_marketplace_config()`
+  - `_build_readiness` (function, line 875) `def _build_readiness(params)`
+  - `_print_readiness` (function, line 927) `def _print_readiness(items)`
+  - `check_binaries` (function, line 947) `def check_binaries(specs, which)`
+  - `_group_by_category` (function, line 988) `def _group_by_category(statuses)`
+  - `_print_binary_report` (function, line 997) `def _print_binary_report(statuses)`
+  - `_print_next_steps` (function, line 1035) `def _print_next_steps(params)`
+  - `_print_validation_summary` (function, line 1059) `def _print_validation_summary(params)`
+  - `_detect_lhost` (function, line 1098) `def _detect_lhost()`
+  - `_detect_device` (function, line 1120) `def _detect_device()`
+  - `_find_seclists_root` (function, line 1133) `def _find_seclists_root()`
+  - `_ping` (function, line 1141) `def _ping(ip)`
+  - `_prompt` (function, line 1154) `def _prompt(message)`
+  - `_ok` (function, line 1161) `def _ok(msg)`
+  - `_warn` (function, line 1165) `def _warn(msg)`
+  - `_info` (function, line 1169) `def _info(msg)`
+  - `_is_default` (function, line 322) `def _is_default(value)`
+  - `_is_weak` (function, line 325) `def _is_weak(value)`
+  - `_check` (function, line 878) `def _check(key, label, hint)`
+  - `_check_llm` (function, line 887) `def _check_llm()`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+## cli/wizard_scope.py
+- Doc: Partial wizard scope: show current state or edit selected fields only.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WizardScopeConfig` (class, line 17) `class WizardScopeConfig`
+  - `WizardScope` (class, line 31) `class WizardScope`
+  - `parse_scope` (function, line 38) `def parse_scope(tokens, config)`
+  - `status_rows` (function, line 64) `def status_rows(params)`
+- Imported by: `cli/commands/help_ui.py`
+

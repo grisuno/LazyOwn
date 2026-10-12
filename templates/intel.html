@@ -203,7 +203,7 @@
 </div>
 <div id="tip" role="tooltip"></div>
 </div>
-<script src="/static/js/force-graph-1.43.5.min.js"></script>
+<script src="/static/js/force-graph-1.43.5.min.js?v=af9324ce63bb"></script>
 <script>
 
 (function(){
@@ -213,8 +213,8 @@ function boot(g){
 const RAW={nodes:(g.nodes||[]),edges:(g.edges||[])};
 const ANALYTICS=g.analytics||{};
 const SETTINGS=Object.assign({},INTEL_DEFAULT_SETTINGS,g.settings||{});
-const CDN_2D="/static/js/force-graph-1.43.5.min.js";
-const CDN_3D="/static/js/3d-force-graph-1.73.4.min.js";
+const CDN_2D="/static/js/force-graph-1.43.5.min.js?v=af9324ce63bb";
+const CDN_3D="/static/js/3d-force-graph-1.73.4.min.js?v=0ddfb909b551";
 const reduced=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 const fly=reduced?0:SETTINGS.flyMs;
 const $=id=>document.getElementById(id);
@@ -1119,14 +1119,21 @@ function setView(v){
 function ensure3D(cb,onFail){
   if(typeof ForceGraph3D!=="undefined")return cb();
   toast("Loading 3D engine…");
-  const s=document.createElement("script");s.src=CDN_3D;s.onload=cb;s.onerror=()=>{toast("The 3D engine needs network access to "+CDN_3D);if(onFail)onFail();};
-  document.head.appendChild(s);
+  loadFallback([CDN_3D],cb,()=>{toast("The 3D engine failed to load: check the vendored /static/js files");if(onFail)onFail();});
 }
 function ensure2D(cb){
   if(typeof ForceGraph!=="undefined")return cb();
-  const s=document.createElement("script");s.src=CDN_2D;
-  s.onload=cb;s.onerror=()=>fail("Graph engine missing: keep vendor/force-graph.min.js next to this file or connect to the network.");
-  document.head.appendChild(s);
+  loadFallback([CDN_2D],cb,()=>fail("Graph engine missing: check the vendored /static/js files."));
+}
+function loadFallback(urls,cb,onFail){
+  const next=urls.slice();
+  const attempt=()=>{
+    if(!next.length){if(onFail)onFail();return;}
+    const src=next.shift(),s=document.createElement("script");s.src=src;
+    s.onload=cb;s.onerror=attempt;
+    document.head.appendChild(s);
+  };
+  attempt();
 }
 $("btn-png").addEventListener("click",()=>{
   const st=$("stage"),W=st.clientWidth,H=st.clientHeight,dpr=window.devicePixelRatio||1;

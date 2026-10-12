@@ -1,16 +1,47 @@
 # Subsystem: js (page 4 of 4)
 Previous: [KB_js_p3.md](KB_js_p3.md)
 
+## static/js/socket.io-4.3.2.min.js
+- Doc: as: !
+- Layer: utility
+- Language: js
+- Symbols:
+  - `o` (function, line 6)
+  - `e` (function, line 6)
+  - `r` (function, line 6)
+  - `n` (function, line 6)
+  - `n` (function, line 6)
+  - `n` (function, line 6)
+  - `e` (function, line 6)
+  - `o` (function, line 6)
+  - `s` (function, line 6)
+  - `f` (function, line 6)
+  - `wt` (function, line 6)
+  - `h` (function, line 6)
+  - `Et` (function, line 6)
+  - `Nt` (function, line 6)
+  - `as` (class, line 6)
+- Depends on: `lazyc2/blueprints/auth.py`
+
+## static/js/tippy-6.js
+- Layer: utility
+- Language: js
+- Symbols:
+  - `e` (function, line 1)
+  - `r` (function, line 1)
+  - `u` (function, line 1)
+- Depends on: `cli/assign.py`, `cli/show.py`
+
 ## static/js/vis-network-9.1.2.min.js
 - Doc: as: @license vis.js is dual licensed under both  1.
 - Layer: utility
 - Language: js
 - Symbols:
-  - `Pc` (function, line 32)
+  - `Pc` (function, line 33)
   - `or` (function, line 33)
   - `in` (function, line 33)
   - `does` (function, line 33)
-  - `rO` (function, line 47)
+  - `rO` (function, line 48)
   - `g` (function, line 48)
   - `g` (function, line 48)
   - `has` (function, line 48)
@@ -148,11 +179,11 @@ Previous: [KB_js_p3.md](KB_js_p3.md)
 - Layer: utility
 - Language: js
 - Symbols:
-  - `Pc` (function, line 32)
+  - `Pc` (function, line 33)
   - `or` (function, line 33)
   - `in` (function, line 33)
   - `does` (function, line 33)
-  - `rO` (function, line 47)
+  - `rO` (function, line 48)
   - `g` (function, line 48)
   - `g` (function, line 48)
   - `has` (function, line 48)

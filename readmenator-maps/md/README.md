@@ -9,7 +9,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **749 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
+> **819 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 
@@ -72,7 +72,7 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v0.2.161
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 749 CLI commands, 129 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 819 CLI commands, 129 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
 **New in v0.2.161:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
 
@@ -131,6 +131,33 @@ If `doctor` reports a blocking failure (red), fix it before going further — it
 tells you the exact `pip install` / `apt install` command for whatever is
 missing. Warnings (yellow) are optional features you can ignore for now.
 
+## Autonomous loop
+
+LazyOwn ships a native autonomous loop: one command drives a full
+engagement round by round (scope, enrichment, planning, workers, guard,
+traffic, findings, retest, compaction, intel fusion, report), with every
+step persisted and auditable under `sessions/lazy/`.
+
+```text
+auto_loop --target 10.10.10.5 --rounds 6 --workers 2 "gain initial access"
+lazy_loop --view            # resume/observe with the live worker monitor
+lazy_view t0001             # attach the monitor from another terminal
+lazy_orchestrator           # admin console: pipeline stages, auto verbs, config, LLM chain, guard rules
+```
+
+Highlights:
+
+- configurable pipeline: enable/disable each stage and manage the auto
+  verb registry (`lazy_orchestrator` Pipeline and Verbs tabs);
+- transparent execution: every step is narrated live, with heartbeats, a
+  stall watchdog and thread-stack dumps when nothing moves;
+- safe teardown: `Ctrl+C`, `qa`, `exit`, EOF and `atexit` kill children,
+  close shell sessions, pause tasks and leave everything resumable;
+- intel fusion: each round merges logs into the world model, findings
+  lifecycle and objectives via `lazy_bridge.sync_all`.
+
+Full documentation: [`docs/autonomous-loop.md`](docs/autonomous-loop.md).
+
 # Core Architecture
 LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.
 
@@ -148,7 +175,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Key Features
 
-1. **749 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **819 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
 3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
 4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
@@ -215,7 +242,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Command Capabilities
 
-LazyOwn provides 749 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
+LazyOwn provides 819 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
 | Phase | Highlight Commands |
 |-------|-------------------|
@@ -235,13 +262,14 @@ LazyOwn provides 749 commands across 13 kill-chain phases, available from both C
 
 Core management: `assign`, `show`, `doctor`, `wizard`, `scope`, `collab_join`, `config_banner`, `palette`, `fz`.
 
-See [`COMMANDS.md`](COMMANDS.md) for the full 749-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
+See [`COMMANDS.md`](COMMANDS.md) for the full 819-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
 
 ## Go deeper
 
 | Guide | Contents |
 |-------|----------|
 | [`docs/collaboration.md`](docs/collaboration.md) | Multi-operator C2: SSE stream, publish, target locks |
+| [`docs/autonomous-loop.md`](docs/autonomous-loop.md) | Autonomous loop: pipeline stages, auto verbs, observability, audit, teardown |
 | [`docs/mcp-setup.md`](docs/mcp-setup.md) | MCP setup per agent, env vars, 153 tool groups |
 | [`docs/cli-ux.md`](docs/cli-ux.md) | Audit mode, fuzzy autocomplete, prompt themes, palette, dashboard |
 | [`docs/ai-architecture.md`](docs/ai-architecture.md) | MoE router, RL trainer, SWAN, Hive Mind, detection oracle |
@@ -255,7 +283,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 749-command reference and [`ESSENT
 
 ## Full references (auto-generated, standalone)
 
-- [`COMMANDS.md`](COMMANDS.md) — full 749-command reference
+- [`COMMANDS.md`](COMMANDS.md) — full 819-command reference
 - [`UTILS.md`](UTILS.md) — helper-function reference for `utils.py`
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
@@ -346,6 +374,11 @@ a zero-token polyglot static analysis tool. Regenerate with
   - `REPORT.md` -- Honest audit: coverage, confidence, limits
 - **[readmenator-graphrag/](./readmenator-graphrag/)** -- Zero-token GraphRAG index.
   - `index.json` + `REPORTS.md` -- Query with `readmenator . ask "<question>"`
+- **[readmenator-apidocs/](./readmenator-apidocs/)** -- API reference (Sphinx/Doxygen style).
+  - `index.md` + `modules/*.md` -- Signatures, parameters, returns, raises, examples, call graphs
+  - `architecture.md` -- Tiered architecture + execution flows (control flow, call tree, sequence)
+  - `classes.md`, `genindex.md`, `COVERAGE.md` -- Hierarchy, A-Z index, doc coverage + warnings
+  - `index.html` + `api.json` -- Offline searchable browser and machine-readable model
 - **[readmenator-maps/](./readmenator-maps/)** -- Interactive gallery (`index.html`).
   - 5 system maps: architecture, workflow, sequence, dataflow, lifecycle
   - `graph-force.html` -- Force-graph explorer (2D/3D, reach, paths, lenses)

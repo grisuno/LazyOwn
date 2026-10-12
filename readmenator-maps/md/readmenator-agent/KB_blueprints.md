@@ -35,15 +35,15 @@
 - Language: py
 - Symbols:
   - `HealthConfig` (class, line 25) `class HealthConfig`
-  - `_health_status` (method, line 36) `def _health_status(config)`
-  - `_listener_alive` (method, line 99) `def _listener_alive(listener)`
-  - `health` (method, line 108) `def health()`
-  - `ping` (method, line 120) `def ping()`
-  - `require_api_auth_with_store` (method, line 129) `def require_api_auth_with_store(view)`
-  - `health_tenant` (method, line 157) `def health_tenant()`
-  - `get_defaults` (method, line 182) `def get_defaults()`
-  - `set_default` (method, line 210) `def set_default()`
-  - `guarded` (method, line 146) `def guarded()`
+  - `_health_status` (function, line 36) `def _health_status(config)`
+  - `_listener_alive` (function, line 99) `def _listener_alive(listener)`
+  - `health` (function, line 108) `def health()`
+  - `ping` (function, line 120) `def ping()`
+  - `require_api_auth_with_store` (function, line 129) `def require_api_auth_with_store(view)`
+  - `health_tenant` (function, line 157) `def health_tenant()`
+  - `get_defaults` (function, line 182) `def get_defaults()`
+  - `set_default` (function, line 210) `def set_default()`
+  - `guarded` (function, line 146) `def guarded()`
 - Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
 - Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
 

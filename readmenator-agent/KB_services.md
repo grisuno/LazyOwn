@@ -155,13 +155,13 @@
   - `_parse_graph_edges` (method, line 645) `def _parse_graph_edges(self, payload)`
   - `_build_topology_from_payload` (method, line 664) `def _build_topology_from_payload(self, payload)`
   - `_emit_event` (method, line 780) `def _emit_event(self, level, message)`
-  - `_connect_sio` (method, line 444) `def _connect_sio()`
-  - `_on_pty_connect` (method, line 461) `def _on_pty_connect()`
-  - `_on_pty_output` (method, line 465) `def _on_pty_output(data)`
-  - `_on_terminal_connect` (method, line 471) `def _on_terminal_connect()`
-  - `_on_terminal_response` (method, line 475) `def _on_terminal_response(data)`
-  - `_on_output` (method, line 481) `def _on_output(data)`
-  - `_on_connect` (method, line 487) `def _on_connect()`
-  - `_on_disconnect` (method, line 491) `def _on_disconnect()`
+  - `_connect_sio` (function, line 444) `def _connect_sio()`
+  - `_on_pty_connect` (function, line 461) `def _on_pty_connect()`
+  - `_on_pty_output` (function, line 465) `def _on_pty_output(data)`
+  - `_on_terminal_connect` (function, line 471) `def _on_terminal_connect()`
+  - `_on_terminal_response` (function, line 475) `def _on_terminal_response(data)`
+  - `_on_output` (function, line 481) `def _on_output(data)`
+  - `_on_connect` (function, line 487) `def _on_connect()`
+  - `_on_disconnect` (function, line 491) `def _on_disconnect()`
 - Depends on: `core/logging.py`, `lazyc2/blueprints/auth.py`, `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/windows/connect_dialog.py`, `tests/test_lazygui_backend.py`

@@ -75,6 +75,7 @@ def _ensure_engine():
     def _load(ns):
         from event_engine import ack_event, add_rule, load_rules, process_new_rows, read_events
         from event_engine import is_running as _hb_is_running
+
         ns.update(
             process_new_rows=process_new_rows,
             read_events=read_events,
@@ -91,6 +92,7 @@ def _ensure_engine():
 def _ensure_bridge():
     def _load(ns):
         from mcp_agent_bridge import get_agent_result, get_agent_status, list_agents, start_agent
+
         ns.update(
             start_agent=start_agent,
             get_agent_status=get_agent_status,
@@ -106,6 +108,7 @@ def _ensure_state():
     def _load(ns):
         from session_state import load as _state_load
         from session_state import refresh as _state_refresh
+
         ns.update(_state_load=_state_load, _state_refresh=_state_refresh)
         return True
 
@@ -115,16 +118,55 @@ def _ensure_state():
 def _ensure_recommender():
     def _load(ns):
         from recommender import recommend_and_save as _recommend
+
         ns.update(_recommend=_recommend)
         return True
 
     return _ensure_optional(globals(), "_RECOMMENDER_AVAILABLE", _load)
 
 
+def _sitrep_recommendations(limit: int = 3) -> list[dict[str, Any]]:
+    """Return top-N next-step suggestions for the sitrep payload.
+
+    ``recommend_and_save`` reads target state from ``session_state`` and
+    resolves the API key itself, so no positional arguments are forwarded.
+
+    Args:
+        limit: Maximum number of suggestions to return.
+
+    Returns:
+        ``{"command", "score", "reasoning"}`` dicts, or a single
+        ``{"error": ...}`` entry when the recommender is unavailable or
+        raises.
+    """
+    if not _ensure_recommender() or _recommend is None:
+        return [{"error": "recommender module unavailable"}]
+    try:
+        recs = _recommend() or []
+    except Exception as exc:
+        return [{"error": str(exc)}]
+    suggestions: list[dict[str, Any]] = []
+    for item in recs:
+        if not isinstance(item, dict):
+            continue
+        command = str(item.get("command", "")).strip()
+        if not command or command == "_error":
+            continue
+        suggestions.append(
+            {
+                "command": command,
+                "score": float(item.get("confidence", item.get("score", 0.0)) or 0.0),
+                "reasoning": str(item.get("reason", item.get("reasoning", "")) or ""),
+            }
+        )
+    return suggestions[: max(int(limit), 0)]
+
+
 def _ensure_narrator():
     def _load(ns):
         from timeline_narrator import load_timeline as _load_timeline
         from timeline_narrator import narrate as _narrate
+
         ns.update(_narrate=_narrate, _load_timeline=_load_timeline)
         return True
 
@@ -134,6 +176,7 @@ def _ensure_narrator():
 def _ensure_policy():
     def _load(ns):
         from lazyown_policy import LazyOwnPolicyIntegration as _PI
+
         ns.update(_policy=_PI())
         return True
 
@@ -146,6 +189,7 @@ def _ensure_facts():
             from lazyown_facts import FactStore as _FS
             from lazyown_facts import create_tool_file as _ctf
         except Exception:
+
             def _create_tool_file(*_a, **_kw):
                 raise RuntimeError("lazyown_facts not available")
 
@@ -164,6 +208,7 @@ def _ensure_objectives():
         from lazyown_objective import full_context_for_claude as _fc
         from lazyown_objective import read_soul as _rs
         from lazyown_objective import write_soul as _ws
+
         ns.update(
             _objectives=_OS(),
             _read_soul=_rs,
@@ -180,6 +225,7 @@ def _ensure_llm():
     def _load(ns):
         from lazyown_llm import build_bridge as _build_bridge
         from lazyown_llm import llm_ask as _llm_ask
+
         ns.update(_llm_ask=_llm_ask, _build_bridge=_build_bridge)
         return True
 
@@ -189,6 +235,7 @@ def _ensure_llm():
 def _ensure_automapper():
     def _load(ns):
         from lazyown_automapper import AutoMapper as _AM
+
         ns.update(_AutoMapper=_AM)
         return True
 
@@ -200,6 +247,7 @@ def _ensure_pdb():
         try:
             from lazyown_parquet_db import get_pdb as _gpdb
         except Exception:
+
             def _get_pdb(_=None):
                 return None
 
@@ -222,6 +270,7 @@ def _ensure_hive():
         from hive_mind import mcp_hive_result as _hive_result
         from hive_mind import mcp_hive_spawn as _hive_spawn
         from hive_mind import mcp_hive_status as _hive_status
+
         ns.update(
             _get_hive=_get_hive,
             _hive_spawn=_hive_spawn,
@@ -245,6 +294,7 @@ def _ensure_auto():
         from autonomous_daemon import mcp_autonomous_start as _auto_start
         from autonomous_daemon import mcp_autonomous_status as _auto_status
         from autonomous_daemon import mcp_autonomous_stop as _auto_stop
+
         ns.update(
             _auto_start=_auto_start,
             _auto_stop=_auto_stop,
@@ -262,6 +312,7 @@ def _ensure_aci():
         from aci_planner import mcp_aci_plan as _aci_plan
         from aci_planner import mcp_aci_replan as _aci_replan
         from aci_planner import mcp_aci_status as _aci_status
+
         ns.update(_aci_plan=_aci_plan, _aci_status=_aci_status, _aci_replan=_aci_replan)
         return True
 
@@ -1244,6 +1295,279 @@ async def _h_exploit_chain(arguments: dict, tool_name: str) -> list[types.TextCo
             "shell_obtained": any(r.get("shell_obtained") for r in results),
         }
         return _make_text(tool_name, json.dumps(summary, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_status")
+async def _h_lazy_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_bridge import bridge_status as _status
+
+        return _make_text(tool_name, json.dumps(_status(), indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_sync")
+async def _h_lazy_sync(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_bridge import sync_all as _sync
+
+        return _make_text(tool_name, json.dumps(_sync(), indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_board")
+async def _h_lazy_board(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_engine import LazyEngine
+
+        engine = LazyEngine()
+        kind = str(arguments.get("kind", "")).strip()
+        page = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: engine.broadcast(
+                str(arguments.get("task_id", "")),
+                kinds=[kind] if kind else None,
+                query=str(arguments.get("query", "")),
+                order=str(arguments.get("order", "desc")),
+                page=int(arguments.get("page", 1) or 1),
+                per_page=int(arguments.get("per_page", 20) or 20),
+            ),
+        )
+        return _make_text(tool_name, json.dumps(page, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_trace")
+async def _h_lazy_trace(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_engine import ActivityLog
+
+        log = ActivityLog(str(arguments.get("task_id", "")))
+        hits = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: log.search_all(str(arguments.get("query", ""))),
+        )
+        return _make_text(
+            tool_name, json.dumps({"hits": hits[:50], "total": len(hits)}, indent=2, ensure_ascii=False, default=str)
+        )
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_hint")
+async def _h_lazy_hint(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_engine import LazyEngine
+
+        engine = LazyEngine()
+        node = engine.add_hint(str(arguments.get("task_id", "")), str(arguments.get("text", "")))
+        record = {
+            "node_id": node.node_id,
+            "kind": node.kind,
+            "state": node.state,
+            "text": node.text,
+            "created": node.created,
+        }
+        return _make_text(tool_name, json.dumps(record, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_workspace")
+async def _h_lazy_workspace(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules import workspace as _ws
+
+        action = str(arguments.get("action", "list") or "list").lower()
+        path = str(arguments.get("path", "") or "")
+        if action == "read":
+            content = await asyncio.get_event_loop().run_in_executor(None, lambda: _ws.read_text(path))
+            return _make_text(tool_name, json.dumps({"path": path, "content": content}, indent=2, ensure_ascii=False))
+        if action == "write":
+            written = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _ws.write_text(path, str(arguments.get("content", "")))
+            )
+            return _make_text(tool_name, json.dumps({"path": path, "written": written}, indent=2))
+        entries = await asyncio.get_event_loop().run_in_executor(None, lambda: _ws.list_entries(path))
+        return _make_text(tool_name, json.dumps({"path": path, "entries": entries}, indent=2, ensure_ascii=False))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_proxy")
+async def _h_lazy_proxy(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_engine import LazyEngine
+
+        engine = LazyEngine()
+        action = str(arguments.get("action", "status") or "status").lower()
+        if action == "start":
+            status = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: engine.proxy_start(
+                    port=int(arguments.get("port", 0) or 0), task_id=str(arguments.get("task_id", ""))
+                ),
+            )
+        elif action == "stop":
+            status = await asyncio.get_event_loop().run_in_executor(None, engine.proxy_stop)
+        elif action == "env":
+            status = {"env": engine.proxy_env()}
+        else:
+            status = engine.proxy_status()
+        return _make_text(tool_name, json.dumps(status, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_finding")
+async def _h_lazy_finding(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_engine import (
+            ActivityLog,
+            ExplorationGraph,
+            FindingService,
+            LazyEngine,
+        )
+
+        task_id = str(arguments.get("task_id", "")).strip()
+        if not task_id:
+            return _make_text(
+                tool_name, json.dumps({"error": "task_id is required; findings live in the loop engine"}, indent=2)
+            )
+        evidence = str(arguments.get("evidence", ""))
+        intent_id = int(arguments.get("intent_id", 0) or arguments.get("node_id", 0) or 0)
+        graph = ExplorationGraph(task_id)
+        service = FindingService(task_id, graph, ActivityLog(task_id), LazyEngine().store)
+        finding = service.report(
+            str(arguments.get("name", "") or "agent finding")[:200],
+            summary=evidence[:1000],
+            poc=evidence[:2000],
+            severity=str(arguments.get("severity", "")),
+            intent_id=intent_id,
+            traffic_refs=[str(ref) for ref in (arguments.get("traffic_refs", []) or [])],
+        )
+        record = {
+            "node_id": finding.node_id,
+            "text": finding.text,
+            "severity": finding.meta.get("severity"),
+            "status": finding.meta.get("status"),
+            "evidence_version": finding.meta.get("evidence_version"),
+            "intent_id": intent_id,
+        }
+        return _make_text(tool_name, json.dumps(record, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_mention")
+async def _h_lazy_mention(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from dataclasses import asdict as _asdict
+
+        from modules.lazy_mentions import search_mentions_page as _mentions
+
+        page = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: _mentions(
+                str(arguments.get("kind", "")),
+                str(arguments.get("query", "")),
+                str(arguments.get("cursor", "")),
+            ),
+        )
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {
+                    "items": [_asdict(i) for i in page.items],
+                    "next_cursor": page.next_cursor,
+                },
+                indent=2,
+                ensure_ascii=False,
+                default=str,
+            ),
+        )
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_delete")
+async def _h_lazy_delete(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_loop import LazyLoopEngine as _Engine
+
+        engine = _Engine()
+        task_id = str(arguments.get("task_id", ""))
+        intent_id = int(arguments.get("intent_id", 0) or 0)
+        reason = str(arguments.get("reason", ""))
+        mode = str(arguments.get("mode", "soft")).lower()
+        if mode not in ("soft", "hard"):
+            mode = "soft"
+        if mode == "hard" and not str(arguments.get("confirm", "")):
+            preview = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: engine.preview_delete_intent(task_id, intent_id)
+            )
+            return _make_text(tool_name, json.dumps({"preview": preview}, indent=2, ensure_ascii=False, default=str))
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: engine.delete_intent(task_id, intent_id, mode=mode, reason=reason)
+        )
+        return _make_text(tool_name, json.dumps(result, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_compact")
+async def _h_lazy_compact(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.lazy_loop import ActivityLog as _Activity
+        from modules.lazy_loop import ColdCompactor as _Compactor
+        from modules.lazy_loop import ExplorationGraph as _Graph
+
+        task_id = str(arguments.get("task_id", ""))
+        action = str(arguments.get("action", "overview")).lower()
+        graph = _Graph(task_id)
+        compactor = _Compactor(graph, _Activity(task_id))
+        if action == "maintain":
+            out = await asyncio.get_event_loop().run_in_executor(None, compactor.on_planner_round)
+        elif action == "unfolded":
+            out = compactor.unfolded(int(arguments.get("limit", 60) or 60))
+        elif action == "expand":
+            out = {"revived": compactor.expand(int(arguments.get("digest_id", 0) or 0))}
+        else:
+            out = compactor.digest_overview()
+        return _make_text(tool_name, json.dumps(out, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lazy_addon")
+async def _h_lazy_addon(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.auto_registry import addon_hits_for as _hits
+        from modules.auto_registry import iter_addon_triggers as _triggers
+
+        action = str(arguments.get("action", "matches")).lower()
+        if action == "list":
+            entries = await asyncio.get_event_loop().run_in_executor(None, _triggers)
+            return _make_text(
+                tool_name,
+                json.dumps([{"name": n, "triggers": t} for n, t in entries], indent=2, ensure_ascii=False, default=str),
+            )
+        service = str(arguments.get("service", ""))
+        hits = await asyncio.get_event_loop().run_in_executor(None, lambda: _hits(service))
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {"service": service, "hits": [{"name": n, "source": s} for n, s in hits]},
+                indent=2,
+                ensure_ascii=False,
+                default=str,
+            ),
+        )
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
@@ -5580,6 +5904,168 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
+        types.Tool(
+            name="lazyown_lazy_proxy",
+            description=(
+                "Control the loop recorder proxy: start/stop HTTP(S) capture "
+                "with a local CA, report status, read the trust env. Once "
+                "started, routed tool exchanges are stored and auto-ingested "
+                "into the task traffic log for findings evidence."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["start", "stop", "status", "env"],
+                        "default": "status",
+                    },
+                    "port": {"type": "integer", "default": 8899},
+                    "task_id": {"type": "string"},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_status",
+            description="Loop storage status: task count, assets, per-task graph/activity/traffic sizes and last sync.",
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_lazy_sync",
+            description="Run bidirectional lazy sync into the world model and objectives queue.",
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_lazy_board",
+            description="Read the loop exploration timeline for a task: node rows with upstream/downstream neighbours and anchored assets.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "kind": {"type": "string", "description": "Node kind filter (intent, fact, finding, goal...)"},
+                    "query": {"type": "string", "description": "Keyword or #id filter"},
+                    "page": {"type": "integer", "default": 1},
+                    "per_page": {"type": "integer", "default": 20},
+                    "order": {"type": "string", "enum": ["asc", "desc"], "default": "desc"},
+                },
+                "required": ["task_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_trace",
+            description="Search worker traces of a task by keyword and return matching steps with intent attribution.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "query": {"type": "string"},
+                },
+                "required": ["task_id", "query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_hint",
+            description="Inject a human steering hint that fires the next planner round and forces a probe on it.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "text": {"type": "string"},
+                },
+                "required": ["task_id", "text"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_finding",
+            description="Report a finding into the loop engine with evidence, auto-binding recent traffic and proxy body hits.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "name": {"type": "string"},
+                    "evidence": {"type": "string"},
+                    "severity": {"type": "string", "enum": ["critical", "high", "medium", "low", "info"]},
+                    "intent_id": {"type": "integer", "description": "Intent node id when known"},
+                    "traffic_refs": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["task_id", "name", "evidence"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_delete",
+            description="Delete a loop intent: soft keeps lineage and outputs, hard cascades exclusive descendants. Hard requires confirm.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "intent_id": {"type": "integer"},
+                    "reason": {"type": "string"},
+                    "mode": {"type": "string", "enum": ["soft", "hard"], "default": "soft"},
+                    "confirm": {"type": "string", "description": "Echo the intent id to confirm a hard delete"},
+                },
+                "required": ["task_id", "intent_id", "reason"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_compact",
+            description="Cold-graph compaction control: overview, planner-round maintain, unfolded cold nodes, expand a digest.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "string"},
+                    "action": {
+                        "type": "string",
+                        "enum": ["overview", "maintain", "unfolded", "expand"],
+                        "default": "overview",
+                    },
+                    "limit": {"type": "integer", "default": 60},
+                    "digest_id": {"type": "integer"},
+                },
+                "required": ["task_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_addon",
+            description="List lazyaddons with their service triggers, or rank addons matching one service value.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": ["matches", "list"], "default": "matches"},
+                    "service": {"type": "string"},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_mention",
+            description="Search @ mention candidates (intents, facts, findings, assets) with cursor pagination.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "kind": {"type": "string"},
+                    "query": {"type": "string"},
+                    "cursor": {"type": "string"},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazy_workspace",
+            description=(
+                "Confined workspace file browser: list/read/write files under "
+                "sessions/workspace. Paths cannot escape the root."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": ["list", "read", "write"], "default": "list"},
+                    "path": {"type": "string"},
+                    "content": {"type": "string"},
+                },
+                "required": [],
+            },
+        ),
     ] + (_automapper.mcp_tools() if _automapper is not None else [])
 
 
@@ -6428,20 +6914,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # ── Optional recommender embedding ───────────────────────────────────
         recommend_top: list[dict[str, Any]] = []
         if include_recommend:
-            try:
-                _ensure_recommender()
-                if _recommend is not None and rhost:
-                    rec_blob = _recommend(rhost) or {}
-                    for item in (rec_blob.get("commands") or rec_blob.get("recommendations") or [])[:3]:
-                        recommend_top.append(
-                            {
-                                "command": item.get("command") or item.get("name", ""),
-                                "score": item.get("score", 0.0),
-                                "reasoning": item.get("reasoning") or item.get("reason", ""),
-                            }
-                        )
-            except Exception as _rec_err:
-                recommend_top = [{"error": str(_rec_err)}]
+            recommend_top = _sitrep_recommendations()
             if recommend_top and not any("error" in r for r in recommend_top):
                 out.append("\n## TOP-3 RECOMMENDED ACTIONS")
                 for i, r in enumerate(recommend_top, 1):
@@ -8189,7 +8662,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                             continue
             except Exception:
                 pass
-            return out[-max(1, limit):]
+            return out[-max(1, limit) :]
 
         def _settle_step(cmd: str, output: str, via: str, finding_values: list | None = None) -> dict:
             """Single LAZY-style settle: evidence, traffic, goals, trace.
@@ -8209,7 +8682,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             _traffic_id = ""
             if _traffic is not None:
                 try:
-                    _ex = _traffic.record("TOOL", f"tool://{target}/{str(cmd or '').split(None, 1)[0] if str(cmd or '').strip() else 'cmd'}", resp_body=str(output or "").encode("utf-8", "replace")[:32768])
+                    _ex = _traffic.record(
+                        "TOOL",
+                        f"tool://{target}/{str(cmd or '').split(None, 1)[0] if str(cmd or '').strip() else 'cmd'}",
+                        resp_body=str(output or "").encode("utf-8", "replace")[:32768],
+                    )
                     _traffic_id = _ex.exchange_id
                     _note.append(f"traffic:{_traffic_id}:proof")
                 except Exception:
@@ -8229,16 +8706,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         _note.append(f"goals:{len(_achieved)}")
                 except Exception:
                     pass
-            _trace_append({
-                "ts": int(time.time()),
-                "target": target,
-                "cmd": str(cmd or ""),
-                "via": via,
-                "evidence": _evidence_hash,
-                "traffic": _traffic_id,
-                "goals": _achieved,
-                "output_len": len(str(output or "")),
-            })
+            _trace_append(
+                {
+                    "ts": int(time.time()),
+                    "target": target,
+                    "cmd": str(cmd or ""),
+                    "via": via,
+                    "evidence": _evidence_hash,
+                    "traffic": _traffic_id,
+                    "goals": _achieved,
+                    "output_len": len(str(output or "")),
+                }
+            )
             return {"evidence": _evidence_hash, "traffic": _traffic_id, "goals": _achieved, "note": ";".join(_note)}
 
         def _read_os_json() -> dict:
@@ -8607,17 +9086,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 _allowed, _gate_note = _gate_command(full_cmd)
                 if not _allowed:
                     _mark_task_done(pending_task.get("id", ""), "blocked")
-                    _trace_append({
-                        "ts": int(time.time()),
-                        "target": target,
-                        "cmd": full_cmd,
-                        "via": "gate",
-                        "evidence": "",
-                        "traffic": "",
-                        "goals": [],
-                        "output_len": 0,
-                        "blocked": _gate_note,
-                    })
+                    _trace_append(
+                        {
+                            "ts": int(time.time()),
+                            "target": target,
+                            "cmd": full_cmd,
+                            "via": "gate",
+                            "evidence": "",
+                            "traffic": "",
+                            "goals": [],
+                            "output_len": 0,
+                            "blocked": _gate_note,
+                        }
+                    )
                     return {
                         "stop": False,
                         "step": {
@@ -8919,16 +9400,29 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         from modules.llm_pool import PoolMember as _ThoughtMember
                         from modules.llm_pool import shared_registry as _thought_registry
 
-                        _thought_pool = _ThoughtPool([
-                            _ThoughtMember("groq", "groq", "groq", rank=10,
-                                           complete=lambda p: _LLMC(api_key=_api_key).ask(
-                                               p, provider="groq",
-                                               system=_thought_system, temperature=0.1)),
-                            _ThoughtMember("ollama", "ollama", "ollama", rank=1,
-                                           complete=lambda p: _LLMC(api_key=_api_key).ask(
-                                               p, provider="ollama",
-                                               system=_thought_system, temperature=0.1)),
-                        ], health=_thought_registry())
+                        _thought_pool = _ThoughtPool(
+                            [
+                                _ThoughtMember(
+                                    "groq",
+                                    "groq",
+                                    "groq",
+                                    rank=10,
+                                    complete=lambda p: _LLMC(api_key=_api_key).ask(
+                                        p, provider="groq", system=_thought_system, temperature=0.1
+                                    ),
+                                ),
+                                _ThoughtMember(
+                                    "ollama",
+                                    "ollama",
+                                    "ollama",
+                                    rank=1,
+                                    complete=lambda p: _LLMC(api_key=_api_key).ask(
+                                        p, provider="ollama", system=_thought_system, temperature=0.1
+                                    ),
+                                ),
+                            ],
+                            health=_thought_registry(),
+                        )
                         _raw_thought = _thought_pool.complete(_thought_prompt)
                     except Exception:
                         _raw_thought = _llm.ask(
@@ -8951,17 +9445,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             _allowed, _gate_note = _gate_command(full_command)
             if not _allowed:
-                _trace_append({
-                    "ts": int(time.time()),
-                    "target": target,
-                    "cmd": full_command,
-                    "via": "gate",
-                    "evidence": "",
-                    "traffic": "",
-                    "goals": [],
-                    "output_len": 0,
-                    "blocked": _gate_note,
-                })
+                _trace_append(
+                    {
+                        "ts": int(time.time()),
+                        "target": target,
+                        "cmd": full_command,
+                        "via": "gate",
+                        "evidence": "",
+                        "traffic": "",
+                        "goals": [],
+                        "output_len": 0,
+                        "blocked": _gate_note,
+                    }
+                )
                 return {
                     "stop": False,
                     "step": {

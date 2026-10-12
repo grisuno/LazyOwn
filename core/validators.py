@@ -13,7 +13,6 @@ from typing import Any
 from core.console import GREEN, RESET, WHITE, print_error
 from core.host_policy import _SHELL_META_CHARS
 from core.host_policy import is_valid_host as _is_valid_host
-from core.host_policy import rejects_shell_meta as _rejects_shell_meta
 
 __all__ = [
     "_SHELL_META_CHARS",
@@ -131,4 +130,13 @@ def require_rport(params: Any) -> bool:
     return check_port(value, name="rport")
 
 
-__all__ = ["check_rhost", "check_lhost", "check_lport", "check_port", "require_rhost", "require_lhost", "require_lport", "require_rport"]
+__all__ = [
+    "check_rhost",
+    "check_lhost",
+    "check_lport",
+    "check_port",
+    "require_rhost",
+    "require_lhost",
+    "require_lport",
+    "require_rport",
+]

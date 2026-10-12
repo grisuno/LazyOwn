@@ -88,8 +88,8 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `clean_botnet` (function, line 62) `def clean_botnet(ip, port, botnet_file)`
   - `send_to_botnet` (function, line 71) `def send_to_botnet(cmd, key, botnet_file)`
   - `Keylogger` (class, line 89) `class Keylogger`
-  - `handle_client` (method, line 144) `def handle_client(conn, key, botnet_file, log_file)`
-  - `start_server` (method, line 182) `def start_server(host, port, key, botnet_file, log_file)`
+  - `handle_client` (function, line 144) `def handle_client(conn, key, botnet_file, log_file)`
+  - `start_server` (function, line 182) `def start_server(host, port, key, botnet_file, log_file)`
   - `__init__` (method, line 90) `def __init__(self, key, log_file)`
   - `on_press` (method, line 95) `def on_press(self, key)`
   - `start` (method, line 106) `def start(self)`
@@ -112,8 +112,8 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `scanner` (method, line 83) `def scanner(self)`
   - `delCameras` (method, line 136) `def delCameras(self)`
   - `addCameras` (method, line 149) `def addCameras(self)`
-  - `cla` (method, line 212) `def cla()`
-  - `main` (method, line 257) `def main()`
+  - `cla` (function, line 212) `def cla()`
+  - `main` (function, line 257) `def main()`
 
 ## contrib/legacy/lazycreate_webshell.py
 - Layer: utility
@@ -150,7 +150,7 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 - Language: py
 - Symbols:
   - `X64Disassembler` (class, line 24) `class X64Disassembler`
-  - `main` (method, line 489) `def main()`
+  - `main` (function, line 489) `def main()`
   - `__init__` (method, line 34) `def __init__(self)`
   - `read_elf_header` (method, line 79) `def read_elf_header(self, data)`
   - `parse_modrm` (method, line 135) `def parse_modrm(self, modrm, rex)`
@@ -173,7 +173,7 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 - Language: py
 - Symbols:
   - `SamsungKnoxExploitServer` (class, line 8) `class SamsungKnoxExploitServer(BaseHTTPRequestHandler)`
-  - `main` (method, line 97) `def main()`
+  - `main` (function, line 97) `def main()`
   - `do_GET` (method, line 11) `def do_GET(self)`
   - `apk_bytes` (method, line 33) `def apk_bytes(self)`
   - `launch_html` (method, line 36) `def launch_html(self)`
@@ -248,17 +248,17 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `setup_logging` (function, line 52) `def setup_logging(log_file)`
   - `generate_rsa_key` (function, line 56) `def generate_rsa_key(key_filename)`
   - `Server` (class, line 60) `class Server(ServerInterface)`
-  - `handle_connection` (method, line 74) `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
-  - `handle_file_download` (method, line 110) `def handle_file_download(command, downloads_dir, downloads_log)`
-  - `log_command` (method, line 128) `def log_command(command, commands_log)`
-  - `log_downloaded_file` (method, line 132) `def log_downloaded_file(filename, url, downloads_log)`
-  - `analyze_traffic` (method, line 136) `def analyze_traffic()`
-  - `alert_admin` (method, line 147) `def alert_admin(message)`
-  - `main` (method, line 165) `def main()`
+  - `handle_connection` (function, line 74) `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
+  - `handle_file_download` (function, line 110) `def handle_file_download(command, downloads_dir, downloads_log)`
+  - `log_command` (function, line 128) `def log_command(command, commands_log)`
+  - `log_downloaded_file` (function, line 132) `def log_downloaded_file(filename, url, downloads_log)`
+  - `analyze_traffic` (function, line 136) `def analyze_traffic()`
+  - `alert_admin` (function, line 147) `def alert_admin(message)`
+  - `main` (function, line 165) `def main()`
   - `__init__` (method, line 61) `def __init__(self)`
   - `check_channel_request` (method, line 64) `def check_channel_request(self, kind, chanid)`
   - `check_auth_password` (method, line 69) `def check_auth_password(self, username, password)`
-  - `process_packet` (method, line 137) `def process_packet(packet)`
+  - `process_packet` (function, line 137) `def process_packet(packet)`
 - Depends on: `core/logging.py`
 
 ## contrib/legacy/lazyhttpreverseshell.py
@@ -307,7 +307,7 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `LLMEngine` (class, line 163) `class LLMEngine`
   - `LazyOwnPromptRenderer` (class, line 198) `class LazyOwnPromptRenderer`
   - `LazyOwnLLMChat` (class, line 234) `class LazyOwnLLMChat`
-  - `main` (method, line 309) `def main()`
+  - `main` (function, line 309) `def main()`
   - `__init__` (method, line 25) `def __init__(self, script_path)`
   - `_load_shell` (method, line 31) `def _load_shell(self)`
   - `execute` (method, line 65) `def execute(self, command)`
@@ -329,8 +329,8 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `_analyze` (method, line 263) `def _analyze(self, command, output)`
   - `_direct_query` (method, line 273) `def _direct_query(self, query)`
   - `run` (method, line 280) `def run(self, initial_query)`
-  - `target` (method, line 70) `def target()`
-  - `no_history_init` (method, line 38) `def no_history_init(self_)`
+  - `target` (function, line 70) `def target()`
+  - `no_history_init` (function, line 38) `def no_history_init(self_)`
 - Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
 
 ## contrib/legacy/lazylogpoisoning.py
@@ -417,10 +417,10 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 - Language: py
 - Symbols:
   - `InvalidUsername` (class, line 14) `class InvalidUsername(Exception)`
-  - `add_boolean` (method, line 19) `def add_boolean()`
-  - `service_accept` (method, line 30) `def service_accept()`
-  - `invalid_username` (method, line 36) `def invalid_username()`
-  - `check_user` (method, line 50) `def check_user(username)`
+  - `add_boolean` (function, line 19) `def add_boolean()`
+  - `service_accept` (function, line 30) `def service_accept()`
+  - `invalid_username` (function, line 36) `def invalid_username()`
+  - `check_user` (function, line 50) `def check_user(username)`
 - Depends on: `core/logging.py`
 
 ## contrib/legacy/lazyphishingai.py
@@ -464,7 +464,7 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 - Symbols:
   - `BinaryFinder` (class, line 24) `class BinaryFinder`
   - `BinaryAttacker` (class, line 70) `class BinaryAttacker`
-  - `main` (method, line 181) `def main()`
+  - `main` (function, line 181) `def main()`
   - `__init__` (method, line 25) `def __init__(self)`
   - `find_suid_binaries` (method, line 28) `def find_suid_binaries(self)`
   - `find_capabilities_binaries` (method, line 36) `def find_capabilities_binaries(self)`

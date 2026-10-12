@@ -122,12 +122,12 @@ class SurfaceCommandSet(LazyOwnCommandSet):
             print_msg("refreshing estorides export (graph --export lazyown) ...")
             export_path = run_export(sessions, cli_path=cli_path) or find_export(sessions)
         if export_path is None:
-            print_error("no estorides export found and refresh failed. "
-                        "Run estorides discovery first.")
+            print_error("no estorides export found and refresh failed. Run estorides discovery first.")
             return
         document = load_export(export_path)
-        print_msg(f"estorides export: {export_path} "
-                  f"({len(document['nodes'])} entities, {len(document['edges'])} relations)")
+        print_msg(
+            f"estorides export: {export_path} ({len(document['nodes'])} entities, {len(document['edges'])} relations)"
+        )
         if write_world:
             try:
                 added = write_world_model_hosts(document, sessions)
@@ -148,11 +148,11 @@ class SurfaceCommandSet(LazyOwnCommandSet):
             return
         fused = sum(1 for n in attack["nodes"] if "estorides" in (n.get("sources") or []))
         funnel = " > ".join(f"{s['stage']}:{s['hosts']}" for s in summary.get("funnel", []))
-        print_msg(f"[+] attack graph: {len(attack['nodes'])} nodes, "
-                  f"{len(attack['edges'])} edges, {fused} estorides-fused.")
+        print_msg(
+            f"[+] attack graph: {len(attack['nodes'])} nodes, {len(attack['edges'])} edges, {fused} estorides-fused."
+        )
         if funnel:
             print_msg(f"funnel {funnel}")
         top = summary.get("top_exposed", [])[:3]
         for entry in top:
             print_msg(f"top {entry['host']} exposure {entry['score']}")
-

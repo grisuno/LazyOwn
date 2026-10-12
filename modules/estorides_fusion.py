@@ -14,6 +14,7 @@ sources and estorides edges keep their ``estorides:`` evidence prefix.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -22,7 +23,11 @@ SESSIONS_DIR = BASE_DIR / "sessions"
 
 LAZYOWN_EXPORT = "estorides_lazyown.json"
 RAW_EXPORT = "estorides_graph.json"
+LAN_LAZYOWN_EXPORTS = ("lan_lazyown.json", "lan_graph.json")
+LAN_INVENTORY_EXPORTS = ("lan_inventory.json",)
+LAN_STIX_EXPORTS = ("lan_stix.json",)
 MAX_NEW_NODES = 300
+MAX_LAN_NODES = 500
 
 SKIP_ETYPES = frozenset({"source"})
 
@@ -41,14 +46,22 @@ KNOWN_EDGE_TYPES = frozenset({
 
 
 def estorides_checkout() -> Path | None:
-    """Locate the estorides working copy (addon install or dev path)."""
-    candidates = [
-        BASE_DIR / "external" / ".exploit" / "estorides",
-        Path.home() / "src_note" / "py" / "fucklantir" / "estorides" / "estorides",
-    ]
+    """Locate the estorides working copy.
+
+    Resolution order, no hardcoded user paths: the ESTORIDES_DIR
+    environment override first, then the lazyaddon install directory.
+    """
+    override = os.environ.get("ESTORIDES_DIR", "").strip()
+    candidates = []
+    if override:
+        candidates.append(Path(override))
+    candidates.append(BASE_DIR / "external" / ".exploit" / "estorides")
     for candidate in candidates:
-        if (candidate / "estorides_cli.py").is_file():
-            return candidate
+        try:
+            if (candidate / "estorides_cli.py").is_file():
+                return candidate
+        except OSError:
+            continue
     return None
 
 
@@ -252,13 +265,93 @@ def merge_estorides(nodes: dict[str, dict], edges: list[dict],
     return stats
 
 
+def find_lan_bundle(sessions_dir: str | Path = SESSIONS_DIR) -> Path | None:
+    """Find a LAN bundle deliverable, preferring LazyOwn vocabulary."""
+    roots: list[Path] = [Path(str(sessions_dir))]
+    checkout = estorides_checkout()
+    if checkout is not None:
+        roots.append(checkout / "data" / "lan_output")
+    for root in roots:
+        if not root.is_dir():
+            continue
+        for name in LAN_LAZYOWN_EXPORTS + LAN_INVENTORY_EXPORTS:
+            candidate = root / name
+            if candidate.is_file():
+                return candidate
+        for name in LAN_LAZYOWN_EXPORTS + LAN_INVENTORY_EXPORTS:
+            for suffixed in sorted(root.glob(f"lan_*{name[3:]}")):
+                if suffixed.is_file():
+                    return suffixed
+    return None
+
+
+def load_lan_bundle(path: str | Path) -> dict:
+    """Load a LAN bundle file into nodes/edges lists. Never raises."""
+    try:
+        document = json.loads(Path(str(path)).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"nodes": [], "edges": []}
+    if not isinstance(document, dict):
+        return {"nodes": [], "edges": []}
+    if isinstance(document.get("devices"), list):
+        nodes: list[dict] = []
+        edges: list[dict] = []
+        for dev in document["devices"]:
+            if not isinstance(dev, dict):
+                continue
+            sources = [str(s) for s in (dev.get("sources") or []) if s] or ["lan"]
+            for ip in dev.get("ips", []) or []:
+                nodes.append({"kind": "host",
+                              "etype": "ipv6" if ":" in str(ip) else "ipv4",
+                              "value": str(ip), "label": str(ip),
+                              "sources": sources,
+                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+            if dev.get("mac"):
+                nodes.append({"kind": "mac", "etype": "mac",
+                              "value": str(dev["mac"]), "label": str(dev["mac"]),
+                              "sources": sources,
+                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+            for host in dev.get("hostnames", []) or []:
+                nodes.append({"kind": "domain", "etype": "domain",
+                              "value": str(host), "label": str(host),
+                              "sources": sources,
+                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+        return {"nodes": nodes, "edges": edges}
+    return load_export(path)
+
+
+def split_lan_targets(est: dict) -> tuple[dict, dict]:
+    """Split a LAN payload into intel (all) and attack (hosts) views.
+
+    The intel graph keeps everything known. The attack graph keeps only
+    host nodes plus host-anchored edges so auto_loop queues actionable
+    targets without MAC/hostname noise.
+    """
+    nodes = [n for n in est.get("nodes", []) if isinstance(n, dict)]
+    edges = [e for e in est.get("edges", []) if isinstance(e, dict)]
+    attack_nodes = [n for n in nodes if n.get("kind") == "host"]
+    host_values = {str(n.get("value", "")).strip().lower() for n in attack_nodes}
+    attack_edges = [e for e in edges
+                    if str(e.get("source_value", "")).strip().lower() in host_values
+                    or str(e.get("target_value", "")).strip().lower() in host_values]
+    attack = {"nodes": attack_nodes, "edges": attack_edges}
+    return ({"nodes": nodes, "edges": edges}, attack)
+
+
 __all__ = [
+    "LAN_INVENTORY_EXPORTS",
+    "LAN_LAZYOWN_EXPORTS",
+    "LAN_STIX_EXPORTS",
     "LAZYOWN_EXPORT",
+    "MAX_LAN_NODES",
     "MAX_NEW_NODES",
     "community_for",
     "estorides_checkout",
     "find_export",
+    "find_lan_bundle",
     "load_export",
+    "load_lan_bundle",
     "merge_estorides",
     "run_export",
+    "split_lan_targets",
 ]

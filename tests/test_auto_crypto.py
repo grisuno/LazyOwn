@@ -147,3 +147,76 @@ class TestPasswordProvider:
 
         provider = build_password_provider_from_cli_login()
         assert callable(provider)
+
+
+class TestHasPassword:
+    def test_false_without_provider(self, crypto_module, tmp_sessions):
+        AutoCryptoConfig, AutoCryptoEngine = crypto_module
+        engine = AutoCryptoEngine(AutoCryptoConfig(sessions_dir=str(tmp_sessions)))
+        assert engine.has_password() is False
+
+    def test_true_with_provider(self, crypto_module, tmp_sessions):
+        AutoCryptoConfig, AutoCryptoEngine = crypto_module
+        engine = AutoCryptoEngine(AutoCryptoConfig(sessions_dir=str(tmp_sessions), password_provider=lambda: "secret"))
+        assert engine.has_password() is True
+
+    def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions):
+        AutoCryptoConfig, AutoCryptoEngine = crypto_module
+        engine = AutoCryptoEngine(AutoCryptoConfig(sessions_dir=str(tmp_sessions), password_provider=lambda: ""))
+        assert engine.has_password() is False
+
+
+class TestExitEncryptWiring:
+    """qa/exit/EOF encrypt before leaving; atexit is only the backup net."""
+
+    def _stub_shell(self, calls):
+        from types import SimpleNamespace
+
+        return SimpleNamespace(
+            cmd=lambda line: None,
+            _run_auto_encrypt=lambda: calls.append("encrypt"),
+        )
+
+    def test_qa_encrypts_before_exit(self, monkeypatch):
+        import modules.lazy_loop as loop_module
+        from cli.commands.session_ops import SessionOpsCommandSet
+
+        monkeypatch.setattr(
+            loop_module,
+            "shutdown_loop_runtime",
+            lambda reason="": {"cancelled_processes": 0, "paused_tasks": []},
+        )
+        calls: list = []
+        with pytest.raises(SystemExit):
+            SessionOpsCommandSet.do_qa(self._stub_shell(calls), "")
+        assert calls == ["encrypt"]
+
+    def test_exit_encrypts_after_confirmation(self, monkeypatch):
+        import builtins
+
+        import modules.lazy_loop as loop_module
+        from cli.commands.misc_migrated import MiscMigratedCommandSet
+
+        monkeypatch.setattr(
+            loop_module,
+            "shutdown_loop_runtime",
+            lambda reason="": {"cancelled_processes": 0, "paused_tasks": []},
+        )
+        monkeypatch.setattr(builtins, "input", lambda *args, **kwargs: "s")
+        calls: list = []
+        with pytest.raises(SystemExit):
+            MiscMigratedCommandSet.do_exit(self._stub_shell(calls), "")
+        assert calls == ["encrypt"]
+
+    def test_eof_encrypts_before_returning(self, monkeypatch):
+        import modules.lazy_loop as loop_module
+        from cli.commands.misc_migrated import MiscMigratedCommandSet
+
+        monkeypatch.setattr(
+            loop_module,
+            "shutdown_loop_runtime",
+            lambda reason="": {"cancelled_processes": 0, "paused_tasks": []},
+        )
+        calls: list = []
+        assert MiscMigratedCommandSet.do_EOF(self._stub_shell(calls), "") is True
+        assert calls == ["encrypt"]

@@ -50,16 +50,16 @@
 - Layer: utility
 - Language: cs
 - Symbols:
-  - `WinRing3Rootkit` (class, line 30)
+  - `WinRing3Rootkit` (class, line 32)
   - `WIN32_FIND_DATA` (class, line 47)
   - `SECURITY_ATTRIBUTES` (class, line 64)
   - `TOKEN_USER` (class, line 123)
   - `SID_AND_ATTRIBUTES` (class, line 129)
   - `SID` (class, line 136)
-  - `GetUsernameFromPid` (method, line 143)
-  - `ShouldHidePid` (method, line 201)
-  - `HookFindFirstFile` (method, line 212)
-  - `HookCreateFile` (method, line 224)
+  - `GetUsernameFromPid` (method, line 145)
+  - `ShouldHidePid` (method, line 203)
+  - `HookFindFirstFile` (method, line 214)
+  - `HookCreateFile` (method, line 226)
 
 ## modules/win_rootkit/win_ring3_rootkit.c
 - Doc: initPIDArray: Función para inicializar el arreglo de PIDs

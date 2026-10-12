@@ -1,5 +1,5 @@
-# Subsystem: cli (page 1 of 4)
-Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_cli_p3.md), [KB_cli_p4.md](KB_cli_p4.md)
+# Subsystem: cli (page 1 of 5)
+Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_cli_p3.md), [KB_cli_p4.md](KB_cli_p4.md), [KB_cli_p5.md](KB_cli_p5.md)
 
 ## cli/__init__.py
 - Doc: LazyOwn CLI infrastructure.
@@ -14,10 +14,10 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Language: py
 - Symbols:
   - `_SafeFormatDict` (class, line 29) `class _SafeFormatDict(dict)`
-  - `_substitute` (method, line 42) `def _substitute(template, payload)`
-  - `template_placeholders` (method, line 56) `def template_placeholders(template)`
-  - `empty_placeholders` (method, line 72) `def empty_placeholders(template, context)`
-  - `load_aliases` (method, line 77) `def load_aliases(payload, path, lazy)`
+  - `_substitute` (function, line 42) `def _substitute(template, payload)`
+  - `template_placeholders` (function, line 56) `def template_placeholders(template)`
+  - `empty_placeholders` (function, line 72) `def empty_placeholders(template, context)`
+  - `load_aliases` (function, line 77) `def load_aliases(payload, path, lazy)`
   - `__missing__` (method, line 32) `def __missing__(self, key)`
   - `__getitem__` (method, line 35) `def __getitem__(self, key)`
 - Depends on: `core/config.py`
@@ -39,16 +39,17 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Symbols:
   - `AutoCryptoConfig` (class, line 48) `class AutoCryptoConfig`
   - `AutoCryptoEngine` (class, line 77) `class AutoCryptoEngine`
-  - `build_password_provider_from_cli_login` (method, line 285) `def build_password_provider_from_cli_login()`
+  - `build_password_provider_from_cli_login` (function, line 297) `def build_password_provider_from_cli_login()`
   - `__init__` (method, line 85) `def __init__(self, config)`
   - `enabled` (method, line 90) `def enabled(self)`
   - `is_encrypted` (method, line 95) `def is_encrypted(self)`
   - `encrypt_session` (method, line 124) `def encrypt_session(self)`
   - `decrypt_session` (method, line 174) `def decrypt_session(self)`
-  - `_get_password` (method, line 239) `def _get_password(self)`
-  - `_load_or_create_salt` (method, line 248) `def _load_or_create_salt(self)`
-  - `_derive_key` (method, line 279) `def _derive_key(password, salt)`
-  - `_provider` (method, line 298) `def _provider()`
+  - `has_password` (method, line 239) `def has_password(self)`
+  - `_get_password` (method, line 251) `def _get_password(self)`
+  - `_load_or_create_salt` (method, line 260) `def _load_or_create_salt(self)`
+  - `_derive_key` (method, line 291) `def _derive_key(password, salt)`
+  - `_provider` (function, line 310) `def _provider()`
 - Depends on: `core/crypto.py`, `core/logging.py`, `modules/cli_auth.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `tests/test_auto_crypto.py`
 
@@ -64,11 +65,11 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `KillChainProvider` (class, line 134) `class KillChainProvider`
   - `GraphProvider` (class, line 189) `class GraphProvider`
   - `AutoSuggestEngine` (class, line 245) `class AutoSuggestEngine`
-  - `_truncate` (method, line 335) `def _truncate(value, max_len)`
-  - `format_hint_line` (method, line 342) `def format_hint_line(suggestion)`
-  - `render_hint_line` (method, line 375) `def render_hint_line(engine)`
-  - `_hint_console` (method, line 411) `def _hint_console()`
-  - `build_default_engine` (method, line 427) `def build_default_engine(advisor, chain, phase_priority)`
+  - `_truncate` (function, line 335) `def _truncate(value, max_len)`
+  - `format_hint_line` (function, line 342) `def format_hint_line(suggestion)`
+  - `render_hint_line` (function, line 375) `def render_hint_line(engine)`
+  - `_hint_console` (function, line 411) `def _hint_console()`
+  - `build_default_engine` (function, line 427) `def build_default_engine(advisor, chain, phase_priority)`
   - `suggest` (method, line 95) `def suggest(self, context)`
   - `__init__` (method, line 105) `def __init__(self, providers)`
   - `suggest` (method, line 115) `def suggest(self, context)`
@@ -98,8 +99,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `SegmentSpec` (class, line 237) `class SegmentSpec`
   - `ColorPalette` (class, line 250) `class ColorPalette`
   - `RenderContext` (class, line 268) `class RenderContext`
-  - `_bracketed` (method, line 293) `def _bracketed(label, value, bullet, value_color, ctx, glyphs)`
-  - `_middle` (method, line 307) `def _middle(label, value, value_color, ctx, glyphs)`
+  - `_bracketed` (function, line 293) `def _bracketed(label, value, bullet, value_color, ctx, glyphs)`
+  - `_middle` (function, line 307) `def _middle(label, value, value_color, ctx, glyphs)`
   - `SegmentRenderer` (class, line 314) `class SegmentRenderer(ABC)`
   - `UserHostSegment` (class, line 325) `class UserHostSegment(SegmentRenderer)`
   - `IfaceSegment` (class, line 340) `class IfaceSegment(SegmentRenderer)`
@@ -116,24 +117,24 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `KarmaSegment` (class, line 531) `class KarmaSegment(SegmentRenderer)`
   - `BatteryLoadSegment` (class, line 561) `class BatteryLoadSegment(SegmentRenderer)`
   - `SegmentRegistry` (class, line 578) `class SegmentRegistry`
-  - `build_default_registry` (method, line 604) `def build_default_registry()`
+  - `build_default_registry` (function, line 604) `def build_default_registry()`
   - `BannerSettings` (class, line 628) `class BannerSettings`
   - `ContextResolver` (class, line 734) `class ContextResolver`
-  - `_read_network_info` (method, line 873) `def _read_network_info()`
-  - `_select_iface` (method, line 892) `def _select_iface(network, preferred)`
-  - `_git_branch` (method, line 902) `def _git_branch()`
-  - `_git_dirty` (method, line 914) `def _git_dirty()`
-  - `_venv_name` (method, line 923) `def _venv_name()`
-  - `_battery_or_load` (method, line 929) `def _battery_or_load()`
-  - `default_palette` (method, line 948) `def default_palette()`
+  - `_read_network_info` (function, line 873) `def _read_network_info()`
+  - `_select_iface` (function, line 892) `def _select_iface(network, preferred)`
+  - `_git_branch` (function, line 902) `def _git_branch()`
+  - `_git_dirty` (function, line 914) `def _git_dirty()`
+  - `_venv_name` (function, line 923) `def _venv_name()`
+  - `_battery_or_load` (function, line 929) `def _battery_or_load()`
+  - `default_palette` (function, line 948) `def default_palette()`
   - `BannerRenderer` (class, line 961) `class BannerRenderer`
   - `_WizardTab` (class, line 1029) `class _WizardTab`
   - `BannerConfigurator` (class, line 1037) `class BannerConfigurator`
-  - `_readline_safe` (method, line 1353) `def _readline_safe(prompt, config)`
-  - `strip_readline_markers` (method, line 1382) `def strip_readline_markers(text, config)`
-  - `render_prompt` (method, line 1396) `def render_prompt(payload, config, readline_safe)`
-  - `configure_banner_interactive` (method, line 1436) `def configure_banner_interactive(payload, config)`
-  - `banner_summary` (method, line 1456) `def banner_summary(settings, registry)`
+  - `_readline_safe` (function, line 1353) `def _readline_safe(prompt, config)`
+  - `strip_readline_markers` (function, line 1382) `def strip_readline_markers(text, config)`
+  - `render_prompt` (function, line 1396) `def render_prompt(payload, config, readline_safe)`
+  - `configure_banner_interactive` (function, line 1436) `def configure_banner_interactive(payload, config)`
+  - `banner_summary` (function, line 1456) `def banner_summary(settings, registry)`
   - `names` (method, line 170) `def names(self)`
   - `has` (method, line 173) `def has(self, name)`
   - `resolve` (method, line 176) `def resolve(self, name)`
@@ -221,8 +222,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Language: py
 - Symbols:
   - `_ChainEscExit` (class, line 73) `class _ChainEscExit(Exception)`
-  - `_read_line_unix` (method, line 77) `def _read_line_unix(prompt)`
-  - `_read_line_windows` (method, line 136) `def _read_line_windows(prompt)`
+  - `_read_line_unix` (function, line 77) `def _read_line_unix(prompt)`
+  - `_read_line_windows` (function, line 136) `def _read_line_windows(prompt)`
   - `ChainSuggestion` (class, line 183) `class ChainSuggestion`
   - `ChainOutcome` (class, line 212) `class ChainOutcome`
   - `ChainModeConfig` (class, line 231) `class ChainModeConfig`
@@ -273,8 +274,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `InteractiveForm` (class, line 588) `class InteractiveForm`
   - `DictPayloadProvider` (class, line 635) `class DictPayloadProvider`
   - `StaticCommandLister` (class, line 651) `class StaticCommandLister`
-  - `commands_from_cmd2_shell` (method, line 661) `def commands_from_cmd2_shell(shell)`
-  - `_extract_doc` (method, line 696) `def _extract_doc(shell, name)`
+  - `commands_from_cmd2_shell` (function, line 661) `def commands_from_cmd2_shell(shell)`
+  - `_extract_doc` (function, line 696) `def _extract_doc(shell, name)`
   - `get` (method, line 43) `def get(self, key, default)`
   - `keys` (method, line 44) `def keys(self)`
   - `commands` (method, line 50) `def commands(self)`
@@ -319,7 +320,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `update` (method, line 647) `def update(self, data)`
   - `__init__` (method, line 654) `def __init__(self, commands)`
   - `commands` (method, line 657) `def commands(self)`
-  - `_sub` (method, line 256) `def _sub(m)`
+  - `_sub` (function, line 256) `def _sub(m)`
 - Imported by: `cli/commands/audit.py`, `lazyown.py`, `tests/test_cli_enhancements.py`
 
 ## cli/command_chain.py
@@ -329,7 +330,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Symbols:
   - `ChainConfig` (class, line 123) `class ChainConfig`
   - `NextStep` (class, line 132) `class NextStep`
-  - `_normalise` (method, line 145) `def _normalise(name)`
+  - `_normalise` (function, line 145) `def _normalise(name)`
   - `PrerequisiteRegistry` (class, line 156) `class PrerequisiteRegistry`
   - `StaticNextRegistry` (class, line 177) `class StaticNextRegistry`
   - `ServiceNextResolver` (class, line 193) `class ServiceNextResolver`
@@ -361,7 +362,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Language: py
 - Symbols:
   - `ExplorerConfig` (class, line 189) `class ExplorerConfig`
-  - `_load_command_index` (method, line 195) `def _load_command_index(path)`
+  - `_load_command_index` (function, line 195) `def _load_command_index(path)`
   - `CommandExplorer` (class, line 207) `class CommandExplorer`
   - `__init__` (method, line 216) `def __init__(self, aliases, params, config)`
   - `render_goals_overview` (method, line 227) `def render_goals_overview(self)`
@@ -379,10 +380,10 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `CommandFieldSet` (class, line 48) `class CommandFieldSet`
   - `CommandFormConfig` (class, line 56) `class CommandFormConfig`
   - `CommandFormState` (class, line 116) `class CommandFormState`
-  - `_load_index` (method, line 236) `def _load_index()`
-  - `build_state` (method, line 247) `def build_state(command_name, payload, index, config)`
-  - `launch_form` (method, line 262) `def launch_form(command_name, payload, state, runner)`
-  - `_build_app` (method, line 298) `def _build_app(state, theme)`
+  - `_load_index` (function, line 236) `def _load_index()`
+  - `build_state` (function, line 247) `def build_state(command_name, payload, index, config)`
+  - `launch_form` (function, line 262) `def launch_form(command_name, payload, state, runner)`
+  - `_build_app` (function, line 298) `def _build_app(state, theme)`
   - `__post_init__` (method, line 126) `def __post_init__(self)`
   - `fields` (method, line 131) `def fields(self)`
   - `summary` (method, line 139) `def summary(self)`
@@ -416,8 +417,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Symbols:
   - `ConfigHistoryConfig` (class, line 16) `class ConfigHistoryConfig`
   - `ConfigHistory` (class, line 23) `class ConfigHistory`
-  - `get_shell_history` (method, line 81) `def get_shell_history(shell)`
-  - `track_before` (method, line 104) `def track_before(history, state)`
+  - `get_shell_history` (function, line 81) `def get_shell_history(shell)`
+  - `track_before` (function, line 104) `def track_before(history, state)`
   - `capture_baseline` (method, line 30) `def capture_baseline(self, state)`
   - `push` (method, line 38) `def push(self, state)`
   - `undo` (method, line 48) `def undo(self)`
@@ -455,8 +456,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Symbols:
   - `CommandInfo` (class, line 62) `class CommandInfo`
   - `ContextualHelpConfig` (class, line 78) `class ContextualHelpConfig`
-  - `_load_command_index` (method, line 85) `def _load_command_index(path)`
-  - `_build_command_lookup` (method, line 97) `def _build_command_lookup(index)`
+  - `_load_command_index` (function, line 85) `def _load_command_index(path)`
+  - `_build_command_lookup` (function, line 97) `def _build_command_lookup(index)`
   - `ContextualHelp` (class, line 167) `class ContextualHelp`
   - `__init__` (method, line 176) `def __init__(self, aliases, params, config)`
   - `get_command_info` (method, line 188) `def get_command_info(self, name)`
@@ -472,8 +473,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Language: py
 - Symbols:
   - `DashboardLayoutConfig` (class, line 14) `class DashboardLayoutConfig`
-  - `layout_mode` (method, line 28) `def layout_mode(width, config)`
-  - `hidden_panels` (method, line 45) `def hidden_panels(mode)`
+  - `layout_mode` (function, line 28) `def layout_mode(width, config)`
+  - `hidden_panels` (function, line 45) `def hidden_panels(mode)`
 - Imported by: `cli/dashboard_tui.py`
 
 

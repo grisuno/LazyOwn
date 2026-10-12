@@ -1,5 +1,63 @@
-# Subsystem: tests (page 3 of 15)
+# Subsystem: tests (page 3 of 16)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
+
+## tests/test_bof_registry.py
+- Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `catalog` (function, line 37) `def catalog()`
+  - `tmp_sessions` (function, line 42) `def tmp_sessions()`
+  - `TestBofEntry` (class, line 47) `class TestBofEntry`
+  - `TestBofCatalog` (class, line 101) `class TestBofCatalog`
+  - `TestBofRegistry` (class, line 174) `class TestBofRegistry`
+  - `TestBofValidator` (class, line 221) `class TestBofValidator`
+  - `TestBofMarketplace` (class, line 291) `class TestBofMarketplace`
+  - `TestBofEnums` (class, line 359) `class TestBofEnums`
+  - `test_construction_and_properties` (method, line 48) `def test_construction_and_properties(self)`
+  - `test_immutability` (method, line 65) `def test_immutability(self)`
+  - `test_to_dict_roundtrip` (method, line 70) `def test_to_dict_roundtrip(self)`
+  - `test_from_dict_minimal` (method, line 91) `def test_from_dict_minimal(self)`
+  - `test_register_and_get` (method, line 102) `def test_register_and_get(self, catalog)`
+  - `test_get_missing_raises_keyerror` (method, line 107) `def test_get_missing_raises_keyerror(self, catalog)`
+  - `test_search_exact_match` (method, line 111) `def test_search_exact_match(self, catalog)`
+  - `test_search_by_category` (method, line 116) `def test_search_by_category(self, catalog)`
+  - `test_search_by_technique` (method, line 121) `def test_search_by_technique(self, catalog)`
+  - `test_search_empty_query_returns_all` (method, line 127) `def test_search_empty_query_returns_all(self, catalog)`
+  - `test_list_all_sorted` (method, line 131) `def test_list_all_sorted(self, catalog)`
+  - `test_list_by_platform` (method, line 136) `def test_list_by_platform(self, catalog)`
+  - `test_list_by_category` (method, line 141) `def test_list_by_category(self, catalog)`
+  - `test_save_load_roundtrip` (method, line 147) `def test_save_load_roundtrip(self, catalog, tmp_sessions)`
+  - `test_load_missing_file_returns_empty` (method, line 153) `def test_load_missing_file_returns_empty(self, tmp_sessions)`
+  - `test_empty_catalog` (method, line 158) `def test_empty_catalog(self)`
+  - `test_register_overwrites` (method, line 165) `def test_register_overwrites(self)`
+  - `test_install_and_check` (method, line 175) `def test_install_and_check(self, tmp_sessions)`
+  - `test_uninstall` (method, line 182) `def test_uninstall(self, tmp_sessions)`
+  - `test_uninstall_nonexistent` (method, line 189) `def test_uninstall_nonexistent(self, tmp_sessions)`
+  - `test_list_installed` (method, line 193) `def test_list_installed(self, tmp_sessions)`
+  - `test_get_install_info` (method, line 201) `def test_get_install_info(self, tmp_sessions)`
+  - `test_get_install_info_nonexistent` (method, line 209) `def test_get_install_info_nonexistent(self, tmp_sessions)`
+  - `test_manifest_persistence` (method, line 213) `def test_manifest_persistence(self, tmp_sessions)`
+  - `test_verify_with_empty_hash_skips` (method, line 222) `def test_verify_with_empty_hash_skips(self, tmp_sessions)`
+  - `test_compute_sha256_deterministic` (method, line 230) `def test_compute_sha256_deterministic(self, tmp_sessions)`
+  - `test_verify_mismatched_hash` (method, line 238) `def test_verify_mismatched_hash(self, tmp_sessions)`
+  - `test_validate_args_missing_required` (method, line 253) `def test_validate_args_missing_required(self)`
+  - `test_validate_args_all_present` (method, line 266) `def test_validate_args_all_present(self)`
+  - `test_validate_args_no_required` (method, line 278) `def test_validate_args_no_required(self)`
+  - `test_search_enriches_with_install_status` (method, line 292) `def test_search_enriches_with_install_status(self, tmp_sessions)`
+  - `test_info_returns_catalog_and_install_state` (method, line 299) `def test_info_returns_catalog_and_install_state(self, tmp_sessions)`
+  - `test_info_missing_bof` (method, line 306) `def test_info_missing_bof(self)`
+  - `test_install_and_uninstall` (method, line 311) `def test_install_and_uninstall(self, tmp_sessions)`
+  - `test_install_already_installed` (method, line 321) `def test_install_already_installed(self, tmp_sessions)`
+  - `test_install_missing_bof` (method, line 327) `def test_install_missing_bof(self)`
+  - `test_uninstall_missing_bof` (method, line 332) `def test_uninstall_missing_bof(self, tmp_sessions)`
+  - `test_list_installed_empty_initially` (method, line 337) `def test_list_installed_empty_initially(self, tmp_sessions)`
+  - `test_list_missing_dependencies` (method, line 342) `def test_list_missing_dependencies(self, tmp_sessions)`
+  - `test_list_missing_dependencies_unknown_bof` (method, line 347) `def test_list_missing_dependencies_unknown_bof(self)`
+  - `test_bulk_install` (method, line 352) `def test_bulk_install(self, tmp_sessions)`
+  - `test_platform_values` (method, line 360) `def test_platform_values(self)`
+  - `test_category_values` (method, line 364) `def test_category_values(self)`
+- Depends on: `modules/bof_registry.py`
 
 ## tests/test_bootstrap_installer.py
 - Doc: Integration tests for the installer scripts (no network, no apt).
@@ -161,7 +219,7 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `TestNoEagerCliBuild` (class, line 62) `class TestNoEagerCliBuild`
   - `TestLazyShellProxy` (class, line 103) `class TestLazyShellProxy`
   - `_FakeShell` (class, line 40) `class _FakeShell`
-  - `_init_shell` (method, line 51) `def _init_shell()`
+  - `_init_shell` (function, line 51) `def _init_shell()`
   - `test_no_lazyown_import_at_top_level` (method, line 63) `def test_no_lazyown_import_at_top_level(self)`
   - `test_no_eager_shell_build` (method, line 76) `def test_no_eager_shell_build(self)`
   - `test_lazy_accessor_with_boot_sequence` (method, line 88) `def test_lazy_accessor_with_boot_sequence(self)`
@@ -252,33 +310,33 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Language: py
 - Symbols:
   - `_Step` (class, line 36) `class _Step`
-  - `_resolver` (method, line 45) `def _resolver()`
-  - `_engine` (method, line 52) `def _engine(resolver)`
-  - `test_suggestion_from_step_and_string` (method, line 85) `def test_suggestion_from_step_and_string()`
-  - `test_step_none_when_disabled` (method, line 90) `def test_step_none_when_disabled()`
-  - `test_step_none_when_not_interactive` (method, line 95) `def test_step_none_when_not_interactive()`
-  - `test_step_none_for_skip_verbs` (method, line 101) `def test_step_none_for_skip_verbs(verb)`
-  - `test_enter_runs_top_suggestion` (method, line 106) `def test_enter_runs_top_suggestion()`
-  - `test_number_selects_ranked_alternative` (method, line 116) `def test_number_selects_ranked_alternative()`
-  - `test_override_runs_operator_command` (method, line 126) `def test_override_runs_operator_command()`
-  - `test_skip_keeps_chain_mode_enabled` (method, line 136) `def test_skip_keeps_chain_mode_enabled()`
-  - `test_exit_words_disable_chain_mode` (method, line 144) `def test_exit_words_disable_chain_mode(word)`
-  - `test_no_suggestions_enter_skips_custom_command_runs` (method, line 151) `def test_no_suggestions_enter_skips_custom_command_runs()`
-  - `test_invalid_number_re_prompts_then_skips` (method, line 160) `def test_invalid_number_re_prompts_then_skips()`
-  - `test_invalid_number_re_prompts_then_accepts_valid_pick` (method, line 168) `def test_invalid_number_re_prompts_then_accepts_valid_pick()`
-  - `test_keyboard_interrupt_disables` (method, line 178) `def test_keyboard_interrupt_disables(tmp_path)`
-  - `test_auto_pause_after_max_steps` (method, line 195) `def test_auto_pause_after_max_steps(tmp_path)`
-  - `test_resolver_failure_degrades_to_no_suggestions` (method, line 211) `def test_resolver_failure_degrades_to_no_suggestions()`
-  - `test_store_roundtrip_and_missing` (method, line 221) `def test_store_roundtrip_and_missing(tmp_path)`
-  - `test_store_survives_malformed_file` (method, line 230) `def test_store_survives_malformed_file(tmp_path)`
-  - `test_engine_reads_persisted_state` (method, line 239) `def test_engine_reads_persisted_state(tmp_path)`
-  - `test_persist_toggle_writes_state_file` (method, line 252) `def test_persist_toggle_writes_state_file(tmp_path)`
-  - `test_prompt_exit_words_persist_off` (method, line 267) `def test_prompt_exit_words_persist_off(tmp_path)`
+  - `_resolver` (function, line 45) `def _resolver()`
+  - `_engine` (function, line 52) `def _engine(resolver)`
+  - `test_suggestion_from_step_and_string` (function, line 85) `def test_suggestion_from_step_and_string()`
+  - `test_step_none_when_disabled` (function, line 90) `def test_step_none_when_disabled()`
+  - `test_step_none_when_not_interactive` (function, line 95) `def test_step_none_when_not_interactive()`
+  - `test_step_none_for_skip_verbs` (function, line 101) `def test_step_none_for_skip_verbs(verb)`
+  - `test_enter_runs_top_suggestion` (function, line 106) `def test_enter_runs_top_suggestion()`
+  - `test_number_selects_ranked_alternative` (function, line 116) `def test_number_selects_ranked_alternative()`
+  - `test_override_runs_operator_command` (function, line 126) `def test_override_runs_operator_command()`
+  - `test_skip_keeps_chain_mode_enabled` (function, line 136) `def test_skip_keeps_chain_mode_enabled()`
+  - `test_exit_words_disable_chain_mode` (function, line 144) `def test_exit_words_disable_chain_mode(word)`
+  - `test_no_suggestions_enter_skips_custom_command_runs` (function, line 151) `def test_no_suggestions_enter_skips_custom_command_runs()`
+  - `test_invalid_number_re_prompts_then_skips` (function, line 160) `def test_invalid_number_re_prompts_then_skips()`
+  - `test_invalid_number_re_prompts_then_accepts_valid_pick` (function, line 168) `def test_invalid_number_re_prompts_then_accepts_valid_pick()`
+  - `test_keyboard_interrupt_disables` (function, line 178) `def test_keyboard_interrupt_disables(tmp_path)`
+  - `test_auto_pause_after_max_steps` (function, line 195) `def test_auto_pause_after_max_steps(tmp_path)`
+  - `test_resolver_failure_degrades_to_no_suggestions` (function, line 211) `def test_resolver_failure_degrades_to_no_suggestions()`
+  - `test_store_roundtrip_and_missing` (function, line 221) `def test_store_roundtrip_and_missing(tmp_path)`
+  - `test_store_survives_malformed_file` (function, line 230) `def test_store_survives_malformed_file(tmp_path)`
+  - `test_engine_reads_persisted_state` (function, line 239) `def test_engine_reads_persisted_state(tmp_path)`
+  - `test_persist_toggle_writes_state_file` (function, line 252) `def test_persist_toggle_writes_state_file(tmp_path)`
+  - `test_prompt_exit_words_persist_off` (function, line 267) `def test_prompt_exit_words_persist_off(tmp_path)`
   - `__init__` (method, line 39) `def __init__(self, name, source, reason)`
-  - `resolve` (method, line 46) `def resolve(cmd, phase)`
-  - `fake_input` (method, line 63) `def fake_input(prompt)`
-  - `raise_ki` (method, line 179) `def raise_ki(prompt)`
-  - `broken` (method, line 212) `def broken(cmd, phase)`
+  - `resolve` (function, line 46) `def resolve(cmd, phase)`
+  - `fake_input` (function, line 63) `def fake_input(prompt)`
+  - `raise_ki` (function, line 179) `def raise_ki(prompt)`
+  - `broken` (function, line 212) `def broken(cmd, phase)`
 - Depends on: `cli/chain_mode.py`
 
 ## tests/test_ci_strict.py
@@ -353,7 +411,7 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `_extract_method_body` (method, line 219) `def _extract_method_body(src, name)`
   - `test_returns_keys_starting_with_text` (method, line 233) `def test_returns_keys_starting_with_text(self)`
   - `test_no_completion_for_value_position` (method, line 250) `def test_no_completion_for_value_position(self)`
-  - `saver` (method, line 72) `def saver(p)`
+  - `saver` (function, line 72) `def saver(p)`
 - Depends on: `cli/assign.py`, `cli/show.py`, `core/config.py`
 
 ## tests/test_cli_auth_remember.py
@@ -423,7 +481,7 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_missing_private_raises_not_utils_fallback` (method, line 455) `def test_missing_private_raises_not_utils_fallback(self)`
   - `_Bare` (class, line 362) `class _Bare(Cmd)`
   - `_ExplosiveCommandSet` (class, line 374) `class _ExplosiveCommandSet(CommandSet)`
-  - `fake_iter` (method, line 378) `def fake_iter()`
+  - `fake_iter` (function, line 378) `def fake_iter()`
   - `_Bare` (class, line 386) `class _Bare(Cmd)`
   - `_Probe` (class, line 414) `class _Probe(LazyOwnCommandSet)`
   - `_Shell` (class, line 427) `class _Shell(Cmd)`
@@ -432,63 +490,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `__init__` (method, line 428) `def __init__(self)`
   - `_scope_helper` (method, line 432) `def _scope_helper(self)`
 - Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
-
-## tests/test_cli_enhancements.py
-- Doc: Tests for cli/cli_enhancements.py and the audit CommandSet.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `fixture_index` (function, line 39) `def fixture_index()`
-  - `test_fuzzy_exact_match_scores_one` (function, line 50) `def test_fuzzy_exact_match_scores_one(fixture_index)`
-  - `test_fuzzy_alias_resolves_to_command` (function, line 56) `def test_fuzzy_alias_resolves_to_command(fixture_index)`
-  - `test_fuzzy_substring_match` (function, line 62) `def test_fuzzy_substring_match(fixture_index)`
-  - `test_fuzzy_empty_query_lists_all` (function, line 67) `def test_fuzzy_empty_query_lists_all(fixture_index)`
-  - `test_fuzzy_returns_empty_on_garbage` (function, line 72) `def test_fuzzy_returns_empty_on_garbage(fixture_index)`
-  - `test_completer_set_lists_payload_keys` (function, line 80) `def test_completer_set_lists_payload_keys()`
-  - `test_completer_target_lists_targets_and_rhost` (function, line 89) `def test_completer_target_lists_targets_and_rhost()`
-  - `test_completer_wordlist_keys_only_when_set` (function, line 101) `def test_completer_wordlist_keys_only_when_set()`
-  - `test_completer_addon_lister_used_for_run` (function, line 108) `def test_completer_addon_lister_used_for_run()`
-  - `test_completer_filters_by_partial` (function, line 116) `def test_completer_filters_by_partial()`
-  - `test_completer_ignores_unknown_command` (function, line 123) `def test_completer_ignores_unknown_command()`
-  - `test_dynamic_resolver_renders_against_current_payload` (function, line 132) `def test_dynamic_resolver_renders_against_current_payload()`
-  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 140) `def test_dynamic_resolver_missing_keys_become_empty()`
-  - `test_dynamic_resolver_payload_changes_propagate` (function, line 146) `def test_dynamic_resolver_payload_changes_propagate()`
-  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 155) `def test_dynamic_resolver_passes_through_literal_braces()`
-  - `test_load_aliases_lazy_preserves_placeholders` (function, line 162) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
-  - `test_load_aliases_eager_substitutes` (function, line 169) `def test_load_aliases_eager_substitutes(tmp_path)`
-  - `test_hot_reloader_detects_new_file` (function, line 179) `def test_hot_reloader_detects_new_file(tmp_path)`
-  - `test_hot_reloader_detects_modification` (function, line 191) `def test_hot_reloader_detects_modification(tmp_path)`
-  - `test_hot_reloader_ignores_non_addon_files` (function, line 208) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
-  - `test_status_tail_extracts_open_ports` (function, line 221) `def test_status_tail_extracts_open_ports()`
-  - `test_status_tail_handles_empty` (function, line 237) `def test_status_tail_handles_empty()`
-  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 244) `def test_status_tail_no_ports_falls_back_to_stats()`
-  - `test_transcript_grep_matches_recent_output` (function, line 254) `def test_transcript_grep_matches_recent_output(tmp_path)`
-  - `test_transcript_grep_command_filter` (function, line 262) `def test_transcript_grep_command_filter(tmp_path)`
-  - `test_transcript_grep_invalid_regex` (function, line 270) `def test_transcript_grep_invalid_regex(tmp_path)`
-  - `test_transcript_persists_and_reloads` (function, line 277) `def test_transcript_persists_and_reloads(tmp_path)`
-  - `test_transcript_capacity` (function, line 285) `def test_transcript_capacity(tmp_path)`
-  - `FakeIO` (class, line 297) `class FakeIO`
-  - `test_form_collects_values_with_defaults` (method, line 311) `def test_form_collects_values_with_defaults()`
-  - `test_form_options_constraint_falls_back_to_default` (method, line 325) `def test_form_options_constraint_falls_back_to_default()`
-  - `test_form_required_reprompted` (method, line 336) `def test_form_required_reprompted()`
-  - `_ShellLike` (class, line 349) `class _ShellLike`
-  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (method, line 359) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
-  - `_MiniShell` (class, line 371) `class _MiniShell`
-  - `test_audit_fz_command_emits_results` (method, line 399) `def test_audit_fz_command_emits_results(tmp_path)`
-  - `test_audit_status_tail_reports_no_evidence` (method, line 409) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
-  - `test_audit_grep_log_handles_empty_store` (method, line 419) `def test_audit_grep_log_handles_empty_store(tmp_path)`
-  - `test_audit_form_unknown_lists_known` (method, line 429) `def test_audit_form_unknown_lists_known(tmp_path)`
-  - `__init__` (method, line 298) `def __init__(self, replies)`
-  - `prompt` (method, line 302) `def prompt(self, message, default)`
-  - `emit` (method, line 307) `def emit(self, line)`
-  - `do_lazynmap` (method, line 352) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 355) `def do_gobuster(self, _)`
-  - `__init__` (method, line 374) `def __init__(self, tmp)`
-  - `poutput` (method, line 386) `def poutput(self, msg)`
-  - `get_all_commands` (method, line 389) `def get_all_commands(self)`
-  - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
-- Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

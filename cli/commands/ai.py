@@ -103,7 +103,7 @@ class AiCommandSet(LazyOwnCommandSet):
             return
         isolated = question.lower().startswith("snapshot ")
         if isolated:
-            question = question[len("snapshot "):].strip()
+            question = question[len("snapshot ") :].strip()
             if not question:
                 print_error("Usage: ask snapshot <question>")
                 return
@@ -152,8 +152,8 @@ class AiCommandSet(LazyOwnCommandSet):
             from modules.sidequestion import SideQuestionService
 
             service = SideQuestionService(
-                answer_fn=lambda _snap, _q: ask_general(
-                    f"Frozen context:\n{_snap}\n\nOperator question: {_q}"))
+                answer_fn=lambda _snap, _q: ask_general(f"Frozen context:\n{_snap}\n\nOperator question: {_q}")
+            )
             snapshot = service.capture(str(rhost), context)
             answered = service.ask(snapshot.snapshot_id, question)
             print_msg(f"Isolated answer (snapshot {snapshot.snapshot_id}):")
@@ -212,10 +212,7 @@ class AiCommandSet(LazyOwnCommandSet):
         Returns:
             None.
         """
-        from modules.llm_pool import LLMPool
-        from modules.llm_pool import PoolExhausted
-        from modules.llm_pool import PoolMember
-        from modules.llm_pool import shared_registry
+        from modules.llm_pool import LLMPool, PoolExhausted, PoolMember, shared_registry
 
         prompt = (line or "").strip() or "Reply with exactly: POOL_OK"
         served: list[str] = []
@@ -229,12 +226,15 @@ class AiCommandSet(LazyOwnCommandSet):
                 return backend.complete(DEFAULT_SYSTEM_PROMPT, text)
 
         try:
-            pool = LLMPool([
-                PoolMember("groq", "groq", "groq", rank=10,
-                           complete=lambda p: _serve("groq", BACKEND_GROQ, p)),
-                PoolMember("ollama", "ollama", "ollama", rank=1,
-                           complete=lambda p: _serve("ollama", BACKEND_OLLAMA, p)),
-            ], health=shared_registry())
+            pool = LLMPool(
+                [
+                    PoolMember("groq", "groq", "groq", rank=10, complete=lambda p: _serve("groq", BACKEND_GROQ, p)),
+                    PoolMember(
+                        "ollama", "ollama", "ollama", rank=1, complete=lambda p: _serve("ollama", BACKEND_OLLAMA, p)
+                    ),
+                ],
+                health=shared_registry(),
+            )
         except Exception as exc:
             print_error(f"poolcheck unavailable: {exc}")
             return

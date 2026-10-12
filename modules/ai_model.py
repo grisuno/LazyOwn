@@ -134,8 +134,25 @@ class GroqModel(AIModel):
         self.client = _LazyImporter.groq()(api_key=api_key)
         self.model = model
 
+    def _model_chain(self) -> tuple[str, ...]:
+        """Return the configured model first, then known-good fallbacks."""
+        try:
+            from modules.llm_factory import groq_model_chain
+
+            chain = groq_model_chain()
+        except Exception:
+            chain = ()
+        out: list[str] = []
+        for candidate in (self.model, *chain):
+            if candidate and candidate not in out:
+                out.append(candidate)
+        return tuple(out)
+
     def generate(self, prompt: str) -> str:
         """Return a single completion for ``prompt``.
+
+        Fails over to a known-good model id when the configured one is
+        unavailable (Groq answers 404 model_not_found for retired ids).
 
         Args:
             prompt: The full prompt string sent to Groq.
@@ -143,17 +160,27 @@ class GroqModel(AIModel):
         Returns:
             The model completion or a human-readable error string.
         """
-        try:
-            chat_completion = self.client.chat.completions.create(
-                messages=[{"role": "user", "content": prompt}],
-                model=self.model,
-            )
-            return chat_completion.choices[0].message.content.strip()
-        except Exception as exc:
-            return f"Error from Groq: {exc}"
+        from modules.llm_factory import is_model_missing_error
+
+        last_error = ""
+        for model in self._model_chain():
+            try:
+                chat_completion = self.client.chat.completions.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    model=model,
+                )
+                return chat_completion.choices[0].message.content.strip()
+            except Exception as exc:
+                last_error = f"Error from Groq: {exc}"
+                if not is_model_missing_error(exc):
+                    break
+        return last_error
 
     def stream_generate(self, prompt: str) -> Generator[str, None, None]:
         """Yield streamed completion chunks for ``prompt``.
+
+        Fails over to a known-good model id when the configured one is
+        unavailable, mirroring :meth:`generate`.
 
         Args:
             prompt: The full prompt string sent to Groq.
@@ -161,18 +188,26 @@ class GroqModel(AIModel):
         Yields:
             Successive content fragments emitted by the Groq stream.
         """
-        try:
-            stream = self.client.chat.completions.create(
-                messages=[{"role": "user", "content": prompt}],
-                model=self.model,
-                stream=True,
-            )
-            for chunk in stream:
-                content = chunk.choices[0].delta.content
-                if content:
-                    yield content
-        except Exception as exc:
-            yield f"Error streaming from Groq: {exc}"
+        from modules.llm_factory import is_model_missing_error
+
+        last_error = ""
+        for model in self._model_chain():
+            try:
+                stream = self.client.chat.completions.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    model=model,
+                    stream=True,
+                )
+                for chunk in stream:
+                    content = chunk.choices[0].delta.content
+                    if content:
+                        yield content
+                return
+            except Exception as exc:
+                last_error = f"Error streaming from Groq: {exc}"
+                if not is_model_missing_error(exc):
+                    break
+        yield last_error
 
     def complete(
         self,

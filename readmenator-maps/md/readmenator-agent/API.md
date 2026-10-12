@@ -1,5 +1,5 @@
-# API (page 1 of 21)
-Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md)
+# API (page 1 of 22)
+Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md)
 
 ## DEPLOY.sh
 - `increment_version` (function) `DEPLOY.sh:19`
@@ -33,9 +33,9 @@ Depends on: `utils.py`
 ## cli/aliases.py
 Depends on: `core/config.py`
 Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_enhancements.py`
-- `_SafeFormatDict.template_placeholders` (method) `cli/aliases.py:56` `def template_placeholders(template)` -- Return the ``{name}`` placeholders referenced by ``template``.
-- `_SafeFormatDict.empty_placeholders` (method) `cli/aliases.py:72` `def empty_placeholders(template, context)` -- Return placeholders whose rendered value against ``context`` is empty.
-- `_SafeFormatDict.load_aliases` (method) `cli/aliases.py:77` `def load_aliases(payload, path, lazy)` -- Return the cmd2 alias map.
+- `template_placeholders` (function) `cli/aliases.py:56` `def template_placeholders(template)` -- Return the ``{name}`` placeholders referenced by ``template``.
+- `empty_placeholders` (function) `cli/aliases.py:72` `def empty_placeholders(template, context)` -- Return placeholders whose rendered value against ``context`` is empty.
+- `load_aliases` (function) `cli/aliases.py:77` `def load_aliases(payload, path, lazy)` -- Return the cmd2 alias map.
 
 ## cli/assign.py
 Depends on: `core/payload_schema.py`
@@ -50,7 +50,8 @@ Imported by: `lazyc2.py`, `lazyown.py`, `tests/test_auto_crypto.py`
 - `AutoCryptoEngine.is_encrypted` (method) `cli/auto_crypto.py:95` `def is_encrypted(self)` -- Check whether session data appears encrypted.
 - `AutoCryptoEngine.encrypt_session` (method) `cli/auto_crypto.py:124` `def encrypt_session(self)` -- Encrypt all protected session files.
 - `AutoCryptoEngine.decrypt_session` (method) `cli/auto_crypto.py:174` `def decrypt_session(self)` -- Decrypt all protected session files.
-- `AutoCryptoEngine.build_password_provider_from_cli_login` (method) `cli/auto_crypto.py:285` `def build_password_provider_from_cli_login()` -- Return a password provider that reads the CLI login session.
+- `AutoCryptoEngine.has_password` (method) `cli/auto_crypto.py:239` `def has_password(self)` -- Return True when the configured provider yields a password now.
+- `build_password_provider_from_cli_login` (function) `cli/auto_crypto.py:297` `def build_password_provider_from_cli_login()` -- Return a password provider that reads the CLI login session.
 
 ## cli/autosuggest.py
 Depends on: `core/safe_console.py`, `core/text_utils.py`
@@ -70,9 +71,9 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cl
 - `AutoSuggestEngine.refresh` (method) `cli/autosuggest.py:292` `def refresh(self, context)` -- Recompute the suggestion from the provider chain.
 - `AutoSuggestEngine.accept` (method) `cli/autosuggest.py:309` `def accept(self)` -- Return the active command string and clear the suggestion.
 - `AutoSuggestEngine.display_text` (method) `cli/autosuggest.py:317` `def display_text(self)` -- Return the ANSI-coloured ghost-text fragment for legacy callers.
-- `AutoSuggestEngine.format_hint_line` (method) `cli/autosuggest.py:342` `def format_hint_line(suggestion)` -- Build the dim hint string surfaced after each command.
-- `AutoSuggestEngine.render_hint_line` (method) `cli/autosuggest.py:375` `def render_hint_line(engine)` -- Print one dim hint line for the engine's active suggestion.
-- `AutoSuggestEngine.build_default_engine` (method) `cli/autosuggest.py:427` `def build_default_engine(advisor, chain, phase_priority)` -- Wire the canonical provider chain used by the cmd2 shell.
+- `format_hint_line` (function) `cli/autosuggest.py:342` `def format_hint_line(suggestion)` -- Build the dim hint string surfaced after each command.
+- `render_hint_line` (function) `cli/autosuggest.py:375` `def render_hint_line(engine)` -- Print one dim hint line for the engine's active suggestion.
+- `build_default_engine` (function) `cli/autosuggest.py:427` `def build_default_engine(advisor, chain, phase_priority)` -- Wire the canonical provider chain used by the cmd2 shell.
 
 ## cli/banner_config.py
 Depends on: `cli/engagement_hooks.py`, `core/parsers.py`, `core/safe_exec.py`, `modules/cli_auth.py`
@@ -108,7 +109,7 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_banner_config.py`, `te
 - `SegmentRegistry.get` (method) `cli/banner_config.py:587` `def get(self, segment_id)`
 - `SegmentRegistry.all` (method) `cli/banner_config.py:590` `def all(self)`
 - `SegmentRegistry.by_group` (method) `cli/banner_config.py:600` `def by_group(self, group)`
-- `SegmentRegistry.build_default_registry` (method) `cli/banner_config.py:604` `def build_default_registry()` -- Return the registry populated with the canonical segment set.
+- `build_default_registry` (function) `cli/banner_config.py:604` `def build_default_registry()` -- Return the registry populated with the canonical segment set.
 - `BannerSettings.defaults` (method) `cli/banner_config.py:636` `def defaults(cls, registry, color_registry, glyph_registry)`
 - `BannerSettings.from_payload` (method) `cli/banner_config.py:651` `def from_payload(cls, registry, payload, key, color_registry, glyph_registry)`
 - `BannerSettings.is_enabled` (method) `cli/banner_config.py:685` `def is_enabled(self, segment_id)`
@@ -125,15 +126,15 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_banner_config.py`, `te
 - `BannerSettings.to_payload_block` (method) `cli/banner_config.py:726` `def to_payload_block(self)`
 - `ContextResolver.__init__` (method) `cli/banner_config.py:741` `def __init__(self, cfg, palette)`
 - `ContextResolver.resolve` (method) `cli/banner_config.py:745` `def resolve(self, payload, network)`
-- `ContextResolver.default_palette` (method) `cli/banner_config.py:948` `def default_palette()` -- Box-chrome palette used around segment values.
+- `default_palette` (function) `cli/banner_config.py:948` `def default_palette()` -- Box-chrome palette used around segment values.
 - `BannerRenderer.__init__` (method) `cli/banner_config.py:964` `def __init__(self, config, registry, color_registry, glyph_registry)`
 - `BannerRenderer.render` (method) `cli/banner_config.py:976` `def render(self, settings, ctx)`
 - `BannerConfigurator.__init__` (method) `cli/banner_config.py:1047` `def __init__(self, config, registry, color_registry, glyph_registry, renderer, ctx, initial)`
 - `BannerConfigurator.run` (method) `cli/banner_config.py:1071` `def run(self)`
-- `BannerConfigurator.strip_readline_markers` (method) `cli/banner_config.py:1382` `def strip_readline_markers(text, config)` -- Remove readline zero-width markers from prompt text.
-- `BannerConfigurator.render_prompt` (method) `cli/banner_config.py:1396` `def render_prompt(payload, config, readline_safe)` -- Render the Neon Box prompt from a payload dictionary.
-- `BannerConfigurator.configure_banner_interactive` (method) `cli/banner_config.py:1436` `def configure_banner_interactive(payload, config)` -- Open the multi-tab curses wizard and return updated settings on save.
-- `BannerConfigurator.banner_summary` (method) `cli/banner_config.py:1456` `def banner_summary(settings, registry)` -- Return a single-line summary listing enabled segment ids.
+- `strip_readline_markers` (function) `cli/banner_config.py:1382` `def strip_readline_markers(text, config)` -- Remove readline zero-width markers from prompt text.
+- `render_prompt` (function) `cli/banner_config.py:1396` `def render_prompt(payload, config, readline_safe)` -- Render the Neon Box prompt from a payload dictionary.
+- `configure_banner_interactive` (function) `cli/banner_config.py:1436` `def configure_banner_interactive(payload, config)` -- Open the multi-tab curses wizard and return updated settings on save.
+- `banner_summary` (function) `cli/banner_config.py:1456` `def banner_summary(settings, registry)` -- Return a single-line summary listing enabled segment ids.
 
 ## cli/chain_mode.py
 Depends on: `cli/noise_verbs.py`, `core/logging.py`
@@ -182,7 +183,7 @@ Imported by: `cli/commands/audit.py`, `lazyown.py`, `tests/test_cli_enhancements
 - `DictPayloadProvider.update` (method) `cli/cli_enhancements.py:647` `def update(self, data)`
 - `StaticCommandLister.__init__` (method) `cli/cli_enhancements.py:654` `def __init__(self, commands)`
 - `StaticCommandLister.commands` (method) `cli/cli_enhancements.py:657` `def commands(self)`
-- `StaticCommandLister.commands_from_cmd2_shell` (method) `cli/cli_enhancements.py:661` `def commands_from_cmd2_shell(shell)` -- Best-effort extraction of CommandInfo entries from a live cmd2 shell.
+- `commands_from_cmd2_shell` (function) `cli/cli_enhancements.py:661` `def commands_from_cmd2_shell(shell)` -- Best-effort extraction of CommandInfo entries from a live cmd2 shell.
 
 ## cli/command_chain.py
 Depends on: `cli/exploration.py`, `cli/reactive_hints.py`
@@ -222,8 +223,8 @@ Imported by: `tests/test_command_form.py`
 - `CommandFormState.overrides` (method) `cli/command_form.py:173` `def overrides(self)` -- Return ``[(payload_key, value), ...]`` for fields the operator changed.
 - `CommandFormState.verb_line` (method) `cli/command_form.py:188` `def verb_line(self)` -- Return ``"<verb> <extra_args>"`` ready for the shell.
 - `CommandFormState.is_valid` (method) `cli/command_form.py:195` `def is_valid(self)` -- Return ``True`` when the command name is known in the index.
-- `CommandFormState.build_state` (method) `cli/command_form.py:247` `def build_state(command_name, payload, index, config)` -- Wire the canonical state used by :func:`launch_form`.
-- `CommandFormState.launch_form` (method) `cli/command_form.py:262` `def launch_form(command_name, payload, state, runner)` -- Open the form and return the populated state on submit.
+- `build_state` (function) `cli/command_form.py:247` `def build_state(command_name, payload, index, config)` -- Wire the canonical state used by :func:`launch_form`.
+- `launch_form` (function) `cli/command_form.py:262` `def launch_form(command_name, payload, state, runner)` -- Open the form and return the populated state on submit.
 - `_CommandFormApp.__init__` (method) `cli/command_form.py:325` `def __init__(self)`
 - `_CommandFormApp.compose` (method) `cli/command_form.py:330` `def compose(self)`
 - `_CommandFormApp.on_mount` (method) `cli/command_form.py:348` `def on_mount(self)`
@@ -234,15 +235,15 @@ Imported by: `tests/test_command_form.py`
 
 ## cli/commands/_base.py
 Depends on: `core/validators.py`, `utils.py`
-Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-- `extract_flag` (function) `cli/commands/_base.py:35` `def extract_flag(args, flag)` -- Extract ``--flag <value>`` pair shared by CommandSets.
-- `LazyOwnCommandSet.params` (method) `cli/commands/_base.py:87` `def params(self)` -- Return the live ``params`` dict owned by the parent shell.
-- `LazyOwnCommandSet.payload` (method) `cli/commands/_base.py:98` `def payload(self)` -- Return the parent shell's ``Config`` wrapper when available.
+Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- `extract_flag` (function) `cli/commands/_base.py:36` `def extract_flag(args, flag)` -- Extract ``--flag <value>`` pair shared by CommandSets.
+- `LazyOwnCommandSet.params` (method) `cli/commands/_base.py:88` `def params(self)` -- Return the live ``params`` dict owned by the parent shell.
+- `LazyOwnCommandSet.payload` (method) `cli/commands/_base.py:99` `def payload(self)` -- Return the parent shell's ``Config`` wrapper when available.
 
 ## cli/commands/_dormancy.py
 Depends on: `cli/commands/_base.py`
 Imported by: `cli/registry.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-- `PendingCommandSet.is_pending` (method) `cli/commands/_dormancy.py:52` `def is_pending(cs_class)` -- Return ``True`` when ``cs_class`` is flagged as a pending migration.
+- `is_pending` (function) `cli/commands/_dormancy.py:52` `def is_pending(cs_class)` -- Return ``True`` when ``cs_class`` is flagged as a pending migration.
 
 ## cli/commands/active_directory.py
 Depends on: `cli/commands/_base.py`, `modules/dacl_abuse.py`, `modules/delegation_attacks.py`, `modules/gpo_abuse.py`, `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
@@ -356,7 +357,7 @@ Depends on: `cli/commands/_base.py`, `core/safe_import.py`, `modules/db.py`, `ut
 ## cli/commands/catalog.py
 Depends on: `cli/commands/_base.py`, `utils.py`
 - `CatalogCommandSet.do_catalog` (method) `cli/commands/catalog.py:33` `def do_catalog(self, line)` -- Browse the command catalog.
-- `CatalogCommandSet.shlex_split` (method) `cli/commands/catalog.py:111` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
+- `shlex_split` (function) `cli/commands/catalog.py:111` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
 
 ## cli/commands/cicd.py
 Depends on: `cli/commands/_base.py`, `modules/cicd_enumerator.py`, `modules/mfa_bypass.py`, `utils.py`
@@ -410,32 +411,32 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/command_and_control_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/c2_builder.py`, `modules/listener_manager.py`, `utils.py`
-- `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:42` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
-- `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:392` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
-- `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:514` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
-- `CommandAndControlMigratedCommandSet.do_sandbox` (method) `cli/commands/command_and_control_migrated.py:642` `def do_sandbox(self, line)` -- Toggle or query Docker sandbox mode.
-- `CommandAndControlMigratedCommandSet.do_msfrpc` (method) `cli/commands/command_and_control_migrated.py:684` `def do_msfrpc(self, line)` -- Connects to the msfrpcd daemon and allows remote control of Metasploit.
-- `CommandAndControlMigratedCommandSet.do_sliver_server` (method) `cli/commands/command_and_control_migrated.py:708` `def do_sliver_server(self, line)` -- Starts the Sliver server and generates a client configuration file for connecting clients.
-- `CommandAndControlMigratedCommandSet.do_empire` (method) `cli/commands/command_and_control_migrated.py:825` `def do_empire(self, line)` -- Generates payloads using PowerShell Empire with various options.
-- `CommandAndControlMigratedCommandSet.do_automsf` (method) `cli/commands/command_and_control_migrated.py:875` `def do_automsf(self, line)` -- Try to check if Vulnerable using the module passed by argument of lazyown example automsf...
-- `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp` (method) `cli/commands/command_and_control_migrated.py:911` `def do_iis_webdav_upload_asp(self, line)` -- (CVE-2017-7269).
-- `CommandAndControlMigratedCommandSet.do_duckyspark` (method) `cli/commands/command_and_control_migrated.py:946` `def do_duckyspark(self, line)` -- duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
-- `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1147` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
-- `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1211` `def do_atomic_tests(self, line)` -- Executes Atomic Red Team tests based on user-selected platform and test.
-- `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1371` `def do_atomic_gen(self, line)` -- Generates test and cleanup scripts for a given Atomic Red Team technique ID.
-- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1555` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
-- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1655` `def do_attack_plan(self, line)` -- Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:1779` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:1899` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2002` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2181` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2238` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2287` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2379` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+- `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:44` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
+- `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:394` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
+- `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:516` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
+- `CommandAndControlMigratedCommandSet.do_sandbox` (method) `cli/commands/command_and_control_migrated.py:644` `def do_sandbox(self, line)` -- Toggle or query Docker sandbox mode.
+- `CommandAndControlMigratedCommandSet.do_msfrpc` (method) `cli/commands/command_and_control_migrated.py:686` `def do_msfrpc(self, line)` -- Connects to the msfrpcd daemon and allows remote control of Metasploit.
+- `CommandAndControlMigratedCommandSet.do_sliver_server` (method) `cli/commands/command_and_control_migrated.py:710` `def do_sliver_server(self, line)` -- Starts the Sliver server and generates a client configuration file for connecting clients.
+- `CommandAndControlMigratedCommandSet.do_empire` (method) `cli/commands/command_and_control_migrated.py:827` `def do_empire(self, line)` -- Generates payloads using PowerShell Empire with various options.
+- `CommandAndControlMigratedCommandSet.do_automsf` (method) `cli/commands/command_and_control_migrated.py:877` `def do_automsf(self, line)` -- Try to check if Vulnerable using the module passed by argument of lazyown example automsf...
+- `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp` (method) `cli/commands/command_and_control_migrated.py:922` `def do_iis_webdav_upload_asp(self, line)` -- (CVE-2017-7269).
+- `CommandAndControlMigratedCommandSet.do_duckyspark` (method) `cli/commands/command_and_control_migrated.py:957` `def do_duckyspark(self, line)` -- duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+- `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1158` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
+- `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1222` `def do_atomic_tests(self, line)` -- Executes Atomic Red Team tests based on user-selected platform and test.
+- `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1382` `def do_atomic_gen(self, line)` -- Generates test and cleanup scripts for a given Atomic Red Team technique ID.
+- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1566` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
+- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1666` `def do_attack_plan(self, line)` -- Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:1790` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:1910` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2013` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2192` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2249` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2298` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2390` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 ## cli/commands/containers.py
 Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`
-Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `poc_tui/app.py`
+Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `poc_tui/app.py`
 - `ContainerCommandSet.do_docker_enum` (method) `cli/commands/containers.py:37` `def do_docker_enum(self, _line)` -- Enumerate Docker host: containers, images, privileges, mounts.
 - `ContainerCommandSet.do_k8s_enum` (method) `cli/commands/containers.py:101` `def do_k8s_enum(self, _line)` -- Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.
 - `ContainerCommandSet.do_container_escape` (method) `cli/commands/containers.py:169` `def do_container_escape(self, _line)` -- Check current container for known escape vectors.
@@ -465,15 +466,15 @@ Imported by: `tests/test_credentials_rotation.py`
 - `CredMigratedCommandSet.do_smalldic` (method) `cli/commands/cred_migrated.py:253` `def do_smalldic(self, list)` -- Handles the creation of temporary files for users and passwords based on a small dictionary.
 - `CredMigratedCommandSet.do_dacledit` (method) `cli/commands/cred_migrated.py:291` `def do_dacledit(self, line)` -- Execute the dacledit.py command for a specific user or all users listed in the users.txt file.
 - `CredMigratedCommandSet.do_generatedic` (method) `cli/commands/cred_migrated.py:361` `def do_generatedic(self, line)` -- Generates a wordlist based on a target name and a list of characters, with various combinations.
-- `CredMigratedCommandSet.single_combo` (method) `cli/commands/cred_migrated.py:386` `def single_combo(name, characters, file, total, flag)` -- Generates single character combinations with the target name.
-- `CredMigratedCommandSet.double_combo` (method) `cli/commands/cred_migrated.py:409` `def double_combo(name, characters, file, total, flag)` -- Generates double character combinations with the target name.
-- `CredMigratedCommandSet.triple_combo` (method) `cli/commands/cred_migrated.py:433` `def triple_combo(name, characters, file, total, flag)` -- Generates triple character combinations with the target name.
-- `CredMigratedCommandSet.fourth_combo` (method) `cli/commands/cred_migrated.py:458` `def fourth_combo(name, characters, file, total, flag)` -- Generates fourth character combinations with the target name.
-- `CredMigratedCommandSet.fifth_combo` (method) `cli/commands/cred_migrated.py:484` `def fifth_combo(name, characters, file, total, flag)` -- Generates fifth character combinations with the target name.
-- `CredMigratedCommandSet.sixth_combo` (method) `cli/commands/cred_migrated.py:511` `def sixth_combo(name, characters, file, total, flag)` -- Generates sixth character combinations with the target name, adding uppercase characters.
-- `CredMigratedCommandSet.intercalate_combo` (method) `cli/commands/cred_migrated.py:536` `def intercalate_combo(name, characters, file, total, flag)` -- Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
-- `CredMigratedCommandSet.alternate_case` (method) `cli/commands/cred_migrated.py:552` `def alternate_case(s)` -- Helper function to alternate the case of characters in a string.
-- `CredMigratedCommandSet.expand_regex` (method) `cli/commands/cred_migrated.py:568` `def expand_regex(regex)` -- Expands a regular expression into a list of characters.
+- `single_combo` (function) `cli/commands/cred_migrated.py:386` `def single_combo(name, characters, file, total, flag)` -- Generates single character combinations with the target name.
+- `double_combo` (function) `cli/commands/cred_migrated.py:409` `def double_combo(name, characters, file, total, flag)` -- Generates double character combinations with the target name.
+- `triple_combo` (function) `cli/commands/cred_migrated.py:433` `def triple_combo(name, characters, file, total, flag)` -- Generates triple character combinations with the target name.
+- `fourth_combo` (function) `cli/commands/cred_migrated.py:458` `def fourth_combo(name, characters, file, total, flag)` -- Generates fourth character combinations with the target name.
+- `fifth_combo` (function) `cli/commands/cred_migrated.py:484` `def fifth_combo(name, characters, file, total, flag)` -- Generates fifth character combinations with the target name.
+- `sixth_combo` (function) `cli/commands/cred_migrated.py:511` `def sixth_combo(name, characters, file, total, flag)` -- Generates sixth character combinations with the target name, adding uppercase characters.
+- `intercalate_combo` (function) `cli/commands/cred_migrated.py:536` `def intercalate_combo(name, characters, file, total, flag)` -- Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
+- `alternate_case` (function) `cli/commands/cred_migrated.py:552` `def alternate_case(s)` -- Helper function to alternate the case of characters in a string.
+- `expand_regex` (function) `cli/commands/cred_migrated.py:568` `def expand_regex(regex)` -- Expands a regular expression into a list of characters.
 - `CredMigratedCommandSet.do_createmail` (method) `cli/commands/cred_migrated.py:626` `def do_createmail(self, line)` -- Generate email permutations based on a full name and self.params['domain'], then save them to a file.
 - `CredMigratedCommandSet.do_passwordspray` (method) `cli/commands/cred_migrated.py:674` `def do_passwordspray(self, line)` -- Perform password spraying using crackmapexec with the provided parameters.
 - `CredMigratedCommandSet.do_addusers` (method) `cli/commands/cred_migrated.py:706` `def do_addusers(self, line)` -- Opens or creates the users.txt file in the sessions directory for editing using nano.

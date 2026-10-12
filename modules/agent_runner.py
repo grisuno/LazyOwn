@@ -16,6 +16,7 @@ import os
 import queue
 import sys
 import threading
+import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
@@ -287,17 +288,131 @@ class AgentRunner:
                 }
             )
 
+        candidates: list[str] = []
         try:
-            return self.model.client.chat.completions.create(
-                model=self.model.model,
-                messages=current_context,
-                tools=self.get_tools_for_api(),
-                tool_choice="auto",
-                temperature=0.1,
-            )
-        except Exception as e:
-            logging.error(f"Error API: {e}")
-            raise
+            from modules.llm_factory import groq_model_chain, is_model_missing_error
+
+            candidates = [name for name in groq_model_chain() if name != self.model.model]
+        except Exception:
+            is_model_missing_error = None  # type: ignore[assignment]
+
+        last_error: Exception | None = None
+        for model_name in [self.model.model, *candidates]:
+            try:
+                if getattr(self, "stream_enabled", False):
+                    response = self._stream_call(model_name, current_context)
+                else:
+                    response = self.model.client.chat.completions.create(
+                        model=model_name,
+                        messages=current_context,
+                        tools=self.get_tools_for_api(),
+                        tool_choice="auto",
+                        temperature=0.1,
+                    )
+                self.model.model = model_name
+                return response
+            except Exception as e:
+                last_error = e
+                if is_model_missing_error is None or not is_model_missing_error(e):
+                    logging.error(f"Error API: {e}")
+                    raise
+                logging.warning(f"Model {model_name} unavailable, trying fallback")
+        if last_error is not None:
+            raise last_error
+        raise RuntimeError("no model candidates available")
+
+    def _stream_call(self, model_name: str, messages: list, max_tokens: int = 0):
+        """One model turn with ``stream=True``, reassembling the reply.
+
+        OpenAI-compatible streams deliver content, reasoning and tool
+        calls as deltas. This assembles them back into the response
+        shape the base loop expects and forwards content/reasoning
+        fragments to ``delta_sink`` for live reporting.
+
+        Args:
+            model_name: Model id to call.
+            messages: Conversation context.
+            max_tokens: Optional token cap for providers that accept it.
+
+        Returns:
+            A response-like namespace with ``choices[0].message``.
+        """
+        from types import SimpleNamespace
+
+        request: dict = {
+            "model": model_name,
+            "messages": messages,
+            "tools": self.get_tools_for_api(),
+            "tool_choice": "auto",
+            "temperature": 0.1,
+            "stream": True,
+        }
+        if max_tokens:
+            request["max_tokens"] = max_tokens
+        stream = self.model.client.chat.completions.create(**request)
+        content_parts: list[str] = []
+        think_parts: list[str] = []
+        tool_parts: dict[int, dict] = {}
+        for chunk in stream:
+            choices = getattr(chunk, "choices", None) or []
+            if not choices:
+                continue
+            delta = getattr(choices[0], "delta", None)
+            if delta is None:
+                continue
+            content = getattr(delta, "content", None)
+            if content:
+                content_parts.append(str(content))
+                self._emit_delta("delta", str(content))
+            reasoning = getattr(delta, "reasoning_content", None)
+            if reasoning:
+                think_parts.append(str(reasoning))
+            for call in getattr(delta, "tool_calls", None) or []:
+                index = int(getattr(call, "index", 0) or 0)
+                entry = tool_parts.setdefault(index, {"id": "", "name": "", "arguments": ""})
+                call_id = getattr(call, "id", None)
+                if call_id:
+                    entry["id"] = str(call_id)
+                function = getattr(call, "function", None)
+                if function is not None:
+                    part_name = getattr(function, "name", None)
+                    if part_name:
+                        entry["name"] += str(part_name)
+                    part_args = getattr(function, "arguments", None)
+                    if part_args:
+                        entry["arguments"] += str(part_args)
+        if think_parts:
+            self._emit_delta("think", "".join(think_parts)[:1500])
+        message = SimpleNamespace(content="".join(content_parts) or None, tool_calls=None)
+        if tool_parts:
+            message.tool_calls = [
+                SimpleNamespace(
+                    id=entry["id"] or f"call_{index}",
+                    type="function",
+                    function=SimpleNamespace(name=entry["name"], arguments=entry["arguments"]),
+                )
+                for index, entry in sorted(tool_parts.items())
+            ]
+        return SimpleNamespace(choices=[SimpleNamespace(message=message)])
+
+    def _emit_delta(self, kind: str, text: str) -> None:
+        """Forward streamed fragments to the sink, throttled to one per second."""
+        sink = getattr(self, "delta_sink", None)
+        if sink is None:
+            return
+        state = getattr(self, "_delta_state", None)
+        if state is None:
+            state = {"chars": 0, "last": 0.0}
+            self._delta_state = state
+        state["chars"] += len(text or "")
+        if kind == "think":
+            sink(kind, f"reasoning: {text[:1200]}")
+            return
+        now = time.monotonic()
+        if now - state["last"] < 1.0:
+            return
+        state["last"] = now
+        sink(kind, f"streaming... {state['chars']} chars")
 
     def _process_tool_call(self, tool_call):
         tool_name = tool_call.function.name

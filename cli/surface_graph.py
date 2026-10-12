@@ -509,13 +509,15 @@ class SurfaceGraphBuilder:
                             continue
                         if current_ip in local_ips:
                             continue
-                        records.append({
-                            "ip": current_ip,
-                            "port": port,
-                            "protocol": proto.lower() or "tcp",
-                            "service": parts[2],
-                            "version": " ".join(parts[3:]),
-                        })
+                        records.append(
+                            {
+                                "ip": current_ip,
+                                "port": port,
+                                "protocol": proto.lower() or "tcp",
+                                "service": parts[2],
+                                "version": " ".join(parts[3:]),
+                            }
+                        )
             except OSError:
                 continue
         return records

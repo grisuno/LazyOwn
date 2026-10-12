@@ -236,6 +236,18 @@ class AutoCryptoEngine:
 
         return decrypted_count > 0
 
+    def has_password(self) -> bool:
+        """Return True when the configured provider yields a password now.
+
+        Exit paths use this to distinguish "nothing to protect" from
+        "no credential available", so a skipped encryption is never
+        silent.
+
+        Returns:
+            True when a non-empty password is available.
+        """
+        return bool(self._get_password())
+
     def _get_password(self) -> str | None:
         provider = self._config.password_provider
         if provider is None:

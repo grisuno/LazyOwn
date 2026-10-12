@@ -1,5 +1,111 @@
-# API (page 6 of 21)
+# API (page 6 of 22)
 Previous: [API_p5.md](API_p5.md)
+
+## contrib/legacy/lazyreversentlmv2.py
+Depends on: `modules/lazyencoder_decoder.py`
+- `parse_hash_file` (function) `contrib/legacy/lazyreversentlmv2.py:11` `def parse_hash_file(file_path)`
+- `reverse_shell` (function) `contrib/legacy/lazyreversentlmv2.py:58` `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)`
+
+## contrib/legacy/lazysearch.py
+- `highlight_term` (function) `contrib/legacy/lazysearch.py:29` `def highlight_term(text, term)`
+- `search_in_parquet` (function) `contrib/legacy/lazysearch.py:32` `def search_in_parquet(term, parquet_files)`
+- `main` (function) `contrib/legacy/lazysearch.py:44` `def main()`
+
+## contrib/legacy/lazysearch_bot.py
+Depends on: `core/logging.py`
+- `signal_handler` (function) `contrib/legacy/lazysearch_bot.py:59` `def signal_handler(sig, frame)`
+- `show_help` (function) `contrib/legacy/lazysearch_bot.py:65` `def show_help(message)`
+- `check_api_key` (function) `contrib/legacy/lazysearch_bot.py:69` `def check_api_key()`
+- `configure_logging` (function) `contrib/legacy/lazysearch_bot.py:75` `def configure_logging(debug)`
+- `parse_args` (function) `contrib/legacy/lazysearch_bot.py:79` `def parse_args()`
+- `create_complex_prompt` (function) `contrib/legacy/lazysearch_bot.py:86` `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+- `execute_command` (function) `contrib/legacy/lazysearch_bot.py:109` `def execute_command(command)`
+- `load_knowledge_base` (function) `contrib/legacy/lazysearch_bot.py:112` `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function) `contrib/legacy/lazysearch_bot.py:118` `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function) `contrib/legacy/lazysearch_bot.py:122` `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function) `contrib/legacy/lazysearch_bot.py:127` `def get_relevant_knowledge(prompt)`
+- `transform_knowledge_base` (function) `contrib/legacy/lazysearch_bot.py:135` `def transform_knowledge_base(client)`
+- `main` (function) `contrib/legacy/lazysearch_bot.py:158` `def main()`
+
+## contrib/legacy/lazyseo.py
+Depends on: `modules/colors.py`
+- `Config.__init__` (method) `contrib/legacy/lazyseo.py:15` `def __init__(self, config_dict)`
+- `load_payload` (function) `contrib/legacy/lazyseo.py:23` `def load_payload()`
+- `make_request` (function) `contrib/legacy/lazyseo.py:28` `def make_request(url, retries, timeout)`
+- `results` (function) `contrib/legacy/lazyseo.py:49` `def results(file)`
+- `crawl` (function) `contrib/legacy/lazyseo.py:57` `def crawl(url)`
+- `ffuf` (function) `contrib/legacy/lazyseo.py:66` `def ffuf()`
+- `analyze_seo` (function) `contrib/legacy/lazyseo.py:76` `def analyze_seo(url)`
+
+## contrib/legacy/lazysmbrelay.py
+Depends on: `core/logging.py`, `utils.py`
+- `check_sudo` (function) `contrib/legacy/lazysmbrelay.py:15` `def check_sudo()`
+- `start_smb_server` (function) `contrib/legacy/lazysmbrelay.py:27` `def start_smb_server()`
+- `start_smb_relay` (function) `contrib/legacy/lazysmbrelay.py:35` `def start_smb_relay(target, command)`
+- `CustomSMBRelayServer.__init__` (method) `contrib/legacy/lazysmbrelay.py:42` `def __init__(self)`
+- `CustomSMBRelayServer.handleData` (method) `contrib/legacy/lazysmbrelay.py:46` `def handleData(self)`
+- `CustomSMBRelayServer.execute_remote_command` (method) `contrib/legacy/lazysmbrelay.py:50` `def execute_remote_command(self)`
+
+## contrib/legacy/lazysniff.py
+- `check_sudo` (function) `contrib/legacy/lazysniff.py:41` `def check_sudo()`
+- `signal_handler` (function) `contrib/legacy/lazysniff.py:50` `def signal_handler(sig, frame)`
+- `setup_curses` (function) `contrib/legacy/lazysniff.py:57` `def setup_curses()`
+- `restore_curses` (function) `contrib/legacy/lazysniff.py:66` `def restore_curses(stdscr)`
+- `show_banner` (function) `contrib/legacy/lazysniff.py:73` `def show_banner(stdscr, banner)`
+- `process_packet` (function) `contrib/legacy/lazysniff.py:80` `def process_packet(packet, packets, win_top, win_bottom)`
+- `analyze_packet` (function) `contrib/legacy/lazysniff.py:90` `def analyze_packet(packet)`
+- `capture_packets` (function) `contrib/legacy/lazysniff.py:112` `def capture_packets(interface, count, filter, pcap_file, packets, win_top, win_bottom)`
+- `main_curses` (function) `contrib/legacy/lazysniff.py:118` `def main_curses(stdscr, packets, interface, count, filter, pcap_file)`
+- `parse_arguments` (function) `contrib/legacy/lazysniff.py:188` `def parse_arguments()`
+- `main` (function) `contrib/legacy/lazysniff.py:197` `def main()`
+
+## contrib/legacy/lazysqli.py
+- `send_payload` (function) `contrib/legacy/lazysqli.py:13` `def send_payload(payload, url, s, sql_time)`
+- `sqli_dichotomie` (function) `contrib/legacy/lazysqli.py:30` `def sqli_dichotomie(payload_brute, offset, url, s, sql_time)`
+- `sqli_thread` (function) `contrib/legacy/lazysqli.py:51` `def sqli_thread(url, db, table, col, sql_time, threads)`
+- `main` (function) `contrib/legacy/lazysqli.py:89` `def main(args)`
+
+## contrib/legacy/lazyssh.py
+Depends on: `core/logging.py`
+- `execute` (function) `contrib/legacy/lazyssh.py:13` `def execute(hostname, port, command)`
+
+## contrib/legacy/lazyvsftp.py
+Depends on: `cli/commands/pwn.py`
+- `connect` (function) `contrib/legacy/lazyvsftp.py:7` `def connect(host, port)`
+- `exploit` (function) `contrib/legacy/lazyvsftp.py:16` `def exploit(host, port)`
+- `handle_backdoor` (function) `contrib/legacy/lazyvsftp.py:61` `def handle_backdoor(s)`
+
+## contrib/legacy/sql.py
+Depends on: `cli/commands/pwn.py`
+- `def_handler` (function) `contrib/legacy/sql.py:8` `def def_handler(sig, frame)`
+- `getUnicode` (function) `contrib/legacy/sql.py:15` `def getUnicode(sqli)`
+- `makeRequest` (function) `contrib/legacy/sql.py:22` `def makeRequest(sqli_modified)`
+
+## core/api_authz.py
+Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/api.py`, `tests/test_api_authz.py`, `tests/test_api_v1.py`
+- `ApiKey.to_dict` (method) `core/api_authz.py:94` `def to_dict(self)`
+- `ApiKey.from_dict` (method) `core/api_authz.py:107` `def from_dict(cls, data)`
+- `ApiKey.is_expired` (method) `core/api_authz.py:119` `def is_expired(self)`
+- `ApiKey.is_retired` (method) `core/api_authz.py:124` `def is_retired(self)`
+- `ApiKey.has_permission` (method) `core/api_authz.py:127` `def has_permission(self, permission)`
+- `ApiKey.has_all_permissions` (method) `core/api_authz.py:130` `def has_all_permissions(self, permissions)`
+- `ApiKeyStore.__init__` (method) `core/api_authz.py:170` `def __init__(self, config)`
+- `ApiKeyStore.config` (method) `core/api_authz.py:176` `def config(self)` -- The configuration this store was built with.
+- `ApiKeyStore.list_keys` (method) `core/api_authz.py:217` `def list_keys(self, tenant_id)` -- List all active keys, optionally filtered by *tenant_id*.
+- `ApiKeyStore.find_by_hash` (method) `core/api_authz.py:229` `def find_by_hash(self, key_hash)` -- Look up a key record by its SHA-256 hash.
+- `ApiKeyStore.create_key` (method) `core/api_authz.py:238` `def create_key(self, tenant_id, label, permissions, expires_in_days)` -- Create a new API key and return ``(ApiKey, plaintext_secret)``.
+- `ApiKeyStore.revoke_key` (method) `core/api_authz.py:273` `def revoke_key(self, label, tenant_id)` -- Revoke every key with *label* within *tenant_id*.
+- `ApiKeyStore.validate_key` (method) `core/api_authz.py:287` `def validate_key(self, plaintext)` -- Validate a plaintext API key and return the ApiKey record.
+- `ApiKeyStore.rotate_key` (method) `core/api_authz.py:309` `def rotate_key(self, label, tenant_id)` -- Rotate an existing key by label.
+- `require_api_auth` (function) `core/api_authz.py:365` `def require_api_auth(store, permissions, require_tenant)` -- Flask-route decorator that enforces API-key + tenant authorization.
+- `decorator` (function) `core/api_authz.py:405` `def decorator(f)`
+- `decorated` (function) `core/api_authz.py:407` `def decorated()`
+- `create_api_token` (function) `core/api_authz.py:440` `def create_api_token(store, tenant_id, label, permissions, expires_in_days)` -- Create an API key and return the one-time plaintext token.
+
+## core/autonomous.py
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/mcp_bridge.py`, `lazyown.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
+- `is_autonomous` (function) `core/autonomous.py:21` `def is_autonomous()` -- Return True while an autonomous loop run owns the process.
+- `autonomous_mode` (function) `core/autonomous.py:27` `def autonomous_mode()` -- Suppress interactive prompts for the duration of a loop run.
 
 ## core/command_bridge.py
 Depends on: `lazyown.py`
@@ -10,18 +116,18 @@ Imported by: `tests/test_core_command_bridge.py`
 - `CommandBridge.onecmd` (method) `core/command_bridge.py:65` `def onecmd(self, command)` -- Execute a LazyOwn internal command via the shell.
 - `CommandBridge.one_cmd` (method) `core/command_bridge.py:89` `def one_cmd(self, command)` -- Execute a command using the shell's one_cmd method.
 - `CommandBridge.execute` (method) `core/command_bridge.py:110` `def execute(self, command)` -- Alias for one_cmd.
-- `CommandBridge.get_bridge` (method) `core/command_bridge.py:126` `def get_bridge()` -- Get or create the singleton CommandBridge instance.
+- `get_bridge` (function) `core/command_bridge.py:126` `def get_bridge()` -- Get or create the singleton CommandBridge instance.
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:208` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:223` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:233` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
-- `Config.resolve_aes_key` (method) `core/config.py:250` `def resolve_aes_key(config_dict)` -- Return a 32-byte AES key derived from config, disk, or randomness.
-- `Config.load_payload` (method) `core/config.py:316` `def load_payload(path)` -- Load and return the JSON payload at ``path``.
-- `Config.load_and_validate` (method) `core/config.py:334` `def load_and_validate(path)` -- Load ``payload.json``, validate against the schema, and return a result dict.
-- `Config.save_payload` (method) `core/config.py:385` `def save_payload(payload, path)` -- Atomically write ``payload`` as pretty-printed JSON to ``path``.
+- `resolve_aes_key` (function) `core/config.py:250` `def resolve_aes_key(config_dict)` -- Return a 32-byte AES key derived from config, disk, or randomness.
+- `load_payload` (function) `core/config.py:316` `def load_payload(path)` -- Load and return the JSON payload at ``path``.
+- `load_and_validate` (function) `core/config.py:334` `def load_and_validate(path)` -- Load ``payload.json``, validate against the schema, and return a result dict.
+- `save_payload` (function) `core/config.py:385` `def save_payload(payload, path)` -- Atomically write ``payload`` as pretty-printed JSON to ``path``.
 
 ## core/console.py
 Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
@@ -71,20 +177,20 @@ Imported by: `core/__init__.py`, `tests/test_dependencies.py`, `utils.py`
 - `MissingDependencyError.__init__` (method) `core/dependencies.py:45` `def __init__(self, import_name, pip_package, feature)` -- Build a remediation-oriented error message.
 - `_DeferredImport.__init__` (method) `core/dependencies.py:115` `def __init__(self, spec)` -- Store the dependency spec used to build remediation errors.
 - `_DeferredImport.__call__` (method) `core/dependencies.py:136` `def __call__(self)` -- Reject calling a missing dependency.
-- `_DeferredImport.optional_import` (method) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
-- `_DeferredImport.optional_attr` (method) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
+- `optional_import` (function) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
+- `optional_attr` (function) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
 - `DependencyReport.missing` (method) `core/dependencies.py:278` `def missing(self)` -- Return the optional Python dependencies that are not installed.
 - `DependencyReport.ok` (method) `core/dependencies.py:283` `def ok(self)` -- Return ``True`` when every declared dependency is present.
-- `DependencyReport.probe_python_dependency` (method) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
-- `DependencyReport.collect_dependency_report` (method) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
-- `DependencyReport.format_report` (method) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
-- `DependencyReport.main` (method) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
+- `probe_python_dependency` (function) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
+- `collect_dependency_report` (function) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
+- `format_report` (function) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
+- `main` (function) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
 
 ## core/error_advice.py
 Depends on: `core/console.py`
 - `ErrorAdvice.docs_url` (method) `core/error_advice.py:35` `def docs_url(self, config)` -- Return absolute documentation URL for this advice.
-- `ErrorAdvice.get_advice` (method) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
-- `ErrorAdvice.render_advice` (method) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
+- `get_advice` (function) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
+- `render_advice` (function) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
 
 ## core/errors.py
 Depends on: `cli/commands/enum.py`
@@ -114,19 +220,19 @@ Depends on: `core/host_policy.py`, `core/logging.py`
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_host_policy.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
 - `reject_option_injection` (function) `core/hardening.py:42` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
 - `escape_powershell_single_quoted` (function) `core/hardening.py:61` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
-- `SecurityViolation.terminal_env` (method) `core/hardening.py:86` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
-- `SecurityViolation.safe_subprocess_run` (method) `core/hardening.py:107` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `SecurityViolation.safe_clipboard_copy` (method) `core/hardening.py:152` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `SecurityViolation.build_sshpass_command` (method) `core/hardening.py:191` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `SecurityViolation.set_sshpass_env` (method) `core/hardening.py:220` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `SecurityViolation.escape_html_content` (method) `core/hardening.py:239` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `SecurityViolation.safe_path_join` (method) `core/hardening.py:251` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `SecurityViolation.validate_network_cidr` (method) `core/hardening.py:277` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `SecurityViolation.validate_port_spec` (method) `core/hardening.py:289` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `SecurityViolation.validate_host` (method) `core/hardening.py:305` `def validate_host(host)` -- Validate a hostname or IP address.
-- `SecurityViolation.require_encryption_key` (method) `core/hardening.py:325` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
-- `SecurityViolation.defused_xml_parse` (method) `core/hardening.py:353` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
-- `SecurityViolation.sanitize_filename` (method) `core/hardening.py:375` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
+- `terminal_env` (function) `core/hardening.py:86` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
+- `safe_subprocess_run` (function) `core/hardening.py:107` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
+- `safe_clipboard_copy` (function) `core/hardening.py:152` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
+- `build_sshpass_command` (function) `core/hardening.py:191` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
+- `set_sshpass_env` (function) `core/hardening.py:220` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
+- `escape_html_content` (function) `core/hardening.py:239` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
+- `safe_path_join` (function) `core/hardening.py:251` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
+- `validate_network_cidr` (function) `core/hardening.py:277` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
+- `validate_port_spec` (function) `core/hardening.py:289` `def validate_port_spec(ports)` -- Validate a port specification string.
+- `validate_host` (function) `core/hardening.py:305` `def validate_host(host)` -- Validate a hostname or IP address.
+- `require_encryption_key` (function) `core/hardening.py:325` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
+- `defused_xml_parse` (function) `core/hardening.py:353` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
+- `sanitize_filename` (function) `core/hardening.py:375` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
 
 ## core/host_policy.py
 Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`
@@ -168,22 +274,22 @@ Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/lazyown_mcp
 - `BudgetedBackend.generate` (method) `core/llm_budget.py:422` `def generate(self, prompt)` -- Forward a non streaming call and record a charge.
 - `BudgetedBackend.stream_generate` (method) `core/llm_budget.py:430` `def stream_generate(self, prompt)` -- Forward a streaming call.
 - `BudgetedBackend.complete` (method) `core/llm_budget.py:435` `def complete(self, system, user, max_tokens, temperature)` -- Forward a role aware call.
-- `BudgetedBackend.default_model_prices` (method) `core/llm_budget.py:442` `def default_model_prices()` -- Return the default price table the guard ships with.
-- `BudgetedBackend.default_sessions_dir` (method) `core/llm_budget.py:461` `def default_sessions_dir()` -- Return the directory the ledger writes to by default.
-- `BudgetedBackend.load_budget_config` (method) `core/llm_budget.py:552` `def load_budget_config(payload, sessions_dir)` -- Build a BudgetConfig from a payload mapping.
-- `BudgetedBackend.read_budget_status` (method) `core/llm_budget.py:585` `def read_budget_status(payload, sessions_dir)` -- Return a structured snapshot of the current budget.
-- `BudgetedBackend.format_budget_status` (method) `core/llm_budget.py:616` `def format_budget_status(config, ledger)` -- Render the budget status as a human readable block.
-- `BudgetedBackend.wrap_backend_with_budget` (method) `core/llm_budget.py:657` `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` -- Wrap a concrete backend with a budgeted proxy.
+- `default_model_prices` (function) `core/llm_budget.py:442` `def default_model_prices()` -- Return the default price table the guard ships with.
+- `default_sessions_dir` (function) `core/llm_budget.py:461` `def default_sessions_dir()` -- Return the directory the ledger writes to by default.
+- `load_budget_config` (function) `core/llm_budget.py:552` `def load_budget_config(payload, sessions_dir)` -- Build a BudgetConfig from a payload mapping.
+- `read_budget_status` (function) `core/llm_budget.py:585` `def read_budget_status(payload, sessions_dir)` -- Return a structured snapshot of the current budget.
+- `format_budget_status` (function) `core/llm_budget.py:616` `def format_budget_status(config, ledger)` -- Render the budget status as a human readable block.
+- `wrap_backend_with_budget` (function) `core/llm_budget.py:657` `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` -- Wrap a concrete backend with a budgeted proxy.
 
 ## core/logging.py
-Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`
+Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`
 - `_JsonLineFormatter.__init__` (method) `core/logging.py:74` `def __init__(self, redacted_fields)`
 - `_JsonLineFormatter.format` (method) `core/logging.py:78` `def format(self, record)`
 - `_ConsoleFormatter.format` (method) `core/logging.py:132` `def format(self, record)`
 - `StructuredLogger.makeRecord` (method) `core/logging.py:148` `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
-- `StructuredLogger.get_logger` (method) `core/logging.py:231` `def get_logger(name)` -- Return a cached :class:`StructuredLogger` for *name*.
-- `StructuredLogger.install_json_handler` (method) `core/logging.py:251` `def install_json_handler(name, config)` -- Install a JSON-lines file handler on *name*, preserving existing handlers.
-- `StructuredLogger.reconfigure` (method) `core/logging.py:300` `def reconfigure(config)` -- Replace the cached configuration globally.
+- `get_logger` (function) `core/logging.py:231` `def get_logger(name)` -- Return a cached :class:`StructuredLogger` for *name*.
+- `install_json_handler` (function) `core/logging.py:251` `def install_json_handler(name, config)` -- Install a JSON-lines file handler on *name*, preserving existing handlers.
+- `reconfigure` (function) `core/logging.py:300` `def reconfigure(config)` -- Replace the cached configuration globally.
 
 ## core/network.py
 Depends on: `core/console.py`
@@ -204,17 +310,17 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
-- `ValidationIssue.field_for` (method) `core/payload_schema.py:1489` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1494` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `ValidationIssue.validate_value` (method) `core/payload_schema.py:1517` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `ValidationIssue.validate_payload` (method) `core/payload_schema.py:1591` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `ValidationIssue.format_issue` (method) `core/payload_schema.py:1626` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `ValidationIssue.default_payload` (method) `core/payload_schema.py:1644` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `ValidationIssue.categories` (method) `core/payload_schema.py:1652` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+- `field_for` (function) `core/payload_schema.py:1489` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `coerce_value` (function) `core/payload_schema.py:1494` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `validate_value` (function) `core/payload_schema.py:1517` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `validate_payload` (function) `core/payload_schema.py:1591` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `format_issue` (function) `core/payload_schema.py:1626` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `default_payload` (function) `core/payload_schema.py:1644` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `categories` (function) `core/payload_schema.py:1652` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
-Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_shell_semantics.py`, `utils.py`
+Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
 - `check_go_tool_installed` (function) `core/process.py:34` `def check_go_tool_installed(tool_name)` -- Check if a Go tool binary is installed and runnable.
 - `is_binary_present` (function) `core/process.py:54` `def is_binary_present(binary_name)` -- Check whether binary is on ``PATH``.
 - `handle_multiple_rhosts` (function) `core/process.py:68` `def handle_multiple_rhosts(func)` -- Decorator that iterates over a list of remote hosts.
@@ -265,16 +371,16 @@ Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, 
 ## core/safe_exec.py
 Depends on: `core/logging.py`
 Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
-- `UrlValidationError.needs_shell` (method) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
-- `UrlValidationError.safe_system` (method) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
-- `UrlValidationError.safe_run_argv` (method) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
-- `UrlValidationError.safe_run_shell` (method) `core/safe_exec.py:146` `def safe_run_shell(command)` -- Execute a command through the shell, gated by policy.
-- `UrlValidationError.safe_clear_screen` (method) `core/safe_exec.py:192` `def safe_clear_screen()` -- Clear the terminal screen without using os.system.
-- `UrlValidationError.validate_url` (method) `core/safe_exec.py:207` `def validate_url(url)` -- Validate a URL string, rejecting shell metacharacters.
-- `UrlValidationError.safe_git_clone` (method) `core/safe_exec.py:234` `def safe_git_clone(repo_url, target_dir)` -- Clone a git repository safely using subprocess list-form.
-- `UrlValidationError.safe_ip_show` (method) `core/safe_exec.py:268` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
-- `UrlValidationError.safe_find_tool` (method) `core/safe_exec.py:305` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
-- `UrlValidationError.safe_file_read` (method) `core/safe_exec.py:321` `def safe_file_read(path)` -- Read a file safely with a size limit.
+- `needs_shell` (function) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
+- `safe_system` (function) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
+- `safe_run_argv` (function) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
+- `safe_run_shell` (function) `core/safe_exec.py:146` `def safe_run_shell(command)` -- Execute a command through the shell, gated by policy.
+- `safe_clear_screen` (function) `core/safe_exec.py:192` `def safe_clear_screen()` -- Clear the terminal screen without using os.system.
+- `validate_url` (function) `core/safe_exec.py:207` `def validate_url(url)` -- Validate a URL string, rejecting shell metacharacters.
+- `safe_git_clone` (function) `core/safe_exec.py:234` `def safe_git_clone(repo_url, target_dir)` -- Clone a git repository safely using subprocess list-form.
+- `safe_ip_show` (function) `core/safe_exec.py:268` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
+- `safe_find_tool` (function) `core/safe_exec.py:305` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
+- `safe_file_read` (function) `core/safe_exec.py:321` `def safe_file_read(path)` -- Read a file safely with a size limit.
 
 ## core/safe_import.py
 Imported by: `cli/commands/campaign.py`, `tests/test_campaign_import_safety.py`
@@ -300,12 +406,19 @@ Depends on: `core/logging.py`
 - `TaskScheduler.schedule_once` (method) `core/scheduler.py:157` `def schedule_once(self, name, delay_seconds, func)` -- Register a one-shot task to run after ``delay_seconds``.
 - `TaskScheduler.cancel_task` (method) `core/scheduler.py:192` `def cancel_task(self, name)` -- Cancel a scheduled task by name.
 - `TaskScheduler.list_tasks` (method) `core/scheduler.py:205` `def list_tasks(self)` -- Return metadata for all registered tasks.
-- `TaskScheduler.get_scheduler` (method) `core/scheduler.py:285` `def get_scheduler()` -- Return the singleton ``TaskScheduler`` instance.
+- `get_scheduler` (function) `core/scheduler.py:285` `def get_scheduler()` -- Return the singleton ``TaskScheduler`` instance.
 
 ## core/security.py
 Depends on: `core/logging.py`
 - `anti_debug` (function) `core/security.py:18` `def anti_debug()` -- Check for debugger attachment and exit if found.
 - `generate_certificates` (function) `core/security.py:58` `def generate_certificates(output_dir)` -- Generate a self-signed CA certificate and key pair.
+
+## core/terminal_guard.py
+Imported by: `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
+- `emit_restore_sequences` (function) `core/terminal_guard.py:41` `def emit_restore_sequences()` -- Write the mode-reset sequences to the controlling terminal.
+- `apply_stty_sane` (function) `core/terminal_guard.py:62` `def apply_stty_sane()` -- Best-effort ``stty sane`` fallback when termios restore fails.
+- `TerminalGuard.__init__` (method) `core/terminal_guard.py:85` `def __init__(self)` -- Prepare an empty guard; the snapshot happens on ``__enter__``.
+- `TerminalGuard.restore` (method) `core/terminal_guard.py:108` `def restore(self)` -- Restore saved termios, then reset extra terminal modes once.
 
 ## core/text_utils.py
 Imported by: `cli/autosuggest.py`, `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/tips_engine.py`, `cli/toast_bus.py`
@@ -314,14 +427,14 @@ Imported by: `cli/autosuggest.py`, `cli/graph_overlay.py`, `cli/palette_command.
 ## core/validators.py
 Depends on: `core/console.py`, `core/host_policy.py`
 Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
-- `check_rhost` (function) `core/validators.py:27` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
-- `check_lhost` (function) `core/validators.py:41` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
-- `check_lport` (function) `core/validators.py:55` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
-- `check_port` (function) `core/validators.py:65` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
-- `require_rhost` (function) `core/validators.py:78` `def require_rhost(params)` -- Gate a command on a valid ``rhost`` looked up from ``params``.
-- `require_lhost` (function) `core/validators.py:95` `def require_lhost(params)` -- Gate a command on a valid ``lhost`` looked up from ``params``.
-- `require_lport` (function) `core/validators.py:108` `def require_lport(params)` -- Gate a command on a valid ``lport`` looked up from ``params``.
-- `require_rport` (function) `core/validators.py:121` `def require_rport(params)` -- Gate a command on a valid ``rport`` looked up from ``params``.
+- `check_rhost` (function) `core/validators.py:26` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
+- `check_lhost` (function) `core/validators.py:40` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
+- `check_lport` (function) `core/validators.py:54` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
+- `check_port` (function) `core/validators.py:64` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
+- `require_rhost` (function) `core/validators.py:77` `def require_rhost(params)` -- Gate a command on a valid ``rhost`` looked up from ``params``.
+- `require_lhost` (function) `core/validators.py:94` `def require_lhost(params)` -- Gate a command on a valid ``lhost`` looked up from ``params``.
+- `require_lport` (function) `core/validators.py:107` `def require_lport(params)` -- Gate a command on a valid ``lport`` looked up from ``params``.
+- `require_rport` (function) `core/validators.py:120` `def require_rport(params)` -- Gate a command on a valid ``rport`` looked up from ``params``.
 
 ## deploy/range/ad-mini/traffic-gen.py
 - `main` (function) `deploy/range/ad-mini/traffic-gen.py:35` `def main()` -- Loop forever emitting fake background traffic.
@@ -335,17 +448,17 @@ Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 - `SecureSessionManager.create_session` (method) `discord_c2.py:62` `def create_session(self, user_id, client_id)`
 - `SecureSessionManager.validate_session` (method) `discord_c2.py:70` `def validate_session(self, user_id)`
 - `Config.__init__` (method) `discord_c2.py:87` `def __init__(self, config_dict)`
-- `Config.load_payload` (method) `discord_c2.py:96` `def load_payload()`
-- `Config.on_ready` (method) `discord_c2.py:103` `def on_ready()`
-- `Config.start` (method) `discord_c2.py:108` `def start(ctx)`
-- `Config.exce_cmd` (method) `discord_c2.py:130` `def exce_cmd(ctx)`
-- `Config.add_cli` (method) `discord_c2.py:206` `def add_cli(ctx, new_client_id)`
-- `Config.handle_file` (method) `discord_c2.py:216` `def handle_file(ctx)`
-- `Config.download_c2` (method) `discord_c2.py:245` `def download_c2(ctx, client_id, file_name)`
-- `Config.send_connected_clients` (method) `discord_c2.py:256` `def send_connected_clients(ctx)`
-- `Config.clients` (method) `discord_c2.py:273` `def clients(ctx)`
-- `Config.addcli` (method) `discord_c2.py:278` `def addcli(ctx, new_client_id)`
-- `Config.c2` (method) `discord_c2.py:283` `def c2(ctx)`
+- `load_payload` (function) `discord_c2.py:96` `def load_payload()`
+- `on_ready` (function) `discord_c2.py:103` `def on_ready()`
+- `start` (function) `discord_c2.py:108` `def start(ctx)`
+- `exce_cmd` (function) `discord_c2.py:130` `def exce_cmd(ctx)`
+- `add_cli` (function) `discord_c2.py:206` `def add_cli(ctx, new_client_id)`
+- `handle_file` (function) `discord_c2.py:216` `def handle_file(ctx)`
+- `download_c2` (function) `discord_c2.py:245` `def download_c2(ctx, client_id, file_name)`
+- `send_connected_clients` (function) `discord_c2.py:256` `def send_connected_clients(ctx)`
+- `clients` (function) `discord_c2.py:273` `def clients(ctx)`
+- `addcli` (function) `discord_c2.py:278` `def addcli(ctx, new_client_id)`
+- `c2` (function) `discord_c2.py:283` `def c2(ctx)`
 
 ## external/install_external.sh
 - `ctrl_c` (function) `external/install_external.sh:13`
@@ -381,54 +494,6 @@ Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 - `seed_payload_config` (function) `install.sh:281`
 - `verify_installation` (function) `install.sh:294`
 - `main` (function) `install.sh:310`
-
-## key.py
-Depends on: `core/console.py`, `core/prompt.py`
-- `main` (function) `key.py:10` `def main()`
-
-## lazy_sentinel4.py
-Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `sanitize_content` (function) `lazy_sentinel4.py:47` `def sanitize_content(text)` -- Sanitize text to ensure it's safe for rendering.
-- `RAGManager.__init__` (method) `lazy_sentinel4.py:61` `def __init__(self, model_name, cache_size)`
-- `RAGManager.initialize_cache_table` (method) `lazy_sentinel4.py:73` `def initialize_cache_table(self)`
-- `RAGManager.get_cache_key` (method) `lazy_sentinel4.py:85` `def get_cache_key(self, content)`
-- `RAGManager.load_existing_vectorstore` (method) `lazy_sentinel4.py:88` `def load_existing_vectorstore(self)`
-- `RAGManager.ollama_llm` (method) `lazy_sentinel4.py:101` `def ollama_llm(self, question, context)`
-- `RAGManager.process_file_to_rag` (method) `lazy_sentinel4.py:115` `def process_file_to_rag(self, file_path)`
-- `RAGManager.query_rag` (method) `lazy_sentinel4.py:155` `def query_rag(self, question)`
-- `RAGManager.invalidate_cache` (method) `lazy_sentinel4.py:177` `def invalidate_cache(self, file_path)`
-- `RAGManager.get_knowledge_base_stats` (method) `lazy_sentinel4.py:191` `def get_knowledge_base_stats(self)`
-- `Database.__init__` (method) `lazy_sentinel4.py:215` `def __init__(self, db_path)`
-- `Database.initialize` (method) `lazy_sentinel4.py:219` `def initialize(self)`
-- `Database.execute` (method) `lazy_sentinel4.py:243` `def execute(self, query, params)`
-- `Database.insert` (method) `lazy_sentinel4.py:255` `def insert(self, query, params)`
-- `Alert.__init__` (method) `lazy_sentinel4.py:274` `def __init__(self, alert_type, details, severity)`
-- `Alert.to_dict` (method) `lazy_sentinel4.py:280` `def to_dict(self)`
-- `Alert.save_to_db` (method) `lazy_sentinel4.py:288` `def save_to_db(self, db)`
-- `LazySentinelHandler.__init__` (method) `lazy_sentinel4.py:303` `def __init__(self, lazysentinel)`
-- `LazySentinelHandler.is_text_file` (method) `lazy_sentinel4.py:306` `def is_text_file(self, file_path)`
-- `LazySentinelHandler.on_created` (method) `lazy_sentinel4.py:316` `def on_created(self, event)`
-- `LazySentinelHandler.on_modified` (method) `lazy_sentinel4.py:328` `def on_modified(self, event)`
-- `LazySentinel.__init__` (method) `lazy_sentinel4.py:341` `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)`
-- `LazySentinel.chunk_text` (method) `lazy_sentinel4.py:361` `def chunk_text(self, text, chunk_size)`
-- `LazySentinel.select_relevant_chunk` (method) `lazy_sentinel4.py:364` `def select_relevant_chunk(self, file_content, chunks)`
-- `LazySentinel.parse_deepseek_response` (method) `lazy_sentinel4.py:378` `def parse_deepseek_response(self, response_text)`
-- `LazySentinel.show_popup` (method) `lazy_sentinel4.py:404` `def show_popup(self, file_name, relevant_info, commands, details)`
-- `LazySentinel.process_file` (method) `lazy_sentinel4.py:422` `def process_file(self, file_path)`
-- `LazySentinel.stop` (method) `lazy_sentinel4.py:538` `def stop(self)`
-- `App.__init__` (method) `lazy_sentinel4.py:545` `def __init__(self)`
-- `App.display_toastr` (method) `lazy_sentinel4.py:559` `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` -- Display a toastr-like notification for file processing alerts.
-- `App.postcmd` (method) `lazy_sentinel4.py:587` `def postcmd(self, stop, line)` -- Check the popup queue after each command and display toastr notifications.
-- `App.do_quit` (method) `lazy_sentinel4.py:611` `def do_quit(self, arg)`
-- `App.do_debug` (method) `lazy_sentinel4.py:615` `def do_debug(self, arg)`
-- `App.do_rag_query` (method) `lazy_sentinel4.py:624` `def do_rag_query(self, arg)`
-- `App.do_rag_add` (method) `lazy_sentinel4.py:632` `def do_rag_add(self, arg)`
-- `App.do_rag_status` (method) `lazy_sentinel4.py:647` `def do_rag_status(self, arg)`
-- `App.do_rag_toggle` (method) `lazy_sentinel4.py:654` `def do_rag_toggle(self, arg)`
-- `App.do_rag_bulk_add` (method) `lazy_sentinel4.py:659` `def do_rag_bulk_add(self, arg)`
-- `App.do_rag_search` (method) `lazy_sentinel4.py:678` `def do_rag_search(self, arg)`
-- `App.complete_rag_add` (method) `lazy_sentinel4.py:699` `def complete_rag_add(self, text, line, begidx, endidx)`
-- `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:706` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
 
 
 Next: [API_p7.md](API_p7.md)

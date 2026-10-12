@@ -2460,7 +2460,10 @@ def _add_security_headers(response):
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; "
         "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
-        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
+        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+        "https://unpkg.com https://cdn.jsdelivr.net; "
+        "script-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+        "https://unpkg.com https://cdn.jsdelivr.net; "
         "connect-src 'self'"
     )
     return response
@@ -7065,6 +7068,228 @@ def api_intel_graph():
     except Exception:
         graph["analytics"] = {}
     return jsonify(graph)
+
+
+@app.route("/broadcast")
+@login_required
+def broadcast_view():
+    """Render the exploration timeline board for one loop task.
+
+    Returns:
+        The ``broadcast.html`` timeline embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("broadcast.html")
+
+
+@app.route("/api/loop_broadcast/stream")
+@login_required
+def api_loop_broadcast_stream():
+    """SSE live tail of one loop task's activity stream.
+
+    Query params ``task`` (required), ``cursor`` (resume line index),
+    ``interval`` (poll seconds, 0.2..5) and ``seconds`` (stream
+    lifetime, max 1800). Every event carries ``id: <cursor>`` so an
+    operator reconnects without gaps after a page reload.
+
+    Returns:
+        ``text/event-stream`` response with keep-alive comments.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    try:
+        cursor = max(0, int(request.args.get("cursor", "0") or 0))
+    except ValueError:
+        cursor = 0
+    try:
+        interval = min(5.0, max(0.2, float(request.args.get("interval", "0.5") or 0.5)))
+    except ValueError:
+        interval = 0.5
+    try:
+        seconds = min(1800.0, max(2.0, float(request.args.get("seconds", "300") or 300)))
+    except ValueError:
+        seconds = 300.0
+    engine = LazyLoopEngine()
+
+    def _events():
+        state = {"cursor": cursor}
+        deadline = time.time() + seconds
+        while time.time() < deadline:
+            try:
+                result = engine.broadcast_events(task_id, cursor=state["cursor"])
+            except Exception as exc:
+                yield f"event: error\ndata: {json.dumps({'error': str(exc)[:200]})}\n\n"
+                return
+            for record in result["items"]:
+                state["cursor"] += 1
+                yield f"id: {state['cursor']}\ndata: {json.dumps(record, ensure_ascii=False)}\n\n"
+            yield ": keep-alive\n\n"
+            time.sleep(interval)
+
+    return Response(
+        _events(),
+        mimetype="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no", "Connection": "keep-alive"},
+    )
+
+
+@app.route("/api/loop_broadcast")
+@login_required
+def api_loop_broadcast():
+    """Return the paginated exploration timeline for one loop task.
+
+    Query params ``task`` (required), ``kind`` (repeatable),
+    ``q``, ``order`` (asc/desc), ``page``, ``per_page``. Rows carry
+    upstream/downstream neighbours and anchored assets inline so the
+    board expands without extra requests.
+
+    Returns:
+        A JSON object with ``items``, ``total``, ``page``,
+        ``per_page``, ``has_more`` and ``days`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    kinds = [k for k in request.args.getlist("kind") if k]
+    query = request.args.get("q", "") or ""
+    order = (request.args.get("order", "desc") or "desc").lower()
+    try:
+        page = max(1, int(request.args.get("page", "1") or 1))
+    except ValueError:
+        page = 1
+    try:
+        per_page = max(1, min(100, int(request.args.get("per_page", "20") or 20)))
+    except ValueError:
+        per_page = 20
+    try:
+        result = LazyLoopEngine().broadcast(
+            task_id, kinds=kinds or None, query=query, order=order, page=page, per_page=per_page
+        )
+    except Exception as exc:
+        return jsonify({"error": str(exc)[:300]}), 404
+    return jsonify(result)
+
+
+@app.route("/api/guard_audit")
+@login_required
+def api_guard_audit():
+    """Return guard history with pending approvals kept independent.
+
+    Query params ``task``, ``action``, ``source``, ``q``, ``limit``,
+    ``lookup`` (a ``tool_use_id`` jumping to the exact execution).
+    Pending intercept requests always ride along unpaginated so paging
+    through history never hides work waiting for approval.
+
+    Returns:
+        A JSON object with ``pending``, ``history`` and optional
+        ``lookup`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import Guard, InterceptQueue
+
+    task_id = (request.args.get("task", "") or "").strip()
+    guard = Guard(task_id)
+    try:
+        limit = max(1, min(500, int(request.args.get("limit", "50") or 50)))
+    except ValueError:
+        limit = 50
+    history = guard.audit(
+        limit=limit,
+        action=request.args.get("action", "") or "",
+        source=request.args.get("source", "") or "",
+        query=request.args.get("q", "") or "",
+    )
+    try:
+        pending = InterceptQueue(task_id).pending()
+    except Exception:
+        pending = []
+    payload: dict = {"pending": pending, "history": history}
+    lookup_id = (request.args.get("lookup", "") or "").strip()
+    if lookup_id:
+        try:
+            payload["lookup"] = guard.lookup(lookup_id)
+        except KeyError as exc:
+            return jsonify({"error": str(exc)[:300]}), 404
+    return jsonify(payload)
+
+
+@app.route("/api/loop_graph")
+@login_required
+def api_loop_graph():
+    """Return one loop task as ForceGraph-ready nodes/links plus context.
+
+    Query param ``task`` (required). Nodes carry exploration kind/state
+    and asset kind/value; links keep exploration kinds plus ``anchors``
+    edges into assets. ``context`` holds hubs, islands and suggested
+    next probes computed from the same topology the planner ranks on.
+
+    Returns:
+        A JSON object with ``nodes``, ``links`` and ``context`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    try:
+        engine = LazyLoopEngine()
+        graph = engine.loop_graph(task_id)
+        graph["context"] = engine.graph_context(task_id)
+    except Exception as exc:
+        return jsonify({"error": str(exc)[:300]}), 404
+    return jsonify(graph)
+
+
+@app.route("/api/lazy_mentions")
+@login_required
+def api_lazy_mentions():
+    """Search @ mention candidates with scroll pagination.
+
+    Query params ``kind``, ``q`` and ``cursor`` (opaque page position
+    from the previous page). Returns ``items`` plus ``next_cursor``.
+
+    Returns:
+        A JSON object with ``items`` and ``next_cursor`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_mentions import InvalidCursor, search_mentions_page
+
+    try:
+        page = search_mentions_page(
+            request.args.get("kind", "") or "",
+            request.args.get("q", "") or "",
+            request.args.get("cursor", "") or "",
+        )
+    except InvalidCursor as exc:
+        return jsonify({"error": str(exc)[:300]}), 400
+    except ValueError as exc:
+        return jsonify({"error": str(exc)[:300]}), 400
+    return jsonify(
+        {
+            "items": [{"kind": i.kind, "id": i.id, "label": i.label, "description": i.description} for i in page.items],
+            "next_cursor": page.next_cursor,
+        }
+    )
 
 
 @app.route("/api/intel_bundle")

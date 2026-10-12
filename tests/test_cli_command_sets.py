@@ -349,8 +349,8 @@ class TestCommandSetDiscovery:
         from cli.commands.diagnostics import DiagnosticsCommandSet
 
         do_methods = [m for m in dir(DiagnosticsCommandSet) if m.startswith("do_")]
-        assert "do_lazy_runtime" in do_methods
-        assert "do_lazy_payload_keys" in do_methods
+        assert "do_sys_runtime" in do_methods
+        assert "do_sys_payload_keys" in do_methods
 
 
 class TestRegisterCommandSets:

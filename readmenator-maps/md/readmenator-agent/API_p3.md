@@ -1,5 +1,51 @@
-# API (page 3 of 21)
+# API (page 3 of 22)
 Previous: [API_p2.md](API_p2.md)
+
+## cli/commands/persist_migrated.py
+Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
+- `PersistMigratedCommandSet.do_pwncat` (method) `cli/commands/persist_migrated.py:33` `def do_pwncat(self, line)` -- Runs `pwncat` with the specified port for listening.
+- `PersistMigratedCommandSet.do_ftp` (method) `cli/commands/persist_migrated.py:77` `def do_ftp(self, line)` -- Connects to an ftp host using credentials from a file and a specified port.
+- `PersistMigratedCommandSet.do_rdp` (method) `cli/commands/persist_migrated.py:136` `def do_rdp(self, line)` -- Reads credentials from a file, encrypts the password, and executes the RDP connection command.
+- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:210` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
+- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:256` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
+- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:300` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
+- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:338` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:378` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:424` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
+- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:470` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
+- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:551` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
+- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:651` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
+- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:725` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
+- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:843` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
+- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:909` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
+- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:972` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
+- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1060` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
+- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1093` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
+- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1161` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
+- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1196` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1263` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1330` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1403` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
+- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1426` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
+
+## cli/commands/phishing_wizard.py
+Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
+- `PhishingWizardCommandSet.do_phish_wizard` (method) `cli/commands/phishing_wizard.py:190` `def do_phish_wizard(self, line)` -- Interactive end-to-end phishing campaign wizard.
+- `PhishingWizardCommandSet.do_phish_serve` (method) `cli/commands/phishing_wizard.py:361` `def do_phish_serve(self, line)` -- Start a lightweight HTTP server for phishing landing pages.
+- `PhishingHandler.log_message` (method) `cli/commands/phishing_wizard.py:389` `def log_message(self, format)`
+- `PhishingHandler.do_GET` (method) `cli/commands/phishing_wizard.py:392` `def do_GET(self)`
+- `PhishingHandler.do_POST` (method) `cli/commands/phishing_wizard.py:407` `def do_POST(self)`
+- `PhishingHandler.do_OPTIONS` (method) `cli/commands/phishing_wizard.py:427` `def do_OPTIONS(self)`
+- `PhishingHandler.do_phish_report` (method) `cli/commands/phishing_wizard.py:443` `def do_phish_report(self, line)` -- Show campaign results and captured credentials.
+- `do_phisher` (function) `cli/commands/phishing_wizard.py:637` `def do_phisher(self, line)` -- Launch a phishing campaign against a target domain.
+
+## cli/commands/pivoting.py
+Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
+- `PivotingCommandSet.do_autopivot` (method) `cli/commands/pivoting.py:44` `def do_autopivot(self, line)` -- Auto-detect internal networks and set up pivot tunnels.
+- `PivotingCommandSet.do_pivot_status` (method) `cli/commands/pivoting.py:118` `def do_pivot_status(self, line)` -- Show the current pivot chain state.
+- `PivotingCommandSet.do_pivot_kill` (method) `cli/commands/pivoting.py:137` `def do_pivot_kill(self, line)` -- Kill all pivot tunnels and clean up.
+- `PivotingCommandSet.do_pivot_scan` (method) `cli/commands/pivoting.py:171` `def do_pivot_scan(self, line)` -- Scan internal networks through the current pivot chain.
+- `PivotingCommandSet.do_pivot_proxy` (method) `cli/commands/pivoting.py:224` `def do_pivot_proxy(self, line)` -- Start a local SOCKS proxy through the pivot chain.
 
 ## cli/commands/postexp.py
 Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
@@ -24,7 +70,7 @@ Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
 - `PostexpMigratedCommandSet.do_pezorsh` (method) `cli/commands/postexp_migrated.py:799` `def do_pezorsh(self, line)` -- Executes the PEzor tool to pack executables or shellcode with custom configurations.
 - `PostexpMigratedCommandSet.do_pip_repo` (method) `cli/commands/postexp_migrated.py:872` `def do_pip_repo(self, line)` -- Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet...
 - `PostexpMigratedCommandSet.do_apt_repo` (method) `cli/commands/postexp_migrated.py:984` `def do_apt_repo(self, line)` -- Creates a comprehensive local APT repository with enhanced dependency resolution.
-- `PostexpMigratedCommandSet.resolve_and_download_dependencies` (method) `cli/commands/postexp_migrated.py:1030` `def resolve_and_download_dependencies(package_name)` -- Recursively resolve and download package dependencies with enhanced checks
+- `resolve_and_download_dependencies` (function) `cli/commands/postexp_migrated.py:1030` `def resolve_and_download_dependencies(package_name)` -- Recursively resolve and download package dependencies with enhanced checks
 - `PostexpMigratedCommandSet.do_createpayload` (method) `cli/commands/postexp_migrated.py:1233` `def do_createpayload(self, line)` -- Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
 - `PostexpMigratedCommandSet.do_bin2shellcode` (method) `cli/commands/postexp_migrated.py:1285` `def do_bin2shellcode(self, line)` -- Converts a binary file to a shellcode string in C or Nim format.
 - `PostexpMigratedCommandSet.do_exe2bin` (method) `cli/commands/postexp_migrated.py:1375` `def do_exe2bin(self, line)` -- Trasnform file .exe into binary file.
@@ -86,12 +132,12 @@ Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `mod
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 - `PwnCommandSet.do_auto_pwn` (method) `cli/commands/pwn.py:35` `def do_auto_pwn(self, line)` -- Run the full autonomous exploitation chain against the target.
-- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:108` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
-- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:157` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
-- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:244` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
-- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:301` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
-- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:393` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
-- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:421` `def do_stealth_off(self, line)` -- Disable stealth mode.
+- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:109` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
+- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:158` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
+- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:245` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
+- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:302` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
+- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:394` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
+- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:422` `def do_stealth_off(self, line)` -- Disable stealth mode.
 
 ## cli/commands/recon.py
 Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
@@ -145,8 +191,8 @@ Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
 
 ## cli/commands/resource_scripting.py
 Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
-- `ResourceCommandSet.on_cmd` (method) `cli/commands/resource_scripting.py:35` `def on_cmd(cmd)`
-- `ResourceCommandSet.on_print` (method) `cli/commands/resource_scripting.py:39` `def on_print(msg)`
+- `on_cmd` (function) `cli/commands/resource_scripting.py:35` `def on_cmd(cmd)`
+- `on_print` (function) `cli/commands/resource_scripting.py:39` `def on_print(msg)`
 - `ResourceCommandSet.do_resource` (method) `cli/commands/resource_scripting.py:49` `def do_resource(self, line)` -- Run an enhanced resource script.
 - `ResourceCommandSet.do_makerc` (method) `cli/commands/resource_scripting.py:88` `def do_makerc(self, line)` -- Record session commands to a resource script.
 - `ResourceCommandSet.do_spool` (method) `cli/commands/resource_scripting.py:122` `def do_spool(self, line)` -- Log session output to a file.
@@ -184,10 +230,10 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `ScanMigratedCommandSet.do_smtpuserenum` (method) `cli/commands/scan_migrated.py:441` `def do_smtpuserenum(self, line)` -- Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
 - `ScanMigratedCommandSet.do_sessionssh` (method) `cli/commands/scan_migrated.py:480` `def do_sessionssh(self, line)` -- Execute a command to list active SSH connections.
 - `ScanMigratedCommandSet.do_smbattack` (method) `cli/commands/scan_migrated.py:504` `def do_smbattack(self, line)` -- Scans for hosts with SMB service open on port 445 in the specified target network.
-- `ScanMigratedCommandSet.find_tgts` (method) `cli/commands/scan_migrated.py:533` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
-- `ScanMigratedCommandSet.setup_handler` (method) `cli/commands/scan_migrated.py:559` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
-- `ScanMigratedCommandSet.conficker_exploit` (method) `cli/commands/scan_migrated.py:579` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
-- `ScanMigratedCommandSet.smb_brute` (method) `cli/commands/scan_migrated.py:599` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
+- `find_tgts` (function) `cli/commands/scan_migrated.py:533` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
+- `setup_handler` (function) `cli/commands/scan_migrated.py:559` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
+- `conficker_exploit` (function) `cli/commands/scan_migrated.py:579` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
+- `smb_brute` (function) `cli/commands/scan_migrated.py:599` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
 - `ScanMigratedCommandSet.do_parsero` (method) `cli/commands/scan_migrated.py:640` `def do_parsero(self, line)` -- Executes a parsero scan on a specified target URL or host.
 - `ScanMigratedCommandSet.do_changeme` (method) `cli/commands/scan_migrated.py:672` `def do_changeme(self, line)` -- Executes a changeme scan on a specified target URL or host.
 - `ScanMigratedCommandSet.do_enum4linux_ng` (method) `cli/commands/scan_migrated.py:703` `def do_enum4linux_ng(self, line)` -- Performs enumeration of information from a target system using `enum4linux-ng`.
@@ -196,8 +242,8 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `ScanMigratedCommandSet.do_davtest` (method) `cli/commands/scan_migrated.py:874` `def do_davtest(self, line)` -- Tests WebDAV server configurations using `davtest`.
 - `ScanMigratedCommandSet.do_evil_ssdp` (method) `cli/commands/scan_migrated.py:915` `def do_evil_ssdp(self, line)` -- Runs evil-ssdp with various options and user-selected templates.
 - `ScanMigratedCommandSet.do_netexec` (method) `cli/commands/scan_migrated.py:961` `def do_netexec(self, line)` -- Executes netexec with various options for network protocol operations.
-- `ScanMigratedCommandSet.install_netexec` (method) `cli/commands/scan_migrated.py:988` `def install_netexec()`
-- `ScanMigratedCommandSet.install_netexec_pipx` (method) `cli/commands/scan_migrated.py:993` `def install_netexec_pipx()`
+- `install_netexec` (function) `cli/commands/scan_migrated.py:988` `def install_netexec()`
+- `install_netexec_pipx` (function) `cli/commands/scan_migrated.py:993` `def install_netexec_pipx()`
 - `ScanMigratedCommandSet.do_allin` (method) `cli/commands/scan_migrated.py:1214` `def do_allin(self, line)` -- Execute the AlliN.py tool with various scan modes and parameters.
 - `ScanMigratedCommandSet.do_windapsearch` (method) `cli/commands/scan_migrated.py:1285` `def do_windapsearch(self, line)` -- Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
 - `ScanMigratedCommandSet.do_ldapsearch` (method) `cli/commands/scan_migrated.py:1413` `def do_ldapsearch(self, line)` -- Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.
@@ -236,8 +282,8 @@ Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/
 - `SecurityCommandSet.complete_crack_hashes` (method) `cli/commands/security.py:276` `def complete_crack_hashes(self, text, line, begidx, endidx)`
 
 ## cli/commands/session_ops.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
-Imported by: `tests/test_session_ops_command_set.py`
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:79` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
 - `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:104` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
 - `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:153` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
@@ -254,23 +300,23 @@ Imported by: `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:589` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
 - `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:640` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
 - `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:684` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
-- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:730` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
-- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:811` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
-- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:862` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
-- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:989` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
-- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1080` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
-- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1112` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
-- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1202` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
-- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1224` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
-- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1262` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
-- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1295` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
-- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1326` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
-- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1375` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
-- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1416` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
-- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1464` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
-- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1476` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
-- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1526` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
-- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1572` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:728` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:809` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:860` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:987` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1078` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1110` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1201` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1223` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1261` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1294` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1325` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1374` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1430` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1478` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1490` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1540` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1586` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
@@ -280,7 +326,7 @@ Imported by: `tests/test_shellsys_command_set.py`
 - `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:110` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 - `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:146` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
 - `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:170` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
-- `ShellSysCommandSet.lazyrun_command` (method) `cli/commands/shellsys.py:205` `def lazyrun_command()`
+- `lazyrun_command` (function) `cli/commands/shellsys.py:205` `def lazyrun_command()`
 - `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:216` `def do_clean(self, line)` -- Deletes files and directories in the `sessions` directory, excluding specified files and directories.
 - `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:303` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
 - `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:336` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
@@ -304,7 +350,7 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `SupplyChainCommandSet.do_depconfuse` (method) `cli/commands/supply_chain.py:95` `def do_depconfuse(self, line)` -- Scan a requirements.txt for dependency confusion candidates.
 - `SupplyChainCommandSet.do_package_squat` (method) `cli/commands/supply_chain.py:140` `def do_package_squat(self, line)` -- Generate a malicious PyPI package for dependency confusion.
 - `SupplyChainCommandSet.do_depscan` (method) `cli/commands/supply_chain.py:216` `def do_depscan(self, line)` -- Scan a directory tree for dependency files and flag risks.
-- `SupplyChainCommandSet.is_internal_name` (method) `cli/commands/supply_chain.py:450` `def is_internal_name(name)` -- Check if a package name looks internal/private.
+- `is_internal_name` (function) `cli/commands/supply_chain.py:450` `def is_internal_name(name)` -- Check if a package name looks internal/private.
 
 ## cli/commands/surface.py
 Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
@@ -327,8 +373,8 @@ Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
 - `ConfigHistory.undo` (method) `cli/config_history.py:48` `def undo(self)` -- Pop the newest snapshot.
 - `ConfigHistory.diff` (method) `cli/config_history.py:58` `def diff(self, current)` -- Compare current state against the baseline.
 - `ConfigHistory.depth` (method) `cli/config_history.py:76` `def depth(self)` -- Return number of stored undo steps.
-- `ConfigHistory.get_shell_history` (method) `cli/config_history.py:81` `def get_shell_history(shell)` -- Return the ConfigHistory bound to a shell, creating it on demand.
-- `ConfigHistory.track_before` (method) `cli/config_history.py:104` `def track_before(history, state)` -- Capture baseline on first use then push a pre-mutation snapshot.
+- `get_shell_history` (function) `cli/config_history.py:81` `def get_shell_history(shell)` -- Return the ConfigHistory bound to a shell, creating it on demand.
+- `track_before` (function) `cli/config_history.py:104` `def track_before(history, state)` -- Capture baseline on first use then push a pre-mutation snapshot.
 
 ## cli/config_status.py
 Depends on: `core/console.py`
@@ -352,15 +398,15 @@ Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
 
 ## cli/dashboard_layout.py
 Imported by: `cli/dashboard_tui.py`
-- `DashboardLayoutConfig.layout_mode` (method) `cli/dashboard_layout.py:28` `def layout_mode(width, config)` -- Return the layout bucket for a terminal width.
-- `DashboardLayoutConfig.hidden_panels` (method) `cli/dashboard_layout.py:45` `def hidden_panels(mode)` -- Return panel ids hidden in the given layout mode.
+- `layout_mode` (function) `cli/dashboard_layout.py:28` `def layout_mode(width, config)` -- Return the layout bucket for a terminal width.
+- `hidden_panels` (function) `cli/dashboard_layout.py:45` `def hidden_panels(mode)` -- Return panel ids hidden in the given layout mode.
 
 ## cli/dashboard_tui.py
 Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
 Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 - `CommandRequested.__init__` (method) `cli/dashboard_tui.py:100` `def __init__(self, command)`
 - `PhaseSelected.__init__` (method) `cli/dashboard_tui.py:108` `def __init__(self, phase)`
-- `PhaseSelected.dispatch_command` (method) `cli/dashboard_tui.py:113` `def dispatch_command(command, timeout)` -- Run one LazyOwn command headlessly and capture its output.
+- `dispatch_command` (function) `cli/dashboard_tui.py:113` `def dispatch_command(command, timeout)` -- Run one LazyOwn command headlessly and capture its output.
 - `TargetPanel.get_selection` (method) `cli/dashboard_tui.py:335` `def get_selection(self, selection)` -- Override to prevent IndexError when selection offsets exceed text length.
 - `TargetPanel.render_content` (method) `cli/dashboard_tui.py:348` `def render_content(self, payload, world)`
 - `TargetPanel.update_data` (method) `cli/dashboard_tui.py:374` `def update_data(self, payload, world)`
@@ -389,7 +435,7 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 - `LazyOwnDashboard.action_export_snapshot` (method) `cli/dashboard_tui.py:967` `def action_export_snapshot(self)` -- Export the current dashboard data as JSON for automation.
 - `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:987` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
 - `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:991` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
-- `LazyOwnDashboard.launch` (method) `cli/dashboard_tui.py:1064` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
+- `launch` (function) `cli/dashboard_tui.py:1064` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
 
 ## cli/doctor.py
 Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
@@ -398,27 +444,27 @@ Imported by: `cli/commands/help_ui.py`
 - `DoctorReport.warnings` (method) `cli/doctor.py:124` `def warnings(self)` -- Return the checks whose status is :data:`STATUS_WARN`.
 - `DoctorReport.healthy` (method) `cli/doctor.py:129` `def healthy(self)` -- Return ``True`` when no check failed (warnings are tolerated).
 - `DoctorReport.overall_status` (method) `cli/doctor.py:134` `def overall_status(self)` -- Return the worst status across every check.
-- `DoctorReport.check_python_version` (method) `cli/doctor.py:143` `def check_python_version(version_info)` -- Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
-- `DoctorReport.check_virtualenv` (method) `cli/doctor.py:172` `def check_virtualenv()` -- Report whether the framework is running inside its virtual environment.
-- `DoctorReport.check_packages` (method) `cli/doctor.py:209` `def check_packages(specs, finder)` -- Verify every dependency in ``specs`` is importable without importing it.
-- `DoctorReport.check_certificates` (method) `cli/doctor.py:248` `def check_certificates(root)` -- Verify the self-signed C2 certificate pair exists.
-- `DoctorReport.check_payload` (method) `cli/doctor.py:269` `def check_payload(root)` -- Verify ``payload.json`` exists in the repository root.
-- `DoctorReport.check_seclists` (method) `cli/doctor.py:289` `def check_seclists(finder)` -- Verify a SecLists installation is discoverable on disk.
-- `DoctorReport.check_command_index` (method) `cli/doctor.py:313` `def check_command_index(root)`
-- `DoctorReport.check_external_tools` (method) `cli/doctor.py:343` `def check_external_tools(checker)` -- Adapt :func:`cli.wizard.check_binaries` into preflight check results.
-- `DoctorReport.gather_report` (method) `cli/doctor.py:368` `def gather_report(root)` -- Run every preflight check and collect the results without printing.
-- `DoctorReport.render_report` (method) `cli/doctor.py:406` `def render_report(report, console)` -- Render a :class:`DoctorReport` as a rich table with a summary banner.
-- `DoctorReport.run` (method) `cli/doctor.py:451` `def run(root, console)` -- Gather and render the preflight report.
-- `DoctorReport.fix_report` (method) `cli/doctor.py:468` `def fix_report(report)` -- Interactively offer to fix every failure and warning in the report.
+- `check_python_version` (function) `cli/doctor.py:143` `def check_python_version(version_info)` -- Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
+- `check_virtualenv` (function) `cli/doctor.py:172` `def check_virtualenv()` -- Report whether the framework is running inside its virtual environment.
+- `check_packages` (function) `cli/doctor.py:209` `def check_packages(specs, finder)` -- Verify every dependency in ``specs`` is importable without importing it.
+- `check_certificates` (function) `cli/doctor.py:248` `def check_certificates(root)` -- Verify the self-signed C2 certificate pair exists.
+- `check_payload` (function) `cli/doctor.py:269` `def check_payload(root)` -- Verify ``payload.json`` exists in the repository root.
+- `check_seclists` (function) `cli/doctor.py:289` `def check_seclists(finder)` -- Verify a SecLists installation is discoverable on disk.
+- `check_command_index` (function) `cli/doctor.py:313` `def check_command_index(root)`
+- `check_external_tools` (function) `cli/doctor.py:343` `def check_external_tools(checker)` -- Adapt :func:`cli.wizard.check_binaries` into preflight check results.
+- `gather_report` (function) `cli/doctor.py:368` `def gather_report(root)` -- Run every preflight check and collect the results without printing.
+- `render_report` (function) `cli/doctor.py:406` `def render_report(report, console)` -- Render a :class:`DoctorReport` as a rich table with a summary banner.
+- `run` (function) `cli/doctor.py:451` `def run(root, console)` -- Gather and render the preflight report.
+- `fix_report` (function) `cli/doctor.py:468` `def fix_report(report)` -- Interactively offer to fix every failure and warning in the report.
 
 ## cli/engagement_hooks.py
 Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
 Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
-- `EngagementState.heal_commands_seen` (method) `cli/engagement_hooks.py:365` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
-- `EngagementState.get_karma_name` (method) `cli/engagement_hooks.py:716` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
-- `EngagementState.render_engagement_hook` (method) `cli/engagement_hooks.py:898` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
-- `EngagementState.get_state_snapshot` (method) `cli/engagement_hooks.py:978` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
-- `EngagementState.reset_session` (method) `cli/engagement_hooks.py:1066` `def reset_session()` -- Reset session counters without clearing cross-session progress.
+- `heal_commands_seen` (function) `cli/engagement_hooks.py:365` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
+- `get_karma_name` (function) `cli/engagement_hooks.py:716` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
+- `render_engagement_hook` (function) `cli/engagement_hooks.py:898` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
+- `get_state_snapshot` (function) `cli/engagement_hooks.py:978` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
+- `reset_session` (function) `cli/engagement_hooks.py:1066` `def reset_session()` -- Reset session counters without clearing cross-session progress.
 
 ## cli/exploit_advisor.py
 Depends on: `core/console.py`
@@ -426,70 +472,11 @@ Imported by: `cli/commands/recon.py`
 - `ServiceInfo.search_query` (method) `cli/exploit_advisor.py:122` `def search_query(self)` -- Best query string for searchsploit / NVD.
 - `ServiceInfo.display_name` (method) `cli/exploit_advisor.py:128` `def display_name(self)`
 - `ServiceInfo.next_commands` (method) `cli/exploit_advisor.py:132` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
-- `ServiceResult.parse_nmap_xml` (method) `cli/exploit_advisor.py:164` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
-- `ServiceResult.find_nmap_xml` (method) `cli/exploit_advisor.py:203` `def find_nmap_xml(rhost, sessions_dir)` -- Return all nmap XML files for a given rhost, newest first.
-- `ServiceResult.print_exploit_summary` (method) `cli/exploit_advisor.py:222` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
-- `ServiceResult.save_ss_results` (method) `cli/exploit_advisor.py:296` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
-- `ServiceResult.inject_exploit_tasks` (method) `cli/exploit_advisor.py:338` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
-
-## cli/exploration.py
-Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/exploration_view.py`, `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `cli/recon_plan.py`, `lazyown.py`, `tests/test_command_chain.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
-- `DiscoveredService.label` (method) `cli/exploration.py:98` `def label(self)` -- Return a compact human-readable label such as ``smb:445/tcp``.
-- `CoverageReport.service_coverage` (method) `cli/exploration.py:145` `def service_coverage(self)` -- Fraction of discovered services with at least one run command.
-- `CoverageReport.addon_coverage` (method) `cli/exploration.py:153` `def addon_coverage(self)` -- Fraction of enabled addons that have been executed at least once.
-- `CoverageReport.tool_coverage` (method) `cli/exploration.py:161` `def tool_coverage(self)` -- Fraction of active tools that have been executed at least once.
-- `NmapXmlReader.__init__` (method) `cli/exploration.py:176` `def __init__(self, config)` -- Store the configuration used to locate the nmap XML directory.
-- `NmapXmlReader.discover` (method) `cli/exploration.py:181` `def discover(self, target)` -- Return every open service across every nmap XML in sessions.
-- `AddonCatalog.__init__` (method) `cli/exploration.py:264` `def __init__(self, config)` -- Store the configuration used to locate the addons directory.
-- `AddonCatalog.load` (method) `cli/exploration.py:269` `def load(self)` -- Return every parseable addon as an :class:`AddonEntry`.
-- `AddonCatalog.clear_cache` (method) `cli/exploration.py:299` `def clear_cache(cls)` -- Drop the per-process addon cache (mainly used by tests).
-- `ToolCatalog.__init__` (method) `cli/exploration.py:344` `def __init__(self, config)` -- Store the configuration used to locate the tools directory.
-- `ToolCatalog.load` (method) `cli/exploration.py:349` `def load(self)` -- Return every parseable ``.tool`` file as a :class:`ToolEntry`.
-- `ToolCatalog.clear_cache` (method) `cli/exploration.py:379` `def clear_cache(cls)` -- Drop the per-process tool cache (mainly used by tests).
-- `TriggerMatcher.__init__` (method) `cli/exploration.py:413` `def __init__(self, current_os)` -- Store the platform used to filter incompatible entries.
-- `TriggerMatcher.addons_for_service` (method) `cli/exploration.py:418` `def addons_for_service(self, service, addons)` -- Return addons whose trigger and OS match the given service.
-- `TriggerMatcher.tools_for_service` (method) `cli/exploration.py:435` `def tools_for_service(self, service, tools)` -- Return active tools whose trigger and OS match the service.
-- `HistoryReader.__init__` (method) `cli/exploration.py:473` `def __init__(self, config)` -- Store the configuration used to locate the transcript file.
-- `HistoryReader.executed_commands` (method) `cli/exploration.py:478` `def executed_commands(self)` -- Return the set of unique tool/command names already run.
-- `ExplorationEngine.__init__` (method) `cli/exploration.py:510` `def __init__(self, config, current_os)` -- Wire collaborators together using the supplied configuration.
-- `ExplorationEngine.services` (method) `cli/exploration.py:525` `def services(self, target)` -- Return the discovered services for the engagement.
-- `ExplorationEngine.addons` (method) `cli/exploration.py:530` `def addons(self)` -- Return the parsed lazyaddon catalogue.
-- `ExplorationEngine.tools` (method) `cli/exploration.py:535` `def tools(self)` -- Return the parsed ``.tool`` catalogue.
-- `ExplorationEngine.history` (method) `cli/exploration.py:540` `def history(self)` -- Return the set of already-executed command names.
-- `ExplorationEngine.suggestions_for_target` (method) `cli/exploration.py:545` `def suggestions_for_target(self, target)` -- Group matching addons and tools by service for a target.
-- `ExplorationEngine.unexplored_addons` (method) `cli/exploration.py:568` `def unexplored_addons(self, target)` -- Return addons triggered by the scan that have never been run.
-- `ExplorationEngine.unexplored_tools` (method) `cli/exploration.py:589` `def unexplored_tools(self, target)` -- Return tools triggered by the scan that have never been run.
-- `ExplorationEngine.coverage` (method) `cli/exploration.py:610` `def coverage(self, target)` -- Return an aggregate :class:`CoverageReport` for the engagement.
-- `ExplorationEngine.resolve_current_os` (method) `cli/exploration.py:656` `def resolve_current_os(payload)` -- Resolve the current victim platform from a payload-like mapping.
-- `ExplorationEngine.normalise_os` (method) `cli/exploration.py:677` `def normalise_os(value, default)` -- Coerce arbitrary YAML/JSON values to a whitelisted OS string.
-- `ExplorationEngine.normalise_trigger` (method) `cli/exploration.py:690` `def normalise_trigger(value)` -- Coerce arbitrary YAML/JSON values to a tuple of trigger strings.
-
-## cli/exploration_view.py
-Depends on: `cli/exploration.py`, `core/console.py`
-Imported by: `cli/commands/misc_migrated.py`, `tests/test_exploration_and_addons.py`
-- `render_exploration` (function) `cli/exploration_view.py:39` `def render_exploration(console, engine, target, history)` -- Render the full ``explore`` view to ``console``.
-
-## cli/fuzzy_match.py
-Depends on: `cli/fuzzy_picker.py`
-Imported by: `cli/commands/ux.py`
-- `FuzzyMatchConfig.suggest` (method) `cli/fuzzy_match.py:28` `def suggest(query, candidates, limit, config)` -- Return up to limit candidate names ranked by relevance to query.
-- `FuzzyMatchConfig.did_you_mean` (method) `cli/fuzzy_match.py:56` `def did_you_mean(query, candidates)` -- Return the single best correction for query or None.
-
-## cli/fuzzy_picker.py
-Imported by: `cli/fuzzy_match.py`, `lazyown.py`, `tests/test_fuzzy_picker.py`
-- `PickerConfig.from_payload` (method) `cli/fuzzy_picker.py:117` `def from_payload(cls, payload)` -- Build a config from a payload.json view, falling back to defaults.
-- `MatchScorer.__init__` (method) `cli/fuzzy_picker.py:170` `def __init__(self, config)`
-- `MatchScorer.rank` (method) `cli/fuzzy_picker.py:173` `def rank(self, items, query)` -- Return ``items`` ranked by descending relevance against ``query``.
-- `PickerView.run` (method) `cli/fuzzy_picker.py:231` `def run(self, items, initial_query)`
-- `CursesPickerView.__init__` (method) `cli/fuzzy_picker.py:243` `def __init__(self, config, scorer)`
-- `CursesPickerView.run` (method) `cli/fuzzy_picker.py:247` `def run(self, items, initial_query)`
-- `FuzzyPicker.__init__` (method) `cli/fuzzy_picker.py:551` `def __init__(self, config, view_factory)`
-- `FuzzyPicker.config` (method) `cli/fuzzy_picker.py:562` `def config(self)`
-- `FuzzyPicker.pick` (method) `cli/fuzzy_picker.py:565` `def pick(self, items, initial_query)` -- Return the selected item text or ``None`` on cancel / empty input.
-- `ReadlineBridge.__init__` (method) `cli/fuzzy_picker.py:592` `def __init__(self, picker)`
-- `ReadlineBridge.install` (method) `cli/fuzzy_picker.py:595` `def install(self)` -- Wire the picker into ``readline.set_completion_display_matches_hook``.
-- `ReadlineBridge.uninstall` (method) `cli/fuzzy_picker.py:603` `def uninstall(self)` -- Remove the readline display hook installed by :py:meth:`install`.
-- `ReadlineBridge.install_fuzzy_completion` (method) `cli/fuzzy_picker.py:645` `def install_fuzzy_completion(shell, payload, config)` -- Install the fuzzy picker into a cmd2 shell.
+- `parse_nmap_xml` (function) `cli/exploit_advisor.py:164` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
+- `find_nmap_xml` (function) `cli/exploit_advisor.py:203` `def find_nmap_xml(rhost, sessions_dir)` -- Return all nmap XML files for a given rhost, newest first.
+- `print_exploit_summary` (function) `cli/exploit_advisor.py:222` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
+- `save_ss_results` (function) `cli/exploit_advisor.py:296` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
+- `inject_exploit_tasks` (function) `cli/exploit_advisor.py:338` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
 
 
 Next: [API_p4.md](API_p4.md)

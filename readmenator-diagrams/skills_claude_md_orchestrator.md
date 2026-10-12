@@ -1,41 +1,39 @@
 # skills/claude_md_orchestrator
 
-skills/claude_md_orchestrator groups 19 files (js, py) around _now_iso, Stage, Severity, Contract, to_dict. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+skills/claude_md_orchestrator groups 17 files (py) around _now_iso, Stage, Severity, Contract, to_dict. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
-    contrib["contrib"]
     modules["modules"]
+    root["root"]
     skills["skills"]
-    static["static"]
-    contrib -- "depends on" --> modules
-    static -- "depends on" --> modules
-    static -- "depends on" --> skills
+    tests["tests"]
+    root -- "calls into" --> modules
+    root -- "depends on" --> skills
+    tests -- "calls into" --> modules
 ```
 
-## contrib (12.1)
+## modules (9.1)
 
-contrib groups 4 files (py) around _ret_model, truncate_message, _configure_logging, _load_knowledge_base, _save_knowledge_base. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+modules groups 2 files (py) around SecurityConfig, from_payload, HeaderValueSanitizer, __init__, is_valid_name. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## modules (12.2)
+## root (9.2)
 
-modules groups 1 files (py) around retModel, delete_lines, no_html. retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile...
+root groups 1 files (py) around _build_substitutions, _fix_sessions_owner, _run_tool. This software must not be used by military or secret service organisations.
 
-## skills (12.3)
+## skills (9.3)
 
 skills groups 13 files (py) around _now_iso, Stage, Severity, Contract, to_dict. Public API for the claude_md_orchestrator skill.
 
-## static (12.4)
+## tests (9.4)
 
-static groups 1 files (js) around P, S, a, a, a.
+tests groups 1 files (py) around cfg, TestSecurityConfig, test_defaults_are_conservative, test_from_payload_accepts_known_keys, test_from_payload_drops_wrong_types. Unit tests for :mod:`modules.security_sanitizers`.
 
 **Files**:
 
-- contrib/legacy/lazygptcli.py
-- contrib/legacy/lazygptcli_unified.py
-- contrib/legacy/lazyproxy.py
-- contrib/legacy/lazyseo.py
-- modules/colors.py
+- modules/lazyown_bprfuzzer.py
+- modules/security_sanitizers.py
+- pwntomate.py
 - skills/claude_md_orchestrator/__init__.py
 - skills/claude_md_orchestrator/bdd_agent.py
 - skills/claude_md_orchestrator/boy_scout.py
@@ -49,4 +47,4 @@ static groups 1 files (js) around P, S, a, a, a.
 - skills/claude_md_orchestrator/sdd_agent.py
 - skills/claude_md_orchestrator/tdd_agent.py
 - skills/claude_md_orchestrator/validators.py
-- static/js/xterm.js
+- tests/test_security_sanitizers.py

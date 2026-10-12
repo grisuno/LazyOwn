@@ -15,8 +15,11 @@ from modules.auto_registry import (  # noqa: E402
     build_command,
     execute_shell_verb,
     is_shell_verb,
+    missing_binary,
     propose_intents,
     steps_for,
+    verb_available,
+    verb_gap,
     verbs,
     verbs_for,
 )
@@ -116,3 +119,60 @@ def test_execute_shell_verb_without_shell() -> None:
     """Missing shell context degrades to a transcript, not an exception."""
     out = execute_shell_verb(None, "auto_pwn 10.0.0.5", timeout_sec=1.0)
     assert out.startswith("execution failed")
+
+
+def test_verb_gap_flags_missing_tooling(monkeypatch) -> None:
+    """Unavailable verbs report the gap; unconstrained verbs stay ready."""
+    monkeypatch.setattr("modules.auto_registry.shutil.which", lambda name: None)
+    assert verb_gap("automsf") == "missing tool(s): msfconsole"
+    assert verb_gap("autopivot").startswith("no pivot tool installed")
+    assert verb_available("autopivot") is False
+    assert verb_available("auto_pwn") is True
+    assert verb_available("exfil_auto") is True
+
+
+def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch) -> None:
+    """Only real standalone tools are checked against PATH."""
+    monkeypatch.setattr("modules.auto_registry.shutil.which", lambda name: None)
+    assert missing_binary("echo hello") == ""
+    assert missing_binary("./setup.sh") == ""
+    assert missing_binary("/opt/tool/run") == ""
+    assert missing_binary("python3 -c 'print(1)'") == ""
+    assert missing_binary("nmap -sV 10.0.0.5") == "nmap"
+
+
+def test_propose_and_steps_skip_unavailable_verbs(monkeypatch) -> None:
+    """The planner never dispatches work this host cannot execute."""
+    monkeypatch.setattr("modules.auto_registry.shutil.which", lambda name: None)
+    intents = propose_intents("gain initial access on 10.0.0.5", "10.0.0.5")
+    assert intents == ["auto auto_pwn 10.0.0.5"]
+    assert steps_for("auto autopivot 10.0.0.5", "") is None
+    assert steps_for("pivot tunnel internal network", "10.0.0.5") is None
+    assert steps_for("metasploit listener", "10.0.0.5") is None
+
+
+def test_steps_for_uses_next_available_keyword_verb(monkeypatch) -> None:
+    """Keyword matching falls through to the next verb when one is missing."""
+    monkeypatch.setattr("modules.auto_registry.shutil.which", lambda name: None)
+    assert steps_for("exploit with msf", "10.0.0.5") == ["auto_pwn 10.0.0.5"]
+
+
+def test_cancel_running_commands_kills_streaming() -> None:
+    """BDD: operator cancellation kills registered streaming processes."""
+    import threading
+    import time
+
+    from modules.auto_registry import cancel_running_commands, execute_streaming
+
+    result: dict = {}
+
+    def _run() -> None:
+        result["out"] = execute_streaming("sleep 30", timeout_sec=60)
+
+    thread = threading.Thread(target=_run, daemon=True)
+    thread.start()
+    time.sleep(0.4)
+    assert cancel_running_commands() >= 1
+    thread.join(timeout=5)
+    assert not thread.is_alive()
+    assert result.get("out") == ""

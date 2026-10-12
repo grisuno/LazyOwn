@@ -86,13 +86,13 @@
   - `_R` (class, line 140) `class _R(ICommandRunner)`
   - `_S` (class, line 303) `class _S(ICommandSelector)`
   - `CapturingSelector` (class, line 343) `class CapturingSelector(ICommandSelector)`
-  - `_next_pending` (method, line 706) `def _next_pending()`
-  - `_fake_run_async` (method, line 721) `def _fake_run_async(objective_id, objective_text, target)`
-  - `_run_loop` (method, line 745) `def _run_loop()`
-  - `_next_pending` (method, line 772) `def _next_pending()`
-  - `_failing_run_async` (method, line 784) `def _failing_run_async(objective_id, objective_text, target)`
-  - `_run_loop` (method, line 807) `def _run_loop()`
-  - `_run_loop` (method, line 831) `def _run_loop()`
+  - `_next_pending` (function, line 706) `def _next_pending()`
+  - `_fake_run_async` (function, line 721) `def _fake_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (function, line 745) `def _run_loop()`
+  - `_next_pending` (function, line 772) `def _next_pending()`
+  - `_failing_run_async` (function, line 784) `def _failing_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (function, line 807) `def _run_loop()`
+  - `_run_loop` (function, line 831) `def _run_loop()`
   - `name` (method, line 142) `def name(self)`
   - `run` (method, line 145) `def run(self, command, timeout)`
   - `select` (method, line 304) `def select(self, target, phase, context)`
@@ -259,7 +259,7 @@
   - `test_requeue_interrupted_respawns_drones` (method, line 825) `def test_requeue_interrupted_respawns_drones(self)`
   - `test_list_all_includes_history` (method, line 844) `def test_list_all_includes_history(self)`
   - `test_mcp_hive_recover_no_interrupted` (method, line 862) `def test_mcp_hive_recover_no_interrupted(self)`
-  - `_instant_run` (method, line 405) `def _instant_run(self_inner)`
+  - `_instant_run` (function, line 405) `def _instant_run(self_inner)`
 - Depends on: `skills/hive_mind.py`
 
 ## skills/tests/test_mcp_smoke.py

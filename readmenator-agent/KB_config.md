@@ -12,8 +12,8 @@
 - Language: py
 - Symbols:
   - `C2Credentials` (class, line 24) `class C2Credentials`
-  - `load_c2_credentials_from_file` (method, line 38) `def load_c2_credentials_from_file(file_path)`
-  - `load_c2_credentials` (method, line 71) `def load_c2_credentials(project_root)`
+  - `load_c2_credentials_from_file` (function, line 38) `def load_c2_credentials_from_file(file_path)`
+  - `load_c2_credentials` (function, line 71) `def load_c2_credentials(project_root)`
   - `empty` (method, line 33) `def empty(cls)`
 - Depends on: `core/logging.py`
 - Imported by: `lazygui/app.py`, `lazygui/windows/connect_dialog.py`
@@ -45,7 +45,7 @@
 - Language: py
 - Symbols:
   - `AppPaths` (class, line 19) `class AppPaths`
-  - `_detect_project_root` (method, line 79) `def _detect_project_root()`
+  - `_detect_project_root` (function, line 79) `def _detect_project_root()`
   - `config_dir` (method, line 32) `def config_dir(self)`
   - `settings_file` (method, line 39) `def settings_file(self)`
   - `layout_file` (method, line 44) `def layout_file(self)`

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+#bc-root{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:13px;max-width:1100px;margin:0 auto;padding:16px}
+#bc-root .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+#bc-root input,#bc-root select{background:#020617;border:1px solid #1e293b;border-radius:8px;color:#f8fafc;padding:7px 10px;font:inherit;font-size:12px}
+#bc-root button{font:inherit;font-size:12px;background:#0b1224;border:1px solid #1e293b;border-radius:8px;padding:6px 10px;color:#f8fafc;cursor:pointer}
+#bc-root button[aria-pressed="true"]{border-color:#22d3ee}
+#bc-root .item{border:1px solid #1e293b;border-radius:10px;padding:8px 10px;margin:8px 0;background:#030a1c}
+#bc-root .meta{color:#94a3b8;font-size:11px}
+#bc-root .day{color:#22d3ee;font-size:11px;letter-spacing:.1em;margin:14px 0 4px}
+#bc-root details{margin-top:6px;font-size:12px;color:#cbd5e1}
+#bc-root a{color:#22d3ee}
+</style>
+<div id="bc-root">
+<div class="row">
+<a href="/">&#8592; LazyOwn</a>
+<a href="/intel">IntelGraph</a>
+<b>Broadcast board</b>
+</div>
+<div class="row">
+<input id="bc-task" placeholder="task id (t0001)" size="12">
+<input id="bc-q" placeholder="search text or #41" size="22">
+<button type="button" id="bc-search">Search</button>
+<button type="button" id="bc-order" aria-pressed="false" title="Toggle newest/oldest first">newest first</button>
+<button type="button" id="bc-live" aria-pressed="true" title="Auto-refresh while on page 1">live</button>
+<button type="button" id="bc-new" hidden></button>
+</div>
+<div class="row" id="bc-kinds"></div>
+<div class="row meta" id="bc-status">Pick a task to load the timeline.</div>
+<div id="bc-list"></div>
+<div class="row">
+<button type="button" id="bc-prev">Prev</button>
+<button type="button" id="bc-next">Next</button>
+<button type="button" id="bc-graphbtn" aria-pressed="false" title="Toggle ForceGraph loop topology">Graph</button>
+</div>
+<div id="bc-graph" hidden style="height:420px;border:1px solid #1e293b;border-radius:10px;background:#020617;margin:8px 0;overflow:hidden"></div>
+</div>
+<script src="/static/js/force-graph-1.43.5.min.js?v=af9324ce63bb"></script>
+<script>
+(function(){
+"use strict";
+const KINDS=["goal","intent","fact","finding","hint","constraint"];
+const active=new Set(KINDS);
+let page=1,perPage=20,order="desc",lastTotal=0,live=true,timer=0;
+const $=id=>document.getElementById(id);
+const kindsBox=$("bc-kinds");
+KINDS.forEach(k=>{
+  const b=document.createElement("button");
+  b.type="button";b.textContent=k;b.dataset.kind=k;b.setAttribute("aria-pressed","true");
+  b.addEventListener("click",()=>{if(active.has(k))active.delete(k);else active.add(k);b.setAttribute("aria-pressed",String(active.has(k)));page=1;load();});
+  kindsBox.appendChild(b);
+});
+function params(extra){
+  const p=new URLSearchParams();
+  p.set("task",$("bc-task").value.trim());
+  active.forEach(k=>p.append("kind",k));
+  const q=$("bc-q").value.trim();
+  if(q)p.set("q",q);
+  p.set("order",order);p.set("page",String(page));p.set("per_page",String(perPage));
+  Object.keys(extra||{}).forEach(k=>p.set(k,extra[k]));
+  return p;
+}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function render(data){
+  const box=$("bc-list");box.textContent="";
+  lastTotal=data.total;
+  $("bc-status").textContent="page "+data.page+" ("+data.items.length+"/"+data.total+")"+(data.has_more?" more":" end");
+  $("bc-next").disabled=!data.has_more;
+  $("bc-prev").disabled=data.page<=1;
+  let curDay="";
+  data.items.forEach(it=>{
+    if(it.day!==curDay){curDay=it.day;const d=document.createElement("div");d.className="day";d.textContent=curDay||"undated";box.appendChild(d);}
+    const el=document.createElement("div");el.className="item";
+    const head=document.createElement("div");
+    head.innerHTML="<b>#"+it.id+"</b> ["+esc(it.kind)+"/"+esc(it.state)+"] "+esc(it.text.slice(0,220));
+    el.appendChild(head);
+    const meta=document.createElement("div");meta.className="meta";
+    meta.textContent=(it.day||"")+" priority "+it.priority+(it.source?" src "+it.source:"")+(it.payload?" · "+it.payload.slice(0,120):"");
+    el.appendChild(meta);
+    const det=document.createElement("details");
+    const sum=document.createElement("summary");
+    sum.textContent="upstream "+it.upstream.length+" · downstream "+it.downstream.length+" · assets "+it.assets.length;
+    det.appendChild(sum);
+    const body=document.createElement("div");
+    const fmt=(arr,label)=>arr.map(x=>label+" #"+x.id+" ["+(x.kind||"")+"] "+(x.text||x.value||"")).join("\n");
+    body.innerHTML="<pre>"+esc(
+      (it.upstream.length?"up:\n"+fmt(it.upstream,"←")+"\n":"")+
+      (it.downstream.length?"down:\n"+fmt(it.downstream,"→")+"\n":"")+
+      (it.assets.length?"assets:\n"+it.assets.map(a=>"◉ "+(a.kind||"")+" "+(a.value||"#"+a.id)).join("\n"):"(no linked rows)")
+    )+"</pre>";
+    det.appendChild(body);el.appendChild(det);
+    box.appendChild(el);
+  });
+}
+function load(silent){
+  const task=$("bc-task").value.trim();
+  if(!task){if(!silent)$("bc-status").textContent="Pick a task to load the timeline.";return;}
+  fetch("/api/loop_broadcast?"+params().toString(),{credentials:"same-origin"})
+    .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+    .then(d=>{if(d.error)throw new Error(d.error);render(d);$("bc-new").hidden=true;})
+    .catch(e=>{$("bc-status").textContent="Could not load timeline: "+e.message;});
+}
+function poll(){
+  if(!live)return;
+  const task=$("bc-task").value.trim();
+  if(!task||page!==1||order!=="desc"){return;}
+  fetch("/api/loop_broadcast?"+params({page:"1",per_page:"1"}).toString(),{credentials:"same-origin"})
+    .then(r=>r.json()).then(d=>{
+      if(typeof d.total==="number"&&d.total>lastTotal){load(true);}
+    }).catch(()=>{});
+}
+function checkNew(){
+  const task=$("bc-task").value.trim();
+  if(!task)return;
+  fetch("/api/loop_broadcast?"+params({page:"1",per_page:"1"}).toString(),{credentials:"same-origin"})
+    .then(r=>r.json()).then(d=>{
+      if(typeof d.total==="number"&&d.total>lastTotal&&(page!==1||order!=="desc")){
+        const n=d.total-lastTotal,btn=$("bc-new");
+        btn.hidden=false;btn.textContent=n+" new · back to latest";
+      }
+    }).catch(()=>{});
+}
+$("bc-search").addEventListener("click",()=>{page=1;load();});
+$("bc-q").addEventListener("keydown",e=>{if(e.key==="Enter"){page=1;load();}});
+$("bc-order").addEventListener("click",e=>{order=order==="desc"?"asc":"desc";e.currentTarget.textContent=order==="desc"?"newest first":"oldest first";page=1;load();});
+$("bc-live").addEventListener("click",e=>{live=!live;e.currentTarget.setAttribute("aria-pressed",String(live));});
+$("bc-prev").addEventListener("click",()=>{if(page>1){page--;load();}});
+$("bc-next").addEventListener("click",()=>{page++;load();});
+$("bc-new").addEventListener("click",()=>{page=1;order="desc";load();});
+let bcGraph=null,graphOn=false;
+const KIND_COLORS={goal:"#7c5aef",intent:"#4f8ef7",fact:"#34d399",finding:"#fb7185",hint:"#fbbf24",constraint:"#94a3b8",asset:"#22d3ee"};
+function drawLoopGraph(data){
+  const el=$("bc-graph");
+  if(typeof ForceGraph==="undefined"){el.textContent="Graph engine missing: check /static/js vendor files.";return;}
+  const colorOf=n=>n.type==="asset"?(n.state==="tested"?"#34d399":"#22d3ee"):(KIND_COLORS[n.kind]||"#94a3b8");
+  if(bcGraph){bcGraph.graphData({nodes:data.nodes,links:data.links});return;}
+  bcGraph=ForceGraph()(el).graphData({nodes:data.nodes,links:data.links})
+    .nodeId("id").nodeLabel(n=>n.label||n.id).nodeVal(n=>n.val||1)
+    .nodeColor(colorOf).linkColor(()=>"rgba(148,163,184,.35)")
+    .linkDirectionalArrowLength(3).linkDirectionalArrowRelPos(1)
+    .onNodeClick(n=>{if(n.node_id&&n.type!=="asset"){const q=$("bc-q");q.value="#"+n.node_id;page=1;load();}});
+  const fit=()=>{try{bcGraph.zoomToFit(400,40);}catch(e){}};
+  setTimeout(fit,800);
+}
+$("bc-graphbtn").addEventListener("click",e=>{
+  graphOn=!graphOn;
+  e.currentTarget.setAttribute("aria-pressed",String(graphOn));
+  $("bc-graph").hidden=!graphOn;
+  if(!graphOn)return;
+  const task=$("bc-task").value.trim();
+  if(!task){$("bc-status").textContent="Pick a task to load the graph.";return;}
+  fetch("/api/loop_graph?task="+encodeURIComponent(task),{credentials:"same-origin"})
+    .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+    .then(d=>{if(d.error)throw new Error(d.error);drawLoopGraph(d);})
+    .catch(err=>{$("bc-graph").textContent="Could not load loop graph: "+err.message;});
+});
+let stream=null,streamCursor=0;
+function startStream(){
+  stopStream();
+  const task=$("bc-task").value.trim();
+  if(!task)return;
+  streamCursor=0;
+  stream=new EventSource("/api/loop_broadcast/stream?task="+encodeURIComponent(task)+"&cursor="+streamCursor);
+  stream.onmessage=()=>{streamCursor+=1;if(live&&page===1&&order==="desc"&&!document.hidden)load(true);};
+  stream.onerror=()=>{stopStream();};
+}
+function stopStream(){if(stream){stream.close();stream=null;}}
+const preset=new URLSearchParams(location.search).get("task");
+if(preset)$("bc-task").value=preset;
+if($("bc-task").value)load();
+timer=setInterval(()=>{poll();checkNew();},10000);
+setInterval(()=>{
+  const task=$("bc-task").value.trim();
+  if(live&&task&&page===1&&order==="desc"){if(!stream)startStream();}
+  else if(stream){stopStream();}
+},2000);
+})();
+</script>
+{% endblock %}

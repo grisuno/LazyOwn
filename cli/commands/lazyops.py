@@ -15,7 +15,9 @@ Example session (operator-visible, real commands):
 
 from __future__ import annotations
 
+import json
 import shlex
+from uuid import uuid4
 
 import cmd2
 
@@ -59,8 +61,18 @@ class LazyCommandSet(LazyOwnCommandSet):
     @staticmethod
     def _free_text(args: list[str]) -> str:
         """Return positional words with flag values stripped."""
-        skip = {"--task", "--rounds", "--workers", "--priority", "--limit",
-                "--intent", "--format", "--timeout"}
+        skip = {
+            "--task",
+            "--rounds",
+            "--workers",
+            "--priority",
+            "--limit",
+            "--intent",
+            "--format",
+            "--timeout",
+            "--session",
+            "--from",
+        }
         words: list[str] = []
         idx = 0
         while idx < len(args):
@@ -74,19 +86,99 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_task(self, line):
-        """Create/list/show/pause/resume/delete tasks. Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--task T]"""
+        """Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks. Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--task T] | lazy_task spawn <goal> --from t0001[,t0002] | lazy_task limit [N] | lazy_task queue | lazy_task drain"""
         args = shlex.split(line) if line.strip() else []
         if not args or args[0] == "list":
             for record in _engine().store.list():
                 print_msg(f"  [{record['task_id']}] {record['status']} :: {record['goal'][:100]}")
             return
         if args[0] == "create":
-            goal = self._free_text(args[1:])
+            sources = [s.strip() for s in (extract_flag(args, "--from") or "").split(",") if s.strip()]
+            scrubbed: list[str] = []
+            skip_next = False
+            for token in args[1:]:
+                if skip_next:
+                    skip_next = False
+                    continue
+                if token == "--from":
+                    skip_next = True
+                    continue
+                scrubbed.append(token)
+            goal = self._free_text(scrubbed)
             if not goal:
                 goal = f"engage {self.params.get('rhost', 'target')}"
-            summary = _engine().create_task(goal)
-            print_msg(f"[+] task {summary['task_id']}: {summary['goal'][:120]} "
-                      f"({summary['goals']} goals, scope={summary.get('scope', 0)} auto)")
+            if sources:
+                summary = _engine().spawn_task(goal, source_task_ids=sources)
+                inherited = summary.get("inherited", {})
+                print_msg(
+                    f"[+] task {summary['task_id']}: {summary['goal'][:120]} "
+                    f"({summary['goals']} goals, inherited scope={inherited.get('scope', 0)}"
+                    f" facts={inherited.get('facts', 0)} from {','.join(inherited.get('sources', []))})"
+                )
+            else:
+                summary = _engine().create_task(goal)
+                print_msg(
+                    f"[+] task {summary['task_id']}: {summary['goal'][:120]} "
+                    f"({summary['goals']} goals, scope={summary.get('scope', 0)} auto)"
+                )
+            return
+        if args[0] in ("limit", "queue", "drain"):
+            engine = _engine()
+            if args[0] == "limit":
+                if len(args) < 2:
+                    print_msg(
+                        f"[*] concurrency cap = {engine.max_concurrent} "
+                        f"({'admission off' if engine.max_concurrent == 0 else 'on'})"
+                    )
+                    return
+                try:
+                    cap = engine.set_concurrency(int(args[1]))
+                except ValueError:
+                    print_error("limit must be an integer")
+                    return
+                print_msg(f"[+] concurrency cap = {cap}" + (" (admission off)" if cap == 0 else ""))
+                return
+            if args[0] == "queue":
+                queued = engine.store.queue()
+                if not queued:
+                    print_msg("[*] queue empty.")
+                for record in queued:
+                    print_msg(
+                        f"  [{record['task_id']}] "
+                        f"queued_at={int(record.get('queued_at', 0) or 0)} "
+                        f":: {str(record.get('goal', ''))[:100]}"
+                    )
+                return
+            results = engine.drain_queue(max_tasks=3)
+            if not results:
+                print_msg("[*] nothing to drain (cap blocked or queue empty).")
+            for summary in results:
+                print_msg(f"  [{summary['task_id']}] {summary['status']} rounds={summary['rounds']}")
+            return
+        if args[0] == "spawn":
+            sources = [s.strip() for s in (extract_flag(args, "--from") or "").split(",") if s.strip()]
+            words: list[str] = []
+            skip_next = False
+            for token in args[1:]:
+                if skip_next:
+                    skip_next = False
+                    continue
+                if token == "--from":
+                    skip_next = True
+                    continue
+                if not token.startswith("--"):
+                    words.append(token)
+            goal = " ".join(words).strip()
+            if not sources or not goal:
+                print_error("Usage: lazy_task spawn <goal> --from t0001[,t0002]")
+                return
+            summary = _engine().spawn_task(goal, source_task_ids=sources)
+            inherited = summary.get("inherited", {})
+            print_msg(
+                f"[+] task {summary['task_id']}: {summary['goal'][:120]} "
+                f"(inherited scope={inherited.get('scope', 0)}"
+                f" facts={inherited.get('facts', 0)} from {','.join(inherited.get('sources', []))})"
+            )
             return
         if args[0] in ("show", "pause", "resume", "delete"):
             task_id = self._require_task(args)
@@ -107,12 +199,12 @@ class LazyCommandSet(LazyOwnCommandSet):
                 print_msg(f"[*] {task_id} resumed.")
                 return
             if args[0] == "delete":
-                from modules.lazy_engine import ExplorationGraph
-                engine.store.delete(task_id)
-                print_msg(f"[*] {task_id} deleted.")
-                _ = ExplorationGraph
+                result = engine.delete_task(task_id)
+                print_msg(f"[*] {task_id} deleted ({len(result.get('removed', []))} store files).")
                 return
-        print_error("Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--task T]")
+        print_error(
+            "Usage: lazy_task create <goal> [--from t0001,t0002] | lazy_task list | lazy_task show|pause|resume|delete [--task T] | lazy_task spawn <goal> --from t0001[,t0002]"
+        )
 
     @cmd2.with_category(ai_category)
     def do_lazy_graph(self, line):
@@ -132,6 +224,173 @@ class LazyCommandSet(LazyOwnCommandSet):
         print_msg(f"  coverage: {cov.get('tested', 0)}/{cov.get('total', 0)} ({cov.get('pct', 0)}%)")
         for item in view.get("constraints", []):
             print_msg(f"  constraint [{item.get('type')}] {item.get('text', '')[:80]}")
+        try:
+            ctx = _engine().graph_context(task_id)
+        except Exception:
+            ctx = {}
+        for hub in (ctx.get("hubs", []) or [])[:5]:
+            print_msg(f"  hub #{hub['id']} [{hub['kind']}/{hub['state']}] x{hub['degree']} {hub['text'][:90]}")
+        for sug in (ctx.get("suggested", []) or [])[:5]:
+            print_msg(f"  next [{sug['kind']}] {sug['value'][:90]} (heat {sug['heat']})")
+        if ctx.get("islands"):
+            print_msg(f"  islands: {len(ctx['islands'])} unlinked assets (see /api/loop_graph?task={task_id})")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_context(self, line):
+        """Render the bounded prompt context the planner/worker LLMs receive. Usage: lazy_context [--task T] [--budget N]"""
+        args = shlex.split(line) if line.strip() else []
+        task_id = self._require_task(args)
+        if not task_id:
+            print_error("Usage: lazy_context [--task T] [--budget N]")
+            return
+        budget = 2000
+        raw = extract_flag(args, "--budget")
+        if raw:
+            try:
+                budget = max(200, min(20000, int(raw)))
+            except ValueError:
+                pass
+        from modules.lazy_engine import ExplorationGraph, build_prompt_context
+
+        engine = _engine()
+        context = build_prompt_context(task_id, ExplorationGraph(task_id), engine.assets, engine.store, budget=budget)
+        print_msg(context or "[*] empty context")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_skill(self, line):
+        """Skills: list|show <name>|preview|inject <name...>|clear|auto on|off. Usage: lazy_skill ... [--task T]"""
+        args = shlex.split(line) if line.strip() else []
+        from modules.lazy_skills import get_skill, list_skills, skills_context
+
+        if not args or args[0] == "list":
+            entries = list_skills()
+            for entry in entries:
+                print_msg(f"  {entry['name']}: {entry['description'][:100]}")
+            if not entries:
+                print_msg("[*] no skills found.")
+            return
+        if args[0] == "show" and len(args) >= 2:
+            entry = get_skill(args[1])
+            if not entry:
+                print_error(f"unknown skill: {args[1]}")
+                return
+            print_msg(f"[*] {entry['name']} :: {entry['path']}")
+            print_msg(entry["excerpt"][:2000])
+            return
+        task_id = self._require_task(args)
+        if not task_id:
+            print_error("preview/inject/clear/auto need --task T")
+            return
+        engine = _engine()
+        record = engine.store.get(task_id) or {}
+        if args[0] == "preview":
+            text = skills_context(
+                str(record.get("goal", "")),
+                explicit=list(record.get("skills", []) or []),
+                auto=bool(record.get("skills_auto", True)),
+                budget=800,
+            )
+            print_msg(text or "[*] no skills matched.")
+            return
+        if args[0] == "inject":
+            names = [token for token in args[1:] if not token.startswith("--")]
+            unknown = [name for name in names if not get_skill(name)]
+            if unknown:
+                print_error(f"unknown skill(s): {', '.join(unknown)}")
+                return
+            state = engine.store.set_skills(task_id, names)
+            print_msg(f"[+] skills pinned: {', '.join(state['skills']) or '-'}")
+            return
+        if args[0] == "clear":
+            engine.store.set_skills(task_id, [])
+            print_msg("[+] pinned skills cleared.")
+            return
+        if args[0] == "auto" and len(args) >= 2 and args[1] in ("on", "off"):
+            state = engine.store.set_skills(task_id, list(record.get("skills", []) or []), auto=args[1] == "on")
+            print_msg(f"[+] skills auto-match {'on' if state['skills_auto'] else 'off'}.")
+            return
+        print_error("Usage: lazy_skill list|show <name>|preview|inject <name...>|clear|auto on|off [--task T]")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_workspace(self, line):
+        """Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path. Usage: lazy_workspace ..."""
+        args = shlex.split(line) if line.strip() else []
+        from modules import workspace as _ws
+
+        if not args or args[0] == "list":
+            rel = args[1] if len(args) > 1 else ""
+            try:
+                entries = _ws.list_entries(rel)
+            except (FileNotFoundError, PermissionError) as exc:
+                print_error(str(exc))
+                return
+            for entry in entries[:200]:
+                print_msg(f"  [{entry['kind']}] {entry['name']} ({entry['size']}B)")
+            return
+        if args[0] == "path":
+            print_msg(str(_ws.root()))
+            return
+        if args[0] == "read" and len(args) >= 2:
+            try:
+                content = _ws.read_text(args[1])
+            except (FileNotFoundError, PermissionError) as exc:
+                print_error(str(exc))
+                return
+            print_msg(content[:6000] if content else "[*] empty file.")
+            return
+        if args[0] == "write" and len(args) >= 3:
+            try:
+                written = _ws.write_text(args[1], self._free_text(args[2:]))
+            except (ValueError, PermissionError) as exc:
+                print_error(str(exc))
+                return
+            print_msg(f"[+] wrote {written} chars to {args[1]}")
+            return
+        if args[0] == "mkdir" and len(args) >= 2:
+            try:
+                _ws.make_dir(args[1])
+            except PermissionError as exc:
+                print_error(str(exc))
+                return
+            print_msg(f"[+] {args[1]} created.")
+            return
+        if args[0] == "rm" and len(args) >= 2:
+            try:
+                removed = _ws.remove(args[1])
+            except PermissionError as exc:
+                print_error(str(exc))
+                return
+            print_msg("[+] removed." if removed else "[-] not found.")
+            return
+        print_error("Usage: lazy_workspace list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_selfupdate(self, line):
+        """Self-update: check [--branch B]|apply [--yes] [--branch B]. Usage: lazy_selfupdate ..."""
+        args = shlex.split(line) if line.strip() else []
+        from modules.selfupdate import apply as _apply
+        from modules.selfupdate import check as _check
+
+        action = args[0] if args else "check"
+        branch = extract_flag(args, "--branch") or ""
+        if action == "check":
+            info = _check(branch)
+            if not info.get("ok"):
+                print_error(f"selfupdate check failed: {info.get('error')}")
+                return
+            print_msg(f"[*] {info['branch']} @ {info['head']}: behind={info['behind']} ahead={info['ahead']}")
+            if int(info["behind"]) > 0 and int(info["ahead"]) == 0:
+                print_msg("    update with: lazy_selfupdate apply --yes")
+            return
+        if action == "apply":
+            result = _apply(branch, confirm="--yes" in args)
+            print_msg(
+                f"[+] update {result.get('reason')}"
+                if result.get("applied")
+                else f"[-] not applied: {result.get('reason')}"
+            )
+            return
+        print_error("Usage: lazy_selfupdate check [--branch B] | lazy_selfupdate apply --yes [--branch B]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_planner(self, line):
@@ -187,19 +446,30 @@ class LazyCommandSet(LazyOwnCommandSet):
             if node is None:
                 print_msg("[*] frontier empty — nothing to claim.")
                 return
-        worker = Worker("worker-cli", task_id, engine.assets, graph,
-                        ActivityLog(task_id), TrafficLog(task_id), Guard(task_id), engine.store)
+        worker = Worker(
+            "worker-cli",
+            task_id,
+            engine.assets,
+            graph,
+            ActivityLog(task_id),
+            TrafficLog(task_id),
+            Guard(task_id),
+            engine.store,
+            shell=self._resolve_shell(),
+        )
         outcome = worker.execute(node)
-        print_msg(f"[+] intent #{node.node_id} -> {outcome['state']}: "
-                  f"facts={outcome['facts']} assets={outcome['assets']} findings={outcome['findings']}")
+        print_msg(
+            f"[+] intent #{node.node_id} -> {outcome['state']}: "
+            f"facts={outcome['facts']} assets={outcome['assets']} findings={outcome['findings']}"
+        )
 
     @cmd2.with_category(ai_category)
     def do_lazy_trace(self, line):
-        """Worker trace exchange. Usage: lazy_trace list|search <q>|get <intent> [--task T]"""
+        """Worker trace exchange. Usage: lazy_trace list|search <q>|search-all <q>|get <intent>|steps <intent> [--q Q]|step <intent> <n> [--task T]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
-            print_error("Usage: lazy_trace list|search <q>|get <intent> [--task T]")
+            print_error("Usage: lazy_trace list|search|search-all|get|steps|step ... [--task T]")
             return
         from modules.lazy_engine import ActivityLog, ExplorationGraph
 
@@ -220,8 +490,66 @@ class LazyCommandSet(LazyOwnCommandSet):
             for record in log.for_intent(int(rest[0])):
                 print_msg(f"  [{record.get('kind')}] {str(record.get('text', ''))[:200]}")
             _ = graph
+        elif mode == "search-all" and rest:
+            for hit in log.search_all(" ".join(rest))[:20]:
+                print_msg(f"  [#{hit['intent_id']}:{hit['step']}/{hit.get('worker')}] {str(hit.get('text', ''))[:160]}")
+        elif mode == "steps" and rest:
+            inline = extract_flag(args, "--q") or ""
+            try:
+                view = log.trace(int(rest[0]), query=inline)
+            except (ValueError, KeyError) as exc:
+                print_error(str(exc))
+                return
+            for step in view["steps"]:
+                print_msg(f"  {step['step']}/{view['total']} [{step.get('kind')}] {str(step.get('text', ''))[:200]}")
+        elif mode == "step" and len(rest) >= 2:
+            try:
+                view = log.trace(int(rest[0]), step_id=int(rest[1]))
+            except (ValueError, KeyError) as exc:
+                print_error(str(exc))
+                return
+            record = view["step"]
+            print_msg(
+                f"  [#{view['intent_id']}:{rest[1]}/{record.get('worker')}/{record.get('kind')}]"
+                f" {str(record.get('text', ''))[:2000]}"
+            )
         else:
-            print_error("Usage: lazy_trace list|search <q>|get <intent> [--task T]")
+            print_error("Usage: lazy_trace list|search|search-all|get|steps|step ... [--task T]")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_broadcast(self, line):
+        """Exploration timeline. Usage: lazy_broadcast [--task T] [--kind K] [--q Q] [--asc] [--page N] [--limit N]"""
+        args = shlex.split(line) if line.strip() else []
+        task_id = self._require_task(args)
+        if not task_id:
+            return
+        kinds: list[str] = []
+        idx = 0
+        while idx < len(args):
+            if args[idx] == "--kind" and idx + 1 < len(args):
+                kinds.append(args[idx + 1])
+                idx += 2
+                continue
+            idx += 1
+        query = extract_flag(args, "--q") or ""
+        page_raw = extract_flag(args, "--page") or "1"
+        limit_raw = extract_flag(args, "--limit") or "20"
+        order = "asc" if "--asc" in args else "desc"
+        try:
+            page = max(1, int(page_raw))
+        except ValueError:
+            page = 1
+        try:
+            limit = max(1, min(100, int(limit_raw)))
+        except ValueError:
+            limit = 20
+        result = _engine().broadcast(task_id, kinds=kinds or None, query=query, order=order, page=page, per_page=limit)
+        for item in result["items"]:
+            print_msg(f"  #{item['id']} [{item['kind']}/{item['state']}] {item['day']} {str(item['text'])[:140]}")
+        print_msg(
+            f"page {result['page']} ({len(result['items'])}/{result['total']})"
+            + (" more" if result["has_more"] else " end")
+        )
 
     @cmd2.with_category(ai_category)
     def do_lazy_hint(self, line):
@@ -259,6 +587,50 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_error(str(exc))
             return
         print_msg(f"[+] intent #{node.node_id} p{priority}: {summary[:120]}")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_intent_delete(self, line):
+        """Delete an intent. Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]"""
+        args = shlex.split(line) if line.strip() else []
+        task_id = self._require_task(args)
+        if not task_id or not args:
+            print_error("Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]")
+            return
+        try:
+            intent_id = int(args[0])
+        except ValueError:
+            print_error("Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]")
+            return
+        reason = extract_flag(args, "--reason") or ""
+        if not reason:
+            print_error("A reason is required: lazy_intent_delete <id> --reason <text>")
+            return
+        hard = "--hard" in args
+        engine = _engine()
+        try:
+            preview = engine.preview_delete_intent(task_id, intent_id)
+        except (KeyError, ValueError) as exc:
+            print_error(str(exc))
+            return
+        if hard and "--yes" not in args:
+            print_warn(
+                f"Hard delete removes {preview['cascade']} node(s),"
+                f" keeps {len(preview['shared'])} shared. Re-run with --yes to confirm."
+            )
+            return
+        try:
+            result = engine.delete_intent(task_id, intent_id, mode="hard" if hard else "soft", reason=reason)
+        except (KeyError, ValueError) as exc:
+            print_error(str(exc))
+            return
+        if result["mode"] == "soft":
+            print_msg(f"[+] intent #{intent_id} soft-deleted (outputs kept). Planner notified.")
+        else:
+            print_msg(
+                f"[+] intent #{intent_id} hard-deleted:"
+                f" removed {len(result['removed'])}, kept {len(result['shared'])} shared."
+            )
+
     @cmd2.with_category(ai_category)
     def do_lazy_goal(self, line):
         """Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>. Usage: lazy_goal ... [--task T]"""
@@ -290,7 +662,11 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[*] {task_id} declared complete.")
         elif args[0] == "prove" and len(args) >= 4:
             ok = _engine().prove_goal(task_id, int(args[1]), int(args[2]), " ".join(args[3:]))
-            print_msg("[+] goal proven." if ok else "[-] prove failed (need goal + finding/fact ids + reason; quantitative bars enforced).")
+            print_msg(
+                "[+] goal proven."
+                if ok
+                else "[-] prove failed (need goal + finding/fact ids + reason; quantitative bars enforced)."
+            )
         else:
             print_error("Usage: lazy_goal list|set|edit|delete|prove|met ... [--task T]")
 
@@ -354,10 +730,10 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_asset(self, line):
-        """Assets: add <kind> <value> | list [kind] | coverage | untested. Usage: lazy_asset ..."""
+        """Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested. Usage: lazy_asset ..."""
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_asset add <kind> <value> | lazy_asset list [kind] | coverage | untested")
+            print_error("Usage: lazy_asset add <kind> <value> | lazy_asset list [kind] | scoped | coverage | untested")
             return
         engine = _engine()
         if args[0] == "add" and len(args) >= 3:
@@ -372,18 +748,26 @@ class LazyCommandSet(LazyOwnCommandSet):
             for node in engine.assets.list(kind)[:50]:
                 flag = "tested" if node.tested else "new"
                 print_msg(f"  #{node.asset_id} [{node.kind}/{flag}] {node.value}")
+        elif args[0] == "scoped":
+            task_id = self._task_id(args)
+            record = (engine.store.get(task_id) or {}) if task_id else {}
+            kind = extract_flag(args, "--kind") or ""
+            for node in engine.assets.scoped(record.get("scope", []), kind=kind)[:50]:
+                flag = "tested" if node.tested else "new"
+                print_msg(f"  #{node.asset_id} [{node.kind}/{flag}] {node.value}")
         elif args[0] == "coverage":
             cov = engine.assets.coverage()
             print_msg(f"[*] {cov['tested']}/{cov['total']} ({cov['pct']}%) :: {cov['by_type']}")
         elif args[0] == "untested":
             task_id = self._task_id(args)
             from modules.lazy_engine import ExplorationGraph
+
             record = (engine.store.get(task_id) or {}) if task_id else {}
             graph = ExplorationGraph(task_id) if task_id else None
             for node in engine.assets.untested_for(graph, record.get("scope", [])):
                 print_msg(f"  #{node.asset_id} [{node.kind}] {node.value}")
         else:
-            print_error("Usage: lazy_asset add <kind> <value> | lazy_asset list [kind] | coverage | untested")
+            print_error("Usage: lazy_asset add <kind> <value> | lazy_asset list [kind] | scoped | coverage | untested")
 
     @cmd2.with_category(ai_category)
     def do_lazy_enrich(self, line):
@@ -399,7 +783,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_traffic(self, line):
-        """Traffic: list|search <q>|get <digest>|templates|template <t>|bind <finding> <digest>|export <path>|archive|clear. Usage: lazy_traffic ... [--task T] [--limit N]"""
+        """Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp] [--offset N] [--length N]|search-body <q>|templates|template <t>|bind <finding> <digest> [--role R] [--note N]|evidence <finding>|export <path>|archive|clear|start [--port P] [--upstream H:P]|stop|status|ca|trust|ingest|recorder-export <zip> [--task T]|recorder-import <zip>|recorder-inbox|recorder-gc [--days N]. Usage: lazy_traffic ... [--task T] [--limit N]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._task_id(args)
         limit = 20
@@ -426,24 +810,206 @@ class LazyCommandSet(LazyOwnCommandSet):
         elif args[0] == "template" and len(args) >= 2:
             for record in TrafficLog(task_id).by_template(" ".join(args[1:]), limit):
                 print_msg(f"  [{record.get('digest')}] {str(record.get('command', ''))[:120]}")
+        elif args[0] == "search-host" and len(args) >= 2:
+            port = extract_flag(args, "--port") or ""
+            for record in TrafficLog(task_id).search_host(args[1], port=port, limit=limit):
+                print_msg(f"  [{record.get('digest')}] {str(record.get('command', ''))[:120]}")
         elif args[0] == "bind" and len(args) >= 3:
-            ok = TrafficLog(task_id).bind(int(args[1]), args[2], ExplorationGraph(task_id))
+            role = extract_flag(args, "--role") or "supporting"
+            note = extract_flag(args, "--note") or ""
+            try:
+                ok = TrafficLog(task_id).bind(int(args[1]), args[2], ExplorationGraph(task_id), role=role, note=note)
+            except ValueError as exc:
+                print_error(str(exc))
+                return
             print_msg("[+] bound." if ok else "[-] bind failed.")
+        elif args[0] == "evidence" and len(args) >= 2:
+            try:
+                rows = TrafficLog(task_id).evidence(int(args[1]), ExplorationGraph(task_id))
+            except (ValueError, KeyError) as exc:
+                print_error(str(exc))
+                return
+            if not rows:
+                print_msg("[*] no evidences bound.")
+            for pos, ref in enumerate(rows, start=1):
+                print_msg(
+                    f"  {pos}. [{ref.get('role')}] {ref.get('digest')}"
+                    f"{(' :: ' + str(ref.get('note'))[:100]) if ref.get('note') else ''}"
+                )
         elif args[0] == "export" and len(args) >= 2:
             print_msg(f"[+] {TrafficLog(task_id).export(args[1], limit)}")
         elif args[0] == "archive":
             print_msg(f"[+] {TrafficLog(task_id).archive(label=task_id or 'global')}")
         elif args[0] == "clear":
             print_msg(f"[+] cleared {TrafficLog(task_id).clear()} records.")
+        elif args[0] == "start":
+            port = 0
+            raw_port = extract_flag(args, "--port")
+            if raw_port:
+                try:
+                    port = int(raw_port)
+                except ValueError:
+                    port = 0
+            status = _engine().proxy_start(
+                port=port, task_id=task_id or "", upstream=extract_flag(args, "--upstream") or ""
+            )
+            trust = status.get("trust") or {}
+            trust_note = (
+                "trusted" if trust.get("installed") else f"trust pending ({trust.get('reason', 'not attempted')})"
+            )
+            upstream_note = f", upstream={status['upstream']}" if status.get("upstream") else ""
+            print_msg(
+                f"[+] recorder proxy on {status['host']}:{status['port']} "
+                f"(exchanges={status['exchanges']}, CA {trust_note}{upstream_note})"
+            )
+            print_msg(f"    CA: {status['ca_path']}")
+        elif args[0] == "trust":
+            ca_path = _engine().proxy_status().get("ca_path", "")
+            if not ca_path:
+                print_error("Start the proxy first: lazy_traffic start")
+                return
+            from modules.lazy_proxy import install_ca_nss, install_ca_trust
+
+            result = install_ca_trust(ca_path)
+            if result.get("installed"):
+                print_msg(f"[+] CA trust {result['reason']} -> {result['anchor']}")
+            else:
+                print_error(f"CA trust failed: {result.get('reason')}")
+            nss = install_ca_nss(ca_path)
+            if nss.get("installed"):
+                print_msg(f"[+] NSS trust: {nss['installed']}/{nss['profiles']} profile(s).")
+            else:
+                print_msg(f"[*] NSS trust skipped: {nss.get('reason')}")
+        elif args[0] == "stop":
+            status = _engine().proxy_stop()
+            print_msg("[+] recorder proxy stopped." if not status.get("running") else "[-] proxy still running.")
+        elif args[0] == "status":
+            status = _engine().proxy_status()
+            print_msg(
+                f"  running={status['running']} {status['host']}:{status['port']} "
+                f"task={status['task'] or '-'} exchanges={status['exchanges']}"
+            )
+            print_msg(
+                f"  upstream={status.get('upstream') or '-'} ca={status['ca_path'] or '-'} dir={status['traffic_dir']}"
+            )
+            if status.get("running"):
+                print_msg(
+                    f"  captures={','.join(status.get('captures', []))} "
+                    f"mitm={'on' if status.get('mitm') else 'off'} "
+                    f"(HTTPS intercepted via CONNECT)"
+                )
+        elif args[0] == "ca":
+            ca_path = _engine().proxy_status().get("ca_path", "")
+            print_msg(ca_path or "[-] no CA yet (start the proxy first).")
+        elif args[0] == "body" and len(args) >= 2:
+            try:
+                body = TrafficLog(task_id).recorder_body(args[1])
+            except KeyError as exc:
+                print_error(str(exc))
+                return
+            if not body:
+                print_msg("[-] digest has no recorder body (not a proxy exchange).")
+            else:
+                print_msg(f"  {body.get('req_head', '')}")
+                print_msg(f"  status={body.get('status')} host={body.get('host')}:{body.get('port')}")
+                print_msg(f"  req: {str(body.get('req_body', ''))[:800]}")
+                print_msg(f"  resp: {str(body.get('resp_body', ''))[:800]}")
+        elif args[0] == "ingest":
+            count = _engine().ingest_proxy_traffic(task_id) if task_id else 0
+            print_msg(f"[+] ingested {count} exchange(s).")
+        elif args[0] == "blob" and len(args) >= 2:
+            part = extract_flag(args, "--part") or "resp"
+            if part not in ("req", "resp"):
+                print_error("--part must be req|resp")
+                return
+            offset = 0
+            length = 8192
+            raw_offset = extract_flag(args, "--offset")
+            raw_length = extract_flag(args, "--length")
+            try:
+                offset = max(0, int(raw_offset)) if raw_offset else 0
+                length = max(1, min(1048576, int(raw_length))) if raw_length else 8192
+            except ValueError:
+                pass
+            try:
+                chunk = TrafficLog(task_id).recorder_blob(args[1], part=part, offset=offset, length=length)
+            except KeyError as exc:
+                print_error(str(exc))
+                return
+            print_msg(
+                f"  {chunk['part']} offset={chunk['offset']} len={chunk['length']} "
+                f"total={chunk['total']} eof={chunk['eof']}"
+            )
+            print_msg(str(chunk["data"])[:2000])
+        elif args[0] == "search-body" and len(args) >= 2:
+            if not task_id:
+                print_error("search-body needs --task T (proxy traffic is per task).")
+                return
+            hits = _engine().search_proxy_body(task_id, " ".join(args[1:]), limit)
+            for hit in hits:
+                print_msg(
+                    f"  [{str(hit.get('exchange_id', ''))[:16]}] {hit.get('status')} {str(hit.get('url', ''))[:120]}"
+                )
+                print_msg(f"      {str(hit.get('snippet', ''))[:200]}")
+            if not hits:
+                print_msg("[*] no body hits.")
+        elif args[0] in ("recorder-export", "recorder-import") and len(args) >= 2:
+            from modules.lazy_proxy import get_proxy
+            from modules.traffic_recorder import TrafficRecorder
+
+            controller = get_proxy()
+            recorder = controller.recorder() or TrafficRecorder(controller.traffic_dir)
+            try:
+                if args[0] == "recorder-export":
+                    result = recorder.export_archive(args[1], task=extract_flag(args, "--task") or "")
+                    print_msg(
+                        f"[+] exported {result['exported']} exchange(s) ({result['bodies']} bodies) -> {result['path']}"
+                    )
+                else:
+                    result = recorder.import_archive(args[1])
+                    print_msg(
+                        f"[+] imported {result['imported']} exchange(s) "
+                        f"({result['bodies']} bodies) from {result['path']}"
+                    )
+            except (OSError, ValueError) as exc:
+                print_error(str(exc))
+        elif args[0] == "recorder-gc":
+            days = 30
+            raw_days = extract_flag(args, "--days")
+            if raw_days:
+                try:
+                    days = max(1, int(raw_days))
+                except ValueError:
+                    days = 30
+            from modules.lazy_proxy import get_proxy
+            from modules.traffic_recorder import TrafficRecorder
+
+            controller = get_proxy()
+            recorder = controller.recorder() or TrafficRecorder(controller.traffic_dir)
+            result = recorder.gc(older_than_sec=days * 86400)
+            print_msg(f"[+] garbage collected {result['removed']} exchange(s) older than {days}d.")
+        elif args[0] == "recorder-inbox":
+            from modules.lazy_proxy import get_proxy
+            from modules.traffic_recorder import TrafficRecorder
+
+            controller = get_proxy()
+            recorder = controller.recorder() or TrafficRecorder(controller.traffic_dir)
+            summary = recorder.import_inbox()
+            print_msg(f"[+] inbox import: {summary['imported']} exchange(s) from {len(summary['files'])} file(s).")
         else:
-            print_error("Usage: lazy_traffic list|search|get|templates|template|bind|export|archive|clear ...")
+            print_error(
+                "Usage: lazy_traffic list|search|search-host|get|body|templates|template|"
+                "bind|evidence|export|archive|clear|start|stop|status|ca|ingest ..."
+            )
 
     @cmd2.with_category(ai_category)
     def do_lazy_guard(self, line):
-        """Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | audit | stats | pending | approve <id> | deny <id>. Usage: lazy_guard ..."""
+        """Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail allow|deny] | judge fail <allow|deny> | judge | audit [--action A] [--source S] [--q Q] [--limit N] | lookup <tool_use_id> | stats | pending | approve <id> | deny <id>. Usage: lazy_guard ..."""
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_guard check <cmd> | lazy_guard rule-add ... | lazy_guard rule-del ... | lazy_guard audit | pending | approve <id> | deny <id>")
+            print_error(
+                "Usage: lazy_guard check <cmd> | lazy_guard rule-add ... | lazy_guard rule-del ... | lazy_guard audit | lookup <id> | pending | approve <id> | deny <id>"
+            )
             return
         from modules.lazy_engine import Guard, InterceptQueue
 
@@ -457,9 +1023,64 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[+] rule [{rule['action']}]: {rule['pattern']}")
         elif args[0] == "rule-del" and len(args) >= 2:
             print_msg("[+] removed." if guard.remove_rule(args[1]) else "[-] no such rule.")
+        elif args[0] == "judge":
+            rest = [a for a in args[1:] if not a.startswith("--")]
+            if rest and rest[0] in ("on", "off"):
+                try:
+                    config = guard.set_judge(rest[0] == "on", fail_action=extract_flag(args, "--fail") or "allow")
+                except ValueError as exc:
+                    print_error(str(exc))
+                    return
+                print_msg(f"[+] judge enabled={config['enabled']} fail={config['fail_action']}")
+            elif len(rest) >= 2 and rest[0] == "fail":
+                try:
+                    config = guard.set_judge(bool(guard.judge.get("enabled", False)), rest[1])
+                except ValueError as exc:
+                    print_error(str(exc))
+                    return
+                print_msg(f"[+] judge enabled={config['enabled']} fail={config['fail_action']}")
+            else:
+                config = guard.judge or {"enabled": False, "fail_action": "allow"}
+                print_msg(f"[*] judge enabled={bool(config.get('enabled'))} fail={config.get('fail_action', 'allow')}")
         elif args[0] == "audit":
-            for entry in guard.audit()[-20:]:
-                print_msg(f"  [{entry.get('action')}] {entry.get('tool')}: {str(entry.get('command', ''))[:100]}")
+            action = extract_flag(args, "--action") or ""
+            source = extract_flag(args, "--source") or ""
+            query = extract_flag(args, "--q") or ""
+            limit = 20
+            raw = extract_flag(args, "--limit")
+            if raw:
+                try:
+                    limit = max(1, min(500, int(raw)))
+                except ValueError:
+                    pass
+            pending = queue.pending()
+            if pending:
+                print_msg(f"[*] {len(pending)} pending (independent of history pagination):")
+                for item in pending[-5:]:
+                    print_msg(f"  ! #{item['id']} [{item['tool']}] {item['command'][:100]}")
+            for entry in guard.audit(limit=limit, action=action, source=source, query=query):
+                print_msg(
+                    f"  [{entry.get('action')}] {entry.get('tool_use_id', '-')}"
+                    f" {entry.get('tool')}: {str(entry.get('command', ''))[:100]}"
+                )
+        elif args[0] == "lookup" and len(args) >= 2:
+            try:
+                hit = guard.lookup(args[1])
+            except KeyError as exc:
+                print_error(str(exc))
+                return
+            entry = hit["audit"]
+            print_msg(
+                f"[*] {entry.get('tool_use_id')} [{entry.get('action')}]"
+                f" {entry.get('tool')}: {entry.get('command', '')[:200]}"
+            )
+            if hit.get("intercept"):
+                item = hit["intercept"]
+                print_msg(f"  intercept #{item.get('id')} [{item.get('state')}] :: {str(item.get('reason', ''))[:120]}")
+            if hit.get("traffic"):
+                print_msg(f"  traffic [{hit['traffic'].get('digest')}] {str(hit['traffic'].get('output', ''))[:200]}")
+            for record in hit.get("activity", []):
+                print_msg(f"  trace [{record.get('worker')}/{record.get('kind')}] {str(record.get('text', ''))[:160]}")
         elif args[0] == "stats":
             print_msg(f"[*] guard counters: {guard.stats()}")
         elif args[0] == "rules":
@@ -480,11 +1101,11 @@ class LazyCommandSet(LazyOwnCommandSet):
                 return
             print_msg(f"[+] #{args[1]} {verdict}." if ok else f"[-] no such pending #{args[1]}.")
         else:
-            print_error("Usage: lazy_guard check|rule-add|rule-del|audit|stats|rules|pending|approve|deny ...")
+            print_error("Usage: lazy_guard check|rule-add|rule-del|audit|lookup|stats|rules|pending|approve|deny ...")
 
     @cmd2.with_category(ai_category)
     def do_lazy_finding(self, line):
-        """Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|context <id>. Usage: lazy_finding ... [--task T] [--severity S] [--vulnclass C]"""
+        """Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>. Usage: lazy_finding ... [--task T] [--severity S] [--vulnclass C]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
@@ -505,17 +1126,24 @@ class LazyCommandSet(LazyOwnCommandSet):
                     pass
             for node in service.ranked()[:limit]:
                 verdict = (node.meta.get("retest") or {}).get("verdict", "pending")
-                print_msg(f"  #{node.node_id} [{node.meta.get('severity', 'info')}/{node.meta.get('status', 'pending')}/{verdict}] {node.text[:140]}")
+                print_msg(
+                    f"  #{node.node_id} [{node.meta.get('severity', 'info')}/{node.meta.get('status', 'pending')}/{verdict}] {node.text[:140]}"
+                )
                 if full:
                     print_msg(f"    poc: {str(node.meta.get('poc', ''))[:300]}")
-                    print_msg(f"    assets: {graph.anchors_for(node.node_id)} "
-                              f"traffic: {(node.meta.get('traffic_refs', []) or [])[:5]}")
+                    print_msg(
+                        f"    assets: {graph.anchors_for(node.node_id)} "
+                        f"traffic: {TrafficLog(task_id).evidence(node.node_id, graph)[:5]}"
+                    )
         elif args[0] == "report" and len(args) >= 2:
             raw = self._free_text(args[1:])
             name, _, summary = raw.partition("::")
-            node = service.report((name or raw)[:200], summary=summary.strip()[:1000],
-                                   severity=extract_flag(args, "--severity") or "",
-                                   vulnclass=extract_flag(args, "--vulnclass") or "")
+            node = service.report(
+                (name or raw)[:200],
+                summary=summary.strip()[:1000],
+                severity=extract_flag(args, "--severity") or "",
+                vulnclass=extract_flag(args, "--vulnclass") or "",
+            )
             print_msg(f"[+] finding #{node.node_id} [{node.meta.get('severity')}]: {node.text[:140]}")
         elif args[0] == "status" and len(args) >= 3:
             try:
@@ -524,6 +1152,9 @@ class LazyCommandSet(LazyOwnCommandSet):
                 print_error(str(exc))
                 return
             print_msg("[+] status set." if ok else "[-] unknown finding.")
+        elif args[0] == "update" and len(args) >= 3:
+            version = service.update_report(int(args[1]), self._free_text(args[2:]))
+            print_msg(f"[+] report v{version} stored." if version else "[-] unknown finding or empty report.")
         elif args[0] == "context" and len(args) >= 2:
             from modules.lazy_engine import Retester
 
@@ -535,7 +1166,7 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[*] finding #{context['finding_id']}: {context['text'][:200]}")
             print_msg(f"    anchors={context['anchors']} evidence={len(context['evidence'])}")
         else:
-            print_error("Usage: lazy_finding list|report|status|context ... [--task T]")
+            print_error("Usage: lazy_finding list|report|status|update|context ... [--task T]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_retest(self, line):
@@ -602,90 +1233,67 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_report(self, line):
-        """Export severity-ranked report. Usage: lazy_report [--task T] [--format md|json] [--out PATH]"""
+        """Export severity-ranked report. Usage: lazy_report [--task T] [--format md|json|csv] [--out PATH]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id:
             return
         fmt = (extract_flag(args, "--format") or "md").lower()
         out = extract_flag(args, "--out") or ""
-        engine = _engine()
-        status = engine.status(task_id)
-        from modules.lazy_engine import ActivityLog, ExplorationGraph, FindingService
-
-        graph = ExplorationGraph(task_id)
-        ranked = FindingService(task_id, graph, ActivityLog(task_id), engine.store).ranked()
-        lines: list[str] = [f"# Lazy report — {task_id}",
-                            f"- goal: {(status.get('task') or {}).get('goal', '')[:200]}",
-                            f"- findings: {len(ranked)}",
-                            "", "## Findings (critical first)", ""]
-        for node in ranked:
-            verdict = (node.meta.get("retest") or {}).get("verdict", "pending")
-            lines.append(f"### [{str(node.meta.get('severity', 'info')).upper()}] "
-                         f"{node.meta.get('name', node.text[:80])}")
-            lines.append(f"{node.meta.get('summary', node.text)[:400]}")
-            if node.meta.get("poc"):
-                lines.append(f"PoC: {str(node.meta['poc'])[:500]}")
-            lines.append(f"status={node.meta.get('status', 'pending')} retest={verdict}")
-            lines.append("")
-        cov = status.get("coverage", {})
-        lines.append(f"coverage: {cov.get('tested', 0)}/{cov.get('total', 0)} ({cov.get('pct', 0)}%)")
-        runtime = status.get("runtime", {}) or {}
-        lines.append(f"runtime: status={runtime.get('status', '')} abort={runtime.get('abort_cause', '')} "
-                     f"workers={runtime.get('workers', 0)}")
-        budget = status.get("budget", {}) or {}
-        lines.append(f"budget: used={budget.get('used', {})} limits={budget.get('limits', {})}")
-        lines.append(f"intercept pending: {status.get('intercept_pending', 0)} "
-                     f"(lazy_guard pending|approve|deny)")
-        body = "\n".join(lines)
-        if fmt == "json":
-            import json as _json
-
-            body = _json.dumps({"task": task_id,
-                                "findings": [{"id": n.node_id, "severity": n.meta.get("severity"),
-                                              "status": n.meta.get("status"), "text": n.text,
-                                              "retest": (n.meta.get("retest") or {}).get("verdict")}
-                                             for n in ranked],
-                                "overview": status["overview"]}, indent=2, ensure_ascii=False)
+        result = _engine().export_findings_report(task_id, path=out, fmt=fmt)
         if out:
-            from pathlib import Path as _Path
-
-            dest = _Path(out)
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_text(body)
-            print_msg(f"[+] report written to {dest}")
+            print_msg(f"[+] report written to {result['path']} ({result['findings']} findings, {result['format']})")
             return
-        print_msg(body[:4000])
+        from pathlib import Path as _Path
+
+        print_msg(_Path(result["path"]).read_text(encoding="utf-8")[:4000])
 
     @cmd2.with_category(ai_category)
     def do_lazy_runtime(self, line):
-        """Show/set loop runtime: budgets, deadline, abort cause, heartbeat. Usage: lazy_runtime show [--task T] | lazy_runtime budget <max_toolcalls> <max_findings> <timeout_s> [--task T]"""
+        """Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text. Usage: lazy_runtime show [--task T] | lazy_runtime budget <max_toolcalls> <max_findings> <timeout_s> [--task T] | lazy_runtime settle <agent> <reason> [--task T]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
-            print_error("Usage: lazy_runtime show [--task T] | lazy_runtime budget <toolcalls> <findings> <timeout> [--task T]")
+            print_error(
+                "Usage: lazy_runtime show [--task T] | lazy_runtime budget <toolcalls> <findings> <timeout> [--task T]"
+            )
             return
         engine = _engine()
         if args[0] == "show":
             snap = engine.runtime.heartbeat(task_id)
             check = engine.budget.check(task_id)
-            print_msg(f"[*] {task_id} [{snap.get('status')}] abort={snap.get('abort_cause', '') or 'none'} "
-                      f"workers={snap.get('workers', 0)} deadline={snap.get('deadline', 0.0)}")
-            print_msg(f"    budget ok={check.get('ok')} {check.get('reason', '')} "
-                      f"used={check.get('used', {})} limits={check.get('limits', {})}")
+            print_msg(
+                f"[*] {task_id} [{snap.get('status')}] abort={snap.get('abort_cause', '') or 'none'} "
+                f"workers={snap.get('workers', 0)} deadline={snap.get('deadline', 0.0)}"
+            )
+            print_msg(
+                f"    budget ok={check.get('ok')} {check.get('reason', '')} "
+                f"used={check.get('used', {})} limits={check.get('limits', {})}"
+            )
             print_msg(f"    watermark={snap.get('watermark', 0)}")
         elif args[0] == "budget" and len([a for a in args[1:] if not a.startswith("--")]) >= 3:
             rest = [a for a in args[1:] if not a.startswith("--")]
             try:
-                limits = engine.budget.set_limits(task_id, max_toolcalls=int(rest[0]),
-                                                  max_findings=int(rest[1]),
-                                                  timeout_sec=float(rest[2]))
+                limits = engine.budget.set_limits(
+                    task_id, max_toolcalls=int(rest[0]), max_findings=int(rest[1]), timeout_sec=float(rest[2])
+                )
             except ValueError as exc:
                 print_error(str(exc))
                 return
             print_msg(f"[+] budget: {limits}")
+        elif args[0] == "settle":
+            rest = [a for a in args[1:] if not a.startswith("--")]
+            if len(rest) < 2:
+                print_error("Usage: lazy_runtime settle <worker|planner|main> <timeout|max_turns> [--task T]")
+                return
+            from modules.lazy_engine import settlement_prompt
+
+            print_msg(settlement_prompt(rest[0], rest[1]))
         else:
-            print_error("Usage: lazy_runtime show [--task T] | lazy_runtime budget ... [--task T]")
+            print_error(
+                "Usage: lazy_runtime show [--task T] | lazy_runtime budget ... [--task T] "
+                "| lazy_runtime settle <agent> <reason> [--task T]"
+            )
 
     @cmd2.with_category(ai_category)
     def do_lazy_payload_keys(self, line):
@@ -717,8 +1325,7 @@ class LazyCommandSet(LazyOwnCommandSet):
             else:
                 items = graph.list_facts(self._free_text(args[1:]))
             if "--cold" in args:
-                items = [n for n in items if n.meta.get("cold") or n.state == "exhausted"
-                         or n.meta.get("cold_digest")]
+                items = [n for n in items if n.meta.get("cold") or n.state == "exhausted" or n.meta.get("cold_digest")]
             for node in items:
                 tag = "cold" if (node.meta.get("cold") or node.state == "exhausted") else "hot"
                 print_msg(f"  #{node.node_id} [{node.state}/{tag}] {node.text[:160]}")
@@ -750,14 +1357,54 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_evidence(self, line):
-        """Evidence vault: add <finding> <kind> <body>|list <finding>|verify|gc|export <path>. Usage: lazy_evidence ... [--task T]"""
+        """Evidence vault and frozen package.
+
+        Usage:
+            lazy_evidence add <finding> <kind> <body> [--task T]
+            lazy_evidence list <finding> [--task T]
+            lazy_evidence verify|gc [--task T]
+            lazy_evidence package [path] [--task T]
+            lazy_evidence search <query> [limit] [--task T]
+        """
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
-            print_error("Usage: lazy_evidence add|list|export ... [--task T]")
+            print_error("Usage: lazy_evidence add|list|verify|gc|package|search ... [--task T]")
             return
-        from modules.lazy_engine import EvidenceStore
+        from modules.lazy_engine import EvidenceStore, LazyEngine
 
+        if args[0] == "search":
+            if len(args) < 2:
+                print_error("Usage: lazy_evidence search <query> [limit]")
+                return
+            limit = int(args[2]) if len(args) > 2 and args[2].isdigit() else 20
+            try:
+                from modules import lazy_proxy
+
+                recorder = lazy_proxy.get_proxy().recorder()
+                hits = recorder.search_body(args[1], limit=limit) if recorder is not None else []
+            except Exception as exc:
+                print_error(f"Evidence search failed: {exc}")
+                return
+            if not hits:
+                print_msg("No body match.")
+                return
+            print_msg(f"{len(hits)} body hit(s)")
+            for hit in hits:
+                print_msg(f"  {hit.get('exchange_id', '')} [{hit.get('status', 0)}] {str(hit.get('url', ''))[:100]}")
+                snippet = str(hit.get("snippet", "")).replace("\n", " ")[:160]
+                if snippet:
+                    print_msg(f"    {snippet}")
+            return
+        if args[0] == "package":
+            dest = args[1] if len(args) > 1 and not args[1].startswith("--") else None
+            try:
+                package = LazyEngine().export_evidence(task_id, dest)
+            except Exception as exc:
+                print_error(f"Evidence package failed: {exc}")
+                return
+            print_msg(f"Evidence package: {package.get('path', '')} ({package.get('files', 0)} file(s))")
+            return
         vault = EvidenceStore(task_id)
         if args[0] == "list" and len(args) >= 2:
             for item in vault.for_finding(int(args[1])):
@@ -773,21 +1420,262 @@ class LazyCommandSet(LazyOwnCommandSet):
         elif args[0] == "gc":
             print_msg(f"[+] removed {vault.gc()} orphaned records.")
         else:
-            print_error("Usage: lazy_evidence add|list|export ... [--task T]")
+            print_error("Usage: lazy_evidence add|list|verify|gc|package|search ... [--task T]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_ask(self, line):
-        """Bounded side question over task context. Usage: lazy_ask <question> [--task T]"""
+        """Bounded side question over task context. Usage: lazy_ask <question> [--task T] [--session S] | lazy_ask history [--task T] [--session S]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
-        question = self._free_text(args)
-        if not task_id or not question:
-            print_error("Usage: lazy_ask <question> [--task T]")
+        if not task_id or not args:
+            print_error("Usage: lazy_ask <question> [--task T] [--session S] | lazy_ask history [--task T]")
             return
         from modules.lazy_engine import LlmPool, SideQuestions
 
-        answer = SideQuestions().ask(task_id, question, LlmPool())
+        table = SideQuestions()
+        if args[0] == "history" and all(a.startswith("--") for a in args[1:]):
+            session = extract_flag(args, "--session") or ""
+            for item in table.history(task_id, session=session):
+                print_msg(
+                    f"  [#{item.get('id')}/{item.get('session')}]"
+                    f" Q: {str(item.get('question', ''))[:120]}"
+                    f" A: {str(item.get('answer', ''))[:160]}"
+                )
+            return
+        question = self._free_text(args)
+        if not question:
+            print_error("Usage: lazy_ask <question> [--task T] [--session S]")
+            return
+        answer = table.ask(task_id, question, LlmPool(), session=extract_flag(args, "--session") or "btw")
         print_msg(f"[*] {answer['answer'][:1500]} (budget={answer['budget']} chars)")
+
+    def _agent_main_tools(self, task_id: str) -> list[dict]:
+        """Tool registry for the main agent (full tool calling surface)."""
+        shell = self._resolve_shell()
+        engine = _engine()
+
+        def run_command(command: str = "") -> str:
+            """Execute one shell command or LazyOwn verb and return its output."""
+            from modules.auto_registry import execute_shell_verb, execute_streaming, is_routable_command
+            from modules.lazy_engine import ActivityLog, Guard, TrafficLog
+
+            verdict = Guard(task_id).check("Bash", command, source="main-agent")
+            if verdict["action"] == "deny":
+                return f"blocked by guard: {verdict.get('reason', '')}"
+            if verdict["action"] == "ask":
+                return "held for approval (ask rule): run it yourself or add an allow rule with lazy_guard rules-add"
+            if shell is not None and is_routable_command(command):
+                output = execute_shell_verb(shell, command, timeout_sec=600.0)
+            else:
+                output = execute_streaming(command, timeout_sec=600.0)
+            if task_id:
+                try:
+                    TrafficLog(task_id).record("bash", command, output, {"worker": "main-agent"})
+                    ActivityLog(task_id).emit("main-agent", "tool", f"{command[:160]}", intent_id=0)
+                except Exception:
+                    pass
+            return output or "(no output)"
+
+        def list_tasks() -> str:
+            """List every task with status, intents, facts and findings."""
+            return json.dumps(engine.list_tasks(), ensure_ascii=False)[:2500]
+
+        def task_graph(task: str = "") -> str:
+            """Graph overview of one task (defaults to the active task)."""
+            return json.dumps(engine.task_graph(task or task_id), ensure_ascii=False)[:2500]
+
+        def task_findings(task: str = "") -> str:
+            """Findings of one task with severity, status and report size."""
+            return json.dumps(engine.task_findings(task or task_id), ensure_ascii=False)[:2500]
+
+        def campaign_sitrep() -> str:
+            """Campaign summary: tasks, findings and phase counters."""
+            rows = engine.list_tasks()
+            return json.dumps(
+                {
+                    "tasks": len(rows),
+                    "findings": sum(row.get("findings", 0) for row in rows),
+                    "running": [row["task_id"] for row in rows if row.get("status") == "running"],
+                    "rows": rows[:20],
+                },
+                ensure_ascii=False,
+            )[:2500]
+
+        def add_hint(text: str = "") -> str:
+            """Inject an operator hint into the active task planner."""
+            if not task_id:
+                return "no active task: pass --task T"
+            node = engine.add_hint(task_id, text)
+            return f"hint #{node.node_id} queued for the next planner round"
+
+        def steer_intent(intent: str = "", message: str = "") -> str:
+            """Send a mid-run course correction to a running intent."""
+            if not task_id:
+                return "no active task: pass --task T"
+            engine.store.steer(task_id, int(intent), message)
+            return f"steer queued for intent #{intent}"
+
+        return [
+            {
+                "name": "run_command",
+                "func": run_command,
+                "description": "Execute one shell command or LazyOwn verb (guard/audit applied).",
+                "parameters": {"command": {"type": "string", "description": "Command line"}},
+                "required": ["command"],
+            },
+            {
+                "name": "list_tasks",
+                "func": list_tasks,
+                "description": "List every task with live counters.",
+                "parameters": {},
+            },
+            {
+                "name": "task_graph",
+                "func": task_graph,
+                "description": "Graph overview of a task.",
+                "parameters": {"task": {"type": "string", "description": "Task id"}},
+            },
+            {
+                "name": "task_findings",
+                "func": task_findings,
+                "description": "Findings of a task.",
+                "parameters": {"task": {"type": "string", "description": "Task id"}},
+            },
+            {
+                "name": "campaign_sitrep",
+                "func": campaign_sitrep,
+                "description": "Campaign summary across tasks.",
+                "parameters": {},
+            },
+            {
+                "name": "add_hint",
+                "func": add_hint,
+                "description": "Queue an operator hint on the active task.",
+                "parameters": {"text": {"type": "string", "description": "Hint text"}},
+                "required": ["text"],
+            },
+            {
+                "name": "steer_intent",
+                "func": steer_intent,
+                "description": "Course-correct a running intent.",
+                "parameters": {
+                    "intent": {"type": "string", "description": "Intent id"},
+                    "message": {"type": "string", "description": "Correction"},
+                },
+                "required": ["intent", "message"],
+            },
+        ]
+
+    def _agent_main_prompt(self, task_id: str) -> str:
+        """Invariant contract of the main agent."""
+        return (
+            "You are the LazyOwn main agent for an authorized penetration test. "
+            "Use the tools to inspect tasks and run commands; prefer read-only "
+            "reconnaissance first and explain risky actions before taking them. "
+            f"Active task: {task_id or 'none'}. "
+            "Answer concisely and in the operator's language."
+        )
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_agent(self, line):
+        """Main agent with full tool calling (native backend or opencode). Usage: lazy_agent new [--title T]|list|show <sid>|say <prompt...> [--session S] [--continue] [--backend native|opencode] [--task T]"""
+        args = shlex.split(line) if line.strip() else []
+        if not args:
+            print_error(
+                "Usage: lazy_agent new|list|show <sid>|say <prompt...> [--session S] "
+                "[--backend native|opencode] [--task T]"
+            )
+            return
+        from modules.lazy_agent import ConversationStore
+
+        store = ConversationStore("")
+        action = args[0]
+        if action == "new":
+            session_id = uuid4().hex[:12]
+            store.save_session(session_id, [], title=extract_flag(args, "--title") or "operator session")
+            print_msg(f"[+] session {session_id}")
+            return
+        if action == "list":
+            rows = store.sessions()
+            print_msg(f"{len(rows)} session(s)")
+            for row in rows:
+                print_msg(f"  {row['session_id']} msgs={row['messages']} {row['title'][:70]}")
+            return
+        if action == "show" and len(args) > 1:
+            entry = store.session(args[1])
+            messages = entry.get("messages", []) or []
+            print_msg(f"session {args[1]}: {len(messages)} message(s)")
+            for message in messages[-6:]:
+                body = message.get("content") or json.dumps(message.get("tool_calls", ""))
+                print_msg(f"  {message.get('role')}: {str(body)[:140]}")
+            return
+        if action != "say":
+            print_error("Usage: lazy_agent new|list|show <sid>|say <prompt...>")
+            return
+        backend = (
+            extract_flag(args, "--backend") or str(self.params.get("agent_backend", "native") or "native")
+        ).lower()
+        task_id = extract_flag(args, "--task") or self._task_id(args)
+        session_flag = extract_flag(args, "--session") or ""
+        if not session_flag and "--continue" in args:
+            sessions = store.sessions()
+            session_flag = sessions[0]["session_id"] if sessions else ""
+        session_id = session_flag or uuid4().hex[:12]
+        skip_values = {"--backend", "--task", "--session"}
+        prompt_parts: list[str] = []
+        index = 1
+        while index < len(args):
+            token = args[index]
+            if token in skip_values:
+                index += 2
+                continue
+            if token in ("--continue",):
+                index += 1
+                continue
+            prompt_parts.append(token)
+            index += 1
+        prompt = " ".join(prompt_parts).strip()
+        if not prompt:
+            print_error("Usage: lazy_agent say <prompt...> [--session S]")
+            return
+        if backend == "opencode":
+            from modules.lazy_agent import run_external_opencode
+
+            result = run_external_opencode(
+                prompt, session_id=session_id, agent=str(self.params.get("opencode_agent", "") or "")
+            )
+            store.save_session(
+                session_id,
+                [
+                    {"role": "user", "content": prompt},
+                    {"role": "assistant", "content": str(result.get("reply", ""))[:6000]},
+                ],
+                title=prompt[:120],
+            )
+            if result.get("error"):
+                print_warn(f"opencode: {result['error']}")
+            print_msg(str(result.get("reply", ""))[:4000] or "(no reply)")
+            print_msg(f"[*] session {session_id} (continue with --session {session_id})")
+            return
+        from modules.lazy_agent import resolve_agentic_model, run_main_session
+
+        model = resolve_agentic_model()
+        if model is None:
+            print_error(
+                "no tool-calling backend available: configure groq/openai/deepseek "
+                "with an API key (lazy_llm) or use --backend opencode"
+            )
+            return
+        result = run_main_session(
+            model=model,
+            session_id=session_id,
+            system_prompt=self._agent_main_prompt(task_id),
+            prompt=prompt,
+            tools=self._agent_main_tools(task_id),
+            on_event=lambda kind, name, text: print_msg(f"  [agent-{kind}] {name}: {text[:200]}"),
+        )
+        print_msg(str(result.get("reply", ""))[:4000] or "(no reply)")
+        print_msg(f"[*] session {session_id} (continue with --session {session_id})")
 
     @cmd2.with_category(ai_category)
     def do_lazy_company(self, line):
@@ -813,13 +1701,66 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_tool(self, line):
-        """Tool catalog: list [agent]|bind <agent> <tool>|unbind <agent> <tool>. Usage: lazy_tool ..."""
+        """Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D] [--method M] [--body B] [--timeout S] [--trigger http,https]|custom-list|custom-rm <name>|custom-run <name> [arg]. Usage: lazy_tool ..."""
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_tool list [agent] | lazy_tool bind|unbind <agent> <tool>")
+            print_error(
+                "Usage: lazy_tool list [agent] | lazy_tool bind|unbind <agent> <tool> | "
+                "lazy_tool custom-add|custom-list|custom-rm|custom-run ..."
+            )
             return
         from modules.lazy_engine import ToolCatalog
 
+        if args[0] in ("custom-add", "custom-list", "custom-rm", "custom-run"):
+            from modules.custom_tools import add_tool, list_tools, remove_tool, run_tool
+
+            if args[0] == "custom-list":
+                for tool in list_tools():
+                    print_msg(f"  {tool['name']} [{tool['kind']}] {tool['target'][:110]}")
+                if not list_tools():
+                    print_msg("[*] no custom tools registered.")
+                return
+            if args[0] == "custom-add" and len(args) >= 4:
+                timeout = 60.0
+                raw_timeout = extract_flag(args, "--timeout")
+                if raw_timeout:
+                    try:
+                        timeout = float(raw_timeout)
+                    except ValueError:
+                        timeout = 60.0
+                try:
+                    entry = add_tool(
+                        args[1],
+                        args[2],
+                        args[3],
+                        description=extract_flag(args, "--desc") or "",
+                        method=extract_flag(args, "--method") or "GET",
+                        body=extract_flag(args, "--body") or "",
+                        timeout=timeout,
+                        trigger=extract_flag(args, "--trigger") or "",
+                    )
+                except ValueError as exc:
+                    print_error(str(exc))
+                    return
+                print_msg(
+                    f"[+] custom tool {entry['name']} [{entry['kind']}]: "
+                    f"{entry['target'][:120]}"
+                    + (f" trigger={','.join(entry['trigger'])}" if entry.get("trigger") else "")
+                )
+                return
+            if args[0] == "custom-rm" and len(args) >= 2:
+                print_msg("[+] removed." if remove_tool(args[1]) else "[-] unknown tool.")
+                return
+            if args[0] == "custom-run" and len(args) >= 2:
+                arg = " ".join(a for a in args[2:] if not a.startswith("--"))
+                output = run_tool(args[1], arg)
+                print_msg(output[:4000] if output else "[*] no output.")
+                return
+            print_error(
+                "Usage: lazy_tool custom-add <name> <kind> <target> | custom-list | "
+                "custom-rm <name> | custom-run <name> [arg]"
+            )
+            return
         catalog = ToolCatalog()
         if args[0] == "list":
             for agent, tools in catalog.bindings(args[1] if len(args) > 1 else "").items():
@@ -828,46 +1769,154 @@ class LazyCommandSet(LazyOwnCommandSet):
             tools = catalog.bind(args[1], args[2]) if args[0] == "bind" else catalog.unbind(args[1], args[2])
             print_msg(f"[+] {args[1]}: {', '.join(tools)}")
         else:
-            print_error("Usage: lazy_tool list|bind|unbind ...")
+            print_error("Usage: lazy_tool list|bind|unbind|custom-* ...")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_addon(self, line):
+        """Addon trigger runner: list [service]|run <name> [--target T]. Usage: lazy_addon ... [--task T]"""
+        args = shlex.split(line) if line.strip() else []
+        if not args:
+            print_error("Usage: lazy_addon list [service] | lazy_addon run <name> [--target T]")
+            return
+        from modules.auto_registry import addon_hits_for, iter_addon_triggers
+
+        if args[0] == "list":
+            service = " ".join(a for a in args[1:] if not a.startswith("--"))
+            if service:
+                hits = addon_hits_for(service)
+                print_msg(f"[*] {len(hits)} trigger match(es) for '{service[:80]}':")
+                for name, source in hits:
+                    print_msg(f"  {name} [{source}]")
+            else:
+                entries = iter_addon_triggers()
+                print_msg(f"[*] {len(entries)} trigger-bearing addon(s):")
+                for name, triggers in entries[:40]:
+                    print_msg(f"  {name}: {', '.join(triggers[:6])}")
+            return
+        if args[0] == "run" and len(args) >= 2:
+            from pathlib import Path as _Path
+
+            import yaml as _yaml
+
+            from core.process import run_command as _run_command
+
+            name = "".join(c for c in args[1] if c.isalnum() or c in ("-", "_"))[:64]
+            path = _Path("lazyaddons") / f"{name}.yaml"
+            if not path.is_file():
+                print_error(f"Unknown addon '{args[1]}'. List with: lazy_addon list")
+                return
+            try:
+                data = _yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            except Exception as exc:
+                print_error(f"Cannot parse {path}: {exc}")
+                return
+            tool = data.get("tool", {}) or {}
+            template = str(tool.get("execute_command", "") or "").strip()
+            if not template:
+                print_error(f"Addon '{name}' has no execute_command.")
+                return
+            shell = self._resolve_shell()
+            params = dict(getattr(shell, "params", {}) or {}) if shell is not None else {}
+            flag_target = extract_flag(args, "--target")
+            target = flag_target or params.get("rhost", "")
+            if not flag_target:
+                skip_values = {value for flag in ("--task",) for value in [extract_flag(args, flag)] if value}
+                positional = [a for a in args[2:] if not a.startswith("--") and a not in skip_values]
+                if positional:
+                    target = positional[0]
+            subs = dict(params)
+            subs.setdefault("target", target)
+            subs.setdefault("rhost", target)
+            command = template
+            for key in (
+                "target",
+                "rhost",
+                "lhost",
+                "lport",
+                "rport",
+                "domain",
+                "usrwordlist",
+                "dnswordlist",
+                "dirworlist",
+            ):
+                command = command.replace("{" + key + "}", str(subs.get(key, "")))
+            if ("{target}" in template or "{rhost}" in template) and not (target or "").strip():
+                print_error(f"Addon '{name}' needs a target: pass --target or assign rhost.")
+                return
+            print_msg(f"[*] lazy_addon run {name}: {command[:200]}")
+            try:
+                output = _run_command(command) or ""
+            except Exception as exc:
+                print_error(f"Addon '{name}' failed: {exc}")
+                return
+            print_msg(str(output)[:3000] or "[*] addon finished with no output.")
+            return
+        print_error("Usage: lazy_addon list [service] | lazy_addon run <name> [--target T]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_notify(self, line):
-        """Notify channels: list|add <log|webhook|file> <target> [--min S]|test <severity>. Usage: lazy_notify ... [--task T]"""
+        """Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Usage: lazy_notify ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_notify list|add|test ...")
+            print_error("Usage: lazy_notify list|add|remove|test ...")
             return
         from modules.lazy_engine import Notifier
 
         notifier = Notifier(_engine().store)
         if args[0] == "list":
-            for channel in notifier.channels():
-                print_msg(f"  [{channel['kind']}] {channel['target']} min={channel.get('min_severity', '')}")
+            for index, channel in enumerate(notifier.channels(), start=1):
+                print_msg(
+                    f"  {index}. [{channel['kind']}] {channel['target']} "
+                    f"min={channel.get('min_severity', '')}"
+                    f"{(' to=' + str(channel.get('to'))) if channel.get('to') else ''}"
+                )
+            if not notifier.channels():
+                print_msg("[*] no channels (log only).")
         elif args[0] == "add" and len(args) >= 3:
-            item = notifier.add_channel(args[1], args[2], extract_flag(args, "--min") or "")
+            extra = {
+                "to": extract_flag(args, "--to") or "",
+                "from_addr": extract_flag(args, "--from") or "",
+                "user": extract_flag(args, "--user") or "",
+                "password": extract_flag(args, "--pass") or "",
+                "tls": "--no-tls" not in args,
+            }
+            try:
+                item = notifier.add_channel(args[1], args[2], extract_flag(args, "--min") or "", extra=extra)
+            except ValueError as exc:
+                print_error(str(exc))
+                return
             print_msg(f"[+] channel [{item['kind']}]: {item['target']}")
+        elif args[0] == "remove" and len(args) >= 2:
+            try:
+                ok = notifier.remove_channel(int(args[1]))
+            except ValueError:
+                ok = False
+            print_msg("[+] removed." if ok else "[-] unknown channel index.")
         elif args[0] == "test":
             task_id = self._task_id(args) or "manual"
-            count = notifier.emit(task_id, "finding_status_changed",
-                                  {"severity": (args[1] if len(args) > 1 else "high"), "test": True})
+            count = notifier.emit(
+                task_id, "finding_status_changed", {"severity": (args[1] if len(args) > 1 else "high"), "test": True}
+            )
             print_msg(f"[+] fanned out to {count} channels (+ log).")
         else:
-            print_error("Usage: lazy_notify list|add|test ...")
+            print_error("Usage: lazy_notify list|add|remove|test ...")
 
     @cmd2.with_category(ai_category)
     def do_lazy_trigger(self, line):
-        """Scheduler triggers: list|add <kind> [every_sec]|remove <id>. Usage: lazy_trigger ... [--task T]"""
+        """Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync. Usage: lazy_trigger ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._task_id(args)
         if not args:
-            print_error("Usage: lazy_trigger list|add|remove ... [--task T]")
+            print_error("Usage: lazy_trigger list|add|remove|addons|sync ... [--task T]")
             return
         from modules.lazy_engine import TriggerStore
 
         table = TriggerStore(task_id or "")
         if args[0] == "list":
             for item in table.list():
-                print_msg(f"  [{item['id']}] {item['kind']} every={item.get('every_sec', 0)} enabled={item.get('enabled')}")
+                print_msg(
+                    f"  [{item['id']}] {item['kind']} every={item.get('every_sec', 0)} enabled={item.get('enabled')}"
+                )
         elif args[0] == "add" and len(args) >= 2:
             rest = [a for a in args[1:] if not a.startswith("--")]
             every = 0.0
@@ -879,12 +1928,41 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[+] trigger [{item['id']}] kind={item['kind']} (fires inside lazy_loop rounds).")
         elif args[0] == "remove" and len(args) >= 2:
             print_msg("[+] removed." if table.remove(int(args[1])) else "[-] unknown trigger.")
+        elif args[0] in ("addons", "sync"):
+            from modules.auto_registry import addon_hits_for
+
+            tid = self._require_task(args)
+            if not tid:
+                return
+            try:
+                services = [n.value for n in _engine().assets.list("service")]
+            except Exception:
+                services = []
+            shown = 0
+            for service in services[:10]:
+                hits = addon_hits_for(service)
+                if not hits:
+                    continue
+                if args[0] == "sync":
+                    for name, _source in hits:
+                        try:
+                            _engine().add_hint(tid, f"service trigger {service}: run lazy addon {name}")
+                            shown += 1
+                        except Exception:
+                            continue
+                else:
+                    print_msg(f"  {service[:60]}: {', '.join(n for n, _s in hits)}")
+                    shown += len(hits)
+            if args[0] == "sync":
+                print_msg(f"[+] {shown} service trigger(s) queued as planner hints for {tid}.")
+            elif not shown:
+                print_msg("[*] no addon/tool trigger matches current services.")
         else:
-            print_error("Usage: lazy_trigger list|add|remove ... [--task T]")
+            print_error("Usage: lazy_trigger list|add|remove|addons|sync ... [--task T]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_llm(self, line):
-        """LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health. Usage: lazy_llm ..."""
+        """LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|bind <member...> --task T|chain --task T|failover --task T. Usage: lazy_llm ..."""
         args = shlex.split(line) if line.strip() else []
         if not args:
             print_error("Usage: lazy_llm list|add|remove|usage|health ...")
@@ -910,27 +1988,113 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg("[+] removed." if pool.remove_member(args[1]) else "[-] unknown member.")
         elif args[0] == "usage":
             for call in pool.usage().get("calls", [])[-20:]:
-                print_msg(f"  [{call.get('member')}/{'ok' if call.get('ok') else 'fail'}] {str(call.get('text', ''))[:100]}")
+                print_msg(
+                    f"  [{call.get('member')}/{'ok' if call.get('ok') else 'fail'}] {str(call.get('text', ''))[:100]}"
+                )
         elif args[0] == "health":
             for name, ok in pool.health().items():
                 print_msg(f"  {name}: {'healthy' if ok else 'cooldown'}")
             if not pool.members():
                 print_msg("[*] no members — planner/worker stay heuristic (never an error).")
+        elif args[0] == "context":
+            rest = [a for a in args[1:] if not a.startswith("--")]
+            if not rest:
+                print_msg(f"[*] context budget = {pool.context_budget()} chars")
+                return
+            try:
+                budget = pool.set_context_budget(int(rest[0]))
+            except ValueError:
+                print_error("context budget must be an integer")
+                return
+            print_msg(f"[+] context budget = {budget} chars")
+        elif args[0] == "record":
+            rest = [a for a in args[1:] if not a.startswith("--")]
+            if not rest:
+                print_msg(f"[*] raw recording {'on' if pool.record_raw() else 'off'}")
+                return
+            if rest[0] in ("on", "off"):
+                state = pool.set_record_raw(rest[0] == "on")
+                print_msg(f"[+] raw recording {'on' if state else 'off'}")
+                return
+            print_error("Usage: lazy_llm record [on|off]")
+        elif args[0] == "raw":
+            limit = 10
+            raw_limit = extract_flag(args, "--limit")
+            if raw_limit:
+                try:
+                    limit = max(1, min(200, int(raw_limit)))
+                except ValueError:
+                    limit = 10
+            entries = pool.raw_entries(limit)
+            for entry in entries:
+                print_msg(
+                    f"  [{entry.get('member')}/{'ok' if entry.get('ok') else 'fail'}] "
+                    f"{str(entry.get('prompt', ''))[:100]}"
+                )
+            if not entries:
+                print_msg("[*] no raw exchanges (enable with: lazy_llm record on)")
+        elif args[0] in ("bind", "chain", "failover"):
+            task_id = self._require_task(args)
+            if not task_id:
+                print_error("Usage: lazy_llm bind <member...> --task T | chain --task T | failover --task T")
+                return
+            engine = _engine()
+            if args[0] == "bind":
+                rest = [a for a in args[1:] if not a.startswith("--")]
+                if not rest:
+                    print_error("Usage: lazy_llm bind <name[:model]> [...] --task T")
+                    return
+                members = []
+                for spec in rest:
+                    name, _, model = spec.partition(":")
+                    members.append({"name": name[:120], "model": (model or name)[:120], "priority": 0})
+                state = engine.store.set_llm_chain(task_id, members)
+                print_msg(f"[+] {task_id} chain bound ({len(state['members'])} members, active={state['active']}).")
+                return
+            if args[0] == "chain":
+                state = engine.store.llm_state(task_id)
+                if not state.get("members"):
+                    print_msg("[*] no per-task chain (global pool applies).")
+                    return
+                for index, member in enumerate(state["members"]):
+                    marker = "*" if index == int(state.get("active", 0)) else " "
+                    print_msg(f" {marker} {index + 1}. {member.get('name')} :: {member.get('model', '')}")
+                return
+            state = engine.store.advance_llm(task_id)
+            if not state:
+                print_msg("[*] no per-task chain to fail over.")
+            else:
+                print_msg(
+                    f"[+] active member -> {int(state['active']) + 1}/"
+                    f"{len(state['members'])} ({state['members'][int(state['active'])].get('name')})"
+                )
+            return
         else:
-            print_error("Usage: lazy_llm list|add|remove|usage|health ...")
+            print_error(
+                "Usage: lazy_llm list|add|remove|usage|health|context [N]|"
+                "bind <member...> --task T|chain --task T|failover --task T"
+            )
 
     @cmd2.with_category(ai_category)
     def do_lazy_compact(self, line):
-        """Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|expand <digest>. Usage: lazy_compact ... [--task T]"""
+        """Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
-            print_error("Usage: lazy_compact minor|major|unfolded|overview|expand ... [--task T]")
+            print_error("Usage: lazy_compact minor|major|unfolded|overview|noa|expand ... [--task T]")
             return
         from modules.lazy_engine import ActivityLog, ColdCompactor, ExplorationGraph
 
         graph = ExplorationGraph(task_id)
         compactor = ColdCompactor(graph, ActivityLog(task_id))
+        if args[0] == "noa":
+            archives = compactor.noa_archives()
+            print_msg(f"{len(archives)} NOA archive(s) for {task_id}")
+            for row in archives:
+                print_msg(f"  {row['name']} members={row['members']} sig={row['signature']}")
+            if not archives:
+                print_msg("[*] enable raw archiving with noa_compaction in payload.json")
+            return
         if args[0] in ("minor", "major"):
             threshold = 50
             raw = extract_flag(args, "--threshold")
@@ -940,7 +2104,9 @@ class LazyCommandSet(LazyOwnCommandSet):
                 except ValueError:
                     pass
             result = compactor.compact(threshold=threshold, mode=args[0])
-            print_msg(f"[+] {result['mode']}: folded {result['compacted']} facts into {len(result.get('digests', []))} digests.")
+            print_msg(
+                f"[+] {result['mode']}: folded {result['compacted']} facts into {len(result.get('digests', []))} digests."
+            )
         elif args[0] == "expand" and len(args) >= 2:
             try:
                 revived = compactor.expand(int(args[1]))
@@ -952,14 +2118,14 @@ class LazyCommandSet(LazyOwnCommandSet):
             from modules.lazy_engine import ColdCompactor as _CC
 
             view = _CC(graph, ActivityLog(task_id)).digest_overview()
-            cold = [n for n in graph.list("fact")
-                    if n.meta.get("cold") or n.state == "exhausted"]
-            print_msg(f"[*] {len(view['digests'])} digests covering {view['covered']} cold facts "
-                      f"({len(cold)} cold total); expandable: {view['expandable'] or 'none'}.")
+            cold = [n for n in graph.list("fact") if n.meta.get("cold") or n.state == "exhausted"]
+            print_msg(
+                f"[*] {len(view['digests'])} digests covering {view['covered']} cold facts "
+                f"({len(cold)} cold total); expandable: {view['expandable'] or 'none'}."
+            )
             for digest in view["digests"][-10:]:
                 members = digest["members"]
-                print_msg(f"  digest #{digest['id']} [{digest['mode']}]: "
-                          f"{len(members)} members {members[:8]}")
+                print_msg(f"  digest #{digest['id']} [{digest['mode']}]: {len(members)} members {members[:8]}")
                 print_msg(f"    body: {digest['body'][:160]}")
         elif args[0] == "unfolded":
             limit = 60
@@ -972,8 +2138,10 @@ class LazyCommandSet(LazyOwnCommandSet):
             from modules.lazy_engine import ColdCompactor as _CC2
 
             unfolded = _CC2(graph, ActivityLog(task_id)).unfolded(limit=limit)
-            print_msg(f"[*] {unfolded['total']} cold facts (showing {len(unfolded['facts'])}"
-                      f"{', truncated' if unfolded['truncated'] else ''}).")
+            print_msg(
+                f"[*] {unfolded['total']} cold facts (showing {len(unfolded['facts'])}"
+                f"{', truncated' if unfolded['truncated'] else ''})."
+            )
             for fact in unfolded["facts"]:
                 print_msg(f"  #{fact['id']} [{fact['state']}] {fact['text'][:160]}")
         else:
@@ -989,9 +2157,11 @@ class LazyCommandSet(LazyOwnCommandSet):
         status = _engine().status(task_id)
         task = status.get("task", {})
         print_msg(f"[*] {task_id} [{task.get('status')}] :: {str(task.get('goal', ''))[:120]}")
-        print_msg(f"    nodes={status['overview'].get('nodes', 0)} "
-                  f"facts={status['overview'].get('facts', 0)} "
-                  f"findings={status['overview'].get('findings', 0)}")
+        print_msg(
+            f"    nodes={status['overview'].get('nodes', 0)} "
+            f"facts={status['overview'].get('facts', 0)} "
+            f"findings={status['overview'].get('findings', 0)}"
+        )
         runtime = status.get("runtime", {}) or {}
         print_msg(f"    runtime abort={runtime.get('abort_cause', '') or 'none'} workers={runtime.get('workers', 0)}")
         budget = status.get("budget", {}) or {}
@@ -1011,6 +2181,7 @@ class LazyCommandSet(LazyOwnCommandSet):
         """Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ..."""
         args = shlex.split(line) if line.strip() else []
         from modules.lazy_engine import TaskArchive
+
         vault = TaskArchive()
         if not args or args[0] == "list":
             for row in vault.list()[-20:]:
@@ -1041,6 +2212,7 @@ class LazyCommandSet(LazyOwnCommandSet):
         """Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ..."""
         args = shlex.split(line) if line.strip() else []
         from modules.lazy_engine import TaskTemplate
+
         table = TaskTemplate()
         if not args or args[0] == "list":
             for row in table.list():
@@ -1056,8 +2228,10 @@ class LazyCommandSet(LazyOwnCommandSet):
                 print_error(f"unknown template: {args[1]}")
                 return
             summary = _engine().create_task(row["goal"])
-            print_msg(f"[+] task {summary['task_id']} from template {row['name']} "
-                      f"({summary['goals']} goals). Run: lazy_loop --task {summary['task_id']}")
+            print_msg(
+                f"[+] task {summary['task_id']} from template {row['name']} "
+                f"({summary['goals']} goals). Run: lazy_loop --task {summary['task_id']}"
+            )
             return
         if args[0] == "remove" and len(args) >= 2:
             print_msg("[+] removed." if table.remove(args[1]) else "[-] unknown template.")
@@ -1069,6 +2243,7 @@ class LazyCommandSet(LazyOwnCommandSet):
         """Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ..."""
         args = shlex.split(line) if line.strip() else []
         from modules.lazy_engine import TaskCategory
+
         table = TaskCategory()
         if not args or args[0] == "list":
             rest = [a for a in args[1:] if not a.startswith("--")]
@@ -1086,30 +2261,36 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_chat(self, line):
-        """Task conversation: say <text>|log|clear. Usage: lazy_chat ... [--task T]"""
+        """Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._require_task(args)
         if not task_id or not args:
-            print_error("Usage: lazy_chat say <text>|log|clear [--task T]")
+            print_error("Usage: lazy_chat say <text>|log|clear|sessions [--task T] [--session S]")
             return
         from modules.lazy_engine import LlmPool, TaskChat
+
         chat = TaskChat()
+        session = extract_flag(args, "--session") or ""
         if args[0] == "log":
-            for turn in chat.log(task_id):
-                print_msg(f"  [{turn.get('role')}] {str(turn.get('text', ''))[:200]}")
+            for turn in chat.log(task_id, session=session):
+                print_msg(f"  [{turn.get('session', 'main')}/{turn.get('role')}] {str(turn.get('text', ''))[:200]}")
+            return
+        if args[0] == "sessions":
+            for name in chat.sessions(task_id):
+                print_msg(f"  {name}")
             return
         if args[0] == "clear":
-            print_msg("[+] cleared." if chat.clear(task_id) else "[-] nothing to clear.")
+            print_msg("[+] cleared." if chat.clear(task_id, session=session) else "[-] nothing to clear.")
             return
         if args[0] == "say" and len(args) >= 2:
             try:
-                turn = chat.say(task_id, self._free_text(args[1:]), LlmPool())
+                turn = chat.say(task_id, self._free_text(args[1:]), LlmPool(), session=session or "main")
             except ValueError as exc:
                 print_error(str(exc))
                 return
             print_msg(f"[*] {turn['answer'][:1500]}")
             return
-        print_error("Usage: lazy_chat say <text>|log|clear [--task T]")
+        print_error("Usage: lazy_chat say <text>|log|clear|sessions [--task T] [--session S]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_scheduler(self, line):
@@ -1117,11 +2298,14 @@ class LazyCommandSet(LazyOwnCommandSet):
         args = shlex.split(line) if line.strip() else []
         task_id = self._task_id(args)
         from modules.lazy_engine import ActivityLog, ExplorationGraph, TriggerStore
+
         table = TriggerStore(task_id or "")
         if not args or args[0] == "show":
             for item in table.list():
-                print_msg(f"  [{item['id']}] {item['kind']} every={item.get('every_sec', 0)} "
-                          f"enabled={item.get('enabled')} watermark={item.get('watermark', 0)}")
+                print_msg(
+                    f"  [{item['id']}] {item['kind']} every={item.get('every_sec', 0)} "
+                    f"enabled={item.get('enabled')} watermark={item.get('watermark', 0)}"
+                )
             snap = _engine().runtime.heartbeat(task_id) if task_id else {}
             if snap:
                 print_msg(f"    watermark={snap.get('watermark', 0)} workers={snap.get('workers', 0)}")
@@ -1182,48 +2366,23 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
-        """Run the single orchestrator (auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace). Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [<goal>]"""
-        args = shlex.split(line) if line.strip() else []
-        rounds = 6
-        workers = 2
-        timeout = 0.0
-        for flag in ("--rounds", "--workers", "--timeout"):
-            value = extract_flag(args, flag)
-            if value:
-                try:
-                    if flag == "--rounds":
-                        rounds = max(1, min(20, int(value)))
-                    elif flag == "--workers":
-                        workers = max(1, min(5, int(value)))
-                    else:
-                        timeout = max(0.0, float(value))
-                except ValueError:
-                    pass
-        task_id = self._task_id(args)
-        engine = _engine()
-        goal_text = self._free_text(args)
-        target = str(self.params.get("rhost", "") or "")
-        if goal_text:
-            print_msg(f"[+] lazy_task create: {goal_text[:120]}")
-        elif not task_id:
-            goal_text = f"engage {target or 'target'}"
-            print_msg(f"[+] lazy_task create: {goal_text[:120]}")
-        else:
-            print_msg(f"[*] resuming task {task_id}.")
-        print_msg(f"[*] orchestrator: rounds<={rounds} workers={workers} — auto-invokes "
-                  f"{'/'.join(engine.ORCHESTRATOR_CHAIN)}.")
-        summary = engine.orchestrate(goal=goal_text, task_id=task_id, target=target,
-                                     max_rounds=rounds, workers=workers, timeout_sec=timeout)
-        task_id = summary["task_id"]
-        print_msg(f"[+] {task_id} [{summary['status']}] rounds={summary['rounds']} "
-                  f"chain={'+'.join(summary.get('chain', []))[:120]}")
-        for goal in summary["overview"].get("goals", []):
-            print_msg(f"    goal #{goal['id']} [{goal['state']}] {goal['text'][:100]}")
-        print_msg(f"    intents={len(summary['overview'].get('intents', []))} "
-                  f"facts={summary['overview'].get('facts', 0)} "
-                  f"findings={summary['overview'].get('findings', 0)}")
-        if summary["overview"].get("findings"):
-            print_warn("Findings present — inspect with: lazy_finding list / lazy_trace list")
+        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--view|--plain] [<goal>]"""
+        from modules.lazy_runner import parse_loop_line, run_loop
+
+        try:
+            config = parse_loop_line(line)
+        except ValueError as exc:
+            if str(exc) != "usage":
+                print_error(f"lazy_loop: {exc}")
+            else:
+                print_error("Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--view] [<goal>]")
+            return
+        if not config.target:
+            config.target = str(self.params.get("rhost", "") or "")
+        if not config.goal and not config.task_id and not config.target:
+            print_error("Usage: lazy_loop [--task T] <goal>")
+            return
+        run_loop(self._resolve_shell(), dict(self.params or {}), config)
 
 
 __all__ = ["LazyCommandSet"]

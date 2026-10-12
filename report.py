@@ -14,24 +14,29 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 
-import joblib
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
+try:
+    import joblib
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    import seaborn as sns
+    import torch  # noqa: E402
+    import torch.nn as nn  # noqa: E402
+    import torch.nn.functional as F  # noqa: E402
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+    from sklearn.model_selection import train_test_split
 
-warnings.filterwarnings("ignore")
-import torch  # noqa: E402
-import torch.nn as nn  # noqa: E402
-import torch.nn.functional as F  # noqa: E402
+    warnings.filterwarnings("ignore")
 
-# --- HARDWARE OPTIMIZATION (Tiger Lake i3) ---
-torch.set_num_threads(4)
-os.environ["KMP_BLOCKTIME"] = "1"
+    # --- HARDWARE OPTIMIZATION (Tiger Lake i3) ---
+    torch.set_num_threads(4)
+    os.environ["KMP_BLOCKTIME"] = "1"
+except Exception as _ml_exc:  # noqa: BLE001 - optional heavy extras
+    print(f"report.py skipped: optional ML dependencies unavailable ({_ml_exc}).")
+    print("Install with: pip install scikit-learn torch matplotlib seaborn joblib pandas")
+    raise SystemExit(0) from None
 
 
 # =============================================================================

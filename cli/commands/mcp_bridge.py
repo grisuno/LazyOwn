@@ -26,13 +26,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import shlex
 from pathlib import Path
 
 import defusedxml.ElementTree as ET
 from cmd2 import Cmd2ArgumentParser, with_argparser, with_category
 
 from cli.commands._base import LazyOwnCommandSet
+from core.autonomous import autonomous_mode
 from core.config import save_payload
 from utils import ai_category, print_error, print_msg, print_warn
 
@@ -45,6 +45,11 @@ OS_ID_GENERIC = "1"
 MAX_SERVICES_SHOWN = 20
 MAX_RAG_TEXT = 300
 MAX_KEYWORD_ROWS = 5
+AUTONOMOUS_ENV = "LAZYOWN_AUTONOMOUS"
+HEARTBEAT_SEC = 15.0
+DEFAULT_VERB_TIMEOUT_SEC = 300.0
+
+_autonomous_mode = autonomous_mode
 
 
 def _build_auto_populate_parser() -> Cmd2ArgumentParser:
@@ -479,235 +484,37 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
 
     @with_category(ai_category)
     def do_auto_loop(self, line: str) -> None:
-        """Run a goal through the single lazy orchestrator (auto-invokes all lazy_* steps).
+        """Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
 
-        Usage: auto_loop [--target T] [--max-steps N] [--rounds N] [--workers N] [--timeout S] <goal>
-        Same engine as ``lazy_loop``: single orchestrate() entry, one chain.
+        Usage:
+            auto_loop [--target T] [--task T] [--rounds N] [--workers N]
+                      [--timeout S] [--step-delay S] [--no-bootstrap]
+                      [--view|--plain] <goal>
+
+        Both commands share one runner (``modules.lazy_runner``): one
+        engine, one chain, one terminal-safety path. ``--view`` opens
+        the live worker monitor instead of the milestone panel.
         """
-        raw = (line or "").strip()
-        if not raw:
-            print_error("Usage: auto_loop [--target T] [--max-steps N] <goal>  (e.g. auto_loop --max-steps 5 'gain initial access')")
-            return
+        from modules.lazy_runner import parse_loop_line, run_loop
+
         try:
-            parts = shlex.split(raw)
+            config = parse_loop_line(line)
         except ValueError as exc:
-            print_error(f"auto_loop parse error: {exc}")
+            if str(exc) != "usage":
+                print_error(f"auto_loop: {exc}")
+            else:
+                print_error(
+                    "Usage: auto_loop [--target T] [--task T] [--rounds N] "
+                    "[--workers N] [--view] <goal> "
+                    "(e.g. auto_loop --rounds 5 'gain initial access')"
+                )
             return
-        target = ""
-        max_steps = 0
-        workers = 2
-        timeout = 0.0
-        goal_parts: list[str] = []
-        idx = 0
-        while idx < len(parts):
-            tok = parts[idx]
-            if tok == "--target" and idx + 1 < len(parts):
-                target = parts[idx + 1]
-                idx += 2
-                continue
-            if tok in ("--max-steps", "--rounds") and idx + 1 < len(parts):
-                try:
-                    max_steps = max(0, int(parts[idx + 1]))
-                except ValueError:
-                    max_steps = 0
-                idx += 2
-                continue
-            if tok == "--workers" and idx + 1 < len(parts):
-                try:
-                    workers = max(1, min(5, int(parts[idx + 1])))
-                except ValueError:
-                    pass
-                idx += 2
-                continue
-            if tok == "--timeout" and idx + 1 < len(parts):
-                try:
-                    timeout = max(0.0, float(parts[idx + 1]))
-                except ValueError:
-                    pass
-                idx += 2
-                continue
-            if tok in ("--no-bootstrap", "--step-delay"):
-                if tok == "--step-delay":
-                    idx += 2
-                else:
-                    idx += 1
-                continue
-            goal_parts.append(tok)
-            idx += 1
-        goal = " ".join(goal_parts).strip()
-        shell = self._resolve_shell()
-        if not target and shell is not None:
-            try:
-                target = str((getattr(shell, "params", {}) or {}).get("rhost", "") or "")
-            except Exception:
-                target = ""
-        if not goal and target:
-            goal = f"gain initial access on {target}"
-        if not goal:
-            print_error("Usage: auto_loop [--target T] [--max-steps N] <goal>")
+        if not config.target:
+            config.target = str((self.params or {}).get("rhost", "") or "")
+        if not config.goal and not config.task_id and not config.target:
+            print_error("Usage: auto_loop [--target T] <goal>")
             return
-        try:
-            from modules.lazy_engine import LazyEngine
-        except Exception as exc:
-            print_error(f"auto_loop: lazy engine unavailable ({exc})")
-            return
-        engine = LazyEngine()
-        rounds = max_steps if max_steps > 0 else 6
-        print_msg(f"[*] orchestrator chain: {'/'.join(engine.ORCHESTRATOR_CHAIN)}")
-        try:
-            from modules.auto_registry import DEFAULT_SHELL_TIMEOUT_SEC as _AUTO_TIMEOUT
-            from modules.auto_registry import execute_shell_verb as _shell_verb
-            from modules.auto_registry import is_shell_verb as _is_auto
-        except Exception:
-            _shell_verb = None
-            _is_auto = None
-            _AUTO_TIMEOUT = 600.0
-
-        def _loop_executor(cmd: str) -> str:
-            """Route automation verbs through the shell, bash stays on bash."""
-            if shell is not None and _is_auto is not None and _shell_verb is not None:
-                try:
-                    if _is_auto(cmd or ""):
-                        return _shell_verb(shell, cmd, timeout_sec=timeout or _AUTO_TIMEOUT)
-                except Exception as exc:
-                    return f"execution failed: {exc}"
-            from core.process import run_command as _bash
-            try:
-                return str(_bash(cmd) or "")
-            except Exception as exc:
-                return f"execution failed: {exc}"
-
-        try:
-            from modules.lazy_loop import ActivityLog, ExplorationGraph
-            from modules.loop_progress import (
-                LoopProgress,
-                snapshot_from_overview,
-            )
-        except Exception:
-            LoopProgress = None  # type: ignore[assignment]
-
-        try:
-            created = engine.create_task(goal)
-            task_id = str(created.get("task_id", ""))
-        except Exception:
-            task_id = ""
-        if LoopProgress is None or not task_id:
-            try:
-                result = engine.orchestrate(
-                    goal=goal, target=target, max_rounds=rounds,
-                    workers=workers, timeout_sec=timeout,
-                    executor=_loop_executor)
-            except Exception as exc:
-                print_error(f"auto_loop failed: {exc}")
-                return
-            task_id = result["task_id"]
-            print_msg(f"[+] {task_id} [{result['status']}] rounds={result['rounds']} "
-                      f"intents={len(result['overview'].get('intents', []))} "
-                      f"facts={result['overview'].get('facts', 0)} "
-                      f"findings={result['overview'].get('findings', 0)}")
-            if result["overview"].get("findings"):
-                print_warn("Findings present — inspect with: lazy_finding list / lazy_trace list")
-            return
-
-        progress = LoopProgress(goal=goal, target=target)
-        progress.start()
-
-        import contextlib
-        import io as _io
-        import queue as _queue
-        import threading as _threading
-
-        transcript: _queue.Queue = _queue.Queue()
-
-        class _QueueWriter(_io.TextIOBase):
-            def write(self, data):  # noqa: ANN001, ANN202
-                transcript.put(str(data))
-                return len(str(data))
-
-        outcome: dict = {}
-
-        def _run_orchestrator() -> None:
-            try:
-                with contextlib.redirect_stdout(_QueueWriter()):
-                    outcome["result"] = engine.orchestrate(
-                        goal=goal, task_id=task_id, target=target,
-                        max_rounds=rounds, workers=workers,
-                        timeout_sec=timeout, executor=_loop_executor)
-            except Exception as exc:  # noqa: BLE001 - reported like today
-                outcome["error"] = exc
-
-        worker = _threading.Thread(target=_run_orchestrator, daemon=True)
-        worker.start()
-        import time as _time
-        graph = ExplorationGraph(task_id)
-        activity = ActivityLog(task_id)
-        started = _time.monotonic()
-        pending_line = ""
-        try:
-            while worker.is_alive():
-                while True:
-                    try:
-                        chunk = transcript.get_nowait()
-                    except _queue.Empty:
-                        break
-                    pending_line += chunk
-                    while "\n" in pending_line:
-                        line, pending_line = pending_line.split("\n", 1)
-                        progress.emit(line)
-                try:
-                    graph.reload()
-                    overview = graph.overview()
-                except Exception:
-                    overview = graph.overview()
-                try:
-                    record = engine.store.get(task_id) or {}
-                except Exception:
-                    record = {}
-                entries = []
-                try:
-                    entries = activity.read(limit=60) or []
-                except Exception:
-                    entries = []
-                tools = sum(1 for e in entries if e.get("kind") == "tool")
-                results = sum(1 for e in entries if e.get("kind") == "result")
-                last = str(entries[-1].get("text", "") if entries else "")
-                snap = snapshot_from_overview(
-                    overview, record, activity_tail=last,
-                    elapsed_sec=_time.monotonic() - started)
-                snap.tool_calls = tools
-                snap.results = results
-                progress.refresh(snap)
-                worker.join(timeout=0.5)
-        except KeyboardInterrupt:
-            progress.emit("interrupted by operator; settling partial results...")
-            try:
-                engine.runtime.abort(task_id, "interrupted", "operator Ctrl+C")
-            except Exception:
-                pass
-        if pending_line.strip():
-            progress.emit(pending_line)
-        try:
-            overview = graph.overview()
-            record = engine.store.get(task_id) or {}
-            snap = snapshot_from_overview(
-                overview, record, elapsed_sec=_time.monotonic() - started)
-            progress.refresh(snap)
-        except Exception:
-            pass
-        progress.stop()
-        if "error" in outcome:
-            print_error(f"auto_loop failed: {outcome['error']}")
-            return
-        if "result" not in outcome:
-            print_error("auto_loop failed: orchestrator produced no result")
-            return
-        result = outcome["result"]
-        print_msg(f"[+] {task_id} [{result['status']}] rounds={result['rounds']} "
-                  f"intents={len(result['overview'].get('intents', []))} "
-                  f"facts={result['overview'].get('facts', 0)} "
-                  f"findings={result['overview'].get('findings', 0)}")
-        if result["overview"].get("findings"):
-            print_warn("Findings present — inspect with: lazy_finding list / lazy_trace list")
+        run_loop(self._resolve_shell(), dict(self.params or {}), config)
 
     @with_category(ai_category)
     def do_session_state(self, line: str) -> None:

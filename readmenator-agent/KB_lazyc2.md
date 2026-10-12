@@ -18,11 +18,11 @@
   - `AddonValidator` (class, line 415) `class AddonValidator`
   - `AddonYamlRenderer` (class, line 718) `class AddonYamlRenderer`
   - `AddonStore` (class, line 803) `class AddonStore`
-  - `_multi_values` (method, line 1025) `def _multi_values(form, key)`
-  - `_first_value` (method, line 1046) `def _first_value(form, key)`
-  - `_parse_bool` (method, line 1057) `def _parse_bool(value)`
-  - `parse_addon_form` (method, line 1070) `def parse_addon_form(form)`
-  - `_parse_param_rows` (method, line 1109) `def _parse_param_rows(form)`
+  - `_multi_values` (function, line 1025) `def _multi_values(form, key)`
+  - `_first_value` (function, line 1046) `def _first_value(form, key)`
+  - `_parse_bool` (function, line 1057) `def _parse_bool(value)`
+  - `parse_addon_form` (function, line 1070) `def parse_addon_form(form)`
+  - `_parse_param_rows` (function, line 1109) `def _parse_param_rows(form)`
   - `to_dict` (method, line 353) `def to_dict(self)`
   - `__init__` (method, line 409) `def __init__(self, issues)`
   - `__init__` (method, line 422) `def __init__(self, draft, config)`

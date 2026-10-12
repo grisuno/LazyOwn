@@ -23,6 +23,7 @@ Robustness rules (learned the hard way):
 from __future__ import annotations
 
 import re
+import sys
 import threading
 import time
 from dataclasses import dataclass, field
@@ -37,10 +38,20 @@ from core.safe_console import (
 )
 
 CHAIN_STAGES: tuple[str, ...] = (
-    "lazy_task", "lazy_scope", "lazy_asset", "lazy_enrich",
-    "lazy_planner", "lazy_frontier", "lazy_worker", "lazy_guard",
-    "lazy_traffic", "lazy_finding", "lazy_retest", "lazy_compact",
-    "lazy_trace", "lazy_report",
+    "lazy_task",
+    "lazy_scope",
+    "lazy_asset",
+    "lazy_enrich",
+    "lazy_planner",
+    "lazy_frontier",
+    "lazy_worker",
+    "lazy_guard",
+    "lazy_traffic",
+    "lazy_finding",
+    "lazy_retest",
+    "lazy_compact",
+    "lazy_trace",
+    "lazy_report",
 )
 
 PANEL_WIDTH = 100
@@ -85,9 +96,9 @@ class LoopSnapshot:
     elapsed_sec: float = 0.0
 
 
-def snapshot_from_overview(overview: dict, record: dict | None = None,
-                           activity_tail: str = "",
-                           elapsed_sec: float = 0.0) -> LoopSnapshot:
+def snapshot_from_overview(
+    overview: dict, record: dict | None = None, activity_tail: str = "", elapsed_sec: float = 0.0
+) -> LoopSnapshot:
     """Build a snapshot from a graph overview dict plus task record."""
     record = record or {}
     intents = overview.get("intents", []) or []
@@ -117,29 +128,40 @@ def snap_to_states(snapshot: LoopSnapshot) -> dict[str, str]:
         "lazy_scope": "done" if snapshot.scope > 0 else "pending",
         "lazy_asset": "done" if snapshot.anchors > 0 or worked else "pending",
         "lazy_enrich": "done" if worked else "pending",
-        "lazy_planner": "done" if (snapshot.intents_pending
-                                   + snapshot.intents_open
-                                   + snapshot.intents_done) > 0 else "pending",
-        "lazy_frontier": "done" if (snapshot.intents_pending == 0
-                                    and (snapshot.intents_open
-                                         + snapshot.intents_done) > 0) else "pending",
+        "lazy_planner": "done"
+        if (snapshot.intents_pending + snapshot.intents_open + snapshot.intents_done) > 0
+        else "pending",
+        "lazy_frontier": "done"
+        if (snapshot.intents_pending == 0 and (snapshot.intents_open + snapshot.intents_done) > 0)
+        else "pending",
         "lazy_worker": "done" if (snapshot.intents_done > 0 or worked) else "pending",
         "lazy_guard": "done" if snapshot.tool_calls > 0 or worked else "pending",
         "lazy_traffic": "done" if snapshot.results > 0 or worked else "pending",
         "lazy_finding": "done" if snapshot.findings > 0 else "pending",
-        "lazy_retest": "done" if snapshot.findings > 0 and (
-            snapshot.intents_done > 0 or snapshot.intents_pending == 0) else "pending",
-        "lazy_compact": "done" if snapshot.status in ("done", "exhausted",
-                                                      "timeout") else "pending",
+        "lazy_retest": "done"
+        if snapshot.findings > 0 and (snapshot.intents_done > 0 or snapshot.intents_pending == 0)
+        else "pending",
+        "lazy_compact": "done" if snapshot.status in ("done", "exhausted", "timeout") else "pending",
         "lazy_trace": "done" if snapshot.anchors > 0 else "pending",
         "lazy_report": "done" if snapshot.status == "done" else "pending",
     }
     return states
 
 
-def sanitize_line(line: str) -> str:
-    """Strip ANSI codes and carriage returns from a transcript line."""
-    text = _ANSI_RE.sub("", line or "")
+def sanitize_line(line: str, keep_ansi: bool = False) -> str:
+    """Strip ANSI codes and carriage returns from a transcript line.
+
+    Args:
+        line: Raw transcript chunk.
+        keep_ansi: Keep SGR color sequences so live worker output keeps
+            the colors the command emitted.
+
+    Returns:
+        Printable line without carriage returns.
+    """
+    text = line or ""
+    if not keep_ansi:
+        text = _ANSI_RE.sub("", text)
     return text.replace("\r", "").rstrip("\n")
 
 
@@ -158,8 +180,16 @@ class LoopProgress:
     _final: object = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
-        """Create the safe console used for every render."""
-        self._console = get_console()
+        """Bind the console to the real stdout captured at construction.
+
+        The loop runner redirects ``sys.stdout`` globally while the
+        orchestrator thread runs; a console resolving ``sys.stdout`` at
+        print time would write panel lines back into that redirect and
+        spin forever. Capturing the file here (before the redirect
+        starts) keeps panel output on the operator's terminal.
+        """
+        output = sys.stdout if sys.stdout is not None else sys.stderr
+        self._console = get_console(file=output)
 
     @property
     def live_mode(self) -> bool:
@@ -175,18 +205,22 @@ class LoopProgress:
             if self._live is not None:
                 return
             from rich.live import Live
+
             self._started_at = time.monotonic()
             if not self.live_mode:
                 self._live = False
                 try:
-                    self._console.print(self._header(), markup=False,
-                                        highlight=False)
+                    self._console.print(self._header(), markup=False, highlight=False)
                 except Exception:
                     pass
                 return
-            self._live = Live(self._render(LoopSnapshot()),
-                              console=self._console, transient=False,
-                              auto_refresh=True, refresh_per_second=4)
+            self._live = Live(
+                self._render(LoopSnapshot()),
+                console=self._console,
+                transient=False,
+                auto_refresh=True,
+                refresh_per_second=4,
+            )
             try:
                 self._live.start()
             except Exception:
@@ -221,8 +255,7 @@ class LoopProgress:
             if current != self._last_stage:
                 self._last_stage = current
                 try:
-                    self._console.print(self._milestone_line(snapshot, states, current),
-                                        markup=False, highlight=False)
+                    self._console.print(self._milestone_line(snapshot, states, current), markup=False, highlight=False)
                 except Exception:
                     pass
             self._final = self._render(snapshot)
@@ -233,8 +266,8 @@ class LoopProgress:
             pass
 
     def emit(self, line: str) -> None:
-        """Print a transcript line above the live panel, colors kept safe."""
-        cleaned = sanitize_line(line)
+        """Print a transcript line above the live panel, colors preserved."""
+        cleaned = sanitize_line(line, keep_ansi=True)
         if not cleaned.strip():
             return
         try:
@@ -253,8 +286,7 @@ class LoopProgress:
             title += f"  ->  {self.target}"
         return Text(title, style="bold")
 
-    def _milestone_line(self, snapshot: LoopSnapshot, states: dict,
-                        current: str | None):
+    def _milestone_line(self, snapshot: LoopSnapshot, states: dict, current: str | None):
         """One compact line per stage change for line mode."""
         done = sum(1 for s in self.chain if states.get(s) == "done")
         text = Text()
@@ -263,20 +295,27 @@ class LoopProgress:
             text.append("all milestones done", style="green")
         else:
             text.append(f"now: {_STAGE_SHORT.get(current, current)}", style="blue")
-        text.append(f"  intents {snapshot.intents_done}/{snapshot.intents_pending} "
-                    f"facts {snapshot.facts} findings {snapshot.findings} "
-                    f"{snapshot.status} {snapshot.elapsed_sec:.0f}s", style="dim")
+        text.append(
+            f"  intents {snapshot.intents_done}/{snapshot.intents_pending} "
+            f"facts {snapshot.facts} findings {snapshot.findings} "
+            f"{snapshot.status} {snapshot.elapsed_sec:.0f}s",
+            style="dim",
+        )
         return text
 
     def _footer(self, snapshot: LoopSnapshot, elapsed: float):
         """Plain-text footer (never parses activity content as markup)."""
         footer = Text()
         footer.append(f"goals {snapshot.goals_done}/{snapshot.goals_total}  ", style="dim")
-        footer.append(f"intents {snapshot.intents_done} done / "
-                      f"{snapshot.intents_open} open / "
-                      f"{snapshot.intents_pending} pending  ", style="dim")
-        footer.append(f"facts {snapshot.facts}  findings {snapshot.findings}  "
-                      f"{snapshot.status}  {elapsed:.0f}s", style="dim")
+        footer.append(
+            f"intents {snapshot.intents_done} done / "
+            f"{snapshot.intents_open} open / "
+            f"{snapshot.intents_pending} pending  ",
+            style="dim",
+        )
+        footer.append(
+            f"facts {snapshot.facts}  findings {snapshot.findings}  {snapshot.status}  {elapsed:.0f}s", style="dim"
+        )
         if snapshot.last_line:
             footer.append("\n[last] ", style="dim")
             footer.append(snapshot.last_line[:120])
@@ -287,6 +326,7 @@ class LoopProgress:
         from rich.panel import Panel
         from rich.spinner import Spinner
         from rich.table import Table
+
         states = snap_to_states(snapshot)
         current = next((s for s in self.chain if states.get(s) != "done"), None)
         table = Table(show_header=False, box=None, padding=(0, 1), expand=False)
@@ -297,24 +337,25 @@ class LoopProgress:
             state = states.get(stage, "pending")
             short = _STAGE_SHORT.get(stage, stage)
             if state == "done":
-                table.add_row(Text(milestone_glyph("done"), style="green"),
-                              Text(short, style="green"), Text(""))
+                table.add_row(Text(milestone_glyph("done"), style="green"), Text(short, style="green"), Text(""))
             elif stage == current:
-                spinner = Spinner("dots" if supports_unicode() else "line",
-                                  style="blue", text=Text(""))
-                table.add_row(spinner, Text(short, style="bold blue"),
-                              Text("running", style="blue"))
+                spinner = Spinner("dots" if supports_unicode() else "line", style="blue", text=Text(""))
+                table.add_row(spinner, Text(short, style="bold blue"), Text("running", style="blue"))
             else:
-                table.add_row(Text(milestone_glyph("pending"), style="red"),
-                              Text(short, style="red"), Text(""))
+                table.add_row(Text(milestone_glyph("pending"), style="red"), Text(short, style="red"), Text(""))
         elapsed = time.monotonic() - (self._started_at or time.monotonic())
         title = Text(f"auto_loop :: {self.goal[:60]}", style="bold")
         if self.target:
             title.append(f"  ->  {self.target}", style="dim")
-        return Panel(table, title=title,
-                     subtitle=self._footer(snapshot, elapsed),
-                     box=panel_box(), border_style="cyan", padding=(0, 1),
-                     width=min(PANEL_WIDTH, self._console.width or PANEL_WIDTH))
+        return Panel(
+            table,
+            title=title,
+            subtitle=self._footer(snapshot, elapsed),
+            box=panel_box(),
+            border_style="cyan",
+            padding=(0, 1),
+            width=min(PANEL_WIDTH, self._console.width or PANEL_WIDTH),
+        )
 
 
 __all__ = [

@@ -205,8 +205,8 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_run_poll_loop` (function, line 402) `def _run_poll_loop()`
   - `main` (function, line 430) `def main()`
   - `_Handler` (class, line 375) `class _Handler(FileSystemEventHandler)`
-  - `_scan` (method, line 406) `def _scan()`
-  - `_append_event` (method, line 96) `def _append_event(ev)`
+  - `_scan` (function, line 406) `def _scan()`
+  - `_append_event` (function, line 96) `def _append_event(ev)`
   - `on_created` (method, line 376) `def on_created(self, event)`
   - `on_modified` (method, line 380) `def on_modified(self, event)`
 - Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
@@ -241,11 +241,11 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `ExpertExecutor` (class, line 332) `class ExpertExecutor`
   - `OutcomeEvaluator` (class, line 464) `class OutcomeEvaluator`
   - `SwanOrchestrator` (class, line 555) `class SwanOrchestrator(ISwanOrchestrator)`
-  - `mcp_swan_run` (method, line 945) `def mcp_swan_run(task_type, goal, phase)`
-  - `mcp_swan_ensemble` (method, line 968) `def mcp_swan_ensemble(task_type, goal, n_experts, phase)`
-  - `mcp_swan_status` (method, line 996) `def mcp_swan_status()`
-  - `mcp_swan_route` (method, line 1003) `def mcp_swan_route(task_type, goal)`
-  - `get_swan` (method, line 1039) `def get_swan(api_key)`
+  - `mcp_swan_run` (function, line 945) `def mcp_swan_run(task_type, goal, phase)`
+  - `mcp_swan_ensemble` (function, line 968) `def mcp_swan_ensemble(task_type, goal, n_experts, phase)`
+  - `mcp_swan_status` (function, line 996) `def mcp_swan_status()`
+  - `mcp_swan_route` (function, line 1003) `def mcp_swan_route(task_type, goal)`
+  - `get_swan` (function, line 1039) `def get_swan(api_key)`
   - `is_success` (method, line 167) `def is_success(self)`
   - `aggregate` (method, line 209) `def aggregate(self, task_type, goal, votes)`
   - `run` (method, line 226) `def run(self, task_type, goal, engagement_phase, timeout)`
@@ -273,7 +273,7 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_get_hive_memory` (method, line 919) `def _get_hive_memory(self)`
   - `_load_key` (method, line 930) `def _load_key()`
 - Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
-- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
 
 ## skills/toposwarm_autonomous.py
 - Doc: skills/toposwarm_autonomous.py
@@ -281,12 +281,12 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
 - Language: py
 - Symbols:
   - `PentestState` (class, line 127) `class PentestState`
-  - `_parse_output` (method, line 181) `def _parse_output(output, state, phase_name)`
-  - `_phase_goals` (method, line 233) `def _phase_goals(phase_idx, state, effort)`
-  - `_enum_goals` (method, line 286) `def _enum_goals(state)`
+  - `_parse_output` (function, line 181) `def _parse_output(output, state, phase_name)`
+  - `_phase_goals` (function, line 233) `def _phase_goals(phase_idx, state, effort)`
+  - `_enum_goals` (function, line 286) `def _enum_goals(state)`
   - `AutonomousAgent` (class, line 309) `class AutonomousAgent`
-  - `_load_payload` (method, line 479) `def _load_payload()`
-  - `main` (method, line 489) `def main(argv)`
+  - `_load_payload` (function, line 479) `def _load_payload()`
+  - `main` (function, line 489) `def main(argv)`
   - `add_finding` (method, line 145) `def add_finding(self, phase_name, text)`
   - `summary` (method, line 149) `def summary(self)`
   - `to_dict` (method, line 160) `def to_dict(self)`
@@ -314,9 +314,9 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `SwanBackend` (class, line 706) `class SwanBackend`
   - `GoalValidator` (class, line 806) `class GoalValidator`
   - `UnifiedOrchestrator` (class, line 871) `class UnifiedOrchestrator`
-  - `_new_request_id` (method, line 963) `def _new_request_id()`
-  - `_make_result` (method, line 968) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
-  - `build_default_orchestrator` (method, line 995) `def build_default_orchestrator(payload, sessions_dir)`
+  - `_new_request_id` (function, line 963) `def _new_request_id()`
+  - `_make_result` (function, line 968) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
+  - `build_default_orchestrator` (function, line 995) `def build_default_orchestrator(payload, sessions_dir)`
   - `from_payload` (method, line 111) `def from_payload(cls, payload)`
   - `with_defaults` (method, line 156) `def with_defaults(self, config)`
   - `to_dict` (method, line 197) `def to_dict(self)`

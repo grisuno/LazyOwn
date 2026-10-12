@@ -1,7 +1,7 @@
 # Recipe: Reduce File Complexity
 
 Target hotspot: `static/js/html2pdf.bundle.min.js`
-(complexity 1.0, centrality 0.7)
+(complexity 1.0, centrality 0.6)
 
 1. Read dependents: `grep -n 'static/js/html2pdf.bundle.min.js' readmenator-agent/ARCHITECTURE*.md`
 2. Extract functions/classes into new files in the same subsystem

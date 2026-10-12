@@ -8,10 +8,21 @@ token. Mid-stream failures surface unchanged for harness resume.
 from __future__ import annotations
 
 import itertools
+import json
+import os
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable
+from pathlib import Path
+
+
+def _health_path() -> Path:
+    """Resolve the persisted breaker path (env override wins)."""
+    override = os.environ.get("LAZYOWN_LLM_HEALTH_PATH", "")
+    if override:
+        return Path(override)
+    return Path("sessions") / "lazy" / "llm_health.json"
 
 
 @dataclass(frozen=True, slots=True)
@@ -66,15 +77,60 @@ class HealthRegistry:
 
     Soft trips after max_failures transient errors; auth errors
     (401/402/quota) trip immediately. Backoff tiers are 1m/5m/30m.
+    State persists to disk so the breaker survives process restarts.
     """
 
     def __init__(self, config: PoolConfig = CONFIG) -> None:
-        """Initialize empty health counters."""
+        """Initialize counters from the persisted breaker state."""
         self._config = config
         self._lock = threading.Lock()
         self._failures: dict[str, int] = {}
         self._last_failure: dict[str, float] = {}
         self._hard_trip: dict[str, float] = {}
+        self._load()
+
+    def _load(self) -> None:
+        """Load persisted counters, ignoring corrupt or missing state."""
+        try:
+            payload = json.loads(_health_path().read_text(encoding="utf-8"))
+        except Exception:
+            return
+        if not isinstance(payload, dict):
+            return
+        for key, value in (payload.get("failures") or {}).items():
+            try:
+                self._failures[str(key)] = int(value)
+            except (TypeError, ValueError):
+                continue
+        for key, value in (payload.get("last_failure") or {}).items():
+            try:
+                self._last_failure[str(key)] = float(value)
+            except (TypeError, ValueError):
+                continue
+        for key, value in (payload.get("hard_trip") or {}).items():
+            try:
+                self._hard_trip[str(key)] = float(value)
+            except (TypeError, ValueError):
+                continue
+
+    def _persist_locked(self) -> None:
+        """Write the breaker state; called with the lock held."""
+        try:
+            path = _health_path()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+                json.dumps(
+                    {
+                        "failures": self._failures,
+                        "last_failure": self._last_failure,
+                        "hard_trip": self._hard_trip,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+        except Exception:
+            pass
 
     def report_success(self, member_id: str) -> None:
         """Clear failure state for a member."""
@@ -82,18 +138,19 @@ class HealthRegistry:
             self._failures.pop(str(member_id), None)
             self._last_failure.pop(str(member_id), None)
             self._hard_trip.pop(str(member_id), None)
+            self._persist_locked()
 
     def report_failure(self, member_id: str, error: str = "") -> None:
         """Record a failure; auth/quota errors trip immediately."""
         lowered = str(error or "").lower()
-        immediate = any(k in lowered for k in ("401", "402", "unauthorized",
-                                               "quota", "insufficient"))
+        immediate = any(k in lowered for k in ("401", "402", "unauthorized", "quota", "insufficient"))
         with self._lock:
             key = str(member_id)
             if immediate:
                 self._hard_trip[key] = time.time()
             self._failures[key] = self._failures.get(key, 0) + 1
             self._last_failure[key] = time.time()
+            self._persist_locked()
 
     def _backoff_for(self, failures: int) -> float:
         """Return the backoff tier for a failure count."""
@@ -119,14 +176,13 @@ class HealthRegistry:
 class LLMPool:
     """Failover chain over ordered pool members with RR intra-rank."""
 
-    def __init__(self, members: list[PoolMember],
-                 health: HealthRegistry | None = None,
-                 config: PoolConfig = CONFIG) -> None:
+    def __init__(
+        self, members: list[PoolMember], health: HealthRegistry | None = None, config: PoolConfig = CONFIG
+    ) -> None:
         """Order members by descending rank (RR within equal rank)."""
         if not members:
             raise ValueError("Pool requires at least one member.")
-        self._members = sorted(list(members),
-                               key=lambda m: m.rank, reverse=True)
+        self._members = sorted(list(members), key=lambda m: m.rank, reverse=True)
         self._health = health or HealthRegistry(config)
         self._config = config
         self._cursor = itertools.count()
@@ -137,8 +193,7 @@ class LLMPool:
         """Return chain members in order."""
         return list(self._members)
 
-    def session_key(self, conversation_id: str = "", role: str = "worker",
-                    index: int = 0) -> str:
+    def session_key(self, conversation_id: str = "", role: str = "worker", index: int = 0) -> str:
         """Build a sticky session header (LAZY session_header parity)."""
         conv = str(conversation_id or "default").strip() or "default"
         return f"conv-{conv}-{role}-{index}"
@@ -166,9 +221,10 @@ class LLMPool:
             return text
         if overflow_dir:
             try:
-                from pathlib import Path as _Path
                 import hashlib as _hashlib
                 import time as _time
+                from pathlib import Path as _Path
+
                 target = _Path(str(overflow_dir)) / self._config.overflow_dirname
                 target.mkdir(parents=True, exist_ok=True)
                 name = f"llm-{int(_time.time())}-{_hashlib.sha256(text.encode()).hexdigest()[:8]}.txt"
@@ -178,13 +234,11 @@ class LLMPool:
                 pass
         return text[:limit] + "\n[... truncated]"
 
-    def complete(self, prompt: str, max_tokens: int = 0,
-                 session_key: str = "", overflow_dir: str = "") -> str:
+    def complete(self, prompt: str, max_tokens: int = 0, session_key: str = "", overflow_dir: str = "") -> str:
         """Complete a prompt with pre-token failover across members."""
         errors: list[str] = []
         for member in self._ordered():
-            if member.window_tokens and max_tokens and \
-                    member.window_tokens < max_tokens:
+            if member.window_tokens and max_tokens and member.window_tokens < max_tokens:
                 continue
             if not self._health.healthy(member.member_id):
                 continue

@@ -21,16 +21,16 @@ Previous: [KB_core.md](KB_core.md)
 - Symbols:
   - `CommandInjectionError` (class, line 44) `class CommandInjectionError(PermissionError)`
   - `UrlValidationError` (class, line 48) `class UrlValidationError(PermissionError)`
-  - `needs_shell` (method, line 52) `def needs_shell(command)`
-  - `safe_system` (method, line 69) `def safe_system(command)`
-  - `safe_run_argv` (method, line 106) `def safe_run_argv(argv)`
-  - `safe_run_shell` (method, line 146) `def safe_run_shell(command)`
-  - `safe_clear_screen` (method, line 192) `def safe_clear_screen()`
-  - `validate_url` (method, line 207) `def validate_url(url)`
-  - `safe_git_clone` (method, line 234) `def safe_git_clone(repo_url, target_dir)`
-  - `safe_ip_show` (method, line 268) `def safe_ip_show(interface)`
-  - `safe_find_tool` (method, line 305) `def safe_find_tool(name)`
-  - `safe_file_read` (method, line 321) `def safe_file_read(path)`
+  - `needs_shell` (function, line 52) `def needs_shell(command)`
+  - `safe_system` (function, line 69) `def safe_system(command)`
+  - `safe_run_argv` (function, line 106) `def safe_run_argv(argv)`
+  - `safe_run_shell` (function, line 146) `def safe_run_shell(command)`
+  - `safe_clear_screen` (function, line 192) `def safe_clear_screen()`
+  - `validate_url` (function, line 207) `def validate_url(url)`
+  - `safe_git_clone` (function, line 234) `def safe_git_clone(repo_url, target_dir)`
+  - `safe_ip_show` (function, line 268) `def safe_ip_show(interface)`
+  - `safe_find_tool` (function, line 305) `def safe_find_tool(name)`
+  - `safe_file_read` (function, line 321) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 
@@ -67,7 +67,7 @@ Previous: [KB_core.md](KB_core.md)
 - Symbols:
   - `_TaskInfo` (class, line 41) `class _TaskInfo`
   - `TaskScheduler` (class, line 50) `class TaskScheduler`
-  - `get_scheduler` (method, line 285) `def get_scheduler()`
+  - `get_scheduler` (function, line 285) `def get_scheduler()`
   - `__init__` (method, line 61) `def __init__(self)`
   - `instance` (method, line 73) `def instance(cls)`
   - `start` (method, line 81) `def start(self)`
@@ -80,8 +80,8 @@ Previous: [KB_core.md](KB_core.md)
   - `_schedule_recurring_stdlib` (method, line 238) `def _schedule_recurring_stdlib(self, info)`
   - `_run_once_wrapper` (method, line 254) `def _run_once_wrapper(self, name, func)`
   - `_run_stdlib_loop` (method, line 268) `def _run_stdlib_loop(self)`
-  - `_wrapper` (method, line 241) `def _wrapper()`
-  - `_wrapper` (method, line 257) `def _wrapper()`
+  - `_wrapper` (function, line 241) `def _wrapper()`
+  - `_wrapper` (function, line 257) `def _wrapper()`
 - Depends on: `core/logging.py`
 
 ## core/security.py
@@ -92,6 +92,21 @@ Previous: [KB_core.md](KB_core.md)
   - `anti_debug` (function, line 18) `def anti_debug()`
   - `generate_certificates` (function, line 58) `def generate_certificates(output_dir)`
 - Depends on: `core/logging.py`
+
+## core/terminal_guard.py
+- Doc: Terminal state guard for interactive automation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_tty_fd` (function, line 30) `def _tty_fd()`
+  - `emit_restore_sequences` (function, line 41) `def emit_restore_sequences()`
+  - `apply_stty_sane` (function, line 62) `def apply_stty_sane()`
+  - `TerminalGuard` (class, line 73) `class TerminalGuard`
+  - `__init__` (method, line 85) `def __init__(self)`
+  - `__enter__` (method, line 91) `def __enter__(self)`
+  - `__exit__` (method, line 104) `def __exit__(self)`
+  - `restore` (method, line 108) `def restore(self)`
+- Imported by: `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
 
 ## core/text_utils.py
 - Doc: Shared text helpers for terminal surfaces.
@@ -106,14 +121,14 @@ Previous: [KB_core.md](KB_core.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `check_rhost` (function, line 27) `def check_rhost(rhost)`
-  - `check_lhost` (function, line 41) `def check_lhost(lhost)`
-  - `check_lport` (function, line 55) `def check_lport(lport)`
-  - `check_port` (function, line 65) `def check_port(port, name)`
-  - `require_rhost` (function, line 78) `def require_rhost(params)`
-  - `require_lhost` (function, line 95) `def require_lhost(params)`
-  - `require_lport` (function, line 108) `def require_lport(params)`
-  - `require_rport` (function, line 121) `def require_rport(params)`
+  - `check_rhost` (function, line 26) `def check_rhost(rhost)`
+  - `check_lhost` (function, line 40) `def check_lhost(lhost)`
+  - `check_lport` (function, line 54) `def check_lport(lport)`
+  - `check_port` (function, line 64) `def check_port(port, name)`
+  - `require_rhost` (function, line 77) `def require_rhost(params)`
+  - `require_lhost` (function, line 94) `def require_lhost(params)`
+  - `require_lport` (function, line 107) `def require_lport(params)`
+  - `require_rport` (function, line 120) `def require_rport(params)`
 - Depends on: `core/console.py`, `core/host_policy.py`
 - Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
 

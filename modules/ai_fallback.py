@@ -39,6 +39,12 @@ from modules.llm_factory import (  # noqa: E402
 from modules.llm_factory import (
     DEFAULT_OLLAMA_HOST as _OLLAMA_HOST,
 )
+from modules.llm_factory import (  # noqa: E402
+    groq_model_chain as _groq_model_chain,
+)
+from modules.llm_factory import (  # noqa: E402
+    is_model_missing_error as _is_model_missing_error,
+)
 
 # Models we prefer for chat (ordered by quality)
 _PREFERRED_CHAT = ["llama3.2", "llama3", "mistral", "gemma", "phi3", "qwen2.5"]
@@ -195,13 +201,23 @@ def _groq_call(
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": user})
 
-    resp = client.chat.completions.create(
-        model=_GROQ_MODEL,
-        messages=messages,
-        max_tokens=max_tokens,
-        temperature=temperature,
-    )
-    return resp.choices[0].message.content.strip()
+    last_error: Exception | None = None
+    for model in _groq_model_chain():
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as exc:
+            last_error = exc
+            if not _is_model_missing_error(exc):
+                raise
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("no Groq model candidates available")
 
 
 # ── Public API ────────────────────────────────────────────────────────────────

@@ -1,5 +1,77 @@
-# Subsystem: tests (page 7 of 15)
+# Subsystem: tests (page 7 of 16)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
+
+## tests/test_engagement_and_ping.py
+- Doc: tests/test_engagement_and_ping.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_command_location` (function, line 30) `def _command_location(name)`
+  - `TestEngagementState` (class, line 58) `class TestEngagementState`
+  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
+  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
+  - `TestPingOsId` (class, line 283) `class TestPingOsId`
+  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
+  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
+  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
+  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
+  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
+  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
+  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
+  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
+  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
+  - `_make_state` (method, line 178) `def _make_state(self, seen)`
+  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
+  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
+  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
+  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
+  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
+  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
+  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
+  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
+  - `_make_params` (method, line 289) `def _make_params(self)`
+  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
+  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
+  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
+  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
+  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
+  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
+  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
+  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
+  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
+  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
+  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
+  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
+  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
+  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
+  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
+  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
+- Depends on: `cli/engagement_hooks.py`
+
+## tests/test_engagement_command_gate.py
+- Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_redirect_paths` (function, line 34) `def _redirect_paths(tmp_path)`
+  - `_restore_paths` (function, line 56) `def _restore_paths(saved)`
+  - `TestIsRecordableCommand` (class, line 68) `class TestIsRecordableCommand`
+  - `TestHookRejectsNoise` (class, line 106) `class TestHookRejectsNoise`
+  - `TestSanitizeSeen` (class, line 141) `class TestSanitizeSeen`
+  - `TestHealCommandsSeen` (class, line 187) `class TestHealCommandsSeen`
+  - `test_accepts_command_shaped_tokens` (method, line 72) `def test_accepts_command_shaped_tokens(self, cmd)`
+  - `test_rejects_syntactic_garbage` (method, line 81) `def test_rejects_syntactic_garbage(self, cmd)`
+  - `test_quoted_path_rejected` (method, line 86) `def test_quoted_path_rejected(self)`
+  - `test_do_prefixed_input_is_accepted` (method, line 91) `def test_do_prefixed_input_is_accepted(self)`
+  - `test_normalize_is_idempotent` (method, line 96) `def test_normalize_is_idempotent(self)`
+  - `test_garbage_does_not_enter_commands_seen` (method, line 109) `def test_garbage_does_not_enter_commands_seen(self, tmp_path)`
+  - `test_real_command_recorded_between_garbage` (method, line 123) `def test_real_command_recorded_between_garbage(self, tmp_path)`
+  - `test_syntactic_only_drops_ugly_garbage` (method, line 144) `def test_syntactic_only_drops_ugly_garbage(self)`
+  - `test_roster_drops_valid_but_unknown_tokens` (method, line 158) `def test_roster_drops_valid_but_unknown_tokens(self)`
+  - `test_load_state_heals_polluted_file` (method, line 165) `def test_load_state_heals_polluted_file(self, tmp_path)`
+  - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
+  - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
+- Depends on: `cli/engagement_hooks.py`
 
 ## tests/test_engagement_elo_and_methodology.py
 - Doc: Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py.
@@ -81,8 +153,8 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `TestBuildEvidenceHints` (class, line 86) `class TestBuildEvidenceHints`
   - `TestRenderEvidenceHints` (class, line 131) `class TestRenderEvidenceHints`
   - `TestRecommendWithEvidence` (class, line 144) `class TestRecommendWithEvidence`
-  - `tmp_sessions_with_csv` (method, line 162) `def tmp_sessions_with_csv()`
-  - `_engine_with_stub` (method, line 170) `def _engine_with_stub(sessions, recs, evidence)`
+  - `tmp_sessions_with_csv` (function, line 162) `def tmp_sessions_with_csv()`
+  - `_engine_with_stub` (function, line 170) `def _engine_with_stub(sessions, recs, evidence)`
   - `TestTipsEngineEvidenceWiring` (class, line 178) `class TestTipsEngineEvidenceWiring`
   - `__init__` (method, line 53) `def __init__(self, recs)`
   - `recommend` (method, line 57) `def recommend(self, ctx)`
@@ -161,11 +233,11 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `fake_which` (function, line 102) `def fake_which(name)`
   - `fake_which` (function, line 118) `def fake_which(name)`
   - `FakeProc` (class, line 143) `class FakeProc`
-  - `fake_run` (method, line 148) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
+  - `fake_run` (function, line 148) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
   - `FakeProc` (class, line 177) `class FakeProc`
-  - `fake_run` (method, line 182) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
-  - `fake_record` (method, line 195) `def fake_record(challenge_id, success, elo_bonus, techniques)`
-  - `fake_run_streaming` (method, line 226) `def fake_run_streaming(cmd, cwd, timeout)`
+  - `fake_run` (function, line 182) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
+  - `fake_record` (function, line 195) `def fake_record(challenge_id, success, elo_bonus, techniques)`
+  - `fake_run_streaming` (function, line 226) `def fake_run_streaming(cmd, cwd, timeout)`
 - Depends on: `cli/commands/exploitgym.py`, `modules/exploitgym_gym.py`, `modules/lazyown_bridge.py`
 
 ## tests/test_exploration_and_addons.py
@@ -184,8 +256,8 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `TestResolveCurrentOs` (class, line 316) `class TestResolveCurrentOs`
   - `TestRenderer` (class, line 337) `class TestRenderer`
   - `TestShippedAddonsRespectSchema` (class, line 362) `class TestShippedAddonsRespectSchema`
-  - `_addon` (method, line 395) `def _addon(name, addon_os, trigger, enabled)`
-  - `_svc` (method, line 410) `def _svc(service, port)`
+  - `_addon` (function, line 395) `def _addon(name, addon_os, trigger, enabled)`
+  - `_svc` (function, line 410) `def _svc(service, port)`
   - `test_normalise_os` (method, line 163) `def test_normalise_os(self, value, expected)`
   - `test_normalise_trigger` (method, line 178) `def test_normalise_trigger(self, value, expected)`
   - `test_reads_only_open_ports` (method, line 185) `def test_reads_only_open_ports(self, fake_sessions, monkeypatch)`
@@ -234,28 +306,28 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
 - Language: py
 - Symbols:
   - `_FakeView` (class, line 35) `class _FakeView(PickerView)`
-  - `scorer` (method, line 54) `def scorer()`
-  - `sample_items` (method, line 59) `def sample_items()`
-  - `test_empty_query_returns_all_items_in_order` (method, line 72) `def test_empty_query_returns_all_items_in_order(scorer, sample_items)`
-  - `test_exact_match_scores_highest` (method, line 78) `def test_exact_match_scores_highest(scorer, sample_items)`
-  - `test_prefix_match_outranks_substring` (method, line 84) `def test_prefix_match_outranks_substring(scorer)`
-  - `test_subsequence_match_emits_positions` (method, line 90) `def test_subsequence_match_emits_positions(scorer, sample_items)`
-  - `test_similarity_floor_excludes_unrelated_text` (method, line 98) `def test_similarity_floor_excludes_unrelated_text(scorer)`
-  - `test_subsequence_positions_helper_returns_empty_when_no_match` (method, line 104) `def test_subsequence_positions_helper_returns_empty_when_no_match()`
-  - `test_config_from_payload_respects_known_overrides` (method, line 112) `def test_config_from_payload_respects_known_overrides()`
-  - `test_config_from_payload_ignores_unknown_keys` (method, line 119) `def test_config_from_payload_ignores_unknown_keys()`
-  - `test_config_from_payload_returns_defaults_when_no_block` (method, line 124) `def test_config_from_payload_returns_defaults_when_no_block()`
-  - `test_picker_short_circuits_single_item` (method, line 132) `def test_picker_short_circuits_single_item()`
-  - `test_picker_routes_through_view_for_multiple_items` (method, line 138) `def test_picker_routes_through_view_for_multiple_items(sample_items)`
-  - `test_picker_cancel_returns_none` (method, line 146) `def test_picker_cancel_returns_none(sample_items)`
-  - `test_picker_empty_input_returns_none` (method, line 152) `def test_picker_empty_input_returns_none()`
-  - `test_strip_ansi_removes_csi_sequences` (method, line 160) `def test_strip_ansi_removes_csi_sequences()`
-  - `test_strip_ansi_passes_through_plain_text` (method, line 165) `def test_strip_ansi_passes_through_plain_text()`
-  - `_collect_string_constants` (method, line 174) `def _collect_string_constants(source)`
-  - `_collect_runtime_strings` (method, line 198) `def _collect_runtime_strings()`
-  - `test_lazyown_runtime_strings_preserve_shell_payload` (method, line 260) `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)`
-  - `test_lazyown_source_has_no_invalid_escape_warning` (method, line 265) `def test_lazyown_source_has_no_invalid_escape_warning()`
-  - `test_getprompt_renders_three_lines_and_includes_payload_segments` (method, line 280) `def test_getprompt_renders_three_lines_and_includes_payload_segments()`
+  - `scorer` (function, line 54) `def scorer()`
+  - `sample_items` (function, line 59) `def sample_items()`
+  - `test_empty_query_returns_all_items_in_order` (function, line 72) `def test_empty_query_returns_all_items_in_order(scorer, sample_items)`
+  - `test_exact_match_scores_highest` (function, line 78) `def test_exact_match_scores_highest(scorer, sample_items)`
+  - `test_prefix_match_outranks_substring` (function, line 84) `def test_prefix_match_outranks_substring(scorer)`
+  - `test_subsequence_match_emits_positions` (function, line 90) `def test_subsequence_match_emits_positions(scorer, sample_items)`
+  - `test_similarity_floor_excludes_unrelated_text` (function, line 98) `def test_similarity_floor_excludes_unrelated_text(scorer)`
+  - `test_subsequence_positions_helper_returns_empty_when_no_match` (function, line 104) `def test_subsequence_positions_helper_returns_empty_when_no_match()`
+  - `test_config_from_payload_respects_known_overrides` (function, line 112) `def test_config_from_payload_respects_known_overrides()`
+  - `test_config_from_payload_ignores_unknown_keys` (function, line 119) `def test_config_from_payload_ignores_unknown_keys()`
+  - `test_config_from_payload_returns_defaults_when_no_block` (function, line 124) `def test_config_from_payload_returns_defaults_when_no_block()`
+  - `test_picker_short_circuits_single_item` (function, line 132) `def test_picker_short_circuits_single_item()`
+  - `test_picker_routes_through_view_for_multiple_items` (function, line 138) `def test_picker_routes_through_view_for_multiple_items(sample_items)`
+  - `test_picker_cancel_returns_none` (function, line 146) `def test_picker_cancel_returns_none(sample_items)`
+  - `test_picker_empty_input_returns_none` (function, line 152) `def test_picker_empty_input_returns_none()`
+  - `test_strip_ansi_removes_csi_sequences` (function, line 160) `def test_strip_ansi_removes_csi_sequences()`
+  - `test_strip_ansi_passes_through_plain_text` (function, line 165) `def test_strip_ansi_passes_through_plain_text()`
+  - `_collect_string_constants` (function, line 174) `def _collect_string_constants(source)`
+  - `_collect_runtime_strings` (function, line 198) `def _collect_runtime_strings()`
+  - `test_lazyown_runtime_strings_preserve_shell_payload` (function, line 260) `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)`
+  - `test_lazyown_source_has_no_invalid_escape_warning` (function, line 265) `def test_lazyown_source_has_no_invalid_escape_warning()`
+  - `test_getprompt_renders_three_lines_and_includes_payload_segments` (function, line 280) `def test_getprompt_renders_three_lines_and_includes_payload_segments()`
   - `__init__` (method, line 38) `def __init__(self, selection_index)`
   - `run` (method, line 43) `def run(self, items, initial_query)`
 - Depends on: `cli/banner_config.py`, `cli/fuzzy_picker.py`, `utils.py`
@@ -298,19 +370,19 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
 - Language: py
 - Symbols:
   - `_FakeAdvisor` (class, line 25) `class _FakeAdvisor`
-  - `test_is_available_returns_false_when_advisor_missing` (method, line 55) `def test_is_available_returns_false_when_advisor_missing()`
-  - `test_god_nodes_view_returns_hubs` (method, line 61) `def test_god_nodes_view_returns_hubs()`
-  - `test_focus_switches_to_neighbors_view` (method, line 72) `def test_focus_switches_to_neighbors_view()`
-  - `test_focus_unknown_returns_no_match_message` (method, line 85) `def test_focus_unknown_returns_no_match_message()`
-  - `test_unavailable_advisor_returns_no_graph_message` (method, line 97) `def test_unavailable_advisor_returns_no_graph_message()`
-  - `test_toggle_view_round_trip` (method, line 108) `def test_toggle_view_round_trip()`
-  - `test_launch_overlay_uses_runner` (method, line 122) `def test_launch_overlay_uses_runner()`
-  - `test_build_state_uses_default_factory_signature` (method, line 135) `def test_build_state_uses_default_factory_signature()`
+  - `test_is_available_returns_false_when_advisor_missing` (function, line 55) `def test_is_available_returns_false_when_advisor_missing()`
+  - `test_god_nodes_view_returns_hubs` (function, line 61) `def test_god_nodes_view_returns_hubs()`
+  - `test_focus_switches_to_neighbors_view` (function, line 72) `def test_focus_switches_to_neighbors_view()`
+  - `test_focus_unknown_returns_no_match_message` (function, line 85) `def test_focus_unknown_returns_no_match_message()`
+  - `test_unavailable_advisor_returns_no_graph_message` (function, line 97) `def test_unavailable_advisor_returns_no_graph_message()`
+  - `test_toggle_view_round_trip` (function, line 108) `def test_toggle_view_round_trip()`
+  - `test_launch_overlay_uses_runner` (function, line 122) `def test_launch_overlay_uses_runner()`
+  - `test_build_state_uses_default_factory_signature` (function, line 135) `def test_build_state_uses_default_factory_signature()`
   - `__init__` (method, line 26) `def __init__(self, available)`
   - `is_available` (method, line 29) `def is_available(self)`
   - `god_nodes` (method, line 32) `def god_nodes(self, limit)`
   - `neighbors` (method, line 39) `def neighbors(self, query, depth, limit)`
-  - `runner` (method, line 129) `def runner(context)`
+  - `runner` (function, line 129) `def runner(context)`
 - Depends on: `cli/graph_overlay.py`
 
 ## tests/test_gui_xss_sinks.py
@@ -364,13 +436,13 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
 - Symbols:
   - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
   - `HelpUiSuiteConfig` (class, line 38) `class HelpUiSuiteConfig`
-  - `_methods_of` (method, line 65) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (method, line 77) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_help_cluster` (method, line 86) `def test_target_exposes_full_help_cluster()`
-  - `test_target_phase_metadata` (method, line 93) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (method, line 99) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (method, line 105) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (method, line 112) `def test_no_command_collisions_with_source()`
+  - `_methods_of` (function, line 65) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 77) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_help_cluster` (function, line 86) `def test_target_exposes_full_help_cluster()`
+  - `test_target_phase_metadata` (function, line 93) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 99) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 105) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 112) `def test_no_command_collisions_with_source()`
 - Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
 
 ## tests/test_host_policy.py
@@ -411,24 +483,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_headings_preserved` (method, line 86) `def test_headings_preserved(self)`
   - `test_strict_allowlist_strips_more` (method, line 96) `def test_strict_allowlist_strips_more(self)`
 - Depends on: `lazyc2/security/html_sanitizer.py`
-
-## tests/test_https_redirect.py
-- Doc: TDD tests for the HTTPS redirect contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeRequest` (class, line 23) `class _FakeRequest`
-  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
-  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
-  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
-  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
-  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
-  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
-  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
-  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
-  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
-  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
-- Depends on: `lazyc2/security/https_redirect.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

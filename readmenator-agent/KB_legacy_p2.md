@@ -43,12 +43,12 @@ Previous: [KB_legacy.md](KB_legacy.md)
 - Language: py
 - Symbols:
   - `Config` (class, line 14) `class Config`
-  - `load_payload` (method, line 23) `def load_payload()`
-  - `make_request` (method, line 28) `def make_request(url, retries, timeout)`
-  - `results` (method, line 49) `def results(file)`
-  - `crawl` (method, line 57) `def crawl(url)`
-  - `ffuf` (method, line 66) `def ffuf()`
-  - `analyze_seo` (method, line 76) `def analyze_seo(url)`
+  - `load_payload` (function, line 23) `def load_payload()`
+  - `make_request` (function, line 28) `def make_request(url, retries, timeout)`
+  - `results` (function, line 49) `def results(file)`
+  - `crawl` (function, line 57) `def crawl(url)`
+  - `ffuf` (function, line 66) `def ffuf()`
+  - `analyze_seo` (function, line 76) `def analyze_seo(url)`
   - `__init__` (method, line 15) `def __init__(self, config_dict)`
   - `__getitem__` (method, line 20) `def __getitem__(self, key)`
 - Depends on: `modules/colors.py`

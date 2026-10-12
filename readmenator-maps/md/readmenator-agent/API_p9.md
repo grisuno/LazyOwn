@@ -1,9 +1,51 @@
-# API (page 9 of 21)
+# API (page 9 of 22)
 Previous: [API_p8.md](API_p8.md)
 
+## modules/agent_runner.py
+Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
+Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
+- `configure_logging` (function) `modules/agent_runner.py:60` `def configure_logging(debug)`
+- `AgentTool.__init__` (method) `modules/agent_runner.py:69` `def __init__(self, name, description, func, parameters, required)`
+- `AgentTool.to_api_format` (method) `modules/agent_runner.py:77` `def to_api_format(self)`
+- `AgentTool.execute` (method) `modules/agent_runner.py:83` `def execute(self)` -- Ejecuta con validación de argumentos y formato claro
+- `ASTToolExtractor.extract_commands_from_file` (method) `modules/agent_runner.py:138` `def extract_commands_from_file(file_path, prefix)`
+- `AgentRunner.__init__` (method) `modules/agent_runner.py:176` `def __init__(self, model, system_prompt, max_iterations)`
+- `AgentRunner.register_tool` (method) `modules/agent_runner.py:201` `def register_tool(self, tool)`
+- `AgentRunner.register_tool_from_instance` (method) `modules/agent_runner.py:204` `def register_tool_from_instance(self, func)` -- Wrap a plain function as an AgentTool using its signature and docstring.
+- `AgentRunner.register_tools_from_metadata` (method) `modules/agent_runner.py:222` `def register_tools_from_metadata(self, commands, executor)`
+- `make_executor` (function) `modules/agent_runner.py:226` `def make_executor(cmd_name)`
+- `wrapper` (function) `modules/agent_runner.py:227` `def wrapper(command)`
+- `AgentRunner.get_tools_for_api` (method) `modules/agent_runner.py:249` `def get_tools_for_api(self)`
+- `AgentRunner.run` (method) `modules/agent_runner.py:254` `def run(self, user_input)`
+- `LazyOwnShellWrapper.__init__` (method) `modules/agent_runner.py:465` `def __init__(self, script_path)`
+- `LazyOwnShellWrapper.execute_command` (method) `modules/agent_runner.py:495` `def execute_command(self, command)` -- Ejecuta comando con timeout usando threading
+- `target` (function) `modules/agent_runner.py:502` `def target()`
+- `LazyOwnShellWrapper.get_commands_summary` (method) `modules/agent_runner.py:532` `def get_commands_summary(self)`
+- `VulnBotCLI.__init__` (method) `modules/agent_runner.py:540` `def __init__(self, provider, mode, debug, script_path)`
+- `VulnBotCLI.process_request` (method) `modules/agent_runner.py:595` `def process_request(self, user_input)`
+- `interactive_mode` (function) `modules/agent_runner.py:600` `def interactive_mode(bot)`
+- `parse_args` (function) `modules/agent_runner.py:624` `def parse_args()`
+- `main` (function) `modules/agent_runner.py:634` `def main()`
+
+## modules/ai_exploit_chain.py
+Depends on: `modules/autonomous_exploit_engine.py`
+Imported by: `cli/commands/pwn.py`, `skills/lazyown_mcp.py`
+- `AIExploitChainer.__init__` (method) `modules/ai_exploit_chain.py:259` `def __init__(self)`
+- `AIExploitChainer.reason` (method) `modules/ai_exploit_chain.py:285` `def reason(self, context)` -- Analyze context failures and produce the next best exploit candidate.
+- `AIExploitChainer.evaluate_failure` (method) `modules/ai_exploit_chain.py:306` `def evaluate_failure(result)` -- Classify the reason for an exploit failure by output pattern matching.
+- `AIExploitChainer.select_next_strategy` (method) `modules/ai_exploit_chain.py:318` `def select_next_strategy(self, context)` -- Select the next strategy to attempt based on context and failures.
+- `AIExploitChainer.estimate_confidence` (method) `modules/ai_exploit_chain.py:349` `def estimate_confidence(self, strategy, profile)` -- Estimate confidence (0.0-1.0) for a strategy against a target profile.
+- `AIExploitChainer.build_chain_plan` (method) `modules/ai_exploit_chain.py:391` `def build_chain_plan(self, context)` -- Build a full multi-step exploitation plan following the kill chain.
+- `AIExploitChainer.adapt_chain` (method) `modules/ai_exploit_chain.py:428` `def adapt_chain(self, context, new_info)` -- Adapt the chain plan based on newly discovered information.
+
+## modules/ai_fallback.py
+Depends on: `modules/llm_factory.py`, `modules/toposwarm_bridge.py`
+Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`
+- `call` (function) `modules/ai_fallback.py:254` `def call(prompt, system, api_key, max_tokens, temperature)` -- Call Groq → fallback to Ollama → fallback to TopoSwarm local brain → error.
+
 ## modules/ai_model.py
-Depends on: `core/logging.py`
-Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
+Depends on: `core/logging.py`, `modules/llm_factory.py`
+Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
 - `AIModel.generate` (method) `modules/ai_model.py:52` `def generate(self, prompt)` -- Return a non-streaming completion for ``prompt``.
 - `AIModel.stream_generate` (method) `modules/ai_model.py:56` `def stream_generate(self, prompt)` -- Yield streaming completion chunks for ``prompt``.
 - `AIModel.complete` (method) `modules/ai_model.py:59` `def complete(self, system, user, max_tokens, temperature)` -- Return a completion conforming to ``core.protocols.LLMBackend``.
@@ -11,24 +53,24 @@ Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `module
 - `_LazyImporter.openai` (method) `modules/ai_model.py:109` `def openai(cls)`
 - `_LazyImporter.anthropic` (method) `modules/ai_model.py:117` `def anthropic(cls)`
 - `GroqModel.__init__` (method) `modules/ai_model.py:133` `def __init__(self, api_key, model)`
-- `GroqModel.generate` (method) `modules/ai_model.py:137` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
-- `GroqModel.stream_generate` (method) `modules/ai_model.py:155` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
-- `GroqModel.complete` (method) `modules/ai_model.py:177` `def complete(self, system, user, max_tokens, temperature)` -- Return a chat completion using native role separation.
-- `OllamaModel.__init__` (method) `modules/ai_model.py:213` `def __init__(self, model, host)`
-- `OllamaModel.generate` (method) `modules/ai_model.py:221` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
-- `OllamaModel.stream_generate` (method) `modules/ai_model.py:241` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
-- `OpenAIModel.__init__` (method) `modules/ai_model.py:278` `def __init__(self, api_key, model)`
-- `OpenAIModel.generate` (method) `modules/ai_model.py:282` `def generate(self, prompt)`
-- `OpenAIModel.stream_generate` (method) `modules/ai_model.py:293` `def stream_generate(self, prompt)`
-- `OpenAIModel.complete` (method) `modules/ai_model.py:308` `def complete(self, system, user, max_tokens, temperature)`
-- `AnthropicModel.__init__` (method) `modules/ai_model.py:337` `def __init__(self, api_key, model)`
-- `AnthropicModel.generate` (method) `modules/ai_model.py:341` `def generate(self, prompt)`
-- `AnthropicModel.stream_generate` (method) `modules/ai_model.py:353` `def stream_generate(self, prompt)`
-- `AnthropicModel.complete` (method) `modules/ai_model.py:367` `def complete(self, system, user, max_tokens, temperature)`
-- `DeepSeekModel.__init__` (method) `modules/ai_model.py:394` `def __init__(self, api_key, model)`
-- `DeepSeekModel.generate` (method) `modules/ai_model.py:401` `def generate(self, prompt)`
-- `DeepSeekModel.stream_generate` (method) `modules/ai_model.py:412` `def stream_generate(self, prompt)`
-- `DeepSeekModel.complete` (method) `modules/ai_model.py:427` `def complete(self, system, user, max_tokens, temperature)`
+- `GroqModel.generate` (method) `modules/ai_model.py:151` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `GroqModel.stream_generate` (method) `modules/ai_model.py:179` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `GroqModel.complete` (method) `modules/ai_model.py:212` `def complete(self, system, user, max_tokens, temperature)` -- Return a chat completion using native role separation.
+- `OllamaModel.__init__` (method) `modules/ai_model.py:248` `def __init__(self, model, host)`
+- `OllamaModel.generate` (method) `modules/ai_model.py:256` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `OllamaModel.stream_generate` (method) `modules/ai_model.py:276` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `OpenAIModel.__init__` (method) `modules/ai_model.py:313` `def __init__(self, api_key, model)`
+- `OpenAIModel.generate` (method) `modules/ai_model.py:317` `def generate(self, prompt)`
+- `OpenAIModel.stream_generate` (method) `modules/ai_model.py:328` `def stream_generate(self, prompt)`
+- `OpenAIModel.complete` (method) `modules/ai_model.py:343` `def complete(self, system, user, max_tokens, temperature)`
+- `AnthropicModel.__init__` (method) `modules/ai_model.py:372` `def __init__(self, api_key, model)`
+- `AnthropicModel.generate` (method) `modules/ai_model.py:376` `def generate(self, prompt)`
+- `AnthropicModel.stream_generate` (method) `modules/ai_model.py:388` `def stream_generate(self, prompt)`
+- `AnthropicModel.complete` (method) `modules/ai_model.py:402` `def complete(self, system, user, max_tokens, temperature)`
+- `DeepSeekModel.__init__` (method) `modules/ai_model.py:429` `def __init__(self, api_key, model)`
+- `DeepSeekModel.generate` (method) `modules/ai_model.py:436` `def generate(self, prompt)`
+- `DeepSeekModel.stream_generate` (method) `modules/ai_model.py:447` `def stream_generate(self, prompt)`
+- `DeepSeekModel.complete` (method) `modules/ai_model.py:462` `def complete(self, system, user, max_tokens, temperature)`
 
 ## modules/amsi.c
 - `LoadNtFunctions` (function) `modules/amsi.c:38` `void LoadNtFunctions()` -- Función para cargar las funciones dinámicamente
@@ -59,7 +101,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/recommendation
 
 ## modules/asset_graph.py
 Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
-- `GraphConfig.asset_key` (method) `modules/asset_graph.py:28` `def asset_key(asset_type, value, parent_key)` -- Compute the stable deduplication key for an asset.
+- `asset_key` (function) `modules/asset_graph.py:28` `def asset_key(asset_type, value, parent_key)` -- Compute the stable deduplication key for an asset.
 - `AssetGraph.__init__` (method) `modules/asset_graph.py:73` `def __init__(self, config)` -- Initialize empty graphs and anchor indexes.
 - `AssetGraph.upsert_asset` (method) `modules/asset_graph.py:82` `def upsert_asset(self, asset_type, value, parent_key, company)` -- Insert or refresh an asset and return the canonical node.
 - `AssetGraph.add_node` (method) `modules/asset_graph.py:108` `def add_node(self, task_id, kind, text, parent_id, payload)` -- Append an exploration node to a task chain.
@@ -70,7 +112,7 @@ Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
 - `AssetGraph.nodes_for_asset` (method) `modules/asset_graph.py:151` `def nodes_for_asset(self, key)` -- List exploration nodes anchored to one asset.
 - `AssetGraph.coverage` (method) `modules/asset_graph.py:157` `def coverage(self, task_id)` -- Report tested versus total assets for a task.
 - `AssetGraph.mirror_to_campaign` (method) `modules/asset_graph.py:170` `def mirror_to_campaign(self, db, world_model, workspace_id)` -- Mirror graph assets into the campaign database and world model.
-- `AssetGraph.coverage_for` (method) `modules/asset_graph.py:214` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
+- `coverage_for` (function) `modules/asset_graph.py:214` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
 
 ## modules/atomic_enricher.py
 Depends on: `core/logging.py`
@@ -127,18 +169,37 @@ Imported by: `cli/commands/purple_team.py`
 - `PurpleTeamLoop.export_report` (method) `modules/auto_purple.py:571` `def export_report(self)` -- Generate a full engagement report.
 - `PurpleTeamLoop.last_results` (method) `modules/auto_purple.py:596` `def last_results(self, n)`
 - `PurpleTeamLoop.category_accuracy` (method) `modules/auto_purple.py:599` `def category_accuracy(self, category)`
-- `PurpleTeamLoop.get_loop` (method) `modules/auto_purple.py:772` `def get_loop(bt_path, detection_delay, methods, auto_feedback)` -- Return (or create) the module-level PurpleTeamLoop singleton.
-- `PurpleTeamLoop.load_config_from_payload` (method) `modules/auto_purple.py:790` `def load_config_from_payload(params)` -- Extract purple_team config from payload.json params dict.
+- `get_loop` (function) `modules/auto_purple.py:772` `def get_loop(bt_path, detection_delay, methods, auto_feedback)` -- Return (or create) the module-level PurpleTeamLoop singleton.
+- `load_config_from_payload` (function) `modules/auto_purple.py:790` `def load_config_from_payload(params)` -- Extract purple_team config from payload.json params dict.
 
 ## modules/auto_registry.py
-Imported by: `cli/commands/mcp_bridge.py`, `modules/lazy_loop.py`, `tests/test_auto_registry.py`
-- `AutoVerb.verbs` (method) `modules/auto_registry.py:98` `def verbs()` -- Return every canonical automation verb name.
-- `AutoVerb.is_shell_verb` (method) `modules/auto_registry.py:103` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `AutoVerb.build_command` (method) `modules/auto_registry.py:109` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `AutoVerb.verbs_for` (method) `modules/auto_registry.py:120` `def verbs_for(text)` -- Return verbs whose keywords appear in ``text`` (goal/intent/finding).
-- `AutoVerb.propose_intents` (method) `modules/auto_registry.py:127` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `AutoVerb.steps_for` (method) `modules/auto_registry.py:139` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `ShellResult.execute_shell_verb` (method) `modules/auto_registry.py:169` `def execute_shell_verb(shell, command, timeout_sec)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+Depends on: `modules/command_executor.py`, `modules/orchestrator_config.py`
+Imported by: `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+- `auto_verb_target` (function) `modules/auto_registry.py:35` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
+- `verb_enabled` (function) `modules/auto_registry.py:182` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `binary_available` (function) `modules/auto_registry.py:274` `def binary_available(name)` -- Return True when a command token can actually execute here.
+- `missing_binary` (function) `modules/auto_registry.py:290` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
+- `verb_gap` (function) `modules/auto_registry.py:302` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
+- `verb_available` (function) `modules/auto_registry.py:314` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
+- `service_tokens` (function) `modules/auto_registry.py:319` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
+- `iter_addon_triggers` (function) `modules/auto_registry.py:361` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
+- `iter_tool_triggers` (function) `modules/auto_registry.py:397` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
+- `addon_hits_for` (function) `modules/auto_registry.py:420` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
+- `propose_addon_intents` (function) `modules/auto_registry.py:446` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
+- `is_routable_command` (function) `modules/auto_registry.py:472` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
+- `verbs` (function) `modules/auto_registry.py:483` `def verbs()` -- Return every canonical automation verb name.
+- `is_shell_verb` (function) `modules/auto_registry.py:488` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `build_command` (function) `modules/auto_registry.py:494` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:505` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:511` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:528` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:587` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:592` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:605` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:710` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:715` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:720` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:743` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
@@ -181,7 +242,7 @@ Imported by: `modules/backdoor/backdoor.c`
 - `logg` (function) `modules/backdoor/keylogger.h:1` `DWORD WINAPI logg(LPVOID lpParam)`
 
 ## modules/backdoor/server.c
-Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
+Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_lazy_proxy.py`, `utils.py`
 - `main` (function) `modules/backdoor/server.c:10` `int main()`
 
 ## modules/beacon_config_builder.py
@@ -195,17 +256,17 @@ Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.p
 - `BeaconConfigBuilder.build` (method) `modules/beacon_config_builder.py:248` `def build(self, name)` -- Build a complete BeaconConfig.
 - `BeaconConfigBuilder.from_payload` (method) `modules/beacon_config_builder.py:403` `def from_payload(cls, payload)` -- Build a BeaconConfigBuilder from a payload dictionary.
 - `BeaconConfigBuilder.from_payload_file` (method) `modules/beacon_config_builder.py:408` `def from_payload_file(cls, path)` -- Build a BeaconConfigBuilder by loading payload.json from disk.
-- `BeaconConfigBuilder.generate_bof_execution_command` (method) `modules/beacon_config_builder.py:416` `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` -- Generate a ``bof:<url>`` command that the C beacon executes.
+- `generate_bof_execution_command` (function) `modules/beacon_config_builder.py:416` `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` -- Generate a ``bof:<url>`` command that the C beacon executes.
 
 ## modules/beacon_history.py
 Depends on: `core/logging.py`
 Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
 - `BeaconHistoryConfig.sessions_dir` (method) `modules/beacon_history.py:39` `def sessions_dir(self)` -- Return the resolved sessions directory under the base dir.
 - `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:43` `def records_path(self, client_id)` -- Resolve the history file path for a sanitised beacon client id.
-- `BeaconHistoryConfig.sanitize_client_id` (method) `modules/beacon_history.py:70` `def sanitize_client_id(client_id)` -- Sanitise a beacon id to only URL/file-safe characters.
-- `BeaconHistoryConfig.append_record` (method) `modules/beacon_history.py:82` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
-- `BeaconHistoryConfig.read_records` (method) `modules/beacon_history.py:116` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
-- `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:145` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
+- `sanitize_client_id` (function) `modules/beacon_history.py:70` `def sanitize_client_id(client_id)` -- Sanitise a beacon id to only URL/file-safe characters.
+- `append_record` (function) `modules/beacon_history.py:82` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
+- `read_records` (function) `modules/beacon_history.py:116` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
+- `records_path` (function) `modules/beacon_history.py:145` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
 
 ## modules/bin2img.py
 - `binario_a_imagen` (function) `modules/bin2img.py:7` `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
@@ -213,13 +274,13 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`,
 
 ## modules/bitm_engine.py
 Imported by: `cli/commands/bitm.py`
-- `BitMState.bitm_start` (method) `modules/bitm_engine.py:257` `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)` -- Start a Browser-in-the-Middle attack.
-- `BitMState.bitm_stop` (method) `modules/bitm_engine.py:481` `def bitm_stop()` -- Stop a running BitM attack and clean up iptables.
-- `BitMState.bitm_status` (method) `modules/bitm_engine.py:539` `def bitm_status()` -- Return the current BitM attack status.
-- `BitMState.bitm_inject` (method) `modules/bitm_engine.py:572` `def bitm_inject(payload_name)` -- Inject an additional JS payload into an active BitM session.
-- `BitMState.bitm_harvest_stats` (method) `modules/bitm_engine.py:607` `def bitm_harvest_stats()` -- Return statistics on harvested credentials from the active/past campaign.
-- `BitMState.bitm_cleanup` (method) `modules/bitm_engine.py:642` `def bitm_cleanup()` -- Force-kill all BitM processes and remove the state file.
-- `BitMState.main` (method) `modules/bitm_engine.py:661` `def main()` -- CLI entry point — display BitM status from command line.
+- `bitm_start` (function) `modules/bitm_engine.py:257` `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)` -- Start a Browser-in-the-Middle attack.
+- `bitm_stop` (function) `modules/bitm_engine.py:481` `def bitm_stop()` -- Stop a running BitM attack and clean up iptables.
+- `bitm_status` (function) `modules/bitm_engine.py:539` `def bitm_status()` -- Return the current BitM attack status.
+- `bitm_inject` (function) `modules/bitm_engine.py:572` `def bitm_inject(payload_name)` -- Inject an additional JS payload into an active BitM session.
+- `bitm_harvest_stats` (function) `modules/bitm_engine.py:607` `def bitm_harvest_stats()` -- Return statistics on harvested credentials from the active/past campaign.
+- `bitm_cleanup` (function) `modules/bitm_engine.py:642` `def bitm_cleanup()` -- Force-kill all BitM processes and remove the state file.
+- `main` (function) `modules/bitm_engine.py:661` `def main()` -- CLI entry point — display BitM status from command line.
 
 ## modules/bof_registry.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`
@@ -258,12 +319,6 @@ Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 - `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:761` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
 - `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:769` `def bulk_install(self, names)` -- Install multiple BOFs at once.
 
-## modules/bot.py
-- `BotConfig.find_new_repos` (method) `modules/bot.py:48` `def find_new_repos(language, days, count, order, config)` -- Search GitHub for recently created repositories.
-- `BotConfig.render_repos` (method) `modules/bot.py:102` `def render_repos(repos, config)` -- Render repository summaries to text and persist them to disk.
-- `BotConfig.format_output` (method) `modules/bot.py:128` `def format_output(content, config)` -- Pipe rendered content through the external formatter when available.
-- `BotConfig.main` (method) `modules/bot.py:148` `def main(config)` -- Discover recent repositories and render them.
-
 ## modules/c2_builder.py
 Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
@@ -300,9 +355,9 @@ Depends on: `core/logging.py`
 - `ProfileApplier.apply_to_response` (method) `modules/c2_profile.py:529` `def apply_to_response(profile, response)` -- Patch the headers of a Flask response object to match the profile.
 - `ProfileApplier.apply_to_session` (method) `modules/c2_profile.py:554` `def apply_to_session(profile, session)` -- Configure a requests.Session to mimic the profile's HTTP GET behavior.
 - `ProfileApplier.get_beacon_config` (method) `modules/c2_profile.py:567` `def get_beacon_config(profile)` -- Return a JSON-serialisable dict suitable for embedding in a beacon handshake response.
-- `ProfileApplier.get_registry` (method) `modules/c2_profile.py:595` `def get_registry()` -- Return the module-level singleton ProfileRegistry.
-- `ProfileApplier.get_profile` (method) `modules/c2_profile.py:620` `def get_profile(name)` -- Return the named profile from the module singleton registry.
-- `ProfileApplier.list_profiles` (method) `modules/c2_profile.py:625` `def list_profiles()` -- Return a sorted list of all registered profile names.
+- `get_registry` (function) `modules/c2_profile.py:595` `def get_registry()` -- Return the module-level singleton ProfileRegistry.
+- `get_profile` (function) `modules/c2_profile.py:620` `def get_profile(name)` -- Return the named profile from the module singleton registry.
+- `list_profiles` (function) `modules/c2_profile.py:625` `def list_profiles()` -- Return a sorted list of all registered profile names.
 
 ## modules/c2_profile_engine.py
 Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
@@ -384,11 +439,11 @@ Imported by: `cli/commands/cloud.py`
 ## modules/collab_bp.py
 Depends on: `core/logging.py`, `modules/lazy_rbac.py`
 Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
-- `login_required` (method) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
-- `decorated` (method) `modules/collab_bp.py:84` `def decorated()`
-- `decorated` (method) `modules/collab_bp.py:124` `def decorated()`
-- `decorator` (method) `modules/collab_bp.py:139` `def decorator(f)`
-- `decorated` (method) `modules/collab_bp.py:141` `def decorated()`
+- `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
+- `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
+- `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
+- `decorator` (function) `modules/collab_bp.py:139` `def decorator(f)`
+- `decorated` (function) `modules/collab_bp.py:141` `def decorated()`
 - `ColabEvent.to_sse` (method) `modules/collab_bp.py:170` `def to_sse(self)`
 - `EventBus.__init__` (method) `modules/collab_bp.py:198` `def __init__(self)`
 - `EventBus.subscribe` (method) `modules/collab_bp.py:203` `def subscribe(self, subscriber_id)`
@@ -408,84 +463,25 @@ Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_h
 - `OperatorRegistry.leave` (method) `modules/collab_bp.py:340` `def leave(self, name)`
 - `OperatorRegistry.active_operators` (method) `modules/collab_bp.py:345` `def active_operators(self)`
 - `OperatorRegistry.reset` (method) `modules/collab_bp.py:356` `def reset(self)`
-- `OperatorRegistry.get_event_bus` (method) `modules/collab_bp.py:370` `def get_event_bus()`
-- `OperatorRegistry.get_lock_manager` (method) `modules/collab_bp.py:374` `def get_lock_manager()`
-- `OperatorRegistry.get_operator_registry` (method) `modules/collab_bp.py:378` `def get_operator_registry()`
-- `OperatorRegistry.publish_event` (method) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
-- `OperatorRegistry.collab_ui` (method) `modules/collab_bp.py:396` `def collab_ui()`
-- `OperatorRegistry.stream` (method) `modules/collab_bp.py:411` `def stream()`
-- `OperatorRegistry.generate` (method) `modules/collab_bp.py:424` `def generate()`
-- `OperatorRegistry.operators` (method) `modules/collab_bp.py:458` `def operators()`
-- `OperatorRegistry.publish` (method) `modules/collab_bp.py:470` `def publish()`
-- `OperatorRegistry.lock` (method) `modules/collab_bp.py:483` `def lock()`
-- `OperatorRegistry.unlock` (method) `modules/collab_bp.py:504` `def unlock()`
-- `OperatorRegistry.locks` (method) `modules/collab_bp.py:522` `def locks()`
-- `OperatorRegistry.history` (method) `modules/collab_bp.py:537` `def history()`
+- `get_event_bus` (function) `modules/collab_bp.py:370` `def get_event_bus()`
+- `get_lock_manager` (function) `modules/collab_bp.py:374` `def get_lock_manager()`
+- `get_operator_registry` (function) `modules/collab_bp.py:378` `def get_operator_registry()`
+- `publish_event` (function) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
+- `collab_ui` (function) `modules/collab_bp.py:396` `def collab_ui()`
+- `stream` (function) `modules/collab_bp.py:411` `def stream()`
+- `generate` (function) `modules/collab_bp.py:424` `def generate()`
+- `operators` (function) `modules/collab_bp.py:458` `def operators()`
+- `publish` (function) `modules/collab_bp.py:470` `def publish()`
+- `lock` (function) `modules/collab_bp.py:483` `def lock()`
+- `unlock` (function) `modules/collab_bp.py:504` `def unlock()`
+- `locks` (function) `modules/collab_bp.py:522` `def locks()`
+- `history` (function) `modules/collab_bp.py:537` `def history()`
 
 ## modules/colors.py
 Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 - `retModel` (function) `modules/colors.py:40` `def retModel()` -- gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k    32,768...
 - `delete_lines` (function) `modules/colors.py:68` `def delete_lines(content, to_delete)`
 - `no_html` (function) `modules/colors.py:74` `def no_html(content)`
-
-## modules/command_executor.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/event_bus.py`
-Imported by: `lazyown.py`, `tests/test_executor_kernel.py`
-- `CommandExecutor.__init__` (method) `modules/command_executor.py:63` `def __init__(self)`
-- `CommandExecutor.instance` (method) `modules/command_executor.py:67` `def instance(cls)`
-- `CommandExecutor.add_hook` (method) `modules/command_executor.py:72` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
-- `CommandExecutor.run` (method) `modules/command_executor.py:76` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
-- `CommandExecutor.run_passthrough` (method) `modules/command_executor.py:124` `def run_passthrough(self, command, env)` -- Run a command with stdio inherited, returning its exit code.
-- `CommandExecutor.run_tee` (method) `modules/command_executor.py:139` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
-- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:283` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
-- `CommandExecutor.get_executor` (method) `modules/command_executor.py:351` `def get_executor()`
-
-## modules/compliance.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`
-- `EvidenceChain.__init__` (method) `modules/compliance.py:357` `def __init__(self, sessions_dir)`
-- `EvidenceChain.add_file` (method) `modules/compliance.py:383` `def add_file(self, filepath, operator, description)`
-- `EvidenceChain.verify` (method) `modules/compliance.py:410` `def verify(self)`
-- `EvidenceChain.get_chain_digest` (method) `modules/compliance.py:429` `def get_chain_digest(self)`
-- `EvidenceChain.to_report` (method) `modules/compliance.py:432` `def to_report(self)`
-- `EvidenceChain.export_pdf` (method) `modules/compliance.py:449` `def export_pdf(report_md, output_path, title, classification)` -- Export a Markdown report to PDF using fpdf2.
-- `EvidenceChain.export_to_elastic_ndjson` (method) `modules/compliance.py:533` `def export_to_elastic_ndjson(findings, output_path, index_prefix)` -- Export findings as Elasticsearch NDJSON bulk format.
-- `EvidenceChain.export_to_cef` (method) `modules/compliance.py:572` `def export_to_cef(findings, output_path, vendor, product, version)` -- Export findings in CEF (Common Event Format) for ArcSight/QRadar/Splunk.
-- `ComplianceEngine.__init__` (method) `modules/compliance.py:635` `def __init__(self, sessions_dir)`
-- `ComplianceEngine.map_findings_to_compliance` (method) `modules/compliance.py:639` `def map_findings_to_compliance(self, findings, frameworks)` -- Map findings to compliance framework controls.
-- `ComplianceEngine.generate_compliance_report` (method) `modules/compliance.py:710` `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` -- Generate a full compliance report with evidence chain and optional SIEM export.
-- `ComplianceEngine.export_pdf` (method) `modules/compliance.py:831` `def export_pdf(self, report, output_path)`
-- `ComplianceEngine.add_evidence` (method) `modules/compliance.py:901` `def add_evidence(self, filepath, operator, description)`
-- `ComplianceEngine.verify_evidence_chain` (method) `modules/compliance.py:904` `def verify_evidence_chain(self)`
-
-## modules/conditional_hooks.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
-- `HookRule.can_fire` (method) `modules/conditional_hooks.py:56` `def can_fire(self, now)`
-- `HookRule.mark_fired` (method) `modules/conditional_hooks.py:65` `def mark_fired(self)`
-- `HookRule.to_dict` (method) `modules/conditional_hooks.py:69` `def to_dict(self)`
-- `HookEngine.__init__` (method) `modules/conditional_hooks.py:270` `def __init__(self)`
-- `HookEngine.register_action_handler` (method) `modules/conditional_hooks.py:277` `def register_action_handler(self, action_type, handler)` -- Register a handler for a custom action type.
-- `HookEngine.set_placeholders` (method) `modules/conditional_hooks.py:286` `def set_placeholders(self, placeholders)` -- Set placeholder values for command templating (rhost, lhost, etc.).
-- `HookEngine.load_rules` (method) `modules/conditional_hooks.py:290` `def load_rules(self, path)` -- Load rules from JSON file, or create it with defaults.
-- `HookEngine.save_rules` (method) `modules/conditional_hooks.py:322` `def save_rules(self, path)` -- Persist current rules to JSON.
-- `HookEngine.add_rule` (method) `modules/conditional_hooks.py:330` `def add_rule(self, rule_dict)` -- Add a rule at runtime.
-- `HookEngine.remove_rule` (method) `modules/conditional_hooks.py:345` `def remove_rule(self, name)` -- Remove a rule by name.
-- `HookEngine.enable_rule` (method) `modules/conditional_hooks.py:359` `def enable_rule(self, name, enabled)` -- Enable or disable a rule by name.
-- `HookEngine.fire` (method) `modules/conditional_hooks.py:516` `def fire(self, event, context)` -- Fire an event, evaluating all matching rules.
-- `HookEngine.list_rules` (method) `modules/conditional_hooks.py:571` `def list_rules(self)` -- Return all rules as dictionaries.
-- `HookEngine.get_rule` (method) `modules/conditional_hooks.py:575` `def get_rule(self, name)` -- Return a single rule by name, or None.
-- `HookEngine.get_hook_engine` (method) `modules/conditional_hooks.py:586` `def get_hook_engine()` -- Return the singleton :class:`HookEngine`.
-
-## modules/config_store.py
-Depends on: `core/config.py`, `core/logging.py`
-Imported by: `tests/test_core_modules.py`
-- `init` (function) `modules/config_store.py:36` `def init(path, watch)` -- Initialise the config store (idempotent).
-- `get_config` (function) `modules/config_store.py:53` `def get_config(key, default)` -- Return a config value (or the full dict when *key* is empty).
-- `set_config` (function) `modules/config_store.py:66` `def set_config()` -- Update one or more keys and persist to disk atomically.
-- `set_config_dict` (function) `modules/config_store.py:80` `def set_config_dict(updates)` -- Bulk-update from a dict and persist to disk.
-- `reload_config` (function) `modules/config_store.py:90` `def reload_config()` -- Force reload from disk (discards in-memory changes).
-- `stop_watcher` (function) `modules/config_store.py:96` `def stop_watcher()` -- Stop the file-watcher background thread (if running).
 
 
 Next: [API_p10.md](API_p10.md)

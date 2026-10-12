@@ -1365,8 +1365,7 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
         _pending = None
     if _pending:
         _console.print(
-            f"  [bold]Approvals[/]     [bold yellow]1 pending[/]  "
-            f"[dim]{str(_pending.get('command', ''))[:60]}[/]"
+            f"  [bold]Approvals[/]     [bold yellow]1 pending[/]  [dim]{str(_pending.get('command', ''))[:60]}[/]"
         )
 
     # What's next

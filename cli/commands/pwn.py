@@ -72,6 +72,7 @@ class PwnCommandSet(LazyOwnCommandSet):
             # LAZY coverage parity: never re-scan what sessions/ holds.
             try:
                 from modules.enrich import should_rescan as _should_rescan
+
                 _need = _should_rescan("sessions", target)
             except Exception:
                 _need = True

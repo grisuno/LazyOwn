@@ -1,6 +1,36 @@
 # Subsystem: commands (page 4 of 4)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/redteam_gym.py
+- Doc: Red Team Gym CLI command set — gamified pentest training.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RedTeamGymCommandSet` (class, line 32) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
+  - `do_gym` (method, line 39) `def do_gym(self, line)`
+  - `_gym_list` (method, line 83) `def _gym_list(self)`
+  - `_gym_start` (method, line 117) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 154) `def _gym_submit(self, args)`
+  - `_gym_status` (method, line 198) `def _gym_status(self)`
+  - `_gym_leaderboard` (method, line 223) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 257) `def _gym_hint(self)`
+- Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
+
+## cli/commands/resource_scripting.py
+- Doc: Resource script commands — run .ls scripts, record macros, spool output.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ResourceCommandSet` (class, line 25) `class ResourceCommandSet(LazyOwnCommandSet)`
+  - `_make_context` (method, line 31) `def _make_context(self)`
+  - `do_resource` (method, line 49) `def do_resource(self, line)`
+  - `do_makerc` (method, line 88) `def do_makerc(self, line)`
+  - `do_spool` (method, line 122) `def do_spool(self, line)`
+  - `do_mkrc` (method, line 152) `def do_mkrc(self, line)`
+  - `on_cmd` (function, line 35) `def on_cmd(cmd)`
+  - `on_print` (function, line 39) `def on_print(msg)`
+- Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
+
 ## cli/commands/scan.py
 - Doc: Scanning command set.
 - Layer: utility
@@ -76,12 +106,12 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_net_rpc_addmem` (method, line 2742) `def do_net_rpc_addmem(self, line)`
   - `do_pre2k` (method, line 2788) `def do_pre2k(self, line)`
   - `do_hound` (method, line 2881) `def do_hound(self, line)`
-  - `find_tgts` (method, line 533) `def find_tgts(subnet)`
-  - `setup_handler` (method, line 559) `def setup_handler(config_file, lhost, lport)`
-  - `conficker_exploit` (method, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
-  - `smb_brute` (method, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
-  - `install_netexec` (method, line 988) `def install_netexec()`
-  - `install_netexec_pipx` (method, line 993) `def install_netexec_pipx()`
+  - `find_tgts` (function, line 533) `def find_tgts(subnet)`
+  - `setup_handler` (function, line 559) `def setup_handler(config_file, lhost, lport)`
+  - `conficker_exploit` (function, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
+  - `smb_brute` (function, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
+  - `install_netexec` (function, line 988) `def install_netexec()`
+  - `install_netexec_pipx` (function, line 993) `def install_netexec_pipx()`
 - Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/security.py
@@ -121,27 +151,27 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_payload` (method, line 589) `def do_payload(self, line)`
   - `do_next` (method, line 640) `def do_next(self, line)`
   - `do_frontier` (method, line 684) `def do_frontier(self, line)`
-  - `do_traces` (method, line 730) `def do_traces(self, line)`
-  - `do_chainmode` (method, line 811) `def do_chainmode(self, line)`
-  - `do_engage` (method, line 862) `def do_engage(self, line)`
-  - `do_pipeline` (method, line 989) `def do_pipeline(self, line)`
-  - `do_lazyscript` (method, line 1080) `def do_lazyscript(self, line)`
-  - `do_hunt` (method, line 1112) `def do_hunt(self, line)`
-  - `do_resume` (method, line 1202) `def do_resume(self, line)`
-  - `do_getseclist` (method, line 1224) `def do_getseclist(self, line)`
-  - `do_download_resources` (method, line 1262) `def do_download_resources(self, line)`
-  - `do_collab_join` (method, line 1295) `def do_collab_join(self, line)`
-  - `do_kick` (method, line 1326) `def do_kick(self, line)`
-  - `do_qa` (method, line 1375) `def do_qa(self, line)`
-  - `do_clock` (method, line 1416) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1464) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1476) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1526) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1572) `def do_msfshellcoder(self, line)`
-  - `_flag_value` (method, line 926) `def _flag_value(flag_name)`
-  - `_flag_value` (method, line 1038) `def _flag_value(flag_name)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
-- Imported by: `tests/test_session_ops_command_set.py`
+  - `do_traces` (method, line 728) `def do_traces(self, line)`
+  - `do_chainmode` (method, line 809) `def do_chainmode(self, line)`
+  - `do_engage` (method, line 860) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 987) `def do_pipeline(self, line)`
+  - `do_lazyscript` (method, line 1078) `def do_lazyscript(self, line)`
+  - `do_hunt` (method, line 1110) `def do_hunt(self, line)`
+  - `do_resume` (method, line 1201) `def do_resume(self, line)`
+  - `do_getseclist` (method, line 1223) `def do_getseclist(self, line)`
+  - `do_download_resources` (method, line 1261) `def do_download_resources(self, line)`
+  - `do_collab_join` (method, line 1294) `def do_collab_join(self, line)`
+  - `do_kick` (method, line 1325) `def do_kick(self, line)`
+  - `do_qa` (method, line 1374) `def do_qa(self, line)`
+  - `do_clock` (method, line 1430) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1478) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1490) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1540) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1586) `def do_msfshellcoder(self, line)`
+  - `_flag_value` (function, line 924) `def _flag_value(flag_name)`
+  - `_flag_value` (function, line 1036) `def _flag_value(flag_name)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+- Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
 
 ## cli/commands/shellsys.py
 - Doc: Local shell and system extracted from the miscellaneous cluster.
@@ -159,7 +189,7 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_fixel` (method, line 336) `def do_fixel(self, line)`
   - `do_pop` (method, line 369) `def do_pop(self, line)`
   - `do_tab` (method, line 406) `def do_tab(self, line)`
-  - `lazyrun_command` (method, line 205) `def lazyrun_command()`
+  - `lazyrun_command` (function, line 205) `def lazyrun_command()`
 - Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
 - Imported by: `tests/test_shellsys_command_set.py`
 
@@ -191,15 +221,15 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Language: py
 - Symbols:
   - `SupplyChainCommandSet` (class, line 88) `class SupplyChainCommandSet(LazyOwnCommandSet)`
-  - `_parse_requirements` (method, line 282) `def _parse_requirements(filepath)`
-  - `_parse_package_json` (method, line 307) `def _parse_package_json(filepath)`
-  - `_parse_gemfile` (method, line 328) `def _parse_gemfile(filepath)`
-  - `_parse_cargo_toml` (method, line 348) `def _parse_cargo_toml(filepath)`
-  - `_parse_go_mod` (method, line 377) `def _parse_go_mod(filepath)`
-  - `_parse_pom_xml` (method, line 397) `def _parse_pom_xml(filepath)`
-  - `_pypi_exists` (method, line 425) `def _pypi_exists(package_name)`
-  - `is_internal_name` (method, line 450) `def is_internal_name(name)`
-  - `_extract_flag` (method, line 475) `def _extract_flag(args, flag)`
+  - `_parse_requirements` (function, line 282) `def _parse_requirements(filepath)`
+  - `_parse_package_json` (function, line 307) `def _parse_package_json(filepath)`
+  - `_parse_gemfile` (function, line 328) `def _parse_gemfile(filepath)`
+  - `_parse_cargo_toml` (function, line 348) `def _parse_cargo_toml(filepath)`
+  - `_parse_go_mod` (function, line 377) `def _parse_go_mod(filepath)`
+  - `_parse_pom_xml` (function, line 397) `def _parse_pom_xml(filepath)`
+  - `_pypi_exists` (function, line 425) `def _pypi_exists(package_name)`
+  - `is_internal_name` (function, line 450) `def is_internal_name(name)`
+  - `_extract_flag` (function, line 475) `def _extract_flag(args, flag)`
   - `do_depconfuse` (method, line 95) `def do_depconfuse(self, line)`
   - `do_package_squat` (method, line 140) `def do_package_squat(self, line)`
   - `do_depscan` (method, line 216) `def do_depscan(self, line)`

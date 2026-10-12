@@ -129,3 +129,12 @@ def test_sanitize_line_strips_ansi_and_cr() -> None:
 
     assert sanitize_line("\x1b[32mhi\x1b[0m\r\n") == "hi"
     assert sanitize_line("[timeout] curl http://x/") == "[timeout] curl http://x/"
+
+
+def test_sanitize_line_keeps_ansi_when_asked() -> None:
+    """Live worker output keeps SGR colors for the transcript."""
+    from modules.loop_progress import sanitize_line
+
+    kept = sanitize_line("\x1b[32mhi\x1b[0m\r\n", keep_ansi=True)
+    assert "\x1b[32m" in kept and kept.endswith("hi\x1b[0m")
+    assert "\r" not in kept

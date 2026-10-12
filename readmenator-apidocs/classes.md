@@ -1,0 +1,1456 @@
+# Class Hierarchy
+
+Project types nested under the project types they derive from. External bases are listed in parentheses.
+
+[Back to index](index.md)
+
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+  - [`Ct.G.I.J`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m) class in `static/js/quill-2.0.3.js`
+    - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t) class in `static/js/quill-2.0.3.js`
+      - [`Ct`](modules/static.js.quill-2.0.3.js.md#ct) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt.u`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt-u) class in `static/js/quill-2.0.3.js`
+    - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g) class in `static/js/quill-2.0.3.js`
+      - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h) class in `static/js/quill-2.0.3.js`
+- [`P.S.a.a`](modules/static.js.xterm.js.md#p-s-a-a) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a`](modules/static.js.xterm.js.md#p-s-a-a-a) class in `static/js/xterm.js`(a.Disposable)
+- [`AbstractReader`](modules/modules.session_reader.py.md#abstractreader) class in `modules.session_reader`(ABC)
+  - [`CommandOutputReader`](modules/modules.session_reader.py.md#commandoutputreader) class in `modules.session_reader`
+  - [`DiscoveredHostReader`](modules/modules.session_reader.py.md#discoveredhostreader) class in `modules.session_reader`
+  - [`ImplantCSVReader`](modules/modules.session_reader.py.md#implantcsvreader) class in `modules.session_reader`
+  - [`TaskReader`](modules/modules.session_reader.py.md#taskreader) class in `modules.session_reader`
+- [`AbstractSelector`](modules/modules.lazyown_bridge.py.md#abstractselector) class in `modules.lazyown_bridge`(ABC)
+  - [`MitreAlignedSelector`](modules/modules.lazyown_bridge.py.md#mitrealignedselector) class in `modules.lazyown_bridge`
+  - [`ServiceAwareSelector`](modules/modules.lazyown_bridge.py.md#serviceawareselector) class in `modules.lazyown_bridge`
+  - [`TagSelector`](modules/modules.lazyown_bridge.py.md#tagselector) class in `modules.lazyown_bridge`
+- [`AbstractSignalMatcher`](modules/modules.reactive_engine.py.md#abstractsignalmatcher) class in `modules.reactive_engine`(ABC)
+  - [`AVBlockedMatcher`](modules/modules.reactive_engine.py.md#avblockedmatcher) class in `modules.reactive_engine`
+  - [`CredentialFoundMatcher`](modules/modules.reactive_engine.py.md#credentialfoundmatcher) class in `modules.reactive_engine`
+  - [`DataOfInterestMatcher`](modules/modules.reactive_engine.py.md#dataofinterestmatcher) class in `modules.reactive_engine`
+  - [`LateralOpportunityMatcher`](modules/modules.reactive_engine.py.md#lateralopportunitymatcher) class in `modules.reactive_engine`
+  - [`NewHostMatcher`](modules/modules.reactive_engine.py.md#newhostmatcher) class in `modules.reactive_engine`
+  - [`PrivescHintMatcher`](modules/modules.reactive_engine.py.md#priveschintmatcher) class in `modules.reactive_engine`
+  - [`ServiceVersionMatcher`](modules/modules.reactive_engine.py.md#serviceversionmatcher) class in `modules.reactive_engine`
+  - [`ShellErrorMatcher`](modules/modules.reactive_engine.py.md#shellerrormatcher) class in `modules.reactive_engine`
+- [`AccessFact`](modules/skills.lazyown_facts.py.md#accessfact) class in `skills.lazyown_facts`
+- [`ACEntry`](modules/modules.dacl_abuse.py.md#acentry) class in `modules.dacl_abuse`
+- [`ACIEngine`](modules/skills.aci_planner.py.md#aciengine) class in `skills.aci_planner`
+- [`ACIGoal`](modules/skills.aci_planner.py.md#acigoal) class in `skills.aci_planner`
+- [`ACIPlan`](modules/skills.aci_planner.py.md#aciplan) class in `skills.aci_planner`
+- [`ACIPlanner`](modules/skills.aci_planner.py.md#aciplanner) class in `skills.aci_planner`
+- [`ACIReflector`](modules/skills.aci_planner.py.md#acireflector) class in `skills.aci_planner`
+- [`ACLTarget`](modules/modules.dacl_abuse.py.md#acltarget) class in `modules.dacl_abuse`
+- [`ActionCategory`](modules/skills.lazyown_policy.py.md#actioncategory) enum in `skills.lazyown_policy`(StrEnum)
+- [`ActivityLog`](modules/modules.lazy_loop.py.md#activitylog) class in `modules.lazy_loop`
+- [`ADCSCertipyWrapper`](modules/modules.adcs_attacks.py.md#adcscertipywrapper) class in `modules.adcs_attacks`
+- [`AddonCatalog`](modules/cli.exploration.py.md#addoncatalog) class in `cli.exploration`
+- [`AddonCreatorConfig`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig) class in `lazyc2.addon_creator`
+- [`AddonDraft`](modules/lazyc2.addon_creator.py.md#addondraft) class in `lazyc2.addon_creator`
+- [`AddonEntry`](modules/cli.exploration.py.md#addonentry) class in `cli.exploration`
+- [`AddonInfo`](modules/cli.marketplace_config.py.md#addoninfo) class in `cli.marketplace_config`
+- [`AddonRegistry`](modules/cli.marketplace_config.py.md#addonregistry) class in `cli.marketplace_config`
+- [`AddonStore`](modules/lazyc2.addon_creator.py.md#addonstore) class in `lazyc2.addon_creator`
+- [`AddonValidationError`](modules/lazyc2.addon_creator.py.md#addonvalidationerror) exception in `lazyc2.addon_creator`(ValueError)
+- [`AddonValidator`](modules/lazyc2.addon_creator.py.md#addonvalidator) class in `lazyc2.addon_creator`
+- [`AddonYamlRenderer`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer) class in `lazyc2.addon_creator`
+- [`AESKeyManager`](modules/lazyc2.security.services.py.md#aeskeymanager) class in `lazyc2.security.services`
+- [`AgentBridgeWorker`](modules/modules.mcp_agent_bridge.py.md#agentbridgeworker) class in `modules.mcp_agent_bridge`
+- [`AgentRunner`](modules/modules.agent_runner.py.md#agentrunner) class in `modules.agent_runner`
+  - [`ObservableAgentRunner`](modules/modules.lazy_agent.py.md#observableagentrunner) class in `modules.lazy_agent`
+- [`AgentTool`](modules/modules.agent_runner.py.md#agenttool) class in `modules.agent_runner`
+- [`AIExploitChainer`](modules/modules.ai_exploit_chain.py.md#aiexploitchainer) class in `modules.ai_exploit_chain`
+- [`AIModel`](modules/modules.ai_model.py.md#aimodel) class in `modules.ai_model`(ABC)
+  - [`AnthropicModel`](modules/modules.ai_model.py.md#anthropicmodel) class in `modules.ai_model`
+  - [`DeepSeekModel`](modules/modules.ai_model.py.md#deepseekmodel) class in `modules.ai_model`
+  - [`GroqModel`](modules/modules.ai_model.py.md#groqmodel) class in `modules.ai_model`
+  - [`OllamaModel`](modules/modules.ai_model.py.md#ollamamodel) class in `modules.ai_model`
+  - [`OpenAIModel`](modules/modules.ai_model.py.md#openaimodel) class in `modules.ai_model`
+- [`AIResult`](modules/modules.ai_fallback.py.md#airesult) class in `modules.ai_fallback`
+- [`Alert`](modules/lazy_sentinel4.py.md#alert) class in `lazy_sentinel4`
+- [`AliasResolver`](modules/cli.cli_enhancements.py.md#aliasresolver) class in `cli.cli_enhancements`(ABC)
+  - [`DynamicAliasResolver`](modules/cli.cli_enhancements.py.md#dynamicaliasresolver) class in `cli.cli_enhancements`
+- [`AnalyzerResult`](modules/skills.claude_md_orchestrator.reviewer_agent.py.md#analyzerresult) class in `skills.claude_md_orchestrator.reviewer_agent`
+- [`Anchor`](modules/modules.asset_graph.py.md#anchor) class in `modules.asset_graph`
+- [`ApiAuthzConfig`](modules/core.api_authz.py.md#apiauthzconfig) class in `core.api_authz`
+- [`ApiKey`](modules/core.api_authz.py.md#apikey) class in `core.api_authz`
+- [`ApiKeyStore`](modules/core.api_authz.py.md#apikeystore) class in `core.api_authz`
+- [`App`](modules/lazy_sentinel4.py.md#app) class in `lazy_sentinel4`(cmd2.Cmd)
+  - [`LazyOwnDashboard`](modules/cli.dashboard_tui.py.md#lazyowndashboard) class in `cli.dashboard_tui`
+  - [`LazyMonitorApp`](modules/cli.lazy_monitor.py.md#lazymonitorapp) class in `cli.lazy_monitor`
+  - [`LazyOrchestratorApp`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp) class in `cli.lazy_orchestrator`
+  - [`PurpleDashboard`](modules/cli.purple_tui.py.md#purpledashboard) class in `cli.purple_tui`
+  - [`ReverseShellApp`](modules/modules.kivi.py.md#reverseshellapp) class in `modules.kivi`
+  - [`LazyOwnTUI`](modules/poc_tui.app.py.md#lazyowntui) class in `poc_tui.app`
+- [`AppConstants`](modules/lazygui.config.constants.py.md#appconstants) class in `lazygui.config.constants`
+- [`Application`](modules/lazygui.app.py.md#application) class in `lazygui.app`
+- [`AppPaths`](modules/lazygui.config.paths.py.md#apppaths) class in `lazygui.config.paths`
+- [`ApprovalDecision`](modules/skills.lazyown_policy.py.md#approvaldecision) enum in `skills.lazyown_policy`(StrEnum)
+- [`ApprovalGate`](modules/skills.lazyown_policy.py.md#approvalgate) class in `skills.lazyown_policy`
+- [`ApprovalOutcome`](modules/skills.lazyown_policy.py.md#approvaloutcome) class in `skills.lazyown_policy`
+- [`ApprovalRequest`](modules/skills.lazyown_policy.py.md#approvalrequest) class in `skills.lazyown_policy`
+- [`AppSettings`](modules/lazygui.config.settings.py.md#appsettings) class in `lazygui.config.settings`
+- [`AptPlaybook`](modules/modules.apt_playbooks.py.md#aptplaybook) class in `modules.apt_playbooks`
+- [`AptPlaybookEngine`](modules/modules.apt_playbooks.py.md#aptplaybookengine) class in `modules.apt_playbooks`
+- [`AssetGate`](modules/modules.lazy_loop.py.md#assetgate) class in `modules.lazy_loop`
+- [`AssetGraph`](modules/modules.asset_graph.py.md#assetgraph) class in `modules.asset_graph`
+- [`AssetGraph`](modules/modules.lazy_loop.py.md#assetgraph) class in `modules.lazy_loop`
+- [`AssetNode`](modules/modules.asset_graph.py.md#assetnode) class in `modules.asset_graph`
+- [`ASTToolExtractor`](modules/modules.agent_runner.py.md#asttoolextractor) class in `modules.agent_runner`
+- [`AtomicTestRef`](modules/modules.apt_playbooks.py.md#atomictestref) class in `modules.apt_playbooks`
+- [`AttackPhase`](modules/skills.aci_planner.py.md#attackphase) class in `skills.aci_planner`
+- [`AuditConfig`](modules/scripts.devtools.command_audit.py.md#auditconfig) class in `scripts.devtools.command_audit`
+- [`AutocompleteEntry`](modules/modules.LazyOwnExplorer.py.md#autocompleteentry) class in `modules.LazyOwnExplorer`(tk.Entry)
+- [`AutoCryptoConfig`](modules/cli.auto_crypto.py.md#autocryptoconfig) class in `cli.auto_crypto`
+- [`AutoCryptoEngine`](modules/cli.auto_crypto.py.md#autocryptoengine) class in `cli.auto_crypto`
+- [`AutoMapper`](modules/skills.lazyown_automapper.py.md#automapper) class in `skills.lazyown_automapper`
+- [`AutonomousAgent`](modules/skills.toposwarm_autonomous.py.md#autonomousagent) class in `skills.toposwarm_autonomous`
+- [`AutonomousExploitEngine`](modules/modules.autonomous_exploit_engine.py.md#autonomousexploitengine) class in `modules.autonomous_exploit_engine`
+- [`AutoPivotEngine`](modules/modules.auto_pivot.py.md#autopivotengine) class in `modules.auto_pivot`
+- [`AutoRecommender`](modules/modules.event_consumers.py.md#autorecommender) class in `modules.event_consumers`
+- [`AutoSuggestEngine`](modules/cli.autosuggest.py.md#autosuggestengine) class in `cli.autosuggest`
+- [`AutoVerb`](modules/modules.auto_registry.py.md#autoverb) class in `modules.auto_registry`
+- [`AWSAttackEngine`](modules/modules.aws_attacks.py.md#awsattackengine) class in `modules.aws_attacks`
+- [`AWSConfig`](modules/modules.aws_attacks.py.md#awsconfig) class in `modules.aws_attacks`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Backend`](modules/lazygui.services.backend.py.md#backend) class in `lazygui.services.backend`(QObject)
+  - [`LocalPtyBackend`](modules/lazygui.services.local_backend.py.md#localptybackend) class in `lazygui.services.local_backend`
+  - [`TeamserverBackend`](modules/lazygui.services.teamserver_backend.py.md#teamserverbackend) class in `lazygui.services.teamserver_backend`
+- [`BackendConstants`](modules/lazygui.config.constants.py.md#backendconstants) class in `lazygui.config.constants`
+- [`BackendDescriptor`](modules/lazygui.services.backend.py.md#backenddescriptor) class in `lazygui.services.backend`
+- [`BackendFactory`](modules/lazygui.services.factory.py.md#backendfactory) class in `lazygui.services.factory`
+- [`BackendKind`](modules/lazygui.services.models.py.md#backendkind) enum in `lazygui.services.models`(StrEnum)
+- [`BackendRegistry`](modules/skills.unified_orchestrator.py.md#backendregistry) class in `skills.unified_orchestrator`
+- [`BackendStatus`](modules/lazygui.services.backend.py.md#backendstatus) enum in `lazygui.services.backend`(StrEnum)
+- [`BannerConfig`](modules/cli.banner_config.py.md#bannerconfig) class in `cli.banner_config`
+- [`BannerConfigurator`](modules/cli.banner_config.py.md#bannerconfigurator) class in `cli.banner_config`
+- [`BannerRenderer`](modules/cli.banner_config.py.md#bannerrenderer) class in `cli.banner_config`
+- [`BannerSettings`](modules/cli.banner_config.py.md#bannersettings) class in `cli.banner_config`
+- [`BddResult`](modules/skills.claude_md_orchestrator.bdd_agent.py.md#bddresult) class in `skills.claude_md_orchestrator.bdd_agent`
+- [`BeaconCommandModal`](modules/lazygui.widgets.beacon_command_modal.py.md#beaconcommandmodal) class in `lazygui.widgets.beacon_command_modal`(QDialog)
+- [`BeaconConfig`](modules/modules.beacon_config_builder.py.md#beaconconfig) class in `modules.beacon_config_builder`
+- [`BeaconConfigBuilder`](modules/modules.beacon_config_builder.py.md#beaconconfigbuilder) class in `modules.beacon_config_builder`
+- [`BeaconHistoryConfig`](modules/modules.beacon_history.py.md#beaconhistoryconfig) class in `modules.beacon_history`
+- [`BeaconResult`](modules/lazygui.services.models.py.md#beaconresult) class in `lazygui.services.models`
+- [`BinaryAttacker`](modules/contrib.legacy.lazypwn.py.md#binaryattacker) class in `contrib.legacy.lazypwn`
+- [`BinaryFinder`](modules/contrib.legacy.lazypwn.py.md#binaryfinder) class in `contrib.legacy.lazypwn`
+- [`BinarySpec`](modules/cli.wizard.py.md#binaryspec) class in `cli.wizard`
+- [`BinaryStatus`](modules/cli.wizard.py.md#binarystatus) class in `cli.wizard`
+- [`BindAddressResolver`](modules/modules.security_sanitizers.py.md#bindaddressresolver) class in `modules.security_sanitizers`
+- [`BitMState`](modules/modules.bitm_engine.py.md#bitmstate) class in `modules.bitm_engine`
+- [`BlankAuthResponse`](modules/modules.amt_auth_bypass.py.md#blankauthresponse) class in `modules.amt_auth_bypass`
+- [`BofCatalog`](modules/modules.bof_registry.py.md#bofcatalog) class in `modules.bof_registry`
+- [`BofCategory`](modules/modules.bof_registry.py.md#bofcategory) enum in `modules.bof_registry`(str, Enum)
+- [`BofEntry`](modules/modules.bof_registry.py.md#bofentry) class in `modules.bof_registry`
+- [`BofMarketplace`](modules/modules.bof_registry.py.md#bofmarketplace) class in `modules.bof_registry`
+- [`BofPlatform`](modules/modules.bof_registry.py.md#bofplatform) enum in `modules.bof_registry`(str, Enum)
+- [`BofRegistry`](modules/modules.bof_registry.py.md#bofregistry) class in `modules.bof_registry`
+- [`BofValidator`](modules/modules.bof_registry.py.md#bofvalidator) class in `modules.bof_registry`
+- [`BridgeCatalog`](modules/core.protocols.py.md#bridgecatalog) protocol in `core.protocols`(Protocol)
+- [`BridgeDispatcher`](modules/modules.lazyown_bridge.py.md#bridgedispatcher) class in `modules.lazyown_bridge`
+- [`Budget`](modules/modules.lazy_loop.py.md#budget) class in `modules.lazy_loop`
+- [`BudgetConfig`](modules/core.llm_budget.py.md#budgetconfig) class in `core.llm_budget`
+- [`BudgetedBackend`](modules/core.llm_budget.py.md#budgetedbackend) class in `core.llm_budget`
+- [`BudgetExceeded`](modules/core.llm_budget.py.md#budgetexceeded) exception in `core.llm_budget`(RuntimeError)
+- [`BudgetGuard`](modules/core.llm_budget.py.md#budgetguard) class in `core.llm_budget`
+- [`BudgetLedger`](modules/core.llm_budget.py.md#budgetledger) class in `core.llm_budget`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c) class in `static/js/xterm.js`(a.Disposable)
+- [`C2Builder`](modules/modules.c2_builder.py.md#c2builder) class in `modules.c2_builder`
+- [`C2Credentials`](modules/lazygui.config.c2_credentials.py.md#c2credentials) class in `lazygui.config.c2_credentials`
+- [`C2Profile`](modules/modules.c2_builder.py.md#c2profile) class in `modules.c2_builder`
+- [`C2Profile`](modules/modules.c2_profile.py.md#c2profile) class in `modules.c2_profile`
+- [`CalderaAbilityRef`](modules/modules.apt_playbooks.py.md#calderaabilityref) class in `modules.apt_playbooks`
+- [`Campaign`](modules/skills.lazyown_campaign.py.md#campaign) class in `skills.lazyown_campaign`
+- [`CampaignResult`](modules/modules.phishing_orchestrator.py.md#campaignresult) class in `modules.phishing_orchestrator`
+- [`CampaignStore`](modules/skills.lazyown_campaign.py.md#campaignstore) class in `skills.lazyown_campaign`
+- [`CampaignSummary`](modules/lazygui.services.models.py.md#campaignsummary) class in `lazygui.services.models`
+- [`CampaignTarget`](modules/modules.phishing_orchestrator.py.md#campaigntarget) class in `modules.phishing_orchestrator`
+- [`CampaignTask`](modules/modules.session_reader.py.md#campaigntask) class in `modules.session_reader`
+- [`CascadeClassifier`](modules/skills.lazyown_policy.py.md#cascadeclassifier) class in `skills.lazyown_policy`
+- [`CascadeStrategy`](modules/skills.autonomous_daemon.py.md#cascadestrategy) class in `skills.autonomous_daemon`
+- [`CatalogEntry`](modules/modules.lazyown_bridge.py.md#catalogentry) class in `modules.lazyown_bridge`
+- [`CategoryResolver`](modules/cli.recommendation.py.md#categoryresolver) class in `cli.recommendation`
+- [`CategorySpec`](modules/cli.sessions_browser.py.md#categoryspec) class in `cli.sessions_browser`
+- [`CertificateAuthority`](modules/modules.lazy_proxy.py.md#certificateauthority) class in `modules.lazy_proxy`
+- [`CertificateTemplate`](modules/modules.adcs_attacks.py.md#certificatetemplate) class in `modules.adcs_attacks`
+- [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
+- [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
+- [`ChainModeStore`](modules/cli.chain_mode.py.md#chainmodestore) class in `cli.chain_mode`
+- [`ChainOutcome`](modules/cli.chain_mode.py.md#chainoutcome) class in `cli.chain_mode`
+- [`ChainPromptEngine`](modules/cli.chain_mode.py.md#chainpromptengine) class in `cli.chain_mode`
+- [`ChainResult`](modules/modules.exploit_chain.py.md#chainresult) class in `modules.exploit_chain`
+- [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
+- [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
+- [`CheckpointSerializer`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer) class in `skills.hermes-lazyown.hermes_sync`
+- [`CheckResult`](modules/cli.doctor.py.md#checkresult) class in `cli.doctor`
+- [`CheckResult`](modules/skills.claude_md_orchestrator.validators.py.md#checkresult) class in `skills.claude_md_orchestrator.validators`
+- [`CICDEnumerator`](modules/modules.cicd_enumerator.py.md#cicdenumerator) class in `modules.cicd_enumerator`
+- [`CICDFinding`](modules/modules.cicd_enumerator.py.md#cicdfinding) class in `modules.cicd_enumerator`
+- [`CicdResult`](modules/skills.claude_md_orchestrator.cicd_agent.py.md#cicdresult) class in `skills.claude_md_orchestrator.cicd_agent`
+- [`CicleState`](modules/skills.claude_md_orchestrator.models.py.md#ciclestate) class in `skills.claude_md_orchestrator.models`
+- [`CicleStateFile`](modules/skills.claude_md_orchestrator.models.py.md#ciclestatefile) class in `skills.claude_md_orchestrator.models`
+- [`ClassificationResult`](modules/skills.lazyown_policy.py.md#classificationresult) class in `skills.lazyown_policy`
+- [`ClaudeMdLoader`](modules/skills.lazyown_claudemd.py.md#claudemdloader) class in `skills.lazyown_claudemd`
+- [`CloudBucketEnumerator`](modules/modules.lazycloud.py.md#cloudbucketenumerator) class in `modules.lazycloud`
+- [`CloudEnumerator`](modules/modules.cloud_enum.py.md#cloudenumerator) class in `modules.cloud_enum`
+- [`CloudFinding`](modules/modules.lazycloud.py.md#cloudfinding) class in `modules.lazycloud`
+- [`CloudIAMEnumerator`](modules/modules.lazycloud.py.md#cloudiamenumerator) class in `modules.lazycloud`
+- [`CloudMetadataHarvester`](modules/modules.lazycloud.py.md#cloudmetadataharvester) class in `modules.lazycloud`
+- [`CloudResource`](modules/modules.lazycloud.py.md#cloudresource) class in `modules.lazycloud`
+- [`CloudScanner`](modules/modules.lazycloud.py.md#cloudscanner) class in `modules.lazycloud`
+- [`CodeAnalyzer`](modules/modules.ia_code_analysis.py.md#codeanalyzer) class in `modules.ia_code_analysis`
+- [`ColabEvent`](modules/modules.collab_bp.py.md#colabevent) class in `modules.collab_bp`
+- [`ColdCompactor`](modules/modules.lazy_loop.py.md#coldcompactor) class in `modules.lazy_loop`
+- [`CollabPresenceSource`](modules/cli.status_bar.py.md#collabpresencesource) class in `cli.status_bar`
+- [`CollectedFact`](modules/modules.intelligence_engine.py.md#collectedfact) class in `modules.intelligence_engine`
+- [`ColoredFormatter`](modules/modules.logging_config.py.md#coloredformatter) class in `modules.logging_config`(logging.Formatter)
+- [`ColorPalette`](modules/cli.banner_config.py.md#colorpalette) class in `cli.banner_config`
+- [`ColorRegistry`](modules/cli.banner_config.py.md#colorregistry) class in `cli.banner_config`
+- [`Command`](modules/modules.rootkit.mr.c.md#command) struct in `modules/rootkit/mr.c`
+- [`Command`](modules/modules.win_rootkit.backup.c.md#command) struct in `modules/win_rootkit/backup.c`
+- [`Command`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#command) struct in `modules/win_rootkit/win_ring3_rootkit.c`
+- [`CommandAllowlist`](modules/lazyc2.security.command_allowlist.py.md#commandallowlist) class in `lazyc2.security.command_allowlist`
+- [`CommandBridge`](modules/core.command_bridge.py.md#commandbridge) class in `core.command_bridge`
+- [`CommandCatalog`](modules/modules.lazyown_bridge.py.md#commandcatalog) class in `modules.lazyown_bridge`
+- [`CommandChain`](modules/cli.command_chain.py.md#commandchain) class in `cli.command_chain`
+- [`CommandDecision`](modules/lazyc2.security.command_allowlist.py.md#commanddecision) class in `lazyc2.security.command_allowlist`
+- [`CommandDecision`](modules/skills.autonomous_daemon.py.md#commanddecision) class in `skills.autonomous_daemon`
+- [`CommandExecutor`](modules/modules.command_executor.py.md#commandexecutor) class in `modules.command_executor`
+- [`CommandExplorer`](modules/cli.command_explorer.py.md#commandexplorer) class in `cli.command_explorer`
+- [`CommandFieldSet`](modules/cli.command_form.py.md#commandfieldset) class in `cli.command_form`
+- [`CommandFormConfig`](modules/cli.command_form.py.md#commandformconfig) class in `cli.command_form`
+- [`CommandFormState`](modules/cli.command_form.py.md#commandformstate) class in `cli.command_form`
+- [`CommandHintSuggestionSource`](modules/cli.status_bar.py.md#commandhintsuggestionsource) class in `cli.status_bar`
+- [`CommandIndexError`](modules/cli.palette.py.md#commandindexerror) exception in `cli.palette`(RuntimeError)
+- [`CommandInfo`](modules/cli.cli_enhancements.py.md#commandinfo) class in `cli.cli_enhancements`
+- [`CommandInfo`](modules/cli.contextual_help.py.md#commandinfo) class in `cli.contextual_help`
+- [`CommandLister`](modules/cli.cli_enhancements.py.md#commandlister) protocol in `cli.cli_enhancements`(Protocol)
+- [`CommandMetadata`](modules/modules.agent_runner.py.md#commandmetadata) class in `modules.agent_runner`
+- [`CommandPaletteAction`](modules/lazygui.widgets.command_palette_list.py.md#commandpaletteaction) class in `lazygui.widgets.command_palette_list`
+- [`CommandPaletteConstants`](modules/lazygui.config.constants.py.md#commandpaletteconstants) class in `lazygui.config.constants`
+- [`CommandPaletteList`](modules/lazygui.widgets.command_palette_list.py.md#commandpalettelist) class in `lazygui.widgets.command_palette_list`(QListView)
+- [`CommandPaletteWindow`](modules/lazygui.windows.command_palette_window.py.md#commandpalettewindow) class in `lazygui.windows.command_palette_window`(QWidget)
+- [`CommandRedactor`](modules/modules.security_sanitizers.py.md#commandredactor) class in `modules.security_sanitizers`
+- [`CommandRejectionReason`](modules/lazyc2.security.command_allowlist.py.md#commandrejectionreason) enum in `lazyc2.security.command_allowlist`(StrEnum)
+- [`CommandStat`](modules/cli.palette_telemetry.py.md#commandstat) class in `cli.palette_telemetry`
+- [`CompactionResult`](modules/skills.hermes-lazyown.output_compactor.py.md#compactionresult) class in `skills.hermes-lazyown.output_compactor`
+- [`CompactionResult`](modules/skills.lazyown_context.py.md#compactionresult) class in `skills.lazyown_context`
+- [`CompactionStrategy`](modules/skills.hermes-lazyown.output_compactor.py.md#compactionstrategy) class in `skills.hermes-lazyown.output_compactor`(ABC)
+  - [`DefaultCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#defaultcompaction) class in `skills.hermes-lazyown.output_compactor`
+  - [`EnumCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#enumcompaction) class in `skills.hermes-lazyown.output_compactor`
+  - [`ExploitCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#exploitcompaction) class in `skills.hermes-lazyown.output_compactor`
+  - [`PrivescCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#privesccompaction) class in `skills.hermes-lazyown.output_compactor`
+  - [`ReconCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#reconcompaction) class in `skills.hermes-lazyown.output_compactor`
+- [`CompanyScope`](modules/modules.lazy_loop.py.md#companyscope) class in `modules.lazy_loop`
+- [`CompletionPosition`](modules/cli.palette_command.py.md#completionposition) class in `cli.palette_command`
+- [`CompletionResult`](modules/cli.cli_enhancements.py.md#completionresult) class in `cli.cli_enhancements`
+- [`ComplianceEngine`](modules/modules.compliance.py.md#complianceengine) class in `modules.compliance`
+- [`ComplianceFinding`](modules/modules.compliance.py.md#compliancefinding) class in `modules.compliance`
+- [`CompositeProvider`](modules/cli.autosuggest.py.md#compositeprovider) class in `cli.autosuggest`
+- [`ConditionEvaluator`](modules/modules.pipeline_engine.py.md#conditionevaluator) class in `modules.pipeline_engine`
+- [`Config`](modules/contrib.legacy.lazyseo.py.md#config) class in `contrib.legacy.lazyseo`
+- [`Config`](modules/core.config.py.md#config) class in `core.config`
+- [`Config`](modules/discord_c2.py.md#config) class in `discord_c2`
+- [`Config`](modules/skills.claude_md_orchestrator.config.py.md#config) class in `skills.claude_md_orchestrator.config`
+- [`Config`](modules/skills.lazyown_facts.py.md#config) class in `skills.lazyown_facts`
+- [`Config`](modules/skills.lazyown_policy.py.md#config) class in `skills.lazyown_policy`
+- [`Config`](modules/telegram_c2.py.md#config) class in `telegram_c2`
+- [`ConfigBridge`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridge) class in `skills.hermes-lazyown.config_bridge`
+- [`ConfigBridgeError`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridgeerror) exception in `skills.hermes-lazyown.config_bridge`(Exception)
+- [`ConfigHistory`](modules/cli.config_history.py.md#confighistory) class in `cli.config_history`
+- [`ConfigHistoryConfig`](modules/cli.config_history.py.md#confighistoryconfig) class in `cli.config_history`
+- [`ConfigKeys`](modules/skills.hermes-lazyown.constants.py.md#configkeys) class in `skills.hermes-lazyown.constants`
+- [`ConfigStatus`](modules/cli.config_status.py.md#configstatus) class in `cli.config_status`
+- [`ConfigStatusConfig`](modules/cli.config_status.py.md#configstatusconfig) class in `cli.config_status`
+- [`ConnectDialog`](modules/lazygui.windows.connect_dialog.py.md#connectdialog) class in `lazygui.windows.connect_dialog`(QDialog)
+- [`ConnectionRequest`](modules/lazygui.windows.connect_dialog.py.md#connectionrequest) class in `lazygui.windows.connect_dialog`
+- [`ConsensusProtocol`](modules/skills.hive_mind.py.md#consensusprotocol) class in `skills.hive_mind`
+- [`ConsensusVote`](modules/skills.hive_mind.py.md#consensusvote) class in `skills.hive_mind`
+- [`ContainerEscapeTechniques`](modules/modules.lazyk8s.py.md#containerescapetechniques) class in `modules.lazyk8s`
+- [`ContainerFinding`](modules/modules.lazyk8s.py.md#containerfinding) class in `modules.lazyk8s`
+- [`ContainerResource`](modules/modules.lazyk8s.py.md#containerresource) class in `modules.lazyk8s`
+- [`ContainerRuntimeDetector`](modules/modules.lazyk8s.py.md#containerruntimedetector) class in `modules.lazyk8s`
+- [`ContextCompactor`](modules/skills.lazyown_context.py.md#contextcompactor) class in `skills.lazyown_context`
+- [`ContextEnricher`](modules/modules.lazyown_bridge.py.md#contextenricher) class in `modules.lazyown_bridge`
+- [`ContextResolver`](modules/cli.banner_config.py.md#contextresolver) class in `cli.banner_config`
+- [`ContextualHelp`](modules/cli.contextual_help.py.md#contextualhelp) class in `cli.contextual_help`
+- [`ContextualHelpConfig`](modules/cli.contextual_help.py.md#contextualhelpconfig) class in `cli.contextual_help`
+- [`Contract`](modules/skills.claude_md_orchestrator.models.py.md#contract) class in `skills.claude_md_orchestrator.models`
+- [`ControlState`](modules/skills.daemon_control.py.md#controlstate) class in `skills.daemon_control`
+- [`ConversationStore`](modules/modules.lazy_agent.py.md#conversationstore) class in `modules.lazy_agent`
+- [`CorrelationFilter`](modules/modules.logging_config.py.md#correlationfilter) class in `modules.logging_config`(logging.Filter)
+- [`CorsConfigError`](modules/lazyc2.security.cors.py.md#corsconfigerror) exception in `lazyc2.security.cors`(ValueError)
+- [`CorsPolicy`](modules/lazyc2.security.cors.py.md#corspolicy) class in `lazyc2.security.cors`
+- [`CounterIntelFinding`](modules/modules.intelligence_engine.py.md#counterintelfinding) class in `modules.intelligence_engine`
+- [`CoverageReport`](modules/cli.exploration.py.md#coveragereport) class in `cli.exploration`
+- [`CrackResult`](modules/modules.hash_cracker.py.md#crackresult) class in `modules.hash_cracker`
+- [`CredentialEntry`](modules/modules.world_model.py.md#credentialentry) class in `modules.world_model`
+- [`CredentialFact`](modules/skills.lazyown_facts.py.md#credentialfact) class in `skills.lazyown_facts`
+- [`CredentialReactor`](modules/modules.event_consumers.py.md#credentialreactor) class in `modules.event_consumers`
+- [`CredentialReuseEngine`](modules/modules.credential_reuse.py.md#credentialreuseengine) class in `modules.credential_reuse`
+- [`CredentialStash`](modules/modules.domain_dominance.py.md#credentialstash) class in `modules.domain_dominance`
+- [`CrossCloudAttackEngine`](modules/modules.cross_cloud.py.md#crosscloudattackengine) class in `modules.cross_cloud`
+- [`CrossCloudConfig`](modules/modules.cross_cloud.py.md#crosscloudconfig) class in `modules.cross_cloud`
+- [`CSRFPolicy`](modules/lazyc2.security.csrf.py.md#csrfpolicy) class in `lazyc2.security.csrf`
+- [`CSVSessionReader`](modules/skills.lazyown_policy.py.md#csvsessionreader) class in `skills.lazyown_policy`
+- [`CustomDNSResolver`](modules/lazyc2.py.md#customdnsresolver) class in `lazyc2`(BaseResolver)
+- [`CustomSMBRelayServer`](modules/contrib.legacy.lazysmbrelay.py.md#customsmbrelayserver) class in `contrib.legacy.lazysmbrelay`(SMBRelayServer)
+- [`CVEMatcher`](modules/modules.cve_matcher.py.md#cvematcher) class in `modules.cve_matcher`
+- [`CVEResult`](modules/modules.cve_matcher.py.md#cveresult) class in `modules.cve_matcher`
+- [`CycleSummary`](modules/skills.claude_md_orchestrator.orchestrator.py.md#cyclesummary) class in `skills.claude_md_orchestrator.orchestrator`
+- [`P.S.a.a.a.c.c.c.c.d.d`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d) class in `static/js/xterm.js`(a.Disposable)
+- [`DACLAbuseEngine`](modules/modules.dacl_abuse.py.md#daclabuseengine) class in `modules.dacl_abuse`
+- [`DaemonBackend`](modules/skills.unified_orchestrator.py.md#daemonbackend) class in `skills.unified_orchestrator`
+- [`DaemonControl`](modules/skills.daemon_control.py.md#daemoncontrol) class in `skills.daemon_control`
+- [`DaemonHealth`](modules/skills.daemon_health.py.md#daemonhealth) class in `skills.daemon_health`
+- [`DashboardEdge`](modules/modules.dashboard_engine.py.md#dashboardedge) class in `modules.dashboard_engine`
+- [`DashboardEngine`](modules/modules.dashboard_engine.py.md#dashboardengine) class in `modules.dashboard_engine`
+- [`DashboardLayoutConfig`](modules/cli.dashboard_layout.py.md#dashboardlayoutconfig) class in `cli.dashboard_layout`
+- [`DashboardNode`](modules/modules.dashboard_engine.py.md#dashboardnode) class in `modules.dashboard_engine`
+- [`DashboardPanel`](modules/poc_tui.app.py.md#dashboardpanel) class in `poc_tui.app`(Static)
+- [`DashboardPayload`](modules/lazygui.services.models.py.md#dashboardpayload) class in `lazygui.services.models`
+- [`DashboardPusher`](modules/modules.event_consumers.py.md#dashboardpusher) class in `modules.event_consumers`
+- [`Database`](modules/lazy_sentinel4.py.md#database) class in `lazy_sentinel4`
+- [`DataDirectory`](modules/modules.reflective_dll.py.md#datadirectory) class in `modules.reflective_dll`
+- [`DecisionRecord`](modules/modules.llm_evaluator.py.md#decisionrecord) class in `modules.llm_evaluator`
+- [`Defaults`](modules/skills.hermes-lazyown.constants.py.md#defaults) class in `skills.hermes-lazyown.constants`
+- [`DelegateResult`](modules/modules.unified_bridge.py.md#delegateresult) class in `modules.unified_bridge`
+- [`DelegationAttackPath`](modules/modules.delegation_attacks.py.md#delegationattackpath) class in `modules.delegation_attacks`
+- [`DelegationEnumerator`](modules/modules.delegation_attacks.py.md#delegationenumerator) class in `modules.delegation_attacks`
+- [`DelegationPlanner`](modules/skills.hermes-lazyown.hermes_sync.py.md#delegationplanner) class in `skills.hermes-lazyown.hermes_sync`
+- [`DelegationTarget`](modules/modules.delegation_attacks.py.md#delegationtarget) class in `modules.delegation_attacks`
+- [`DependencyReport`](modules/core.dependencies.py.md#dependencyreport) class in `core.dependencies`
+- [`DependencySpec`](modules/core.dependencies.py.md#dependencyspec) class in `core.dependencies`
+- [`DependencyStatus`](modules/core.dependencies.py.md#dependencystatus) class in `core.dependencies`
+- [`DetectionAssessment`](modules/modules.detection_oracle.py.md#detectionassessment) class in `modules.detection_oracle`
+- [`DetectionFeed`](modules/modules.detection_feed.py.md#detectionfeed) class in `modules.detection_feed`
+- [`DetectionMethod`](modules/modules.auto_purple.py.md#detectionmethod) class in `modules.auto_purple`
+- [`DetectionRiskAssessor`](modules/skills.lazyown_policy.py.md#detectionriskassessor) class in `skills.lazyown_policy`
+- [`DiamondTicketConfig`](modules/modules.kerberos_tickets.py.md#diamondticketconfig) class in `modules.kerberos_tickets`
+- [`DiamondTicketForger`](modules/modules.kerberos_tickets.py.md#diamondticketforger) class in `modules.kerberos_tickets`
+- [`DictPayloadProvider`](modules/cli.cli_enhancements.py.md#dictpayloadprovider) class in `cli.cli_enhancements`
+- [`DiscordNotificationSink`](modules/modules.engagement_hooks.py.md#discordnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)
+- [`DiscoveredPath`](modules/skills.lazyown_facts.py.md#discoveredpath) class in `skills.lazyown_facts`
+- [`DiscoveredService`](modules/cli.exploration.py.md#discoveredservice) class in `cli.exploration`
+- [`DNSBeacon`](modules/modules.dns_beacon.py.md#dnsbeacon) class in `modules.dns_beacon`
+- [`DNSC2Server`](modules/modules.dns_beacon.py.md#dnsc2server) class in `modules.dns_beacon`
+- [`DnsProfile`](modules/modules.c2_profile_engine.py.md#dnsprofile) class in `modules.c2_profile_engine`
+- [`DockerEnumerator`](modules/modules.lazyk8s.py.md#dockerenumerator) class in `modules.lazyk8s`
+- [`DocResult`](modules/skills.claude_md_orchestrator.documentation_agent.py.md#docresult) class in `skills.claude_md_orchestrator.documentation_agent`
+- [`DoctorReport`](modules/cli.doctor.py.md#doctorreport) class in `cli.doctor`
+- [`DomainDominance`](modules/modules.domain_dominance.py.md#domaindominance) class in `modules.domain_dominance`
+- [`DomainEntry`](modules/modules.world_model.py.md#domainentry) class in `modules.world_model`
+- [`DomainInfo`](modules/modules.domain_dominance.py.md#domaininfo) class in `modules.domain_dominance`
+- [`DominanceResult`](modules/modules.domain_dominance.py.md#dominanceresult) class in `modules.domain_dominance`
+- [`DotNetPayloadConfig`](modules/modules.dotnet_payload.py.md#dotnetpayloadconfig) class in `modules.dotnet_payload`
+- [`DotNetPayloadFactory`](modules/modules.dotnet_payload.py.md#dotnetpayloadfactory) class in `modules.dotnet_payload`
+- [`DPAPICredential`](modules/modules.dpapi_harvester.py.md#dpapicredential) class in `modules.dpapi_harvester`
+- [`DPAPIHarvester`](modules/modules.dpapi_harvester.py.md#dpapiharvester) class in `modules.dpapi_harvester`
+- [`DPAPIMasterKey`](modules/modules.dpapi_harvester.py.md#dpapimasterkey) class in `modules.dpapi_harvester`
+- [`DroneAgent`](modules/skills.hive_mind.py.md#droneagent) class in `skills.hive_mind`
+- [`DroneCoordinator`](modules/skills.autonomous_daemon.py.md#dronecoordinator) class in `skills.autonomous_daemon`
+- [`DronePool`](modules/skills.hive_mind.py.md#dronepool) class in `skills.hive_mind`
+- [`DroneState`](modules/skills.hive_mind.py.md#dronestate) class in `skills.hive_mind`
+- [`DroneStateStore`](modules/skills.hive_mind.py.md#dronestatestore) class in `skills.hive_mind`
+- [`DynamicNextResolver`](modules/cli.command_chain.py.md#dynamicnextresolver) class in `cli.command_chain`
+- [`P.S.a.a.a.c.c.c.c.d.d.e`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e) class in `static/js/xterm.js`(a.Disposable)
+- [`EDRDetector`](modules/modules.edr_detector.py.md#edrdetector) class in `modules.edr_detector`
+- [`EDRFinding`](modules/modules.edr_detector.py.md#edrfinding) class in `modules.edr_detector`
+- [`EDRProfile`](modules/modules.edr_detector.py.md#edrprofile) class in `modules.edr_detector`
+- [`EmailEntry`](modules/modules.world_model.py.md#emailentry) class in `modules.world_model`
+- [`EncryptedData`](modules/modules.kerberos_core.py.md#encrypteddata) class in `modules.kerberos_core`
+- [`EngagementEvent`](modules/modules.engagement_hooks.py.md#engagementevent) class in `modules.engagement_hooks`
+- [`EngagementNarrator`](modules/modules.engagement_hooks.py.md#engagementnarrator) class in `modules.engagement_hooks`
+- [`EngagementPhase`](modules/modules.world_model.py.md#engagementphase) enum in `modules.world_model`(StrEnum)
+- [`EngagementState`](modules/cli.engagement_hooks.py.md#engagementstate) class in `cli.engagement_hooks`
+- [`EngageOrchestrator`](modules/skills.autonomous_daemon.py.md#engageorchestrator) class in `skills.autonomous_daemon`
+- [`EnginePhaseResult`](modules/skills.autonomous_daemon.py.md#enginephaseresult) class in `skills.autonomous_daemon`
+- [`EnginePhaseStep`](modules/skills.autonomous_daemon.py.md#enginephasestep) class in `skills.autonomous_daemon`
+- [`EngineWeights`](modules/cli.recommendation.py.md#engineweights) class in `cli.recommendation`
+- [`EnrichEngine`](modules/modules.enrich.py.md#enrichengine) class in `modules.enrich`
+- [`EnrichResult`](modules/modules.enrich.py.md#enrichresult) class in `modules.enrich`
+- [`EnsembleResult`](modules/skills.swan_agent.py.md#ensembleresult) class in `skills.swan_agent`
+- [`EntraIDAttackEngine`](modules/modules.entra_id_attacks.py.md#entraidattackengine) class in `modules.entra_id_attacks`
+- [`EntraIDConfig`](modules/modules.entra_id_attacks.py.md#entraidconfig) class in `modules.entra_id_attacks`
+- [`EnvKeys`](modules/skills.hermes-lazyown.constants.py.md#envkeys) class in `skills.hermes-lazyown.constants`
+- [`EpisodeRecord`](modules/skills.lazyown_policy.py.md#episoderecord) class in `skills.lazyown_policy`
+- [`EpisodeReflectionEngine`](modules/skills.lazyown_campaign.py.md#episodereflectionengine) class in `skills.lazyown_campaign`
+- [`EpsilonTracker`](modules/modules.rl_trainer.py.md#epsilontracker) class in `modules.rl_trainer`
+- [`ErrorAdvice`](modules/core.error_advice.py.md#erroradvice) class in `core.error_advice`
+- [`ErrorAdviceConfig`](modules/core.error_advice.py.md#erroradviceconfig) class in `core.error_advice`
+- [`ErrorCode`](modules/core.errors.py.md#errorcode) enum in `core.errors`(IntEnum)
+- [`EstoridesCaseReader`](modules/modules.estorides_importer.py.md#estoridescasereader) class in `modules.estorides_importer`
+- [`EstoridesEntity`](modules/modules.estorides_importer.py.md#estoridesentity) class in `modules.estorides_importer`
+- [`EstoridesStixParser`](modules/modules.estorides_importer.py.md#estoridesstixparser) class in `modules.estorides_importer`
+- [`EstoridesToLazyOwnBridge`](modules/modules.estorides_importer.py.md#estoridestolazyownbridge) class in `modules.estorides_importer`
+- [`EvasionAdvisor`](modules/modules.reactive_engine.py.md#evasionadvisor) class in `modules.reactive_engine`
+- [`EvasionEngine`](modules/modules.evasion_engine.py.md#evasionengine) class in `modules.evasion_engine`
+- [`EvasivePayloadGenerator`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator) class in `modules.evasive_payloads`
+- [`EventBus`](modules/modules.collab_bp.py.md#eventbus) class in `modules.collab_bp`
+- [`EventBus`](modules/skills.unified_orchestrator.py.md#eventbus) class in `skills.unified_orchestrator`
+- [`EventCategory`](modules/modules.event_bus.py.md#eventcategory) enum in `modules.event_bus`(str, Enum)
+- [`EventLevel`](modules/lazygui.services.models.py.md#eventlevel) enum in `lazygui.services.models`(StrEnum)
+- [`EventLog`](modules/lazygui.services.event_log.py.md#eventlog) class in `lazygui.services.event_log`(QObject)
+- [`EventLogConstants`](modules/lazygui.config.constants.py.md#eventlogconstants) class in `lazygui.config.constants`
+- [`EventLogReader`](modules/skills.autonomous_replay.py.md#eventlogreader) class in `skills.autonomous_replay`
+- [`EventLogView`](modules/lazygui.widgets.event_log_view.py.md#eventlogview) class in `lazygui.widgets.event_log_view`(QTreeWidget)
+- [`EventRecord`](modules/lazygui.services.models.py.md#eventrecord) class in `lazygui.services.models`
+- [`EventSeverity`](modules/modules.event_bus.py.md#eventseverity) enum in `modules.event_bus`(str, Enum)
+- [`EvidenceChain`](modules/modules.compliance.py.md#evidencechain) class in `modules.compliance`
+- [`EvidenceConfig`](modules/modules.evidence.py.md#evidenceconfig) class in `modules.evidence`
+- [`EvidenceEntry`](modules/modules.compliance.py.md#evidenceentry) class in `modules.compliance`
+- [`EvidenceHint`](modules/cli.reactive_hints.py.md#evidencehint) class in `cli.reactive_hints`
+- [`EvidenceStore`](modules/modules.evidence.py.md#evidencestore) class in `modules.evidence`
+- [`EvidenceStore`](modules/modules.lazy_loop.py.md#evidencestore) class in `modules.lazy_loop`
+- [`Exchange`](modules/modules.traffic_recorder.py.md#exchange) class in `modules.traffic_recorder`
+- [`ExecutionResult`](modules/modules.command_executor.py.md#executionresult) class in `modules.command_executor`
+- [`ExecutionResult`](modules/skills.hermes-lazyown.executor.py.md#executionresult) class in `skills.hermes-lazyown.executor`
+- [`ExpertAvailabilityChecker`](modules/modules.moe_router.py.md#expertavailabilitychecker) class in `modules.moe_router`
+- [`ExpertExecutor`](modules/skills.swan_agent.py.md#expertexecutor) class in `skills.swan_agent`
+- [`ExpertPerformance`](modules/modules.moe_router.py.md#expertperformance) class in `modules.moe_router`
+- [`ExpertPerformanceStore`](modules/modules.moe_router.py.md#expertperformancestore) class in `modules.moe_router`
+- [`ExpertProfile`](modules/modules.moe_router.py.md#expertprofile) class in `modules.moe_router`
+- [`ExpertVote`](modules/skills.swan_agent.py.md#expertvote) class in `skills.swan_agent`
+- [`ExploitCandidate`](modules/modules.autonomous_exploit_engine.py.md#exploitcandidate) class in `modules.autonomous_exploit_engine`
+- [`ExploitChain`](modules/modules.exploit_chain.py.md#exploitchain) class in `modules.exploit_chain`
+- [`ExploitChainContext`](modules/modules.ai_exploit_chain.py.md#exploitchaincontext) class in `modules.ai_exploit_chain`
+- [`ExploitEntry`](modules/modules.integrations.searchsploit.py.md#exploitentry) class in `modules.integrations.searchsploit`
+- [`ExploitHit`](modules/cli.exploit_advisor.py.md#exploithit) class in `cli.exploit_advisor`
+- [`ExploitMatch`](modules/modules.exploit_recommender.py.md#exploitmatch) class in `modules.exploit_recommender`
+- [`ExploitRecommender`](modules/modules.exploit_recommender.py.md#exploitrecommender) class in `modules.exploit_recommender`
+- [`ExploitResult`](modules/modules.autonomous_exploit_engine.py.md#exploitresult) class in `modules.autonomous_exploit_engine`
+- [`ExploitResult`](modules/modules.exploit_chain.py.md#exploitresult) class in `modules.exploit_chain`
+- [`ExploitSource`](modules/modules.integrations.searchsploit.py.md#exploitsource) class in `modules.integrations.searchsploit`(ABC)
+  - [`ExploitDBAPI`](modules/modules.integrations.searchsploit.py.md#exploitdbapi) class in `modules.integrations.searchsploit`
+  - [`SearchsploitCLI`](modules/modules.integrations.searchsploit.py.md#searchsploitcli) class in `modules.integrations.searchsploit`
+- [`ExplorationConfig`](modules/cli.exploration.py.md#explorationconfig) class in `cli.exploration`
+- [`ExplorationEngine`](modules/cli.exploration.py.md#explorationengine) class in `cli.exploration`
+- [`ExplorationGraph`](modules/modules.lazy_loop.py.md#explorationgraph) class in `modules.lazy_loop`
+- [`ExplorationNode`](modules/modules.asset_graph.py.md#explorationnode) class in `modules.asset_graph`
+- [`ExplorerConfig`](modules/cli.command_explorer.py.md#explorerconfig) class in `cli.command_explorer`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
+- [`Extractor`](modules/modules.obs_parser.py.md#extractor) class in `modules.obs_parser`(ABC)
+- [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
+- [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
+- [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
+- [`fd_uring`](modules/modules.exp.c.md#fd_uring) struct in `modules/exp.c`
+- [`FeedbackLoop`](modules/modules.estorides_importer.py.md#feedbackloop) class in `modules.estorides_importer`
+- [`FeedResult`](modules/modules.detection_feed.py.md#feedresult) class in `modules.detection_feed`
+- [`FieldKind`](modules/core.payload_schema.py.md#fieldkind) enum in `core.payload_schema`(StrEnum)
+- [`FieldSpec`](modules/core.payload_schema.py.md#fieldspec) class in `core.payload_schema`
+- [`FileSystemReader`](modules/cli.status_bar.py.md#filesystemreader) class in `cli.status_bar`
+- [`FileTimestamps`](modules/modules.timestomper.py.md#filetimestamps) class in `modules.timestomper`
+- [`FilterBar`](modules/lazygui.widgets.filter_bar.py.md#filterbar) class in `lazygui.widgets.filter_bar`(QWidget)
+- [`Finding`](modules/modules.obs_parser.py.md#finding) class in `modules.obs_parser`
+- [`Finding`](modules/skills.claude_md_orchestrator.models.py.md#finding) class in `skills.claude_md_orchestrator.models`
+- [`FindingMapper`](modules/modules.integrations.misp_export.py.md#findingmapper) class in `modules.integrations.misp_export`(ABC)
+  - [`CVEMapper`](modules/modules.integrations.misp_export.py.md#cvemapper) class in `modules.integrations.misp_export`
+  - [`CredentialMapper`](modules/modules.integrations.misp_export.py.md#credentialmapper) class in `modules.integrations.misp_export`
+  - [`DomainMapper`](modules/modules.integrations.misp_export.py.md#domainmapper) class in `modules.integrations.misp_export`
+  - [`HashMapper`](modules/modules.integrations.misp_export.py.md#hashmapper) class in `modules.integrations.misp_export`
+  - [`IPMapper`](modules/modules.integrations.misp_export.py.md#ipmapper) class in `modules.integrations.misp_export`
+  - [`ServiceMapper`](modules/modules.integrations.misp_export.py.md#servicemapper) class in `modules.integrations.misp_export`
+- [`FindingRecord`](modules/modules.finding_lifecycle.py.md#findingrecord) class in `modules.finding_lifecycle`
+- [`FindingService`](modules/modules.lazy_loop.py.md#findingservice) class in `modules.lazy_loop`
+- [`FindingType`](modules/modules.obs_parser.py.md#findingtype) enum in `modules.obs_parser`(StrEnum)
+- [`FontConstants`](modules/lazygui.config.constants.py.md#fontconstants) class in `lazygui.config.constants`
+- [`ForensicCleaner`](modules/modules.forensic_cleaner.py.md#forensiccleaner) class in `modules.forensic_cleaner`
+- [`ForensicCleanerConfig`](modules/modules.forensic_cleaner.py.md#forensiccleanerconfig) class in `modules.forensic_cleaner`
+- [`FormField`](modules/cli.cli_enhancements.py.md#formfield) class in `cli.cli_enhancements`
+- [`FormField`](modules/cli.command_form.py.md#formfield) class in `cli.command_form`
+- [`FormModal`](modules/cli.lazy_orchestrator.py.md#formmodal) class in `cli.lazy_orchestrator`(ModalScreen[dict])
+- [`FormSpec`](modules/cli.cli_enhancements.py.md#formspec) class in `cli.cli_enhancements`
+- [`Frontier`](modules/modules.lazy_loop.py.md#frontier) class in `modules.lazy_loop`
+- [`Frontier`](modules/modules.planner.py.md#frontier) class in `modules.planner`
+- [`FuzzyCommandIndex`](modules/cli.cli_enhancements.py.md#fuzzycommandindex) class in `cli.cli_enhancements`
+- [`FuzzyMatch`](modules/cli.cli_enhancements.py.md#fuzzymatch) class in `cli.cli_enhancements`
+- [`FuzzyMatchConfig`](modules/cli.fuzzy_match.py.md#fuzzymatchconfig) class in `cli.fuzzy_match`
+- [`FuzzyPicker`](modules/cli.fuzzy_picker.py.md#fuzzypicker) class in `cli.fuzzy_picker`
+- [`Ct.G`](modules/static.js.quill-2.0.3.js.md#ct-g) class in `static/js/quill-2.0.3.js`(r.BlockBlot, D)
+- [`GateAction`](modules/modules.opsec_scorer.py.md#gateaction) enum in `modules.opsec_scorer`(IntEnum)
+- [`GatedOpsecScore`](modules/modules.opsec_scorer.py.md#gatedopsecscore) class in `modules.opsec_scorer`
+- [`GCPAttackEngine`](modules/modules.gcp_attacks.py.md#gcpattackengine) class in `modules.gcp_attacks`
+- [`GCPConfig`](modules/modules.gcp_attacks.py.md#gcpconfig) class in `modules.gcp_attacks`
+- [`GlyphRegistry`](modules/cli.banner_config.py.md#glyphregistry) class in `cli.banner_config`
+- [`GoalSpec`](modules/modules.goals.py.md#goalspec) class in `modules.goals`
+- [`GoalTracker`](modules/modules.goals.py.md#goaltracker) class in `modules.goals`
+- [`GoalValidator`](modules/skills.unified_orchestrator.py.md#goalvalidator) class in `skills.unified_orchestrator`
+- [`GoldenTicketConfig`](modules/modules.kerberos_tickets.py.md#goldenticketconfig) class in `modules.kerberos_tickets`
+- [`GoldenTicketForger`](modules/modules.kerberos_tickets.py.md#goldenticketforger) class in `modules.kerberos_tickets`
+- [`GPOAbuseEngine`](modules/modules.gpo_abuse.py.md#gpoabuseengine) class in `modules.gpo_abuse`
+- [`GPOAbusePlan`](modules/modules.gpo_abuse.py.md#gpoabuseplan) class in `modules.gpo_abuse`
+- [`GPOInfo`](modules/modules.gpo_abuse.py.md#gpoinfo) class in `modules.gpo_abuse`
+- [`GraphAdvisor`](modules/cli.graph_advisor.py.md#graphadvisor) class in `cli.graph_advisor`
+- [`GraphAdvisorConfig`](modules/cli.graph_advisor.py.md#graphadvisorconfig) class in `cli.graph_advisor`
+- [`GraphConfig`](modules/modules.asset_graph.py.md#graphconfig) class in `modules.asset_graph`
+- [`GraphEdge`](modules/cli.graph_advisor.py.md#graphedge) class in `cli.graph_advisor`
+- [`GraphEdge`](modules/lazygui.services.models.py.md#graphedge) class in `lazygui.services.models`
+- [`GraphEdgeItem`](modules/lazygui.widgets.graph_view.py.md#graphedgeitem) class in `lazygui.widgets.graph_view`(QGraphicsLineItem)
+- [`GraphIndex`](modules/cli.graph_advisor.py.md#graphindex) class in `cli.graph_advisor`
+- [`GraphIndex`](modules/cli.palette_graph.py.md#graphindex) class in `cli.palette_graph`
+- [`GraphIndexError`](modules/cli.palette_graph.py.md#graphindexerror) exception in `cli.palette_graph`(RuntimeError)
+- [`GraphLoader`](modules/cli.graph_advisor.py.md#graphloader) class in `cli.graph_advisor`
+- [`GraphLookupConfig`](modules/cli.palette_graph.py.md#graphlookupconfig) class in `cli.palette_graph`
+- [`GraphNode`](modules/cli.graph_advisor.py.md#graphnode) class in `cli.graph_advisor`
+- [`GraphNode`](modules/lazygui.services.models.py.md#graphnode) class in `lazygui.services.models`
+- [`GraphNodeItem`](modules/lazygui.widgets.graph_view.py.md#graphnodeitem) class in `lazygui.widgets.graph_view`(QGraphicsEllipseItem)
+- [`GraphNodeState`](modules/lazygui.widgets.graph_view.py.md#graphnodestate) class in `lazygui.widgets.graph_view`
+- [`GraphOverlayConfig`](modules/cli.graph_overlay.py.md#graphoverlayconfig) class in `cli.graph_overlay`
+- [`GraphOverlayItem`](modules/cli.graph_overlay.py.md#graphoverlayitem) class in `cli.graph_overlay`
+- [`GraphOverlayState`](modules/cli.graph_overlay.py.md#graphoverlaystate) class in `cli.graph_overlay`
+- [`GraphOverlayView`](modules/cli.graph_overlay.py.md#graphoverlayview) enum in `cli.graph_overlay`(StrEnum)
+- [`GraphProvider`](modules/cli.autosuggest.py.md#graphprovider) class in `cli.autosuggest`
+- [`GraphScene`](modules/lazygui.widgets.graph_view.py.md#graphscene) class in `lazygui.widgets.graph_view`(QGraphicsScene)
+- [`GraphScorer`](modules/cli.graph_advisor.py.md#graphscorer) class in `cli.graph_advisor`
+- [`GraphSignal`](modules/cli.recommendation_signals.py.md#graphsignal) class in `cli.recommendation_signals`
+- [`GraphSuggestionSource`](modules/cli.status_bar.py.md#graphsuggestionsource) class in `cli.status_bar`
+- [`GraphTopologySignal`](modules/cli.recommendation_signals.py.md#graphtopologysignal) class in `cli.recommendation_signals`
+- [`GraphView`](modules/lazygui.widgets.graph_view.py.md#graphview) class in `lazygui.widgets.graph_view`(QGraphicsView)
+- [`GroqAgentPool`](modules/skills.lazyown_groq_agents.py.md#groqagentpool) class in `skills.lazyown_groq_agents`
+- [`GroqAgentWorker`](modules/modules.mcp_agent_bridge.py.md#groqagentworker) class in `modules.mcp_agent_bridge`
+- [`Guard`](modules/modules.intercept.py.md#guard) class in `modules.intercept`
+- [`Guard`](modules/modules.lazy_loop.py.md#guard) class in `modules.lazy_loop`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h) class in `static/js/xterm.js`(a.Disposable)
+  - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k) class in `static/js/xterm.js`
+- [`Handler`](modules/lazyc2.py.md#handler) class in `lazyc2`(FileSystemEventHandler)
+- [`HashCracker`](modules/modules.hash_cracker.py.md#hashcracker) class in `modules.hash_cracker`
+- [`HashIdentifier`](modules/modules.hash_cracker.py.md#hashidentifier) class in `modules.hash_cracker`
+- [`HeaderValueSanitizer`](modules/modules.security_sanitizers.py.md#headervaluesanitizer) class in `modules.security_sanitizers`
+- [`HeadlessRunner`](modules/cli.headless.py.md#headlessrunner) class in `cli.headless`
+- [`HealthConfig`](modules/lazyc2.blueprints.api.py.md#healthconfig) class in `lazyc2.blueprints.api`
+- [`HealthRegistry`](modules/modules.llm_pool.py.md#healthregistry) class in `modules.llm_pool`
+- [`HermesSyncError`](modules/skills.hermes-lazyown.hermes_sync.py.md#hermessyncerror) exception in `skills.hermes-lazyown.hermes_sync`(Exception)
+- [`HistoryBootstrapper`](modules/skills.lazyown_policy.py.md#historybootstrapper) class in `skills.lazyown_policy`
+- [`HistoryReader`](modules/cli.exploration.py.md#historyreader) class in `cli.exploration`
+- [`HiveBackend`](modules/skills.unified_orchestrator.py.md#hivebackend) class in `skills.unified_orchestrator`
+- [`HiveBus`](modules/skills.hive_mind.py.md#hivebus) class in `skills.hive_mind`
+- [`HiveMemory`](modules/skills.hive_mind.py.md#hivememory) class in `skills.hive_mind`
+- [`HiveMessage`](modules/skills.hive_mind.py.md#hivemessage) class in `skills.hive_mind`
+- [`HiveMind`](modules/skills.hive_mind.py.md#hivemind) class in `skills.hive_mind`
+- [`HookEngine`](modules/modules.conditional_hooks.py.md#hookengine) class in `modules.conditional_hooks`
+- [`HookEvent`](modules/skills.lazyown_hooks.py.md#hookevent) enum in `skills.lazyown_hooks`(Enum)
+- [`HookRegistry`](modules/skills.lazyown_hooks.py.md#hookregistry) class in `skills.lazyown_hooks`
+- [`HookRule`](modules/modules.conditional_hooks.py.md#hookrule) class in `modules.conditional_hooks`
+- [`Host`](modules/modules.nmap2csv.py.md#host) class in `modules.nmap2csv`
+- [`HostEntry`](modules/modules.world_model.py.md#hostentry) class in `modules.world_model`
+- [`HostFacts`](modules/skills.lazyown_facts.py.md#hostfacts) class in `skills.lazyown_facts`
+- [`HostState`](modules/modules.world_model.py.md#hoststate) enum in `modules.world_model`(StrEnum)
+- [`HostSummary`](modules/modules.state_manager.py.md#hostsummary) class in `modules.state_manager`
+- [`HotReloader`](modules/cli.cli_enhancements.py.md#hotreloader) class in `cli.cli_enhancements`(ABC)
+  - [`AddonHotReloader`](modules/cli.cli_enhancements.py.md#addonhotreloader) class in `cli.cli_enhancements`
+- [`HttpConfig`](modules/modules.c2_profile.py.md#httpconfig) class in `modules.c2_profile`
+- [`HTTPSRedirect`](modules/lazyc2.security.https_redirect.py.md#httpsredirect) class in `lazyc2.security.https_redirect`
+- [`HudConfig`](modules/cli.session_hud.py.md#hudconfig) class in `cli.session_hud`
+- [`HudSnapshot`](modules/cli.session_hud.py.md#hudsnapshot) class in `cli.session_hud`
+- [`Ct.G.I`](modules/static.js.quill-2.0.3.js.md#ct-g-i) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i) class in `static/js/xterm.js`(a.Disposable)
+- [`IApprovalSink`](modules/skills.lazyown_policy.py.md#iapprovalsink) class in `skills.lazyown_policy`(abc.ABC)
+  - [`BroadcastApprovalSink`](modules/skills.lazyown_policy.py.md#broadcastapprovalsink) class in `skills.lazyown_policy`
+  - [`CompositeApprovalSink`](modules/skills.lazyown_policy.py.md#compositeapprovalsink) class in `skills.lazyown_policy`
+  - [`FileApprovalSink`](modules/skills.lazyown_policy.py.md#fileapprovalsink) class in `skills.lazyown_policy`
+  - [`StdinApprovalSink`](modules/skills.lazyown_policy.py.md#stdinapprovalsink) class in `skills.lazyown_policy`
+- [`ICommandRunner`](modules/skills.autonomous_daemon.py.md#icommandrunner) class in `skills.autonomous_daemon`(ABC)
+  - [`CommandRunnerChain`](modules/skills.autonomous_daemon.py.md#commandrunnerchain) class in `skills.autonomous_daemon`
+  - [`MCPCommandRunner`](modules/skills.autonomous_daemon.py.md#mcpcommandrunner) class in `skills.autonomous_daemon`
+  - [`PTYCommandRunner`](modules/skills.autonomous_daemon.py.md#ptycommandrunner) class in `skills.autonomous_daemon`
+- [`ICommandRunner`](modules/skills.hive_mind.py.md#icommandrunner) class in `skills.hive_mind`(ABC)
+- [`ICommandSelector`](modules/skills.autonomous_daemon.py.md#icommandselector) class in `skills.autonomous_daemon`(ABC)
+  - [`BridgeSelector`](modules/skills.autonomous_daemon.py.md#bridgeselector) class in `skills.autonomous_daemon`
+  - [`CredentialSpraySelector`](modules/skills.autonomous_daemon.py.md#credentialsprayselector) class in `skills.autonomous_daemon`
+  - [`FallbackSelector`](modules/skills.autonomous_daemon.py.md#fallbackselector) class in `skills.autonomous_daemon`
+  - [`LLMSelector`](modules/skills.autonomous_daemon.py.md#llmselector) class in `skills.autonomous_daemon`
+  - [`MetricsAwareSelector`](modules/skills.autonomous_daemon.py.md#metricsawareselector) class in `skills.autonomous_daemon`
+  - [`ParquetSelector`](modules/skills.autonomous_daemon.py.md#parquetselector) class in `skills.autonomous_daemon`
+  - [`ReactiveSelector`](modules/skills.autonomous_daemon.py.md#reactiveselector) class in `skills.autonomous_daemon`
+  - [`SWANSelector`](modules/skills.autonomous_daemon.py.md#swanselector) class in `skills.autonomous_daemon`
+- [`IdentifierConstants`](modules/lazygui.config.constants.py.md#identifierconstants) class in `lazygui.config.constants`
+- [`IDetectionOracle`](modules/modules.detection_oracle.py.md#idetectionoracle) class in `modules.detection_oracle`(ABC)
+  - [`DetectionOracle`](modules/modules.detection_oracle.py.md#detectionoracle) class in `modules.detection_oracle`
+- [`IEpisodeStore`](modules/skills.lazyown_policy.py.md#iepisodestore) class in `skills.lazyown_policy`(abc.ABC)
+  - [`JSONLEpisodeStore`](modules/skills.lazyown_policy.py.md#jsonlepisodestore) class in `skills.lazyown_policy`
+- [`IExpertSelector`](modules/modules.moe_router.py.md#iexpertselector) class in `modules.moe_router`(ABC)
+  - [`SoftmaxSelector`](modules/modules.moe_router.py.md#softmaxselector) class in `modules.moe_router`
+- [`ImplantRecord`](modules/modules.session_reader.py.md#implantrecord) class in `modules.session_reader`
+- [`ImportDescriptor`](modules/modules.reflective_dll.py.md#importdescriptor) class in `modules.reflective_dll`
+- [`ImportResult`](modules/modules.estorides_importer.py.md#importresult) class in `modules.estorides_importer`
+- [`INarratorAdapter`](modules/modules.pipeline_engine.py.md#inarratoradapter) class in `modules.pipeline_engine`(ABC)
+  - [`EngagementNarratorAdapter`](modules/modules.pipeline_engine.py.md#engagementnarratoradapter) class in `modules.pipeline_engine`
+- [`INmapXmlParser`](modules/skills.lazyown_facts.py.md#inmapxmlparser) class in `skills.lazyown_facts`
+- [`INotificationSink`](modules/modules.engagement_hooks.py.md#inotificationsink) class in `modules.engagement_hooks`(ABC)
+  - [`CollabNotificationSink`](modules/modules.engagement_hooks.py.md#collabnotificationsink) class in `modules.engagement_hooks`
+  - [`StreamEventSink`](modules/modules.engagement_hooks.py.md#streameventsink) class in `modules.engagement_hooks`
+- [`InstantEffect`](modules/cli.splash.py.md#instanteffect) class in `cli.splash`
+- [`IntelligenceAssessment`](modules/modules.intelligence_engine.py.md#intelligenceassessment) class in `modules.intelligence_engine`
+- [`IntelligenceConfig`](modules/modules.intelligence_engine.py.md#intelligenceconfig) class in `modules.intelligence_engine`
+- [`IntelligenceEngine`](modules/modules.intelligence_engine.py.md#intelligenceengine) class in `modules.intelligence_engine`
+- [`InteractiveForm`](modules/cli.cli_enhancements.py.md#interactiveform) class in `cli.cli_enhancements`
+- [`InterceptAction`](modules/modules.intercept.py.md#interceptaction) enum in `modules.intercept`(str, Enum)
+- [`InterceptConfig`](modules/modules.intercept.py.md#interceptconfig) class in `modules.intercept`
+- [`Interceptor`](modules/modules.intercept.py.md#interceptor) class in `modules.intercept`
+- [`InterceptQueue`](modules/modules.lazy_loop.py.md#interceptqueue) class in `modules.lazy_loop`
+- [`InterceptRule`](modules/modules.intercept.py.md#interceptrule) class in `modules.intercept`
+- [`InterceptVerdict`](modules/modules.intercept.py.md#interceptverdict) class in `modules.intercept`
+- [`InvalidCursor`](modules/modules.lazy_mentions.py.md#invalidcursor) exception in `modules.lazy_mentions`(ValueError)
+- [`InvalidUsername`](modules/contrib.legacy.lazyopenssh77enum2.py.md#invalidusername) exception in `contrib.legacy.lazyopenssh77enum2`(Exception)
+- [`io_uring`](modules/modules.rootkit.mrhyde3.c.md#io_uring) struct in `modules/rootkit/mrhyde3.c`
+- [`io_uring_cq`](modules/modules.rootkit.mrhyde3.c.md#io_uring_cq) struct in `modules/rootkit/mrhyde3.c`
+- [`io_uring_sq`](modules/modules.rootkit.mrhyde3.c.md#io_uring_sq) struct in `modules/rootkit/mrhyde3.c`
+- [`IObjectiveHandler`](modules/skills.autonomous_daemon.py.md#iobjectivehandler) class in `skills.autonomous_daemon`(ABC)
+  - [`ExecutionEngine`](modules/skills.autonomous_daemon.py.md#executionengine) class in `skills.autonomous_daemon`
+- [`IOrchestratorBackend`](modules/skills.unified_orchestrator.py.md#iorchestratorbackend) protocol in `skills.unified_orchestrator`(Protocol)
+- [`IOutputClassifier`](modules/skills.lazyown_policy.py.md#ioutputclassifier) class in `skills.lazyown_policy`(abc.ABC)
+  - [`ExitCodeClassifier`](modules/skills.lazyown_policy.py.md#exitcodeclassifier) class in `skills.lazyown_policy`
+  - [`HeuristicClassifier`](modules/skills.lazyown_policy.py.md#heuristicclassifier) class in `skills.lazyown_policy`
+  - [`UserInteractiveClassifier`](modules/skills.lazyown_policy.py.md#userinteractiveclassifier) class in `skills.lazyown_policy`
+- [`IP2ASN`](modules/utils.py.md#ip2asn) class in `utils`
+- [`IPurpleEvaluator`](modules/modules.auto_purple.py.md#ipurpleevaluator) class in `modules.auto_purple`(ABC)
+  - [`PurpleTeamLoop`](modules/modules.auto_purple.py.md#purpleteamloop) class in `modules.auto_purple`
+- [`IPurpleLoop`](modules/modules.auto_purple.py.md#ipurpleloop) class in `modules.auto_purple`(ABC)
+- [`IReadableMemory`](modules/skills.hive_mind.py.md#ireadablememory) class in `skills.hive_mind`(ABC)
+  - [`IMemoryStore`](modules/skills.hive_mind.py.md#imemorystore) class in `skills.hive_mind`
+    - [`EpisodicStore`](modules/skills.hive_mind.py.md#episodicstore) class in `skills.hive_mind`
+    - [`LongtermStore`](modules/skills.hive_mind.py.md#longtermstore) class in `skills.hive_mind`
+    - [`SemanticStore`](modules/skills.hive_mind.py.md#semanticstore) class in `skills.hive_mind`
+- [`IResultAggregator`](modules/skills.swan_agent.py.md#iresultaggregator) class in `skills.swan_agent`(ABC)
+  - [`WeightedTextAggregator`](modules/skills.swan_agent.py.md#weightedtextaggregator) class in `skills.swan_agent`
+- [`IStateEncoder`](modules/modules.rl_trainer.py.md#istateencoder) class in `modules.rl_trainer`(ABC)
+  - [`BucketedStateEncoder`](modules/modules.rl_trainer.py.md#bucketedstateencoder) class in `modules.rl_trainer`
+- [`IStatusSource`](modules/cli.status_bar.py.md#istatussource) protocol in `cli.status_bar`(Protocol)
+- [`IStepRunner`](modules/modules.pipeline_engine.py.md#isteprunner) class in `modules.pipeline_engine`(ABC)
+  - [`LazyOwnStepRunner`](modules/modules.pipeline_engine.py.md#lazyownsteprunner) class in `modules.pipeline_engine`
+- [`ISwanOrchestrator`](modules/skills.swan_agent.py.md#iswanorchestrator) class in `skills.swan_agent`(ABC)
+  - [`SwanOrchestrator`](modules/skills.swan_agent.py.md#swanorchestrator) class in `skills.swan_agent`
+- [`ITextOutputParser`](modules/skills.lazyown_facts.py.md#itextoutputparser) class in `skills.lazyown_facts`
+  - [`CrackMapExecParser`](modules/skills.lazyown_facts.py.md#crackmapexecparser) class in `skills.lazyown_facts`
+  - [`Enum4linuxParser`](modules/skills.lazyown_facts.py.md#enum4linuxparser) class in `skills.lazyown_facts`
+  - [`GenericOutputParser`](modules/skills.lazyown_facts.py.md#genericoutputparser) class in `skills.lazyown_facts`
+  - [`GobusterFfufParser`](modules/skills.lazyown_facts.py.md#gobusterffufparser) class in `skills.lazyown_facts`
+  - [`KerbruteParser`](modules/skills.lazyown_facts.py.md#kerbruteparser) class in `skills.lazyown_facts`
+  - [`LdapParser`](modules/skills.lazyown_facts.py.md#ldapparser) class in `skills.lazyown_facts`
+  - [`NiktoParser`](modules/skills.lazyown_facts.py.md#niktoparser) class in `skills.lazyown_facts`
+  - [`NucleiParser`](modules/skills.lazyown_facts.py.md#nucleiparser) class in `skills.lazyown_facts`
+  - [`RpcclientParser`](modules/skills.lazyown_facts.py.md#rpcclientparser) class in `skills.lazyown_facts`
+  - [`SecretsdumpParser`](modules/skills.lazyown_facts.py.md#secretsdumpparser) class in `skills.lazyown_facts`
+  - [`SslscanParser`](modules/skills.lazyown_facts.py.md#sslscanparser) class in `skills.lazyown_facts`
+- [`IToolFallbackResolver`](modules/skills.autonomous_daemon.py.md#itoolfallbackresolver) class in `skills.autonomous_daemon`(ABC)
+  - [`BridgeFallbackResolver`](modules/skills.autonomous_daemon.py.md#bridgefallbackresolver) class in `skills.autonomous_daemon`
+  - [`StaticFallbackResolver`](modules/skills.autonomous_daemon.py.md#staticfallbackresolver) class in `skills.autonomous_daemon`
+- [`ITTPMapper`](modules/modules.playbook_executor.py.md#ittpmapper) class in `modules.playbook_executor`(ABC)
+  - [`DefaultTTPMapper`](modules/modules.playbook_executor.py.md#defaultttpmapper) class in `modules.playbook_executor`
+- [`IWritableMemory`](modules/skills.hive_mind.py.md#iwritablememory) class in `skills.hive_mind`(ABC)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j) class in `static/js/quill-2.0.3.js`(r.BlockBlot, x)
+- [`JobRecord`](modules/skills.lazyown_mcp_helpers.py.md#jobrecord) class in `skills.lazyown_mcp_helpers`
+- [`JobStore`](modules/skills.lazyown_mcp_helpers.py.md#jobstore) class in `skills.lazyown_mcp_helpers`
+- [`Journal`](modules/scripts.journal.py.md#journal) class in `scripts.journal`
+- [`JournalConfig`](modules/scripts.journal.py.md#journalconfig) class in `scripts.journal`
+- [`JournalError`](modules/scripts.journal.py.md#journalerror) exception in `scripts.journal`(RuntimeError)
+- [`JsonFormatter`](modules/modules.logging_config.py.md#jsonformatter) class in `modules.logging_config`(logging.Formatter)
+- [`JsonlTail`](modules/modules.jsonl_tail.py.md#jsonltail) class in `modules.jsonl_tail`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, x)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`K8SAttackEngine`](modules/modules.k8s_attacks.py.md#k8sattackengine) class in `modules.k8s_attacks`
+- [`K8sConfig`](modules/modules.k8s_attacks.py.md#k8sconfig) class in `modules.k8s_attacks`
+- [`K8sEnumerator`](modules/modules.lazyk8s.py.md#k8senumerator) class in `modules.lazyk8s`
+- [`KerberoastHash`](modules/modules.kerberoasting.py.md#kerberoasthash) class in `modules.kerberoasting`
+- [`KerberoastingEngine`](modules/modules.kerberoasting.py.md#kerberoastingengine) class in `modules.kerberoasting`
+- [`KerberoastTarget`](modules/modules.kerberoasting.py.md#kerberoasttarget) class in `modules.kerberoasting`
+- [`KerberosCore`](modules/modules.kerberos_core.py.md#kerberoscore) class in `modules.kerberos_core`
+- [`KerberosCrypto`](modules/modules.kerberos_core.py.md#kerberoscrypto) class in `modules.kerberos_core`
+- [`KerberosErrorParser`](modules/modules.kerberos_core.py.md#kerberoserrorparser) class in `modules.kerberos_core`
+- [`KerberosPrincipal`](modules/modules.kerberos_core.py.md#kerberosprincipal) class in `modules.kerberos_core`
+- [`KerberosTicket`](modules/modules.kerberos_core.py.md#kerberosticket) class in `modules.kerberos_core`
+- [`key_serial_t`](modules/modules.exp.c.md#key_serial_t) type_alias in `modules/exp.c`
+- [`KeybindingConstants`](modules/lazygui.config.constants.py.md#keybindingconstants) class in `lazygui.config.constants`
+- [`Keylogger`](modules/contrib.legacy.lazybotnet.py.md#keylogger) class in `contrib.legacy.lazybotnet`
+- [`keyring_payload`](modules/modules.exp.c.md#keyring_payload) struct in `modules/exp.c`
+- [`KillChain`](modules/modules.killchain.py.md#killchain) class in `modules.killchain`
+- [`KillChainConfig`](modules/modules.killchain.py.md#killchainconfig) class in `modules.killchain`
+- [`KillchainGapSignal`](modules/cli.recommendation_signals.py.md#killchaingapsignal) class in `cli.recommendation_signals`
+- [`KillChainProvider`](modules/cli.autosuggest.py.md#killchainprovider) class in `cli.autosuggest`
+- [`KillChainSignal`](modules/cli.recommendation_signals.py.md#killchainsignal) class in `cli.recommendation_signals`
+- [`KnowledgeStore`](modules/modules.llm_prompts.py.md#knowledgestore) class in `modules.llm_prompts`
+- [`Ct.G.I.J.L`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, x)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l) class in `static/js/xterm.js`(a.Disposable)
+- [`LanBundleReader`](modules/modules.estorides_importer.py.md#lanbundlereader) class in `modules.estorides_importer`
+- [`LazyEvent`](modules/modules.event_bus.py.md#lazyevent) class in `modules.event_bus`
+- [`LazyLoopEngine`](modules/modules.lazy_loop.py.md#lazyloopengine) class in `modules.lazy_loop`
+  - [`LazyEngine`](modules/modules.lazy_engine.py.md#lazyengine) class in `modules.lazy_engine`
+- [`LazyMention`](modules/modules.lazy_mentions.py.md#lazymention) class in `modules.lazy_mentions`
+- [`LazyMentionPage`](modules/modules.lazy_mentions.py.md#lazymentionpage) class in `modules.lazy_mentions`
+- [`LazyOwnCommandSet`](modules/cli.commands._base.py.md#lazyowncommandset) class in `cli.commands._base`(CommandSet)
+  - [`PendingCommandSet`](modules/cli.commands._dormancy.py.md#pendingcommandset) class in `cli.commands._dormancy`
+  - [`ActiveDirectoryCommandSet`](modules/cli.commands.active_directory.py.md#activedirectorycommandset) class in `cli.commands.active_directory`
+  - [`AiCommandSet`](modules/cli.commands.ai.py.md#aicommandset) class in `cli.commands.ai`
+  - [`AntiForensicsCommandSet`](modules/cli.commands.anti_forensics.py.md#antiforensicscommandset) class in `cli.commands.anti_forensics`
+  - [`AppLockerBypassCommandSet`](modules/cli.commands.applocker_bypass.py.md#applockerbypasscommandset) class in `cli.commands.applocker_bypass`
+  - [`AuditCommandSet`](modules/cli.commands.audit.py.md#auditcommandset) class in `cli.commands.audit`
+  - [`AutomationCommandSet`](modules/cli.commands.automation.py.md#automationcommandset) class in `cli.commands.automation`
+  - [`BitMCommandSet`](modules/cli.commands.bitm.py.md#bitmcommandset) class in `cli.commands.bitm`
+  - [`BofMarketplaceCommandSet`](modules/cli.commands.bof_registry.py.md#bofmarketplacecommandset) class in `cli.commands.bof_registry`
+  - [`C2ProfileCommandSet`](modules/cli.commands.c2_profile.py.md#c2profilecommandset) class in `cli.commands.c2_profile`
+  - [`CalderaCommandSet`](modules/cli.commands.caldera.py.md#calderacommandset) class in `cli.commands.caldera`
+  - [`CampaignCommandSet`](modules/cli.commands.campaign.py.md#campaigncommandset) class in `cli.commands.campaign`
+  - [`CatalogCommandSet`](modules/cli.commands.catalog.py.md#catalogcommandset) class in `cli.commands.catalog`
+  - [`CICDCommandSet`](modules/cli.commands.cicd.py.md#cicdcommandset) class in `cli.commands.cicd`
+  - [`CliAuthCommandSet`](modules/cli.commands.cli_auth.py.md#cliauthcommandset) class in `cli.commands.cli_auth`
+  - [`CloudCommandSet`](modules/cli.commands.cloud.py.md#cloudcommandset) class in `cli.commands.cloud`
+  - [`CloudAttackCommandSet`](modules/cli.commands.cloud_attacks.py.md#cloudattackcommandset) class in `cli.commands.cloud_attacks`
+  - [`CollaborationCommandSet`](modules/cli.commands.collaboration.py.md#collaborationcommandset) class in `cli.commands.collaboration`
+  - [`CommandAndControlCommandSet`](modules/cli.commands.command_and_control.py.md#commandandcontrolcommandset) class in `cli.commands.command_and_control`
+  - [`CommandAndControlMigratedCommandSet`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset) class in `cli.commands.command_and_control_migrated`
+  - [`ContainerCommandSet`](modules/cli.commands.containers.py.md#containercommandset) class in `cli.commands.containers`
+  - [`CredentialAccessCommandSet`](modules/cli.commands.cred.py.md#credentialaccesscommandset) class in `cli.commands.cred`
+  - [`CredMigratedCommandSet`](modules/cli.commands.cred_migrated.py.md#credmigratedcommandset) class in `cli.commands.cred_migrated`
+  - [`CrystalBallCommandSet`](modules/cli.commands.crystal_ball.py.md#crystalballcommandset) class in `cli.commands.crystal_ball`
+  - [`DaemonControlCommandSet`](modules/cli.commands.daemon_ctl.py.md#daemoncontrolcommandset) class in `cli.commands.daemon_ctl`
+  - [`DatabaseCommandSet`](modules/cli.commands.database.py.md#databasecommandset) class in `cli.commands.database`
+  - [`DefaultsCommandSet`](modules/cli.commands.defaults.py.md#defaultscommandset) class in `cli.commands.defaults`
+  - [`DemoCommandSet`](modules/cli.commands.demo.py.md#democommandset) class in `cli.commands.demo`
+  - [`DiagnosticsCommandSet`](modules/cli.commands.diagnostics.py.md#diagnosticscommandset) class in `cli.commands.diagnostics`
+  - [`DNSExfilCommandSet`](modules/cli.commands.dns_exfil.py.md#dnsexfilcommandset) class in `cli.commands.dns_exfil`
+  - [`DPAPICommandSet`](modules/cli.commands.dpapi.py.md#dpapicommandset) class in `cli.commands.dpapi`
+  - [`EDRDetectCommandSet`](modules/cli.commands.edr_detect.py.md#edrdetectcommandset) class in `cli.commands.edr_detect`
+  - [`EncodingCommandSet`](modules/cli.commands.encoding.py.md#encodingcommandset) class in `cli.commands.encoding`
+  - [`EnumCommandSet`](modules/cli.commands.enum.py.md#enumcommandset) class in `cli.commands.enum`
+  - [`EstoridesCommandSet`](modules/cli.commands.estorides.py.md#estoridescommandset) class in `cli.commands.estorides`
+  - [`EvasivePayloadCommandSet`](modules/cli.commands.evasive_payload.py.md#evasivepayloadcommandset) class in `cli.commands.evasive_payload`
+  - [`ExfiltrationCommandSet`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset) class in `cli.commands.exfiltration`
+  - [`ExploitCommandSet`](modules/cli.commands.exploit.py.md#exploitcommandset) class in `cli.commands.exploit`
+  - [`ExploitMigratedCommandSet`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset) class in `cli.commands.exploit_migrated`
+  - [`ExploitGymCommandSet`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset) class in `cli.commands.exploitgym`
+  - [`HelpUiCommandSet`](modules/cli.commands.help_ui.py.md#helpuicommandset) class in `cli.commands.help_ui`
+  - [`InfraCommandSet`](modules/cli.commands.infra.py.md#infracommandset) class in `cli.commands.infra`
+  - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
+  - [`LateralMovementCommandSet`](modules/cli.commands.lateral.py.md#lateralmovementcommandset) class in `cli.commands.lateral`
+  - [`LateralMigratedCommandSet`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset) class in `cli.commands.lateral_migrated`
+  - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
+  - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
+  - [`MarketplaceCommandSet`](modules/cli.commands.marketplace.py.md#marketplacecommandset) class in `cli.commands.marketplace`
+  - [`McpBridgeCommandSet`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset) class in `cli.commands.mcp_bridge`
+  - [`MiscMigratedCommandSet`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset) class in `cli.commands.misc_migrated`
+  - [`MobileMacOSCommandSet`](modules/cli.commands.mobile_macos.py.md#mobilemacoscommandset) class in `cli.commands.mobile_macos`
+  - [`ModuleManagerCommandSet`](modules/cli.commands.module_manager.py.md#modulemanagercommandset) class in `cli.commands.module_manager`
+  - [`NetworkHelpersCommandSet`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset) class in `cli.commands.nethelpers`
+  - [`OpsecCleanupCommandSet`](modules/cli.commands.opsec_cleanup.py.md#opseccleanupcommandset) class in `cli.commands.opsec_cleanup`
+  - [`OrchestrationCommandSet`](modules/cli.commands.orchestration.py.md#orchestrationcommandset) class in `cli.commands.orchestration`
+  - [`PayloadArsenalCommandSet`](modules/cli.commands.payload_arsenal.py.md#payloadarsenalcommandset) class in `cli.commands.payload_arsenal`
+  - [`PayloadCommandSet`](modules/cli.commands.payload_generation.py.md#payloadcommandset) class in `cli.commands.payload_generation`
+  - [`PersistenceCommandSet`](modules/cli.commands.persist.py.md#persistencecommandset) class in `cli.commands.persist`
+  - [`PersistMigratedCommandSet`](modules/cli.commands.persist_migrated.py.md#persistmigratedcommandset) class in `cli.commands.persist_migrated`
+  - [`PhishingWizardCommandSet`](modules/cli.commands.phishing_wizard.py.md#phishingwizardcommandset) class in `cli.commands.phishing_wizard`
+  - [`PivotingCommandSet`](modules/cli.commands.pivoting.py.md#pivotingcommandset) class in `cli.commands.pivoting`
+  - [`PostExploitationCommandSet`](modules/cli.commands.postexp.py.md#postexploitationcommandset) class in `cli.commands.postexp`
+  - [`PostexpMigratedCommandSet`](modules/cli.commands.postexp_migrated.py.md#postexpmigratedcommandset) class in `cli.commands.postexp_migrated`
+  - [`PrivilegeEscalationCommandSet`](modules/cli.commands.privilege_escalation.py.md#privilegeescalationcommandset) class in `cli.commands.privilege_escalation`
+  - [`PurpleTeamCommandSet`](modules/cli.commands.purple_team.py.md#purpleteamcommandset) class in `cli.commands.purple_team`
+  - [`PwnCommandSet`](modules/cli.commands.pwn.py.md#pwncommandset) class in `cli.commands.pwn`
+  - [`ReconCommandSet`](modules/cli.commands.recon.py.md#reconcommandset) class in `cli.commands.recon`
+  - [`ReconMigratedCommandSet`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset) class in `cli.commands.recon_migrated`
+  - [`RedTeamGymCommandSet`](modules/cli.commands.redteam_gym.py.md#redteamgymcommandset) class in `cli.commands.redteam_gym`
+  - [`ResourceCommandSet`](modules/cli.commands.resource_scripting.py.md#resourcecommandset) class in `cli.commands.resource_scripting`
+  - [`ScanCommandSet`](modules/cli.commands.scan.py.md#scancommandset) class in `cli.commands.scan`
+  - [`ScanMigratedCommandSet`](modules/cli.commands.scan_migrated.py.md#scanmigratedcommandset) class in `cli.commands.scan_migrated`
+  - [`SecurityCommandSet`](modules/cli.commands.security.py.md#securitycommandset) class in `cli.commands.security`
+  - [`SessionOpsCommandSet`](modules/cli.commands.session_ops.py.md#sessionopscommandset) class in `cli.commands.session_ops`
+  - [`ShellSysCommandSet`](modules/cli.commands.shellsys.py.md#shellsyscommandset) class in `cli.commands.shellsys`
+  - [`SleepObfuscationCommandSet`](modules/cli.commands.sleep_obfuscation.py.md#sleepobfuscationcommandset) class in `cli.commands.sleep_obfuscation`
+  - [`SocksProxyCommandSet`](modules/cli.commands.socks_proxy.py.md#socksproxycommandset) class in `cli.commands.socks_proxy`
+  - [`SupplyChainCommandSet`](modules/cli.commands.supply_chain.py.md#supplychaincommandset) class in `cli.commands.supply_chain`
+  - [`SurfaceCommandSet`](modules/cli.commands.surface.py.md#surfacecommandset) class in `cli.commands.surface`
+  - [`UxCommandSet`](modules/cli.commands.ux.py.md#uxcommandset) class in `cli.commands.ux`
+- [`LazyOwnDB`](modules/modules.db.py.md#lazyowndb) class in `modules.db`
+- [`LazyOwnError`](modules/core.errors.py.md#lazyownerror) exception in `core.errors`(Exception)
+  - [`AuthError`](modules/core.errors.py.md#autherror) exception in `core.errors`
+  - [`ConfigError`](modules/core.errors.py.md#configerror) exception in `core.errors`
+  - [`DatabaseError`](modules/core.errors.py.md#databaseerror) exception in `core.errors`
+  - [`NetworkError`](modules/core.errors.py.md#networkerror) exception in `core.errors`
+  - [`PayloadError`](modules/core.errors.py.md#payloaderror) exception in `core.errors`
+  - [`PermissionError`](modules/core.errors.py.md#permissionerror) exception in `core.errors`
+    - [`SecurityViolation`](modules/core.hardening.py.md#securityviolation) exception in `core.hardening`
+    - [`CommandInjectionError`](modules/core.safe_exec.py.md#commandinjectionerror) exception in `core.safe_exec`
+    - [`UrlValidationError`](modules/core.safe_exec.py.md#urlvalidationerror) exception in `core.safe_exec`
+    - [`ShellNotAllowedError`](modules/core.safe_subprocess.py.md#shellnotallowederror) exception in `core.safe_subprocess`
+  - [`TargetError`](modules/core.errors.py.md#targeterror) exception in `core.errors`
+  - [`ToolError`](modules/core.errors.py.md#toolerror) exception in `core.errors`
+  - [`ValidationError`](modules/core.errors.py.md#validationerror) exception in `core.errors`
+- [`LazyOwnExecutor`](modules/skills.hermes-lazyown.executor.py.md#lazyownexecutor) class in `skills.hermes-lazyown.executor`
+- [`LazyOwnGUI`](modules/modules.LazyOwnExplorer.py.md#lazyowngui) class in `modules.LazyOwnExplorer`(tk.Tk)
+- [`LazyOwnLLMChat`](modules/contrib.legacy.lazyllmchat.py.md#lazyownllmchat) class in `contrib.legacy.lazyllmchat`
+- [`LazyOwnPolicyIntegration`](modules/skills.lazyown_policy.py.md#lazyownpolicyintegration) class in `skills.lazyown_policy`
+- [`LazyOwnPromptRenderer`](modules/contrib.legacy.lazyllmchat.py.md#lazyownpromptrenderer) class in `contrib.legacy.lazyllmchat`
+- [`LazyOwnShell`](modules/lazyown.py.md#lazyownshell) class in `lazyown`(cmd2.Cmd)
+- [`LazyOwnShellBridge`](modules/contrib.legacy.lazyllmchat.py.md#lazyownshellbridge) class in `contrib.legacy.lazyllmchat`
+- [`LazyOwnShellWrapper`](modules/modules.agent_runner.py.md#lazyownshellwrapper) class in `modules.agent_runner`
+- [`LazySentinel`](modules/lazy_sentinel4.py.md#lazysentinel) class in `lazy_sentinel4`
+- [`LazySentinelHandler`](modules/lazy_sentinel4.py.md#lazysentinelhandler) class in `lazy_sentinel4`(FileSystemEventHandler)
+- [`leak`](modules/modules.exp.c.md#leak) struct in `modules/exp.c`
+- [`LedgerEntry`](modules/core.llm_budget.py.md#ledgerentry) class in `core.llm_budget`
+- [`LessonIngestor`](modules/modules.lesson_ingestor.py.md#lessoningestor) class in `modules.lesson_ingestor`
+- [`LessonLearned`](modules/modules.lesson_ingestor.py.md#lessonlearned) class in `modules.lesson_ingestor`
+- [`LessonLearned`](modules/skills.lazyown_campaign.py.md#lessonlearned) class in `skills.lazyown_campaign`
+- [`linux_dirent64`](modules/modules.rootkit.mrhyde.c.md#linux_dirent64) struct in `modules/rootkit/mrhyde.c`
+- [`linux_dirent64`](modules/modules.rootkit.mrhyde2.c.md#linux_dirent64) struct in `modules/rootkit/mrhyde2.c`
+- [`linux_dirent64`](modules/modules.rootkit.mrhyde3.c.md#linux_dirent64) struct in `modules/rootkit/mrhyde3.c`
+- [`LinuxAdvancedConfig`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedconfig) class in `modules.linux_advanced_payloads`
+- [`LinuxAdvancedPayloadFactory`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory) class in `modules.linux_advanced_payloads`
+- [`Listener`](modules/lazygui.services.models.py.md#listener) class in `lazygui.services.models`
+- [`Listener`](modules/modules.listener_manager.py.md#listener) class in `modules.listener_manager`
+- [`ListenerManager`](modules/modules.listener_manager.py.md#listenermanager) class in `modules.listener_manager`
+- [`LiveStatusTail`](modules/cli.cli_enhancements.py.md#livestatustail) class in `cli.cli_enhancements`
+- [`LLMBackend`](modules/core.protocols.py.md#llmbackend) protocol in `core.protocols`(Protocol)
+- [`LLMBackendLike`](modules/core.llm_budget.py.md#llmbackendlike) protocol in `core.llm_budget`(Protocol)
+- [`LLMBackendNotSupportedError`](modules/modules.llm_factory.py.md#llmbackendnotsupportederror) exception in `modules.llm_factory`(ValueError)
+- [`LLMBackendUnavailableError`](modules/modules.llm_factory.py.md#llmbackendunavailableerror) exception in `modules.llm_factory`(RuntimeError)
+- [`LLMBridge`](modules/skills.lazyown_llm.py.md#llmbridge) class in `skills.lazyown_llm`
+- [`LLMClient`](modules/modules.llm_client.py.md#llmclient) class in `modules.llm_client`
+- [`LLMEngine`](modules/contrib.legacy.lazyllmchat.py.md#llmengine) class in `contrib.legacy.lazyllmchat`
+- [`LLMEvaluator`](modules/modules.llm_evaluator.py.md#llmevaluator) class in `modules.llm_evaluator`
+- [`LlmPool`](modules/modules.lazy_loop.py.md#llmpool) class in `modules.lazy_loop`
+- [`LLMPool`](modules/modules.llm_pool.py.md#llmpool) class in `modules.llm_pool`
+- [`LlmPromptConfig`](modules/modules.llm_prompts.py.md#llmpromptconfig) class in `modules.llm_prompts`
+- [`LLMTool`](modules/skills.lazyown_llm.py.md#llmtool) class in `skills.lazyown_llm`
+- [`LockManager`](modules/modules.collab_bp.py.md#lockmanager) class in `modules.collab_bp`
+- [`LogFileHandler`](modules/modules.ia_logs_analysis.py.md#logfilehandler) class in `modules.ia_logs_analysis`(FileSystemEventHandler)
+- [`LogFileHandler`](modules/modules.lilsplunky.py.md#logfilehandler) class in `modules.lilsplunky`(FileSystemEventHandler)
+- [`LogTamper`](modules/modules.log_tamper.py.md#logtamper) class in `modules.log_tamper`
+- [`LogTamperConfig`](modules/modules.log_tamper.py.md#logtamperconfig) class in `modules.log_tamper`
+- [`LoopProgress`](modules/modules.loop_progress.py.md#loopprogress) class in `modules.loop_progress`
+- [`LoopRunConfig`](modules/modules.lazy_runner.py.md#looprunconfig) class in `modules.lazy_runner`
+- [`LoopSnapshot`](modules/modules.loop_progress.py.md#loopsnapshot) class in `modules.loop_progress`
+- [`LootEntry`](modules/cli.ops_commands.py.md#lootentry) class in `cli.ops_commands`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`MacOSPayloadConfig`](modules/modules.macos_payloads.py.md#macospayloadconfig) class in `modules.macos_payloads`
+- [`MacOSPayloadFactory`](modules/modules.macos_payloads.py.md#macospayloadfactory) class in `modules.macos_payloads`
+- [`MainWindow`](modules/lazygui.windows.main_window.py.md#mainwindow) class in `lazygui.windows.main_window`(QMainWindow)
+- [`MalleableProfile`](modules/modules.evasion_engine.py.md#malleableprofile) class in `modules.evasion_engine`
+- [`ManifestConfig`](modules/scripts.check_contract_manifest.py.md#manifestconfig) class in `scripts.check_contract_manifest`
+- [`MarketplaceConfig`](modules/cli.marketplace_config.py.md#marketplaceconfig) class in `cli.marketplace_config`
+- [`MarketplaceConfigurator`](modules/cli.marketplace_config.py.md#marketplaceconfigurator) class in `cli.marketplace_config`
+- [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
+- [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
+- [`MemoryCleaner`](modules/modules.memory_cleaner.py.md#memorycleaner) class in `modules.memory_cleaner`
+- [`MemoryCleanerConfig`](modules/modules.memory_cleaner.py.md#memorycleanerconfig) class in `modules.memory_cleaner`
+- [`MemoryEntry`](modules/modules.memory_store.py.md#memoryentry) class in `modules.memory_store`
+- [`MemoryStore`](modules/core.protocols.py.md#memorystore) protocol in `core.protocols`(Protocol)
+- [`MemoryStore`](modules/modules.memory_store.py.md#memorystore) class in `modules.memory_store`
+- [`MetricRecord`](modules/modules.metrics.py.md#metricrecord) class in `modules.metrics`
+- [`MetricsAggregator`](modules/modules.metrics.py.md#metricsaggregator) class in `modules.metrics`
+- [`MetricsRecorder`](modules/modules.metrics.py.md#metricsrecorder) class in `modules.metrics`
+- [`MetricsRegistry`](modules/modules.metrics.py.md#metricsregistry) class in `modules.metrics`
+- [`MetricsWriter`](modules/modules.metrics.py.md#metricswriter) class in `modules.metrics`
+- [`MFABypassEngine`](modules/modules.mfa_bypass.py.md#mfabypassengine) class in `modules.mfa_bypass`
+- [`MFABypassResult`](modules/modules.mfa_bypass.py.md#mfabypassresult) class in `modules.mfa_bypass`
+- [`MFATarget`](modules/modules.mfa_bypass.py.md#mfatarget) class in `modules.mfa_bypass`
+- [`MigrationError`](modules/scripts.activate_migrations.py.md#migrationerror) exception in `scripts.activate_migrations`(Exception)
+- [`MISPAttribute`](modules/modules.integrations.misp_export.py.md#mispattribute) class in `modules.integrations.misp_export`
+- [`MISPEvent`](modules/modules.integrations.misp_export.py.md#mispevent) class in `modules.integrations.misp_export`
+- [`MISPExporter`](modules/modules.integrations.misp_export.py.md#mispexporter) class in `modules.integrations.misp_export`
+- [`MissingDependencyError`](modules/core.dependencies.py.md#missingdependencyerror) exception in `core.dependencies`(ImportError)
+- [`ModelPrice`](modules/core.llm_budget.py.md#modelprice) class in `core.llm_budget`
+- [`ModuleInfo`](modules/modules.module_registry.py.md#moduleinfo) class in `modules.module_registry`
+- [`ModuleRegistry`](modules/modules.module_registry.py.md#moduleregistry) class in `modules.module_registry`
+- [`MoERouter`](modules/modules.moe_router.py.md#moerouter) class in `modules.moe_router`
+- [`MorseConfig`](modules/modules.morse.py.md#morseconfig) class in `modules.morse`
+- [`Msg`](modules/modules.exp.c.md#msg) struct in `modules/exp.c`
+- [`msg`](modules/modules.exp.c.md#msg) struct in `modules/exp.c`
+- [`msg_header`](modules/modules.exp.c.md#msg_header) struct in `modules/exp.c`
+- [`MutationConfig`](modules/modules.polymorphic_engine.py.md#mutationconfig) class in `modules.polymorphic_engine`
+- [`MutationResult`](modules/modules.polymorphic_engine.py.md#mutationresult) class in `modules.polymorphic_engine`
+- [`MyServer`](modules/utils.py.md#myserver) class in `utils`(HTTPServer)
+- [`Ct.G.I.J.L.M.N`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, x)
+- [`Ct.G.I.J.L.M.N.N`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n) class in `static/js/xterm.js`(a.Disposable)
+- [`NetworkConstants`](modules/lazygui.config.constants.py.md#networkconstants) class in `lazygui.config.constants`
+- [`NetworkGraph`](modules/modules.world_model.py.md#networkgraph) class in `modules.world_model`
+- [`NetworkOpsecConfig`](modules/modules.network_opsec.py.md#networkopsecconfig) class in `modules.network_opsec`
+- [`NetworkOpsecEngine`](modules/modules.network_opsec.py.md#networkopsecengine) class in `modules.network_opsec`
+- [`NetworkRelation`](modules/modules.world_model.py.md#networkrelation) class in `modules.world_model`
+- [`NextStep`](modules/cli.command_chain.py.md#nextstep) class in `cli.command_chain`
+- [`nft_trans_phase`](modules/modules.exp.c.md#nft_trans_phase) enum in `modules/exp.c`
+- [`NmapXmlReader`](modules/cli.exploration.py.md#nmapxmlreader) class in `cli.exploration`
+- [`NotificationBroadcaster`](modules/modules.engagement_hooks.py.md#notificationbroadcaster) class in `modules.engagement_hooks`
+- [`Notifier`](modules/modules.lazy_loop.py.md#notifier) class in `modules.lazy_loop`
+- [`Notifier`](modules/modules.notify.py.md#notifier) class in `modules.notify`
+- [`NotifyConfig`](modules/modules.notify.py.md#notifyconfig) class in `modules.notify`
+- [`NotifyMessage`](modules/modules.notify.py.md#notifymessage) class in `modules.notify`
+- [`NucleiBridge`](modules/modules.integrations.nuclei_bridge.py.md#nucleibridge) class in `modules.integrations.nuclei_bridge`
+- [`NucleiFinding`](modules/modules.integrations.nuclei_parser.py.md#nucleifinding) class in `modules.integrations.nuclei_parser`
+- [`NucleiParser`](modules/modules.integrations.nuclei_parser.py.md#nucleiparser) class in `modules.integrations.nuclei_parser`
+- [`NucleiRunner`](modules/modules.integrations.nuclei_bridge.py.md#nucleirunner) class in `modules.integrations.nuclei_bridge`
+- [`NucleiTemplate`](modules/modules.integrations.nuclei_bridge.py.md#nucleitemplate) class in `modules.integrations.nuclei_bridge`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o) class in `static/js/xterm.js`(a.Disposable)
+- [`Objective`](modules/skills.lazyown_objective.py.md#objective) class in `skills.lazyown_objective`
+- [`ObjectiveStore`](modules/skills.lazyown_objective.py.md#objectivestore) class in `skills.lazyown_objective`
+- [`ObjectiveTodoSync`](modules/skills.hermes-lazyown.hermes_sync.py.md#objectivetodosync) class in `skills.hermes-lazyown.hermes_sync`
+- [`Observation`](modules/modules.obs_parser.py.md#observation) class in `modules.obs_parser`
+- [`ObsParser`](modules/modules.obs_parser.py.md#obsparser) class in `modules.obs_parser`
+- [`OllamaLargeClassifier`](modules/skills.lazyown_policy.py.md#ollamalargeclassifier) class in `skills.lazyown_policy`(_OllamaClassifierBase)
+- [`OllamaReActWorker`](modules/modules.mcp_agent_bridge.py.md#ollamareactworker) class in `modules.mcp_agent_bridge`
+- [`OllamaSmallClassifier`](modules/skills.lazyown_policy.py.md#ollamasmallclassifier) class in `skills.lazyown_policy`(_OllamaClassifierBase)
+- [`OnlineFeedbackLoop`](modules/modules.toposwarm_bridge.py.md#onlinefeedbackloop) class in `modules.toposwarm_bridge`
+- [`Operation`](modules/modules.operation.py.md#operation) class in `modules.operation`
+- [`OperationManager`](modules/modules.operation.py.md#operationmanager) class in `modules.operation`
+- [`OperationStatus`](modules/modules.operation.py.md#operationstatus) enum in `modules.operation`(StrEnum)
+- [`OperationStep`](modules/modules.operation.py.md#operationstep) class in `modules.operation`
+- [`Operator`](modules/lazygui.services.models.py.md#operator) class in `lazygui.services.models`
+- [`OperatorInfo`](modules/modules.collab_bp.py.md#operatorinfo) class in `modules.collab_bp`
+- [`OperatorProfile`](modules/modules.operator_profiles.py.md#operatorprofile) class in `modules.operator_profiles`
+- [`OperatorProfileManager`](modules/modules.operator_profiles.py.md#operatorprofilemanager) class in `modules.operator_profiles`
+- [`OperatorRegistry`](modules/modules.collab_bp.py.md#operatorregistry) class in `modules.collab_bp`
+- [`OpEvent`](modules/modules.operation.py.md#opevent) class in `modules.operation`
+- [`OpsecContext`](modules/modules.opsec_scorer.py.md#opseccontext) class in `modules.opsec_scorer`
+- [`OpsecScore`](modules/modules.opsec_scorer.py.md#opsecscore) class in `modules.opsec_scorer`
+- [`OpsecScorer`](modules/modules.opsec_scorer.py.md#opsecscorer) class in `modules.opsec_scorer`
+- [`OpsecScorerV2`](modules/modules.opsec_scorer.py.md#opsecscorerv2) class in `modules.opsec_scorer`
+- [`OrchestrationConfig`](modules/cli.commands.orchestration.py.md#orchestrationconfig) class in `cli.commands.orchestration`
+- [`OrchestratorConfig`](modules/skills.unified_orchestrator.py.md#orchestratorconfig) class in `skills.unified_orchestrator`
+- [`OrchestratorGoal`](modules/skills.unified_orchestrator.py.md#orchestratorgoal) class in `skills.unified_orchestrator`
+- [`OrchestratorResult`](modules/skills.unified_orchestrator.py.md#orchestratorresult) class in `skills.unified_orchestrator`
+- [`original_dirent`](modules/modules.rootkit.mrhyde.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde.c`
+- [`original_dirent`](modules/modules.rootkit.mrhyde2.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde2.c`
+- [`original_dirent`](modules/modules.rootkit.mrhyde3.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde3.c`
+- [`OsPlatform`](modules/modules.sleep_obfuscation.py.md#osplatform) enum in `modules.sleep_obfuscation`(str, Enum)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, F)
+- [`OutcomeEvaluator`](modules/core.protocols.py.md#outcomeevaluator) protocol in `core.protocols`(Protocol)
+- [`OutcomeEvaluator`](modules/skills.swan_agent.py.md#outcomeevaluator) class in `skills.swan_agent`
+- [`OutcomeRecorder`](modules/modules.llm_evaluator.py.md#outcomerecorder) class in `modules.llm_evaluator`(ABC)
+  - [`JSONLRecorder`](modules/modules.llm_evaluator.py.md#jsonlrecorder) class in `modules.llm_evaluator`
+- [`OutcomeType`](modules/skills.lazyown_policy.py.md#outcometype) enum in `skills.lazyown_policy`(StrEnum)
+- [`OutputCompactor`](modules/skills.hermes-lazyown.output_compactor.py.md#outputcompactor) class in `skills.hermes-lazyown.output_compactor`
+- [`OutputMode`](modules/cli.output_mode.py.md#outputmode) class in `cli.output_mode`
+- [`OutputModeConfig`](modules/cli.output_mode.py.md#outputmodeconfig) class in `cli.output_mode`
+- [`OutputPanel`](modules/poc_tui.app.py.md#outputpanel) class in `poc_tui.app`(VerticalScroll)
+- [`OutputSanitizer`](modules/modules.security_sanitizers.py.md#outputsanitizer) class in `modules.security_sanitizers`
+- [`OverrideRule`](modules/skills.lazyown_policy.py.md#overriderule) class in `skills.lazyown_policy`
+- [`PACInfo`](modules/modules.kerberos_core.py.md#pacinfo) class in `modules.kerberos_core`
+- [`PackageSpec`](modules/cli.doctor.py.md#packagespec) class in `cli.doctor`
+- [`PACSignature`](modules/modules.kerberos_core.py.md#pacsignature) class in `modules.kerberos_core`
+- [`PaletteArgs`](modules/cli.palette_command.py.md#paletteargs) class in `cli.palette_command`
+- [`PaletteArgumentParser`](modules/cli.palette_command.py.md#paletteargumentparser) class in `cli.palette_command`
+- [`PaletteCompleter`](modules/cli.palette_command.py.md#palettecompleter) class in `cli.palette_command`
+- [`PaletteIndexQuery`](modules/cli.palette_command.py.md#paletteindexquery) class in `cli.palette_command`
+- [`PaletteJsonRenderer`](modules/cli.palette_command.py.md#palettejsonrenderer) class in `cli.palette_command`
+- [`PaletteJsonResult`](modules/cli.palette_command.py.md#palettejsonresult) class in `cli.palette_command`
+- [`PaletteMode`](modules/cli.palette_command.py.md#palettemode) enum in `cli.palette_command`(Enum)
+- [`PaletteOverlayConfig`](modules/cli.palette_overlay.py.md#paletteoverlayconfig) class in `cli.palette_overlay`
+- [`PaletteOverlayState`](modules/cli.palette_overlay.py.md#paletteoverlaystate) class in `cli.palette_overlay`
+- [`PaletteRenderConfig`](modules/cli.palette_command.py.md#paletterenderconfig) class in `cli.palette_command`
+- [`PaletteRenderer`](modules/cli.palette_command.py.md#paletterenderer) class in `cli.palette_command`
+- [`PaletteRow`](modules/cli.palette_overlay.py.md#paletterow) class in `cli.palette_overlay`
+- [`PaletteViewConfig`](modules/cli.palette_command.py.md#paletteviewconfig) class in `cli.palette_command`
+- [`PanelBase`](modules/lazygui.panels.base.py.md#panelbase) class in `lazygui.panels.base`(QDockWidget)
+  - [`CampaignPanel`](modules/lazygui.panels.campaign_panel.py.md#campaignpanel) class in `lazygui.panels.campaign_panel`
+  - [`CredentialsPanel`](modules/lazygui.panels.credentials_panel.py.md#credentialspanel) class in `lazygui.panels.credentials_panel`
+  - [`CVEPanel`](modules/lazygui.panels.cve_panel.py.md#cvepanel) class in `lazygui.panels.cve_panel`
+  - [`EventLogPanel`](modules/lazygui.panels.event_log_panel.py.md#eventlogpanel) class in `lazygui.panels.event_log_panel`
+  - [`GraphPanel`](modules/lazygui.panels.graph_panel.py.md#graphpanel) class in `lazygui.panels.graph_panel`
+  - [`HistoryPanel`](modules/lazygui.panels.history_panel.py.md#historypanel) class in `lazygui.panels.history_panel`
+  - [`KillChainPanel`](modules/lazygui.panels.killchain_panel.py.md#killchainpanel) class in `lazygui.panels.killchain_panel`
+  - [`ListenersPanel`](modules/lazygui.panels.listeners_panel.py.md#listenerspanel) class in `lazygui.panels.listeners_panel`
+  - [`MarketplacePanel`](modules/lazygui.panels.marketplace_panel.py.md#marketplacepanel) class in `lazygui.panels.marketplace_panel`
+  - [`SessionsPanel`](modules/lazygui.panels.sessions_panel.py.md#sessionspanel) class in `lazygui.panels.sessions_panel`
+  - [`TerminalPanel`](modules/lazygui.panels.terminal_panel.py.md#terminalpanel) class in `lazygui.panels.terminal_panel`
+- [`PanelConstants`](modules/lazygui.config.constants.py.md#panelconstants) class in `lazygui.config.constants`
+- [`PanelRegistry`](modules/lazygui.panels.registry.py.md#panelregistry) class in `lazygui.panels.registry`
+- [`ParamSpec`](modules/lazyc2.addon_creator.py.md#paramspec) class in `lazyc2.addon_creator`
+- [`ParquetAdvisor`](modules/modules.reactive_engine.py.md#parquetadvisor) class in `modules.reactive_engine`
+- [`ParquetDB`](modules/skills.lazyown_parquet_db.py.md#parquetdb) class in `skills.lazyown_parquet_db`
+- [`Paths`](modules/skills.hermes-lazyown.constants.py.md#paths) class in `skills.hermes-lazyown.constants`
+- [`PayloadAwareCompleter`](modules/cli.cli_enhancements.py.md#payloadawarecompleter) class in `cli.cli_enhancements`
+- [`PayloadConfig`](modules/poc_tui.config.py.md#payloadconfig) class in `poc_tui.config`
+- [`PayloadConfigAdapter`](modules/modules.c2_messaging_base.py.md#payloadconfigadapter) class in `modules.c2_messaging_base`
+- [`PayloadFactory`](modules/modules.payload_factory.py.md#payloadfactory) class in `modules.payload_factory`
+- [`PayloadProvider`](modules/cli.cli_enhancements.py.md#payloadprovider) protocol in `cli.cli_enhancements`(Protocol)
+- [`PayloadTargetSource`](modules/cli.status_bar.py.md#payloadtargetsource) class in `cli.status_bar`
+- [`PayloadTemplate`](modules/modules.payload_factory.py.md#payloadtemplate) class in `modules.payload_factory`(ABC)
+  - [`DynamicShellcodePayload`](modules/modules.payload_factory.py.md#dynamicshellcodepayload) class in `modules.payload_factory`
+  - [`MsfvenomPayload`](modules/modules.payload_factory.py.md#msfvenompayload) class in `modules.payload_factory`
+  - [`ReverseShellPayload`](modules/modules.payload_factory.py.md#reverseshellpayload) class in `modules.payload_factory`
+  - [`ShellcodePayload`](modules/modules.payload_factory.py.md#shellcodepayload) class in `modules.payload_factory`
+  - [`WindowsReverseShellPayload`](modules/modules.payload_factory.py.md#windowsreverseshellpayload) class in `modules.payload_factory`
+- [`PEHeader`](modules/modules.reflective_dll.py.md#peheader) class in `modules.reflective_dll`
+- [`PendingAction`](modules/skills.daemon_control.py.md#pendingaction) class in `skills.daemon_control`
+- [`PendingApproval`](modules/modules.intercept.py.md#pendingapproval) class in `modules.intercept`
+- [`PentestState`](modules/skills.toposwarm_autonomous.py.md#penteststate) class in `skills.toposwarm_autonomous`
+- [`PEParser`](modules/modules.reflective_dll.py.md#peparser) class in `modules.reflective_dll`
+- [`Permission`](modules/modules.lazy_rbac.py.md#permission) enum in `modules.lazy_rbac`(enum.Enum)
+- [`PermissionMode`](modules/skills.lazyown_permissions.py.md#permissionmode) enum in `skills.lazyown_permissions`(Enum)
+- [`PermissionRule`](modules/skills.lazyown_permissions.py.md#permissionrule) class in `skills.lazyown_permissions`
+- [`PermissionSystem`](modules/skills.lazyown_permissions.py.md#permissionsystem) class in `skills.lazyown_permissions`
+- [`PhaseMapper`](modules/modules.lazyown_bridge.py.md#phasemapper) class in `modules.lazyown_bridge`
+- [`PhaseNames`](modules/skills.hermes-lazyown.constants.py.md#phasenames) class in `skills.hermes-lazyown.constants`
+- [`PhaseProgress`](modules/cli.killchain.py.md#phaseprogress) class in `cli.killchain`
+- [`PhaseStatus`](modules/modules.killchain.py.md#phasestatus) class in `modules.killchain`
+- [`PhaseStep`](modules/modules.apt_playbooks.py.md#phasestep) class in `modules.apt_playbooks`
+- [`PhaseTracker`](modules/modules.event_consumers.py.md#phasetracker) class in `modules.event_consumers`
+- [`PhishingOrchestrator`](modules/modules.phishing_orchestrator.py.md#phishingorchestrator) class in `modules.phishing_orchestrator`
+- [`PhishingTemplate`](modules/modules.phishing_orchestrator.py.md#phishingtemplate) class in `modules.phishing_orchestrator`
+- [`PickerConfig`](modules/cli.fuzzy_picker.py.md#pickerconfig) class in `cli.fuzzy_picker`
+- [`PickerItem`](modules/cli.fuzzy_picker.py.md#pickeritem) class in `cli.fuzzy_picker`
+- [`PickerView`](modules/cli.fuzzy_picker.py.md#pickerview) class in `cli.fuzzy_picker`(ABC)
+  - [`CursesPickerView`](modules/cli.fuzzy_picker.py.md#cursespickerview) class in `cli.fuzzy_picker`
+- [`PIDArray`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#pidarray) struct in `modules/win_rootkit/win_ring3_rootkit.c`
+- [`PipelineEngine`](modules/modules.pipeline_engine.py.md#pipelineengine) class in `modules.pipeline_engine`
+- [`PipelineError`](modules/modules.pipeline_engine.py.md#pipelineerror) exception in `modules.pipeline_engine`(Exception)
+  - [`PipelineCycleError`](modules/modules.pipeline_engine.py.md#pipelinecycleerror) exception in `modules.pipeline_engine`
+  - [`PipelineNotFoundError`](modules/modules.pipeline_engine.py.md#pipelinenotfounderror) exception in `modules.pipeline_engine`
+  - [`PipelineSchemaError`](modules/modules.pipeline_engine.py.md#pipelineschemaerror) exception in `modules.pipeline_engine`
+- [`PipelineLoader`](modules/modules.pipeline_engine.py.md#pipelineloader) class in `modules.pipeline_engine`
+- [`PipelineRun`](modules/modules.pipeline_engine.py.md#pipelinerun) class in `modules.pipeline_engine`
+- [`PipelineSpec`](modules/modules.pipeline_engine.py.md#pipelinespec) class in `modules.pipeline_engine`
+- [`PipelineStep`](modules/modules.pipeline_engine.py.md#pipelinestep) class in `modules.pipeline_engine`
+- [`PivotChain`](modules/modules.auto_pivot.py.md#pivotchain) class in `modules.auto_pivot`
+- [`PivotNode`](modules/modules.auto_pivot.py.md#pivotnode) class in `modules.auto_pivot`
+- [`PlanCandidate`](modules/modules.planner.py.md#plancandidate) class in `modules.planner`
+- [`Planner`](modules/modules.lazy_loop.py.md#planner) class in `modules.lazy_loop`
+- [`Planner`](modules/modules.planner.py.md#planner) class in `modules.planner`
+- [`PlanResult`](modules/modules.planner.py.md#planresult) class in `modules.planner`
+- [`Playbook`](modules/modules.playbook_engine.py.md#playbook) class in `modules.playbook_engine`
+- [`PlaybookEngine`](modules/modules.playbook_engine.py.md#playbookengine) class in `modules.playbook_engine`
+- [`PlaybookEngine`](modules/modules.playbook_executor.py.md#playbookengine) class in `modules.playbook_executor`
+- [`PlaybookLoader`](modules/modules.playbook_executor.py.md#playbookloader) class in `modules.playbook_executor`
+- [`PlaybookResult`](modules/modules.playbook_engine.py.md#playbookresult) class in `modules.playbook_engine`
+- [`PlaybookRunResult`](modules/modules.playbook_executor.py.md#playbookrunresult) class in `modules.playbook_executor`
+- [`PlaybookSignal`](modules/cli.recommendation_signals.py.md#playbooksignal) class in `cli.recommendation_signals`
+- [`PlaybookSpec`](modules/modules.playbook_executor.py.md#playbookspec) class in `modules.playbook_executor`
+- [`PlaybookStep`](modules/modules.playbook_engine.py.md#playbookstep) class in `modules.playbook_engine`
+- [`PlaybookTechnique`](modules/modules.playbook_executor.py.md#playbooktechnique) class in `modules.playbook_executor`
+- [`PluginBrowser`](modules/poc_tui.app.py.md#pluginbrowser) class in `poc_tui.app`(Static)
+- [`PluginLoader`](modules/poc_tui.plugin_loader.py.md#pluginloader) class in `poc_tui.plugin_loader`
+- [`PluginSpec`](modules/poc_tui.plugin_loader.py.md#pluginspec) class in `poc_tui.plugin_loader`
+- [`PolicyAdvisor`](modules/skills.lazyown_policy.py.md#policyadvisor) class in `skills.lazyown_policy`
+- [`PolicyEngine`](modules/skills.lazyown_policy.py.md#policyengine) class in `skills.lazyown_policy`
+- [`PolicySignal`](modules/cli.recommendation_signals.py.md#policysignal) class in `cli.recommendation_signals`
+- [`PolymorphicEngine`](modules/modules.polymorphic_engine.py.md#polymorphicengine) class in `modules.polymorphic_engine`
+- [`PoolConfig`](modules/modules.llm_pool.py.md#poolconfig) class in `modules.llm_pool`
+- [`PoolExhausted`](modules/modules.llm_pool.py.md#poolexhausted) exception in `modules.llm_pool`(RuntimeError)
+- [`PoolMember`](modules/modules.llm_pool.py.md#poolmember) class in `modules.llm_pool`
+- [`Port`](modules/modules.nmap2csv.py.md#port) class in `modules.nmap2csv`
+- [`PostScanConfig`](modules/cli.lazynmap_post.py.md#postscanconfig) class in `cli.lazynmap_post`
+- [`PostScanResult`](modules/cli.lazynmap_post.py.md#postscanresult) class in `cli.lazynmap_post`
+- [`PrerequisiteRegistry`](modules/cli.command_chain.py.md#prerequisiteregistry) class in `cli.command_chain`
+- [`PrivescAdvisor`](modules/modules.reactive_engine.py.md#privescadvisor) class in `modules.reactive_engine`
+- [`PrivescVector`](modules/modules.privesc_predictor.py.md#privescvector) class in `modules.privesc_predictor`
+- [`ProfileApplier`](modules/modules.c2_profile.py.md#profileapplier) class in `modules.c2_profile`
+- [`ProfileEngine`](modules/modules.c2_profile_engine.py.md#profileengine) class in `modules.c2_profile_engine`
+- [`ProfileLoader`](modules/modules.c2_profile.py.md#profileloader) class in `modules.c2_profile`
+- [`ProfileRegistry`](modules/modules.c2_profile.py.md#profileregistry) class in `modules.c2_profile`
+- [`ProfileRotator`](modules/modules.c2_profile_engine.py.md#profilerotator) class in `modules.c2_profile_engine`
+- [`ProfileValidator`](modules/modules.c2_profile.py.md#profilevalidator) class in `modules.c2_profile`
+- [`ProfileValidator`](modules/modules.c2_profile_engine.py.md#profilevalidator) class in `modules.c2_profile_engine`
+- [`PromptBuilder`](modules/contrib.legacy.lazyllmchat.py.md#promptbuilder) class in `contrib.legacy.lazyllmchat`
+- [`Proposal`](modules/cli.recommendation.py.md#proposal) class in `cli.recommendation`
+- [`ProTip`](modules/cli.protips.py.md#protip) class in `cli.protips`
+- [`ProxyController`](modules/modules.lazy_proxy.py.md#proxycontroller) class in `modules.lazy_proxy`
+- [`ProxyHandler`](modules/modules.lazyown_bprfuzzer.py.md#proxyhandler) class in `modules.lazyown_bprfuzzer`(BaseHTTPRequestHandler)
+- [`PtyConstants`](modules/lazygui.config.constants.py.md#ptyconstants) class in `lazygui.config.constants`
+- [`PurpleResult`](modules/modules.auto_purple.py.md#purpleresult) class in `modules.auto_purple`
+- [`PurpleScore`](modules/modules.auto_purple.py.md#purplescore) class in `modules.auto_purple`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q) class in `static/js/quill-2.0.3.js`(r.BlockBlot, F)
+- [`QssBuilder`](modules/lazygui.theme.qss_builder.py.md#qssbuilder) class in `lazygui.theme.qss_builder`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt) class in `static/js/quill-2.0.3.js`(Error, gt)
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st) class in `static/js/quill-2.0.3.js`
+- [`QualityMetrics`](modules/modules.llm_evaluator.py.md#qualitymetrics) class in `modules.llm_evaluator`
+- [`QueenBrain`](modules/skills.hive_mind.py.md#queenbrain) class in `skills.hive_mind`
+- [`QValueStore`](modules/modules.rl_trainer.py.md#qvaluestore) class in `modules.rl_trainer`
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o.r.r`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o-r-r) class in `static/js/xterm.js`(a.Disposable)
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o) class in `static/js/quill-2.0.3.js`
+    - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s) class in `static/js/quill-2.0.3.js`
+    - [`Ct.G.I.J.L.M.N.N.Ot.Q.R`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r) class in `static/js/quill-2.0.3.js`
+  - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i) class in `static/js/quill-2.0.3.js`
+- [`RAGManager`](modules/lazy_sentinel4.py.md#ragmanager) class in `lazy_sentinel4`
+- [`RBACStore`](modules/modules.lazy_rbac.py.md#rbacstore) class in `modules.lazy_rbac`
+- [`RBACUser`](modules/modules.lazy_rbac.py.md#rbacuser) class in `modules.lazy_rbac`
+- [`ReactiveDecision`](modules/modules.reactive_engine.py.md#reactivedecision) class in `modules.reactive_engine`
+- [`ReactiveEngine`](modules/modules.reactive_engine.py.md#reactiveengine) class in `modules.reactive_engine`
+- [`ReadlineBridge`](modules/cli.fuzzy_picker.py.md#readlinebridge) class in `cli.fuzzy_picker`
+- [`ReasoningEntry`](modules/cli.reasoning_stream.py.md#reasoningentry) class in `cli.reasoning_stream`
+- [`Recommendation`](modules/cli.recommendation.py.md#recommendation) class in `cli.recommendation`
+- [`RecommendationContext`](modules/cli.recommendation.py.md#recommendationcontext) class in `cli.recommendation`
+- [`RecommendationEngine`](modules/cli.recommendation.py.md#recommendationengine) class in `cli.recommendation`
+- [`RecommendationSignal`](modules/cli.recommendation.py.md#recommendationsignal) protocol in `cli.recommendation`(Protocol)
+- [`ReconPlan`](modules/cli.recon_plan.py.md#reconplan) class in `cli.recon_plan`
+- [`ReconPlanConfig`](modules/cli.recon_plan.py.md#reconplanconfig) class in `cli.recon_plan`
+- [`ReconPlanItem`](modules/cli.recon_plan.py.md#reconplanitem) class in `cli.recon_plan`
+- [`ReconPlanSignal`](modules/cli.recommendation_signals.py.md#reconplansignal) class in `cli.recommendation_signals`
+- [`RecorderConfig`](modules/modules.traffic_recorder.py.md#recorderconfig) class in `modules.traffic_recorder`
+- [`RedirectResponse`](modules/lazyc2.security.https_redirect.py.md#redirectresponse) class in `lazyc2.security.https_redirect`
+- [`RedTeamReportGenerator`](modules/modules.professional_report.py.md#redteamreportgenerator) class in `modules.professional_report`
+- [`ReflectiveLoader`](modules/modules.reflective_dll.py.md#reflectiveloader) class in `modules.reflective_dll`
+- [`ReflectiveLoaderConfig`](modules/modules.reflective_dll.py.md#reflectiveloaderconfig) class in `modules.reflective_dll`
+- [`ReleaseArtifact`](modules/modules.selfupdate.py.md#releaseartifact) class in `modules.selfupdate`
+- [`RenderContext`](modules/cli.banner_config.py.md#rendercontext) class in `cli.banner_config`
+- [`ReplayDispatcher`](modules/skills.autonomous_replay.py.md#replaydispatcher) class in `skills.autonomous_replay`
+- [`ReplayDivergence`](modules/skills.autonomous_replay.py.md#replaydivergence) class in `skills.autonomous_replay`
+- [`ReplayReport`](modules/skills.autonomous_replay.py.md#replayreport) class in `skills.autonomous_replay`
+- [`ReplayStep`](modules/skills.autonomous_replay.py.md#replaystep) class in `skills.autonomous_replay`
+- [`ReportFinding`](modules/modules.professional_report.py.md#reportfinding) class in `modules.professional_report`
+- [`ReportMetadata`](modules/modules.professional_report.py.md#reportmetadata) class in `modules.professional_report`
+- [`ResilientRotatingFileHandler`](modules/modules.logging_config.py.md#resilientrotatingfilehandler) class in `modules.logging_config`(logging.handlers.RotatingFileHandler)
+- [`ResourceScriptEngine`](modules/modules.resource_script.py.md#resourcescriptengine) class in `modules.resource_script`
+- [`Retester`](modules/modules.lazy_loop.py.md#retester) class in `modules.lazy_loop`
+- [`RetestRecord`](modules/modules.finding_lifecycle.py.md#retestrecord) class in `modules.finding_lifecycle`
+- [`ReuseCandidate`](modules/modules.credential_reuse.py.md#reusecandidate) class in `modules.credential_reuse`
+- [`ReviewReport`](modules/skills.claude_md_orchestrator.models.py.md#reviewreport) class in `skills.claude_md_orchestrator.models`
+- [`RewardCalculator`](modules/skills.lazyown_policy.py.md#rewardcalculator) class in `skills.lazyown_policy`
+- [`RichDashboard`](modules/modules.rich_tui.py.md#richdashboard) class in `modules.rich_tui`
+- [`RiskLevel`](modules/modules.opsec_scorer.py.md#risklevel) enum in `modules.opsec_scorer`(IntEnum)
+- [`RLConfig`](modules/modules.rl_trainer.py.md#rlconfig) class in `modules.rl_trainer`
+- [`RLTrainer`](modules/modules.rl_trainer.py.md#rltrainer) class in `modules.rl_trainer`
+- [`Role`](modules/modules.lazy_rbac.py.md#role) enum in `modules.lazy_rbac`(enum.Enum)
+- [`RotationSlot`](modules/modules.c2_profile_engine.py.md#rotationslot) class in `modules.c2_profile_engine`
+- [`RouteBackend`](modules/modules.unified_bridge.py.md#routebackend) class in `modules.unified_bridge`(ABC)
+  - [`KeywordBackend`](modules/modules.unified_bridge.py.md#keywordbackend) class in `modules.unified_bridge`
+  - [`LazyownBridgeBackend`](modules/modules.unified_bridge.py.md#lazyownbridgebackend) class in `modules.unified_bridge`
+  - [`TopoSwarmBackend`](modules/modules.unified_bridge.py.md#toposwarmbackend) class in `modules.unified_bridge`
+- [`RoutedCall`](modules/modules.toposwarm_bridge.py.md#routedcall) class in `modules.toposwarm_bridge`
+- [`RouteResult`](modules/modules.unified_bridge.py.md#routeresult) class in `modules.unified_bridge`
+- [`RouterPolicy`](modules/skills.unified_orchestrator.py.md#routerpolicy) class in `skills.unified_orchestrator`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt) class in `static/js/quill-2.0.3.js`(r.BlockBlot, F)
+- [`RTSPScanner`](modules/contrib.legacy.lazycam.py.md#rtspscanner) class in `contrib.legacy.lazycam`
+- [`RuleSetBuilder`](modules/skills.hermes-lazyown.claudemd_rules.py.md#rulesetbuilder) class in `skills.hermes-lazyown.claudemd_rules`
+- [`RunArtifactStore`](modules/modules.pipeline_engine.py.md#runartifactstore) class in `modules.pipeline_engine`
+- [`RuntimeTracker`](modules/modules.lazy_loop.py.md#runtimetracker) class in `modules.lazy_loop`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o.r.r.s.s`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o-r-r-s-s) class in `static/js/xterm.js`(a.Disposable)
+- [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o.r.r.s`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o-r-r-s) class in `static/js/xterm.js`(a.Disposable)
+  - [`P.S`](modules/static.js.xterm.js.md#p-s) class in `static/js/xterm.js`
+  - [`P.S.a`](modules/static.js.xterm.js.md#p-s-a) class in `static/js/xterm.js`
+    - [`P.S.a.a.a.c`](modules/static.js.xterm.js.md#p-s-a-a-a-c) class in `static/js/xterm.js`
+      - [`P.S.a.a.a.c.c.c.c.d`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d) class in `static/js/xterm.js`
+      - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l) class in `static/js/xterm.js`
+  - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o) class in `static/js/xterm.js`
+  - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o.r`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o-r) class in `static/js/xterm.js`
+    - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n) class in `static/js/xterm.js`
+- [`SaaSAttackEngine`](modules/modules.saas_attacks.py.md#saasattackengine) class in `modules.saas_attacks`
+- [`SaaSConfig`](modules/modules.saas_attacks.py.md#saasconfig) class in `modules.saas_attacks`
+- [`SaaSEnumerationTools`](modules/modules.saas_attacks.py.md#saasenumerationtools) class in `modules.saas_attacks`
+- [`SadPath`](modules/skills.claude_md_orchestrator.models.py.md#sadpath) class in `skills.claude_md_orchestrator.models`
+- [`SafeFileService`](modules/lazyc2.security.services.py.md#safefileservice) class in `lazyc2.security.services`
+- [`SafeRunner`](modules/core.safe_subprocess.py.md#saferunner) class in `core.safe_subprocess`
+- [`SafeRunResult`](modules/core.safe_subprocess.py.md#saferunresult) class in `core.safe_subprocess`
+- [`SamsungKnoxExploitServer`](modules/contrib.legacy.lazygalazy.py.md#samsungknoxexploitserver) class in `contrib.legacy.lazygalazy`(BaseHTTPRequestHandler)
+- [`SapphireTicketForger`](modules/modules.kerberos_tickets.py.md#sapphireticketforger) class in `modules.kerberos_tickets`
+- [`ScopeBoundAutoGate`](modules/skills.lazyown_policy.py.md#scopeboundautogate) class in `skills.lazyown_policy`
+- [`ScopeDecision`](modules/cli.scope_guard.py.md#scopedecision) class in `cli.scope_guard`
+- [`ScopeGuard`](modules/cli.scope_guard.py.md#scopeguard) class in `cli.scope_guard`
+- [`ScopeMode`](modules/cli.scope_guard.py.md#scopemode) enum in `cli.scope_guard`(StrEnum)
+- [`ScoredItem`](modules/cli.fuzzy_picker.py.md#scoreditem) class in `cli.fuzzy_picker`
+- [`ScoredNode`](modules/cli.graph_advisor.py.md#scorednode) class in `cli.graph_advisor`
+- [`ScoutReport`](modules/skills.claude_md_orchestrator.boy_scout.py.md#scoutreport) class in `skills.claude_md_orchestrator.boy_scout`
+- [`ScriptContext`](modules/modules.resource_script.py.md#scriptcontext) class in `modules.resource_script`
+- [`ScriptError`](modules/modules.resource_script.py.md#scripterror) exception in `modules.resource_script`(RuntimeError)
+- [`SddResult`](modules/skills.claude_md_orchestrator.sdd_agent.py.md#sddresult) class in `skills.claude_md_orchestrator.sdd_agent`
+- [`SearchsploitClient`](modules/modules.integrations.searchsploit.py.md#searchsploitclient) class in `modules.integrations.searchsploit`
+- [`SecretKeyManager`](modules/lazyc2.security.services.py.md#secretkeymanager) class in `lazyc2.security.services`
+- [`SectionHeader`](modules/modules.reflective_dll.py.md#sectionheader) class in `modules.reflective_dll`
+- [`SecureSessionManager`](modules/discord_c2.py.md#securesessionmanager) class in `discord_c2`
+- [`SecureSessionManager`](modules/modules.c2_messaging_base.py.md#securesessionmanager) class in `modules.c2_messaging_base`
+- [`SecureSessionManager`](modules/slack_c2_bot.py.md#securesessionmanager) class in `slack_c2_bot`
+- [`SecureSessionManager`](modules/telegram_c2.py.md#securesessionmanager) class in `telegram_c2`
+- [`SecureSessionManager`](modules/telegram_hermes.py.md#securesessionmanager) class in `telegram_hermes`
+- [`WinRing3Rootkit.SECURITY_ATTRIBUTES`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-security_attributes) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`SecurityConfig`](modules/modules.security_sanitizers.py.md#securityconfig) class in `modules.security_sanitizers`
+- [`SeedResult`](modules/modules.estorides_importer.py.md#seedresult) class in `modules.estorides_importer`
+- [`SegmentRegistry`](modules/cli.banner_config.py.md#segmentregistry) class in `cli.banner_config`
+- [`SegmentRenderer`](modules/cli.banner_config.py.md#segmentrenderer) class in `cli.banner_config`(ABC)
+  - [`BatteryLoadSegment`](modules/cli.banner_config.py.md#batteryloadsegment) class in `cli.banner_config`
+  - [`CwdSegment`](modules/cli.banner_config.py.md#cwdsegment) class in `cli.banner_config`
+  - [`DomainSegment`](modules/cli.banner_config.py.md#domainsegment) class in `cli.banner_config`
+  - [`GitSegment`](modules/cli.banner_config.py.md#gitsegment) class in `cli.banner_config`
+  - [`IfaceSegment`](modules/cli.banner_config.py.md#ifacesegment) class in `cli.banner_config`
+  - [`KernelSegment`](modules/cli.banner_config.py.md#kernelsegment) class in `cli.banner_config`
+  - [`LhostSegment`](modules/cli.banner_config.py.md#lhostsegment) class in `cli.banner_config`
+  - [`PublicIpSegment`](modules/cli.banner_config.py.md#publicipsegment) class in `cli.banner_config`
+  - [`RhostSegment`](modules/cli.banner_config.py.md#rhostsegment) class in `cli.banner_config`
+  - [`TimeSegment`](modules/cli.banner_config.py.md#timesegment) class in `cli.banner_config`
+  - [`UserHostSegment`](modules/cli.banner_config.py.md#userhostsegment) class in `cli.banner_config`
+  - [`VenvSegment`](modules/cli.banner_config.py.md#venvsegment) class in `cli.banner_config`
+  - [`VersionSegment`](modules/cli.banner_config.py.md#versionsegment) class in `cli.banner_config`
+- [`SegmentSpec`](modules/cli.banner_config.py.md#segmentspec) class in `cli.banner_config`
+- [`Selector`](modules/core.protocols.py.md#selector) protocol in `core.protocols`(Protocol)
+- [`SemanticContextAdvisor`](modules/modules.reactive_engine.py.md#semanticcontextadvisor) class in `modules.reactive_engine`
+- [`Server`](modules/contrib.legacy.lazyhoneypot.py.md#server) class in `contrib.legacy.lazyhoneypot`(paramiko.ServerInterface)
+- [`ServiceFact`](modules/skills.lazyown_facts.py.md#servicefact) class in `skills.lazyown_facts`
+- [`ServiceInfo`](modules/cli.exploit_advisor.py.md#serviceinfo) class in `cli.exploit_advisor`
+- [`ServiceInfo`](modules/modules.exploit_chain.py.md#serviceinfo) class in `modules.exploit_chain`
+- [`ServiceInfo`](modules/modules.world_model.py.md#serviceinfo) class in `modules.world_model`
+- [`ServiceNextResolver`](modules/cli.command_chain.py.md#servicenextresolver) class in `cli.command_chain`
+- [`ServiceResult`](modules/cli.exploit_advisor.py.md#serviceresult) class in `cli.exploit_advisor`
+- [`Session`](modules/lazygui.services.models.py.md#session) class in `lazygui.services.models`
+- [`SessionAggregator`](modules/modules.session_reader.py.md#sessionaggregator) class in `modules.session_reader`
+- [`SessionClassificationPipeline`](modules/skills.lazyown_policy.py.md#sessionclassificationpipeline) class in `skills.lazyown_policy`
+- [`SessionContextProvider`](modules/contrib.legacy.lazyllmchat.py.md#sessioncontextprovider) class in `contrib.legacy.lazyllmchat`
+- [`SessionEntry`](modules/cli.sessions_browser.py.md#sessionentry) class in `cli.sessions_browser`
+- [`SessionFindingSource`](modules/cli.status_bar.py.md#sessionfindingsource) class in `cli.status_bar`
+- [`SessionPathResolver`](modules/modules.security_sanitizers.py.md#sessionpathresolver) class in `modules.security_sanitizers`
+- [`SessionPreview`](modules/cli.sessions_browser.py.md#sessionpreview) class in `cli.sessions_browser`
+- [`SessionRAG`](modules/modules.session_rag.py.md#sessionrag) class in `modules.session_rag`
+- [`SessionResumer`](modules/cli.session_resumer.py.md#sessionresumer) class in `cli.session_resumer`
+- [`SessionResumerConfig`](modules/cli.session_resumer.py.md#sessionresumerconfig) class in `cli.session_resumer`
+- [`SessionsBrowserConfig`](modules/cli.sessions_browser.py.md#sessionsbrowserconfig) class in `cli.sessions_browser`
+- [`SessionsBrowserState`](modules/cli.sessions_browser.py.md#sessionsbrowserstate) class in `cli.sessions_browser`
+- [`SessionsIndex`](modules/cli.sessions_browser.py.md#sessionsindex) class in `cli.sessions_browser`
+- [`SessionSnapshot`](modules/modules.state_manager.py.md#sessionsnapshot) class in `modules.state_manager`
+- [`SessionSummary`](modules/cli.session_resumer.py.md#sessionsummary) class in `cli.session_resumer`
+- [`SessionSummary`](modules/modules.session_reader.py.md#sessionsummary) class in `modules.session_reader`
+- [`SessionTranscript`](modules/skills.lazyown_session.py.md#sessiontranscript) class in `skills.lazyown_session`
+- [`Severity`](modules/core.payload_schema.py.md#severity) enum in `core.payload_schema`(StrEnum)
+- [`Severity`](modules/skills.claude_md_orchestrator.models.py.md#severity) enum in `skills.claude_md_orchestrator.models`(StrEnum)
+- [`ShareFact`](modules/skills.lazyown_facts.py.md#sharefact) class in `skills.lazyown_facts`
+- [`ShellBackend`](modules/poc_tui.app.py.md#shellbackend) class in `poc_tui.app`
+- [`ShellResult`](modules/modules.auto_registry.py.md#shellresult) class in `modules.auto_registry`
+- [`WinRing3Rootkit.SID`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-sid) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`WinRing3Rootkit.SID_AND_ATTRIBUTES`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-sid_and_attributes) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`SideConfig`](modules/modules.sidequestion.py.md#sideconfig) class in `modules.sidequestion`
+- [`SideQuestion`](modules/modules.sidequestion.py.md#sidequestion) class in `modules.sidequestion`
+- [`SideQuestions`](modules/modules.lazy_loop.py.md#sidequestions) class in `modules.lazy_loop`
+- [`SideQuestionService`](modules/modules.sidequestion.py.md#sidequestionservice) class in `modules.sidequestion`
+- [`SigmaRule`](modules/modules.detection_oracle.py.md#sigmarule) class in `modules.detection_oracle`
+- [`Signal`](modules/modules.reactive_engine.py.md#signal) class in `modules.reactive_engine`
+- [`SilverTicketConfig`](modules/modules.kerberos_tickets.py.md#silverticketconfig) class in `modules.kerberos_tickets`
+- [`SilverTicketForger`](modules/modules.kerberos_tickets.py.md#silverticketforger) class in `modules.kerberos_tickets`
+- [`SimpleHTTPRequestHandler`](modules/utils.py.md#simplehttprequesthandler) class in `utils`(BaseHTTPRequestHandler)
+- [`Sink`](modules/modules.event_bus.py.md#sink) class in `modules.event_bus`(ABC)
+  - [`CollabBusSink`](modules/modules.event_bus.py.md#collabbussink) class in `modules.event_bus`
+  - [`EngagementSink`](modules/modules.event_bus.py.md#engagementsink) class in `modules.event_bus`
+  - [`JsonlSink`](modules/modules.event_bus.py.md#jsonlsink) class in `modules.event_bus`
+- [`SkeletonKeyInjector`](modules/modules.kerberos_tickets.py.md#skeletonkeyinjector) class in `modules.kerberos_tickets`
+- [`SleepConfig`](modules/modules.c2_profile.py.md#sleepconfig) class in `modules.c2_profile`
+- [`SleepObfuscationConfig`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig) class in `modules.sleep_obfuscation`
+- [`SleepObfuscationEngine`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationengine) class in `modules.sleep_obfuscation`
+- [`SleepTechnique`](modules/modules.sleep_obfuscation.py.md#sleeptechnique) class in `modules.sleep_obfuscation`
+- [`SleepTechniqueCatalog`](modules/modules.sleep_obfuscation.py.md#sleeptechniquecatalog) class in `modules.sleep_obfuscation`
+- [`SleepTechniqueValidator`](modules/modules.sleep_obfuscation.py.md#sleeptechniquevalidator) class in `modules.sleep_obfuscation`
+- [`SmbProfile`](modules/modules.c2_profile_engine.py.md#smbprofile) class in `modules.c2_profile_engine`
+- [`SmokeConfig`](modules/scripts.devtools.core_smoke.py.md#smokeconfig) class in `scripts.devtools.core_smoke`
+- [`Snapshot`](modules/modules.sidequestion.py.md#snapshot) class in `modules.sidequestion`
+- [`SocksAddressType`](modules/modules.socks_proxy.py.md#socksaddresstype) enum in `modules.socks_proxy`(IntEnum)
+- [`SocksAuthMethod`](modules/modules.socks_proxy.py.md#socksauthmethod) enum in `modules.socks_proxy`(IntEnum)
+- [`SocksCommand`](modules/modules.socks_proxy.py.md#sockscommand) enum in `modules.socks_proxy`(IntEnum)
+- [`SocksProxyConfig`](modules/modules.socks_proxy.py.md#socksproxyconfig) class in `modules.socks_proxy`
+- [`SocksProxyEngine`](modules/modules.socks_proxy.py.md#socksproxyengine) class in `modules.socks_proxy`
+- [`SocksReply`](modules/modules.socks_proxy.py.md#socksreply) enum in `modules.socks_proxy`(IntEnum)
+- [`SocksSession`](modules/modules.socks_proxy.py.md#sockssession) class in `modules.socks_proxy`
+- [`SocksValidator`](modules/modules.socks_proxy.py.md#socksvalidator) class in `modules.socks_proxy`
+- [`SoulSync`](modules/modules.event_consumers.py.md#soulsync) class in `modules.event_consumers`
+- [`SoulUpdater`](modules/skills.lazyown_objective.py.md#soulupdater) class in `skills.lazyown_objective`
+- [`Spec`](modules/skills.claude_md_orchestrator.models.py.md#spec) class in `skills.claude_md_orchestrator.models`
+- [`SplashConfig`](modules/cli.splash.py.md#splashconfig) class in `cli.splash`
+- [`SplashEffect`](modules/cli.splash.py.md#splasheffect) protocol in `cli.splash`(Protocol)
+- [`Stage`](modules/skills.claude_md_orchestrator.models.py.md#stage) enum in `skills.claude_md_orchestrator.models`(StrEnum)
+- [`StagedDeliveryFactory`](modules/modules.staged_delivery.py.md#stageddeliveryfactory) class in `modules.staged_delivery`
+- [`StageDeliveryConfig`](modules/modules.staged_delivery.py.md#stagedeliveryconfig) class in `modules.staged_delivery`
+- [`StagerConfig`](modules/modules.c2_profile.py.md#stagerconfig) class in `modules.c2_profile`
+- [`StateManager`](modules/modules.state_manager.py.md#statemanager) class in `modules.state_manager`
+- [`StaticCommandLister`](modules/cli.cli_enhancements.py.md#staticcommandlister) class in `cli.cli_enhancements`
+- [`StaticNextRegistry`](modules/cli.command_chain.py.md#staticnextregistry) class in `cli.command_chain`
+- [`StatusBadge`](modules/lazygui.widgets.status_badge.py.md#statusbadge) class in `lazygui.widgets.status_badge`(QLabel)
+- [`StatusBarConfig`](modules/cli.status_bar.py.md#statusbarconfig) class in `cli.status_bar`
+- [`StatusBarManager`](modules/cli.status_bar.py.md#statusbarmanager) class in `cli.status_bar`
+- [`StatusBarRenderer`](modules/cli.status_bar.py.md#statusbarrenderer) class in `cli.status_bar`
+- [`StatusContext`](modules/cli.status_bar.py.md#statuscontext) class in `cli.status_bar`
+- [`StatusUpdate`](modules/cli.cli_enhancements.py.md#statusupdate) class in `cli.cli_enhancements`
+- [`StepDerivers`](modules/modules.pipeline_engine.py.md#stepderivers) class in `modules.pipeline_engine`
+- [`StepRecord`](modules/skills.lazyown_policy.py.md#steprecord) class in `skills.lazyown_policy`
+- [`StepResult`](modules/modules.pipeline_engine.py.md#stepresult) class in `modules.pipeline_engine`
+- [`StepResult`](modules/modules.playbook_engine.py.md#stepresult) class in `modules.playbook_engine`
+- [`StepResult`](modules/skills.autonomous_daemon.py.md#stepresult) class in `skills.autonomous_daemon`
+- [`StepValidator`](modules/modules.pipeline_engine.py.md#stepvalidator) class in `modules.pipeline_engine`
+- [`StorageBackend`](modules/modules.memory_store.py.md#storagebackend) class in `modules.memory_store`(ABC)
+  - [`SQLiteBackend`](modules/modules.memory_store.py.md#sqlitebackend) class in `modules.memory_store`
+- [`StrategyEngine`](modules/skills.autonomous_daemon.py.md#strategyengine) class in `skills.autonomous_daemon`
+- [`StructuredLogConfig`](modules/core.logging.py.md#structuredlogconfig) class in `core.logging`
+- [`StructuredLogger`](modules/core.logging.py.md#structuredlogger) class in `core.logging`(logging.Logger)
+- [`Suggestion`](modules/cli.autosuggest.py.md#suggestion) class in `cli.autosuggest`
+- [`SuggestionContext`](modules/cli.autosuggest.py.md#suggestioncontext) class in `cli.autosuggest`
+- [`SuggestionProvider`](modules/cli.autosuggest.py.md#suggestionprovider) protocol in `cli.autosuggest`(Protocol)
+- [`SurfaceEdge`](modules/cli.surface_graph.py.md#surfaceedge) class in `cli.surface_graph`
+- [`SurfaceGraph`](modules/cli.surface_graph.py.md#surfacegraph) class in `cli.surface_graph`
+- [`SurfaceGraphBuilder`](modules/cli.surface_graph.py.md#surfacegraphbuilder) class in `cli.surface_graph`
+- [`SurfaceGraphConfig`](modules/cli.surface_graph.py.md#surfacegraphconfig) class in `cli.surface_graph`
+- [`SurfaceNode`](modules/cli.surface_graph.py.md#surfacenode) class in `cli.surface_graph`
+- [`SwanBackend`](modules/skills.unified_orchestrator.py.md#swanbackend) class in `skills.unified_orchestrator`
+- [`SwanResult`](modules/skills.swan_agent.py.md#swanresult) class in `skills.swan_agent`
+- [`SystemProfile`](modules/modules.privesc_predictor.py.md#systemprofile) class in `modules.privesc_predictor`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, O)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`TargetLock`](modules/modules.collab_bp.py.md#targetlock) class in `modules.collab_bp`
+- [`TargetProfile`](modules/modules.autonomous_exploit_engine.py.md#targetprofile) class in `modules.autonomous_exploit_engine`
+- [`TaskArchive`](modules/modules.lazy_loop.py.md#taskarchive) class in `modules.lazy_loop`
+- [`TaskAudit`](modules/skills.lazyown_mcp_helpers.py.md#taskaudit) class in `skills.lazyown_mcp_helpers`
+- [`TaskCategory`](modules/modules.lazy_loop.py.md#taskcategory) class in `modules.lazy_loop`
+- [`TaskChat`](modules/modules.lazy_loop.py.md#taskchat) class in `modules.lazy_loop`
+- [`TaskConstraints`](modules/modules.goals.py.md#taskconstraints) class in `modules.goals`
+- [`TaskScheduler`](modules/core.scheduler.py.md#taskscheduler) class in `core.scheduler`
+- [`TaskStore`](modules/modules.lazy_loop.py.md#taskstore) class in `modules.lazy_loop`
+- [`TaskTemplate`](modules/modules.lazy_loop.py.md#tasktemplate) class in `modules.lazy_loop`
+- [`TaskWriter`](modules/modules.session_reader.py.md#taskwriter) class in `modules.session_reader`
+- [`TddResult`](modules/skills.claude_md_orchestrator.tdd_agent.py.md#tddresult) class in `skills.claude_md_orchestrator.tdd_agent`
+- [`TeamserverCredentials`](modules/lazygui.services.teamserver_backend.py.md#teamservercredentials) class in `lazygui.services.teamserver_backend`
+- [`TechniqueRisk`](modules/modules.sleep_obfuscation.py.md#techniquerisk) enum in `modules.sleep_obfuscation`(str, Enum)
+- [`TelegramNotificationSink`](modules/modules.engagement_hooks.py.md#telegramnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)
+- [`TelemetryConfig`](modules/cli.palette_telemetry.py.md#telemetryconfig) class in `cli.palette_telemetry`
+- [`TelemetryIndex`](modules/cli.palette_telemetry.py.md#telemetryindex) class in `cli.palette_telemetry`
+- [`TelemetryIndexError`](modules/cli.palette_telemetry.py.md#telemetryindexerror) exception in `cli.palette_telemetry`(RuntimeError)
+- [`TemplateResolver`](modules/modules.pipeline_engine.py.md#templateresolver) class in `modules.pipeline_engine`
+- [`TemplateSelector`](modules/modules.integrations.nuclei_bridge.py.md#templateselector) class in `modules.integrations.nuclei_bridge`(ABC)
+  - [`LocalTemplateIndex`](modules/modules.integrations.nuclei_bridge.py.md#localtemplateindex) class in `modules.integrations.nuclei_bridge`
+- [`TenantConfig`](modules/modules.lazy_rbac.py.md#tenantconfig) class in `modules.lazy_rbac`
+- [`TenantManager`](modules/modules.lazy_rbac.py.md#tenantmanager) class in `modules.lazy_rbac`
+- [`TerminalGuard`](modules/core.terminal_guard.py.md#terminalguard) class in `core.terminal_guard`
+- [`TerminalIO`](modules/cli.cli_enhancements.py.md#terminalio) protocol in `cli.cli_enhancements`(Protocol)
+- [`TerminalView`](modules/lazygui.widgets.terminal_view.py.md#terminalview) class in `lazygui.widgets.terminal_view`(QPlainTextEdit)
+- [`TestSuite`](modules/skills.claude_md_orchestrator.models.py.md#testsuite) class in `skills.claude_md_orchestrator.models`
+- [`TextualNotInstalled`](modules/cli.surface_tui.py.md#textualnotinstalled) exception in `cli.surface_tui`(RuntimeError)
+- [`TGSRequest`](modules/modules.kerberos_core.py.md#tgsrequest) class in `modules.kerberos_core`
+- [`Theme`](modules/cli.themes.py.md#theme) class in `cli.themes`
+- [`ThemeConstants`](modules/lazygui.config.constants.py.md#themeconstants) class in `lazygui.config.constants`
+- [`ThemeManager`](modules/lazygui.theme.manager.py.md#thememanager) class in `lazygui.theme.manager`(QObject)
+- [`ThemeTokens`](modules/lazygui.theme.tokens.py.md#themetokens) class in `lazygui.theme.tokens`
+- [`ThreatModelBuilder`](modules/modules.threat_model.py.md#threatmodelbuilder) class in `modules.threat_model`
+- [`TicketValidator`](modules/modules.kerberos_core.py.md#ticketvalidator) class in `modules.kerberos_core`
+- [`TimelineColumn`](modules/cli.timeline_browser.py.md#timelinecolumn) class in `cli.timeline_browser`
+- [`TimelineConfig`](modules/cli.timeline_browser.py.md#timelineconfig) class in `cli.timeline_browser`
+- [`TimelineEntry`](modules/cli.timeline_browser.py.md#timelineentry) class in `cli.timeline_browser`
+- [`TimelineReader`](modules/cli.timeline_browser.py.md#timelinereader) class in `cli.timeline_browser`
+- [`TimelineState`](modules/cli.timeline_browser.py.md#timelinestate) class in `cli.timeline_browser`
+- [`TimestompConfig`](modules/modules.timestomper.py.md#timestompconfig) class in `modules.timestomper`
+- [`Timestomper`](modules/modules.timestomper.py.md#timestomper) class in `modules.timestomper`
+- [`TimingConstants`](modules/lazygui.config.constants.py.md#timingconstants) class in `lazygui.config.constants`
+- [`TipsConfig`](modules/cli.tips_engine.py.md#tipsconfig) class in `cli.tips_engine`
+- [`TipsEngine`](modules/cli.tips_engine.py.md#tipsengine) class in `cli.tips_engine`
+- [`TlsProfile`](modules/modules.c2_profile_engine.py.md#tlsprofile) class in `modules.c2_profile_engine`
+- [`ToastBus`](modules/cli.toast_bus.py.md#toastbus) class in `cli.toast_bus`
+- [`ToastConfig`](modules/cli.toast_bus.py.md#toastconfig) class in `cli.toast_bus`
+- [`ToastEvent`](modules/cli.toast_bus.py.md#toastevent) class in `cli.toast_bus`
+- [`ToastFormatter`](modules/cli.toast_bus.py.md#toastformatter) class in `cli.toast_bus`
+- [`ToastReader`](modules/cli.toast_bus.py.md#toastreader) class in `cli.toast_bus`
+- [`ToastState`](modules/cli.toast_bus.py.md#toaststate) class in `cli.toast_bus`
+- [`TodoItem`](modules/modules.planner.py.md#todoitem) class in `modules.planner`
+- [`TodoList`](modules/modules.planner.py.md#todolist) class in `modules.planner`
+- [`TodoStore`](modules/modules.lazy_loop.py.md#todostore) class in `modules.lazy_loop`
+- [`WinRing3Rootkit.TOKEN_USER`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-token_user) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`TokenEstimator`](modules/core.llm_budget.py.md#tokenestimator) class in `core.llm_budget`
+- [`ToolCatalog`](modules/cli.exploration.py.md#toolcatalog) class in `cli.exploration`
+- [`ToolCatalog`](modules/modules.lazy_loop.py.md#toolcatalog) class in `modules.lazy_loop`
+- [`ToolDefinition`](modules/skills.lazyown_facts.py.md#tooldefinition) class in `skills.lazyown_facts`
+- [`ToolEntry`](modules/cli.exploration.py.md#toolentry) class in `cli.exploration`
+- [`ToolSeed`](modules/modules.toolset.py.md#toolseed) class in `modules.toolset`
+- [`Topology`](modules/lazygui.services.models.py.md#topology) class in `lazygui.services.models`
+- [`TopoSwarmBridge`](modules/modules.toposwarm_bridge.py.md#toposwarmbridge) class in `modules.toposwarm_bridge`
+- [`TrafficLog`](modules/modules.lazy_loop.py.md#trafficlog) class in `modules.lazy_loop`
+- [`TrafficMorphConfig`](modules/modules.evasion_engine.py.md#trafficmorphconfig) class in `modules.evasion_engine`
+- [`TrafficMorpher`](modules/modules.traffic_morpher.py.md#trafficmorpher) class in `modules.traffic_morpher`
+- [`TrafficRecorder`](modules/modules.traffic_recorder.py.md#trafficrecorder) class in `modules.traffic_recorder`
+- [`TranscriptEntry`](modules/cli.cli_enhancements.py.md#transcriptentry) class in `cli.cli_enhancements`
+- [`TranscriptStore`](modules/cli.cli_enhancements.py.md#transcriptstore) class in `cli.cli_enhancements`
+- [`TransitionTable`](modules/skills.lazyown_policy.py.md#transitiontable) class in `skills.lazyown_policy`
+- [`TransportType`](modules/modules.c2_profile_engine.py.md#transporttype) enum in `modules.c2_profile_engine`(Enum)
+- [`TriggerMatcher`](modules/cli.exploration.py.md#triggermatcher) class in `cli.exploration`
+- [`TriggerStore`](modules/modules.lazy_loop.py.md#triggerstore) class in `modules.lazy_loop`
+- [`TrustedProxyResolver`](modules/lazyc2.security.trusted_proxy.py.md#trustedproxyresolver) class in `lazyc2.security.trusted_proxy`
+- [`TTPCoverage`](modules/modules.ttp_coverage.py.md#ttpcoverage) class in `modules.ttp_coverage`
+- [`TTPRow`](modules/modules.ttp_coverage.py.md#ttprow) class in `modules.ttp_coverage`
+- [`TutorialConfig`](modules/cli.tutorial.py.md#tutorialconfig) class in `cli.tutorial`
+- [`TypewriterEffect`](modules/cli.splash.py.md#typewritereffect) class in `cli.splash`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt.u.u`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt-u-u) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`UnifiedBridge`](modules/modules.unified_bridge.py.md#unifiedbridge) class in `modules.unified_bridge`
+- [`UnifiedDashboard`](modules/modules.unified_dashboard.py.md#unifieddashboard) class in `modules.unified_dashboard`
+- [`UnifiedEventBus`](modules/modules.event_bus.py.md#unifiedeventbus) class in `modules.event_bus`
+- [`UnifiedOrchestrator`](modules/skills.unified_orchestrator.py.md#unifiedorchestrator) class in `skills.unified_orchestrator`
+- [`Updater`](modules/modules.selfupdate.py.md#updater) class in `modules.selfupdate`
+- [`UploadSizeValidator`](modules/lazyc2.security.services.py.md#uploadsizevalidator) class in `lazyc2.security.services`
+- [`User`](modules/lazyc2.py.md#user) class in `lazyc2`(UserMixin)
+- [`User`](modules/lazyc2.models.py.md#user) class in `lazyc2.models`(UserMixin)
+- [`user_rule_t`](modules/modules.exp.c.md#user_rule_t) struct in `modules/exp.c`
+- [`ValidationIssue`](modules/core.payload_schema.py.md#validationissue) class in `core.payload_schema`
+- [`ValidationIssue`](modules/lazyc2.addon_creator.py.md#validationissue) class in `lazyc2.addon_creator`
+- [`VirtualFile`](modules/modules.rootkit.mr.c.md#virtualfile) struct in `modules/rootkit/mr.c`
+- [`VirtualFile`](modules/modules.win_rootkit.backup.c.md#virtualfile) struct in `modules/win_rootkit/backup.c`
+- [`VirtualFile`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#virtualfile) struct in `modules/win_rootkit/win_ring3_rootkit.c`
+- [`VulnBotCLI`](modules/modules.agent_runner.py.md#vulnbotcli) class in `modules.agent_runner`
+- [`VulnBotCLI`](modules/modules.vulnbot.py.md#vulnbotcli) class in `modules.vulnbot`
+- [`VulnerabilityEntry`](modules/modules.world_model.py.md#vulnerabilityentry) class in `modules.world_model`
+- [`VulnerabilityFact`](modules/skills.lazyown_facts.py.md#vulnerabilityfact) class in `skills.lazyown_facts`
+- [`VulnerabilityMatch`](modules/modules.exploit_chain.py.md#vulnerabilitymatch) class in `modules.exploit_chain`
+- [`VulnerabilityScanner`](modules/utils.py.md#vulnerabilityscanner) class in `utils`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt.u.u.w`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt-u-u-w) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, x)
+  - [`P`](modules/static.js.xterm.js.md#p) class in `static/js/xterm.js`
+- [`WebSocketBeacon`](modules/modules.websocket_beacon.py.md#websocketbeacon) class in `modules.websocket_beacon`
+- [`WebSocketC2Handler`](modules/modules.websocket_beacon.py.md#websocketc2handler) class in `modules.websocket_beacon`
+- [`WebSocketProfile`](modules/modules.c2_profile_engine.py.md#websocketprofile) class in `modules.c2_profile_engine`
+- [`WinRing3Rootkit.WIN32_FIND_DATA`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-win32_find_data) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`WindowConstants`](modules/lazygui.config.constants.py.md#windowconstants) class in `lazygui.config.constants`
+- [`WinRing3Rootkit`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`WizardResult`](modules/cli.wizard.py.md#wizardresult) class in `cli.wizard`
+- [`WizardScope`](modules/cli.wizard_scope.py.md#wizardscope) class in `cli.wizard_scope`
+- [`WizardScopeConfig`](modules/cli.wizard_scope.py.md#wizardscopeconfig) class in `cli.wizard_scope`
+- [`Worker`](modules/modules.lazy_loop.py.md#worker) class in `modules.lazy_loop`
+- [`WorldModel`](modules/modules.world_model.py.md#worldmodel) class in `modules.world_model`
+- [`WorldModelPhaseSource`](modules/cli.status_bar.py.md#worldmodelphasesource) class in `cli.status_bar`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt.u.u.w.wt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt-u-u-w-wt) class in `static/js/quill-2.0.3.js`(Error, yt)
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x) class in `static/js/quill-2.0.3.js`(r.TextBlot, D)
+- [`X64Disassembler`](modules/contrib.legacy.lazydisassebler.py.md#x64disassembler) class in `contrib.legacy.lazydisassebler`
+- [`YAMLPromptGenerator`](modules/modules.yaml_generator.py.md#yamlpromptgenerator) class in `modules.yaml_generator`
+- [`YaraScanner`](modules/modules.yara_scanner.py.md#yarascanner) class in `modules.yara_scanner`
+- [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z) class in `static/js/quill-2.0.3.js`(x.A, x)

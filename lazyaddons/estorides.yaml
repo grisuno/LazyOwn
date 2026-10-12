@@ -1,7 +1,7 @@
 name: estorides
-description: 'Passive OSINT aggregator & correlation engine. 99+ sources, knowledge graph, STIX/MISP export. Integrated bidirectional feedback loop with LazyOwn: hosts from lazynmap feed into estorides for passive discovery; estorides-discovered entities (IPs, domains, CVEs) import back into LazyOwn DB and scope.'
+description: 'Passive OSINT aggregator and LAN device inventory. 99+ sources, knowledge graph, STIX/MISP export, plus passive-first LAN discovery with blocking consent gate and machine-readable output directory (inventory, graph, lazyown, stix) feeding LazyOwn intel and attack graphs plus auto_loop.'
 author: LazyOwn RedTeam
-version: '2.0'
+version: '3.0'
 enabled: true
 params:
 - name: lhost
@@ -16,6 +16,14 @@ params:
   type: string
   required: false
   description: Target domain for passive discovery seed.
+- name: lan_scope
+  type: string
+  required: false
+  description: Local network scope in CIDR notation (example 192.168.1.0/24). Requires ownership or written permission.
+- name: allow_active
+  type: boolean
+  required: false
+  description: Allow active LAN scanning when the consent gate and server policy permit it. Default false (passive only).
 os: any
 trigger: []
 tool:

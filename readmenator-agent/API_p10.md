@@ -1,5 +1,70 @@
-# API (page 10 of 21)
+# API (page 10 of 22)
 Previous: [API_p9.md](API_p9.md)
+
+## modules/command_executor.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
+- `set_thread_timeout` (function) `modules/command_executor.py:41` `def set_thread_timeout(seconds)` -- Bound the next ``run_tee`` call on this thread by wall-clock seconds.
+- `clear_thread_timeout` (function) `modules/command_executor.py:46` `def clear_thread_timeout()` -- Remove this thread's ``run_tee`` deadline, if any.
+- `thread_timeout` (function) `modules/command_executor.py:54` `def thread_timeout()` -- Return this thread's pending ``run_tee`` deadline, or None.
+- `set_thread_stdin_devnull` (function) `modules/command_executor.py:59` `def set_thread_stdin_devnull(enabled)` -- Detach the next ``run_tee`` child from the operator terminal.
+- `clear_thread_stdin_devnull` (function) `modules/command_executor.py:64` `def clear_thread_stdin_devnull()` -- Restore inherited stdin for this thread's ``run_tee`` calls.
+- `thread_stdin_devnull` (function) `modules/command_executor.py:72` `def thread_stdin_devnull()` -- Return True when this thread's ``run_tee`` children drop stdin.
+- `CommandExecutor.__init__` (method) `modules/command_executor.py:118` `def __init__(self)`
+- `CommandExecutor.instance` (method) `modules/command_executor.py:122` `def instance(cls)`
+- `CommandExecutor.add_hook` (method) `modules/command_executor.py:127` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
+- `CommandExecutor.run` (method) `modules/command_executor.py:131` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
+- `CommandExecutor.run_passthrough` (method) `modules/command_executor.py:179` `def run_passthrough(self, command, env)` -- Run a command with stdio inherited, returning its exit code.
+- `CommandExecutor.run_tee` (method) `modules/command_executor.py:194` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
+- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:358` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
+- `get_executor` (function) `modules/command_executor.py:426` `def get_executor()`
+
+## modules/compliance.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`
+- `EvidenceChain.__init__` (method) `modules/compliance.py:357` `def __init__(self, sessions_dir)`
+- `EvidenceChain.add_file` (method) `modules/compliance.py:383` `def add_file(self, filepath, operator, description)`
+- `EvidenceChain.verify` (method) `modules/compliance.py:410` `def verify(self)`
+- `EvidenceChain.get_chain_digest` (method) `modules/compliance.py:429` `def get_chain_digest(self)`
+- `EvidenceChain.to_report` (method) `modules/compliance.py:432` `def to_report(self)`
+- `export_pdf` (function) `modules/compliance.py:449` `def export_pdf(report_md, output_path, title, classification)` -- Export a Markdown report to PDF using fpdf2.
+- `export_to_elastic_ndjson` (function) `modules/compliance.py:533` `def export_to_elastic_ndjson(findings, output_path, index_prefix)` -- Export findings as Elasticsearch NDJSON bulk format.
+- `export_to_cef` (function) `modules/compliance.py:572` `def export_to_cef(findings, output_path, vendor, product, version)` -- Export findings in CEF (Common Event Format) for ArcSight/QRadar/Splunk.
+- `ComplianceEngine.__init__` (method) `modules/compliance.py:635` `def __init__(self, sessions_dir)`
+- `ComplianceEngine.map_findings_to_compliance` (method) `modules/compliance.py:639` `def map_findings_to_compliance(self, findings, frameworks)` -- Map findings to compliance framework controls.
+- `ComplianceEngine.generate_compliance_report` (method) `modules/compliance.py:710` `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` -- Generate a full compliance report with evidence chain and optional SIEM export.
+- `ComplianceEngine.export_pdf` (method) `modules/compliance.py:831` `def export_pdf(self, report, output_path)`
+- `ComplianceEngine.add_evidence` (method) `modules/compliance.py:901` `def add_evidence(self, filepath, operator, description)`
+- `ComplianceEngine.verify_evidence_chain` (method) `modules/compliance.py:904` `def verify_evidence_chain(self)`
+
+## modules/conditional_hooks.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+- `HookRule.can_fire` (method) `modules/conditional_hooks.py:56` `def can_fire(self, now)`
+- `HookRule.mark_fired` (method) `modules/conditional_hooks.py:65` `def mark_fired(self)`
+- `HookRule.to_dict` (method) `modules/conditional_hooks.py:69` `def to_dict(self)`
+- `HookEngine.__init__` (method) `modules/conditional_hooks.py:270` `def __init__(self)`
+- `HookEngine.register_action_handler` (method) `modules/conditional_hooks.py:277` `def register_action_handler(self, action_type, handler)` -- Register a handler for a custom action type.
+- `HookEngine.set_placeholders` (method) `modules/conditional_hooks.py:286` `def set_placeholders(self, placeholders)` -- Set placeholder values for command templating (rhost, lhost, etc.).
+- `HookEngine.load_rules` (method) `modules/conditional_hooks.py:290` `def load_rules(self, path)` -- Load rules from JSON file, or create it with defaults.
+- `HookEngine.save_rules` (method) `modules/conditional_hooks.py:322` `def save_rules(self, path)` -- Persist current rules to JSON.
+- `HookEngine.add_rule` (method) `modules/conditional_hooks.py:330` `def add_rule(self, rule_dict)` -- Add a rule at runtime.
+- `HookEngine.remove_rule` (method) `modules/conditional_hooks.py:345` `def remove_rule(self, name)` -- Remove a rule by name.
+- `HookEngine.enable_rule` (method) `modules/conditional_hooks.py:359` `def enable_rule(self, name, enabled)` -- Enable or disable a rule by name.
+- `HookEngine.fire` (method) `modules/conditional_hooks.py:516` `def fire(self, event, context)` -- Fire an event, evaluating all matching rules.
+- `HookEngine.list_rules` (method) `modules/conditional_hooks.py:571` `def list_rules(self)` -- Return all rules as dictionaries.
+- `HookEngine.get_rule` (method) `modules/conditional_hooks.py:575` `def get_rule(self, name)` -- Return a single rule by name, or None.
+- `get_hook_engine` (function) `modules/conditional_hooks.py:586` `def get_hook_engine()` -- Return the singleton :class:`HookEngine`.
+
+## modules/config_store.py
+Depends on: `core/config.py`, `core/logging.py`
+Imported by: `tests/test_core_modules.py`
+- `init` (function) `modules/config_store.py:36` `def init(path, watch)` -- Initialise the config store (idempotent).
+- `get_config` (function) `modules/config_store.py:53` `def get_config(key, default)` -- Return a config value (or the full dict when *key* is empty).
+- `set_config` (function) `modules/config_store.py:66` `def set_config()` -- Update one or more keys and persist to disk atomically.
+- `set_config_dict` (function) `modules/config_store.py:80` `def set_config_dict(updates)` -- Bulk-update from a dict and persist to disk.
+- `reload_config` (function) `modules/config_store.py:90` `def reload_config()` -- Force reload from disk (discards in-memory changes).
+- `stop_watcher` (function) `modules/config_store.py:96` `def stop_watcher()` -- Stop the file-watcher background thread (if running).
 
 ## modules/credential_reuse.py
 Depends on: `core/logging.py`
@@ -12,7 +77,7 @@ Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beaco
 - `CredentialReuseEngine.suggest_from_state_manager` (method) `modules/credential_reuse.py:278` `def suggest_from_state_manager(self, state_manager, limit)` -- Convenience: rank creds using hosts and creds from StateManager.
 - `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
 - `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
-- `CredentialReuseEngine.get_credential_reuse_engine` (method) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
+- `get_credential_reuse_engine` (function) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
 
 ## modules/cross_cloud.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -25,14 +90,24 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
 - `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
 
+## modules/custom_tools.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
+- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
+- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
+- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
+- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
+- `run_tool` (function) `modules/custom_tools.py:151` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
+
 ## modules/cve_matcher.py
 Depends on: `core/logging.py`
 Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 - `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
 - `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
 - `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
-- `CVEMatcher.get_matcher` (method) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
+- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
 
 ## modules/dacl_abuse.py
 Imported by: `cli/commands/active_directory.py`
@@ -84,18 +159,20 @@ Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/c
 - `LazyOwnDB.service_add` (method) `modules/db.py:427` `def service_add(self, host_id, port, protocol, state, name, product, version)` -- Add a service to a host.
 - `LazyOwnDB.service_list` (method) `modules/db.py:447` `def service_list(self, host_id)` -- List all services on a host.
 - `LazyOwnDB.vuln_add` (method) `modules/db.py:460` `def vuln_add(self, host_id, name, severity, description, refs)` -- Add a vulnerability to a host.
-- `LazyOwnDB.vuln_list` (method) `modules/db.py:478` `def vuln_list(self, workspace_id, severity)` -- List vulns in workspace, optionally filtered by severity.
-- `LazyOwnDB.cred_add` (method) `modules/db.py:507` `def cred_add(self, host_id, username, password, realm, cred_type, origin)` -- Add a credential (password encrypted at rest).
-- `LazyOwnDB.cred_list` (method) `modules/db.py:527` `def cred_list(self, workspace_id)` -- List all creds in workspace (passwords decrypted).
-- `LazyOwnDB.loot_add` (method) `modules/db.py:546` `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` -- Add a loot entry.
-- `LazyOwnDB.loot_list` (method) `modules/db.py:565` `def loot_list(self, workspace_id)` -- List all loot in workspace.
-- `LazyOwnDB.note_add` (method) `modules/db.py:581` `def note_add(self, workspace_id, data, note_type, host_id)` -- Add a note.
-- `LazyOwnDB.note_list` (method) `modules/db.py:598` `def note_list(self, workspace_id)` -- List all notes in workspace.
-- `LazyOwnDB.import_nmap_xml` (method) `modules/db.py:614` `def import_nmap_xml(self, workspace_id, xml_path)` -- Import an Nmap XML file into the database.
-- `LazyOwnDB.export_csv` (method) `modules/db.py:690` `def export_csv(self, table, workspace_id)` -- Export a table to CSV string.
-- `LazyOwnDB.status` (method) `modules/db.py:725` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
-- `LazyOwnDB.close` (method) `modules/db.py:754` `def close(self)` -- Close the database connection for the current thread.
-- `LazyOwnDB.get_db` (method) `modules/db.py:771` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
+- `LazyOwnDB.vuln_get` (method) `modules/db.py:478` `def vuln_get(self, vuln_id)` -- Return one vuln row with its host address, or None.
+- `LazyOwnDB.vuln_update` (method) `modules/db.py:490` `def vuln_update(self, vuln_id, refs, severity, description)` -- Update mutable vuln fields; returns True when a row changed.
+- `LazyOwnDB.vuln_list` (method) `modules/db.py:528` `def vuln_list(self, workspace_id, severity)` -- List vulns in workspace, optionally filtered by severity.
+- `LazyOwnDB.cred_add` (method) `modules/db.py:557` `def cred_add(self, host_id, username, password, realm, cred_type, origin)` -- Add a credential (password encrypted at rest).
+- `LazyOwnDB.cred_list` (method) `modules/db.py:577` `def cred_list(self, workspace_id)` -- List all creds in workspace (passwords decrypted).
+- `LazyOwnDB.loot_add` (method) `modules/db.py:596` `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` -- Add a loot entry.
+- `LazyOwnDB.loot_list` (method) `modules/db.py:615` `def loot_list(self, workspace_id)` -- List all loot in workspace.
+- `LazyOwnDB.note_add` (method) `modules/db.py:631` `def note_add(self, workspace_id, data, note_type, host_id)` -- Add a note.
+- `LazyOwnDB.note_list` (method) `modules/db.py:648` `def note_list(self, workspace_id)` -- List all notes in workspace.
+- `LazyOwnDB.import_nmap_xml` (method) `modules/db.py:664` `def import_nmap_xml(self, workspace_id, xml_path)` -- Import an Nmap XML file into the database.
+- `LazyOwnDB.export_csv` (method) `modules/db.py:740` `def export_csv(self, table, workspace_id)` -- Export a table to CSV string.
+- `LazyOwnDB.status` (method) `modules/db.py:775` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
+- `LazyOwnDB.close` (method) `modules/db.py:804` `def close(self)` -- Close the database connection for the current thread.
+- `get_db` (function) `modules/db.py:821` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
 
 ## modules/delegation_attacks.py
 Imported by: `cli/commands/active_directory.py`
@@ -119,11 +196,11 @@ Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
 - `DetectionFeed.update_rules` (method) `modules/detection_feed.py:92` `def update_rules(self, source)` -- Download and parse rules from the given source.
 - `DetectionFeed.load_cached_rules` (method) `modules/detection_feed.py:246` `def load_cached_rules(self, source)` -- Load previously cached rules from disk.
 - `DetectionFeed.adjust_from_feedback` (method) `modules/detection_feed.py:270` `def adjust_from_feedback(self, feedback_file)` -- Adjust rule probabilities based on historical detection feedback.
-- `DetectionFeed.get_feed` (method) `modules/detection_feed.py:326` `def get_feed()` -- Return a module-level :class:`DetectionFeed` singleton.
+- `get_feed` (function) `modules/detection_feed.py:326` `def get_feed()` -- Return a module-level :class:`DetectionFeed` singleton.
 
 ## modules/detection_oracle.py
 Depends on: `core/logging.py`, `modules/detection_feed.py`
-Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_moe_rl_swan.py`
+Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
 - `DetectionAssessment.is_high_risk` (method) `modules/detection_oracle.py:75` `def is_high_risk(self)` -- Return True when detection probability is 70% or higher.
 - `DetectionAssessment.is_critical_risk` (method) `modules/detection_oracle.py:80` `def is_critical_risk(self)` -- Return True when detection probability is 90% or higher.
 - `IDetectionOracle.assess` (method) `modules/detection_oracle.py:94` `def assess(self, command, args, action_category)` -- Return a full DetectionAssessment for the given action.
@@ -132,7 +209,7 @@ Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `skills/auto
 - `DetectionOracle.refresh` (method) `modules/detection_oracle.py:336` `def refresh(self)` -- Update rules from the detection feed (if available).
 - `DetectionOracle.assess` (method) `modules/detection_oracle.py:371` `def assess(self, command, args, action_category)`
 - `DetectionOracle.probability` (method) `modules/detection_oracle.py:392` `def probability(self, command, args, action_category)`
-- `DetectionOracle.get_oracle` (method) `modules/detection_oracle.py:478` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
+- `get_oracle` (function) `modules/detection_oracle.py:478` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
 
 ## modules/dns_beacon.py
 Depends on: `core/safe_exec.py`
@@ -221,23 +298,23 @@ Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
 - `NotificationBroadcaster.deliver` (method) `modules/engagement_hooks.py:370` `def deliver(self, event)` -- Push event to all sinks.
 - `EngagementNarrator.__init__` (method) `modules/engagement_hooks.py:393` `def __init__(self, broadcaster)`
 - `EngagementNarrator.narrate` (method) `modules/engagement_hooks.py:400` `def narrate(self, kind, target, message, payload, severity)` -- Write one line + audit record and dispatch to every sink.
-- `EngagementNarrator.get_default_narrator` (method) `modules/engagement_hooks.py:482` `def get_default_narrator()` -- Return the process-wide default narrator (lazy singleton).
-- `EngagementNarrator.publish_shell_obtained` (method) `modules/engagement_hooks.py:491` `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` -- Single entry point called by lazyc2.py on every beacon check-in.
-- `EngagementNarrator.append_approval_record` (method) `modules/engagement_hooks.py:564` `def append_approval_record(record)` -- Append one approval-pending record to sessions/engagement_approvals.jsonl.
-- `EngagementNarrator.list_pending_approvals` (method) `modules/engagement_hooks.py:575` `def list_pending_approvals()` -- Return every approval record whose status is still 'pending'.
-- `EngagementNarrator.resolve_approval` (method) `modules/engagement_hooks.py:601` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
-- `EngagementNarrator.is_valid_target` (method) `modules/engagement_hooks.py:626` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
+- `get_default_narrator` (function) `modules/engagement_hooks.py:482` `def get_default_narrator()` -- Return the process-wide default narrator (lazy singleton).
+- `publish_shell_obtained` (function) `modules/engagement_hooks.py:491` `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` -- Single entry point called by lazyc2.py on every beacon check-in.
+- `append_approval_record` (function) `modules/engagement_hooks.py:564` `def append_approval_record(record)` -- Append one approval-pending record to sessions/engagement_approvals.jsonl.
+- `list_pending_approvals` (function) `modules/engagement_hooks.py:575` `def list_pending_approvals()` -- Return every approval record whose status is still 'pending'.
+- `resolve_approval` (function) `modules/engagement_hooks.py:601` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
+- `is_valid_target` (function) `modules/engagement_hooks.py:626` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
 
 ## modules/enrich.py
 Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
-- `EnrichResult.scan_files_for` (method) `modules/enrich.py:40` `def scan_files_for(sessions_dir, target)` -- Return existing scan artefacts for a target.
-- `EnrichResult.should_rescan` (method) `modules/enrich.py:57` `def should_rescan(sessions_dir, target, fresh_sec)` -- Return True when no fresh scan artefact exists for target.
-- `EnrichResult.resolve_dns` (method) `modules/enrich.py:73` `def resolve_dns(target, timeout)` -- Resolve A/AAAA for a target with a bounded timeout.
-- `EnrichResult.fetch_http` (method) `modules/enrich.py:86` `def fetch_http(target, timeout)` -- Fetch HTTP headers for a target without following credentials.
+- `scan_files_for` (function) `modules/enrich.py:40` `def scan_files_for(sessions_dir, target)` -- Return existing scan artefacts for a target.
+- `should_rescan` (function) `modules/enrich.py:57` `def should_rescan(sessions_dir, target, fresh_sec)` -- Return True when no fresh scan artefact exists for target.
+- `resolve_dns` (function) `modules/enrich.py:73` `def resolve_dns(target, timeout)` -- Resolve A/AAAA for a target with a bounded timeout.
+- `fetch_http` (function) `modules/enrich.py:86` `def fetch_http(target, timeout)` -- Fetch HTTP headers for a target without following credentials.
 - `EnrichEngine.__init__` (method) `modules/enrich.py:103` `def __init__(self, max_workers)` -- Create the pool and cooldown index.
 - `EnrichEngine.submit` (method) `modules/enrich.py:108` `def submit(self, target)` -- Queue DNS+HTTP enrichment unless inside cooldown.
 - `EnrichEngine.shutdown` (method) `modules/enrich.py:128` `def shutdown(self, wait)` -- Shut the pool down without blocking the loop by default.
-- `EnrichEngine.shared_engine` (method) `modules/enrich.py:137` `def shared_engine()` -- Return the process-wide enrichment engine (LAZY parity).
+- `shared_engine` (function) `modules/enrich.py:137` `def shared_engine()` -- Return the process-wide enrichment engine (LAZY parity).
 
 ## modules/entra_id_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -254,12 +331,15 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/estorides_fusion.py
 Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
-- `estorides_checkout` (function) `modules/estorides_fusion.py:43` `def estorides_checkout()` -- Locate the estorides working copy (addon install or dev path).
-- `find_export` (function) `modules/estorides_fusion.py:55` `def find_export(sessions_dir)` -- Find an estorides export, preferring the LazyOwn vocabulary file.
-- `run_export` (function) `modules/estorides_fusion.py:71` `def run_export(sessions_dir, cli_path, timeout_sec)` -- Run ``estorides_cli.py graph --export lazyown`` into sessions/.
-- `load_export` (function) `modules/estorides_fusion.py:115` `def load_export(path)` -- Load an export in either vocabulary into nodes/edges lists.
-- `community_for` (function) `modules/estorides_fusion.py:167` `def community_for(kind, value)` -- Assign a campaign community to a fused entity.
-- `merge_estorides` (function) `modules/estorides_fusion.py:174` `def merge_estorides(nodes, edges, est, cap)` -- Fuse estorides entities into graph nodes/edges in place.
+- `estorides_checkout` (function) `modules/estorides_fusion.py:48` `def estorides_checkout()` -- Locate the estorides working copy.
+- `find_export` (function) `modules/estorides_fusion.py:68` `def find_export(sessions_dir)` -- Find an estorides export, preferring the LazyOwn vocabulary file.
+- `run_export` (function) `modules/estorides_fusion.py:84` `def run_export(sessions_dir, cli_path, timeout_sec)` -- Run ``estorides_cli.py graph --export lazyown`` into sessions/.
+- `load_export` (function) `modules/estorides_fusion.py:128` `def load_export(path)` -- Load an export in either vocabulary into nodes/edges lists.
+- `community_for` (function) `modules/estorides_fusion.py:180` `def community_for(kind, value)` -- Assign a campaign community to a fused entity.
+- `merge_estorides` (function) `modules/estorides_fusion.py:187` `def merge_estorides(nodes, edges, est, cap)` -- Fuse estorides entities into graph nodes/edges in place.
+- `find_lan_bundle` (function) `modules/estorides_fusion.py:268` `def find_lan_bundle(sessions_dir)` -- Find a LAN bundle deliverable, preferring LazyOwn vocabulary.
+- `load_lan_bundle` (function) `modules/estorides_fusion.py:288` `def load_lan_bundle(path)` -- Load a LAN bundle file into nodes/edges lists.
+- `split_lan_targets` (function) `modules/estorides_fusion.py:323` `def split_lan_targets(est)` -- Split a LAN payload into intel (all) and attack (hosts) views.
 
 ## modules/estorides_importer.py
 Depends on: `core/logging.py`, `modules/db.py`
@@ -267,12 +347,12 @@ Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 - `ImportResult.success` (method) `modules/estorides_importer.py:110` `def success(self)`
 - `ImportResult.to_dict` (method) `modules/estorides_importer.py:113` `def to_dict(self)`
 - `SeedResult.new_assets` (method) `modules/estorides_importer.py:139` `def new_assets(self)`
-- `SeedResult.extract_seeds_from_world_model` (method) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
-- `SeedResult.extract_seeds_from_hosts_file` (method) `modules/estorides_importer.py:175` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
-- `SeedResult.extract_seeds_from_db` (method) `modules/estorides_importer.py:203` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
-- `SeedResult.extract_seeds_from_scope` (method) `modules/estorides_importer.py:242` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
-- `SeedResult.run_estorides_discover` (method) `modules/estorides_importer.py:272` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
-- `SeedResult.run_estorides_run` (method) `modules/estorides_importer.py:332` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
+- `extract_seeds_from_world_model` (function) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
+- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:175` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
+- `extract_seeds_from_db` (function) `modules/estorides_importer.py:203` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
+- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:242` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
+- `run_estorides_discover` (function) `modules/estorides_importer.py:272` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
+- `run_estorides_run` (function) `modules/estorides_importer.py:332` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
 - `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:388` `def __init__(self, db_path)`
 - `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:393` `def available(self)`
 - `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:402` `def list_cases(self, limit)`
@@ -285,13 +365,19 @@ Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 - `EstoridesStixParser.available` (method) `modules/estorides_importer.py:515` `def available(self)`
 - `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:518` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
 - `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:552` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
-- `EstoridesStixParser.ensure_directories` (method) `modules/estorides_importer.py:579` `def ensure_directories()` -- Ensure sessions/ directories exist.
-- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:588` `def __init__(self, db_path, config_path)`
-- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:596` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
-- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:719` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
-- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:777` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-- `FeedbackLoop.run` (method) `modules/estorides_importer.py:793` `def run(self, seed_methods)` -- Run the feedback loop.
-- `FeedbackLoop.export_combined_graph` (method) `modules/estorides_importer.py:912` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
+- `find_lan_bundle_files` (function) `modules/estorides_importer.py:586` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
+- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:632` `def __init__(self, lan_dir)`
+- `LanBundleReader.available` (method) `modules/estorides_importer.py:636` `def available(self)`
+- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:639` `def read_devices(self)` -- Return raw device dicts from the inventory file.
+- `LanBundleReader.parse` (method) `modules/estorides_importer.py:652` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
+- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:683` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
+- `ensure_directories` (function) `modules/estorides_importer.py:694` `def ensure_directories()` -- Ensure sessions/ directories exist.
+- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:703` `def __init__(self, db_path, config_path)`
+- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:711` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
+- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:834` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
+- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:892` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+- `FeedbackLoop.run` (method) `modules/estorides_importer.py:908` `def run(self, seed_methods)` -- Run the feedback loop.
+- `export_combined_graph` (function) `modules/estorides_importer.py:1027` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
 
 ## modules/evasion_engine.py
 Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
@@ -319,7 +405,7 @@ Imported by: `cli/commands/evasive_payload.py`
 
 ## modules/event_bus.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_loop_ai_bridge.py`
 - `LazyEvent.to_dict` (method) `modules/event_bus.py:96` `def to_dict(self)`
 - `LazyEvent.to_json` (method) `modules/event_bus.py:111` `def to_json(self)`
 - `LazyEvent.from_dict` (method) `modules/event_bus.py:115` `def from_dict(cls, d)`
@@ -345,8 +431,8 @@ Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/
 - `UnifiedEventBus.shutdown` (method) `modules/event_bus.py:372` `def shutdown(self)` -- Shut down the event bus cleanly.
 - `UnifiedEventBus.history` (method) `modules/event_bus.py:556` `def history(self, n, category)` -- Return recent events, optionally filtered by category.
 - `UnifiedEventBus.history_since` (method) `modules/event_bus.py:564` `def history_since(self, since_ts)` -- Return all events since a given timestamp.
-- `UnifiedEventBus.get_event_bus` (method) `modules/event_bus.py:570` `def get_event_bus()` -- Return the singleton UnifiedEventBus instance.
-- `UnifiedEventBus.publish_event` (method) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
+- `get_event_bus` (function) `modules/event_bus.py:570` `def get_event_bus()` -- Return the singleton UnifiedEventBus instance.
+- `publish_event` (function) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
 
 ## modules/event_consumers.py
 Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
@@ -358,8 +444,8 @@ Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
 - `CredentialReactor.__call__` (method) `modules/event_consumers.py:282` `def __call__(self, event)`
 - `SoulSync.__call__` (method) `modules/event_consumers.py:323` `def __call__(self, event)`
 - `DashboardPusher.__call__` (method) `modules/event_consumers.py:361` `def __call__(self, event)`
-- `DashboardPusher.wire_all_consumers` (method) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
-- `DashboardPusher.unwire_all_consumers` (method) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
+- `wire_all_consumers` (function) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
+- `unwire_all_consumers` (function) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
 
 ## modules/event_engine.py
 Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
@@ -372,124 +458,13 @@ Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `sk
 
 ## modules/evidence.py
 Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-- `EvidenceConfig.hash_bytes` (method) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
+- `hash_bytes` (function) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
 - `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
 - `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.
 - `EvidenceStore.put` (method) `modules/evidence.py:70` `def put(self, data)` -- Atomically store bytes and return their SHA-256 hash.
 - `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
 - `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
 - `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
-
-## modules/exp.c
-Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
-- `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
-- `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
-- `bye` (function) `modules/exp.c:155` `void bye(char *info)`
-- `do_error_exit` (function) `modules/exp.c:161` `void do_error_exit(char *info)`
-- `bye2` (function) `modules/exp.c:167` `void bye2(char *info, char *arg)`
-- `spray_keyring` (function) `modules/exp.c:172` `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
-- `spray_keyring_list_del_purpose` (function) `modules/exp.c:190` `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
-- `spray_keyring_list_overwrite_purpose` (function) `modules/exp.c:214` `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
-- `get_keyring_leak` (function) `modules/exp.c:248` `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- `awake_partial_keys` (function) `modules/exp.c:271` `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
-- `release_keys` (function) `modules/exp.c:279` `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- `release_partial_keys` (function) `modules/exp.c:290` `void release_partial_keys(key_serial_t *id_buffer, int i)`
-- `unshare_setup` (function) `modules/exp.c:297` `void unshare_setup(uid_t uid, gid_t gid)`
-- `set_stable_table_and_set` (function) `modules/exp.c:322` `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
-- `set_trigger_set_and_overwrite` (function) `modules/exp.c:385` `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
-- `set_cpu_affinity` (function) `modules/exp.c:438` `void set_cpu_affinity(int cpu_n, pid_t pid)`
-- `spray_mqueue` (function) `modules/exp.c:448` `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
-- `gather_mqueue` (function) `modules/exp.c:463` `int gather_mqueue(mqd_t mqdes, int gather_size)`
-- `gather_mqueue_nosave` (function) `modules/exp.c:485` `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
-- `spray_msg_msg` (function) `modules/exp.c:496` `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
-- `io_uring_setup` (function) `modules/exp.c:520` `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
-- `io_uring_register` (function) `modules/exp.c:524` `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
-- `spray_uring` (function) `modules/exp.c:529` `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
-- `release_uring` (function) `modules/exp.c:546` `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
-- `release_partial_uring` (function) `modules/exp.c:554` `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
-- `prepare_root_shell` (function) `modules/exp.c:559` `void prepare_root_shell(void)`
-- `create_dummy_file` (function) `modules/exp.c:564` `void create_dummy_file(void)`
-- `create_priv_file` (function) `modules/exp.c:572` `void create_priv_file(void)`
-- `write_new_modprobe` (function) `modules/exp.c:582` `void write_new_modprobe()`
-- `setup_modprobe_payload` (function) `modules/exp.c:601` `void setup_modprobe_payload()`
-- `userland_T` (function) `modules/exp.c:605` `void userland_T(int *sema)`
-- `sema_up` (function) `modules/exp.c:610` `void sema_up(int *sema)`
-- `sema_down` (function) `modules/exp.c:615` `void sema_down(int *sema)`
-- `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
-
-## modules/exploit_chain.py
-Imported by: `cli/commands/exploit_migrated.py`
-- `ExploitChain.__init__` (method) `modules/exploit_chain.py:292` `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
-- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:311` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
-- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:446` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
-- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:499` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
-- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
-- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
-- `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
-
-## modules/exploit_recommender.py
-Depends on: `lazygui/version.py`, `modules/world_model.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
-- `parse_version` (method) `modules/exploit_recommender.py:25` `def parse_version(v)`
-- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
-- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
-- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
-- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
-- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
-- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
-- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
-
-## modules/exploitgym_gym.py
-Depends on: `modules/redteam_gym.py`
-Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
-- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
-- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
-- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
-- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
-- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
-- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
-- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
-
-## modules/fast_run_service.sh
-- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
-- `log_info` (function) `modules/fast_run_service.sh:73`
-- `log_warn` (function) `modules/fast_run_service.sh:77`
-- `log_error` (function) `modules/fast_run_service.sh:81`
-- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
-- `require_deps` (function) `modules/fast_run_service.sh:97`
-- `require_paths` (function) `modules/fast_run_service.sh:113`
-- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
-- `load_config` (function) `modules/fast_run_service.sh:139`
-- `config_truthy` (function) `modules/fast_run_service.sh:155`
-- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
-- `log_file_for` (function) `modules/fast_run_service.sh:171`
-- `read_pid_value` (function) `modules/fast_run_service.sh:176`
-- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
-- `is_service_running` (function) `modules/fast_run_service.sh:194`
-- `write_pid_file` (function) `modules/fast_run_service.sh:201`
-- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
-- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
-- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
-- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
-- `stop_named_service` (function) `modules/fast_run_service.sh:292`
-- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
-- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
-- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
-- `start_www_service` (function) `modules/fast_run_service.sh:356`
-- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
-- `start_discord_service` (function) `modules/fast_run_service.sh:380`
-- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
-- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
-- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
-- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
-- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
-- `cmd_stop` (function) `modules/fast_run_service.sh:465`
-- `cmd_restart` (function) `modules/fast_run_service.sh:480`
-- `cmd_status` (function) `modules/fast_run_service.sh:486`
-- `cmd_logs` (function) `modules/fast_run_service.sh:505`
-- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
-- `usage` (function) `modules/fast_run_service.sh:528`
-- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
 
 
 Next: [API_p11.md](API_p11.md)

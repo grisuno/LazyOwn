@@ -1,16 +1,135 @@
-# API (page 11 of 21)
+# API (page 11 of 22)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/exp.c
+Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
+- `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+- `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+- `bye` (function) `modules/exp.c:155` `void bye(char *info)`
+- `do_error_exit` (function) `modules/exp.c:161` `void do_error_exit(char *info)`
+- `bye2` (function) `modules/exp.c:167` `void bye2(char *info, char *arg)`
+- `spray_keyring` (function) `modules/exp.c:172` `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+- `spray_keyring_list_del_purpose` (function) `modules/exp.c:190` `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+- `spray_keyring_list_overwrite_purpose` (function) `modules/exp.c:214` `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+- `get_keyring_leak` (function) `modules/exp.c:248` `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+- `awake_partial_keys` (function) `modules/exp.c:271` `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+- `release_keys` (function) `modules/exp.c:279` `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+- `release_partial_keys` (function) `modules/exp.c:290` `void release_partial_keys(key_serial_t *id_buffer, int i)`
+- `unshare_setup` (function) `modules/exp.c:297` `void unshare_setup(uid_t uid, gid_t gid)`
+- `set_stable_table_and_set` (function) `modules/exp.c:322` `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+- `set_trigger_set_and_overwrite` (function) `modules/exp.c:385` `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+- `set_cpu_affinity` (function) `modules/exp.c:438` `void set_cpu_affinity(int cpu_n, pid_t pid)`
+- `spray_mqueue` (function) `modules/exp.c:448` `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+- `gather_mqueue` (function) `modules/exp.c:463` `int gather_mqueue(mqd_t mqdes, int gather_size)`
+- `gather_mqueue_nosave` (function) `modules/exp.c:485` `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+- `spray_msg_msg` (function) `modules/exp.c:496` `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+- `io_uring_setup` (function) `modules/exp.c:520` `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+- `io_uring_register` (function) `modules/exp.c:524` `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+- `spray_uring` (function) `modules/exp.c:529` `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+- `release_uring` (function) `modules/exp.c:546` `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+- `release_partial_uring` (function) `modules/exp.c:554` `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+- `prepare_root_shell` (function) `modules/exp.c:559` `void prepare_root_shell(void)`
+- `create_dummy_file` (function) `modules/exp.c:564` `void create_dummy_file(void)`
+- `create_priv_file` (function) `modules/exp.c:572` `void create_priv_file(void)`
+- `write_new_modprobe` (function) `modules/exp.c:582` `void write_new_modprobe()`
+- `setup_modprobe_payload` (function) `modules/exp.c:601` `void setup_modprobe_payload()`
+- `userland_T` (function) `modules/exp.c:605` `void userland_T(int *sema)`
+- `sema_up` (function) `modules/exp.c:610` `void sema_up(int *sema)`
+- `sema_down` (function) `modules/exp.c:615` `void sema_down(int *sema)`
+- `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
+
+## modules/exploit_chain.py
+Imported by: `cli/commands/exploit_migrated.py`
+- `ExploitChain.__init__` (method) `modules/exploit_chain.py:292` `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
+- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:311` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
+- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:446` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
+- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:499` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
+- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
+- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
+- `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
+
+## modules/exploit_recommender.py
+Depends on: `lazygui/version.py`, `modules/world_model.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
+- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
+- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
+- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
+- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
+- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
+- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
+- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
+
+## modules/exploitgym_gym.py
+Depends on: `modules/redteam_gym.py`
+Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
+- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
+- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
+- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
+- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
+- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
+- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
+
+## modules/fast_run_service.sh
+- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
+- `log_info` (function) `modules/fast_run_service.sh:73`
+- `log_warn` (function) `modules/fast_run_service.sh:77`
+- `log_error` (function) `modules/fast_run_service.sh:81`
+- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
+- `require_deps` (function) `modules/fast_run_service.sh:97`
+- `require_paths` (function) `modules/fast_run_service.sh:113`
+- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
+- `load_config` (function) `modules/fast_run_service.sh:139`
+- `config_truthy` (function) `modules/fast_run_service.sh:155`
+- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
+- `log_file_for` (function) `modules/fast_run_service.sh:171`
+- `read_pid_value` (function) `modules/fast_run_service.sh:176`
+- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
+- `is_service_running` (function) `modules/fast_run_service.sh:194`
+- `write_pid_file` (function) `modules/fast_run_service.sh:201`
+- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
+- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
+- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
+- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
+- `stop_named_service` (function) `modules/fast_run_service.sh:292`
+- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
+- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
+- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
+- `start_www_service` (function) `modules/fast_run_service.sh:356`
+- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
+- `start_discord_service` (function) `modules/fast_run_service.sh:380`
+- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
+- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
+- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
+- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
+- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
+- `cmd_stop` (function) `modules/fast_run_service.sh:465`
+- `cmd_restart` (function) `modules/fast_run_service.sh:480`
+- `cmd_status` (function) `modules/fast_run_service.sh:486`
+- `cmd_logs` (function) `modules/fast_run_service.sh:505`
+- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
+- `usage` (function) `modules/fast_run_service.sh:528`
+- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
 
 ## modules/finding_lifecycle.py
 Depends on: `modules/osint_enrich.py`
-Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-- `confirm` (function) `modules/finding_lifecycle.py:60` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
-- `reject` (function) `modules/finding_lifecycle.py:86` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
-- `add_dead_end` (function) `modules/finding_lifecycle.py:98` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
-- `is_dead_end` (function) `modules/finding_lifecycle.py:112` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
-- `suppressed_values` (function) `modules/finding_lifecycle.py:120` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
-- `resolve` (function) `modules/finding_lifecycle.py:127` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
-- `apply_confirmation` (function) `modules/finding_lifecycle.py:153` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+- `confirm` (function) `modules/finding_lifecycle.py:61` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
+- `reject` (function) `modules/finding_lifecycle.py:90` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
+- `add_dead_end` (function) `modules/finding_lifecycle.py:104` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
+- `is_dead_end` (function) `modules/finding_lifecycle.py:116` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
+- `suppressed_values` (function) `modules/finding_lifecycle.py:123` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
+- `resolve` (function) `modules/finding_lifecycle.py:129` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
+- `apply_confirmation` (function) `modules/finding_lifecycle.py:154` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+- `record` (function) `modules/finding_lifecycle.py:234` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
+- `findings_for` (function) `modules/finding_lifecycle.py:259` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
+- `set_status` (function) `modules/finding_lifecycle.py:264` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
+- `has_running_retest` (function) `modules/finding_lifecycle.py:310` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
+- `request_retest` (function) `modules/finding_lifecycle.py:318` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
+- `resolve_retest` (function) `modules/finding_lifecycle.py:338` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
+- `classify_retest` (function) `modules/finding_lifecycle.py:384` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
+- `render_markdown` (function) `modules/finding_lifecycle.py:403` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
 
 ## modules/forensic_cleaner.py
 Imported by: `cli/commands/opsec_cleanup.py`
@@ -39,9 +158,9 @@ Imported by: `cli/commands/cloud_attacks.py`
 ## modules/goals.py
 Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
 - `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
-- `TaskConstraints.decompose_rule_based` (method) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
-- `TaskConstraints.load_constraints` (method) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
-- `TaskConstraints.constraint_block_text` (method) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
+- `decompose_rule_based` (function) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
+- `load_constraints` (function) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
+- `constraint_block_text` (function) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
 - `GoalTracker.__init__` (method) `modules/goals.py:120` `def __init__(self, goals)` -- Bind to an initial goal list.
 - `GoalTracker.goals` (method) `modules/goals.py:125` `def goals(self)` -- Return a copy of tracked goals.
 - `GoalTracker.prove_goal` (method) `modules/goals.py:129` `def prove_goal(self, goal_text, evidence)` -- Mark one goal achieved from evidence; return True when found.
@@ -81,7 +200,7 @@ Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
 - `HashCracker.crack_hash` (method) `modules/hash_cracker.py:295` `def crack_hash(self, hash_value, hash_type, wordlist)` -- Attempt to crack a single hash.
 - `HashCracker.crack_file` (method) `modules/hash_cracker.py:349` `def crack_file(self, filepath, wordlist, hash_types)` -- Crack all hashes in a file.
 - `HashCracker.import_to_db` (method) `modules/hash_cracker.py:405` `def import_to_db(self, results, rhost, workspace_name)` -- Import cracked results into the LazyOwnDB credentials table.
-- `HashCracker.crack_secretsdump_output` (method) `modules/hash_cracker.py:695` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
+- `crack_secretsdump_output` (function) `modules/hash_cracker.py:695` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
 
 ## modules/hive_invoke.py
 Depends on: `modules/toposwarm_bridge.py`
@@ -96,19 +215,19 @@ Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 - `CodeAnalyzer.__init__` (method) `modules/ia_code_analysis.py:33` `def __init__(self, mode)`
 - `CodeAnalyzer.analyze_directory` (method) `modules/ia_code_analysis.py:37` `def analyze_directory(self, directory)` -- Recursively analyzes all source code files in the specified directory.
 - `CodeAnalyzer.analyze_code_file` (method) `modules/ia_code_analysis.py:49` `def analyze_code_file(self, file_path)` -- Analyzes the content of the source code file.
-- `CodeAnalyzer.analyze_with_deepseek` (method) `modules/ia_code_analysis.py:66` `def analyze_with_deepseek(code_content, file_path, mode)` -- Sends the code content to DeepSeek for analysis.
-- `CodeAnalyzer.save_results_to_json` (method) `modules/ia_code_analysis.py:123` `def save_results_to_json(results, file_path)` -- Saves the analysis results to JSON files.
-- `CodeAnalyzer.start_analysis` (method) `modules/ia_code_analysis.py:169` `def start_analysis(code_dir, mode)` -- Starts the analysis of the specified code directory.
-- `CodeAnalyzer.parse_args` (method) `modules/ia_code_analysis.py:178` `def parse_args()`
+- `analyze_with_deepseek` (function) `modules/ia_code_analysis.py:66` `def analyze_with_deepseek(code_content, file_path, mode)` -- Sends the code content to DeepSeek for analysis.
+- `save_results_to_json` (function) `modules/ia_code_analysis.py:123` `def save_results_to_json(results, file_path)` -- Saves the analysis results to JSON files.
+- `start_analysis` (function) `modules/ia_code_analysis.py:169` `def start_analysis(code_dir, mode)` -- Starts the analysis of the specified code directory.
+- `parse_args` (function) `modules/ia_code_analysis.py:178` `def parse_args()`
 
 ## modules/ia_logs_analysis.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 - `LogFileHandler.__init__` (method) `modules/ia_logs_analysis.py:59` `def __init__(self, mode)`
 - `LogFileHandler.on_modified` (method) `modules/ia_logs_analysis.py:64` `def on_modified(self, event)` -- Triggered when a log file is modified.
 - `LogFileHandler.analyze_log_file` (method) `modules/ia_logs_analysis.py:75` `def analyze_log_file(self, file_path)` -- Analyzes the content of the modified log file.
-- `LogFileHandler.analyze_with_deepseek` (method) `modules/ia_logs_analysis.py:94` `def analyze_with_deepseek(log_content, mode)` -- Sends log content to DeepSeek for advanced analysis.
-- `LogFileHandler.start_monitoring` (method) `modules/ia_logs_analysis.py:147` `def start_monitoring(log_dir, mode)` -- Starts monitoring the specified log directory.
-- `LogFileHandler.parse_args` (method) `modules/ia_logs_analysis.py:168` `def parse_args()`
+- `analyze_with_deepseek` (function) `modules/ia_logs_analysis.py:94` `def analyze_with_deepseek(log_content, mode)` -- Sends log content to DeepSeek for advanced analysis.
+- `start_monitoring` (function) `modules/ia_logs_analysis.py:147` `def start_monitoring(log_dir, mode)` -- Starts monitoring the specified log directory.
+- `parse_args` (function) `modules/ia_logs_analysis.py:168` `def parse_args()`
 
 ## modules/ia_network_analysis.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
@@ -159,7 +278,7 @@ Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests
 - `MISPExporter.save` (method) `modules/integrations/misp_export.py:322` `def save(self, event, path)` -- Write the MISP event JSON to *path* and return the resolved path.
 - `MISPExporter.push_to_misp` (method) `modules/integrations/misp_export.py:330` `def push_to_misp(self, event, url, api_key)` -- HTTP-push the event to a live MISP instance.
 - `_DictFinding.__init__` (method) `modules/integrations/misp_export.py:454` `def __init__(self, data)`
-- `_DictFinding.get_exporter` (method) `modules/integrations/misp_export.py:469` `def get_exporter()` -- Return the module-level MISPExporter singleton.
+- `get_exporter` (function) `modules/integrations/misp_export.py:469` `def get_exporter()` -- Return the module-level MISPExporter singleton.
 
 ## modules/integrations/nuclei_bridge.py
 Depends on: `core/logging.py`
@@ -174,7 +293,7 @@ Imported by: `modules/integrations/__init__.py`, `modules/integrations/nuclei_pa
 - `NucleiBridge.__init__` (method) `modules/integrations/nuclei_bridge.py:396` `def __init__(self, selector, runner)`
 - `NucleiBridge.scan` (method) `modules/integrations/nuclei_bridge.py:404` `def scan(self, target, findings, dry_run)` -- Select templates from *findings* and run nuclei against *target*.
 - `NucleiBridge.list_templates` (method) `modules/integrations/nuclei_bridge.py:427` `def list_templates(self, services, cves)` -- Return matching templates without running nuclei.
-- `NucleiBridge.get_bridge` (method) `modules/integrations/nuclei_bridge.py:443` `def get_bridge()` -- Return the module-level NucleiBridge singleton.
+- `get_bridge` (function) `modules/integrations/nuclei_bridge.py:443` `def get_bridge()` -- Return the module-level NucleiBridge singleton.
 - `_F.__init__` (method) `modules/integrations/nuclei_bridge.py:484` `def __init__(self, ftype, value)`
 
 ## modules/integrations/nuclei_parser.py
@@ -206,9 +325,9 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 - `SearchsploitClient.search_cve` (method) `modules/integrations/searchsploit.py:286` `def search_cve(self, cve_id)` -- Return exploits for *cve_id*, trying CLI then API.
 - `SearchsploitClient.search_service` (method) `modules/integrations/searchsploit.py:293` `def search_service(self, name, version)` -- Return exploits for *name*/*version*, trying CLI then API.
 - `SearchsploitClient.enrich_findings` (method) `modules/integrations/searchsploit.py:300` `def enrich_findings(self, findings)` -- Takes an ObsParser Finding list, extracts CVEs and service_versions, returns ``{cve_or_service: [ExploitEntry, ...]}``.
-- `SearchsploitClient.get_client` (method) `modules/integrations/searchsploit.py:333` `def get_client()` -- Return the module-level SearchsploitClient singleton.
-- `SearchsploitClient.search_cve` (method) `modules/integrations/searchsploit.py:341` `def search_cve(cve_id)` -- Module-level convenience: search by CVE id.
-- `SearchsploitClient.search_service` (method) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
+- `get_client` (function) `modules/integrations/searchsploit.py:333` `def get_client()` -- Return the module-level SearchsploitClient singleton.
+- `search_cve` (function) `modules/integrations/searchsploit.py:341` `def search_cve(cve_id)` -- Module-level convenience: search by CVE id.
+- `search_service` (function) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
 
 ## modules/intel_fusion.py
 Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
@@ -242,15 +361,15 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazy
 - `IntelligenceEngine.disseminate` (method) `modules/intelligence_engine.py:765` `def disseminate(self)` -- Write intelligence to WorldModel, killchain, and report file.
 - `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:845` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
 - `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:874` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
-- `IntelligenceEngine.get_intelligence_engine` (method) `modules/intelligence_engine.py:931` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
+- `get_intelligence_engine` (function) `modules/intelligence_engine.py:931` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`
 Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 - `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
-- `InterceptVerdict.builtin_rules` (method) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
-- `InterceptVerdict.scope_blocked` (method) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
-- `InterceptVerdict.observe_post_tool` (method) `modules/intercept.py:144` `def observe_post_tool(output)` -- Classify post-execution output (LAZY Guard.postToolUse parity).
+- `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
+- `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
+- `observe_post_tool` (function) `modules/intercept.py:144` `def observe_post_tool(output)` -- Classify post-execution output (LAZY Guard.postToolUse parity).
 - `Interceptor.__init__` (method) `modules/intercept.py:157` `def __init__(self, rules, ask_timeout_sec, timeout_action)` -- Initialize with rules sorted by descending priority.
 - `Interceptor.rules` (method) `modules/intercept.py:172` `def rules(self)` -- Return a copy of the active rule list.
 - `Interceptor.add_rule` (method) `modules/intercept.py:177` `def add_rule(self, rule)` -- Add a rule and keep priority ordering.
@@ -270,6 +389,11 @@ Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/auton
 ## modules/iptables_portforward.sh
 - `display_usage` (function) `modules/iptables_portforward.sh:29`
 
+## modules/jsonl_tail.py
+Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
+- `JsonlTail.__init__` (method) `modules/jsonl_tail.py:17` `def __init__(self, path)` -- Bind the tail to one file path.
+- `JsonlTail.read_new` (method) `modules/jsonl_tail.py:22` `def read_new(self, limit)` -- Return new complete records since the last call.
+
 ## modules/k8s_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
 - `K8SAttackEngine.__init__` (method) `modules/k8s_attacks.py:87` `def __init__(self, config)`
@@ -287,7 +411,7 @@ Depends on: `modules/kerberos_core.py`
 Imported by: `cli/commands/active_directory.py`
 - `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
 - `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
-- `KerberoastingEngine.priority` (method) `modules/kerberoasting.py:172` `def priority(target)`
+- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
 - `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
 - `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
 - `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
@@ -363,35 +487,11 @@ Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `
 - `KillChain.phases_for_display` (method) `modules/killchain.py:384` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
 - `KillChain.phase_index` (method) `modules/killchain.py:395` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
 - `KillChain.snapshot` (method) `modules/killchain.py:400` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
-- `KillChain.get_killchain` (method) `modules/killchain.py:440` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
+- `get_killchain` (function) `modules/killchain.py:440` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
 
 ## modules/kivi.py
 - `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
 - `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
-
-## modules/lazy_contracts.py
-- `IFrontier.pending` (method) `modules/lazy_contracts.py:17` `def pending(self)` -- Return pending intents ordered by priority.
-- `IFrontier.claim_next` (method) `modules/lazy_contracts.py:21` `def claim_next(self)` -- Atomically claim highest-priority intent or None.
-- `IFrontier.release` (method) `modules/lazy_contracts.py:25` `def release(self, node_id, state)` -- Return a running intent to a new state.
-- `IPlanner.plan` (method) `modules/lazy_contracts.py:33` `def plan(self, triggers)` -- Emit 0..N intents from current situation.
-- `IWorker.execute` (method) `modules/lazy_contracts.py:41` `def execute(self, intent, executor)` -- Run intent to completion and write facts back.
-- `IGuard.check` (method) `modules/lazy_contracts.py:49` `def check(self, tool, command)` -- Return allow/ask/deny decision and audit it.
-- `IEnricher.enrich` (method) `modules/lazy_contracts.py:57` `def enrich(self, value)` -- Enrich one asset synchronously.
-- `IRetester.retest` (method) `modules/lazy_contracts.py:65` `def retest(self, finding_id, executor)` -- Return verdict for one finding.
-- `ICompactor.compact` (method) `modules/lazy_contracts.py:73` `def compact(self, threshold)` -- Digest cold facts beyond threshold.
-- `IBudget.check` (method) `modules/lazy_contracts.py:81` `def check(self, task_id)` -- Return ok/exceeded decision with reason.
-- `IBudget.record_toolcall` (method) `modules/lazy_contracts.py:85` `def record_toolcall(self, task_id, intent_id)` -- Count one executed tool call.
-- `IRuntime.heartbeat` (method) `modules/lazy_contracts.py:93` `def heartbeat(self, task_id)` -- Return live runtime snapshot.
-- `IRuntime.abort` (method) `modules/lazy_contracts.py:97` `def abort(self, task_id, cause, detail)` -- Stamp abort cause like typed AbortCause.
-- `IFinding.report` (method) `modules/lazy_contracts.py:105` `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` -- Register a deduplicated finding with severity and evidence.
-- `IFinding.set_status` (method) `modules/lazy_contracts.py:112` `def set_status(self, finding_id, status)` -- Transition finding disposition.
-- `IFinding.ranked` (method) `modules/lazy_contracts.py:116` `def ranked(self)` -- Return findings critical-first.
-- `INotifier.emit` (method) `modules/lazy_contracts.py:124` `def emit(self, task_id, event, data)` -- Fan out one event; returns deliveries.
-- `ITrigger.add` (method) `modules/lazy_contracts.py:132` `def add(self, kind, arg, every_sec)` -- Register a trigger.
-- `ITrigger.due` (method) `modules/lazy_contracts.py:136` `def due(self, task_id, graph, activity)` -- Evaluate and fire due triggers.
-- `ILlmPool.complete` (method) `modules/lazy_contracts.py:144` `def complete(self, prompt, max_tokens)` -- Fail over across members and return text or empty string.
-- `IToolCatalog.bindings` (method) `modules/lazy_contracts.py:152` `def bindings(self, agent)` -- Return bindings for one agent or the whole table.
-- `IToolCatalog.bind` (method) `modules/lazy_contracts.py:156` `def bind(self, agent, tool)` -- Opt a tool into an agent lane.
 
 
 Next: [API_p12.md](API_p12.md)

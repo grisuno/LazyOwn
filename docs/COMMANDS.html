@@ -184,11 +184,11 @@
 cli/command_index.json.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li><a href="#01-reconnaissance">01. Reconnaissance</a> (38
+<li><a href="#01-reconnaissance">01. Reconnaissance</a> (39
 commands)</li>
 <li><a href="#02-scanning-&amp;-enumeration">02. Scanning &amp;
-Enumeration</a> (74 commands)</li>
-<li><a href="#03-exploitation">03. Exploitation</a> (66 commands)</li>
+Enumeration</a> (75 commands)</li>
+<li><a href="#03-exploitation">03. Exploitation</a> (76 commands)</li>
 <li><a href="#04-post-exploitation">04. Post-Exploitation</a> (45
 commands)</li>
 <li><a href="#05-persistence">05. Persistence</a> (33 commands)</li>
@@ -203,10 +203,10 @@ commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
 (29 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
-<li><a href="#12-miscellaneous">12. Miscellaneous</a> (184
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (189
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (140 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (193 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -258,6 +258,10 @@ DNS records.</p>
 <code>cli/commands/estorides.py</code></p>
 <p>Import Estorides-discovered entities into LazyOwn database and
 scope.</p>
+<h3 id="estorides_intel"><code>estorides_intel</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/surface.py</code></p>
+<p>Fuse estorides OSINT entities into the campaign intel graphs.</p>
 <h3 id="estorides_loop"><code>estorides_loop</code></h3>
 <p><strong>Phase:</strong> recon | <strong>Source:</strong>
 <code>cli/commands/estorides.py</code></p>
@@ -680,6 +684,10 @@ ports.</p>
 <code>cli/commands/scan_migrated.py</code></p>
 <p>Executes the Swaks (Swiss Army Knife for SMTP) tool to send test
 emails for phishing simulations.</p>
+<h3 id="scandiscovery"><code>scandiscovery</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/surface.py</code></p>
+<p>Scan every discovery IP with operator confirmation.</p>
 <h3 id="sessionssh"><code>sessionssh</code></h3>
 <p><strong>Phase:</strong> enum | <strong>Source:</strong>
 <code>cli/commands/scan_migrated.py</code></p>
@@ -875,6 +883,48 @@ delegation abuse.</p>
 <p><strong>Phase:</strong> exploit | <strong>Source:</strong>
 <code>cli/commands/exploit.py</code></p>
 <p>Runs the Kusanagi payload generator.</p>
+<h3 id="lazy_approve"><code>lazy_approve</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>List engine guard reviews filtered by decision and source.</p>
+<h3 id="lazy_delete"><code>lazy_delete</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Delete an engine intent; soft keeps outputs, hard cascades.</p>
+<h3 id="lazy_findings"><code>lazy_findings</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>List engine findings for a task, optionally filtered by status.</p>
+<h3 id="lazy_fleet"><code>lazy_fleet</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+Cross-task fleet: list | graph
+<task>
+<div class="line-block">findings</div>
+<h3 id="lazy_intents"><code>lazy_intents</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>List engine intents for a task, optionally filtered by state.</p>
+<h3 id="lazy_mention"><code>lazy_mention</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Search @ mention candidates with scroll pagination.</p>
+<h3 id="lazy_orchestrator"><code>lazy_orchestrator</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Admin console for the loop (Textual TUI).</p>
+<h3 id="lazy_sync"><code>lazy_sync</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Run bidirectional LAZY sync into world model and objectives.</p>
+<h3 id="lazy_verdict"><code>lazy_verdict</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Record a manual retest verdict on an engine finding.</p>
+<h3 id="lazy_view"><code>lazy_view</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Attach the live worker monitor to a task (or the newest task).</p>
 <h3 id="lazypwn"><code>lazypwn</code></h3>
 <p><strong>Phase:</strong> exploit | <strong>Source:</strong>
 <code>cli/commands/exploit.py</code></p>
@@ -2386,6 +2436,10 @@ daemon.</p>
 <code>cli/commands/encoding.py</code></p>
 <p>Decode a string using the specified shift value and substitution
 key.</p>
+<h3 id="defaults"><code>defaults</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/defaults.py</code></p>
+<p>Show or override build-time defaults (TOML + payload.json).</p>
 <h3 id="demo"><code>demo</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/demo.py</code></p>
@@ -2440,6 +2494,14 @@ directories.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/shellsys.py</code></p>
 <p>Fix permissions for LazyOwn shell scripts.</p>
+<h3 id="frontier"><code>frontier</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/session_ops.py</code></p>
+<p>Preview the planner intents the autonomous loops would run next.</p>
+<h3 id="gatecheck"><code>gatecheck</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/daemon_ctl.py</code></p>
+<p>Dry-run the safety gate against one command line.</p>
 <h3 id="gencert"><code>gencert</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/session_ops.py</code></p>
@@ -2799,6 +2861,10 @@ the current directory path to the clipboard.</p>
 <code>cli/commands/session_ops.py</code></p>
 <p>Browse previous sessions and load a target from a past
 engagement.</p>
+<h3 id="retest"><code>retest</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Re-verify a finding in an isolated session (LAZY retester).</p>
 <h3 id="rhost"><code>rhost</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/nethelpers.py</code></p>
@@ -2912,6 +2978,10 @@ arguments.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
 <p>Mark every pending toast event as seen without printing them.</p>
+<h3 id="traces"><code>traces</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/session_ops.py</code></p>
+<p>Show recent autonomous step traces with evidence and traffic ids.</p>
 <h3 id="ttp_matrix"><code>ttp_matrix</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/caldera.py</code></p>
@@ -2968,11 +3038,11 @@ Framework.</p>
 <p>Guided first-run setup wizard — configure rhost, lhost, domain,
 wordlists and more.</p>
 <h2 id="diagnostics">13. Diagnostics</h2>
-<h3 id="lazy_payload_keys"><code>lazy_payload_keys</code></h3>
+<h3 id="sys_payload_keys"><code>sys_payload_keys</code></h3>
 <p><strong>Phase:</strong> diagnostics | <strong>Source:</strong>
 <code>cli/commands/diagnostics.py</code></p>
 <p>List the keys currently present in the parent shell’s payload.</p>
-<h3 id="lazy_runtime"><code>lazy_runtime</code></h3>
+<h3 id="sys_runtime"><code>sys_runtime</code></h3>
 <p><strong>Phase:</strong> diagnostics | <strong>Source:</strong>
 <code>cli/commands/diagnostics.py</code></p>
 <p>Print interpreter, platform and core LazyOwn paths.</p>
@@ -3049,7 +3119,8 @@ vulnerabilities.</p>
 <h3 id="auto_loop"><code>auto_loop</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
-<p>Run a goal through the autonomous daemon orchestrator backend.</p>
+<p>Run a goal through the single lazy orchestrator (auto_loop ==
+lazy_loop).</p>
 <h3 id="auto_populate"><code>auto_populate</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -3299,6 +3370,286 @@ persistence.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/active_directory.py</code></p>
 <p>Forge Kerberos tickets for persistence and lateral movement.</p>
+<h3 id="lazy_addon"><code>lazy_addon</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Addon trigger runner: list [service]|run <name> [–target T]. Usage:
+lazy_addon … [–task T]</p>
+<h3 id="lazy_agent"><code>lazy_agent</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Main agent with full tool calling (native backend or opencode).
+Usage: lazy_agent new [–title T]|list|show <sid>|say &lt;prompt…&gt;
+[–session S] [–continue] [–backend native|opencode] [–task T]</p>
+<h3 id="lazy_archive"><code>lazy_archive</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Task snapshots: save [–task T]|list|stats|restore <path>. Usage:
+lazy_archive …</p>
+<h3 id="lazy_ask"><code>lazy_ask</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Bounded side question over task context. Usage: lazy_ask <question>
+[–task T] [–session S] | lazy_ask history [–task T] [–session S]</p>
+<h3 id="lazy_asset"><code>lazy_asset</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Assets: add <kind> <value> | list [kind] | scoped [–kind K] |
+coverage | untested. Usage: lazy_asset …</p>
+<h3 id="lazy_broadcast"><code>lazy_broadcast</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Exploration timeline. Usage: lazy_broadcast [–task T] [–kind K] [–q
+Q] [–asc] [–page N] [–limit N]</p>
+<h3 id="lazy_category"><code>lazy_category</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Task labels: set <name> [–task T]|list [name]. Usage: lazy_category
+…</p>
+<h3 id="lazy_chat"><code>lazy_chat</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat …
+[–task T] [–session S]</p>
+<h3 id="lazy_compact"><code>lazy_compact</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Compaction: minor|major [–threshold N]|unfolded [–limit
+N]|overview|noa|expand <digest>. Usage: lazy_compact … [–task T]</p>
+<h3 id="lazy_company"><code>lazy_company</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Company scope: add <name> [scope]|list|match <value>. Usage:
+lazy_company …</p>
+<h3 id="lazy_constraint"><code>lazy_constraint</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Constraints: add &lt;allow|deny&gt; <text> | list. Usage:
+lazy_constraint … [–task T]</p>
+<h3 id="lazy_context"><code>lazy_context</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Render the bounded prompt context the planner/worker LLMs receive.
+Usage: lazy_context [–task T] [–budget N]</p>
+<h3 id="lazy_enrich"><code>lazy_enrich</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Enrich asset with DNS/HTTP. Usage: lazy_enrich <host-or-url></p>
+<h3 id="lazy_evidence"><code>lazy_evidence</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+Evidence vault: add <finding> <kind>
+<body>
+<p>|list <finding>|verify|gc|export <path>. Usage: lazy_evidence …
+[–task T]</p>
+<h3 id="lazy_fact"><code>lazy_fact</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Facts: list [query] [–hot|–cold]|add <text>. Usage: lazy_fact …
+[–task T]</p>
+<h3 id="lazy_finding"><code>lazy_finding</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+Findings: list [–full] [–limit N]|report <name> ::
+<summary>
+<p>|status <id> <st>|update <id> <text>|context <id>. Usage:
+lazy_finding … [–task T] [–severity S] [–vulnclass C]</p>
+<h3 id="lazy_frontier"><code>lazy_frontier</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Show pending intent queue. Usage: lazy_frontier [–task T]</p>
+<h3 id="lazy_gate"><code>lazy_gate</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Asset gate: list|check <target>|block-add <kind> <pattern>
+[note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>.
+Usage: lazy_gate … [–task T] (allow-* require –task)</p>
+<h3 id="lazy_goal"><code>lazy_goal</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Goals: list|set &lt;t1;t2&gt;|edit <id> <text>|delete <id>|prove
+<goal> <evidence> <reason>|met <reason>. Usage: lazy_goal … [–task
+T]</p>
+<h3 id="lazy_graph"><code>lazy_graph</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Show planner-facing graph overview. Usage: lazy_graph [–task T]</p>
+<h3 id="lazy_guard"><code>lazy_guard</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+Guard gate: check <cmd> | rule-add <pattern> &lt;allow|ask|deny&gt;
+[reason] | rule-del
+<p>
+<div class="line-block">judge on|off [–fail allow|deny] | judge fail
+&lt;allow|deny&gt; | judge | audit [–action A] [–source S] [–q Q]
+[–limit N] | lookup <tool_use_id> | stats | pending | approve <id> |
+deny <id>. Usage: lazy_guard …</div>
+<h3 id="lazy_hint"><code>lazy_hint</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Inject steering hint. Usage: lazy_hint <text> [–task T]</p>
+<h3 id="lazy_intent"><code>lazy_intent</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+Inject high-priority intent. Usage: lazy_intent
+<summary>
+<p>[–task T] [–priority N]</p>
+<h3 id="lazy_intent_delete"><code>lazy_intent_delete</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Delete an intent. Usage: lazy_intent_delete <id> –reason <text>
+[–hard] [–task T] [–yes]</p>
+<h3 id="lazy_kill"><code>lazy_kill</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Terminate running intent. Usage: lazy_kill <intent> [–task T]</p>
+<h3 id="lazy_llm"><code>lazy_llm</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>LLM chain: list|add <name> [model] [–priority N]|remove
+<name>|usage|health|context [N]|record [on|off]|raw [–limit N]|bind
+&lt;member…&gt; –task T|chain –task T|failover –task T. Usage: lazy_llm
+…</p>
+<h3 id="lazy_loop"><code>lazy_loop</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Run the single orchestrator: auto-invokes
+scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
+Usage: lazy_loop [–task T] [–rounds N] [–workers N] [–timeout S]
+[–view|–plain] [<goal>]</p>
+<h3 id="lazy_node"><code>lazy_node</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Full node detail. Usage: lazy_node <id> [–task T]</p>
+<h3 id="lazy_notify"><code>lazy_notify</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Notify channels: list|add &lt;log|webhook|file|slack|email&gt;
+<target> [–min S] [–to a] [–from f] [–user u] [–pass p] [–no-tls]|remove
+<n>|test [severity]. Usage: lazy_notify … [–task T]</p>
+<h3 id="lazy_overview"><code>lazy_overview</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Alias of lazy_graph. Usage: lazy_overview [–task T]</p>
+<h3 id="lazy_pause"><code>lazy_pause</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Pause task loops. Usage: lazy_pause [–task T]</p>
+<h3 id="lazy_payload_keys"><code>lazy_payload_keys</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Show worker tool defaults injected into every probe. Usage:
+lazy_payload_keys [tool]</p>
+<h3 id="lazy_planner"><code>lazy_planner</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Run one planner wakeup (emits 0..N intents). Usage: lazy_planner
+[–task T]</p>
+<h3 id="lazy_report"><code>lazy_report</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Export severity-ranked report. Usage: lazy_report [–task T] [–format
+md|json|csv] [–out PATH]</p>
+<h3 id="lazy_resume"><code>lazy_resume</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Resume paused task. Usage: lazy_resume [–task T]</p>
+<h3 id="lazy_retest"><code>lazy_retest</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Retest finding to reproduced/fixed/inconclusive. Usage: lazy_retest
+<finding_id> [–task T] [–note TEXT]</p>
+<h3 id="lazy_runtime"><code>lazy_runtime</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Show/set loop runtime: budgets, deadline, abort cause, heartbeat,
+settlement text. Usage: lazy_runtime show [–task T] | lazy_runtime
+budget <max_toolcalls> <max_findings> <timeout_s> [–task T] |
+lazy_runtime settle <agent> <reason> [–task T]</p>
+<h3 id="lazy_scheduler"><code>lazy_scheduler</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Scheduler state: show|run. Usage: lazy_scheduler … [–task T]</p>
+<h3 id="lazy_scope"><code>lazy_scope</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Scope: add <kind> <value> [reason] | list. Usage: lazy_scope … [–task
+T]</p>
+<h3 id="lazy_selfupdate"><code>lazy_selfupdate</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Self-update: check [–branch B]|apply [–yes] [–branch B]. Usage:
+lazy_selfupdate …</p>
+<h3 id="lazy_skill"><code>lazy_skill</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Skills: list|show <name>|preview|inject &lt;name…&gt;|clear|auto
+on|off. Usage: lazy_skill … [–task T]</p>
+<h3 id="lazy_status"><code>lazy_status</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Full task status. Usage: lazy_status [–task T]</p>
+<h3 id="lazy_steer"><code>lazy_steer</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Mid-run correction. Usage: lazy_steer <intent> <message> [–task
+T]</p>
+<h3 id="lazy_task"><code>lazy_task</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
+Usage: lazy_task create <goal> | lazy_task list | lazy_task
+show|pause|resume|delete [–task T] | lazy_task spawn <goal> –from
+t0001[,t0002] | lazy_task limit [N] | lazy_task queue | lazy_task
+drain</p>
+<h3 id="lazy_template"><code>lazy_template</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+Usage: lazy_template …</p>
+<h3 id="lazy_todo"><code>lazy_todo</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Serial chain todos: add <text> | done <id> | list. Usage: lazy_todo …
+[–task T]</p>
+<h3 id="lazy_tool"><code>lazy_tool</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add
+<name> &lt;command|script|http&gt; <target> [–desc D] [–method M] [–body
+B] [–timeout S] [–trigger http,https]|custom-list|custom-rm
+<name>|custom-run <name> [arg]. Usage: lazy_tool …</p>
+<h3 id="lazy_trace"><code>lazy_trace</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Worker trace exchange. Usage: lazy_trace list|search <q>|search-all
+<q>|get <intent>|steps <intent> [–q Q]|step <intent> <n> [–task T]</p>
+<h3 id="lazy_traffic"><code>lazy_traffic</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Traffic: list|search <q>|search-host <host> [–port P]|get
+<digest>|body <digest>|blob <digest> [–part req|resp] [–offset N]
+[–length N]|search-body <q>|templates|template <t>|bind <finding>
+<digest> [–role R] [–note N]|evidence <finding>|export
+<path>|archive|clear|start [–port P] [–upstream
+H:P]|stop|status|ca|trust|ingest|recorder-export <zip> [–task
+T]|recorder-import <zip>|recorder-inbox|recorder-gc [–days N]. Usage:
+lazy_traffic … [–task T] [–limit N]</p>
+<h3 id="lazy_trigger"><code>lazy_trigger</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Scheduler triggers: list|add <kind> [every_sec]|remove
+<id>|addons|sync. Usage: lazy_trigger … [–task T]</p>
+<h3 id="lazy_worker"><code>lazy_worker</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Claim ONE intent and execute it with real tools. Usage: lazy_worker
+[–task T] [–intent N]</p>
+<h3 id="lazy_workspace"><code>lazy_workspace</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Confined workspace files: list [path]|read <path>|write <path>
+<text>|mkdir <path>|rm <path>|path. Usage: lazy_workspace …</p>
 <h3 id="linux_advanced_payload"><code>linux_advanced_payload</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/payload_arsenal.py</code></p>
@@ -3410,6 +3761,10 @@ sessions).</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/payload_arsenal.py</code></p>
 <p>Apply polymorphic mutation to shellcode.</p>
+<h3 id="poolcheck"><code>poolcheck</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Prove the LLM failover pool order with one live prompt.</p>
 <h3 id="purple_config"><code>purple_config</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/purple_team.py</code></p>

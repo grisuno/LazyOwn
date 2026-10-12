@@ -10,7 +10,9 @@ from cli.assign import apply_assign as _apply_assign
 
 import glob
 import json
+import os
 import subprocess
+import sys
 import time
 
 import yaml
@@ -889,6 +891,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_warn("RHOST and LHOST must be specified.")
             return
 
+        if not (line or "").strip() or "/" not in line:
+            print_error("automsf needs a Metasploit module path "
+                        "(e.g. automsf exploit/windows/iis/iis_webdav_upload_asp)")
+            return
+
         rc_file_path = f"/tmp/{ultimo_elemento}.rc"
         with open(rc_file_path, "w") as file:
             file.write(f"""
@@ -899,7 +906,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             run
             """)
 
-        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+        try:
+            subprocess.run(["msfconsole", "-r", rc_file_path], check=True,
+                           stdin=subprocess.DEVNULL)
+        except Exception as exc:
+            print_error(f"msfconsole failed: {exc}")
 
         if os.path.exists(rc_file_path):
             os.remove(rc_file_path)

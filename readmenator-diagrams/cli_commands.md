@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 118 files (c, py) around parse_ip_mac, create_arp_packet, send_packet, load_version, parse_bool. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 137 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -33,37 +33,37 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (1.1)
+## cli (2.1)
 
-cli groups 54 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 60 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
-## contrib (1.2)
+## contrib (2.2)
 
 contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, launch_html, exploit_js.
 
-## core (1.3)
+## core (2.3)
 
-core groups 5 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Centralized security hardening utilities for the LazyOwn framework.
+core groups 6 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
 
-## modules (1.4)
+## modules (2.4)
 
-modules groups 24 files (c, py) around main, _classify, _classify_module_source, _extract_docstring_summary, ModuleInfo. Browser-in-the-Middle (BitM) attack engine.
+modules groups 30 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Beacon configuration builder — wires profile engines into beacon compile-time config.
 
-## root (1.5)
+## root (2.5)
 
-root groups 2 files (py) around parse_ip_mac, create_arp_packet, send_packet, load_version, parse_bool. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+root groups 2 files (py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## scripts (1.6)
+## scripts (2.6)
 
 scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, main. Smoke check for the public surfaces documented in CORE.md.
 
-## skills (1.7)
+## skills (2.7)
 
 skills groups 1 files (py) around list_tools, call_tool, main. LazyOwn MCP OpenCode bridge.
 
-## tests (1.8)
+## tests (2.8)
 
-tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
+tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
 
 **Files**:
 
@@ -76,6 +76,8 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/applocker_bypass.py
 - cli/commands/audit.py
 - cli/commands/bitm.py
+- cli/commands/bof_registry.py
+- cli/commands/c2_profile.py
 - cli/commands/campaign.py
 - cli/commands/catalog.py
 - cli/commands/cicd.py
@@ -84,7 +86,8 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/command_and_control_migrated.py
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
-- cli/commands/daemon_ctl.py
+- cli/commands/crystal_ball.py
+- cli/commands/defaults.py
 - cli/commands/demo.py
 - cli/commands/diagnostics.py
 - cli/commands/dns_exfil.py
@@ -116,23 +119,30 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/scan.py
 - cli/commands/scan_migrated.py
 - cli/commands/shellsys.py
+- cli/commands/sleep_obfuscation.py
+- cli/commands/socks_proxy.py
 - cli/commands/supply_chain.py
 - cli/confirm.py
 - cli/marketplace_config.py
 - cli/output_mode.py
 - cli/plugin_tiers.py
 - cli/registry.py
+- cli/scope_guard.py
 - contrib/legacy/lazygalazy.py
 - contrib/legacy/lazyhttpreverseshell.py
 - contrib/legacy/lazysmbrelay.py
+- core/defaults.py
 - core/hardening.py
 - core/host_policy.py
 - core/safe_import.py
 - core/safe_subprocess.py
 - core/validators.py
 - modules/backdoor/server.c
+- modules/beacon_config_builder.py
 - modules/bitm_engine.py
+- modules/bof_registry.py
 - modules/c2_builder.py
+- modules/c2_profile_engine.py
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
@@ -148,9 +158,12 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - modules/module_registry.py
 - modules/payload_factory.py
 - modules/phishing_orchestrator.py
+- modules/privesc_predictor.py
 - modules/professional_report.py
 - modules/resource_script.py
 - modules/session_cleanup.py
+- modules/sleep_obfuscation.py
+- modules/socks_proxy.py
 - modules/traffic_morpher.py
 - modules/websocket_beacon.py
 - modules/yara_scanner.py
@@ -158,6 +171,9 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - skills/lazyown_mcp_opencode.py
 - tests/test_api_key_resolution.py
 - tests/test_bdd_infra_range_report.py
+- tests/test_beacon_config_builder.py
+- tests/test_bof_registry.py
+- tests/test_c2_profile_engine.py
 - tests/test_campaign_import_safety.py
 - tests/test_categories.py
 - tests/test_cli_command_sets.py
@@ -178,10 +194,13 @@ tests groups 28 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - tests/test_resource_script.py
 - tests/test_safe_subprocess.py
 - tests/test_safe_subprocess_behavior.py
+- tests/test_scope_guard.py
 - tests/test_security_hardening.py
 - tests/test_security_hardening_v3.py
 - tests/test_security_hardening_v5.py
 - tests/test_session_ops_command_set.py
 - tests/test_shell_semantics.py
 - tests/test_shellsys_command_set.py
+- tests/test_sleep_obfuscation.py
+- tests/test_socks_proxy.py
 - utils.py

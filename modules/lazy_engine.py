@@ -7,9 +7,10 @@ names. Storage lives under ``sessions/lazy/``.
 from __future__ import annotations
 
 from modules.lazy_loop import (
+    TOOL_DEFAULTS,
     ActivityLog,
-    AssetGraph,
     AssetGate,
+    AssetGraph,
     Budget,
     ColdCompactor,
     CompanyScope,
@@ -26,25 +27,28 @@ from modules.lazy_loop import (
     Retester,
     RuntimeTracker,
     SideQuestions,
-    TaskStore,
-    TodoStore,
-    TrafficLog,
     TaskArchive,
-    TaskTemplate,
     TaskCategory,
     TaskChat,
+    TaskStore,
+    TaskTemplate,
+    TodoStore,
     ToolCatalog,
+    TrafficLog,
     TriggerStore,
-    TOOL_DEFAULTS,
     Worker,
+    build_prompt_context,
     constraint_block,
     decompose_goals,
     enrich_asset,
     extract_constraint_items,
     extract_scope_items,
     finding_severity,
-    resolve_target,
+    judge_command,
     load_intel_scores,
+    parse_judge_output,
+    resolve_target,
+    settlement_prompt,
 )
 
 
@@ -61,4 +65,6 @@ __all__ = ["LazyEngine", "LazyLoopEngine", "AssetGraph", "AssetGate", "Explorati
            "TaskArchive", "TaskTemplate", "TaskCategory", "TaskChat",
            "TOOL_DEFAULTS", "constraint_block", "decompose_goals",
            "enrich_asset", "extract_scope_items", "extract_constraint_items",
-           "finding_severity", "resolve_target", "load_intel_scores"]
+           "finding_severity", "resolve_target", "load_intel_scores",
+           "judge_command", "parse_judge_output", "settlement_prompt",
+           "build_prompt_context"]

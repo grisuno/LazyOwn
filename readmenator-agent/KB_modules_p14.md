@@ -1,0 +1,110 @@
+# Subsystem: modules (page 14 of 14)
+Previous: [KB_modules_p13.md](KB_modules_p13.md)
+
+## modules/world_model.py
+- Doc: modules/world_model.py
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `_derive_crypto_key` (function, line 58) `def _derive_crypto_key(password, salt)`
+  - `_master_password` (function, line 67) `def _master_password()`
+  - `read_state_dict` (function, line 72) `def read_state_dict(path)`
+  - `write_state_dict` (function, line 118) `def write_state_dict(path, data)`
+  - `HostState` (class, line 151) `class HostState(StrEnum)`
+  - `EngagementPhase` (class, line 167) `class EngagementPhase(StrEnum)`
+  - `ServiceInfo` (class, line 179) `class ServiceInfo`
+  - `CredentialEntry` (class, line 188) `class CredentialEntry`
+  - `VulnerabilityEntry` (class, line 197) `class VulnerabilityEntry`
+  - `EmailEntry` (class, line 206) `class EmailEntry`
+  - `DomainEntry` (class, line 214) `class DomainEntry`
+  - `NetworkRelation` (class, line 222) `class NetworkRelation`
+  - `NetworkGraph` (class, line 244) `class NetworkGraph`
+  - `HostEntry` (class, line 364) `class HostEntry`
+  - `_PhaseDeriver` (class, line 416) `class _PhaseDeriver`
+  - `WorldModel` (class, line 541) `class WorldModel`
+  - `get_world_model` (function, line 1126) `def get_world_model(path)`
+  - `rank` (method, line 160) `def rank(self)`
+  - `can_advance_to` (method, line 163) `def can_advance_to(self, next_state)`
+  - `__init__` (method, line 267) `def __init__(self)`
+  - `add_relation` (method, line 274) `def add_relation(self, relation)`
+  - `neighbors` (method, line 282) `def neighbors(self, node)`
+  - `in_degree` (method, line 286) `def in_degree(self, node)`
+  - `out_degree` (method, line 290) `def out_degree(self, node)`
+  - `degree_centrality` (method, line 294) `def degree_centrality(self)`
+  - `pivot_candidates` (method, line 309) `def pivot_candidates(self, top_k)`
+  - `to_dict` (method, line 331) `def to_dict(self)`
+  - `from_dict` (method, line 348) `def from_dict(cls, data)`
+  - `add_service` (method, line 373) `def add_service(self, svc)`
+  - `advance` (method, line 377) `def advance(self, new_state)`
+  - `to_dict` (method, line 385) `def to_dict(self)`
+  - `from_dict` (method, line 397) `def from_dict(cls, d)`
+  - `derive` (method, line 430) `def derive(self, hosts)`
+  - `__init__` (method, line 549) `def __init__(self, path)`
+  - `add_host` (method, line 565) `def add_host(self, ip)`
+  - `reset_host` (method, line 573) `def reset_host(self, ip)`
+  - `advance_host` (method, line 583) `def advance_host(self, ip, new_state)`
+  - `add_service` (method, line 592) `def add_service(self, ip, port, name, version, protocol)`
+  - `add_note` (method, line 609) `def add_note(self, ip, note)`
+  - `set_os_hint` (method, line 616) `def set_os_hint(self, ip, os_hint)`
+  - `get_host` (method, line 630) `def get_host(self, ip)`
+  - `get_hosts_summary` (method, line 642) `def get_hosts_summary(self)`
+  - `add_credential` (method, line 653) `def add_credential(self, value, host, service)`
+  - `link_credential_to_success` (method, line 685) `def link_credential_to_success(self, value, host)`
+  - `link_credential_to_failure` (method, line 706) `def link_credential_to_failure(self, value, host)`
+  - `add_vulnerability` (method, line 736) `def add_vulnerability(self, description, host, cve, severity)`
+  - `add_email` (method, line 742) `def add_email(self, address, host, context)`
+  - `add_domain` (method, line 748) `def add_domain(self, domain, host, context)`
+  - `update_from_findings` (method, line 762) `def update_from_findings(self, findings)`
+  - `consume_policy_facts` (method, line 835) `def consume_policy_facts(self, facts_path)`
+  - `add_relation` (method, line 927) `def add_relation(self, source, target, relation, weight)`
+  - `pivot_candidates` (method, line 948) `def pivot_candidates(self, top_k)`
+  - `graph_snapshot` (method, line 956) `def graph_snapshot(self)`
+  - `get_phase` (method, line 963) `def get_phase(self)`
+  - `get_suggested_tools` (method, line 967) `def get_suggested_tools(self)`
+  - `to_context_string` (method, line 970) `def to_context_string(self)`
+  - `_save` (method, line 1029) `def _save(self)`
+  - `_load` (method, line 1048) `def _load(self)`
+  - `reload` (method, line 1078) `def reload(self)`
+  - `reset` (method, line 1094) `def reset(self)`
+  - `snapshot` (method, line 1105) `def snapshot(self)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/exploit_recommender.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/integration_autonomous_flow.py`, `tests/test_autonomous_ops.py`, `tests/test_core_modules.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_moe_rl_swan.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+
+## modules/yaml_generator.py
+- Doc: load_payload: Carga las variables desde payload.json
+- Layer: utility
+- Language: py
+- Symbols:
+  - `YAMLPromptGenerator` (class, line 17) `class YAMLPromptGenerator`
+  - `main` (function, line 141) `def main()`
+  - `__init__` (method, line 18) `def __init__(self, provider, api_key)`
+  - `load_payload` (method, line 25) `def load_payload(self)`
+  - `_load_model` (method, line 32) `def _load_model(self)`
+  - `generate_prompt` (method, line 54) `def generate_prompt(self, user_request)`
+  - `extract_yaml_from_markdown` (method, line 100) `def extract_yaml_from_markdown(self, text)`
+  - `create_yaml_addon` (method, line 109) `def create_yaml_addon(self, user_request, output_dir)`
+- Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+
+## modules/yara_scanner.py
+- Doc: YARA integration for malware classification and IOC scanning.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `YaraScanner` (class, line 23) `class YaraScanner`
+  - `create_default_rules` (function, line 371) `def create_default_rules()`
+  - `__init__` (method, line 31) `def __init__(self, rules_dir, auto_compile)`
+  - `ensure_directory` (method, line 41) `def ensure_directory(self)`
+  - `_load_external_vars` (method, line 45) `def _load_external_vars(self)`
+  - `compile_all` (method, line 54) `def compile_all(self)`
+  - `scan_file` (method, line 98) `def scan_file(self, filepath, timeout)`
+  - `_scan_with_timeout` (method, line 129) `def _scan_with_timeout(self, filepath, externals, timeout)`
+  - `_format_match` (method, line 162) `def _format_match(self, match)`
+  - `scan_directory` (method, line 187) `def scan_directory(self, directory, recursive, extensions, max_files)`
+  - `_sha256` (method, line 250) `def _sha256(filepath)`
+  - `add_rule` (method, line 258) `def add_rule(self, name, content)`
+  - `list_rules` (method, line 277) `def list_rules(self)`
+  - `download_community_rules` (method, line 300) `def download_community_rules(self)`
+  - `ioc_scan` (method, line 328) `def ioc_scan(self, target_path, iocs)`
+  - `target` (function, line 137) `def target()`
+- Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
+

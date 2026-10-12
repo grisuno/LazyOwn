@@ -475,6 +475,56 @@ class LazyOwnDB:
             )
             return cur.lastrowid
 
+    def vuln_get(self, vuln_id: int) -> dict[str, Any] | None:
+        """Return one vuln row with its host address, or None."""
+        with self._cursor() as cur:
+            cur.execute(
+                """SELECT v.*, h.address FROM vulns v
+                   LEFT JOIN hosts h ON v.host_id = h.id
+                   WHERE v.id = ?""",
+                (int(vuln_id),),
+            )
+            row = cur.fetchone()
+            return dict(row) if row else None
+
+    def vuln_update(
+        self,
+        vuln_id: int,
+        refs: str | None = None,
+        severity: str | None = None,
+        description: str | None = None,
+    ) -> bool:
+        """Update mutable vuln fields; returns True when a row changed.
+
+        Args:
+            vuln_id: Vuln row id.
+            refs: Replacement refs string (status/evidence markers).
+            severity: Replacement severity label.
+            description: Replacement description text.
+
+        Returns:
+            True when the row existed and was updated.
+        """
+        fields: list[str] = []
+        values: list[Any] = []
+        if refs is not None:
+            fields.append("refs = ?")
+            values.append(str(refs))
+        if severity is not None:
+            fields.append("severity = ?")
+            values.append(str(severity))
+        if description is not None:
+            fields.append("description = ?")
+            values.append(str(description))
+        if not fields:
+            return False
+        with self._cursor() as cur:
+            cur.execute(
+                f"UPDATE vulns SET {', '.join(fields)} WHERE id = ?",
+                (*values, int(vuln_id)),
+            )
+            return cur.rowcount > 0
+
     def vuln_list(
         self,
         workspace_id: int,

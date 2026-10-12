@@ -1,5 +1,38 @@
-# Subsystem: modules (page 3 of 12)
+# Subsystem: modules (page 3 of 14)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/compliance.py
+- Doc: modules/compliance.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceEntry` (class, line 340) `class EvidenceEntry`
+  - `EvidenceChain` (class, line 349) `class EvidenceChain`
+  - `export_pdf` (function, line 449) `def export_pdf(report_md, output_path, title, classification)`
+  - `export_to_elastic_ndjson` (function, line 533) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
+  - `export_to_cef` (function, line 572) `def export_to_cef(findings, output_path, vendor, product, version)`
+  - `ComplianceFinding` (class, line 620) `class ComplianceFinding`
+  - `ComplianceEngine` (class, line 632) `class ComplianceEngine`
+  - `__init__` (method, line 357) `def __init__(self, sessions_dir)`
+  - `_load` (method, line 364) `def _load(self)`
+  - `_hash_entry` (method, line 379) `def _hash_entry(self, entry)`
+  - `add_file` (method, line 383) `def add_file(self, filepath, operator, description)`
+  - `_append_to_file` (method, line 403) `def _append_to_file(self, entry)`
+  - `verify` (method, line 410) `def verify(self)`
+  - `get_chain_digest` (method, line 429) `def get_chain_digest(self)`
+  - `to_report` (method, line 432) `def to_report(self)`
+  - `__init__` (method, line 635) `def __init__(self, sessions_dir)`
+  - `map_findings_to_compliance` (method, line 639) `def map_findings_to_compliance(self, findings, frameworks)`
+  - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
+  - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
+  - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
+  - `_load_findings` (method, line 779) `def _load_findings(self)`
+  - `export_pdf` (method, line 831) `def export_pdf(self, report, output_path)`
+  - `_format_compliance_report_md` (method, line 835) `def _format_compliance_report_md(self, report)`
+  - `add_evidence` (method, line 901) `def add_evidence(self, filepath, operator, description)`
+  - `verify_evidence_chain` (method, line 904) `def verify_evidence_chain(self)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`
 
 ## modules/conditional_hooks.py
 - Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
@@ -8,7 +41,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Symbols:
   - `HookRule` (class, line 45) `class HookRule`
   - `HookEngine` (class, line 258) `class HookEngine`
-  - `get_hook_engine` (method, line 586) `def get_hook_engine()`
+  - `get_hook_engine` (function, line 586) `def get_hook_engine()`
   - `can_fire` (method, line 56) `def can_fire(self, now)`
   - `mark_fired` (method, line 65) `def mark_fired(self)`
   - `to_dict` (method, line 69) `def to_dict(self)`
@@ -58,7 +91,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Symbols:
   - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
   - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
-  - `get_credential_reuse_engine` (method, line 358) `def get_credential_reuse_engine()`
+  - `get_credential_reuse_engine` (function, line 358) `def get_credential_reuse_engine()`
   - `to_dict` (method, line 43) `def to_dict(self)`
   - `__init__` (method, line 80) `def __init__(self)`
   - `_load_cache` (method, line 85) `def _load_cache(self)`
@@ -92,6 +125,25 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `summary` (method, line 258) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
 
+## modules/custom_tools.py
+- Doc: Operator-defined custom tools exposed to the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_store_file` (function, line 30) `def _store_file()`
+  - `_load` (function, line 37) `def _load()`
+  - `_save` (function, line 45) `def _save(payload)`
+  - `add_tool` (function, line 52) `def add_tool(name, kind, target, description, method, body, timeout, trigger)`
+  - `remove_tool` (function, line 97) `def remove_tool(name)`
+  - `list_tools` (function, line 109) `def list_tools()`
+  - `get_tool` (function, line 114) `def get_tool(name)`
+  - `_trigger_tokens` (function, line 122) `def _trigger_tokens(raw)`
+  - `match_tools` (function, line 128) `def match_tools(text, limit)`
+  - `run_tool` (function, line 151) `def run_tool(name, arg, on_output)`
+  - `_run_http` (function, line 179) `def _run_http(tool, arg, on_output)`
+- Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+
 ## modules/cve_matcher.py
 - Doc: modules/cve_matcher.py
 - Layer: utility
@@ -99,8 +151,8 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Symbols:
   - `CVEResult` (class, line 51) `class CVEResult`
   - `CVEMatcher` (class, line 60) `class CVEMatcher`
-  - `get_matcher` (method, line 198) `def get_matcher()`
-  - `search` (method, line 206) `def search(product, version, max_results)`
+  - `get_matcher` (function, line 198) `def get_matcher()`
+  - `search` (function, line 206) `def search(product, version, max_results)`
   - `__init__` (method, line 70) `def __init__(self, api_key, cache_dir)`
   - `search` (method, line 82) `def search(self)`
   - `search_by_cpe` (method, line 89) `def search_by_cpe(self, cpe_name, max_results)`
@@ -183,7 +235,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Language: py
 - Symbols:
   - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
-  - `get_db` (method, line 771) `def get_db(db_path)`
+  - `get_db` (function, line 821) `def get_db(db_path)`
   - `__init__` (method, line 159) `def __init__(self, db_path)`
   - `_get_conn` (method, line 171) `def _get_conn(self)`
   - `db_path` (method, line 182) `def db_path(self)`
@@ -206,17 +258,19 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
   - `service_list` (method, line 447) `def service_list(self, host_id)`
   - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
-  - `vuln_list` (method, line 478) `def vuln_list(self, workspace_id, severity)`
-  - `cred_add` (method, line 507) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
-  - `cred_list` (method, line 527) `def cred_list(self, workspace_id)`
-  - `loot_add` (method, line 546) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
-  - `loot_list` (method, line 565) `def loot_list(self, workspace_id)`
-  - `note_add` (method, line 581) `def note_add(self, workspace_id, data, note_type, host_id)`
-  - `note_list` (method, line 598) `def note_list(self, workspace_id)`
-  - `import_nmap_xml` (method, line 614) `def import_nmap_xml(self, workspace_id, xml_path)`
-  - `export_csv` (method, line 690) `def export_csv(self, table, workspace_id)`
-  - `status` (method, line 725) `def status(self, workspace_id)`
-  - `close` (method, line 754) `def close(self)`
+  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
+  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
+  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
+  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
+  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
+  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
+  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
+  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
+  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
+  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
+  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
+  - `status` (method, line 775) `def status(self, workspace_id)`
+  - `close` (method, line 804) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
 - Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
@@ -253,7 +307,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Symbols:
   - `FeedResult` (class, line 64) `class FeedResult`
   - `DetectionFeed` (class, line 73) `class DetectionFeed`
-  - `get_feed` (method, line 326) `def get_feed()`
+  - `get_feed` (function, line 326) `def get_feed()`
   - `__init__` (method, line 83) `def __init__(self, cache_dir, sources)`
   - `update_rules` (method, line 92) `def update_rules(self, source)`
   - `_parse_sigma_feed` (method, line 125) `def _parse_sigma_feed(self, text)`
@@ -276,7 +330,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `DetectionAssessment` (class, line 63) `class DetectionAssessment`
   - `IDetectionOracle` (class, line 90) `class IDetectionOracle(ABC)`
   - `DetectionOracle` (class, line 317) `class DetectionOracle(IDetectionOracle)`
-  - `get_oracle` (method, line 478) `def get_oracle()`
+  - `get_oracle` (function, line 478) `def get_oracle()`
   - `is_high_risk` (method, line 75) `def is_high_risk(self)`
   - `is_critical_risk` (method, line 80) `def is_critical_risk(self)`
   - `assess` (method, line 94) `def assess(self, command, args, action_category)`
@@ -290,7 +344,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_aggregate_probability` (method, line 427) `def _aggregate_probability(self, matched, action_category)`
   - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
 - Depends on: `core/logging.py`, `modules/detection_feed.py`
-- Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
 
 ## modules/dns_beacon.py
 - Doc: DNS Beacon — covert C2 channel via DNS tunneling.
@@ -434,22 +488,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `show_board` (function, line 40)
   - `move_white_pawns` (function, line 61)
   - `move_black_pawns` (function, line 78)
-
-## modules/engage_summary.py
-- Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `marker_lines` (function, line 35) `def marker_lines(text, limit)`
-  - `full_output` (function, line 51) `def full_output(step, sessions_dir)`
-  - `held_scan_ports` (function, line 64) `def held_scan_ports(target, sessions_dir)`
-  - `detail_for` (function, line 98) `def detail_for(tool, text, target, sessions_dir)`
-  - `next_actions` (function, line 150) `def next_actions(target, sessions_dir, limit)`
-  - `render_text` (function, line 175) `def render_text(engagement_id, target, shell, steps, sessions_dir)`
-  - `render_markdown` (function, line 210) `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)`
-  - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
-- Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
-- Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

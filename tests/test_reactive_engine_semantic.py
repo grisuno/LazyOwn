@@ -43,10 +43,11 @@ class _FakeRAG:
         return list(self._hits)
 
 
-def test_returns_empty_when_rag_unavailable() -> None:
+def test_returns_empty_when_rag_unavailable(monkeypatch) -> None:
     """No RAG instance means no semantic hints, never a crash."""
 
     advisor = SemanticContextAdvisor(rag=None)
+    monkeypatch.setattr(advisor, "_load_rag", lambda: None)
     decisions = advisor.suggest("nothing", command="ls")
     assert decisions == []
 

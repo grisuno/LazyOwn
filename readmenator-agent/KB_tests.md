@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 15)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md)
+# Subsystem: tests (page 1 of 16)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -10,8 +10,17 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_reset_world_model_singleton` (function, line 16) `def _reset_world_model_singleton()`
-- Depends on: `modules/world_model.py`
+  - `_isolated_llm_health` (function, line 16) `def _isolated_llm_health(tmp_path, monkeypatch)`
+  - `_fast_llm_connect_backoff` (function, line 46) `def _fast_llm_connect_backoff(monkeypatch)`
+  - `_reset_world_model_singleton` (function, line 62) `def _reset_world_model_singleton()`
+  - `_offline_llm_for_loop_tests` (function, line 72) `def _offline_llm_for_loop_tests(request, monkeypatch)`
+  - `_isolated_path` (function, line 32) `def _isolated_path()`
+  - `_offline` (function, line 89) `def _offline(model, prompt, max_tokens)`
+  - `_HealthyRegistry` (class, line 94) `class _HealthyRegistry`
+  - `healthy` (method, line 97) `def healthy(self, name)`
+  - `report_failure` (method, line 100) `def report_failure(self, name, reason)`
+  - `report_success` (method, line 103) `def report_success(self, name)`
+- Depends on: `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
 
 ## tests/integration_autonomous_flow.py
 - Doc: test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module...
@@ -265,10 +274,10 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `TestYamlRenderer` (class, line 263) `class TestYamlRenderer`
   - `TestAddonStore` (class, line 328) `class TestAddonStore`
   - `TestParseAddonForm` (class, line 460) `class TestParseAddonForm`
-  - `_build_test_app` (method, line 521) `def _build_test_app(tmp_path)`
-  - `_login` (method, line 581) `def _login(client)`
-  - `TestBlueprint` (class, line 587) `class TestBlueprint`
-  - `TestTemplateSanity` (class, line 801) `class TestTemplateSanity`
+  - `_build_test_app` (function, line 521) `def _build_test_app(tmp_path)`
+  - `_login` (function, line 585) `def _login(client)`
+  - `TestBlueprint` (class, line 591) `class TestBlueprint`
+  - `TestTemplateSanity` (class, line 805) `class TestTemplateSanity`
   - `test_name_pattern_rejects_traversal` (method, line 89) `def test_name_pattern_rejects_traversal(self)`
   - `test_patterns_accept_canonical_values` (method, line 96) `def test_patterns_accept_canonical_values(self)`
   - `test_os_options_cover_mitre_platforms` (method, line 105) `def test_os_options_cover_mitre_platforms(self)`
@@ -322,29 +331,29 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_unchecked_enabled_becomes_false` (method, line 505) `def test_unchecked_enabled_becomes_false(self)`
   - `test_missing_optional_fields_become_empty` (method, line 509) `def test_missing_optional_fields_become_empty(self)`
   - `test_single_trigger_string_becomes_list` (method, line 516) `def test_single_trigger_string_becomes_list(self)`
-  - `_FakeOperator` (class, line 566) `class _FakeOperator(UserMixin)`
-  - `_load_user` (method, line 573) `def _load_user(user_id)`
-  - `test_unauthenticated_access_redirects_to_login` (method, line 590) `def test_unauthenticated_access_redirects_to_login(self, tmp_path)`
-  - `test_create_form_issues_csrf_cookie` (method, line 598) `def test_create_form_issues_csrf_cookie(self, tmp_path)`
-  - `test_post_without_csrf_is_rejected` (method, line 608) `def test_post_without_csrf_is_rejected(self, tmp_path)`
-  - `test_delete_without_csrf_is_rejected` (method, line 615) `def test_delete_without_csrf_is_rejected(self, tmp_path)`
-  - `_form_data` (method, line 622) `def _form_data(self)`
-  - `_csrf_token` (method, line 646) `def _csrf_token(self, client)`
-  - `test_valid_post_creates_addon_and_redirects` (method, line 656) `def test_valid_post_creates_addon_and_redirects(self, tmp_path)`
-  - `test_invalid_post_rerenders_with_field_errors` (method, line 669) `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)`
-  - `test_duplicate_name_rerenders_with_error` (method, line 681) `def test_duplicate_name_rerenders_with_error(self, tmp_path)`
-  - `test_view_page_renders_yaml` (method, line 694) `def test_view_page_renders_yaml(self, tmp_path)`
-  - `test_list_page_shows_created_addon` (method, line 706) `def test_list_page_shows_created_addon(self, tmp_path)`
-  - `test_delete_removes_addon` (method, line 718) `def test_delete_removes_addon(self, tmp_path)`
-  - `test_delete_unknown_addon_flashes_and_redirects` (method, line 730) `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)`
-  - `test_view_unknown_addon_redirects_to_list` (method, line 740) `def test_view_unknown_addon_redirects_to_list(self, tmp_path)`
-  - `test_view_legacy_uppercase_addon_renders` (method, line 747) `def test_view_legacy_uppercase_addon_renders(self, tmp_path)`
-  - `test_list_page_links_by_filename_for_legacy_names` (method, line 760) `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)`
-  - `test_delete_legacy_uppercase_addon` (method, line 770) `def test_delete_legacy_uppercase_addon(self, tmp_path)`
-  - `test_rendered_addon_passes_cli_schema_contract` (method, line 782) `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)`
-  - `test_creator_template_has_help_affordances` (method, line 804) `def test_creator_template_has_help_affordances(self)`
-  - `test_creator_template_forbids_emojis_and_console_spam` (method, line 812) `def test_creator_template_forbids_emojis_and_console_spam(self)`
-  - `test_tools_creator_template_has_no_broken_js` (method, line 817) `def test_tools_creator_template_has_no_broken_js(self)`
+  - `_FakeOperator` (class, line 570) `class _FakeOperator(UserMixin)`
+  - `_load_user` (function, line 577) `def _load_user(user_id)`
+  - `test_unauthenticated_access_redirects_to_login` (method, line 594) `def test_unauthenticated_access_redirects_to_login(self, tmp_path)`
+  - `test_create_form_issues_csrf_cookie` (method, line 602) `def test_create_form_issues_csrf_cookie(self, tmp_path)`
+  - `test_post_without_csrf_is_rejected` (method, line 612) `def test_post_without_csrf_is_rejected(self, tmp_path)`
+  - `test_delete_without_csrf_is_rejected` (method, line 619) `def test_delete_without_csrf_is_rejected(self, tmp_path)`
+  - `_form_data` (method, line 626) `def _form_data(self)`
+  - `_csrf_token` (method, line 650) `def _csrf_token(self, client)`
+  - `test_valid_post_creates_addon_and_redirects` (method, line 660) `def test_valid_post_creates_addon_and_redirects(self, tmp_path)`
+  - `test_invalid_post_rerenders_with_field_errors` (method, line 673) `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)`
+  - `test_duplicate_name_rerenders_with_error` (method, line 685) `def test_duplicate_name_rerenders_with_error(self, tmp_path)`
+  - `test_view_page_renders_yaml` (method, line 698) `def test_view_page_renders_yaml(self, tmp_path)`
+  - `test_list_page_shows_created_addon` (method, line 710) `def test_list_page_shows_created_addon(self, tmp_path)`
+  - `test_delete_removes_addon` (method, line 722) `def test_delete_removes_addon(self, tmp_path)`
+  - `test_delete_unknown_addon_flashes_and_redirects` (method, line 734) `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)`
+  - `test_view_unknown_addon_redirects_to_list` (method, line 744) `def test_view_unknown_addon_redirects_to_list(self, tmp_path)`
+  - `test_view_legacy_uppercase_addon_renders` (method, line 751) `def test_view_legacy_uppercase_addon_renders(self, tmp_path)`
+  - `test_list_page_links_by_filename_for_legacy_names` (method, line 764) `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)`
+  - `test_delete_legacy_uppercase_addon` (method, line 774) `def test_delete_legacy_uppercase_addon(self, tmp_path)`
+  - `test_rendered_addon_passes_cli_schema_contract` (method, line 786) `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)`
+  - `test_creator_template_has_help_affordances` (method, line 808) `def test_creator_template_has_help_affordances(self)`
+  - `test_creator_template_forbids_emojis_and_console_spam` (method, line 816) `def test_creator_template_forbids_emojis_and_console_spam(self)`
+  - `test_tools_creator_template_has_no_broken_js` (method, line 821) `def test_tools_creator_template_has_no_broken_js(self)`
 - Depends on: `lazyc2/addon_creator.py`, `lazyc2/blueprints/addons.py`
 
 ## tests/test_aes_key_propagation.py
@@ -381,9 +390,9 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_success_completes_oneliner_and_prints` (method, line 66) `def test_success_completes_oneliner_and_prints(self, monkeypatch)`
   - `test_completion_failure_prints_error` (method, line 90) `def test_completion_failure_prints_error(self, monkeypatch)`
   - `test_empty_line_falls_back_to_shell_prompt` (method, line 103) `def test_empty_line_falls_back_to_shell_prompt(self, monkeypatch)`
-  - `_raise` (method, line 57) `def _raise()`
+  - `_raise` (function, line 57) `def _raise()`
   - `_Backend` (class, line 71) `class _Backend`
-  - `_factory` (method, line 77) `def _factory()`
+  - `_factory` (function, line 77) `def _factory()`
   - `_Backend` (class, line 93) `class _Backend`
   - `_Backend` (class, line 106) `class _Backend`
   - `complete` (method, line 72) `def complete(self, system, user)`
@@ -441,9 +450,9 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_constant_time_comparison_rejects_wrong_secrets` (method, line 435) `def test_constant_time_comparison_rejects_wrong_secrets(self)`
   - `test_generates_50_unique_tokens_without_collision` (method, line 444) `def test_generates_50_unique_tokens_without_collision(self)`
   - `test_atomic_write_leaves_no_tmp_files` (method, line 450) `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)`
-  - `secure` (method, line 313) `def secure()`
-  - `g_check` (method, line 318) `def g_check()`
-  - `admin_only` (method, line 328) `def admin_only()`
+  - `secure` (function, line 313) `def secure()`
+  - `g_check` (function, line 318) `def g_check()`
+  - `admin_only` (function, line 328) `def admin_only()`
 - Depends on: `core/api_authz.py`
 
 ## tests/test_api_key_resolution.py

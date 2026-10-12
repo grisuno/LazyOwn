@@ -20,7 +20,6 @@ from utils import (
     print_warn,
 )
 
-
 RETEST_TIMEOUT_S = 120
 
 
@@ -291,8 +290,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
         wid = self._active_workspace()
         if wid is None:
             return
-        row = next((v for v in db.vuln_list(wid)
-                    if str(v.get("id", "")) == finding_id), None)
+        row = next((v for v in db.vuln_list(wid) if str(v.get("id", "")) == finding_id), None)
         if row is None:
             print_error(f"Unknown finding: {finding_id}")
             return
@@ -318,6 +316,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
         retest = _open(db, finding_id)
         try:
             from skills.autonomous_daemon import _build_default_runner as _runner_factory
+
             runner = _runner_factory()
         except ImportError as exc:
             print_error(f"Isolated runner unavailable: {exc}")
@@ -336,8 +335,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 _os.environ["LAZYOWN_RETEST_SESSION"] = previous
         conclusion = _classify(str(row.get("name", "")), output)
         try:
-            done = _close(db, retest.retest_id, conclusion,
-                          evidence=output[-2000:])
+            done = _close(db, retest.retest_id, conclusion, evidence=output[-2000:])
         except (KeyError, ValueError) as exc:
             print_error(f"Retest resolve failed: {exc}")
             return

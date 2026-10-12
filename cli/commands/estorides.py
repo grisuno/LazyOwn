@@ -23,6 +23,7 @@ from modules.estorides_importer import (
     EstoridesStixParser,
     EstoridesToLazyOwnBridge,
     FeedbackLoop,
+    LanBundleReader,
     extract_seeds_from_db,
     extract_seeds_from_hosts_file,
     extract_seeds_from_scope,
@@ -194,10 +195,12 @@ class EstoridesCommandSet(LazyOwnCommandSet):
         Import sources:
             case        - Read from estorides case store (SQLite)
             stix        - Parse STIX 2.1 bundles from estorides data/
+            lan         - Read Estorides LAN bundle (data/lan_output or
+                          sessions/lan_inventory.json) into DB + scope
             all         - All available sources (default)
 
         Options:
-            --from <s>      Source to import from (case, stix, all)
+            --from <s>      Source to import from (case, stix, lan, all)
             --case-id <id>  Import a specific case by ID
             --no-scope      Do not add discovered assets to payload.json scope
             --no-db         Do not add discovered assets to lazyown.db
@@ -262,6 +265,21 @@ class EstoridesCommandSet(LazyOwnCommandSet):
                     print_msg(f"  STIX {etype}: {len(values)} unique")
             else:
                 print_warn("No STIX bundles found. Run 'estorides stix --out data/...' first.")
+
+        if source in ("all", "lan"):
+            lan_reader = LanBundleReader()
+            if lan_reader.available:
+                entities = lan_reader.parse()
+                all_entities.extend(entities)
+                print_msg(
+                    f"  LAN devices: {len(lan_reader.read_devices())}, "
+                    f"attack targets: {len(lan_reader.attack_targets())}"
+                )
+            else:
+                print_warn(
+                    "No LAN bundle found. Copy estorides data/lan_output/lan_*.json "
+                    "into sessions/ (or set ESTORIDES_DIR) and retry."
+                )
 
         if not all_entities:
             print_warn("No entities found to import.")

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import json
-
 import pytest
 
 from modules.lazy_engine import LazyEngine
@@ -94,3 +92,22 @@ def test_lazy_alias_surface():
     for expected in ("do_lazy_task", "do_lazy_scope", "do_lazy_asset", "do_lazy_loop",
                      "do_lazy_planner", "do_lazy_worker", "do_lazy_goal", "do_lazy_report"):
         assert expected in commands
+
+
+def test_delete_task_sweeps_only_its_store_files(engine, tmp_path):
+    """BDD: deleting a task removes its files and leaves siblings intact."""
+    first = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
+    second = engine.create_task("gain initial access on 127.0.0.2")["task_id"]
+    result = engine.delete_task(first)
+    assert result["deleted"] is True
+    assert result["removed"]
+    assert engine.store.get(first) is None
+    assert engine.store.get(second) is not None
+    names = {p.name for p in tmp_path.iterdir() if p.is_file()}
+    assert not any(name.startswith(f"exp_{first}.") or f"_{first}." in name for name in names)
+    assert any(second in name for name in names)
+
+
+def test_delete_task_unknown_returns_empty(engine):
+    """BDD: deleting an unknown task is a no-op, not an error."""
+    assert engine.delete_task("t9999") == {"deleted": False, "removed": []}

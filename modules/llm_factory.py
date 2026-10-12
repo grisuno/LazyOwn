@@ -23,7 +23,7 @@ from __future__ import annotations
 import json
 import os
 import sys
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from typing import Any
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -99,6 +99,67 @@ CONFIG_KEY_DEEPSEEK_API_KEY = "deepseek_api_key"
 
 DEFAULT_BACKEND = BACKEND_AUTO
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+
+ENV_GROQ_MODEL = "LAZYOWN_GROQ_MODEL"
+
+GROQ_MODEL_FALLBACKS: tuple[str, ...] = (
+    "llama-3.1-8b-instant",
+    "openai/gpt-oss-120b",
+    "gemma2-9b-it",
+)
+
+
+def is_model_missing_error(message: object) -> bool:
+    """Return True when an error text means the model id is unavailable.
+
+    Args:
+        message: Exception instance, error string, or API payload text.
+
+    Returns:
+        ``True`` for 404/model_not_found style replies from OpenAI-compatible
+        APIs, so callers can fail over to another model id.
+    """
+    text = str(message or "").lower()
+    return (
+        "model_not_found" in text
+        or "does not exist" in text
+        or "no such model" in text
+        or "unknown model" in text
+        or ("404" in text and "model" in text)
+    )
+
+
+def groq_model_chain(config: Mapping[str, Any] | None = None) -> tuple[str, ...]:
+    """Return the ordered Groq model ids to try, configured model first.
+
+    Resolution order per slot: ``LAZYOWN_GROQ_MODEL`` env var, the provided
+    config mapping, ``payload.json`` key ``llm_model_groq``, then the default.
+    Known-good fallbacks follow so an account without access to the default
+    model still gets a working backend.
+
+    Args:
+        config: Optional pre-loaded payload mapping.
+
+    Returns:
+        Tuple of unique, non-empty model ids in try order.
+    """
+    import os as _os
+
+    configured = _os.environ.get(ENV_GROQ_MODEL, "").strip()
+    if not configured and config:
+        configured = str(config.get(CONFIG_KEY_MODEL_GROQ) or "").strip()
+    if not configured:
+        try:
+            configured = str(load_payload().get(CONFIG_KEY_MODEL_GROQ) or "").strip()
+        except Exception:
+            configured = ""
+    chain: list[str] = []
+    for candidate in (configured or DEFAULT_GROQ_MODEL, *GROQ_MODEL_FALLBACKS):
+        if candidate and candidate not in chain:
+            chain.append(candidate)
+    return tuple(chain)
+
+
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"
@@ -345,7 +406,7 @@ def _build_groq(config: Mapping[str, Any]) -> AIModel:
             "Groq backend selected but no API key is configured. "
             f"Set '{CONFIG_KEY_API_KEY}' in payload.json or export {ENV_GROQ_API_KEY}."
         )
-    model_name = config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL
+    model_name = groq_model_chain(config)[0]
     return GroqModel(api_key=api_key, model=model_name)
 
 
@@ -626,6 +687,75 @@ def try_get_llm_backend(
         return None
 
 
+def stream_complete(
+    model: str,
+    prompt: str,
+    max_tokens: int = 800,
+    on_delta: Callable[[str], None] | None = None,
+) -> str:
+    """Completion that reports incremental deltas while it arrives.
+
+    Streams through the configured backend's ``stream_generate`` when the
+    provider supports it and silently falls back to :func:`complete` on
+    any error, so a backend without streaming never breaks a caller.
+
+    Args:
+        model: Model spec, same syntax as :func:`complete`.
+        prompt: Prompt text (truncated to 6000 chars like the pool path).
+        max_tokens: Upper bound hint for the provider.
+        on_delta: Optional callback invoked with each text fragment.
+
+    Returns:
+        The complete reply text.
+    """
+    if not (prompt or "").strip():
+        return ""
+    spec = (model or "auto").strip()
+    provider = "auto"
+    name: str | None = None
+    if ":" in spec:
+        head, tail = spec.split(":", 1)
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm"):
+            provider = head.strip().lower()
+            name = tail.strip() or None
+        else:
+            name = spec
+    else:
+        name = spec if spec.lower() != "auto" else None
+    if provider == "toposwarm":
+        return complete(model, prompt, max_tokens=max_tokens)
+    try:
+        backend = get_llm_backend(backend=provider)
+    except Exception:
+        return complete(model, prompt, max_tokens=max_tokens)
+    streamer = getattr(backend, "stream_generate", None)
+    if not callable(streamer):
+        return complete(model, prompt, max_tokens=max_tokens)
+    if name:
+        try:
+            backend.model = name
+        except Exception:
+            pass
+    parts: list[str] = []
+    try:
+        for chunk in streamer(prompt[:6000]):
+            text = str(chunk or "")
+            if not text:
+                continue
+            if text.startswith("Error ") or text.startswith("Error streaming"):
+                return complete(model, prompt, max_tokens=max_tokens)
+            parts.append(text)
+            if on_delta is not None:
+                try:
+                    on_delta(text)
+                except Exception:
+                    pass
+    except Exception:
+        return complete(model, prompt, max_tokens=max_tokens)
+    text = "".join(parts).strip()
+    return text or complete(model, prompt, max_tokens=max_tokens)
+
+
 def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     """Complete a prompt through one model spec; raise when unanswered.
 
@@ -663,8 +793,8 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
         name = spec if spec.lower() != "auto" else None
     if provider == "toposwarm":
         try:
-            from pathlib import Path as _Path
             import sys as _sys
+            from pathlib import Path as _Path
 
             _sys.path.insert(0, str(_Path(__file__).parent))
             from toposwarm_bridge import get_bridge as _get_bridge
@@ -672,8 +802,7 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
             bridge = _get_bridge()
             if not bridge.available:
                 raise RuntimeError("toposwarm bridge unavailable")
-            text = str(bridge.execute_via_orchestrator(
-                prompt[:6000], no_model=not bridge.model_loaded) or "")
+            text = str(bridge.execute_via_orchestrator(prompt[:6000], no_model=not bridge.model_loaded) or "")
             if not text.strip():
                 raise RuntimeError("toposwarm returned empty reply")
             return text
@@ -686,15 +815,13 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     except ImportError as exc:
         raise RuntimeError(f"llm client unavailable: {exc}") from exc
     try:
-        text = str(_Client().ask(prompt[:6000], provider=provider,
-                                 model=name, max_tokens=max_tokens) or "")
+        text = str(_Client().ask(prompt[:6000], provider=provider, model=name, max_tokens=max_tokens) or "")
     except TypeError:
-        text = str(_Client().ask(prompt[:6000], provider=provider,
-                                 model=name) or "")
+        text = str(_Client().ask(prompt[:6000], provider=provider, model=name) or "")
     if not text.strip():
         raise RuntimeError(f"{provider} leg returned empty reply")
     lowered = text.lower()
-    if ("all ai backends failed" in lowered or "no ai backend available" in lowered):
+    if "all ai backends failed" in lowered or "no ai backend available" in lowered:
         raise RuntimeError(f"{provider} leg unavailable")
     return text
 
@@ -721,6 +848,11 @@ __all__ = [
     "DEFAULT_BACKEND",
     "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
+    "ENV_GROQ_MODEL",
+    "GROQ_MODEL_FALLBACKS",
+    "groq_model_chain",
+    "is_model_missing_error",
+    "stream_complete",
     "DEFAULT_OLLAMA_HOST",
     "DEFAULT_OLLAMA_MODEL",
     "DEFAULT_OPENAI_MODEL",

@@ -1,4 +1,4 @@
-# API (page 2 of 21)
+# API (page 2 of 22)
 Previous: [API.md](API.md)
 
 ## cli/commands/daemon_ctl.py
@@ -14,19 +14,19 @@ Imported by: `tests/test_daemon_ctl_command_set.py`
 
 ## cli/commands/database.py
 Depends on: `cli/commands/_base.py`, `modules/db.py`, `modules/finding_lifecycle.py`, `skills/autonomous_daemon.py`, `utils.py`
-- `DatabaseCommandSet.do_db_init` (method) `cli/commands/database.py:58` `def do_db_init(self, line)` -- Initialize the database (creates schema if not exists).
-- `DatabaseCommandSet.do_db_workspace` (method) `cli/commands/database.py:76` `def do_db_workspace(self, line)` -- Manage workspaces (list, create, switch, delete).
-- `DatabaseCommandSet.do_db_hosts` (method) `cli/commands/database.py:125` `def do_db_hosts(self, line)` -- List or add hosts in the active workspace.
-- `DatabaseCommandSet.do_db_services` (method) `cli/commands/database.py:186` `def do_db_services(self, line)` -- List all services in the active workspace.
-- `DatabaseCommandSet.do_db_vulns` (method) `cli/commands/database.py:214` `def do_db_vulns(self, line)` -- List or add vulnerabilities.
-- `DatabaseCommandSet.do_retest` (method) `cli/commands/database.py:268` `def do_retest(self, line)` -- Re-verify a finding in an isolated session (LAZY retester).
-- `DatabaseCommandSet.do_db_creds` (method) `cli/commands/database.py:351` `def do_db_creds(self, line)` -- List or add credentials.
-- `DatabaseCommandSet.do_db_loot` (method) `cli/commands/database.py:395` `def do_db_loot(self, line)` -- List or add loot items.
-- `DatabaseCommandSet.do_db_notes` (method) `cli/commands/database.py:435` `def do_db_notes(self, line)` -- List or add notes.
-- `DatabaseCommandSet.do_db_import` (method) `cli/commands/database.py:473` `def do_db_import(self, line)` -- Import scan results into the database.
-- `DatabaseCommandSet.do_db_export` (method) `cli/commands/database.py:511` `def do_db_export(self, line)` -- Export database table to CSV.
-- `DatabaseCommandSet.do_db_status` (method) `cli/commands/database.py:545` `def do_db_status(self, line)` -- Show entity counts for the active workspace.
-- `DatabaseCommandSet.shlex_split` (method) `cli/commands/database.py:562` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
+- `DatabaseCommandSet.do_db_init` (method) `cli/commands/database.py:57` `def do_db_init(self, line)` -- Initialize the database (creates schema if not exists).
+- `DatabaseCommandSet.do_db_workspace` (method) `cli/commands/database.py:75` `def do_db_workspace(self, line)` -- Manage workspaces (list, create, switch, delete).
+- `DatabaseCommandSet.do_db_hosts` (method) `cli/commands/database.py:124` `def do_db_hosts(self, line)` -- List or add hosts in the active workspace.
+- `DatabaseCommandSet.do_db_services` (method) `cli/commands/database.py:185` `def do_db_services(self, line)` -- List all services in the active workspace.
+- `DatabaseCommandSet.do_db_vulns` (method) `cli/commands/database.py:213` `def do_db_vulns(self, line)` -- List or add vulnerabilities.
+- `DatabaseCommandSet.do_retest` (method) `cli/commands/database.py:267` `def do_retest(self, line)` -- Re-verify a finding in an isolated session (LAZY retester).
+- `DatabaseCommandSet.do_db_creds` (method) `cli/commands/database.py:349` `def do_db_creds(self, line)` -- List or add credentials.
+- `DatabaseCommandSet.do_db_loot` (method) `cli/commands/database.py:393` `def do_db_loot(self, line)` -- List or add loot items.
+- `DatabaseCommandSet.do_db_notes` (method) `cli/commands/database.py:433` `def do_db_notes(self, line)` -- List or add notes.
+- `DatabaseCommandSet.do_db_import` (method) `cli/commands/database.py:471` `def do_db_import(self, line)` -- Import scan results into the database.
+- `DatabaseCommandSet.do_db_export` (method) `cli/commands/database.py:509` `def do_db_export(self, line)` -- Export database table to CSV.
+- `DatabaseCommandSet.do_db_status` (method) `cli/commands/database.py:543` `def do_db_status(self, line)` -- Show entity counts for the active workspace.
+- `shlex_split` (function) `cli/commands/database.py:560` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
 
 ## cli/commands/defaults.py
 Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/defaults.py`, `utils.py`
@@ -75,8 +75,8 @@ Imported by: `tests/test_encoding_command_set.py`
 - `EncodingCommandSet.do_rot` (method) `cli/commands/encoding.py:173` `def do_rot(self, line)` -- Apply a ROT (rotation) substitution cipher to the given string.
 - `EncodingCommandSet.do_rotf` (method) `cli/commands/encoding.py:213` `def do_rotf(self, line)` -- Apply a ROT (rotation) substitution cipher to the given extension.
 - `EncodingCommandSet.do_encoderpayload` (method) `cli/commands/encoding.py:259` `def do_encoderpayload(self, line)` -- Applies various obfuscations to a given command line string to create multiple obfuscated versions.
-- `EncodingCommandSet.double_base64_encode` (method) `cli/commands/encoding.py:281` `def double_base64_encode(cmd)` -- Perform double Base64 encoding on the given command.
-- `EncodingCommandSet.apply_obfuscations` (method) `cli/commands/encoding.py:309` `def apply_obfuscations(cmd)` -- Generate a list of obfuscated commands based on the given input command.
+- `double_base64_encode` (function) `cli/commands/encoding.py:281` `def double_base64_encode(cmd)` -- Perform double Base64 encoding on the given command.
+- `apply_obfuscations` (function) `cli/commands/encoding.py:309` `def apply_obfuscations(cmd)` -- Generate a list of obfuscated commands based on the given input command.
 - `EncodingCommandSet.do_base64encode` (method) `cli/commands/encoding.py:361` `def do_base64encode(self, line)` -- Encodes a given string into Base64 format.
 - `EncodingCommandSet.do_base64decode` (method) `cli/commands/encoding.py:389` `def do_base64decode(self, line)` -- Decodes a Base64 encoded string.
 - `EncodingCommandSet.do_encodewinbase64` (method) `cli/commands/encoding.py:420` `def do_encodewinbase64(self, line)` -- Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.
@@ -99,10 +99,10 @@ Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.
 
 ## cli/commands/estorides.py
 Depends on: `cli/commands/_base.py`, `modules/estorides_importer.py`, `utils.py`
-- `EstoridesCommandSet.do_estorides_seed` (method) `cli/commands/estorides.py:72` `def do_estorides_seed(self, line)` -- Feed LazyOwn hosts/domains into Estorides for passive OSINT discovery.
-- `EstoridesCommandSet.do_estorides_import` (method) `cli/commands/estorides.py:188` `def do_estorides_import(self, line)` -- Import Estorides-discovered entities into LazyOwn database and scope.
-- `EstoridesCommandSet.do_estorides_loop` (method) `cli/commands/estorides.py:319` `def do_estorides_loop(self, line)` -- Run the bidirectional Estorides <-> LazyOwn feedback loop.
-- `EstoridesCommandSet.do_estorides_surface` (method) `cli/commands/estorides.py:423` `def do_estorides_surface(self, line)` -- Show the combined active + passive attack surface.
+- `EstoridesCommandSet.do_estorides_seed` (method) `cli/commands/estorides.py:73` `def do_estorides_seed(self, line)` -- Feed LazyOwn hosts/domains into Estorides for passive OSINT discovery.
+- `EstoridesCommandSet.do_estorides_import` (method) `cli/commands/estorides.py:189` `def do_estorides_import(self, line)` -- Import Estorides-discovered entities into LazyOwn database and scope.
+- `EstoridesCommandSet.do_estorides_loop` (method) `cli/commands/estorides.py:337` `def do_estorides_loop(self, line)` -- Run the bidirectional Estorides <-> LazyOwn feedback loop.
+- `EstoridesCommandSet.do_estorides_surface` (method) `cli/commands/estorides.py:441` `def do_estorides_surface(self, line)` -- Show the combined active + passive attack surface.
 
 ## cli/commands/evasive_payload.py
 Depends on: `cli/commands/_base.py`, `modules/evasion_engine.py`, `modules/evasive_payloads.py`, `utils.py`
@@ -156,58 +156,59 @@ Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 - `ExploitCommandSet.do_www` (method) `cli/commands/exploit.py:192` `def do_www(self, line)` -- Starts a simple HTTP server on the configured port to serve payloads.
 
 ## cli/commands/exploit_migrated.py
-Depends on: `cli/commands/_base.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
-- `ExploitMigratedCommandSet.do_cp` (method) `cli/commands/exploit_migrated.py:42` `def do_cp(self, line)` -- Copies a file from the ExploitDB directory to the sessions directory.
-- `ExploitMigratedCommandSet.do_createcookie` (method) `cli/commands/exploit_migrated.py:83` `def do_createcookie(self, line)` -- Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
-- `ExploitMigratedCommandSet.do_py3ttyup` (method) `cli/commands/exploit_migrated.py:127` `def do_py3ttyup(self, line)` -- Copies a Python reverse shell command to the clipboard.
-- `ExploitMigratedCommandSet.do_pyautomate` (method) `cli/commands/exploit_migrated.py:163` `def do_pyautomate(self, line)` -- Automates the execution of pwntomate tools on XML configuration files.
-- `ExploitMigratedCommandSet.do_winbase64payload` (method) `cli/commands/exploit_migrated.py:204` `def do_winbase64payload(self, line)` -- Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using...
-- `ExploitMigratedCommandSet.do_createdll` (method) `cli/commands/exploit_migrated.py:333` `def do_createdll(self, line)` -- Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
-- `ExploitMigratedCommandSet.do_seo` (method) `cli/commands/exploit_migrated.py:391` `def do_seo(self, line)` -- Performs a web seo fingerprinting scan using `lazyseo.py`.
-- `ExploitMigratedCommandSet.do_padbuster` (method) `cli/commands/exploit_migrated.py:426` `def do_padbuster(self, line)` -- Execute the PadBuster command for padding oracle attacks.
-- `ExploitMigratedCommandSet.do_cacti_exploit` (method) `cli/commands/exploit_migrated.py:472` `def do_cacti_exploit(self, line)` -- Automates the exploitation of the Cacti version 1.2.26 vulnerability using the multi/http/cacti_package_import_rce...
-- `ExploitMigratedCommandSet.setup_handler` (method) `cli/commands/exploit_migrated.py:502` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler exploit configuration in the provided config file.
-- `ExploitMigratedCommandSet.cacti_exploit` (method) `cli/commands/exploit_migrated.py:525` `def cacti_exploit(config_file, host)` -- Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provided config file.
-- `ExploitMigratedCommandSet.do_shellshock` (method) `cli/commands/exploit_migrated.py:557` `def do_shellshock(self, line)` -- Executes a Shellshock attack against a target.
-- `ExploitMigratedCommandSet.do_powerserver` (method) `cli/commands/exploit_migrated.py:619` `def do_powerserver(self, line)` -- This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.
-- `ExploitMigratedCommandSet.do_sqli` (method) `cli/commands/exploit_migrated.py:682` `def do_sqli(self, line)` -- Asks the user for the URL, database, table, and columns, and then executes the Python script 'modules/lazybsqli.py'...
-- `ExploitMigratedCommandSet.do_sharpshooter` (method) `cli/commands/exploit_migrated.py:713` `def do_sharpshooter(self, line)` -- Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
-- `ExploitMigratedCommandSet.do_shellfire` (method) `cli/commands/exploit_migrated.py:757` `def do_shellfire(self, line)` -- Runs Shellfire with various options and allows generating payloads.
-- `ExploitMigratedCommandSet.do_downloader` (method) `cli/commands/exploit_migrated.py:881` `def do_downloader(self, line)` -- Generate a downloader command for files in the sessions directory.
-- `ExploitMigratedCommandSet.do_eternal` (method) `cli/commands/exploit_migrated.py:961` `def do_eternal(self, line)` -- Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
-- `ExploitMigratedCommandSet.do_rejetto_hfs_exec` (method) `cli/commands/exploit_migrated.py:1005` `def do_rejetto_hfs_exec(self, line)` -- HttpFileServer version 2.3.
-- `ExploitMigratedCommandSet.do_ms08_067_netapi` (method) `cli/commands/exploit_migrated.py:1042` `def do_ms08_067_netapi(self, line)` -- SMB CVE-2008-4250.
-- `ExploitMigratedCommandSet.do_xss` (method) `cli/commands/exploit_migrated.py:1079` `def do_xss(self, line)` -- Executes the XSS (Cross-Site Scripting) vulnerability testing procedure using user-defined parameters and...
-- `ExploitMigratedCommandSet.do_template_helper_serializer` (method) `cli/commands/exploit_migrated.py:1124` `def do_template_helper_serializer(self, line)` -- Handles the creation and serialization of a template helper.
-- `ExploitMigratedCommandSet.do_xsstrike` (method) `cli/commands/exploit_migrated.py:1168` `def do_xsstrike(self, line)` -- Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
-- `ExploitMigratedCommandSet.do_sireprat` (method) `cli/commands/exploit_migrated.py:1236` `def do_sireprat(self, line)` -- Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
-- `ExploitMigratedCommandSet.do_upload_bypass` (method) `cli/commands/exploit_migrated.py:1348` `def do_upload_bypass(self, line)` -- Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass...
-- `ExploitMigratedCommandSet.do_pywhisker` (method) `cli/commands/exploit_migrated.py:1409` `def do_pywhisker(self, line)` -- Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.
-- `ExploitMigratedCommandSet.do_owneredit` (method) `cli/commands/exploit_migrated.py:1459` `def do_owneredit(self, line)` -- Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
-- `ExploitMigratedCommandSet.do_gettgtpkinit_py` (method) `cli/commands/exploit_migrated.py:1505` `def do_gettgtpkinit_py(self, line)` -- Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.
-- `ExploitMigratedCommandSet.do_gets4uticket_py` (method) `cli/commands/exploit_migrated.py:1556` `def do_gets4uticket_py(self, line)` -- Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.
-- `ExploitMigratedCommandSet.do_aclpwn_py` (method) `cli/commands/exploit_migrated.py:1603` `def do_aclpwn_py(self, line)` -- Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.
-- `ExploitMigratedCommandSet.do_addspn_py` (method) `cli/commands/exploit_migrated.py:1651` `def do_addspn_py(self, line)` -- Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.
-- `ExploitMigratedCommandSet.do_printerbug_py` (method) `cli/commands/exploit_migrated.py:1695` `def do_printerbug_py(self, line)` -- Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.
-- `ExploitMigratedCommandSet.do_krbrelayx_py` (method) `cli/commands/exploit_migrated.py:1749` `def do_krbrelayx_py(self, line)` -- Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.
-- `ExploitMigratedCommandSet.do_autoblody` (method) `cli/commands/exploit_migrated.py:1794` `def do_autoblody(self, line)` -- Executes the autobloody tool for automating Active Directory privilege escalation paths.
-- `ExploitMigratedCommandSet.do_unicode_WAFbypass` (method) `cli/commands/exploit_migrated.py:1849` `def do_unicode_WAFbypass(self, line)` -- We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the following...
-- `ExploitMigratedCommandSet.do_sqli_mssql_test` (method) `cli/commands/exploit_migrated.py:1904` `def do_sqli_mssql_test(self, line)` -- Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
-- `ExploitMigratedCommandSet.do_pyoracle2` (method) `cli/commands/exploit_migrated.py:1942` `def do_pyoracle2(self, line)` -- Executes the pyOracle2 tool for performing padding oracle attacks.
-- `ExploitMigratedCommandSet.do_lfi` (method) `cli/commands/exploit_migrated.py:2024` `def do_lfi(self, line)` -- Exploits a potential Local File Inclusion (LFI) vulnerability by crafting and sending HTTP GET requests to a...
-- `ExploitMigratedCommandSet.do_greatSCT` (method) `cli/commands/exploit_migrated.py:2066` `def do_greatSCT(self, line)` -- Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.
-- `ExploitMigratedCommandSet.do_sqsh` (method) `cli/commands/exploit_migrated.py:2111` `def do_sqsh(self, line)` -- Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.
-- `ExploitMigratedCommandSet.do_jwt_tool` (method) `cli/commands/exploit_migrated.py:2156` `def do_jwt_tool(self, line)` -- Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).
-- `ExploitMigratedCommandSet.do_filtering` (method) `cli/commands/exploit_migrated.py:2200` `def do_filtering(self, line)` -- Applies various filtering techniques to the given command line by modifying each character or word appropriately.
-- `ExploitMigratedCommandSet.do_lol` (method) `cli/commands/exploit_migrated.py:2226` `def do_lol(self, line)` -- Exploits a target by injecting a malicious payload and collecting admin information.
-- `ExploitMigratedCommandSet.do_utf` (method) `cli/commands/exploit_migrated.py:2311` `def do_utf(self, line)` -- Encode a given payload into UTF-16 escape sequences.
-- `ExploitMigratedCommandSet.do_digdug` (method) `cli/commands/exploit_migrated.py:2355` `def do_digdug(self, line)` -- Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings and interactive input...
-- `ExploitMigratedCommandSet.do_sshexploit` (method) `cli/commands/exploit_migrated.py:2413` `def do_sshexploit(self, line)` -- Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
-- `ExploitMigratedCommandSet.do_excelntdonut` (method) `cli/commands/exploit_migrated.py:2482` `def do_excelntdonut(self, line)` -- Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
-- `ExploitMigratedCommandSet.do_ntpdate` (method) `cli/commands/exploit_migrated.py:2538` `def do_ntpdate(self, line)` -- Synchronizes the system clock with a specified NTP server.
-- `ExploitMigratedCommandSet.do_adcs_check` (method) `cli/commands/exploit_migrated.py:2562` `def do_adcs_check(self, line)` -- Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
-- `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2621` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
-- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2718` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
+Depends on: `cli/commands/_base.py`, `core/autonomous.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
+Imported by: `tests/test_lazy_runner.py`
+- `ExploitMigratedCommandSet.do_cp` (method) `cli/commands/exploit_migrated.py:43` `def do_cp(self, line)` -- Copies a file from the ExploitDB directory to the sessions directory.
+- `ExploitMigratedCommandSet.do_createcookie` (method) `cli/commands/exploit_migrated.py:84` `def do_createcookie(self, line)` -- Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
+- `ExploitMigratedCommandSet.do_py3ttyup` (method) `cli/commands/exploit_migrated.py:128` `def do_py3ttyup(self, line)` -- Copies a Python reverse shell command to the clipboard.
+- `ExploitMigratedCommandSet.do_pyautomate` (method) `cli/commands/exploit_migrated.py:164` `def do_pyautomate(self, line)` -- Automates the execution of pwntomate tools on XML configuration files.
+- `ExploitMigratedCommandSet.do_winbase64payload` (method) `cli/commands/exploit_migrated.py:215` `def do_winbase64payload(self, line)` -- Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using...
+- `ExploitMigratedCommandSet.do_createdll` (method) `cli/commands/exploit_migrated.py:344` `def do_createdll(self, line)` -- Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
+- `ExploitMigratedCommandSet.do_seo` (method) `cli/commands/exploit_migrated.py:402` `def do_seo(self, line)` -- Performs a web seo fingerprinting scan using `lazyseo.py`.
+- `ExploitMigratedCommandSet.do_padbuster` (method) `cli/commands/exploit_migrated.py:437` `def do_padbuster(self, line)` -- Execute the PadBuster command for padding oracle attacks.
+- `ExploitMigratedCommandSet.do_cacti_exploit` (method) `cli/commands/exploit_migrated.py:483` `def do_cacti_exploit(self, line)` -- Automates the exploitation of the Cacti version 1.2.26 vulnerability using the multi/http/cacti_package_import_rce...
+- `setup_handler` (function) `cli/commands/exploit_migrated.py:513` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler exploit configuration in the provided config file.
+- `cacti_exploit` (function) `cli/commands/exploit_migrated.py:536` `def cacti_exploit(config_file, host)` -- Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provided config file.
+- `ExploitMigratedCommandSet.do_shellshock` (method) `cli/commands/exploit_migrated.py:568` `def do_shellshock(self, line)` -- Executes a Shellshock attack against a target.
+- `ExploitMigratedCommandSet.do_powerserver` (method) `cli/commands/exploit_migrated.py:630` `def do_powerserver(self, line)` -- This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.
+- `ExploitMigratedCommandSet.do_sqli` (method) `cli/commands/exploit_migrated.py:693` `def do_sqli(self, line)` -- Asks the user for the URL, database, table, and columns, and then executes the Python script 'modules/lazybsqli.py'...
+- `ExploitMigratedCommandSet.do_sharpshooter` (method) `cli/commands/exploit_migrated.py:724` `def do_sharpshooter(self, line)` -- Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
+- `ExploitMigratedCommandSet.do_shellfire` (method) `cli/commands/exploit_migrated.py:768` `def do_shellfire(self, line)` -- Runs Shellfire with various options and allows generating payloads.
+- `ExploitMigratedCommandSet.do_downloader` (method) `cli/commands/exploit_migrated.py:892` `def do_downloader(self, line)` -- Generate a downloader command for files in the sessions directory.
+- `ExploitMigratedCommandSet.do_eternal` (method) `cli/commands/exploit_migrated.py:972` `def do_eternal(self, line)` -- Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+- `ExploitMigratedCommandSet.do_rejetto_hfs_exec` (method) `cli/commands/exploit_migrated.py:1016` `def do_rejetto_hfs_exec(self, line)` -- HttpFileServer version 2.3.
+- `ExploitMigratedCommandSet.do_ms08_067_netapi` (method) `cli/commands/exploit_migrated.py:1053` `def do_ms08_067_netapi(self, line)` -- SMB CVE-2008-4250.
+- `ExploitMigratedCommandSet.do_xss` (method) `cli/commands/exploit_migrated.py:1090` `def do_xss(self, line)` -- Executes the XSS (Cross-Site Scripting) vulnerability testing procedure using user-defined parameters and...
+- `ExploitMigratedCommandSet.do_template_helper_serializer` (method) `cli/commands/exploit_migrated.py:1135` `def do_template_helper_serializer(self, line)` -- Handles the creation and serialization of a template helper.
+- `ExploitMigratedCommandSet.do_xsstrike` (method) `cli/commands/exploit_migrated.py:1179` `def do_xsstrike(self, line)` -- Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
+- `ExploitMigratedCommandSet.do_sireprat` (method) `cli/commands/exploit_migrated.py:1247` `def do_sireprat(self, line)` -- Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
+- `ExploitMigratedCommandSet.do_upload_bypass` (method) `cli/commands/exploit_migrated.py:1359` `def do_upload_bypass(self, line)` -- Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass...
+- `ExploitMigratedCommandSet.do_pywhisker` (method) `cli/commands/exploit_migrated.py:1420` `def do_pywhisker(self, line)` -- Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.
+- `ExploitMigratedCommandSet.do_owneredit` (method) `cli/commands/exploit_migrated.py:1470` `def do_owneredit(self, line)` -- Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
+- `ExploitMigratedCommandSet.do_gettgtpkinit_py` (method) `cli/commands/exploit_migrated.py:1516` `def do_gettgtpkinit_py(self, line)` -- Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.
+- `ExploitMigratedCommandSet.do_gets4uticket_py` (method) `cli/commands/exploit_migrated.py:1567` `def do_gets4uticket_py(self, line)` -- Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.
+- `ExploitMigratedCommandSet.do_aclpwn_py` (method) `cli/commands/exploit_migrated.py:1614` `def do_aclpwn_py(self, line)` -- Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.
+- `ExploitMigratedCommandSet.do_addspn_py` (method) `cli/commands/exploit_migrated.py:1662` `def do_addspn_py(self, line)` -- Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.
+- `ExploitMigratedCommandSet.do_printerbug_py` (method) `cli/commands/exploit_migrated.py:1706` `def do_printerbug_py(self, line)` -- Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.
+- `ExploitMigratedCommandSet.do_krbrelayx_py` (method) `cli/commands/exploit_migrated.py:1760` `def do_krbrelayx_py(self, line)` -- Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.
+- `ExploitMigratedCommandSet.do_autoblody` (method) `cli/commands/exploit_migrated.py:1805` `def do_autoblody(self, line)` -- Executes the autobloody tool for automating Active Directory privilege escalation paths.
+- `ExploitMigratedCommandSet.do_unicode_WAFbypass` (method) `cli/commands/exploit_migrated.py:1869` `def do_unicode_WAFbypass(self, line)` -- We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the following...
+- `ExploitMigratedCommandSet.do_sqli_mssql_test` (method) `cli/commands/exploit_migrated.py:1924` `def do_sqli_mssql_test(self, line)` -- Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
+- `ExploitMigratedCommandSet.do_pyoracle2` (method) `cli/commands/exploit_migrated.py:1962` `def do_pyoracle2(self, line)` -- Executes the pyOracle2 tool for performing padding oracle attacks.
+- `ExploitMigratedCommandSet.do_lfi` (method) `cli/commands/exploit_migrated.py:2044` `def do_lfi(self, line)` -- Exploits a potential Local File Inclusion (LFI) vulnerability by crafting and sending HTTP GET requests to a...
+- `ExploitMigratedCommandSet.do_greatSCT` (method) `cli/commands/exploit_migrated.py:2086` `def do_greatSCT(self, line)` -- Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.
+- `ExploitMigratedCommandSet.do_sqsh` (method) `cli/commands/exploit_migrated.py:2131` `def do_sqsh(self, line)` -- Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.
+- `ExploitMigratedCommandSet.do_jwt_tool` (method) `cli/commands/exploit_migrated.py:2176` `def do_jwt_tool(self, line)` -- Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).
+- `ExploitMigratedCommandSet.do_filtering` (method) `cli/commands/exploit_migrated.py:2220` `def do_filtering(self, line)` -- Applies various filtering techniques to the given command line by modifying each character or word appropriately.
+- `ExploitMigratedCommandSet.do_lol` (method) `cli/commands/exploit_migrated.py:2246` `def do_lol(self, line)` -- Exploits a target by injecting a malicious payload and collecting admin information.
+- `ExploitMigratedCommandSet.do_utf` (method) `cli/commands/exploit_migrated.py:2331` `def do_utf(self, line)` -- Encode a given payload into UTF-16 escape sequences.
+- `ExploitMigratedCommandSet.do_digdug` (method) `cli/commands/exploit_migrated.py:2375` `def do_digdug(self, line)` -- Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings and interactive input...
+- `ExploitMigratedCommandSet.do_sshexploit` (method) `cli/commands/exploit_migrated.py:2433` `def do_sshexploit(self, line)` -- Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
+- `ExploitMigratedCommandSet.do_excelntdonut` (method) `cli/commands/exploit_migrated.py:2502` `def do_excelntdonut(self, line)` -- Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
+- `ExploitMigratedCommandSet.do_ntpdate` (method) `cli/commands/exploit_migrated.py:2558` `def do_ntpdate(self, line)` -- Synchronizes the system clock with a specified NTP server.
+- `ExploitMigratedCommandSet.do_adcs_check` (method) `cli/commands/exploit_migrated.py:2582` `def do_adcs_check(self, line)` -- Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
+- `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2641` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
+- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2738` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
 
 ## cli/commands/exploitgym.py
 Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
@@ -273,58 +274,87 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_domina
 - `LateralMigratedCommandSet.do_dcomexec` (method) `cli/commands/lateral_migrated.py:931` `def do_dcomexec(self, line)` -- Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.
 - `LateralMigratedCommandSet.do_upload_c2` (method) `cli/commands/lateral_migrated.py:1002` `def do_upload_c2(self, line)` -- upload command in the client using the C2 to upload a file
 - `LateralMigratedCommandSet.do_wmiexecpro` (method) `cli/commands/lateral_migrated.py:1031` `def do_wmiexecpro(self, line)` -- Executes wmiexec-pro with various options for WMI operations.
-- `LateralMigratedCommandSet.install_wmiexecpro` (method) `cli/commands/lateral_migrated.py:1070` `def install_wmiexecpro()`
+- `install_wmiexecpro` (function) `cli/commands/lateral_migrated.py:1070` `def install_wmiexecpro()`
 - `LateralMigratedCommandSet.do_lateral_mov_lin` (method) `cli/commands/lateral_migrated.py:1247` `def do_lateral_mov_lin(self, line)` -- Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.
 - `LateralMigratedCommandSet.do_addcli` (method) `cli/commands/lateral_migrated.py:1302` `def do_addcli(self, line)` -- Add a client to execute c2 commands
 - `LateralMigratedCommandSet.do_dominion` (method) `cli/commands/lateral_migrated.py:1317` `def do_dominion(self, line)` -- Execute a fully automated Active Directory domain takeover.
 
+## cli/commands/lazyloop.py
+Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
+Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
+- `LazyQueueCommandSet.do_lazy_sync` (method) `cli/commands/lazyloop.py:36` `def do_lazy_sync(self, line)` -- Run bidirectional LAZY sync into world model and objectives.
+- `LazyQueueCommandSet.do_lazy_intents` (method) `cli/commands/lazyloop.py:51` `def do_lazy_intents(self, line)` -- List engine intents for a task, optionally filtered by state.
+- `LazyQueueCommandSet.do_lazy_delete` (method) `cli/commands/lazyloop.py:71` `def do_lazy_delete(self, line)` -- Delete an engine intent; soft keeps outputs, hard cascades.
+- `LazyQueueCommandSet.do_lazy_findings` (method) `cli/commands/lazyloop.py:110` `def do_lazy_findings(self, line)` -- List engine findings for a task, optionally filtered by status.
+- `LazyQueueCommandSet.do_lazy_verdict` (method) `cli/commands/lazyloop.py:132` `def do_lazy_verdict(self, line)` -- Record a manual retest verdict on an engine finding.
+- `LazyQueueCommandSet.do_lazy_mention` (method) `cli/commands/lazyloop.py:155` `def do_lazy_mention(self, line)` -- Search @ mention candidates with scroll pagination.
+- `LazyQueueCommandSet.do_lazy_approve` (method) `cli/commands/lazyloop.py:190` `def do_lazy_approve(self, line)` -- List engine guard reviews filtered by decision and source.
+- `LazyQueueCommandSet.do_lazy_fleet` (method) `cli/commands/lazyloop.py:212` `def do_lazy_fleet(self, line)` -- Cross-task fleet: list | graph <task> | findings <task> | traces <task> [query] | node <task> <id> | pause <task> |...
+- `LazyQueueCommandSet.do_lazy_orchestrator` (method) `cli/commands/lazyloop.py:277` `def do_lazy_orchestrator(self, line)` -- Admin console for the loop (Textual TUI).
+- `LazyQueueCommandSet.do_lazy_view` (method) `cli/commands/lazyloop.py:299` `def do_lazy_view(self, line)` -- Attach the live worker monitor to a task (or the newest task).
+
 ## cli/commands/lazyops.py
-Depends on: `cli/commands/_base.py`, `modules/lazy_engine.py`, `utils.py`
-Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_engine.py`
-- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:76` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete tasks.
-- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:118` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
-- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:137` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
-- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:156` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
-- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:168` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
-- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:197` `def do_lazy_trace(self, line)` -- Worker trace exchange.
-- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:227` `def do_lazy_hint(self, line)` -- Inject steering hint.
-- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:239` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
-- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:263` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
-- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:298` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
-- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:316` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
-- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:334` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
-- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:356` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | coverage | untested.
-- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:389` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
-- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:401` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|get <digest>|templates|template <t>|bind <finding> <digest>|export <path>|archive|clear.
-- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:442` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | audit | stats | pending |...
-- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:486` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|context <id>.
-- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:541` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
-- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:560` `def do_lazy_steer(self, line)` -- Mid-run correction.
-- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:572` `def do_lazy_kill(self, line)` -- Terminate running intent.
-- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:584` `def do_lazy_pause(self, line)` -- Pause task loops.
-- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:594` `def do_lazy_resume(self, line)` -- Resume paused task.
-- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:604` `def do_lazy_report(self, line)` -- Export severity-ranked report.
-- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:661` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat.
-- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:691` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
-- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:703` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
-- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:732` `def do_lazy_node(self, line)` -- Full node detail.
-- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:752` `def do_lazy_evidence(self, line)` -- Evidence vault: add <finding> <kind> <body>|list <finding>|verify|gc|export <path>.
-- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:779` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
-- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:793` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
-- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:815` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind <agent> <tool>|unbind <agent> <tool>.
-- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:834` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file> <target> [--min S]|test <severity>.
-- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:858` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>.
-- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:886` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health.
-- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:923` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|expand <digest>.
-- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:983` `def do_lazy_status(self, line)` -- Full task status.
-- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:1005` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
-- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:1010` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
-- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:1040` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
-- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:1068` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
-- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:1088` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear.
-- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:1115` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
-- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:1139` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
-- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:1184` `def do_lazy_loop(self, line)` -- Run the single orchestrator (auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
+Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
+Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
+- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:88` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
+- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:210` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
+- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:239` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
+- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:260` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off.
+- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:315` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
+- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:368` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
+- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:396` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
+- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:415` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
+- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:427` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
+- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:467` `def do_lazy_trace(self, line)` -- Worker trace exchange.
+- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:520` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
+- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:555` `def do_lazy_hint(self, line)` -- Inject steering hint.
+- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:567` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
+- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:592` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
+- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:635` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
+- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:674` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
+- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:692` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
+- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:710` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
+- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:732` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
+- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:773` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
+- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:785` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
+- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1006` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
+- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1107` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
+- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1172` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
+- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1191` `def do_lazy_steer(self, line)` -- Mid-run correction.
+- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1203` `def do_lazy_kill(self, line)` -- Terminate running intent.
+- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1215` `def do_lazy_pause(self, line)` -- Pause task loops.
+- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1225` `def do_lazy_resume(self, line)` -- Resume paused task.
+- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1235` `def do_lazy_report(self, line)` -- Export severity-ranked report.
+- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1252` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
+- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1299` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
+- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1311` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
+- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1339` `def do_lazy_node(self, line)` -- Full node detail.
+- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1359` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
+- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1426` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
+- `run_command` (function) `cli/commands/lazyops.py:1457` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
+- `list_tasks` (function) `cli/commands/lazyops.py:1479` `def list_tasks()` -- List every task with status, intents, facts and findings.
+- `task_graph` (function) `cli/commands/lazyops.py:1483` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
+- `task_findings` (function) `cli/commands/lazyops.py:1487` `def task_findings(task)` -- Findings of one task with severity, status and report size.
+- `campaign_sitrep` (function) `cli/commands/lazyops.py:1491` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
+- `add_hint` (function) `cli/commands/lazyops.py:1504` `def add_hint(text)` -- Inject an operator hint into the active task planner.
+- `steer_intent` (function) `cli/commands/lazyops.py:1511` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
+- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1580` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
+- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1681` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
+- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1703` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
+- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:1775` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T].
+- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:1857` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
+- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:1905` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
+- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:1964` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw...
+- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2079` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
+- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2151` `def do_lazy_status(self, line)` -- Full task status.
+- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2175` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
+- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2180` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
+- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2211` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2242` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
+- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2263` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
+- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2296` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
+- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2323` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
+- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2368` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
 
 ## cli/commands/marketplace.py
 Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/module_registry.py`, `utils.py`
@@ -332,50 +362,50 @@ Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_ti
 - `MarketplaceCommandSet.do_marketplace_config` (method) `cli/commands/marketplace.py:426` `def do_marketplace_config(self, line)` -- Interactive marketplace manager (curses TUI).
 
 ## cli/commands/mcp_bridge.py
-Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/config.py`, `core/process.py`, `modules/auto_registry.py`, `modules/intelligence_engine.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop_progress.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
-- `McpBridgeCommandSet.do_auto_populate` (method) `cli/commands/mcp_bridge.py:146` `def do_auto_populate(self, args)` -- Parse the latest nmap XML scan and auto-populate payload context.
-- `McpBridgeCommandSet.do_facts_show` (method) `cli/commands/mcp_bridge.py:253` `def do_facts_show(self, args)` -- Show structured facts extracted from nmap scans and tool output.
-- `McpBridgeCommandSet.do_rag_query` (method) `cli/commands/mcp_bridge.py:278` `def do_rag_query(self, args)` -- Semantic search over session artefacts (scans, logs, notes).
-- `McpBridgeCommandSet.do_parquet_query` (method) `cli/commands/mcp_bridge.py:308` `def do_parquet_query(self, args)` -- Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
-- `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:370` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
-- `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:423` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
-- `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:481` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto-invokes all lazy_* steps).
-- `_QueueWriter.write` (method) `cli/commands/mcp_bridge.py:623` `def write(self, data)`
-- `_QueueWriter.do_session_state` (method) `cli/commands/mcp_bridge.py:713` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
-- `_QueueWriter.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:718` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
-- `_QueueWriter.do_timeline` (method) `cli/commands/mcp_bridge.py:723` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
+Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+Imported by: `tests/test_loop_auto_orchestrator.py`
+- `McpBridgeCommandSet.do_auto_populate` (method) `cli/commands/mcp_bridge.py:151` `def do_auto_populate(self, args)` -- Parse the latest nmap XML scan and auto-populate payload context.
+- `McpBridgeCommandSet.do_facts_show` (method) `cli/commands/mcp_bridge.py:258` `def do_facts_show(self, args)` -- Show structured facts extracted from nmap scans and tool output.
+- `McpBridgeCommandSet.do_rag_query` (method) `cli/commands/mcp_bridge.py:283` `def do_rag_query(self, args)` -- Semantic search over session artefacts (scans, logs, notes).
+- `McpBridgeCommandSet.do_parquet_query` (method) `cli/commands/mcp_bridge.py:313` `def do_parquet_query(self, args)` -- Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
+- `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:375` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
+- `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:428` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
+- `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:486` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
+- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:520` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:525` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:530` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 ## cli/commands/misc_migrated.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
-Imported by: `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-- `MiscMigratedCommandSet.do_notify` (method) `cli/commands/misc_migrated.py:91` `def do_notify(self, arg)` -- Command to trigger a toastr-like notification.
-- `MiscMigratedCommandSet.do_EOF` (method) `cli/commands/misc_migrated.py:110` `def do_EOF(self, line)` -- Handle the end-of-file (EOF) condition.
-- `MiscMigratedCommandSet.do_palette` (method) `cli/commands/misc_migrated.py:190` `def do_palette(self, line)` -- Browse the operator command catalogue grouped by kill-chain phase.
-- `MiscMigratedCommandSet.do_graph_search` (method) `cli/commands/misc_migrated.py:215` `def do_graph_search(self, line)` -- Fuzzy search the graphify knowledge graph for nodes by label.
-- `MiscMigratedCommandSet.do_neighbors` (method) `cli/commands/misc_migrated.py:243` `def do_neighbors(self, line)` -- Show graph neighbors of a node or command from the graphify graph.
-- `MiscMigratedCommandSet.do_god_nodes` (method) `cli/commands/misc_migrated.py:270` `def do_god_nodes(self, line)` -- Show the most-connected nodes ("god nodes") from the graph.
-- `MiscMigratedCommandSet.do_suggest_next` (method) `cli/commands/misc_migrated.py:289` `def do_suggest_next(self, line)` -- Suggest next commands by walking the graph from recent activity.
-- `MiscMigratedCommandSet.do_recommend_next` (method) `cli/commands/misc_migrated.py:415` `def do_recommend_next(self, line)` -- Recommend the next action via the unified recommendation engine.
-- `MiscMigratedCommandSet.do_explore` (method) `cli/commands/misc_migrated.py:472` `def do_explore(self, line)` -- Show exploration coverage and addon/tool suggestions per service.
-- `MiscMigratedCommandSet.do_prev` (method) `cli/commands/misc_migrated.py:503` `def do_prev(self, line)` -- Show prerequisite commands for a verb (the chain's ``prev`` arrow).
-- `MiscMigratedCommandSet.do_dashboard` (method) `cli/commands/misc_migrated.py:538` `def do_dashboard(self, line)` -- Launch the full-screen LazyOwn operator dashboard (Textual TUI).
-- `MiscMigratedCommandSet.do_palette_k` (method) `cli/commands/misc_migrated.py:575` `def do_palette_k(self, line)` -- Open the fuzzy Command-K palette overlay.
-- `MiscMigratedCommandSet.do_browse` (method) `cli/commands/misc_migrated.py:604` `def do_browse(self, line)` -- Open the sessions/ TUI browser.
-- `MiscMigratedCommandSet.do_timeline_browser` (method) `cli/commands/misc_migrated.py:626` `def do_timeline_browser(self, line)` -- Open the timeline scrubber over the session report CSV.
-- `MiscMigratedCommandSet.do_graph_overlay` (method) `cli/commands/misc_migrated.py:645` `def do_graph_overlay(self, line)` -- Open the graph overlay over the graphify knowledge graph.
-- `MiscMigratedCommandSet.do_toast_clear` (method) `cli/commands/misc_migrated.py:665` `def do_toast_clear(self, line)` -- Mark every pending toast event as seen without printing them.
-- `MiscMigratedCommandSet.do_exit` (method) `cli/commands/misc_migrated.py:691` `def do_exit(self, arg)` -- Exit the command line interface.
-- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:768` `def do_banner(self, line)` -- Show the banner
-- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:780` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
-- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:839` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
-- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:875` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
-- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:936` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:982` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:1032` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
-- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1095` `def do_news(self, line)` -- Show the Hacker News in the terminal.
-- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1108` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
-- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1157` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
-- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1206` `def do_listaliases(self, _)` -- List all available aliases.
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
+Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- `MiscMigratedCommandSet.do_notify` (method) `cli/commands/misc_migrated.py:92` `def do_notify(self, arg)` -- Command to trigger a toastr-like notification.
+- `MiscMigratedCommandSet.do_EOF` (method) `cli/commands/misc_migrated.py:111` `def do_EOF(self, line)` -- Handle the end-of-file (EOF) condition.
+- `MiscMigratedCommandSet.do_palette` (method) `cli/commands/misc_migrated.py:179` `def do_palette(self, line)` -- Browse the operator command catalogue grouped by kill-chain phase.
+- `MiscMigratedCommandSet.do_graph_search` (method) `cli/commands/misc_migrated.py:204` `def do_graph_search(self, line)` -- Fuzzy search the graphify knowledge graph for nodes by label.
+- `MiscMigratedCommandSet.do_neighbors` (method) `cli/commands/misc_migrated.py:232` `def do_neighbors(self, line)` -- Show graph neighbors of a node or command from the graphify graph.
+- `MiscMigratedCommandSet.do_god_nodes` (method) `cli/commands/misc_migrated.py:259` `def do_god_nodes(self, line)` -- Show the most-connected nodes ("god nodes") from the graph.
+- `MiscMigratedCommandSet.do_suggest_next` (method) `cli/commands/misc_migrated.py:278` `def do_suggest_next(self, line)` -- Suggest next commands by walking the graph from recent activity.
+- `MiscMigratedCommandSet.do_recommend_next` (method) `cli/commands/misc_migrated.py:404` `def do_recommend_next(self, line)` -- Recommend the next action via the unified recommendation engine.
+- `MiscMigratedCommandSet.do_explore` (method) `cli/commands/misc_migrated.py:458` `def do_explore(self, line)` -- Show exploration coverage and addon/tool suggestions per service.
+- `MiscMigratedCommandSet.do_prev` (method) `cli/commands/misc_migrated.py:489` `def do_prev(self, line)` -- Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+- `MiscMigratedCommandSet.do_dashboard` (method) `cli/commands/misc_migrated.py:526` `def do_dashboard(self, line)` -- Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+- `MiscMigratedCommandSet.do_palette_k` (method) `cli/commands/misc_migrated.py:561` `def do_palette_k(self, line)` -- Open the fuzzy Command-K palette overlay.
+- `MiscMigratedCommandSet.do_browse` (method) `cli/commands/misc_migrated.py:590` `def do_browse(self, line)` -- Open the sessions/ TUI browser.
+- `MiscMigratedCommandSet.do_timeline_browser` (method) `cli/commands/misc_migrated.py:612` `def do_timeline_browser(self, line)` -- Open the timeline scrubber over the session report CSV.
+- `MiscMigratedCommandSet.do_graph_overlay` (method) `cli/commands/misc_migrated.py:631` `def do_graph_overlay(self, line)` -- Open the graph overlay over the graphify knowledge graph.
+- `MiscMigratedCommandSet.do_toast_clear` (method) `cli/commands/misc_migrated.py:651` `def do_toast_clear(self, line)` -- Mark every pending toast event as seen without printing them.
+- `MiscMigratedCommandSet.do_exit` (method) `cli/commands/misc_migrated.py:671` `def do_exit(self, arg)` -- Exit the command line interface.
+- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:738` `def do_banner(self, line)` -- Show the banner
+- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:748` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
+- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:792` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
+- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:820` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:880` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:926` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:972` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
+- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1035` `def do_news(self, line)` -- Show the Hacker News in the terminal.
+- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1048` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
+- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1093` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
+- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1145` `def do_listaliases(self, _)` -- List all available aliases.
 
 ## cli/commands/mobile_macos.py
 Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`
@@ -384,7 +414,7 @@ Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `u
 - `MobileMacOSCommandSet.do_macos_persist` (method) `cli/commands/mobile_macos.py:216` `def do_macos_persist(self, line)` -- Generate macOS persistence via LaunchAgent.
 - `MobileMacOSCommandSet.do_macos_keychain` (method) `cli/commands/mobile_macos.py:274` `def do_macos_keychain(self, line)` -- Extract secrets from the macOS Keychain.
 - `MobileMacOSCommandSet.do_macos_tcc` (method) `cli/commands/mobile_macos.py:323` `def do_macos_tcc(self, line)` -- Generate macOS TCC (Transparency, Consent, Control) bypass.
-- `MobileMacOSCommandSet.is_binary_present` (method) `cli/commands/mobile_macos.py:374` `def is_binary_present(name)` -- Check if a binary is available on PATH, delegates to core.
+- `is_binary_present` (function) `cli/commands/mobile_macos.py:374` `def is_binary_present(name)` -- Check if a binary is available on PATH, delegates to core.
 
 ## cli/commands/module_manager.py
 Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
@@ -420,9 +450,9 @@ Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log
 ## cli/commands/orchestration.py
 Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
 Imported by: `tests/test_improvements_spec.py`
-- `OrchestrationConfig.run_with_spinner` (method) `cli/commands/orchestration.py:95` `def run_with_spinner(execute)` -- Run a blocking orchestrator call with a live reasoning spinner.
-- `OrchestrationCommandSet.do_status_bar` (method) `cli/commands/orchestration.py:191` `def do_status_bar(self, args)` -- Inspect, toggle and refresh the prompt status bar.
-- `OrchestrationCommandSet.do_orchestrate` (method) `cli/commands/orchestration.py:217` `def do_orchestrate(self, args)` -- Route a goal through the unified orchestrator and print the result.
+- `run_with_spinner` (function) `cli/commands/orchestration.py:94` `def run_with_spinner(execute)` -- Run a blocking orchestrator call with a live reasoning spinner.
+- `OrchestrationCommandSet.do_status_bar` (method) `cli/commands/orchestration.py:190` `def do_status_bar(self, args)` -- Inspect, toggle and refresh the prompt status bar.
+- `OrchestrationCommandSet.do_orchestrate` (method) `cli/commands/orchestration.py:216` `def do_orchestrate(self, args)` -- Route a goal through the unified orchestrator and print the result.
 
 ## cli/commands/payload_arsenal.py
 Depends on: `cli/commands/_base.py`, `modules/dotnet_payload.py`, `modules/linux_advanced_payloads.py`, `modules/macos_payloads.py`, `modules/polymorphic_engine.py`, `modules/staged_delivery.py`
@@ -448,52 +478,6 @@ Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 - `PersistenceCommandSet.do_wmi_persist` (method) `cli/commands/persist.py:112` `def do_wmi_persist(self, line)` -- Create WMI Event Subscription persistence (fileless, no disk write).
 - `PersistenceCommandSet.do_wmi_lateral` (method) `cli/commands/persist.py:170` `def do_wmi_lateral(self, line)` -- Execute a command on a remote host via WMI.
 - `PersistenceCommandSet.do_wmi_scheduled_task` (method) `cli/commands/persist.py:209` `def do_wmi_scheduled_task(self, line)` -- Create a scheduled task for persistence via WMI.
-
-## cli/commands/persist_migrated.py
-Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
-- `PersistMigratedCommandSet.do_pwncat` (method) `cli/commands/persist_migrated.py:33` `def do_pwncat(self, line)` -- Runs `pwncat` with the specified port for listening.
-- `PersistMigratedCommandSet.do_ftp` (method) `cli/commands/persist_migrated.py:77` `def do_ftp(self, line)` -- Connects to an ftp host using credentials from a file and a specified port.
-- `PersistMigratedCommandSet.do_rdp` (method) `cli/commands/persist_migrated.py:136` `def do_rdp(self, line)` -- Reads credentials from a file, encrypts the password, and executes the RDP connection command.
-- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:210` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
-- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:256` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
-- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:300` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
-- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:338` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:378` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:424` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
-- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:470` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
-- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:551` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
-- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:651` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
-- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:725` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
-- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:843` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
-- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:909` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
-- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:972` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
-- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1060` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
-- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1093` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
-- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1161` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
-- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1196` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1263` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1330` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
-- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1403` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
-- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1426` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
-
-## cli/commands/phishing_wizard.py
-Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
-- `PhishingWizardCommandSet.do_phish_wizard` (method) `cli/commands/phishing_wizard.py:190` `def do_phish_wizard(self, line)` -- Interactive end-to-end phishing campaign wizard.
-- `PhishingWizardCommandSet.do_phish_serve` (method) `cli/commands/phishing_wizard.py:361` `def do_phish_serve(self, line)` -- Start a lightweight HTTP server for phishing landing pages.
-- `PhishingHandler.log_message` (method) `cli/commands/phishing_wizard.py:389` `def log_message(self, format)`
-- `PhishingHandler.do_GET` (method) `cli/commands/phishing_wizard.py:392` `def do_GET(self)`
-- `PhishingHandler.do_POST` (method) `cli/commands/phishing_wizard.py:407` `def do_POST(self)`
-- `PhishingHandler.do_OPTIONS` (method) `cli/commands/phishing_wizard.py:427` `def do_OPTIONS(self)`
-- `PhishingHandler.do_phish_report` (method) `cli/commands/phishing_wizard.py:443` `def do_phish_report(self, line)` -- Show campaign results and captured credentials.
-- `PhishingHandler.do_phisher` (method) `cli/commands/phishing_wizard.py:637` `def do_phisher(self, line)` -- Launch a phishing campaign against a target domain.
-
-## cli/commands/pivoting.py
-Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
-- `PivotingCommandSet.do_autopivot` (method) `cli/commands/pivoting.py:43` `def do_autopivot(self, line)` -- Auto-detect internal networks and set up pivot tunnels.
-- `PivotingCommandSet.do_pivot_status` (method) `cli/commands/pivoting.py:100` `def do_pivot_status(self, line)` -- Show the current pivot chain state.
-- `PivotingCommandSet.do_pivot_kill` (method) `cli/commands/pivoting.py:119` `def do_pivot_kill(self, line)` -- Kill all pivot tunnels and clean up.
-- `PivotingCommandSet.do_pivot_scan` (method) `cli/commands/pivoting.py:153` `def do_pivot_scan(self, line)` -- Scan internal networks through the current pivot chain.
-- `PivotingCommandSet.do_pivot_proxy` (method) `cli/commands/pivoting.py:206` `def do_pivot_proxy(self, line)` -- Start a local SOCKS proxy through the pivot chain.
 
 
 Next: [API_p3.md](API_p3.md)

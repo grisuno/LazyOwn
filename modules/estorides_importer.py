@@ -576,6 +576,121 @@ class EstoridesStixParser:
         return None
 
 
+ESTORIDES_LAN_DIR = ESTORIDES_DATA / "lan_output"
+
+LAN_INVENTORY_NAMES = ("lan_inventory.json",)
+LAN_LAZYOWN_NAMES = ("lan_lazyown.json", "lan_graph.json")
+LAN_STIX_NAMES = ("lan_stix.json",)
+
+
+def find_lan_bundle_files(
+    lan_dir: Path | None = None,
+    sessions_dir: Path | None = None,
+) -> dict[str, Path]:
+    """Locate LAN bundle deliverables. Never raises."""
+    found: dict[str, Path] = {}
+    roots: list[Path] = []
+    try:
+        if lan_dir is not None:
+            roots.append(Path(lan_dir))
+        roots.append(ESTORIDES_LAN_DIR)
+        base = Path(__file__).resolve().parent.parent
+        roots.append(base / "sessions")
+        if sessions_dir is not None:
+            roots.append(Path(sessions_dir))
+        checkout = ESTORIDES_DIR
+        if checkout.is_dir():
+            roots.append(checkout / "data" / "lan_output")
+    except Exception:
+        return found
+    for root in roots:
+        try:
+            if not root.is_dir():
+                continue
+            for name in LAN_INVENTORY_NAMES + LAN_LAZYOWN_NAMES + LAN_STIX_NAMES:
+                candidate = root / name
+                if candidate.is_file() and name not in found:
+                    found[name] = candidate
+                for suffixed in sorted(root.glob(f"lan_*{name[3:]}")):
+                    if suffixed.is_file() and name not in found:
+                        found[name] = suffixed
+        except OSError:
+            continue
+    return found
+
+
+class LanBundleReader:
+    """Read Estorides LAN output deliverables into entities.
+
+    Consumes ``lan_inventory.json`` (preferred, device-grounded),
+    ``lan_lazyown.json`` / ``lan_graph.json`` (graph vocabulary), and
+    ``lan_stix.json`` (STIX bundle). Output feeds the same import path
+    as OSINT entities so LAN hosts flow into the DB, scope, intel
+    graph, attack graph, and auto_loop queue.
+    """
+
+    def __init__(self, lan_dir: Path | None = None) -> None:
+        self.lan_dir = Path(lan_dir) if lan_dir else ESTORIDES_LAN_DIR
+
+    @property
+    def available(self) -> bool:
+        return bool(find_lan_bundle_files(self.lan_dir))
+
+    def read_devices(self) -> list[dict[str, Any]]:
+        """Return raw device dicts from the inventory file."""
+        files = find_lan_bundle_files(self.lan_dir)
+        path = files.get("lan_inventory.json")
+        if path is None:
+            return []
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return []
+        devices = doc.get("devices", []) if isinstance(doc, dict) else []
+        return [d for d in devices if isinstance(d, dict)]
+
+    def parse(self) -> list[EstoridesEntity]:
+        """Parse LAN devices into entities (host, mac, domain)."""
+        entities: list[EstoridesEntity] = []
+        for dev in self.read_devices():
+            sources = [str(s) for s in (dev.get("sources") or []) if s]
+            source = sources[0] if sources else "lan"
+            for ip in dev.get("ips", []) or []:
+                etype = "ipv6" if ":" in str(ip) else "ipv4"
+                entities.append(
+                    EstoridesEntity(
+                        entity_type=etype, value=str(ip),
+                        source=source, sources=sources,
+                    )
+                )
+            mac = dev.get("mac")
+            if mac:
+                entities.append(
+                    EstoridesEntity(
+                        entity_type="mac", value=str(mac),
+                        source=source, sources=sources,
+                    )
+                )
+            for host in dev.get("hostnames", []) or []:
+                entities.append(
+                    EstoridesEntity(
+                        entity_type="domain", value=str(host),
+                        source=source, sources=sources,
+                    )
+                )
+        return entities
+
+    def attack_targets(self) -> list[str]:
+        """IPs actionable for the attack graph and auto_loop queue."""
+        targets: list[str] = []
+        for dev in self.read_devices():
+            for ip in dev.get("ips", []) or []:
+                value = str(ip).strip()
+                if value and value not in targets:
+                    targets.append(value)
+        return targets
+
+
 def ensure_directories() -> None:
     """Ensure sessions/ directories exist."""
     for d in ("sessions", "sessions/db"):

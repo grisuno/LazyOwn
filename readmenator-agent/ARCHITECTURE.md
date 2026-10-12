@@ -1,5 +1,5 @@
-# Architecture (page 1 of 6)
-Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
+# Architecture (page 1 of 7)
+Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## Internal Dependencies
 
@@ -179,6 +179,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploit.py` -> `modules/categories.py`
 - `cli/commands/exploit.py` -> `utils.py`
 - `cli/commands/exploit_migrated.py` -> `cli/commands/_base.py`
+- `cli/commands/exploit_migrated.py` -> `core/autonomous.py`
 - `cli/commands/exploit_migrated.py` -> `modules/adcs_attacks.py`
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_chain.py`
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_recommender.py`
@@ -216,8 +217,25 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lateral_migrated.py` -> `core/hardening.py`
 - `cli/commands/lateral_migrated.py` -> `modules/domain_dominance.py`
 - `cli/commands/lateral_migrated.py` -> `utils.py`
+- `cli/commands/lazyloop.py` -> `cli/commands/_base.py`
+- `cli/commands/lazyloop.py` -> `cli/lazy_monitor.py`
+- `cli/commands/lazyloop.py` -> `cli/lazy_orchestrator.py`
+- `cli/commands/lazyloop.py` -> `modules/lazy_bridge.py`
+- `cli/commands/lazyloop.py` -> `modules/lazy_engine.py`
+- `cli/commands/lazyloop.py` -> `modules/lazy_mentions.py`
+- `cli/commands/lazyloop.py` -> `utils.py`
 - `cli/commands/lazyops.py` -> `cli/commands/_base.py`
+- `cli/commands/lazyops.py` -> `core/process.py`
+- `cli/commands/lazyops.py` -> `modules/__init__.py`
+- `cli/commands/lazyops.py` -> `modules/auto_registry.py`
+- `cli/commands/lazyops.py` -> `modules/custom_tools.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_agent.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_engine.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_proxy.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_runner.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_skills.py`
+- `cli/commands/lazyops.py` -> `modules/selfupdate.py`
+- `cli/commands/lazyops.py` -> `modules/traffic_recorder.py`
 - `cli/commands/lazyops.py` -> `utils.py`
 - `cli/commands/marketplace.py` -> `cli/commands/_base.py`
 - `cli/commands/marketplace.py` -> `cli/marketplace_config.py`
@@ -226,13 +244,10 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/marketplace.py` -> `utils.py`
 - `cli/commands/mcp_bridge.py` -> `cli/aliases.py`
 - `cli/commands/mcp_bridge.py` -> `cli/commands/_base.py`
+- `cli/commands/mcp_bridge.py` -> `core/autonomous.py`
 - `cli/commands/mcp_bridge.py` -> `core/config.py`
-- `cli/commands/mcp_bridge.py` -> `core/process.py`
-- `cli/commands/mcp_bridge.py` -> `modules/auto_registry.py`
 - `cli/commands/mcp_bridge.py` -> `modules/intelligence_engine.py`
-- `cli/commands/mcp_bridge.py` -> `modules/lazy_engine.py`
-- `cli/commands/mcp_bridge.py` -> `modules/lazy_loop.py`
-- `cli/commands/mcp_bridge.py` -> `modules/loop_progress.py`
+- `cli/commands/mcp_bridge.py` -> `modules/lazy_runner.py`
 - `cli/commands/mcp_bridge.py` -> `modules/playbook_engine.py`
 - `cli/commands/mcp_bridge.py` -> `modules/session_rag.py`
 - `cli/commands/mcp_bridge.py` -> `modules/threat_model.py`
@@ -267,6 +282,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/misc_migrated.py` -> `core/console.py`
 - `cli/commands/misc_migrated.py` -> `core/process.py`
 - `cli/commands/misc_migrated.py` -> `core/safe_exec.py`
+- `cli/commands/misc_migrated.py` -> `modules/lazy_loop.py`
 - `cli/commands/misc_migrated.py` -> `modules/module_registry.py`
 - `cli/commands/misc_migrated.py` -> `modules/payload_factory.py`
 - `cli/commands/misc_migrated.py` -> `utils.py`
@@ -376,6 +392,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `core/config.py`
 - `cli/commands/session_ops.py` -> `modules/autonomous_exploit_engine.py`
 - `cli/commands/session_ops.py` -> `modules/enrich.py`
+- `cli/commands/session_ops.py` -> `modules/lazy_loop.py`
 - `cli/commands/session_ops.py` -> `modules/lazy_rbac.py`
 - `cli/commands/session_ops.py` -> `modules/module_registry.py`
 - `cli/commands/session_ops.py` -> `modules/payload_factory.py`
@@ -439,6 +456,17 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/graph_overlay.py` -> `cli/themes.py`
 - `cli/graph_overlay.py` -> `core/text_utils.py`
 - `cli/killchain.py` -> `modules/killchain.py`
+- `cli/lazy_monitor.py` -> `cli/commands/containers.py`
+- `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
+- `cli/lazy_monitor.py` -> `modules/lazy_engine.py`
+- `cli/lazy_monitor.py` -> `modules/lazy_runner.py`
+- `cli/lazy_monitor.py` -> `modules/loop_progress.py`
+- `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
+- `cli/lazy_orchestrator.py` -> `core/config.py`
+- `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
+- `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
+- `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
+- `cli/lazy_orchestrator.py` -> `modules/orchestrator_config.py`
 - `cli/lazynmap_post.py` -> `cli/exploration.py`
 - `cli/lazynmap_post.py` -> `cli/recon_plan.py`
 - `cli/ops_commands.py` -> `core/safe_console.py`
@@ -468,33 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/recommendation_signals.py` -> `cli/reactive_hints.py`
 - `cli/recommendation_signals.py` -> `cli/recommendation.py`
 - `cli/recommendation_signals.py` -> `cli/recon_plan.py`
-- `cli/recommendation_signals.py` -> `core/logging.py`
-- `cli/recommendation_signals.py` -> `modules/apt_playbooks.py`
-- `cli/recommendation_signals.py` -> `skills/lazyown_policy.py`
-- `cli/recon_plan.py` -> `cli/exploration.py`
-- `cli/recon_plan.py` -> `modules/killchain.py`
-- `cli/registry.py` -> `cli/commands/_dormancy.py`
-- `cli/scope_guard.py` -> `cli/commands/enum.py`
-- `cli/session_hud.py` -> `cli/engagement_hooks.py`
-- `cli/session_resumer.py` -> `core/console.py`
-- `cli/session_resumer.py` -> `core/logging.py`
-- `cli/sessions_browser.py` -> `cli/commands/containers.py`
-- `cli/sessions_browser.py` -> `cli/themes.py`
-- `cli/splash.py` -> `cli/style.py`
-- `cli/splash.py` -> `core/console.py`
-- `cli/status_bar.py` -> `cli/reactive_hints.py`
-- `cli/status_bar.py` -> `cli/themes.py`
-- `cli/style.py` -> `cli/themes.py`
-- `cli/surface_tui.py` -> `cli/commands/containers.py`
-- `cli/surface_tui.py` -> `cli/surface_graph.py`
-- `cli/surface_tui.py` -> `core/console.py`
-- `cli/timeline_browser.py` -> `cli/commands/containers.py`
-- `cli/timeline_browser.py` -> `cli/themes.py`
-- `cli/tips_engine.py` -> `cli/autosuggest.py`
-- `cli/tips_engine.py` -> `cli/engagement_hooks.py`
-- `cli/tips_engine.py` -> `cli/noise_verbs.py`
-- `cli/tips_engine.py` -> `cli/ops_commands.py`
-- `cli/tips_engine.py` -> `cli/palette.py`
-- `cli/tips_engine.py` -> `cli/phase_labels.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

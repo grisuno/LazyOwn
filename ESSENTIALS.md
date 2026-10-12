@@ -1,6 +1,6 @@
 # LazyOwn Essentials — The Commands You Actually Need
 
-This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md` (749 commands).
+This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md` (819 commands).
 
 ---
 
@@ -161,7 +161,7 @@ instead of failing silently.
 | Need | File |
 |------|------|
 | 50 frequent commands by goal | `CHEATSHEET.md` |
-| All 749 commands with descriptions | `COMMANDS.md` (auto-generated) |
+| All 819 commands with descriptions | `COMMANDS.md` (auto-generated) |
 | All 129 aliases | `COMMANDS.md` alias section |
 | Full MCP tool reference (154 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |

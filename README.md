@@ -386,7 +386,7 @@ a zero-token polyglot static analysis tool. Regenerate with
   - `index.md` + `modules/*.md` -- Signatures, parameters, returns, raises, examples, call graphs
   - `architecture.md` -- Tiered architecture + execution flows (control flow, call tree, sequence)
   - `classes.md`, `genindex.md`, `COVERAGE.md` -- Hierarchy, A-Z index, doc coverage + warnings
-  - `index.html` + `api.json` -- Offline searchable browser and machine-readable model
+  - `index.html` + `api/` -- Offline searchable browser and machine-readable model (`api/index.json`, `api/modules/*.jsonl` one entity per line)
 - **[readmenator-maps/](./readmenator-maps/)** -- Interactive gallery (`index.html`).
   - 5 system maps: architecture, workflow, sequence, dataflow, lifecycle
   - `graph-force.html` -- Force-graph explorer (2D/3D, reach, paths, lenses)

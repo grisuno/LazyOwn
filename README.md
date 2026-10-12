@@ -38,6 +38,14 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 
 Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md) (5 min) · 80/20 guide: [`ESSENTIALS.md`](ESSENTIALS.md) · HTB end-to-end: [`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md) · Honest comparison: [`COMPARISON.md`](COMPARISON.md)
 
+### Doc
+
+Automated by [readmenator](https://grisuno.github.io/LazyOwn/readmenator-maps/index.html) (pip install readminator)
+
+[https://grisuno.github.io/LazyOwn](https://grisuno.github.io/LazyOwn)
+
+<img width="1913" height="963" alt="image" src="https://github.com/user-attachments/assets/798fd75b-db6c-4443-a7bd-ed79788280ce" />
+
 ### Why LazyOwn vs Sliver / Havoc / Mythic / Caldera / Metasploit
 
 | Capability | LazyOwn | Sliver | Havoc | Mythic | Caldera | Metasploit |

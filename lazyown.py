@@ -130,6 +130,7 @@ from utils import (  # noqa: E402
     pwntomate_category,
     re,
     recon_category,
+    redact_secrets,
     replace_command_placeholders,
     replace_placeholders,
     reporting_category,
@@ -254,6 +255,44 @@ class _PayloadSettableProxy:
     def __setattr__(self, name: str, value: Any) -> None:
         params = object.__getattribute__(self, "_params")
         params[name] = value
+
+
+SHELL_BUILTIN_TOKENS = frozenset(
+    {
+        "export",
+        "cd",
+        "source",
+        ".",
+        "set",
+        "unset",
+        "alias",
+        "unalias",
+        "eval",
+        "exec",
+        "read",
+        "trap",
+        "ulimit",
+        "umask",
+        "wait",
+        "test",
+        "[",
+        "true",
+        "false",
+        ":",
+        "shopt",
+        "local",
+        "return",
+        "printf",
+        "echo",
+        "sleep",
+    }
+)
+"""Leading tokens of addon commands that are shell builtins, not binaries.
+
+The addon binary preflight must never warn about ``export`` or ``cd``:
+vulnbot-style addons start with ``cd ... && export KEY=... && python3 ...``
+and the first token is a builtin, which is always available.
+"""
 
 
 class LazyOwnShell(cmd2.Cmd):
@@ -419,6 +458,16 @@ class LazyOwnShell(cmd2.Cmd):
         import atexit as _atexit
 
         _atexit.register(self._run_auto_encrypt)
+        try:
+            from modules.lazy_loop import shutdown_loop_runtime
+
+            _atexit.register(shutdown_loop_runtime)
+        except Exception:
+            pass
+        try:
+            self._install_crypto_signal_handlers()
+        except Exception:
+            pass
         self.register_postcmd_hook(self._unified_tips_hook)
         self.register_postcmd_hook(self._recording_hook)
         self.register_postcmd_hook(self._toast_hook)
@@ -1066,6 +1115,32 @@ class LazyOwnShell(cmd2.Cmd):
         finally:
             self._chain_prompt_busy = False
 
+    def _install_crypto_signal_handlers(self) -> None:
+        """Encrypt session data when the process is terminated externally.
+
+        SIGTERM/SIGHUP bypass ``atexit`` (closing the terminal, killing
+        the shell), so both get a handler that runs the same encryption
+        path and then re-raises the signal with its original disposition.
+        """
+        import signal
+
+        for signum in (signal.SIGTERM, signal.SIGHUP):
+            try:
+                previous = signal.getsignal(signum)
+            except (ValueError, OSError, AttributeError):
+                continue
+            if previous is not signal.SIG_DFL:
+                continue
+
+            def _handler(received, frame, _signum=signum):
+                try:
+                    self._run_auto_encrypt()
+                finally:
+                    signal.signal(_signum, signal.SIG_DFL)
+                    os.kill(os.getpid(), _signum)
+
+            signal.signal(signum, _handler)
+
     def _run_auto_decrypt(self) -> None:
         """Decrypt session data automatically on authenticated startup."""
         crypto = getattr(self, "_auto_crypto", None)
@@ -1084,11 +1159,16 @@ class LazyOwnShell(cmd2.Cmd):
         if crypto is None or not crypto.enabled:
             return
         try:
+            if not crypto.has_password():
+                print_warn("session encryption skipped: no operator login and LAZYOWN_MASTER_PASSWORD is not set")
+                return
             encrypted = crypto.encrypt_session()
             if encrypted:
                 print("Session data encrypted for at-rest protection.", flush=True)
+            else:
+                print_warn("session encryption skipped: no protected files found")
         except Exception as exc:
-            _ux_debug("auto-crypto session encryption failed", exc)
+            print_warn(f"session encryption failed: {exc}")
 
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         """Return the last ``limit`` first-tokens from the session transcript.
@@ -1227,7 +1307,11 @@ class LazyOwnShell(cmd2.Cmd):
                     category=_EventCategory.COMMAND,
                     event_type=cmd_name,
                     source="cli",
-                    payload={"command": command, "args": cmd_args, "duration_ms": duration_ms},
+                    payload={
+                        "command": redact_secrets(command),
+                        "args": redact_secrets(cmd_args),
+                        "duration_ms": duration_ms,
+                    },
                     target=rhost,
                 )
             )
@@ -1255,7 +1339,16 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_name = parts[0]
         cmd_args = parts[1] if len(parts) > 1 else ""
         domain = self.params["domain"]
-        self.display_toastr(f"Executing... {command}")
+        try:
+            from core.autonomous import is_autonomous
+            from utils import needs_sudo, sudo_available
+
+            if is_autonomous() and needs_sudo(command) and not sudo_available():
+                print_warn(f"sudo unavailable in autonomous mode; skipped: {redact_secrets(command)[:160]}")
+                return
+        except Exception:
+            pass
+        self.display_toastr(f"Executing... {redact_secrets(command)}")
         start_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         start_monotonic = time.monotonic()
         child_env = _terminal_env()
@@ -2094,7 +2187,12 @@ class LazyOwnShell(cmd2.Cmd):
 
                     if "execute_command" in tool:
                         binary = execute_command.split()[0] if execute_command else ""
-                        if binary and not os.path.isabs(binary) and not is_binary_present(binary):
+                        if (
+                            binary
+                            and binary not in SHELL_BUILTIN_TOKENS
+                            and not os.path.isabs(binary)
+                            and not is_binary_present(binary)
+                        ):
                             install_hint = tool.get("install_command", f"git clone {tool.get('repo_url', '')}")
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")

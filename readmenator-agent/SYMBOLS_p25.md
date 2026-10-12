@@ -1,500 +1,500 @@
-# Symbols (page 25 of 38)
+# Symbols (page 25 of 40)
 Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5905` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:6517` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:246` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:581` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:839` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:934` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1054` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:1113` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:2624` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3014` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3195` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:3982` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4524` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4763` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:4927` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5505` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:5896` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:6496` | `` |
-| `_eachEntry` | function | `static/js/html2pdf.bundle.min.js:7895` | `` |
-| `_enumerate` | function | `static/js/html2pdf.bundle.min.js:7889` | `` |
-| `_finally` | function | `static/js/html2pdf.bundle.min.js:8484` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:497` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:939` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1061` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1122` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1331` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1379` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1727` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1784` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2249` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2359` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2487` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3206` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3869` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3909` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4098` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4215` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4579` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4770` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4829` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5065` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5520` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5830` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5903` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:6515` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:7100` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:7224` | `` |
-| `_lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3457` | `` |
-| `_lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3457` | `` |
-| `_loadImage` | function | `static/js/html2pdf.bundle.min.js:6129` | `` |
-| `_loadImage` | function | `static/js/html2pdf.bundle.min.js:6129` | `` |
-| `_parseBounds` | function | `static/js/html2pdf.bundle.min.js:6645` | `` |
-| `_parseMetrics` | function | `static/js/html2pdf.bundle.min.js:4945` | `` |
-| `_path` | function | `static/js/html2pdf.bundle.min.js:5641` | `` |
-| `_settledAt` | function | `static/js/html2pdf.bundle.min.js:7922` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:244` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:1779` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:3197` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:5048` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:5503` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:6161` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:6494` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:7071` | `` |
-| `_toConsumableArray` | function | `static/js/html2pdf.bundle.min.js:3208` | `` |
-| `_willSettleAt` | function | `static/js/html2pdf.bundle.min.js:7941` | `` |
-| `a` | function | `static/js/html2pdf.bundle.min.js:146` | `` |
-| `addColorStops` | function | `static/js/html2pdf.bundle.min.js:589` | `` |
-| `addColorStops` | function | `static/js/html2pdf.bundle.min.js:589` | `` |
-| `addImage` | function | `static/js/html2pdf.bundle.min.js:6022` | `` |
-| `addOtherToken` | function | `static/js/html2pdf.bundle.min.js:6442` | `` |
-| `addOtherToken` | function | `static/js/html2pdf.bundle.min.js:6442` | `` |
-| `all` | function | `static/js/html2pdf.bundle.min.js:8000` | `` |
-| `angle` | function | `static/js/html2pdf.bundle.min.js:5179` | `` |
-| `appendResult` | function | `static/js/html2pdf.bundle.min.js:1611` | `` |
-| `appendResult` | function | `static/js/html2pdf.bundle.min.js:1611` | `` |
-| `appendShadow` | function | `static/js/html2pdf.bundle.min.js:2388` | `` |
-| `appendShadow` | function | `static/js/html2pdf.bundle.min.js:2388` | `` |
-| `appendValue` | function | `static/js/html2pdf.bundle.min.js:2376` | `` |
-| `appendValue` | function | `static/js/html2pdf.bundle.min.js:2376` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:248` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:587` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:841` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:942` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:1012` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:1033` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:1064` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:1125` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:1382` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:2626` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:3018` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:3211` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:3912` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:3988` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:4046` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:4582` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:4773` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:4931` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:5068` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:5523` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:5906` | `` |
-| `as` | class | `static/js/html2pdf.bundle.min.js:6518` | `` |
-| `as` | function | `static/js/html2pdf.bundle.min.js:8131` | `` |
-| `asap` | function | `static/js/html2pdf.bundle.min.js:7417` | `` |
-| `asap` | function | `static/js/html2pdf.bundle.min.js:7417` | `` |
-| `attemptVertx` | function | `static/js/html2pdf.bundle.min.js:7512` | `` |
-| `backgroundImageSize` | function | `static/js/html2pdf.bundle.min.js:5639` | `` |
-| `backgroundImageSize` | function | `static/js/html2pdf.bundle.min.js:5652` | `` |
-| `backgroundPaintingArea` | function | `static/js/html2pdf.bundle.min.js:5592` | `` |
-| `backgroundPositioningArea` | function | `static/js/html2pdf.bundle.min.js:5638` | `` |
-| `backgroundPositioningArea` | function | `static/js/html2pdf.bundle.min.js:5651` | `` |
-| `bounds` | function | `static/js/html2pdf.bundle.min.js:3956` | `` |
-| `breakWords` | function | `static/js/html2pdf.bundle.min.js:3872` | `` |
-| `breaker` | function | `static/js/html2pdf.bundle.min.js:3873` | `` |
-| `buffer` | function | `static/js/html2pdf.bundle.min.js:3088` | `` |
-| `c` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `c` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `c` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
-| `calculateBackgroundPosition` | function | `static/js/html2pdf.bundle.min.js:1493` | `` |
-| `calculateBackgroundRepeatPath` | function | `static/js/html2pdf.bundle.min.js:1497` | `` |
-| `calculateBackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1426` | `` |
-| `calculateBackgroungPaintingArea` | function | `static/js/html2pdf.bundle.min.js:1465` | `` |
-| `calculateBackgroungPositioningArea` | function | `static/js/html2pdf.bundle.min.js:1475` | `` |
-| `calculateBorderBoxPath` | function | `static/js/html2pdf.bundle.min.js:1230` | `` |
-| `calculateContentBox` | function | `static/js/html2pdf.bundle.min.js:1163` | `` |
-| `calculateGradientBackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1455` | `` |
-| `calculateGradientDirection` | function | `static/js/html2pdf.bundle.min.js:5234` | `` |
-| `calculateGradientDirection` | function | `static/js/html2pdf.bundle.min.js:5234` | `` |
-| `calculateLengthFromValueWithUnit` | function | `static/js/html2pdf.bundle.min.js:986` | `` |
-| `calculatePaddingBox` | function | `static/js/html2pdf.bundle.min.js:1159` | `` |
-| `calculatePaddingBoxPath` | function | `static/js/html2pdf.bundle.min.js:1234` | `` |
-| `calculateRadius` | function | `static/js/html2pdf.bundle.min.js:5323` | `` |
-| `calculateRadius` | function | `static/js/html2pdf.bundle.min.js:5323` | `` |
-| `callback` | function | `static/js/html2pdf.bundle.min.js:5547` | `` |
-| `callback` | function | `static/js/html2pdf.bundle.min.js:5547` | `` |
-| `callback` | function | `static/js/html2pdf.bundle.min.js:5591` | `` |
-| `callback` | function | `static/js/html2pdf.bundle.min.js:5591` | `` |
-| `cannotReturnOwn` | function | `static/js/html2pdf.bundle.min.js:7618` | `` |
-| `capitalize` | function | `static/js/html2pdf.bundle.min.js:4027` | `` |
-| `catchExternal` | function | `static/js/html2pdf.bundle.min.js:9024` | `` |
-| `checkPageSize` | function | `static/js/html2pdf.bundle.min.js:8665` | `` |
-| `child` | function | `static/js/html2pdf.bundle.min.js:854` | `` |
-| `clip` | function | `static/js/html2pdf.bundle.min.js:623` | `` |
-| `cloneCanvasContents` | function | `static/js/html2pdf.bundle.min.js:6837` | `` |
-| `cloneCanvasContents` | function | `static/js/html2pdf.bundle.min.js:6837` | `` |
-| `cloneNode` | function | `static/js/html2pdf.bundle.min.js:6709` | `` |
-| `cloneNode` | function | `static/js/html2pdf.bundle.min.js:7332` | `` |
-| `cloneNode` | function | `static/js/html2pdf.bundle.min.js:7332` | `` |
-| `cloneWindow` | function | `static/js/html2pdf.bundle.min.js:6990` | `` |
-| `clonedChild` | function | `static/js/html2pdf.bundle.min.js:6570` | `` |
-| `codePoints` | function | `static/js/html2pdf.bundle.min.js:3730` | `` |
-| `codePoints` | function | `static/js/html2pdf.bundle.min.js:3767` | `` |
-| `codePointsToCharacterClasses` | function | `static/js/html2pdf.bundle.min.js:3323` | `` |
-| `commonjsRequire` | function | `static/js/html2pdf.bundle.min.js:13` | `` |
-| `contains` | function | `static/js/html2pdf.bundle.min.js:899` | `` |
-| `contentAfter` | function | `static/js/html2pdf.bundle.min.js:6740` | `` |
-| `contentBefore` | function | `static/js/html2pdf.bundle.min.js:6726` | `` |
-| `contentBox` | function | `static/js/html2pdf.bundle.min.js:5562` | `` |
-| `convert` | function | `static/js/html2pdf.bundle.min.js:8582` | `` |
-| `copyCSSStyles` | function | `static/js/html2pdf.bundle.min.js:907` | `` |
-| `counters` | function | `static/js/html2pdf.bundle.min.js:6725` | `` |
-| `create` | function | `static/js/html2pdf.bundle.min.js:970` | `` |
-| `createAdditiveCounter` | function | `static/js/html2pdf.bundle.min.js:4326` | `` |
-| `createAdditiveCounter` | function | `static/js/html2pdf.bundle.min.js:4326` | `` |
-| `createCJKCounter` | function | `static/js/html2pdf.bundle.min.js:4376` | `` |
-| `createCJKCounter` | function | `static/js/html2pdf.bundle.min.js:4376` | `` |
-| `createCommonjsModule` | function | `static/js/html2pdf.bundle.min.js:21` | `` |
-| `createCounterStyleFromRange` | function | `static/js/html2pdf.bundle.min.js:4354` | `` |
-| `createCounterStyleFromRange` | function | `static/js/html2pdf.bundle.min.js:4354` | `` |
-| `createCounterStyleFromSymbols` | function | `static/js/html2pdf.bundle.min.js:4362` | `` |
-| `createCounterStyleFromSymbols` | function | `static/js/html2pdf.bundle.min.js:4362` | `` |
-| `createCounterStyleWithSymbolResolver` | function | `static/js/html2pdf.bundle.min.js:4340` | `` |
-| `createCounterStyleWithSymbolResolver` | function | `static/js/html2pdf.bundle.min.js:4340` | `` |
-| `createCounterText` | function | `static/js/html2pdf.bundle.min.js:4408` | `` |
-| `createElement` | function | `static/js/html2pdf.bundle.min.js:7315` | `` |
-| `createElement` | function | `static/js/html2pdf.bundle.min.js:7315` | `` |
-| `createElementClone` | function | `static/js/html2pdf.bundle.min.js:6627` | `` |
-| `createForeignObjectSVG` | function | `static/js/html2pdf.bundle.min.js:2667` | `` |
-| `createIframeContainer` | function | `static/js/html2pdf.bundle.min.js:6952` | `` |
-| `createIframeContainer` | function | `static/js/html2pdf.bundle.min.js:6952` | `` |
-| `createPathFromCurves` | function | `static/js/html2pdf.bundle.min.js:1201` | `` |
-| `createPathFromCurves` | function | `static/js/html2pdf.bundle.min.js:1201` | `` |
-| `createPseudoHideStyles` | function | `static/js/html2pdf.bundle.min.js:6897` | `` |
-| `createPseudoHideStyles` | function | `static/js/html2pdf.bundle.min.js:6897` | `` |
-| `createStyleSheetFontsFromText` | function | `static/js/html2pdf.bundle.min.js:6813` | `` |
-| `createStyleSheetFontsFromText` | function | `static/js/html2pdf.bundle.min.js:6813` | `` |
-| `createStyles` | function | `static/js/html2pdf.bundle.min.js:6901` | `` |
-| `createStyles` | function | `static/js/html2pdf.bundle.min.js:6901` | `` |
-| `createTrieFromBase64` | function | `static/js/html2pdf.bundle.min.js:3087` | `` |
-| `createsRealStackingContext` | function | `static/js/html2pdf.bundle.min.js:4905` | `` |
-| `createsRealStackingContext` | function | `static/js/html2pdf.bundle.min.js:4905` | `` |
-| `createsStackingContext` | function | `static/js/html2pdf.bundle.min.js:4909` | `` |
-| `createsStackingContext` | function | `static/js/html2pdf.bundle.min.js:4909` | `` |
-| `cssFormattedClasses` | function | `static/js/html2pdf.bundle.min.js:3705` | `` |
-| `cssFormattedClasses` | function | `static/js/html2pdf.bundle.min.js:3705` | `` |
-| `d` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `d` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `d` | function | `static/js/html2pdf.bundle.min.js:5308` | `` |
-| `decode` | function | `static/js/html2pdf.bundle.min.js:2948` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:246` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:581` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:839` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:934` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:1054` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:1113` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:2624` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:3014` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:3195` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:3982` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:4524` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:4763` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:4927` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:5505` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:5896` | `` |
-| `defineProperties` | function | `static/js/html2pdf.bundle.min.js:6496` | `` |
-| `distance` | function | `static/js/html2pdf.bundle.min.js:903` | `` |
-| `drawImage` | function | `static/js/html2pdf.bundle.min.js:642` | `` |
-| `drawShape` | function | `static/js/html2pdf.bundle.min.js:647` | `` |
-| `e` | function | `static/js/html2pdf.bundle.min.js:27` | `` |
-| `error` | function | `static/js/html2pdf.bundle.min.js:876` | `` |
-| `error` | function | `static/js/html2pdf.bundle.min.js:9029` | `` |
-| `failure` | function | `static/js/html2pdf.bundle.min.js:8372` | `` |
-| `fill` | function | `static/js/html2pdf.bundle.min.js:654` | `` |
-| `findAuthor` | function | `static/js/html2pdf.bundle.min.js:8419` | `` |
-| `findCorner` | function | `static/js/html2pdf.bundle.min.js:5303` | `` |
-| `findCorner` | function | `static/js/html2pdf.bundle.min.js:5303` | `` |
-| `flush` | function | `static/js/html2pdf.bundle.min.js:7498` | `` |
-| `formatCounterValue` | function | `static/js/html2pdf.bundle.min.js:6465` | `` |
-| `formatCounterValue` | function | `static/js/html2pdf.bundle.min.js:6465` | `` |
-| `format_as_string` | function | `static/js/html2pdf.bundle.min.js:9058` | `` |
-| `foundBooks` | function | `static/js/html2pdf.bundle.min.js:8370` | `` |
-| `from` | function | `static/js/html2pdf.bundle.min.js:8616` | `` |
-| `fromArray` | function | `static/js/html2pdf.bundle.min.js:286` | `` |
-| `fromArray` | function | `static/js/html2pdf.bundle.min.js:286` | `` |
-| `fromClientRect` | function | `static/js/html2pdf.bundle.min.js:1147` | `` |
-| `fromCodePoint` | function | `static/js/html2pdf.bundle.min.js:2910` | `` |
-| `fromTextNode` | function | `static/js/html2pdf.bundle.min.js:4001` | `` |
-| `fulfill` | function | `static/js/html2pdf.bundle.min.js:7717` | `` |
-| `generateIframeKey` | function | `static/js/html2pdf.bundle.min.js:6917` | `` |
-| `generateIframeKey` | function | `static/js/html2pdf.bundle.min.js:6917` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3121` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3820` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3826` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3835` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3853` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3859` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:6102` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:8890` | `` |
-| `getAbsoluteValue` | function | `static/js/html2pdf.bundle.min.js:965` | `` |
-| `getClipPaths` | function | `static/js/html2pdf.bundle.min.js:4666` | `` |
-| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
-| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
-| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
-| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
-| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
-| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
-| `getInputBorderRadius` | function | `static/js/html2pdf.bundle.min.js:4125` | `` |
-| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
-| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
-| `getJSON` | function | `static/js/html2pdf.bundle.min.js:8193` | `` |
-| `getListOwner` | function | `static/js/html2pdf.bundle.min.js:4223` | `` |
-| `getMetrics` | function | `static/js/html2pdf.bundle.min.js:4995` | `` |
-| `getOpacity` | function | `static/js/html2pdf.bundle.min.js:4788` | `` |
-| `getOrigin` | function | `static/js/html2pdf.bundle.min.js:6064` | `` |
-| `getQuote` | function | `static/js/html2pdf.bundle.min.js:6453` | `` |
-| `getQuote` | function | `static/js/html2pdf.bundle.min.js:6453` | `` |
-| `getRangeBounds` | function | `static/js/html2pdf.bundle.min.js:3965` | `` |
-| `getRangeBounds` | function | `static/js/html2pdf.bundle.min.js:3965` | `` |
-| `getRealParentStackingContext` | function | `static/js/html2pdf.bundle.min.js:4793` | `` |
-| `getRootFontSize` | function | `static/js/html2pdf.bundle.min.js:981` | `` |
-| `getRootFontSize` | function | `static/js/html2pdf.bundle.min.js:981` | `` |
-| `getSheetFonts` | function | `static/js/html2pdf.bundle.min.js:6776` | `` |
-| `getSheetFonts` | function | `static/js/html2pdf.bundle.min.js:6776` | `` |
-| `getTarget` | function | `static/js/html2pdf.bundle.min.js:660` | `` |
-| `getThen` | function | `static/js/html2pdf.bundle.min.js:7622` | `` |
-| `getType` | function | `static/js/html2pdf.bundle.min.js:8617` | `` |
-| `getWrapperBounds` | function | `static/js/html2pdf.bundle.min.js:3950` | `` |
-| `getWrapperBounds` | function | `static/js/html2pdf.bundle.min.js:3950` | `` |
-| `gradient` | function | `static/js/html2pdf.bundle.min.js:5656` | `` |
-| `h` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `handleForeignThenable` | function | `static/js/html2pdf.bundle.min.js:7639` | `` |
-| `handleMaybeThenable` | function | `static/js/html2pdf.bundle.min.js:7682` | `` |
-| `handleOwnThenable` | function | `static/js/html2pdf.bundle.min.js:7668` | `` |
-| `handler` | function | `static/js/html2pdf.bundle.min.js:8203` | `` |
-| `hasResourceInCache` | function | `static/js/html2pdf.bundle.min.js:6017` | `` |
-| `hex3` | function | `static/js/html2pdf.bundle.min.js:251` | `` |
-| `hex3` | function | `static/js/html2pdf.bundle.min.js:251` | `` |
-| `hex6` | function | `static/js/html2pdf.bundle.min.js:260` | `` |
-| `hex6` | function | `static/js/html2pdf.bundle.min.js:260` | `` |
-| `html2canvas` | function | `static/js/html2pdf.bundle.min.js:7227` | `` |
-| `html2canvas` | function | `static/js/html2pdf.bundle.min.js:7227` | `` |
-| `html2pdf` | function | `static/js/html2pdf.bundle.min.js:9342` | `` |
-| `html2pdf` | function | `static/js/html2pdf.bundle.min.js:9342` | `` |
-| `i` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `iframeLoader` | function | `static/js/html2pdf.bundle.min.js:6974` | `` |
-| `iframeLoader` | function | `static/js/html2pdf.bundle.min.js:6974` | `` |
-| `imageLoadHandler` | function | `static/js/html2pdf.bundle.min.js:6025` | `` |
-| `imageLoadHandler` | function | `static/js/html2pdf.bundle.min.js:6025` | `` |
-| `initNode` | function | `static/js/html2pdf.bundle.min.js:6907` | `` |
-| `initNode` | function | `static/js/html2pdf.bundle.min.js:6907` | `` |
-| `initializePromise` | function | `static/js/html2pdf.bundle.min.js:7831` | `` |
-| `inlineAllImages` | function | `static/js/html2pdf.bundle.min.js:6544` | `` |
-| `inlineBreakOpportunities` | function | `static/js/html2pdf.bundle.min.js:3729` | `` |
-| `inlineFonts` | function | `static/js/html2pdf.bundle.min.js:6581` | `` |
-| `inlineFormElement` | function | `static/js/html2pdf.bundle.min.js:4160` | `` |
-| `inlineFormElement` | function | `static/js/html2pdf.bundle.min.js:4160` | `` |
-| `inlineImage` | function | `static/js/html2pdf.bundle.min.js:5950` | `` |
-| `inlineInputElement` | function | `static/js/html2pdf.bundle.min.js:4129` | `` |
-| `inlineListItemElement` | function | `static/js/html2pdf.bundle.min.js:4240` | `` |
-| `inlinePseudoElement` | function | `static/js/html2pdf.bundle.min.js:6853` | `` |
-| `inlinePseudoElement` | function | `static/js/html2pdf.bundle.min.js:6853` | `` |
-| `inlineSelectElement` | function | `static/js/html2pdf.bundle.min.js:4144` | `` |
-| `inlineTextAreaElement` | function | `static/js/html2pdf.bundle.min.js:4140` | `` |
-| `invokeCallback` | function | `static/js/html2pdf.bundle.min.js:7791` | `` |
-| `isAbsolutelyPositioned` | function | `static/js/html2pdf.bundle.min.js:4684` | `` |
-| `isAdjacentWithSpaceIgnored` | function | `static/js/html2pdf.bundle.min.js:3395` | `` |
-| `isAdjacentWithSpaceIgnored` | function | `static/js/html2pdf.bundle.min.js:3395` | `` |
-| `isBlobImage` | function | `static/js/html2pdf.bundle.min.js:6121` | `` |
-| `isBlobImage` | function | `static/js/html2pdf.bundle.min.js:6121` | `` |
-| `isBodyWithTransparentRoot` | function | `static/js/html2pdf.bundle.min.js:4913` | `` |
-| `isBodyWithTransparentRoot` | function | `static/js/html2pdf.bundle.min.js:4913` | `` |
-| `isFloating` | function | `static/js/html2pdf.bundle.min.js:4694` | `` |
-| `isFunction` | function | `static/js/html2pdf.bundle.min.js:7395` | `` |
-| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isInFlow` | function | `static/js/html2pdf.bundle.min.js:4674` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBlockOrInlineTable` | function | `static/js/html2pdf.bundle.min.js:4719` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineLevel` | function | `static/js/html2pdf.bundle.min.js:4714` | `` |
-| `isPercentage` | function | `static/js/html2pdf.bundle.min.js:960` | `` |
-| `isPositioned` | function | `static/js/html2pdf.bundle.min.js:4689` | `` |
-| `isPositionedWithZIndex` | function | `static/js/html2pdf.bundle.min.js:4709` | `` |
-| `isRootElement` | function | `static/js/html2pdf.bundle.min.js:4699` | `` |
-| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
-| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
-| `isSameOrigin` | function | `static/js/html2pdf.bundle.min.js:6059` | `` |
-| `isTransformed` | function | `static/js/html2pdf.bundle.min.js:4704` | `` |
-| `isTransparent` | function | `static/js/html2pdf.bundle.min.js:314` | `` |
-| `isVisible` | function | `static/js/html2pdf.bundle.min.js:4679` | `` |
-| `j` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
-| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
-| `lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3686` | `` |
-| `listOwner` | function | `static/js/html2pdf.bundle.min.js:4642` | `` |
-| `listStyleImage` | function | `static/js/html2pdf.bundle.min.js:2215` | `` |
-| `loadCanvas` | function | `static/js/html2pdf.bundle.min.js:6010` | `` |
-| `loadImage` | function | `static/js/html2pdf.bundle.min.js:5922` | `` |
-| `loadSerializedSVG` | function | `static/js/html2pdf.bundle.min.js:2686` | `` |
-| `log` | function | `static/js/html2pdf.bundle.min.js:862` | `` |
-| `makePromise` | function | `static/js/html2pdf.bundle.min.js:7848` | `` |
-| `n` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `n` | function | `static/js/html2pdf.bundle.min.js:94` | `` |
-| `n` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `namedColor` | function | `static/js/html2pdf.bundle.min.js:290` | `` |
-| `namedColor` | function | `static/js/html2pdf.bundle.min.js:290` | `` |
-| `needsNew` | function | `static/js/html2pdf.bundle.min.js:8133` | `` |
-| `needsResolver` | function | `static/js/html2pdf.bundle.min.js:8129` | `` |
-| `next` | function | `static/js/html2pdf.bundle.min.js:3780` | `` |
-| `nextId` | function | `static/js/html2pdf.bundle.min.js:7844` | `` |
-| `noop` | function | `static/js/html2pdf.bundle.min.js:7606` | `` |
-| `o` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `objType` | function | `static/js/html2pdf.bundle.min.js:7309` | `` |
-| `objType` | function | `static/js/html2pdf.bundle.min.js:7309` | `` |
-| `objectOrFunction` | function | `static/js/html2pdf.bundle.min.js:7391` | `` |
-| `of` | class | `static/js/html2pdf.bundle.min.js:3353` | `` |
-| `onload` | function | `static/js/html2pdf.bundle.min.js:2744` | `` |
-| `onload` | function | `static/js/html2pdf.bundle.min.js:2744` | `` |
-| `output` | function | `static/js/html2pdf.bundle.min.js:8785` | `` |
-| `outputImg` | function | `static/js/html2pdf.bundle.min.js:8812` | `` |
-| `outputPdf` | function | `static/js/html2pdf.bundle.min.js:8795` | `` |
-| `p` | function | `static/js/html2pdf.bundle.min.js:217` | `` |
-| `paddingBox` | function | `static/js/html2pdf.bundle.min.js:1476` | `` |
-| `pagebreak_loop` | function | `static/js/html2pdf.bundle.min.js:9213` | `` |
-| `parseAngle` | function | `static/js/html2pdf.bundle.min.js:5018` | `` |
-| `parseBackgoundPosition` | function | `static/js/html2pdf.bundle.min.js:1586` | `` |
-| `parseBackgoundPosition` | function | `static/js/html2pdf.bundle.min.js:1586` | `` |
-| `parseBackground` | function | `static/js/html2pdf.bundle.min.js:1511` | `` |
-| `parseBackgroundClip` | function | `static/js/html2pdf.bundle.min.js:1520` | `` |
-| `parseBackgroundClip` | function | `static/js/html2pdf.bundle.min.js:1520` | `` |
-| `parseBackgroundImage` | function | `static/js/html2pdf.bundle.min.js:1600` | `` |
-| `parseBackgroundImages` | function | `static/js/html2pdf.bundle.min.js:1557` | `` |
-| `parseBackgroundImages` | function | `static/js/html2pdf.bundle.min.js:1557` | `` |
-| `parseBackgroundOrigin` | function | `static/js/html2pdf.bundle.min.js:1530` | `` |
-| `parseBackgroundOrigin` | function | `static/js/html2pdf.bundle.min.js:1530` | `` |
-| `parseBackgroundRepeat` | function | `static/js/html2pdf.bundle.min.js:1540` | `` |
-| `parseBackgroundRepeat` | function | `static/js/html2pdf.bundle.min.js:1540` | `` |
-| `parseBackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1582` | `` |
-| `parseBackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1582` | `` |
-| `parseBorder` | function | `static/js/html2pdf.bundle.min.js:1754` | `` |
-| `parseBorderRadius` | function | `static/js/html2pdf.bundle.min.js:1789` | `` |
-| `parseBorderStyle` | function | `static/js/html2pdf.bundle.min.js:1746` | `` |
-| `parseBorderStyle` | function | `static/js/html2pdf.bundle.min.js:1746` | `` |
-| `parseBoundCurves` | function | `static/js/html2pdf.bundle.min.js:1238` | `` |
-| `parseBounds` | function | `static/js/html2pdf.bundle.min.js:1155` | `` |
-| `parseCSSFloat` | function | `static/js/html2pdf.bundle.min.js:1933` | `` |
-| `parseColorStops` | function | `static/js/html2pdf.bundle.min.js:5129` | `` |
-| `parseColorStops` | function | `static/js/html2pdf.bundle.min.js:5129` | `` |
-| `parseContent` | function | `static/js/html2pdf.bundle.min.js:6295` | `` |
-| `parseCounterReset` | function | `static/js/html2pdf.bundle.min.js:6182` | `` |
-| `parseDisplay` | function | `static/js/html2pdf.bundle.min.js:1912` | `` |
-| `parseDisplayValue` | function | `static/js/html2pdf.bundle.min.js:1843` | `` |
-| `parseDisplayValue` | function | `static/js/html2pdf.bundle.min.js:1843` | `` |
-| `parseDocumentSize` | function | `static/js/html2pdf.bundle.min.js:1173` | `` |
-| `parseFont` | function | `static/js/html2pdf.bundle.min.js:1970` | `` |
-| `parseFontWeight` | function | `static/js/html2pdf.bundle.min.js:1958` | `` |
-| `parseFontWeight` | function | `static/js/html2pdf.bundle.min.js:1958` | `` |
-| `parseGradient` | function | `static/js/html2pdf.bundle.min.js:5112` | `` |
-| `parseLetterSpacing` | function | `static/js/html2pdf.bundle.min.js:1994` | `` |
-| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
-| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
-| `parseLineBreak` | function | `static/js/html2pdf.bundle.min.js:2015` | `` |
-| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
-| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
-| `parseListStyle` | function | `static/js/html2pdf.bundle.min.js:2214` | `` |
-| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
-| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
-| `parseListStyleType` | function | `static/js/html2pdf.bundle.min.js:2100` | `` |
-| `parseMargin` | function | `static/js/html2pdf.bundle.min.js:2254` | `` |
-| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
-| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
-| `parseOverflow` | function | `static/js/html2pdf.bundle.min.js:2275` | `` |
-| `parseOverflowWrap` | function | `static/js/html2pdf.bundle.min.js:2303` | `` |
-| `parsePadding` | function | `static/js/html2pdf.bundle.min.js:1343` | `` |
-| `parsePathForBorder` | function | `static/js/html2pdf.bundle.min.js:1187` | `` |
-| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
-| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
-| `parsePosition` | function | `static/js/html2pdf.bundle.min.js:2330` | `` |
-| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
-| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
-| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
-| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
-| `parseTextBounds` | function | `static/js/html2pdf.bundle.min.js:3921` | `` |
-| `parseTextDecoration` | function | `static/js/html2pdf.bundle.min.js:553` | `` |
-| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
-| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
-| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
-| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
-| `parseTextShadow` | function | `static/js/html2pdf.bundle.min.js:2364` | `` |
-| `parseTextTransform` | function | `static/js/html2pdf.bundle.min.js:2460` | `` |
-| `parseTopRight` | function | `static/js/html2pdf.bundle.min.js:5250` | `` |
-| `parseTopRight` | function | `static/js/html2pdf.bundle.min.js:5250` | `` |
-| `parseTransform` | function | `static/js/html2pdf.bundle.min.js:2496` | `` |
-| `parseTransformMatrix` | function | `static/js/html2pdf.bundle.min.js:2527` | `` |
-| `parseTransformMatrix` | function | `static/js/html2pdf.bundle.min.js:2527` | `` |
-| `parseTransformOrigin` | function | `static/js/html2pdf.bundle.min.js:2517` | `` |
-| `parseTransformOrigin` | function | `static/js/html2pdf.bundle.min.js:2517` | `` |
-| `parseVisibility` | function | `static/js/html2pdf.bundle.min.js:2559` | `` |
-| `parseWordBreak` | function | `static/js/html2pdf.bundle.min.js:2586` | `` |
-| `parseZIndex` | function | `static/js/html2pdf.bundle.min.js:2607` | `` |
-| `path` | function | `static/js/html2pdf.bundle.min.js:666` | `` |
-| `polyUint16Array` | function | `static/js/html2pdf.bundle.min.js:2982` | `` |
-| `polyUint32Array` | function | `static/js/html2pdf.bundle.min.js:2991` | `` |
-| `polyfill` | function | `static/js/html2pdf.bundle.min.js:8515` | `` |
-| `popCounters` | function | `static/js/html2pdf.bundle.min.js:6208` | `` |
-| `position` | function | `static/js/html2pdf.bundle.min.js:1571` | `` |
-| `position` | function | `static/js/html2pdf.bundle.min.js:5640` | `` |
-| `position` | function | `static/js/html2pdf.bundle.min.js:5653` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8662` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8696` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8719` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8733` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8796` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8813` | `` |
-| `prerequisites` | function | `static/js/html2pdf.bundle.min.js:8837` | `` |
-| `previousNonSpaceClassType` | function | `static/js/html2pdf.bundle.min.js:3444` | `` |
-| `previousNonSpaceClassType` | function | `static/js/html2pdf.bundle.min.js:3444` | `` |
-| `publish` | function | `static/js/html2pdf.bundle.min.js:7756` | `` |
-| `publishRejection` | function | `static/js/html2pdf.bundle.min.js:7709` | `` |
-| `q` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `r` | function | `static/js/html2pdf.bundle.min.js:70` | `` |
-| `r` | function | `static/js/html2pdf.bundle.min.js:70` | `` |
-| `r` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
-| `r` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `race` | function | `static/js/html2pdf.bundle.min.js:8069` | `` |
-| `ready` | function | `static/js/html2pdf.bundle.min.js:6072` | `` |
-| `rectangle` | function | `static/js/html2pdf.bundle.min.js:691` | `` |
-| `reformatInputBounds` | function | `static/js/html2pdf.bundle.min.js:4149` | `` |
-| `reject` | function | `static/js/html2pdf.bundle.min.js:7730` | `` |
-| `reject` | function | `static/js/html2pdf.bundle.min.js:8121` | `` |
-| `rejectPromise` | function | `static/js/html2pdf.bundle.min.js:7836` | `` |
-| `render` | function | `static/js/html2pdf.bundle.min.js:608` | `` |
-| `render` | function | `static/js/html2pdf.bundle.min.js:2637` | `` |
-| `render` | function | `static/js/html2pdf.bundle.min.js:5748` | `` |
-| `renderBackgroundGradient` | function | `static/js/html2pdf.bundle.min.js:5650` | `` |
-| `renderBackgroundImage` | function | `static/js/html2pdf.bundle.min.js:5622` | `` |
-| `renderBackgroundRepeat` | function | `static/js/html2pdf.bundle.min.js:5635` | `` |
-| `renderBorder` | function | `static/js/html2pdf.bundle.min.js:5672` | `` |
-| `renderElement` | function | `static/js/html2pdf.bundle.min.js:7103` | `` |
-| `renderLinearGradient` | function | `static/js/html2pdf.bundle.min.js:697` | `` |
-| `renderNode` | function | `static/js/html2pdf.bundle.min.js:5536` | `` |
-| `renderNodeBackgroundAndBorders` | function | `static/js/html2pdf.bundle.min.js:5582` | `` |
+| `test_objectives_persist_on_disk` | method | `skills/tests/test_objectives.py:156` | `def test_objectives_persist_on_disk(self, tmp_path)` |
+| `test_soul_updater_appends_new_section` | method | `skills/tests/test_objectives.py:293` | `def test_soul_updater_appends_new_section(self, tmp_path)` |
+| `test_soul_updater_credentials_hash` | method | `skills/tests/test_objectives.py:231` | `def test_soul_updater_credentials_hash(self, tmp_path)` |
+| `test_soul_updater_credentials_username_only` | method | `skills/tests/test_objectives.py:241` | `def test_soul_updater_credentials_username_only(self, tmp_path)` |
+| `test_soul_updater_empty_creds_noop` | method | `skills/tests/test_objectives.py:285` | `def test_soul_updater_empty_creds_noop(self, tmp_path)` |
+| `test_soul_updater_patch_line` | method | `skills/tests/test_objectives.py:205` | `def test_soul_updater_patch_line(self, tmp_path)` |
+| `test_soul_updater_patch_replaces_existing` | method | `skills/tests/test_objectives.py:274` | `def test_soul_updater_patch_replaces_existing(self, tmp_path)` |
+| `test_soul_updater_section` | method | `skills/tests/test_objectives.py:223` | `def test_soul_updater_section(self, tmp_path)` |
+| `test_soul_updater_section_access` | method | `skills/tests/test_objectives.py:257` | `def test_soul_updater_section_access(self, tmp_path)` |
+| `test_soul_updater_section_os` | method | `skills/tests/test_objectives.py:249` | `def test_soul_updater_section_os(self, tmp_path)` |
+| `test_soul_updater_target_line` | method | `skills/tests/test_objectives.py:216` | `def test_soul_updater_target_line(self, tmp_path)` |
+| `test_soul_updater_vulnerabilities` | method | `skills/tests/test_objectives.py:265` | `def test_soul_updater_vulnerabilities(self, tmp_path)` |
+| `test_ttl_expiry` | method | `skills/tests/test_objectives.py:74` | `def test_ttl_expiry(self, tmp_path)` |
+| `TestParquetDBAnnotate` | class | `skills/tests/test_parquet_db.py:177` | `class TestParquetDBAnnotate` |
+| `TestParquetDBQueryKnowledge` | class | `skills/tests/test_parquet_db.py:351` | `class TestParquetDBQueryKnowledge` |
+| `TestParquetDBQuerySession` | class | `skills/tests/test_parquet_db.py:276` | `class TestParquetDBQuerySession` |
+| `TestParquetDBSync` | class | `skills/tests/test_parquet_db.py:91` | `class TestParquetDBSync` |
+| `TestStableId` | class | `skills/tests/test_parquet_db.py:401` | `class TestStableId` |
+| `_make_db` | function | `skills/tests/test_parquet_db.py:67` | `def _make_db(tmp_path)` |
+| `_setup_two_phases` | method | `skills/tests/test_parquet_db.py:277` | `def _setup_two_phases(self, tmp_path)` |
+| `_setup_with_one_row` | method | `skills/tests/test_parquet_db.py:178` | `def _setup_with_one_row(self, tmp_path)` |
+| `_write_csv` | function | `skills/tests/test_parquet_db.py:56` | `def _write_csv(path, rows)` |
+| `test_annotate` | method | `skills/tests/test_parquet_db.py:198` | `def test_annotate(self, tmp_path)` |
+| `test_annotate_category` | method | `skills/tests/test_parquet_db.py:208` | `def test_annotate_category(self, tmp_path)` |
+| `test_annotate_missing_id` | method | `skills/tests/test_parquet_db.py:217` | `def test_annotate_missing_id(self, tmp_path)` |
+| `test_annotate_rich_explicit_finding_type` | method | `skills/tests/test_parquet_db.py:265` | `def test_annotate_rich_explicit_finding_type(self, tmp_path)` |
+| `test_annotate_rich_finding_type_credential` | method | `skills/tests/test_parquet_db.py:223` | `def test_annotate_rich_finding_type_credential(self, tmp_path)` |
+| `test_annotate_rich_finding_type_hash` | method | `skills/tests/test_parquet_db.py:243` | `def test_annotate_rich_finding_type_hash(self, tmp_path)` |
+| `test_annotate_rich_finding_type_vulnerability` | method | `skills/tests/test_parquet_db.py:233` | `def test_annotate_rich_finding_type_vulnerability(self, tmp_path)` |
+| `test_annotate_rich_output_snippet_truncated` | method | `skills/tests/test_parquet_db.py:256` | `def test_annotate_rich_output_snippet_truncated(self, tmp_path)` |
+| `test_query_knowledge_keyword_binarios` | method | `skills/tests/test_parquet_db.py:390` | `def test_query_knowledge_keyword_binarios(self, tmp_path)` |
+| `test_query_knowledge_no_match` | method | `skills/tests/test_parquet_db.py:370` | `def test_query_knowledge_no_match(self, tmp_path)` |
+| `test_query_knowledge_session_parquet` | method | `skills/tests/test_parquet_db.py:352` | `def test_query_knowledge_session_parquet(self, tmp_path)` |
+| `test_query_session_empty` | method | `skills/tests/test_parquet_db.py:328` | `def test_query_session_empty(self, tmp_path)` |
+| `test_query_session_filter` | method | `skills/tests/test_parquet_db.py:306` | `def test_query_session_filter(self, tmp_path)` |
+| `test_query_session_no_filter` | method | `skills/tests/test_parquet_db.py:322` | `def test_query_session_no_filter(self, tmp_path)` |
+| `test_query_session_scanning_filter` | method | `skills/tests/test_parquet_db.py:314` | `def test_query_session_scanning_filter(self, tmp_path)` |
+| `test_query_session_target_filter` | method | `skills/tests/test_parquet_db.py:334` | `def test_query_session_target_filter(self, tmp_path)` |
+| `test_schema_cols` | method | `skills/tests/test_parquet_db.py:155` | `def test_schema_cols(self, tmp_path)` |
+| `test_stable_id_deterministic` | method | `skills/tests/test_parquet_db.py:402` | `def test_stable_id_deterministic(self)` |
+| `test_stable_id_different_inputs` | method | `skills/tests/test_parquet_db.py:408` | `def test_stable_id_different_inputs(self)` |
+| `test_stable_id_length` | method | `skills/tests/test_parquet_db.py:414` | `def test_stable_id_length(self)` |
+| `test_sync_from_csv` | method | `skills/tests/test_parquet_db.py:92` | `def test_sync_from_csv(self, tmp_path)` |
+| `test_sync_idempotent` | method | `skills/tests/test_parquet_db.py:140` | `def test_sync_idempotent(self, tmp_path)` |
+| `test_sync_missing_csv` | method | `skills/tests/test_parquet_db.py:170` | `def test_sync_missing_csv(self, tmp_path)` |
+| `test_sync_skips_empty_command` | method | `skills/tests/test_parquet_db.py:121` | `def test_sync_skips_empty_command(self, tmp_path)` |
+| `AutonomousAgent` | class | `skills/toposwarm_autonomous.py:309` | `class AutonomousAgent` |
+| `PentestState` | class | `skills/toposwarm_autonomous.py:127` | `class PentestState` |
+| `__init__` | method | `skills/toposwarm_autonomous.py:310` | `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)` |
+| `_enum_goals` | function | `skills/toposwarm_autonomous.py:286` | `def _enum_goals(state)` |
+| `_execute_goal` | method | `skills/toposwarm_autonomous.py:347` | `def _execute_goal(self, goal, phase_name)` |
+| `_load_payload` | function | `skills/toposwarm_autonomous.py:479` | `def _load_payload()` |
+| `_parse_output` | function | `skills/toposwarm_autonomous.py:181` | `def _parse_output(output, state, phase_name)` |
+| `_phase_goals` | function | `skills/toposwarm_autonomous.py:233` | `def _phase_goals(phase_idx, state, effort)` |
+| `_run_phase` | method | `skills/toposwarm_autonomous.py:386` | `def _run_phase(self, phase_idx)` |
+| `_save_state` | method | `skills/toposwarm_autonomous.py:418` | `def _save_state(self)` |
+| `add_finding` | method | `skills/toposwarm_autonomous.py:145` | `def add_finding(self, phase_name, text)` |
+| `main` | function | `skills/toposwarm_autonomous.py:489` | `def main(argv)` |
+| `run` | method | `skills/toposwarm_autonomous.py:432` | `def run(self, start_phase)` |
+| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
+| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
+| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
+| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
+| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
+| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
+| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
+| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
+| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
+| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
+| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
+| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
+| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
+| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
+| `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
+| `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
+| `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
+| `__init__` | method | `skills/unified_orchestrator.py:413` | `def __init__(self, config, factory, payload)` |
+| `__init__` | method | `skills/unified_orchestrator.py:610` | `def __init__(self, config, factory)` |
+| `__init__` | method | `skills/unified_orchestrator.py:711` | `def __init__(self, config, factory)` |
+| `__init__` | method | `skills/unified_orchestrator.py:814` | `def __init__(self, config)` |
+| `__init__` | method | `skills/unified_orchestrator.py:874` | `def __init__(self, config, registry, router, validator, bus)` |
+| `_artefacts` | method | `skills/unified_orchestrator.py:585` | `def _artefacts(raw)` |
+| `_artefacts` | method | `skills/unified_orchestrator.py:795` | `def _artefacts(swan_result)` |
+| `_build` | method | `skills/unified_orchestrator.py:513` | `def _build(self, goal, target)` |
+| `_build` | method | `skills/unified_orchestrator.py:677` | `def _build(self)` |
+| `_build` | method | `skills/unified_orchestrator.py:772` | `def _build(self, api_key)` |
+| `_emit` | method | `skills/unified_orchestrator.py:948` | `def _emit(self, result, mode, goal)` |
+| `_import_class` | method | `skills/unified_orchestrator.py:535` | `def _import_class()` |
+| `_import_factory` | method | `skills/unified_orchestrator.py:687` | `def _import_factory()` |
+| `_import_factory` | method | `skills/unified_orchestrator.py:779` | `def _import_factory()` |
+| `_keyword_score` | method | `skills/unified_orchestrator.py:404` | `def _keyword_score(text, keywords)` |
+| `_make_result` | function | `skills/unified_orchestrator.py:968` | `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)` |
+| `_new_request_id` | function | `skills/unified_orchestrator.py:963` | `def _new_request_id()` |
+| `_score` | method | `skills/unified_orchestrator.py:367` | `def _score(self, goal, backend)` |
+| `_summarise` | method | `skills/unified_orchestrator.py:541` | `def _summarise(raw, target)` |
+| `_summarise` | method | `skills/unified_orchestrator.py:698` | `def _summarise(tasks, synthesis)` |
+| `_summarise` | method | `skills/unified_orchestrator.py:785` | `def _summarise(swan_result)` |
+| `_target_from_metadata` | method | `skills/unified_orchestrator.py:502` | `def _target_from_metadata(self, goal)` |
+| `available` | method | `skills/unified_orchestrator.py:215` | `def available(self)` |
+| `available` | method | `skills/unified_orchestrator.py:335` | `def available(self)` |
+| `available` | method | `skills/unified_orchestrator.py:435` | `def available(self)` |
+| `available` | method | `skills/unified_orchestrator.py:619` | `def available(self)` |
+| `available` | method | `skills/unified_orchestrator.py:720` | `def available(self)` |
+| `backends` | method | `skills/unified_orchestrator.py:890` | `def backends(self)` |
+| `build_default_orchestrator` | function | `skills/unified_orchestrator.py:995` | `def build_default_orchestrator(payload, sessions_dir)` |
+| `choose` | method | `skills/unified_orchestrator.py:352` | `def choose(self, goal)` |
+| `effective_target` | method | `skills/unified_orchestrator.py:489` | `def effective_target(self, goal)` |
+| `emit` | method | `skills/unified_orchestrator.py:256` | `def emit(self, event)` |
+| `execute` | method | `skills/unified_orchestrator.py:894` | `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
+| `from_payload` | method | `skills/unified_orchestrator.py:111` | `def from_payload(cls, payload)` |
+| `get` | method | `skills/unified_orchestrator.py:331` | `def get(self, name)` |
+| `names` | method | `skills/unified_orchestrator.py:327` | `def names(self)` |
+| `path` | method | `skills/unified_orchestrator.py:252` | `def path(self)` |
+| `run` | method | `skills/unified_orchestrator.py:219` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:445` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:629` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:730` | `def run(self, goal)` |
+| `to_dict` | method | `skills/unified_orchestrator.py:197` | `def to_dict(self)` |
+| `validate` | method | `skills/unified_orchestrator.py:818` | `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
+| `with_defaults` | method | `skills/unified_orchestrator.py:156` | `def with_defaults(self, config)` |
+| `main` | function | `skills/update_knowledge.py:40` | `def main(argv)` |
+| `SecureSessionManager` | class | `slack_c2_bot.py:28` | `class SecureSessionManager` |
+| `__init__` | method | `slack_c2_bot.py:29` | `def __init__(self)` |
+| `capture_shell_output` | function | `slack_c2_bot.py:95` | `def capture_shell_output(cmd)` |
+| `check_lockout` | method | `slack_c2_bot.py:42` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `slack_c2_bot.py:52` | `def check_rate_limit(self, user_id)` |
+| `cmd_addcli` | function | `slack_c2_bot.py:177` | `def cmd_addcli(ack, respond, command)` |
+| `cmd_clients` | function | `slack_c2_bot.py:195` | `def cmd_clients(ack, respond, command)` |
+| `cmd_download` | function | `slack_c2_bot.py:209` | `def cmd_download(ack, respond, command)` |
+| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
+| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
+| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
+| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
+| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
+| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
+| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
+| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
+| `As` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Be` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Cs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Do` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ds` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ef` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Fp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Fs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Gd` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Ge` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Gs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `He` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Hh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `I` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `In` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ir` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Is` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Js` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ke` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Kp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Lo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ls` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Md` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Mi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Mn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ne` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Oe` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `On` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Pi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ps` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Qp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Sn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Te` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Us` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ve` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Vh` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Vr` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `We` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Wo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Wr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ws` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Xe` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Xo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Xp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Yi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ys` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Zi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Zn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Zp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `_r` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `_s` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `a` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ao` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `as` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `as` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `b` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `bi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `bp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `c` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `c` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `cf` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `co` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `coefficient` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `cr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `di` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `differentBody` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `e` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `er` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `es` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `extends` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `fn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `fr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `g` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `gi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `h` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `hh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `hr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `i` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `insert` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `insertBodies` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `io` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `is` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `is` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `isSamePosition` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `je` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `js` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ks` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `l` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `l` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ld` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `lr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ls` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `mi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ml` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `n` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `newNode` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `nr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ns` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `oe` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `or` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `pd` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `r` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `r` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `r` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `r` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `r` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `ra` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `resetBoundingBox` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ro` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `s` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `s` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `s` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `si` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `signature` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `signature` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `signature` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `t` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `tf` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `that` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `u` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `u` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `update` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `updateBoundingBox` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `uu` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `v` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ve` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `vs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `xi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `xr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `y` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `y` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `y` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `ye` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `yi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `ze` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `zs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `d` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `h` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `r` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `s` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
+| `K` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `M` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `Ni` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `Nn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `Ti` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `Ui` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `W` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `Y` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `_n` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `a` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `ci` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `dn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `ft` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `h` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `ln` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `o` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `pi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `q` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `r` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `rt` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `vi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `xn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `zi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `As` | class | `static/js/chart.min.js:13` | `` |
+| `Ge` | function | `static/js/chart.min.js:13` | `` |
+| `Ho` | class | `static/js/chart.min.js:13` | `` |
+| `Jt` | class | `static/js/chart.min.js:13` | `` |
+| `Rn` | class | `static/js/chart.min.js:13` | `` |
+| `Ro` | class | `static/js/chart.min.js:13` | `` |
+| `Se` | function | `static/js/chart.min.js:13` | `` |
+| `So` | class | `static/js/chart.min.js:13` | `` |
+| `Ss` | class | `static/js/chart.min.js:13` | `` |
+| `Tn` | class | `static/js/chart.min.js:13` | `` |
+| `Ts` | class | `static/js/chart.min.js:13` | `` |
+| `Ue` | function | `static/js/chart.min.js:13` | `` |
+| `Wa` | class | `static/js/chart.min.js:13` | `` |
+| `Xs` | function | `static/js/chart.min.js:13` | `` |
+| `Yn` | class | `static/js/chart.min.js:13` | `` |
+| `_a` | function | `static/js/chart.min.js:13` | `` |
+| `_n` | class | `static/js/chart.min.js:13` | `` |
+| `_o` | class | `static/js/chart.min.js:13` | `` |
+| `a` | function | `static/js/chart.min.js:13` | `` |
+| `a` | function | `static/js/chart.min.js:13` | `` |
+| `a` | function | `static/js/chart.min.js:13` | `` |
+| `a` | function | `static/js/chart.min.js:13` | `` |
+| `bn` | function | `static/js/chart.min.js:13` | `` |
+| `bo` | class | `static/js/chart.min.js:13` | `` |
+| `ca` | class | `static/js/chart.min.js:13` | `` |
+| `cs` | class | `static/js/chart.min.js:13` | `` |
+| `d` | function | `static/js/chart.min.js:13` | `` |
+| `de` | class | `static/js/chart.min.js:13` | `` |
+| `does` | class | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `e` | function | `static/js/chart.min.js:13` | `` |
+| `en` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `extends` | class | `static/js/chart.min.js:13` | `` |
+| `g` | function | `static/js/chart.min.js:13` | `` |
+| `h` | function | `static/js/chart.min.js:7` | `` |
+| `hs` | class | `static/js/chart.min.js:13` | `` |
+| `i` | function | `static/js/chart.min.js:7` | `` |
+| `i` | function | `static/js/chart.min.js:13` | `` |
+| `i` | function | `static/js/chart.min.js:13` | `` |
+| `it` | function | `static/js/chart.min.js:7` | `` |
+| `js` | class | `static/js/chart.min.js:13` | `` |
+| `l` | function | `static/js/chart.min.js:13` | `` |
+| `m` | function | `static/js/chart.min.js:13` | `` |
+| `n` | function | `static/js/chart.min.js:13` | `` |
+| `n` | function | `static/js/chart.min.js:13` | `` |
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `on` | class | `static/js/chart.min.js:13` | `` |
+| `oo` | class | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `r` | function | `static/js/chart.min.js:7` | `` |
+| `r` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `sn` | class | `static/js/chart.min.js:13` | `` |
+| `t` | function | `static/js/chart.min.js:13` | `` |
+| `tn` | class | `static/js/chart.min.js:13` | `` |
+| `wa` | class | `static/js/chart.min.js:13` | `` |
+| `xt` | class | `static/js/chart.min.js:7` | `` |
+| `y` | function | `static/js/chart.min.js:13` | `` |
+| `y` | function | `static/js/chart.min.js:13` | `` |
+| `ya` | class | `static/js/chart.min.js:13` | `` |
+| `ye` | function | `static/js/chart.min.js:13` | `` |
+| `yt` | function | `static/js/chart.min.js:13` | `` |
+| `Cn` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `Fi` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `Ho` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `Jo` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `Tr` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `as` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `as` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `b` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `c` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `e` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `e` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `f` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `ha` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `i` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `l` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `n` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `o` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `o` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `or` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `r` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `s` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `sa` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `t` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `ti` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
+| `u` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `v` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `y` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
+| `B` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
+| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
+| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1070` | `` |
+| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1071` | `` |
+| `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
+| `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
+| `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
+| `C` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `C` | function | `static/js/html2pdf.bundle.min.js:78` | `` |
+| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:599` | `` |
+| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:600` | `` |
+| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
+| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
+| `Color` | function | `static/js/html2pdf.bundle.min.js:295` | `` |
+| `Color` | function | `static/js/html2pdf.bundle.min.js:296` | `` |
+| `D` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `DocumentCloner` | function | `static/js/html2pdf.bundle.min.js:6523` | `` |
+| `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
+| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
+| `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
+| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
+| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2629` | `` |
+| `I` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

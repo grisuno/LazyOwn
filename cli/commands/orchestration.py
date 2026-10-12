@@ -66,7 +66,6 @@ def _spinner_hints(stop: object, events_path: str = "sessions/autonomous_events.
     a static waiting line, never to an exception.
     """
     try:
-        import threading as _threading
         import time as _time
 
         from rich.console import Console as _Console

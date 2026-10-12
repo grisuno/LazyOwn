@@ -20,8 +20,10 @@ Design (SOLID)
 
 from __future__ import annotations
 
-import json
 import logging
+import re
+import subprocess
+import sys
 import time
 from abc import ABC, abstractmethod
 from collections.abc import Callable
@@ -33,6 +35,11 @@ log = logging.getLogger("unified_bridge")
 
 _LAZYOWN_DIR = Path(__file__).resolve().parent.parent
 _SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
+
+_AGENT_POLL_SECONDS = 2.0
+_AGENT_COMMAND_TIMEOUT = 60.0
+_AGENT_TERMINAL_STATUSES = frozenset({"completed", "failed", "error"})
+_ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
 @dataclass
@@ -295,49 +302,45 @@ class UnifiedBridge:
         goal: str,
         backend: str = "groq",
         timeout: int = 120,
+        max_iterations: int = 8,
     ) -> DelegateResult:
         """Delegate a complex task to an internal AI agent.
+
+        Drives the public agent-bridge API: ``start_agent`` spawns the
+        worker thread and this method polls ``get_agent_status`` until a
+        terminal status or the timeout.
 
         Args:
             goal: Task description for the agent.
             backend: AI backend ("groq" or "ollama").
-            timeout: Maximum seconds to wait.
+            timeout: Maximum seconds to wait for completion.
+            max_iterations: Tool-calling budget handed to the agent.
 
         Returns:
             DelegateResult with agent_id, status, and result.
         """
         result = DelegateResult(goal=goal)
         try:
-            from modules.mcp_agent_bridge import AgentBridgeWorker
+            from modules.mcp_agent_bridge import get_agent_result, get_agent_status, start_agent
 
-            agent_id = f"bridge_{int(time.time())}"
-            worker = AgentBridgeWorker(
-                agent_id=agent_id,
-                goal=goal,
-                backend=backend,
-            )
-            worker.start()
-            worker.join(timeout=timeout)
-            result.agent_id = agent_id
-
-            agent_file = _SESSIONS_DIR / "agents" / f"{agent_id}.jsonl"
-            if agent_file.exists():
-                try:
-                    lines = agent_file.read_text(encoding="utf-8").strip().split("\n")
-                    last = json.loads(lines[-1]) if lines else {}
-                    result.status = last.get("status", "completed")
-                    result.result = last.get("output", last.get("result", ""))
-                except Exception:
-                    pass
-            else:
-                result.status = "timeout"
+            result.agent_id = start_agent(goal, backend, self._run_agent_command, max_iterations)
+            status = self._await_agent(get_agent_status, result.agent_id, timeout)
+            result.status = status.get("status", "timeout")
+            if status.get("error"):
+                result.status = "failed"
+                result.error = str(status["error"])
+            elif result.status in _AGENT_TERMINAL_STATUSES:
+                final = get_agent_result(result.agent_id)
+                result.result = str(final.get("answer") or "")
+                if result.status == "failed":
+                    result.error = str(final.get("error") or "agent reported failure")
 
             self._publish(
                 "command",
                 "agent_delegated",
                 {
                     "goal": goal,
-                    "agent_id": agent_id,
+                    "agent_id": result.agent_id,
                     "backend": backend,
                     "status": result.status,
                 },
@@ -348,6 +351,112 @@ class UnifiedBridge:
             result.error = str(exc)
 
         return result
+
+    def _await_agent(
+        self,
+        get_status: Callable[[str], dict],
+        agent_id: str,
+        timeout: int,
+    ) -> dict[str, Any]:
+        """Poll an agent until it finishes or the timeout expires.
+
+        Args:
+            get_status: The bridge's status accessor to poll.
+            agent_id: Agent identifier returned by ``start_agent``.
+            timeout: Maximum seconds to wait.
+
+        Returns:
+            The last status dict, ``{"status": "timeout"}`` on expiry, or
+            an ``{"error": ...}`` dict when the agent is unknown.
+        """
+        deadline = time.monotonic() + max(int(timeout), 0)
+        status: dict[str, Any] = {"status": "running"}
+        while True:
+            status = get_status(agent_id) or {"status": "running"}
+            if status.get("error"):
+                return status
+            if status.get("status") in _AGENT_TERMINAL_STATUSES:
+                return status
+            if time.monotonic() >= deadline:
+                return {"status": "timeout"}
+            time.sleep(_AGENT_POLL_SECONDS)
+
+    def _run_agent_command(self, command: str) -> str:
+        """Execute one LazyOwn shell command non-interactively via a PTY.
+
+        Mirrors the MCP agent runner: the pseudo-terminal keeps the CLI's
+        terminal-size probe happy while the command stream is piped to
+        stdin and a trailing ``exit`` line makes the shell quit.
+
+        Args:
+            command: LazyOwn shell command to execute.
+
+        Returns:
+            Captured terminal output with ANSI escapes stripped.
+        """
+        import fcntl
+        import os
+        import pty
+        import select
+        import struct
+        import termios
+
+        run_script = _LAZYOWN_DIR / "run"
+        argv = (
+            ["bash", str(run_script)]
+            if run_script.is_file()
+            else [sys.executable, "-W", "ignore", str(_LAZYOWN_DIR / "lazyown.py")]
+        )
+        env = os.environ.copy()
+        env["TERM"] = "xterm-256color"
+
+        master_fd, slave_fd = pty.openpty()
+        chunks: list[str] = []
+        try:
+            fcntl.ioctl(slave_fd, termios.TIOCSWINSZ, struct.pack("HHHH", 50, 220, 0, 0))
+            proc = subprocess.Popen(
+                argv,
+                stdin=subprocess.PIPE,
+                stdout=slave_fd,
+                stderr=slave_fd,
+                env=env,
+                cwd=str(_LAZYOWN_DIR),
+                start_new_session=True,
+            )
+            os.close(slave_fd)
+            try:
+                proc.stdin.write(f"{command.strip()}\nexit\n".encode())
+                proc.stdin.close()
+            except BrokenPipeError:
+                pass
+
+            deadline = time.monotonic() + _AGENT_COMMAND_TIMEOUT
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    proc.kill()
+                    return f"[timeout] Command exceeded {int(_AGENT_COMMAND_TIMEOUT)}s"
+                ready, _, _ = select.select([master_fd], [], [], min(remaining, 0.5))
+                if ready:
+                    try:
+                        data = os.read(master_fd, 4096)
+                    except OSError:
+                        break
+                    if not data:
+                        break
+                    chunks.append(data.decode("utf-8", errors="replace"))
+                elif proc.poll() is not None:
+                    break
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+        finally:
+            try:
+                os.close(master_fd)
+            except OSError:
+                pass
+        return _ANSI_ESCAPE.sub("", "".join(chunks)).strip()
 
     def list_backends(self) -> list[dict[str, Any]]:
         return [{"name": b.__class__.__name__, "available": b.available()} for b in self._backends]

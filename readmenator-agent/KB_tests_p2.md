@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 15)
+# Subsystem: tests (page 2 of 16)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_asset_gate.py
@@ -131,6 +131,8 @@ Previous: [KB_tests.md](KB_tests.md)
   - `TestAutoCryptoConfig` (class, line 33) `class TestAutoCryptoConfig`
   - `TestAutoCryptoEngine` (class, line 54) `class TestAutoCryptoEngine`
   - `TestPasswordProvider` (class, line 144) `class TestPasswordProvider`
+  - `TestHasPassword` (class, line 152) `class TestHasPassword`
+  - `TestExitEncryptWiring` (class, line 169) `class TestExitEncryptWiring`
   - `test_default_config` (method, line 34) `def test_default_config(self, crypto_module)`
   - `test_custom_config` (method, line 42) `def test_custom_config(self, crypto_module)`
   - `test_disabled_engine_is_noop` (method, line 55) `def test_disabled_engine_is_noop(self, crypto_module, tmp_sessions)`
@@ -139,27 +141,40 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_encrypt_decrypt_roundtrip` (method, line 86) `def test_encrypt_decrypt_roundtrip(self, crypto_module, tmp_sessions)`
   - `test_salt_is_persisted` (method, line 122) `def test_salt_is_persisted(self, crypto_module, tmp_sessions)`
   - `test_build_provider_returns_callable` (method, line 145) `def test_build_provider_returns_callable(self)`
-- Depends on: `cli/auto_crypto.py`
+  - `test_false_without_provider` (method, line 153) `def test_false_without_provider(self, crypto_module, tmp_sessions)`
+  - `test_true_with_provider` (method, line 158) `def test_true_with_provider(self, crypto_module, tmp_sessions)`
+  - `test_false_when_provider_returns_empty` (method, line 163) `def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions)`
+  - `_stub_shell` (method, line 172) `def _stub_shell(self, calls)`
+  - `test_qa_encrypts_before_exit` (method, line 180) `def test_qa_encrypts_before_exit(self, monkeypatch)`
+  - `test_exit_encrypts_after_confirmation` (method, line 194) `def test_exit_encrypts_after_confirmation(self, monkeypatch)`
+  - `test_eof_encrypts_before_returning` (method, line 211) `def test_eof_encrypts_before_returning(self, monkeypatch)`
+- Depends on: `cli/auto_crypto.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`
 
 ## tests/test_auto_registry.py
 - Doc: Auto-verb registry: loop-ready automation commands.
 - Layer: testing
 - Language: py
 - Symbols:
-  - `test_registry_covers_auto_family` (function, line 25) `def test_registry_covers_auto_family()`
-  - `test_build_command_binds_target` (function, line 35) `def test_build_command_binds_target()`
-  - `test_is_shell_verb_matches_first_token` (function, line 44) `def test_is_shell_verb_matches_first_token()`
-  - `test_verbs_for_matches_keywords` (function, line 52) `def test_verbs_for_matches_keywords()`
-  - `test_propose_and_translate_roundtrip` (function, line 60) `def test_propose_and_translate_roundtrip()`
-  - `_FakeShell` (class, line 70) `class _FakeShell`
-  - `_HangingShell` (class, line 83) `class _HangingShell`
-  - `test_execute_shell_verb_captures_output` (method, line 93) `def test_execute_shell_verb_captures_output()`
-  - `test_execute_shell_verb_rejects_non_verbs` (method, line 101) `def test_execute_shell_verb_rejects_non_verbs()`
-  - `test_execute_shell_verb_timeout_never_hangs` (method, line 109) `def test_execute_shell_verb_timeout_never_hangs()`
-  - `test_execute_shell_verb_without_shell` (method, line 115) `def test_execute_shell_verb_without_shell()`
-  - `__init__` (method, line 73) `def __init__(self, output)`
-  - `onecmd_plus_hooks` (method, line 77) `def onecmd_plus_hooks(self, command)`
-  - `onecmd` (method, line 86) `def onecmd(self, command)`
+  - `test_registry_covers_auto_family` (function, line 28) `def test_registry_covers_auto_family()`
+  - `test_build_command_binds_target` (function, line 38) `def test_build_command_binds_target()`
+  - `test_is_shell_verb_matches_first_token` (function, line 47) `def test_is_shell_verb_matches_first_token()`
+  - `test_verbs_for_matches_keywords` (function, line 55) `def test_verbs_for_matches_keywords()`
+  - `test_propose_and_translate_roundtrip` (function, line 63) `def test_propose_and_translate_roundtrip()`
+  - `_FakeShell` (class, line 73) `class _FakeShell`
+  - `_HangingShell` (class, line 86) `class _HangingShell`
+  - `test_execute_shell_verb_captures_output` (function, line 96) `def test_execute_shell_verb_captures_output()`
+  - `test_execute_shell_verb_rejects_non_verbs` (function, line 104) `def test_execute_shell_verb_rejects_non_verbs()`
+  - `test_execute_shell_verb_timeout_never_hangs` (function, line 112) `def test_execute_shell_verb_timeout_never_hangs()`
+  - `test_execute_shell_verb_without_shell` (function, line 118) `def test_execute_shell_verb_without_shell()`
+  - `test_verb_gap_flags_missing_tooling` (function, line 124) `def test_verb_gap_flags_missing_tooling(monkeypatch)`
+  - `test_missing_binary_skips_builtins_paths_and_scripts` (function, line 134) `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)`
+  - `test_propose_and_steps_skip_unavailable_verbs` (function, line 144) `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)`
+  - `test_steps_for_uses_next_available_keyword_verb` (function, line 154) `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)`
+  - `test_cancel_running_commands_kills_streaming` (function, line 160) `def test_cancel_running_commands_kills_streaming()`
+  - `__init__` (method, line 76) `def __init__(self, output)`
+  - `onecmd_plus_hooks` (method, line 80) `def onecmd_plus_hooks(self, command)`
+  - `onecmd` (method, line 89) `def onecmd(self, command)`
+  - `_run` (function, line 169) `def _run()`
 - Depends on: `modules/auto_registry.py`
 
 ## tests/test_autonomous_ops.py
@@ -218,35 +233,35 @@ Previous: [KB_tests.md](KB_tests.md)
 - Symbols:
   - `_StaticProvider` (class, line 42) `class _StaticProvider`
   - `_RaisingProvider` (class, line 52) `class _RaisingProvider`
-  - `test_engine_refresh_stores_suggestion` (method, line 59) `def test_engine_refresh_stores_suggestion()`
-  - `test_engine_accept_returns_command_and_clears` (method, line 69) `def test_engine_accept_returns_command_and_clears()`
-  - `test_engine_disabled_clears_state_and_returns_none` (method, line 81) `def test_engine_disabled_clears_state_and_returns_none()`
-  - `test_engine_skip_commands_do_not_refresh` (method, line 93) `def test_engine_skip_commands_do_not_refresh()`
-  - `test_engine_display_text_empty_without_suggestion` (method, line 102) `def test_engine_display_text_empty_without_suggestion()`
-  - `test_engine_display_text_renders_active_suggestion` (method, line 108) `def test_engine_display_text_renders_active_suggestion()`
-  - `test_engine_display_text_truncates_long_command` (method, line 119) `def test_engine_display_text_truncates_long_command()`
-  - `test_composite_picks_highest_score` (method, line 133) `def test_composite_picks_highest_score()`
-  - `test_composite_skips_raising_provider` (method, line 143) `def test_composite_skips_raising_provider()`
-  - `test_composite_returns_none_when_no_provider_responds` (method, line 152) `def test_composite_returns_none_when_no_provider_responds()`
-  - `test_killchain_provider_uses_adjacency` (method, line 158) `def test_killchain_provider_uses_adjacency()`
-  - `test_killchain_provider_skips_already_executed` (method, line 169) `def test_killchain_provider_skips_already_executed()`
-  - `test_killchain_provider_falls_back_to_phase_priority` (method, line 184) `def test_killchain_provider_falls_back_to_phase_priority()`
-  - `test_killchain_provider_returns_none_with_nothing_to_offer` (method, line 197) `def test_killchain_provider_returns_none_with_nothing_to_offer()`
+  - `test_engine_refresh_stores_suggestion` (function, line 59) `def test_engine_refresh_stores_suggestion()`
+  - `test_engine_accept_returns_command_and_clears` (function, line 69) `def test_engine_accept_returns_command_and_clears()`
+  - `test_engine_disabled_clears_state_and_returns_none` (function, line 81) `def test_engine_disabled_clears_state_and_returns_none()`
+  - `test_engine_skip_commands_do_not_refresh` (function, line 93) `def test_engine_skip_commands_do_not_refresh()`
+  - `test_engine_display_text_empty_without_suggestion` (function, line 102) `def test_engine_display_text_empty_without_suggestion()`
+  - `test_engine_display_text_renders_active_suggestion` (function, line 108) `def test_engine_display_text_renders_active_suggestion()`
+  - `test_engine_display_text_truncates_long_command` (function, line 119) `def test_engine_display_text_truncates_long_command()`
+  - `test_composite_picks_highest_score` (function, line 133) `def test_composite_picks_highest_score()`
+  - `test_composite_skips_raising_provider` (function, line 143) `def test_composite_skips_raising_provider()`
+  - `test_composite_returns_none_when_no_provider_responds` (function, line 152) `def test_composite_returns_none_when_no_provider_responds()`
+  - `test_killchain_provider_uses_adjacency` (function, line 158) `def test_killchain_provider_uses_adjacency()`
+  - `test_killchain_provider_skips_already_executed` (function, line 169) `def test_killchain_provider_skips_already_executed()`
+  - `test_killchain_provider_falls_back_to_phase_priority` (function, line 184) `def test_killchain_provider_falls_back_to_phase_priority()`
+  - `test_killchain_provider_returns_none_with_nothing_to_offer` (function, line 197) `def test_killchain_provider_returns_none_with_nothing_to_offer()`
   - `_FakeAdvisor` (class, line 203) `class _FakeAdvisor`
-  - `test_graph_provider_returns_top_result` (method, line 215) `def test_graph_provider_returns_top_result()`
-  - `test_graph_provider_returns_none_when_advisor_empty` (method, line 232) `def test_graph_provider_returns_none_when_advisor_empty()`
-  - `test_graph_provider_skips_when_last_command_blank` (method, line 239) `def test_graph_provider_skips_when_last_command_blank()`
-  - `test_build_default_engine_includes_killchain_only_when_no_advisor` (method, line 246) `def test_build_default_engine_includes_killchain_only_when_no_advisor()`
-  - `test_format_hint_line_includes_accept_key_and_reason` (method, line 261) `def test_format_hint_line_includes_accept_key_and_reason()`
-  - `test_format_hint_line_truncates_long_command` (method, line 275) `def test_format_hint_line_truncates_long_command()`
-  - `test_format_hint_line_omits_reason_when_blank` (method, line 287) `def test_format_hint_line_omits_reason_when_blank()`
+  - `test_graph_provider_returns_top_result` (function, line 215) `def test_graph_provider_returns_top_result()`
+  - `test_graph_provider_returns_none_when_advisor_empty` (function, line 232) `def test_graph_provider_returns_none_when_advisor_empty()`
+  - `test_graph_provider_skips_when_last_command_blank` (function, line 239) `def test_graph_provider_skips_when_last_command_blank()`
+  - `test_build_default_engine_includes_killchain_only_when_no_advisor` (function, line 246) `def test_build_default_engine_includes_killchain_only_when_no_advisor()`
+  - `test_format_hint_line_includes_accept_key_and_reason` (function, line 261) `def test_format_hint_line_includes_accept_key_and_reason()`
+  - `test_format_hint_line_truncates_long_command` (function, line 275) `def test_format_hint_line_truncates_long_command()`
+  - `test_format_hint_line_omits_reason_when_blank` (function, line 287) `def test_format_hint_line_omits_reason_when_blank()`
   - `_CapturingConsole` (class, line 295) `class _CapturingConsole`
-  - `test_render_hint_line_emits_to_console` (method, line 303) `def test_render_hint_line_emits_to_console()`
-  - `test_render_hint_line_is_noop_without_suggestion` (method, line 315) `def test_render_hint_line_is_noop_without_suggestion()`
-  - `test_render_hint_line_is_noop_when_disabled` (method, line 325) `def test_render_hint_line_is_noop_when_disabled()`
+  - `test_render_hint_line_emits_to_console` (function, line 303) `def test_render_hint_line_emits_to_console()`
+  - `test_render_hint_line_is_noop_without_suggestion` (function, line 315) `def test_render_hint_line_is_noop_without_suggestion()`
+  - `test_render_hint_line_is_noop_when_disabled` (function, line 325) `def test_render_hint_line_is_noop_when_disabled()`
   - `_SequenceProvider` (class, line 339) `class _SequenceProvider`
-  - `test_engine_advances_suggestion_after_accept_refresh` (method, line 354) `def test_engine_advances_suggestion_after_accept_refresh()`
-  - `test_build_default_engine_with_unavailable_advisor` (method, line 372) `def test_build_default_engine_with_unavailable_advisor()`
+  - `test_engine_advances_suggestion_after_accept_refresh` (function, line 354) `def test_engine_advances_suggestion_after_accept_refresh()`
+  - `test_build_default_engine_with_unavailable_advisor` (function, line 372) `def test_build_default_engine_with_unavailable_advisor()`
   - `__init__` (method, line 45) `def __init__(self, suggestion)`
   - `suggest` (method, line 48) `def suggest(self, context)`
   - `suggest` (method, line 55) `def suggest(self, context)`
@@ -428,64 +443,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
   - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
   - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
-
-## tests/test_bof_registry.py
-- Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `catalog` (function, line 37) `def catalog()`
-  - `tmp_sessions` (function, line 42) `def tmp_sessions()`
-  - `TestBofEntry` (class, line 47) `class TestBofEntry`
-  - `TestBofCatalog` (class, line 101) `class TestBofCatalog`
-  - `TestBofRegistry` (class, line 174) `class TestBofRegistry`
-  - `TestBofValidator` (class, line 221) `class TestBofValidator`
-  - `TestBofMarketplace` (class, line 291) `class TestBofMarketplace`
-  - `TestBofEnums` (class, line 359) `class TestBofEnums`
-  - `test_construction_and_properties` (method, line 48) `def test_construction_and_properties(self)`
-  - `test_immutability` (method, line 65) `def test_immutability(self)`
-  - `test_to_dict_roundtrip` (method, line 70) `def test_to_dict_roundtrip(self)`
-  - `test_from_dict_minimal` (method, line 91) `def test_from_dict_minimal(self)`
-  - `test_register_and_get` (method, line 102) `def test_register_and_get(self, catalog)`
-  - `test_get_missing_raises_keyerror` (method, line 107) `def test_get_missing_raises_keyerror(self, catalog)`
-  - `test_search_exact_match` (method, line 111) `def test_search_exact_match(self, catalog)`
-  - `test_search_by_category` (method, line 116) `def test_search_by_category(self, catalog)`
-  - `test_search_by_technique` (method, line 121) `def test_search_by_technique(self, catalog)`
-  - `test_search_empty_query_returns_all` (method, line 127) `def test_search_empty_query_returns_all(self, catalog)`
-  - `test_list_all_sorted` (method, line 131) `def test_list_all_sorted(self, catalog)`
-  - `test_list_by_platform` (method, line 136) `def test_list_by_platform(self, catalog)`
-  - `test_list_by_category` (method, line 141) `def test_list_by_category(self, catalog)`
-  - `test_save_load_roundtrip` (method, line 147) `def test_save_load_roundtrip(self, catalog, tmp_sessions)`
-  - `test_load_missing_file_returns_empty` (method, line 153) `def test_load_missing_file_returns_empty(self, tmp_sessions)`
-  - `test_empty_catalog` (method, line 158) `def test_empty_catalog(self)`
-  - `test_register_overwrites` (method, line 165) `def test_register_overwrites(self)`
-  - `test_install_and_check` (method, line 175) `def test_install_and_check(self, tmp_sessions)`
-  - `test_uninstall` (method, line 182) `def test_uninstall(self, tmp_sessions)`
-  - `test_uninstall_nonexistent` (method, line 189) `def test_uninstall_nonexistent(self, tmp_sessions)`
-  - `test_list_installed` (method, line 193) `def test_list_installed(self, tmp_sessions)`
-  - `test_get_install_info` (method, line 201) `def test_get_install_info(self, tmp_sessions)`
-  - `test_get_install_info_nonexistent` (method, line 209) `def test_get_install_info_nonexistent(self, tmp_sessions)`
-  - `test_manifest_persistence` (method, line 213) `def test_manifest_persistence(self, tmp_sessions)`
-  - `test_verify_with_empty_hash_skips` (method, line 222) `def test_verify_with_empty_hash_skips(self, tmp_sessions)`
-  - `test_compute_sha256_deterministic` (method, line 230) `def test_compute_sha256_deterministic(self, tmp_sessions)`
-  - `test_verify_mismatched_hash` (method, line 238) `def test_verify_mismatched_hash(self, tmp_sessions)`
-  - `test_validate_args_missing_required` (method, line 253) `def test_validate_args_missing_required(self)`
-  - `test_validate_args_all_present` (method, line 266) `def test_validate_args_all_present(self)`
-  - `test_validate_args_no_required` (method, line 278) `def test_validate_args_no_required(self)`
-  - `test_search_enriches_with_install_status` (method, line 292) `def test_search_enriches_with_install_status(self, tmp_sessions)`
-  - `test_info_returns_catalog_and_install_state` (method, line 299) `def test_info_returns_catalog_and_install_state(self, tmp_sessions)`
-  - `test_info_missing_bof` (method, line 306) `def test_info_missing_bof(self)`
-  - `test_install_and_uninstall` (method, line 311) `def test_install_and_uninstall(self, tmp_sessions)`
-  - `test_install_already_installed` (method, line 321) `def test_install_already_installed(self, tmp_sessions)`
-  - `test_install_missing_bof` (method, line 327) `def test_install_missing_bof(self)`
-  - `test_uninstall_missing_bof` (method, line 332) `def test_uninstall_missing_bof(self, tmp_sessions)`
-  - `test_list_installed_empty_initially` (method, line 337) `def test_list_installed_empty_initially(self, tmp_sessions)`
-  - `test_list_missing_dependencies` (method, line 342) `def test_list_missing_dependencies(self, tmp_sessions)`
-  - `test_list_missing_dependencies_unknown_bof` (method, line 347) `def test_list_missing_dependencies_unknown_bof(self)`
-  - `test_bulk_install` (method, line 352) `def test_bulk_install(self, tmp_sessions)`
-  - `test_platform_values` (method, line 360) `def test_platform_values(self)`
-  - `test_category_values` (method, line 364) `def test_category_values(self)`
-- Depends on: `modules/bof_registry.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

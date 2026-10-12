@@ -1,7 +1,35 @@
-# Architecture (page 2 of 6)
+# Architecture (page 2 of 7)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/recommendation_signals.py` -> `core/logging.py`
+- `cli/recommendation_signals.py` -> `modules/apt_playbooks.py`
+- `cli/recommendation_signals.py` -> `skills/lazyown_policy.py`
+- `cli/recon_plan.py` -> `cli/exploration.py`
+- `cli/recon_plan.py` -> `modules/killchain.py`
+- `cli/registry.py` -> `cli/commands/_dormancy.py`
+- `cli/scope_guard.py` -> `cli/commands/enum.py`
+- `cli/session_hud.py` -> `cli/engagement_hooks.py`
+- `cli/session_resumer.py` -> `core/console.py`
+- `cli/session_resumer.py` -> `core/logging.py`
+- `cli/sessions_browser.py` -> `cli/commands/containers.py`
+- `cli/sessions_browser.py` -> `cli/themes.py`
+- `cli/splash.py` -> `cli/style.py`
+- `cli/splash.py` -> `core/console.py`
+- `cli/status_bar.py` -> `cli/reactive_hints.py`
+- `cli/status_bar.py` -> `cli/themes.py`
+- `cli/style.py` -> `cli/themes.py`
+- `cli/surface_tui.py` -> `cli/commands/containers.py`
+- `cli/surface_tui.py` -> `cli/surface_graph.py`
+- `cli/surface_tui.py` -> `core/console.py`
+- `cli/timeline_browser.py` -> `cli/commands/containers.py`
+- `cli/timeline_browser.py` -> `cli/themes.py`
+- `cli/tips_engine.py` -> `cli/autosuggest.py`
+- `cli/tips_engine.py` -> `cli/engagement_hooks.py`
+- `cli/tips_engine.py` -> `cli/noise_verbs.py`
+- `cli/tips_engine.py` -> `cli/ops_commands.py`
+- `cli/tips_engine.py` -> `cli/palette.py`
+- `cli/tips_engine.py` -> `cli/phase_labels.py`
 - `cli/tips_engine.py` -> `cli/reactive_hints.py`
 - `cli/tips_engine.py` -> `cli/recommendation_signals.py`
 - `cli/tips_engine.py` -> `cli/themes.py`
@@ -133,6 +161,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/intel_fusion.py`
 - `lazyc2.py` -> `modules/kill_chain_viz.py`
 - `lazyc2.py` -> `modules/killchain.py`
+- `lazyc2.py` -> `modules/lazy_loop.py`
+- `lazyc2.py` -> `modules/lazy_mentions.py`
 - `lazyc2.py` -> `modules/lazy_rbac.py`
 - `lazyc2.py` -> `modules/listener_manager.py`
 - `lazyc2.py` -> `modules/live_surface.py`
@@ -401,6 +431,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyown.py` -> `cli/status_bar.py`
 - `lazyown.py` -> `cli/tips_engine.py`
 - `lazyown.py` -> `cli/toast_bus.py`
+- `lazyown.py` -> `core/autonomous.py`
 - `lazyown.py` -> `core/config.py`
 - `lazyown.py` -> `core/console.py`
 - `lazyown.py` -> `core/credential_vault.py`
@@ -411,6 +442,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyown.py` -> `modules/command_executor.py`
 - `lazyown.py` -> `modules/event_bus.py`
 - `lazyown.py` -> `modules/event_consumers.py`
+- `lazyown.py` -> `modules/lazy_loop.py`
 - `lazyown.py` -> `modules/llm_factory.py`
 - `lazyown.py` -> `modules/logging_config.py`
 - `lazyown.py` -> `modules/metrics.py`
@@ -424,11 +456,11 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/agent_runner.py` -> `modules/ai_model.py`
 - `modules/agent_runner.py` -> `modules/llm_factory.py`
 - `modules/agent_runner.py` -> `modules/logging_config.py`
-- `modules/agent_tool.py` -> `core/logging.py`
 - `modules/ai_exploit_chain.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - `modules/ai_fallback.py` -> `modules/toposwarm_bridge.py`
 - `modules/ai_model.py` -> `core/logging.py`
+- `modules/ai_model.py` -> `modules/llm_factory.py`
 - `modules/apt_playbooks.py` -> `core/console.py`
 - `modules/atomic_enricher.py` -> `core/logging.py`
 - `modules/attack_surface3d.py` -> `cli/surface_graph.py`
@@ -439,6 +471,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/auto_purple.py` -> `core/logging.py`
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
+- `modules/auto_registry.py` -> `modules/command_executor.py`
+- `modules/auto_registry.py` -> `modules/orchestrator_config.py`
 - `modules/autonomous_exploit_engine.py` -> `core/defaults.py`
 - `modules/autonomous_exploit_engine.py` -> `core/safe_exec.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/auto_pivot.py`
@@ -462,39 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 - `modules/cli_auth.py` -> `core/config.py`
 - `modules/cli_auth.py` -> `modules/lazy_rbac.py`
-- `modules/collab_bp.py` -> `core/logging.py`
-- `modules/collab_bp.py` -> `modules/lazy_rbac.py`
-- `modules/command_executor.py` -> `core/logging.py`
-- `modules/command_executor.py` -> `core/safe_exec.py`
-- `modules/command_executor.py` -> `modules/event_bus.py`
-- `modules/compliance.py` -> `core/logging.py`
-- `modules/conditional_hooks.py` -> `core/logging.py`
-- `modules/conditional_hooks.py` -> `core/safe_exec.py`
-- `modules/conditional_hooks.py` -> `modules/credential_reuse.py`
-- `modules/conditional_hooks.py` -> `modules/state_manager.py`
-- `modules/config_store.py` -> `core/config.py`
-- `modules/config_store.py` -> `core/logging.py`
-- `modules/credential_reuse.py` -> `core/logging.py`
-- `modules/cve_matcher.py` -> `core/logging.py`
-- `modules/db.py` -> `core/config.py`
-- `modules/db.py` -> `core/crypto.py`
-- `modules/db.py` -> `core/logging.py`
-- `modules/detection_feed.py` -> `core/logging.py`
-- `modules/detection_feed.py` -> `modules/detection_oracle.py`
-- `modules/detection_oracle.py` -> `core/logging.py`
-- `modules/detection_oracle.py` -> `modules/detection_feed.py`
-- `modules/dns_beacon.py` -> `core/safe_exec.py`
-- `modules/engage_summary.py` -> `cli/recommendation_signals.py`
-- `modules/engage_summary.py` -> `modules/enrich.py`
-- `modules/engage_summary.py` -> `modules/evidence.py`
-- `modules/engagement_hooks.py` -> `core/logging.py`
-- `modules/engagement_hooks.py` -> `modules/collab_bp.py`
-- `modules/estorides_importer.py` -> `core/logging.py`
-- `modules/estorides_importer.py` -> `modules/db.py`
-- `modules/event_bus.py` -> `cli/commands/enum.py`
-- `modules/event_bus.py` -> `core/logging.py`
-- `modules/event_bus.py` -> `modules/collab_bp.py`
-- `modules/event_bus.py` -> `modules/engagement_hooks.py`
-- `modules/event_consumers.py` -> `core/logging.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

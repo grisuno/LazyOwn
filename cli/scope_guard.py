@@ -66,6 +66,27 @@ the guard never interferes with payload generation, report writing or
 configuration."""
 
 
+SCOPE_EXEMPT_COMMANDS: frozenset[str] = frozenset(
+    {
+        "lazy_fleet",
+        "lazy_orchestrator",
+        "lazy_view",
+        "lazy_monitor",
+        "lazy_findings",
+        "lazy_trace",
+        "lazy_evidence",
+        "lazy_verdict",
+        "lazy_status",
+        "sitrep",
+        "dashboard",
+    }
+)
+"""Commands that only read or drive local state and never generate traffic to
+the target. They are exempt from scope enforcement even when a kill-chain
+category was assigned to them for help grouping, so an operator can always
+inspect the engagement while RHOST points at an out-of-scope host."""
+
+
 class ScopeMode(StrEnum):
     """Enforcement posture for the scope guard.
 
@@ -277,6 +298,8 @@ class ScopeGuard:
             return allow
         if not self.entries:
             return allow
+        if command in SCOPE_EXEMPT_COMMANDS:
+            return allow
         try:
             offensive = bool(self._is_offensive(command))
         except Exception:
@@ -298,6 +321,7 @@ class ScopeGuard:
 
 __all__ = [
     "OFFENSIVE_CATEGORIES",
+    "SCOPE_EXEMPT_COMMANDS",
     "ScopeMode",
     "ScopeDecision",
     "ScopeGuard",

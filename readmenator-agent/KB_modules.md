@@ -1,5 +1,5 @@
-# Subsystem: modules (page 1 of 12)
-Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md)
+# Subsystem: modules (page 1 of 14)
+Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md), [KB_modules_p13.md](KB_modules_p13.md), [KB_modules_p14.md](KB_modules_p14.md)
 
 ## modules/49803.py
 - Doc: Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit...
@@ -45,14 +45,14 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `scan_system_for_binaries` (method, line 357) `def scan_system_for_binaries(self)`
   - `show_scan_results` (method, line 374) `def show_scan_results(self, binaries)`
   - `export_to_csv` (method, line 385) `def export_to_csv(self)`
-  - `get_suggestions` (method, line 124) `def get_suggestions(term)`
-  - `save_new_vector` (method, line 325) `def save_new_vector()`
-  - `is_binary` (method, line 358) `def is_binary(file_path)`
+  - `get_suggestions` (function, line 124) `def get_suggestions(term)`
+  - `save_new_vector` (function, line 325) `def save_new_vector()`
+  - `is_binary` (function, line 358) `def is_binary(file_path)`
 
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `tests/test_autonomous_ops.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_unified_bridge_delegate.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -80,55 +80,45 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `configure_logging` (function, line 59) `def configure_logging(debug)`
-  - `AgentTool` (class, line 65) `class AgentTool`
-  - `CommandMetadata` (class, line 126) `class CommandMetadata`
-  - `ASTToolExtractor` (class, line 133) `class ASTToolExtractor`
-  - `AgentRunner` (class, line 172) `class AgentRunner`
-  - `LazyOwnShellWrapper` (class, line 347) `class LazyOwnShellWrapper`
-  - `VulnBotCLI` (class, line 424) `class VulnBotCLI`
-  - `interactive_mode` (method, line 485) `def interactive_mode(bot)`
-  - `parse_args` (method, line 509) `def parse_args()`
-  - `main` (method, line 519) `def main()`
-  - `__init__` (method, line 68) `def __init__(self, name, description, func, parameters, required)`
-  - `to_api_format` (method, line 76) `def to_api_format(self)`
-  - `execute` (method, line 82) `def execute(self)`
-  - `extract_commands_from_file` (method, line 137) `def extract_commands_from_file(file_path, prefix)`
-  - `__init__` (method, line 175) `def __init__(self, model, system_prompt, max_iterations)`
-  - `_reset_history` (method, line 189) `def _reset_history(self)`
-  - `_manage_memory` (method, line 192) `def _manage_memory(self)`
-  - `register_tool` (method, line 200) `def register_tool(self, tool)`
-  - `register_tool_from_instance` (method, line 203) `def register_tool_from_instance(self, func)`
-  - `register_tools_from_metadata` (method, line 221) `def register_tools_from_metadata(self, commands, executor)`
-  - `get_tools_for_api` (method, line 248) `def get_tools_for_api(self)`
-  - `run` (method, line 253) `def run(self, user_input)`
-  - `_call_model` (method, line 277) `def _call_model(self)`
-  - `_process_tool_call` (method, line 302) `def _process_tool_call(self, tool_call)`
-  - `__init__` (method, line 350) `def __init__(self, script_path)`
-  - `_load_shell` (method, line 357) `def _load_shell(self)`
-  - `execute_command` (method, line 380) `def execute_command(self, command)`
-  - `get_commands_summary` (method, line 417) `def get_commands_summary(self)`
-  - `__init__` (method, line 425) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 437) `def _load_model(self)`
-  - `_setup_agent` (method, line 452) `def _setup_agent(self)`
-  - `process_request` (method, line 480) `def process_request(self, user_input)`
-  - `target` (method, line 387) `def target()`
-  - `make_executor` (method, line 225) `def make_executor(cmd_name)`
-  - `wrapper` (method, line 226) `def wrapper(command)`
+  - `configure_logging` (function, line 60) `def configure_logging(debug)`
+  - `AgentTool` (class, line 66) `class AgentTool`
+  - `CommandMetadata` (class, line 127) `class CommandMetadata`
+  - `ASTToolExtractor` (class, line 134) `class ASTToolExtractor`
+  - `AgentRunner` (class, line 173) `class AgentRunner`
+  - `LazyOwnShellWrapper` (class, line 462) `class LazyOwnShellWrapper`
+  - `VulnBotCLI` (class, line 539) `class VulnBotCLI`
+  - `interactive_mode` (function, line 600) `def interactive_mode(bot)`
+  - `parse_args` (function, line 624) `def parse_args()`
+  - `main` (function, line 634) `def main()`
+  - `__init__` (method, line 69) `def __init__(self, name, description, func, parameters, required)`
+  - `to_api_format` (method, line 77) `def to_api_format(self)`
+  - `execute` (method, line 83) `def execute(self)`
+  - `extract_commands_from_file` (method, line 138) `def extract_commands_from_file(file_path, prefix)`
+  - `__init__` (method, line 176) `def __init__(self, model, system_prompt, max_iterations)`
+  - `_reset_history` (method, line 190) `def _reset_history(self)`
+  - `_manage_memory` (method, line 193) `def _manage_memory(self)`
+  - `register_tool` (method, line 201) `def register_tool(self, tool)`
+  - `register_tool_from_instance` (method, line 204) `def register_tool_from_instance(self, func)`
+  - `register_tools_from_metadata` (method, line 222) `def register_tools_from_metadata(self, commands, executor)`
+  - `get_tools_for_api` (method, line 249) `def get_tools_for_api(self)`
+  - `run` (method, line 254) `def run(self, user_input)`
+  - `_call_model` (method, line 278) `def _call_model(self)`
+  - `_stream_call` (method, line 324) `def _stream_call(self, model_name, messages, max_tokens)`
+  - `_emit_delta` (method, line 398) `def _emit_delta(self, kind, text)`
+  - `_process_tool_call` (method, line 417) `def _process_tool_call(self, tool_call)`
+  - `__init__` (method, line 465) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 472) `def _load_shell(self)`
+  - `execute_command` (method, line 495) `def execute_command(self, command)`
+  - `get_commands_summary` (method, line 532) `def get_commands_summary(self)`
+  - `__init__` (method, line 540) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 552) `def _load_model(self)`
+  - `_setup_agent` (method, line 567) `def _setup_agent(self)`
+  - `process_request` (method, line 595) `def process_request(self, user_input)`
+  - `target` (function, line 502) `def target()`
+  - `make_executor` (function, line 226) `def make_executor(cmd_name)`
+  - `wrapper` (function, line 227) `def wrapper(command)`
 - Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
-- Imported by: `modules/vuln_agent.py`, `modules/vulnbot.py`
-
-## modules/agent_tool.py
-- Doc: AgentTool: Representa una herramienta ejecutable por el agente
-- Layer: utility
-- Language: py
-- Symbols:
-  - `AgentTool` (class, line 7) `class AgentTool`
-  - `__init__` (method, line 10) `def __init__(self, name, description, func, parameters, required)`
-  - `to_api_format` (method, line 18) `def to_api_format(self)`
-  - `execute` (method, line 25) `def execute(self)`
-- Depends on: `core/logging.py`
-- Imported by: `modules/tool_extractor.py`, `modules/vuln_agent.py`
+- Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
 
 ## modules/ai_exploit_chain.py
 - Doc: AI-Driven Exploit Chaining Engine.
@@ -154,14 +144,14 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AIResult` (class, line 89) `class AIResult`
-  - `_ollama_available` (method, line 99) `def _ollama_available()`
-  - `_best_ollama_model` (method, line 107) `def _best_ollama_model()`
-  - `_ollama_call` (method, line 134) `def _ollama_call(model, system, user, max_tokens, temperature)`
-  - `_is_quota_error` (method, line 178) `def _is_quota_error(exc)`
-  - `_groq_call` (method, line 183) `def _groq_call(api_key, system, user, max_tokens, temperature)`
-  - `_toposwarm_call` (method, line 210) `def _toposwarm_call(prompt, system)`
-  - `call` (method, line 238) `def call(prompt, system, api_key, max_tokens, temperature)`
+  - `AIResult` (class, line 95) `class AIResult`
+  - `_ollama_available` (function, line 105) `def _ollama_available()`
+  - `_best_ollama_model` (function, line 113) `def _best_ollama_model()`
+  - `_ollama_call` (function, line 140) `def _ollama_call(model, system, user, max_tokens, temperature)`
+  - `_is_quota_error` (function, line 184) `def _is_quota_error(exc)`
+  - `_groq_call` (function, line 189) `def _groq_call(api_key, system, user, max_tokens, temperature)`
+  - `_toposwarm_call` (function, line 226) `def _toposwarm_call(prompt, system)`
+  - `call` (function, line 254) `def call(prompt, system, api_key, max_tokens, temperature)`
 - Depends on: `modules/llm_factory.py`, `modules/toposwarm_bridge.py`
 - Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`
 
@@ -173,10 +163,10 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `AIModel` (class, line 41) `class AIModel(ABC)`
   - `_LazyImporter` (class, line 93) `class _LazyImporter`
   - `GroqModel` (class, line 125) `class GroqModel(AIModel)`
-  - `OllamaModel` (class, line 205) `class OllamaModel(AIModel)`
-  - `OpenAIModel` (class, line 272) `class OpenAIModel(AIModel)`
-  - `AnthropicModel` (class, line 331) `class AnthropicModel(AIModel)`
-  - `DeepSeekModel` (class, line 387) `class DeepSeekModel(AIModel)`
+  - `OllamaModel` (class, line 240) `class OllamaModel(AIModel)`
+  - `OpenAIModel` (class, line 307) `class OpenAIModel(AIModel)`
+  - `AnthropicModel` (class, line 366) `class AnthropicModel(AIModel)`
+  - `DeepSeekModel` (class, line 422) `class DeepSeekModel(AIModel)`
   - `generate` (method, line 52) `def generate(self, prompt)`
   - `stream_generate` (method, line 56) `def stream_generate(self, prompt)`
   - `complete` (method, line 59) `def complete(self, system, user, max_tokens, temperature)`
@@ -184,26 +174,27 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `openai` (method, line 109) `def openai(cls)`
   - `anthropic` (method, line 117) `def anthropic(cls)`
   - `__init__` (method, line 133) `def __init__(self, api_key, model)`
-  - `generate` (method, line 137) `def generate(self, prompt)`
-  - `stream_generate` (method, line 155) `def stream_generate(self, prompt)`
-  - `complete` (method, line 177) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 213) `def __init__(self, model, host)`
-  - `generate` (method, line 221) `def generate(self, prompt)`
-  - `stream_generate` (method, line 241) `def stream_generate(self, prompt)`
-  - `__init__` (method, line 278) `def __init__(self, api_key, model)`
-  - `generate` (method, line 282) `def generate(self, prompt)`
-  - `stream_generate` (method, line 293) `def stream_generate(self, prompt)`
-  - `complete` (method, line 308) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 337) `def __init__(self, api_key, model)`
-  - `generate` (method, line 341) `def generate(self, prompt)`
-  - `stream_generate` (method, line 353) `def stream_generate(self, prompt)`
-  - `complete` (method, line 367) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 394) `def __init__(self, api_key, model)`
-  - `generate` (method, line 401) `def generate(self, prompt)`
-  - `stream_generate` (method, line 412) `def stream_generate(self, prompt)`
-  - `complete` (method, line 427) `def complete(self, system, user, max_tokens, temperature)`
-- Depends on: `core/logging.py`
-- Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
+  - `_model_chain` (method, line 137) `def _model_chain(self)`
+  - `generate` (method, line 151) `def generate(self, prompt)`
+  - `stream_generate` (method, line 179) `def stream_generate(self, prompt)`
+  - `complete` (method, line 212) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 248) `def __init__(self, model, host)`
+  - `generate` (method, line 256) `def generate(self, prompt)`
+  - `stream_generate` (method, line 276) `def stream_generate(self, prompt)`
+  - `__init__` (method, line 313) `def __init__(self, api_key, model)`
+  - `generate` (method, line 317) `def generate(self, prompt)`
+  - `stream_generate` (method, line 328) `def stream_generate(self, prompt)`
+  - `complete` (method, line 343) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 372) `def __init__(self, api_key, model)`
+  - `generate` (method, line 376) `def generate(self, prompt)`
+  - `stream_generate` (method, line 388) `def stream_generate(self, prompt)`
+  - `complete` (method, line 402) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 429) `def __init__(self, api_key, model)`
+  - `generate` (method, line 436) `def generate(self, prompt)`
+  - `stream_generate` (method, line 447) `def stream_generate(self, prompt)`
+  - `complete` (method, line 462) `def complete(self, system, user, max_tokens, temperature)`
+- Depends on: `core/logging.py`, `modules/llm_factory.py`
+- Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
 
 ## modules/amsi.c
 - Doc: ¡Gracias a Saad!
@@ -258,12 +249,12 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Language: py
 - Symbols:
   - `GraphConfig` (class, line 17) `class GraphConfig`
-  - `asset_key` (method, line 28) `def asset_key(asset_type, value, parent_key)`
+  - `asset_key` (function, line 28) `def asset_key(asset_type, value, parent_key)`
   - `AssetNode` (class, line 36) `class AssetNode`
   - `ExplorationNode` (class, line 50) `class ExplorationNode`
   - `Anchor` (class, line 63) `class Anchor`
   - `AssetGraph` (class, line 70) `class AssetGraph`
-  - `coverage_for` (method, line 214) `def coverage_for(db, workspace_id, scope)`
+  - `coverage_for` (function, line 214) `def coverage_for(db, workspace_id, scope)`
   - `__init__` (method, line 73) `def __init__(self, config)`
   - `upsert_asset` (method, line 82) `def upsert_asset(self, asset_type, value, parent_key, company)`
   - `add_node` (method, line 108) `def add_node(self, task_id, kind, text, parent_id, payload)`
@@ -352,14 +343,14 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `PurpleScore` (class, line 165) `class PurpleScore`
   - `IPurpleLoop` (class, line 181) `class IPurpleLoop(ABC)`
   - `IPurpleEvaluator` (class, line 210) `class IPurpleEvaluator(ABC)`
-  - `_run_bt_command` (method, line 225) `def _run_bt_command(bt_path, command, timeout)`
-  - `_parse_ai_test` (method, line 329) `def _parse_ai_test(output, command, args)`
-  - `_parse_keyword_match` (method, line 342) `def _parse_keyword_match(output, command, args)`
-  - `_parse_alert_check` (method, line 374) `def _parse_alert_check(output, command, args)`
-  - `_parse_fim_check` (method, line 388) `def _parse_fim_check(output, command, args)`
+  - `_run_bt_command` (function, line 225) `def _run_bt_command(bt_path, command, timeout)`
+  - `_parse_ai_test` (function, line 329) `def _parse_ai_test(output, command, args)`
+  - `_parse_keyword_match` (function, line 342) `def _parse_keyword_match(output, command, args)`
+  - `_parse_alert_check` (function, line 374) `def _parse_alert_check(output, command, args)`
+  - `_parse_fim_check` (function, line 388) `def _parse_fim_check(output, command, args)`
   - `PurpleTeamLoop` (class, line 407) `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)`
-  - `get_loop` (method, line 772) `def get_loop(bt_path, detection_delay, methods, auto_feedback)`
-  - `load_config_from_payload` (method, line 790) `def load_config_from_payload(params)`
+  - `get_loop` (function, line 772) `def get_loop(bt_path, detection_delay, methods, auto_feedback)`
+  - `load_config_from_payload` (function, line 790) `def load_config_from_payload(params)`
   - `to_csv_row` (method, line 146) `def to_csv_row(self)`
   - `to_dict` (method, line 160) `def to_dict(self)`
   - `execute_and_measure` (method, line 185) `def execute_and_measure(self, command, args, category)`
@@ -395,17 +386,45 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AutoVerb` (class, line 29) `class AutoVerb`
-  - `verbs` (method, line 98) `def verbs()`
-  - `is_shell_verb` (method, line 103) `def is_shell_verb(token)`
-  - `build_command` (method, line 109) `def build_command(verb, target)`
-  - `verbs_for` (method, line 120) `def verbs_for(text)`
-  - `propose_intents` (method, line 127) `def propose_intents(goal, target, finding_texts)`
-  - `steps_for` (method, line 139) `def steps_for(text, target)`
-  - `ShellResult` (class, line 162) `class ShellResult`
-  - `execute_shell_verb` (method, line 169) `def execute_shell_verb(shell, command, timeout_sec)`
-  - `_target` (method, line 184) `def _target()`
-- Imported by: `cli/commands/mcp_bridge.py`, `modules/lazy_loop.py`, `tests/test_auto_registry.py`
+  - `auto_verb_target` (function, line 35) `def auto_verb_target(command)`
+  - `AutoVerb` (class, line 59) `class AutoVerb`
+  - `_verb_rows` (function, line 129) `def _verb_rows()`
+  - `_verb_row` (function, line 173) `def _verb_row(name)`
+  - `verb_enabled` (function, line 182) `def verb_enabled(name)`
+  - `_repo_base` (function, line 267) `def _repo_base()`
+  - `binary_available` (function, line 274) `def binary_available(name)`
+  - `missing_binary` (function, line 290) `def missing_binary(command)`
+  - `verb_gap` (function, line 302) `def verb_gap(verb)`
+  - `verb_available` (function, line 314) `def verb_available(verb)`
+  - `service_tokens` (function, line 319) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 330) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 361) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 397) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 420) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 446) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 472) `def is_routable_command(line)`
+  - `verbs` (function, line 483) `def verbs()`
+  - `is_shell_verb` (function, line 488) `def is_shell_verb(token)`
+  - `build_command` (function, line 494) `def build_command(verb, target)`
+  - `verbs_for` (function, line 505) `def verbs_for(text)`
+  - `propose_intents` (function, line 511) `def propose_intents(goal, target, finding_texts)`
+  - `steps_for` (function, line 528) `def steps_for(text, target)`
+  - `ShellResult` (class, line 570) `class ShellResult`
+  - `_TeeCapture` (class, line 577) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 605) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 698) `def _register_process(process)`
+  - `_unregister_process` (function, line 704) `def _unregister_process(process)`
+  - `track_process` (function, line 710) `def track_process(process)`
+  - `untrack_process` (function, line 715) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 720) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 743) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 587) `def __init__(self, observer)`
+  - `write` (method, line 592) `def write(self, data)`
+  - `_invoke` (function, line 628) `def _invoke()`
+  - `_target` (function, line 639) `def _target()`
+  - `_kill` (function, line 775) `def _kill()`
+- Depends on: `modules/command_executor.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -457,27 +476,9 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `enable_stealth` (method, line 2519) `def enable_stealth(self, stealth_level)`
   - `_get_stealth_scan_flags` (method, line 2564) `def _get_stealth_scan_flags(self)`
   - `full_auto_pwn` (method, line 2583) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
-  - `_is_placeholder` (method, line 299) `def _is_placeholder(value)`
+  - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
 - Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
-
-## modules/aws_attacks.py
-- Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `AWSConfig` (class, line 58) `class AWSConfig`
-  - `AWSAttackEngine` (class, line 80) `class AWSAttackEngine`
-  - `__init__` (method, line 91) `def __init__(self, config)`
-  - `enumerate_iam_permissions` (method, line 95) `def enumerate_iam_permissions(self)`
-  - `lambda_backdoor` (method, line 127) `def lambda_backdoor(self, function_name)`
-  - `sts_role_chain` (method, line 155) `def sts_role_chain(self, target_role_arn)`
-  - `ec2_user_data_exfil` (method, line 181) `def ec2_user_data_exfil(self)`
-  - `s3_enumeration` (method, line 206) `def s3_enumeration(self)`
-  - `cloudformation_drift` (method, line 242) `def cloudformation_drift(self)`
-  - `ec2_ssm_session_abuse` (method, line 274) `def ec2_ssm_session_abuse(self)`
-  - `summary` (method, line 293) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

@@ -16,7 +16,7 @@
   - `PluginBrowser` (class, line 195) `class PluginBrowser(Static)`
   - `OutputPanel` (class, line 240) `class OutputPanel(VerticalScroll)`
   - `LazyOwnTUI` (class, line 297) `class LazyOwnTUI(App)`
-  - `main` (method, line 629) `def main()`
+  - `main` (function, line 629) `def main()`
   - `__init__` (method, line 47) `def __init__(self, base_dir)`
   - `import_shell_class` (method, line 53) `def import_shell_class(self)`
   - `start` (method, line 71) `def start(self)`
@@ -56,8 +56,8 @@
   - `on_command_submitted` (method, line 577) `def on_command_submitted(self, event)`
   - `on_key` (method, line 586) `def on_key(self, event)`
   - `_tab_complete` (method, line 605) `def _tab_complete(self, inp)`
-  - `_init_backend` (method, line 429) `def _init_backend()`
-  - `_work` (method, line 510) `def _work()`
+  - `_init_backend` (function, line 429) `def _init_backend()`
+  - `_work` (function, line 510) `def _work()`
 - Depends on: `cli/commands/containers.py`, `lazyown.py`
 - Imported by: `poc_tui/__main__.py`, `poc_tui/run.py`, `poc_tui/test_app.py`
 
@@ -85,11 +85,11 @@
 - Language: py
 - Symbols:
   - `PluginSpec` (class, line 29) `class PluginSpec`
-  - `_replace_placeholders` (method, line 41) `def _replace_placeholders(command, params)`
-  - `_validate_clone_url` (method, line 62) `def _validate_clone_url(url)`
+  - `_replace_placeholders` (function, line 41) `def _replace_placeholders(command, params)`
+  - `_validate_clone_url` (function, line 62) `def _validate_clone_url(url)`
   - `PluginLoader` (class, line 84) `class PluginLoader`
   - `_LuaAppProxy` (class, line 291) `class _LuaAppProxy`
-  - `_subst` (method, line 52) `def _subst(match)`
+  - `_subst` (function, line 52) `def _subst(match)`
   - `__init__` (method, line 91) `def __init__(self, config, base_dir)`
   - `_setup_lua` (method, line 105) `def _setup_lua(self)`
   - `_lua_register` (method, line 114) `def _lua_register(self, name, func)`
@@ -103,9 +103,9 @@
   - `__init__` (method, line 294) `def __init__(self, config)`
   - `params` (method, line 298) `def params(self)`
   - `one_cmd` (method, line 301) `def one_cmd(self, cmd)`
-  - `wrapper` (method, line 117) `def wrapper(arg)`
-  - `wrapper` (method, line 172) `def wrapper(arg)`
-  - `wrapper` (method, line 269) `def wrapper(arg)`
+  - `wrapper` (function, line 117) `def wrapper(arg)`
+  - `wrapper` (function, line 172) `def wrapper(arg)`
+  - `wrapper` (function, line 269) `def wrapper(arg)`
 - Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py
@@ -156,25 +156,25 @@
   - `test_busy_command_shows_running_indicator` (method, line 373) `def test_busy_command_shows_running_indicator(self)`
   - `test_layout_all_panels_render_in_screenshot` (method, line 392) `def test_layout_all_panels_render_in_screenshot(self)`
   - `test_command_output_visible_in_screenshot` (method, line 411) `def test_command_output_visible_in_screenshot(self)`
-  - `_t` (method, line 106) `def _t()`
-  - `_t` (method, line 115) `def _t()`
-  - `_t` (method, line 126) `def _t()`
-  - `_t` (method, line 136) `def _t()`
-  - `_t` (method, line 152) `def _t()`
-  - `_t` (method, line 165) `def _t()`
-  - `_t` (method, line 182) `def _t()`
-  - `_t` (method, line 198) `def _t()`
-  - `_t` (method, line 210) `def _t()`
-  - `_t` (method, line 225) `def _t()`
-  - `_t` (method, line 235) `def _t()`
-  - `_t` (method, line 248) `def _t()`
-  - `_t` (method, line 270) `def _t()`
-  - `_t` (method, line 291) `def _t()`
-  - `_t` (method, line 307) `def _t()`
-  - `_t` (method, line 321) `def _t()`
-  - `_t` (method, line 342) `def _t()`
-  - `_t` (method, line 361) `def _t()`
-  - `_t` (method, line 374) `def _t()`
-  - `_t` (method, line 399) `def _t()`
-  - `_t` (method, line 414) `def _t()`
+  - `_t` (function, line 106) `def _t()`
+  - `_t` (function, line 115) `def _t()`
+  - `_t` (function, line 126) `def _t()`
+  - `_t` (function, line 136) `def _t()`
+  - `_t` (function, line 152) `def _t()`
+  - `_t` (function, line 165) `def _t()`
+  - `_t` (function, line 182) `def _t()`
+  - `_t` (function, line 198) `def _t()`
+  - `_t` (function, line 210) `def _t()`
+  - `_t` (function, line 225) `def _t()`
+  - `_t` (function, line 235) `def _t()`
+  - `_t` (function, line 248) `def _t()`
+  - `_t` (function, line 270) `def _t()`
+  - `_t` (function, line 291) `def _t()`
+  - `_t` (function, line 307) `def _t()`
+  - `_t` (function, line 321) `def _t()`
+  - `_t` (function, line 342) `def _t()`
+  - `_t` (function, line 361) `def _t()`
+  - `_t` (function, line 374) `def _t()`
+  - `_t` (function, line 399) `def _t()`
+  - `_t` (function, line 414) `def _t()`
 - Depends on: `poc_tui/app.py`

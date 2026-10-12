@@ -271,7 +271,9 @@ class ToastReader:
             return None
         if not isinstance(record, dict):
             return None
-        event_type = self._coerce_str(record.get("type") or record.get("kind") or record.get("event") or "")
+        event_type = self._coerce_str(
+            record.get("type") or record.get("kind") or record.get("event") or record.get("event_type") or ""
+        )
         severity = self._coerce_str(record.get("severity") or record.get("status") or record.get("level") or "info")
         timestamp = self._coerce_str(record.get("ts") or record.get("timestamp") or "")
         summary = self._summary(record)
@@ -296,12 +298,24 @@ class ToastReader:
     def _summary(record: Mapping[str, Any]) -> str:
         payload = record.get("payload") if isinstance(record.get("payload"), dict) else {}
         for source in (record, payload):
-            for key in ("message", "summary", "detail", "goal", "command", "target"):
+            for key in ("message", "summary", "detail", "text", "goal"):
                 value = source.get(key) if isinstance(source, Mapping) else None
                 if isinstance(value, str) and value.strip():
                     return value.strip()
                 if isinstance(value, (int, float, bool)):
                     return str(value)
+        command = ""
+        args = ""
+        for source in (record, payload):
+            if isinstance(source, Mapping):
+                command = command or str(source.get("command") or "").strip()
+                args = args or str(source.get("args") or "").strip()
+        if command:
+            return f"{command} {args}".strip()
+        for source in (record, payload):
+            value = source.get("target") if isinstance(source, Mapping) else None
+            if isinstance(value, str) and value.strip():
+                return value.strip()
         return ""
 
 
@@ -401,7 +415,14 @@ class ToastFormatter:
             Seconds before the line is erased, ``0`` for sticky.
         """
         try:
-            return max(0.0, float(self._config.ephemeral_durations.get(str(event.severity or "").lower(), self._config.ephemeral_default_duration)))
+            return max(
+                0.0,
+                float(
+                    self._config.ephemeral_durations.get(
+                        str(event.severity or "").lower(), self._config.ephemeral_default_duration
+                    )
+                ),
+            )
         except (TypeError, ValueError):
             return float(self._config.ephemeral_default_duration)
 
@@ -454,13 +475,15 @@ class ToastFormatter:
                 lines.append(digest)
             border_style = getattr(self._theme, "warning", "yellow")
             resolved = width or self._console_width()
-            renderables.append(Panel(
-                Group(*lines),
-                title="[dim]notifications[/dim]",
-                border_style=border_style,
-                padding=(0, 1),
-                width=min(resolved, self._config.max_panel_width),
-            ))
+            renderables.append(
+                Panel(
+                    Group(*lines),
+                    title="[dim]notifications[/dim]",
+                    border_style=border_style,
+                    padding=(0, 1),
+                    width=min(resolved, self._config.max_panel_width),
+                )
+            )
         renderables.extend(self.format_prominent(event) for event in prominent)
         if len(renderables) == 1:
             return renderables[0]

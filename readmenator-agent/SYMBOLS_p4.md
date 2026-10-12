@@ -1,12 +1,38 @@
-# Symbols (page 4 of 38)
+# Symbols (page 4 of 40)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ConfigHistory` | class | `cli/config_history.py:23` | `class ConfigHistory` |
+| `ConfigHistoryConfig` | class | `cli/config_history.py:16` | `class ConfigHistoryConfig` |
+| `capture_baseline` | method | `cli/config_history.py:30` | `def capture_baseline(self, state)` |
+| `depth` | method | `cli/config_history.py:76` | `def depth(self)` |
+| `diff` | method | `cli/config_history.py:58` | `def diff(self, current)` |
+| `get_shell_history` | function | `cli/config_history.py:81` | `def get_shell_history(shell)` |
+| `push` | method | `cli/config_history.py:38` | `def push(self, state)` |
+| `track_before` | function | `cli/config_history.py:104` | `def track_before(history, state)` |
+| `undo` | method | `cli/config_history.py:48` | `def undo(self)` |
+| `ConfigStatus` | class | `cli/config_status.py:62` | `class ConfigStatus` |
+| `ConfigStatusConfig` | class | `cli/config_status.py:55` | `class ConfigStatusConfig` |
+| `__init__` | method | `cli/config_status.py:70` | `def __init__(self, params, config)` |
+| `_field_status` | method | `cli/config_status.py:78` | `def _field_status(self, key, value)` |
+| `render_quick_check` | method | `cli/config_status.py:129` | `def render_quick_check(self)` |
+| `render_status` | method | `cli/config_status.py:89` | `def render_status(self)` |
+| `_read_line` | function | `cli/confirm.py:20` | `def _read_line(prompt)` |
+| `confirm` | function | `cli/confirm.py:27` | `def confirm(question, default, yes_values)` |
+| `CommandInfo` | class | `cli/contextual_help.py:62` | `class CommandInfo` |
+| `ContextualHelp` | class | `cli/contextual_help.py:167` | `class ContextualHelp` |
+| `ContextualHelpConfig` | class | `cli/contextual_help.py:78` | `class ContextualHelpConfig` |
+| `__init__` | method | `cli/contextual_help.py:176` | `def __init__(self, aliases, params, config)` |
+| `_build_command_lookup` | function | `cli/contextual_help.py:97` | `def _build_command_lookup(index)` |
+| `_load_command_index` | function | `cli/contextual_help.py:85` | `def _load_command_index(path)` |
+| `get_command_info` | method | `cli/contextual_help.py:188` | `def get_command_info(self, name)` |
+| `render_command_help` | method | `cli/contextual_help.py:208` | `def render_command_help(self, name)` |
+| `render_phase_commands` | method | `cli/contextual_help.py:261` | `def render_phase_commands(self, phase)` |
 | `render_requirements_status` | method | `cli/contextual_help.py:281` | `def render_requirements_status(self)` |
 | `DashboardLayoutConfig` | class | `cli/dashboard_layout.py:14` | `class DashboardLayoutConfig` |
-| `hidden_panels` | method | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
-| `layout_mode` | method | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
+| `hidden_panels` | function | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
+| `layout_mode` | function | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
 | `CommandRequested` | class | `cli/dashboard_tui.py:97` | `class CommandRequested(Message)` |
 | `CommandsPanel` | class | `cli/dashboard_tui.py:460` | `class CommandsPanel(Static)` |
 | `ConfigPanel` | class | `cli/dashboard_tui.py:430` | `class ConfigPanel(Static)` |
@@ -27,23 +53,23 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `__init__` | method | `cli/dashboard_tui.py:807` | `def __init__(self, payload_path, sessions_dir)` |
 | `_apply_command_result` | method | `cli/dashboard_tui.py:894` | `def _apply_command_result(self, command, success, output)` |
 | `_apply_layout` | method | `cli/dashboard_tui.py:819` | `def _apply_layout(self, mode, hidden_fn)` |
-| `_beacon_count` | method | `cli/dashboard_tui.py:265` | `def _beacon_count()` |
-| `_count_lines_in_glob` | method | `cli/dashboard_tui.py:169` | `def _count_lines_in_glob(pattern)` |
+| `_beacon_count` | function | `cli/dashboard_tui.py:265` | `def _beacon_count()` |
+| `_count_lines_in_glob` | function | `cli/dashboard_tui.py:169` | `def _count_lines_in_glob(pattern)` |
 | `_cycle_phase` | method | `cli/dashboard_tui.py:995` | `def _cycle_phase(self, direction)` |
 | `_do_refresh` | method | `cli/dashboard_tui.py:1011` | `def _do_refresh(self)` |
-| `_engagement_to_cli_phase` | method | `cli/dashboard_tui.py:159` | `def _engagement_to_cli_phase(engagement_phase)` |
+| `_engagement_to_cli_phase` | function | `cli/dashboard_tui.py:159` | `def _engagement_to_cli_phase(engagement_phase)` |
 | `_execute` | method | `cli/dashboard_tui.py:881` | `def _execute(self, command)` |
-| `_fallback_hints` | method | `cli/dashboard_tui.py:223` | `def _fallback_hints(last_command, limit)` |
+| `_fallback_hints` | function | `cli/dashboard_tui.py:223` | `def _fallback_hints(last_command, limit)` |
 | `_filter_commands` | method | `cli/dashboard_tui.py:1048` | `def _filter_commands(self, commands)` |
 | `_get_killchain_for_tui` | function | `cli/dashboard_tui.py:55` | `def _get_killchain_for_tui()` |
-| `_get_recommendations` | method | `cli/dashboard_tui.py:297` | `def _get_recommendations()` |
-| `_graph_hints` | method | `cli/dashboard_tui.py:209` | `def _graph_hints(limit)` |
+| `_get_recommendations` | function | `cli/dashboard_tui.py:297` | `def _get_recommendations()` |
+| `_graph_hints` | function | `cli/dashboard_tui.py:209` | `def _graph_hints(limit)` |
 | `_raise_toast` | method | `cli/dashboard_tui.py:938` | `def _raise_toast(self, message, severity, event_type)` |
-| `_read_credential_lines` | method | `cli/dashboard_tui.py:280` | `def _read_credential_lines(pattern)` |
-| `_read_json` | method | `cli/dashboard_tui.py:151` | `def _read_json(path)` |
-| `_read_recent_commands` | method | `cli/dashboard_tui.py:182` | `def _read_recent_commands(limit)` |
-| `_resolve_hints` | method | `cli/dashboard_tui.py:248` | `def _resolve_hints(recent, limit)` |
-| `_write_phase` | method | `cli/dashboard_tui.py:43` | `def _write_phase(phase)` |
+| `_read_credential_lines` | function | `cli/dashboard_tui.py:280` | `def _read_credential_lines(pattern)` |
+| `_read_json` | function | `cli/dashboard_tui.py:151` | `def _read_json(path)` |
+| `_read_recent_commands` | function | `cli/dashboard_tui.py:182` | `def _read_recent_commands(limit)` |
+| `_resolve_hints` | function | `cli/dashboard_tui.py:248` | `def _resolve_hints(recent, limit)` |
+| `_write_phase` | function | `cli/dashboard_tui.py:43` | `def _write_phase(phase)` |
 | `action_export_snapshot` | method | `cli/dashboard_tui.py:967` | `def action_export_snapshot(self)` |
 | `action_next_phase` | method | `cli/dashboard_tui.py:987` | `def action_next_phase(self)` |
 | `action_prev_phase` | method | `cli/dashboard_tui.py:991` | `def action_prev_phase(self)` |
@@ -52,9 +78,9 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `action_toggle_compact` | method | `cli/dashboard_tui.py:926` | `def action_toggle_compact(self)` |
 | `compose` | method | `cli/dashboard_tui.py:615` | `def compose(self)` |
 | `compose` | method | `cli/dashboard_tui.py:836` | `def compose(self)` |
-| `dispatch_command` | method | `cli/dashboard_tui.py:113` | `def dispatch_command(command, timeout)` |
+| `dispatch_command` | function | `cli/dashboard_tui.py:113` | `def dispatch_command(command, timeout)` |
 | `get_selection` | method | `cli/dashboard_tui.py:335` | `def get_selection(self, selection)` |
-| `launch` | method | `cli/dashboard_tui.py:1064` | `def launch(payload_path, sessions_dir)` |
+| `launch` | function | `cli/dashboard_tui.py:1064` | `def launch(payload_path, sessions_dir)` |
 | `on_button_pressed` | method | `cli/dashboard_tui.py:644` | `def on_button_pressed(self, event)` |
 | `on_click` | method | `cli/dashboard_tui.py:418` | `def on_click(self, event)` |
 | `on_command_requested` | method | `cli/dashboard_tui.py:872` | `def on_command_requested(self, event)` |
@@ -74,66 +100,66 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `CheckResult` | class | `cli/doctor.py:96` | `class CheckResult` |
 | `DoctorReport` | class | `cli/doctor.py:113` | `class DoctorReport` |
 | `PackageSpec` | class | `cli/doctor.py:56` | `class PackageSpec` |
-| `_apply_fix` | method | `cli/doctor.py:525` | `def _apply_fix(check, root, venv_pip, console)` |
-| `_status_cell` | method | `cli/doctor.py:398` | `def _status_cell(status)` |
-| `check_certificates` | method | `cli/doctor.py:248` | `def check_certificates(root)` |
-| `check_command_index` | method | `cli/doctor.py:313` | `def check_command_index(root)` |
-| `check_external_tools` | method | `cli/doctor.py:343` | `def check_external_tools(checker)` |
-| `check_packages` | method | `cli/doctor.py:209` | `def check_packages(specs, finder)` |
-| `check_payload` | method | `cli/doctor.py:269` | `def check_payload(root)` |
-| `check_python_version` | method | `cli/doctor.py:143` | `def check_python_version(version_info)` |
-| `check_seclists` | method | `cli/doctor.py:289` | `def check_seclists(finder)` |
-| `check_virtualenv` | method | `cli/doctor.py:172` | `def check_virtualenv()` |
+| `_apply_fix` | function | `cli/doctor.py:525` | `def _apply_fix(check, root, venv_pip, console)` |
+| `_status_cell` | function | `cli/doctor.py:398` | `def _status_cell(status)` |
+| `check_certificates` | function | `cli/doctor.py:248` | `def check_certificates(root)` |
+| `check_command_index` | function | `cli/doctor.py:313` | `def check_command_index(root)` |
+| `check_external_tools` | function | `cli/doctor.py:343` | `def check_external_tools(checker)` |
+| `check_packages` | function | `cli/doctor.py:209` | `def check_packages(specs, finder)` |
+| `check_payload` | function | `cli/doctor.py:269` | `def check_payload(root)` |
+| `check_python_version` | function | `cli/doctor.py:143` | `def check_python_version(version_info)` |
+| `check_seclists` | function | `cli/doctor.py:289` | `def check_seclists(finder)` |
+| `check_virtualenv` | function | `cli/doctor.py:172` | `def check_virtualenv()` |
 | `failures` | method | `cli/doctor.py:119` | `def failures(self)` |
-| `fix_report` | method | `cli/doctor.py:468` | `def fix_report(report)` |
-| `gather_report` | method | `cli/doctor.py:368` | `def gather_report(root)` |
+| `fix_report` | function | `cli/doctor.py:468` | `def fix_report(report)` |
+| `gather_report` | function | `cli/doctor.py:368` | `def gather_report(root)` |
 | `healthy` | method | `cli/doctor.py:129` | `def healthy(self)` |
 | `overall_status` | method | `cli/doctor.py:134` | `def overall_status(self)` |
-| `render_report` | method | `cli/doctor.py:406` | `def render_report(report, console)` |
-| `run` | method | `cli/doctor.py:451` | `def run(root, console)` |
+| `render_report` | function | `cli/doctor.py:406` | `def render_report(report, console)` |
+| `run` | function | `cli/doctor.py:451` | `def run(root, console)` |
 | `warnings` | method | `cli/doctor.py:124` | `def warnings(self)` |
 | `EngagementState` | class | `cli/engagement_hooks.py:242` | `class EngagementState` |
-| `_award_elo` | method | `cli/engagement_hooks.py:734` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
-| `_check_badges` | method | `cli/engagement_hooks.py:1009` | `def _check_badges(cmd, first_time)` |
-| `_check_karma_up` | method | `cli/engagement_hooks.py:864` | `def _check_karma_up(state)` |
-| `_commands_in_phase` | method | `cli/engagement_hooks.py:409` | `def _commands_in_phase(phase, index)` |
-| `_fire_vri_reward` | method | `cli/engagement_hooks.py:672` | `def _fire_vri_reward(state, ctx)` |
-| `_is_recordable_command` | method | `cli/engagement_hooks.py:306` | `def _is_recordable_command(cmd)` |
-| `_load_index` | method | `cli/engagement_hooks.py:290` | `def _load_index()` |
-| `_load_state` | method | `cli/engagement_hooks.py:260` | `def _load_state()` |
-| `_next_threshold` | method | `cli/engagement_hooks.py:394` | `def _next_threshold(current)` |
-| `_normalize_command` | method | `cli/engagement_hooks.py:301` | `def _normalize_command(cmd)` |
-| `_persist_notification` | method | `cli/engagement_hooks.py:828` | `def _persist_notification(html)` |
-| `_phase_for_cmd` | method | `cli/engagement_hooks.py:400` | `def _phase_for_cmd(cmd, index)` |
-| `_print_badge` | method | `cli/engagement_hooks.py:1056` | `def _print_badge(name, description)` |
-| `_render_arsenal_tip` | method | `cli/engagement_hooks.py:536` | `def _render_arsenal_tip(ctx)` |
-| `_render_exploration` | method | `cli/engagement_hooks.py:488` | `def _render_exploration(ctx)` |
-| `_render_hidden_feature` | method | `cli/engagement_hooks.py:522` | `def _render_hidden_feature(ctx)` |
-| `_render_methodology_note` | method | `cli/engagement_hooks.py:630` | `def _render_methodology_note(ctx)` |
-| `_render_methodology_objective` | method | `cli/engagement_hooks.py:583` | `def _render_methodology_objective(ctx)` |
-| `_render_methodology_task` | method | `cli/engagement_hooks.py:544` | `def _render_methodology_task(ctx)` |
-| `_render_phase_badge` | method | `cli/engagement_hooks.py:506` | `def _render_phase_badge(ctx)` |
-| `_render_streak` | method | `cli/engagement_hooks.py:459` | `def _render_streak(ctx)` |
-| `_run_curiosity` | method | `cli/engagement_hooks.py:431` | `def _run_curiosity(cmd, state, index)` |
-| `_sanitize_seen` | method | `cli/engagement_hooks.py:332` | `def _sanitize_seen(names, known)` |
-| `_save_state` | method | `cli/engagement_hooks.py:280` | `def _save_state(state)` |
-| `_summary_for_cmd` | method | `cli/engagement_hooks.py:414` | `def _summary_for_cmd(cmd, index)` |
-| `_sync_user_elo` | method | `cli/engagement_hooks.py:760` | `def _sync_user_elo(delta)` |
-| `get_karma_name` | method | `cli/engagement_hooks.py:716` | `def get_karma_name(elo)` |
-| `get_state_snapshot` | method | `cli/engagement_hooks.py:978` | `def get_state_snapshot()` |
-| `heal_commands_seen` | method | `cli/engagement_hooks.py:365` | `def heal_commands_seen(known)` |
-| `render_engagement_hook` | method | `cli/engagement_hooks.py:898` | `def render_engagement_hook(cmd, phase, enabled)` |
-| `reset_session` | method | `cli/engagement_hooks.py:1066` | `def reset_session()` |
+| `_award_elo` | function | `cli/engagement_hooks.py:734` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
+| `_check_badges` | function | `cli/engagement_hooks.py:1009` | `def _check_badges(cmd, first_time)` |
+| `_check_karma_up` | function | `cli/engagement_hooks.py:864` | `def _check_karma_up(state)` |
+| `_commands_in_phase` | function | `cli/engagement_hooks.py:409` | `def _commands_in_phase(phase, index)` |
+| `_fire_vri_reward` | function | `cli/engagement_hooks.py:672` | `def _fire_vri_reward(state, ctx)` |
+| `_is_recordable_command` | function | `cli/engagement_hooks.py:306` | `def _is_recordable_command(cmd)` |
+| `_load_index` | function | `cli/engagement_hooks.py:290` | `def _load_index()` |
+| `_load_state` | function | `cli/engagement_hooks.py:260` | `def _load_state()` |
+| `_next_threshold` | function | `cli/engagement_hooks.py:394` | `def _next_threshold(current)` |
+| `_normalize_command` | function | `cli/engagement_hooks.py:301` | `def _normalize_command(cmd)` |
+| `_persist_notification` | function | `cli/engagement_hooks.py:828` | `def _persist_notification(html)` |
+| `_phase_for_cmd` | function | `cli/engagement_hooks.py:400` | `def _phase_for_cmd(cmd, index)` |
+| `_print_badge` | function | `cli/engagement_hooks.py:1056` | `def _print_badge(name, description)` |
+| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:536` | `def _render_arsenal_tip(ctx)` |
+| `_render_exploration` | function | `cli/engagement_hooks.py:488` | `def _render_exploration(ctx)` |
+| `_render_hidden_feature` | function | `cli/engagement_hooks.py:522` | `def _render_hidden_feature(ctx)` |
+| `_render_methodology_note` | function | `cli/engagement_hooks.py:630` | `def _render_methodology_note(ctx)` |
+| `_render_methodology_objective` | function | `cli/engagement_hooks.py:583` | `def _render_methodology_objective(ctx)` |
+| `_render_methodology_task` | function | `cli/engagement_hooks.py:544` | `def _render_methodology_task(ctx)` |
+| `_render_phase_badge` | function | `cli/engagement_hooks.py:506` | `def _render_phase_badge(ctx)` |
+| `_render_streak` | function | `cli/engagement_hooks.py:459` | `def _render_streak(ctx)` |
+| `_run_curiosity` | function | `cli/engagement_hooks.py:431` | `def _run_curiosity(cmd, state, index)` |
+| `_sanitize_seen` | function | `cli/engagement_hooks.py:332` | `def _sanitize_seen(names, known)` |
+| `_save_state` | function | `cli/engagement_hooks.py:280` | `def _save_state(state)` |
+| `_summary_for_cmd` | function | `cli/engagement_hooks.py:414` | `def _summary_for_cmd(cmd, index)` |
+| `_sync_user_elo` | function | `cli/engagement_hooks.py:760` | `def _sync_user_elo(delta)` |
+| `get_karma_name` | function | `cli/engagement_hooks.py:716` | `def get_karma_name(elo)` |
+| `get_state_snapshot` | function | `cli/engagement_hooks.py:978` | `def get_state_snapshot()` |
+| `heal_commands_seen` | function | `cli/engagement_hooks.py:365` | `def heal_commands_seen(known)` |
+| `render_engagement_hook` | function | `cli/engagement_hooks.py:898` | `def render_engagement_hook(cmd, phase, enabled)` |
+| `reset_session` | function | `cli/engagement_hooks.py:1066` | `def reset_session()` |
 | `ExploitHit` | class | `cli/exploit_advisor.py:144` | `class ExploitHit` |
 | `ServiceInfo` | class | `cli/exploit_advisor.py:111` | `class ServiceInfo` |
 | `ServiceResult` | class | `cli/exploit_advisor.py:153` | `class ServiceResult` |
 | `display_name` | method | `cli/exploit_advisor.py:128` | `def display_name(self)` |
-| `find_nmap_xml` | method | `cli/exploit_advisor.py:203` | `def find_nmap_xml(rhost, sessions_dir)` |
-| `inject_exploit_tasks` | method | `cli/exploit_advisor.py:338` | `def inject_exploit_tasks(results, rhost, tasks_path)` |
+| `find_nmap_xml` | function | `cli/exploit_advisor.py:203` | `def find_nmap_xml(rhost, sessions_dir)` |
+| `inject_exploit_tasks` | function | `cli/exploit_advisor.py:338` | `def inject_exploit_tasks(results, rhost, tasks_path)` |
 | `next_commands` | method | `cli/exploit_advisor.py:132` | `def next_commands(self)` |
-| `parse_nmap_xml` | method | `cli/exploit_advisor.py:164` | `def parse_nmap_xml(path)` |
-| `print_exploit_summary` | method | `cli/exploit_advisor.py:222` | `def print_exploit_summary(results, rhost)` |
-| `save_ss_results` | method | `cli/exploit_advisor.py:296` | `def save_ss_results(results, rhost, sessions_dir)` |
+| `parse_nmap_xml` | function | `cli/exploit_advisor.py:164` | `def parse_nmap_xml(path)` |
+| `print_exploit_summary` | function | `cli/exploit_advisor.py:222` | `def print_exploit_summary(results, rhost)` |
+| `save_ss_results` | function | `cli/exploit_advisor.py:296` | `def save_ss_results(results, rhost, sessions_dir)` |
 | `search_query` | method | `cli/exploit_advisor.py:122` | `def search_query(self)` |
 | `AddonCatalog` | class | `cli/exploration.py:252` | `class AddonCatalog` |
 | `AddonEntry` | class | `cli/exploration.py:105` | `class AddonEntry` |
@@ -172,9 +198,9 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `label` | method | `cli/exploration.py:98` | `def label(self)` |
 | `load` | method | `cli/exploration.py:269` | `def load(self)` |
 | `load` | method | `cli/exploration.py:349` | `def load(self)` |
-| `normalise_os` | method | `cli/exploration.py:677` | `def normalise_os(value, default)` |
-| `normalise_trigger` | method | `cli/exploration.py:690` | `def normalise_trigger(value)` |
-| `resolve_current_os` | method | `cli/exploration.py:656` | `def resolve_current_os(payload)` |
+| `normalise_os` | function | `cli/exploration.py:677` | `def normalise_os(value, default)` |
+| `normalise_trigger` | function | `cli/exploration.py:690` | `def normalise_trigger(value)` |
+| `resolve_current_os` | function | `cli/exploration.py:656` | `def resolve_current_os(payload)` |
 | `service_coverage` | method | `cli/exploration.py:145` | `def service_coverage(self)` |
 | `services` | method | `cli/exploration.py:525` | `def services(self, target)` |
 | `suggestions_for_target` | method | `cli/exploration.py:545` | `def suggestions_for_target(self, target)` |
@@ -190,8 +216,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_render_unexplored` | function | `cli/exploration_view.py:161` | `def _render_unexplored(console, unexplored_addons, unexplored_tools)` |
 | `render_exploration` | function | `cli/exploration_view.py:39` | `def render_exploration(console, engine, target, history)` |
 | `FuzzyMatchConfig` | class | `cli/fuzzy_match.py:18` | `class FuzzyMatchConfig` |
-| `did_you_mean` | method | `cli/fuzzy_match.py:56` | `def did_you_mean(query, candidates)` |
-| `suggest` | method | `cli/fuzzy_match.py:28` | `def suggest(query, candidates, limit, config)` |
+| `did_you_mean` | function | `cli/fuzzy_match.py:56` | `def did_you_mean(query, candidates)` |
+| `suggest` | function | `cli/fuzzy_match.py:28` | `def suggest(query, candidates, limit, config)` |
 | `CursesPickerView` | class | `cli/fuzzy_picker.py:234` | `class CursesPickerView(PickerView)` |
 | `FuzzyPicker` | class | `cli/fuzzy_picker.py:548` | `class FuzzyPicker` |
 | `MatchScorer` | class | `cli/fuzzy_picker.py:161` | `class MatchScorer` |
@@ -227,7 +253,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `config` | method | `cli/fuzzy_picker.py:562` | `def config(self)` |
 | `from_payload` | method | `cli/fuzzy_picker.py:117` | `def from_payload(cls, payload)` |
 | `install` | method | `cli/fuzzy_picker.py:595` | `def install(self)` |
-| `install_fuzzy_completion` | method | `cli/fuzzy_picker.py:645` | `def install_fuzzy_completion(shell, payload, config)` |
+| `install_fuzzy_completion` | function | `cli/fuzzy_picker.py:645` | `def install_fuzzy_completion(shell, payload, config)` |
 | `pick` | method | `cli/fuzzy_picker.py:565` | `def pick(self, items, initial_query)` |
 | `rank` | method | `cli/fuzzy_picker.py:173` | `def rank(self, items, query)` |
 | `run` | method | `cli/fuzzy_picker.py:231` | `def run(self, items, initial_query)` |
@@ -263,10 +289,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
 | `did_you_mean` | method | `cli/graph_advisor.py:591` | `def did_you_mean(self, query, limit)` |
 | `edges_between` | method | `cli/graph_advisor.py:286` | `def edges_between(self, source, target)` |
-| `format_god_nodes` | method | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
-| `format_neighbors` | method | `cli/graph_advisor.py:706` | `def format_neighbors(result)` |
-| `format_search_table` | method | `cli/graph_advisor.py:691` | `def format_search_table(results)` |
-| `format_suggestions` | method | `cli/graph_advisor.py:734` | `def format_suggestions(results)` |
+| `format_god_nodes` | function | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
+| `format_neighbors` | function | `cli/graph_advisor.py:706` | `def format_neighbors(result)` |
+| `format_search_table` | function | `cli/graph_advisor.py:691` | `def format_search_table(results)` |
+| `format_suggestions` | function | `cli/graph_advisor.py:734` | `def format_suggestions(results)` |
 | `from_path` | method | `cli/graph_advisor.py:375` | `def from_path(cls, path, config)` |
 | `get` | method | `cli/graph_advisor.py:280` | `def get(self, node_id)` |
 | `god_nodes` | method | `cli/graph_advisor.py:505` | `def god_nodes(self, limit)` |
@@ -292,8 +318,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_GraphOverlayApp` | class | `cli/graph_overlay.py:246` | `class _GraphOverlayApp(App)` |
 | `__init__` | method | `cli/graph_overlay.py:260` | `def __init__(self)` |
 | `_advisor` | method | `cli/graph_overlay.py:174` | `def _advisor(self)` |
-| `_build_app` | method | `cli/graph_overlay.py:235` | `def _build_app(state, theme)` |
-| `_default_advisor_factory` | method | `cli/graph_overlay.py:181` | `def _default_advisor_factory()` |
+| `_build_app` | function | `cli/graph_overlay.py:235` | `def _build_app(state, theme)` |
+| `_default_advisor_factory` | function | `cli/graph_overlay.py:181` | `def _default_advisor_factory()` |
 | `_edge_badge` | method | `cli/graph_overlay.py:159` | `def _edge_badge(self, edges)` |
 | `_god_nodes` | method | `cli/graph_overlay.py:111` | `def _god_nodes(self, advisor)` |
 | `_neighbors` | method | `cli/graph_overlay.py:119` | `def _neighbors(self, advisor)` |
@@ -302,10 +328,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_truncate` | method | `cli/graph_overlay.py:169` | `def _truncate(self, value)` |
 | `action_close` | method | `cli/graph_overlay.py:284` | `def action_close(self)` |
 | `action_toggle_view` | method | `cli/graph_overlay.py:280` | `def action_toggle_view(self)` |
-| `build_state` | method | `cli/graph_overlay.py:192` | `def build_state(config, advisor_factory)` |
+| `build_state` | function | `cli/graph_overlay.py:192` | `def build_state(config, advisor_factory)` |
 | `compose` | method | `cli/graph_overlay.py:265` | `def compose(self)` |
 | `is_available` | method | `cli/graph_overlay.py:77` | `def is_available(self)` |
-| `launch_overlay` | method | `cli/graph_overlay.py:203` | `def launch_overlay(payload, state, runner)` |
+| `launch_overlay` | function | `cli/graph_overlay.py:203` | `def launch_overlay(payload, state, runner)` |
 | `on_input_changed` | method | `cli/graph_overlay.py:276` | `def on_input_changed(self, event)` |
 | `on_mount` | method | `cli/graph_overlay.py:273` | `def on_mount(self)` |
 | `set_focus` | method | `cli/graph_overlay.py:87` | `def set_focus(self, value)` |
@@ -318,18 +344,104 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `run_chain` | method | `cli/headless.py:132` | `def run_chain(self, commands)` |
 | `run_command` | method | `cli/headless.py:87` | `def run_command(self, cmd, timeout)` |
 | `PhaseProgress` | class | `cli/killchain.py:29` | `class PhaseProgress` |
-| `_detect_current_phase` | method | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
-| `_phase_from_event` | method | `cli/killchain.py:48` | `def _phase_from_event(event)` |
-| `compute_killchain` | method | `cli/killchain.py:83` | `def compute_killchain(events, world, phases)` |
+| `_detect_current_phase` | function | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
+| `_phase_from_event` | function | `cli/killchain.py:48` | `def _phase_from_event(event)` |
+| `compute_killchain` | function | `cli/killchain.py:83` | `def compute_killchain(events, world, phases)` |
+| `LazyMonitorApp` | class | `cli/lazy_monitor.py:89` | `class LazyMonitorApp` |
+| `PromptModal` | class | `cli/lazy_monitor.py:61` | `class PromptModal` |
+| `__init__` | method | `cli/lazy_monitor.py:66` | `def __init__(self, title, placeholder)` |
+| `__init__` | method | `cli/lazy_monitor.py:124` | `def __init__(self, task_id, engine, config, params)` |
+| `_append_activity` | method | `cli/lazy_monitor.py:387` | `def _append_activity(self, text, style)` |
+| `_append_activity_text` | method | `cli/lazy_monitor.py:392` | `def _append_activity_text(self, line)` |
+| `_decide` | method | `cli/lazy_monitor.py:433` | `def _decide(self, verdict)` |
+| `_done` | function | `cli/lazy_monitor.py:448` | `def _done(text)` |
+| `_done` | function | `cli/lazy_monitor.py:467` | `def _done(text)` |
+| `_drain_activity` | method | `cli/lazy_monitor.py:270` | `def _drain_activity(self)` |
+| `_drain_guard` | method | `cli/lazy_monitor.py:290` | `def _drain_guard(self)` |
+| `_drain_traffic` | method | `cli/lazy_monitor.py:304` | `def _drain_traffic(self)` |
+| `_finish` | method | `cli/lazy_monitor.py:246` | `def _finish(self, result)` |
+| `_focus_tab` | method | `cli/lazy_monitor.py:501` | `def _focus_tab(self, tab_id)` |
+| `_hint_via_graph` | function | `cli/lazy_monitor.py:566` | `def _hint_via_graph(task_id, text)` |
+| `_init_tails` | method | `cli/lazy_monitor.py:203` | `def _init_tails(self)` |
+| `_overview` | method | `cli/lazy_monitor.py:263` | `def _overview(self)` |
+| `_poll` | method | `cli/lazy_monitor.py:252` | `def _poll(self)` |
+| `_render_approvals` | method | `cli/lazy_monitor.py:313` | `def _render_approvals(self)` |
+| `_render_findings` | method | `cli/lazy_monitor.py:332` | `def _render_findings(self)` |
+| `_render_stages` | method | `cli/lazy_monitor.py:351` | `def _render_stages(self, overview)` |
+| `_reset_view` | method | `cli/lazy_monitor.py:537` | `def _reset_view(self)` |
+| `_resolve_task` | method | `cli/lazy_monitor.py:192` | `def _resolve_task(self)` |
+| `_run` | function | `cli/lazy_monitor.py:225` | `def _run()` |
+| `_running_intent` | method | `cli/lazy_monitor.py:399` | `def _running_intent(self)` |
+| `_start_engine` | method | `cli/lazy_monitor.py:213` | `def _start_engine(self)` |
+| `_stream` | function | `cli/lazy_monitor.py:217` | `def _stream(line)` |
+| `action_approve` | method | `cli/lazy_monitor.py:425` | `def action_approve(self)` |
+| `action_deny` | method | `cli/lazy_monitor.py:429` | `def action_deny(self)` |
+| `action_dismiss` | method | `cli/lazy_monitor.py:84` | `def action_dismiss(self, value)` |
+| `action_focus_worker` | method | `cli/lazy_monitor.py:508` | `def action_focus_worker(self, index)` |
+| `action_hint` | method | `cli/lazy_monitor.py:445` | `def action_hint(self)` |
+| `action_kill` | method | `cli/lazy_monitor.py:477` | `def action_kill(self)` |
+| `action_next_task` | method | `cli/lazy_monitor.py:518` | `def action_next_task(self)` |
+| `action_pause` | method | `cli/lazy_monitor.py:409` | `def action_pause(self)` |
+| `action_resume` | method | `cli/lazy_monitor.py:417` | `def action_resume(self)` |
+| `action_steer` | method | `cli/lazy_monitor.py:460` | `def action_steer(self)` |
+| `action_tab_findings` | method | `cli/lazy_monitor.py:489` | `def action_tab_findings(self)` |
+| `action_tab_guard` | method | `cli/lazy_monitor.py:493` | `def action_tab_guard(self)` |
+| `action_tab_traffic` | method | `cli/lazy_monitor.py:497` | `def action_tab_traffic(self)` |
+| `compose` | method | `cli/lazy_monitor.py:72` | `def compose(self)` |
+| `compose` | method | `cli/lazy_monitor.py:140` | `def compose(self)` |
+| `on_input_submitted` | method | `cli/lazy_monitor.py:80` | `def on_input_submitted(self, event)` |
+| `on_mount` | method | `cli/lazy_monitor.py:168` | `def on_mount(self)` |
+| `run_monitor_command` | function | `cli/lazy_monitor.py:575` | `def run_monitor_command(task_id)` |
+| `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
+| `ConfigField` | class | `cli/lazy_orchestrator.py:59` | `class ConfigField` |
+| `FormModal` | class | `cli/lazy_orchestrator.py:81` | `class FormModal` |
+| `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:118` | `class LazyOrchestratorApp` |
+| `__init__` | method | `cli/lazy_orchestrator.py:86` | `def __init__(self, title, fields)` |
+| `__init__` | method | `cli/lazy_orchestrator.py:141` | `def __init__(self, payload_path, task_id)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:495` | `def _active_tab(self)` |
+| `_coerce` | function | `cli/lazy_orchestrator.py:588` | `def _coerce(raw)` |
+| `_done` | function | `cli/lazy_orchestrator.py:507` | `def _done(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:524` | `def _done_rule(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:541` | `def _done_verb(values)` |
+| `_load_payload` | method | `cli/lazy_orchestrator.py:267` | `def _load_payload(self)` |
+| `_load_payload_into_form` | method | `cli/lazy_orchestrator.py:277` | `def _load_payload_into_form(self)` |
+| `_poll_now` | method | `cli/lazy_orchestrator.py:403` | `def _poll_now(self)` |
+| `_refresh_guard` | method | `cli/lazy_orchestrator.py:363` | `def _refresh_guard(self)` |
+| `_refresh_models` | method | `cli/lazy_orchestrator.py:342` | `def _refresh_models(self)` |
+| `_refresh_stages` | method | `cli/lazy_orchestrator.py:227` | `def _refresh_stages(self)` |
+| `_refresh_verbs` | method | `cli/lazy_orchestrator.py:243` | `def _refresh_verbs(self)` |
+| `_resolve_task` | method | `cli/lazy_orchestrator.py:385` | `def _resolve_task(self)` |
+| `_selected_row` | method | `cli/lazy_orchestrator.py:464` | `def _selected_row(self, table_id)` |
+| `action_add_item` | method | `cli/lazy_orchestrator.py:502` | `def action_add_item(self)` |
+| `action_delete_item` | method | `cli/lazy_orchestrator.py:563` | `def action_delete_item(self)` |
+| `action_refresh` | method | `cli/lazy_orchestrator.py:456` | `def action_refresh(self)` |
+| `action_save_config` | method | `cli/lazy_orchestrator.py:485` | `def action_save_config(self)` |
+| `action_toggle_item` | method | `cli/lazy_orchestrator.py:473` | `def action_toggle_item(self)` |
+| `add_auto_verb` | method | `cli/lazy_orchestrator.py:204` | `def add_auto_verb(self, name, keywords, needs_target, description)` |
+| `add_guard_rule` | method | `cli/lazy_orchestrator.py:326` | `def add_guard_rule(self, pattern, action, reason)` |
+| `add_model_member` | method | `cli/lazy_orchestrator.py:310` | `def add_model_member(self, name, model, priority)` |
+| `compose` | method | `cli/lazy_orchestrator.py:92` | `def compose(self)` |
+| `compose` | method | `cli/lazy_orchestrator.py:151` | `def compose(self)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:101` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:438` | `def on_button_pressed(self, event)` |
+| `on_input_submitted` | method | `cli/lazy_orchestrator.py:110` | `def on_input_submitted(self, event)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:176` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:219` | `def remove_auto_verb(self, name)` |
+| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:334` | `def remove_guard_rule(self, pattern)` |
+| `remove_model_member` | method | `cli/lazy_orchestrator.py:318` | `def remove_model_member(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:605` | `def run_orchestrator_console(task_id)` |
+| `save_config` | method | `cli/lazy_orchestrator.py:288` | `def save_config(self, values)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:186` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:195` | `def toggle_verb(self, name)` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
-| `_atomic_write_json` | method | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
-| `_default_engine_factory` | method | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
-| `_emit_event` | method | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
-| `_enabled` | method | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
-| `_safe_log` | method | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
-| `_update_world_model_phase` | method | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
-| `run_post_scan` | method | `cli/lazynmap_post.py:94` | `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` |
+| `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
+| `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
+| `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
+| `_enabled` | function | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
+| `_safe_log` | function | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
+| `_update_world_model_phase` | function | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
+| `run_post_scan` | function | `cli/lazynmap_post.py:94` | `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` |
 | `AddonInfo` | class | `cli/marketplace_config.py:131` | `class AddonInfo` |
 | `AddonRegistry` | class | `cli/marketplace_config.py:197` | `class AddonRegistry` |
 | `MarketplaceConfig` | class | `cli/marketplace_config.py:56` | `class MarketplaceConfig` |
@@ -337,7 +449,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `MarketplaceSettings` | class | `cli/marketplace_config.py:349` | `class MarketplaceSettings` |
 | `__init__` | method | `cli/marketplace_config.py:220` | `def __init__(self)` |
 | `__init__` | method | `cli/marketplace_config.py:381` | `def __init__(self, config, registry, initial)` |
-| `_build_initial_settings` | method | `cli/marketplace_config.py:774` | `def _build_initial_settings(registry)` |
+| `_build_initial_settings` | function | `cli/marketplace_config.py:774` | `def _build_initial_settings(registry)` |
 | `_color` | method | `cli/marketplace_config.py:742` | `def _color(self, pair)` |
 | `_create_addon` | method | `cli/marketplace_config.py:480` | `def _create_addon(self, stdscr)` |
 | `_cycle_tab` | method | `cli/marketplace_config.py:465` | `def _cycle_tab(self, direction)` |
@@ -360,12 +472,12 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_scan_nuclei` | method | `cli/marketplace_config.py:278` | `def _scan_nuclei(self)` |
 | `_scan_yara` | method | `cli/marketplace_config.py:259` | `def _scan_yara(self)` |
 | `_tty_available` | method | `cli/marketplace_config.py:408` | `def _tty_available()` |
-| `configure_marketplace_interactive` | method | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
+| `configure_marketplace_interactive` | function | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
 | `disable_all` | method | `cli/marketplace_config.py:372` | `def disable_all(self, addons)` |
 | `enable_all` | method | `cli/marketplace_config.py:367` | `def enable_all(self, addons)` |
 | `from_yaml` | method | `cli/marketplace_config.py:144` | `def from_yaml(cls, path)` |
 | `is_enabled` | method | `cli/marketplace_config.py:354` | `def is_enabled(self, kind, name)` |
-| `marketplace_summary` | method | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
+| `marketplace_summary` | function | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
 | `rescan` | method | `cli/marketplace_config.py:334` | `def rescan(self, tab)` |
 | `run` | method | `cli/marketplace_config.py:395` | `def run(self, start_tab)` |
 | `save_yaml` | method | `cli/marketplace_config.py:185` | `def save_yaml(self, data)` |
@@ -377,124 +489,12 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
 | `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
 | `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
-| `_bucket` | method | `cli/ops_commands.py:861` | `def _bucket(node)` |
+| `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
 | `_count_glob` | function | `cli/ops_commands.py:450` | `def _count_glob(pattern)` |
 | `_count_pivots` | function | `cli/ops_commands.py:385` | `def _count_pivots(sessions_dir)` |
-| `_cred_node` | method | `cli/ops_commands.py:758` | `def _cred_node(value)` |
-| `_cred_outcomes_for_host` | method | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
+| `_cred_node` | function | `cli/ops_commands.py:758` | `def _cred_node(value)` |
+| `_cred_outcomes_for_host` | function | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
 | `_engagement_phase_to_cli` | function | `cli/ops_commands.py:292` | `def _engagement_phase_to_cli(phase_value)` |
-| `_glob_count` | function | `cli/ops_commands.py:375` | `def _glob_count(sessions_dir, pattern)` |
-| `_highlight_match` | function | `cli/ops_commands.py:265` | `def _highlight_match(line, rx)` |
-| `_host_label` | method | `cli/ops_commands.py:864` | `def _host_label(node)` |
-| `_human_age` | method | `cli/ops_commands.py:1475` | `def _human_age(seconds)` |
-| `_human_size` | method | `cli/ops_commands.py:1485` | `def _human_size(n)` |
-| `_join` | method | `cli/ops_commands.py:901` | `def _join(items)` |
-| `_load_tasks` | method | `cli/ops_commands.py:1059` | `def _load_tasks()` |
-| `_loot_provenance` | method | `cli/ops_commands.py:657` | `def _loot_provenance(query, sessions_dir)` |
-| `_os_identified` | function | `cli/ops_commands.py:367` | `def _os_identified(sessions_dir)` |
-| `_phase_rank` | function | `cli/ops_commands.py:287` | `def _phase_rank(phase)` |
-| `_print_next_steps` | method | `cli/ops_commands.py:1387` | `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)` |
-| `_read_json` | function | `cli/ops_commands.py:425` | `def _read_json(path)` |
-| `_read_plan` | method | `cli/ops_commands.py:1454` | `def _read_plan()` |
-| `_render_progress_bar` | function | `cli/ops_commands.py:359` | `def _render_progress_bar(ratio)` |
-| `_render_steps` | method | `cli/ops_commands.py:1449` | `def _render_steps(steps)` |
-| `_report_artifact_exists` | function | `cli/ops_commands.py:380` | `def _report_artifact_exists(sessions_dir)` |
-| `_save_tasks` | method | `cli/ops_commands.py:1066` | `def _save_tasks(tasks)` |
-| `_search_csv` | function | `cli/ops_commands.py:211` | `def _search_csv(rx, hits, limit)` |
-| `_search_logs` | function | `cli/ops_commands.py:236` | `def _search_logs(rx, hits, limit, sessions_dir)` |
-| `_search_transcript_jsonl` | function | `cli/ops_commands.py:177` | `def _search_transcript_jsonl(rx, hits, limit)` |
-| `_write_json_atomic` | function | `cli/ops_commands.py:433` | `def _write_json_atomic(path, data)` |
-| `gather_loot` | method | `cli/ops_commands.py:571` | `def gather_loot(sessions_dir)` |
-| `loot_graph` | method | `cli/ops_commands.py:847` | `def loot_graph(sessions_dir)` |
-| `loot_mark` | method | `cli/ops_commands.py:945` | `def loot_mark(selector, outcome, host, sessions_dir)` |
-| `loot_reuse` | method | `cli/ops_commands.py:763` | `def loot_reuse(rhost, sessions_dir)` |
-| `loot_search` | method | `cli/ops_commands.py:686` | `def loot_search(query, sessions_dir)` |
-| `loot_show` | method | `cli/ops_commands.py:614` | `def loot_show(sessions_dir)` |
-| `note_add` | function | `cli/ops_commands.py:468` | `def note_add(text, rhost, phase)` |
-| `note_list` | function | `cli/ops_commands.py:493` | `def note_list(rhost, limit)` |
-| `phase_progress` | function | `cli/ops_commands.py:393` | `def phase_progress(world, sessions_dir)` |
-| `pivot_add` | method | `cli/ops_commands.py:987` | `def pivot_add(new_ip, via_ip, note)` |
-| `pivot_list` | method | `cli/ops_commands.py:1013` | `def pivot_list()` |
-| `print_ctx` | function | `cli/ops_commands.py:74` | `def print_ctx(payload, sessions_dir)` |
-| `print_phase` | function | `cli/ops_commands.py:317` | `def print_phase()` |
-| `read_phase` | function | `cli/ops_commands.py:279` | `def read_phase()` |
-| `resolve_cred_value` | method | `cli/ops_commands.py:917` | `def resolve_cred_value(selector, entries)` |
-| `scans_list` | method | `cli/ops_commands.py:1189` | `def scans_list(rhost, sessions_dir)` |
-| `sitrep` | method | `cli/ops_commands.py:1242` | `def sitrep(payload, sessions_dir)` |
-| `tasks_add` | method | `cli/ops_commands.py:1125` | `def tasks_add(title, operator)` |
-| `tasks_done` | method | `cli/ops_commands.py:1146` | `def tasks_done(task_id)` |
-| `tasks_list` | method | `cli/ops_commands.py:1070` | `def tasks_list(status_filter, limit)` |
-| `tasks_start` | method | `cli/ops_commands.py:1166` | `def tasks_start(task_id)` |
-| `tgrep` | function | `cli/ops_commands.py:115` | `def tgrep(pattern)` |
-| `value` | method | `cli/ops_commands.py:561` | `def value(self)` |
-| `write_phase` | function | `cli/ops_commands.py:302` | `def write_phase(phase)` |
-| `OutputMode` | class | `cli/output_mode.py:33` | `class OutputMode` |
-| `OutputModeConfig` | class | `cli/output_mode.py:20` | `class OutputModeConfig` |
-| `dry_run_line` | method | `cli/output_mode.py:98` | `def dry_run_line(command)` |
-| `format_output` | method | `cli/output_mode.py:77` | `def format_output(data, mode)` |
-| `parse_output_flags` | method | `cli/output_mode.py:43` | `def parse_output_flags(args, config)` |
-| `strip_ansi` | method | `cli/output_mode.py:65` | `def strip_ansi(text)` |
-| `CommandIndexError` | class | `cli/palette.py:25` | `class CommandIndexError(RuntimeError)` |
-| `all_categories` | method | `cli/palette.py:77` | `def all_categories()` |
-| `all_commands` | method | `cli/palette.py:55` | `def all_commands()` |
-| `all_phases` | method | `cli/palette.py:72` | `def all_phases()` |
-| `duplicates` | method | `cli/palette.py:125` | `def duplicates()` |
-| `filter_by_category` | method | `cli/palette.py:92` | `def filter_by_category(category)` |
-| `filter_by_phase` | method | `cli/palette.py:82` | `def filter_by_phase(phase)` |
-| `get` | method | `cli/palette.py:114` | `def get(name)` |
-| `load_index` | method | `cli/palette.py:30` | `def load_index(path)` |
-| `search` | method | `cli/palette.py:97` | `def search(query)` |
-| `totals` | method | `cli/palette.py:130` | `def totals()` |
-| `CompletionPosition` | class | `cli/palette_command.py:737` | `class CompletionPosition` |
-| `PaletteArgs` | class | `cli/palette_command.py:123` | `class PaletteArgs` |
-| `PaletteArgumentParser` | class | `cli/palette_command.py:132` | `class PaletteArgumentParser` |
-| `PaletteCompleter` | class | `cli/palette_command.py:744` | `class PaletteCompleter` |
-| `PaletteIndexQuery` | class | `cli/palette_command.py:184` | `class PaletteIndexQuery` |
-| `PaletteJsonRenderer` | class | `cli/palette_command.py:514` | `class PaletteJsonRenderer` |
-| `PaletteJsonResult` | class | `cli/palette_command.py:487` | `class PaletteJsonResult` |
-| `PaletteMode` | class | `cli/palette_command.py:33` | `class PaletteMode(Enum)` |
-| `PaletteRenderConfig` | class | `cli/palette_command.py:44` | `class PaletteRenderConfig` |
-| `PaletteRenderer` | class | `cli/palette_command.py:277` | `class PaletteRenderer` |
-| `PaletteViewConfig` | class | `cli/palette_command.py:605` | `class PaletteViewConfig` |
-| `__init__` | method | `cli/palette_command.py:149` | `def __init__(self, config)` |
-| `__init__` | method | `cli/palette_command.py:193` | `def __init__(self, index)` |
-| `__init__` | method | `cli/palette_command.py:285` | `def __init__(self, config)` |
-| `__init__` | method | `cli/palette_command.py:522` | `def __init__(self, config)` |
-| `__init__` | method | `cli/palette_command.py:755` | `def __init__(self, config)` |
-| `_enrich_commands_for_view` | method | `cli/palette_command.py:665` | `def _enrich_commands_for_view(rows)` |
-| `_enrich_detail_entry` | method | `cli/palette_command.py:409` | `def _enrich_detail_entry(entry)` |
-| `_ensure_neighbour_keys` | method | `cli/palette_command.py:689` | `def _ensure_neighbour_keys(rows)` |
-| `_filter_phase_rows` | method | `cli/palette_command.py:395` | `def _filter_phase_rows(rows, query)` |
-| `_filter_prefix` | method | `cli/palette_command.py:797` | `def _filter_prefix(candidates, text)` |
-| `_format_name_summary_table` | method | `cli/palette_command.py:383` | `def _format_name_summary_table(self, header, rows)` |
-| `_format_neighbours` | method | `cli/palette_command.py:370` | `def _format_neighbours(self, values)` |
-| `_load_recent_commands` | method | `cli/palette_command.py:712` | `def _load_recent_commands()` |
-| `_ordered_phase_ids` | method | `cli/palette_command.py:728` | `def _ordered_phase_ids(config, phase_counts)` |
-| `_ordered_phases` | method | `cli/palette_command.py:376` | `def _ordered_phases(self, phase_counts)` |
-| `_tokenise` | method | `cli/palette_command.py:784` | `def _tokenise(self, line, endidx)` |
-| `build_palette_view` | method | `cli/palette_command.py:619` | `def build_palette_view(index)` |
-| `commands` | method | `cli/palette_command.py:197` | `def commands(self)` |
-| `complete` | method | `cli/palette_command.py:758` | `def complete(self, text, line, endidx, index)` |
-| `detail` | method | `cli/palette_command.py:234` | `def detail(self, target)` |
-| `in_phase` | method | `cli/palette_command.py:213` | `def in_phase(self, phase)` |
-| `next_phase` | method | `cli/palette_command.py:249` | `def next_phase(self, current)` |
-| `parse` | method | `cli/palette_command.py:152` | `def parse(self, line)` |
-| `phase_counts` | method | `cli/palette_command.py:208` | `def phase_counts(self)` |
-| `phases` | method | `cli/palette_command.py:203` | `def phases(self)` |
-| `render` | method | `cli/palette_command.py:447` | `def render(index, line)` |
-| `render_detail` | method | `cli/palette_command.py:320` | `def render_detail(self, entry)` |
-| `render_detail` | method | `cli/palette_command.py:549` | `def render_detail(self, target, entry)` |
-| `render_json` | method | `cli/palette_command.py:566` | `def render_json(index, line)` |
-| `render_next` | method | `cli/palette_command.py:360` | `def render_next(self, phase, rows)` |
-| `render_next` | method | `cli/palette_command.py:557` | `def render_next(self, phase, rows)` |
-| `render_overview` | method | `cli/palette_command.py:288` | `def render_overview(self, phase_counts)` |
-| `render_overview` | method | `cli/palette_command.py:525` | `def render_overview(self, phase_counts)` |
-| `render_phase` | method | `cli/palette_command.py:304` | `def render_phase(self, phase, rows)` |
-| `render_phase` | method | `cli/palette_command.py:532` | `def render_phase(self, phase, query, rows)` |
-| `render_search` | method | `cli/palette_command.py:312` | `def render_search(self, query, rows)` |
-| `render_search` | method | `cli/palette_command.py:541` | `def render_search(self, query, rows)` |
-| `search` | method | `cli/palette_command.py:218` | `def search(self, query)` |
-| `to_dict` | method | `cli/palette_command.py:502` | `def to_dict(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

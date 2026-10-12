@@ -254,10 +254,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                             continue
 
                         with db._cursor() as cur:
-                            dest_columns = [
-                                info[1]
-                                for info in cur.execute(f"PRAGMA table_info({table})").fetchall()
-                            ]
+                            dest_columns = [info[1] for info in cur.execute(f"PRAGMA table_info({table})").fetchall()]
                         columns = filter_columns(list(rows[0].keys()), dest_columns)
                         if not columns:
                             continue

@@ -704,9 +704,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             print_warn("Usage: frontier [target] (or assign rhost first)")
             return
         try:
-            from modules.planner import Frontier
-            from modules.planner import Planner
-            from modules.planner import TodoList
+            from modules.planner import Frontier, Planner, TodoList
         except Exception as exc:
             print_error(f"frontier unavailable: {exc}")
             return
@@ -1145,6 +1143,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             if not profile.open_ports:
                 try:
                     from modules.enrich import should_rescan as _should_rescan
+
                     _need = _should_rescan("sessions", target)
                 except Exception:
                     _need = True
@@ -1405,11 +1404,26 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             Ensure that `tmux` and `openvpn` are installed and running for their respective commands to have an effect.
         """
         print_error(f"Exit {BG_BLACK}[*]{RESET}")
+        try:
+            from modules.lazy_loop import shutdown_loop_runtime
+
+            summary = shutdown_loop_runtime("qa")
+            if summary.get("cancelled_processes") or summary.get("paused_tasks"):
+                print_msg(
+                    f"[*] stopped {summary['cancelled_processes']} process(es); "
+                    f"paused {len(summary['paused_tasks'])} task(s) "
+                    "(resume with lazy_loop --task T)"
+                )
+        except Exception:
+            pass
         self.cmd("tmux kill-session -t lazyown_sessions 2>/dev/null")
         self.cmd("killall openvpn 2>/dev/null")
-        self.cmd("killall openvpn 2>/dev/null")
-        self.cmd("killall openvpn 2>/dev/null")
-        self.cmd("killall openvpn 2>/dev/null")
+        try:
+            encrypt = getattr(self, "_run_auto_encrypt", None)
+            if encrypt is not None:
+                encrypt()
+        except Exception:
+            pass
         sys.exit(0)
 
     @cmd2.with_category("12. Miscellaneous")

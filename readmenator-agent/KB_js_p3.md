@@ -207,6 +207,49 @@ Previous: [KB_js_p2.md](KB_js_p2.md)
   - `as` (class, line 5906)
   - `as` (class, line 6518)
   - `Promise` (class, line 8236)
+  - `_createClass` (method, line 312)
+  - `_createClass` (method, line 606)
+  - `_createClass` (method, line 852)
+  - `_createClass` (method, line 958)
+  - `_createClass` (method, line 1081)
+  - `_createClass` (method, line 1145)
+  - `_createClass` (method, line 2635)
+  - `setTimeout` (method, line 2761)
+  - `SUPPORT_RANGE_BOUNDS` (method, line 2833)
+  - `SUPPORT_SVG_DRAWING` (method, line 2839)
+  - `SUPPORT_BASE64_DRAWING` (method, line 2845)
+  - `SUPPORT_FOREIGNOBJECT_DRAWING` (method, line 2855)
+  - `SUPPORT_CORS_IMAGES` (method, line 2861)
+  - `SUPPORT_RESPONSE_TYPE` (method, line 2867)
+  - `SUPPORT_CORS_XHR` (method, line 2873)
+  - `_createClass` (method, line 3119)
+  - `_createClass` (method, line 3756)
+  - `_createClass` (method, line 3999)
+  - `_createClass` (method, line 4664)
+  - `_createClass` (method, line 4786)
+  - `_createClass` (method, line 4943)
+  - `_createClass` (method, line 5534)
+  - `_createClass` (method, line 5920)
+  - `setTimeout` (method, line 6040)
+  - `setTimeout` (method, line 6046)
+  - `_createClass` (method, line 6100)
+  - `setTimeout` (method, line 6139)
+  - `setTimeout` (method, line 6144)
+  - `_createClass` (method, line 6542)
+  - `asap` (method, line 7551)
+  - `asap` (method, line 7641)
+  - `subscribe` (method, line 7675)
+  - `resolver` (method, line 7834)
+  - `subscribe` (method, line 7944)
+  - `setTimeout` (method, line 8013)
+  - `setTimeout` (method, line 8019)
+  - `setTimeout` (method, line 8038)
+  - `setTimeout` (method, line 8044)
+  - `findResult` (method, line 8339)
+  - `findAuthor` (method, line 8374)
+  - `findBoooksByAuthor` (method, line 8380)
+  - `then` (method, line 8402)
+  - `findAuthor` (method, line 8451)
 - Depends on: `cli/assign.py`, `lazygui/services/factory.py`, `lazyown-docker/init.sh`
 
 ## static/js/jquery-3.5.1.slim.min.js
@@ -230,12 +273,13 @@ Previous: [KB_js_p2.md](KB_js_p2.md)
   - `init` (function, line 799)
   - `process` (function, line 881)
   - `process` (function, line 972)
-  - `hexToRgb` (function, line 1448)
-  - `clamp` (function, line 1463)
-  - `isInArray` (function, line 1467)
+  - `hexToRgb` (function, line 1449)
+  - `clamp` (function, line 1464)
+  - `isInArray` (function, line 1468)
   - `d` (function, line 513)
   - `interiorAngleDegrees` (function, line 1248)
   - `pJS` (function, line 10)
+  - `setTimeout` (method, line 1148)
 - Depends on: `core/process.py`, `lazyown-docker/init.sh`
 
 ## static/js/popper-2.5.4.min.js
@@ -443,37 +487,6 @@ Previous: [KB_js_p2.md](KB_js_p2.md)
   - `as` (class, line 6)
   - `as` (class, line 6)
 - Depends on: `lazyc2/blueprints/auth.py`
-
-## static/js/socket.io-4.3.2.min.js
-- Doc: as: !
-- Layer: utility
-- Language: js
-- Symbols:
-  - `o` (function, line 6)
-  - `e` (function, line 6)
-  - `r` (function, line 6)
-  - `n` (function, line 6)
-  - `n` (function, line 6)
-  - `n` (function, line 6)
-  - `e` (function, line 6)
-  - `o` (function, line 6)
-  - `s` (function, line 6)
-  - `f` (function, line 6)
-  - `wt` (function, line 6)
-  - `h` (function, line 6)
-  - `Et` (function, line 6)
-  - `Nt` (function, line 6)
-  - `as` (class, line 6)
-- Depends on: `lazyc2/blueprints/auth.py`
-
-## static/js/tippy-6.js
-- Layer: utility
-- Language: js
-- Symbols:
-  - `e` (function, line 1)
-  - `r` (function, line 1)
-  - `u` (function, line 1)
-- Depends on: `cli/assign.py`, `cli/show.py`
 
 
 Next: [KB_js_p4.md](KB_js_p4.md)

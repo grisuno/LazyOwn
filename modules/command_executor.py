@@ -21,16 +21,71 @@ Design (SOLID)
 from __future__ import annotations
 
 import logging
+import os
 import select
 import shlex
+import signal
 import subprocess
 import sys
+import threading
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
 from core.safe_exec import needs_shell as _shared_needs_shell
+
+_THREAD_LIMITS = threading.local()
+
+
+def set_thread_timeout(seconds: float) -> None:
+    """Bound the next ``run_tee`` call on this thread by wall-clock seconds."""
+    _THREAD_LIMITS.timeout = max(0.0, float(seconds or 0.0))
+
+
+def clear_thread_timeout() -> None:
+    """Remove this thread's ``run_tee`` deadline, if any."""
+    try:
+        del _THREAD_LIMITS.timeout
+    except AttributeError:
+        return
+
+
+def thread_timeout() -> float | None:
+    """Return this thread's pending ``run_tee`` deadline, or None."""
+    return getattr(_THREAD_LIMITS, "timeout", None)
+
+
+def set_thread_stdin_devnull(enabled: bool = True) -> None:
+    """Detach the next ``run_tee`` child from the operator terminal."""
+    _THREAD_LIMITS.stdin_devnull = bool(enabled)
+
+
+def clear_thread_stdin_devnull() -> None:
+    """Restore inherited stdin for this thread's ``run_tee`` calls."""
+    try:
+        del _THREAD_LIMITS.stdin_devnull
+    except AttributeError:
+        return
+
+
+def thread_stdin_devnull() -> bool:
+    """Return True when this thread's ``run_tee`` children drop stdin."""
+    return bool(getattr(_THREAD_LIMITS, "stdin_devnull", False))
+
+
+def _kill_process_group(proc: subprocess.Popen) -> None:
+    """Kill a tee'd child and every descendant in its session/process group."""
+    try:
+        os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+        return
+    except Exception:
+        pass
+    try:
+        proc.kill()
+    except Exception:
+        pass
+
 
 log = logging.getLogger("command_executor")
 
@@ -167,24 +222,34 @@ class CommandExecutor:
         start = time.monotonic()
         emit = writer if writer is not None else self._default_writer
         handle = open(log_file, "w") if log_file is not None else None
+        effective_timeout = timeout if timeout is not None else thread_timeout()
+        detached = thread_stdin_devnull()
         proc = None
         try:
             proc = subprocess.Popen(
                 self._argv(command),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
+                stdin=subprocess.DEVNULL if detached else None,
                 text=True,
                 env=env,
+                start_new_session=detached,
             )
+            try:
+                from modules.auto_registry import track_process
+
+                track_process(proc)
+            except Exception:
+                pass
             output_parts: list[str] = []
-            deadline = None if timeout is None else start + timeout
+            deadline = None if effective_timeout is None else start + effective_timeout
             while True:
                 remaining = None if deadline is None else deadline - time.monotonic()
                 if remaining is not None and remaining <= 0:
-                    raise subprocess.TimeoutExpired(command, timeout)
+                    raise subprocess.TimeoutExpired(command, effective_timeout)
                 ready, _, _ = select.select([proc.stdout], [], [], remaining)
                 if not ready:
-                    raise subprocess.TimeoutExpired(command, timeout)
+                    raise subprocess.TimeoutExpired(command, effective_timeout)
                 line = proc.stdout.readline()
                 if not line:
                     break
@@ -196,12 +261,22 @@ class CommandExecutor:
             proc.wait()
         except BaseException:
             if proc is not None:
-                try:
-                    proc.kill()
-                except Exception:
-                    pass
+                if detached:
+                    _kill_process_group(proc)
+                else:
+                    try:
+                        proc.kill()
+                    except Exception:
+                        pass
             raise
         finally:
+            if proc is not None:
+                try:
+                    from modules.auto_registry import untrack_process
+
+                    untrack_process(proc)
+                except Exception:
+                    pass
             if handle is not None:
                 handle.close()
         return ExecutionResult(

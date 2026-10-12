@@ -1,4 +1,4 @@
-# Subsystem: modules (page 5 of 12)
+# Subsystem: modules (page 5 of 14)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
 ## modules/fast_run_service.sh
@@ -51,18 +51,34 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_store_path` (function, line 34) `def _store_path(sessions_dir)`
-  - `_load` (function, line 39) `def _load(sessions_dir)`
-  - `_save` (function, line 52) `def _save(sessions_dir, data)`
-  - `confirm` (function, line 60) `def confirm(finding_id, evidence, sessions_dir, by)`
-  - `reject` (function, line 86) `def reject(finding_id, reason, sessions_dir, by)`
-  - `add_dead_end` (function, line 98) `def add_dead_end(kind, value, reason, sessions_dir)`
-  - `is_dead_end` (function, line 112) `def is_dead_end(kind, value, sessions_dir)`
-  - `suppressed_values` (function, line 120) `def suppressed_values(sessions_dir)`
-  - `resolve` (function, line 127) `def resolve(node, sessions_dir)`
-  - `apply_confirmation` (function, line 153) `def apply_confirmation(nodes, sessions_dir)`
+  - `_store_path` (function, line 35) `def _store_path(sessions_dir)`
+  - `_load` (function, line 40) `def _load(sessions_dir)`
+  - `_save` (function, line 53) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 61) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 90) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 104) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 116) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 123) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 129) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 154) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 182) `class FindingRecord`
+  - `RetestRecord` (class, line 195) `class RetestRecord`
+  - `_token_value` (function, line 205) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 213) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 220) `def _finding_from_row(row)`
+  - `record` (function, line 234) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 259) `def findings_for(db, workspace)`
+  - `set_status` (function, line 264) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 287) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 292) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 303) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 310) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 318) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 338) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 384) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 403) `def render_markdown(db, workspace, title)`
 - Depends on: `modules/osint_enrich.py`
-- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/forensic_cleaner.py
 - Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
@@ -110,9 +126,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Symbols:
   - `GoalSpec` (class, line 20) `class GoalSpec`
   - `TaskConstraints` (class, line 29) `class TaskConstraints`
-  - `decompose_rule_based` (method, line 63) `def decompose_rule_based(objective_text, max_goals)`
-  - `load_constraints` (method, line 83) `def load_constraints(payload)`
-  - `constraint_block_text` (method, line 103) `def constraint_block_text(constraints)`
+  - `decompose_rule_based` (function, line 63) `def decompose_rule_based(objective_text, max_goals)`
+  - `load_constraints` (function, line 83) `def load_constraints(payload)`
+  - `constraint_block_text` (function, line 103) `def constraint_block_text(constraints)`
   - `GoalTracker` (class, line 117) `class GoalTracker`
   - `blocked` (method, line 35) `def blocked(self, command)`
   - `__init__` (method, line 120) `def __init__(self, goals)`
@@ -165,7 +181,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `CrackResult` (class, line 127) `class CrackResult`
   - `HashIdentifier` (class, line 140) `class HashIdentifier`
   - `HashCracker` (class, line 151) `class HashCracker`
-  - `crack_secretsdump_output` (method, line 695) `def crack_secretsdump_output(filepath, wordlist, rhost)`
+  - `crack_secretsdump_output` (function, line 695) `def crack_secretsdump_output(filepath, wordlist, rhost)`
   - `__init__` (method, line 164) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
   - `_resolve_wordlist` (method, line 178) `def _resolve_wordlist(self)`
   - `identify` (method, line 186) `def identify(self, line)`
@@ -209,10 +225,10 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Language: py
 - Symbols:
   - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
-  - `analyze_with_deepseek` (method, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
-  - `save_results_to_json` (method, line 123) `def save_results_to_json(results, file_path)`
-  - `start_analysis` (method, line 169) `def start_analysis(code_dir, mode)`
-  - `parse_args` (method, line 178) `def parse_args()`
+  - `analyze_with_deepseek` (function, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
+  - `save_results_to_json` (function, line 123) `def save_results_to_json(results, file_path)`
+  - `start_analysis` (function, line 169) `def start_analysis(code_dir, mode)`
+  - `parse_args` (function, line 178) `def parse_args()`
   - `__init__` (method, line 33) `def __init__(self, mode)`
   - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
   - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
@@ -224,9 +240,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Language: py
 - Symbols:
   - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
-  - `analyze_with_deepseek` (method, line 94) `def analyze_with_deepseek(log_content, mode)`
-  - `start_monitoring` (method, line 147) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (method, line 168) `def parse_args()`
+  - `analyze_with_deepseek` (function, line 94) `def analyze_with_deepseek(log_content, mode)`
+  - `start_monitoring` (function, line 147) `def start_monitoring(log_dir, mode)`
+  - `parse_args` (function, line 168) `def parse_args()`
   - `__init__` (method, line 59) `def __init__(self, mode)`
   - `on_modified` (method, line 64) `def on_modified(self, event)`
   - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
@@ -321,7 +337,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
   - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
   - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
-  - `get_intelligence_engine` (method, line 931) `def get_intelligence_engine(config)`
+  - `get_intelligence_engine` (function, line 931) `def get_intelligence_engine(config)`
   - `__init__` (method, line 142) `def __init__(self, config)`
   - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
   - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
@@ -356,9 +372,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `InterceptRule` (class, line 50) `class InterceptRule`
   - `PendingApproval` (class, line 77) `class PendingApproval`
   - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (method, line 101) `def builtin_rules()`
-  - `scope_blocked` (method, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (method, line 144) `def observe_post_tool(output)`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
   - `Interceptor` (class, line 154) `class Interceptor`
   - `Guard` (class, line 255) `class Guard`
   - `__post_init__` (method, line 61) `def __post_init__(self)`
@@ -390,6 +406,16 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Language: sh
 - Symbols:
   - `display_usage` (function, line 29)
+
+## modules/jsonl_tail.py
+- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `JsonlTail` (class, line 14) `class JsonlTail`
+  - `__init__` (method, line 17) `def __init__(self, path)`
+  - `read_new` (method, line 22) `def read_new(self, limit)`
+- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
 
 ## modules/jwtexploit.py
 - Layer: utility
@@ -435,51 +461,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
   - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
   - `summary` (method, line 401) `def summary(self)`
-  - `priority` (method, line 172) `def priority(target)`
+  - `priority` (function, line 172) `def priority(target)`
 - Depends on: `modules/kerberos_core.py`
 - Imported by: `cli/commands/active_directory.py`
-
-## modules/kerberos_core.py
-- Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberosPrincipal` (class, line 139) `class KerberosPrincipal`
-  - `EncryptedData` (class, line 157) `class EncryptedData`
-  - `KerberosTicket` (class, line 172) `class KerberosTicket`
-  - `PACSignature` (class, line 213) `class PACSignature`
-  - `PACInfo` (class, line 228) `class PACInfo`
-  - `TGSRequest` (class, line 249) `class TGSRequest`
-  - `KerberosCrypto` (class, line 271) `class KerberosCrypto`
-  - `KerberosCore` (class, line 407) `class KerberosCore`
-  - `KerberosErrorParser` (class, line 683) `class KerberosErrorParser`
-  - `TicketValidator` (class, line 702) `class TicketValidator`
-  - `to_string` (method, line 152) `def to_string(self)`
-  - `has_flag` (method, line 207) `def has_flag(self, flag_name)`
-  - `__init__` (method, line 277) `def __init__(self)`
-  - `derive_aes_key` (method, line 282) `def derive_aes_key(password, salt, etype)`
-  - `derive_rc4_key` (method, line 318) `def derive_rc4_key(password)`
-  - `aes_encrypt` (method, line 329) `def aes_encrypt(self, key, plaintext, usage)`
-  - `aes_decrypt` (method, line 361) `def aes_decrypt(self, key, ciphertext, usage)`
-  - `compute_checksum` (method, line 389) `def compute_checksum(key, data, etype)`
-  - `__init__` (method, line 421) `def __init__(self, domain, dc_host, dc_ip)`
-  - `get_supported_etypes` (method, line 427) `def get_supported_etypes(self)`
-  - `build_as_req` (method, line 435) `def build_as_req(self, username, domain, password, etype)`
-  - `build_tgs_req` (method, line 489) `def build_tgs_req(self, params)`
-  - `parse_as_rep` (method, line 534) `def parse_as_rep(self, as_rep_data, key, etype)`
-  - `parse_tgs_rep` (method, line 550) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
-  - `decrypt_ticket` (method, line 563) `def decrypt_ticket(self, ticket_data, key, etype)`
-  - `parse_pac` (method, line 588) `def parse_pac(self, pac_data)`
-  - `_parse_pac_buffer` (method, line 622) `def _parse_pac_buffer(pac, buf_type, buf_data)`
-  - `_build_pa_enc_timestamp` (method, line 640) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
-  - `_parse_kdc_rep` (method, line 653) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
-  - `_rc4_encrypt` (method, line 667) `def _rc4_encrypt(key, data, usage)`
-  - `_rc4_decrypt` (method, line 676) `def _rc4_decrypt(key, data, usage)`
-  - `parse_error` (method, line 687) `def parse_error(error_data)`
-  - `is_expired` (method, line 706) `def is_expired(endtime, grace_period)`
-  - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
-  - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
-- Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

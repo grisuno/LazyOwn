@@ -309,6 +309,90 @@ xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
 </s:Envelope>""")
 
 
+_SECRET_PATTERNS = (
+    re.compile(r"gsk_[A-Za-z0-9]{10,}"),
+    re.compile(r"sk-[A-Za-z0-9_-]{10,}"),
+    re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"),
+    re.compile(r"(?i)\b(api[_-]?key|token|password|passwd|secret)(['\"]?\s*[:=]\s*['\"]?)([^\s'\"]{6,})"),
+)
+
+
+_SUDO_STATE: dict = {"checked": False, "ok": False}
+
+
+def needs_sudo(command: str) -> bool:
+    """Return True when any shell segment of the command runs sudo/doas.
+
+    Understands the wrapper forms the alias table uses (``sh sudo ...``)
+    and leading environment assignments, so a command that merely hides
+    sudo behind an alias expansion is still detected.
+
+    Args:
+        command: Shell command line about to run.
+
+    Returns:
+        True when the command would invoke sudo or doas.
+    """
+    for segment in re.split(r"[;&|]+", str(command or "")):
+        tokens = segment.strip().split()
+        while tokens and (
+            tokens[0] in ("sh", "bash", "zsh", "env", "command", "exec", "nohup", "time") or "=" in tokens[0]
+        ):
+            tokens = tokens[1:]
+        if tokens and tokens[0] in ("sudo", "doas"):
+            return True
+    return False
+
+
+def sudo_available() -> bool:
+    """Return whether passwordless sudo works here, cached per process.
+
+    The unattended loop must not launch sudo commands that will die on a
+    missing terminal; one ``sudo -n true`` probe answers that for good.
+
+    Returns:
+        True when ``sudo -n true`` succeeds.
+    """
+    if _SUDO_STATE["checked"]:
+        return bool(_SUDO_STATE["ok"])
+    ok = False
+    try:
+        proc = subprocess.run(
+            ["sudo", "-n", "true"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=5,
+            check=False,
+        )
+        ok = proc.returncode == 0
+    except Exception:
+        ok = False
+    _SUDO_STATE["checked"] = True
+    _SUDO_STATE["ok"] = ok
+    return ok
+
+
+def redact_secrets(text):
+    """Mask API keys and credentials embedded in a command line.
+
+    Args:
+        text: Command line or log message that may embed secrets.
+
+    Returns:
+        The text with recognized secret values replaced by ``***`` so
+        neither the operator console nor the event log stores them.
+    """
+    value = str(text or "")
+    if not value:
+        return value
+    redacted = value
+    for pattern in _SECRET_PATTERNS[:3]:
+        redacted = pattern.sub("***", redacted)
+    redacted = _SECRET_PATTERNS[3].sub(lambda m: f"{m.group(1)}{m.group(2)}***", redacted)
+    return redacted
+
+
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.

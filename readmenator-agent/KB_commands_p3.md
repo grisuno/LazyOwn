@@ -1,76 +1,98 @@
 # Subsystem: commands (page 3 of 4)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
+## cli/commands/marketplace.py
+- Doc: Plugin/addon marketplace commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_safe_git_clone` (function, line 47) `def _safe_git_clone(repo_url, dest, depth)`
+  - `MarketplaceCommandSet` (class, line 62) `class MarketplaceCommandSet(LazyOwnCommandSet)`
+  - `_registry` (method, line 68) `def _registry(self)`
+  - `_tiers` (method, line 74) `def _tiers(self)`
+  - `_ratings_path` (method, line 78) `def _ratings_path(self)`
+  - `_tier_label` (method, line 82) `def _tier_label(self, name, tiers)`
+  - `_installed_plugins` (method, line 86) `def _installed_plugins(self)`
+  - `do_marketplace` (method, line 104) `def do_marketplace(self, line)`
+  - `_mp_list` (method, line 175) `def _mp_list(self, tier_filter)`
+  - `_mp_search` (method, line 203) `def _mp_search(self, query)`
+  - `_mp_install` (method, line 241) `def _mp_install(self, name)`
+  - `_mp_update` (method, line 300) `def _mp_update(self)`
+  - `_mp_info` (method, line 333) `def _mp_info(self, name)`
+  - `_mp_rate` (method, line 380) `def _mp_rate(self, name, raw_stars)`
+  - `_mp_ratings` (method, line 394) `def _mp_ratings(self, name)`
+  - `_mp_interactive_config` (method, line 414) `def _mp_interactive_config(self)`
+  - `do_marketplace_config` (method, line 426) `def do_marketplace_config(self, line)`
+  - `_mp_toggle_addon` (method, line 468) `def _mp_toggle_addon(self, name, enable_state)`
+- Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/module_registry.py`, `utils.py`
+
 ## cli/commands/mcp_bridge.py
 - Doc: MCP verb bridge — one command language for operators and agents.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_build_auto_populate_parser` (function, line 50) `def _build_auto_populate_parser()`
-  - `_build_facts_show_parser` (function, line 67) `def _build_facts_show_parser()`
-  - `_build_rag_query_parser` (function, line 84) `def _build_rag_query_parser()`
-  - `_build_parquet_query_parser` (function, line 92) `def _build_parquet_query_parser()`
-  - `_build_threat_model_parser` (function, line 111) `def _build_threat_model_parser()`
-  - `_build_playbook_run_parser` (function, line 124) `def _build_playbook_run_parser()`
-  - `McpBridgeCommandSet` (class, line 138) `class McpBridgeCommandSet(LazyOwnCommandSet)`
-  - `do_auto_populate` (method, line 146) `def do_auto_populate(self, args)`
-  - `do_facts_show` (method, line 253) `def do_facts_show(self, args)`
-  - `do_rag_query` (method, line 278) `def do_rag_query(self, args)`
-  - `do_parquet_query` (method, line 308) `def do_parquet_query(self, args)`
-  - `do_threat_model` (method, line 370) `def do_threat_model(self, args)`
-  - `do_playbook_run` (method, line 423) `def do_playbook_run(self, args)`
-  - `do_auto_loop` (method, line 481) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 713) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 718) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 723) `def do_timeline(self, line)`
-  - `_delegate` (method, line 727) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 735) `def _refresh_aliases(self)`
-  - `_executor` (method, line 467) `def _executor(command, host)`
-  - `_loop_executor` (method, line 566) `def _loop_executor(cmd)`
-  - `_QueueWriter` (class, line 622) `class _QueueWriter(TextIOBase)`
-  - `_run_orchestrator` (method, line 629) `def _run_orchestrator()`
-  - `write` (method, line 623) `def write(self, data)`
-- Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/config.py`, `core/process.py`, `modules/auto_registry.py`, `modules/intelligence_engine.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop_progress.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+  - `_build_auto_populate_parser` (function, line 55) `def _build_auto_populate_parser()`
+  - `_build_facts_show_parser` (function, line 72) `def _build_facts_show_parser()`
+  - `_build_rag_query_parser` (function, line 89) `def _build_rag_query_parser()`
+  - `_build_parquet_query_parser` (function, line 97) `def _build_parquet_query_parser()`
+  - `_build_threat_model_parser` (function, line 116) `def _build_threat_model_parser()`
+  - `_build_playbook_run_parser` (function, line 129) `def _build_playbook_run_parser()`
+  - `McpBridgeCommandSet` (class, line 143) `class McpBridgeCommandSet(LazyOwnCommandSet)`
+  - `do_auto_populate` (method, line 151) `def do_auto_populate(self, args)`
+  - `do_facts_show` (method, line 258) `def do_facts_show(self, args)`
+  - `do_rag_query` (method, line 283) `def do_rag_query(self, args)`
+  - `do_parquet_query` (method, line 313) `def do_parquet_query(self, args)`
+  - `do_threat_model` (method, line 375) `def do_threat_model(self, args)`
+  - `do_playbook_run` (method, line 428) `def do_playbook_run(self, args)`
+  - `do_auto_loop` (method, line 486) `def do_auto_loop(self, line)`
+  - `do_session_state` (method, line 520) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 525) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 530) `def do_timeline(self, line)`
+  - `_delegate` (method, line 534) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 542) `def _refresh_aliases(self)`
+  - `_executor` (function, line 472) `def _executor(command, host)`
+- Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+- Imported by: `tests/test_loop_auto_orchestrator.py`
 
 ## cli/commands/misc_migrated.py
 - Doc: misc commands migrated from lazyown.py.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `MiscMigratedCommandSet` (class, line 86) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
-  - `__getattr__` (method, line 1228) `def __getattr__(name)`
-  - `do_notify` (method, line 91) `def do_notify(self, arg)`
-  - `do_EOF` (method, line 110) `def do_EOF(self, line)`
-  - `_handle_killchain_auto` (method, line 152) `def _handle_killchain_auto(self, spec)`
-  - `do_palette` (method, line 190) `def do_palette(self, line)`
-  - `do_graph_search` (method, line 215) `def do_graph_search(self, line)`
-  - `do_neighbors` (method, line 243) `def do_neighbors(self, line)`
-  - `do_god_nodes` (method, line 270) `def do_god_nodes(self, line)`
-  - `do_suggest_next` (method, line 289) `def do_suggest_next(self, line)`
-  - `do_recommend_next` (method, line 415) `def do_recommend_next(self, line)`
-  - `do_explore` (method, line 472) `def do_explore(self, line)`
-  - `do_prev` (method, line 503) `def do_prev(self, line)`
-  - `do_dashboard` (method, line 538) `def do_dashboard(self, line)`
-  - `do_palette_k` (method, line 575) `def do_palette_k(self, line)`
-  - `do_browse` (method, line 604) `def do_browse(self, line)`
-  - `do_timeline_browser` (method, line 626) `def do_timeline_browser(self, line)`
-  - `do_graph_overlay` (method, line 645) `def do_graph_overlay(self, line)`
-  - `do_toast_clear` (method, line 665) `def do_toast_clear(self, line)`
-  - `do_exit` (method, line 691) `def do_exit(self, arg)`
-  - `_persist_chainmode` (method, line 744) `def _persist_chainmode(self, enabled)`
-  - `do_banner` (method, line 768) `def do_banner(self, line)`
-  - `do_config_banner` (method, line 780) `def do_config_banner(self, line)`
-  - `do_aliass` (method, line 839) `def do_aliass(self, line)`
-  - `do_graph` (method, line 875) `def do_graph(self, line)`
-  - `do_h` (method, line 936) `def do_h(self, arg)`
-  - `do_v` (method, line 982) `def do_v(self, arg)`
-  - `do_links` (method, line 1032) `def do_links(self, line)`
-  - `do_news` (method, line 1095) `def do_news(self, line)`
-  - `do_check_update` (method, line 1108) `def do_check_update(self, line)`
-  - `do_addalias` (method, line 1157) `def do_addalias(self, arglist)`
-  - `do_listaliases` (method, line 1206) `def do_listaliases(self, _)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
-- Imported by: `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+  - `MiscMigratedCommandSet` (class, line 87) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
+  - `__getattr__` (function, line 1166) `def __getattr__(name)`
+  - `do_notify` (method, line 92) `def do_notify(self, arg)`
+  - `do_EOF` (method, line 111) `def do_EOF(self, line)`
+  - `_handle_killchain_auto` (method, line 150) `def _handle_killchain_auto(self, spec)`
+  - `do_palette` (method, line 179) `def do_palette(self, line)`
+  - `do_graph_search` (method, line 204) `def do_graph_search(self, line)`
+  - `do_neighbors` (method, line 232) `def do_neighbors(self, line)`
+  - `do_god_nodes` (method, line 259) `def do_god_nodes(self, line)`
+  - `do_suggest_next` (method, line 278) `def do_suggest_next(self, line)`
+  - `do_recommend_next` (method, line 404) `def do_recommend_next(self, line)`
+  - `do_explore` (method, line 458) `def do_explore(self, line)`
+  - `do_prev` (method, line 489) `def do_prev(self, line)`
+  - `do_dashboard` (method, line 526) `def do_dashboard(self, line)`
+  - `do_palette_k` (method, line 561) `def do_palette_k(self, line)`
+  - `do_browse` (method, line 590) `def do_browse(self, line)`
+  - `do_timeline_browser` (method, line 612) `def do_timeline_browser(self, line)`
+  - `do_graph_overlay` (method, line 631) `def do_graph_overlay(self, line)`
+  - `do_toast_clear` (method, line 651) `def do_toast_clear(self, line)`
+  - `do_exit` (method, line 671) `def do_exit(self, arg)`
+  - `_persist_chainmode` (method, line 720) `def _persist_chainmode(self, enabled)`
+  - `do_banner` (method, line 738) `def do_banner(self, line)`
+  - `do_config_banner` (method, line 748) `def do_config_banner(self, line)`
+  - `do_aliass` (method, line 792) `def do_aliass(self, line)`
+  - `do_graph` (method, line 820) `def do_graph(self, line)`
+  - `do_h` (method, line 880) `def do_h(self, arg)`
+  - `do_v` (method, line 926) `def do_v(self, arg)`
+  - `do_links` (method, line 972) `def do_links(self, line)`
+  - `do_news` (method, line 1035) `def do_news(self, line)`
+  - `do_check_update` (method, line 1048) `def do_check_update(self, line)`
+  - `do_addalias` (method, line 1093) `def do_addalias(self, arglist)`
+  - `do_listaliases` (method, line 1145) `def do_listaliases(self, _)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
+- Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/mobile_macos.py
 - Doc: Mobile & macOS exploitation command set.
@@ -78,10 +100,10 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Language: py
 - Symbols:
   - `MobileMacOSCommandSet` (class, line 96) `class MobileMacOSCommandSet(LazyOwnCommandSet)`
-  - `_extract_flag` (method, line 351) `def _extract_flag(args, flag)`
-  - `_adb_argv` (method, line 361) `def _adb_argv(serial)`
-  - `_is_safe_output_path` (method, line 368) `def _is_safe_output_path(path)`
-  - `is_binary_present` (method, line 374) `def is_binary_present(name)`
+  - `_extract_flag` (function, line 351) `def _extract_flag(args, flag)`
+  - `_adb_argv` (function, line 361) `def _adb_argv(serial)`
+  - `_is_safe_output_path` (function, line 368) `def _is_safe_output_path(path)`
+  - `is_binary_present` (function, line 374) `def is_binary_present(name)`
   - `do_android_enum` (method, line 103) `def do_android_enum(self, line)`
   - `do_android_apk` (method, line 171) `def do_android_apk(self, line)`
   - `do_macos_persist` (method, line 216) `def do_macos_persist(self, line)`
@@ -144,20 +166,20 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Language: py
 - Symbols:
   - `OrchestrationConfig` (class, line 37) `class OrchestrationConfig`
-  - `_spinner_hints` (method, line 60) `def _spinner_hints(stop, events_path)`
-  - `run_with_spinner` (method, line 95) `def run_with_spinner(execute)`
-  - `_build_status_bar_parser` (method, line 116) `def _build_status_bar_parser()`
-  - `_build_orchestrate_parser` (method, line 129) `def _build_orchestrate_parser()`
-  - `OrchestrationCommandSet` (class, line 183) `class OrchestrationCommandSet(LazyOwnCommandSet)`
-  - `do_status_bar` (method, line 191) `def do_status_bar(self, args)`
-  - `do_orchestrate` (method, line 217) `def do_orchestrate(self, args)`
-  - `_resolve_shell` (method, line 264) `def _resolve_shell(self)`
-  - `_status_manager` (method, line 279) `def _status_manager(self)`
-  - `_orchestrator` (method, line 285) `def _orchestrator(self)`
-  - `_status_bar_show` (method, line 291) `def _status_bar_show(self, manager)`
-  - `_status_bar_refresh` (method, line 296) `def _status_bar_refresh(self, manager)`
-  - `_status_bar_toggle` (method, line 306) `def _status_bar_toggle(self, manager, enabled)`
-  - `_format_text` (method, line 315) `def _format_text(result)`
+  - `_spinner_hints` (function, line 60) `def _spinner_hints(stop, events_path)`
+  - `run_with_spinner` (function, line 94) `def run_with_spinner(execute)`
+  - `_build_status_bar_parser` (function, line 115) `def _build_status_bar_parser()`
+  - `_build_orchestrate_parser` (function, line 128) `def _build_orchestrate_parser()`
+  - `OrchestrationCommandSet` (class, line 182) `class OrchestrationCommandSet(LazyOwnCommandSet)`
+  - `do_status_bar` (method, line 190) `def do_status_bar(self, args)`
+  - `do_orchestrate` (method, line 216) `def do_orchestrate(self, args)`
+  - `_resolve_shell` (method, line 263) `def _resolve_shell(self)`
+  - `_status_manager` (method, line 278) `def _status_manager(self)`
+  - `_orchestrator` (method, line 284) `def _orchestrator(self)`
+  - `_status_bar_show` (method, line 290) `def _status_bar_show(self, manager)`
+  - `_status_bar_refresh` (method, line 295) `def _status_bar_refresh(self, manager)`
+  - `_status_bar_toggle` (method, line 305) `def _status_bar_toggle(self, manager, enabled)`
+  - `_format_text` (method, line 314) `def _format_text(result)`
 - Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
 - Imported by: `tests/test_improvements_spec.py`
 
@@ -241,17 +263,17 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Language: py
 - Symbols:
   - `PhishingWizardCommandSet` (class, line 183) `class PhishingWizardCommandSet(LazyOwnCommandSet)`
-  - `_profile_targets` (method, line 510) `def _profile_targets(domain)`
-  - `_save_targets` (method, line 522) `def _save_targets(campaign_dir, targets)`
-  - `_log_click` (method, line 533) `def _log_click(campaign_dir, ip, user_agent)`
-  - `_ensure_session_key` (method, line 551) `def _ensure_session_key()`
-  - `_log_credentials` (method, line 569) `def _log_credentials(campaign_dir, email, password, ip)`
-  - `_send_smtp_email` (method, line 603) `def _send_smtp_email(server, port, username, password, to_email, from_addr, subject, html_body)`
-  - `_extract_flag` (method, line 702) `def _extract_flag(args, flag)`
+  - `_profile_targets` (function, line 510) `def _profile_targets(domain)`
+  - `_save_targets` (function, line 522) `def _save_targets(campaign_dir, targets)`
+  - `_log_click` (function, line 533) `def _log_click(campaign_dir, ip, user_agent)`
+  - `_ensure_session_key` (function, line 551) `def _ensure_session_key()`
+  - `_log_credentials` (function, line 569) `def _log_credentials(campaign_dir, email, password, ip)`
+  - `_send_smtp_email` (function, line 603) `def _send_smtp_email(server, port, username, password, to_email, from_addr, subject, html_body)`
+  - `_extract_flag` (function, line 702) `def _extract_flag(args, flag)`
   - `do_phish_wizard` (method, line 190) `def do_phish_wizard(self, line)`
   - `do_phish_serve` (method, line 361) `def do_phish_serve(self, line)`
   - `do_phish_report` (method, line 443) `def do_phish_report(self, line)`
-  - `do_phisher` (method, line 637) `def do_phisher(self, line)`
+  - `do_phisher` (function, line 637) `def do_phisher(self, line)`
   - `PhishingHandler` (class, line 388) `class PhishingHandler(BaseHTTPRequestHandler)`
   - `log_message` (method, line 389) `def log_message(self, format)`
   - `do_GET` (method, line 392) `def do_GET(self)`
@@ -264,20 +286,20 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PivotingCommandSet` (class, line 36) `class PivotingCommandSet(LazyOwnCommandSet)`
-  - `_discover_internal_networks` (method, line 244) `def _discover_internal_networks(rhost)`
-  - `_setup_chisel_pivot` (method, line 290) `def _setup_chisel_pivot(rhost, lhost, port, networks)`
-  - `_setup_ssh_pivot` (method, line 314) `def _setup_ssh_pivot(rhost, lhost, port, networks)`
-  - `_setup_socat_pivot` (method, line 340) `def _setup_socat_pivot(rhost, lhost, port, networks)`
-  - `_find_free_port` (method, line 370) `def _find_free_port(start)`
-  - `_load_pivot_chain` (method, line 391) `def _load_pivot_chain()`
-  - `_save_pivot_chain` (method, line 399) `def _save_pivot_chain(chain)`
-  - `_extract_flag` (method, line 406) `def _extract_flag(args, flag)`
-  - `do_autopivot` (method, line 43) `def do_autopivot(self, line)`
-  - `do_pivot_status` (method, line 100) `def do_pivot_status(self, line)`
-  - `do_pivot_kill` (method, line 119) `def do_pivot_kill(self, line)`
-  - `do_pivot_scan` (method, line 153) `def do_pivot_scan(self, line)`
-  - `do_pivot_proxy` (method, line 206) `def do_pivot_proxy(self, line)`
+  - `PivotingCommandSet` (class, line 37) `class PivotingCommandSet(LazyOwnCommandSet)`
+  - `_discover_internal_networks` (function, line 262) `def _discover_internal_networks(rhost)`
+  - `_setup_chisel_pivot` (function, line 308) `def _setup_chisel_pivot(rhost, lhost, port, networks)`
+  - `_setup_ssh_pivot` (function, line 352) `def _setup_ssh_pivot(rhost, lhost, port, networks)`
+  - `_setup_socat_pivot` (function, line 389) `def _setup_socat_pivot(rhost, lhost, port, networks)`
+  - `_find_free_port` (function, line 442) `def _find_free_port(start)`
+  - `_load_pivot_chain` (function, line 463) `def _load_pivot_chain()`
+  - `_save_pivot_chain` (function, line 471) `def _save_pivot_chain(chain)`
+  - `_extract_flag` (function, line 478) `def _extract_flag(args, flag)`
+  - `do_autopivot` (method, line 44) `def do_autopivot(self, line)`
+  - `do_pivot_status` (method, line 118) `def do_pivot_status(self, line)`
+  - `do_pivot_kill` (method, line 137) `def do_pivot_kill(self, line)`
+  - `do_pivot_scan` (method, line 171) `def do_pivot_scan(self, line)`
+  - `do_pivot_proxy` (method, line 224) `def do_pivot_proxy(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
 
 ## cli/commands/postexp.py
@@ -339,7 +361,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_rmfromfind` (method, line 2552) `def do_rmfromfind(self, line)`
   - `do_aes_pe` (method, line 2581) `def do_aes_pe(self, line)`
   - `do_yara_scan` (method, line 2610) `def do_yara_scan(self, line)`
-  - `resolve_and_download_dependencies` (method, line 1030) `def resolve_and_download_dependencies(package_name)`
+  - `resolve_and_download_dependencies` (function, line 1030) `def resolve_and_download_dependencies(package_name)`
 - Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
 
 ## cli/commands/privilege_escalation.py
@@ -399,12 +421,12 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Symbols:
   - `PwnCommandSet` (class, line 28) `class PwnCommandSet(LazyOwnCommandSet)`
   - `do_auto_pwn` (method, line 35) `def do_auto_pwn(self, line)`
-  - `do_rich_tui` (method, line 108) `def do_rich_tui(self, line)`
-  - `do_exploit_chain` (method, line 157) `def do_exploit_chain(self, line)`
-  - `do_lolbas_list` (method, line 244) `def do_lolbas_list(self, line)`
-  - `do_lolbas_use` (method, line 301) `def do_lolbas_use(self, line)`
-  - `do_stealth_on` (method, line 393) `def do_stealth_on(self, line)`
-  - `do_stealth_off` (method, line 421) `def do_stealth_off(self, line)`
+  - `do_rich_tui` (method, line 109) `def do_rich_tui(self, line)`
+  - `do_exploit_chain` (method, line 158) `def do_exploit_chain(self, line)`
+  - `do_lolbas_list` (method, line 245) `def do_lolbas_list(self, line)`
+  - `do_lolbas_use` (method, line 302) `def do_lolbas_use(self, line)`
+  - `do_stealth_on` (method, line 394) `def do_stealth_on(self, line)`
+  - `do_stealth_off` (method, line 422) `def do_stealth_off(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 
@@ -426,7 +448,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_openssl_sclient` (method, line 461) `def do_openssl_sclient(self, line)`
   - `do_ss` (method, line 491) `def do_ss(self, line)`
   - `do_wfuzz` (method, line 654) `def do_wfuzz(self, line)`
-  - `_run_single_search` (method, line 521) `def _run_single_search(query)`
+  - `_run_single_search` (function, line 521) `def _run_single_search(query)`
 - Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
 
 ## cli/commands/recon_migrated.py
@@ -463,38 +485,8 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_recon` (method, line 1280) `def do_recon(self, line)`
   - `do_dnschef` (method, line 1334) `def do_dnschef(self, line)`
   - `do_ipinfo` (method, line 1369) `def do_ipinfo(self, line)`
-  - `_set_exit` (method, line 202) `def _set_exit(code)`
+  - `_set_exit` (function, line 202) `def _set_exit(code)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/surface_tui.py`, `core/config.py`, `utils.py`
-
-## cli/commands/redteam_gym.py
-- Doc: Red Team Gym CLI command set — gamified pentest training.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RedTeamGymCommandSet` (class, line 32) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
-  - `do_gym` (method, line 39) `def do_gym(self, line)`
-  - `_gym_list` (method, line 83) `def _gym_list(self)`
-  - `_gym_start` (method, line 117) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 154) `def _gym_submit(self, args)`
-  - `_gym_status` (method, line 198) `def _gym_status(self)`
-  - `_gym_leaderboard` (method, line 223) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 257) `def _gym_hint(self)`
-- Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
-
-## cli/commands/resource_scripting.py
-- Doc: Resource script commands — run .ls scripts, record macros, spool output.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ResourceCommandSet` (class, line 25) `class ResourceCommandSet(LazyOwnCommandSet)`
-  - `_make_context` (method, line 31) `def _make_context(self)`
-  - `do_resource` (method, line 49) `def do_resource(self, line)`
-  - `do_makerc` (method, line 88) `def do_makerc(self, line)`
-  - `do_spool` (method, line 122) `def do_spool(self, line)`
-  - `do_mkrc` (method, line 152) `def do_mkrc(self, line)`
-  - `on_cmd` (method, line 35) `def on_cmd(cmd)`
-  - `on_print` (method, line 39) `def on_print(msg)`
-- Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

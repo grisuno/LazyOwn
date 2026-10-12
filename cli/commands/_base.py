@@ -25,6 +25,7 @@ from typing import Any
 
 from cmd2 import CommandSet
 from cmd2.exceptions import CommandSetRegistrationError
+
 from core.validators import require_lhost, require_lport, require_rhost, require_rport
 
 SHELL_INJECTION_ATTRIBUTE = "_cmd"

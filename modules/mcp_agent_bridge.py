@@ -48,7 +48,13 @@ def _make_client(backend: str):
         api_key = os.environ.get("GROQ_API_KEY", "")
         if not api_key:
             raise ValueError("GROQ_API_KEY environment variable not set.")
-        return Groq(api_key=api_key), "llama-3.3-70b-versatile"
+        try:
+            from modules.llm_factory import groq_model_chain
+
+            default_model = groq_model_chain()[0]
+        except Exception:
+            default_model = "llama-3.1-8b-instant"
+        return Groq(api_key=api_key), default_model
 
     elif backend == "ollama":
         import requests as _req

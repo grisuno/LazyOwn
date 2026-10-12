@@ -1,5 +1,23 @@
-# Subsystem: modules (page 2 of 12)
+# Subsystem: modules (page 2 of 14)
 Previous: [KB_modules.md](KB_modules.md)
+
+## modules/aws_attacks.py
+- Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AWSConfig` (class, line 58) `class AWSConfig`
+  - `AWSAttackEngine` (class, line 80) `class AWSAttackEngine`
+  - `__init__` (method, line 91) `def __init__(self, config)`
+  - `enumerate_iam_permissions` (method, line 95) `def enumerate_iam_permissions(self)`
+  - `lambda_backdoor` (method, line 127) `def lambda_backdoor(self, function_name)`
+  - `sts_role_chain` (method, line 155) `def sts_role_chain(self, target_role_arn)`
+  - `ec2_user_data_exfil` (method, line 181) `def ec2_user_data_exfil(self)`
+  - `s3_enumeration` (method, line 206) `def s3_enumeration(self)`
+  - `cloudformation_drift` (method, line 242) `def cloudformation_drift(self)`
+  - `ec2_ssm_session_abuse` (method, line 274) `def ec2_ssm_session_abuse(self)`
+  - `summary` (method, line 293) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/beacon_config_builder.py
 - Doc: Beacon configuration builder — wires profile engines into beacon compile-time config.
@@ -8,7 +26,7 @@ Previous: [KB_modules.md](KB_modules.md)
 - Symbols:
   - `BeaconConfig` (class, line 44) `class BeaconConfig`
   - `BeaconConfigBuilder` (class, line 237) `class BeaconConfigBuilder`
-  - `generate_bof_execution_command` (method, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
+  - `generate_bof_execution_command` (function, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
   - `to_gen_beacon_args` (method, line 117) `def to_gen_beacon_args(self)`
   - `to_go_implant_vars` (method, line 137) `def to_go_implant_vars(self)`
   - `to_config_json` (method, line 160) `def to_config_json(self)`
@@ -29,10 +47,10 @@ Previous: [KB_modules.md](KB_modules.md)
 - Language: py
 - Symbols:
   - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
-  - `sanitize_client_id` (method, line 70) `def sanitize_client_id(client_id)`
-  - `append_record` (method, line 82) `def append_record(record, config)`
-  - `read_records` (method, line 116) `def read_records(client_id, config)`
-  - `records_path` (method, line 145) `def records_path(client_id, config)`
+  - `sanitize_client_id` (function, line 70) `def sanitize_client_id(client_id)`
+  - `append_record` (function, line 82) `def append_record(record, config)`
+  - `read_records` (function, line 116) `def read_records(client_id, config)`
+  - `records_path` (function, line 145) `def records_path(client_id, config)`
   - `sessions_dir` (method, line 39) `def sessions_dir(self)`
   - `records_path` (method, line 43) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`
@@ -51,23 +69,23 @@ Previous: [KB_modules.md](KB_modules.md)
 - Language: py
 - Symbols:
   - `BitMState` (class, line 85) `class BitMState`
-  - `_ensure_bitm_dir` (method, line 103) `def _ensure_bitm_dir()`
-  - `_save_state` (method, line 108) `def _save_state(state)`
-  - `_load_state` (method, line 134) `def _load_state()`
-  - `_build_js_payload` (method, line 151) `def _build_js_payload(payload_name, lhost, lport)`
-  - `_check_tool` (method, line 168) `def _check_tool(tool)`
-  - `_recommend_method` (method, line 180) `def _recommend_method()`
-  - `_get_default_interface` (method, line 195) `def _get_default_interface()`
-  - `_get_gateway_ip` (method, line 234) `def _get_gateway_ip()`
-  - `bitm_start` (method, line 257) `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)`
-  - `_start_bettercap` (method, line 354) `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
-  - `_start_arpspoof` (method, line 413) `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
-  - `bitm_stop` (method, line 481) `def bitm_stop()`
-  - `bitm_status` (method, line 539) `def bitm_status()`
-  - `bitm_inject` (method, line 572) `def bitm_inject(payload_name)`
-  - `bitm_harvest_stats` (method, line 607) `def bitm_harvest_stats()`
-  - `bitm_cleanup` (method, line 642) `def bitm_cleanup()`
-  - `main` (method, line 661) `def main()`
+  - `_ensure_bitm_dir` (function, line 103) `def _ensure_bitm_dir()`
+  - `_save_state` (function, line 108) `def _save_state(state)`
+  - `_load_state` (function, line 134) `def _load_state()`
+  - `_build_js_payload` (function, line 151) `def _build_js_payload(payload_name, lhost, lport)`
+  - `_check_tool` (function, line 168) `def _check_tool(tool)`
+  - `_recommend_method` (function, line 180) `def _recommend_method()`
+  - `_get_default_interface` (function, line 195) `def _get_default_interface()`
+  - `_get_gateway_ip` (function, line 234) `def _get_gateway_ip()`
+  - `bitm_start` (function, line 257) `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)`
+  - `_start_bettercap` (function, line 354) `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `_start_arpspoof` (function, line 413) `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `bitm_stop` (function, line 481) `def bitm_stop()`
+  - `bitm_status` (function, line 539) `def bitm_status()`
+  - `bitm_inject` (function, line 572) `def bitm_inject(payload_name)`
+  - `bitm_harvest_stats` (function, line 607) `def bitm_harvest_stats()`
+  - `bitm_cleanup` (function, line 642) `def bitm_cleanup()`
+  - `main` (function, line 661) `def main()`
 - Imported by: `cli/commands/bitm.py`
 
 ## modules/bof_registry.py
@@ -79,7 +97,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `BofCategory` (class, line 68) `class BofCategory(str, Enum)`
   - `BofEntry` (class, line 85) `class BofEntry`
   - `BofCatalog` (class, line 157) `class BofCatalog`
-  - `_build_default_catalog` (method, line 265) `def _build_default_catalog()`
+  - `_build_default_catalog` (function, line 265) `def _build_default_catalog()`
   - `BofValidator` (class, line 506) `class BofValidator`
   - `BofRegistry` (class, line 552) `class BofRegistry`
   - `BofMarketplace` (class, line 639) `class BofMarketplace`
@@ -121,17 +139,6 @@ Previous: [KB_modules.md](KB_modules.md)
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 
-## modules/bot.py
-- Doc: GitHub repository discovery client.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `BotConfig` (class, line 20) `class BotConfig`
-  - `find_new_repos` (method, line 48) `def find_new_repos(language, days, count, order, config)`
-  - `render_repos` (method, line 102) `def render_repos(repos, config)`
-  - `format_output` (method, line 128) `def format_output(content, config)`
-  - `main` (method, line 148) `def main(config)`
-
 ## modules/c2_builder.py
 - Doc: C2 agent builder with profile-driven compilation and safe templating.
 - Layer: infrastructure
@@ -140,24 +147,24 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_resolve_go_bin` (function, line 44) `def _resolve_go_bin()`
   - `_ensure_go` (function, line 59) `def _ensure_go(cmd_fn)`
   - `C2Profile` (class, line 76) `class C2Profile`
-  - `_preflight` (method, line 160) `def _preflight(profile)`
-  - `_render_template` (method, line 169) `def _render_template(content, context)`
-  - `_resolve_fallback_urls` (method, line 180) `def _resolve_fallback_urls(params)`
-  - `_go_string_list` (method, line 220) `def _go_string_list(urls)`
-  - `_parse_go_version` (method, line 234) `def _parse_go_version(text)`
-  - `_command_output` (method, line 249) `def _command_output(argv, timeout)`
-  - `_go_build_version` (method, line 268) `def _go_build_version(go_bin, target)`
-  - `_garble_matches_toolchain` (method, line 287) `def _garble_matches_toolchain(go_bin, garble_bin)`
-  - `_build_compile_commands` (method, line 310) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
-  - `_build_context` (method, line 361) `def _build_context(sessions_dir)`
+  - `_preflight` (function, line 160) `def _preflight(profile)`
+  - `_render_template` (function, line 169) `def _render_template(content, context)`
+  - `_resolve_fallback_urls` (function, line 180) `def _resolve_fallback_urls(params)`
+  - `_go_string_list` (function, line 220) `def _go_string_list(urls)`
+  - `_parse_go_version` (function, line 234) `def _parse_go_version(text)`
+  - `_command_output` (function, line 249) `def _command_output(argv, timeout)`
+  - `_go_build_version` (function, line 268) `def _go_build_version(go_bin, target)`
+  - `_garble_matches_toolchain` (function, line 287) `def _garble_matches_toolchain(go_bin, garble_bin)`
+  - `_build_compile_commands` (function, line 310) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
+  - `_build_context` (function, line 361) `def _build_context(sessions_dir)`
   - `C2Builder` (class, line 392) `class C2Builder`
-  - `_replacer` (method, line 173) `def _replacer(match)`
+  - `_replacer` (function, line 173) `def _replacer(match)`
   - `__init__` (method, line 395) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
   - `_ensure_garble_toolchain` (method, line 413) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
   - `run` (method, line 453) `def run(self, line, choice, use_tunnel)`
-  - `_read` (method, line 641) `def _read(path_)`
-  - `_read_required` (method, line 648) `def _read_required(path_)`
-  - `_write` (method, line 652) `def _write(path_, content)`
+  - `_read` (function, line 641) `def _read(path_)`
+  - `_read_required` (function, line 648) `def _read_required(path_)`
+  - `_write` (function, line 652) `def _write(path_, content)`
 - Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
@@ -191,15 +198,15 @@ Previous: [KB_modules.md](KB_modules.md)
   - `C2Profile` (class, line 81) `class C2Profile`
   - `ProfileValidator` (class, line 155) `class ProfileValidator`
   - `ProfileLoader` (class, line 187) `class ProfileLoader`
-  - `_make_default_profile` (method, line 308) `def _make_default_profile()`
-  - `_make_stealth_profile` (method, line 339) `def _make_stealth_profile()`
-  - `_make_aggressive_profile` (method, line 385) `def _make_aggressive_profile()`
-  - `_make_debug_profile` (method, line 410) `def _make_debug_profile()`
+  - `_make_default_profile` (function, line 308) `def _make_default_profile()`
+  - `_make_stealth_profile` (function, line 339) `def _make_stealth_profile()`
+  - `_make_aggressive_profile` (function, line 385) `def _make_aggressive_profile()`
+  - `_make_debug_profile` (function, line 410) `def _make_debug_profile()`
   - `ProfileRegistry` (class, line 449) `class ProfileRegistry`
   - `ProfileApplier` (class, line 520) `class ProfileApplier`
-  - `get_registry` (method, line 595) `def get_registry()`
-  - `get_profile` (method, line 620) `def get_profile(name)`
-  - `list_profiles` (method, line 625) `def list_profiles()`
+  - `get_registry` (function, line 595) `def get_registry()`
+  - `get_profile` (function, line 620) `def get_profile(name)`
+  - `list_profiles` (function, line 625) `def list_profiles()`
   - `jitter_delay` (method, line 101) `def jitter_delay(self)`
   - `get_uri` (method, line 117) `def get_uri(self, method)`
   - `build_headers` (method, line 128) `def build_headers(self, method)`
@@ -373,20 +380,20 @@ Previous: [KB_modules.md](KB_modules.md)
   - `TargetLock` (class, line 250) `class TargetLock`
   - `LockManager` (class, line 257) `class LockManager`
   - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
-  - `get_event_bus` (method, line 370) `def get_event_bus()`
-  - `get_lock_manager` (method, line 374) `def get_lock_manager()`
-  - `get_operator_registry` (method, line 378) `def get_operator_registry()`
-  - `publish_event` (method, line 382) `def publish_event(type, payload, operator)`
-  - `collab_ui` (method, line 396) `def collab_ui()`
-  - `stream` (method, line 411) `def stream()`
-  - `operators` (method, line 458) `def operators()`
-  - `publish` (method, line 470) `def publish()`
-  - `lock` (method, line 483) `def lock()`
-  - `unlock` (method, line 504) `def unlock()`
-  - `locks` (method, line 522) `def locks()`
-  - `history` (method, line 537) `def history()`
-  - `decorated` (method, line 124) `def decorated()`
-  - `decorator` (method, line 139) `def decorator(f)`
+  - `get_event_bus` (function, line 370) `def get_event_bus()`
+  - `get_lock_manager` (function, line 374) `def get_lock_manager()`
+  - `get_operator_registry` (function, line 378) `def get_operator_registry()`
+  - `publish_event` (function, line 382) `def publish_event(type, payload, operator)`
+  - `collab_ui` (function, line 396) `def collab_ui()`
+  - `stream` (function, line 411) `def stream()`
+  - `operators` (function, line 458) `def operators()`
+  - `publish` (function, line 470) `def publish()`
+  - `lock` (function, line 483) `def lock()`
+  - `unlock` (function, line 504) `def unlock()`
+  - `locks` (function, line 522) `def locks()`
+  - `history` (function, line 537) `def history()`
+  - `decorated` (function, line 124) `def decorated()`
+  - `decorator` (function, line 139) `def decorator(f)`
   - `to_sse` (method, line 170) `def to_sse(self)`
   - `__init__` (method, line 198) `def __init__(self)`
   - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
@@ -408,10 +415,10 @@ Previous: [KB_modules.md](KB_modules.md)
   - `active_operators` (method, line 345) `def active_operators(self)`
   - `_expire` (method, line 350) `def _expire(self)`
   - `reset` (method, line 356) `def reset(self)`
-  - `generate` (method, line 424) `def generate()`
-  - `login_required` (method, line 80) `def login_required(f)`
-  - `decorated` (method, line 141) `def decorated()`
-  - `decorated` (method, line 84) `def decorated()`
+  - `generate` (function, line 424) `def generate()`
+  - `login_required` (function, line 80) `def login_required(f)`
+  - `decorated` (function, line 141) `def decorated()`
+  - `decorated` (function, line 84) `def decorated()`
 - Depends on: `core/logging.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
 
@@ -430,58 +437,32 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExecutionResult` (class, line 42) `class ExecutionResult`
-  - `CommandExecutor` (class, line 51) `class CommandExecutor`
-  - `get_executor` (method, line 351) `def get_executor()`
-  - `__init__` (method, line 63) `def __init__(self)`
-  - `instance` (method, line 67) `def instance(cls)`
-  - `add_hook` (method, line 72) `def add_hook(self, hook)`
-  - `run` (method, line 76) `def run(self, command, timeout, stream)`
-  - `_needs_shell` (method, line 110) `def _needs_shell(self, command)`
-  - `_argv` (method, line 118) `def _argv(self, command)`
-  - `run_passthrough` (method, line 124) `def run_passthrough(self, command, env)`
-  - `run_tee` (method, line 139) `def run_tee(self, command)`
-  - `_default_writer` (method, line 216) `def _default_writer(line)`
-  - `_run_capture` (method, line 221) `def _run_capture(self, command, timeout)`
-  - `_run_stream` (method, line 246) `def _run_stream(self, command, timeout)`
-  - `run_with_tee` (method, line 283) `def run_with_tee(self, command, output_path, timeout)`
-  - `_fire_hooks` (method, line 319) `def _fire_hooks(self, result)`
-  - `_publish_event` (method, line 326) `def _publish_event(self, result)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/event_bus.py`
-- Imported by: `lazyown.py`, `tests/test_executor_kernel.py`
-
-## modules/compliance.py
-- Doc: modules/compliance.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EvidenceEntry` (class, line 340) `class EvidenceEntry`
-  - `EvidenceChain` (class, line 349) `class EvidenceChain`
-  - `export_pdf` (method, line 449) `def export_pdf(report_md, output_path, title, classification)`
-  - `export_to_elastic_ndjson` (method, line 533) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
-  - `export_to_cef` (method, line 572) `def export_to_cef(findings, output_path, vendor, product, version)`
-  - `ComplianceFinding` (class, line 620) `class ComplianceFinding`
-  - `ComplianceEngine` (class, line 632) `class ComplianceEngine`
-  - `__init__` (method, line 357) `def __init__(self, sessions_dir)`
-  - `_load` (method, line 364) `def _load(self)`
-  - `_hash_entry` (method, line 379) `def _hash_entry(self, entry)`
-  - `add_file` (method, line 383) `def add_file(self, filepath, operator, description)`
-  - `_append_to_file` (method, line 403) `def _append_to_file(self, entry)`
-  - `verify` (method, line 410) `def verify(self)`
-  - `get_chain_digest` (method, line 429) `def get_chain_digest(self)`
-  - `to_report` (method, line 432) `def to_report(self)`
-  - `__init__` (method, line 635) `def __init__(self, sessions_dir)`
-  - `map_findings_to_compliance` (method, line 639) `def map_findings_to_compliance(self, findings, frameworks)`
-  - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
-  - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
-  - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
-  - `_load_findings` (method, line 779) `def _load_findings(self)`
-  - `export_pdf` (method, line 831) `def export_pdf(self, report, output_path)`
-  - `_format_compliance_report_md` (method, line 835) `def _format_compliance_report_md(self, report)`
-  - `add_evidence` (method, line 901) `def add_evidence(self, filepath, operator, description)`
-  - `verify_evidence_chain` (method, line 904) `def verify_evidence_chain(self)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`
+  - `set_thread_timeout` (function, line 41) `def set_thread_timeout(seconds)`
+  - `clear_thread_timeout` (function, line 46) `def clear_thread_timeout()`
+  - `thread_timeout` (function, line 54) `def thread_timeout()`
+  - `set_thread_stdin_devnull` (function, line 59) `def set_thread_stdin_devnull(enabled)`
+  - `clear_thread_stdin_devnull` (function, line 64) `def clear_thread_stdin_devnull()`
+  - `thread_stdin_devnull` (function, line 72) `def thread_stdin_devnull()`
+  - `_kill_process_group` (function, line 77) `def _kill_process_group(proc)`
+  - `ExecutionResult` (class, line 97) `class ExecutionResult`
+  - `CommandExecutor` (class, line 106) `class CommandExecutor`
+  - `get_executor` (function, line 426) `def get_executor()`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `instance` (method, line 122) `def instance(cls)`
+  - `add_hook` (method, line 127) `def add_hook(self, hook)`
+  - `run` (method, line 131) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 165) `def _needs_shell(self, command)`
+  - `_argv` (method, line 173) `def _argv(self, command)`
+  - `run_passthrough` (method, line 179) `def run_passthrough(self, command, env)`
+  - `run_tee` (method, line 194) `def run_tee(self, command)`
+  - `_default_writer` (method, line 291) `def _default_writer(line)`
+  - `_run_capture` (method, line 296) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 321) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 358) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 394) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 401) `def _publish_event(self, result)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+- Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

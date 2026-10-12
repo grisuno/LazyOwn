@@ -35,8 +35,8 @@
 - Symbols:
   - `CommandPaletteAction` (class, line 16) `class CommandPaletteAction`
   - `CommandPaletteList` (class, line 28) `class CommandPaletteList(QListView)`
-  - `_fuzzy_score` (method, line 99) `def _fuzzy_score(query, title, subtitle)`
-  - `_token_order_score` (method, line 114) `def _token_order_score(query, haystack, base_offset)`
+  - `_fuzzy_score` (function, line 99) `def _fuzzy_score(query, title, subtitle)`
+  - `_token_order_score` (function, line 114) `def _token_order_score(query, haystack, base_offset)`
   - `__init__` (method, line 33) `def __init__(self, constants, actions, parent)`
   - `set_actions` (method, line 53) `def set_actions(self, actions)`
   - `apply_filter` (method, line 58) `def apply_filter(self, query)`
@@ -87,8 +87,8 @@
   - `GraphEdgeItem` (class, line 285) `class GraphEdgeItem(QGraphicsLineItem)`
   - `GraphScene` (class, line 334) `class GraphScene(QGraphicsScene)`
   - `GraphView` (class, line 499) `class GraphView(QGraphicsView)`
-  - `_resolve_node_color` (method, line 575) `def _resolve_node_color(node)`
-  - `_resolve_node_radius` (method, line 584) `def _resolve_node_radius(node)`
+  - `_resolve_node_color` (function, line 575) `def _resolve_node_color(node)`
+  - `_resolve_node_radius` (function, line 584) `def _resolve_node_radius(node)`
   - `__init__` (method, line 143) `def __init__(self, node, radius, color, pixmap, on_selected, on_context_menu, label_visible, parent)`
   - `_create_label` (method, line 173) `def _create_label(self)`
   - `node_data` (method, line 186) `def node_data(self)`
@@ -118,8 +118,8 @@
   - `selected_node_id` (method, line 561) `def selected_node_id(self)`
   - `fit_to_content` (method, line 565) `def fit_to_content(self)`
   - `scene_handle` (method, line 570) `def scene_handle(self)`
-  - `_on_selected` (method, line 374) `def _on_selected(nid)`
-  - `_on_context_menu` (method, line 377) `def _on_context_menu(nid, pos)`
+  - `_on_selected` (function, line 374) `def _on_selected(nid)`
+  - `_on_context_menu` (function, line 377) `def _on_context_menu(nid, pos)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
 

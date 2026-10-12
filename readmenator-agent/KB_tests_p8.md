@@ -1,5 +1,23 @@
-# Subsystem: tests (page 8 of 15)
+# Subsystem: tests (page 8 of 16)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
+
+## tests/test_https_redirect.py
+- Doc: TDD tests for the HTTPS redirect contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeRequest` (class, line 23) `class _FakeRequest`
+  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
+  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
+  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
+  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
+  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
+  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
+  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
+  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
+  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
+  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
+- Depends on: `lazyc2/security/https_redirect.py`
 
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
@@ -12,7 +30,7 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `_FakeSwanResult` (class, line 117) `class _FakeSwanResult`
   - `_FakeSwanOrchestrator` (class, line 126) `class _FakeSwanOrchestrator`
   - `_FakeAdvisor` (class, line 134) `class _FakeAdvisor`
-  - `_build_test_orchestrator` (method, line 142) `def _build_test_orchestrator(tmp_root, daemon_available, hive_available, swan_available, daemon_payload)`
+  - `_build_test_orchestrator` (function, line 142) `def _build_test_orchestrator(tmp_root, daemon_available, hive_available, swan_available, daemon_payload)`
   - `_UnavailableBackend` (class, line 172) `class _UnavailableBackend`
   - `StatusBarConfigSpec` (class, line 183) `class StatusBarConfigSpec(TestCase)`
   - `StatusBarSecuritySpec` (class, line 205) `class StatusBarSecuritySpec(TestCase)`
@@ -141,19 +159,19 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_router_ignores_unset_task_type_for_keyword_scoring` (method, line 970) `def test_router_ignores_unset_task_type_for_keyword_scoring(self)`
   - `test_build_default_orchestrator_registers_three_backends` (method, line 999) `def test_build_default_orchestrator_registers_three_backends(self)`
   - `test_build_default_manager_does_not_touch_filesystem` (method, line 1003) `def test_build_default_manager_does_not_touch_filesystem(self)`
-  - `_make_engine` (method, line 154) `def _make_engine(goal)`
+  - `_make_engine` (function, line 154) `def _make_engine(goal)`
   - `_Broken` (class, line 289) `class _Broken`
   - `_Static` (class, line 308) `class _Static`
   - `_Static` (class, line 329) `class _Static`
   - `_Broken` (class, line 387) `class _Broken`
   - `_Unnamed` (class, line 453) `class _Unnamed`
   - `_Boom` (class, line 591) `class _Boom`
-  - `contains_emoji` (method, line 730) `def contains_emoji(text)`
+  - `contains_emoji` (function, line 730) `def contains_emoji(text)`
   - `_Shell` (class, line 786) `class _Shell(Cmd)`
   - `_Shell` (class, line 798) `class _Shell(Cmd)`
   - `_Shell` (class, line 823) `class _Shell(Cmd)`
-  - `broken` (method, line 899) `def broken()`
-  - `factory` (method, line 931) `def factory(goal)`
+  - `broken` (function, line 899) `def broken()`
+  - `factory` (function, line 931) `def factory(goal)`
   - `collect` (method, line 290) `def collect(self)`
   - `__init__` (method, line 309) `def __init__(self, value)`
   - `collect` (method, line 312) `def collect(self)`
@@ -163,7 +181,7 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `available` (method, line 456) `def available(self)`
   - `run` (method, line 459) `def run(self, goal)`
   - `run` (method, line 592) `def run(self)`
-  - `fake_hints` (method, line 878) `def fake_hints(last_cmd, phase, sessions_dir, limit)`
+  - `fake_hints` (function, line 878) `def fake_hints(last_cmd, phase, sessions_dir, limit)`
   - `_Engine` (class, line 934) `class _Engine`
   - `run` (method, line 935) `def run(self_inner)`
 - Depends on: `cli/__init__.py`, `cli/commands/__init__.py`, `cli/commands/_dormancy.py`, `cli/commands/orchestration.py`, `cli/reactive_hints.py`, `cli/registry.py`, `cli/status_bar.py`, `core/config.py`, `skills/unified_orchestrator.py`
@@ -279,13 +297,13 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
 - Language: py
 - Symbols:
   - `FakeRunner` (class, line 16) `class FakeRunner`
-  - `_success_responses` (method, line 34) `def _success_responses()`
-  - `test_config_from_remote_slug` (method, line 51) `def test_config_from_remote_slug()`
-  - `test_config_rejects_bare_name` (method, line 58) `def test_config_rejects_bare_name()`
-  - `test_post_entry_uses_resolved_ids` (method, line 64) `def test_post_entry_uses_resolved_ids()`
-  - `test_entries_returns_nodes` (method, line 73) `def test_entries_returns_nodes()`
-  - `test_missing_category_raises` (method, line 81) `def test_missing_category_raises()`
-  - `test_graphql_errors_raise` (method, line 93) `def test_graphql_errors_raise()`
+  - `_success_responses` (function, line 34) `def _success_responses()`
+  - `test_config_from_remote_slug` (function, line 51) `def test_config_from_remote_slug()`
+  - `test_config_rejects_bare_name` (function, line 58) `def test_config_rejects_bare_name()`
+  - `test_post_entry_uses_resolved_ids` (function, line 64) `def test_post_entry_uses_resolved_ids()`
+  - `test_entries_returns_nodes` (function, line 73) `def test_entries_returns_nodes()`
+  - `test_missing_category_raises` (function, line 81) `def test_missing_category_raises()`
+  - `test_graphql_errors_raise` (function, line 93) `def test_graphql_errors_raise()`
   - `__init__` (method, line 19) `def __init__(self, responses)`
   - `__call__` (method, line 24) `def __call__(self, args)`
 - Depends on: `scripts/journal.py`
@@ -432,54 +450,48 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_phase_status_fields_match_config` (method, line 402) `def test_phase_status_fields_match_config(self)`
 - Depends on: `modules/killchain.py`, `modules/world_model.py`
 
+## tests/test_lazy_agent.py
+- Doc: Agentic tool-calling: worker agent path, resume and main sessions.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_tool_call` (function, line 13) `def _tool_call(tool_id, name, arguments)`
+  - `_message` (function, line 19) `def _message(content, tool_calls)`
+  - `_Completions` (class, line 23) `class _Completions`
+  - `fake_model` (function, line 37) `def fake_model(script)`
+  - `_sandbox` (function, line 43) `def _sandbox(tmp_path, monkeypatch)`
+  - `_worker` (function, line 50) `def _worker(loop, engine, task_id, graph)`
+  - `test_worker_agentic_tool_calling` (function, line 63) `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)`
+  - `test_worker_agentic_resume_seeds_prior_turns` (function, line 104) `def test_worker_agentic_resume_seeds_prior_turns(tmp_path, monkeypatch)`
+  - `test_main_session_persists_and_resumes` (function, line 138) `def test_main_session_persists_and_resumes(tmp_path, monkeypatch)`
+  - `test_model_keepalive_tick_while_waiting` (function, line 152) `def test_model_keepalive_tick_while_waiting(tmp_path, monkeypatch)`
+  - `test_tool_calling_flag_honors_payload` (function, line 175) `def test_tool_calling_flag_honors_payload(tmp_path, monkeypatch)`
+  - `test_external_opencode_degrades_without_binary` (function, line 184) `def test_external_opencode_degrades_without_binary(monkeypatch)`
+  - `test_lazy_agent_command_session_lifecycle` (function, line 194) `def test_lazy_agent_command_session_lifecycle(tmp_path, monkeypatch)`
+  - `__init__` (method, line 26) `def __init__(self, script)`
+  - `create` (method, line 30) `def create(self)`
+  - `_executor` (function, line 85) `def _executor(command)`
+  - `_Completions` (class, line 162) `class _Completions`
+  - `create` (method, line 163) `def create(self)`
+- Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
 ## tests/test_lazy_engine.py
 - Doc: Lazy engine (LAZY-faithful) regression tests with stub executor.
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_stub_executor` (function, line 13) `def _stub_executor(command)`
-  - `engine` (function, line 25) `def engine(tmp_path, monkeypatch)`
-  - `test_create_auto_scope_and_asset` (function, line 37) `def test_create_auto_scope_and_asset(engine)`
-  - `test_scope_strict_no_external_intents` (function, line 44) `def test_scope_strict_no_external_intents(engine)`
-  - `test_no_premature_done_goals_pending` (function, line 54) `def test_no_premature_done_goals_pending(engine)`
-  - `test_worker_aggregates_single_fact` (function, line 63) `def test_worker_aggregates_single_fact(engine)`
-  - `test_pause_resume` (function, line 69) `def test_pause_resume(engine)`
-  - `test_prove_goal_needs_reason_and_evidence` (function, line 79) `def test_prove_goal_needs_reason_and_evidence(engine)`
-  - `test_lazy_alias_surface` (function, line 89) `def test_lazy_alias_surface()`
+  - `_stub_executor` (function, line 11) `def _stub_executor(command)`
+  - `engine` (function, line 23) `def engine(tmp_path, monkeypatch)`
+  - `test_create_auto_scope_and_asset` (function, line 35) `def test_create_auto_scope_and_asset(engine)`
+  - `test_scope_strict_no_external_intents` (function, line 42) `def test_scope_strict_no_external_intents(engine)`
+  - `test_no_premature_done_goals_pending` (function, line 52) `def test_no_premature_done_goals_pending(engine)`
+  - `test_worker_aggregates_single_fact` (function, line 61) `def test_worker_aggregates_single_fact(engine)`
+  - `test_pause_resume` (function, line 67) `def test_pause_resume(engine)`
+  - `test_prove_goal_needs_reason_and_evidence` (function, line 77) `def test_prove_goal_needs_reason_and_evidence(engine)`
+  - `test_lazy_alias_surface` (function, line 87) `def test_lazy_alias_surface()`
+  - `test_delete_task_sweeps_only_its_store_files` (function, line 97) `def test_delete_task_sweeps_only_its_store_files(engine, tmp_path)`
+  - `test_delete_task_unknown_returns_empty` (function, line 111) `def test_delete_task_unknown_returns_empty(engine)`
 - Depends on: `cli/commands/lazyops.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_lazy_parity.py
-- Doc: LAZY parity proof tests: every ported subsystem must behave, not just exist.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_gate_allows_benign_command` (function, line 50) `def test_gate_allows_benign_command()`
-  - `test_gate_denies_destructive_command` (function, line 56) `def test_gate_denies_destructive_command()`
-  - `test_gate_ask_creates_decidable_approval` (function, line 62) `def test_gate_ask_creates_decidable_approval()`
-  - `test_gate_ask_expires_fail_closed` (function, line 73) `def test_gate_ask_expires_fail_closed()`
-  - `test_scope_blocks_protected_suffixes` (function, line 82) `def test_scope_blocks_protected_suffixes()`
-  - `test_constraints_deny_wins` (function, line 89) `def test_constraints_deny_wins()`
-  - `test_evidence_roundtrip` (function, line 96) `def test_evidence_roundtrip(tmp_path)`
-  - `test_evidence_rejects_tampered_blob` (function, line 104) `def test_evidence_rejects_tampered_blob(tmp_path)`
-  - `test_evidence_gc_drops_unreferenced` (function, line 117) `def test_evidence_gc_drops_unreferenced(tmp_path)`
-  - `test_traffic_record_and_query` (function, line 128) `def test_traffic_record_and_query(tmp_path)`
-  - `test_frontier_emits_then_dedupes` (function, line 138) `def test_frontier_emits_then_dedupes()`
-  - `test_todos_gate_lateral_on_creds` (function, line 149) `def test_todos_gate_lateral_on_creds()`
-  - `test_goals_decompose_and_prove` (function, line 161) `def test_goals_decompose_and_prove()`
-  - `test_pool_fails_over_in_rank_order` (function, line 172) `def test_pool_fails_over_in_rank_order()`
-  - `test_pool_skips_unhealthy_member` (function, line 192) `def test_pool_skips_unhealthy_member()`
-  - `test_pool_exhausted_when_all_fail` (function, line 214) `def test_pool_exhausted_when_all_fail()`
-  - `test_pool_session_key_format` (function, line 227) `def test_pool_session_key_format()`
-  - `test_ephemeral_toast_line_has_icon_and_duration` (function, line 233) `def test_ephemeral_toast_line_has_icon_and_duration()`
-  - `test_ephemeral_render_consumes_cursor` (function, line 253) `def test_ephemeral_render_consumes_cursor(tmp_path)`
-  - `test_ephemeral_flag_routing` (function, line 266) `def test_ephemeral_flag_routing()`
-  - `test_render_ephemeral_helper` (function, line 273) `def test_render_ephemeral_helper(tmp_path)`
-  - `_write_events` (function, line 285) `def _write_events(path, records)`
-  - `test_bus_render_still_counts_budget` (function, line 292) `def test_bus_render_still_counts_budget(tmp_path)`
-  - `_fail` (function, line 176) `def _fail(prompt)`
-  - `_ok` (function, line 180) `def _ok(prompt)`
-  - `_flaky` (function, line 197) `def _flaky(prompt)`
-- Depends on: `cli/themes.py`, `cli/toast_bus.py`, `core/console.py`, `modules/evidence.py`, `modules/goals.py`, `modules/intercept.py`, `modules/llm_pool.py`, `modules/planner.py`, `modules/traffic_recorder.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

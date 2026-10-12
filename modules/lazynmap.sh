@@ -45,16 +45,23 @@ function ctrl_c() {
 }
 
 if [ "$(id -u)" -ne 0 ]; then
-    gum style \
-        --foreground 212 --border-foreground 212 --border double \
-        --align center --width 50 --margin "1 2" --padding "2 4" \
-        "    [!] LazyNmap needs sudo. Type your password below (input hidden)."
-    if ! sudo -v; then
+    if [ "${LAZYOWN_AUTONOMOUS:-0}" = "1" ]; then
+        if ! sudo -n -v 2>/dev/null; then
+            echo "[x] LazyNmap requires sudo; unattended loop has no terminal for the password. Aborting." >&2
+            exit 3
+        fi
+    else
         gum style \
-            --foreground 196 --border-foreground 196 --border double \
+            --foreground 212 --border-foreground 212 --border double \
             --align center --width 50 --margin "1 2" --padding "2 4" \
-            "    [x] sudo authentication failed. Aborting."
-        exit 1
+            "    [!] LazyNmap needs sudo. Type your password below (input hidden)."
+        if ! sudo -v; then
+            gum style \
+                --foreground 196 --border-foreground 196 --border double \
+                --align center --width 50 --margin "1 2" --padding "2 4" \
+                "    [x] sudo authentication failed. Aborting."
+            exit 1
+        fi
     fi
     ( while true; do sudo -n -v 2>/dev/null || exit; sleep 60; done ) &
     SUDO_KEEPALIVE_PID=$!

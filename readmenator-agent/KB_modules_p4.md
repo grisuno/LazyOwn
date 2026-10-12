@@ -1,5 +1,21 @@
-# Subsystem: modules (page 4 of 12)
+# Subsystem: modules (page 4 of 14)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/engage_summary.py
+- Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `marker_lines` (function, line 35) `def marker_lines(text, limit)`
+  - `full_output` (function, line 51) `def full_output(step, sessions_dir)`
+  - `held_scan_ports` (function, line 64) `def held_scan_ports(target, sessions_dir)`
+  - `detail_for` (function, line 98) `def detail_for(tool, text, target, sessions_dir)`
+  - `next_actions` (function, line 150) `def next_actions(target, sessions_dir, limit)`
+  - `render_text` (function, line 175) `def render_text(engagement_id, target, shell, steps, sessions_dir)`
+  - `render_markdown` (function, line 210) `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)`
+  - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
+- Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
+- Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 
 ## modules/engagement_hooks.py
 - Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
@@ -17,15 +33,15 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
   - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
   - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
-  - `_load_seen_beacons` (method, line 444) `def _load_seen_beacons()`
-  - `_save_seen_beacons` (method, line 455) `def _save_seen_beacons(seen)`
-  - `_sanitize_client_id` (method, line 466) `def _sanitize_client_id(client_id)`
-  - `get_default_narrator` (method, line 482) `def get_default_narrator()`
-  - `publish_shell_obtained` (method, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
-  - `append_approval_record` (method, line 564) `def append_approval_record(record)`
-  - `list_pending_approvals` (method, line 575) `def list_pending_approvals()`
-  - `resolve_approval` (method, line 601) `def resolve_approval(approval_id, decision, operator)`
-  - `is_valid_target` (method, line 626) `def is_valid_target(value)`
+  - `_load_seen_beacons` (function, line 444) `def _load_seen_beacons()`
+  - `_save_seen_beacons` (function, line 455) `def _save_seen_beacons(seen)`
+  - `_sanitize_client_id` (function, line 466) `def _sanitize_client_id(client_id)`
+  - `get_default_narrator` (function, line 482) `def get_default_narrator()`
+  - `publish_shell_obtained` (function, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
+  - `append_approval_record` (function, line 564) `def append_approval_record(record)`
+  - `list_pending_approvals` (function, line 575) `def list_pending_approvals()`
+  - `resolve_approval` (function, line 601) `def resolve_approval(approval_id, decision, operator)`
+  - `is_valid_target` (function, line 626) `def is_valid_target(value)`
   - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
   - `render_line` (method, line 143) `def render_line(self)`
   - `name` (method, line 155) `def name(self)`
@@ -57,12 +73,12 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Language: py
 - Symbols:
   - `EnrichResult` (class, line 30) `class EnrichResult`
-  - `scan_files_for` (method, line 40) `def scan_files_for(sessions_dir, target)`
-  - `should_rescan` (method, line 57) `def should_rescan(sessions_dir, target, fresh_sec)`
-  - `resolve_dns` (method, line 73) `def resolve_dns(target, timeout)`
-  - `fetch_http` (method, line 86) `def fetch_http(target, timeout)`
+  - `scan_files_for` (function, line 40) `def scan_files_for(sessions_dir, target)`
+  - `should_rescan` (function, line 57) `def should_rescan(sessions_dir, target, fresh_sec)`
+  - `resolve_dns` (function, line 73) `def resolve_dns(target, timeout)`
+  - `fetch_http` (function, line 86) `def fetch_http(target, timeout)`
   - `EnrichEngine` (class, line 100) `class EnrichEngine`
-  - `shared_engine` (method, line 137) `def shared_engine()`
+  - `shared_engine` (function, line 137) `def shared_engine()`
   - `__init__` (method, line 103) `def __init__(self, max_workers)`
   - `submit` (method, line 108) `def submit(self, target)`
   - `_run` (method, line 121) `def _run(self, target)`
@@ -93,14 +109,17 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `estorides_checkout` (function, line 43) `def estorides_checkout()`
-  - `find_export` (function, line 55) `def find_export(sessions_dir)`
-  - `run_export` (function, line 71) `def run_export(sessions_dir, cli_path, timeout_sec)`
-  - `_norm` (function, line 110) `def _norm(value)`
-  - `load_export` (function, line 115) `def load_export(path)`
-  - `_from_raw` (function, line 129) `def _from_raw(document)`
-  - `community_for` (function, line 167) `def community_for(kind, value)`
-  - `merge_estorides` (function, line 174) `def merge_estorides(nodes, edges, est, cap)`
+  - `estorides_checkout` (function, line 48) `def estorides_checkout()`
+  - `find_export` (function, line 68) `def find_export(sessions_dir)`
+  - `run_export` (function, line 84) `def run_export(sessions_dir, cli_path, timeout_sec)`
+  - `_norm` (function, line 123) `def _norm(value)`
+  - `load_export` (function, line 128) `def load_export(path)`
+  - `_from_raw` (function, line 142) `def _from_raw(document)`
+  - `community_for` (function, line 180) `def community_for(kind, value)`
+  - `merge_estorides` (function, line 187) `def merge_estorides(nodes, edges, est, cap)`
+  - `find_lan_bundle` (function, line 268) `def find_lan_bundle(sessions_dir)`
+  - `load_lan_bundle` (function, line 288) `def load_lan_bundle(path)`
+  - `split_lan_targets` (function, line 323) `def split_lan_targets(est)`
 - Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
 
 ## modules/estorides_importer.py
@@ -111,18 +130,20 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
   - `ImportResult` (class, line 96) `class ImportResult`
   - `SeedResult` (class, line 128) `class SeedResult`
-  - `extract_seeds_from_world_model` (method, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (method, line 175) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (method, line 203) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (method, line 242) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (method, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (method, line 332) `def run_estorides_run(query, out_json, timeout)`
+  - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
+  - `extract_seeds_from_hosts_file` (function, line 175) `def extract_seeds_from_hosts_file(path)`
+  - `extract_seeds_from_db` (function, line 203) `def extract_seeds_from_db(db_path)`
+  - `extract_seeds_from_scope` (function, line 242) `def extract_seeds_from_scope(scope_entries)`
+  - `run_estorides_discover` (function, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
+  - `run_estorides_run` (function, line 332) `def run_estorides_run(query, out_json, timeout)`
   - `EstoridesCaseReader` (class, line 385) `class EstoridesCaseReader`
   - `EstoridesStixParser` (class, line 495) `class EstoridesStixParser`
-  - `ensure_directories` (method, line 579) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 585) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 766) `class FeedbackLoop`
-  - `export_combined_graph` (method, line 912) `def export_combined_graph(output_path)`
+  - `find_lan_bundle_files` (function, line 586) `def find_lan_bundle_files(lan_dir, sessions_dir)`
+  - `LanBundleReader` (class, line 622) `class LanBundleReader`
+  - `ensure_directories` (function, line 694) `def ensure_directories()`
+  - `EstoridesToLazyOwnBridge` (class, line 700) `class EstoridesToLazyOwnBridge`
+  - `FeedbackLoop` (class, line 881) `class FeedbackLoop`
+  - `export_combined_graph` (function, line 1027) `def export_combined_graph(output_path)`
   - `success` (method, line 110) `def success(self)`
   - `to_dict` (method, line 113) `def to_dict(self)`
   - `new_assets` (method, line 139) `def new_assets(self)`
@@ -140,14 +161,19 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `parse` (method, line 518) `def parse(self)`
   - `parse_by_type` (method, line 552) `def parse_by_type(self, entity_types)`
   - `_extract_value` (method, line 563) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 588) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 596) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 640) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 686) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 719) `def get_combined_surface(self)`
-  - `__init__` (method, line 777) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 793) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 886) `def _gather_seeds(self, methods, seen)`
+  - `__init__` (method, line 632) `def __init__(self, lan_dir)`
+  - `available` (method, line 636) `def available(self)`
+  - `read_devices` (method, line 639) `def read_devices(self)`
+  - `parse` (method, line 652) `def parse(self)`
+  - `attack_targets` (method, line 683) `def attack_targets(self)`
+  - `__init__` (method, line 703) `def __init__(self, db_path, config_path)`
+  - `import_entities` (method, line 711) `def import_entities(self, entities, add_to_scope, add_to_db)`
+  - `_import_to_db` (method, line 755) `def _import_to_db(self, imports, result)`
+  - `_import_to_scope` (method, line 801) `def _import_to_scope(self, imports, result)`
+  - `get_combined_surface` (method, line 834) `def get_combined_surface(self)`
+  - `__init__` (method, line 892) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+  - `run` (method, line 908) `def run(self, seed_methods)`
+  - `_gather_seeds` (method, line 1001) `def _gather_seeds(self, methods, seen)`
 - Depends on: `core/logging.py`, `modules/db.py`
 - Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 
@@ -218,8 +244,8 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `CollabBusSink` (class, line 163) `class CollabBusSink(Sink)`
   - `EngagementSink` (class, line 202) `class EngagementSink(Sink)`
   - `UnifiedEventBus` (class, line 230) `class UnifiedEventBus`
-  - `get_event_bus` (method, line 570) `def get_event_bus()`
-  - `publish_event` (method, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
+  - `get_event_bus` (function, line 570) `def get_event_bus()`
+  - `publish_event` (function, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
   - `to_dict` (method, line 96) `def to_dict(self)`
   - `to_json` (method, line 111) `def to_json(self)`
   - `from_dict` (method, line 115) `def from_dict(cls, d)`
@@ -252,7 +278,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `history` (method, line 556) `def history(self, n, category)`
   - `history_since` (method, line 564) `def history_since(self, since_ts)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_loop_ai_bridge.py`
 
 ## modules/event_consumers.py
 - Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
@@ -268,8 +294,8 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `CredentialReactor` (class, line 272) `class CredentialReactor`
   - `SoulSync` (class, line 320) `class SoulSync`
   - `DashboardPusher` (class, line 358) `class DashboardPusher`
-  - `wire_all_consumers` (method, line 380) `def wire_all_consumers(bus)`
-  - `unwire_all_consumers` (method, line 409) `def unwire_all_consumers(bus)`
+  - `wire_all_consumers` (function, line 380) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (function, line 409) `def unwire_all_consumers(bus)`
   - `__init__` (method, line 156) `def __init__(self)`
   - `__call__` (method, line 159) `def __call__(self, event)`
   - `__init__` (method, line 204) `def __init__(self)`
@@ -303,8 +329,8 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Language: py
 - Symbols:
   - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
-  - `hash_bytes` (method, line 37) `def hash_bytes(data)`
-  - `_validate_hash` (method, line 42) `def _validate_hash(value)`
+  - `hash_bytes` (function, line 37) `def hash_bytes(data)`
+  - `_validate_hash` (function, line 42) `def _validate_hash(value)`
   - `EvidenceStore` (class, line 54) `class EvidenceStore`
   - `__init__` (method, line 57) `def __init__(self, base_dir)`
   - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
@@ -392,7 +418,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
   - `ExploitResult` (class, line 54) `class ExploitResult`
   - `ChainResult` (class, line 65) `class ChainResult`
-  - `_compare_versions` (method, line 266) `def _compare_versions(version_a, version_b)`
+  - `_compare_versions` (function, line 266) `def _compare_versions(version_a, version_b)`
   - `ExploitChain` (class, line 289) `class ExploitChain`
   - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
   - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
@@ -429,7 +455,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `recommend` (method, line 337) `def recommend(self, hosts, top_n)`
   - `persist_recommendations` (method, line 370) `def persist_recommendations(self, matches)`
   - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
-  - `parse_version` (method, line 25) `def parse_version(v)`
+  - `parse_version` (function, line 25) `def parse_version(v)`
 - Depends on: `lazygui/version.py`, `modules/world_model.py`
 - Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
 

@@ -1,4 +1,4 @@
-# Subsystem: cli (page 2 of 4)
+# Subsystem: cli (page 2 of 5)
 Previous: [KB_cli.md](KB_cli.md)
 
 ## cli/dashboard_tui.py
@@ -9,17 +9,17 @@ Previous: [KB_cli.md](KB_cli.md)
   - `_get_killchain_for_tui` (function, line 55) `def _get_killchain_for_tui()`
   - `CommandRequested` (class, line 97) `class CommandRequested(Message)`
   - `PhaseSelected` (class, line 105) `class PhaseSelected(Message)`
-  - `dispatch_command` (method, line 113) `def dispatch_command(command, timeout)`
-  - `_read_json` (method, line 151) `def _read_json(path)`
-  - `_engagement_to_cli_phase` (method, line 159) `def _engagement_to_cli_phase(engagement_phase)`
-  - `_count_lines_in_glob` (method, line 169) `def _count_lines_in_glob(pattern)`
-  - `_read_recent_commands` (method, line 182) `def _read_recent_commands(limit)`
-  - `_graph_hints` (method, line 209) `def _graph_hints(limit)`
-  - `_fallback_hints` (method, line 223) `def _fallback_hints(last_command, limit)`
-  - `_resolve_hints` (method, line 248) `def _resolve_hints(recent, limit)`
-  - `_beacon_count` (method, line 265) `def _beacon_count()`
-  - `_read_credential_lines` (method, line 280) `def _read_credential_lines(pattern)`
-  - `_get_recommendations` (method, line 297) `def _get_recommendations()`
+  - `dispatch_command` (function, line 113) `def dispatch_command(command, timeout)`
+  - `_read_json` (function, line 151) `def _read_json(path)`
+  - `_engagement_to_cli_phase` (function, line 159) `def _engagement_to_cli_phase(engagement_phase)`
+  - `_count_lines_in_glob` (function, line 169) `def _count_lines_in_glob(pattern)`
+  - `_read_recent_commands` (function, line 182) `def _read_recent_commands(limit)`
+  - `_graph_hints` (function, line 209) `def _graph_hints(limit)`
+  - `_fallback_hints` (function, line 223) `def _fallback_hints(last_command, limit)`
+  - `_resolve_hints` (function, line 248) `def _resolve_hints(recent, limit)`
+  - `_beacon_count` (function, line 265) `def _beacon_count()`
+  - `_read_credential_lines` (function, line 280) `def _read_credential_lines(pattern)`
+  - `_get_recommendations` (function, line 297) `def _get_recommendations()`
   - `TargetPanel` (class, line 322) `class TargetPanel(Static)`
   - `KillChainPanel` (class, line 378) `class KillChainPanel(Static)`
   - `ConfigPanel` (class, line 430) `class ConfigPanel(Static)`
@@ -31,7 +31,7 @@ Previous: [KB_cli.md](KB_cli.md)
   - `OutputPanel` (class, line 693) `class OutputPanel(Log)`
   - `NextStepsPanel` (class, line 706) `class NextStepsPanel(Static)`
   - `LazyOwnDashboard` (class, line 738) `class LazyOwnDashboard(App)`
-  - `launch` (method, line 1064) `def launch(payload_path, sessions_dir)`
+  - `launch` (function, line 1064) `def launch(payload_path, sessions_dir)`
   - `__init__` (method, line 100) `def __init__(self, command)`
   - `__init__` (method, line 108) `def __init__(self, phase)`
   - `get_selection` (method, line 335) `def get_selection(self, selection)`
@@ -69,7 +69,7 @@ Previous: [KB_cli.md](KB_cli.md)
   - `_cycle_phase` (method, line 995) `def _cycle_phase(self, direction)`
   - `_do_refresh` (method, line 1011) `def _do_refresh(self)`
   - `_filter_commands` (method, line 1048) `def _filter_commands(self, commands)`
-  - `_write_phase` (method, line 43) `def _write_phase(phase)`
+  - `_write_phase` (function, line 43) `def _write_phase(phase)`
 - Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
 - Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 
@@ -81,20 +81,20 @@ Previous: [KB_cli.md](KB_cli.md)
   - `PackageSpec` (class, line 56) `class PackageSpec`
   - `CheckResult` (class, line 96) `class CheckResult`
   - `DoctorReport` (class, line 113) `class DoctorReport`
-  - `check_python_version` (method, line 143) `def check_python_version(version_info)`
-  - `check_virtualenv` (method, line 172) `def check_virtualenv()`
-  - `check_packages` (method, line 209) `def check_packages(specs, finder)`
-  - `check_certificates` (method, line 248) `def check_certificates(root)`
-  - `check_payload` (method, line 269) `def check_payload(root)`
-  - `check_seclists` (method, line 289) `def check_seclists(finder)`
-  - `check_command_index` (method, line 313) `def check_command_index(root)`
-  - `check_external_tools` (method, line 343) `def check_external_tools(checker)`
-  - `gather_report` (method, line 368) `def gather_report(root)`
-  - `_status_cell` (method, line 398) `def _status_cell(status)`
-  - `render_report` (method, line 406) `def render_report(report, console)`
-  - `run` (method, line 451) `def run(root, console)`
-  - `fix_report` (method, line 468) `def fix_report(report)`
-  - `_apply_fix` (method, line 525) `def _apply_fix(check, root, venv_pip, console)`
+  - `check_python_version` (function, line 143) `def check_python_version(version_info)`
+  - `check_virtualenv` (function, line 172) `def check_virtualenv()`
+  - `check_packages` (function, line 209) `def check_packages(specs, finder)`
+  - `check_certificates` (function, line 248) `def check_certificates(root)`
+  - `check_payload` (function, line 269) `def check_payload(root)`
+  - `check_seclists` (function, line 289) `def check_seclists(finder)`
+  - `check_command_index` (function, line 313) `def check_command_index(root)`
+  - `check_external_tools` (function, line 343) `def check_external_tools(checker)`
+  - `gather_report` (function, line 368) `def gather_report(root)`
+  - `_status_cell` (function, line 398) `def _status_cell(status)`
+  - `render_report` (function, line 406) `def render_report(report, console)`
+  - `run` (function, line 451) `def run(root, console)`
+  - `fix_report` (function, line 468) `def fix_report(report)`
+  - `_apply_fix` (function, line 525) `def _apply_fix(check, root, venv_pip, console)`
   - `failures` (method, line 119) `def failures(self)`
   - `warnings` (method, line 124) `def warnings(self)`
   - `healthy` (method, line 129) `def healthy(self)`
@@ -108,37 +108,37 @@ Previous: [KB_cli.md](KB_cli.md)
 - Language: py
 - Symbols:
   - `EngagementState` (class, line 242) `class EngagementState`
-  - `_load_state` (method, line 260) `def _load_state()`
-  - `_save_state` (method, line 280) `def _save_state(state)`
-  - `_load_index` (method, line 290) `def _load_index()`
-  - `_normalize_command` (method, line 301) `def _normalize_command(cmd)`
-  - `_is_recordable_command` (method, line 306) `def _is_recordable_command(cmd)`
-  - `_sanitize_seen` (method, line 332) `def _sanitize_seen(names, known)`
-  - `heal_commands_seen` (method, line 365) `def heal_commands_seen(known)`
-  - `_next_threshold` (method, line 394) `def _next_threshold(current)`
-  - `_phase_for_cmd` (method, line 400) `def _phase_for_cmd(cmd, index)`
-  - `_commands_in_phase` (method, line 409) `def _commands_in_phase(phase, index)`
-  - `_summary_for_cmd` (method, line 414) `def _summary_for_cmd(cmd, index)`
-  - `_run_curiosity` (method, line 431) `def _run_curiosity(cmd, state, index)`
-  - `_render_streak` (method, line 459) `def _render_streak(ctx)`
-  - `_render_exploration` (method, line 488) `def _render_exploration(ctx)`
-  - `_render_phase_badge` (method, line 506) `def _render_phase_badge(ctx)`
-  - `_render_hidden_feature` (method, line 522) `def _render_hidden_feature(ctx)`
-  - `_render_arsenal_tip` (method, line 536) `def _render_arsenal_tip(ctx)`
-  - `_render_methodology_task` (method, line 544) `def _render_methodology_task(ctx)`
-  - `_render_methodology_objective` (method, line 583) `def _render_methodology_objective(ctx)`
-  - `_render_methodology_note` (method, line 630) `def _render_methodology_note(ctx)`
-  - `_fire_vri_reward` (method, line 672) `def _fire_vri_reward(state, ctx)`
-  - `get_karma_name` (method, line 716) `def get_karma_name(elo)`
-  - `_award_elo` (method, line 734) `def _award_elo(cmd, first_time, new_phase, current_phase)`
-  - `_sync_user_elo` (method, line 760) `def _sync_user_elo(delta)`
-  - `_persist_notification` (method, line 828) `def _persist_notification(html)`
-  - `_check_karma_up` (method, line 864) `def _check_karma_up(state)`
-  - `render_engagement_hook` (method, line 898) `def render_engagement_hook(cmd, phase, enabled)`
-  - `get_state_snapshot` (method, line 978) `def get_state_snapshot()`
-  - `_check_badges` (method, line 1009) `def _check_badges(cmd, first_time)`
-  - `_print_badge` (method, line 1056) `def _print_badge(name, description)`
-  - `reset_session` (method, line 1066) `def reset_session()`
+  - `_load_state` (function, line 260) `def _load_state()`
+  - `_save_state` (function, line 280) `def _save_state(state)`
+  - `_load_index` (function, line 290) `def _load_index()`
+  - `_normalize_command` (function, line 301) `def _normalize_command(cmd)`
+  - `_is_recordable_command` (function, line 306) `def _is_recordable_command(cmd)`
+  - `_sanitize_seen` (function, line 332) `def _sanitize_seen(names, known)`
+  - `heal_commands_seen` (function, line 365) `def heal_commands_seen(known)`
+  - `_next_threshold` (function, line 394) `def _next_threshold(current)`
+  - `_phase_for_cmd` (function, line 400) `def _phase_for_cmd(cmd, index)`
+  - `_commands_in_phase` (function, line 409) `def _commands_in_phase(phase, index)`
+  - `_summary_for_cmd` (function, line 414) `def _summary_for_cmd(cmd, index)`
+  - `_run_curiosity` (function, line 431) `def _run_curiosity(cmd, state, index)`
+  - `_render_streak` (function, line 459) `def _render_streak(ctx)`
+  - `_render_exploration` (function, line 488) `def _render_exploration(ctx)`
+  - `_render_phase_badge` (function, line 506) `def _render_phase_badge(ctx)`
+  - `_render_hidden_feature` (function, line 522) `def _render_hidden_feature(ctx)`
+  - `_render_arsenal_tip` (function, line 536) `def _render_arsenal_tip(ctx)`
+  - `_render_methodology_task` (function, line 544) `def _render_methodology_task(ctx)`
+  - `_render_methodology_objective` (function, line 583) `def _render_methodology_objective(ctx)`
+  - `_render_methodology_note` (function, line 630) `def _render_methodology_note(ctx)`
+  - `_fire_vri_reward` (function, line 672) `def _fire_vri_reward(state, ctx)`
+  - `get_karma_name` (function, line 716) `def get_karma_name(elo)`
+  - `_award_elo` (function, line 734) `def _award_elo(cmd, first_time, new_phase, current_phase)`
+  - `_sync_user_elo` (function, line 760) `def _sync_user_elo(delta)`
+  - `_persist_notification` (function, line 828) `def _persist_notification(html)`
+  - `_check_karma_up` (function, line 864) `def _check_karma_up(state)`
+  - `render_engagement_hook` (function, line 898) `def render_engagement_hook(cmd, phase, enabled)`
+  - `get_state_snapshot` (function, line 978) `def get_state_snapshot()`
+  - `_check_badges` (function, line 1009) `def _check_badges(cmd, first_time)`
+  - `_print_badge` (function, line 1056) `def _print_badge(name, description)`
+  - `reset_session` (function, line 1066) `def reset_session()`
 - Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
 
@@ -150,11 +150,11 @@ Previous: [KB_cli.md](KB_cli.md)
   - `ServiceInfo` (class, line 111) `class ServiceInfo`
   - `ExploitHit` (class, line 144) `class ExploitHit`
   - `ServiceResult` (class, line 153) `class ServiceResult`
-  - `parse_nmap_xml` (method, line 164) `def parse_nmap_xml(path)`
-  - `find_nmap_xml` (method, line 203) `def find_nmap_xml(rhost, sessions_dir)`
-  - `print_exploit_summary` (method, line 222) `def print_exploit_summary(results, rhost)`
-  - `save_ss_results` (method, line 296) `def save_ss_results(results, rhost, sessions_dir)`
-  - `inject_exploit_tasks` (method, line 338) `def inject_exploit_tasks(results, rhost, tasks_path)`
+  - `parse_nmap_xml` (function, line 164) `def parse_nmap_xml(path)`
+  - `find_nmap_xml` (function, line 203) `def find_nmap_xml(rhost, sessions_dir)`
+  - `print_exploit_summary` (function, line 222) `def print_exploit_summary(results, rhost)`
+  - `save_ss_results` (function, line 296) `def save_ss_results(results, rhost, sessions_dir)`
+  - `inject_exploit_tasks` (function, line 338) `def inject_exploit_tasks(results, rhost, tasks_path)`
   - `search_query` (method, line 122) `def search_query(self)`
   - `display_name` (method, line 128) `def display_name(self)`
   - `next_commands` (method, line 132) `def next_commands(self)`
@@ -177,9 +177,9 @@ Previous: [KB_cli.md](KB_cli.md)
   - `TriggerMatcher` (class, line 410) `class TriggerMatcher`
   - `HistoryReader` (class, line 470) `class HistoryReader`
   - `ExplorationEngine` (class, line 502) `class ExplorationEngine`
-  - `resolve_current_os` (method, line 656) `def resolve_current_os(payload)`
-  - `normalise_os` (method, line 677) `def normalise_os(value, default)`
-  - `normalise_trigger` (method, line 690) `def normalise_trigger(value)`
+  - `resolve_current_os` (function, line 656) `def resolve_current_os(payload)`
+  - `normalise_os` (function, line 677) `def normalise_os(value, default)`
+  - `normalise_trigger` (function, line 690) `def normalise_trigger(value)`
   - `label` (method, line 98) `def label(self)`
   - `service_coverage` (method, line 145) `def service_coverage(self)`
   - `addon_coverage` (method, line 153) `def addon_coverage(self)`
@@ -236,8 +236,8 @@ Previous: [KB_cli.md](KB_cli.md)
 - Language: py
 - Symbols:
   - `FuzzyMatchConfig` (class, line 18) `class FuzzyMatchConfig`
-  - `suggest` (method, line 28) `def suggest(query, candidates, limit, config)`
-  - `did_you_mean` (method, line 56) `def did_you_mean(query, candidates)`
+  - `suggest` (function, line 28) `def suggest(query, candidates, limit, config)`
+  - `did_you_mean` (function, line 56) `def did_you_mean(query, candidates)`
 - Depends on: `cli/fuzzy_picker.py`
 - Imported by: `cli/commands/ux.py`
 
@@ -254,7 +254,7 @@ Previous: [KB_cli.md](KB_cli.md)
   - `CursesPickerView` (class, line 234) `class CursesPickerView(PickerView)`
   - `FuzzyPicker` (class, line 548) `class FuzzyPicker`
   - `ReadlineBridge` (class, line 580) `class ReadlineBridge`
-  - `install_fuzzy_completion` (method, line 645) `def install_fuzzy_completion(shell, payload, config)`
+  - `install_fuzzy_completion` (function, line 645) `def install_fuzzy_completion(shell, payload, config)`
   - `from_payload` (method, line 117) `def from_payload(cls, payload)`
   - `__init__` (method, line 170) `def __init__(self, config)`
   - `rank` (method, line 173) `def rank(self, items, query)`
@@ -302,10 +302,10 @@ Previous: [KB_cli.md](KB_cli.md)
   - `GraphIndex` (class, line 211) `class GraphIndex`
   - `GraphScorer` (class, line 299) `class GraphScorer`
   - `GraphAdvisor` (class, line 354) `class GraphAdvisor`
-  - `format_search_table` (method, line 691) `def format_search_table(results)`
-  - `format_neighbors` (method, line 706) `def format_neighbors(result)`
-  - `format_god_nodes` (method, line 724) `def format_god_nodes(results)`
-  - `format_suggestions` (method, line 734) `def format_suggestions(results)`
+  - `format_search_table` (function, line 691) `def format_search_table(results)`
+  - `format_neighbors` (function, line 706) `def format_neighbors(result)`
+  - `format_god_nodes` (function, line 724) `def format_god_nodes(results)`
+  - `format_suggestions` (function, line 734) `def format_suggestions(results)`
   - `to_summary` (method, line 109) `def to_summary(self)`
   - `to_summary` (method, line 132) `def to_summary(self)`
   - `__init__` (method, line 156) `def __init__(self, config)`
@@ -357,10 +357,10 @@ Previous: [KB_cli.md](KB_cli.md)
   - `GraphOverlayConfig` (class, line 41) `class GraphOverlayConfig`
   - `GraphOverlayItem` (class, line 59) `class GraphOverlayItem`
   - `GraphOverlayState` (class, line 69) `class GraphOverlayState`
-  - `_default_advisor_factory` (method, line 181) `def _default_advisor_factory()`
-  - `build_state` (method, line 192) `def build_state(config, advisor_factory)`
-  - `launch_overlay` (method, line 203) `def launch_overlay(payload, state, runner)`
-  - `_build_app` (method, line 235) `def _build_app(state, theme)`
+  - `_default_advisor_factory` (function, line 181) `def _default_advisor_factory()`
+  - `build_state` (function, line 192) `def build_state(config, advisor_factory)`
+  - `launch_overlay` (function, line 203) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (function, line 235) `def _build_app(state, theme)`
   - `is_available` (method, line 77) `def is_available(self)`
   - `set_focus` (method, line 87) `def set_focus(self, value)`
   - `toggle_view` (method, line 95) `def toggle_view(self)`
@@ -401,87 +401,65 @@ Previous: [KB_cli.md](KB_cli.md)
 - Language: py
 - Symbols:
   - `PhaseProgress` (class, line 29) `class PhaseProgress`
-  - `_phase_from_event` (method, line 48) `def _phase_from_event(event)`
-  - `_detect_current_phase` (method, line 58) `def _detect_current_phase(events, world, phase_keys)`
-  - `compute_killchain` (method, line 83) `def compute_killchain(events, world, phases)`
+  - `_phase_from_event` (function, line 48) `def _phase_from_event(event)`
+  - `_detect_current_phase` (function, line 58) `def _detect_current_phase(events, world, phase_keys)`
+  - `compute_killchain` (function, line 83) `def compute_killchain(events, world, phases)`
 - Depends on: `modules/killchain.py`
 - Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
 
-## cli/lazynmap_post.py
-- Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.
+## cli/lazy_monitor.py
+- Doc: Live worker-visibility monitor for the autonomous loop.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PostScanConfig` (class, line 57) `class PostScanConfig`
-  - `PostScanResult` (class, line 76) `class PostScanResult`
-  - `run_post_scan` (method, line 94) `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)`
-  - `_enabled` (method, line 164) `def _enabled(payload, cfg)`
-  - `_default_engine_factory` (method, line 180) `def _default_engine_factory(payload, cfg)`
-  - `_update_world_model_phase` (method, line 188) `def _update_world_model_phase(cfg, target, clock_fn)`
-  - `_emit_event` (method, line 213) `def _emit_event(cfg, target, plan, plan_path, clock_fn)`
-  - `_atomic_write_json` (method, line 263) `def _atomic_write_json(path, data, mode)`
-  - `_safe_log` (method, line 291) `def _safe_log(console, message)`
-- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
-- Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`
-
-## cli/marketplace_config.py
-- Doc: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `MarketplaceConfig` (class, line 56) `class MarketplaceConfig`
-  - `AddonInfo` (class, line 131) `class AddonInfo`
-  - `AddonRegistry` (class, line 197) `class AddonRegistry`
-  - `MarketplaceSettings` (class, line 349) `class MarketplaceSettings`
-  - `MarketplaceConfigurator` (class, line 378) `class MarketplaceConfigurator`
-  - `configure_marketplace_interactive` (method, line 751) `def configure_marketplace_interactive(config, start_tab)`
-  - `_build_initial_settings` (method, line 774) `def _build_initial_settings(registry)`
-  - `marketplace_summary` (method, line 784) `def marketplace_summary(registry)`
-  - `from_yaml` (method, line 144) `def from_yaml(cls, path)`
-  - `toggle_enabled` (method, line 164) `def toggle_enabled(self)`
-  - `set_enabled` (method, line 168) `def set_enabled(self, enabled)`
-  - `save_yaml` (method, line 185) `def save_yaml(self, data)`
-  - `__init__` (method, line 220) `def __init__(self)`
-  - `_nuclei_dir` (method, line 223) `def _nuclei_dir(self)`
-  - `scan` (method, line 235) `def scan(self, tab)`
-  - `_scan_yara` (method, line 259) `def _scan_yara(self)`
-  - `_scan_nuclei` (method, line 278) `def _scan_nuclei(self)`
-  - `_parse_yara_meta` (method, line 307) `def _parse_yara_meta(path)`
-  - `_parse_nuclei_info` (method, line 319) `def _parse_nuclei_info(path)`
-  - `rescan` (method, line 334) `def rescan(self, tab)`
-  - `tab_order` (method, line 338) `def tab_order(self)`
-  - `tab_label` (method, line 341) `def tab_label(self, tab)`
-  - `tab_count` (method, line 344) `def tab_count(self, tab)`
-  - `is_enabled` (method, line 354) `def is_enabled(self, kind, name)`
-  - `toggle` (method, line 357) `def toggle(self, addon)`
-  - `enable_all` (method, line 367) `def enable_all(self, addons)`
-  - `disable_all` (method, line 372) `def disable_all(self, addons)`
-  - `__init__` (method, line 381) `def __init__(self, config, registry, initial)`
-  - `run` (method, line 395) `def run(self, start_tab)`
-  - `_tty_available` (method, line 408) `def _tty_available()`
-  - `_rows_for_tab` (method, line 411) `def _rows_for_tab(self, tab)`
-  - `_loop` (method, line 414) `def _loop(self, stdscr)`
-  - `_cycle_tab` (method, line 465) `def _cycle_tab(self, direction)`
-  - `_edit_addon` (method, line 470) `def _edit_addon(self, addon)`
-  - `_create_addon` (method, line 480) `def _create_addon(self, stdscr)`
-  - `_init_colors` (method, line 537) `def _init_colors(self)`
-  - `_render` (method, line 564) `def _render(self, stdscr, rows, cursor, offset)`
-  - `_draw_frame` (method, line 604) `def _draw_frame(self, stdscr, top, left, height, width)`
-  - `_draw_header` (method, line 618) `def _draw_header(self, stdscr, top, left, width)`
-  - `_draw_tabs` (method, line 641) `def _draw_tabs(self, stdscr, row_y, left, width)`
-  - `_draw_column_headers` (method, line 659) `def _draw_column_headers(self, stdscr, row_y, left, width, rows)`
-  - `_draw_row` (method, line 669) `def _draw_row(self, stdscr, row_y, left, width, addon, selected)`
-  - `_draw_preview` (method, line 692) `def _draw_preview(self, stdscr, top, left, width, addon)`
-  - `_draw_summary` (method, line 720) `def _draw_summary(self, stdscr, row_y, left, width, rows)`
-  - `_draw_footer` (method, line 732) `def _draw_footer(self, stdscr, row_y, left, width)`
-  - `_color` (method, line 742) `def _color(self, pair)`
-- Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
-
-## cli/noise_verbs.py
-- Doc: Canonical non-actionable verb registry for post-command surfaces.
-- Layer: utility
-- Language: py
-- Imported by: `cli/chain_mode.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
+  - `PromptModal` (class, line 61) `class PromptModal`
+  - `LazyMonitorApp` (class, line 89) `class LazyMonitorApp`
+  - `_hint_via_graph` (function, line 566) `def _hint_via_graph(task_id, text)`
+  - `run_monitor_command` (function, line 575) `def run_monitor_command(task_id)`
+  - `run_monitor_session` (function, line 589) `def run_monitor_session(engine, config, params)`
+  - `__init__` (method, line 66) `def __init__(self, title, placeholder)`
+  - `compose` (method, line 72) `def compose(self)`
+  - `on_input_submitted` (method, line 80) `def on_input_submitted(self, event)`
+  - `action_dismiss` (method, line 84) `def action_dismiss(self, value)`
+  - `__init__` (method, line 124) `def __init__(self, task_id, engine, config, params)`
+  - `compose` (method, line 140) `def compose(self)`
+  - `on_mount` (method, line 168) `def on_mount(self)`
+  - `_resolve_task` (method, line 192) `def _resolve_task(self)`
+  - `_init_tails` (method, line 203) `def _init_tails(self)`
+  - `_start_engine` (method, line 213) `def _start_engine(self)`
+  - `_finish` (method, line 246) `def _finish(self, result)`
+  - `_poll` (method, line 252) `def _poll(self)`
+  - `_overview` (method, line 263) `def _overview(self)`
+  - `_drain_activity` (method, line 270) `def _drain_activity(self)`
+  - `_drain_guard` (method, line 290) `def _drain_guard(self)`
+  - `_drain_traffic` (method, line 304) `def _drain_traffic(self)`
+  - `_render_approvals` (method, line 313) `def _render_approvals(self)`
+  - `_render_findings` (method, line 332) `def _render_findings(self)`
+  - `_render_stages` (method, line 351) `def _render_stages(self, overview)`
+  - `_append_activity` (method, line 387) `def _append_activity(self, text, style)`
+  - `_append_activity_text` (method, line 392) `def _append_activity_text(self, line)`
+  - `_running_intent` (method, line 399) `def _running_intent(self)`
+  - `action_pause` (method, line 409) `def action_pause(self)`
+  - `action_resume` (method, line 417) `def action_resume(self)`
+  - `action_approve` (method, line 425) `def action_approve(self)`
+  - `action_deny` (method, line 429) `def action_deny(self)`
+  - `_decide` (method, line 433) `def _decide(self, verdict)`
+  - `action_hint` (method, line 445) `def action_hint(self)`
+  - `action_steer` (method, line 460) `def action_steer(self)`
+  - `action_kill` (method, line 477) `def action_kill(self)`
+  - `action_tab_findings` (method, line 489) `def action_tab_findings(self)`
+  - `action_tab_guard` (method, line 493) `def action_tab_guard(self)`
+  - `action_tab_traffic` (method, line 497) `def action_tab_traffic(self)`
+  - `_focus_tab` (method, line 501) `def _focus_tab(self, tab_id)`
+  - `action_focus_worker` (method, line 508) `def action_focus_worker(self, index)`
+  - `action_next_task` (method, line 518) `def action_next_task(self)`
+  - `_reset_view` (method, line 537) `def _reset_view(self)`
+  - `_stream` (function, line 217) `def _stream(line)`
+  - `_run` (function, line 225) `def _run()`
+  - `_done` (function, line 448) `def _done(text)`
+  - `_done` (function, line 467) `def _done(text)`
+- Depends on: `cli/commands/containers.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_runner.py`, `modules/loop_progress.py`
+- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tools/monitor_smoke.py`
 
 
 Next: [KB_cli_p3.md](KB_cli_p3.md)

@@ -11,7 +11,7 @@
 - Language: py
 - Symbols:
   - `RuleSetBuilder` (class, line 14) `class RuleSetBuilder`
-  - `generate_rules` (method, line 185) `def generate_rules(phase, rhost, services, creds_found, is_hermes)`
+  - `generate_rules` (function, line 185) `def generate_rules(phase, rhost, services, creds_found, is_hermes)`
   - `__init__` (method, line 24) `def __init__(self)`
   - `with_phase` (method, line 31) `def with_phase(self, phase)`
   - `with_target` (method, line 36) `def with_target(self, rhost)`

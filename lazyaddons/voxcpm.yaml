@@ -1,0 +1,20 @@
+name: voxcpm
+description: |
+  VoxCPM2 tokenizer-free multilingual TTS: voice design and voice cloning with 48kHz output. First run installs via pip (needs Python 3.10-3.12 and torch; GPU recommended, CPU works slowly). Set text with: assign prompt <text to speak>. Run voxcpm, audio lands at sessions/voxcpm_out.wav. Clone a voice via free args, e.g. voxcpm clone --text "hi" --reference-audio ref.wav --output clone.wav.
+author: OpenBMB
+version: "2.0"
+enabled: true
+params:
+  - name: prompt
+    type: string
+    required: true
+    description: Text to synthesize to speech. Max 200 chars, never empty.
+os: any
+trigger: []
+category: "16. Artificial Intelligence"
+tool:
+  name: VoxCPM
+  repo_url: https://github.com/OpenBMB/VoxCPM.git
+  install_path: external/.exploit/VoxCPM
+  install_command: pip install voxcpm
+  execute_command: cd ../../../sessions && voxcpm design --text {prompt} --output voxcpm_out.wav

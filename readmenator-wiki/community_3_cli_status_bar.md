@@ -120,7 +120,7 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
 - [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)

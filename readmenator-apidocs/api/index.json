@@ -1,0 +1,7355 @@
+{
+ "schema_version": 1,
+ "format": "jsonl",
+ "meta": {
+  "modules": 722,
+  "entities": 13974,
+  "languages": {
+   "asm": 1,
+   "c": 15,
+   "cpp": 1,
+   "cs": 1,
+   "h": 1,
+   "js": 6,
+   "lua": 26,
+   "php": 1,
+   "py": 616,
+   "sh": 54
+  },
+  "kinds": {
+   "attribute": 3990,
+   "class": 1338,
+   "classmethod": 81,
+   "constant": 1172,
+   "constructor": 502,
+   "enum": 38,
+   "exception": 36,
+   "function": 2323,
+   "macro": 113,
+   "method": 3349,
+   "module": 722,
+   "property": 174,
+   "protocol": 14,
+   "staticmethod": 86,
+   "struct": 20,
+   "type_alias": 4,
+   "variable": 12
+  },
+  "truncated": false,
+  "skipped_files": 278,
+  "privacy_mode": false
+ },
+ "coverage": {
+  "overall": {
+   "documented": 6377,
+   "total": 8800,
+   "percent": 72.5
+  },
+  "by_kind": {
+   "class": {
+    "documented": 1150,
+    "total": 1338,
+    "percent": 85.9
+   },
+   "classmethod": {
+    "documented": 54,
+    "total": 81,
+    "percent": 66.7
+   },
+   "constructor": {
+    "documented": 184,
+    "total": 502,
+    "percent": 36.7
+   },
+   "enum": {
+    "documented": 29,
+    "total": 38,
+    "percent": 76.3
+   },
+   "exception": {
+    "documented": 34,
+    "total": 36,
+    "percent": 94.4
+   },
+   "function": {
+    "documented": 1437,
+    "total": 2323,
+    "percent": 61.9
+   },
+   "macro": {
+    "documented": 3,
+    "total": 113,
+    "percent": 2.7
+   },
+   "method": {
+    "documented": 2664,
+    "total": 3349,
+    "percent": 79.5
+   },
+   "module": {
+    "documented": 600,
+    "total": 722,
+    "percent": 83.1
+   },
+   "property": {
+    "documented": 130,
+    "total": 174,
+    "percent": 74.7
+   },
+   "protocol": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "staticmethod": {
+    "documented": 74,
+    "total": 86,
+    "percent": 86.0
+   },
+   "struct": {
+    "documented": 1,
+    "total": 20,
+    "percent": 5.0
+   },
+   "type_alias": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   }
+  },
+  "by_module": {
+   ".claude/skills/run-lazyown/driver.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "DEPLOY.sh": {
+    "documented": 2,
+    "total": 4,
+    "percent": 50.0
+   },
+   "__init__.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "banner.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "bootstrap.sh": {
+    "documented": 1,
+    "total": 17,
+    "percent": 5.9
+   },
+   "cli/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "cli/aliases.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/assign.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/auto_crypto.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/autosuggest.py": {
+    "documented": 25,
+    "total": 26,
+    "percent": 96.2
+   },
+   "cli/banner_config.py": {
+    "documented": 19,
+    "total": 82,
+    "percent": 23.2
+   },
+   "cli/chain_mode.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "cli/cli_enhancements.py": {
+    "documented": 29,
+    "total": 53,
+    "percent": 54.7
+   },
+   "cli/command_chain.py": {
+    "documented": 23,
+    "total": 23,
+    "percent": 100.0
+   },
+   "cli/command_explorer.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/command_form.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "cli/commands/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "cli/commands/_base.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/_dormancy.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/active_directory.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/commands/ai.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/anti_forensics.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/applocker_bypass.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/commands/audit.py": {
+    "documented": 8,
+    "total": 9,
+    "percent": 88.9
+   },
+   "cli/commands/automation.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "cli/commands/bitm.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/bof_registry.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/commands/c2_profile.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/commands/caldera.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
+   "cli/commands/campaign.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/catalog.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/cicd.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/cli_auth.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/commands/cloud.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/cloud_attacks.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/collaboration.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/command_and_control.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/command_and_control_migrated.py": {
+    "documented": 23,
+    "total": 24,
+    "percent": 95.8
+   },
+   "cli/commands/containers.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/cred.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "cli/commands/cred_migrated.py": {
+    "documented": 23,
+    "total": 24,
+    "percent": 95.8
+   },
+   "cli/commands/crystal_ball.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/daemon_ctl.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/commands/database.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "cli/commands/defaults.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/demo.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/diagnostics.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/dns_exfil.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/dpapi.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/edr_detect.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/encoding.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "cli/commands/enum.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/estorides.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/commands/evasive_payload.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/exfiltration.py": {
+    "documented": 29,
+    "total": 29,
+    "percent": 100.0
+   },
+   "cli/commands/exploit.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/exploit_migrated.py": {
+    "documented": 50,
+    "total": 51,
+    "percent": 98.0
+   },
+   "cli/commands/exploitgym.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/help_ui.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "cli/commands/infra.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/lab.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/lateral.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/commands/lateral_migrated.py": {
+    "documented": 22,
+    "total": 23,
+    "percent": 95.7
+   },
+   "cli/commands/lazyloop.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/lazyops.py": {
+    "documented": 52,
+    "total": 54,
+    "percent": 96.3
+   },
+   "cli/commands/marketplace.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/mcp_bridge.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/misc_migrated.py": {
+    "documented": 30,
+    "total": 31,
+    "percent": 96.8
+   },
+   "cli/commands/mobile_macos.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/module_manager.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/nethelpers.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/opsec_cleanup.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/commands/orchestration.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/payload_arsenal.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/commands/payload_generation.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/persist.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "cli/commands/persist_migrated.py": {
+    "documented": 25,
+    "total": 26,
+    "percent": 96.2
+   },
+   "cli/commands/phishing_wizard.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/pivoting.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/commands/postexp.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/commands/postexp_migrated.py": {
+    "documented": 38,
+    "total": 39,
+    "percent": 97.4
+   },
+   "cli/commands/privilege_escalation.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "cli/commands/purple_team.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/commands/pwn.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/commands/recon.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "cli/commands/recon_migrated.py": {
+    "documented": 29,
+    "total": 30,
+    "percent": 96.7
+   },
+   "cli/commands/redteam_gym.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/resource_scripting.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/commands/scan.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
+   "cli/commands/scan_migrated.py": {
+    "documented": 46,
+    "total": 47,
+    "percent": 97.9
+   },
+   "cli/commands/security.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "cli/commands/session_ops.py": {
+    "documented": 35,
+    "total": 35,
+    "percent": 100.0
+   },
+   "cli/commands/shellsys.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/commands/sleep_obfuscation.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/socks_proxy.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/supply_chain.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/commands/surface.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/ux.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/config_history.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/config_status.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/confirm.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/contextual_help.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/dashboard_layout.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/dashboard_tui.py": {
+    "documented": 11,
+    "total": 15,
+    "percent": 73.3
+   },
+   "cli/doctor.py": {
+    "documented": 19,
+    "total": 20,
+    "percent": 95.0
+   },
+   "cli/engagement_hooks.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/exploit_advisor.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "cli/exploration.py": {
+    "documented": 41,
+    "total": 41,
+    "percent": 100.0
+   },
+   "cli/exploration_view.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/fuzzy_match.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/fuzzy_picker.py": {
+    "documented": 15,
+    "total": 22,
+    "percent": 68.2
+   },
+   "cli/graph_advisor.py": {
+    "documented": 16,
+    "total": 41,
+    "percent": 39.0
+   },
+   "cli/graph_overlay.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "cli/headless.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "cli/killchain.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/lazy_monitor.py": {
+    "documented": 19,
+    "total": 19,
+    "percent": 100.0
+   },
+   "cli/lazy_orchestrator.py": {
+    "documented": 26,
+    "total": 26,
+    "percent": 100.0
+   },
+   "cli/lazynmap_post.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/marketplace_config.py": {
+    "documented": 11,
+    "total": 24,
+    "percent": 45.8
+   },
+   "cli/noise_verbs.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "cli/ops_commands.py": {
+    "documented": 26,
+    "total": 26,
+    "percent": 100.0
+   },
+   "cli/output_mode.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/palette.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/palette_command.py": {
+    "documented": 36,
+    "total": 41,
+    "percent": 87.8
+   },
+   "cli/palette_graph.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/palette_overlay.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/palette_telemetry.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/phase_labels.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/plugin_tiers.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/protips.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/purple_tui.py": {
+    "documented": 3,
+    "total": 7,
+    "percent": 42.9
+   },
+   "cli/reactive_hints.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/reasoning_stream.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/recommendation.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "cli/recommendation_signals.py": {
+    "documented": 24,
+    "total": 26,
+    "percent": 92.3
+   },
+   "cli/recon_plan.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/registry.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/scope_guard.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "cli/session_hud.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "cli/session_resumer.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "cli/sessions_browser.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "cli/show.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/splash.py": {
+    "documented": 6,
+    "total": 9,
+    "percent": 66.7
+   },
+   "cli/status_bar.py": {
+    "documented": 43,
+    "total": 43,
+    "percent": 100.0
+   },
+   "cli/style.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/surface_graph.py": {
+    "documented": 15,
+    "total": 16,
+    "percent": 93.8
+   },
+   "cli/surface_tui.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "cli/themes.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/timeline_browser.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "cli/tips_engine.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "cli/toast_bus.py": {
+    "documented": 37,
+    "total": 37,
+    "percent": 100.0
+   },
+   "cli/tui_theme.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "cli/tutorial.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "cli/wizard.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "cli/wizard_scope.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "contrib/legacy/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "contrib/legacy/lazy_http_bof.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazy_packet_image_sniffer.py": {
+    "documented": 0,
+    "total": 10,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazyaddon_creator.py": {
+    "documented": 14,
+    "total": 15,
+    "percent": 93.3
+   },
+   "contrib/legacy/lazyarpspoofing.py": {
+    "documented": 0,
+    "total": 8,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazybinenc.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazybotcli.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "contrib/legacy/lazybotnet.py": {
+    "documented": 1,
+    "total": 17,
+    "percent": 5.9
+   },
+   "contrib/legacy/lazycam.py": {
+    "documented": 1,
+    "total": 9,
+    "percent": 11.1
+   },
+   "contrib/legacy/lazycreate_webshell.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazydeepseekcli.py": {
+    "documented": 1,
+    "total": 11,
+    "percent": 9.1
+   },
+   "contrib/legacy/lazydisassebler.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "contrib/legacy/lazyftpsniff.py": {
+    "documented": 0,
+    "total": 6,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazygalazy.py": {
+    "documented": 0,
+    "total": 8,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazygptcli.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "contrib/legacy/lazygptcli_unified.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "contrib/legacy/lazyhoneypot.py": {
+    "documented": 1,
+    "total": 15,
+    "percent": 6.7
+   },
+   "contrib/legacy/lazyhttpreverseshell.py": {
+    "documented": 0,
+    "total": 8,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazykeygen.py": {
+    "documented": 0,
+    "total": 6,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazylfi2rce.py": {
+    "documented": 0,
+    "total": 5,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazyllmchat.py": {
+    "documented": 0,
+    "total": 22,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazylogpoisoning.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazymariadb_rce_cve_2016-662.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "contrib/legacy/lazymidm.py": {
+    "documented": 0,
+    "total": 9,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazymitmap.py": {
+    "documented": 16,
+    "total": 20,
+    "percent": 80.0
+   },
+   "contrib/legacy/lazynetbios.py": {
+    "documented": 1,
+    "total": 8,
+    "percent": 12.5
+   },
+   "contrib/legacy/lazyntlrelayx.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazyopenssh77enum2.py": {
+    "documented": 1,
+    "total": 6,
+    "percent": 16.7
+   },
+   "contrib/legacy/lazyphishingai.py": {
+    "documented": 1,
+    "total": 12,
+    "percent": 8.3
+   },
+   "contrib/legacy/lazyproxy.py": {
+    "documented": 0,
+    "total": 10,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazypwn.py": {
+    "documented": 0,
+    "total": 16,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazypwnkit.py": {
+    "documented": 4,
+    "total": 6,
+    "percent": 66.7
+   },
+   "contrib/legacy/lazypyautogui.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazyreversentlmv2.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazysearch.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "contrib/legacy/lazysearch_bot.py": {
+    "documented": 1,
+    "total": 14,
+    "percent": 7.1
+   },
+   "contrib/legacy/lazyseo.py": {
+    "documented": 0,
+    "total": 9,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazysmbrelay.py": {
+    "documented": 0,
+    "total": 8,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazysniff.py": {
+    "documented": 1,
+    "total": 12,
+    "percent": 8.3
+   },
+   "contrib/legacy/lazysqli.py": {
+    "documented": 1,
+    "total": 5,
+    "percent": 20.0
+   },
+   "contrib/legacy/lazyssh.py": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazyvsftp.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "contrib/legacy/lazywerkzeug.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "contrib/legacy/sql.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "core/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "core/api_authz.py": {
+    "documented": 13,
+    "total": 20,
+    "percent": 65.0
+   },
+   "core/autonomous.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "core/command_bridge.py": {
+    "documented": 8,
+    "total": 9,
+    "percent": 88.9
+   },
+   "core/config.py": {
+    "documented": 8,
+    "total": 9,
+    "percent": 88.9
+   },
+   "core/console.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "core/credential_vault.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "core/crypto.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "core/defaults.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "core/dependencies.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "core/error_advice.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "core/errors.py": {
+    "documented": 13,
+    "total": 23,
+    "percent": 56.5
+   },
+   "core/executor.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "core/hardening.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "core/host_policy.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "core/http.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "core/llm_budget.py": {
+    "documented": 28,
+    "total": 34,
+    "percent": 82.4
+   },
+   "core/logging.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "core/network.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "core/parsers.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "core/payload_schema.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "core/process.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "core/profiles.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "core/prompt.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "core/protocols.py": {
+    "documented": 10,
+    "total": 13,
+    "percent": 76.9
+   },
+   "core/safe_console.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "core/safe_exec.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "core/safe_import.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "core/safe_subprocess.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "core/scheduler.py": {
+    "documented": 10,
+    "total": 11,
+    "percent": 90.9
+   },
+   "core/security.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "core/terminal_guard.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "core/text_utils.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "core/validators.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "deploy/range/ad-mini/traffic-gen.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "discord_c2.py": {
+    "documented": 0,
+    "total": 21,
+    "percent": 0.0
+   },
+   "fast_run_as_r00t.sh": {
+    "documented": 11,
+    "total": 13,
+    "percent": 84.6
+   },
+   "gen_cert.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "install.sh": {
+    "documented": 1,
+    "total": 17,
+    "percent": 5.9
+   },
+   "key.py": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "lazy_sentinel4.py": {
+    "documented": 4,
+    "total": 48,
+    "percent": 8.3
+   },
+   "lazyc2.py": {
+    "documented": 88,
+    "total": 229,
+    "percent": 38.4
+   },
+   "lazyc2/__init__.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "lazyc2/addon_creator.py": {
+    "documented": 25,
+    "total": 26,
+    "percent": 96.2
+   },
+   "lazyc2/app_factory.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/addons.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/api.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/api_v1.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/auth.py": {
+    "documented": 1,
+    "total": 15,
+    "percent": 6.7
+   },
+   "lazyc2/blueprints/beacon.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/operations.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/phishing.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/session_auth.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazyc2/extensions/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazyc2/extensions/decoy.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazyc2/extensions/short_urls.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazyc2/extensions/storage.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "lazyc2/extensions/users.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "lazyc2/models.py": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "lazyc2/security/__init__.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "lazyc2/security/command_allowlist.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "lazyc2/security/constants.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazyc2/security/cors.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "lazyc2/security/csrf.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "lazyc2/security/html_sanitizer.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazyc2/security/https_redirect.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "lazyc2/security/services.py": {
+    "documented": 12,
+    "total": 16,
+    "percent": 75.0
+   },
+   "lazyc2/security/trusted_proxy.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "lazyc2/security/validators.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "lazyc2/state.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/__main__.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazygui/app.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/config/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/config/c2_credentials.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/config/constants.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "lazygui/config/paths.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "lazygui/config/settings.py": {
+    "documented": 7,
+    "total": 13,
+    "percent": 53.8
+   },
+   "lazygui/panels/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/panels/base.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/panels/campaign_panel.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "lazygui/panels/credentials_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/cve_panel.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "lazygui/panels/event_log_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/graph_panel.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "lazygui/panels/history_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/killchain_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/listeners_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/marketplace_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/registry.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "lazygui/panels/sessions_panel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/panels/terminal_panel.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/services/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/services/backend.py": {
+    "documented": 20,
+    "total": 20,
+    "percent": 100.0
+   },
+   "lazygui/services/event_log.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "lazygui/services/factory.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/services/local_backend.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "lazygui/services/models.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "lazygui/services/teamserver_backend.py": {
+    "documented": 17,
+    "total": 17,
+    "percent": 100.0
+   },
+   "lazygui/theme/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/manager.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/__init__.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/catppuccin_mocha.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/cobalt_clone.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/gruvbox_dark.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/solarized_light.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/tactical_green.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/palettes/tokyo_night.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/theme/qss_builder.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "lazygui/theme/tokens.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "lazygui/version.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/widgets/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/widgets/beacon_command_modal.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/widgets/command_palette_list.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "lazygui/widgets/event_log_view.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/widgets/filter_bar.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/widgets/graph_view.py": {
+    "documented": 17,
+    "total": 28,
+    "percent": 60.7
+   },
+   "lazygui/widgets/status_badge.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "lazygui/widgets/terminal_view.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "lazygui/windows/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazygui/windows/command_palette_window.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "lazygui/windows/connect_dialog.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "lazygui/windows/main_window.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "lazyown-docker/entrypoint.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "lazyown-docker/hostdiscover.sh": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "lazyown-docker/init.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "lazyown-docker/mkdocker.sh": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "lazyown.py": {
+    "documented": 74,
+    "total": 76,
+    "percent": 97.4
+   },
+   "modules/49803.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "modules/CVE-2018-15133.php": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/CVE-2023-28432.py": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/LazyOwnExplorer.py": {
+    "documented": 1,
+    "total": 21,
+    "percent": 4.8
+   },
+   "modules/__init__.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/adcs_attacks.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/agent_runner.py": {
+    "documented": 8,
+    "total": 26,
+    "percent": 30.8
+   },
+   "modules/ai_exploit_chain.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
+   "modules/ai_fallback.py": {
+    "documented": 2,
+    "total": 3,
+    "percent": 66.7
+   },
+   "modules/ai_model.py": {
+    "documented": 24,
+    "total": 29,
+    "percent": 82.8
+   },
+   "modules/amsi.c": {
+    "documented": 9,
+    "total": 11,
+    "percent": 81.8
+   },
+   "modules/amt_auth_bypass.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "modules/apt_playbooks.py": {
+    "documented": 5,
+    "total": 14,
+    "percent": 35.7
+   },
+   "modules/asset_graph.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
+   "modules/atomic_enricher.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/attack_surface3d.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/auto_pivot.py": {
+    "documented": 2,
+    "total": 21,
+    "percent": 9.5
+   },
+   "modules/auto_purple.py": {
+    "documented": 15,
+    "total": 26,
+    "percent": 57.7
+   },
+   "modules/auto_registry.py": {
+    "documented": 25,
+    "total": 25,
+    "percent": 100.0
+   },
+   "modules/autonomous_exploit_engine.py": {
+    "documented": 15,
+    "total": 17,
+    "percent": 88.2
+   },
+   "modules/aws_attacks.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/backdoor/backdoor.c": {
+    "documented": 0,
+    "total": 6,
+    "percent": 0.0
+   },
+   "modules/backdoor/keylogger.h": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/backdoor/server.c": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/beacon_config_builder.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "modules/beacon_history.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/bin2img.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "modules/bitm_engine.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/bof_registry.py": {
+    "documented": 39,
+    "total": 41,
+    "percent": 95.1
+   },
+   "modules/c2_builder.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "modules/c2_messaging_base.py": {
+    "documented": 11,
+    "total": 13,
+    "percent": 84.6
+   },
+   "modules/c2_profile.py": {
+    "documented": 26,
+    "total": 28,
+    "percent": 92.9
+   },
+   "modules/c2_profile_engine.py": {
+    "documented": 45,
+    "total": 47,
+    "percent": 95.7
+   },
+   "modules/cal.sh": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   },
+   "modules/categories.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/cgi-bin/lazywebshell.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/cgi-bin/lazywebshell.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/cicd_enumerator.py": {
+    "documented": 7,
+    "total": 8,
+    "percent": 87.5
+   },
+   "modules/cli_auth.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/cloud_enum.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/collab_bp.py": {
+    "documented": 5,
+    "total": 38,
+    "percent": 13.2
+   },
+   "modules/colors.py": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "modules/command_executor.py": {
+    "documented": 13,
+    "total": 17,
+    "percent": 76.5
+   },
+   "modules/compliance.py": {
+    "documented": 8,
+    "total": 19,
+    "percent": 42.1
+   },
+   "modules/conditional_hooks.py": {
+    "documented": 14,
+    "total": 18,
+    "percent": 77.8
+   },
+   "modules/config_store.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/credential_reuse.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/cross_cloud.py": {
+    "documented": 9,
+    "total": 11,
+    "percent": 81.8
+   },
+   "modules/custom_tools.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/cve_matcher.py": {
+    "documented": 7,
+    "total": 8,
+    "percent": 87.5
+   },
+   "modules/dacl_abuse.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "modules/dashboard_bp.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/dashboard_engine.py": {
+    "documented": 8,
+    "total": 15,
+    "percent": 53.3
+   },
+   "modules/db.py": {
+    "documented": 31,
+    "total": 31,
+    "percent": 100.0
+   },
+   "modules/delegation_attacks.py": {
+    "documented": 12,
+    "total": 13,
+    "percent": 92.3
+   },
+   "modules/detailed_search.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "modules/detection_feed.py": {
+    "documented": 7,
+    "total": 8,
+    "percent": 87.5
+   },
+   "modules/detection_oracle.py": {
+    "documented": 13,
+    "total": 14,
+    "percent": 92.9
+   },
+   "modules/dns_beacon.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "modules/domain_dominance.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/dotnet_payload.py": {
+    "documented": 10,
+    "total": 11,
+    "percent": 90.9
+   },
+   "modules/dpapi_harvester.py": {
+    "documented": 6,
+    "total": 8,
+    "percent": 75.0
+   },
+   "modules/duckdns.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/edr_detector.py": {
+    "documented": 5,
+    "total": 7,
+    "percent": 71.4
+   },
+   "modules/eegg.sh": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "modules/engage_summary.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "modules/engagement_hooks.py": {
+    "documented": 27,
+    "total": 31,
+    "percent": 87.1
+   },
+   "modules/enrich.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/entra_id_attacks.py": {
+    "documented": 11,
+    "total": 13,
+    "percent": 84.6
+   },
+   "modules/estorides_fusion.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/estorides_importer.py": {
+    "documented": 28,
+    "total": 43,
+    "percent": 65.1
+   },
+   "modules/evasion_engine.py": {
+    "documented": 2,
+    "total": 13,
+    "percent": 15.4
+   },
+   "modules/evasive_payloads.py": {
+    "documented": 10,
+    "total": 11,
+    "percent": 90.9
+   },
+   "modules/event_bus.py": {
+    "documented": 19,
+    "total": 36,
+    "percent": 52.8
+   },
+   "modules/event_consumers.py": {
+    "documented": 8,
+    "total": 15,
+    "percent": 53.3
+   },
+   "modules/event_engine.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "modules/evidence.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/evilhttprev.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/exp.c": {
+    "documented": 1,
+    "total": 55,
+    "percent": 1.8
+   },
+   "modules/exploit_chain.py": {
+    "documented": 12,
+    "total": 13,
+    "percent": 92.3
+   },
+   "modules/exploit_recommender.py": {
+    "documented": 6,
+    "total": 10,
+    "percent": 60.0
+   },
+   "modules/exploitgym_gym.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/fast_run_service.sh": {
+    "documented": 10,
+    "total": 40,
+    "percent": 25.0
+   },
+   "modules/finding_lifecycle.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
+   "modules/forensic_cleaner.py": {
+    "documented": 8,
+    "total": 9,
+    "percent": 88.9
+   },
+   "modules/gcp_attacks.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/generate_tools.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "modules/goals.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "modules/gpo_abuse.py": {
+    "documented": 16,
+    "total": 17,
+    "percent": 94.1
+   },
+   "modules/gui_askpass.sh": {
+    "documented": 2,
+    "total": 6,
+    "percent": 33.3
+   },
+   "modules/hash_cracker.py": {
+    "documented": 8,
+    "total": 11,
+    "percent": 72.7
+   },
+   "modules/hive_invoke.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "modules/hostdiscover.sh": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "modules/ia_code_analysis.py": {
+    "documented": 6,
+    "total": 9,
+    "percent": 66.7
+   },
+   "modules/ia_logs_analysis.py": {
+    "documented": 6,
+    "total": 8,
+    "percent": 75.0
+   },
+   "modules/ia_network_analysis.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "modules/icmp_client.py": {
+    "documented": 2,
+    "total": 8,
+    "percent": 25.0
+   },
+   "modules/icmp_server.py": {
+    "documented": 2,
+    "total": 10,
+    "percent": 20.0
+   },
+   "modules/img2bin.py": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "modules/integrations/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/integrations/misp_export.py": {
+    "documented": 24,
+    "total": 24,
+    "percent": 100.0
+   },
+   "modules/integrations/nuclei_bridge.py": {
+    "documented": 14,
+    "total": 17,
+    "percent": 82.4
+   },
+   "modules/integrations/nuclei_parser.py": {
+    "documented": 9,
+    "total": 13,
+    "percent": 69.2
+   },
+   "modules/integrations/searchsploit.py": {
+    "documented": 18,
+    "total": 21,
+    "percent": 85.7
+   },
+   "modules/intel_fusion.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/intelligence_engine.py": {
+    "documented": 19,
+    "total": 20,
+    "percent": 95.0
+   },
+   "modules/intercept.py": {
+    "documented": 28,
+    "total": 28,
+    "percent": 100.0
+   },
+   "modules/internal_discover.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/iptables_portforward.sh": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/jsonl_tail.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/jwtexploit.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/k8s_attacks.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/kerberoasting.py": {
+    "documented": 14,
+    "total": 15,
+    "percent": 93.3
+   },
+   "modules/kerberos_core.py": {
+    "documented": 27,
+    "total": 31,
+    "percent": 87.1
+   },
+   "modules/kerberos_tickets.py": {
+    "documented": 17,
+    "total": 21,
+    "percent": 81.0
+   },
+   "modules/kill_chain_viz.py": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "modules/killchain.py": {
+    "documented": 22,
+    "total": 22,
+    "percent": 100.0
+   },
+   "modules/kivi.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "modules/lazy_agent.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
+   "modules/lazy_bridge.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "modules/lazy_engine.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/lazy_loop.py": {
+    "documented": 289,
+    "total": 289,
+    "percent": 100.0
+   },
+   "modules/lazy_mentions.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/lazy_proxy.py": {
+    "documented": 20,
+    "total": 20,
+    "percent": 100.0
+   },
+   "modules/lazy_rbac.py": {
+    "documented": 11,
+    "total": 55,
+    "percent": 20.0
+   },
+   "modules/lazy_runner.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/lazy_skills.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/lazyatack.sh": {
+    "documented": 31,
+    "total": 31,
+    "percent": 100.0
+   },
+   "modules/lazybrutesshuserenum.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/lazyclonewars.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/lazycloud.py": {
+    "documented": 18,
+    "total": 23,
+    "percent": 78.3
+   },
+   "modules/lazycurl.sh": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   },
+   "modules/lazyencoder_decoder.py": {
+    "documented": 0,
+    "total": 11,
+    "percent": 0.0
+   },
+   "modules/lazyevilwimrm.sh": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "modules/lazygat.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/lazyk8s.py": {
+    "documented": 28,
+    "total": 30,
+    "percent": 93.3
+   },
+   "modules/lazylynis.sh": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/lazymasscan.sh": {
+    "documented": 1,
+    "total": 5,
+    "percent": 20.0
+   },
+   "modules/lazymobilerevshell.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/lazynmap.sh": {
+    "documented": 2,
+    "total": 9,
+    "percent": 22.2
+   },
+   "modules/lazyown_bprfuzzer.py": {
+    "documented": 5,
+    "total": 14,
+    "percent": 35.7
+   },
+   "modules/lazyown_bridge.py": {
+    "documented": 15,
+    "total": 43,
+    "percent": 34.9
+   },
+   "modules/lazyown_metaextract0r.py": {
+    "documented": 2,
+    "total": 10,
+    "percent": 20.0
+   },
+   "modules/lazyown_parquet_tool.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/lazyownclient.py": {
+    "documented": 1,
+    "total": 7,
+    "percent": 14.3
+   },
+   "modules/lazyownerweb.py": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "modules/lazyownserver.py": {
+    "documented": 1,
+    "total": 7,
+    "percent": 14.3
+   },
+   "modules/lazypsexec.sh": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "modules/lazyreverse_shell.sh": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/lazyrtpflood.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/lazyvpnshield.sh": {
+    "documented": 1,
+    "total": 8,
+    "percent": 12.5
+   },
+   "modules/lazywps.sh": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/legacy/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/lesson_ingestor.py": {
+    "documented": 6,
+    "total": 8,
+    "percent": 75.0
+   },
+   "modules/lilsplunky.py": {
+    "documented": 13,
+    "total": 15,
+    "percent": 86.7
+   },
+   "modules/linux_advanced_payloads.py": {
+    "documented": 14,
+    "total": 17,
+    "percent": 82.4
+   },
+   "modules/listener_manager.py": {
+    "documented": 12,
+    "total": 15,
+    "percent": 80.0
+   },
+   "modules/live_surface.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/llm_adapter.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/llm_client.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/llm_evaluator.py": {
+    "documented": 1,
+    "total": 24,
+    "percent": 4.2
+   },
+   "modules/llm_factory.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "modules/llm_pool.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "modules/llm_prompts.py": {
+    "documented": 20,
+    "total": 20,
+    "percent": 100.0
+   },
+   "modules/log_tamper.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
+   "modules/logging_config.py": {
+    "documented": 17,
+    "total": 20,
+    "percent": 85.0
+   },
+   "modules/loop_ai_bridge.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "modules/loop_progress.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "modules/macos_payloads.py": {
+    "documented": 13,
+    "total": 14,
+    "percent": 92.9
+   },
+   "modules/mario.py": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/mcp_agent_bridge.py": {
+    "documented": 6,
+    "total": 14,
+    "percent": 42.9
+   },
+   "modules/memory_cleaner.py": {
+    "documented": 7,
+    "total": 8,
+    "percent": 87.5
+   },
+   "modules/memory_store.py": {
+    "documented": 1,
+    "total": 29,
+    "percent": 3.4
+   },
+   "modules/metrics.py": {
+    "documented": 22,
+    "total": 22,
+    "percent": 100.0
+   },
+   "modules/mfa_bypass.py": {
+    "documented": 9,
+    "total": 11,
+    "percent": 81.8
+   },
+   "modules/mkcloudflaretunnel.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/module_registry.py": {
+    "documented": 14,
+    "total": 16,
+    "percent": 87.5
+   },
+   "modules/moe_router.py": {
+    "documented": 19,
+    "total": 29,
+    "percent": 65.5
+   },
+   "modules/morse.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/mysql_hookandroot_lib.c": {
+    "documented": 2,
+    "total": 7,
+    "percent": 28.6
+   },
+   "modules/network_opsec.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "modules/nmap2csv.py": {
+    "documented": 12,
+    "total": 45,
+    "percent": 26.7
+   },
+   "modules/notify.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "modules/nuclei_templates_sync.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "modules/obs_parser.py": {
+    "documented": 8,
+    "total": 14,
+    "percent": 57.1
+   },
+   "modules/ooficesod0woodo.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/operation.py": {
+    "documented": 8,
+    "total": 24,
+    "percent": 33.3
+   },
+   "modules/operator_profiles.py": {
+    "documented": 14,
+    "total": 16,
+    "percent": 87.5
+   },
+   "modules/opsec_scorer.py": {
+    "documented": 16,
+    "total": 20,
+    "percent": 80.0
+   },
+   "modules/orchestrator_config.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/osint_enrich.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "modules/payload_factory.py": {
+    "documented": 20,
+    "total": 28,
+    "percent": 71.4
+   },
+   "modules/phishing_orchestrator.py": {
+    "documented": 12,
+    "total": 14,
+    "percent": 85.7
+   },
+   "modules/pipeline_engine.py": {
+    "documented": 41,
+    "total": 56,
+    "percent": 73.2
+   },
+   "modules/planner.py": {
+    "documented": 20,
+    "total": 22,
+    "percent": 90.9
+   },
+   "modules/playbook_engine.py": {
+    "documented": 9,
+    "total": 17,
+    "percent": 52.9
+   },
+   "modules/playbook_executor.py": {
+    "documented": 20,
+    "total": 24,
+    "percent": 83.3
+   },
+   "modules/polymorphic_engine.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
+   "modules/privesc_predictor.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "modules/professional_report.py": {
+    "documented": 10,
+    "total": 11,
+    "percent": 90.9
+   },
+   "modules/r.sh": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/reactive_engine.py": {
+    "documented": 22,
+    "total": 38,
+    "percent": 57.9
+   },
+   "modules/recommender.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/redteam_gym.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/reflective_dll.py": {
+    "documented": 22,
+    "total": 26,
+    "percent": 84.6
+   },
+   "modules/resource_script.py": {
+    "documented": 9,
+    "total": 12,
+    "percent": 75.0
+   },
+   "modules/reverse-shell.c": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/revshell.c": {
+    "documented": 0,
+    "total": 3,
+    "percent": 0.0
+   },
+   "modules/rich_tui.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/rl_trainer.py": {
+    "documented": 19,
+    "total": 27,
+    "percent": 70.4
+   },
+   "modules/rootkit/mr.c": {
+    "documented": 0,
+    "total": 34,
+    "percent": 0.0
+   },
+   "modules/rootkit/mrhyde.c": {
+    "documented": 1,
+    "total": 39,
+    "percent": 2.6
+   },
+   "modules/rootkit/mrhyde2.c": {
+    "documented": 1,
+    "total": 36,
+    "percent": 2.8
+   },
+   "modules/rootkit/mrhyde3.c": {
+    "documented": 5,
+    "total": 47,
+    "percent": 10.6
+   },
+   "modules/rootkit/rootkit.asm": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "modules/rootkit/rootkit.c": {
+    "documented": 1,
+    "total": 7,
+    "percent": 14.3
+   },
+   "modules/saas_attacks.py": {
+    "documented": 10,
+    "total": 16,
+    "percent": 62.5
+   },
+   "modules/scripts/clean_history.sh.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/search.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/security_sanitizers.py": {
+    "documented": 22,
+    "total": 22,
+    "percent": 100.0
+   },
+   "modules/selfupdate.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/session_cleanup.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/session_rag.py": {
+    "documented": 7,
+    "total": 10,
+    "percent": 70.0
+   },
+   "modules/session_reader.py": {
+    "documented": 10,
+    "total": 30,
+    "percent": 33.3
+   },
+   "modules/session_state.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/sidequestion.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/sleep_obfuscation.py": {
+    "documented": 26,
+    "total": 28,
+    "percent": 92.9
+   },
+   "modules/smbver.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/socks_proxy.py": {
+    "documented": 29,
+    "total": 30,
+    "percent": 96.7
+   },
+   "modules/staged_delivery.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "modules/state_manager.py": {
+    "documented": 4,
+    "total": 34,
+    "percent": 11.8
+   },
+   "modules/sudo_tiocsti.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
+   "modules/surface_ops.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/tel.py": {
+    "documented": 4,
+    "total": 7,
+    "percent": 57.1
+   },
+   "modules/threat_model.py": {
+    "documented": 2,
+    "total": 5,
+    "percent": 40.0
+   },
+   "modules/timeline_narrator.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/timestomper.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "modules/tmp.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/tools/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/tools/loop_smoke.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/tools/monitor_smoke.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/toolset.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "modules/toposwarm_bridge.py": {
+    "documented": 13,
+    "total": 18,
+    "percent": 72.2
+   },
+   "modules/traffic_morpher.py": {
+    "documented": 11,
+    "total": 12,
+    "percent": 91.7
+   },
+   "modules/traffic_recorder.py": {
+    "documented": 19,
+    "total": 19,
+    "percent": 100.0
+   },
+   "modules/ttp_coverage.py": {
+    "documented": 6,
+    "total": 11,
+    "percent": 54.5
+   },
+   "modules/unified_bridge.py": {
+    "documented": 9,
+    "total": 24,
+    "percent": 37.5
+   },
+   "modules/unified_dashboard.py": {
+    "documented": 6,
+    "total": 7,
+    "percent": 85.7
+   },
+   "modules/update_db.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/venator.py": {
+    "documented": 0,
+    "total": 34,
+    "percent": 0.0
+   },
+   "modules/vuln_bot_cli.py": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "modules/vulnbot.py": {
+    "documented": 1,
+    "total": 12,
+    "percent": 8.3
+   },
+   "modules/websocket_beacon.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "modules/win_rootkit/backup.c": {
+    "documented": 0,
+    "total": 18,
+    "percent": 0.0
+   },
+   "modules/win_rootkit/mrhyde.c": {
+    "documented": 7,
+    "total": 19,
+    "percent": 36.8
+   },
+   "modules/win_rootkit/win_rin3_rootkit.cs": {
+    "documented": 0,
+    "total": 11,
+    "percent": 0.0
+   },
+   "modules/win_rootkit/win_ring3_rootkit.c": {
+    "documented": 3,
+    "total": 28,
+    "percent": 10.7
+   },
+   "modules/win_rootkit/win_ring3_rootkit.cpp": {
+    "documented": 0,
+    "total": 10,
+    "percent": 0.0
+   },
+   "modules/wineconfig.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "modules/workspace.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/world_model.py": {
+    "documented": 31,
+    "total": 56,
+    "percent": 55.4
+   },
+   "modules/yaml_generator.py": {
+    "documented": 5,
+    "total": 8,
+    "percent": 62.5
+   },
+   "modules/yara_scanner.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "mutate.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "plugins/generate_c_reverse_shell.lua": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "plugins/generate_cleanup_commands.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/generate_html_payload.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/generate_lateral_command.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/generate_linux_asm_reverse_shell.lua": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "plugins/generate_linux_raw_shellcode.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/generate_lolbird.lua": {
+    "documented": 3,
+    "total": 7,
+    "percent": 42.9
+   },
+   "plugins/generate_msfvenom_loader.lua": {
+    "documented": 5,
+    "total": 6,
+    "percent": 83.3
+   },
+   "plugins/generate_msfvenom_loader_windows.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/generate_reverse_shell.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/generate_stub.lua": {
+    "documented": 3,
+    "total": 6,
+    "percent": 50.0
+   },
+   "plugins/init_plugins.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/kerberos_harvest.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/lolbas_bitsadmin_exe.lua": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "plugins/lolbas_certutil_download_exec.lua": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "plugins/lolbas_certutil_exe.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/lolbas_mshta_js.lua": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "plugins/lolbas_mshta_reverse_shell.lua": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "plugins/lolbas_rundll32_dll.lua": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "plugins/lolbas_wmic_xsl_execution.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/parse_nmap_with_xmlstarlet.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/run_nuclei_on_nmap_files.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "plugins/run_python_rev_c2.lua": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "plugins/rundll32_sct_from_url.lua": {
+    "documented": 2,
+    "total": 5,
+    "percent": 40.0
+   },
+   "plugins/validate_shellcode.lua": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "plugins/visualize_network.lua": {
+    "documented": 0,
+    "total": 2,
+    "percent": 0.0
+   },
+   "poc_tui/__main__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "poc_tui/app.py": {
+    "documented": 19,
+    "total": 39,
+    "percent": 48.7
+   },
+   "poc_tui/config.py": {
+    "documented": 4,
+    "total": 8,
+    "percent": 50.0
+   },
+   "poc_tui/plugin_loader.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "poc_tui/run.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "pwntomate.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "py2elf.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "readmeneitor.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "run_telegram_hermes.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "run_topoexploit_agent.sh": {
+    "documented": 1,
+    "total": 3,
+    "percent": 33.3
+   },
+   "scripts/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/activate_migrations.py": {
+    "documented": 6,
+    "total": 8,
+    "percent": 75.0
+   },
+   "scripts/backfill_addon_os_trigger.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "scripts/check_contract_manifest.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "scripts/devtools/command_audit.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "scripts/devtools/core_smoke.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "scripts/fix_migrated_classes.py": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "scripts/generate_sbom.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "scripts/journal.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "scripts/migrate_commandsets.py": {
+    "documented": 2,
+    "total": 3,
+    "percent": 66.7
+   },
+   "scripts/migrate_lazyown.py": {
+    "documented": 4,
+    "total": 5,
+    "percent": 80.0
+   },
+   "scripts/mutate.sh": {
+    "documented": 1,
+    "total": 4,
+    "percent": 25.0
+   },
+   "scripts/patch_playbook_atomic_ids.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/publish_wiki.sh": {
+    "documented": 1,
+    "total": 9,
+    "percent": 11.1
+   },
+   "scripts/read_journal.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "scripts/setup_hermes_mcp.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/smoke_onboarding.sh": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "scripts/sync_doc_stats.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "scripts/top_tier_check.py": {
+    "documented": 1,
+    "total": 11,
+    "percent": 9.1
+   },
+   "scripts/update_apt_atomic_ids.py": {
+    "documented": 2,
+    "total": 3,
+    "percent": 66.7
+   },
+   "scripts/validate_agent_contract.sh": {
+    "documented": 3,
+    "total": 6,
+    "percent": 50.0
+   },
+   "setup.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "skills/aci_planner.py": {
+    "documented": 26,
+    "total": 26,
+    "percent": 100.0
+   },
+   "skills/autonomous_daemon.py": {
+    "documented": 79,
+    "total": 90,
+    "percent": 87.8
+   },
+   "skills/autonomous_replay.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/bdd_agent.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/boy_scout.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/cicd_agent.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/config.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/documentation_agent.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/models.py": {
+    "documented": 32,
+    "total": 32,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/orchestrator.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/parser.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/reviewer_agent.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/sdd_agent.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/tdd_agent.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "skills/claude_md_orchestrator/validators.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "skills/daemon_control.py": {
+    "documented": 27,
+    "total": 27,
+    "percent": 100.0
+   },
+   "skills/daemon_health.py": {
+    "documented": 10,
+    "total": 12,
+    "percent": 83.3
+   },
+   "skills/heartbeat.py": {
+    "documented": 2,
+    "total": 6,
+    "percent": 33.3
+   },
+   "skills/hermes-lazyown/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "skills/hermes-lazyown/claudemd_rules.py": {
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
+   },
+   "skills/hermes-lazyown/config_bridge.py": {
+    "documented": 12,
+    "total": 13,
+    "percent": 92.3
+   },
+   "skills/hermes-lazyown/constants.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "skills/hermes-lazyown/executor.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "skills/hermes-lazyown/hermes_sync.py": {
+    "documented": 13,
+    "total": 15,
+    "percent": 86.7
+   },
+   "skills/hermes-lazyown/mcp_server.py": {
+    "documented": 2,
+    "total": 4,
+    "percent": 50.0
+   },
+   "skills/hermes-lazyown/output_compactor.py": {
+    "documented": 17,
+    "total": 20,
+    "percent": 85.0
+   },
+   "skills/hive_mind.py": {
+    "documented": 81,
+    "total": 91,
+    "percent": 89.0
+   },
+   "skills/lazyown_automapper.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "skills/lazyown_campaign.py": {
+    "documented": 19,
+    "total": 22,
+    "percent": 86.4
+   },
+   "skills/lazyown_claudemd.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "skills/lazyown_context.py": {
+    "documented": 9,
+    "total": 12,
+    "percent": 75.0
+   },
+   "skills/lazyown_daemon.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "skills/lazyown_facts.py": {
+    "documented": 35,
+    "total": 69,
+    "percent": 50.7
+   },
+   "skills/lazyown_groq_agents.py": {
+    "documented": 4,
+    "total": 13,
+    "percent": 30.8
+   },
+   "skills/lazyown_hooks.py": {
+    "documented": 10,
+    "total": 14,
+    "percent": 71.4
+   },
+   "skills/lazyown_llm.py": {
+    "documented": 5,
+    "total": 10,
+    "percent": 50.0
+   },
+   "skills/lazyown_mcp.py": {
+    "documented": 3,
+    "total": 6,
+    "percent": 50.0
+   },
+   "skills/lazyown_mcp_helpers.py": {
+    "documented": 17,
+    "total": 20,
+    "percent": 85.0
+   },
+   "skills/lazyown_mcp_opencode.py": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   },
+   "skills/lazyown_objective.py": {
+    "documented": 12,
+    "total": 29,
+    "percent": 41.4
+   },
+   "skills/lazyown_parquet_db.py": {
+    "documented": 12,
+    "total": 17,
+    "percent": 70.6
+   },
+   "skills/lazyown_permissions.py": {
+    "documented": 4,
+    "total": 13,
+    "percent": 30.8
+   },
+   "skills/lazyown_policy.py": {
+    "documented": 83,
+    "total": 102,
+    "percent": 81.4
+   },
+   "skills/lazyown_session.py": {
+    "documented": 9,
+    "total": 13,
+    "percent": 69.2
+   },
+   "skills/mcp_generated_tools.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "skills/mcp_lazy.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_restart.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "skills/mcp_tool_generator.py": {
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
+   },
+   "skills/sessions_watcher.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "skills/setup.sh": {
+    "documented": 2,
+    "total": 6,
+    "percent": 33.3
+   },
+   "skills/swan_agent.py": {
+    "documented": 24,
+    "total": 26,
+    "percent": 92.3
+   },
+   "skills/toposwarm_autonomous.py": {
+    "documented": 2,
+    "total": 9,
+    "percent": 22.2
+   },
+   "skills/unified_orchestrator.py": {
+    "documented": 43,
+    "total": 43,
+    "percent": 100.0
+   },
+   "skills/update_knowledge.py": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "slack_c2_bot.py": {
+    "documented": 1,
+    "total": 17,
+    "percent": 5.9
+   },
+   "source/conf.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "static/js/particles.js": {
+    "documented": 1,
+    "total": 12,
+    "percent": 8.3
+   },
+   "static/js/quill-2.0.3.js": {
+    "documented": 92,
+    "total": 93,
+    "percent": 98.9
+   },
+   "static/js/tippy-6.js": {
+    "documented": 0,
+    "total": 4,
+    "percent": 0.0
+   },
+   "static/js/xterm-addon-fit-0.7.0.js": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "static/js/xterm-addon-web-links-0.5.0.js": {
+    "documented": 0,
+    "total": 5,
+    "percent": 0.0
+   },
+   "static/js/xterm.js": {
+    "documented": 0,
+    "total": 55,
+    "percent": 0.0
+   },
+   "telegram_c2.py": {
+    "documented": 1,
+    "total": 18,
+    "percent": 5.6
+   },
+   "telegram_hermes.py": {
+    "documented": 3,
+    "total": 30,
+    "percent": 10.0
+   },
+   "testmeneitor.py": {
+    "documented": 0,
+    "total": 5,
+    "percent": 0.0
+   },
+   "tools/contract_check.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "tools/extract_cluster.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "tools/gen_demo_gifs.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "tools/gen_demo_gifs_extra.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "user_split.sh": {
+    "documented": 0,
+    "total": 1,
+    "percent": 0.0
+   },
+   "utils.py": {
+    "documented": 98,
+    "total": 115,
+    "percent": 85.2
+   }
+  }
+ },
+ "modules": [
+  {
+   "uid": ".claude/skills/run-lazyown/driver.sh",
+   "path": "modules/claude.skills.run-lazyown.driver.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "DEPLOY.sh",
+   "path": "modules/DEPLOY.sh.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "__init__.py",
+   "path": "modules/init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "banner.py",
+   "path": "modules/banner.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "bootstrap.sh",
+   "path": "modules/bootstrap.sh.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "cli/__init__.py",
+   "path": "modules/cli.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "cli/aliases.py",
+   "path": "modules/cli.aliases.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/assign.py",
+   "path": "modules/cli.assign.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "cli/auto_crypto.py",
+   "path": "modules/cli.auto_crypto.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "cli/autosuggest.py",
+   "path": "modules/cli.autosuggest.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "cli/banner_config.py",
+   "path": "modules/cli.banner_config.py.jsonl",
+   "entities": 199
+  },
+  {
+   "uid": "cli/chain_mode.py",
+   "path": "modules/cli.chain_mode.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "cli/cli_enhancements.py",
+   "path": "modules/cli.cli_enhancements.py.jsonl",
+   "entities": 79
+  },
+  {
+   "uid": "cli/command_chain.py",
+   "path": "modules/cli.command_chain.py.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "cli/command_explorer.py",
+   "path": "modules/cli.command_explorer.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/command_form.py",
+   "path": "modules/cli.command_form.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "cli/commands/__init__.py",
+   "path": "modules/cli.commands.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "cli/commands/_base.py",
+   "path": "modules/cli.commands._base.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/_dormancy.py",
+   "path": "modules/cli.commands._dormancy.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "cli/commands/active_directory.py",
+   "path": "modules/cli.commands.active_directory.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/ai.py",
+   "path": "modules/cli.commands.ai.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/anti_forensics.py",
+   "path": "modules/cli.commands.anti_forensics.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/applocker_bypass.py",
+   "path": "modules/cli.commands.applocker_bypass.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/audit.py",
+   "path": "modules/cli.commands.audit.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/automation.py",
+   "path": "modules/cli.commands.automation.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "cli/commands/bitm.py",
+   "path": "modules/cli.commands.bitm.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/bof_registry.py",
+   "path": "modules/cli.commands.bof_registry.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/c2_profile.py",
+   "path": "modules/cli.commands.c2_profile.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "cli/commands/caldera.py",
+   "path": "modules/cli.commands.caldera.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "cli/commands/campaign.py",
+   "path": "modules/cli.commands.campaign.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/catalog.py",
+   "path": "modules/cli.commands.catalog.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/commands/cicd.py",
+   "path": "modules/cli.commands.cicd.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/cli_auth.py",
+   "path": "modules/cli.commands.cli_auth.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "cli/commands/cloud.py",
+   "path": "modules/cli.commands.cloud.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/cloud_attacks.py",
+   "path": "modules/cli.commands.cloud_attacks.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/collaboration.py",
+   "path": "modules/cli.commands.collaboration.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/command_and_control.py",
+   "path": "modules/cli.commands.command_and_control.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/command_and_control_migrated.py",
+   "path": "modules/cli.commands.command_and_control_migrated.py.jsonl",
+   "entities": 26
+  },
+  {
+   "uid": "cli/commands/containers.py",
+   "path": "modules/cli.commands.containers.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/cred.py",
+   "path": "modules/cli.commands.cred.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/commands/cred_migrated.py",
+   "path": "modules/cli.commands.cred_migrated.py.jsonl",
+   "entities": 26
+  },
+  {
+   "uid": "cli/commands/crystal_ball.py",
+   "path": "modules/cli.commands.crystal_ball.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/commands/daemon_ctl.py",
+   "path": "modules/cli.commands.daemon_ctl.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/database.py",
+   "path": "modules/cli.commands.database.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "cli/commands/defaults.py",
+   "path": "modules/cli.commands.defaults.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/demo.py",
+   "path": "modules/cli.commands.demo.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/diagnostics.py",
+   "path": "modules/cli.commands.diagnostics.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/commands/dns_exfil.py",
+   "path": "modules/cli.commands.dns_exfil.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/dpapi.py",
+   "path": "modules/cli.commands.dpapi.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/edr_detect.py",
+   "path": "modules/cli.commands.edr_detect.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/encoding.py",
+   "path": "modules/cli.commands.encoding.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "cli/commands/enum.py",
+   "path": "modules/cli.commands.enum.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/commands/estorides.py",
+   "path": "modules/cli.commands.estorides.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "cli/commands/evasive_payload.py",
+   "path": "modules/cli.commands.evasive_payload.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/exfiltration.py",
+   "path": "modules/cli.commands.exfiltration.py.jsonl",
+   "entities": 31
+  },
+  {
+   "uid": "cli/commands/exploit.py",
+   "path": "modules/cli.commands.exploit.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/commands/exploit_migrated.py",
+   "path": "modules/cli.commands.exploit_migrated.py.jsonl",
+   "entities": 53
+  },
+  {
+   "uid": "cli/commands/exploitgym.py",
+   "path": "modules/cli.commands.exploitgym.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/help_ui.py",
+   "path": "modules/cli.commands.help_ui.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "cli/commands/infra.py",
+   "path": "modules/cli.commands.infra.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/lab.py",
+   "path": "modules/cli.commands.lab.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/lateral.py",
+   "path": "modules/cli.commands.lateral.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/commands/lateral_migrated.py",
+   "path": "modules/cli.commands.lateral_migrated.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "cli/commands/lazyloop.py",
+   "path": "modules/cli.commands.lazyloop.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "cli/commands/lazyops.py",
+   "path": "modules/cli.commands.lazyops.py.jsonl",
+   "entities": 56
+  },
+  {
+   "uid": "cli/commands/marketplace.py",
+   "path": "modules/cli.commands.marketplace.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/commands/mcp_bridge.py",
+   "path": "modules/cli.commands.mcp_bridge.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/commands/misc_migrated.py",
+   "path": "modules/cli.commands.misc_migrated.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "cli/commands/mobile_macos.py",
+   "path": "modules/cli.commands.mobile_macos.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/module_manager.py",
+   "path": "modules/cli.commands.module_manager.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/nethelpers.py",
+   "path": "modules/cli.commands.nethelpers.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/commands/opsec_cleanup.py",
+   "path": "modules/cli.commands.opsec_cleanup.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/commands/orchestration.py",
+   "path": "modules/cli.commands.orchestration.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "cli/commands/payload_arsenal.py",
+   "path": "modules/cli.commands.payload_arsenal.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/commands/payload_generation.py",
+   "path": "modules/cli.commands.payload_generation.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/persist.py",
+   "path": "modules/cli.commands.persist.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/commands/persist_migrated.py",
+   "path": "modules/cli.commands.persist_migrated.py.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "cli/commands/phishing_wizard.py",
+   "path": "modules/cli.commands.phishing_wizard.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/pivoting.py",
+   "path": "modules/cli.commands.pivoting.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/commands/postexp.py",
+   "path": "modules/cli.commands.postexp.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/commands/postexp_migrated.py",
+   "path": "modules/cli.commands.postexp_migrated.py.jsonl",
+   "entities": 41
+  },
+  {
+   "uid": "cli/commands/privilege_escalation.py",
+   "path": "modules/cli.commands.privilege_escalation.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "cli/commands/purple_team.py",
+   "path": "modules/cli.commands.purple_team.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/commands/pwn.py",
+   "path": "modules/cli.commands.pwn.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/recon.py",
+   "path": "modules/cli.commands.recon.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "cli/commands/recon_migrated.py",
+   "path": "modules/cli.commands.recon_migrated.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "cli/commands/redteam_gym.py",
+   "path": "modules/cli.commands.redteam_gym.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/resource_scripting.py",
+   "path": "modules/cli.commands.resource_scripting.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "cli/commands/scan.py",
+   "path": "modules/cli.commands.scan.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "cli/commands/scan_migrated.py",
+   "path": "modules/cli.commands.scan_migrated.py.jsonl",
+   "entities": 49
+  },
+  {
+   "uid": "cli/commands/security.py",
+   "path": "modules/cli.commands.security.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "cli/commands/session_ops.py",
+   "path": "modules/cli.commands.session_ops.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "cli/commands/shellsys.py",
+   "path": "modules/cli.commands.shellsys.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/commands/sleep_obfuscation.py",
+   "path": "modules/cli.commands.sleep_obfuscation.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/socks_proxy.py",
+   "path": "modules/cli.commands.socks_proxy.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/supply_chain.py",
+   "path": "modules/cli.commands.supply_chain.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/commands/surface.py",
+   "path": "modules/cli.commands.surface.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "cli/commands/ux.py",
+   "path": "modules/cli.commands.ux.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/config_history.py",
+   "path": "modules/cli.config_history.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/config_status.py",
+   "path": "modules/cli.config_status.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/confirm.py",
+   "path": "modules/cli.confirm.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "cli/contextual_help.py",
+   "path": "modules/cli.contextual_help.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "cli/dashboard_layout.py",
+   "path": "modules/cli.dashboard_layout.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/dashboard_tui.py",
+   "path": "modules/cli.dashboard_tui.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "cli/doctor.py",
+   "path": "modules/cli.doctor.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "cli/engagement_hooks.py",
+   "path": "modules/cli.engagement_hooks.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "cli/exploit_advisor.py",
+   "path": "modules/cli.exploit_advisor.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "cli/exploration.py",
+   "path": "modules/cli.exploration.py.jsonl",
+   "entities": 84
+  },
+  {
+   "uid": "cli/exploration_view.py",
+   "path": "modules/cli.exploration_view.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "cli/fuzzy_match.py",
+   "path": "modules/cli.fuzzy_match.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "cli/fuzzy_picker.py",
+   "path": "modules/cli.fuzzy_picker.py.jsonl",
+   "entities": 77
+  },
+  {
+   "uid": "cli/graph_advisor.py",
+   "path": "modules/cli.graph_advisor.py.jsonl",
+   "entities": 85
+  },
+  {
+   "uid": "cli/graph_overlay.py",
+   "path": "modules/cli.graph_overlay.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "cli/headless.py",
+   "path": "modules/cli.headless.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/killchain.py",
+   "path": "modules/cli.killchain.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "cli/lazy_monitor.py",
+   "path": "modules/cli.lazy_monitor.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "cli/lazy_orchestrator.py",
+   "path": "modules/cli.lazy_orchestrator.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "cli/lazynmap_post.py",
+   "path": "modules/cli.lazynmap_post.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "cli/marketplace_config.py",
+   "path": "modules/cli.marketplace_config.py.jsonl",
+   "entities": 84
+  },
+  {
+   "uid": "cli/noise_verbs.py",
+   "path": "modules/cli.noise_verbs.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/ops_commands.py",
+   "path": "modules/cli.ops_commands.py.jsonl",
+   "entities": 31
+  },
+  {
+   "uid": "cli/output_mode.py",
+   "path": "modules/cli.output_mode.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "cli/palette.py",
+   "path": "modules/cli.palette.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/palette_command.py",
+   "path": "modules/cli.palette_command.py.jsonl",
+   "entities": 98
+  },
+  {
+   "uid": "cli/palette_graph.py",
+   "path": "modules/cli.palette_graph.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "cli/palette_overlay.py",
+   "path": "modules/cli.palette_overlay.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "cli/palette_telemetry.py",
+   "path": "modules/cli.palette_telemetry.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "cli/phase_labels.py",
+   "path": "modules/cli.phase_labels.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "cli/plugin_tiers.py",
+   "path": "modules/cli.plugin_tiers.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/protips.py",
+   "path": "modules/cli.protips.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "cli/purple_tui.py",
+   "path": "modules/cli.purple_tui.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "cli/reactive_hints.py",
+   "path": "modules/cli.reactive_hints.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "cli/reasoning_stream.py",
+   "path": "modules/cli.reasoning_stream.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "cli/recommendation.py",
+   "path": "modules/cli.recommendation.py.jsonl",
+   "entities": 48
+  },
+  {
+   "uid": "cli/recommendation_signals.py",
+   "path": "modules/cli.recommendation_signals.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "cli/recon_plan.py",
+   "path": "modules/cli.recon_plan.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "cli/registry.py",
+   "path": "modules/cli.registry.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "cli/scope_guard.py",
+   "path": "modules/cli.scope_guard.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "cli/session_hud.py",
+   "path": "modules/cli.session_hud.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "cli/session_resumer.py",
+   "path": "modules/cli.session_resumer.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "cli/sessions_browser.py",
+   "path": "modules/cli.sessions_browser.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "cli/show.py",
+   "path": "modules/cli.show.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "cli/splash.py",
+   "path": "modules/cli.splash.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/status_bar.py",
+   "path": "modules/cli.status_bar.py.jsonl",
+   "entities": 94
+  },
+  {
+   "uid": "cli/style.py",
+   "path": "modules/cli.style.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/surface_graph.py",
+   "path": "modules/cli.surface_graph.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "cli/surface_tui.py",
+   "path": "modules/cli.surface_tui.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/themes.py",
+   "path": "modules/cli.themes.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "cli/timeline_browser.py",
+   "path": "modules/cli.timeline_browser.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "cli/tips_engine.py",
+   "path": "modules/cli.tips_engine.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "cli/toast_bus.py",
+   "path": "modules/cli.toast_bus.py.jsonl",
+   "entities": 71
+  },
+  {
+   "uid": "cli/tui_theme.py",
+   "path": "modules/cli.tui_theme.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "cli/tutorial.py",
+   "path": "modules/cli.tutorial.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "cli/wizard.py",
+   "path": "modules/cli.wizard.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "cli/wizard_scope.py",
+   "path": "modules/cli.wizard_scope.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "contrib/legacy/__init__.py",
+   "path": "modules/contrib.legacy.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "contrib/legacy/lazy_http_bof.py",
+   "path": "modules/contrib.legacy.lazy_http_bof.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "contrib/legacy/lazy_packet_image_sniffer.py",
+   "path": "modules/contrib.legacy.lazy_packet_image_sniffer.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "contrib/legacy/lazyaddon_creator.py",
+   "path": "modules/contrib.legacy.lazyaddon_creator.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "contrib/legacy/lazyarpspoofing.py",
+   "path": "modules/contrib.legacy.lazyarpspoofing.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "contrib/legacy/lazybinenc.py",
+   "path": "modules/contrib.legacy.lazybinenc.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "contrib/legacy/lazybotcli.py",
+   "path": "modules/contrib.legacy.lazybotcli.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "contrib/legacy/lazybotnet.py",
+   "path": "modules/contrib.legacy.lazybotnet.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "contrib/legacy/lazycam.py",
+   "path": "modules/contrib.legacy.lazycam.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazycreate_webshell.py",
+   "path": "modules/contrib.legacy.lazycreate_webshell.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "contrib/legacy/lazydeepseekcli.py",
+   "path": "modules/contrib.legacy.lazydeepseekcli.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "contrib/legacy/lazydisassebler.py",
+   "path": "modules/contrib.legacy.lazydisassebler.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazyftpsniff.py",
+   "path": "modules/contrib.legacy.lazyftpsniff.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "contrib/legacy/lazygalazy.py",
+   "path": "modules/contrib.legacy.lazygalazy.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazygptcli.py",
+   "path": "modules/contrib.legacy.lazygptcli.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "contrib/legacy/lazygptcli_unified.py",
+   "path": "modules/contrib.legacy.lazygptcli_unified.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazyhoneypot.py",
+   "path": "modules/contrib.legacy.lazyhoneypot.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "contrib/legacy/lazyhttpreverseshell.py",
+   "path": "modules/contrib.legacy.lazyhttpreverseshell.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazykeygen.py",
+   "path": "modules/contrib.legacy.lazykeygen.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "contrib/legacy/lazylfi2rce.py",
+   "path": "modules/contrib.legacy.lazylfi2rce.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "contrib/legacy/lazyllmchat.py",
+   "path": "modules/contrib.legacy.lazyllmchat.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "contrib/legacy/lazylogpoisoning.py",
+   "path": "modules/contrib.legacy.lazylogpoisoning.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "contrib/legacy/lazymariadb_rce_cve_2016-662.py",
+   "path": "modules/contrib.legacy.lazymariadb_rce_cve_2016-662.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "contrib/legacy/lazymidm.py",
+   "path": "modules/contrib.legacy.lazymidm.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazymitmap.py",
+   "path": "modules/contrib.legacy.lazymitmap.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "contrib/legacy/lazynetbios.py",
+   "path": "modules/contrib.legacy.lazynetbios.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "contrib/legacy/lazyntlrelayx.py",
+   "path": "modules/contrib.legacy.lazyntlrelayx.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "contrib/legacy/lazyopenssh77enum2.py",
+   "path": "modules/contrib.legacy.lazyopenssh77enum2.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "contrib/legacy/lazyphishingai.py",
+   "path": "modules/contrib.legacy.lazyphishingai.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "contrib/legacy/lazyproxy.py",
+   "path": "modules/contrib.legacy.lazyproxy.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "contrib/legacy/lazypwn.py",
+   "path": "modules/contrib.legacy.lazypwn.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "contrib/legacy/lazypwnkit.py",
+   "path": "modules/contrib.legacy.lazypwnkit.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "contrib/legacy/lazypyautogui.py",
+   "path": "modules/contrib.legacy.lazypyautogui.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "contrib/legacy/lazyreversentlmv2.py",
+   "path": "modules/contrib.legacy.lazyreversentlmv2.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "contrib/legacy/lazysearch.py",
+   "path": "modules/contrib.legacy.lazysearch.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "contrib/legacy/lazysearch_bot.py",
+   "path": "modules/contrib.legacy.lazysearch_bot.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "contrib/legacy/lazyseo.py",
+   "path": "modules/contrib.legacy.lazyseo.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "contrib/legacy/lazysmbrelay.py",
+   "path": "modules/contrib.legacy.lazysmbrelay.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "contrib/legacy/lazysniff.py",
+   "path": "modules/contrib.legacy.lazysniff.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "contrib/legacy/lazysqli.py",
+   "path": "modules/contrib.legacy.lazysqli.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "contrib/legacy/lazyssh.py",
+   "path": "modules/contrib.legacy.lazyssh.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "contrib/legacy/lazyvsftp.py",
+   "path": "modules/contrib.legacy.lazyvsftp.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "contrib/legacy/lazywerkzeug.py",
+   "path": "modules/contrib.legacy.lazywerkzeug.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "contrib/legacy/sql.py",
+   "path": "modules/contrib.legacy.sql.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "core/__init__.py",
+   "path": "modules/core.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "core/api_authz.py",
+   "path": "modules/core.api_authz.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "core/autonomous.py",
+   "path": "modules/core.autonomous.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "core/command_bridge.py",
+   "path": "modules/core.command_bridge.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "core/config.py",
+   "path": "modules/core.config.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "core/console.py",
+   "path": "modules/core.console.py.jsonl",
+   "entities": 53
+  },
+  {
+   "uid": "core/credential_vault.py",
+   "path": "modules/core.credential_vault.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "core/crypto.py",
+   "path": "modules/core.crypto.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "core/defaults.py",
+   "path": "modules/core.defaults.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "core/dependencies.py",
+   "path": "modules/core.dependencies.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "core/error_advice.py",
+   "path": "modules/core.error_advice.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "core/errors.py",
+   "path": "modules/core.errors.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "core/executor.py",
+   "path": "modules/core.executor.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "core/hardening.py",
+   "path": "modules/core.hardening.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "core/host_policy.py",
+   "path": "modules/core.host_policy.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "core/http.py",
+   "path": "modules/core.http.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "core/llm_budget.py",
+   "path": "modules/core.llm_budget.py.jsonl",
+   "entities": 59
+  },
+  {
+   "uid": "core/logging.py",
+   "path": "modules/core.logging.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "core/network.py",
+   "path": "modules/core.network.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "core/parsers.py",
+   "path": "modules/core.parsers.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "core/payload_schema.py",
+   "path": "modules/core.payload_schema.py.jsonl",
+   "entities": 46
+  },
+  {
+   "uid": "core/process.py",
+   "path": "modules/core.process.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "core/profiles.py",
+   "path": "modules/core.profiles.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "core/prompt.py",
+   "path": "modules/core.prompt.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "core/protocols.py",
+   "path": "modules/core.protocols.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "core/safe_console.py",
+   "path": "modules/core.safe_console.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "core/safe_exec.py",
+   "path": "modules/core.safe_exec.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "core/safe_import.py",
+   "path": "modules/core.safe_import.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "core/safe_subprocess.py",
+   "path": "modules/core.safe_subprocess.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "core/scheduler.py",
+   "path": "modules/core.scheduler.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "core/security.py",
+   "path": "modules/core.security.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "core/terminal_guard.py",
+   "path": "modules/core.terminal_guard.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "core/text_utils.py",
+   "path": "modules/core.text_utils.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "core/validators.py",
+   "path": "modules/core.validators.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "deploy/range/ad-mini/traffic-gen.py",
+   "path": "modules/deploy.range.ad-mini.traffic-gen.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "discord_c2.py",
+   "path": "modules/discord_c2.py.jsonl",
+   "entities": 26
+  },
+  {
+   "uid": "fast_run_as_r00t.sh",
+   "path": "modules/fast_run_as_r00t.sh.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "gen_cert.sh",
+   "path": "modules/gen_cert.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "install.sh",
+   "path": "modules/install.sh.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "key.py",
+   "path": "modules/key.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazy_sentinel4.py",
+   "path": "modules/lazy_sentinel4.py.jsonl",
+   "entities": 52
+  },
+  {
+   "uid": "lazyc2.py",
+   "path": "modules/lazyc2.py.jsonl",
+   "entities": 259
+  },
+  {
+   "uid": "lazyc2/__init__.py",
+   "path": "modules/lazyc2.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyc2/addon_creator.py",
+   "path": "modules/lazyc2.addon_creator.py.jsonl",
+   "entities": 86
+  },
+  {
+   "uid": "lazyc2/app_factory.py",
+   "path": "modules/lazyc2.app_factory.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazyc2/blueprints/__init__.py",
+   "path": "modules/lazyc2.blueprints.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyc2/blueprints/addons.py",
+   "path": "modules/lazyc2.blueprints.addons.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "lazyc2/blueprints/api.py",
+   "path": "modules/lazyc2.blueprints.api.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "lazyc2/blueprints/api_v1.py",
+   "path": "modules/lazyc2.blueprints.api_v1.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "lazyc2/blueprints/auth.py",
+   "path": "modules/lazyc2.blueprints.auth.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "lazyc2/blueprints/beacon.py",
+   "path": "modules/lazyc2.blueprints.beacon.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazyc2/blueprints/operations.py",
+   "path": "modules/lazyc2.blueprints.operations.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "lazyc2/blueprints/phishing.py",
+   "path": "modules/lazyc2.blueprints.phishing.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "lazyc2/blueprints/session_auth.py",
+   "path": "modules/lazyc2.blueprints.session_auth.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazyc2/extensions/__init__.py",
+   "path": "modules/lazyc2.extensions.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyc2/extensions/decoy.py",
+   "path": "modules/lazyc2.extensions.decoy.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazyc2/extensions/short_urls.py",
+   "path": "modules/lazyc2.extensions.short_urls.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "lazyc2/extensions/storage.py",
+   "path": "modules/lazyc2.extensions.storage.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "lazyc2/extensions/users.py",
+   "path": "modules/lazyc2.extensions.users.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazyc2/models.py",
+   "path": "modules/lazyc2.models.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazyc2/security/__init__.py",
+   "path": "modules/lazyc2.security.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyc2/security/command_allowlist.py",
+   "path": "modules/lazyc2.security.command_allowlist.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "lazyc2/security/constants.py",
+   "path": "modules/lazyc2.security.constants.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "lazyc2/security/cors.py",
+   "path": "modules/lazyc2.security.cors.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "lazyc2/security/csrf.py",
+   "path": "modules/lazyc2.security.csrf.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "lazyc2/security/html_sanitizer.py",
+   "path": "modules/lazyc2.security.html_sanitizer.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazyc2/security/https_redirect.py",
+   "path": "modules/lazyc2.security.https_redirect.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "lazyc2/security/services.py",
+   "path": "modules/lazyc2.security.services.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "lazyc2/security/trusted_proxy.py",
+   "path": "modules/lazyc2.security.trusted_proxy.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "lazyc2/security/validators.py",
+   "path": "modules/lazyc2.security.validators.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "lazyc2/state.py",
+   "path": "modules/lazyc2.state.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "lazygui/__init__.py",
+   "path": "modules/lazygui.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/__main__.py",
+   "path": "modules/lazygui.__main__.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/app.py",
+   "path": "modules/lazygui.app.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazygui/config/__init__.py",
+   "path": "modules/lazygui.config.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/config/c2_credentials.py",
+   "path": "modules/lazygui.config.c2_credentials.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "lazygui/config/constants.py",
+   "path": "modules/lazygui.config.constants.py.jsonl",
+   "entities": 139
+  },
+  {
+   "uid": "lazygui/config/paths.py",
+   "path": "modules/lazygui.config.paths.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "lazygui/config/settings.py",
+   "path": "modules/lazygui.config.settings.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "lazygui/panels/__init__.py",
+   "path": "modules/lazygui.panels.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/panels/base.py",
+   "path": "modules/lazygui.panels.base.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazygui/panels/campaign_panel.py",
+   "path": "modules/lazygui.panels.campaign_panel.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "lazygui/panels/credentials_panel.py",
+   "path": "modules/lazygui.panels.credentials_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/cve_panel.py",
+   "path": "modules/lazygui.panels.cve_panel.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "lazygui/panels/event_log_panel.py",
+   "path": "modules/lazygui.panels.event_log_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/graph_panel.py",
+   "path": "modules/lazygui.panels.graph_panel.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "lazygui/panels/history_panel.py",
+   "path": "modules/lazygui.panels.history_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/killchain_panel.py",
+   "path": "modules/lazygui.panels.killchain_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/listeners_panel.py",
+   "path": "modules/lazygui.panels.listeners_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/marketplace_panel.py",
+   "path": "modules/lazygui.panels.marketplace_panel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazygui/panels/registry.py",
+   "path": "modules/lazygui.panels.registry.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "lazygui/panels/sessions_panel.py",
+   "path": "modules/lazygui.panels.sessions_panel.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazygui/panels/terminal_panel.py",
+   "path": "modules/lazygui.panels.terminal_panel.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazygui/services/__init__.py",
+   "path": "modules/lazygui.services.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/services/backend.py",
+   "path": "modules/lazygui.services.backend.py.jsonl",
+   "entities": 38
+  },
+  {
+   "uid": "lazygui/services/event_log.py",
+   "path": "modules/lazygui.services.event_log.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "lazygui/services/factory.py",
+   "path": "modules/lazygui.services.factory.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "lazygui/services/local_backend.py",
+   "path": "modules/lazygui.services.local_backend.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "lazygui/services/models.py",
+   "path": "modules/lazygui.services.models.py.jsonl",
+   "entities": 85
+  },
+  {
+   "uid": "lazygui/services/teamserver_backend.py",
+   "path": "modules/lazygui.services.teamserver_backend.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "lazygui/theme/__init__.py",
+   "path": "modules/lazygui.theme.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/theme/manager.py",
+   "path": "modules/lazygui.theme.manager.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "lazygui/theme/palettes/__init__.py",
+   "path": "modules/lazygui.theme.palettes.__init__.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/catppuccin_mocha.py",
+   "path": "modules/lazygui.theme.palettes.catppuccin_mocha.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/cobalt_clone.py",
+   "path": "modules/lazygui.theme.palettes.cobalt_clone.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/gruvbox_dark.py",
+   "path": "modules/lazygui.theme.palettes.gruvbox_dark.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/solarized_light.py",
+   "path": "modules/lazygui.theme.palettes.solarized_light.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/tactical_green.py",
+   "path": "modules/lazygui.theme.palettes.tactical_green.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/palettes/tokyo_night.py",
+   "path": "modules/lazygui.theme.palettes.tokyo_night.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/theme/qss_builder.py",
+   "path": "modules/lazygui.theme.qss_builder.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "lazygui/theme/tokens.py",
+   "path": "modules/lazygui.theme.tokens.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "lazygui/version.py",
+   "path": "modules/lazygui.version.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "lazygui/widgets/__init__.py",
+   "path": "modules/lazygui.widgets.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/widgets/beacon_command_modal.py",
+   "path": "modules/lazygui.widgets.beacon_command_modal.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "lazygui/widgets/command_palette_list.py",
+   "path": "modules/lazygui.widgets.command_palette_list.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "lazygui/widgets/event_log_view.py",
+   "path": "modules/lazygui.widgets.event_log_view.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "lazygui/widgets/filter_bar.py",
+   "path": "modules/lazygui.widgets.filter_bar.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "lazygui/widgets/graph_view.py",
+   "path": "modules/lazygui.widgets.graph_view.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "lazygui/widgets/status_badge.py",
+   "path": "modules/lazygui.widgets.status_badge.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "lazygui/widgets/terminal_view.py",
+   "path": "modules/lazygui.widgets.terminal_view.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "lazygui/windows/__init__.py",
+   "path": "modules/lazygui.windows.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazygui/windows/command_palette_window.py",
+   "path": "modules/lazygui.windows.command_palette_window.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "lazygui/windows/connect_dialog.py",
+   "path": "modules/lazygui.windows.connect_dialog.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "lazygui/windows/main_window.py",
+   "path": "modules/lazygui.windows.main_window.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "lazyown-docker/entrypoint.sh",
+   "path": "modules/lazyown-docker.entrypoint.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyown-docker/hostdiscover.sh",
+   "path": "modules/lazyown-docker.hostdiscover.sh.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "lazyown-docker/init.sh",
+   "path": "modules/lazyown-docker.init.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "lazyown-docker/mkdocker.sh",
+   "path": "modules/lazyown-docker.mkdocker.sh.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "lazyown.py",
+   "path": "modules/lazyown.py.jsonl",
+   "entities": 89
+  },
+  {
+   "uid": "modules/49803.py",
+   "path": "modules/modules.49803.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/CVE-2018-15133.php",
+   "path": "modules/modules.CVE-2018-15133.php.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/CVE-2023-28432.py",
+   "path": "modules/modules.CVE-2023-28432.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/LazyOwnExplorer.py",
+   "path": "modules/modules.LazyOwnExplorer.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "modules/__init__.py",
+   "path": "modules/modules.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/adcs_attacks.py",
+   "path": "modules/modules.adcs_attacks.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "modules/agent_runner.py",
+   "path": "modules/modules.agent_runner.py.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "modules/ai_exploit_chain.py",
+   "path": "modules/modules.ai_exploit_chain.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "modules/ai_fallback.py",
+   "path": "modules/modules.ai_fallback.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/ai_model.py",
+   "path": "modules/modules.ai_model.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/amsi.c",
+   "path": "modules/modules.amsi.c.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/amt_auth_bypass.py",
+   "path": "modules/modules.amt_auth_bypass.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/apt_playbooks.py",
+   "path": "modules/modules.apt_playbooks.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "modules/asset_graph.py",
+   "path": "modules/modules.asset_graph.py.jsonl",
+   "entities": 38
+  },
+  {
+   "uid": "modules/atomic_enricher.py",
+   "path": "modules/modules.atomic_enricher.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/attack_surface3d.py",
+   "path": "modules/modules.attack_surface3d.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/auto_pivot.py",
+   "path": "modules/modules.auto_pivot.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "modules/auto_purple.py",
+   "path": "modules/modules.auto_purple.py.jsonl",
+   "entities": 46
+  },
+  {
+   "uid": "modules/auto_registry.py",
+   "path": "modules/modules.auto_registry.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "modules/autonomous_exploit_engine.py",
+   "path": "modules/modules.autonomous_exploit_engine.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "modules/aws_attacks.py",
+   "path": "modules/modules.aws_attacks.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "modules/backdoor/backdoor.c",
+   "path": "modules/modules.backdoor.backdoor.c.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "modules/backdoor/keylogger.h",
+   "path": "modules/modules.backdoor.keylogger.h.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/backdoor/server.c",
+   "path": "modules/modules.backdoor.server.c.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/beacon_config_builder.py",
+   "path": "modules/modules.beacon_config_builder.py.jsonl",
+   "entities": 67
+  },
+  {
+   "uid": "modules/beacon_history.py",
+   "path": "modules/modules.beacon_history.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/bin2img.py",
+   "path": "modules/modules.bin2img.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/bitm_engine.py",
+   "path": "modules/modules.bitm_engine.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "modules/bof_registry.py",
+   "path": "modules/modules.bof_registry.py.jsonl",
+   "entities": 68
+  },
+  {
+   "uid": "modules/c2_builder.py",
+   "path": "modules/modules.c2_builder.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/c2_messaging_base.py",
+   "path": "modules/modules.c2_messaging_base.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/c2_profile.py",
+   "path": "modules/modules.c2_profile.py.jsonl",
+   "entities": 44
+  },
+  {
+   "uid": "modules/c2_profile_engine.py",
+   "path": "modules/modules.c2_profile_engine.py.jsonl",
+   "entities": 93
+  },
+  {
+   "uid": "modules/cal.sh",
+   "path": "modules/modules.cal.sh.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/categories.py",
+   "path": "modules/modules.categories.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/cgi-bin/lazywebshell.py",
+   "path": "modules/modules.cgi-bin.lazywebshell.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/cgi-bin/lazywebshell.sh",
+   "path": "modules/modules.cgi-bin.lazywebshell.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/cicd_enumerator.py",
+   "path": "modules/modules.cicd_enumerator.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/cli_auth.py",
+   "path": "modules/modules.cli_auth.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/cloud_enum.py",
+   "path": "modules/modules.cloud_enum.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/collab_bp.py",
+   "path": "modules/modules.collab_bp.py.jsonl",
+   "entities": 51
+  },
+  {
+   "uid": "modules/colors.py",
+   "path": "modules/modules.colors.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/command_executor.py",
+   "path": "modules/modules.command_executor.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/compliance.py",
+   "path": "modules/modules.compliance.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "modules/conditional_hooks.py",
+   "path": "modules/modules.conditional_hooks.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "modules/config_store.py",
+   "path": "modules/modules.config_store.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/credential_reuse.py",
+   "path": "modules/modules.credential_reuse.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/cross_cloud.py",
+   "path": "modules/modules.cross_cloud.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/custom_tools.py",
+   "path": "modules/modules.custom_tools.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "modules/cve_matcher.py",
+   "path": "modules/modules.cve_matcher.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/dacl_abuse.py",
+   "path": "modules/modules.dacl_abuse.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/dashboard_bp.py",
+   "path": "modules/modules.dashboard_bp.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "modules/dashboard_engine.py",
+   "path": "modules/modules.dashboard_engine.py.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "modules/db.py",
+   "path": "modules/modules.db.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "modules/delegation_attacks.py",
+   "path": "modules/modules.delegation_attacks.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "modules/detailed_search.py",
+   "path": "modules/modules.detailed_search.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/detection_feed.py",
+   "path": "modules/modules.detection_feed.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/detection_oracle.py",
+   "path": "modules/modules.detection_oracle.py.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "modules/dns_beacon.py",
+   "path": "modules/modules.dns_beacon.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/domain_dominance.py",
+   "path": "modules/modules.domain_dominance.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "modules/dotnet_payload.py",
+   "path": "modules/modules.dotnet_payload.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "modules/dpapi_harvester.py",
+   "path": "modules/modules.dpapi_harvester.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/duckdns.sh",
+   "path": "modules/modules.duckdns.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/edr_detector.py",
+   "path": "modules/modules.edr_detector.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "modules/eegg.sh",
+   "path": "modules/modules.eegg.sh.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/engage_summary.py",
+   "path": "modules/modules.engage_summary.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "modules/engagement_hooks.py",
+   "path": "modules/modules.engagement_hooks.py.jsonl",
+   "entities": 44
+  },
+  {
+   "uid": "modules/enrich.py",
+   "path": "modules/modules.enrich.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/entra_id_attacks.py",
+   "path": "modules/modules.entra_id_attacks.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "modules/estorides_fusion.py",
+   "path": "modules/modules.estorides_fusion.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/estorides_importer.py",
+   "path": "modules/modules.estorides_importer.py.jsonl",
+   "entities": 77
+  },
+  {
+   "uid": "modules/evasion_engine.py",
+   "path": "modules/modules.evasion_engine.py.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "modules/evasive_payloads.py",
+   "path": "modules/modules.evasive_payloads.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/event_bus.py",
+   "path": "modules/modules.event_bus.py.jsonl",
+   "entities": 77
+  },
+  {
+   "uid": "modules/event_consumers.py",
+   "path": "modules/modules.event_consumers.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/event_engine.py",
+   "path": "modules/modules.event_engine.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/evidence.py",
+   "path": "modules/modules.evidence.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/evilhttprev.sh",
+   "path": "modules/modules.evilhttprev.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/exp.c",
+   "path": "modules/modules.exp.c.jsonl",
+   "entities": 55
+  },
+  {
+   "uid": "modules/exploit_chain.py",
+   "path": "modules/modules.exploit_chain.py.jsonl",
+   "entities": 38
+  },
+  {
+   "uid": "modules/exploit_recommender.py",
+   "path": "modules/modules.exploit_recommender.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/exploitgym_gym.py",
+   "path": "modules/modules.exploitgym_gym.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/fast_run_service.sh",
+   "path": "modules/modules.fast_run_service.sh.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "modules/finding_lifecycle.py",
+   "path": "modules/modules.finding_lifecycle.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/forensic_cleaner.py",
+   "path": "modules/modules.forensic_cleaner.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/gcp_attacks.py",
+   "path": "modules/modules.gcp_attacks.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "modules/generate_tools.py",
+   "path": "modules/modules.generate_tools.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/goals.py",
+   "path": "modules/modules.goals.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/gpo_abuse.py",
+   "path": "modules/modules.gpo_abuse.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/gui_askpass.sh",
+   "path": "modules/modules.gui_askpass.sh.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "modules/hash_cracker.py",
+   "path": "modules/modules.hash_cracker.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "modules/hive_invoke.py",
+   "path": "modules/modules.hive_invoke.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/hostdiscover.sh",
+   "path": "modules/modules.hostdiscover.sh.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/ia_code_analysis.py",
+   "path": "modules/modules.ia_code_analysis.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/ia_logs_analysis.py",
+   "path": "modules/modules.ia_logs_analysis.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/ia_network_analysis.py",
+   "path": "modules/modules.ia_network_analysis.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/icmp_client.py",
+   "path": "modules/modules.icmp_client.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/icmp_server.py",
+   "path": "modules/modules.icmp_server.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/img2bin.py",
+   "path": "modules/modules.img2bin.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/integrations/__init__.py",
+   "path": "modules/modules.integrations.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/integrations/misp_export.py",
+   "path": "modules/modules.integrations.misp_export.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "modules/integrations/nuclei_bridge.py",
+   "path": "modules/modules.integrations.nuclei_bridge.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/integrations/nuclei_parser.py",
+   "path": "modules/modules.integrations.nuclei_parser.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "modules/integrations/searchsploit.py",
+   "path": "modules/modules.integrations.searchsploit.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "modules/intel_fusion.py",
+   "path": "modules/modules.intel_fusion.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/intelligence_engine.py",
+   "path": "modules/modules.intelligence_engine.py.jsonl",
+   "entities": 55
+  },
+  {
+   "uid": "modules/intercept.py",
+   "path": "modules/modules.intercept.py.jsonl",
+   "entities": 60
+  },
+  {
+   "uid": "modules/internal_discover.sh",
+   "path": "modules/modules.internal_discover.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/iptables_portforward.sh",
+   "path": "modules/modules.iptables_portforward.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/jsonl_tail.py",
+   "path": "modules/modules.jsonl_tail.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/jwtexploit.py",
+   "path": "modules/modules.jwtexploit.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/k8s_attacks.py",
+   "path": "modules/modules.k8s_attacks.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/kerberoasting.py",
+   "path": "modules/modules.kerberoasting.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "modules/kerberos_core.py",
+   "path": "modules/modules.kerberos_core.py.jsonl",
+   "entities": 75
+  },
+  {
+   "uid": "modules/kerberos_tickets.py",
+   "path": "modules/modules.kerberos_tickets.py.jsonl",
+   "entities": 58
+  },
+  {
+   "uid": "modules/kill_chain_viz.py",
+   "path": "modules/modules.kill_chain_viz.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/killchain.py",
+   "path": "modules/modules.killchain.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "modules/kivi.py",
+   "path": "modules/modules.kivi.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/lazy_agent.py",
+   "path": "modules/modules.lazy_agent.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/lazy_bridge.py",
+   "path": "modules/modules.lazy_bridge.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/lazy_engine.py",
+   "path": "modules/modules.lazy_engine.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/lazy_loop.py",
+   "path": "modules/modules.lazy_loop.py.jsonl",
+   "entities": 294
+  },
+  {
+   "uid": "modules/lazy_mentions.py",
+   "path": "modules/modules.lazy_mentions.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/lazy_proxy.py",
+   "path": "modules/modules.lazy_proxy.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "modules/lazy_rbac.py",
+   "path": "modules/modules.lazy_rbac.py.jsonl",
+   "entities": 98
+  },
+  {
+   "uid": "modules/lazy_runner.py",
+   "path": "modules/modules.lazy_runner.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/lazy_skills.py",
+   "path": "modules/modules.lazy_skills.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/lazyatack.sh",
+   "path": "modules/modules.lazyatack.sh.jsonl",
+   "entities": 31
+  },
+  {
+   "uid": "modules/lazybrutesshuserenum.sh",
+   "path": "modules/modules.lazybrutesshuserenum.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lazyclonewars.sh",
+   "path": "modules/modules.lazyclonewars.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lazycloud.py",
+   "path": "modules/modules.lazycloud.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "modules/lazycurl.sh",
+   "path": "modules/modules.lazycurl.sh.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/lazyencoder_decoder.py",
+   "path": "modules/modules.lazyencoder_decoder.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/lazyevilwimrm.sh",
+   "path": "modules/modules.lazyevilwimrm.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/lazygat.sh",
+   "path": "modules/modules.lazygat.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lazyk8s.py",
+   "path": "modules/modules.lazyk8s.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "modules/lazylynis.sh",
+   "path": "modules/modules.lazylynis.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/lazymasscan.sh",
+   "path": "modules/modules.lazymasscan.sh.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/lazymobilerevshell.sh",
+   "path": "modules/modules.lazymobilerevshell.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lazynmap.sh",
+   "path": "modules/modules.lazynmap.sh.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "modules/lazyown_bprfuzzer.py",
+   "path": "modules/modules.lazyown_bprfuzzer.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/lazyown_bridge.py",
+   "path": "modules/modules.lazyown_bridge.py.jsonl",
+   "entities": 54
+  },
+  {
+   "uid": "modules/lazyown_metaextract0r.py",
+   "path": "modules/modules.lazyown_metaextract0r.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/lazyown_parquet_tool.py",
+   "path": "modules/modules.lazyown_parquet_tool.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/lazyownclient.py",
+   "path": "modules/modules.lazyownclient.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/lazyownerweb.py",
+   "path": "modules/modules.lazyownerweb.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/lazyownserver.py",
+   "path": "modules/modules.lazyownserver.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/lazypsexec.sh",
+   "path": "modules/modules.lazypsexec.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/lazyreverse_shell.sh",
+   "path": "modules/modules.lazyreverse_shell.sh.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/lazyrtpflood.sh",
+   "path": "modules/modules.lazyrtpflood.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lazyvpnshield.sh",
+   "path": "modules/modules.lazyvpnshield.sh.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/lazywps.sh",
+   "path": "modules/modules.lazywps.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/legacy/__init__.py",
+   "path": "modules/modules.legacy.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/lesson_ingestor.py",
+   "path": "modules/modules.lesson_ingestor.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "modules/lilsplunky.py",
+   "path": "modules/modules.lilsplunky.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/linux_advanced_payloads.py",
+   "path": "modules/modules.linux_advanced_payloads.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "modules/listener_manager.py",
+   "path": "modules/modules.listener_manager.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/live_surface.py",
+   "path": "modules/modules.live_surface.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/llm_adapter.py",
+   "path": "modules/modules.llm_adapter.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/llm_client.py",
+   "path": "modules/modules.llm_client.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/llm_evaluator.py",
+   "path": "modules/modules.llm_evaluator.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "modules/llm_factory.py",
+   "path": "modules/modules.llm_factory.py.jsonl",
+   "entities": 46
+  },
+  {
+   "uid": "modules/llm_pool.py",
+   "path": "modules/modules.llm_pool.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "modules/llm_prompts.py",
+   "path": "modules/modules.llm_prompts.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "modules/log_tamper.py",
+   "path": "modules/modules.log_tamper.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "modules/logging_config.py",
+   "path": "modules/modules.logging_config.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "modules/loop_ai_bridge.py",
+   "path": "modules/modules.loop_ai_bridge.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/loop_progress.py",
+   "path": "modules/modules.loop_progress.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "modules/macos_payloads.py",
+   "path": "modules/modules.macos_payloads.py.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "modules/mario.py",
+   "path": "modules/modules.mario.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "modules/mcp_agent_bridge.py",
+   "path": "modules/modules.mcp_agent_bridge.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/memory_cleaner.py",
+   "path": "modules/modules.memory_cleaner.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/memory_store.py",
+   "path": "modules/modules.memory_store.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "modules/metrics.py",
+   "path": "modules/modules.metrics.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/mfa_bypass.py",
+   "path": "modules/modules.mfa_bypass.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/mkcloudflaretunnel.sh",
+   "path": "modules/modules.mkcloudflaretunnel.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/module_registry.py",
+   "path": "modules/modules.module_registry.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "modules/moe_router.py",
+   "path": "modules/modules.moe_router.py.jsonl",
+   "entities": 45
+  },
+  {
+   "uid": "modules/morse.py",
+   "path": "modules/modules.morse.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "modules/mysql_hookandroot_lib.c",
+   "path": "modules/modules.mysql_hookandroot_lib.c.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/network_opsec.py",
+   "path": "modules/modules.network_opsec.py.jsonl",
+   "entities": 26
+  },
+  {
+   "uid": "modules/nmap2csv.py",
+   "path": "modules/modules.nmap2csv.py.jsonl",
+   "entities": 46
+  },
+  {
+   "uid": "modules/notify.py",
+   "path": "modules/modules.notify.py.jsonl",
+   "entities": 35
+  },
+  {
+   "uid": "modules/nuclei_templates_sync.py",
+   "path": "modules/modules.nuclei_templates_sync.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "modules/obs_parser.py",
+   "path": "modules/modules.obs_parser.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/ooficesod0woodo.py",
+   "path": "modules/modules.ooficesod0woodo.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/operation.py",
+   "path": "modules/modules.operation.py.jsonl",
+   "entities": 62
+  },
+  {
+   "uid": "modules/operator_profiles.py",
+   "path": "modules/modules.operator_profiles.py.jsonl",
+   "entities": 31
+  },
+  {
+   "uid": "modules/opsec_scorer.py",
+   "path": "modules/modules.opsec_scorer.py.jsonl",
+   "entities": 66
+  },
+  {
+   "uid": "modules/orchestrator_config.py",
+   "path": "modules/modules.orchestrator_config.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/osint_enrich.py",
+   "path": "modules/modules.osint_enrich.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/payload_factory.py",
+   "path": "modules/modules.payload_factory.py.jsonl",
+   "entities": 32
+  },
+  {
+   "uid": "modules/phishing_orchestrator.py",
+   "path": "modules/modules.phishing_orchestrator.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "modules/pipeline_engine.py",
+   "path": "modules/modules.pipeline_engine.py.jsonl",
+   "entities": 99
+  },
+  {
+   "uid": "modules/planner.py",
+   "path": "modules/modules.planner.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "modules/playbook_engine.py",
+   "path": "modules/modules.playbook_engine.py.jsonl",
+   "entities": 42
+  },
+  {
+   "uid": "modules/playbook_executor.py",
+   "path": "modules/modules.playbook_executor.py.jsonl",
+   "entities": 47
+  },
+  {
+   "uid": "modules/polymorphic_engine.py",
+   "path": "modules/modules.polymorphic_engine.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "modules/privesc_predictor.py",
+   "path": "modules/modules.privesc_predictor.py.jsonl",
+   "entities": 41
+  },
+  {
+   "uid": "modules/professional_report.py",
+   "path": "modules/modules.professional_report.py.jsonl",
+   "entities": 29
+  },
+  {
+   "uid": "modules/r.sh",
+   "path": "modules/modules.r.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/reactive_engine.py",
+   "path": "modules/modules.reactive_engine.py.jsonl",
+   "entities": 56
+  },
+  {
+   "uid": "modules/recommender.py",
+   "path": "modules/modules.recommender.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/redteam_gym.py",
+   "path": "modules/modules.redteam_gym.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/reflective_dll.py",
+   "path": "modules/modules.reflective_dll.py.jsonl",
+   "entities": 69
+  },
+  {
+   "uid": "modules/resource_script.py",
+   "path": "modules/modules.resource_script.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/reverse-shell.c",
+   "path": "modules/modules.reverse-shell.c.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/revshell.c",
+   "path": "modules/modules.revshell.c.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "modules/rich_tui.py",
+   "path": "modules/modules.rich_tui.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/rl_trainer.py",
+   "path": "modules/modules.rl_trainer.py.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "modules/rootkit/mr.c",
+   "path": "modules/modules.rootkit.mr.c.jsonl",
+   "entities": 34
+  },
+  {
+   "uid": "modules/rootkit/mrhyde.c",
+   "path": "modules/modules.rootkit.mrhyde.c.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "modules/rootkit/mrhyde2.c",
+   "path": "modules/modules.rootkit.mrhyde2.c.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "modules/rootkit/mrhyde3.c",
+   "path": "modules/modules.rootkit.mrhyde3.c.jsonl",
+   "entities": 47
+  },
+  {
+   "uid": "modules/rootkit/rootkit.asm",
+   "path": "modules/modules.rootkit.rootkit.asm.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/rootkit/rootkit.c",
+   "path": "modules/modules.rootkit.rootkit.c.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/saas_attacks.py",
+   "path": "modules/modules.saas_attacks.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "modules/scripts/clean_history.sh.sh",
+   "path": "modules/modules.scripts.clean_history.sh.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/search.py",
+   "path": "modules/modules.search.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/security_sanitizers.py",
+   "path": "modules/modules.security_sanitizers.py.jsonl",
+   "entities": 40
+  },
+  {
+   "uid": "modules/selfupdate.py",
+   "path": "modules/modules.selfupdate.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "modules/session_cleanup.py",
+   "path": "modules/modules.session_cleanup.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/session_rag.py",
+   "path": "modules/modules.session_rag.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "modules/session_reader.py",
+   "path": "modules/modules.session_reader.py.jsonl",
+   "entities": 50
+  },
+  {
+   "uid": "modules/session_state.py",
+   "path": "modules/modules.session_state.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/sidequestion.py",
+   "path": "modules/modules.sidequestion.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "modules/sleep_obfuscation.py",
+   "path": "modules/modules.sleep_obfuscation.py.jsonl",
+   "entities": 53
+  },
+  {
+   "uid": "modules/smbver.sh",
+   "path": "modules/modules.smbver.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/socks_proxy.py",
+   "path": "modules/modules.socks_proxy.py.jsonl",
+   "entities": 71
+  },
+  {
+   "uid": "modules/staged_delivery.py",
+   "path": "modules/modules.staged_delivery.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "modules/state_manager.py",
+   "path": "modules/modules.state_manager.py.jsonl",
+   "entities": 58
+  },
+  {
+   "uid": "modules/sudo_tiocsti.py",
+   "path": "modules/modules.sudo_tiocsti.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/surface_ops.py",
+   "path": "modules/modules.surface_ops.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/tel.py",
+   "path": "modules/modules.tel.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/threat_model.py",
+   "path": "modules/modules.threat_model.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "modules/timeline_narrator.py",
+   "path": "modules/modules.timeline_narrator.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/timestomper.py",
+   "path": "modules/modules.timestomper.py.jsonl",
+   "entities": 30
+  },
+  {
+   "uid": "modules/tmp.sh",
+   "path": "modules/modules.tmp.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/tools/__init__.py",
+   "path": "modules/modules.tools.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/tools/loop_smoke.py",
+   "path": "modules/modules.tools.loop_smoke.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "modules/tools/monitor_smoke.py",
+   "path": "modules/modules.tools.monitor_smoke.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/toolset.py",
+   "path": "modules/modules.toolset.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "modules/toposwarm_bridge.py",
+   "path": "modules/modules.toposwarm_bridge.py.jsonl",
+   "entities": 24
+  },
+  {
+   "uid": "modules/traffic_morpher.py",
+   "path": "modules/modules.traffic_morpher.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "modules/traffic_recorder.py",
+   "path": "modules/modules.traffic_recorder.py.jsonl",
+   "entities": 33
+  },
+  {
+   "uid": "modules/ttp_coverage.py",
+   "path": "modules/modules.ttp_coverage.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/unified_bridge.py",
+   "path": "modules/modules.unified_bridge.py.jsonl",
+   "entities": 38
+  },
+  {
+   "uid": "modules/unified_dashboard.py",
+   "path": "modules/modules.unified_dashboard.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "modules/update_db.sh",
+   "path": "modules/modules.update_db.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/venator.py",
+   "path": "modules/modules.venator.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/vuln_bot_cli.py",
+   "path": "modules/modules.vuln_bot_cli.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/vulnbot.py",
+   "path": "modules/modules.vulnbot.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/websocket_beacon.py",
+   "path": "modules/modules.websocket_beacon.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "modules/win_rootkit/backup.c",
+   "path": "modules/modules.win_rootkit.backup.c.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "modules/win_rootkit/mrhyde.c",
+   "path": "modules/modules.win_rootkit.mrhyde.c.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/win_rootkit/win_rin3_rootkit.cs",
+   "path": "modules/modules.win_rootkit.win_rin3_rootkit.cs.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/win_rootkit/win_ring3_rootkit.c",
+   "path": "modules/modules.win_rootkit.win_ring3_rootkit.c.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "modules/win_rootkit/win_ring3_rootkit.cpp",
+   "path": "modules/modules.win_rootkit.win_ring3_rootkit.cpp.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/wineconfig.sh",
+   "path": "modules/modules.wineconfig.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/workspace.py",
+   "path": "modules/modules.workspace.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/world_model.py",
+   "path": "modules/modules.world_model.py.jsonl",
+   "entities": 105
+  },
+  {
+   "uid": "modules/yaml_generator.py",
+   "path": "modules/modules.yaml_generator.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/yara_scanner.py",
+   "path": "modules/modules.yara_scanner.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "mutate.sh",
+   "path": "modules/mutate.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "plugins/generate_c_reverse_shell.lua",
+   "path": "modules/plugins.generate_c_reverse_shell.lua.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "plugins/generate_cleanup_commands.lua",
+   "path": "modules/plugins.generate_cleanup_commands.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_html_payload.lua",
+   "path": "modules/plugins.generate_html_payload.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_lateral_command.lua",
+   "path": "modules/plugins.generate_lateral_command.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_linux_asm_reverse_shell.lua",
+   "path": "modules/plugins.generate_linux_asm_reverse_shell.lua.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "plugins/generate_linux_raw_shellcode.lua",
+   "path": "modules/plugins.generate_linux_raw_shellcode.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_lolbird.lua",
+   "path": "modules/plugins.generate_lolbird.lua.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "plugins/generate_msfvenom_loader.lua",
+   "path": "modules/plugins.generate_msfvenom_loader.lua.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "plugins/generate_msfvenom_loader_windows.lua",
+   "path": "modules/plugins.generate_msfvenom_loader_windows.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_reverse_shell.lua",
+   "path": "modules/plugins.generate_reverse_shell.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/generate_stub.lua",
+   "path": "modules/plugins.generate_stub.lua.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "plugins/init_plugins.lua",
+   "path": "modules/plugins.init_plugins.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/kerberos_harvest.lua",
+   "path": "modules/plugins.kerberos_harvest.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/lolbas_bitsadmin_exe.lua",
+   "path": "modules/plugins.lolbas_bitsadmin_exe.lua.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "plugins/lolbas_certutil_download_exec.lua",
+   "path": "modules/plugins.lolbas_certutil_download_exec.lua.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "plugins/lolbas_certutil_exe.lua",
+   "path": "modules/plugins.lolbas_certutil_exe.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/lolbas_mshta_js.lua",
+   "path": "modules/plugins.lolbas_mshta_js.lua.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "plugins/lolbas_mshta_reverse_shell.lua",
+   "path": "modules/plugins.lolbas_mshta_reverse_shell.lua.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "plugins/lolbas_rundll32_dll.lua",
+   "path": "modules/plugins.lolbas_rundll32_dll.lua.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "plugins/lolbas_wmic_xsl_execution.lua",
+   "path": "modules/plugins.lolbas_wmic_xsl_execution.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/parse_nmap_with_xmlstarlet.lua",
+   "path": "modules/plugins.parse_nmap_with_xmlstarlet.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/run_nuclei_on_nmap_files.lua",
+   "path": "modules/plugins.run_nuclei_on_nmap_files.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/run_python_rev_c2.lua",
+   "path": "modules/plugins.run_python_rev_c2.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "plugins/rundll32_sct_from_url.lua",
+   "path": "modules/plugins.rundll32_sct_from_url.lua.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "plugins/validate_shellcode.lua",
+   "path": "modules/plugins.validate_shellcode.lua.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "plugins/visualize_network.lua",
+   "path": "modules/plugins.visualize_network.lua.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "poc_tui/__main__.py",
+   "path": "modules/poc_tui.__main__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "poc_tui/app.py",
+   "path": "modules/poc_tui.app.py.jsonl",
+   "entities": 44
+  },
+  {
+   "uid": "poc_tui/config.py",
+   "path": "modules/poc_tui.config.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "poc_tui/plugin_loader.py",
+   "path": "modules/poc_tui.plugin_loader.py.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "poc_tui/run.py",
+   "path": "modules/poc_tui.run.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "pwntomate.py",
+   "path": "modules/pwntomate.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "py2elf.sh",
+   "path": "modules/py2elf.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "readmeneitor.py",
+   "path": "modules/readmeneitor.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "run_telegram_hermes.sh",
+   "path": "modules/run_telegram_hermes.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "run_topoexploit_agent.sh",
+   "path": "modules/run_topoexploit_agent.sh.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "scripts/__init__.py",
+   "path": "modules/scripts.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/activate_migrations.py",
+   "path": "modules/scripts.activate_migrations.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "scripts/backfill_addon_os_trigger.py",
+   "path": "modules/scripts.backfill_addon_os_trigger.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "scripts/check_contract_manifest.py",
+   "path": "modules/scripts.check_contract_manifest.py.jsonl",
+   "entities": 16
+  },
+  {
+   "uid": "scripts/devtools/command_audit.py",
+   "path": "modules/scripts.devtools.command_audit.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "scripts/devtools/core_smoke.py",
+   "path": "modules/scripts.devtools.core_smoke.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "scripts/fix_migrated_classes.py",
+   "path": "modules/scripts.fix_migrated_classes.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "scripts/generate_sbom.py",
+   "path": "modules/scripts.generate_sbom.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "scripts/journal.py",
+   "path": "modules/scripts.journal.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "scripts/migrate_commandsets.py",
+   "path": "modules/scripts.migrate_commandsets.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "scripts/migrate_lazyown.py",
+   "path": "modules/scripts.migrate_lazyown.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "scripts/mutate.sh",
+   "path": "modules/scripts.mutate.sh.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "scripts/patch_playbook_atomic_ids.py",
+   "path": "modules/scripts.patch_playbook_atomic_ids.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/publish_wiki.sh",
+   "path": "modules/scripts.publish_wiki.sh.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "scripts/read_journal.py",
+   "path": "modules/scripts.read_journal.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "scripts/setup_hermes_mcp.sh",
+   "path": "modules/scripts.setup_hermes_mcp.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/smoke_onboarding.sh",
+   "path": "modules/scripts.smoke_onboarding.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "scripts/sync_doc_stats.py",
+   "path": "modules/scripts.sync_doc_stats.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "scripts/top_tier_check.py",
+   "path": "modules/scripts.top_tier_check.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "scripts/update_apt_atomic_ids.py",
+   "path": "modules/scripts.update_apt_atomic_ids.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "scripts/validate_agent_contract.sh",
+   "path": "modules/scripts.validate_agent_contract.sh.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "setup.py",
+   "path": "modules/setup.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "skills/aci_planner.py",
+   "path": "modules/skills.aci_planner.py.jsonl",
+   "entities": 65
+  },
+  {
+   "uid": "skills/autonomous_daemon.py",
+   "path": "modules/skills.autonomous_daemon.py.jsonl",
+   "entities": 145
+  },
+  {
+   "uid": "skills/autonomous_replay.py",
+   "path": "modules/skills.autonomous_replay.py.jsonl",
+   "entities": 44
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/__init__.py",
+   "path": "modules/skills.claude_md_orchestrator.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/bdd_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.bdd_agent.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/boy_scout.py",
+   "path": "modules/skills.claude_md_orchestrator.boy_scout.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/cicd_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.cicd_agent.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/config.py",
+   "path": "modules/skills.claude_md_orchestrator.config.py.jsonl",
+   "entities": 28
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/documentation_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.documentation_agent.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/models.py",
+   "path": "modules/skills.claude_md_orchestrator.models.py.jsonl",
+   "entities": 96
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/orchestrator.py",
+   "path": "modules/skills.claude_md_orchestrator.orchestrator.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/parser.py",
+   "path": "modules/skills.claude_md_orchestrator.parser.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/reviewer_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.reviewer_agent.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/sdd_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.sdd_agent.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/tdd_agent.py",
+   "path": "modules/skills.claude_md_orchestrator.tdd_agent.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "skills/claude_md_orchestrator/validators.py",
+   "path": "modules/skills.claude_md_orchestrator.validators.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "skills/daemon_control.py",
+   "path": "modules/skills.daemon_control.py.jsonl",
+   "entities": 54
+  },
+  {
+   "uid": "skills/daemon_health.py",
+   "path": "modules/skills.daemon_health.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "skills/heartbeat.py",
+   "path": "modules/skills.heartbeat.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/hermes-lazyown/__init__.py",
+   "path": "modules/skills.hermes-lazyown.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "skills/hermes-lazyown/claudemd_rules.py",
+   "path": "modules/skills.hermes-lazyown.claudemd_rules.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "skills/hermes-lazyown/config_bridge.py",
+   "path": "modules/skills.hermes-lazyown.config_bridge.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "skills/hermes-lazyown/constants.py",
+   "path": "modules/skills.hermes-lazyown.constants.py.jsonl",
+   "entities": 62
+  },
+  {
+   "uid": "skills/hermes-lazyown/executor.py",
+   "path": "modules/skills.hermes-lazyown.executor.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/hermes-lazyown/hermes_sync.py",
+   "path": "modules/skills.hermes-lazyown.hermes_sync.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "skills/hermes-lazyown/mcp_server.py",
+   "path": "modules/skills.hermes-lazyown.mcp_server.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "skills/hermes-lazyown/output_compactor.py",
+   "path": "modules/skills.hermes-lazyown.output_compactor.py.jsonl",
+   "entities": 20
+  },
+  {
+   "uid": "skills/hive_mind.py",
+   "path": "modules/skills.hive_mind.py.jsonl",
+   "entities": 118
+  },
+  {
+   "uid": "skills/lazyown_automapper.py",
+   "path": "modules/skills.lazyown_automapper.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/lazyown_campaign.py",
+   "path": "modules/skills.lazyown_campaign.py.jsonl",
+   "entities": 39
+  },
+  {
+   "uid": "skills/lazyown_claudemd.py",
+   "path": "modules/skills.lazyown_claudemd.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "skills/lazyown_context.py",
+   "path": "modules/skills.lazyown_context.py.jsonl",
+   "entities": 17
+  },
+  {
+   "uid": "skills/lazyown_daemon.py",
+   "path": "modules/skills.lazyown_daemon.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "skills/lazyown_facts.py",
+   "path": "modules/skills.lazyown_facts.py.jsonl",
+   "entities": 134
+  },
+  {
+   "uid": "skills/lazyown_groq_agents.py",
+   "path": "modules/skills.lazyown_groq_agents.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "skills/lazyown_hooks.py",
+   "path": "modules/skills.lazyown_hooks.py.jsonl",
+   "entities": 22
+  },
+  {
+   "uid": "skills/lazyown_llm.py",
+   "path": "modules/skills.lazyown_llm.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "skills/lazyown_mcp.py",
+   "path": "modules/skills.lazyown_mcp.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "skills/lazyown_mcp_helpers.py",
+   "path": "modules/skills.lazyown_mcp_helpers.py.jsonl",
+   "entities": 41
+  },
+  {
+   "uid": "skills/lazyown_mcp_opencode.py",
+   "path": "modules/skills.lazyown_mcp_opencode.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "skills/lazyown_objective.py",
+   "path": "modules/skills.lazyown_objective.py.jsonl",
+   "entities": 48
+  },
+  {
+   "uid": "skills/lazyown_parquet_db.py",
+   "path": "modules/skills.lazyown_parquet_db.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "skills/lazyown_permissions.py",
+   "path": "modules/skills.lazyown_permissions.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "skills/lazyown_policy.py",
+   "path": "modules/skills.lazyown_policy.py.jsonl",
+   "entities": 182
+  },
+  {
+   "uid": "skills/lazyown_session.py",
+   "path": "modules/skills.lazyown_session.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "skills/mcp_generated_tools.py",
+   "path": "modules/skills.mcp_generated_tools.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_lazy.py",
+   "path": "modules/skills.mcp_lazy.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "skills/mcp_restart.sh",
+   "path": "modules/skills.mcp_restart.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "skills/mcp_tool_generator.py",
+   "path": "modules/skills.mcp_tool_generator.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "skills/sessions_watcher.py",
+   "path": "modules/skills.sessions_watcher.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "skills/setup.sh",
+   "path": "modules/skills.setup.sh.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "skills/swan_agent.py",
+   "path": "modules/skills.swan_agent.py.jsonl",
+   "entities": 59
+  },
+  {
+   "uid": "skills/toposwarm_autonomous.py",
+   "path": "modules/skills.toposwarm_autonomous.py.jsonl",
+   "entities": 25
+  },
+  {
+   "uid": "skills/unified_orchestrator.py",
+   "path": "modules/skills.unified_orchestrator.py.jsonl",
+   "entities": 91
+  },
+  {
+   "uid": "skills/update_knowledge.py",
+   "path": "modules/skills.update_knowledge.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "slack_c2_bot.py",
+   "path": "modules/slack_c2_bot.py.jsonl",
+   "entities": 21
+  },
+  {
+   "uid": "source/conf.py",
+   "path": "modules/source.conf.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "static/js/particles.js",
+   "path": "modules/static.js.particles.js.jsonl",
+   "entities": 12
+  },
+  {
+   "uid": "static/js/quill-2.0.3.js",
+   "path": "modules/static.js.quill-2.0.3.js.jsonl",
+   "entities": 93
+  },
+  {
+   "uid": "static/js/tippy-6.js",
+   "path": "modules/static.js.tippy-6.js.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "static/js/xterm-addon-fit-0.7.0.js",
+   "path": "modules/static.js.xterm-addon-fit-0.7.0.js.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "static/js/xterm-addon-web-links-0.5.0.js",
+   "path": "modules/static.js.xterm-addon-web-links-0.5.0.js.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "static/js/xterm.js",
+   "path": "modules/static.js.xterm.js.jsonl",
+   "entities": 55
+  },
+  {
+   "uid": "telegram_c2.py",
+   "path": "modules/telegram_c2.py.jsonl",
+   "entities": 23
+  },
+  {
+   "uid": "telegram_hermes.py",
+   "path": "modules/telegram_hermes.py.jsonl",
+   "entities": 36
+  },
+  {
+   "uid": "testmeneitor.py",
+   "path": "modules/testmeneitor.py.jsonl",
+   "entities": 7
+  },
+  {
+   "uid": "tools/contract_check.py",
+   "path": "modules/tools.contract_check.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "tools/extract_cluster.py",
+   "path": "modules/tools.extract_cluster.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "tools/gen_demo_gifs.py",
+   "path": "modules/tools.gen_demo_gifs.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "tools/gen_demo_gifs_extra.py",
+   "path": "modules/tools.gen_demo_gifs_extra.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "user_split.sh",
+   "path": "modules/user_split.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "utils.py",
+   "path": "modules/utils.py.jsonl",
+   "entities": 137
+  }
+ ],
+ "warnings": {
+  "path": "warnings.jsonl",
+  "total": 2251
+ },
+ "usage": [
+  "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",
+  "grep -h '\"qualname\":\"<Owner.method>\"' readmenator-apidocs/api/modules/*.jsonl",
+  "cat readmenator-apidocs/api/modules/<module-slug>.jsonl",
+  "grep -h '\"code\":\"DOC001\"' readmenator-apidocs/api/warnings.jsonl"
+ ]
+}

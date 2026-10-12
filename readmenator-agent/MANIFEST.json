@@ -1,10 +1,10 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-12T19:30:26Z",
+  "generated_at": "2026-10-12T21:22:38Z",
   "project_root": ".",
   "project_name": "LazyOwn",
-  "git_commit": "c3388686e509f0cae45c0d0ca61cc2cdb2eaf599",
+  "git_commit": "85c67d28f10d19b5b7b17ba47ad2ea6c44835507",
   "git_branch": "main",
   "source_fingerprint": "006924b220d74b2bd53a9f393a36f3dac31b36fdc749f71219c31ef06dbd6711",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
@@ -243,7 +243,7 @@
     {
       "path": "GOTCHAS.md",
       "lines": 85,
-      "approx_tokens": 1587
+      "approx_tokens": 1586
     },
     {
       "path": "INDEX.md",
@@ -898,7 +898,7 @@
     {
       "path": "recipes/change-impact.md",
       "lines": 9,
-      "approx_tokens": 108
+      "approx_tokens": 107
     },
     {
       "path": "recipes/fix-cycle.md",

@@ -2,7 +2,7 @@
 
 > Generated offline by readmenator: 722 modules, 13974 documented entities, documentation coverage 72.5% (6377/8800 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
-Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api.json`](api.json) | [HTML browser](index.html)
+Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
 Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (616), sh (54)
 

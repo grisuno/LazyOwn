@@ -1256,4 +1256,4 @@ DOC001: 2144, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `discord_c2.py:216` function handle_file is not documented
 - DOC001 `discord_c2.py:245` function download_c2 is not documented
 - DOC001 `discord_c2.py:256` function send_connected_clients is not documented
-- ... 1751 more in `api.json`
+- ... 1751 more in `api/warnings.jsonl`

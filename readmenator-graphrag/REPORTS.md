@@ -143,7 +143,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `lazyc2.py`: 284 symbols, 252 connections (score 0.17).
 - Dependency cycle: autonomous_daemon.py -> lazyown_mcp.py -> pipeline_engine.py -> autonomous_daemon.py.
 - 39 layer violations, e.g. test_api_authz.py (testing) -> api_authz.py (presentation).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Key entities: file:lazyc2.py, file:lazyown.py, file:tests/test_collab_and_onboarding.py, file:core/logging.py, file:modules/pipeline_engine.py, file:skills/lazyown_facts.py, file:tests/test_security_hardening_v4.py, file:tests/test_aci_planner.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 513.
 
@@ -158,7 +158,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_security_hardening_v3.py`: 64 symbols, 107 connections (score 0.04).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 6 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 5 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_categories.py, file:cli/cli_enhancements.py, file:tests/test_security_hardening_v3.py, sym:cli/commands/_base.py::LazyOwnCommandSet@53, file:tests/test_cli_command_sets.py, file:cli/commands/_base.py, file:cli/commands/misc_migrated.py
 - Rating 6.2/10 = 7 x PageRank share 0.88 + 3 x risk 0.00. Internal imports: 411.
 
@@ -173,7 +173,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `skills/autonomous_daemon.py`: 148 symbols, 256 connections (score 0.10).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 17 layer violations, e.g. integration_autonomous_flow.py (testing) -> moe_router.py (presentation).
-- Taint: 2 paths reach this group via subprocess.
+- Taint: 1 paths reach this group via subprocess.
 - Key entities: file:skills/lazyown_mcp.py, file:skills/autonomous_daemon.py, file:skills/lazyown_policy.py, file:skills/hive_mind.py, file:tests/test_core_modules.py, file:skills/tests/test_autonomous_daemon.py, file:skills/tests/test_hive_mind.py, file:tests/test_engage_orchestrator.py
 - Rating 4.9/10 = 7 x PageRank share 0.70 + 3 x risk 0.00. Internal imports: 694.
 
@@ -202,7 +202,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `modules/lazy_loop.py`: 440 symbols, 321 connections (score 0.26).
 - Hotspot `tests/test_lazy_runner.py`: 143 symbols, 264 connections (score 0.10).
 - Dependency cycle: llm_factory.py -> ai_model.py -> llm_factory.py.
-- Taint: 5 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Key entities: sym:modules/workspace.py::write_text@72, file:modules/lazy_loop.py, file:tests/test_lazy_runner.py, sym:modules/lazy_loop.py::get@727, sym:modules/lazy_loop.py::ExplorationGraph@835, file:tests/test_payload_schema.py, sym:modules/lazy_loop.py::ActivityLog@1138, file:modules/lazy_proxy.py
 - Rating 3.9/10 = 7 x PageRank share 0.56 + 3 x risk 0.00. Internal imports: 590.
 
@@ -243,7 +243,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `static/js/socket.io-4.0.0.min.js`: 32 symbols, 523 connections (score 0.06).
 - Dependency cycle: engagement_hooks.py -> cli_auth.py -> engagement_hooks.py.
 - 2 layer violations, e.g. operations.py (presentation) -> storage.py (data_access).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 5 paths reach this group via subprocess.
 - Key entities: file:cli/banner_config.py, file:modules/lazy_rbac.py, file:tests/test_addon_creator.py, file:tests/test_engagement_and_ping.py, file:cli/fuzzy_picker.py, file:lazyc2/addon_creator.py, file:tests/test_banner_config.py, file:cli/engagement_hooks.py
 - Rating 1.5/10 = 7 x PageRank share 0.22 + 3 x risk 0.00. Internal imports: 168.
 
@@ -256,6 +256,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `cli/show.py` ranks 3 by PageRank, 59 importers, 1 symbols: Pretty-print the live payload for the operator.
 - Hotspot `static/js/html2pdf.bundle.min.js`: 738 symbols, 4927 connections (score 0.78).
 - Hotspot `static/js/3d-force-graph-1.73.4.min.js`: 176 symbols, 7838 connections (score 0.70).
+- Taint: 1 paths reach this group via subprocess.
 - Dataflow: 12 INFERRED issues (first: UNCHECKED_ALLOC in spray_keyring_list_overwrite_purpose).
 - Surprising bridge: __init__.py <-> search.py (9 hops across communities).
 - Key entities: file:static/js/html2pdf.bundle.min.js, file:static/js/3d-force-graph-1.73.4.min.js, file:static/js/vis-network-9.1.2.min.js, file:static/js/vis-network.min.js, file:modules/exp.c, file:static/js/chart.min.js, file:static/js/quill-2.0.3.js, file:static/js/force-graph-1.43.5.min.js

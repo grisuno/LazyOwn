@@ -117,8 +117,6 @@ This community groups 79 file(s) rooted at `tests` with dominant language py (co
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`

@@ -1,6 +1,6 @@
 # Recipe: Change a File Safely
 
-Riskiest file: `modules/cli_auth.py` (124 dependents)
+Riskiest file: `core/process.py` (126 dependents)
 
 1. Who depends on it: `grep -n -- '-> `<file>`' readmenator-agent/ARCHITECTURE*.md`
 2. Its public surface: `grep -n '`<file>:' readmenator-agent/API*.md`

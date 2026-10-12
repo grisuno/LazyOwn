@@ -160,13 +160,13 @@ This community groups 146 file(s) rooted at `modules` with dominant language py 
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)

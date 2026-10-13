@@ -3,6 +3,112 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestSemanticStore` | class | `skills/tests/test_hive_mind.py:152` | `class TestSemanticStore` |
+| `_build_hive_and_patch` | method | `skills/tests/test_hive_mind.py:588` | `def _build_hive_and_patch(self)` |
+| `_instant_run` | function | `skills/tests/test_hive_mind.py:405` | `def _instant_run(self_inner)` |
+| `_make_episodic` | function | `skills/tests/test_hive_mind.py:32` | `def _make_episodic(tmp_path)` |
+| `_make_hive` | method | `skills/tests/test_hive_mind.py:519` | `def _make_hive(self)` |
+| `_make_hive_memory` | function | `skills/tests/test_hive_mind.py:49` | `def _make_hive_memory(tmp_path)` |
+| `_make_pool` | method | `skills/tests/test_hive_mind.py:356` | `def _make_pool(self)` |
+| `_make_pool_with_store` | method | `skills/tests/test_hive_mind.py:780` | `def _make_pool_with_store(self)` |
+| `_make_queen` | method | `skills/tests/test_hive_mind.py:438` | `def _make_queen(self)` |
+| `_make_semantic` | function | `skills/tests/test_hive_mind.py:39` | `def _make_semantic(tmp_path, episodic)` |
+| `_make_state` | method | `skills/tests/test_hive_mind.py:688` | `def _make_state(self, status)` |
+| `_make_store` | method | `skills/tests/test_hive_mind.py:683` | `def _make_store(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:75` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:155` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:229` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:296` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:349` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:431` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:512` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:578` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:676` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:773` | `def setup_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:79` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:159` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:233` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:353` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:435` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:516` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:584` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:680` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:777` | `def teardown_method(self)` |
+| `test_active_count_decrements_when_done` | method | `skills/tests/test_hive_mind.py:401` | `def test_active_count_decrements_when_done(self)` |
+| `test_broadcast_received_by_everyone` | method | `skills/tests/test_hive_mind.py:312` | `def test_broadcast_received_by_everyone(self)` |
+| `test_count_returns_zero_when_unavailable` | method | `skills/tests/test_hive_mind.py:212` | `def test_count_returns_zero_when_unavailable(self)` |
+| `test_delete_older_than_removes_stale` | method | `skills/tests/test_hive_mind.py:750` | `def test_delete_older_than_removes_stale(self)` |
+| `test_dispatch_returns_drone_ids` | method | `skills/tests/test_hive_mind.py:480` | `def test_dispatch_returns_drone_ids(self)` |
+| `test_drone_result_unknown_id` | method | `skills/tests/test_hive_mind.py:557` | `def test_drone_result_unknown_id(self)` |
+| `test_fallback_to_episodic_when_chroma_unavailable` | method | `skills/tests/test_hive_mind.py:179` | `def test_fallback_to_episodic_when_chroma_unavailable(self)` |
+| `test_forget_by_topic` | method | `skills/tests/test_hive_mind.py:132` | `def test_forget_by_topic(self)` |
+| `test_forget_delegates_to_episodic` | method | `skills/tests/test_hive_mind.py:277` | `def test_forget_delegates_to_episodic(self)` |
+| `test_forget_old_events` | method | `skills/tests/test_hive_mind.py:121` | `def test_forget_old_events(self)` |
+| `test_forget_returns_int` | method | `skills/tests/test_hive_mind.py:563` | `def test_forget_returns_int(self)` |
+| `test_get_state_returns_drone_state` | method | `skills/tests/test_hive_mind.py:374` | `def test_get_state_returns_drone_state(self)` |
+| `test_get_state_unknown_id_returns_none` | method | `skills/tests/test_hive_mind.py:386` | `def test_get_state_unknown_id_returns_none(self)` |
+| `test_instantiation` | method | `skills/tests/test_hive_mind.py:162` | `def test_instantiation(self)` |
+| `test_list_all_includes_history` | method | `skills/tests/test_hive_mind.py:844` | `def test_list_all_includes_history(self)` |
+| `test_list_all_includes_spawned_drone` | method | `skills/tests/test_hive_mind.py:392` | `def test_list_all_includes_spawned_drone(self)` |
+| `test_load_all_empty_db` | method | `skills/tests/test_hive_mind.py:759` | `def test_load_all_empty_db(self)` |
+| `test_load_interrupted_returns_only_interrupted` | method | `skills/tests/test_hive_mind.py:737` | `def test_load_interrupted_returns_only_interrupted(self)` |
+| `test_mark_interrupted_targets_queued_and_running` | method | `skills/tests/test_hive_mind.py:722` | `def test_mark_interrupted_targets_queued_and_running(self)` |
+| `test_mcp_hive_collect_no_ids` | method | `skills/tests/test_hive_mind.py:660` | `def test_mcp_hive_collect_no_ids(self)` |
+| `test_mcp_hive_forget_returns_pruned_count` | method | `skills/tests/test_hive_mind.py:636` | `def test_mcp_hive_forget_returns_pruned_count(self)` |
+| `test_mcp_hive_plan_returns_parseable_string` | method | `skills/tests/test_hive_mind.py:610` | `def test_mcp_hive_plan_returns_parseable_string(self)` |
+| `test_mcp_hive_recall_no_results` | method | `skills/tests/test_hive_mind.py:629` | `def test_mcp_hive_recall_no_results(self)` |
+| `test_mcp_hive_recover_no_interrupted` | method | `skills/tests/test_hive_mind.py:862` | `def test_mcp_hive_recover_no_interrupted(self)` |
+| `test_mcp_hive_result_unknown_drone` | method | `skills/tests/test_hive_mind.py:652` | `def test_mcp_hive_result_unknown_drone(self)` |
+| `test_mcp_hive_spawn_single` | method | `skills/tests/test_hive_mind.py:643` | `def test_mcp_hive_spawn_single(self)` |
+| `test_mcp_hive_status_contains_fields` | method | `skills/tests/test_hive_mind.py:619` | `def test_mcp_hive_status_contains_fields(self)` |
+| `test_pending_count_after_publish` | method | `skills/tests/test_hive_mind.py:321` | `def test_pending_count_after_publish(self)` |
+| `test_plan_ad_goal` | method | `skills/tests/test_hive_mind.py:461` | `def test_plan_ad_goal(self)` |
+| `test_plan_enum_returns_multiple_tasks` | method | `skills/tests/test_hive_mind.py:446` | `def test_plan_enum_returns_multiple_tasks(self)` |
+| `test_plan_exploit_goal` | method | `skills/tests/test_hive_mind.py:454` | `def test_plan_exploit_goal(self)` |
+| `test_plan_generic_goal` | method | `skills/tests/test_hive_mind.py:468` | `def test_plan_generic_goal(self)` |
+| `test_plan_n_drones_pads_to_requested` | method | `skills/tests/test_hive_mind.py:474` | `def test_plan_n_drones_pads_to_requested(self)` |
+| `test_publish_and_receive` | method | `skills/tests/test_hive_mind.py:301` | `def test_publish_and_receive(self)` |
+| `test_recall_deduplication` | method | `skills/tests/test_hive_mind.py:244` | `def test_recall_deduplication(self)` |
+| `test_recall_from_memory_after_store` | method | `skills/tests/test_hive_mind.py:542` | `def test_recall_from_memory_after_store(self)` |
+| `test_recall_fts_multiple_hits` | method | `skills/tests/test_hive_mind.py:104` | `def test_recall_fts_multiple_hits(self)` |
+| `test_recall_keyword_found` | method | `skills/tests/test_hive_mind.py:89` | `def test_recall_keyword_found(self)` |
+| `test_recall_keyword_not_found` | method | `skills/tests/test_hive_mind.py:97` | `def test_recall_keyword_not_found(self)` |
+| `test_recall_with_mock_chroma` | method | `skills/tests/test_hive_mind.py:192` | `def test_recall_with_mock_chroma(self)` |
+| `test_receive_drains_direct_mailbox` | method | `skills/tests/test_hive_mind.py:329` | `def test_receive_drains_direct_mailbox(self)` |
+| `test_recover_from_store_marks_interrupted` | method | `skills/tests/test_hive_mind.py:798` | `def test_recover_from_store_marks_interrupted(self)` |
+| `test_requeue_interrupted_respawns_drones` | method | `skills/tests/test_hive_mind.py:825` | `def test_requeue_interrupted_respawns_drones(self)` |
+| `test_spawn_persists_initial_state` | method | `skills/tests/test_hive_mind.py:789` | `def test_spawn_persists_initial_state(self)` |
+| `test_spawn_returns_drone_id` | method | `skills/tests/test_hive_mind.py:365` | `def test_spawn_returns_drone_id(self)` |
+| `test_spawn_single_drone` | method | `skills/tests/test_hive_mind.py:534` | `def test_spawn_single_drone(self)` |
+| `test_stats_contains_expected_keys` | method | `skills/tests/test_hive_mind.py:269` | `def test_stats_contains_expected_keys(self)` |
+| `test_stats_counts_rows` | method | `skills/tests/test_hive_mind.py:112` | `def test_stats_counts_rows(self)` |
+| `test_status_contains_expected_fields` | method | `skills/tests/test_hive_mind.py:549` | `def test_status_contains_expected_fields(self)` |
+| `test_store_and_recall` | method | `skills/tests/test_hive_mind.py:236` | `def test_store_and_recall(self)` |
+| `test_store_returns_id` | method | `skills/tests/test_hive_mind.py:169` | `def test_store_returns_id(self)` |
+| `test_store_returns_nonempty_id` | method | `skills/tests/test_hive_mind.py:82` | `def test_store_returns_nonempty_id(self)` |
+| `test_synthesize_structure` | method | `skills/tests/test_hive_mind.py:489` | `def test_synthesize_structure(self)` |
+| `test_upsert_and_load_all` | method | `skills/tests/test_hive_mind.py:700` | `def test_upsert_and_load_all(self)` |
+| `test_upsert_updates_existing` | method | `skills/tests/test_hive_mind.py:709` | `def test_upsert_updates_existing(self)` |
+| `check` | function | `skills/tests/test_mcp_smoke.py:23` | `def check(label, cond, hint)` |
+| `main` | function | `skills/tests/test_mcp_smoke.py:92` | `def main()` |
+| `test_list_tools_returns_tools` | function | `skills/tests/test_mcp_smoke.py:61` | `def test_list_tools_returns_tools(mcp)` |
+| `test_mcp_module_imports` | function | `skills/tests/test_mcp_smoke.py:34` | `def test_mcp_module_imports()` |
+| `test_mcp_wellknown_symbols` | function | `skills/tests/test_mcp_smoke.py:47` | `def test_mcp_wellknown_symbols(mcp)` |
+| `TestObjectiveStore` | class | `skills/tests/test_objectives.py:51` | `class TestObjectiveStore` |
+| `TestSoulUpdater` | class | `skills/tests/test_objectives.py:204` | `class TestSoulUpdater` |
+| `_soul_updater` | function | `skills/tests/test_objectives.py:36` | `def _soul_updater(tmp_path)` |
+| `_store` | function | `skills/tests/test_objectives.py:31` | `def _store(tmp_path)` |
+| `test_block` | method | `skills/tests/test_objectives.py:129` | `def test_block(self, tmp_path)` |
+| `test_cleanup_critical_never_expires` | method | `skills/tests/test_objectives.py:182` | `def test_cleanup_critical_never_expires(self, tmp_path)` |
+| `test_cleanup_medium_72h_ttl` | method | `skills/tests/test_objectives.py:166` | `def test_cleanup_medium_72h_ttl(self, tmp_path)` |
+| `test_complete` | method | `skills/tests/test_objectives.py:119` | `def test_complete(self, tmp_path)` |
+| `test_dedup` | method | `skills/tests/test_objectives.py:62` | `def test_dedup(self, tmp_path)` |
+| `test_inject_basic` | method | `skills/tests/test_objectives.py:52` | `def test_inject_basic(self, tmp_path)` |
+| `test_inject_invalid_priority_defaults_medium` | method | `skills/tests/test_objectives.py:140` | `def test_inject_invalid_priority_defaults_medium(self, tmp_path)` |
+| `test_list_pending_empty` | method | `skills/tests/test_objectives.py:146` | `def test_list_pending_empty(self, tmp_path)` |
+| `test_next_pending_fifo_same_priority` | method | `skills/tests/test_objectives.py:109` | `def test_next_pending_fifo_same_priority(self, tmp_path)` |
+| `test_next_pending_none_when_empty` | method | `skills/tests/test_objectives.py:151` | `def test_next_pending_none_when_empty(self, tmp_path)` |
+| `test_next_pending_priority` | method | `skills/tests/test_objectives.py:99` | `def test_next_pending_priority(self, tmp_path)` |
 | `test_objectives_persist_on_disk` | method | `skills/tests/test_objectives.py:156` | `def test_objectives_persist_on_disk(self, tmp_path)` |
 | `test_soul_updater_appends_new_section` | method | `skills/tests/test_objectives.py:293` | `def test_soul_updater_appends_new_section(self, tmp_path)` |
 | `test_soul_updater_credentials_hash` | method | `skills/tests/test_objectives.py:231` | `def test_soul_updater_credentials_hash(self, tmp_path)` |
@@ -390,111 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `en` | class | `static/js/chart.min.js:13` | `` |
 | `extends` | class | `static/js/chart.min.js:13` | `` |
 | `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `g` | function | `static/js/chart.min.js:13` | `` |
-| `h` | function | `static/js/chart.min.js:7` | `` |
-| `hs` | class | `static/js/chart.min.js:13` | `` |
-| `i` | function | `static/js/chart.min.js:7` | `` |
-| `i` | function | `static/js/chart.min.js:13` | `` |
-| `i` | function | `static/js/chart.min.js:13` | `` |
-| `it` | function | `static/js/chart.min.js:7` | `` |
-| `js` | class | `static/js/chart.min.js:13` | `` |
-| `l` | function | `static/js/chart.min.js:13` | `` |
-| `m` | function | `static/js/chart.min.js:13` | `` |
-| `n` | function | `static/js/chart.min.js:13` | `` |
-| `n` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `on` | class | `static/js/chart.min.js:13` | `` |
-| `oo` | class | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `r` | function | `static/js/chart.min.js:7` | `` |
-| `r` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `sn` | class | `static/js/chart.min.js:13` | `` |
-| `t` | function | `static/js/chart.min.js:13` | `` |
-| `tn` | class | `static/js/chart.min.js:13` | `` |
-| `wa` | class | `static/js/chart.min.js:13` | `` |
-| `xt` | class | `static/js/chart.min.js:7` | `` |
-| `y` | function | `static/js/chart.min.js:13` | `` |
-| `y` | function | `static/js/chart.min.js:13` | `` |
-| `ya` | class | `static/js/chart.min.js:13` | `` |
-| `ye` | function | `static/js/chart.min.js:13` | `` |
-| `yt` | function | `static/js/chart.min.js:13` | `` |
-| `Cn` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `Fi` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Ho` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Jo` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Tr` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `as` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `as` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `b` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `c` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `e` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `e` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `f` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `ha` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `i` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `l` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `o` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `o` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `or` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `r` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `s` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `sa` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `t` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `ti` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `u` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `v` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `y` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `B` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
-| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
-| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1070` | `` |
-| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1071` | `` |
-| `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:78` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:599` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:600` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:295` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:296` | `` |
-| `D` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `DocumentCloner` | function | `static/js/html2pdf.bundle.min.js:6523` | `` |
-| `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
-| `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2629` | `` |
-| `I` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

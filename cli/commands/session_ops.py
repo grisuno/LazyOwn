@@ -1424,6 +1424,12 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 encrypt()
         except Exception:
             pass
+        try:
+            from modules.lazy_loop import arm_exit_watchdog
+
+            arm_exit_watchdog(8.0)
+        except Exception:
+            pass
         sys.exit(0)
 
     @cmd2.with_category("12. Miscellaneous")

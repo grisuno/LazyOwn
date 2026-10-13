@@ -48,6 +48,8 @@ from modules.llm_factory import (
     DEFAULT_BACKEND,
     DEFAULT_DEEPSEEK_MODEL,
     DEFAULT_GROQ_MODEL,
+    DEFAULT_LLAMACPP_HOST,
+    DEFAULT_LLAMACPP_MODEL,
     DEFAULT_OLLAMA_HOST,
     DEFAULT_OLLAMA_MODEL,
     DEFAULT_OPENAI_MODEL,
@@ -926,6 +928,62 @@ SCHEMA: dict[str, FieldSpec] = {
             FieldKind.STRING,
             "Presentate como Lazy OWN OneLiner assistant",
             "Default system prompt for the LLM agents.",
+            category="ai",
+        ),
+        _spec(
+            "orchestrator",
+            FieldKind.OPAQUE,
+            {},
+            "Autonomous loop overrides (stages, auto verbs, full_cli, installer).",
+            long_help=(
+                "Free-form section managed by lazy_verb, lazy_stage and the "
+                "orchestrator console. The loop reads stages, auto_verbs, "
+                "full_cli and installer from here; hand-editing is never needed."
+            ),
+            category="ai",
+        ),
+        _spec(
+            "local_llm",
+            FieldKind.STRING,
+            "none",
+            "Local LLM pane for fast_run (ollama, llamacpp, both, none).",
+            long_help=(
+                "fast_run_as_r00t.sh reads this to decide which local model "
+                "panes to open: ollama (deepseek via ollama run), llamacpp "
+                "(the lazy_llamacpp addon server) or both side by side."
+            ),
+            example="llamacpp",
+            allowed=("ollama", "llamacpp", "both", "none"),
+            category="ai",
+        ),
+        _spec(
+            "llamacpp_host",
+            FieldKind.STRING,
+            DEFAULT_LLAMACPP_HOST,
+            "Base URL of the local llama.cpp server.",
+            example=DEFAULT_LLAMACPP_HOST,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_llamacpp",
+            FieldKind.STRING,
+            DEFAULT_LLAMACPP_MODEL,
+            "Model alias served by the local llama.cpp server.",
+            example=DEFAULT_LLAMACPP_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "agent_model_timeout",
+            FieldKind.INT,
+            300,
+            "Hard per-turn timeout (seconds) for agentic model calls.",
+            long_help=(
+                "Past this budget the turn raises into the pool failover "
+                "instead of hanging the worker. Floor is 60 seconds."
+            ),
+            example="300",
+            min_value=60,
+            max_value=3600,
             category="ai",
         ),
         _spec(

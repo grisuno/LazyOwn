@@ -3,6 +3,102 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `create_session` | method | `modules/socks_proxy.py:436` | `def create_session(self, session_id, target_host, target_port, beacon_client_id)` |
+| `elapsed_seconds` | method | `modules/socks_proxy.py:144` | `def elapsed_seconds(self)` |
+| `from_dict` | method | `modules/socks_proxy.py:218` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/socks_proxy.py:522` | `def from_dict(cls, raw)` |
+| `from_payload` | method | `modules/socks_proxy.py:528` | `def from_payload(cls, payload)` |
+| `get_session` | method | `modules/socks_proxy.py:482` | `def get_session(self, session_id)` |
+| `list_sessions` | method | `modules/socks_proxy.py:511` | `def list_sessions(self)` |
+| `message` | method | `modules/socks_proxy.py:103` | `def message(self)` |
+| `remove_session` | method | `modules/socks_proxy.py:475` | `def remove_session(self, session_id)` |
+| `session_count` | method | `modules/socks_proxy.py:397` | `def session_count(self)` |
+| `sessions` | method | `modules/socks_proxy.py:392` | `def sessions(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:150` | `def to_dict(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:199` | `def to_dict(self)` |
+| `validate` | method | `modules/socks_proxy.py:401` | `def validate(self, config)` |
+| `validate_config` | method | `modules/socks_proxy.py:253` | `def validate_config(config)` |
+| `validate_request` | method | `modules/socks_proxy.py:300` | `def validate_request(command, address_type, host, port, config)` |
+| `StageDeliveryConfig` | class | `modules/staged_delivery.py:25` | `class StageDeliveryConfig` |
+| `StagedDeliveryFactory` | class | `modules/staged_delivery.py:51` | `class StagedDeliveryFactory` |
+| `__init__` | method | `modules/staged_delivery.py:83` | `def __init__(self, config, output_dir)` |
+| `_build_primary_volume_descriptor` | method | `modules/staged_delivery.py:336` | `def _build_primary_volume_descriptor(self, files)` |
+| `_gmail_phish` | method | `modules/staged_delivery.py:504` | `def _gmail_phish(self)` |
+| `_obfuscate_powershell` | method | `modules/staged_delivery.py:88` | `def _obfuscate_powershell(self, code)` |
+| `_obfuscate_vbscript` | method | `modules/staged_delivery.py:95` | `def _obfuscate_vbscript(self, code)` |
+| `_office365_phish` | method | `modules/staged_delivery.py:476` | `def _office365_phish(self)` |
+| `_outlook_phish` | method | `modules/staged_delivery.py:532` | `def _outlook_phish(self)` |
+| `_payload_command` | method | `modules/staged_delivery.py:102` | `def _payload_command(self)` |
+| `generate_all` | method | `modules/staged_delivery.py:420` | `def generate_all(self)` |
+| `generate_hta` | method | `modules/staged_delivery.py:134` | `def generate_hta(self)` |
+| `generate_iso` | method | `modules/staged_delivery.py:301` | `def generate_iso(self, inner_files)` |
+| `generate_lnk` | method | `modules/staged_delivery.py:237` | `def generate_lnk(self)` |
+| `generate_phishing_page` | method | `modules/staged_delivery.py:460` | `def generate_phishing_page(self, template)` |
+| `generate_vba_macro` | method | `modules/staged_delivery.py:171` | `def generate_vba_macro(self)` |
+| `generate_vhd` | method | `modules/staged_delivery.py:370` | `def generate_vhd(self, inner_files)` |
+| `generate_xlm_macro` | method | `modules/staged_delivery.py:219` | `def generate_xlm_macro(self)` |
+| `HostSummary` | class | `modules/state_manager.py:65` | `class HostSummary` |
+| `SessionSnapshot` | class | `modules/state_manager.py:76` | `class SessionSnapshot` |
+| `StateManager` | class | `modules/state_manager.py:92` | `class StateManager` |
+| `__init__` | method | `modules/state_manager.py:107` | `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)` |
+| `_cred_list_for_host` | method | `modules/state_manager.py:192` | `def _cred_list_for_host(self, host_id)` |
+| `_ensure_workspace` | method | `modules/state_manager.py:151` | `def _ensure_workspace(self)` |
+| `_find_host` | method | `modules/state_manager.py:184` | `def _find_host(self, address)` |
+| `_load_json` | function | `modules/state_manager.py:43` | `def _load_json(path)` |
+| `_publish` | method | `modules/state_manager.py:169` | `def _publish(self, category, event_type, payload)` |
+| `_save_json` | function | `modules/state_manager.py:53` | `def _save_json(path, data)` |
+| `_sync_world_model_cache` | method | `modules/state_manager.py:556` | `def _sync_world_model_cache(self)` |
+| `_vuln_list_for_host` | method | `modules/state_manager.py:197` | `def _vuln_list_for_host(self, host_id)` |
+| `add_credential` | method | `modules/state_manager.py:328` | `def add_credential(self, host_address, username, password, realm, cred_type, origin)` |
+| `add_host` | method | `modules/state_manager.py:213` | `def add_host(self, address, mac, hostname, os, state)` |
+| `add_loot` | method | `modules/state_manager.py:411` | `def add_loot(self, name, loot_type, path, notes, host_address)` |
+| `add_note` | method | `modules/state_manager.py:450` | `def add_note(self, data, note_type, host_address)` |
+| `add_service` | method | `modules/state_manager.py:287` | `def add_service(self, host_address, port, protocol, name, product, version, state)` |
+| `add_vulnerability` | method | `modules/state_manager.py:373` | `def add_vulnerability(self, host_address, name, severity, description, refs)` |
+| `advance_host` | method | `modules/state_manager.py:249` | `def advance_host(self, address, new_state)` |
+| `close` | method | `modules/state_manager.py:202` | `def close(self)` |
+| `db` | method | `modules/state_manager.py:137` | `def db(self)` |
+| `delete_host` | method | `modules/state_manager.py:275` | `def delete_host(self, address)` |
+| `export_csv` | method | `modules/state_manager.py:757` | `def export_csv(self, table)` |
+| `export_summary` | method | `modules/state_manager.py:761` | `def export_summary(self)` |
+| `get_host` | method | `modules/state_manager.py:236` | `def get_host(self, address)` |
+| `get_state_manager` | function | `modules/state_manager.py:776` | `def get_state_manager()` |
+| `get_world_model_cache` | method | `modules/state_manager.py:606` | `def get_world_model_cache(self)` |
+| `import_nmap_from_facts` | method | `modules/state_manager.py:495` | `def import_nmap_from_facts(self, facts)` |
+| `import_nmap_xml` | method | `modules/state_manager.py:479` | `def import_nmap_xml(self, xml_path)` |
+| `instance` | method | `modules/state_manager.py:129` | `def instance(cls)` |
+| `list_credentials` | method | `modules/state_manager.py:362` | `def list_credentials(self, host_address)` |
+| `list_hosts` | method | `modules/state_manager.py:245` | `def list_hosts(self)` |
+| `list_loot` | method | `modules/state_manager.py:444` | `def list_loot(self)` |
+| `list_notes` | method | `modules/state_manager.py:473` | `def list_notes(self)` |
+| `list_services` | method | `modules/state_manager.py:319` | `def list_services(self, host_address)` |
+| `list_vulnerabilities` | method | `modules/state_manager.py:398` | `def list_vulnerabilities(self, host_address, severity)` |
+| `load_world_model` | method | `modules/state_manager.py:612` | `def load_world_model(self)` |
+| `session_snapshot` | method | `modules/state_manager.py:653` | `def session_snapshot(self)` |
+| `set_payload` | method | `modules/state_manager.py:165` | `def set_payload(self, payload)` |
+| `status` | method | `modules/state_manager.py:550` | `def status(self)` |
+| `workspace_id` | method | `modules/state_manager.py:146` | `def workspace_id(self)` |
+| `get_controlling_tty` | function | `modules/sudo_tiocsti.py:52` | `def get_controlling_tty()` |
+| `get_sudo_pids_on_tty` | function | `modules/sudo_tiocsti.py:102` | `def get_sudo_pids_on_tty(tty_path)` |
+| `inject_byte` | function | `modules/sudo_tiocsti.py:64` | `def inject_byte(fd, byte_char)` |
+| `inject_payload` | function | `modules/sudo_tiocsti.py:79` | `def inject_payload(fd, payload, char_delay)` |
+| `main` | function | `modules/sudo_tiocsti.py:198` | `def main()` |
+| `mode_cache` | function | `modules/sudo_tiocsti.py:185` | `def mode_cache(fd)` |
+| `mode_poll` | function | `modules/sudo_tiocsti.py:149` | `def mode_poll(fd, tty_path)` |
+| `mode_prefill` | function | `modules/sudo_tiocsti.py:175` | `def mode_prefill(fd)` |
+| `sudo_cache_valid` | function | `modules/sudo_tiocsti.py:139` | `def sudo_cache_valid()` |
+| `discovery_targets` | function | `modules/surface_ops.py:31` | `def discovery_targets(sessions_dir)` |
+| `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
+| `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
+| `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
+| `decrypt_cookie` | function | `modules/tel.py:46` | `def decrypt_cookie(encrypted, key, iv)` |
+| `get_machine_id` | function | `modules/tel.py:10` | `def get_machine_id()` |
+| `get_version` | function | `modules/tel.py:24` | `def get_version()` |
+| `main` | function | `modules/tel.py:53` | `def main()` |
+| `to_hex` | function | `modules/tel.py:41` | `def to_hex(byte_list)` |
+| `to_numbers` | function | `modules/tel.py:36` | `def to_numbers(hex_str)` |
+| `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
+| `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
 | `_build_assets` | method | `modules/threat_model.py:318` | `def _build_assets(self, rows)` |
 | `_build_detection_rules` | method | `modules/threat_model.py:475` | `def _build_detection_rules(self, ttps)` |
 | `_build_iocs` | method | `modules/threat_model.py:444` | `def _build_iocs(self, rows)` |
@@ -400,101 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
 | `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
 | `load_payload` | method | `modules/yaml_generator.py:25` | `def load_payload(self)` |
-| `main` | function | `modules/yaml_generator.py:141` | `def main()` |
-| `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
-| `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
-| `_format_match` | method | `modules/yara_scanner.py:162` | `def _format_match(self, match)` |
-| `_load_external_vars` | method | `modules/yara_scanner.py:45` | `def _load_external_vars(self)` |
-| `_scan_with_timeout` | method | `modules/yara_scanner.py:129` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
-| `_sha256` | method | `modules/yara_scanner.py:250` | `def _sha256(filepath)` |
-| `add_rule` | method | `modules/yara_scanner.py:258` | `def add_rule(self, name, content)` |
-| `compile_all` | method | `modules/yara_scanner.py:54` | `def compile_all(self)` |
-| `create_default_rules` | function | `modules/yara_scanner.py:371` | `def create_default_rules()` |
-| `download_community_rules` | method | `modules/yara_scanner.py:300` | `def download_community_rules(self)` |
-| `ensure_directory` | method | `modules/yara_scanner.py:41` | `def ensure_directory(self)` |
-| `ioc_scan` | method | `modules/yara_scanner.py:328` | `def ioc_scan(self, target_path, iocs)` |
-| `list_rules` | method | `modules/yara_scanner.py:277` | `def list_rules(self)` |
-| `scan_directory` | method | `modules/yara_scanner.py:187` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
-| `scan_file` | method | `modules/yara_scanner.py:98` | `def scan_file(self, filepath, timeout)` |
-| `target` | function | `modules/yara_scanner.py:137` | `def target()` |
-| `all` | function | `plugins/generate_c_reverse_shell.lua:108` | `` |
-| `generate_c_reverse_shell` | function | `plugins/generate_c_reverse_shell.lua:1` | `` |
-| `generate_cleanup_commands` | function | `plugins/generate_cleanup_commands.lua:3` | `` |
-| `generate_html_payload` | function | `plugins/generate_html_payload.lua:1` | `` |
-| `generate_lateral_command` | function | `plugins/generate_lateral_command.lua:4` | `` |
-| `all` | function | `plugins/generate_linux_asm_reverse_shell.lua:121` | `` |
-| `generate_linux_asm_reverse_shell` | function | `plugins/generate_linux_asm_reverse_shell.lua:1` | `` |
-| `generate_linux_raw_shellcode` | function | `plugins/generate_linux_raw_shellcode.lua:1` | `` |
-| `Xor` | function | `plugins/generate_lolbird.lua:64` | `` |
-| `generate_lolbird_ps1` | function | `plugins/generate_lolbird.lua:44` | `` |
-| `read_file` | function | `plugins/generate_lolbird.lua:12` | `` |
-| `write_file` | function | `plugins/generate_lolbird.lua:4` | `` |
-| `xor_hex_string` | function | `plugins/generate_lolbird.lua:21` | `` |
-| `xor_string` | function | `plugins/generate_lolbird.lua:31` | `` |
-| `execute_command_to_file` | function | `plugins/generate_msfvenom_loader.lua:2` | `` |
-| `generate_loader` | function | `plugins/generate_msfvenom_loader.lua:49` | `` |
-| `generate_msfvenom_loader` | function | `plugins/generate_msfvenom_loader.lua:104` | `` |
-| `hex_to_nasm` | function | `plugins/generate_msfvenom_loader.lua:18` | `` |
-| `read_file` | function | `plugins/generate_msfvenom_loader.lua:7` | `` |
-| `generate_msfvenom_loader_windows` | function | `plugins/generate_msfvenom_loader_windows.lua:2` | `` |
-| `generate_reverse_shell` | function | `plugins/generate_reverse_shell.lua:1` | `` |
-| `generate_stub_ps1` | function | `plugins/generate_stub.lua:43` | `` |
-| `read_file` | function | `plugins/generate_stub.lua:12` | `` |
-| `write_file` | function | `plugins/generate_stub.lua:4` | `` |
-| `xor_data` | function | `plugins/generate_stub.lua:21` | `` |
-| `xor_string` | function | `plugins/generate_stub.lua:30` | `` |
-| `load_plugin` | function | `plugins/init_plugins.lua:6` | `` |
-| `kerberos_harvest` | function | `plugins/kerberos_harvest.lua:1` | `` |
-| `read_file` | function | `plugins/lolbas_certutil_download_exec.lua:13` | `` |
-| `write_file` | function | `plugins/lolbas_certutil_download_exec.lua:5` | `` |
-| `xor_data` | function | `plugins/lolbas_certutil_download_exec.lua:21` | `` |
-| `run_msfvenom` | function | `plugins/lolbas_certutil_exe.lua:2` | `` |
-| `write_file` | function | `plugins/lolbas_wmic_xsl_execution.lua:4` | `` |
-| `parse_nmap_with_xmlstarlet` | function | `plugins/parse_nmap_with_xmlstarlet.lua:1` | `` |
-| `run_nuclei_on_nmap_files` | function | `plugins/run_nuclei_on_nmap_files.lua:1` | `` |
-| `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
-| `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
-| `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
-| `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
-| `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
-| `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
-| `hex_list_to_byte_values` | function | `plugins/validate_shellcode.lua:65` | `` |
-| `hex_to_bytes` | function | `plugins/validate_shellcode.lua:2` | `` |
-| `validate_shellcode` | function | `plugins/validate_shellcode.lua:81` | `` |
-| `visualize_network` | function | `plugins/visualize_network.lua:1` | `` |
-| `DashboardPanel` | class | `poc_tui/app.py:137` | `class DashboardPanel(Static)` |
-| `LazyOwnTUI` | class | `poc_tui/app.py:297` | `class LazyOwnTUI(App)` |
-| `OutputPanel` | class | `poc_tui/app.py:240` | `class OutputPanel(VerticalScroll)` |
-| `PluginBrowser` | class | `poc_tui/app.py:195` | `class PluginBrowser(Static)` |
-| `ShellBackend` | class | `poc_tui/app.py:44` | `class ShellBackend` |
-| `__init__` | method | `poc_tui/app.py:47` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:140` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:198` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:248` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:394` | `def __init__(self, base_dir)` |
-| `_auto_refresh_dashboard` | method | `poc_tui/app.py:464` | `def _auto_refresh_dashboard(self)` |
-| `_drain_queue` | method | `poc_tui/app.py:495` | `def _drain_queue(self)` |
-| `_guess_category` | method | `poc_tui/app.py:223` | `def _guess_category(name, help_text)` |
-| `_init_backend` | function | `poc_tui/app.py:429` | `def _init_backend()` |
-| `_log` | method | `poc_tui/app.py:255` | `def _log(self)` |
-| `_on_backend_ready` | method | `poc_tui/app.py:444` | `def _on_backend_ready(self)` |
-| `_show_result` | method | `poc_tui/app.py:525` | `def _show_result(self, result)` |
-| `_tab_complete` | method | `poc_tui/app.py:605` | `def _tab_complete(self, inp)` |
-| `_work` | function | `poc_tui/app.py:510` | `def _work()` |
-| `action_clear_output` | method | `poc_tui/app.py:539` | `def action_clear_output(self)` |
-| `action_quit` | method | `poc_tui/app.py:561` | `def action_quit(self)` |
-| `action_refresh_dashboard` | method | `poc_tui/app.py:555` | `def action_refresh_dashboard(self)` |
-| `action_tab_complete` | method | `poc_tui/app.py:544` | `def action_tab_complete(self)` |
-| `action_toggle_sidebar` | method | `poc_tui/app.py:549` | `def action_toggle_sidebar(self)` |
-| `append_command` | method | `poc_tui/app.py:268` | `def append_command(self, cmd)` |
-| `append_error` | method | `poc_tui/app.py:283` | `def append_error(self, text)` |
-| `append_result` | method | `poc_tui/app.py:273` | `def append_result(self, text, success)` |
-| `append_system` | method | `poc_tui/app.py:287` | `def append_system(self, text)` |
-| `compose` | method | `poc_tui/app.py:144` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:201` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:252` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:405` | `def compose(self)` |
-| `execute_command` | method | `poc_tui/app.py:470` | `def execute_command(self, cmd_str)` |
-| `get_aliases` | method | `poc_tui/app.py:119` | `def get_aliases(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

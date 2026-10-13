@@ -1,6 +1,65 @@
 # Subsystem: modules (page 11 of 14)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/operation.py
+- Doc: Caldera-style operation lifecycle: create, start, pause, resume, stop, status.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OperationStatus` (class, line 42) `class OperationStatus(StrEnum)`
+  - `OpEvent` (class, line 52) `class OpEvent`
+  - `OperationStep` (class, line 63) `class OperationStep`
+  - `Operation` (class, line 79) `class Operation`
+  - `OperationManager` (class, line 180) `class OperationManager`
+  - `get_manager` (function, line 471) `def get_manager()`
+  - `to_dict` (method, line 98) `def to_dict(self)`
+  - `from_dict` (method, line 116) `def from_dict(cls, d)`
+  - `save` (method, line 134) `def save(self)`
+  - `log_event` (method, line 143) `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
+  - `record_facts` (method, line 164) `def record_facts(self, findings)`
+  - `__init__` (method, line 183) `def __init__(self)`
+  - `list` (method, line 187) `def list(self)`
+  - `get` (method, line 199) `def get(self, op_id)`
+  - `create` (method, line 206) `def create(self, name, target, apt_name, description)`
+  - `plan_from_apt` (method, line 225) `def plan_from_apt(self, op, playbook_yaml_path)`
+  - `start` (method, line 287) `def start(self, op_id, executor)`
+  - `pause` (method, line 369) `def pause(self, op_id)`
+  - `resume` (method, line 378) `def resume(self, op_id, executor)`
+  - `stop` (method, line 386) `def stop(self, op_id)`
+  - `status` (method, line 396) `def status(self, op_id)`
+  - `timeline` (method, line 425) `def timeline(self, op_id)`
+  - `report` (method, line 431) `def report(self, op_id)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`
+
+## modules/operator_profiles.py
+- Doc: Multi-operator profile management for LazyOwn team server.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OperatorProfile` (class, line 38) `class OperatorProfile`
+  - `OperatorProfileManager` (class, line 77) `class OperatorProfileManager`
+  - `get_operator_profile_manager` (function, line 398) `def get_operator_profile_manager()`
+  - `to_dict` (method, line 57) `def to_dict(self)`
+  - `__init__` (method, line 88) `def __init__(self)`
+  - `_ensure_team_ca` (method, line 93) `def _ensure_team_ca(self)`
+  - `_profile_dir` (method, line 124) `def _profile_dir(self, username)`
+  - `_profile_path` (method, line 127) `def _profile_path(self, username)`
+  - `_generate_operator_cert` (method, line 130) `def _generate_operator_cert(self, username)`
+  - `create_profile` (method, line 192) `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...`
+  - `_save_profile` (method, line 255) `def _save_profile(self, profile)`
+  - `load_profile` (method, line 260) `def load_profile(self, username)`
+  - `update_profile` (method, line 276) `def update_profile(self, username)`
+  - `delete_profile` (method, line 289) `def delete_profile(self, username)`
+  - `list_profiles` (method, line 300) `def list_profiles(self)`
+  - `touch_activity` (method, line 312) `def touch_activity(self, username)`
+  - `set_attribute` (method, line 319) `def set_attribute(self, username, key, value)`
+  - `get_attribute` (method, line 328) `def get_attribute(self, username, key, default)`
+  - `log_action` (method, line 335) `def log_action(self, username, action, details)`
+  - `effective_config` (method, line 360) `def effective_config(self, username)`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `cli/commands/automation.py`
+
 ## modules/opsec_scorer.py
 - Doc: OPSEC scoring engine — pre-execution noise assessment and gated scoring.
 - Layer: utility
@@ -64,7 +123,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `remove_verb` (function, line 290) `def remove_verb(name)`
   - `reset` (function, line 315) `def reset()`
 - Depends on: `core/config.py`, `modules/auto_registry.py`
-- Imported by: `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -431,64 +490,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `_ai_draft_summary` (method, line 956) `def _ai_draft_summary(self, data, fallback, backend)`
 - Depends on: `modules/llm_factory.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-
-## modules/r.sh
-- Doc: Obtener la versión del kernel actual
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `download_kernel_sources` (function, line 10)
-- Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
-
-## modules/reactive_engine.py
-- Doc: modules/reactive_engine.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
-  - `Signal` (class, line 69) `class Signal`
-  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
-  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
-  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
-  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
-  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
-  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
-  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
-  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
-  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
-  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
-  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
-  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
-  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
-  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
-  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
-  - `get_engine` (function, line 977) `def get_engine()`
-  - `match` (method, line 99) `def match(self, output, context)`
-  - `match` (method, line 128) `def match(self, output, context)`
-  - `match` (method, line 159) `def match(self, output, context)`
-  - `match` (method, line 192) `def match(self, output, context)`
-  - `match` (method, line 214) `def match(self, output, context)`
-  - `match` (method, line 247) `def match(self, output, context)`
-  - `match` (method, line 276) `def match(self, output, context)`
-  - `match` (method, line 307) `def match(self, output, context)`
-  - `match` (method, line 349) `def match(self, output, context)`
-  - `__init__` (method, line 395) `def __init__(self, root)`
-  - `_load` (method, line 402) `def _load(self)`
-  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
-  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
-  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
-  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
-  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
-  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
-  - `_load_rag` (method, line 671) `def _load_rag(self)`
-  - `_enabled` (method, line 697) `def _enabled(self)`
-  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
-  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
-  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
-  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
-  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

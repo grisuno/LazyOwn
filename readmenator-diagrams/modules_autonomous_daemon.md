@@ -1,6 +1,6 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 116 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 118 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -8,18 +8,19 @@ graph LR
     contrib["contrib"]
     lazygui["lazygui"]
     modules["modules"]
+    scripts["scripts"]
     skills["skills"]
     tests["tests"]
     cli -- "calls into" --> modules
     cli -- "calls into" --> skills
     cli -- "calls into" --> tests
     contrib -- "depends on" --> cli
-    contrib -- "calls into" --> modules
     modules -- "calls into" --> cli
     modules -- "depends on" --> lazygui
     modules -- "calls into" --> skills
     skills -- "calls into" --> cli
     skills -- "calls into" --> modules
+    skills -- "calls into" --> scripts
     skills -- "calls into" --> tests
     tests -- "calls into" --> cli
     tests -- "calls into" --> modules
@@ -28,11 +29,11 @@ graph LR
 
 ## cli (3.1)
 
-cli groups 12 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+cli groups 9 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ## contrib (3.2)
 
-contrib groups 4 files (py) around parse_github_url, github_api_get, fetch_repo_metadata, fetch_readme, fetch_root_files. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
+contrib groups 3 files (py) around BinaryFinder, __init__, find_suid_binaries, find_capabilities_binaries, find_executable_binaries.
 
 ## lazygui (3.3)
 
@@ -40,15 +41,19 @@ lazygui groups 2 files (py). LazyOwn Operator Console.
 
 ## modules (3.4)
 
-modules groups 38 files (py) around _derive_crypto_key, _master_password, read_state_dict, write_state_dict, HostState. AI-Driven Exploit Chaining Engine.
+modules groups 42 files (py) around _derive_crypto_key, _master_password, read_state_dict, write_state_dict, HostState. AI-Driven Exploit Chaining Engine.
 
-## skills (3.5)
+## scripts (3.5)
 
-skills groups 26 files (py) around _try_import, _update_task_status, _inject_to_tasks_json, _emit, _record_intent. skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## tests (3.6)
+## skills (3.6)
 
-tests groups 34 files (py) around test_autonomous_flow_integration, _event, _write_jsonl, test_event_log_reader_returns_empty_when_missing, test_event_log_reader_skips_malformed_lines. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+skills groups 27 files (py) around _try_import, _update_task_status, _inject_to_tasks_json, _emit, _record_intent. skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+
+## tests (3.7)
+
+tests groups 34 files (py) around test_autonomous_flow_integration, test_c04_dedup_anchor_coverage, test_c04_mirror_to_campaign_db, test_c05_frontier_emits_once_then_empty, test_c05_todo_blocks_lateral_until_creds. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -57,14 +62,10 @@ tests groups 34 files (py) around test_autonomous_flow_integration, _event, _wri
 - cli/commands/enum.py
 - cli/commands/pwn.py
 - cli/commands/session_ops.py
-- cli/dashboard_layout.py
-- cli/dashboard_tui.py
 - cli/graph_advisor.py
-- cli/killchain.py
 - cli/ops_commands.py
 - cli/recommendation.py
 - cli/recommendation_signals.py
-- contrib/legacy/lazyaddon_creator.py
 - contrib/legacy/lazypwn.py
 - contrib/legacy/lazyvsftp.py
 - contrib/legacy/sql.py
@@ -86,13 +87,17 @@ tests groups 34 files (py) around test_autonomous_flow_integration, _event, _wri
 - modules/evidence.py
 - modules/exploit_recommender.py
 - modules/goals.py
+- modules/integrations/__init__.py
+- modules/integrations/misp_export.py
+- modules/integrations/searchsploit.py
 - modules/intercept.py
 - modules/kill_chain_viz.py
 - modules/killchain.py
 - modules/lazyown_bridge.py
+- modules/lesson_ingestor.py
 - modules/live_surface.py
-- modules/llm_client.py
 - modules/llm_evaluator.py
+- modules/llm_pool.py
 - modules/memory_store.py
 - modules/moe_router.py
 - modules/obs_parser.py
@@ -108,11 +113,13 @@ tests groups 34 files (py) around test_autonomous_flow_integration, _event, _wri
 - modules/toolset.py
 - modules/unified_dashboard.py
 - modules/world_model.py
+- scripts/lazy_opencode_config.py
 - skills/autonomous_daemon.py
 - skills/autonomous_replay.py
 - skills/daemon_control.py
 - skills/hive_mind.py
 - skills/lazyown_automapper.py
+- skills/lazyown_campaign.py
 - skills/lazyown_claudemd.py
 - skills/lazyown_context.py
 - skills/lazyown_groq_agents.py
@@ -135,24 +142,24 @@ tests groups 34 files (py) around test_autonomous_flow_integration, _event, _wri
 - skills/tests/test_parquet_db.py
 - skills/update_knowledge.py
 - tests/integration_autonomous_flow.py
+- tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
 - tests/test_boyscout_contracts.py
 - tests/test_bridge_catalog_filtered.py
 - tests/test_core_modules.py
 - tests/test_daemon_control.py
 - tests/test_daemon_loop.py
-- tests/test_dashboard_tui.py
 - tests/test_detection_feed.py
 - tests/test_engage_gates.py
 - tests/test_engage_orchestrator.py
 - tests/test_engage_summary.py
 - tests/test_graph_advisor.py
-- tests/test_killchain.py
 - tests/test_killchain_gap_signal.py
 - tests/test_killchain_snapshot.py
 - tests/test_killchain_unified.py
 - tests/test_killchain_unified_v2.py
 - tests/test_lazy_parity.py
+- tests/test_lesson_ingestor.py
 - tests/test_live_surface.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py

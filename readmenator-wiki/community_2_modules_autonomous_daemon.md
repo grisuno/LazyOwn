@@ -1,14 +1,14 @@
 # modules: autonomous_daemon
 
-*Community 2 | 116 files | cohesion 0.53*
+*Community 2 | 118 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 116 file(s) rooted at `modules` with dominant language py (cohesion 0.53). Central symbols: `AIExploitChainer`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `ActionCategory`, `Anchor`, `ApprovalDecision`. Core file: `skills/autonomous_daemon.py` (148 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 118 file(s) rooted at `modules` with dominant language py (cohesion 0.53). Central symbols: `AIExploitChainer`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `ActionCategory`, `Anchor`, `ApprovalDecision`. Core file: `skills/autonomous_daemon.py` (148 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `modules` (38 files)
+### `modules` (39 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -21,24 +21,14 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
-| `tests/test_autonomous_replay.py` | py | testing | 18 | yes |
-| `tests/test_boyscout_contracts.py` | py | testing | 15 | yes |
+| `tests/test_autonomous_ops.py` | py | testing | 17 | yes |
 
-### `skills` (20 files)
+### `skills` (21 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/autonomous_daemon.py` | py | utility | 148 | yes |
 | `skills/autonomous_replay.py` | py | utility | 19 | yes |
-| `skills/daemon_control.py` | py | utility | 27 | yes |
-
-### `cli` (7 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/dashboard_layout.py` | py | presentation | 3 | yes |
-| `cli/dashboard_tui.py` | py | utility | 64 | yes |
-| `cli/graph_advisor.py` | py | utility | 52 | yes |
 
 ### `skills/tests` (6 files)
 
@@ -54,12 +44,26 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
 | `cli/commands/daemon_ctl.py` | py | utility | 8 | yes |
 
-### `contrib/legacy` (4 files)
+### `cli` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `contrib/legacy/lazyaddon_creator.py` | py | utility | 14 | yes |
+| `cli/graph_advisor.py` | py | utility | 52 | yes |
+| `cli/ops_commands.py` | py | utility | 53 | yes |
+
+### `contrib/legacy` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `contrib/legacy/lazypwn.py` | py | utility | 15 | no |
+| `contrib/legacy/lazyvsftp.py` | py | utility | 3 | no |
+
+### `modules/integrations` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/integrations/__init__.py` | py | utility | 0 | yes |
+| `modules/integrations/misp_export.py` | py | utility | 38 | yes |
 
 ### `lazygui` (2 files)
 
@@ -68,7 +72,13 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 | `lazygui/__init__.py` | py | utility | 0 | yes |
 | `lazygui/version.py` | py | utility | 0 | yes |
 
-*... and 96 more files in this community.*
+### `scripts` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
+
+*... and 98 more files in this community.*
 
 
 ## Key Symbols
@@ -106,15 +116,15 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 694
-- Cross-boundary resolved imports (EXTRACTED): 358
+- Internal resolved imports (EXTRACTED): 709
+- Cross-boundary resolved imports (EXTRACTED): 360
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports modules/ttp_coverage.py.
-- [EXTRACTED] depends_on community 9 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 10 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/exploit_migrated.py imports modules/exploit_recommender.py.
 - [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/ops_commands.py.
 
 ## Risks
@@ -149,14 +159,10 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 - `cli/commands/enum.py`
 - `cli/commands/pwn.py`
 - `cli/commands/session_ops.py`
-- `cli/dashboard_layout.py`
-- `cli/dashboard_tui.py`
 - `cli/graph_advisor.py`
-- `cli/killchain.py`
 - `cli/ops_commands.py`
 - `cli/recommendation.py`
 - `cli/recommendation_signals.py`
-- `contrib/legacy/lazyaddon_creator.py`
 - `contrib/legacy/lazypwn.py`
 - `contrib/legacy/lazyvsftp.py`
 - `contrib/legacy/sql.py`
@@ -164,4 +170,8 @@ This community groups 116 file(s) rooted at `modules` with dominant language py 
 - `lazygui/version.py`
 - `modules/ai_exploit_chain.py`
 - `modules/apt_playbooks.py`
-- *... and 96 more*
+- `modules/asset_graph.py`
+- `modules/atomic_enricher.py`
+- `modules/auto_pivot.py`
+- `modules/autonomous_exploit_engine.py`
+- *... and 98 more*

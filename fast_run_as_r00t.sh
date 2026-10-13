@@ -39,6 +39,10 @@ OS_ID=$(_jq os_id)
 ENABLE_TELEGRAM_C2=$(_jq enable_telegram_c2)
 ENABLE_DISCORD_C2=$(_jq enable_discord_c2)
 ENABLE_DEEPSEEK=$(_jq enable_deepseek)
+LOCAL_LLM=$(_jq local_llm)
+[[ -z "$LOCAL_LLM" || "$LOCAL_LLM" == "null" ]] && LOCAL_LLM="none"
+# Legacy flag: enable_deepseek=true without local_llm means the ollama pane.
+[[ "$ENABLE_DEEPSEEK" == "true" && "$LOCAL_LLM" == "none" ]] && LOCAL_LLM="ollama"
 ENABLE_NC=$(_jq enable_nc)
 ENABLE_CF=$(_jq enable_cloudflare)
 CERTPASS=$(_jq cert_pass)
@@ -191,9 +195,11 @@ t_send "sleep 5 && bash -c './run -c nmap'"
 # [1] Network — add hosts to /etc/hosts + ping sweep
 t_lazyown v 5 "-c ping" "addhosts $DOMAIN"
 
-# [opt] Local LLM inference (DeepSeek via Ollama)
-[[ "$ENABLE_DEEPSEEK" == "true" ]] && \
+# [opt] Local LLM inference (operator picks the leg in payload.json local_llm)
+[[ "$LOCAL_LLM" == "ollama" || "$LOCAL_LLM" == "both" ]] && \
     t_priv_user v "ollama run deepseek-r1:1.5b"
+[[ "$LOCAL_LLM" == "llamacpp" || "$LOCAL_LLM" == "both" ]] && \
+    t_priv_user v "bash scripts/lazy_llamacpp_serve.sh"
 
 # [opt] Discord C2 bot
 [[ "$ENABLE_DISCORD_C2" == "true" ]] && \

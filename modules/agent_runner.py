@@ -170,6 +170,23 @@ class ASTToolExtractor:
 
 
 # ===== AGENT RUNNER =====
+def _tool_call_snapshot(tool_call) -> dict:
+    """Flatten one SDK/SimpleNamespace tool call into a plain JSON dict.
+
+    The raw object is not JSON-serializable, so persisting it in the
+    conversation history breaks the ConversationStore save.
+    """
+    function = getattr(tool_call, "function", None)
+    return {
+        "id": str(getattr(tool_call, "id", "") or ""),
+        "type": str(getattr(tool_call, "type", "function") or "function"),
+        "function": {
+            "name": str(getattr(function, "name", "") or ""),
+            "arguments": str(getattr(function, "arguments", "") or ""),
+        },
+    }
+
+
 class AgentRunner:
     """Motor del agente con Límite de Uso por Herramienta (Anti-Spam)"""
 
@@ -414,8 +431,8 @@ class AgentRunner:
         state["last"] = now
         sink(kind, f"streaming... {state['chars']} chars")
 
-    def _process_tool_call(self, tool_call):
-        tool_name = tool_call.function.name
+        def _process_tool_call(self, tool_call):
+            tool_name = tool_call.function.name
 
         # --- LÓGICA ANTI-LOOP MEJORADA ---
         # 1. Incrementar contador global de esa herramienta
@@ -451,8 +468,11 @@ Si ya tienes la info, responde al usuario."""
                 else:
                     result = "❌ Herramienta no encontrada."
 
-        # Guardar en historial
-        self.conversation_history.append({"role": "assistant", "content": None, "tool_calls": [tool_call]})
+        # Guardar en historial (snapshot plano: el objeto crudo del SDK no
+        # es JSON-serializable y romperia el persist del ConversationStore).
+        self.conversation_history.append(
+            {"role": "assistant", "content": None, "tool_calls": [_tool_call_snapshot(tool_call)]}
+        )
         self.conversation_history.append(
             {"role": "tool", "tool_call_id": tool_call.id, "name": tool_name, "content": result}
         )

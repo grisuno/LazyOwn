@@ -135,6 +135,7 @@ class LazyOrchestratorApp(App[None]):
         Binding("s", "save_config", "Save config"),
         Binding("space", "toggle_item", "Toggle"),
         Binding("a", "add_item", "Add"),
+        Binding("e", "edit_item", "Edit priority"),
         Binding("d", "delete_item", "Delete"),
     ]
 
@@ -322,6 +323,18 @@ class LazyOrchestratorApp(App[None]):
         removed = LlmPool().remove_member(name)
         self._refresh_models()
         return bool(removed)
+
+    def set_model_priority(self, name: str, priority: str = "0") -> bool:
+        """Change one LLM member's failover rank and repaint the table."""
+        from modules.lazy_engine import LlmPool
+
+        try:
+            rank = int(str(priority).strip())
+        except (TypeError, ValueError):
+            return False
+        touched = LlmPool().set_priority(name, rank)
+        self._refresh_models()
+        return bool(touched)
 
     def add_guard_rule(self, pattern: str, action: str = "ask", reason: str = "") -> bool:
         """Register one guard intercept rule."""
@@ -559,6 +572,39 @@ class LazyOrchestratorApp(App[None]):
                 ),
                 _done_verb,
             )
+    def action_edit_item(self) -> None:
+        """Edit the selected LLM member's priority (models tab only)."""
+        if self._active_tab() != "tab-models":
+            return
+        try:
+            table = self.query_one("#models-table", DataTable)
+            row_key = table.coordinate_to_cell_key(table.cursor_coordinate).row_key
+            name = str(row_key.value or "")
+        except Exception:
+            return
+        if not name:
+            return
+
+        def _done(values: dict | None) -> None:
+            if values and values.get("priority") is not None:
+                self.set_model_priority(name, values.get("priority", "0"))
+
+        current = ""
+        try:
+            from modules.lazy_engine import LlmPool
+
+            for member in LlmPool().members():
+                if str(member.get("name", "")) == name:
+                    current = str(member.get("priority", 0))
+        except Exception:
+            pass
+        self.push_screen(
+            FormModal(
+                f"Priority for {name}",
+                [("priority", "Priority (higher runs first)", current or "0")],
+            ),
+            _done,
+        )
 
     def action_delete_item(self) -> None:
         """Delete the selected row in the active tab."""

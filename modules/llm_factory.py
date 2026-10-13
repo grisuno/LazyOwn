@@ -38,6 +38,7 @@ try:
         AnthropicModel,
         DeepSeekModel,
         GroqModel,
+        LlamaCppModel,
         OllamaModel,
         OpenAIModel,
     )
@@ -47,6 +48,7 @@ except ModuleNotFoundError:
         AnthropicModel,
         DeepSeekModel,
         GroqModel,
+        LlamaCppModel,
         OllamaModel,
         OpenAIModel,
     )
@@ -57,10 +59,11 @@ _BACKEND_CLASSES = {
     "openai": OpenAIModel,
     "anthropic": AnthropicModel,
     "deepseek": DeepSeekModel,
+    "llamacpp": LlamaCppModel,
 }
 
 _REQUIRED_LLM_BACKEND_METHODS = ("complete",)
-for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, DeepSeekModel):
+for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, DeepSeekModel, LlamaCppModel):
     for _method_name in _REQUIRED_LLM_BACKEND_METHODS:
         if not callable(getattr(_backend_class, _method_name, None)):
             raise RuntimeError(
@@ -73,6 +76,7 @@ BACKEND_OLLAMA = "ollama"
 BACKEND_OPENAI = "openai"
 BACKEND_ANTHROPIC = "anthropic"
 BACKEND_DEEPSEEK = "deepseek"
+BACKEND_LLAMACPP = "llamacpp"
 BACKEND_AUTO = "auto"
 
 SUPPORTED_BACKENDS = (
@@ -81,6 +85,7 @@ SUPPORTED_BACKENDS = (
     BACKEND_OPENAI,
     BACKEND_ANTHROPIC,
     BACKEND_DEEPSEEK,
+    BACKEND_LLAMACPP,
     BACKEND_AUTO,
 )
 
@@ -90,7 +95,9 @@ CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
 CONFIG_KEY_MODEL_OPENAI = "llm_model_openai"
 CONFIG_KEY_MODEL_ANTHROPIC = "llm_model_anthropic"
 CONFIG_KEY_MODEL_DEEPSEEK = "llm_model_deepseek"
+CONFIG_KEY_MODEL_LLAMACPP = "llm_model_llamacpp"
 CONFIG_KEY_OLLAMA_HOST = "ollama_host"
+CONFIG_KEY_LLAMACPP_HOST = "llamacpp_host"
 CONFIG_KEY_API_KEY = "api_key"
 CONFIG_KEY_API_KEY_PLACEHOLDER = "api_key"
 CONFIG_KEY_OPENAI_API_KEY = "openai_api_key"
@@ -165,6 +172,8 @@ DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+DEFAULT_LLAMACPP_MODEL = "local-model"
+DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
 
 ENV_GROQ_API_KEY = "GROQ_API_KEY"
 ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
@@ -186,6 +195,7 @@ _MODEL_CONFIG_KEYS = {
     BACKEND_OPENAI: CONFIG_KEY_MODEL_OPENAI,
     BACKEND_ANTHROPIC: CONFIG_KEY_MODEL_ANTHROPIC,
     BACKEND_DEEPSEEK: CONFIG_KEY_MODEL_DEEPSEEK,
+    BACKEND_LLAMACPP: CONFIG_KEY_MODEL_LLAMACPP,
 }
 
 _DEFAULT_MODELS = {
@@ -194,6 +204,7 @@ _DEFAULT_MODELS = {
     BACKEND_OPENAI: DEFAULT_OPENAI_MODEL,
     BACKEND_ANTHROPIC: DEFAULT_ANTHROPIC_MODEL,
     BACKEND_DEEPSEEK: DEFAULT_DEEPSEEK_MODEL,
+    BACKEND_LLAMACPP: DEFAULT_LLAMACPP_MODEL,
 }
 
 _API_KEY_CONFIG_KEYS = {
@@ -263,6 +274,8 @@ def api_key_config_key(backend: str | None) -> str | None:
     """
     normalized = _normalize_backend(backend)
     if normalized == BACKEND_OLLAMA:
+        return None
+    if normalized == BACKEND_LLAMACPP:
         return None
     if normalized == BACKEND_AUTO:
         return CONFIG_KEY_API_KEY
@@ -422,6 +435,20 @@ def _build_ollama(config: Mapping[str, Any]) -> AIModel:
     model_name = config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL
     host = config.get(CONFIG_KEY_OLLAMA_HOST) or DEFAULT_OLLAMA_HOST
     return OllamaModel(model=model_name, host=host)
+
+
+def _build_llamacpp(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate a llama.cpp server backend (keyless, local).
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`LlamaCppModel` instance.
+    """
+    model_name = config.get(CONFIG_KEY_MODEL_LLAMACPP) or DEFAULT_LLAMACPP_MODEL
+    host = config.get(CONFIG_KEY_LLAMACPP_HOST) or DEFAULT_LLAMACPP_HOST
+    return LlamaCppModel(model=model_name, host=host)
 
 
 def _build_openai(config: Mapping[str, Any]) -> AIModel:
@@ -633,6 +660,8 @@ def _build_backend(
         return _build_anthropic(resolved_config)
     if normalized == BACKEND_DEEPSEEK:
         return _build_deepseek(resolved_config)
+    if normalized == BACKEND_LLAMACPP:
+        return _build_llamacpp(resolved_config)
     if _resolve_api_key(resolved_config):
         try:
             return _build_groq(resolved_config)
@@ -715,7 +744,7 @@ def stream_complete(
     name: str | None = None
     if ":" in spec:
         head, tail = spec.split(":", 1)
-        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm"):
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp"):
             provider = head.strip().lower()
             name = tail.strip() or None
         else:
@@ -760,7 +789,7 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     """Complete a prompt through one model spec; raise when unanswered.
 
     The ``model`` spec accepts an optional ``backend:`` prefix selecting
-    the leg: ``groq:``, ``ollama:``, ``auto:`` (groq first, then ollama)
+    the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``auto:`` (groq first, then ollama)
     or ``toposwarm:`` (local agentic router, keyless). A bare model name
     resolves through the ``auto`` chain. Empty prompt returns empty
     string; any backend outage raises so pool callers can fail over to
@@ -784,7 +813,7 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     name: str | None = None
     if ":" in spec:
         head, tail = spec.split(":", 1)
-        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm"):
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp"):
             provider = head.strip().lower()
             name = tail.strip() or None
         else:
@@ -831,15 +860,18 @@ __all__ = [
     "BACKEND_AUTO",
     "BACKEND_DEEPSEEK",
     "BACKEND_GROQ",
+    "BACKEND_LLAMACPP",
     "BACKEND_OLLAMA",
     "BACKEND_OPENAI",
     "CONFIG_KEY_ANTHROPIC_API_KEY",
     "CONFIG_KEY_API_KEY",
     "CONFIG_KEY_BACKEND",
     "CONFIG_KEY_DEEPSEEK_API_KEY",
+    "CONFIG_KEY_LLAMACPP_HOST",
     "CONFIG_KEY_MODEL_ANTHROPIC",
     "CONFIG_KEY_MODEL_DEEPSEEK",
     "CONFIG_KEY_MODEL_GROQ",
+    "CONFIG_KEY_MODEL_LLAMACPP",
     "CONFIG_KEY_MODEL_OLLAMA",
     "CONFIG_KEY_MODEL_OPENAI",
     "CONFIG_KEY_OLLAMA_HOST",
@@ -848,6 +880,8 @@ __all__ = [
     "DEFAULT_BACKEND",
     "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
+    "DEFAULT_LLAMACPP_HOST",
+    "DEFAULT_LLAMACPP_MODEL",
     "ENV_GROQ_MODEL",
     "GROQ_MODEL_FALLBACKS",
     "groq_model_chain",

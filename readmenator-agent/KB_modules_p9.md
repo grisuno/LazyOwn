@@ -1,6 +1,82 @@
 # Subsystem: modules (page 9 of 14)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
+## modules/lazyown_bridge.py
+- Doc: modules/lazyown_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CatalogEntry` (class, line 48) `class CatalogEntry`
+  - `CommandCatalog` (class, line 115) `class CommandCatalog`
+  - `AbstractSelector` (class, line 3984) `class AbstractSelector(ABC)`
+  - `ServiceAwareSelector` (class, line 4002) `class ServiceAwareSelector(AbstractSelector)`
+  - `MitreAlignedSelector` (class, line 4042) `class MitreAlignedSelector(AbstractSelector)`
+  - `TagSelector` (class, line 4071) `class TagSelector(AbstractSelector)`
+  - `ContextEnricher` (class, line 4103) `class ContextEnricher`
+  - `PhaseMapper` (class, line 4153) `class PhaseMapper`
+  - `BridgeDispatcher` (class, line 4233) `class BridgeDispatcher`
+  - `get_dispatcher` (function, line 4409) `def get_dispatcher()`
+  - `build_command` (method, line 63) `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)`
+  - `matches_service` (method, line 94) `def matches_service(self, services)`
+  - `matches_os` (method, line 104) `def matches_os(self, os_hint)`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `_populate` (method, line 122) `def _populate(self)`
+  - `by_phase` (method, line 3946) `def by_phase(self, phase)`
+  - `by_mitre` (method, line 3952) `def by_mitre(self, technique_id)`
+  - `by_service` (method, line 3956) `def by_service(self, service_name)`
+  - `by_tag` (method, line 3960) `def by_tag(self, tag)`
+  - `by_os` (method, line 3963) `def by_os(self, os_hint)`
+  - `all_phases` (method, line 3966) `def all_phases(self)`
+  - `get` (method, line 3969) `def get(self, command)`
+  - `count` (method, line 3975) `def count(self)`
+  - `select` (method, line 3986) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `select` (method, line 4005) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `__init__` (method, line 4045) `def __init__(self, technique_id)`
+  - `select` (method, line 4049) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `__init__` (method, line 4074) `def __init__(self, tag)`
+  - `select` (method, line 4078) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `enrich` (method, line 4106) `def enrich(self, entry, target, world_snapshot)`
+  - `canonical_kill_chain_order` (method, line 4204) `def canonical_kill_chain_order()`
+  - `to_bridge_phase` (method, line 4210) `def to_bridge_phase(self, wm_phase)`
+  - `kill_chain_order` (method, line 4223) `def kill_chain_order(self)`
+  - `__init__` (method, line 4239) `def __init__(self, catalog, selector, enricher, phase_mapper)`
+  - `suggest` (method, line 4251) `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)`
+  - `suggest_sequence` (method, line 4296) `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)`
+  - `suggest_for_wm_phase` (method, line 4325) `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
+  - `list_phase` (method, line 4343) `def list_phase(self, phase)`
+  - `all_phases` (method, line 4347) `def all_phases(self)`
+  - `catalog_summary` (method, line 4350) `def catalog_summary(self)`
+  - `catalog_summary_filtered` (method, line 4358) `def catalog_summary_filtered(self, phase, os_hint)`
+  - `catalog_count` (method, line 4395) `def catalog_count(self)`
+  - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
+- Depends on: `modules/killchain.py`
+- Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+
+## modules/lazyown_metaextract0r.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `signal_handler` (function, line 42) `def signal_handler(sig, frame)`
+  - `extract_pdf_metadata` (function, line 51) `def extract_pdf_metadata(file_path)`
+  - `extract_docx_metadata` (function, line 62) `def extract_docx_metadata(file_path)`
+  - `extract_ole_metadata` (function, line 73) `def extract_ole_metadata(file_path)`
+  - `extract_image_metadata` (function, line 85) `def extract_image_metadata(file_path)`
+  - `extract_metadata` (function, line 96) `def extract_metadata(file_path)`
+  - `find_and_extract_metadata` (function, line 109) `def find_and_extract_metadata(directory, output_file)`
+  - `parse_arguments` (function, line 130) `def parse_arguments()`
+  - `main` (function, line 140) `def main()`
+
+## modules/lazyown_parquet_tool.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `highlight_term` (function, line 34) `def highlight_term(text, term)`
+  - `search_in_parquet` (function, line 39) `def search_in_parquet(term, parquet_files)`
+  - `buscar_binarios` (function, line 53) `def buscar_binarios(args)`
+  - `ejecutar_opciones` (function, line 136) `def ejecutar_opciones()`
+
 ## modules/lazyownclient.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
@@ -210,17 +286,18 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Language: py
 - Symbols:
   - `LLMClient` (class, line 45) `class LLMClient`
-  - `get_client` (function, line 243) `def get_client(api_key)`
-  - `ask` (function, line 251) `def ask(prompt)`
-  - `classify` (function, line 263) `def classify(output)`
-  - `summarize` (function, line 268) `def summarize(text)`
+  - `get_client` (function, line 268) `def get_client(api_key)`
+  - `ask` (function, line 276) `def ask(prompt)`
+  - `classify` (function, line 288) `def classify(output)`
+  - `summarize` (function, line 293) `def summarize(text)`
   - `__init__` (method, line 63) `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
   - `ask` (method, line 79) `def ask(self, prompt)`
-  - `classify` (method, line 125) `def classify(self, output)`
-  - `summarize` (method, line 154) `def summarize(self, text)`
-  - `_ask_groq` (method, line 174) `def _ask_groq(self, prompt, model, system, temperature)`
-  - `_ask_ollama` (method, line 215) `def _ask_ollama(self, prompt, model)`
-- Depends on: `core/logging.py`
+  - `classify` (method, line 130) `def classify(self, output)`
+  - `summarize` (method, line 159) `def summarize(self, text)`
+  - `_ask_groq` (method, line 179) `def _ask_groq(self, prompt, model, system, temperature)`
+  - `_ask_ollama` (method, line 220) `def _ask_ollama(self, prompt, model)`
+  - `_ask_llamacpp` (method, line 242) `def _ask_llamacpp(self, prompt, model, system)`
+- Depends on: `core/logging.py`, `modules/ai_model.py`
 - Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
 
 ## modules/llm_evaluator.py
@@ -263,31 +340,32 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `is_model_missing_error` (function, line 112) `def is_model_missing_error(message)`
-  - `groq_model_chain` (function, line 132) `def groq_model_chain(config)`
-  - `LLMBackendUnavailableError` (class, line 175) `class LLMBackendUnavailableError(RuntimeError)`
-  - `LLMBackendNotSupportedError` (class, line 179) `class LLMBackendNotSupportedError(ValueError)`
-  - `default_model_for` (function, line 207) `def default_model_for(backend)`
-  - `model_config_key` (function, line 228) `def model_config_key(backend)`
-  - `api_key_config_key` (function, line 249) `def api_key_config_key(backend)`
-  - `backend_requires_api_key` (function, line 272) `def backend_requires_api_key(backend)`
-  - `load_payload` (function, line 290) `def load_payload(payload_path)`
-  - `_resolve_api_key` (function, line 314) `def _resolve_api_key(config)`
-  - `_resolve_api_key_for_backend` (function, line 337) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (function, line 368) `def _normalize_backend(backend)`
-  - `_build_groq` (function, line 391) `def _build_groq(config)`
-  - `_build_ollama` (function, line 413) `def _build_ollama(config)`
-  - `_build_openai` (function, line 427) `def _build_openai(config)`
-  - `_build_anthropic` (function, line 449) `def _build_anthropic(config)`
-  - `_build_deepseek` (function, line 471) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (function, line 493) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (function, line 520) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (function, line 558) `def get_llm_backend(config, backend)`
-  - `_build_backend` (function, line 610) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (function, line 644) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (function, line 666) `def try_get_llm_backend(config, backend)`
-  - `stream_complete` (function, line 690) `def stream_complete(model, prompt, max_tokens, on_delta)`
-  - `complete` (function, line 759) `def complete(model, prompt, max_tokens)`
+  - `is_model_missing_error` (function, line 119) `def is_model_missing_error(message)`
+  - `groq_model_chain` (function, line 139) `def groq_model_chain(config)`
+  - `LLMBackendUnavailableError` (class, line 184) `class LLMBackendUnavailableError(RuntimeError)`
+  - `LLMBackendNotSupportedError` (class, line 188) `class LLMBackendNotSupportedError(ValueError)`
+  - `default_model_for` (function, line 218) `def default_model_for(backend)`
+  - `model_config_key` (function, line 239) `def model_config_key(backend)`
+  - `api_key_config_key` (function, line 260) `def api_key_config_key(backend)`
+  - `backend_requires_api_key` (function, line 285) `def backend_requires_api_key(backend)`
+  - `load_payload` (function, line 303) `def load_payload(payload_path)`
+  - `_resolve_api_key` (function, line 327) `def _resolve_api_key(config)`
+  - `_resolve_api_key_for_backend` (function, line 350) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 381) `def _normalize_backend(backend)`
+  - `_build_groq` (function, line 404) `def _build_groq(config)`
+  - `_build_ollama` (function, line 426) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 440) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 454) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 476) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 498) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (function, line 520) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 547) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 585) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 637) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 673) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 695) `def try_get_llm_backend(config, backend)`
+  - `stream_complete` (function, line 719) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 788) `def complete(model, prompt, max_tokens)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
 - Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
@@ -398,89 +476,6 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `handleError` (method, line 122) `def handleError(self, record)`
 - Depends on: `core/logging.py`
 - Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
-
-## modules/loop_ai_bridge.py
-- Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_singleton` (function, line 50) `def _singleton(key, factory)`
-  - `_stage` (function, line 64) `def _stage(name, default)`
-  - `publish_loop_event` (function, line 74) `def publish_loop_event(task_id, worker, kind, text, severity)`
-  - `_hive_store` (function, line 101) `def _hive_store(task_id, worker, kind, text)`
-  - `annotate_detection` (function, line 125) `def annotate_detection(command, action_category)`
-  - `moe_route` (function, line 149) `def moe_route(task_type, goal)`
-  - `moe_record_outcome` (function, line 166) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
-  - `rl_select` (function, line 185) `def rl_select(task_type, phase, candidates, deterministic)`
-  - `rl_update` (function, line 207) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
-  - `rl_save` (function, line 230) `def rl_save()`
-  - `record_step` (function, line 249) `def record_step(task_id, worker, command, output, detection_prob)`
-  - `swan_available` (function, line 264) `def swan_available()`
-  - `swan_consult` (function, line 277) `def swan_consult(prompt, task_type, phase, timeout)`
-  - `stream_enabled` (function, line 304) `def stream_enabled()`
-  - `ai_snapshot` (function, line 314) `def ai_snapshot()`
-  - `_open` (function, line 104) `def _open()`
-  - `_open` (function, line 130) `def _open()`
-  - `_open` (function, line 152) `def _open()`
-  - `_open` (function, line 171) `def _open()`
-  - `_open` (function, line 192) `def _open()`
-  - `_open` (function, line 214) `def _open()`
-  - `_open` (function, line 235) `def _open()`
-  - `_open` (function, line 269) `def _open()`
-- Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`
-
-## modules/loop_progress.py
-- Doc: Rich Live milestone panel for the autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LoopSnapshot` (class, line 80) `class LoopSnapshot`
-  - `snapshot_from_overview` (function, line 99) `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)`
-  - `snap_to_states` (function, line 123) `def snap_to_states(snapshot)`
-  - `sanitize_line` (function, line 151) `def sanitize_line(line, keep_ansi)`
-  - `LoopProgress` (class, line 169) `class LoopProgress`
-  - `__post_init__` (method, line 182) `def __post_init__(self)`
-  - `live_mode` (method, line 195) `def live_mode(self)`
-  - `start` (method, line 202) `def start(self)`
-  - `stop` (method, line 229) `def stop(self)`
-  - `refresh` (method, line 246) `def refresh(self, snapshot)`
-  - `emit` (method, line 268) `def emit(self, line)`
-  - `_header` (method, line 282) `def _header(self)`
-  - `_milestone_line` (method, line 289) `def _milestone_line(self, snapshot, states, current)`
-  - `_footer` (method, line 306) `def _footer(self, snapshot, elapsed)`
-  - `_render` (method, line 324) `def _render(self, snapshot)`
-- Depends on: `core/safe_console.py`
-- Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
-
-## modules/macos_payloads.py
-- Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MacOSPayloadConfig` (class, line 60) `class MacOSPayloadConfig`
-  - `MacOSPayloadFactory` (class, line 88) `class MacOSPayloadFactory`
-  - `__init__` (method, line 111) `def __init__(self, config, output_dir)`
-  - `_obfuscate_shell` (method, line 116) `def _obfuscate_shell(self, code)`
-  - `_reverse_shell_command` (method, line 122) `def _reverse_shell_command(self)`
-  - `generate_app_bundle` (method, line 137) `def generate_app_bundle(self)`
-  - `_adho_codesign` (method, line 192) `def _adho_codesign(self, app_dir)`
-  - `generate_launchd_persistence` (method, line 212) `def generate_launchd_persistence(self)`
-  - `generate_tcc_bypass` (method, line 268) `def generate_tcc_bypass(self)`
-  - `generate_osascript_dropper` (method, line 314) `def generate_osascript_dropper(self)`
-  - `generate_swift_stager` (method, line 335) `def generate_swift_stager(self)`
-  - `generate_persistence_scripts` (method, line 398) `def generate_persistence_scripts(self)`
-  - `generate_phishing_dialog` (method, line 447) `def generate_phishing_dialog(self)`
-  - `generate_all` (method, line 470) `def generate_all(self)`
-  - `list_tcc_services` (method, line 517) `def list_tcc_services()`
-  - `list_persistence_methods` (method, line 522) `def list_persistence_methods()`
-- Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/mario.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `check_collision` (function, line 105) `def check_collision(x, y, layer)`
 
 
 Next: [KB_modules_p10.md](KB_modules_p10.md)

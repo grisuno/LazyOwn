@@ -1,6 +1,86 @@
 # API (page 14 of 22)
 Previous: [API_p13.md](API_p13.md)
 
+## modules/mcp_agent_bridge.py
+Depends on: `core/logging.py`, `modules/llm_factory.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+- `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
+- `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
+- `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
+- `GroqAgentWorker.__init__` (method) `modules/mcp_agent_bridge.py:235` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
+- `GroqAgentWorker.run` (method) `modules/mcp_agent_bridge.py:264` `def run(self)`
+- `OllamaReActWorker.__init__` (method) `modules/mcp_agent_bridge.py:368` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
+- `OllamaReActWorker.run` (method) `modules/mcp_agent_bridge.py:389` `def run(self)`
+- `AgentBridgeWorker.__init__` (method) `modules/mcp_agent_bridge.py:471` `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)`
+- `AgentBridgeWorker.run` (method) `modules/mcp_agent_bridge.py:478` `def run(self)`
+- `start_agent` (function) `modules/mcp_agent_bridge.py:508` `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` -- Start an agent in a background thread.
+- `dummy_runner` (function) `modules/mcp_agent_bridge.py:531` `def dummy_runner(cmd)`
+
+## modules/memory_cleaner.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `MemoryCleaner.__init__` (method) `modules/memory_cleaner.py:61` `def __init__(self, config)`
+- `MemoryCleaner.windows_memory_cleanup` (method) `modules/memory_cleaner.py:64` `def windows_memory_cleanup(self)` -- Generate Windows memory artifact cleanup commands.
+- `MemoryCleaner.linux_memory_cleanup` (method) `modules/memory_cleaner.py:151` `def linux_memory_cleanup(self)` -- Generate Linux memory artifact cleanup commands.
+- `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
+- `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
+
+## modules/memory_store.py
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `StorageBackend.save` (method) `modules/memory_store.py:96` `def save(self, entry)`
+- `StorageBackend.search` (method) `modules/memory_store.py:99` `def search(self, query, top_k)`
+- `StorageBackend.by_host` (method) `modules/memory_store.py:102` `def by_host(self, host, top_k)`
+- `StorageBackend.by_service` (method) `modules/memory_store.py:105` `def by_service(self, service, top_k)`
+- `StorageBackend.all_entries` (method) `modules/memory_store.py:108` `def all_entries(self, limit)`
+- `StorageBackend.close` (method) `modules/memory_store.py:111` `def close(self)`
+- `SQLiteBackend.__init__` (method) `modules/memory_store.py:130` `def __init__(self, db_path)`
+- `SQLiteBackend.save` (method) `modules/memory_store.py:145` `def save(self, entry)`
+- `SQLiteBackend.search` (method) `modules/memory_store.py:177` `def search(self, query, top_k)`
+- `SQLiteBackend.by_host` (method) `modules/memory_store.py:189` `def by_host(self, host, top_k)`
+- `SQLiteBackend.by_service` (method) `modules/memory_store.py:200` `def by_service(self, service, top_k)`
+- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:212` `def all_entries(self, limit)`
+- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:222` `def stats_raw(self)`
+- `SQLiteBackend.close` (method) `modules/memory_store.py:229` `def close(self)`
+- `MemoryStore.__init__` (method) `modules/memory_store.py:237` `def __init__(self, backend)`
+- `MemoryStore.remember` (method) `modules/memory_store.py:240` `def remember(self, session_id, host, tool, command, output, findings, success)`
+- `MemoryStore.recall` (method) `modules/memory_store.py:267` `def recall(self, query, top_k)`
+- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:270` `def recall_by_host(self, host, top_k)`
+- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:273` `def recall_for_service(self, service_name, top_k)`
+- `MemoryStore.stats` (method) `modules/memory_store.py:276` `def stats(self)`
+- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:284` `def export_finetuning_dataset(self, path)`
+- `get_memory_store` (function) `modules/memory_store.py:303` `def get_memory_store()`
+- `remember` (function) `modules/memory_store.py:312` `def remember(session_id, host, tool, command, output, findings, success)`
+- `recall` (function) `modules/memory_store.py:324` `def recall(query, top_k)`
+
+## modules/metrics.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
+- `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
+- `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
+- `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
+- `MetricsRegistry.prometheus_text` (method) `modules/metrics.py:107` `def prometheus_text(self)` -- Render every counter in Prometheus text exposition format.
+- `MetricRecord.to_dict` (method) `modules/metrics.py:167` `def to_dict(self)` -- Return the record as a JSON-serialisable dictionary.
+- `MetricsWriter.__init__` (method) `modules/metrics.py:189` `def __init__(self, path)` -- Initialise the writer.
+- `MetricsWriter.path` (method) `modules/metrics.py:201` `def path(self)` -- Return the JSONL destination path.
+- `MetricsWriter.append` (method) `modules/metrics.py:206` `def append(self, record)` -- Append a single record to disk.
+- `MetricsAggregator.summarize` (method) `modules/metrics.py:254` `def summarize(cls, records, window_seconds, now_utc)` -- Compute aggregate statistics over the supplied records.
+- `MetricsRecorder.__init__` (method) `modules/metrics.py:339` `def __init__(self, writer)` -- Initialise the recorder.
+- `MetricsRecorder.path` (method) `modules/metrics.py:350` `def path(self)` -- Return the JSONL path used by the underlying writer.
+- `MetricsRecorder.record` (method) `modules/metrics.py:355` `def record(self, command, args, duration_ms, success, exit_code, source)` -- Persist a single command-execution telemetry record.
+- `MetricsRecorder.summarize` (method) `modules/metrics.py:416` `def summarize(self, window_seconds)` -- Return aggregate statistics over recorded events.
+- `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
+- `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
+- `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
+
+## modules/mfa_bypass.py
+Imported by: `cli/commands/cicd.py`
+- `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
+- `MFABypassEngine.enumerate_techniques` (method) `modules/mfa_bypass.py:133` `def enumerate_techniques(self, target)` -- Enumerate viable MFA bypass techniques for a given target.
+- `MFABypassEngine.generate_phishing_templates` (method) `modules/mfa_bypass.py:153` `def generate_phishing_templates(self, target)` -- Generate phishing templates tailored for MFA bypass.
+- `MFABypassEngine.mfa_conditional_access_scan` (method) `modules/mfa_bypass.py:223` `def mfa_conditional_access_scan(self, domain)` -- Scan for conditional access policy gaps.
+- `MFABypassEngine.replay_oauth_token` (method) `modules/mfa_bypass.py:252` `def replay_oauth_token(self, access_token, refresh_token)` -- Test if an OAuth2 token is still valid and can be replayed.
+- `MFABypassEngine.saml_golden_ticket_check` (method) `modules/mfa_bypass.py:278` `def saml_golden_ticket_check(self, adfs_server)` -- Check for ADFS token signing certificate exposure.
+- `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
+
 ## modules/module_registry.py
 Depends on: `core/logging.py`
 Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
@@ -226,7 +306,7 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `modules/auto_registry.py`
-Imported by: `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`
 - `stages` (function) `modules/orchestrator_config.py:105` `def stages()` -- Merged stage view: enabled flag, label and firing condition.
 - `stage_enabled` (function) `modules/orchestrator_config.py:130` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
 - `set_stage` (function) `modules/orchestrator_config.py:136` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
@@ -406,95 +486,6 @@ Imported by: `cli/commands/crystal_ball.py`
 - `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
 - `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
 - `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
-
-## modules/professional_report.py
-Depends on: `modules/llm_factory.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
-- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
-- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:217` `def classify_findings(self, data)` -- Classify collected data into structured findings.
-- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:244` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
-- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:841` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
-- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:865` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
-- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:911` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
-
-## modules/r.sh
-Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
-- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
-
-## modules/reactive_engine.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
-- `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
-- `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
-- `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
-- `PrivescHintMatcher.match` (method) `modules/reactive_engine.py:192` `def match(self, output, context)`
-- `NewHostMatcher.match` (method) `modules/reactive_engine.py:214` `def match(self, output, context)`
-- `ServiceVersionMatcher.match` (method) `modules/reactive_engine.py:247` `def match(self, output, context)`
-- `ShellErrorMatcher.match` (method) `modules/reactive_engine.py:276` `def match(self, output, context)`
-- `LateralOpportunityMatcher.match` (method) `modules/reactive_engine.py:307` `def match(self, output, context)`
-- `DataOfInterestMatcher.match` (method) `modules/reactive_engine.py:349` `def match(self, output, context)`
-- `ParquetAdvisor.__init__` (method) `modules/reactive_engine.py:395` `def __init__(self, root)`
-- `ParquetAdvisor.gtfobins_for` (method) `modules/reactive_engine.py:421` `def gtfobins_for(self, binary)`
-- `ParquetAdvisor.lolbas_for` (method) `modules/reactive_engine.py:434` `def lolbas_for(self, binary)` -- Returns [(function_name, att&ck_technique), ...].
-- `ParquetAdvisor.technique_commands_for` (method) `modules/reactive_engine.py:448` `def technique_commands_for(self, platform, keyword)` -- Return atomic test commands for platform matching keyword.
-- `EvasionAdvisor.suggest` (method) `modules/reactive_engine.py:504` `def suggest(self, signals, platform)`
-- `PrivescAdvisor.suggest` (method) `modules/reactive_engine.py:565` `def suggest(self, signals, platform, parquet)`
-- `SemanticContextAdvisor.__init__` (method) `modules/reactive_engine.py:644` `def __init__(self, rag, config_loader, min_score, query_limit)` -- Initialise the advisor.
-- `SemanticContextAdvisor.suggest` (method) `modules/reactive_engine.py:734` `def suggest(self, output, command, platform, context)` -- Return semantic next-step hints derived from past sessions.
-- `ReactiveEngine.__init__` (method) `modules/reactive_engine.py:810` `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
-- `ReactiveEngine.analyse` (method) `modules/reactive_engine.py:835` `def analyse(self, output, command, platform, context)` -- Parse *output* and return prioritised ReactiveDecisions.
-- `ReactiveEngine.top_decision` (method) `modules/reactive_engine.py:958` `def top_decision(self, output, command, platform, context)` -- Return only the single highest-priority decision, or None.
-- `get_engine` (function) `modules/reactive_engine.py:977` `def get_engine()`
-
-## modules/recommender.py
-Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-Imported by: `skills/lazyown_mcp.py`
-- `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
-- `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
-
-## modules/redteam_gym.py
-Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
-Imported by: `cli/commands/redteam_gym.py`, `modules/exploitgym_gym.py`, `tests/test_infra_disposable.py`
-- `list_challenges` (function) `modules/redteam_gym.py:357` `def list_challenges()` -- Return all defined gym challenges with metadata.
-- `start_challenge` (function) `modules/redteam_gym.py:378` `def start_challenge(challenge_id)` -- Begin a gym challenge and track start time.
-- `submit_challenge` (function) `modules/redteam_gym.py:448` `def submit_challenge(techniques_used, success)` -- Submit a completed challenge for scoring.
-- `show_leaderboard` (function) `modules/redteam_gym.py:679` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
-- `get_active_challenge` (function) `modules/redteam_gym.py:706` `def get_active_challenge()` -- Return the currently active challenge for this operator, if any.
-- `record_external_attempt` (function) `modules/redteam_gym.py:736` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
-- `main` (function) `modules/redteam_gym.py:790` `def main()` -- CLI entry point — show gym leaderboard from command line.
-
-## modules/reflective_dll.py
-- `PEParser.__init__` (method) `modules/reflective_dll.py:151` `def __init__(self, pe_data)`
-- `PEParser.parse_file_header` (method) `modules/reflective_dll.py:166` `def parse_file_header(self)` -- Extract the COFF file header.
-- `PEParser.parse_sections` (method) `modules/reflective_dll.py:208` `def parse_sections(self, num_sections)` -- Parse all section headers from the PE.
-- `PEParser.parse_data_directories` (method) `modules/reflective_dll.py:243` `def parse_data_directories(self, num_entries)` -- Parse the PE data directory entries.
-- `PEParser.rva_to_offset` (method) `modules/reflective_dll.py:265` `def rva_to_offset(self, rva, sections)` -- Convert a relative virtual address to a file offset.
-- `PEParser.parse_imports` (method) `modules/reflective_dll.py:280` `def parse_imports(self, import_dir, sections)` -- Parse the import directory to enumerate imported DLLs and functions.
-- `PEParser.parse_relocations` (method) `modules/reflective_dll.py:326` `def parse_relocations(self, reloc_dir, sections)` -- Parse base relocation entries.
-- `PEParser.parse_exports` (method) `modules/reflective_dll.py:374` `def parse_exports(self, export_dir, sections)` -- Parse the export directory.
-- `PEParser.is_64bit` (method) `modules/reflective_dll.py:456` `def is_64bit(self)`
-- `PEParser.raw_data` (method) `modules/reflective_dll.py:460` `def raw_data(self)`
-- `ReflectiveLoader.__init__` (method) `modules/reflective_dll.py:492` `def __init__(self, pe_data, config)`
-- `ReflectiveLoader.sha256` (method) `modules/reflective_dll.py:505` `def sha256(self)` -- SHA-256 hash of the raw PE bytes.
-- `ReflectiveLoader.architecture` (method) `modules/reflective_dll.py:510` `def architecture(self)` -- CPU architecture string ('x64' or 'x86').
-- `ReflectiveLoader.required_imports` (method) `modules/reflective_dll.py:515` `def required_imports(self)` -- DLL names needed for import resolution.
-- `ReflectiveLoader.plan_injection` (method) `modules/reflective_dll.py:526` `def plan_injection(self)` -- Generate an injection plan based on the configured technique.
-- `ReflectiveLoader.generate_c_stub` (method) `modules/reflective_dll.py:588` `def generate_c_stub(self)` -- Generate a C stub that implements reflective loading.
-- `ReflectiveLoader.generate_powershell_stub` (method) `modules/reflective_dll.py:666` `def generate_powershell_stub(self)` -- Generate PowerShell reflective loader script.
-- `ReflectiveLoader.summarize` (method) `modules/reflective_dll.py:685` `def summarize(self)` -- Human-readable summary of the parsed PE for operator review.
-
-## modules/resource_script.py
-Depends on: `core/safe_exec.py`
-Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
-- `ScriptContext.__init__` (method) `modules/resource_script.py:89` `def __init__(self, shell_params, on_command, on_print)`
-- `ScriptContext.print` (method) `modules/resource_script.py:138` `def print(self, msg)`
-- `ScriptContext.run_command` (method) `modules/resource_script.py:147` `def run_command(self, cmd)`
-- `ScriptContext.eval_condition` (method) `modules/resource_script.py:191` `def eval_condition(self, raw_condition)` -- Evaluate an ``if``/``while`` condition expression.
-- `ResourceScriptEngine.__init__` (method) `modules/resource_script.py:276` `def __init__(self, context)`
-- `ResourceScriptEngine.execute` (method) `modules/resource_script.py:279` `def execute(self, script_path)` -- Load and run a script file.
-- `ResourceScriptEngine.execute_lines` (method) `modules/resource_script.py:293` `def execute_lines(self, lines, source)` -- Execute a list of script lines.
-- `ResourceScriptEngine.execute_string` (method) `modules/resource_script.py:327` `def execute_string(self, script)` -- Execute a script string (split on newlines).
 
 
 Next: [API_p15.md](API_p15.md)

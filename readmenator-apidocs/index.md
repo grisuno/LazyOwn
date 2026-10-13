@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 722 modules, 13974 documented entities, documentation coverage 72.5% (6377/8800 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 735 modules, 14071 documented entities, documentation coverage 72.7% (6452/8877 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (616), sh (54)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (625), sh (58)
 
 ## Modules
 
@@ -77,7 +77,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.headless`](modules/cli.headless.py.md) | Headless / non-interactive runner for automated pipelines. | 1 | 5 | 85.7% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | Self-populating kill-chain progress derived from the daemon event stream. | 1 | 1 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | Live worker-visibility monitor for the autonomous loop. | 1 | 17 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 2 | 23 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 2 | 25 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | Post-scan side effects executed at the tail of ``do_lazynmap``. | 2 | 1 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 18 | 45.8% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
@@ -169,7 +169,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | Lateral Movement command set (pending). | 1 | 8 | 100.0% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | lateral commands migrated from lazyown.py. | 1 | 21 | 95.7% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 10 | 100.0% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 52 | 96.3% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 57 | 96.6% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | Plugin/addon marketplace commands. | 1 | 2 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | MCP verb bridge — one command language for operators and agents. | 1 | 10 | 100.0% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | misc commands migrated from lazyown.py. | 1 | 29 | 96.8% |
@@ -561,15 +561,23 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.kill_chain_viz`](modules/modules.kill_chain_viz.py.md) | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | 0 | 2 | 33.3% |
 | [`modules.killchain`](modules/modules.killchain.py.md) | Unified kill-chain — single source of truth consumed by all surfaces. | 3 | 18 | 100.0% |
 | [`modules.kivi`](modules/modules.kivi.py.md) |  | 1 | 2 | 0.0% |
-| [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 15 | 100.0% |
+| [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
+| [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 29 | 259 | 100.0% |
+| [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | Capability installer for the Lazy autonomous loop. | 0 | 6 | 100.0% |
+| [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 29 | 261 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
+| [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 17 | 100.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
+| [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 5 | 100.0% |
+| [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
+| [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | Mirror LazyOwn skills for Hermes discovery. | 0 | 4 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | Skill context injection for planner/worker prompts. | 0 | 4 | 100.0% |
+| [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | Bounded chain summarizer for the Lazy autonomous loop. | 0 | 2 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 30 | 100.0% |
 | [`modules/lazybrutesshuserenum.sh`](modules/modules.lazybrutesshuserenum.sh.md) | Función para manejar el interruptor de señal Ctrl+C | 0 | 0 | 100.0% |
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | Lista de repositorios (nombre y URL) | 0 | 0 | 100.0% |
@@ -809,6 +817,11 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`scripts.fix_migrated_classes`](modules/scripts.fix_migrated_classes.py.md) |  | 0 | 0 | 0.0% |
 | [`scripts.generate_sbom`](modules/scripts.generate_sbom.py.md) | Generate a minimal CycloneDX SBOM from the pinned requirements files. | 0 | 5 | 100.0% |
 | [`scripts.journal`](modules/scripts.journal.py.md) | Read-before-you-write journal over GitHub Discussions. | 3 | 6 | 100.0% |
+| [`scripts/lazy_hermes_ask.sh`](modules/scripts.lazy_hermes_ask.sh.md) | lazy_hermes_ask.sh — detached Hermes task runner for LazyOwn. | 0 | 0 | 100.0% |
+| [`scripts/lazy_llamacpp_serve.sh`](modules/scripts.lazy_llamacpp_serve.sh.md) | lazy_llamacpp_serve.sh — idempotent llama.cpp server manager for LazyOwn. | 0 | 1 | 50.0% |
+| [`scripts/lazy_llamacpp_setup.sh`](modules/scripts.lazy_llamacpp_setup.sh.md) | lazy_llamacpp_setup.sh — one-time local LLM setup for LazyOwn users. | 0 | 1 | 50.0% |
+| [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | lazy_msf_lab.sh — Metasploitable2 smoke lab manager for LazyOwn. | 0 | 0 | 100.0% |
+| [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | Patch operator agent configs to use the Lazy llama.cpp server. | 0 | 2 | 100.0% |
 | [`scripts.migrate_commandsets`](modules/scripts.migrate_commandsets.py.md) | Merge _migrated.py CommandSet methods into clean phase modules. | 0 | 2 | 66.7% |
 | [`scripts.migrate_lazyown`](modules/scripts.migrate_lazyown.py.md) | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | 0 | 4 | 80.0% |
 | [`scripts/mutate.sh`](modules/scripts.mutate.sh.md) | Mutation gate for LazyOwn. | 0 | 3 | 25.0% |

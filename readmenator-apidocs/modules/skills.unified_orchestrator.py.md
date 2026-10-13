@@ -691,7 +691,7 @@ Execute a single-target kill-chain engagement.
 |---|---|---|---|
 | `goal` | `OrchestratorGoal` |  | The validated request shape. |
 
-**Returns:** `OrchestratorResult` - A normalised [`OrchestratorResult`](#orchestratorresult). `[`status`](#orchestratorresult-status)` reflects
+**Returns:** `OrchestratorResult` - A normalised [`OrchestratorResult`](#orchestratorresult). `[`status`](modules.lazy_sandbox.py.md#status)` reflects
 backend-side failures without raising.
 
 *Calls:* [`DaemonBackend.effective_target`](#daemonbackend-effective_target)

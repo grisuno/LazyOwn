@@ -1,6 +1,52 @@
 # Subsystem: modules (page 14 of 14)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/websocket_beacon.py
+- Doc: WebSocket beacon transport for modern C2 channels.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
+  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
+  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
+  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
+  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
+  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
+  - `connect` (method, line 122) `def connect(self)`
+  - `check_in` (method, line 157) `def check_in(self)`
+  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
+  - `run` (method, line 214) `def run(self, command_handler)`
+  - `shutdown` (method, line 263) `def shutdown(self)`
+  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
+  - `start` (method, line 382) `def start(self)`
+  - `stop` (method, line 392) `def stop(self)`
+  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
+  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
+  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
+  - `list_beacons` (method, line 447) `def list_beacons(self)`
+  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
+- Depends on: `core/hardening.py`
+
+## modules/wineconfig.sh
+- Layer: utility
+- Language: sh
+
+## modules/workspace.py
+- Doc: Confined workspace file browser for operators and loop agents.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `root` (function, line 21) `def root()`
+  - `resolve` (function, line 27) `def resolve(rel)`
+  - `list_entries` (function, line 46) `def list_entries(rel)`
+  - `read_text` (function, line 63) `def read_text(rel, limit)`
+  - `write_text` (function, line 72) `def write_text(rel, content)`
+  - `make_dir` (function, line 83) `def make_dir(rel)`
+  - `remove` (function, line 90) `def remove(rel)`
+- Imported by: `tests/test_lazy_loop.py`
+
 ## modules/world_model.py
 - Doc: modules/world_model.py
 - Layer: business_logic
@@ -68,7 +114,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `reset` (method, line 1094) `def reset(self)`
   - `snapshot` (method, line 1105) `def snapshot(self)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/exploit_recommender.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/integration_autonomous_flow.py`, `tests/test_autonomous_ops.py`, `tests/test_core_modules.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_moe_rl_swan.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/exploit_recommender.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/integration_autonomous_flow.py`, `tests/test_autonomous_ops.py`, `tests/test_core_modules.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_moe_rl_swan.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

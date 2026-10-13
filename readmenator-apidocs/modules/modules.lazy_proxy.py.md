@@ -236,7 +236,7 @@ Report running state, address, CA path and exchange count.
 
 *Calls:* [`TrafficRecorder.count`](modules.traffic_recorder.py.md#trafficrecorder-count)
 
-*Called by:* [`ProxyController.start`](#proxycontroller-start), [`ProxyController.stop`](#proxycontroller-stop)
+*Called by:* [`LazyCommandSet.do_lazy_sandbox`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_sandbox), [`ProxyController.start`](#proxycontroller-start), [`ProxyController.stop`](#proxycontroller-stop)
 
 <a id="proxycontroller-recorder"></a>
 

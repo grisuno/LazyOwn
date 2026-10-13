@@ -1,6 +1,70 @@
 # Subsystem: modules (page 13 of 14)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/socks_proxy.py
+- Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SocksAuthMethod` (class, line 65) `class SocksAuthMethod(IntEnum)`
+  - `SocksCommand` (class, line 74) `class SocksCommand(IntEnum)`
+  - `SocksAddressType` (class, line 82) `class SocksAddressType(IntEnum)`
+  - `SocksReply` (class, line 90) `class SocksReply(IntEnum)`
+  - `SocksSession` (class, line 120) `class SocksSession`
+  - `SocksProxyConfig` (class, line 166) `class SocksProxyConfig`
+  - `SocksValidator` (class, line 244) `class SocksValidator`
+  - `SocksProxyEngine` (class, line 368) `class SocksProxyEngine`
+  - `message` (method, line 103) `def message(self)`
+  - `elapsed_seconds` (method, line 144) `def elapsed_seconds(self)`
+  - `to_dict` (method, line 150) `def to_dict(self)`
+  - `to_dict` (method, line 199) `def to_dict(self)`
+  - `from_dict` (method, line 218) `def from_dict(cls, raw)`
+  - `validate_config` (method, line 253) `def validate_config(config)`
+  - `validate_request` (method, line 300) `def validate_request(command, address_type, host, port, config)`
+  - `_check_access_control` (method, line 340) `def _check_access_control(host, port, config)`
+  - `__init__` (method, line 381) `def __init__(self, config)`
+  - `config` (method, line 387) `def config(self)`
+  - `sessions` (method, line 392) `def sessions(self)`
+  - `session_count` (method, line 397) `def session_count(self)`
+  - `validate` (method, line 401) `def validate(self, config)`
+  - `build_spec` (method, line 413) `def build_spec(self)`
+  - `create_session` (method, line 436) `def create_session(self, session_id, target_host, target_port, beacon_client_id)`
+  - `remove_session` (method, line 475) `def remove_session(self, session_id)`
+  - `get_session` (method, line 482) `def get_session(self, session_id)`
+  - `add_bytes` (method, line 486) `def add_bytes(self, session_id, sent, received)`
+  - `cleanup_expired` (method, line 497) `def cleanup_expired(self)`
+  - `list_sessions` (method, line 511) `def list_sessions(self)`
+  - `_find_oldest_session` (method, line 515) `def _find_oldest_session(self)`
+  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
+  - `from_payload` (method, line 528) `def from_payload(cls, payload)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
+
+## modules/staged_delivery.py
+- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
+  - `StagedDeliveryFactory` (class, line 51) `class StagedDeliveryFactory`
+  - `__init__` (method, line 83) `def __init__(self, config, output_dir)`
+  - `_obfuscate_powershell` (method, line 88) `def _obfuscate_powershell(self, code)`
+  - `_obfuscate_vbscript` (method, line 95) `def _obfuscate_vbscript(self, code)`
+  - `_payload_command` (method, line 102) `def _payload_command(self)`
+  - `generate_hta` (method, line 134) `def generate_hta(self)`
+  - `generate_vba_macro` (method, line 171) `def generate_vba_macro(self)`
+  - `generate_xlm_macro` (method, line 219) `def generate_xlm_macro(self)`
+  - `generate_lnk` (method, line 237) `def generate_lnk(self)`
+  - `generate_iso` (method, line 301) `def generate_iso(self, inner_files)`
+  - `_build_primary_volume_descriptor` (method, line 336) `def _build_primary_volume_descriptor(self, files)`
+  - `generate_vhd` (method, line 370) `def generate_vhd(self, inner_files)`
+  - `generate_all` (method, line 420) `def generate_all(self)`
+  - `generate_phishing_page` (method, line 460) `def generate_phishing_page(self, template)`
+  - `_office365_phish` (method, line 476) `def _office365_phish(self)`
+  - `_gmail_phish` (method, line 504) `def _gmail_phish(self)`
+  - `_outlook_phish` (method, line 532) `def _outlook_phish(self)`
+- Imported by: `cli/commands/payload_arsenal.py`
+
 ## modules/state_manager.py
 - Doc: UnifiedStateManager — single source of truth for all LazyOwn campaign state.
 - Layer: utility
@@ -406,52 +470,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `generate` (function, line 207) `def generate()`
 - Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 - Imported by: `modules/vuln_bot_cli.py`
-
-## modules/websocket_beacon.py
-- Doc: WebSocket beacon transport for modern C2 channels.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
-  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
-  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
-  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
-  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
-  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
-  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
-  - `connect` (method, line 122) `def connect(self)`
-  - `check_in` (method, line 157) `def check_in(self)`
-  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
-  - `run` (method, line 214) `def run(self, command_handler)`
-  - `shutdown` (method, line 263) `def shutdown(self)`
-  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
-  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
-  - `start` (method, line 382) `def start(self)`
-  - `stop` (method, line 392) `def stop(self)`
-  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
-  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
-  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
-  - `list_beacons` (method, line 447) `def list_beacons(self)`
-  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
-- Depends on: `core/hardening.py`
-
-## modules/wineconfig.sh
-- Layer: utility
-- Language: sh
-
-## modules/workspace.py
-- Doc: Confined workspace file browser for operators and loop agents.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `root` (function, line 21) `def root()`
-  - `resolve` (function, line 27) `def resolve(rel)`
-  - `list_entries` (function, line 46) `def list_entries(rel)`
-  - `read_text` (function, line 63) `def read_text(rel, limit)`
-  - `write_text` (function, line 72) `def write_text(rel, content)`
-  - `make_dir` (function, line 83) `def make_dir(rel)`
-  - `remove` (function, line 90) `def remove(rel)`
-- Imported by: `tests/test_lazy_loop.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

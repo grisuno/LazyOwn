@@ -85,7 +85,7 @@ flowchart LR
 
 ### `AIModel`
 
-`class` `abstract` | [modules/ai_model.py:41](../../modules/ai_model.py#L41)
+`class` `abstract` | [modules/ai_model.py:45](../../modules/ai_model.py#L45)
 
 ```python
 class AIModel(ABC)
@@ -115,7 +115,7 @@ historical single-prompt format so subclasses gain
 
 #### `AIModel.generate`
 
-`method` `abstract` | [modules/ai_model.py:52](../../modules/ai_model.py#L52)
+`method` `abstract` | [modules/ai_model.py:56](../../modules/ai_model.py#L56)
 
 Decorators: `@abstractmethod`
 
@@ -139,7 +139,7 @@ Return a non-streaming completion for `[`prompt`](utils.py.md#prompt)`.
 
 #### `AIModel.stream_generate`
 
-`method` `abstract` | [modules/ai_model.py:56](../../modules/ai_model.py#L56)
+`method` `abstract` | [modules/ai_model.py:60](../../modules/ai_model.py#L60)
 
 Decorators: `@abstractmethod`
 
@@ -161,7 +161,7 @@ Yield streaming completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 #### `AIModel.complete`
 
-`method` | [modules/ai_model.py:59](../../modules/ai_model.py#L59)
+`method` | [modules/ai_model.py:63](../../modules/ai_model.py#L63)
 
 ```python
 def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS, temperature: float = DEFAULT_COMPLETE_TEMPERATURE) -> str
@@ -193,7 +193,7 @@ override this method for higher fidelity.
 
 ### `GroqModel`
 
-`class` | [modules/ai_model.py:125](../../modules/ai_model.py#L125)
+`class` | [modules/ai_model.py:129](../../modules/ai_model.py#L129)
 
 ```python
 class GroqModel(AIModel)
@@ -220,7 +220,7 @@ invocation in try/except blocks for surface-level failures.
 
 #### `GroqModel.__init__`
 
-`constructor` | [modules/ai_model.py:133](../../modules/ai_model.py#L133)
+`constructor` | [modules/ai_model.py:137](../../modules/ai_model.py#L137)
 
 ```python
 def __init__(self, api_key: str, model: str = DEFAULT_GROQ_MODEL) -> None
@@ -237,7 +237,7 @@ def __init__(self, api_key: str, model: str = DEFAULT_GROQ_MODEL) -> None
 
 #### `GroqModel.generate`
 
-`method` | [modules/ai_model.py:151](../../modules/ai_model.py#L151)
+`method` | [modules/ai_model.py:155](../../modules/ai_model.py#L155)
 
 ```python
 def generate(self, prompt: str) -> str
@@ -262,7 +262,7 @@ unavailable (Groq answers 404 model_not_found for retired ids).
 
 #### `GroqModel.stream_generate`
 
-`method` `generator` | [modules/ai_model.py:179](../../modules/ai_model.py#L179)
+`method` `generator` | [modules/ai_model.py:183](../../modules/ai_model.py#L183)
 
 ```python
 def stream_generate(self, prompt: str) -> Generator[str, None, None]
@@ -289,7 +289,7 @@ unavailable, mirroring [`generate`](#aimodel-generate).
 
 #### `GroqModel.complete`
 
-`method` | [modules/ai_model.py:212](../../modules/ai_model.py#L212)
+`method` | [modules/ai_model.py:216](../../modules/ai_model.py#L216)
 
 ```python
 def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS, temperature: float = DEFAULT_COMPLETE_TEMPERATURE) -> str
@@ -318,7 +318,7 @@ directly.
 
 ### `OllamaModel`
 
-`class` | [modules/ai_model.py:240](../../modules/ai_model.py#L240)
+`class` | [modules/ai_model.py:244](../../modules/ai_model.py#L244)
 
 ```python
 class OllamaModel(AIModel)
@@ -344,7 +344,7 @@ Ollama-compatible endpoint without code changes.
 
 #### `OllamaModel.__init__`
 
-`constructor` | [modules/ai_model.py:248](../../modules/ai_model.py#L248)
+`constructor` | [modules/ai_model.py:252](../../modules/ai_model.py#L252)
 
 ```python
 def __init__(self, model: str = DEFAULT_OLLAMA_MODEL, host: str = DEFAULT_OLLAMA_HOST) -> None
@@ -361,7 +361,7 @@ def __init__(self, model: str = DEFAULT_OLLAMA_MODEL, host: str = DEFAULT_OLLAMA
 
 #### `OllamaModel.generate`
 
-`method` | [modules/ai_model.py:256](../../modules/ai_model.py#L256)
+`method` | [modules/ai_model.py:260](../../modules/ai_model.py#L260)
 
 ```python
 def generate(self, prompt: str) -> str
@@ -381,7 +381,7 @@ Return a single completion for `[`prompt`](utils.py.md#prompt)`.
 
 #### `OllamaModel.stream_generate`
 
-`method` `generator` | [modules/ai_model.py:276](../../modules/ai_model.py#L276)
+`method` `generator` | [modules/ai_model.py:281](../../modules/ai_model.py#L281)
 
 ```python
 def stream_generate(self, prompt: str) -> Generator[str, None, None]
@@ -405,7 +405,7 @@ Yield streamed completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 ### `OpenAIModel`
 
-`class` | [modules/ai_model.py:307](../../modules/ai_model.py#L307)
+`class` | [modules/ai_model.py:434](../../modules/ai_model.py#L434)
 
 ```python
 class OpenAIModel(AIModel)
@@ -430,7 +430,7 @@ Uses the ``openai`` SDK. Requires an OpenAI API key.
 
 #### `OpenAIModel.__init__`
 
-`constructor` | [modules/ai_model.py:313](../../modules/ai_model.py#L313)
+`constructor` | [modules/ai_model.py:440](../../modules/ai_model.py#L440)
 
 ```python
 def __init__(self, api_key: str, model: str = DEFAULT_OPENAI_MODEL) -> None
@@ -447,7 +447,7 @@ def __init__(self, api_key: str, model: str = DEFAULT_OPENAI_MODEL) -> None
 
 #### `OpenAIModel.generate`
 
-`method` | [modules/ai_model.py:317](../../modules/ai_model.py#L317)
+`method` | [modules/ai_model.py:444](../../modules/ai_model.py#L444)
 
 ```python
 def generate(self, prompt: str) -> str
@@ -463,13 +463,13 @@ Return a non-streaming completion for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:52).
+> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:56).
 
 <a id="openaimodel-stream_generate"></a>
 
 #### `OpenAIModel.stream_generate`
 
-`method` `generator` | [modules/ai_model.py:328](../../modules/ai_model.py#L328)
+`method` `generator` | [modules/ai_model.py:455](../../modules/ai_model.py#L455)
 
 ```python
 def stream_generate(self, prompt: str) -> Generator[str, None, None]
@@ -485,13 +485,13 @@ Yield streaming completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `Generator[str, None, None]`
 
-> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:56).
+> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:60).
 
 <a id="openaimodel-complete"></a>
 
 #### `OpenAIModel.complete`
 
-`method` | [modules/ai_model.py:343](../../modules/ai_model.py#L343)
+`method` | [modules/ai_model.py:470](../../modules/ai_model.py#L470)
 
 ```python
 def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS, temperature: float = DEFAULT_COMPLETE_TEMPERATURE) -> str
@@ -515,7 +515,7 @@ override this method for higher fidelity.
 
 **Returns:** `str` - The completion as a string.
 
-> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:59).
+> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:63).
 
 ---
 
@@ -523,7 +523,7 @@ override this method for higher fidelity.
 
 ### `AnthropicModel`
 
-`class` | [modules/ai_model.py:366](../../modules/ai_model.py#L366)
+`class` | [modules/ai_model.py:493](../../modules/ai_model.py#L493)
 
 ```python
 class AnthropicModel(AIModel)
@@ -548,7 +548,7 @@ Uses the ``anthropic`` SDK. Requires an Anthropic API key.
 
 #### `AnthropicModel.__init__`
 
-`constructor` | [modules/ai_model.py:372](../../modules/ai_model.py#L372)
+`constructor` | [modules/ai_model.py:499](../../modules/ai_model.py#L499)
 
 ```python
 def __init__(self, api_key: str, model: str = DEFAULT_ANTHROPIC_MODEL) -> None
@@ -565,7 +565,7 @@ def __init__(self, api_key: str, model: str = DEFAULT_ANTHROPIC_MODEL) -> None
 
 #### `AnthropicModel.generate`
 
-`method` | [modules/ai_model.py:376](../../modules/ai_model.py#L376)
+`method` | [modules/ai_model.py:503](../../modules/ai_model.py#L503)
 
 ```python
 def generate(self, prompt: str) -> str
@@ -581,13 +581,13 @@ Return a non-streaming completion for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:52).
+> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:56).
 
 <a id="anthropicmodel-stream_generate"></a>
 
 #### `AnthropicModel.stream_generate`
 
-`method` `generator` | [modules/ai_model.py:388](../../modules/ai_model.py#L388)
+`method` `generator` | [modules/ai_model.py:515](../../modules/ai_model.py#L515)
 
 ```python
 def stream_generate(self, prompt: str) -> Generator[str, None, None]
@@ -603,13 +603,13 @@ Yield streaming completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `Generator[str, None, None]`
 
-> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:56).
+> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:60).
 
 <a id="anthropicmodel-complete"></a>
 
 #### `AnthropicModel.complete`
 
-`method` | [modules/ai_model.py:402](../../modules/ai_model.py#L402)
+`method` | [modules/ai_model.py:529](../../modules/ai_model.py#L529)
 
 ```python
 def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS, temperature: float = DEFAULT_COMPLETE_TEMPERATURE) -> str
@@ -633,7 +633,7 @@ override this method for higher fidelity.
 
 **Returns:** `str` - The completion as a string.
 
-> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:59).
+> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:63).
 
 ---
 
@@ -641,7 +641,7 @@ override this method for higher fidelity.
 
 ### `DeepSeekModel`
 
-`class` | [modules/ai_model.py:422](../../modules/ai_model.py#L422)
+`class` | [modules/ai_model.py:549](../../modules/ai_model.py#L549)
 
 ```python
 class DeepSeekModel(AIModel)
@@ -667,7 +667,7 @@ Requires a DeepSeek API key.
 
 #### `DeepSeekModel.__init__`
 
-`constructor` | [modules/ai_model.py:429](../../modules/ai_model.py#L429)
+`constructor` | [modules/ai_model.py:556](../../modules/ai_model.py#L556)
 
 ```python
 def __init__(self, api_key: str, model: str = DEFAULT_DEEPSEEK_MODEL) -> None
@@ -684,7 +684,7 @@ def __init__(self, api_key: str, model: str = DEFAULT_DEEPSEEK_MODEL) -> None
 
 #### `DeepSeekModel.generate`
 
-`method` | [modules/ai_model.py:436](../../modules/ai_model.py#L436)
+`method` | [modules/ai_model.py:563](../../modules/ai_model.py#L563)
 
 ```python
 def generate(self, prompt: str) -> str
@@ -700,13 +700,13 @@ Return a non-streaming completion for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:52).
+> **Inherited:** Documentation from [`AIModel.generate`](#aimodel-generate) (modules/ai_model.py:56).
 
 <a id="deepseekmodel-stream_generate"></a>
 
 #### `DeepSeekModel.stream_generate`
 
-`method` `generator` | [modules/ai_model.py:447](../../modules/ai_model.py#L447)
+`method` `generator` | [modules/ai_model.py:574](../../modules/ai_model.py#L574)
 
 ```python
 def stream_generate(self, prompt: str) -> Generator[str, None, None]
@@ -722,13 +722,13 @@ Yield streaming completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 **Returns:** `Generator[str, None, None]`
 
-> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:56).
+> **Inherited:** Documentation from [`AIModel.stream_generate`](#aimodel-stream_generate) (modules/ai_model.py:60).
 
 <a id="deepseekmodel-complete"></a>
 
 #### `DeepSeekModel.complete`
 
-`method` | [modules/ai_model.py:462](../../modules/ai_model.py#L462)
+`method` | [modules/ai_model.py:589](../../modules/ai_model.py#L589)
 
 ```python
 def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS, temperature: float = DEFAULT_COMPLETE_TEMPERATURE) -> str
@@ -752,7 +752,7 @@ override this method for higher fidelity.
 
 **Returns:** `str` - The completion as a string.
 
-> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:59).
+> **Inherited:** Documentation from [`AIModel.complete`](#aimodel-complete) (modules/ai_model.py:63).
 
 ---
 
@@ -834,7 +834,7 @@ DEFAULT_DEEPSEEK_MODEL = 'deepseek-chat'
 
 ### `DEFAULT_COMPLETE_MAX_TOKENS`
 
-`constant` | [modules/ai_model.py:36](../../modules/ai_model.py#L36)
+`constant` | [modules/ai_model.py:38](../../modules/ai_model.py#L38)
 
 ```python
 DEFAULT_COMPLETE_MAX_TOKENS = 1024
@@ -846,7 +846,7 @@ DEFAULT_COMPLETE_MAX_TOKENS = 1024
 
 ### `DEFAULT_COMPLETE_TEMPERATURE`
 
-`constant` | [modules/ai_model.py:37](../../modules/ai_model.py#L37)
+`constant` | [modules/ai_model.py:39](../../modules/ai_model.py#L39)
 
 ```python
 DEFAULT_COMPLETE_TEMPERATURE = 0.2

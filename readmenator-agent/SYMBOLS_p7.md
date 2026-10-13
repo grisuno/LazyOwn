@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `prepare_attack` | method | `contrib/legacy/lazypwn.py:90` | `def prepare_attack(self)` |
+| `process_output` | method | `contrib/legacy/lazypwn.py:61` | `def process_output(self, output)` |
+| `cleanup_exploit_environment` | function | `contrib/legacy/lazypwnkit.py:31` | `def cleanup_exploit_environment()` |
+| `create_exploit_environment` | function | `contrib/legacy/lazypwnkit.py:13` | `def create_exploit_environment()` |
+| `execute_exploit` | function | `contrib/legacy/lazypwnkit.py:37` | `def execute_exploit(cmd)` |
+| `main` | function | `contrib/legacy/lazypwnkit.py:79` | `def main()` |
+| `rmrf` | function | `contrib/legacy/lazypwnkit.py:8` | `def rmrf(path)` |
+| `parse_hash_file` | function | `contrib/legacy/lazyreversentlmv2.py:11` | `def parse_hash_file(file_path)` |
 | `reverse_shell` | function | `contrib/legacy/lazyreversentlmv2.py:58` | `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)` |
 | `highlight_term` | function | `contrib/legacy/lazysearch.py:29` | `def highlight_term(text, term)` |
 | `main` | function | `contrib/legacy/lazysearch.py:44` | `def main()` |
@@ -304,33 +312,33 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `parse_proc_net_file` | function | `core/network.py:78` | `def parse_proc_net_file(file_path)` |
 | `send_packet` | function | `core/network.py:66` | `def send_packet(packet, iface)` |
 | `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
-| `FieldKind` | class | `core/payload_schema.py:71` | `class FieldKind(StrEnum)` |
-| `FieldSpec` | class | `core/payload_schema.py:98` | `class FieldSpec` |
-| `Severity` | class | `core/payload_schema.py:89` | `class Severity(StrEnum)` |
-| `ValidationIssue` | class | `core/payload_schema.py:140` | `class ValidationIssue` |
-| `_coerce_bool` | function | `core/payload_schema.py:314` | `def _coerce_bool(raw)` |
-| `_coerce_int` | function | `core/payload_schema.py:299` | `def _coerce_int(raw)` |
-| `_spec` | function | `core/payload_schema.py:333` | `def _spec(name, kind, default, description)` |
-| `_validate_bool` | function | `core/payload_schema.py:193` | `def _validate_bool(value)` |
-| `_validate_hex` | function | `core/payload_schema.py:252` | `def _validate_hex(value)` |
-| `_validate_hostname` | function | `core/payload_schema.py:218` | `def _validate_hostname(value)` |
-| `_validate_int` | function | `core/payload_schema.py:169` | `def _validate_int(value)` |
-| `_validate_interface` | function | `core/payload_schema.py:244` | `def _validate_interface(value)` |
-| `_validate_ip` | function | `core/payload_schema.py:210` | `def _validate_ip(value)` |
-| `_validate_json_blob` | function | `core/payload_schema.py:266` | `def _validate_json_blob(value)` |
-| `_validate_opaque` | function | `core/payload_schema.py:278` | `def _validate_opaque(_value)` |
-| `_validate_os_id` | function | `core/payload_schema.py:260` | `def _validate_os_id(value)` |
-| `_validate_path` | function | `core/payload_schema.py:238` | `def _validate_path(value)` |
-| `_validate_port` | function | `core/payload_schema.py:183` | `def _validate_port(value)` |
-| `_validate_string` | function | `core/payload_schema.py:163` | `def _validate_string(value)` |
-| `_validate_url` | function | `core/payload_schema.py:230` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:1652` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:1494` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:1644` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:1489` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:1626` | `def format_issue(issue)` |
-| `validate_payload` | function | `core/payload_schema.py:1591` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:1517` | `def validate_value(key, value)` |
+| `FieldKind` | class | `core/payload_schema.py:73` | `class FieldKind(StrEnum)` |
+| `FieldSpec` | class | `core/payload_schema.py:100` | `class FieldSpec` |
+| `Severity` | class | `core/payload_schema.py:91` | `class Severity(StrEnum)` |
+| `ValidationIssue` | class | `core/payload_schema.py:142` | `class ValidationIssue` |
+| `_coerce_bool` | function | `core/payload_schema.py:316` | `def _coerce_bool(raw)` |
+| `_coerce_int` | function | `core/payload_schema.py:301` | `def _coerce_int(raw)` |
+| `_spec` | function | `core/payload_schema.py:335` | `def _spec(name, kind, default, description)` |
+| `_validate_bool` | function | `core/payload_schema.py:195` | `def _validate_bool(value)` |
+| `_validate_hex` | function | `core/payload_schema.py:254` | `def _validate_hex(value)` |
+| `_validate_hostname` | function | `core/payload_schema.py:220` | `def _validate_hostname(value)` |
+| `_validate_int` | function | `core/payload_schema.py:171` | `def _validate_int(value)` |
+| `_validate_interface` | function | `core/payload_schema.py:246` | `def _validate_interface(value)` |
+| `_validate_ip` | function | `core/payload_schema.py:212` | `def _validate_ip(value)` |
+| `_validate_json_blob` | function | `core/payload_schema.py:268` | `def _validate_json_blob(value)` |
+| `_validate_opaque` | function | `core/payload_schema.py:280` | `def _validate_opaque(_value)` |
+| `_validate_os_id` | function | `core/payload_schema.py:262` | `def _validate_os_id(value)` |
+| `_validate_path` | function | `core/payload_schema.py:240` | `def _validate_path(value)` |
+| `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
+| `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
+| `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
+| `categories` | function | `core/payload_schema.py:1710` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:1552` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:1702` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:1547` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:1684` | `def format_issue(issue)` |
+| `validate_payload` | function | `core/payload_schema.py:1649` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:1575` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
@@ -456,17 +464,17 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `ctrl_c` | function | `external/install_external.sh:13` | `` |
 | `download` | function | `external/install_external.sh:18` | `` |
 | `_jq` | function | `fast_run_as_r00t.sh:31` | `` |
-| `check_deps` | function | `fast_run_as_r00t.sh:74` | `` |
-| `check_sudo` | function | `fast_run_as_r00t.sh:83` | `` |
-| `ensure_gum` | function | `fast_run_as_r00t.sh:63` | `` |
-| `err_box` | function | `fast_run_as_r00t.sh:57` | `` |
-| `log` | function | `fast_run_as_r00t.sh:55` | `` |
-| `parse_args` | function | `fast_run_as_r00t.sh:92` | `` |
-| `spin` | function | `fast_run_as_r00t.sh:56` | `` |
-| `start_chown_watcher` | function | `fast_run_as_r00t.sh:141` | `` |
-| `t_lazyown` | function | `fast_run_as_r00t.sh:117` | `` |
-| `t_priv_user` | function | `fast_run_as_r00t.sh:130` | `` |
-| `t_send` | function | `fast_run_as_r00t.sh:110` | `` |
+| `check_deps` | function | `fast_run_as_r00t.sh:78` | `` |
+| `check_sudo` | function | `fast_run_as_r00t.sh:87` | `` |
+| `ensure_gum` | function | `fast_run_as_r00t.sh:67` | `` |
+| `err_box` | function | `fast_run_as_r00t.sh:61` | `` |
+| `log` | function | `fast_run_as_r00t.sh:59` | `` |
+| `parse_args` | function | `fast_run_as_r00t.sh:96` | `` |
+| `spin` | function | `fast_run_as_r00t.sh:60` | `` |
+| `start_chown_watcher` | function | `fast_run_as_r00t.sh:145` | `` |
+| `t_lazyown` | function | `fast_run_as_r00t.sh:121` | `` |
+| `t_priv_user` | function | `fast_run_as_r00t.sh:134` | `` |
+| `t_send` | function | `fast_run_as_r00t.sh:114` | `` |
 | `download_file` | function | `install.sh:251` | `` |
 | `ensure_gum` | function | `install.sh:128` | `` |
 | `generate_certificates` | function | `install.sh:274` | `` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `App` | class | `lazy_sentinel4.py:544` | `class App(Cmd)` |
 | `Database` | class | `lazy_sentinel4.py:214` | `class Database` |
 | `LazySentinel` | class | `lazy_sentinel4.py:340` | `class LazySentinel` |
-| `LazySentinelHandler` | class | `lazy_sentinel4.py:302` | `class LazySentinelHandler(FileSystemEventHandler)` |
-| `RAGManager` | class | `lazy_sentinel4.py:58` | `class RAGManager` |
-| `__init__` | method | `lazy_sentinel4.py:61` | `def __init__(self, model_name, cache_size)` |
-| `__init__` | method | `lazy_sentinel4.py:215` | `def __init__(self, db_path)` |
-| `__init__` | method | `lazy_sentinel4.py:274` | `def __init__(self, alert_type, details, severity)` |
-| `__init__` | method | `lazy_sentinel4.py:303` | `def __init__(self, lazysentinel)` |
-| `__init__` | method | `lazy_sentinel4.py:341` | `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)` |
-| `__init__` | method | `lazy_sentinel4.py:545` | `def __init__(self)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

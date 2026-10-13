@@ -112,7 +112,7 @@ Send a prompt and return the text response.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `prompt` | `str` |  | The user prompt. |
-| `provider` | `str` | `'auto'` | One of: "groq", "ollama", "auto". "auto" tries groq first, falls back to ollama, then returns static msg. |
+| `provider` | `str` | `'auto'` | One of: "groq", "ollama", "llamacpp", "auto". "auto" tries groq first, then ollama, then llamacpp, then returns static msg. |
 | `model` | `str \| None` | `None` | Override the default model for the selected provider. |
 | `system` | `str` | `'You are a helpful penetration testing assistant.'` | System prompt / persona. |
 | `temperature` | `float` | `0.7` | Sampling temperature (0.0–2.0). |
@@ -125,7 +125,7 @@ Send a prompt and return the text response.
 
 #### `LLMClient.classify`
 
-`method` | [modules/llm_client.py:125](../../modules/llm_client.py#L125)
+`method` | [modules/llm_client.py:130](../../modules/llm_client.py#L130)
 
 ```python
 def classify(self, output: str, *, question: str = 'Did this command succeed? Answer only: success, failure, or partial.', provider: str = 'auto', model: str | None = None) -> str
@@ -152,7 +152,7 @@ Returns a single word: success / failure / partial. Uses the faster/cheaper mode
 
 #### `LLMClient.summarize`
 
-`method` | [modules/llm_client.py:154](../../modules/llm_client.py#L154)
+`method` | [modules/llm_client.py:159](../../modules/llm_client.py#L159)
 
 ```python
 def summarize(self, text: str, *, max_chars: int = 6000, provider: str = 'auto', model: str | None = None) -> str
@@ -181,7 +181,7 @@ Summarize a block of text (e.g. nmap output, tool output).
 
 ### `get_client`
 
-`function` | [modules/llm_client.py:243](../../modules/llm_client.py#L243)
+`function` | [modules/llm_client.py:268](../../modules/llm_client.py#L268)
 
 ```python
 def get_client(api_key: str = '') -> LLMClient
@@ -207,7 +207,7 @@ Return (or create) the module-level singleton LLMClient.
 
 ### `ask`
 
-`function` | [modules/llm_client.py:251](../../modules/llm_client.py#L251)
+`function` | [modules/llm_client.py:276](../../modules/llm_client.py#L276)
 
 ```python
 def ask(prompt: str, *, provider: str = 'auto', model: str | None = None, api_key: str = '', system: str = 'You are a helpful penetration testing assistant.') -> str
@@ -235,7 +235,7 @@ Module-level convenience wrapper.
 
 ### `classify`
 
-`function` | [modules/llm_client.py:263](../../modules/llm_client.py#L263)
+`function` | [modules/llm_client.py:288](../../modules/llm_client.py#L288)
 
 ```python
 def classify(output: str, *, provider: str = 'auto', api_key: str = '') -> str
@@ -261,7 +261,7 @@ Module-level convenience wrapper.
 
 ### `summarize`
 
-`function` | [modules/llm_client.py:268](../../modules/llm_client.py#L268)
+`function` | [modules/llm_client.py:293](../../modules/llm_client.py#L293)
 
 ```python
 def summarize(text: str, *, provider: str = 'auto', api_key: str = '') -> str

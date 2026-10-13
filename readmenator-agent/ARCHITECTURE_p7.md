@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/search.py` -> bs4, csv, requests
+- `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
+- `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
+- `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
+- `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
+- `modules/session_reader.py` -> __future__, abc, csv, dataclasses, glob, json, os, pathlib, typing
+- `modules/session_state.py` -> csv, datetime, json, pathlib, re
+- `modules/sidequestion.py` -> __future__, dataclasses, threading, time, typing, uuid
 - `modules/sleep_obfuscation.py` -> __future__, dataclasses, typing
 - `modules/socks_proxy.py` -> __future__, dataclasses, ipaddress, socket, time, typing
 - `modules/staged_delivery.py` -> __future__, base64, dataclasses, pathlib, struct, typing, uuid
@@ -49,6 +57,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `scripts/fix_migrated_classes.py` -> pathlib
 - `scripts/generate_sbom.py` -> __future__, argparse, datetime, hashlib, json, pathlib, re
 - `scripts/journal.py` -> __future__, argparse, collections.abc, dataclasses, json, pathlib, subprocess, sys
+- `scripts/lazy_opencode_config.py` -> __future__, argparse, json, pathlib, shutil, time, yaml
 - `scripts/migrate_commandsets.py` -> __future__, argparse, ast, os, sys
 - `scripts/migrate_lazyown.py` -> __future__, ast, pathlib, re, sys
 - `scripts/patch_playbook_atomic_ids.py` -> glob, yaml
@@ -287,6 +296,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_scope_traffic_evidence.py` -> __future__
 - `tests/test_loop_spawn_side.py` -> __future__
 - `tests/test_loop_store_race.py` -> __future__, threading
+- `tests/test_loop_supervision.py` -> __future__
 - `tests/test_loop_worker_traces.py` -> __future__
 - `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
 - `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time

@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_mp_update` | method | `cli/commands/marketplace.py:300` | `def _mp_update(self)` |
+| `_ratings_path` | method | `cli/commands/marketplace.py:78` | `def _ratings_path(self)` |
+| `_registry` | method | `cli/commands/marketplace.py:68` | `def _registry(self)` |
+| `_safe_git_clone` | function | `cli/commands/marketplace.py:47` | `def _safe_git_clone(repo_url, dest, depth)` |
+| `_tier_label` | method | `cli/commands/marketplace.py:82` | `def _tier_label(self, name, tiers)` |
 | `_tiers` | method | `cli/commands/marketplace.py:74` | `def _tiers(self)` |
 | `do_marketplace` | method | `cli/commands/marketplace.py:104` | `def do_marketplace(self, line)` |
 | `do_marketplace_config` | method | `cli/commands/marketplace.py:426` | `def do_marketplace_config(self, line)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_candidate_commands` | method | `cli/commands/ux.py:281` | `def _candidate_commands(self)` |
 | `_find_cheat_section` | method | `cli/commands/ux.py:298` | `def _find_cheat_section(query)` |
 | `do_cheat` | method | `cli/commands/ux.py:140` | `def do_cheat(self, line)` |
-| `do_config_diff` | method | `cli/commands/ux.py:115` | `def do_config_diff(self, line)` |
-| `do_hud` | method | `cli/commands/ux.py:46` | `def do_hud(self, line)` |
-| `do_suggest` | method | `cli/commands/ux.py:261` | `def do_suggest(self, line)` |
-| `do_toast` | method | `cli/commands/ux.py:167` | `def do_toast(self, line)` |
-| `do_undo` | method | `cli/commands/ux.py:85` | `def do_undo(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

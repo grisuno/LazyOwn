@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_collect_candidates` | method | `lazyc2/security/cors.py:166` | `def _collect_candidates(self)` |
+| `_dev_fallback` | method | `lazyc2/security/cors.py:193` | `def _dev_fallback(self)` |
+| `_dev_fallback_origins` | method | `lazyc2/security/cors.py:185` | `def _dev_fallback_origins(self)` |
+| `_host_of` | function | `lazyc2/security/cors.py:228` | `def _host_of(origin)` |
+| `_origin_matches` | function | `lazyc2/security/cors.py:197` | `def _origin_matches(allowed, candidate)` |
+| `_scheme_of` | function | `lazyc2/security/cors.py:221` | `def _scheme_of(origin)` |
+| `_socketio_ports` | method | `lazyc2/security/cors.py:157` | `def _socketio_ports(self)` |
+| `env` | method | `lazyc2/security/cors.py:85` | `def env(self)` |
 | `is_allowed` | method | `lazyc2/security/cors.py:136` | `def is_allowed(self, origin)` |
 | `origins_for_socketio` | method | `lazyc2/security/cors.py:110` | `def origins_for_socketio(self)` |
 | `resolve_origins` | method | `lazyc2/security/cors.py:89` | `def resolve_origins(self)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `_chain_resolver` | method | `lazyown.py:1054` | `def _chain_resolver(self, cmd, phase)` |
 | `_create_strict_yaml_prompt` | method | `lazyown.py:4662` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
 | `_did_you_mean` | method | `lazyown.py:1239` | `def _did_you_mean(self, query, limit)` |
-| `_display_adversary_info` | method | `lazyown.py:4868` | `def _display_adversary_info(self, adversary, commands)` |
-| `_execute_commands` | method | `lazyown.py:4875` | `def _execute_commands(self, confirm, remote_cmds)` |
-| `_handler` | function | `lazyown.py:1135` | `def _handler(received, frame, _signum)` |
-| `_install_crypto_signal_handlers` | method | `lazyown.py:1118` | `def _install_crypto_signal_handlers(self)` |
-| `_load_adversaries` | method | `lazyown.py:4821` | `def _load_adversaries(self)` |
-| `_load_extended_params` | method | `lazyown.py:744` | `def _load_extended_params(self)` |
-| `_maybe_chain_prompt` | method | `lazyown.py:1072` | `def _maybe_chain_prompt(self, cmd, phase)` |
-| `_parse_adversary_args` | method | `lazyown.py:4835` | `def _parse_adversary_args(self, line)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

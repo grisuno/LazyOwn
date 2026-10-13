@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/reasoning_stream.py` -> `core/text_utils.py`
+- `cli/recommendation_signals.py` -> `cli/exploration.py`
+- `cli/recommendation_signals.py` -> `cli/graph_advisor.py`
+- `cli/recommendation_signals.py` -> `cli/reactive_hints.py`
+- `cli/recommendation_signals.py` -> `cli/recommendation.py`
+- `cli/recommendation_signals.py` -> `cli/recon_plan.py`
 - `cli/recommendation_signals.py` -> `core/logging.py`
 - `cli/recommendation_signals.py` -> `modules/apt_playbooks.py`
 - `cli/recommendation_signals.py` -> `skills/lazyown_policy.py`
@@ -472,6 +478,9 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
 - `modules/auto_registry.py` -> `modules/command_executor.py`
+- `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py`
+- `modules/auto_registry.py` -> `modules/lazy_installer.py`
+- `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py`
 - `modules/auto_registry.py` -> `modules/orchestrator_config.py`
 - `modules/autonomous_exploit_engine.py` -> `core/defaults.py`
 - `modules/autonomous_exploit_engine.py` -> `core/safe_exec.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/bof_registry.py` -> `cli/commands/enum.py`
 - `modules/bof_registry.py` -> `core/logging.py`
 - `modules/c2_builder.py` -> `core/validators.py`
-- `modules/c2_builder.py` -> `modules/metrics.py`
-- `modules/c2_builder.py` -> `utils.py`
-- `modules/c2_profile.py` -> `core/logging.py`
-- `modules/c2_profile_engine.py` -> `cli/commands/enum.py`
-- `modules/c2_profile_engine.py` -> `core/config.py`
-- `modules/c2_profile_engine.py` -> `core/logging.py`
-- `modules/cli_auth.py` -> `cli/engagement_hooks.py`
-- `modules/cli_auth.py` -> `core/config.py`
-- `modules/cli_auth.py` -> `modules/lazy_rbac.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

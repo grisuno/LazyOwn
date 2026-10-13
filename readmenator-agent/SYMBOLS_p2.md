@@ -416,71 +416,76 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_verdict` | method | `cli/commands/lazyloop.py:132` | `def do_lazy_verdict(self, line)` |
 | `do_lazy_view` | method | `cli/commands/lazyloop.py:299` | `def do_lazy_view(self, line)` |
 | `LazyCommandSet` | class | `cli/commands/lazyops.py:35` | `class LazyCommandSet(LazyOwnCommandSet)` |
-| `_agent_main_prompt` | method | `cli/commands/lazyops.py:1569` | `def _agent_main_prompt(self, task_id)` |
-| `_agent_main_tools` | method | `cli/commands/lazyops.py:1452` | `def _agent_main_tools(self, task_id)` |
+| `_agent_main_prompt` | method | `cli/commands/lazyops.py:1651` | `def _agent_main_prompt(self, task_id)` |
+| `_agent_main_tools` | method | `cli/commands/lazyops.py:1534` | `def _agent_main_tools(self, task_id)` |
 | `_engine` | function | `cli/commands/lazyops.py:28` | `def _engine()` |
 | `_free_text` | method | `cli/commands/lazyops.py:62` | `def _free_text(args)` |
 | `_require_task` | method | `cli/commands/lazyops.py:54` | `def _require_task(self, args)` |
 | `_task_id` | method | `cli/commands/lazyops.py:41` | `def _task_id(self, args)` |
-| `add_hint` | function | `cli/commands/lazyops.py:1504` | `def add_hint(text)` |
-| `campaign_sitrep` | function | `cli/commands/lazyops.py:1491` | `def campaign_sitrep()` |
-| `do_lazy_addon` | method | `cli/commands/lazyops.py:1775` | `def do_lazy_addon(self, line)` |
-| `do_lazy_agent` | method | `cli/commands/lazyops.py:1580` | `def do_lazy_agent(self, line)` |
-| `do_lazy_archive` | method | `cli/commands/lazyops.py:2180` | `def do_lazy_archive(self, line)` |
-| `do_lazy_ask` | method | `cli/commands/lazyops.py:1426` | `def do_lazy_ask(self, line)` |
-| `do_lazy_asset` | method | `cli/commands/lazyops.py:732` | `def do_lazy_asset(self, line)` |
-| `do_lazy_broadcast` | method | `cli/commands/lazyops.py:520` | `def do_lazy_broadcast(self, line)` |
-| `do_lazy_category` | method | `cli/commands/lazyops.py:2242` | `def do_lazy_category(self, line)` |
-| `do_lazy_chat` | method | `cli/commands/lazyops.py:2263` | `def do_lazy_chat(self, line)` |
-| `do_lazy_compact` | method | `cli/commands/lazyops.py:2079` | `def do_lazy_compact(self, line)` |
-| `do_lazy_company` | method | `cli/commands/lazyops.py:1681` | `def do_lazy_company(self, line)` |
-| `do_lazy_constraint` | method | `cli/commands/lazyops.py:674` | `def do_lazy_constraint(self, line)` |
-| `do_lazy_context` | method | `cli/commands/lazyops.py:239` | `def do_lazy_context(self, line)` |
-| `do_lazy_enrich` | method | `cli/commands/lazyops.py:773` | `def do_lazy_enrich(self, line)` |
-| `do_lazy_evidence` | method | `cli/commands/lazyops.py:1359` | `def do_lazy_evidence(self, line)` |
-| `do_lazy_fact` | method | `cli/commands/lazyops.py:1311` | `def do_lazy_fact(self, line)` |
-| `do_lazy_finding` | method | `cli/commands/lazyops.py:1107` | `def do_lazy_finding(self, line)` |
-| `do_lazy_frontier` | method | `cli/commands/lazyops.py:415` | `def do_lazy_frontier(self, line)` |
-| `do_lazy_gate` | method | `cli/commands/lazyops.py:2323` | `def do_lazy_gate(self, line)` |
-| `do_lazy_goal` | method | `cli/commands/lazyops.py:635` | `def do_lazy_goal(self, line)` |
-| `do_lazy_graph` | method | `cli/commands/lazyops.py:210` | `def do_lazy_graph(self, line)` |
-| `do_lazy_guard` | method | `cli/commands/lazyops.py:1006` | `def do_lazy_guard(self, line)` |
-| `do_lazy_hint` | method | `cli/commands/lazyops.py:555` | `def do_lazy_hint(self, line)` |
-| `do_lazy_intent` | method | `cli/commands/lazyops.py:567` | `def do_lazy_intent(self, line)` |
-| `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:592` | `def do_lazy_intent_delete(self, line)` |
-| `do_lazy_kill` | method | `cli/commands/lazyops.py:1203` | `def do_lazy_kill(self, line)` |
-| `do_lazy_llm` | method | `cli/commands/lazyops.py:1964` | `def do_lazy_llm(self, line)` |
-| `do_lazy_loop` | method | `cli/commands/lazyops.py:2368` | `def do_lazy_loop(self, line)` |
-| `do_lazy_node` | method | `cli/commands/lazyops.py:1339` | `def do_lazy_node(self, line)` |
-| `do_lazy_notify` | method | `cli/commands/lazyops.py:1857` | `def do_lazy_notify(self, line)` |
-| `do_lazy_overview` | method | `cli/commands/lazyops.py:2175` | `def do_lazy_overview(self, line)` |
-| `do_lazy_pause` | method | `cli/commands/lazyops.py:1215` | `def do_lazy_pause(self, line)` |
-| `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1299` | `def do_lazy_payload_keys(self, line)` |
-| `do_lazy_planner` | method | `cli/commands/lazyops.py:396` | `def do_lazy_planner(self, line)` |
-| `do_lazy_report` | method | `cli/commands/lazyops.py:1235` | `def do_lazy_report(self, line)` |
-| `do_lazy_resume` | method | `cli/commands/lazyops.py:1225` | `def do_lazy_resume(self, line)` |
-| `do_lazy_retest` | method | `cli/commands/lazyops.py:1172` | `def do_lazy_retest(self, line)` |
-| `do_lazy_runtime` | method | `cli/commands/lazyops.py:1252` | `def do_lazy_runtime(self, line)` |
-| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2296` | `def do_lazy_scheduler(self, line)` |
-| `do_lazy_scope` | method | `cli/commands/lazyops.py:692` | `def do_lazy_scope(self, line)` |
-| `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:368` | `def do_lazy_selfupdate(self, line)` |
-| `do_lazy_skill` | method | `cli/commands/lazyops.py:260` | `def do_lazy_skill(self, line)` |
-| `do_lazy_status` | method | `cli/commands/lazyops.py:2151` | `def do_lazy_status(self, line)` |
-| `do_lazy_steer` | method | `cli/commands/lazyops.py:1191` | `def do_lazy_steer(self, line)` |
-| `do_lazy_task` | method | `cli/commands/lazyops.py:88` | `def do_lazy_task(self, line)` |
-| `do_lazy_template` | method | `cli/commands/lazyops.py:2211` | `def do_lazy_template(self, line)` |
-| `do_lazy_todo` | method | `cli/commands/lazyops.py:710` | `def do_lazy_todo(self, line)` |
-| `do_lazy_tool` | method | `cli/commands/lazyops.py:1703` | `def do_lazy_tool(self, line)` |
-| `do_lazy_trace` | method | `cli/commands/lazyops.py:467` | `def do_lazy_trace(self, line)` |
-| `do_lazy_traffic` | method | `cli/commands/lazyops.py:785` | `def do_lazy_traffic(self, line)` |
-| `do_lazy_trigger` | method | `cli/commands/lazyops.py:1905` | `def do_lazy_trigger(self, line)` |
-| `do_lazy_worker` | method | `cli/commands/lazyops.py:427` | `def do_lazy_worker(self, line)` |
-| `do_lazy_workspace` | method | `cli/commands/lazyops.py:315` | `def do_lazy_workspace(self, line)` |
-| `list_tasks` | function | `cli/commands/lazyops.py:1479` | `def list_tasks()` |
-| `run_command` | function | `cli/commands/lazyops.py:1457` | `def run_command(command)` |
-| `steer_intent` | function | `cli/commands/lazyops.py:1511` | `def steer_intent(intent, message)` |
-| `task_findings` | function | `cli/commands/lazyops.py:1487` | `def task_findings(task)` |
-| `task_graph` | function | `cli/commands/lazyops.py:1483` | `def task_graph(task)` |
+| `add_hint` | function | `cli/commands/lazyops.py:1586` | `def add_hint(text)` |
+| `campaign_sitrep` | function | `cli/commands/lazyops.py:1573` | `def campaign_sitrep()` |
+| `do_lazy_addon` | method | `cli/commands/lazyops.py:1979` | `def do_lazy_addon(self, line)` |
+| `do_lazy_agent` | method | `cli/commands/lazyops.py:1662` | `def do_lazy_agent(self, line)` |
+| `do_lazy_archive` | method | `cli/commands/lazyops.py:2406` | `def do_lazy_archive(self, line)` |
+| `do_lazy_ask` | method | `cli/commands/lazyops.py:1508` | `def do_lazy_ask(self, line)` |
+| `do_lazy_asset` | method | `cli/commands/lazyops.py:814` | `def do_lazy_asset(self, line)` |
+| `do_lazy_broadcast` | method | `cli/commands/lazyops.py:602` | `def do_lazy_broadcast(self, line)` |
+| `do_lazy_category` | method | `cli/commands/lazyops.py:2468` | `def do_lazy_category(self, line)` |
+| `do_lazy_chat` | method | `cli/commands/lazyops.py:2489` | `def do_lazy_chat(self, line)` |
+| `do_lazy_compact` | method | `cli/commands/lazyops.py:2305` | `def do_lazy_compact(self, line)` |
+| `do_lazy_company` | method | `cli/commands/lazyops.py:1763` | `def do_lazy_company(self, line)` |
+| `do_lazy_constraint` | method | `cli/commands/lazyops.py:756` | `def do_lazy_constraint(self, line)` |
+| `do_lazy_context` | method | `cli/commands/lazyops.py:294` | `def do_lazy_context(self, line)` |
+| `do_lazy_dispatch` | method | `cli/commands/lazyops.py:88` | `def do_lazy_dispatch(self, line)` |
+| `do_lazy_enrich` | method | `cli/commands/lazyops.py:855` | `def do_lazy_enrich(self, line)` |
+| `do_lazy_evidence` | method | `cli/commands/lazyops.py:1441` | `def do_lazy_evidence(self, line)` |
+| `do_lazy_fact` | method | `cli/commands/lazyops.py:1393` | `def do_lazy_fact(self, line)` |
+| `do_lazy_finding` | method | `cli/commands/lazyops.py:1189` | `def do_lazy_finding(self, line)` |
+| `do_lazy_frontier` | method | `cli/commands/lazyops.py:497` | `def do_lazy_frontier(self, line)` |
+| `do_lazy_gate` | method | `cli/commands/lazyops.py:2549` | `def do_lazy_gate(self, line)` |
+| `do_lazy_goal` | method | `cli/commands/lazyops.py:717` | `def do_lazy_goal(self, line)` |
+| `do_lazy_graph` | method | `cli/commands/lazyops.py:265` | `def do_lazy_graph(self, line)` |
+| `do_lazy_guard` | method | `cli/commands/lazyops.py:1088` | `def do_lazy_guard(self, line)` |
+| `do_lazy_hint` | method | `cli/commands/lazyops.py:637` | `def do_lazy_hint(self, line)` |
+| `do_lazy_install` | method | `cli/commands/lazyops.py:2671` | `def do_lazy_install(self, line)` |
+| `do_lazy_intent` | method | `cli/commands/lazyops.py:649` | `def do_lazy_intent(self, line)` |
+| `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:674` | `def do_lazy_intent_delete(self, line)` |
+| `do_lazy_kill` | method | `cli/commands/lazyops.py:1285` | `def do_lazy_kill(self, line)` |
+| `do_lazy_llm` | method | `cli/commands/lazyops.py:2168` | `def do_lazy_llm(self, line)` |
+| `do_lazy_loop` | method | `cli/commands/lazyops.py:2594` | `def do_lazy_loop(self, line)` |
+| `do_lazy_node` | method | `cli/commands/lazyops.py:1421` | `def do_lazy_node(self, line)` |
+| `do_lazy_notify` | method | `cli/commands/lazyops.py:2061` | `def do_lazy_notify(self, line)` |
+| `do_lazy_overview` | method | `cli/commands/lazyops.py:2401` | `def do_lazy_overview(self, line)` |
+| `do_lazy_pause` | method | `cli/commands/lazyops.py:1297` | `def do_lazy_pause(self, line)` |
+| `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1381` | `def do_lazy_payload_keys(self, line)` |
+| `do_lazy_planner` | method | `cli/commands/lazyops.py:478` | `def do_lazy_planner(self, line)` |
+| `do_lazy_report` | method | `cli/commands/lazyops.py:1317` | `def do_lazy_report(self, line)` |
+| `do_lazy_resume` | method | `cli/commands/lazyops.py:1307` | `def do_lazy_resume(self, line)` |
+| `do_lazy_retest` | method | `cli/commands/lazyops.py:1254` | `def do_lazy_retest(self, line)` |
+| `do_lazy_runtime` | method | `cli/commands/lazyops.py:1334` | `def do_lazy_runtime(self, line)` |
+| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2614` | `def do_lazy_sandbox(self, line)` |
+| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2522` | `def do_lazy_scheduler(self, line)` |
+| `do_lazy_scope` | method | `cli/commands/lazyops.py:774` | `def do_lazy_scope(self, line)` |
+| `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:450` | `def do_lazy_selfupdate(self, line)` |
+| `do_lazy_skill` | method | `cli/commands/lazyops.py:315` | `def do_lazy_skill(self, line)` |
+| `do_lazy_stage` | method | `cli/commands/lazyops.py:1951` | `def do_lazy_stage(self, line)` |
+| `do_lazy_status` | method | `cli/commands/lazyops.py:2377` | `def do_lazy_status(self, line)` |
+| `do_lazy_steer` | method | `cli/commands/lazyops.py:1273` | `def do_lazy_steer(self, line)` |
+| `do_lazy_task` | method | `cli/commands/lazyops.py:143` | `def do_lazy_task(self, line)` |
+| `do_lazy_template` | method | `cli/commands/lazyops.py:2437` | `def do_lazy_template(self, line)` |
+| `do_lazy_todo` | method | `cli/commands/lazyops.py:792` | `def do_lazy_todo(self, line)` |
+| `do_lazy_tool` | method | `cli/commands/lazyops.py:1785` | `def do_lazy_tool(self, line)` |
+| `do_lazy_trace` | method | `cli/commands/lazyops.py:549` | `def do_lazy_trace(self, line)` |
+| `do_lazy_traffic` | method | `cli/commands/lazyops.py:867` | `def do_lazy_traffic(self, line)` |
+| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2109` | `def do_lazy_trigger(self, line)` |
+| `do_lazy_verb` | method | `cli/commands/lazyops.py:1857` | `def do_lazy_verb(self, line)` |
+| `do_lazy_worker` | method | `cli/commands/lazyops.py:509` | `def do_lazy_worker(self, line)` |
+| `do_lazy_workspace` | method | `cli/commands/lazyops.py:397` | `def do_lazy_workspace(self, line)` |
+| `list_tasks` | function | `cli/commands/lazyops.py:1561` | `def list_tasks()` |
+| `run_command` | function | `cli/commands/lazyops.py:1539` | `def run_command(command)` |
+| `steer_intent` | function | `cli/commands/lazyops.py:1593` | `def steer_intent(intent, message)` |
+| `task_findings` | function | `cli/commands/lazyops.py:1569` | `def task_findings(task)` |
+| `task_graph` | function | `cli/commands/lazyops.py:1565` | `def task_graph(task)` |
 | `MarketplaceCommandSet` | class | `cli/commands/marketplace.py:62` | `class MarketplaceCommandSet(LazyOwnCommandSet)` |
 | `_installed_plugins` | method | `cli/commands/marketplace.py:86` | `def _installed_plugins(self)` |
 | `_mp_info` | method | `cli/commands/marketplace.py:333` | `def _mp_info(self, name)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_mp_ratings` | method | `cli/commands/marketplace.py:394` | `def _mp_ratings(self, name)` |
 | `_mp_search` | method | `cli/commands/marketplace.py:203` | `def _mp_search(self, query)` |
 | `_mp_toggle_addon` | method | `cli/commands/marketplace.py:468` | `def _mp_toggle_addon(self, name, enable_state)` |
-| `_mp_update` | method | `cli/commands/marketplace.py:300` | `def _mp_update(self)` |
-| `_ratings_path` | method | `cli/commands/marketplace.py:78` | `def _ratings_path(self)` |
-| `_registry` | method | `cli/commands/marketplace.py:68` | `def _registry(self)` |
-| `_safe_git_clone` | function | `cli/commands/marketplace.py:47` | `def _safe_git_clone(repo_url, dest, depth)` |
-| `_tier_label` | method | `cli/commands/marketplace.py:82` | `def _tier_label(self, name, tiers)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

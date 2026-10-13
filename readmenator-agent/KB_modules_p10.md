@@ -1,6 +1,89 @@
 # Subsystem: modules (page 10 of 14)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/loop_ai_bridge.py
+- Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_singleton` (function, line 50) `def _singleton(key, factory)`
+  - `_stage` (function, line 64) `def _stage(name, default)`
+  - `publish_loop_event` (function, line 74) `def publish_loop_event(task_id, worker, kind, text, severity)`
+  - `_hive_store` (function, line 101) `def _hive_store(task_id, worker, kind, text)`
+  - `annotate_detection` (function, line 125) `def annotate_detection(command, action_category)`
+  - `moe_route` (function, line 149) `def moe_route(task_type, goal)`
+  - `moe_record_outcome` (function, line 166) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
+  - `rl_select` (function, line 185) `def rl_select(task_type, phase, candidates, deterministic)`
+  - `rl_update` (function, line 207) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
+  - `rl_save` (function, line 230) `def rl_save()`
+  - `record_step` (function, line 249) `def record_step(task_id, worker, command, output, detection_prob)`
+  - `swan_available` (function, line 264) `def swan_available()`
+  - `swan_consult` (function, line 277) `def swan_consult(prompt, task_type, phase, timeout)`
+  - `stream_enabled` (function, line 304) `def stream_enabled()`
+  - `ai_snapshot` (function, line 314) `def ai_snapshot()`
+  - `_open` (function, line 104) `def _open()`
+  - `_open` (function, line 130) `def _open()`
+  - `_open` (function, line 152) `def _open()`
+  - `_open` (function, line 171) `def _open()`
+  - `_open` (function, line 192) `def _open()`
+  - `_open` (function, line 214) `def _open()`
+  - `_open` (function, line 235) `def _open()`
+  - `_open` (function, line 269) `def _open()`
+- Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`
+
+## modules/loop_progress.py
+- Doc: Rich Live milestone panel for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopSnapshot` (class, line 80) `class LoopSnapshot`
+  - `snapshot_from_overview` (function, line 99) `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)`
+  - `snap_to_states` (function, line 123) `def snap_to_states(snapshot)`
+  - `sanitize_line` (function, line 151) `def sanitize_line(line, keep_ansi)`
+  - `LoopProgress` (class, line 169) `class LoopProgress`
+  - `__post_init__` (method, line 182) `def __post_init__(self)`
+  - `live_mode` (method, line 195) `def live_mode(self)`
+  - `start` (method, line 202) `def start(self)`
+  - `stop` (method, line 229) `def stop(self)`
+  - `refresh` (method, line 246) `def refresh(self, snapshot)`
+  - `emit` (method, line 268) `def emit(self, line)`
+  - `_header` (method, line 282) `def _header(self)`
+  - `_milestone_line` (method, line 289) `def _milestone_line(self, snapshot, states, current)`
+  - `_footer` (method, line 306) `def _footer(self, snapshot, elapsed)`
+  - `_render` (method, line 324) `def _render(self, snapshot)`
+- Depends on: `core/safe_console.py`
+- Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
+
+## modules/macos_payloads.py
+- Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MacOSPayloadConfig` (class, line 60) `class MacOSPayloadConfig`
+  - `MacOSPayloadFactory` (class, line 88) `class MacOSPayloadFactory`
+  - `__init__` (method, line 111) `def __init__(self, config, output_dir)`
+  - `_obfuscate_shell` (method, line 116) `def _obfuscate_shell(self, code)`
+  - `_reverse_shell_command` (method, line 122) `def _reverse_shell_command(self)`
+  - `generate_app_bundle` (method, line 137) `def generate_app_bundle(self)`
+  - `_adho_codesign` (method, line 192) `def _adho_codesign(self, app_dir)`
+  - `generate_launchd_persistence` (method, line 212) `def generate_launchd_persistence(self)`
+  - `generate_tcc_bypass` (method, line 268) `def generate_tcc_bypass(self)`
+  - `generate_osascript_dropper` (method, line 314) `def generate_osascript_dropper(self)`
+  - `generate_swift_stager` (method, line 335) `def generate_swift_stager(self)`
+  - `generate_persistence_scripts` (method, line 398) `def generate_persistence_scripts(self)`
+  - `generate_phishing_dialog` (method, line 447) `def generate_phishing_dialog(self)`
+  - `generate_all` (method, line 470) `def generate_all(self)`
+  - `list_tcc_services` (method, line 517) `def list_tcc_services()`
+  - `list_persistence_methods` (method, line 522) `def list_persistence_methods()`
+- Imported by: `cli/commands/payload_arsenal.py`
+
+## modules/mario.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_collision` (function, line 105) `def check_collision(x, y, layer)`
+
 ## modules/mcp_agent_bridge.py
 - Doc: LazyOwn MCP Agent Bridge
 - Layer: utility
@@ -410,65 +493,6 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 ## modules/ooficesod0woodo.py
 - Layer: utility
 - Language: py
-
-## modules/operation.py
-- Doc: Caldera-style operation lifecycle: create, start, pause, resume, stop, status.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `OperationStatus` (class, line 42) `class OperationStatus(StrEnum)`
-  - `OpEvent` (class, line 52) `class OpEvent`
-  - `OperationStep` (class, line 63) `class OperationStep`
-  - `Operation` (class, line 79) `class Operation`
-  - `OperationManager` (class, line 180) `class OperationManager`
-  - `get_manager` (function, line 471) `def get_manager()`
-  - `to_dict` (method, line 98) `def to_dict(self)`
-  - `from_dict` (method, line 116) `def from_dict(cls, d)`
-  - `save` (method, line 134) `def save(self)`
-  - `log_event` (method, line 143) `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
-  - `record_facts` (method, line 164) `def record_facts(self, findings)`
-  - `__init__` (method, line 183) `def __init__(self)`
-  - `list` (method, line 187) `def list(self)`
-  - `get` (method, line 199) `def get(self, op_id)`
-  - `create` (method, line 206) `def create(self, name, target, apt_name, description)`
-  - `plan_from_apt` (method, line 225) `def plan_from_apt(self, op, playbook_yaml_path)`
-  - `start` (method, line 287) `def start(self, op_id, executor)`
-  - `pause` (method, line 369) `def pause(self, op_id)`
-  - `resume` (method, line 378) `def resume(self, op_id, executor)`
-  - `stop` (method, line 386) `def stop(self, op_id)`
-  - `status` (method, line 396) `def status(self, op_id)`
-  - `timeline` (method, line 425) `def timeline(self, op_id)`
-  - `report` (method, line 431) `def report(self, op_id)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`
-
-## modules/operator_profiles.py
-- Doc: Multi-operator profile management for LazyOwn team server.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `OperatorProfile` (class, line 38) `class OperatorProfile`
-  - `OperatorProfileManager` (class, line 77) `class OperatorProfileManager`
-  - `get_operator_profile_manager` (function, line 398) `def get_operator_profile_manager()`
-  - `to_dict` (method, line 57) `def to_dict(self)`
-  - `__init__` (method, line 88) `def __init__(self)`
-  - `_ensure_team_ca` (method, line 93) `def _ensure_team_ca(self)`
-  - `_profile_dir` (method, line 124) `def _profile_dir(self, username)`
-  - `_profile_path` (method, line 127) `def _profile_path(self, username)`
-  - `_generate_operator_cert` (method, line 130) `def _generate_operator_cert(self, username)`
-  - `create_profile` (method, line 192) `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...`
-  - `_save_profile` (method, line 255) `def _save_profile(self, profile)`
-  - `load_profile` (method, line 260) `def load_profile(self, username)`
-  - `update_profile` (method, line 276) `def update_profile(self, username)`
-  - `delete_profile` (method, line 289) `def delete_profile(self, username)`
-  - `list_profiles` (method, line 300) `def list_profiles(self)`
-  - `touch_activity` (method, line 312) `def touch_activity(self, username)`
-  - `set_attribute` (method, line 319) `def set_attribute(self, username, key, value)`
-  - `get_attribute` (method, line 328) `def get_attribute(self, username, key, default)`
-  - `log_action` (method, line 335) `def log_action(self, username, action, details)`
-  - `effective_config` (method, line 360) `def effective_config(self, username)`
-- Depends on: `core/config.py`, `core/logging.py`
-- Imported by: `cli/commands/automation.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

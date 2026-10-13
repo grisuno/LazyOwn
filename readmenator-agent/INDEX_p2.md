@@ -3,6 +3,14 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/listener_manager.py` | Multi-listener manager for LazyOwn C2. | modules | 22 | 2 |
+| `modules/live_surface.py` | Live attack-surface graph derived from the world model. | modules | 7 | 3 |
+| `modules/llm_adapter.py` | LLM adapter facade — single import point for all LLM backends used by lazyc2. | modules | 15 | 6 |
+| `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 5 |
+| `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
+| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 26 | 27 |
+| `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 8 |
+| `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 4 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 24 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 23 | 5 |
@@ -28,7 +36,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 4 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: pipeline stages and auto verbs. | modules | 13 | 5 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: pipeline stages and auto verbs. | modules | 13 | 6 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 6 |
 | `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
@@ -100,7 +108,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 61 | 30 |
+| `modules/world_model.py` | modules/world_model.py | modules | 61 | 31 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -150,6 +158,11 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/fix_migrated_classes.py` | - | scripts | 0 | 0 |
 | `scripts/generate_sbom.py` | Generate a minimal CycloneDX SBOM from the pinned requirements files. | scripts | 5 | 0 |
 | `scripts/journal.py` | Read-before-you-write journal over GitHub Discussions. | scripts | 14 | 2 |
+| `scripts/lazy_hermes_ask.sh` | — detached Hermes task runner for LazyOwn. | scripts | 0 | 0 |
+| `scripts/lazy_llamacpp_serve.sh` | — idempotent llama.cpp server manager for LazyOwn. | scripts | 1 | 0 |
+| `scripts/lazy_llamacpp_setup.sh` | — one-time local LLM setup for LazyOwn users. | scripts | 1 | 0 |
+| `scripts/lazy_msf_lab.sh` | — Metasploitable2 smoke lab manager for LazyOwn. | scripts | 0 | 0 |
+| `scripts/lazy_opencode_config.py` | Patch operator agent configs to use the Lazy llama.cpp server. | scripts | 6 | 1 |
 | `scripts/migrate_commandsets.py` | Merge _migrated.py CommandSet methods into clean phase modules. | scripts | 6 | 0 |
 | `scripts/migrate_lazyown.py` | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | scripts | 6 | 1 |
 | `scripts/mutate.sh` | Mutation gate for LazyOwn. | scripts | 3 | 0 |
@@ -203,7 +216,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 4 |
-| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 138 | 8 |
+| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 140 | 8 |
 | `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 2 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 3 | 0 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 7 |
@@ -418,6 +431,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_loop_scope_traffic_evidence.py` | Scope ownership, port-aware traffic search, role-based evidences (lazy parity). | tests | 7 | 0 |
 | `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
+| `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 6 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
@@ -482,19 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
 | `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
 | `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
-| `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
-| `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
-| `tests/test_structured_logging.py` | Tests for ``core.logging`` — structured JSON-lines logger. | tests | 19 | 0 |
-| `tests/test_surface_graph.py` | Tests for the network surface graph reader. | tests | 13 | 0 |
-| `tests/test_sync_doc_stats.py` | Tests for the documentation-stats single source of truth. | tests | 7 | 0 |
-| `tests/test_themes.py` | Tests for cli/themes.py. | tests | 6 | 0 |
-| `tests/test_timeline_browser.py` | Tests for cli/timeline_browser.py. | tests | 8 | 0 |
-| `tests/test_tips_engine.py` | Tests for cli.tips_engine — unified post-command suggestion engine. | tests | 67 | 0 |
-| `tests/test_toast_bus.py` | Tests for cli/toast_bus.py. | tests | 18 | 0 |
-| `tests/test_trusted_proxy.py` | TDD tests for the trusted proxy resolver contract. | tests | 11 | 0 |
-| `tests/test_tui_splash.py` | Tests for cli.splash — the animated first-run overlay. | tests | 17 | 0 |
-| `tests/test_tui_style.py` | Tests for the cli/style semantic token layer. | tests | 8 | 0 |
-| `tests/test_tui_theme_command.py` | Tests for the cli.tui_theme command logic. | tests | 19 | 0 |
-| `tests/test_tui_themes.py` | Tests for the four new themes added on top of the original four. | tests | 15 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

@@ -229,7 +229,7 @@ collaborators below.
 | [`module_type_options`](#addoncreatorconfig-module_type_options) | `tuple[str, ...]` | `('scanner', 'exploit', 'payload', 'auxiliary')` |  |
 | [`install_type_options`](#addoncreatorconfig-install_type_options) | `tuple[str, ...]` | `('git',)` |  |
 | [`trigger_options`](#addoncreatorconfig-trigger_options) | `tuple[str, ...]` | `('ftp', 'ftps', 'ssh', 'telnet', 'http', 'https', 'http-proxy', 'smtp', 'pop3', 'imap', 'dns', 'dhcp', 'ntp', 'snmp', 'ldap', 'rpc', 'nfs', 'smb', 'microsoft-ds', 'netbios-ssn', 'msrpc', 'rdp', 'mysql', 'mssql', 'postgresql', 'oracle', 'mongodb', 'redis', 'memcached', 'elasticsearch', 'rabbitmq', 'mqtt', 'kubernetes', 'sip', 'sccp', 'irc', 'xmpp', 'rtsp', 'kafka', 'zookeeper', 'cassandra', 'activemq', 'amqp', 'stomp', 'coap', 'modbus', 'bacnet', 'afp')` |  |
-| [`payload_placeholders`](#addoncreatorconfig-payload_placeholders) | `frozenset[str]` | `frozenset({'aes_key', 'api_key', 'backdoor_linux_home', 'backdoor_password', 'backdoor_username', 'backdoor_win_home', 'backdoor_win_service_path', 'baseoutputdir', 'binary_name', 'c2_malleable_route', 'c2_decoy_mode', 'c2_fallback_urls', 'c2_open_registration', 'c2_pass', 'c2_port', 'c2_require_beacon_hmac', 'c2_user', 'ca_name', 'cert_pass', 'cloud_prefix', 'cloud_provider', 'cloud_region', 'data', 'data_file', 'dc_ip', 'device', 'dirwordlist', 'dnswordlist', 'domain', 'email_from', 'email_password', 'email_to', 'email_username', 'enable_c2_implant_debug', 'enable_chainmode', 'enable_cloudflare', 'enable_operator_presence', 'enable_toasts', 'endip', 'entropia_artifact', 'entropia_harness_args', 'entropia_kind', 'entropia_name', 'entropia_opsec', 'entropia_out', 'entropia_seed', 'entropia_seed_a', 'entropia_seed_b', 'entropia_src', 'entropia_type', 'exploitdb', 'exploitgym_admin_key', 'exploitgym_anthropic_key', 'exploitgym_flag_seed', 'exploitgym_model', 'exploitgym_openai_key', 'exploitgym_path', 'exploitgym_server_api_key', 'exploitgym_server_salt', 'ext', 'field', 'file', 'headers', 'headers_file', 'ghidra_server', 'ghidra_plugin_url', 'grype_target', 'hide_code', 'ip', 'json_data', 'json_data_file', 'lhost', 'listener', 'lport', 'method', 'mcp_host', 'mcp_port', 'mode', 'nameserver', 'os_id', 'outputdir', 'params', 'params_file', 'pass', 'password', 'path', 'port', 'prompt', 'proxy_port', 'rat_key', 'region', 'report_output_path', 'reverse_shell_port', 'rhost', 'rport', 's', 'sandboxed', 'scan_type', 'scope', 'scope_enforcement', 'sleep', 'sleep_start', 'smtp_port', 'smtp_server', 'spoof_ip', 'start_pass', 'start_user', 'startip', 'subdomain', 'target', 'target_path', 'template_name', 'toast_max_per_tick', 'toolname', 'topoexploit_path', 'topoexploit_port', 'trivy_scan_type', 'trivy_target', 'tui_theme', 'ui_hints', 'url', 'url_traffic_1', 'url_traffic_2', 'url_traffic_3', 'user', 'user_agent_1', 'user_agent_2', 'user_agent_3', 'user_agent_lin', 'user_agent_win', 'username', 'usrwordlist', 'wordlist'})` |  |
+| [`payload_placeholders`](#addoncreatorconfig-payload_placeholders) | `frozenset[str]` | `frozenset({'aes_key', 'api_key', 'backdoor_linux_home', 'backdoor_password', 'backdoor_username', 'backdoor_win_home', 'backdoor_win_service_path', 'baseoutputdir', 'binary_name', 'c2_malleable_route', 'c2_decoy_mode', 'c2_fallback_urls', 'c2_open_registration', 'c2_pass', 'c2_port', 'c2_require_beacon_hmac', 'c2_user', 'ca_name', 'cert_pass', 'cloud_prefix', 'cloud_provider', 'cloud_region', 'data', 'data_file', 'dc_ip', 'device', 'dirwordlist', 'dnswordlist', 'domain', 'email_from', 'email_password', 'email_to', 'email_username', 'enable_c2_implant_debug', 'enable_chainmode', 'enable_cloudflare', 'enable_operator_presence', 'enable_toasts', 'endip', 'entropia_artifact', 'entropia_harness_args', 'entropia_kind', 'entropia_name', 'entropia_opsec', 'entropia_out', 'entropia_seed', 'entropia_seed_a', 'entropia_seed_b', 'entropia_src', 'entropia_type', 'exploitdb', 'exploitgym_admin_key', 'exploitgym_anthropic_key', 'exploitgym_flag_seed', 'exploitgym_model', 'exploitgym_openai_key', 'exploitgym_path', 'exploitgym_server_api_key', 'exploitgym_server_salt', 'ext', 'field', 'file', 'headers', 'headers_file', 'ghidra_server', 'ghidra_plugin_url', 'grype_target', 'hide_code', 'ip', 'json_data', 'json_data_file', 'lhost', 'listener', 'lport', 'method', 'mcp_host', 'mcp_port', 'mode', 'nameserver', 'os_id', 'outputdir', 'params', 'params_file', 'pass', 'password', 'path', 'port', 'prompt', 'proxy_port', 'rat_key', 'region', 'report_output_path', 'reverse_shell_port', 'rhost', 'rport', 's', 'sandboxed', 'scan_type', 'scope', 'scope_enforcement', 'sleep', 'sleep_start', 'smtp_port', 'smtp_server', 'spoof_ip', 'start_pass', 'start_user', 'startip', 'subdomain', 'target', 'target_path', 'template_name', 'toast_max_per_tick', 'toolname', 'topoexploit_path', 'topoexploit_port', 'trivy_scan_type', 'trivy_target', 'tui_theme', 'ui_hints', 'url', 'url_traffic_1', 'url_traffic_2', 'url_traffic_3', 'user', 'user_agent_1', 'user_agent_2', 'user_agent_3', 'user_agent_lin', 'user_agent_win', 'username', 'usrwordlist', 'wordlist', 'orchestrator', 'local_llm', 'llamacpp_host', 'llm_model_llamacpp', 'agent_model_timeout'})` |  |
 | [`default_author`](#addoncreatorconfig-default_author) | `str` | `'LazyOwn'` |  |
 | [`default_version`](#addoncreatorconfig-default_version) | `str` | `'1.0'` |  |
 | [`default_os`](#addoncreatorconfig-default_os) | `str` | `'any'` |  |
@@ -241,7 +241,7 @@ collaborators below.
 
 ### `ParamSpec`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:335](../../lazyc2/addon_creator.py#L335)
+`class` `dataclass` | [lazyc2/addon_creator.py:340](../../lazyc2/addon_creator.py#L340)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -271,7 +271,7 @@ One addon parameter declared under the `[`params`](#addondraft-params)` key.
 
 #### `ParamSpec.to_dict`
 
-`method` | [lazyc2/addon_creator.py:353](../../lazyc2/addon_creator.py#L353)
+`method` | [lazyc2/addon_creator.py:358](../../lazyc2/addon_creator.py#L358)
 
 ```python
 def to_dict(self) -> dict[str, object]
@@ -287,7 +287,7 @@ Return the param as a schema-ordered mapping.
 
 ### `AddonDraft`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:368](../../lazyc2/addon_creator.py#L368)
+`class` `dataclass` | [lazyc2/addon_creator.py:373](../../lazyc2/addon_creator.py#L373)
 
 Decorators: `@dataclass`
 
@@ -329,7 +329,7 @@ Complete addon form state collected from the web layer.
 
 ### `ValidationIssue`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:395](../../lazyc2/addon_creator.py#L395)
+`class` `dataclass` | [lazyc2/addon_creator.py:400](../../lazyc2/addon_creator.py#L400)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -352,7 +352,7 @@ One field-specific validation finding for the form.
 
 ### `AddonValidator`
 
-`class` | [lazyc2/addon_creator.py:415](../../lazyc2/addon_creator.py#L415)
+`class` | [lazyc2/addon_creator.py:420](../../lazyc2/addon_creator.py#L420)
 
 ```python
 class AddonValidator
@@ -375,7 +375,7 @@ web layer because they require store state.
 
 #### `AddonValidator.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:422](../../lazyc2/addon_creator.py#L422)
+`constructor` | [lazyc2/addon_creator.py:427](../../lazyc2/addon_creator.py#L427)
 
 ```python
 def __init__(self, draft: AddonDraft, config: AddonCreatorConfig | None = None) -> None
@@ -398,7 +398,7 @@ Store the draft and configuration used by every check.
 
 #### `AddonValidator.validate`
 
-`method` | [lazyc2/addon_creator.py:436](../../lazyc2/addon_creator.py#L436)
+`method` | [lazyc2/addon_creator.py:441](../../lazyc2/addon_creator.py#L441)
 
 ```python
 def validate(self) -> list[ValidationIssue]
@@ -415,7 +415,7 @@ is valid.
 
 #### `AddonValidator.is_valid`
 
-`method` | [lazyc2/addon_creator.py:450](../../lazyc2/addon_creator.py#L450)
+`method` | [lazyc2/addon_creator.py:455](../../lazyc2/addon_creator.py#L455)
 
 ```python
 def is_valid(self) -> bool
@@ -433,7 +433,7 @@ Return True when the draft passes every rule.
 
 ### `AddonYamlRenderer`
 
-`class` | [lazyc2/addon_creator.py:718](../../lazyc2/addon_creator.py#L718)
+`class` | [lazyc2/addon_creator.py:723](../../lazyc2/addon_creator.py#L723)
 
 ```python
 class AddonYamlRenderer
@@ -453,7 +453,7 @@ Render an AddonDraft as canonical LazyAddon YAML.
 
 #### `AddonYamlRenderer.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:721](../../lazyc2/addon_creator.py#L721)
+`constructor` | [lazyc2/addon_creator.py:726](../../lazyc2/addon_creator.py#L726)
 
 ```python
 def __init__(self, config: AddonCreatorConfig | None = None) -> None
@@ -475,7 +475,7 @@ Store the configuration used for defaults.
 
 #### `AddonYamlRenderer.render`
 
-`method` | [lazyc2/addon_creator.py:729](../../lazyc2/addon_creator.py#L729)
+`method` | [lazyc2/addon_creator.py:734](../../lazyc2/addon_creator.py#L734)
 
 ```python
 def render(self, draft: AddonDraft) -> str
@@ -499,7 +499,7 @@ Return the YAML document for the draft.
 
 #### `AddonYamlRenderer.to_document`
 
-`method` | [lazyc2/addon_creator.py:747](../../lazyc2/addon_creator.py#L747)
+`method` | [lazyc2/addon_creator.py:752](../../lazyc2/addon_creator.py#L752)
 
 ```python
 def to_document(self, draft: AddonDraft) -> dict[str, object]
@@ -524,7 +524,7 @@ CLI loader in ``lazyown.register_yaml_plugin``.
 
 ### `AddonStore`
 
-`class` | [lazyc2/addon_creator.py:803](../../lazyc2/addon_creator.py#L803)
+`class` | [lazyc2/addon_creator.py:808](../../lazyc2/addon_creator.py#L808)
 
 ```python
 class AddonStore
@@ -554,7 +554,7 @@ crashed request can never leave a partial document behind.
 
 #### `AddonStore.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:812](../../lazyc2/addon_creator.py#L812)
+`constructor` | [lazyc2/addon_creator.py:817](../../lazyc2/addon_creator.py#L817)
 
 ```python
 def __init__(self, config: AddonCreatorConfig | None = None, base_dir: str | None = None) -> None
@@ -575,7 +575,7 @@ Configure the store.
 
 #### `AddonStore.resolve_path`
 
-`method` | [lazyc2/addon_creator.py:827](../../lazyc2/addon_creator.py#L827)
+`method` | [lazyc2/addon_creator.py:832](../../lazyc2/addon_creator.py#L832)
 
 ```python
 def resolve_path(self, name: str) -> Path
@@ -601,7 +601,7 @@ Return the safe absolute path for a newly created addon name.
 
 #### `AddonStore.resolve_existing_path`
 
-`method` | [lazyc2/addon_creator.py:842](../../lazyc2/addon_creator.py#L842)
+`method` | [lazyc2/addon_creator.py:847](../../lazyc2/addon_creator.py#L847)
 
 ```python
 def resolve_existing_path(self, name: str) -> Path
@@ -635,7 +635,7 @@ directory.
 
 #### `AddonStore.exists`
 
-`method` | [lazyc2/addon_creator.py:886](../../lazyc2/addon_creator.py#L886)
+`method` | [lazyc2/addon_creator.py:891](../../lazyc2/addon_creator.py#L891)
 
 ```python
 def exists(self, name: str) -> bool
@@ -657,7 +657,7 @@ Return True when an addon file already exists for the name.
 
 #### `AddonStore.save`
 
-`method` | [lazyc2/addon_creator.py:897](../../lazyc2/addon_creator.py#L897)
+`method` | [lazyc2/addon_creator.py:902](../../lazyc2/addon_creator.py#L902)
 
 ```python
 def save(self, name: str, yaml_text: str) -> Path
@@ -690,7 +690,7 @@ into place, and any failure removes the temp file.
 
 #### `AddonStore.load`
 
-`method` | [lazyc2/addon_creator.py:951](../../lazyc2/addon_creator.py#L951)
+`method` | [lazyc2/addon_creator.py:956](../../lazyc2/addon_creator.py#L956)
 
 ```python
 def load(self, name: str) -> dict[str, Any]
@@ -719,7 +719,7 @@ Return the parsed addon document for a name.
 
 #### `AddonStore.delete`
 
-`method` | [lazyc2/addon_creator.py:974](../../lazyc2/addon_creator.py#L974)
+`method` | [lazyc2/addon_creator.py:979](../../lazyc2/addon_creator.py#L979)
 
 ```python
 def delete(self, name: str) -> bool
@@ -741,7 +741,7 @@ Delete the addon file for a name.
 
 #### `AddonStore.list_all`
 
-`method` | [lazyc2/addon_creator.py:990](../../lazyc2/addon_creator.py#L990)
+`method` | [lazyc2/addon_creator.py:995](../../lazyc2/addon_creator.py#L995)
 
 ```python
 def list_all(self) -> list[dict[str, Any]]
@@ -763,7 +763,7 @@ skipped so the dashboard keeps working.
 
 ### `AddonValidationError`
 
-`exception` | [lazyc2/addon_creator.py:402](../../lazyc2/addon_creator.py#L402)
+`exception` | [lazyc2/addon_creator.py:407](../../lazyc2/addon_creator.py#L407)
 
 ```python
 class AddonValidationError(ValueError)
@@ -783,7 +783,7 @@ Raised when an AddonDraft cannot be persisted.
 
 #### `AddonValidationError.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:409](../../lazyc2/addon_creator.py#L409)
+`constructor` | [lazyc2/addon_creator.py:414](../../lazyc2/addon_creator.py#L414)
 
 ```python
 def __init__(self, issues: list[ValidationIssue]) -> None
@@ -803,7 +803,7 @@ def __init__(self, issues: list[ValidationIssue]) -> None
 
 ### `parse_addon_form`
 
-`function` | [lazyc2/addon_creator.py:1070](../../lazyc2/addon_creator.py#L1070)
+`function` | [lazyc2/addon_creator.py:1075](../../lazyc2/addon_creator.py#L1075)
 
 ```python
 def parse_addon_form(form: Mapping[str, Any]) -> AddonDraft

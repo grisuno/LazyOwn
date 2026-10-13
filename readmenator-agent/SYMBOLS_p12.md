@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
+| `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
+| `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
+| `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
+| `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
+| `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
+| `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
+| `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
+| `__init__` | method | `modules/delegation_attacks.py:98` | `def __init__(self, domain, raw_ldap_output)` |
+| `compute_attack_paths` | method | `modules/delegation_attacks.py:215` | `def compute_attack_paths(self)` |
+| `enumerate_from_uac_flags` | method | `modules/delegation_attacks.py:104` | `def enumerate_from_uac_flags(self, accounts)` |
+| `find_constrained_targets` | method | `modules/delegation_attacks.py:189` | `def find_constrained_targets(self)` |
+| `find_dc_targets` | method | `modules/delegation_attacks.py:205` | `def find_dc_targets(self)` |
+| `find_rbcd_targets` | method | `modules/delegation_attacks.py:197` | `def find_rbcd_targets(self)` |
 | `find_unconstrained_targets` | method | `modules/delegation_attacks.py:181` | `def find_unconstrained_targets(self)` |
 | `parse_bloodhound_output` | method | `modules/delegation_attacks.py:151` | `def parse_bloodhound_output(self, bloodhound_json)` |
 | `summary` | method | `modules/delegation_attacks.py:296` | `def summary(self)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
 | `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
 | `_load_records` | function | `modules/exploitgym_gym.py:500` | `def _load_records()` |
-| `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
-| `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
-| `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
-| `_run` | function | `modules/exploitgym_gym.py:274` | `def _run(name, cmd, cwd, timeout)` |
-| `_run_agent` | function | `modules/exploitgym_gym.py:378` | `def _run_agent(task_id, model, mitigations, root, params, timeout)` |
-| `_run_streaming` | function | `modules/exploitgym_gym.py:206` | `def _run_streaming(cmd, cwd, timeout)` |
-| `_save_records` | function | `modules/exploitgym_gym.py:514` | `def _save_records(records)` |
-| `check_readiness` | function | `modules/exploitgym_gym.py:112` | `def check_readiness(params)` |
-| `list_tasks` | function | `modules/exploitgym_gym.py:178` | `def list_tasks(params, domain, limit)` |
-| `pull_task` | function | `modules/exploitgym_gym.py:344` | `def pull_task(task_id, params, timeout)` |
-| `run_task` | function | `modules/exploitgym_gym.py:423` | `def run_task(task_id, params, model, mitigations, timeout)` |
-| `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
-| `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
-| `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

@@ -160,41 +160,47 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: business_logic
 - Language: py
 - Symbols:
-  - `AIModel` (class, line 41) `class AIModel(ABC)`
-  - `_LazyImporter` (class, line 93) `class _LazyImporter`
-  - `GroqModel` (class, line 125) `class GroqModel(AIModel)`
-  - `OllamaModel` (class, line 240) `class OllamaModel(AIModel)`
-  - `OpenAIModel` (class, line 307) `class OpenAIModel(AIModel)`
-  - `AnthropicModel` (class, line 366) `class AnthropicModel(AIModel)`
-  - `DeepSeekModel` (class, line 422) `class DeepSeekModel(AIModel)`
-  - `generate` (method, line 52) `def generate(self, prompt)`
-  - `stream_generate` (method, line 56) `def stream_generate(self, prompt)`
-  - `complete` (method, line 59) `def complete(self, system, user, max_tokens, temperature)`
-  - `groq` (method, line 101) `def groq(cls)`
-  - `openai` (method, line 109) `def openai(cls)`
-  - `anthropic` (method, line 117) `def anthropic(cls)`
-  - `__init__` (method, line 133) `def __init__(self, api_key, model)`
-  - `_model_chain` (method, line 137) `def _model_chain(self)`
-  - `generate` (method, line 151) `def generate(self, prompt)`
-  - `stream_generate` (method, line 179) `def stream_generate(self, prompt)`
-  - `complete` (method, line 212) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 248) `def __init__(self, model, host)`
-  - `generate` (method, line 256) `def generate(self, prompt)`
-  - `stream_generate` (method, line 276) `def stream_generate(self, prompt)`
-  - `__init__` (method, line 313) `def __init__(self, api_key, model)`
-  - `generate` (method, line 317) `def generate(self, prompt)`
-  - `stream_generate` (method, line 328) `def stream_generate(self, prompt)`
-  - `complete` (method, line 343) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 372) `def __init__(self, api_key, model)`
-  - `generate` (method, line 376) `def generate(self, prompt)`
-  - `stream_generate` (method, line 388) `def stream_generate(self, prompt)`
-  - `complete` (method, line 402) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 429) `def __init__(self, api_key, model)`
-  - `generate` (method, line 436) `def generate(self, prompt)`
-  - `stream_generate` (method, line 447) `def stream_generate(self, prompt)`
-  - `complete` (method, line 462) `def complete(self, system, user, max_tokens, temperature)`
+  - `AIModel` (class, line 45) `class AIModel(ABC)`
+  - `_LazyImporter` (class, line 97) `class _LazyImporter`
+  - `GroqModel` (class, line 129) `class GroqModel(AIModel)`
+  - `OllamaModel` (class, line 244) `class OllamaModel(AIModel)`
+  - `LlamaCppModel` (class, line 313) `class LlamaCppModel(AIModel)`
+  - `OpenAIModel` (class, line 434) `class OpenAIModel(AIModel)`
+  - `AnthropicModel` (class, line 493) `class AnthropicModel(AIModel)`
+  - `DeepSeekModel` (class, line 549) `class DeepSeekModel(AIModel)`
+  - `generate` (method, line 56) `def generate(self, prompt)`
+  - `stream_generate` (method, line 60) `def stream_generate(self, prompt)`
+  - `complete` (method, line 63) `def complete(self, system, user, max_tokens, temperature)`
+  - `groq` (method, line 105) `def groq(cls)`
+  - `openai` (method, line 113) `def openai(cls)`
+  - `anthropic` (method, line 121) `def anthropic(cls)`
+  - `__init__` (method, line 137) `def __init__(self, api_key, model)`
+  - `_model_chain` (method, line 141) `def _model_chain(self)`
+  - `generate` (method, line 155) `def generate(self, prompt)`
+  - `stream_generate` (method, line 183) `def stream_generate(self, prompt)`
+  - `complete` (method, line 216) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 252) `def __init__(self, model, host)`
+  - `generate` (method, line 260) `def generate(self, prompt)`
+  - `stream_generate` (method, line 281) `def stream_generate(self, prompt)`
+  - `__init__` (method, line 324) `def __init__(self, model, host)`
+  - `_chat` (method, line 341) `def _chat(self, messages, max_tokens, stream)`
+  - `generate` (method, line 362) `def generate(self, prompt)`
+  - `stream_generate` (method, line 382) `def stream_generate(self, prompt)`
+  - `complete` (method, line 413) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 440) `def __init__(self, api_key, model)`
+  - `generate` (method, line 444) `def generate(self, prompt)`
+  - `stream_generate` (method, line 455) `def stream_generate(self, prompt)`
+  - `complete` (method, line 470) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 499) `def __init__(self, api_key, model)`
+  - `generate` (method, line 503) `def generate(self, prompt)`
+  - `stream_generate` (method, line 515) `def stream_generate(self, prompt)`
+  - `complete` (method, line 529) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 556) `def __init__(self, api_key, model)`
+  - `generate` (method, line 563) `def generate(self, prompt)`
+  - `stream_generate` (method, line 574) `def stream_generate(self, prompt)`
+  - `complete` (method, line 589) `def complete(self, system, user, max_tokens, temperature)`
 - Depends on: `core/logging.py`, `modules/llm_factory.py`
-- Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
+- Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_client.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
 
 ## modules/amsi.c
 - Doc: ¡Gracias a Saad!
@@ -387,44 +393,44 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Language: py
 - Symbols:
   - `auto_verb_target` (function, line 35) `def auto_verb_target(command)`
-  - `AutoVerb` (class, line 59) `class AutoVerb`
-  - `_verb_rows` (function, line 129) `def _verb_rows()`
-  - `_verb_row` (function, line 173) `def _verb_row(name)`
-  - `verb_enabled` (function, line 182) `def verb_enabled(name)`
-  - `_repo_base` (function, line 267) `def _repo_base()`
-  - `binary_available` (function, line 274) `def binary_available(name)`
-  - `missing_binary` (function, line 290) `def missing_binary(command)`
-  - `verb_gap` (function, line 302) `def verb_gap(verb)`
-  - `verb_available` (function, line 314) `def verb_available(verb)`
-  - `service_tokens` (function, line 319) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 330) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 361) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 397) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 420) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 446) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 472) `def is_routable_command(line)`
-  - `verbs` (function, line 483) `def verbs()`
-  - `is_shell_verb` (function, line 488) `def is_shell_verb(token)`
-  - `build_command` (function, line 494) `def build_command(verb, target)`
-  - `verbs_for` (function, line 505) `def verbs_for(text)`
-  - `propose_intents` (function, line 511) `def propose_intents(goal, target, finding_texts)`
-  - `steps_for` (function, line 528) `def steps_for(text, target)`
-  - `ShellResult` (class, line 570) `class ShellResult`
-  - `_TeeCapture` (class, line 577) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 605) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 698) `def _register_process(process)`
-  - `_unregister_process` (function, line 704) `def _unregister_process(process)`
-  - `track_process` (function, line 710) `def track_process(process)`
-  - `untrack_process` (function, line 715) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 720) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 743) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 587) `def __init__(self, observer)`
-  - `write` (method, line 592) `def write(self, data)`
-  - `_invoke` (function, line 628) `def _invoke()`
-  - `_target` (function, line 639) `def _target()`
-  - `_kill` (function, line 775) `def _kill()`
-- Depends on: `modules/command_executor.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+  - `AutoVerb` (class, line 66) `class AutoVerb`
+  - `_verb_rows` (function, line 136) `def _verb_rows()`
+  - `_verb_row` (function, line 180) `def _verb_row(name)`
+  - `verb_enabled` (function, line 189) `def verb_enabled(name)`
+  - `_repo_base` (function, line 274) `def _repo_base()`
+  - `binary_available` (function, line 281) `def binary_available(name)`
+  - `missing_binary` (function, line 297) `def missing_binary(command)`
+  - `verb_gap` (function, line 309) `def verb_gap(verb)`
+  - `verb_available` (function, line 321) `def verb_available(verb)`
+  - `service_tokens` (function, line 326) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 337) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 368) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 404) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 427) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 453) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 479) `def is_routable_command(line)`
+  - `verbs` (function, line 497) `def verbs()`
+  - `is_shell_verb` (function, line 502) `def is_shell_verb(token)`
+  - `build_command` (function, line 524) `def build_command(verb, target)`
+  - `verbs_for` (function, line 535) `def verbs_for(text)`
+  - `propose_intents` (function, line 541) `def propose_intents(goal, target, finding_texts)`
+  - `steps_for` (function, line 558) `def steps_for(text, target)`
+  - `ShellResult` (class, line 642) `class ShellResult`
+  - `_TeeCapture` (class, line 649) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 677) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 775) `def _register_process(process)`
+  - `_unregister_process` (function, line 781) `def _unregister_process(process)`
+  - `track_process` (function, line 787) `def track_process(process)`
+  - `untrack_process` (function, line 792) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 797) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 820) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 659) `def __init__(self, observer)`
+  - `write` (method, line 664) `def write(self, data)`
+  - `_invoke` (function, line 700) `def _invoke()`
+  - `_target` (function, line 711) `def _target()`
+  - `_kill` (function, line 852) `def _kill()`
+- Depends on: `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.

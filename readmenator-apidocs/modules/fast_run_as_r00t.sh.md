@@ -30,7 +30,7 @@ _jq() { jq -r ".$1" "$JSON_FILE"; }
 
 ### `log`
 
-`function` | [fast_run_as_r00t.sh:55](../../fast_run_as_r00t.sh#L55)
+`function` | [fast_run_as_r00t.sh:59](../../fast_run_as_r00t.sh#L59)
 
 ```bash
 log() { gum log --time rfc822 --level info " [+] $*"; }
@@ -44,7 +44,7 @@ log() { gum log --time rfc822 --level info " [+] $*"; }
 
 ### `spin`
 
-`function` | [fast_run_as_r00t.sh:56](../../fast_run_as_r00t.sh#L56)
+`function` | [fast_run_as_r00t.sh:60](../../fast_run_as_r00t.sh#L60)
 
 ```bash
 spin() { gum spin --spinner dot --title "$*" -- sleep 0.1; }
@@ -56,7 +56,7 @@ spin() { gum spin --spinner dot --title "$*" -- sleep 0.1; }
 
 ### `err_box`
 
-`function` | [fast_run_as_r00t.sh:57](../../fast_run_as_r00t.sh#L57)
+`function` | [fast_run_as_r00t.sh:61](../../fast_run_as_r00t.sh#L61)
 
 ```bash
 err_box(){ gum style \
@@ -68,7 +68,7 @@ err_box(){ gum style \
 
 ### `ensure_gum`
 
-`function` | [fast_run_as_r00t.sh:63](../../fast_run_as_r00t.sh#L63)
+`function` | [fast_run_as_r00t.sh:67](../../fast_run_as_r00t.sh#L67)
 
 ```bash
 ensure_gum()
@@ -82,7 +82,7 @@ ensure_gum()
 
 ### `check_deps`
 
-`function` | [fast_run_as_r00t.sh:74](../../fast_run_as_r00t.sh#L74)
+`function` | [fast_run_as_r00t.sh:78](../../fast_run_as_r00t.sh#L78)
 
 ```bash
 check_deps()
@@ -96,7 +96,7 @@ check_deps()
 
 ### `check_sudo`
 
-`function` | [fast_run_as_r00t.sh:83](../../fast_run_as_r00t.sh#L83)
+`function` | [fast_run_as_r00t.sh:87](../../fast_run_as_r00t.sh#L87)
 
 ```bash
 check_sudo()
@@ -110,7 +110,7 @@ check_sudo()
 
 ### `parse_args`
 
-`function` | [fast_run_as_r00t.sh:92](../../fast_run_as_r00t.sh#L92)
+`function` | [fast_run_as_r00t.sh:96](../../fast_run_as_r00t.sh#L96)
 
 ```bash
 parse_args()
@@ -124,7 +124,7 @@ parse_args()
 
 ### `t_send`
 
-`function` | [fast_run_as_r00t.sh:110](../../fast_run_as_r00t.sh#L110)
+`function` | [fast_run_as_r00t.sh:114](../../fast_run_as_r00t.sh#L114)
 
 ```bash
 t_send()
@@ -138,7 +138,7 @@ Send one or more commands to the active tmux pane
 
 ### `t_lazyown`
 
-`function` | [fast_run_as_r00t.sh:117](../../fast_run_as_r00t.sh#L117)
+`function` | [fast_run_as_r00t.sh:121](../../fast_run_as_r00t.sh#L121)
 
 ```bash
 t_lazyown()
@@ -154,7 +154,7 @@ Usage: t_lazyown <v|h> <delay_secs> <run_flags> [cmd1] [cmd2] ...
 
 ### `t_priv_user`
 
-`function` | [fast_run_as_r00t.sh:130](../../fast_run_as_r00t.sh#L130)
+`function` | [fast_run_as_r00t.sh:134](../../fast_run_as_r00t.sh#L134)
 
 ```bash
 t_priv_user()
@@ -170,7 +170,7 @@ Usage: t_priv_user <v|h> <command_string>
 
 ### `start_chown_watcher`
 
-`function` | [fast_run_as_r00t.sh:141](../../fast_run_as_r00t.sh#L141)
+`function` | [fast_run_as_r00t.sh:145](../../fast_run_as_r00t.sh#L145)
 
 ```bash
 start_chown_watcher()

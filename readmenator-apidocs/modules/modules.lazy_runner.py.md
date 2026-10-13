@@ -93,6 +93,7 @@ Everything one loop invocation needs, parsed by the command sets.
 | [`workers`](#looprunconfig-workers) | `int` | `DEFAULT_WORKERS` |  |
 | [`timeout`](#looprunconfig-timeout) | `float` | `0.0` |  |
 | [`step_delay`](#looprunconfig-step_delay) | `float` | `0.0` |  |
+| [`sandbox`](#looprunconfig-sandbox) | `str` | `''` |  |
 | [`no_bootstrap`](#looprunconfig-no_bootstrap) | `bool` | `False` |  |
 | [`progress`](#looprunconfig-progress) | `bool` | `True` |  |
 | [`view`](#looprunconfig-view) | `bool` | `False` |  |
@@ -109,7 +110,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:106](../../modules/lazy_runner.py#L106)
+`method` | [modules/lazy_runner.py:107](../../modules/lazy_runner.py#L107)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -129,7 +130,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:136](../../modules/lazy_runner.py#L136)
+`function` | [modules/lazy_runner.py:137](../../modules/lazy_runner.py#L137)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -162,10 +163,10 @@ same flags and defaults.
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:213](../../modules/lazy_runner.py#L213)
+`function` | [modules/lazy_runner.py:225](../../modules/lazy_runner.py#L225)
 
 ```python
-def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict) -> Callable[[str], str]
+def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '') -> Callable[[str], str]
 ```
 
 Build the worker executor: shell verbs, custom tools, safe bash.
@@ -176,6 +177,10 @@ streaming runner, and raw bash goes through `[`execute_streaming`](modules.auto_
 with ``stdin=DEVNULL`` and its own process group so Ctrl+C and time
 limits always kill the child, never the operator's terminal.
 
+When ``sandbox_task_id`` is set, routable shell verbs run inside the
+per-task Docker container (`[`modules.lazy_sandbox`](modules.lazy_sandbox.py.md)`) instead of the
+operator host; custom tools and raw bash stay local.
+
 **Parameters**
 
 | Name | Type | Default | Description |
@@ -184,6 +189,8 @@ limits always kill the child, never the operator's terminal.
 | `config` | `LoopRunConfig` |  |  |
 | `stream` | `Callable[[str], None]` |  |  |
 | `cancelled` | `dict` |  |  |
+| `sandbox_task_id` | `str` | `''` |  |
+| `sandbox_image` | `str` | `''` |  |
 
 **Returns:** `Callable[[str], str]`
 
@@ -195,7 +202,7 @@ limits always kill the child, never the operator's terminal.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:329](../../modules/lazy_runner.py#L329)
+`function` | [modules/lazy_runner.py:356](../../modules/lazy_runner.py#L356)
 
 ```python
 def report_result(result: dict) -> None
@@ -219,7 +226,7 @@ Print the final outcome of one loop run.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:640](../../modules/lazy_runner.py#L640)
+`function` | [modules/lazy_runner.py:691](../../modules/lazy_runner.py#L691)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

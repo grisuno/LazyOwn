@@ -29,12 +29,29 @@ from modules import lazy_loop as _lazy_loop
 from modules.agent_runner import AgentRunner, AgentTool
 from modules.lazy_loop import _load_json, _now, _save_json
 
-CLIENT_BACKENDS = ("groq", "openai", "deepseek")
+CLIENT_BACKENDS = ("groq", "openai", "deepseek", "llamacpp")
 MAX_SEEDED_TURNS = 12
 MAX_STORED_MESSAGES = 40
 DEFAULT_MAX_ITERATIONS = 6
 EXTERNAL_TIMEOUT_SEC = 900.0
 MODEL_KEEPALIVE_SEC = 15.0
+DEFAULT_MODEL_TIMEOUT_SEC = 300.0
+
+
+def model_timeout_sec() -> float:
+    """Return the hard per-turn model timeout from configuration.
+
+    ``payload.json`` key ``agent_model_timeout`` overrides it; the floor
+    keeps slow 70B cloud generations viable while a hung backend can no
+    longer pin a worker forever (it raises into the member failover).
+    """
+    try:
+        from core.config import load_payload
+
+        value = float((load_payload() or {}).get("agent_model_timeout", DEFAULT_MODEL_TIMEOUT_SEC))
+    except Exception:
+        value = DEFAULT_MODEL_TIMEOUT_SEC
+    return max(60.0, value)
 
 
 def tool_calling_enabled() -> bool:
@@ -155,16 +172,26 @@ class ObservableAgentRunner(AgentRunner):
         return reply
 
     def _call_model(self):
-        """Wrap one model turn with start/end and keep-alive wait events.
+        """Wrap one model turn with start/end, keep-alive and hard timeout.
 
-        A slow or hung backend must never be invisible: while the call
-        blocks, the runner reports every ``MODEL_KEEPALIVE_SEC`` that the
-        model is still being awaited.
+        A slow or hung backend must never be invisible nor eternal: while
+        the call blocks, the runner reports every ``MODEL_KEEPALIVE_SEC``
+        that the model is still being awaited, and past
+        :func:`model_timeout_sec` the turn raises into the member
+        failover (the SDK call itself cannot be cancelled, so its thread
+        stays daemon-leaked until the backend answers or dies).
         """
         model_name = str(getattr(self.model, "model", "model"))
         self._on_event("turn", model_name, "waiting for model response")
         started = time.monotonic()
         stop = threading.Event()
+        outcome: dict = {}
+
+        def _invoke() -> None:
+            try:
+                outcome["response"] = super(ObservableAgentRunner, self)._call_model()
+            except Exception as exc:
+                outcome["error"] = exc
 
         def _tick() -> None:
             waited = 0
@@ -172,10 +199,19 @@ class ObservableAgentRunner(AgentRunner):
                 waited += int(MODEL_KEEPALIVE_SEC)
                 self._on_event("turn", model_name, f"still waiting for model response ({waited}s)")
 
+        worker = threading.Thread(target=_invoke, daemon=True)
         ticker = threading.Thread(target=_tick, daemon=True)
+        worker.start()
         ticker.start()
         try:
-            response = super()._call_model()
+            worker.join(timeout=model_timeout_sec())
+            if worker.is_alive():
+                raise TimeoutError(
+                    f"model {model_name} exceeded {model_timeout_sec():.0f}s without reply; failing over"
+                )
+            if "error" in outcome:
+                raise outcome["error"]
+            response = outcome.get("response")
         finally:
             stop.set()
         self._on_event("turn", model_name, f"model replied in {time.monotonic() - started:.1f}s")
@@ -193,7 +229,25 @@ def _json_default(value):
                 pass
     if hasattr(value, "__dict__"):
         return {key: item for key, item in vars(value).items() if not key.startswith("_")}
+    if isinstance(value, (set, frozenset)):
+        return sorted((str(item) for item in value))
     return str(value)
+
+
+def _deep_clean(value, _depth: int = 0):
+    """Recursively coerce one value into plain JSON types."""
+    if _depth > 12:
+        return str(value)
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    if isinstance(value, dict):
+        return {str(key): _deep_clean(item, _depth + 1) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_deep_clean(item, _depth + 1) for item in value]
+    try:
+        return _deep_clean(_json_default(value), _depth + 1)
+    except Exception:
+        return str(value)
 
 
 def _json_safe(messages: Iterable[dict]) -> list[dict]:
@@ -201,7 +255,7 @@ def _json_safe(messages: Iterable[dict]) -> list[dict]:
     try:
         return json.loads(json.dumps(list(messages), default=_json_default))
     except (TypeError, ValueError):
-        return [dict(item) for item in messages]
+        return [item for item in (_deep_clean(list(messages)) or []) if isinstance(item, dict)]
 
 
 class ConversationStore:
@@ -415,6 +469,90 @@ def run_external_opencode(
     }
 
 
+def run_external_hermes(
+    prompt: str,
+    session_id: str = "",
+    cwd: str = "",
+    timeout_sec: float = EXTERNAL_TIMEOUT_SEC,
+    max_turns: int = 0,
+    run_budget: int = 0,
+) -> dict:
+    """Run one detached ``hermes chat --oneshot`` task.
+
+    Hermes counterpart of :func:`run_external_opencode` so the
+    orchestrator can dispatch single tasks to either agent runtime.
+    Uses the local Qwen server flags; Hermes resolves its own provider
+    config, so a down server surfaces as a terse error, never a hang.
+
+    Args:
+        prompt: Task text for the agent.
+        session_id: Existing session to resume (``--resume``), when known.
+        cwd: Working directory for the agent.
+        timeout_sec: Hard timeout for the child process.
+        max_turns: Optional ``--max-turns`` cap (0 leaves default).
+        run_budget: Optional ``--run-budget`` seconds cap (0 leaves default).
+
+    Returns:
+        Dict with reply, session id and return code; never raises.
+    """
+    executable = shutil.which("hermes")
+    if not executable:
+        return {"reply": "", "session_id": session_id, "error": "hermes not installed"}
+    command = [executable, "chat", "--oneshot", "-Q", "--provider", "custom:llamacpp", "-m", "local-model"]
+    if session_id:
+        command += ["--resume", session_id]
+    if cwd:
+        command += ["--in", cwd]
+    if max_turns > 0:
+        command += ["--max-turns", str(int(max_turns))]
+    if run_budget > 0:
+        command += ["--run-budget", str(int(run_budget))]
+    command += ["-q", prompt]
+    chunks: list[str] = []
+    process = None
+    try:
+        process = subprocess.Popen(  # noqa: S603 - fixed argv, no shell
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.DEVNULL,
+            text=True,
+            errors="replace",
+            start_new_session=True,
+            cwd=cwd or None,
+        )
+        watchdog = _process_watchdog(timeout_sec, process)
+        try:
+            from modules.auto_registry import track_process
+
+            track_process(process)
+        except Exception:
+            pass
+        try:
+            if process.stdout is not None:
+                for line in iter(process.stdout.readline, ""):
+                    chunks.append(line)
+        finally:
+            watchdog.cancel()
+            try:
+                process.wait(timeout=30)
+            except Exception:
+                pass
+            try:
+                from modules.auto_registry import untrack_process
+
+                untrack_process(process)
+            except Exception:
+                pass
+    except Exception as exc:
+        return {"reply": "".join(chunks)[-2000:], "session_id": session_id, "error": str(exc)}
+    return {
+        "reply": "".join(chunks)[-8000:].strip(),
+        "session_id": session_id,
+        "returncode": process.returncode if process else -1,
+    }
+
+
 def _session_from_line(line: str) -> str:
     """Extract a session id from one opencode JSON event line, if present."""
     text = (line or "").strip()
@@ -461,6 +599,7 @@ __all__ = [
     "CLIENT_BACKENDS",
     "ConversationStore",
     "ObservableAgentRunner",
+    "model_timeout_sec",
     "register_tools",
     "resolve_agentic_model",
     "run_external_opencode",

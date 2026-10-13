@@ -291,7 +291,7 @@ Non-finding nodes always resolve to pending.
 def apply_confirmation(nodes: dict[str, dict], sessions_dir: str | Path = SESSIONS_DIR) -> None
 ```
 
-Stamp ``confirmation``/`[`status`](#findingrecord-status)` on every finding node in place.
+Stamp ``confirmation``/`[`status`](modules.lazy_sandbox.py.md#status)` on every finding node in place.
 
 **Parameters**
 

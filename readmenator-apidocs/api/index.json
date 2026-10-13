@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 722,
-  "entities": 13974,
+  "modules": 735,
+  "entities": 14071,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 616,
-   "sh": 54
+   "py": 625,
+   "sh": 58
   },
   "kinds": {
-   "attribute": 3990,
+   "attribute": 3991,
    "class": 1338,
    "classmethod": 81,
-   "constant": 1172,
+   "constant": 1191,
    "constructor": 502,
    "enum": 38,
    "exception": 36,
-   "function": 2323,
+   "function": 2378,
    "macro": 113,
-   "method": 3349,
-   "module": 722,
+   "method": 3358,
+   "module": 735,
    "property": 174,
    "protocol": 14,
    "staticmethod": 86,
@@ -36,14 +36,14 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 278,
+  "skipped_files": 279,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6377,
-   "total": 8800,
-   "percent": 72.5
+   "documented": 6452,
+   "total": 8877,
+   "percent": 72.7
   },
   "by_kind": {
    "class": {
@@ -72,9 +72,9 @@
     "percent": 94.4
    },
    "function": {
-    "documented": 1437,
-    "total": 2323,
-    "percent": 61.9
+    "documented": 1490,
+    "total": 2378,
+    "percent": 62.7
    },
    "macro": {
     "documented": 3,
@@ -82,14 +82,14 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2664,
-    "total": 3349,
-    "percent": 79.5
+    "documented": 2673,
+    "total": 3358,
+    "percent": 79.6
    },
    "module": {
-    "documented": 600,
-    "total": 722,
-    "percent": 83.1
+    "documented": 613,
+    "total": 735,
+    "percent": 83.4
    },
    "property": {
     "documented": 130,
@@ -439,9 +439,9 @@
     "percent": 100.0
    },
    "cli/commands/lazyops.py": {
-    "documented": 52,
-    "total": 54,
-    "percent": 96.3
+    "documented": 57,
+    "total": 59,
+    "percent": 96.6
    },
    "cli/commands/marketplace.py": {
     "documented": 4,
@@ -699,8 +699,8 @@
     "percent": 100.0
    },
    "cli/lazy_orchestrator.py": {
-    "documented": 26,
-    "total": 26,
+    "documented": 28,
+    "total": 28,
     "percent": 100.0
    },
    "cli/lazynmap_post.py": {
@@ -2349,8 +2349,8 @@
     "percent": 0.0
    },
    "modules/lazy_agent.py": {
-    "documented": 18,
-    "total": 18,
+    "documented": 19,
+    "total": 19,
     "percent": 100.0
    },
    "modules/lazy_bridge.py": {
@@ -2358,19 +2358,39 @@
     "total": 15,
     "percent": 100.0
    },
+   "modules/lazy_cli_bridge.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
    "modules/lazy_engine.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
    },
+   "modules/lazy_installer.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
+   "modules/lazy_intel.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
    "modules/lazy_loop.py": {
-    "documented": 289,
-    "total": 289,
+    "documented": 291,
+    "total": 291,
     "percent": 100.0
    },
    "modules/lazy_mentions.py": {
     "documented": 7,
     "total": 7,
+    "percent": 100.0
+   },
+   "modules/lazy_orchestrator_feedback.py": {
+    "documented": 6,
+    "total": 6,
     "percent": 100.0
    },
    "modules/lazy_proxy.py": {
@@ -2383,14 +2403,34 @@
     "total": 55,
     "percent": 20.0
    },
+   "modules/lazy_roles.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/lazy_runner.py": {
     "documented": 7,
     "total": 7,
     "percent": 100.0
    },
+   "modules/lazy_sandbox.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/lazy_skill_mirror.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/lazy_skills.py": {
     "documented": 5,
     "total": 5,
+    "percent": 100.0
+   },
+   "modules/lazy_summarizer.py": {
+    "documented": 3,
+    "total": 3,
     "percent": 100.0
    },
    "modules/lazyatack.sh": {
@@ -3303,6 +3343,31 @@
     "total": 10,
     "percent": 100.0
    },
+   "scripts/lazy_hermes_ask.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/lazy_llamacpp_serve.sh": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "scripts/lazy_llamacpp_setup.sh": {
+    "documented": 1,
+    "total": 2,
+    "percent": 50.0
+   },
+   "scripts/lazy_msf_lab.sh": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/lazy_opencode_config.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
    "scripts/migrate_commandsets.py": {
     "documented": 2,
     "total": 3,
@@ -4054,7 +4119,7 @@
   {
    "uid": "cli/commands/lazyops.py",
    "path": "modules/cli.commands.lazyops.py.jsonl",
-   "entities": 56
+   "entities": 61
   },
   {
    "uid": "cli/commands/marketplace.py",
@@ -4314,7 +4379,7 @@
   {
    "uid": "cli/lazy_orchestrator.py",
    "path": "modules/cli.lazy_orchestrator.py.jsonl",
-   "entities": 29
+   "entities": 31
   },
   {
    "uid": "cli/lazynmap_post.py",
@@ -5964,7 +6029,7 @@
   {
    "uid": "modules/lazy_agent.py",
    "path": "modules/modules.lazy_agent.py.jsonl",
-   "entities": 19
+   "entities": 20
   },
   {
    "uid": "modules/lazy_bridge.py",
@@ -5972,19 +6037,39 @@
    "entities": 15
   },
   {
+   "uid": "modules/lazy_cli_bridge.py",
+   "path": "modules/modules.lazy_cli_bridge.py.jsonl",
+   "entities": 12
+  },
+  {
    "uid": "modules/lazy_engine.py",
    "path": "modules/modules.lazy_engine.py.jsonl",
    "entities": 2
   },
   {
+   "uid": "modules/lazy_installer.py",
+   "path": "modules/modules.lazy_installer.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "modules/lazy_intel.py",
+   "path": "modules/modules.lazy_intel.py.jsonl",
+   "entities": 10
+  },
+  {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 294
+   "entities": 296
   },
   {
    "uid": "modules/lazy_mentions.py",
    "path": "modules/modules.lazy_mentions.py.jsonl",
    "entities": 16
+  },
+  {
+   "uid": "modules/lazy_orchestrator_feedback.py",
+   "path": "modules/modules.lazy_orchestrator_feedback.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "modules/lazy_proxy.py",
@@ -5997,14 +6082,34 @@
    "entities": 98
   },
   {
+   "uid": "modules/lazy_roles.py",
+   "path": "modules/modules.lazy_roles.py.jsonl",
+   "entities": 8
+  },
+  {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 19
+   "entities": 20
+  },
+  {
+   "uid": "modules/lazy_sandbox.py",
+   "path": "modules/modules.lazy_sandbox.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/lazy_skill_mirror.py",
+   "path": "modules/modules.lazy_skill_mirror.py.jsonl",
+   "entities": 5
   },
   {
    "uid": "modules/lazy_skills.py",
    "path": "modules/modules.lazy_skills.py.jsonl",
    "entities": 8
+  },
+  {
+   "uid": "modules/lazy_summarizer.py",
+   "path": "modules/modules.lazy_summarizer.py.jsonl",
+   "entities": 10
   },
   {
    "uid": "modules/lazyatack.sh",
@@ -6179,7 +6284,7 @@
   {
    "uid": "modules/llm_factory.py",
    "path": "modules/modules.llm_factory.py.jsonl",
-   "entities": 46
+   "entities": 51
   },
   {
    "uid": "modules/llm_pool.py",
@@ -6917,6 +7022,31 @@
    "entities": 25
   },
   {
+   "uid": "scripts/lazy_hermes_ask.sh",
+   "path": "modules/scripts.lazy_hermes_ask.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/lazy_llamacpp_serve.sh",
+   "path": "modules/scripts.lazy_llamacpp_serve.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "scripts/lazy_llamacpp_setup.sh",
+   "path": "modules/scripts.lazy_llamacpp_setup.sh.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "scripts/lazy_msf_lab.sh",
+   "path": "modules/scripts.lazy_msf_lab.sh.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/lazy_opencode_config.py",
+   "path": "modules/scripts.lazy_opencode_config.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "scripts/migrate_commandsets.py",
    "path": "modules/scripts.migrate_commandsets.py.jsonl",
    "entities": 4
@@ -7344,7 +7474,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2251
+  "total": 2253
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

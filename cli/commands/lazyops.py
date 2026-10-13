@@ -85,6 +85,61 @@ class LazyCommandSet(LazyOwnCommandSet):
         return " ".join(words).strip()
 
     @cmd2.with_category(ai_category)
+    def do_lazy_dispatch(self, line):
+        """Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N] [--run-budget S] [--timeout S] <task...>. Usage: lazy_dispatch ..."""
+        args = shlex.split(line) if line.strip() else []
+        if len(args) < 2 or args[0] not in ("opencode", "hermes"):
+            print_error(
+                "Usage: lazy_dispatch opencode|hermes [--in DIR] [--resume S] "
+                "[--max-turns N] [--run-budget S] [--timeout S] <task...>"
+            )
+            return
+        runtime = args[0]
+        task_words: list[str] = []
+        skip_next = False
+        for token in args[1:]:
+            if skip_next:
+                skip_next = False
+                continue
+            if token in ("--in", "--resume", "--max-turns", "--run-budget", "--timeout"):
+                skip_next = True
+                continue
+            if token.startswith("--"):
+                continue
+            task_words.append(token)
+        task = " ".join(task_words).strip()
+        if not task:
+            print_error("Usage: lazy_dispatch opencode|hermes [flags] <task...>")
+            return
+        cwd = extract_flag(args, "--in") or ""
+        resume = extract_flag(args, "--resume") or ""
+        try:
+            max_turns = int(extract_flag(args, "--max-turns") or 0)
+        except ValueError:
+            max_turns = 0
+        try:
+            run_budget = int(extract_flag(args, "--run-budget") or 0)
+        except ValueError:
+            run_budget = 0
+        try:
+            timeout = float(extract_flag(args, "--timeout") or 0) or 900.0
+        except ValueError:
+            timeout = 900.0
+        from modules import lazy_agent
+
+        if runtime == "opencode":
+            result = lazy_agent.run_external_opencode(task, session_id=resume, cwd=cwd, timeout_sec=timeout)
+        else:
+            result = lazy_agent.run_external_hermes(
+                task, session_id=resume, cwd=cwd, timeout_sec=timeout,
+                max_turns=max_turns, run_budget=run_budget,
+            )
+        reply = str(result.get("reply", "") or "").strip()
+        print_msg(reply[-4000:] if reply else "[*] no reply.")
+        if result.get("error"):
+            print_error(str(result["error"])[:200])
+
+    @cmd2.with_category(ai_category)
     def do_lazy_task(self, line):
         """Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks. Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--task T] | lazy_task spawn <goal> --from t0001[,t0002] | lazy_task limit [N] | lazy_task queue | lazy_task drain"""
         args = shlex.split(line) if line.strip() else []
@@ -258,7 +313,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_skill(self, line):
-        """Skills: list|show <name>|preview|inject <name...>|clear|auto on|off. Usage: lazy_skill ... [--task T]"""
+        """Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes. Usage: lazy_skill ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
         from modules.lazy_skills import get_skill, list_skills, skills_context
 
@@ -309,7 +364,34 @@ class LazyCommandSet(LazyOwnCommandSet):
             state = engine.store.set_skills(task_id, list(record.get("skills", []) or []), auto=args[1] == "on")
             print_msg(f"[+] skills auto-match {'on' if state['skills_auto'] else 'off'}.")
             return
-        print_error("Usage: lazy_skill list|show <name>|preview|inject <name...>|clear|auto on|off [--task T]")
+        if args[0] == "mirror":
+            from modules.lazy_skill_mirror import available_skills, mirror_all, mirror_skill
+
+            names = [token for token in args[1:] if not token.startswith("--")]
+            if names:
+                for name in names:
+                    summary = mirror_skill(name)
+                    if summary.get("error"):
+                        print_error(f"{name}: {summary['error']}")
+                    else:
+                        print_msg(f"[+] {name}: {summary['path']}" + ("" if summary.get("changed") else " (unchanged)"))
+            else:
+                summary = mirror_all()
+                print_msg(f"[*] {summary['mirrored']} skill(s) mirrored for Hermes.")
+            return
+        if args[0] == "register-hermes":
+            from modules.lazy_skill_mirror import register_external_dirs
+
+            summary = register_external_dirs()
+            if summary.get("error"):
+                print_error(summary["error"])
+            else:
+                print_msg(
+                    "[+] hermes external_dirs updated (backup: "
+                    f"{summary.get('backup') or 'none — already registered'})."
+                )
+            return
+        print_error("Usage: lazy_skill list|show <name>|preview|inject <name...>|clear|auto on|off|mirror|register-hermes [--task T]")
 
     @cmd2.with_category(ai_category)
     def do_lazy_workspace(self, line):
@@ -1772,6 +1854,128 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_error("Usage: lazy_tool list|bind|unbind|custom-* ...")
 
     @cmd2.with_category(ai_category)
+    def do_lazy_verb(self, line):
+        """Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target] [--desc D]|remove <verb>|full-cli [on|off]. Usage: lazy_verb ..."""
+        args = shlex.split(line) if line.strip() else []
+        if not args:
+            print_error(
+                "Usage: lazy_verb list [--phase P] [--q Q] | lazy_verb enable|disable <verb> | "
+                "lazy_verb add <verb> --keywords K [--phase P] [--no-target] [--desc D] | "
+                "lazy_verb remove <verb> | lazy_verb full-cli [on|off]"
+            )
+            return
+        from modules.orchestrator_config import effective_verbs, remove_verb, upsert_verb
+
+        if args[0] == "list":
+            phase = extract_flag(args, "--phase") or ""
+            query = (extract_flag(args, "--q") or "").lower()
+            entries = effective_verbs()
+            if phase:
+                entries = [e for e in entries if phase.lower() in [p.lower() for p in e.get("phases", [])]]
+            if query:
+                entries = [e for e in entries if query in e["name"].lower() or query in e.get("description", "").lower()]
+            print_msg(f"[*] {len(entries)} verb(s):")
+            for entry in entries:
+                state = "on" if entry["enabled"] else "off"
+                print_msg(f"  {entry['name']} [{state}] ({entry['source']}) :: {entry.get('description', '')[:100]}")
+            try:
+                from modules.lazy_cli_bridge import cli_verbs, full_cli_enabled
+
+                print_msg(f"[*] full-cli routing: {'on' if full_cli_enabled() else 'off'} ({len(cli_verbs())} shell verbs visible)")
+            except Exception:
+                pass
+            return
+        if args[0] in ("enable", "disable") and len(args) >= 2:
+            try:
+                entry = upsert_verb(args[1], enabled=args[0] == "enable")
+            except ValueError as exc:
+                print_error(str(exc))
+                return
+            print_msg(f"[+] {entry['name']}: {'on' if entry['enabled'] else 'off'}")
+            return
+        if args[0] == "add" and len(args) >= 2:
+            import re as _re
+
+            name = args[1].strip()
+            if not _re.match(r"^[a-z][a-z0-9_]{0,63}$", name):
+                print_error("Verb must match ^[a-z][a-z0-9_]{0,63}$ (same rule as addon names).")
+                return
+            try:
+                from modules.lazy_cli_bridge import is_cli_verb
+            except Exception:
+                is_cli_verb = lambda _n: False  # noqa: E731
+            if not is_cli_verb(name):
+                print_error(f"Unknown shell verb '{name}'. Pick a real do_<verb> command or install an addon first.")
+                return
+            keywords = [w.strip() for w in (extract_flag(args, "--keywords") or "").split(",") if w.strip()]
+            phases = [p.strip() for p in (extract_flag(args, "--phase") or "").split(",") if p.strip()]
+            needs_target = "--no-target" not in args
+            try:
+                entry = upsert_verb(
+                    name,
+                    enabled=True,
+                    keywords=keywords or None,
+                    phases=phases or None,
+                    needs_target=needs_target,
+                    description=extract_flag(args, "--desc") or f"operator-defined verb {name}",
+                    custom=True,
+                )
+            except ValueError as exc:
+                print_error(str(exc))
+                return
+            print_msg(f"[+] custom verb {entry['name']}: on")
+            return
+        if args[0] == "remove" and len(args) >= 2:
+            print_msg("[+] removed." if remove_verb(args[1]) else "[-] unknown verb (built-ins disable instead).")
+            return
+        if args[0] == "full-cli":
+            try:
+                from modules.lazy_cli_bridge import full_cli_enabled, set_full_cli
+            except Exception as exc:
+                print_error(f"Bridge unavailable: {exc}")
+                return
+            rest = [a for a in args[1:] if not a.startswith("--")]
+            if not rest:
+                print_msg(f"[*] full-cli routing: {'on' if full_cli_enabled() else 'off'}")
+                return
+            if rest[0].lower() in ("on", "true", "yes", "1"):
+                print_msg(f"[+] full-cli routing: {'on' if set_full_cli(True) else 'off'}")
+            elif rest[0].lower() in ("off", "false", "no", "0"):
+                print_msg(f"[+] full-cli routing: {'on' if set_full_cli(False) else 'off'}")
+            else:
+                print_error("Usage: lazy_verb full-cli [on|off]")
+            return
+        print_error("Usage: lazy_verb list|enable|disable|add|remove|full-cli ...")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_stage(self, line):
+        """Loop stage admin: list|enable|disable <stage>|reset. Usage: lazy_stage ..."""
+        args = shlex.split(line) if line.strip() else []
+        if not args:
+            print_error("Usage: lazy_stage list | lazy_stage enable|disable <stage> | lazy_stage reset")
+            return
+        from modules.orchestrator_config import reset, set_stage, stages
+
+        if args[0] == "list":
+            for name, stage in stages().items():
+                state = "on" if stage["enabled"] else "off"
+                print_msg(f"  {name} [{state}] :: {stage['label'][:80]}")
+            return
+        if args[0] in ("enable", "disable") and len(args) >= 2:
+            try:
+                stage = set_stage(args[1], args[0] == "enable")
+            except KeyError:
+                print_error(f"Unknown stage '{args[1]}'. See lazy_stage list.")
+                return
+            print_msg(f"[+] {stage['name']}: {'on' if stage['enabled'] else 'off'}")
+            return
+        if args[0] == "reset":
+            reset()
+            print_msg("[+] orchestrator overrides cleared (back to defaults).")
+            return
+        print_error("Usage: lazy_stage list|enable|disable|reset ...")
+
+    @cmd2.with_category(ai_category)
     def do_lazy_addon(self, line):
         """Addon trigger runner: list [service]|run <name> [--target T]. Usage: lazy_addon ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
@@ -1962,7 +2166,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_llm(self, line):
-        """LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|bind <member...> --task T|chain --task T|failover --task T. Usage: lazy_llm ..."""
+        """LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--role R]|bind <member...> --task T|chain --task T|failover --task T. Usage: lazy_llm ..."""
         args = shlex.split(line) if line.strip() else []
         if not args:
             print_error("Usage: lazy_llm list|add|remove|usage|health ...")
@@ -1986,6 +2190,16 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[+] member {item['name']} (failover order by priority).")
         elif args[0] == "remove" and len(args) >= 2:
             print_msg("[+] removed." if pool.remove_member(args[1]) else "[-] unknown member.")
+        elif args[0] == "priority" and len(args) >= 3:
+            try:
+                rank = int(args[2])
+            except ValueError:
+                print_error("Usage: lazy_llm priority <name> <N>")
+                return
+            if pool.set_priority(args[1], rank):
+                print_msg(f"[+] {args[1]} priority -> {rank} (failover order updated).")
+            else:
+                print_error(f"[-] unknown member '{args[1]}'.")
         elif args[0] == "usage":
             for call in pool.usage().get("calls", [])[-20:]:
                 print_msg(
@@ -2033,6 +2247,18 @@ class LazyCommandSet(LazyOwnCommandSet):
                 )
             if not entries:
                 print_msg("[*] no raw exchanges (enable with: lazy_llm record on)")
+        elif args[0] == "conformance":
+            from modules.lazy_roles import conformance as _conformance
+
+            summary = _conformance(extract_flag(args, "--role") or "")
+            if not summary.get("members"):
+                print_msg("[*] no members — planner/worker stay heuristic (never an error).")
+                return
+            for member, lanes in (summary.get("results") or {}).items():
+                marks = " ".join(f"{r}={'ok' if v['ok'] else 'fail'}/{v['ms']}ms" for r, v in lanes.items())
+                print_msg(f"  {member}: {marks}")
+            for role_name, member in (summary.get("affinity") or {}).items():
+                print_msg(f"  affinity {role_name} -> {member or 'none'}")
         elif args[0] in ("bind", "chain", "failover"):
             task_id = self._require_task(args)
             if not task_id:
@@ -2071,7 +2297,7 @@ class LazyCommandSet(LazyOwnCommandSet):
             return
         else:
             print_error(
-                "Usage: lazy_llm list|add|remove|usage|health|context [N]|"
+                "Usage: lazy_llm list|add|remove|priority <name> <N>|usage|health|context [N]|conformance [--role R]|"
                 "bind <member...> --task T|chain --task T|failover --task T"
             )
 
@@ -2366,7 +2592,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
-        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--view|--plain] [<goal>]"""
+        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--sandbox [image]] [--view|--plain] [<goal>]"""
         from modules.lazy_runner import parse_loop_line, run_loop
 
         try:
@@ -2383,6 +2609,101 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_error("Usage: lazy_loop [--task T] <goal>")
             return
         run_loop(self._resolve_shell(), dict(self.params or {}), config)
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_sandbox(self, line):
+        """Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ..."""
+        args = shlex.split(line) if line.strip() else []
+        from modules.lazy_sandbox import (
+            container_name,
+            ensure_container,
+            exec_command,
+            image_name,
+            remove_container,
+            status,
+        )
+
+        if not args or args[0] == "status":
+            info = status(extract_flag(args, "--task") or "")
+            print_msg(f"[*] docker={info['docker']} image={info['image']} available={info['image_available']}")
+            if "running" in info and isinstance(info["running"], bool):
+                print_msg(f"[*] container {info.get('container', '')}: {'up' if info['running'] else 'down'}")
+            elif info.get("running"):
+                for name in info["running"]:
+                    print_msg(f"  {name}")
+            else:
+                print_msg("[*] no loop containers running.")
+            return
+        if args[0] == "up":
+            task_id = extract_flag(args, "--task") or self._task_id(args)
+            if not task_id:
+                print_error("Usage: lazy_sandbox up --task T [--image I]")
+                return
+            name = ensure_container(task_id, extract_flag(args, "--image") or "")
+            print_msg(f"[+] container {name}" if not name.startswith("execution failed:") else name)
+            return
+        if args[0] == "down":
+            task_id = extract_flag(args, "--task") or self._task_id(args)
+            if not task_id:
+                print_error("Usage: lazy_sandbox down --task T")
+                return
+            print_msg(f"[+] removed {container_name(task_id)}." if remove_container(task_id) else "[-] remove failed.")
+            return
+        if args[0] == "build":
+            import subprocess as _sp
+
+            print_msg(f"[*] building {image_name()} from Dockerfile.sandbox (takes minutes)...")
+            proc = _sp.run(["docker", "build", "-f", "Dockerfile.sandbox", "-t", image_name(), "."],
+                            capture_output=True, text=True, timeout=1800)
+            print_msg("[+] image ready." if proc.returncode == 0 else f"[-] build failed:\n{(proc.stderr or '')[-2000:]}")
+            return
+        if args[0] == "exec":
+            task_id = extract_flag(args, "--task") or self._task_id(args)
+            rest = " ".join(a for a in args[1:] if not a.startswith("--") and a != task_id)
+            if not task_id or not rest:
+                print_error("Usage: lazy_sandbox exec --task T <verb...>")
+                return
+            print_msg(exec_command(task_id, rest)[:4000] or "[*] no output.")
+            return
+        print_error("Usage: lazy_sandbox status|up|down|build|exec ...")
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_install(self, line):
+        """Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ..."""
+        args = shlex.split(line) if line.strip() else []
+        if not args:
+            print_error("Usage: lazy_install <tool> [--dry-run] | lazy_install on|off|list")
+            return
+        from modules.lazy_installer import (
+            TOOL_INSTALL,
+            install_command_for,
+            installer_enabled,
+            set_installer_enabled,
+        )
+
+        if args[0] in ("on", "off"):
+            state = set_installer_enabled(args[0] == "on")
+            print_msg(f"[+] loop installer: {'on' if state else 'off'}")
+            if state:
+                print_msg("[*] recommended gate: lazy_guard rule-add \"apt-get install\" ask installs-write-to-host")
+            return
+        if args[0] == "list":
+            print_msg(f"[*] loop installer: {'on' if installer_enabled() else 'off'} ({len(TOOL_INSTALL)} recipes)")
+            for tool, recipe in sorted(TOOL_INSTALL.items()):
+                print_msg(f"  {tool}: {recipe[:100]}")
+            return
+        recipe = install_command_for(args[1] if args[0] == "run" and len(args) > 1 else args[0])
+        if recipe is None:
+            print_error(f"Unknown tool '{args[0]}'. See lazy_install list (allowlist only, never free-form).")
+            return
+        if "--dry-run" in args:
+            print_msg(f"[*] would run: {recipe}")
+            return
+        print_msg(f"[*] running: {recipe}")
+        import subprocess as _sp
+
+        proc = _sp.run(shlex.split(recipe), capture_output=True, text=True, timeout=600)
+        print_msg(((proc.stdout or "") + (proc.stderr or ""))[-3000:] or "[*] no output.")
 
 
 __all__ = ["LazyCommandSet"]

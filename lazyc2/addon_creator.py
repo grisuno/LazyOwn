@@ -322,6 +322,11 @@ class AddonCreatorConfig:
             "username",
             "usrwordlist",
             "wordlist",
+            "orchestrator",
+            "local_llm",
+            "llamacpp_host",
+            "llm_model_llamacpp",
+            "agent_model_timeout",
         }
     )
 

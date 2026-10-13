@@ -3,6 +3,102 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_port_script_list` | method | `modules/nmap2csv.py:243` | `def get_port_script_list(self)` |
+| `get_port_service_list` | method | `modules/nmap2csv.py:225` | `def get_port_service_list(self)` |
+| `get_port_version_list` | method | `modules/nmap2csv.py:234` | `def get_port_version_list(self)` |
+| `get_protocol` | method | `modules/nmap2csv.py:293` | `def get_protocol(self)` |
+| `get_rdns_record` | method | `modules/nmap2csv.py:201` | `def get_rdns_record(self)` |
+| `get_script` | method | `modules/nmap2csv.py:302` | `def get_script(self)` |
+| `get_service` | method | `modules/nmap2csv.py:296` | `def get_service(self)` |
+| `get_version` | method | `modules/nmap2csv.py:299` | `def get_version(self)` |
+| `is_format_valid` | function | `modules/nmap2csv.py:572` | `def is_format_valid(fmt)` |
+| `main` | function | `modules/nmap2csv.py:688` | `def main()` |
+| `num_to_dottedquad` | function | `modules/nmap2csv.py:133` | `def num_to_dottedquad(n)` |
+| `parse` | function | `modules/nmap2csv.py:362` | `def parse(fd)` |
+| `parse_xml` | function | `modules/nmap2csv.py:492` | `def parse_xml(xml_file)` |
+| `repeat_attributes` | function | `modules/nmap2csv.py:639` | `def repeat_attributes(attribute_list)` |
+| `set_fqdn` | method | `modules/nmap2csv.py:265` | `def set_fqdn(self, fqdn)` |
+| `set_mac` | method | `modules/nmap2csv.py:274` | `def set_mac(self, mac_address, mac_address_vendor)` |
+| `set_network_distance` | method | `modules/nmap2csv.py:278` | `def set_network_distance(self, network_distance)` |
+| `set_os` | method | `modules/nmap2csv.py:271` | `def set_os(self, os)` |
+| `set_rdns_record` | method | `modules/nmap2csv.py:268` | `def set_rdns_record(self, rdns_record)` |
+| `set_script` | method | `modules/nmap2csv.py:311` | `def set_script(self, script)` |
+| `set_service` | method | `modules/nmap2csv.py:305` | `def set_service(self, service)` |
+| `set_version` | method | `modules/nmap2csv.py:308` | `def set_version(self, version)` |
+| `split_grepable_match` | function | `modules/nmap2csv.py:315` | `def split_grepable_match(raw_string)` |
+| `unique_match_from_list` | function | `modules/nmap2csv.py:140` | `def unique_match_from_list(list)` |
+| `Channel` | class | `modules/notify.py:105` | `class Channel` |
+| `Notifier` | class | `modules/notify.py:123` | `class Notifier` |
+| `NotifyConfig` | class | `modules/notify.py:15` | `class NotifyConfig` |
+| `NotifyMessage` | class | `modules/notify.py:92` | `class NotifyMessage` |
+| `__init__` | method | `modules/notify.py:126` | `def __init__(self, config)` |
+| `__post_init__` | method | `modules/notify.py:117` | `def __post_init__(self)` |
+| `dispatch` | method | `modules/notify.py:163` | `def dispatch(self, message, channels)` |
+| `flush_digest` | method | `modules/notify.py:179` | `def flush_digest(self, max_age_sec)` |
+| `mask_secrets` | function | `modules/notify.py:39` | `def mask_secrets(text, config)` |
+| `render` | method | `modules/notify.py:157` | `def render(self, message)` |
+| `severity_rank` | function | `modules/notify.py:31` | `def severity_rank(severity, config)` |
+| `should_send` | method | `modules/notify.py:134` | `def should_send(self, message, channel)` |
+| `url_allowed` | function | `modules/notify.py:57` | `def url_allowed(url)` |
+| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
+| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
+| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
+| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
+| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
+| `main` | function | `modules/nuclei_templates_sync.py:337` | `def main(argv)` |
+| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
+| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
+| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
+| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
+| `resolve_plan` | function | `modules/nuclei_templates_sync.py:308` | `def resolve_plan(args)` |
+| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
+| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
+| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
+| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
+| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
+| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
+| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
+| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
+| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
+| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
+| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
+| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
+| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
+| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
+| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
+| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
+| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
+| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
+| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
+| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
+| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
+| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
+| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
+| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
+| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
+| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
+| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
+| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
+| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
+| `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
+| `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
+| `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
+| `register` | method | `modules/obs_parser.py:109` | `def register(self, extractor)` |
+| `register` | method | `modules/obs_parser.py:450` | `def register(self, extractor)` |
+| `run_all` | method | `modules/obs_parser.py:112` | `def run_all(self, text, host)` |
+| `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
+| `Operation` | class | `modules/operation.py:79` | `class Operation` |
 | `OperationManager` | class | `modules/operation.py:180` | `class OperationManager` |
 | `OperationStatus` | class | `modules/operation.py:42` | `class OperationStatus(StrEnum)` |
 | `OperationStep` | class | `modules/operation.py:63` | `class OperationStep` |
@@ -400,101 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
 | `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
 | `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
-| `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
-| `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
-| `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
-| `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
-| `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
-| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
-| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
-| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
-| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
-| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
-| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
-| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
-| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
-| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
-| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
-| `suggest` | method | `modules/reactive_engine.py:734` | `def suggest(self, output, command, platform, context)` |
-| `technique_commands_for` | method | `modules/reactive_engine.py:448` | `def technique_commands_for(self, platform, keyword)` |
-| `top_decision` | method | `modules/reactive_engine.py:958` | `def top_decision(self, output, command, platform, context)` |
-| `_build_user_prompt` | function | `modules/recommender.py:55` | `def _build_user_prompt(state)` |
-| `_call_ai` | function | `modules/recommender.py:97` | `def _call_ai(api_key, user_prompt)` |
-| `recommend` | function | `modules/recommender.py:143` | `def recommend(state, api_key)` |
-| `recommend_and_save` | function | `modules/recommender.py:163` | `def recommend_and_save(api_key)` |
-| `GymAttempt` | class | `modules/redteam_gym.py:282` | `class GymAttempt` |
-| `_award_gym_elo` | function | `modules/redteam_gym.py:636` | `def _award_gym_elo(username, elo_bonus)` |
-| `_calc_speed_score` | function | `modules/redteam_gym.py:533` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
-| `_calc_stealth_score` | function | `modules/redteam_gym.py:554` | `def _calc_stealth_score(techniques, max_bonus)` |
-| `_calc_technique_score` | function | `modules/redteam_gym.py:570` | `def _calc_technique_score(techniques, chal, max_bonus)` |
-| `_ensure_gym_dir` | function | `modules/redteam_gym.py:298` | `def _ensure_gym_dir()` |
-| `_get_rank` | function | `modules/redteam_gym.py:662` | `def _get_rank(username)` |
-| `_get_username` | function | `modules/redteam_gym.py:330` | `def _get_username()` |
-| `_load_leaderboard` | function | `modules/redteam_gym.py:303` | `def _load_leaderboard()` |
-| `_save_leaderboard` | function | `modules/redteam_gym.py:319` | `def _save_leaderboard(board)` |
-| `_update_leaderboard` | function | `modules/redteam_gym.py:592` | `def _update_leaderboard(attempt)` |
-| `get_active_challenge` | function | `modules/redteam_gym.py:706` | `def get_active_challenge()` |
-| `list_challenges` | function | `modules/redteam_gym.py:357` | `def list_challenges()` |
-| `main` | function | `modules/redteam_gym.py:790` | `def main()` |
-| `record_external_attempt` | function | `modules/redteam_gym.py:736` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
-| `show_leaderboard` | function | `modules/redteam_gym.py:679` | `def show_leaderboard(top_n)` |
-| `start_challenge` | function | `modules/redteam_gym.py:378` | `def start_challenge(challenge_id)` |
-| `submit_challenge` | function | `modules/redteam_gym.py:448` | `def submit_challenge(techniques_used, success)` |
-| `DataDirectory` | class | `modules/reflective_dll.py:70` | `class DataDirectory` |
-| `ImportDescriptor` | class | `modules/reflective_dll.py:104` | `class ImportDescriptor` |
-| `PEHeader` | class | `modules/reflective_dll.py:37` | `class PEHeader` |
-| `PEParser` | class | `modules/reflective_dll.py:142` | `class PEParser` |
-| `ReflectiveLoader` | class | `modules/reflective_dll.py:464` | `class ReflectiveLoader` |
-| `ReflectiveLoaderConfig` | class | `modules/reflective_dll.py:121` | `class ReflectiveLoaderConfig` |
-| `SectionHeader` | class | `modules/reflective_dll.py:83` | `class SectionHeader` |
-| `__init__` | method | `modules/reflective_dll.py:151` | `def __init__(self, pe_data)` |
-| `__init__` | method | `modules/reflective_dll.py:492` | `def __init__(self, pe_data, config)` |
-| `_parse_thunk_names` | method | `modules/reflective_dll.py:426` | `def _parse_thunk_names(self, thunk_rva, sections)` |
-| `_read_asciiz_at_rva` | method | `modules/reflective_dll.py:417` | `def _read_asciiz_at_rva(self, rva, sections)` |
-| `architecture` | method | `modules/reflective_dll.py:510` | `def architecture(self)` |
-| `generate_c_stub` | method | `modules/reflective_dll.py:588` | `def generate_c_stub(self)` |
-| `generate_powershell_stub` | method | `modules/reflective_dll.py:666` | `def generate_powershell_stub(self)` |
-| `is_64bit` | method | `modules/reflective_dll.py:456` | `def is_64bit(self)` |
-| `parse_data_directories` | method | `modules/reflective_dll.py:243` | `def parse_data_directories(self, num_entries)` |
-| `parse_exports` | method | `modules/reflective_dll.py:374` | `def parse_exports(self, export_dir, sections)` |
-| `parse_file_header` | method | `modules/reflective_dll.py:166` | `def parse_file_header(self)` |
-| `parse_imports` | method | `modules/reflective_dll.py:280` | `def parse_imports(self, import_dir, sections)` |
-| `parse_relocations` | method | `modules/reflective_dll.py:326` | `def parse_relocations(self, reloc_dir, sections)` |
-| `parse_sections` | method | `modules/reflective_dll.py:208` | `def parse_sections(self, num_sections)` |
-| `plan_injection` | method | `modules/reflective_dll.py:526` | `def plan_injection(self)` |
-| `raw_data` | method | `modules/reflective_dll.py:460` | `def raw_data(self)` |
-| `required_imports` | method | `modules/reflective_dll.py:515` | `def required_imports(self)` |
-| `rva_to_offset` | method | `modules/reflective_dll.py:265` | `def rva_to_offset(self, rva, sections)` |
-| `sha256` | method | `modules/reflective_dll.py:505` | `def sha256(self)` |
-| `summarize` | method | `modules/reflective_dll.py:685` | `def summarize(self)` |
-| `ResourceScriptEngine` | class | `modules/resource_script.py:268` | `class ResourceScriptEngine` |
-| `ScriptContext` | class | `modules/resource_script.py:82` | `class ScriptContext` |
-| `ScriptError` | class | `modules/resource_script.py:76` | `class ScriptError(RuntimeError)` |
-| `__init__` | method | `modules/resource_script.py:89` | `def __init__(self, shell_params, on_command, on_print)` |
-| `__init__` | method | `modules/resource_script.py:276` | `def __init__(self, context)` |
-| `_call_macro` | method | `modules/resource_script.py:537` | `def _call_macro(self, name, args)` |
-| `_compare` | method | `modules/resource_script.py:220` | `def _compare(left, op, right)` |
-| `_execute_line` | method | `modules/resource_script.py:347` | `def _execute_line(self, raw)` |
-| `_extract_macros` | method | `modules/resource_script.py:331` | `def _extract_macros(self, lines)` |
-| `_jump_past` | method | `modules/resource_script.py:251` | `def _jump_past(self, open_res, close_re)` |
-| `_lookup` | method | `modules/resource_script.py:168` | `def _lookup(self, name)` |
-| `_repl` | function | `modules/resource_script.py:125` | `def _repl(m)` |
-| `_resolve` | method | `modules/resource_script.py:124` | `def _resolve(self, text)` |
-| `_resolve_operand` | method | `modules/resource_script.py:183` | `def _resolve_operand(self, operand)` |
-| `_skip` | method | `modules/resource_script.py:165` | `def _skip(self)` |
-| `eval_condition` | method | `modules/resource_script.py:191` | `def eval_condition(self, raw_condition)` |
-| `execute` | method | `modules/resource_script.py:279` | `def execute(self, script_path)` |
-| `execute_lines` | method | `modules/resource_script.py:293` | `def execute_lines(self, lines, source)` |
-| `execute_string` | method | `modules/resource_script.py:327` | `def execute_string(self, script)` |
-| `print` | method | `modules/resource_script.py:138` | `def print(self, msg)` |
-| `run_command` | method | `modules/resource_script.py:147` | `def run_command(self, cmd)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

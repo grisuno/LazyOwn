@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **72.7%** (6452 of 8877 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,10 +13,10 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | constructor | 184 | 502 | 36.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 34 | 36 | 94.4% |
-| function | 1437 | 2323 | 61.9% |
+| function | 1490 | 2378 | 62.7% |
 | macro | 3 | 113 | 2.7% |
-| method | 2664 | 3349 | 79.5% |
-| module | 600 | 722 | 83.1% |
+| method | 2673 | 3358 | 79.6% |
+| module | 613 | 735 | 83.4% |
 | property | 130 | 174 | 74.7% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 74 | 86 | 86.0% |
@@ -212,6 +212,8 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | [`plugins/run_python_rev_c2.lua`](modules/plugins.run_python_rev_c2.lua.md) | 1 | 2 | 50.0% |
 | [`poc_tui.config`](modules/poc_tui.config.py.md) | 4 | 8 | 50.0% |
 | [`poc_tui.run`](modules/poc_tui.run.py.md) | 1 | 2 | 50.0% |
+| [`scripts/lazy_llamacpp_serve.sh`](modules/scripts.lazy_llamacpp_serve.sh.md) | 1 | 2 | 50.0% |
+| [`scripts/lazy_llamacpp_setup.sh`](modules/scripts.lazy_llamacpp_setup.sh.md) | 1 | 2 | 50.0% |
 | [`scripts/smoke_onboarding.sh`](modules/scripts.smoke_onboarding.sh.md) | 1 | 2 | 50.0% |
 | [`scripts/validate_agent_contract.sh`](modules/scripts.validate_agent_contract.sh.md) | 3 | 6 | 50.0% |
 | [`skills.hermes-lazyown.mcp_server`](modules/skills.hermes-lazyown.mcp_server.py.md) | 2 | 4 | 50.0% |
@@ -378,7 +380,7 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
 | [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 25 | 26 | 96.2% |
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 25 | 26 | 96.2% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 52 | 54 | 96.3% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 57 | 59 | 96.6% |
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | 29 | 30 | 96.7% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | 30 | 31 | 96.8% |
@@ -478,7 +480,7 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | [`cli.graph_overlay`](modules/cli.graph_overlay.py.md) | 11 | 11 | 100.0% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | 3 | 3 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | 19 | 19 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 26 | 26 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 28 | 28 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | 4 | 4 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | 26 | 26 | 100.0% |
@@ -649,14 +651,22 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | [`modules/iptables_portforward.sh`](modules/modules.iptables_portforward.sh.md) | 2 | 2 | 100.0% |
 | [`modules.jsonl_tail`](modules/modules.jsonl_tail.py.md) | 4 | 4 | 100.0% |
 | [`modules.killchain`](modules/modules.killchain.py.md) | 22 | 22 | 100.0% |
-| [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 18 | 18 | 100.0% |
+| [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
+| [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 289 | 289 | 100.0% |
+| [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | 7 | 7 | 100.0% |
+| [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 291 | 291 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
+| [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 20 | 20 | 100.0% |
+| [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 7 | 7 | 100.0% |
+| [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
+| [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | 5 | 5 | 100.0% |
+| [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | 3 | 3 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | 31 | 31 | 100.0% |
 | [`modules/lazybrutesshuserenum.sh`](modules/modules.lazybrutesshuserenum.sh.md) | 1 | 1 | 100.0% |
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | 1 | 1 | 100.0% |
@@ -716,6 +726,9 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 | [`scripts.devtools.core_smoke`](modules/scripts.devtools.core_smoke.py.md) | 5 | 5 | 100.0% |
 | [`scripts.generate_sbom`](modules/scripts.generate_sbom.py.md) | 6 | 6 | 100.0% |
 | [`scripts.journal`](modules/scripts.journal.py.md) | 10 | 10 | 100.0% |
+| [`scripts/lazy_hermes_ask.sh`](modules/scripts.lazy_hermes_ask.sh.md) | 1 | 1 | 100.0% |
+| [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | 1 | 1 | 100.0% |
+| [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | 3 | 3 | 100.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | 1 | 1 | 100.0% |
 | [`scripts.read_journal`](modules/scripts.read_journal.py.md) | 2 | 2 | 100.0% |
 | [`scripts/setup_hermes_mcp.sh`](modules/scripts.setup_hermes_mcp.sh.md) | 1 | 1 | 100.0% |
@@ -754,7 +767,7 @@ Overall: **72.5%** (6377 of 8800 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2144, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
+DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -870,8 +883,8 @@ DOC001: 2144, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'port' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'ssh_public_key' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC001 `cli/commands/lateral_migrated.py:24` class LateralMigratedCommandSet is not documented
-- DOC001 `cli/commands/lazyops.py:567` method LazyCommandSet.do_lazy_intent is not documented
-- DOC001 `cli/commands/lazyops.py:1107` method LazyCommandSet.do_lazy_finding is not documented
+- DOC001 `cli/commands/lazyops.py:649` method LazyCommandSet.do_lazy_intent is not documented
+- DOC001 `cli/commands/lazyops.py:1189` method LazyCommandSet.do_lazy_finding is not documented
 - DOC001 `cli/commands/misc_migrated.py:87` class MiscMigratedCommandSet is not documented
 - DOC001 `cli/commands/persist_migrated.py:28` class PersistMigratedCommandSet is not documented
 - DOC002 `cli/commands/persist_migrated.py:1060` parameter 'line' of PersistMigratedCommandSet.do_setoolKits is not documented
@@ -1256,4 +1269,4 @@ DOC001: 2144, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `discord_c2.py:216` function handle_file is not documented
 - DOC001 `discord_c2.py:245` function download_c2 is not documented
 - DOC001 `discord_c2.py:256` function send_connected_clients is not documented
-- ... 1751 more in `api/warnings.jsonl`
+- ... 1753 more in `api/warnings.jsonl`

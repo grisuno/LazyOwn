@@ -294,67 +294,72 @@ Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 - `LazyQueueCommandSet.do_lazy_view` (method) `cli/commands/lazyloop.py:299` `def do_lazy_view(self, line)` -- Attach the live worker monitor to a task (or the newest task).
 
 ## cli/commands/lazyops.py
-Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
 Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
-- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:88` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
-- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:210` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
-- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:239` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
-- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:260` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off.
-- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:315` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
-- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:368` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
-- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:396` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
-- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:415` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
-- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:427` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
-- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:467` `def do_lazy_trace(self, line)` -- Worker trace exchange.
-- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:520` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
-- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:555` `def do_lazy_hint(self, line)` -- Inject steering hint.
-- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:567` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
-- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:592` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
-- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:635` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
-- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:674` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
-- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:692` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
-- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:710` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
-- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:732` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
-- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:773` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
-- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:785` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
-- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1006` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
-- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1107` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
-- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1172` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
-- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1191` `def do_lazy_steer(self, line)` -- Mid-run correction.
-- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1203` `def do_lazy_kill(self, line)` -- Terminate running intent.
-- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1215` `def do_lazy_pause(self, line)` -- Pause task loops.
-- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1225` `def do_lazy_resume(self, line)` -- Resume paused task.
-- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1235` `def do_lazy_report(self, line)` -- Export severity-ranked report.
-- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1252` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
-- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1299` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
-- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1311` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
-- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1339` `def do_lazy_node(self, line)` -- Full node detail.
-- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1359` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
-- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1426` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
-- `run_command` (function) `cli/commands/lazyops.py:1457` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
-- `list_tasks` (function) `cli/commands/lazyops.py:1479` `def list_tasks()` -- List every task with status, intents, facts and findings.
-- `task_graph` (function) `cli/commands/lazyops.py:1483` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
-- `task_findings` (function) `cli/commands/lazyops.py:1487` `def task_findings(task)` -- Findings of one task with severity, status and report size.
-- `campaign_sitrep` (function) `cli/commands/lazyops.py:1491` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
-- `add_hint` (function) `cli/commands/lazyops.py:1504` `def add_hint(text)` -- Inject an operator hint into the active task planner.
-- `steer_intent` (function) `cli/commands/lazyops.py:1511` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
-- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1580` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
-- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1681` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
-- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1703` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
-- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:1775` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T].
-- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:1857` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
-- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:1905` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
-- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:1964` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw...
-- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2079` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
-- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2151` `def do_lazy_status(self, line)` -- Full task status.
-- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2175` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
-- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2180` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
-- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2211` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
-- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2242` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
-- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2263` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
-- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2296` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
-- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2323` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
-- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2368` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
+- `LazyCommandSet.do_lazy_dispatch` (method) `cli/commands/lazyops.py:88` `def do_lazy_dispatch(self, line)` -- Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N]...
+- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:143` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
+- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:265` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
+- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:294` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
+- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:315` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes.
+- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:397` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
+- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:450` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
+- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:478` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
+- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:497` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
+- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:509` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
+- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:549` `def do_lazy_trace(self, line)` -- Worker trace exchange.
+- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:602` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
+- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:637` `def do_lazy_hint(self, line)` -- Inject steering hint.
+- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:649` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
+- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:674` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
+- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:717` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
+- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:756` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
+- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:774` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
+- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:792` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
+- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:814` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
+- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:855` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
+- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:867` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
+- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1088` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
+- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1189` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
+- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1254` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
+- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1273` `def do_lazy_steer(self, line)` -- Mid-run correction.
+- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1285` `def do_lazy_kill(self, line)` -- Terminate running intent.
+- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1297` `def do_lazy_pause(self, line)` -- Pause task loops.
+- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1307` `def do_lazy_resume(self, line)` -- Resume paused task.
+- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1317` `def do_lazy_report(self, line)` -- Export severity-ranked report.
+- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1334` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
+- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1381` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
+- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1393` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
+- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1421` `def do_lazy_node(self, line)` -- Full node detail.
+- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1441` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
+- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1508` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
+- `run_command` (function) `cli/commands/lazyops.py:1539` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
+- `list_tasks` (function) `cli/commands/lazyops.py:1561` `def list_tasks()` -- List every task with status, intents, facts and findings.
+- `task_graph` (function) `cli/commands/lazyops.py:1565` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
+- `task_findings` (function) `cli/commands/lazyops.py:1569` `def task_findings(task)` -- Findings of one task with severity, status and report size.
+- `campaign_sitrep` (function) `cli/commands/lazyops.py:1573` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
+- `add_hint` (function) `cli/commands/lazyops.py:1586` `def add_hint(text)` -- Inject an operator hint into the active task planner.
+- `steer_intent` (function) `cli/commands/lazyops.py:1593` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
+- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1662` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
+- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1763` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
+- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1785` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
+- `LazyCommandSet.do_lazy_verb` (method) `cli/commands/lazyops.py:1857` `def do_lazy_verb(self, line)` -- Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target]...
+- `LazyCommandSet.do_lazy_stage` (method) `cli/commands/lazyops.py:1951` `def do_lazy_stage(self, line)` -- Loop stage admin: list|enable|disable <stage>|reset.
+- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:1979` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T].
+- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2061` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
+- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2109` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
+- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2168` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
+- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2305` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
+- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2377` `def do_lazy_status(self, line)` -- Full task status.
+- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2401` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
+- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2406` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
+- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2437` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2468` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
+- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2489` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
+- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2522` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
+- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2549` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
+- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2594` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
+- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2614` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
+- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2671` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
 
 ## cli/commands/marketplace.py
 Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/module_registry.py`, `utils.py`

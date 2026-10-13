@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 137 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 139 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -33,37 +33,37 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (2.1)
+## cli (1.1)
 
-cli groups 60 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 59 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
-## contrib (2.2)
+## contrib (1.2)
 
 contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, launch_html, exploit_js.
 
-## core (2.3)
+## core (1.3)
 
-core groups 6 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
+core groups 7 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
 
-## modules (2.4)
+## modules (1.4)
 
-modules groups 30 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Beacon configuration builder — wires profile engines into beacon compile-time config.
+modules groups 31 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Beacon configuration builder — wires profile engines into beacon compile-time config.
 
-## root (2.5)
+## root (1.5)
 
 root groups 2 files (py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## scripts (2.6)
+## scripts (1.6)
 
 scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, main. Smoke check for the public surfaces documented in CORE.md.
 
-## skills (2.7)
+## skills (1.7)
 
 skills groups 1 files (py) around list_tools, call_tool, main. LazyOwn MCP OpenCode bridge.
 
-## tests (2.8)
+## tests (1.8)
 
-tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
+tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
 
 **Files**:
 
@@ -127,13 +127,13 @@ tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/output_mode.py
 - cli/plugin_tiers.py
 - cli/registry.py
-- cli/scope_guard.py
 - contrib/legacy/lazygalazy.py
 - contrib/legacy/lazyhttpreverseshell.py
 - contrib/legacy/lazysmbrelay.py
 - core/defaults.py
 - core/hardening.py
 - core/host_policy.py
+- core/safe_exec.py
 - core/safe_import.py
 - core/safe_subprocess.py
 - core/validators.py
@@ -146,6 +146,7 @@ tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
+- modules/command_executor.py
 - modules/dns_beacon.py
 - modules/domain_dominance.py
 - modules/dpapi_harvester.py
@@ -182,6 +183,7 @@ tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - tests/test_credentials_rotation.py
 - tests/test_daemon_ctl_command_set.py
 - tests/test_encoding_command_set.py
+- tests/test_executor_kernel.py
 - tests/test_help_ui_command_set.py
 - tests/test_host_policy.py
 - tests/test_infra_disposable.py
@@ -194,9 +196,9 @@ tests groups 34 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - tests/test_resource_script.py
 - tests/test_safe_subprocess.py
 - tests/test_safe_subprocess_behavior.py
-- tests/test_scope_guard.py
 - tests/test_security_hardening.py
 - tests/test_security_hardening_v3.py
+- tests/test_security_hardening_v4.py
 - tests/test_security_hardening_v5.py
 - tests/test_session_ops_command_set.py
 - tests/test_shell_semantics.py

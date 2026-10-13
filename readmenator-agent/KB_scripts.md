@@ -85,6 +85,43 @@
   - `entries` (method, line 223) `def entries(self, limit)`
 - Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
 
+## scripts/lazy_hermes_ask.sh
+- Doc: — detached Hermes task runner for LazyOwn.
+- Layer: utility
+- Language: sh
+
+## scripts/lazy_llamacpp_serve.sh
+- Doc: — idempotent llama.cpp server manager for LazyOwn.
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `healthy` (function, line 33)
+
+## scripts/lazy_llamacpp_setup.sh
+- Doc: — one-time local LLM setup for LazyOwn users.
+- Layer: infrastructure
+- Language: sh
+- Symbols:
+  - `ask` (function, line 40)
+
+## scripts/lazy_msf_lab.sh
+- Doc: — Metasploitable2 smoke lab manager for LazyOwn.
+- Layer: utility
+- Language: sh
+
+## scripts/lazy_opencode_config.py
+- Doc: Patch operator agent configs to use the Lazy llama.cpp server.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_backup` (function, line 29) `def _backup(path)`
+  - `_opencode_path` (function, line 36) `def _opencode_path()`
+  - `_hermes_path` (function, line 41) `def _hermes_path()`
+  - `patch_opencode` (function, line 46) `def patch_opencode(set_default, host)`
+  - `patch_hermes` (function, line 93) `def patch_hermes(host)`
+  - `main` (function, line 150) `def main(argv)`
+- Imported by: `skills/lazyown_mcp.py`
+
 ## scripts/migrate_commandsets.py
 - Doc: Merge _migrated.py CommandSet methods into clean phase modules.
 - Layer: utility

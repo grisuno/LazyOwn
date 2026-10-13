@@ -3,6 +3,102 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `main` | function | `modules/yaml_generator.py:141` | `def main()` |
+| `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
+| `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
+| `_format_match` | method | `modules/yara_scanner.py:162` | `def _format_match(self, match)` |
+| `_load_external_vars` | method | `modules/yara_scanner.py:45` | `def _load_external_vars(self)` |
+| `_scan_with_timeout` | method | `modules/yara_scanner.py:129` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
+| `_sha256` | method | `modules/yara_scanner.py:250` | `def _sha256(filepath)` |
+| `add_rule` | method | `modules/yara_scanner.py:258` | `def add_rule(self, name, content)` |
+| `compile_all` | method | `modules/yara_scanner.py:54` | `def compile_all(self)` |
+| `create_default_rules` | function | `modules/yara_scanner.py:371` | `def create_default_rules()` |
+| `download_community_rules` | method | `modules/yara_scanner.py:300` | `def download_community_rules(self)` |
+| `ensure_directory` | method | `modules/yara_scanner.py:41` | `def ensure_directory(self)` |
+| `ioc_scan` | method | `modules/yara_scanner.py:328` | `def ioc_scan(self, target_path, iocs)` |
+| `list_rules` | method | `modules/yara_scanner.py:277` | `def list_rules(self)` |
+| `scan_directory` | method | `modules/yara_scanner.py:187` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
+| `scan_file` | method | `modules/yara_scanner.py:98` | `def scan_file(self, filepath, timeout)` |
+| `target` | function | `modules/yara_scanner.py:137` | `def target()` |
+| `all` | function | `plugins/generate_c_reverse_shell.lua:108` | `` |
+| `generate_c_reverse_shell` | function | `plugins/generate_c_reverse_shell.lua:1` | `` |
+| `generate_cleanup_commands` | function | `plugins/generate_cleanup_commands.lua:3` | `` |
+| `generate_html_payload` | function | `plugins/generate_html_payload.lua:1` | `` |
+| `generate_lateral_command` | function | `plugins/generate_lateral_command.lua:4` | `` |
+| `all` | function | `plugins/generate_linux_asm_reverse_shell.lua:121` | `` |
+| `generate_linux_asm_reverse_shell` | function | `plugins/generate_linux_asm_reverse_shell.lua:1` | `` |
+| `generate_linux_raw_shellcode` | function | `plugins/generate_linux_raw_shellcode.lua:1` | `` |
+| `Xor` | function | `plugins/generate_lolbird.lua:64` | `` |
+| `generate_lolbird_ps1` | function | `plugins/generate_lolbird.lua:44` | `` |
+| `read_file` | function | `plugins/generate_lolbird.lua:12` | `` |
+| `write_file` | function | `plugins/generate_lolbird.lua:4` | `` |
+| `xor_hex_string` | function | `plugins/generate_lolbird.lua:21` | `` |
+| `xor_string` | function | `plugins/generate_lolbird.lua:31` | `` |
+| `execute_command_to_file` | function | `plugins/generate_msfvenom_loader.lua:2` | `` |
+| `generate_loader` | function | `plugins/generate_msfvenom_loader.lua:49` | `` |
+| `generate_msfvenom_loader` | function | `plugins/generate_msfvenom_loader.lua:104` | `` |
+| `hex_to_nasm` | function | `plugins/generate_msfvenom_loader.lua:18` | `` |
+| `read_file` | function | `plugins/generate_msfvenom_loader.lua:7` | `` |
+| `generate_msfvenom_loader_windows` | function | `plugins/generate_msfvenom_loader_windows.lua:2` | `` |
+| `generate_reverse_shell` | function | `plugins/generate_reverse_shell.lua:1` | `` |
+| `generate_stub_ps1` | function | `plugins/generate_stub.lua:43` | `` |
+| `read_file` | function | `plugins/generate_stub.lua:12` | `` |
+| `write_file` | function | `plugins/generate_stub.lua:4` | `` |
+| `xor_data` | function | `plugins/generate_stub.lua:21` | `` |
+| `xor_string` | function | `plugins/generate_stub.lua:30` | `` |
+| `load_plugin` | function | `plugins/init_plugins.lua:6` | `` |
+| `kerberos_harvest` | function | `plugins/kerberos_harvest.lua:1` | `` |
+| `read_file` | function | `plugins/lolbas_certutil_download_exec.lua:13` | `` |
+| `write_file` | function | `plugins/lolbas_certutil_download_exec.lua:5` | `` |
+| `xor_data` | function | `plugins/lolbas_certutil_download_exec.lua:21` | `` |
+| `run_msfvenom` | function | `plugins/lolbas_certutil_exe.lua:2` | `` |
+| `write_file` | function | `plugins/lolbas_wmic_xsl_execution.lua:4` | `` |
+| `parse_nmap_with_xmlstarlet` | function | `plugins/parse_nmap_with_xmlstarlet.lua:1` | `` |
+| `run_nuclei_on_nmap_files` | function | `plugins/run_nuclei_on_nmap_files.lua:1` | `` |
+| `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
+| `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
+| `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
+| `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
+| `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
+| `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
+| `hex_list_to_byte_values` | function | `plugins/validate_shellcode.lua:65` | `` |
+| `hex_to_bytes` | function | `plugins/validate_shellcode.lua:2` | `` |
+| `validate_shellcode` | function | `plugins/validate_shellcode.lua:81` | `` |
+| `visualize_network` | function | `plugins/visualize_network.lua:1` | `` |
+| `DashboardPanel` | class | `poc_tui/app.py:137` | `class DashboardPanel(Static)` |
+| `LazyOwnTUI` | class | `poc_tui/app.py:297` | `class LazyOwnTUI(App)` |
+| `OutputPanel` | class | `poc_tui/app.py:240` | `class OutputPanel(VerticalScroll)` |
+| `PluginBrowser` | class | `poc_tui/app.py:195` | `class PluginBrowser(Static)` |
+| `ShellBackend` | class | `poc_tui/app.py:44` | `class ShellBackend` |
+| `__init__` | method | `poc_tui/app.py:47` | `def __init__(self, base_dir)` |
+| `__init__` | method | `poc_tui/app.py:140` | `def __init__(self, base_dir)` |
+| `__init__` | method | `poc_tui/app.py:198` | `def __init__(self)` |
+| `__init__` | method | `poc_tui/app.py:248` | `def __init__(self)` |
+| `__init__` | method | `poc_tui/app.py:394` | `def __init__(self, base_dir)` |
+| `_auto_refresh_dashboard` | method | `poc_tui/app.py:464` | `def _auto_refresh_dashboard(self)` |
+| `_drain_queue` | method | `poc_tui/app.py:495` | `def _drain_queue(self)` |
+| `_guess_category` | method | `poc_tui/app.py:223` | `def _guess_category(name, help_text)` |
+| `_init_backend` | function | `poc_tui/app.py:429` | `def _init_backend()` |
+| `_log` | method | `poc_tui/app.py:255` | `def _log(self)` |
+| `_on_backend_ready` | method | `poc_tui/app.py:444` | `def _on_backend_ready(self)` |
+| `_show_result` | method | `poc_tui/app.py:525` | `def _show_result(self, result)` |
+| `_tab_complete` | method | `poc_tui/app.py:605` | `def _tab_complete(self, inp)` |
+| `_work` | function | `poc_tui/app.py:510` | `def _work()` |
+| `action_clear_output` | method | `poc_tui/app.py:539` | `def action_clear_output(self)` |
+| `action_quit` | method | `poc_tui/app.py:561` | `def action_quit(self)` |
+| `action_refresh_dashboard` | method | `poc_tui/app.py:555` | `def action_refresh_dashboard(self)` |
+| `action_tab_complete` | method | `poc_tui/app.py:544` | `def action_tab_complete(self)` |
+| `action_toggle_sidebar` | method | `poc_tui/app.py:549` | `def action_toggle_sidebar(self)` |
+| `append_command` | method | `poc_tui/app.py:268` | `def append_command(self, cmd)` |
+| `append_error` | method | `poc_tui/app.py:283` | `def append_error(self, text)` |
+| `append_result` | method | `poc_tui/app.py:273` | `def append_result(self, text, success)` |
+| `append_system` | method | `poc_tui/app.py:287` | `def append_system(self, text)` |
+| `compose` | method | `poc_tui/app.py:144` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:201` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:252` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:405` | `def compose(self)` |
+| `execute_command` | method | `poc_tui/app.py:470` | `def execute_command(self, cmd_str)` |
+| `get_aliases` | method | `poc_tui/app.py:119` | `def get_aliases(self)` |
 | `get_commands` | method | `poc_tui/app.py:106` | `def get_commands(self)` |
 | `import_shell_class` | method | `poc_tui/app.py:53` | `def import_shell_class(self)` |
 | `main` | function | `poc_tui/app.py:629` | `def main()` |
@@ -174,6 +270,14 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `main` | function | `scripts/journal.py:264` | `def main(argv)` |
 | `post` | method | `scripts/journal.py:206` | `def post(self, title, body)` |
 | `repo_id` | method | `scripts/journal.py:184` | `def repo_id(self)` |
+| `healthy` | function | `scripts/lazy_llamacpp_serve.sh:33` | `` |
+| `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
+| `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
+| `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
+| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
+| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
+| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
+| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
 | `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
 | `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
 | `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
@@ -392,109 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `next_command` | method | `skills/autonomous_daemon.py:1382` | `def next_command(self, target, phase, services, os_hint)` |
 | `next_tool` | method | `skills/autonomous_daemon.py:3088` | `def next_tool(self, failed_command, phase, attempt)` |
 | `next_tool` | method | `skills/autonomous_daemon.py:3105` | `def next_tool(self, failed_command, phase, attempt)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3152` | `def next_tool(self, failed_command, phase, attempt)` |
-| `objective_loop` | function | `skills/autonomous_daemon.py:4162` | `def objective_loop(max_steps, loop)` |
-| `poll` | method | `skills/autonomous_daemon.py:3184` | `def poll(self, target)` |
-| `process_findings` | method | `skills/autonomous_daemon.py:2778` | `def process_findings(self, findings, target, objective_id, payload_key)` |
-| `register_output` | method | `skills/autonomous_daemon.py:667` | `def register_output(self, output, command, platform)` |
-| `register_output` | method | `skills/autonomous_daemon.py:1368` | `def register_output(self, output, command, platform, success)` |
-| `run` | method | `skills/autonomous_daemon.py:385` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:444` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:464` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:560` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:3320` | `def run(self)` |
-| `run_async` | method | `skills/autonomous_daemon.py:1464` | `def run_async(self, objective_id, objective_text, target)` |
-| `select` | method | `skills/autonomous_daemon.py:648` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:694` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:713` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:759` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:825` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:947` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:993` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:1162` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:1267` | `def select(self, target, phase, context)` |
-| `world_model_watcher` | function | `skills/autonomous_daemon.py:4305` | `def world_model_watcher(loop)` |
-| `wrapped` | method | `skills/autonomous_daemon.py:1076` | `def wrapped(self)` |
-| `EventLogReader` | class | `skills/autonomous_replay.py:127` | `class EventLogReader` |
-| `ReplayDispatcher` | class | `skills/autonomous_replay.py:212` | `class ReplayDispatcher` |
-| `ReplayDivergence` | class | `skills/autonomous_replay.py:82` | `class ReplayDivergence` |
-| `ReplayReport` | class | `skills/autonomous_replay.py:93` | `class ReplayReport` |
-| `ReplayStep` | class | `skills/autonomous_replay.py:53` | `class ReplayStep` |
-| `__init__` | method | `skills/autonomous_replay.py:136` | `def __init__(self, path)` |
-| `__init__` | method | `skills/autonomous_replay.py:221` | `def __init__(self, reader, seed_fn)` |
-| `_build_step` | method | `skills/autonomous_replay.py:278` | `def _build_step(self, event, divergences)` |
-| `_collect_step_events` | method | `skills/autonomous_replay.py:261` | `def _collect_step_events(self, from_event_id, to_event_id)` |
-| `_default_runner` | method | `skills/autonomous_replay.py:413` | `def _default_runner()` |
-| `_default_seed_fn` | method | `skills/autonomous_replay.py:241` | `def _default_seed_fn()` |
-| `_invoke_runner` | method | `skills/autonomous_replay.py:441` | `def _invoke_runner(runner, command, timeout)` |
-| `execute` | method | `skills/autonomous_replay.py:357` | `def execute(self, from_event_id, to_event_id, runner, timeout)` |
-| `path` | method | `skills/autonomous_replay.py:147` | `def path(self)` |
-| `read` | method | `skills/autonomous_replay.py:152` | `def read(self)` |
-| `replay` | function | `skills/autonomous_replay.py:473` | `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` |
-| `slice` | method | `skills/autonomous_replay.py:177` | `def slice(self, events, from_event_id, to_event_id)` |
-| `to_dict` | method | `skills/autonomous_replay.py:114` | `def to_dict(self)` |
-| `trace` | method | `skills/autonomous_replay.py:325` | `def trace(self, from_event_id, to_event_id)` |
-| `BddResult` | class | `skills/claude_md_orchestrator/bdd_agent.py:113` | `class BddResult` |
-| `_compose_implementation` | function | `skills/claude_md_orchestrator/bdd_agent.py:95` | `def _compose_implementation(spec, contract)` |
-| `_ensure_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:130` | `def _ensure_init(config)` |
-| `_module_name` | function | `skills/claude_md_orchestrator/bdd_agent.py:80` | `def _module_name(contract)` |
-| `_module_path` | function | `skills/claude_md_orchestrator/bdd_agent.py:85` | `def _module_path(contract, config)` |
-| `_package_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:90` | `def _package_init(config)` |
-| `_run_pytest` | function | `skills/claude_md_orchestrator/bdd_agent.py:138` | `def _run_pytest(test_path, cwd)` |
-| `run` | function | `skills/claude_md_orchestrator/bdd_agent.py:151` | `def run(contract, spec, suite, config)` |
-| `ScoutReport` | class | `skills/claude_md_orchestrator/boy_scout.py:30` | `class ScoutReport` |
-| `_inspect` | function | `skills/claude_md_orchestrator/boy_scout.py:45` | `def _inspect(path)` |
-| `_render_proposal` | function | `skills/claude_md_orchestrator/boy_scout.py:73` | `def _render_proposal(contract, findings)` |
-| `run` | function | `skills/claude_md_orchestrator/boy_scout.py:90` | `def run(state, config)` |
-| `write_report` | function | `skills/claude_md_orchestrator/boy_scout.py:110` | `def write_report(report, config)` |
-| `CicdResult` | class | `skills/claude_md_orchestrator/cicd_agent.py:71` | `class CicdResult` |
-| `_ensure_branch` | function | `skills/claude_md_orchestrator/cicd_agent.py:108` | `def _ensure_branch(contract, config)` |
-| `_git` | function | `skills/claude_md_orchestrator/cicd_agent.py:97` | `def _git()` |
-| `_render_pipeline` | function | `skills/claude_md_orchestrator/cicd_agent.py:134` | `def _render_pipeline(contract, spec, config)` |
-| `_render_pr_body` | function | `skills/claude_md_orchestrator/cicd_agent.py:144` | `def _render_pr_body(contract, spec, report)` |
-| `_slug` | function | `skills/claude_md_orchestrator/cicd_agent.py:91` | `def _slug(contract)` |
-| `run` | function | `skills/claude_md_orchestrator/cicd_agent.py:177` | `def run(contract, spec, report, config)` |
-| `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
-| `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
-| `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
-| `_repo_root` | function | `skills/claude_md_orchestrator/config.py:22` | `def _repo_root()` |
-| `docs_dir` | method | `skills/claude_md_orchestrator/config.py:142` | `def docs_dir(self)` |
-| `ensure` | method | `skills/claude_md_orchestrator/config.py:112` | `def ensure(self)` |
-| `load_config` | function | `skills/claude_md_orchestrator/config.py:155` | `def load_config()` |
-| `log_path` | method | `skills/claude_md_orchestrator/config.py:150` | `def log_path(self)` |
-| `logs_dir` | method | `skills/claude_md_orchestrator/config.py:146` | `def logs_dir(self)` |
-| `resolve_optional` | function | `skills/claude_md_orchestrator/config.py:164` | `def resolve_optional(config, key)` |
-| `review_dir` | method | `skills/claude_md_orchestrator/config.py:138` | `def review_dir(self)` |
-| `specs_dir` | method | `skills/claude_md_orchestrator/config.py:126` | `def specs_dir(self)` |
-| `src_dir` | method | `skills/claude_md_orchestrator/config.py:134` | `def src_dir(self)` |
-| `state_path` | method | `skills/claude_md_orchestrator/config.py:122` | `def state_path(self)` |
-| `tests_dir` | method | `skills/claude_md_orchestrator/config.py:130` | `def tests_dir(self)` |
-| `DocResult` | class | `skills/claude_md_orchestrator/documentation_agent.py:28` | `class DocResult` |
-| `_format_inputs` | function | `skills/claude_md_orchestrator/documentation_agent.py:40` | `def _format_inputs(spec)` |
-| `_format_review` | function | `skills/claude_md_orchestrator/documentation_agent.py:54` | `def _format_review(report)` |
-| `_format_sad_paths` | function | `skills/claude_md_orchestrator/documentation_agent.py:47` | `def _format_sad_paths(spec)` |
-| `_render` | function | `skills/claude_md_orchestrator/documentation_agent.py:68` | `def _render(contract, spec, report)` |
-| `_wrap` | function | `skills/claude_md_orchestrator/documentation_agent.py:118` | `def _wrap(body)` |
-| `run` | function | `skills/claude_md_orchestrator/documentation_agent.py:123` | `def run(contract, spec, report, config)` |
-| `CicleState` | class | `skills/claude_md_orchestrator/models.py:348` | `class CicleState` |
-| `CicleStateFile` | class | `skills/claude_md_orchestrator/models.py:424` | `class CicleStateFile` |
-| `Contract` | class | `skills/claude_md_orchestrator/models.py:68` | `class Contract` |
-| `Finding` | class | `skills/claude_md_orchestrator/models.py:255` | `class Finding` |
-| `ReviewReport` | class | `skills/claude_md_orchestrator/models.py:291` | `class ReviewReport` |
-| `SadPath` | class | `skills/claude_md_orchestrator/models.py:109` | `class SadPath` |
-| `Severity` | class | `skills/claude_md_orchestrator/models.py:50` | `class Severity(StrEnum)` |
-| `Spec` | class | `skills/claude_md_orchestrator/models.py:134` | `class Spec` |
-| `Stage` | class | `skills/claude_md_orchestrator/models.py:28` | `class Stage(StrEnum)` |
-| `TestSuite` | class | `skills/claude_md_orchestrator/models.py:217` | `class TestSuite` |
-| `_now_iso` | function | `skills/claude_md_orchestrator/models.py:19` | `def _now_iso()` |
-| `blockers` | method | `skills/claude_md_orchestrator/models.py:315` | `def blockers(self)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:96` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:125` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:173` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:243` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:280` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:333` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:402` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:450` | `def from_dict(cls, data)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

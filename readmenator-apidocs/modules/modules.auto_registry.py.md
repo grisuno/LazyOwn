@@ -64,10 +64,10 @@ flowchart LR
     n_modules_auto_registry_py__verb_enabled(["verb_enabled"])
     n_modules_auto_registry_py__execute_shell_verb(["execute_shell_verb"])
     n_modules_auto_registry_py__ShellResult(["ShellResult"])
-    n_modules_command_executor_py__clear_thread_stdin_devnull["command_executor.clear_thread_stdin_devnull"]
-    n_modules_command_executor_py__clear_thread_timeout["command_executor.clear_thread_timeout"]
-    n_modules_command_executor_py__set_thread_stdin_devnull["command_executor.set_thread_stdin_devnull"]
-    n_modules_command_executor_py__set_thread_timeout["command_executor.set_thread_timeout"]
+    n_modules_lazy_cli_bridge_py__full_cli_enabled["lazy_cli_bridge.full_cli_enabled"]
+    n_modules_lazy_cli_bridge_py__is_cli_verb["lazy_cli_bridge.is_cli_verb"]
+    n_modules_lazy_cli_bridge_py__build_cli_command["lazy_cli_bridge.build_cli_command"]
+    n_modules_lazy_cli_bridge_py__phase_for["lazy_cli_bridge.phase_for"]
     n_modules_auto_registry_py__missing_binary --> n_modules_auto_registry_py__binary_available
     n_modules_auto_registry_py__verb_gap --> n_modules_auto_registry_py__binary_available
     n_modules_auto_registry_py__verb_available --> n_modules_auto_registry_py__verb_gap
@@ -84,10 +84,14 @@ flowchart LR
     n_modules_auto_registry_py__steps_for --> n_modules_auto_registry_py__verbs_for
     n_modules_auto_registry_py__execute_shell_verb --> n_modules_auto_registry_py__ShellResult
     n_modules_auto_registry_py__execute_shell_verb --> n_modules_auto_registry_py__is_routable_command
-    n_modules_auto_registry_py__execute_shell_verb -.-> n_modules_command_executor_py__clear_thread_stdin_devnull
-    n_modules_auto_registry_py__execute_shell_verb -.-> n_modules_command_executor_py__clear_thread_timeout
-    n_modules_auto_registry_py__execute_shell_verb -.-> n_modules_command_executor_py__set_thread_stdin_devnull
-    n_modules_auto_registry_py__execute_shell_verb -.-> n_modules_command_executor_py__set_thread_timeout
+    n_modules_auto_registry_py__is_routable_command -.-> n_modules_lazy_cli_bridge_py__full_cli_enabled
+    n_modules_auto_registry_py__is_routable_command -.-> n_modules_lazy_cli_bridge_py__is_cli_verb
+    n_modules_auto_registry_py__is_shell_verb -.-> n_modules_lazy_cli_bridge_py__full_cli_enabled
+    n_modules_auto_registry_py__is_shell_verb -.-> n_modules_lazy_cli_bridge_py__is_cli_verb
+    n_modules_auto_registry_py__steps_for -.-> n_modules_lazy_cli_bridge_py__build_cli_command
+    n_modules_auto_registry_py__steps_for -.-> n_modules_lazy_cli_bridge_py__full_cli_enabled
+    n_modules_auto_registry_py__steps_for -.-> n_modules_lazy_cli_bridge_py__is_cli_verb
+    n_modules_auto_registry_py__steps_for -.-> n_modules_lazy_cli_bridge_py__phase_for
 ```
 
 ## Classes
@@ -96,7 +100,7 @@ flowchart LR
 
 ### `AutoVerb`
 
-`class` `dataclass` | [modules/auto_registry.py:59](../../modules/auto_registry.py#L59)
+`class` `dataclass` | [modules/auto_registry.py:66](../../modules/auto_registry.py#L66)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -134,7 +138,7 @@ One automation verb the loop may invoke autonomously.
 
 ### `ShellResult`
 
-`class` `dataclass` | [modules/auto_registry.py:570](../../modules/auto_registry.py#L570)
+`class` `dataclass` | [modules/auto_registry.py:642](../../modules/auto_registry.py#L642)
 
 Decorators: `@dataclass`
 
@@ -159,7 +163,7 @@ Captured outcome of one shell-verb execution.
 
 ### `verb_enabled`
 
-`function` | [modules/auto_registry.py:182](../../modules/auto_registry.py#L182)
+`function` | [modules/auto_registry.py:189](../../modules/auto_registry.py#L189)
 
 ```python
 def verb_enabled(name: str) -> bool
@@ -183,7 +187,7 @@ Return whether one auto verb may be proposed or executed.
 
 ### `binary_available`
 
-`function` | [modules/auto_registry.py:274](../../modules/auto_registry.py#L274)
+`function` | [modules/auto_registry.py:281](../../modules/auto_registry.py#L281)
 
 ```python
 def binary_available(name: str) -> bool
@@ -202,7 +206,7 @@ check only flags standalone offensive tools missing from ``PATH``.
 
 **Returns:** `bool`
 
-*Called by:* [`missing_binary`](#missing_binary), [`verb_gap`](#verb_gap)
+*Called by:* [`missing_binary`](#missing_binary), [`verb_gap`](#verb_gap), [`steps_for_install`](modules.lazy_installer.py.md#steps_for_install)
 
 ---
 
@@ -210,7 +214,7 @@ check only flags standalone offensive tools missing from ``PATH``.
 
 ### `missing_binary`
 
-`function` | [modules/auto_registry.py:290](../../modules/auto_registry.py#L290)
+`function` | [modules/auto_registry.py:297](../../modules/auto_registry.py#L297)
 
 ```python
 def missing_binary(command: str) -> str
@@ -234,7 +238,7 @@ Return the first binary a shell command needs but PATH lacks.
 
 ### `verb_gap`
 
-`function` | [modules/auto_registry.py:302](../../modules/auto_registry.py#L302)
+`function` | [modules/auto_registry.py:309](../../modules/auto_registry.py#L309)
 
 ```python
 def verb_gap(verb: str) -> str
@@ -260,7 +264,7 @@ Return a human reason when an automation verb cannot run, else ''.
 
 ### `verb_available`
 
-`function` | [modules/auto_registry.py:314](../../modules/auto_registry.py#L314)
+`function` | [modules/auto_registry.py:321](../../modules/auto_registry.py#L321)
 
 ```python
 def verb_available(verb: str) -> bool
@@ -284,7 +288,7 @@ Return True when every binary an automation verb needs is installed.
 
 ### `service_tokens`
 
-`function` | [modules/auto_registry.py:319](../../modules/auto_registry.py#L319)
+`function` | [modules/auto_registry.py:326](../../modules/auto_registry.py#L326)
 
 ```python
 def service_tokens(service_text: str) -> set[str]
@@ -308,7 +312,7 @@ Normalize a service asset value into matchable tokens.
 
 ### `iter_addon_triggers`
 
-`function` | [modules/auto_registry.py:361](../../modules/auto_registry.py#L361)
+`function` | [modules/auto_registry.py:368](../../modules/auto_registry.py#L368)
 
 ```python
 def iter_addon_triggers() -> list[tuple[str, list[str]]]
@@ -326,7 +330,7 @@ Scan enabled lazyaddons for (name, trigger tokens) pairs.
 
 ### `iter_tool_triggers`
 
-`function` | [modules/auto_registry.py:397](../../modules/auto_registry.py#L397)
+`function` | [modules/auto_registry.py:404](../../modules/auto_registry.py#L404)
 
 ```python
 def iter_tool_triggers() -> list[tuple[str, list[str]]]
@@ -344,7 +348,7 @@ Scan active pwntomate tools for (toolname, trigger tokens) pairs.
 
 ### `addon_hits_for`
 
-`function` | [modules/auto_registry.py:420](../../modules/auto_registry.py#L420)
+`function` | [modules/auto_registry.py:427](../../modules/auto_registry.py#L427)
 
 ```python
 def addon_hits_for(service_text: str, limit: int = 50) -> list[tuple[str, str]]
@@ -374,7 +378,7 @@ packs never crowd out service-tailored modules.
 
 ### `propose_addon_intents`
 
-`function` | [modules/auto_registry.py:446](../../modules/auto_registry.py#L446)
+`function` | [modules/auto_registry.py:453](../../modules/auto_registry.py#L453)
 
 ```python
 def propose_addon_intents(service_texts: list[str], target: str = '', limit: int = ADDON_TRIGGER_CAP) -> list[str]
@@ -404,7 +408,7 @@ only execute as a batch over nmap XML.
 
 ### `is_routable_command`
 
-`function` | [modules/auto_registry.py:472](../../modules/auto_registry.py#L472)
+`function` | [modules/auto_registry.py:479](../../modules/auto_registry.py#L479)
 
 ```python
 def is_routable_command(line: str) -> bool
@@ -420,7 +424,7 @@ Return True when the loop executor must route via the shell.
 
 **Returns:** `bool`
 
-*Calls:* [`is_shell_verb`](#is_shell_verb)
+*Calls:* [`is_shell_verb`](#is_shell_verb), [`full_cli_enabled`](modules.lazy_cli_bridge.py.md#full_cli_enabled), [`is_cli_verb`](modules.lazy_cli_bridge.py.md#is_cli_verb)
 
 *Called by:* [`execute_shell_verb`](#execute_shell_verb), [`build_executor`](modules.lazy_runner.py.md#build_executor)
 
@@ -430,7 +434,7 @@ Return True when the loop executor must route via the shell.
 
 ### `verbs`
 
-`function` | [modules/auto_registry.py:483](../../modules/auto_registry.py#L483)
+`function` | [modules/auto_registry.py:497](../../modules/auto_registry.py#L497)
 
 ```python
 def verbs() -> tuple[str, ...]
@@ -446,13 +450,17 @@ Return every canonical automation verb name.
 
 ### `is_shell_verb`
 
-`function` | [modules/auto_registry.py:488](../../modules/auto_registry.py#L488)
+`function` | [modules/auto_registry.py:502](../../modules/auto_registry.py#L502)
 
 ```python
 def is_shell_verb(token: str) -> bool
 ```
 
 Return True when `[`token`](modules.k8s_attacks.py.md#k8sconfig-token)` names a loop-routable shell verb.
+
+Built-in auto verbs always route. When full-CLI mode is enabled any
+real ``do_<verb>`` shell command routes as well, so the loop reaches
+the whole cmd2 surface through the same Guard and scope path.
 
 **Parameters**
 
@@ -462,6 +470,8 @@ Return True when `[`token`](modules.k8s_attacks.py.md#k8sconfig-token)` names a 
 
 **Returns:** `bool`
 
+*Calls:* [`full_cli_enabled`](modules.lazy_cli_bridge.py.md#full_cli_enabled), [`is_cli_verb`](modules.lazy_cli_bridge.py.md#is_cli_verb)
+
 *Called by:* [`is_routable_command`](#is_routable_command)
 
 ---
@@ -470,7 +480,7 @@ Return True when `[`token`](modules.k8s_attacks.py.md#k8sconfig-token)` names a 
 
 ### `build_command`
 
-`function` | [modules/auto_registry.py:494](../../modules/auto_registry.py#L494)
+`function` | [modules/auto_registry.py:524](../../modules/auto_registry.py#L524)
 
 ```python
 def build_command(verb: str, target: str = '') -> str
@@ -499,7 +509,7 @@ Build the shell command line for `[`verb`](#autoverb-verb)` bound to ``target``.
 
 ### `verbs_for`
 
-`function` | [modules/auto_registry.py:505](../../modules/auto_registry.py#L505)
+`function` | [modules/auto_registry.py:535](../../modules/auto_registry.py#L535)
 
 ```python
 def verbs_for(text: str) -> list
@@ -523,7 +533,7 @@ Return enabled verbs whose keywords appear in the text.
 
 ### `propose_intents`
 
-`function` | [modules/auto_registry.py:511](../../modules/auto_registry.py#L511)
+`function` | [modules/auto_registry.py:541](../../modules/auto_registry.py#L541)
 
 ```python
 def propose_intents(goal: str, target: str = '', finding_texts: tuple[str, ...] = ()) -> list[str]
@@ -552,7 +562,7 @@ planner never dispatches work this host cannot execute.
 
 ### `steps_for`
 
-`function` | [modules/auto_registry.py:528](../../modules/auto_registry.py#L528)
+`function` | [modules/auto_registry.py:558](../../modules/auto_registry.py#L558)
 
 ```python
 def steps_for(text: str, target: str = '') -> list[str] | None
@@ -575,7 +585,7 @@ default bash probes) or when the verb's tooling is unavailable.
 
 **Returns:** `list[str] | None`
 
-*Calls:* [`build_command`](#build_command), [`verb_enabled`](#verb_enabled), [`verb_gap`](#verb_gap), [`verbs_for`](#verbs_for)
+*Calls:* [`build_command`](#build_command), [`verb_enabled`](#verb_enabled), [`verb_gap`](#verb_gap), [`verbs_for`](#verbs_for), [`build_cli_command`](modules.lazy_cli_bridge.py.md#build_cli_command), [`full_cli_enabled`](modules.lazy_cli_bridge.py.md#full_cli_enabled), [`is_cli_verb`](modules.lazy_cli_bridge.py.md#is_cli_verb), [`phase_for`](modules.lazy_cli_bridge.py.md#phase_for), [`rank_verbs`](modules.lazy_orchestrator_feedback.py.md#rank_verbs)
 
 ---
 
@@ -583,7 +593,7 @@ default bash probes) or when the verb's tooling is unavailable.
 
 ### `execute_shell_verb`
 
-`function` | [modules/auto_registry.py:605](../../modules/auto_registry.py#L605)
+`function` | [modules/auto_registry.py:677](../../modules/auto_registry.py#L677)
 
 ```python
 def execute_shell_verb(shell: object, command: str, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC, on_output=None) -> str
@@ -617,7 +627,7 @@ record as a fact like any other transcript.
 
 ### `track_process`
 
-`function` | [modules/auto_registry.py:710](../../modules/auto_registry.py#L710)
+`function` | [modules/auto_registry.py:787](../../modules/auto_registry.py#L787)
 
 ```python
 def track_process(process) -> None
@@ -639,7 +649,7 @@ Register a live child process for global cancellation.
 
 ### `untrack_process`
 
-`function` | [modules/auto_registry.py:715](../../modules/auto_registry.py#L715)
+`function` | [modules/auto_registry.py:792](../../modules/auto_registry.py#L792)
 
 ```python
 def untrack_process(process) -> None
@@ -661,7 +671,7 @@ Drop a finished child process from the cancellation registry.
 
 ### `cancel_running_commands`
 
-`function` | [modules/auto_registry.py:720](../../modules/auto_registry.py#L720)
+`function` | [modules/auto_registry.py:797](../../modules/auto_registry.py#L797)
 
 ```python
 def cancel_running_commands() -> int
@@ -677,7 +687,7 @@ Kill every live streaming process group (operator Ctrl+C).
 
 ### `execute_streaming`
 
-`function` | [modules/auto_registry.py:743](../../modules/auto_registry.py#L743)
+`function` | [modules/auto_registry.py:820](../../modules/auto_registry.py#L820)
 
 ```python
 def execute_streaming(command: str, on_output=None, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC) -> str
@@ -717,7 +727,7 @@ DEFAULT_SHELL_TIMEOUT_SEC = 600.0
 
 ### `AUTO_VERBS`
 
-`constant` | [modules/auto_registry.py:79](../../modules/auto_registry.py#L79)
+`constant` | [modules/auto_registry.py:86](../../modules/auto_registry.py#L86)
 
 ```python
 AUTO_VERBS: tuple[AutoVerb, ...]
@@ -729,7 +739,7 @@ AUTO_VERBS: tuple[AutoVerb, ...]
 
 ### `REQUIRED_BINARIES`
 
-`constant` | [modules/auto_registry.py:188](../../modules/auto_registry.py#L188)
+`constant` | [modules/auto_registry.py:195](../../modules/auto_registry.py#L195)
 
 ```python
 REQUIRED_BINARIES: dict[str, tuple[str, ...]] = {'automsf': ('msfconsole',)}
@@ -741,7 +751,7 @@ REQUIRED_BINARIES: dict[str, tuple[str, ...]] = {'automsf': ('msfconsole',)}
 
 ### `ALTERNATIVE_BINARIES`
 
-`constant` | [modules/auto_registry.py:192](../../modules/auto_registry.py#L192)
+`constant` | [modules/auto_registry.py:199](../../modules/auto_registry.py#L199)
 
 ```python
 ALTERNATIVE_BINARIES: dict[str, tuple[str, ...]] = {'autopivot': ('chisel', 'ssh', 'socat')}
@@ -753,7 +763,7 @@ ALTERNATIVE_BINARIES: dict[str, tuple[str, ...]] = {'autopivot': ('chisel', 'ssh
 
 ### `ROUTABLE_PREFIXES`
 
-`constant` | [modules/auto_registry.py:252](../../modules/auto_registry.py#L252)
+`constant` | [modules/auto_registry.py:259](../../modules/auto_registry.py#L259)
 
 ```python
 ROUTABLE_PREFIXES = ('lazy_addon ', 'custom tool ', 'lazy_workspace ')
@@ -765,7 +775,7 @@ ROUTABLE_PREFIXES = ('lazy_addon ', 'custom tool ', 'lazy_workspace ')
 
 ### `ROUTABLE_VERBS`
 
-`constant` | [modules/auto_registry.py:254](../../modules/auto_registry.py#L254)
+`constant` | [modules/auto_registry.py:261](../../modules/auto_registry.py#L261)
 
 ```python
 ROUTABLE_VERBS = frozenset({'lazynmap'})
@@ -777,7 +787,7 @@ ROUTABLE_VERBS = frozenset({'lazynmap'})
 
 ### `ADDON_TRIGGER_CAP`
 
-`constant` | [modules/auto_registry.py:256](../../modules/auto_registry.py#L256)
+`constant` | [modules/auto_registry.py:263](../../modules/auto_registry.py#L263)
 
 ```python
 ADDON_TRIGGER_CAP = 4

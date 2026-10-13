@@ -1453,7 +1453,7 @@ that reassign ``_DEFAULT_PATH`` to redirect state get the redirect.
 
 *Calls:* [`WorldModel.__init__`](#worldmodel-__init__)
 
-*Called by:* [`HelpUiCommandSet.do_killchain`](cli.commands.help_ui.py.md#helpuicommandset-do_killchain), [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`loot_mark`](cli.ops_commands.py.md#loot_mark), [`IntelligenceEngine.disseminate`](modules.intelligence_engine.py.md#intelligenceengine-disseminate), [`KillChain.advance_phase`](modules.killchain.py.md#killchain-advance_phase), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`OperationManager.start`](modules.operation.py.md#operationmanager-start)
+*Called by:* [`HelpUiCommandSet.do_killchain`](cli.commands.help_ui.py.md#helpuicommandset-do_killchain), [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`loot_mark`](cli.ops_commands.py.md#loot_mark), [`IntelligenceEngine.disseminate`](modules.intelligence_engine.py.md#intelligenceengine-disseminate), [`KillChain.advance_phase`](modules.killchain.py.md#killchain-advance_phase), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`fuse_routing_decisions`](modules.lazy_intel.py.md#fuse_routing_decisions), [`OperationManager.start`](modules.operation.py.md#operationmanager-start)
 
 ---
 

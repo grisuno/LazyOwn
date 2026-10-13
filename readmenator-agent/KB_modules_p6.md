@@ -140,34 +140,37 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `tool_calling_enabled` (function, line 40) `def tool_calling_enabled()`
-  - `max_iterations` (function, line 55) `def max_iterations()`
-  - `resolve_agentic_model` (function, line 66) `def resolve_agentic_model(exclude)`
-  - `_enable_streaming` (function, line 106) `def _enable_streaming(runner, on_event)`
-  - `ObservableAgentRunner` (class, line 128) `class ObservableAgentRunner(AgentRunner)`
-  - `_json_default` (function, line 185) `def _json_default(value)`
-  - `_json_safe` (function, line 199) `def _json_safe(messages)`
-  - `ConversationStore` (class, line 207) `class ConversationStore`
-  - `register_tools` (function, line 268) `def register_tools(runner, specs)`
-  - `run_worker_session` (function, line 281) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
-  - `run_main_session` (function, line 320) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
-  - `run_external_opencode` (function, line 342) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
-  - `_session_from_line` (function, line 418) `def _session_from_line(line)`
-  - `_process_watchdog` (function, line 440) `def _process_watchdog(timeout_sec, process)`
-  - `__init__` (method, line 131) `def __init__(self, model, system_prompt, max_iterations, on_event)`
-  - `_process_tool_call` (method, line 142) `def _process_tool_call(self, tool_call)`
-  - `run` (method, line 151) `def run(self, user_input)`
-  - `_call_model` (method, line 157) `def _call_model(self)`
-  - `__init__` (method, line 210) `def __init__(self, task_id)`
-  - `_load` (method, line 215) `def _load(self)`
-  - `intent_messages` (method, line 219) `def intent_messages(self, intent_id)`
-  - `save_intent` (method, line 224) `def save_intent(self, intent_id, messages)`
-  - `session` (method, line 233) `def session(self, session_id)`
-  - `sessions` (method, line 237) `def sessions(self)`
-  - `save_session` (method, line 251) `def save_session(self, session_id, messages, title)`
-  - `reset_intents` (method, line 261) `def reset_intents(self)`
-  - `_kill` (function, line 445) `def _kill()`
-  - `_tick` (function, line 169) `def _tick()`
+  - `model_timeout_sec` (function, line 41) `def model_timeout_sec()`
+  - `tool_calling_enabled` (function, line 57) `def tool_calling_enabled()`
+  - `max_iterations` (function, line 72) `def max_iterations()`
+  - `resolve_agentic_model` (function, line 83) `def resolve_agentic_model(exclude)`
+  - `_enable_streaming` (function, line 123) `def _enable_streaming(runner, on_event)`
+  - `ObservableAgentRunner` (class, line 145) `class ObservableAgentRunner(AgentRunner)`
+  - `_json_default` (function, line 221) `def _json_default(value)`
+  - `_json_safe` (function, line 235) `def _json_safe(messages)`
+  - `ConversationStore` (class, line 243) `class ConversationStore`
+  - `register_tools` (function, line 304) `def register_tools(runner, specs)`
+  - `run_worker_session` (function, line 317) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
+  - `run_main_session` (function, line 356) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
+  - `run_external_opencode` (function, line 378) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
+  - `run_external_hermes` (function, line 454) `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)`
+  - `_session_from_line` (function, line 538) `def _session_from_line(line)`
+  - `_process_watchdog` (function, line 560) `def _process_watchdog(timeout_sec, process)`
+  - `__init__` (method, line 148) `def __init__(self, model, system_prompt, max_iterations, on_event)`
+  - `_process_tool_call` (method, line 159) `def _process_tool_call(self, tool_call)`
+  - `run` (method, line 168) `def run(self, user_input)`
+  - `_call_model` (method, line 174) `def _call_model(self)`
+  - `__init__` (method, line 246) `def __init__(self, task_id)`
+  - `_load` (method, line 251) `def _load(self)`
+  - `intent_messages` (method, line 255) `def intent_messages(self, intent_id)`
+  - `save_intent` (method, line 260) `def save_intent(self, intent_id, messages)`
+  - `session` (method, line 269) `def session(self, session_id)`
+  - `sessions` (method, line 273) `def sessions(self)`
+  - `save_session` (method, line 287) `def save_session(self, session_id, messages, title)`
+  - `reset_intents` (method, line 297) `def reset_intents(self)`
+  - `_kill` (function, line 565) `def _kill()`
+  - `_invoke` (function, line 190) `def _invoke()`
+  - `_tick` (function, line 196) `def _tick()`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
 - Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
 
@@ -198,6 +201,27 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
 - Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_lazy_loop.py`
 
+## modules/lazy_cli_bridge.py
+- Doc: Full CLI catalog for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_source_files` (function, line 74) `def _source_files()`
+  - `_source_mtimes` (function, line 82) `def _source_mtimes()`
+  - `_discover` (function, line 93) `def _discover()`
+  - `cli_verbs` (function, line 106) `def cli_verbs()`
+  - `is_cli_verb` (function, line 125) `def is_cli_verb(name)`
+  - `phase_for` (function, line 131) `def phase_for(verb)`
+  - `risk_for` (function, line 140) `def risk_for(verb)`
+  - `needs_target_for` (function, line 150) `def needs_target_for(verb)`
+  - `build_cli_command` (function, line 158) `def build_cli_command(verb, target)`
+  - `search_cli_verbs` (function, line 185) `def search_cli_verbs(query, phase, limit)`
+  - `cli_catalog_for_phase` (function, line 211) `def cli_catalog_for_phase(phase, limit)`
+  - `full_cli_enabled` (function, line 219) `def full_cli_enabled()`
+  - `set_full_cli` (function, line 242) `def set_full_cli(enabled)`
+- Depends on: `core/config.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_intel.py`, `modules/lazy_orchestrator_feedback.py`
+
 ## modules/lazy_engine.py
 - Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
 - Layer: utility
@@ -205,7 +229,43 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Symbols:
   - `LazyEngine` (class, line 55) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_worker_traces.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`
+
+## modules/lazy_installer.py
+- Doc: Capability installer for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `installer_enabled` (function, line 41) `def installer_enabled()`
+  - `set_installer_enabled` (function, line 58) `def set_installer_enabled(enabled)`
+  - `install_command_for` (function, line 70) `def install_command_for(tool)`
+  - `intent_for` (function, line 75) `def intent_for(tool)`
+  - `tool_from_intent` (function, line 80) `def tool_from_intent(text)`
+  - `steps_for_install` (function, line 88) `def steps_for_install(text)`
+- Depends on: `core/config.py`, `modules/auto_registry.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`
+
+## modules/lazy_intel.py
+- Doc: Intel feed from the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_now` (function, line 30) `def _now()`
+  - `_log_path` (function, line 35) `def _log_path()`
+  - `_mask` (function, line 41) `def _mask(text)`
+  - `_append` (function, line 70) `def _append(record)`
+  - `infer_source` (function, line 79) `def infer_source(command, intent_text)`
+  - `describe_command` (function, line 105) `def describe_command(command)`
+  - `record_routing_decision` (function, line 120) `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)`
+  - `record_routing_outcome` (function, line 160) `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)`
+  - `read_decisions` (function, line 202) `def read_decisions(task_id, limit)`
+  - `mask_configured` (function, line 228) `def mask_configured(text)`
+  - `stack_signature` (function, line 254) `def stack_signature(assets)`
+  - `_is_ip_literal` (function, line 274) `def _is_ip_literal(value)`
+  - `fuse_routing_decisions` (function, line 285) `def fuse_routing_decisions(task_id)`
+  - `export_spans` (function, line 324) `def export_spans(task_id, out)`
+- Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/world_model.py`, `utils.py`
+- Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `tests/test_loop_supervision.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

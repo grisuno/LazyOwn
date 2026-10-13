@@ -120,7 +120,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:208` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:223` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:233` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -310,13 +310,13 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
-- `field_for` (function) `core/payload_schema.py:1489` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function) `core/payload_schema.py:1494` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `validate_value` (function) `core/payload_schema.py:1517` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `validate_payload` (function) `core/payload_schema.py:1591` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `format_issue` (function) `core/payload_schema.py:1626` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `default_payload` (function) `core/payload_schema.py:1644` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `categories` (function) `core/payload_schema.py:1652` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+- `field_for` (function) `core/payload_schema.py:1547` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `coerce_value` (function) `core/payload_schema.py:1552` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `validate_value` (function) `core/payload_schema.py:1575` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `validate_payload` (function) `core/payload_schema.py:1649` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `format_issue` (function) `core/payload_schema.py:1684` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `default_payload` (function) `core/payload_schema.py:1702` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `categories` (function) `core/payload_schema.py:1710` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
@@ -465,17 +465,17 @@ Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 - `download` (function) `external/install_external.sh:18`
 
 ## fast_run_as_r00t.sh
-- `log` (function) `fast_run_as_r00t.sh:55` -- ── Pretty-print helpers ──────────────────────────────────────────────────────
-- `spin` (function) `fast_run_as_r00t.sh:56`
-- `err_box` (function) `fast_run_as_r00t.sh:57`
-- `ensure_gum` (function) `fast_run_as_r00t.sh:63` -- ── Ensure gum is installed ───────────────────────────────────────────────────
-- `check_deps` (function) `fast_run_as_r00t.sh:74` -- ── Dependency check ──────────────────────────────────────────────────────────
-- `check_sudo` (function) `fast_run_as_r00t.sh:83` -- ── Re-exec as root if needed ─────────────────────────────────────────────────
-- `parse_args` (function) `fast_run_as_r00t.sh:92` -- ── CLI argument parsing ──────────────────────────────────────────────────────
-- `t_send` (function) `fast_run_as_r00t.sh:110` -- Send one or more commands to the active tmux pane
-- `t_lazyown` (function) `fast_run_as_r00t.sh:117` -- Open a new pane (split v or h), start LazyOwn shell with optional run flags, then send any follow-up commands once...
-- `t_priv_user` (function) `fast_run_as_r00t.sh:130` -- Open a new pane running a command as unprivileged user 1000 (with venv).
-- `start_chown_watcher` (function) `fast_run_as_r00t.sh:141` -- ── Background chown watcher ────────────────────────────────────────────────── Re-chowns the project tree to the...
+- `log` (function) `fast_run_as_r00t.sh:59` -- ── Pretty-print helpers ──────────────────────────────────────────────────────
+- `spin` (function) `fast_run_as_r00t.sh:60`
+- `err_box` (function) `fast_run_as_r00t.sh:61`
+- `ensure_gum` (function) `fast_run_as_r00t.sh:67` -- ── Ensure gum is installed ───────────────────────────────────────────────────
+- `check_deps` (function) `fast_run_as_r00t.sh:78` -- ── Dependency check ──────────────────────────────────────────────────────────
+- `check_sudo` (function) `fast_run_as_r00t.sh:87` -- ── Re-exec as root if needed ─────────────────────────────────────────────────
+- `parse_args` (function) `fast_run_as_r00t.sh:96` -- ── CLI argument parsing ──────────────────────────────────────────────────────
+- `t_send` (function) `fast_run_as_r00t.sh:114` -- Send one or more commands to the active tmux pane
+- `t_lazyown` (function) `fast_run_as_r00t.sh:121` -- Open a new pane (split v or h), start LazyOwn shell with optional run flags, then send any follow-up commands once...
+- `t_priv_user` (function) `fast_run_as_r00t.sh:134` -- Open a new pane running a command as unprivileged user 1000 (with venv).
+- `start_chown_watcher` (function) `fast_run_as_r00t.sh:145` -- ── Background chown watcher ────────────────────────────────────────────────── Re-chowns the project tree to the...
 
 ## install.sh
 - `usage` (function) `install.sh:49`

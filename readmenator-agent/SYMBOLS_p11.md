@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
+| `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
+| `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
+| `records_path` | method | `modules/beacon_history.py:43` | `def records_path(self, client_id)` |
+| `records_path` | function | `modules/beacon_history.py:145` | `def records_path(client_id, config)` |
+| `sanitize_client_id` | function | `modules/beacon_history.py:70` | `def sanitize_client_id(client_id)` |
+| `sessions_dir` | method | `modules/beacon_history.py:39` | `def sessions_dir(self)` |
+| `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
+| `main` | function | `modules/bin2img.py:54` | `def main()` |
+| `BitMState` | class | `modules/bitm_engine.py:85` | `class BitMState` |
+| `_build_js_payload` | function | `modules/bitm_engine.py:151` | `def _build_js_payload(payload_name, lhost, lport)` |
+| `_check_tool` | function | `modules/bitm_engine.py:168` | `def _check_tool(tool)` |
+| `_ensure_bitm_dir` | function | `modules/bitm_engine.py:103` | `def _ensure_bitm_dir()` |
+| `_get_default_interface` | function | `modules/bitm_engine.py:195` | `def _get_default_interface()` |
 | `_get_gateway_ip` | function | `modules/bitm_engine.py:234` | `def _get_gateway_ip()` |
 | `_load_state` | function | `modules/bitm_engine.py:134` | `def _load_state()` |
 | `_recommend_method` | function | `modules/bitm_engine.py:180` | `def _recommend_method()` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
 | `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
 | `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
-| `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
-| `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
-| `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
-| `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
-| `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
-| `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
-| `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
-| `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
-| `__init__` | method | `modules/delegation_attacks.py:98` | `def __init__(self, domain, raw_ldap_output)` |
-| `compute_attack_paths` | method | `modules/delegation_attacks.py:215` | `def compute_attack_paths(self)` |
-| `enumerate_from_uac_flags` | method | `modules/delegation_attacks.py:104` | `def enumerate_from_uac_flags(self, accounts)` |
-| `find_constrained_targets` | method | `modules/delegation_attacks.py:189` | `def find_constrained_targets(self)` |
-| `find_dc_targets` | method | `modules/delegation_attacks.py:205` | `def find_dc_targets(self)` |
-| `find_rbcd_targets` | method | `modules/delegation_attacks.py:197` | `def find_rbcd_targets(self)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

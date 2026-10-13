@@ -66,7 +66,7 @@ Merged stage view: enabled flag, label and firing condition.
 
 **Returns:** `dict[str, dict]`
 
-*Called by:* [`set_stage`](#set_stage), [`stage_enabled`](#stage_enabled)
+*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`set_stage`](#set_stage), [`stage_enabled`](#stage_enabled)
 
 ---
 
@@ -123,7 +123,7 @@ Persist the enabled flag of one stage.
 
 *Calls:* [`stages`](#stages)
 
-*Called by:* [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage)
+*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage)
 
 ---
 
@@ -145,7 +145,7 @@ Each entry carries ``name``, ``enabled``, ``phases``, ``keywords``,
 
 **Returns:** `list[dict]`
 
-*Called by:* [`verb_config`](#verb_config)
+*Called by:* [`LazyCommandSet.do_lazy_verb`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_verb), [`verb_config`](#verb_config)
 
 ---
 
@@ -234,7 +234,7 @@ Create or update one auto-verb override in the payload.
 
 *Calls:* [`verb_config`](#verb_config)
 
-*Called by:* [`LazyOrchestratorApp.add_auto_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-add_auto_verb), [`LazyOrchestratorApp.toggle_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_verb), [`remove_verb`](#remove_verb)
+*Called by:* [`LazyCommandSet.do_lazy_verb`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_verb), [`LazyOrchestratorApp.add_auto_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-add_auto_verb), [`LazyOrchestratorApp.toggle_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_verb), [`remove_verb`](#remove_verb)
 
 ---
 
@@ -260,7 +260,7 @@ Remove a custom verb, or disable a built-in one.
 
 *Calls:* [`upsert_verb`](#upsert_verb), [`verb_config`](#verb_config)
 
-*Called by:* [`LazyOrchestratorApp.remove_auto_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_auto_verb)
+*Called by:* [`LazyCommandSet.do_lazy_verb`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_verb), [`LazyOrchestratorApp.remove_auto_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_auto_verb)
 
 ---
 
@@ -275,6 +275,8 @@ def reset() -> None
 ```
 
 Drop every orchestrator override (back to defaults).
+
+*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage)
 
 ---
 

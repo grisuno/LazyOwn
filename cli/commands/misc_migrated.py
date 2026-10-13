@@ -712,6 +712,12 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                     encrypt()
             except Exception:
                 pass
+            try:
+                from modules.lazy_loop import arm_exit_watchdog
+
+                arm_exit_watchdog(8.0)
+            except Exception:
+                pass
             sys.exit(0)
         else:
             print_warn(f"{RED}Exit canceled.{RESET}")

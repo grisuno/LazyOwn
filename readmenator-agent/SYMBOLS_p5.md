@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
+| `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
+| `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
+| `_count_glob` | function | `cli/ops_commands.py:450` | `def _count_glob(pattern)` |
+| `_count_pivots` | function | `cli/ops_commands.py:385` | `def _count_pivots(sessions_dir)` |
+| `_cred_node` | function | `cli/ops_commands.py:758` | `def _cred_node(value)` |
+| `_cred_outcomes_for_host` | function | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
+| `_engagement_phase_to_cli` | function | `cli/ops_commands.py:292` | `def _engagement_phase_to_cli(phase_value)` |
 | `_glob_count` | function | `cli/ops_commands.py:375` | `def _glob_count(sessions_dir, pattern)` |
 | `_highlight_match` | function | `cli/ops_commands.py:265` | `def _highlight_match(line, rx)` |
 | `_host_label` | function | `cli/ops_commands.py:864` | `def _host_label(node)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_stats_table` | function | `cli/surface_tui.py:241` | `def _stats_table(graph)` |
 | `_styled_label` | function | `cli/surface_tui.py:232` | `def _styled_label(node)` |
 | `action_collapse_all` | method | `cli/surface_tui.py:172` | `def action_collapse_all(self)` |
-| `action_expand_all` | method | `cli/surface_tui.py:168` | `def action_expand_all(self)` |
-| `action_refresh` | method | `cli/surface_tui.py:164` | `def action_refresh(self)` |
-| `compose` | method | `cli/surface_tui.py:154` | `def compose(self)` |
-| `launch_tui` | function | `cli/surface_tui.py:112` | `def launch_tui(sessions_dir, payload_path)` |
-| `on_mount` | method | `cli/surface_tui.py:161` | `def on_mount(self)` |
-| `on_tree_node_selected` | method | `cli/surface_tui.py:176` | `def on_tree_node_selected(self, event)` |
-| `render_json` | function | `cli/surface_tui.py:92` | `def render_json(graph, sessions_dir, payload_path)` |
-| `render_static` | function | `cli/surface_tui.py:65` | `def render_static(graph, sessions_dir, payload_path, console)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

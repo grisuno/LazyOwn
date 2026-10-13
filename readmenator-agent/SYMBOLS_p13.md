@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
+| `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
+| `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
+| `_run` | function | `modules/exploitgym_gym.py:274` | `def _run(name, cmd, cwd, timeout)` |
+| `_run_agent` | function | `modules/exploitgym_gym.py:378` | `def _run_agent(task_id, model, mitigations, root, params, timeout)` |
+| `_run_streaming` | function | `modules/exploitgym_gym.py:206` | `def _run_streaming(cmd, cwd, timeout)` |
+| `_save_records` | function | `modules/exploitgym_gym.py:514` | `def _save_records(records)` |
+| `check_readiness` | function | `modules/exploitgym_gym.py:112` | `def check_readiness(params)` |
+| `list_tasks` | function | `modules/exploitgym_gym.py:178` | `def list_tasks(params, domain, limit)` |
+| `pull_task` | function | `modules/exploitgym_gym.py:344` | `def pull_task(task_id, params, timeout)` |
+| `run_task` | function | `modules/exploitgym_gym.py:423` | `def run_task(task_id, params, model, mitigations, timeout)` |
+| `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
+| `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
+| `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
 | `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
 | `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
 | `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
 | `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
 | `KillChainConfig` | class | `modules/killchain.py:38` | `class KillChainConfig` |
-| `PhaseStatus` | class | `modules/killchain.py:136` | `class PhaseStatus` |
-| `advance_phase` | method | `modules/killchain.py:251` | `def advance_phase(new_phase, world_model_path)` |
-| `cli_phase_to_host_state` | method | `modules/killchain.py:191` | `def cli_phase_to_host_state(phase)` |
-| `compact_progress` | method | `modules/killchain.py:364` | `def compact_progress(current_phase, phases_entered)` |
-| `config` | method | `modules/killchain.py:154` | `def config()` |
-| `current_phase` | method | `modules/killchain.py:204` | `def current_phase(world_model_path)` |
-| `engagement_phase_to_cli` | method | `modules/killchain.py:179` | `def engagement_phase_to_cli(engagement_value)` |
-| `get_killchain` | function | `modules/killchain.py:440` | `def get_killchain()` |
-| `get_progress` | method | `modules/killchain.py:315` | `def get_progress(world_model_path)` |
-| `is_valid_phase` | method | `modules/killchain.py:127` | `def is_valid_phase(self, phase)` |
-| `phase_colors` | method | `modules/killchain.py:169` | `def phase_colors()` |
-| `phase_index` | method | `modules/killchain.py:120` | `def phase_index(self, phase)` |
-| `phase_index` | method | `modules/killchain.py:395` | `def phase_index(phase)` |
-| `phase_labels` | method | `modules/killchain.py:164` | `def phase_labels()` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

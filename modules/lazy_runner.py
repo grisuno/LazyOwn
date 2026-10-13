@@ -97,6 +97,7 @@ class LoopRunConfig:
     workers: int = DEFAULT_WORKERS
     timeout: float = 0.0
     step_delay: float = 0.0
+    sandbox: str = ""
     no_bootstrap: bool = False
     progress: bool = True
     view: bool = False
@@ -158,6 +159,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     workers = DEFAULT_WORKERS
     timeout = 0.0
     step_delay = 0.0
+    sandbox = ""
     no_bootstrap = False
     progress = True
     view = False
@@ -165,6 +167,15 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     idx = 0
     while idx < len(parts):
         token = parts[idx]
+        if token == "--sandbox":
+            nxt = parts[idx + 1] if idx + 1 < len(parts) else ""
+            if nxt and not nxt.startswith("--"):
+                sandbox = nxt
+                idx += 2
+            else:
+                sandbox = "default"
+                idx += 1
+            continue
         if token in FLAG_VALUES:
             if idx + 1 >= len(parts):
                 raise ValueError(f"missing value for {token}")
@@ -204,6 +215,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         workers=workers,
         timeout=timeout,
         step_delay=step_delay,
+        sandbox=sandbox,
         no_bootstrap=no_bootstrap,
         progress=progress,
         view=view,
@@ -211,7 +223,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
 
 
 def build_executor(
-    shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict
+    shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict,
+    sandbox_task_id: str = "", sandbox_image: str = "",
 ) -> Callable[[str], str]:
     """Build the worker executor: shell verbs, custom tools, safe bash.
 
@@ -220,6 +233,10 @@ def build_executor(
     streaming runner, and raw bash goes through ``execute_streaming``
     with ``stdin=DEVNULL`` and its own process group so Ctrl+C and time
     limits always kill the child, never the operator's terminal.
+
+    When ``sandbox_task_id`` is set, routable shell verbs run inside the
+    per-task Docker container (``modules.lazy_sandbox``) instead of the
+    operator host; custom tools and raw bash stay local.
     """
 
     def _resolve_alias(command: str) -> str:
@@ -259,6 +276,16 @@ def build_executor(
         except Exception as exc:
             return f"execution failed: {exc}"
         if shell is not None and is_routable_command(text):
+            if sandbox_task_id:
+                try:
+                    from modules.lazy_sandbox import exec_command as _sandbox_exec
+
+                    stream(f"[sandbox] {text[:200]}")
+                    return _sandbox_exec(
+                        sandbox_task_id, text, timeout_sec=config.verb_timeout, image=sandbox_image
+                    )
+                except Exception as exc:
+                    return f"execution failed: {exc}"
             try:
                 return execute_shell_verb(shell, text, timeout_sec=config.verb_timeout, on_output=stream)
             except Exception as exc:
@@ -393,7 +420,20 @@ def _run_with_progress(engine, config: LoopRunConfig) -> dict:
 
     real_stdout = _sys.stdout if _sys.stdout is not None else _sys.stderr
     router = ThreadStdoutRouter(real_stdout, transcript)
-    executor = build_executor(engine.shell, config, stream, cancelled)
+    if config.sandbox:
+        record = engine.store.get(task_id) if task_id else None
+        if record is None:
+            task_id = engine.create_task(config.goal or f"engage {config.target or 'target'}")["task_id"]
+            if config.target:
+                engine.ensure_target(task_id, config.target, "loop target")
+            config.task_id = task_id
+            stream(f"[*] sandbox task {task_id} bound to container\n")
+    sandbox_image = "" if config.sandbox in ("", "default") else config.sandbox
+    executor = build_executor(
+        engine.shell, config, stream, cancelled,
+        sandbox_task_id=task_id if config.sandbox else "",
+        sandbox_image=sandbox_image,
+    )
     progress = LoopProgress(goal=config.goal, target=config.target)
     progress.start()
     live_sink["emit"] = transcript.put
@@ -616,7 +656,18 @@ def _terminal_stream():
 def _run_plain(engine, config: LoopRunConfig) -> dict:
     """Run orchestration without the live panel (plain transcript)."""
     cancelled = {"flag": False}
-    executor = build_executor(engine.shell, config, _terminal_stream(), cancelled)
+    if config.sandbox:
+        record = engine.store.get(config.task_id) if config.task_id else None
+        if record is None:
+            config.task_id = engine.create_task(config.goal or f"engage {config.target or 'target'}")["task_id"]
+            if config.target:
+                engine.ensure_target(config.task_id, config.target, "loop target")
+    sandbox_image = "" if config.sandbox in ("", "default") else config.sandbox
+    executor = build_executor(
+        engine.shell, config, _terminal_stream(), cancelled,
+        sandbox_task_id=config.task_id if config.sandbox else "",
+        sandbox_image=sandbox_image,
+    )
     try:
         if config.target and not config.no_bootstrap:
             _bootstrap(config.target, executor)

@@ -89,7 +89,7 @@ and must return ``list[types.TextContent]``.
 
 ### `list_tools`
 
-`function` `async` | [skills/lazyown_mcp.py:1994](../../skills/lazyown_mcp.py#L1994)
+`function` `async` | [skills/lazyown_mcp.py:2073](../../skills/lazyown_mcp.py#L2073)
 
 Decorators: `@server.list_tools()`
 
@@ -105,7 +105,7 @@ async def list_tools() -> list[types.Tool]
 
 ### `substitute_playbook_target`
 
-`function` | [skills/lazyown_mcp.py:6075](../../skills/lazyown_mcp.py#L6075)
+`function` | [skills/lazyown_mcp.py:6221](../../skills/lazyown_mcp.py#L6221)
 
 ```python
 def substitute_playbook_target(command: str, target: str) -> str
@@ -132,7 +132,7 @@ preserved because only the substituted value is quoted.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp.py:6093](../../skills/lazyown_mcp.py#L6093)
+`function` `async` | [skills/lazyown_mcp.py:6239](../../skills/lazyown_mcp.py#L6239)
 
 Decorators: `@server.call_tool()`
 
@@ -157,7 +157,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:12272](../../skills/lazyown_mcp.py#L12272)
+`function` `async` | [skills/lazyown_mcp.py:12418](../../skills/lazyown_mcp.py#L12418)
 
 ```python
 async def main()

@@ -81,8 +81,8 @@ def health()
 Health-check endpoint returning subsystem status.
 
 **Returns:** 200 with JSON containing status of database, listeners,
-beacons, uptime, and an overall ``status`` field
-(``healthy``, ``degraded``, or ``unhealthy``).
+beacons, uptime, and an overall `[`status`](modules.lazy_sandbox.py.md#status)` field
+(`[`healthy`](scripts.lazy_llamacpp_serve.sh.md#healthy)`, ``degraded``, or ``unhealthy``).
 
 ---
 

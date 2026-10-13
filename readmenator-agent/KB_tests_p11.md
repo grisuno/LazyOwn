@@ -1,6 +1,22 @@
 # Subsystem: tests (page 11 of 16)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_loop_supervision.py
+- Doc: Supervision upgrades: repetition watchdog, stack priors, prompt masking.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_isolate_intel` (function, line 16) `def _isolate_intel(tmp_path, monkeypatch)`
+  - `_DeadPool` (class, line 25) `class _DeadPool`
+  - `_kill_llm` (function, line 37) `def _kill_llm(monkeypatch)`
+  - `test_repetition_watchdog_settles` (function, line 46) `def test_repetition_watchdog_settles(tmp_path, monkeypatch)`
+  - `test_stack_priors_prefer_same_stack` (function, line 75) `def test_stack_priors_prefer_same_stack(tmp_path, monkeypatch)`
+  - `test_prompt_context_masks_configured_only` (function, line 99) `def test_prompt_context_masks_configured_only(tmp_path, monkeypatch)`
+  - `members` (method, line 28) `def members(self)`
+  - `complete` (method, line 32) `def complete(self)`
+- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`
+
 ## tests/test_loop_worker_traces.py
 - Doc: Worker cross-work trace tools (lazy 0.3.10 parity).
 - Layer: testing

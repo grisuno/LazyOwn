@@ -33,9 +33,13 @@ DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+DEFAULT_LLAMACPP_MODEL = "local-model"
+DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
 DEFAULT_COMPLETE_MAX_TOKENS = 1024
 DEFAULT_COMPLETE_TEMPERATURE = 0.2
 HTTP_OK = 200
+REQUEST_CONNECT_TIMEOUT_SEC = 10.0
+REQUEST_READ_TIMEOUT_SEC = 180.0
 
 
 class AIModel(ABC):
@@ -266,6 +270,7 @@ class OllamaModel(AIModel):
             response = requests.post(
                 f"{self.host}/api/generate",
                 json={"model": self.model, "prompt": prompt, "stream": False},
+                timeout=(REQUEST_CONNECT_TIMEOUT_SEC, REQUEST_READ_TIMEOUT_SEC),
             )
             if response.status_code == HTTP_OK:
                 return response.json().get("response", "").strip()
@@ -286,6 +291,7 @@ class OllamaModel(AIModel):
             response = requests.post(
                 f"{self.host}/api/generate",
                 json={"model": self.model, "prompt": prompt, "stream": True},
+                timeout=(REQUEST_CONNECT_TIMEOUT_SEC, REQUEST_READ_TIMEOUT_SEC),
                 stream=True,
             )
             if response.status_code == HTTP_OK:
@@ -302,6 +308,127 @@ class OllamaModel(AIModel):
                 yield f"Error from Ollama: {response.status_code}"
         except Exception as exc:
             yield f"Error streaming from Ollama: {exc}"
+
+
+class LlamaCppModel(AIModel):
+    """llama.cpp server backend (OpenAI-compatible ``/v1`` API, keyless).
+
+    Talks to a locally hosted ``llama-server`` (see the ``lazy_llamacpp``
+    addon) over HTTP. Every request carries connect/read timeouts so a
+    dead server fails fast into the pool failover instead of hanging the
+    loop. When the ``openai`` SDK is importable, ``client`` exposes a
+    tool-calling chat client against the same endpoint so the agentic
+    path can use this leg.
+    """
+
+    def __init__(
+        self,
+        model: str = DEFAULT_LLAMACPP_MODEL,
+        host: str = DEFAULT_LLAMACPP_HOST,
+    ) -> None:
+        self.model = model
+        self.host = (host or DEFAULT_LLAMACPP_HOST).rstrip("/")
+        self.client = None
+        try:
+            self.client = _LazyImporter.openai()(api_key="sk-no-key-required", base_url=f"{self.host}/v1")
+            try:
+                self.client.model = model
+            except Exception:
+                pass
+        except Exception:
+            self.client = None
+
+    def _chat(self, messages: list, max_tokens: int, stream: bool):
+        """POST one chat request; return the raw response.
+
+        Thinking is disabled: loop turns are short tool decisions where a
+        reasoning trace would burn the token budget and risk empty
+        content, while multi-turn strategy already lives in the
+        conversation, not in one block.
+        """
+        return requests.post(
+            f"{self.host}/v1/chat/completions",
+            json={
+                "model": self.model,
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "stream": stream,
+                "enable_thinking": False,
+            },
+            timeout=(REQUEST_CONNECT_TIMEOUT_SEC, REQUEST_READ_TIMEOUT_SEC),
+            stream=stream,
+        )
+
+    def generate(self, prompt: str) -> str:
+        """Return a single completion for ``prompt``.
+
+        Args:
+            prompt: The full prompt string sent to the server.
+
+        Returns:
+            The completion text or a human-readable error string.
+        """
+        try:
+            response = self._chat([{"role": "user", "content": prompt}], DEFAULT_COMPLETE_MAX_TOKENS, False)
+            if response.status_code == HTTP_OK:
+                choices = response.json().get("choices", [])
+                if choices:
+                    return str(choices[0].get("message", {}).get("content", "") or "").strip()
+                return "Error from llama.cpp: empty choices"
+            return f"Error from llama.cpp: {response.status_code} - {response.text}"
+        except Exception as exc:
+            return f"Error connecting to llama.cpp: {exc}"
+
+    def stream_generate(self, prompt: str) -> Generator[str, None, None]:
+        """Yield streamed completion deltas for ``prompt``.
+
+        Args:
+            prompt: The full prompt string sent to the server.
+
+        Yields:
+            Successive content deltas from the SSE stream.
+        """
+        try:
+            response = self._chat([{"role": "user", "content": prompt}], DEFAULT_COMPLETE_MAX_TOKENS, True)
+            if response.status_code != HTTP_OK:
+                yield f"Error from llama.cpp: {response.status_code}"
+                return
+            for line in response.iter_lines():
+                if not line or not line.startswith(b"data:"):
+                    continue
+                data = line[5:].strip()
+                if data == b"[DONE]":
+                    break
+                try:
+                    chunk = json.loads(data.decode("utf-8"))
+                except json.JSONDecodeError:
+                    continue
+                for choice in chunk.get("choices", []):
+                    delta = (choice.get("delta", {}) or {}).get("content", "")
+                    if delta:
+                        yield delta
+        except Exception as exc:
+            yield f"Error streaming from llama.cpp: {exc}"
+
+    def complete(
+        self,
+        system: str,
+        user: str,
+        max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS,
+        temperature: float = DEFAULT_COMPLETE_TEMPERATURE,
+    ) -> str:
+        """Role-aware completion through the chat endpoint."""
+        try:
+            response = self._chat(
+                [{"role": "system", "content": system}, {"role": "user", "content": user}], max_tokens, False
+            )
+            if response.status_code == HTTP_OK:
+                choices = response.json().get("choices", [])
+                if choices:
+                    return str(choices[0].get("message", {}).get("content", "") or "").strip()
+            return ""
+        except Exception:
+            return ""
 
 
 class OpenAIModel(AIModel):

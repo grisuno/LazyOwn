@@ -52,6 +52,13 @@ def auto_verb_target(command: str) -> str:
         return candidate if entry.needs_target else ""
     if first in ROUTABLE_VERBS:
         return candidate
+    try:
+        from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb, needs_target_for
+
+        if full_cli_enabled() and is_cli_verb(first):
+            return candidate if needs_target_for(first) else ""
+    except Exception:
+        pass
     return ""
 
 
@@ -477,6 +484,13 @@ def is_routable_command(line: str) -> bool:
     first = text.split(maxsplit=1)[0] if text else ""
     if first in ROUTABLE_VERBS:
         return True
+    try:
+        from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb
+
+        if full_cli_enabled() and is_cli_verb(first):
+            return True
+    except Exception:
+        pass
     return any(text.startswith(prefix) for prefix in ROUTABLE_PREFIXES)
 
 
@@ -486,9 +500,25 @@ def verbs() -> tuple[str, ...]:
 
 
 def is_shell_verb(token: str) -> bool:
-    """Return True when ``token`` names a loop-routable shell verb."""
+    """Return True when ``token`` names a loop-routable shell verb.
+
+    Built-in auto verbs always route. When full-CLI mode is enabled any
+    real ``do_<verb>`` shell command routes as well, so the loop reaches
+    the whole cmd2 surface through the same Guard and scope path.
+    """
     parts = (token or "").strip().split(maxsplit=1)
-    return bool(parts) and _verb_row(parts[0]) is not None
+    if not parts:
+        return False
+    if _verb_row(parts[0]) is not None:
+        return True
+    try:
+        from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb
+
+        if full_cli_enabled() and is_cli_verb(parts[0]):
+            return True
+    except Exception:
+        pass
+    return False
 
 
 def build_command(verb: str, target: str = "") -> str:
@@ -560,10 +590,52 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
         tail = (target or embedded or "").strip()
         suffix = f" --target {tail}" if tail else ""
         return [f"lazy_addon run {name}{suffix}".strip()]
+    if lowered.startswith("install capability "):
+        try:
+            from modules.lazy_installer import steps_for_install as _install_steps
+
+            return _install_steps(text)
+        except Exception:
+            return None
     matched = [entry for entry in verbs_for(lowered) if not verb_gap(entry.verb)]
-    if not matched:
+    if matched:
+        try:
+            from modules.lazy_orchestrator_feedback import rank_verbs
+
+            order = rank_verbs(matched[0].phases[0] if matched[0].phases else "", [e.verb for e in matched])
+            matched.sort(key=lambda e: order.index(e.verb) if e.verb in order else len(order))
+        except Exception:
+            pass
+        return [build_command(matched[0].verb, target)]
+    if verbs_for(lowered):
         return None
-    return [build_command(matched[0].verb, target)]
+    try:
+        from modules.lazy_cli_bridge import (
+            build_cli_command,
+            full_cli_enabled,
+            is_cli_verb,
+            phase_for,
+        )
+        from modules.orchestrator_config import verb_config as _verb_cfg
+
+        if full_cli_enabled():
+            raw_parts = (text or "").strip().split()
+            head = raw_parts[0].lower() if raw_parts else ""
+            if head and is_cli_verb(head):
+                cfg = _verb_cfg(head)
+                if cfg is None or cfg.get("enabled", True):
+                    tail = " ".join(raw_parts[1:]).strip() or (target or "").strip()
+                    return [build_cli_command(head, tail)]
+            for token in lowered.split():
+                if is_cli_verb(token):
+                    cfg = _verb_cfg(token)
+                    if cfg is not None and not cfg.get("enabled", True):
+                        continue
+                    _ = phase_for(token)
+                    return [build_cli_command(token, target)]
+    except Exception:
+        pass
+    return None
 
 
 @dataclass
@@ -679,10 +751,15 @@ def execute_shell_verb(
     worker.start()
     worker.join(timeout=max(1.0, float(timeout_sec or DEFAULT_SHELL_TIMEOUT_SEC)))
     if worker.is_alive():
+        try:
+            partial = capture.getvalue() or ""
+        except Exception:
+            partial = ""
+        tail = f"\n[partial output, {len(partial)} chars]\n{partial[-1500:]}" if partial.strip() else ""
         return (
             f"{SHELL_TIMEOUT_MESSAGE}: automation verb exceeded "
             f"{timeout_sec}s and is still running in the background: "
-            f"{command[:120]}"
+            f"{command[:120]}{tail}"
         )
     try:
         result = results.get_nowait()

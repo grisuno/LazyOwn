@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `action_expand_all` | method | `cli/surface_tui.py:168` | `def action_expand_all(self)` |
+| `action_refresh` | method | `cli/surface_tui.py:164` | `def action_refresh(self)` |
+| `compose` | method | `cli/surface_tui.py:154` | `def compose(self)` |
+| `launch_tui` | function | `cli/surface_tui.py:112` | `def launch_tui(sessions_dir, payload_path)` |
+| `on_mount` | method | `cli/surface_tui.py:161` | `def on_mount(self)` |
+| `on_tree_node_selected` | method | `cli/surface_tui.py:176` | `def on_tree_node_selected(self, event)` |
+| `render_json` | function | `cli/surface_tui.py:92` | `def render_json(graph, sessions_dir, payload_path)` |
+| `render_static` | function | `cli/surface_tui.py:65` | `def render_static(graph, sessions_dir, payload_path, console)` |
 | `Theme` | class | `cli/themes.py:31` | `class Theme` |
 | `get_theme` | function | `cli/themes.py:222` | `def get_theme(name)` |
 | `theme_from_payload` | function | `cli/themes.py:238` | `def theme_from_payload(payload)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `find_suid_binaries` | method | `contrib/legacy/lazypwn.py:28` | `def find_suid_binaries(self)` |
 | `get_found_binaries` | method | `contrib/legacy/lazypwn.py:67` | `def get_found_binaries(self)` |
 | `main` | function | `contrib/legacy/lazypwn.py:181` | `def main()` |
-| `prepare_attack` | method | `contrib/legacy/lazypwn.py:90` | `def prepare_attack(self)` |
-| `process_output` | method | `contrib/legacy/lazypwn.py:61` | `def process_output(self, output)` |
-| `cleanup_exploit_environment` | function | `contrib/legacy/lazypwnkit.py:31` | `def cleanup_exploit_environment()` |
-| `create_exploit_environment` | function | `contrib/legacy/lazypwnkit.py:13` | `def create_exploit_environment()` |
-| `execute_exploit` | function | `contrib/legacy/lazypwnkit.py:37` | `def execute_exploit(cmd)` |
-| `main` | function | `contrib/legacy/lazypwnkit.py:79` | `def main()` |
-| `rmrf` | function | `contrib/legacy/lazypwnkit.py:8` | `def rmrf(path)` |
-| `parse_hash_file` | function | `contrib/legacy/lazyreversentlmv2.py:11` | `def parse_hash_file(file_path)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

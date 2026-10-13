@@ -1,6 +1,94 @@
 # API (page 13 of 22)
 Previous: [API_p12.md](API_p12.md)
 
+## modules/lazy_sandbox.py
+Depends on: `core/config.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
+- `image_name` (function) `modules/lazy_sandbox.py:52` `def image_name(configured)` -- Resolve the sandbox image name.
+- `container_name` (function) `modules/lazy_sandbox.py:67` `def container_name(task_id)` -- Return the deterministic container name for one task.
+- `docker_available` (function) `modules/lazy_sandbox.py:73` `def docker_available()` -- Return True when the docker CLI is on PATH.
+- `image_available` (function) `modules/lazy_sandbox.py:78` `def image_available(image)` -- Return True when the sandbox image exists locally.
+- `container_running` (function) `modules/lazy_sandbox.py:94` `def container_running(task_id)` -- Return the container name when it is up, else empty string.
+- `ensure_container` (function) `modules/lazy_sandbox.py:112` `def ensure_container(task_id, image)` -- Start the per-task container when needed, return its name or error.
+- `exec_command` (function) `modules/lazy_sandbox.py:180` `def exec_command(task_id, command, timeout_sec, image)` -- Run one Lazy shell verb inside the task container.
+- `remove_container` (function) `modules/lazy_sandbox.py:214` `def remove_container(task_id)` -- Stop and remove the task container.
+- `status` (function) `modules/lazy_sandbox.py:223` `def status(task_id)` -- Describe sandbox readiness and containers.
+- `executor_for` (function) `modules/lazy_sandbox.py:251` `def executor_for(task_id, image)` -- Build a worker executor routing shell verbs into the sandbox.
+
+## modules/lazy_skill_mirror.py
+Imported by: `cli/commands/lazyops.py`
+- `available_skills` (function) `modules/lazy_skill_mirror.py:67` `def available_skills()` -- Return repo skill names that ship a SKILL.md.
+- `mirror_skill` (function) `modules/lazy_skill_mirror.py:78` `def mirror_skill(name)` -- Write the Hermes mirror of one skill.
+- `mirror_all` (function) `modules/lazy_skill_mirror.py:106` `def mirror_all()` -- Mirror every repo skill; return per-skill summaries.
+- `register_external_dirs` (function) `modules/lazy_skill_mirror.py:117` `def register_external_dirs()` -- Register the repo skills tree in the hermes config.
+
+## modules/lazy_skills.py
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+- `list_skills` (function) `modules/lazy_skills.py:85` `def list_skills()` -- Return every parsed skill sorted by name.
+- `get_skill` (function) `modules/lazy_skills.py:91` `def get_skill(name)` -- Find one skill by exact or case-insensitive name.
+- `match_skills` (function) `modules/lazy_skills.py:102` `def match_skills(text, limit)` -- Rank skills whose keywords appear in the text, best first.
+- `skills_context` (function) `modules/lazy_skills.py:118` `def skills_context(text, explicit, auto, budget)` -- Render pinned plus auto-matched skills as one prompt section.
+
+## modules/lazy_summarizer.py
+- `should_compact` (function) `modules/lazy_summarizer.py:35` `def should_compact(used_chars, budget_chars)` -- Return True when context exceeds the usable budget.
+- `summarize_chain` (function) `modules/lazy_summarizer.py:50` `def summarize_chain(records, budget_chars, complete)` -- Bound a record chain to budget, digesting the oldest pairs.
+
+## modules/lazyatack.sh
+- `mostrar_ayuda` (function) `modules/lazyatack.sh:21` -- Función para mostrar ayuda
+- `validar_ip` (function) `modules/lazyatack.sh:33` -- Función para validar una dirección IP
+- `validar_url` (function) `modules/lazyatack.sh:49` -- Función para validar URL
+- `descargar_seclists` (function) `modules/lazyatack.sh:107` -- Función para descargar y extraer SecLists
+- `escanear_puertos` (function) `modules/lazyatack.sh:115` -- Función para ejecutar escaneo de puertos con nmap
+- `escanear_puertos_especificos` (function) `modules/lazyatack.sh:121` -- Función para escanear puertos específicos
+- `enumerar_http` (function) `modules/lazyatack.sh:127` -- Función para enumerar servicios HTTP
+- `iniciar_servidor_http` (function) `modules/lazyatack.sh:133` -- Función para iniciar servidor HTTP con Python
+- `configurar_netcat` (function) `modules/lazyatack.sh:139` -- Función para configurar netcat
+- `enviar_archivo_netcat` (function) `modules/lazyatack.sh:145` -- Función para enviar archivo mediante bash a netcat
+- `verificar_conectividad` (function) `modules/lazyatack.sh:151` -- Función para verificar conectividad con ping y tcpdump
+- `verificar_curl` (function) `modules/lazyatack.sh:158` -- Función para verificar conectividad con curl
+- `configurar_shell_reversa` (function) `modules/lazyatack.sh:165` -- Función para configurar una shell reversa
+- `escuchar_shell` (function) `modules/lazyatack.sh:171` -- Función para escuchar shell con netcat
+- `monitorear_procesos` (function) `modules/lazyatack.sh:177` -- Función para monitorear procesos
+- `ejecutar_wfuzz` (function) `modules/lazyatack.sh:188` -- Función para ejecutar wfuzz
+- `comprobar_sudo` (function) `modules/lazyatack.sh:194` -- Función para comprobar permisos sudo
+- `explotar_lfi` (function) `modules/lazyatack.sh:200` -- Función para explotar LFI
+- `configurar_tty` (function) `modules/lazyatack.sh:206` -- Función para configurar TTY
+- `eliminar_archivos` (function) `modules/lazyatack.sh:217` -- Función para eliminar archivos de forma segura
+- `obtener_root_shell` (function) `modules/lazyatack.sh:223` -- Función para obtener root shell mediante Docker
+- `enumerar_suid` (function) `modules/lazyatack.sh:230` -- Función para enumerar archivos con SUID
+- `listar_timers` (function) `modules/lazyatack.sh:236` -- Función para listar timers de systemd
+- `comprobar_rutas` (function) `modules/lazyatack.sh:242` -- Función para comprobar rutas de comandos
+- `abusar_tar` (function) `modules/lazyatack.sh:248` -- Función para abusar de tar
+- `enumerar_puertos` (function) `modules/lazyatack.sh:254` -- Función para enumerar puertos abiertos
+- `eliminar_contenedores_docker` (function) `modules/lazyatack.sh:260` -- Función para eliminar contenedores Docker
+- `escanear_red` (function) `modules/lazyatack.sh:266` -- Función para escanear red
+- `menu_servidor` (function) `modules/lazyatack.sh:272` -- Función para mostrar menú en modo servidor
+- `menu_cliente` (function) `modules/lazyatack.sh:307` -- Función para mostrar menú en modo cliente
+
+## modules/lazycloud.py
+Imported by: `cli/commands/cloud.py`
+- `CloudMetadataHarvester.__init__` (method) `modules/lazycloud.py:111` `def __init__(self, timeout)`
+- `CloudMetadataHarvester.session` (method) `modules/lazycloud.py:116` `def session(self)`
+- `CloudMetadataHarvester.harvest_aws` (method) `modules/lazycloud.py:139` `def harvest_aws(self)` -- Harvest AWS EC2 instance metadata (IMDSv2 capable).
+- `CloudMetadataHarvester.harvest_azure` (method) `modules/lazycloud.py:184` `def harvest_azure(self)` -- Harvest Azure instance metadata.
+- `CloudMetadataHarvester.harvest_gcp` (method) `modules/lazycloud.py:208` `def harvest_gcp(self)` -- Harvest GCP instance metadata.
+- `CloudMetadataHarvester.harvest_all` (method) `modules/lazycloud.py:231` `def harvest_all(self)` -- Try all three cloud providers sequentially.
+- `CloudBucketEnumerator.__init__` (method) `modules/lazycloud.py:251` `def __init__(self, timeout)`
+- `CloudBucketEnumerator.session` (method) `modules/lazycloud.py:256` `def session(self)`
+- `CloudBucketEnumerator.enumerate_s3` (method) `modules/lazycloud.py:278` `def enumerate_s3(self, prefix, buckets)` -- Enumerate S3 buckets derived from a prefix.
+- `CloudBucketEnumerator.enumerate_azure_storage` (method) `modules/lazycloud.py:303` `def enumerate_azure_storage(self, prefix, accounts)` -- Enumerate Azure Blob Storage accounts.
+- `CloudBucketEnumerator.enumerate_gcp_storage` (method) `modules/lazycloud.py:321` `def enumerate_gcp_storage(self, prefix, buckets)` -- Enumerate GCP Storage buckets.
+- `CloudIAMEnumerator.enumerate_aws_iam` (method) `modules/lazycloud.py:345` `def enumerate_aws_iam(self, access_key, secret_key, session_token)` -- Enumerate AWS IAM (requires valid credentials).
+- `CloudScanner.__init__` (method) `modules/lazycloud.py:393` `def __init__(self, target_domain, timeout)`
+- `CloudScanner.full_scan` (method) `modules/lazycloud.py:400` `def full_scan(self, target_prefix, sessions_dir)` -- Perform a comprehensive cloud security scan.
+- `CloudScanner.quick_metadata` (method) `modules/lazycloud.py:456` `def quick_metadata(self)` -- Fast metadata-only harvest (no bucket enumeration).
+- `CloudScanner.quick_buckets` (method) `modules/lazycloud.py:460` `def quick_buckets(self, prefix)` -- Fast S3-only bucket check.
+
+## modules/lazycurl.sh
+- `ctrl_c` (function) `modules/lazycurl.sh:23`
+- `show_help` (function) `modules/lazycurl.sh:29` -- Función para mostrar la ayuda
+- `execute_curl` (function) `modules/lazycurl.sh:52` -- Función para ejecutar el comando CURL
+
 ## modules/lazyencoder_decoder.py
 Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
 - `base64_encode` (function) `modules/lazyencoder_decoder.py:4` `def base64_encode(data)`
@@ -250,16 +338,16 @@ Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.p
 - `ask_general` (function) `modules/llm_adapter.py:254` `def ask_general(prompt, debug)` -- Answer through the configured LLM backend, regardless of provider.
 
 ## modules/llm_client.py
-Depends on: `core/logging.py`
+Depends on: `core/logging.py`, `modules/ai_model.py`
 Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
 - `LLMClient.__init__` (method) `modules/llm_client.py:63` `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
 - `LLMClient.ask` (method) `modules/llm_client.py:79` `def ask(self, prompt)` -- Send a prompt and return the text response.
-- `LLMClient.classify` (method) `modules/llm_client.py:125` `def classify(self, output)` -- Short classification prompt.
-- `LLMClient.summarize` (method) `modules/llm_client.py:154` `def summarize(self, text)` -- Summarize a block of text (e.g. nmap output, tool output).
-- `get_client` (function) `modules/llm_client.py:243` `def get_client(api_key)` -- Return (or create) the module-level singleton LLMClient.
-- `ask` (function) `modules/llm_client.py:251` `def ask(prompt)` -- Module-level convenience wrapper.
-- `classify` (function) `modules/llm_client.py:263` `def classify(output)` -- Module-level convenience wrapper.
-- `summarize` (function) `modules/llm_client.py:268` `def summarize(text)` -- Module-level convenience wrapper.
+- `LLMClient.classify` (method) `modules/llm_client.py:130` `def classify(self, output)` -- Short classification prompt.
+- `LLMClient.summarize` (method) `modules/llm_client.py:159` `def summarize(self, text)` -- Summarize a block of text (e.g. nmap output, tool output).
+- `get_client` (function) `modules/llm_client.py:268` `def get_client(api_key)` -- Return (or create) the module-level singleton LLMClient.
+- `ask` (function) `modules/llm_client.py:276` `def ask(prompt)` -- Module-level convenience wrapper.
+- `classify` (function) `modules/llm_client.py:288` `def classify(output)` -- Module-level convenience wrapper.
+- `summarize` (function) `modules/llm_client.py:293` `def summarize(text)` -- Module-level convenience wrapper.
 
 ## modules/llm_evaluator.py
 Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
@@ -285,18 +373,18 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 ## modules/llm_factory.py
 Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
 Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
-- `is_model_missing_error` (function) `modules/llm_factory.py:112` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
-- `groq_model_chain` (function) `modules/llm_factory.py:132` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
-- `default_model_for` (function) `modules/llm_factory.py:207` `def default_model_for(backend)` -- Return the default model identifier for a backend.
-- `model_config_key` (function) `modules/llm_factory.py:228` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
-- `api_key_config_key` (function) `modules/llm_factory.py:249` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
-- `backend_requires_api_key` (function) `modules/llm_factory.py:272` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
-- `load_payload` (function) `modules/llm_factory.py:290` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
-- `get_llm_backend` (function) `modules/llm_factory.py:558` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
-- `get_llm_backend_raw` (function) `modules/llm_factory.py:644` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
-- `try_get_llm_backend` (function) `modules/llm_factory.py:666` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
-- `stream_complete` (function) `modules/llm_factory.py:690` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
-- `complete` (function) `modules/llm_factory.py:759` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+- `is_model_missing_error` (function) `modules/llm_factory.py:119` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
+- `groq_model_chain` (function) `modules/llm_factory.py:139` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
+- `default_model_for` (function) `modules/llm_factory.py:218` `def default_model_for(backend)` -- Return the default model identifier for a backend.
+- `model_config_key` (function) `modules/llm_factory.py:239` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
+- `api_key_config_key` (function) `modules/llm_factory.py:260` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
+- `backend_requires_api_key` (function) `modules/llm_factory.py:285` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
+- `load_payload` (function) `modules/llm_factory.py:303` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
+- `get_llm_backend` (function) `modules/llm_factory.py:585` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:673` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:695` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:719` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:788` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
 
 ## modules/llm_pool.py
 Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`
@@ -404,86 +492,6 @@ Imported by: `cli/commands/payload_arsenal.py`
 
 ## modules/mario.py
 - `check_collision` (function) `modules/mario.py:105` `def check_collision(x, y, layer)`
-
-## modules/mcp_agent_bridge.py
-Depends on: `core/logging.py`, `modules/llm_factory.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
-- `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
-- `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
-- `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
-- `GroqAgentWorker.__init__` (method) `modules/mcp_agent_bridge.py:235` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `GroqAgentWorker.run` (method) `modules/mcp_agent_bridge.py:264` `def run(self)`
-- `OllamaReActWorker.__init__` (method) `modules/mcp_agent_bridge.py:368` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `OllamaReActWorker.run` (method) `modules/mcp_agent_bridge.py:389` `def run(self)`
-- `AgentBridgeWorker.__init__` (method) `modules/mcp_agent_bridge.py:471` `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)`
-- `AgentBridgeWorker.run` (method) `modules/mcp_agent_bridge.py:478` `def run(self)`
-- `start_agent` (function) `modules/mcp_agent_bridge.py:508` `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` -- Start an agent in a background thread.
-- `dummy_runner` (function) `modules/mcp_agent_bridge.py:531` `def dummy_runner(cmd)`
-
-## modules/memory_cleaner.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `MemoryCleaner.__init__` (method) `modules/memory_cleaner.py:61` `def __init__(self, config)`
-- `MemoryCleaner.windows_memory_cleanup` (method) `modules/memory_cleaner.py:64` `def windows_memory_cleanup(self)` -- Generate Windows memory artifact cleanup commands.
-- `MemoryCleaner.linux_memory_cleanup` (method) `modules/memory_cleaner.py:151` `def linux_memory_cleanup(self)` -- Generate Linux memory artifact cleanup commands.
-- `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
-- `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
-
-## modules/memory_store.py
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `StorageBackend.save` (method) `modules/memory_store.py:96` `def save(self, entry)`
-- `StorageBackend.search` (method) `modules/memory_store.py:99` `def search(self, query, top_k)`
-- `StorageBackend.by_host` (method) `modules/memory_store.py:102` `def by_host(self, host, top_k)`
-- `StorageBackend.by_service` (method) `modules/memory_store.py:105` `def by_service(self, service, top_k)`
-- `StorageBackend.all_entries` (method) `modules/memory_store.py:108` `def all_entries(self, limit)`
-- `StorageBackend.close` (method) `modules/memory_store.py:111` `def close(self)`
-- `SQLiteBackend.__init__` (method) `modules/memory_store.py:130` `def __init__(self, db_path)`
-- `SQLiteBackend.save` (method) `modules/memory_store.py:145` `def save(self, entry)`
-- `SQLiteBackend.search` (method) `modules/memory_store.py:177` `def search(self, query, top_k)`
-- `SQLiteBackend.by_host` (method) `modules/memory_store.py:189` `def by_host(self, host, top_k)`
-- `SQLiteBackend.by_service` (method) `modules/memory_store.py:200` `def by_service(self, service, top_k)`
-- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:212` `def all_entries(self, limit)`
-- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:222` `def stats_raw(self)`
-- `SQLiteBackend.close` (method) `modules/memory_store.py:229` `def close(self)`
-- `MemoryStore.__init__` (method) `modules/memory_store.py:237` `def __init__(self, backend)`
-- `MemoryStore.remember` (method) `modules/memory_store.py:240` `def remember(self, session_id, host, tool, command, output, findings, success)`
-- `MemoryStore.recall` (method) `modules/memory_store.py:267` `def recall(self, query, top_k)`
-- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:270` `def recall_by_host(self, host, top_k)`
-- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:273` `def recall_for_service(self, service_name, top_k)`
-- `MemoryStore.stats` (method) `modules/memory_store.py:276` `def stats(self)`
-- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:284` `def export_finetuning_dataset(self, path)`
-- `get_memory_store` (function) `modules/memory_store.py:303` `def get_memory_store()`
-- `remember` (function) `modules/memory_store.py:312` `def remember(session_id, host, tool, command, output, findings, success)`
-- `recall` (function) `modules/memory_store.py:324` `def recall(query, top_k)`
-
-## modules/metrics.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
-- `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
-- `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
-- `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
-- `MetricsRegistry.prometheus_text` (method) `modules/metrics.py:107` `def prometheus_text(self)` -- Render every counter in Prometheus text exposition format.
-- `MetricRecord.to_dict` (method) `modules/metrics.py:167` `def to_dict(self)` -- Return the record as a JSON-serialisable dictionary.
-- `MetricsWriter.__init__` (method) `modules/metrics.py:189` `def __init__(self, path)` -- Initialise the writer.
-- `MetricsWriter.path` (method) `modules/metrics.py:201` `def path(self)` -- Return the JSONL destination path.
-- `MetricsWriter.append` (method) `modules/metrics.py:206` `def append(self, record)` -- Append a single record to disk.
-- `MetricsAggregator.summarize` (method) `modules/metrics.py:254` `def summarize(cls, records, window_seconds, now_utc)` -- Compute aggregate statistics over the supplied records.
-- `MetricsRecorder.__init__` (method) `modules/metrics.py:339` `def __init__(self, writer)` -- Initialise the recorder.
-- `MetricsRecorder.path` (method) `modules/metrics.py:350` `def path(self)` -- Return the JSONL path used by the underlying writer.
-- `MetricsRecorder.record` (method) `modules/metrics.py:355` `def record(self, command, args, duration_ms, success, exit_code, source)` -- Persist a single command-execution telemetry record.
-- `MetricsRecorder.summarize` (method) `modules/metrics.py:416` `def summarize(self, window_seconds)` -- Return aggregate statistics over recorded events.
-- `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
-- `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
-- `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
-
-## modules/mfa_bypass.py
-Imported by: `cli/commands/cicd.py`
-- `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
-- `MFABypassEngine.enumerate_techniques` (method) `modules/mfa_bypass.py:133` `def enumerate_techniques(self, target)` -- Enumerate viable MFA bypass techniques for a given target.
-- `MFABypassEngine.generate_phishing_templates` (method) `modules/mfa_bypass.py:153` `def generate_phishing_templates(self, target)` -- Generate phishing templates tailored for MFA bypass.
-- `MFABypassEngine.mfa_conditional_access_scan` (method) `modules/mfa_bypass.py:223` `def mfa_conditional_access_scan(self, domain)` -- Scan for conditional access policy gaps.
-- `MFABypassEngine.replay_oauth_token` (method) `modules/mfa_bypass.py:252` `def replay_oauth_token(self, access_token, refresh_token)` -- Test if an OAuth2 token is still valid and can be replayed.
-- `MFABypassEngine.saml_golden_ticket_check` (method) `modules/mfa_bypass.py:278` `def saml_golden_ticket_check(self, adfs_server)` -- Check for ADFS token signing certificate exposure.
-- `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
 
 
 Next: [API_p14.md](API_p14.md)

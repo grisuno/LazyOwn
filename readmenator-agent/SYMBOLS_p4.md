@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_config_diff` | method | `cli/commands/ux.py:115` | `def do_config_diff(self, line)` |
+| `do_hud` | method | `cli/commands/ux.py:46` | `def do_hud(self, line)` |
+| `do_suggest` | method | `cli/commands/ux.py:261` | `def do_suggest(self, line)` |
+| `do_toast` | method | `cli/commands/ux.py:167` | `def do_toast(self, line)` |
+| `do_undo` | method | `cli/commands/ux.py:85` | `def do_undo(self, line)` |
 | `ConfigHistory` | class | `cli/config_history.py:23` | `class ConfigHistory` |
 | `ConfigHistoryConfig` | class | `cli/config_history.py:16` | `class ConfigHistoryConfig` |
 | `capture_baseline` | method | `cli/config_history.py:30` | `def capture_baseline(self, state)` |
@@ -397,42 +402,45 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `FormModal` | class | `cli/lazy_orchestrator.py:81` | `class FormModal` |
 | `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:118` | `class LazyOrchestratorApp` |
 | `__init__` | method | `cli/lazy_orchestrator.py:86` | `def __init__(self, title, fields)` |
-| `__init__` | method | `cli/lazy_orchestrator.py:141` | `def __init__(self, payload_path, task_id)` |
-| `_active_tab` | method | `cli/lazy_orchestrator.py:495` | `def _active_tab(self)` |
-| `_coerce` | function | `cli/lazy_orchestrator.py:588` | `def _coerce(raw)` |
-| `_done` | function | `cli/lazy_orchestrator.py:507` | `def _done(values)` |
-| `_done_rule` | function | `cli/lazy_orchestrator.py:524` | `def _done_rule(values)` |
-| `_done_verb` | function | `cli/lazy_orchestrator.py:541` | `def _done_verb(values)` |
-| `_load_payload` | method | `cli/lazy_orchestrator.py:267` | `def _load_payload(self)` |
-| `_load_payload_into_form` | method | `cli/lazy_orchestrator.py:277` | `def _load_payload_into_form(self)` |
-| `_poll_now` | method | `cli/lazy_orchestrator.py:403` | `def _poll_now(self)` |
-| `_refresh_guard` | method | `cli/lazy_orchestrator.py:363` | `def _refresh_guard(self)` |
-| `_refresh_models` | method | `cli/lazy_orchestrator.py:342` | `def _refresh_models(self)` |
-| `_refresh_stages` | method | `cli/lazy_orchestrator.py:227` | `def _refresh_stages(self)` |
-| `_refresh_verbs` | method | `cli/lazy_orchestrator.py:243` | `def _refresh_verbs(self)` |
-| `_resolve_task` | method | `cli/lazy_orchestrator.py:385` | `def _resolve_task(self)` |
-| `_selected_row` | method | `cli/lazy_orchestrator.py:464` | `def _selected_row(self, table_id)` |
-| `action_add_item` | method | `cli/lazy_orchestrator.py:502` | `def action_add_item(self)` |
-| `action_delete_item` | method | `cli/lazy_orchestrator.py:563` | `def action_delete_item(self)` |
-| `action_refresh` | method | `cli/lazy_orchestrator.py:456` | `def action_refresh(self)` |
-| `action_save_config` | method | `cli/lazy_orchestrator.py:485` | `def action_save_config(self)` |
-| `action_toggle_item` | method | `cli/lazy_orchestrator.py:473` | `def action_toggle_item(self)` |
-| `add_auto_verb` | method | `cli/lazy_orchestrator.py:204` | `def add_auto_verb(self, name, keywords, needs_target, description)` |
-| `add_guard_rule` | method | `cli/lazy_orchestrator.py:326` | `def add_guard_rule(self, pattern, action, reason)` |
-| `add_model_member` | method | `cli/lazy_orchestrator.py:310` | `def add_model_member(self, name, model, priority)` |
+| `__init__` | method | `cli/lazy_orchestrator.py:142` | `def __init__(self, payload_path, task_id)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:508` | `def _active_tab(self)` |
+| `_coerce` | function | `cli/lazy_orchestrator.py:634` | `def _coerce(raw)` |
+| `_done` | function | `cli/lazy_orchestrator.py:520` | `def _done(values)` |
+| `_done` | function | `cli/lazy_orchestrator.py:588` | `def _done(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:537` | `def _done_rule(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:554` | `def _done_verb(values)` |
+| `_load_payload` | method | `cli/lazy_orchestrator.py:268` | `def _load_payload(self)` |
+| `_load_payload_into_form` | method | `cli/lazy_orchestrator.py:278` | `def _load_payload_into_form(self)` |
+| `_poll_now` | method | `cli/lazy_orchestrator.py:416` | `def _poll_now(self)` |
+| `_refresh_guard` | method | `cli/lazy_orchestrator.py:376` | `def _refresh_guard(self)` |
+| `_refresh_models` | method | `cli/lazy_orchestrator.py:355` | `def _refresh_models(self)` |
+| `_refresh_stages` | method | `cli/lazy_orchestrator.py:228` | `def _refresh_stages(self)` |
+| `_refresh_verbs` | method | `cli/lazy_orchestrator.py:244` | `def _refresh_verbs(self)` |
+| `_resolve_task` | method | `cli/lazy_orchestrator.py:398` | `def _resolve_task(self)` |
+| `_selected_row` | method | `cli/lazy_orchestrator.py:477` | `def _selected_row(self, table_id)` |
+| `action_add_item` | method | `cli/lazy_orchestrator.py:515` | `def action_add_item(self)` |
+| `action_delete_item` | method | `cli/lazy_orchestrator.py:609` | `def action_delete_item(self)` |
+| `action_edit_item` | method | `cli/lazy_orchestrator.py:575` | `def action_edit_item(self)` |
+| `action_refresh` | method | `cli/lazy_orchestrator.py:469` | `def action_refresh(self)` |
+| `action_save_config` | method | `cli/lazy_orchestrator.py:498` | `def action_save_config(self)` |
+| `action_toggle_item` | method | `cli/lazy_orchestrator.py:486` | `def action_toggle_item(self)` |
+| `add_auto_verb` | method | `cli/lazy_orchestrator.py:205` | `def add_auto_verb(self, name, keywords, needs_target, description)` |
+| `add_guard_rule` | method | `cli/lazy_orchestrator.py:339` | `def add_guard_rule(self, pattern, action, reason)` |
+| `add_model_member` | method | `cli/lazy_orchestrator.py:311` | `def add_model_member(self, name, model, priority)` |
 | `compose` | method | `cli/lazy_orchestrator.py:92` | `def compose(self)` |
-| `compose` | method | `cli/lazy_orchestrator.py:151` | `def compose(self)` |
+| `compose` | method | `cli/lazy_orchestrator.py:152` | `def compose(self)` |
 | `on_button_pressed` | method | `cli/lazy_orchestrator.py:101` | `def on_button_pressed(self, event)` |
-| `on_button_pressed` | method | `cli/lazy_orchestrator.py:438` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:451` | `def on_button_pressed(self, event)` |
 | `on_input_submitted` | method | `cli/lazy_orchestrator.py:110` | `def on_input_submitted(self, event)` |
-| `on_mount` | method | `cli/lazy_orchestrator.py:176` | `def on_mount(self)` |
-| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:219` | `def remove_auto_verb(self, name)` |
-| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:334` | `def remove_guard_rule(self, pattern)` |
-| `remove_model_member` | method | `cli/lazy_orchestrator.py:318` | `def remove_model_member(self, name)` |
-| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:605` | `def run_orchestrator_console(task_id)` |
-| `save_config` | method | `cli/lazy_orchestrator.py:288` | `def save_config(self, values)` |
-| `toggle_stage` | method | `cli/lazy_orchestrator.py:186` | `def toggle_stage(self, name)` |
-| `toggle_verb` | method | `cli/lazy_orchestrator.py:195` | `def toggle_verb(self, name)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:177` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:220` | `def remove_auto_verb(self, name)` |
+| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:347` | `def remove_guard_rule(self, pattern)` |
+| `remove_model_member` | method | `cli/lazy_orchestrator.py:319` | `def remove_model_member(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:651` | `def run_orchestrator_console(task_id)` |
+| `save_config` | method | `cli/lazy_orchestrator.py:289` | `def save_config(self, values)` |
+| `set_model_priority` | method | `cli/lazy_orchestrator.py:327` | `def set_model_priority(self, name, priority)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:187` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:196` | `def toggle_verb(self, name)` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
 | `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
 | `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
 | `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
-| `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
-| `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
-| `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
-| `_count_glob` | function | `cli/ops_commands.py:450` | `def _count_glob(pattern)` |
-| `_count_pivots` | function | `cli/ops_commands.py:385` | `def _count_pivots(sessions_dir)` |
-| `_cred_node` | function | `cli/ops_commands.py:758` | `def _cred_node(value)` |
-| `_cred_outcomes_for_host` | function | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
-| `_engagement_phase_to_cli` | function | `cli/ops_commands.py:292` | `def _engagement_phase_to_cli(phase_value)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

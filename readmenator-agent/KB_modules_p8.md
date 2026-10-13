@@ -148,6 +148,18 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
 
+## modules/lazy_roles.py
+- Doc: Lazy specialist roles for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `list_roles` (function, line 100) `def list_roles()`
+  - `role_prompt` (function, line 109) `def role_prompt(role, goal, context)`
+  - `roles_for_phase` (function, line 134) `def roles_for_phase(phase)`
+  - `conformance` (function, line 154) `def conformance(role)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`
+
 ## modules/lazy_runner.py
 - Doc: Single execution path for ``lazy_loop`` and ``auto_loop``.
 - Layer: utility
@@ -155,37 +167,71 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Symbols:
   - `ThreadStdoutRouter` (class, line 41) `class ThreadStdoutRouter(TextIOBase)`
   - `LoopRunConfig` (class, line 90) `class LoopRunConfig`
-  - `_to_int` (function, line 120) `def _to_int(raw, default)`
-  - `_to_float` (function, line 128) `def _to_float(raw, default)`
-  - `parse_loop_line` (function, line 136) `def parse_loop_line(line)`
-  - `build_executor` (function, line 213) `def build_executor(shell, config, stream, cancelled)`
-  - `_abort_run` (function, line 271) `def _abort_run(engine, task_id, reason)`
-  - `_prepare_engine` (function, line 290) `def _prepare_engine(engine, shell, config, params)`
-  - `_start_proxy` (function, line 304) `def _start_proxy(engine, params)`
-  - `report_result` (function, line 329) `def report_result(result)`
-  - `_bootstrap` (function, line 353) `def _bootstrap(scan_target, executor)`
-  - `_run_with_progress` (function, line 367) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 460) `def _overview(task_id)`
-  - `_format_activity` (function, line 470) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 484) `def _dump_thread_stacks()`
-  - `_poll_progress` (function, line 499) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 594) `def _terminal_stream()`
-  - `_run_plain` (function, line 616) `def _run_plain(engine, config)`
-  - `run_loop` (function, line 640) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 722) `def _tty_available()`
+  - `_to_int` (function, line 121) `def _to_int(raw, default)`
+  - `_to_float` (function, line 129) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 137) `def parse_loop_line(line)`
+  - `build_executor` (function, line 225) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
+  - `_abort_run` (function, line 298) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 317) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 331) `def _start_proxy(engine, params)`
+  - `report_result` (function, line 356) `def report_result(result)`
+  - `_bootstrap` (function, line 380) `def _bootstrap(scan_target, executor)`
+  - `_run_with_progress` (function, line 394) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 500) `def _overview(task_id)`
+  - `_format_activity` (function, line 510) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 524) `def _dump_thread_stacks()`
+  - `_poll_progress` (function, line 539) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 634) `def _terminal_stream()`
+  - `_run_plain` (function, line 656) `def _run_plain(engine, config)`
+  - `run_loop` (function, line 691) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 773) `def _tty_available()`
   - `__init__` (method, line 51) `def __init__(self, main_stream, spool)`
   - `write` (method, line 57) `def write(self, data)`
   - `flush` (method, line 68) `def flush(self)`
   - `encoding` (method, line 76) `def encoding(self)`
   - `isatty` (method, line 80) `def isatty(self)`
-  - `clamped` (method, line 106) `def clamped(self)`
-  - `_resolve_alias` (function, line 225) `def _resolve_alias(command)`
-  - `_executor` (function, line 233) `def _executor(command)`
-  - `stream` (function, line 382) `def stream(text)`
-  - `_run` (function, line 406) `def _run()`
-  - `_write` (function, line 606) `def _write(text)`
-- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/terminal_guard.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop_progress.py`, `utils.py`
+  - `clamped` (method, line 107) `def clamped(self)`
+  - `_resolve_alias` (function, line 242) `def _resolve_alias(command)`
+  - `_executor` (function, line 250) `def _executor(command)`
+  - `stream` (function, line 409) `def stream(text)`
+  - `_run` (function, line 446) `def _run()`
+  - `_write` (function, line 646) `def _write(text)`
+- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/terminal_guard.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_progress.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`
+
+## modules/lazy_sandbox.py
+- Doc: Per-task Docker sandbox for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_payload_value` (function, line 41) `def _payload_value(key, default)`
+  - `image_name` (function, line 52) `def image_name(configured)`
+  - `container_name` (function, line 67) `def container_name(task_id)`
+  - `docker_available` (function, line 73) `def docker_available()`
+  - `image_available` (function, line 78) `def image_available(image)`
+  - `container_running` (function, line 94) `def container_running(task_id)`
+  - `ensure_container` (function, line 112) `def ensure_container(task_id, image)`
+  - `exec_command` (function, line 180) `def exec_command(task_id, command, timeout_sec, image)`
+  - `remove_container` (function, line 214) `def remove_container(task_id)`
+  - `status` (function, line 223) `def status(task_id)`
+  - `executor_for` (function, line 251) `def executor_for(task_id, image)`
+  - `_sandbox_executor` (function, line 265) `def _sandbox_executor(command)`
+- Depends on: `core/config.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
+
+## modules/lazy_skill_mirror.py
+- Doc: Mirror LazyOwn skills for Hermes discovery.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_split_frontmatter` (function, line 30) `def _split_frontmatter(text)`
+  - `_hermes_frontmatter` (function, line 45) `def _hermes_frontmatter(name, fields)`
+  - `available_skills` (function, line 67) `def available_skills()`
+  - `mirror_skill` (function, line 78) `def mirror_skill(name)`
+  - `mirror_all` (function, line 106) `def mirror_all()`
+  - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
+  - `register_external_dirs` (function, line 117) `def register_external_dirs()`
+- Imported by: `cli/commands/lazyops.py`
 
 ## modules/lazy_skills.py
 - Doc: Skill context injection for planner/worker prompts.
@@ -200,6 +246,17 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `match_skills` (function, line 102) `def match_skills(text, limit)`
   - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+
+## modules/lazy_summarizer.py
+- Doc: Bounded chain summarizer for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_text_of` (function, line 26) `def _text_of(record)`
+  - `should_compact` (function, line 35) `def should_compact(used_chars, budget_chars)`
+  - `summarize_chain` (function, line 50) `def summarize_chain(records, budget_chars, complete)`
+  - `_digest` (function, line 100) `def _digest(older, complete)`
+  - `_truncate_records` (function, line 126) `def _truncate_records(records, budget)`
 
 ## modules/lazyatack.sh
 - Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
@@ -413,82 +470,6 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `do_POST` (method, line 118) `def do_POST(self)`
   - `_handle_request` (method, line 121) `def _handle_request(self, method)`
 - Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
-
-## modules/lazyown_bridge.py
-- Doc: modules/lazyown_bridge.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CatalogEntry` (class, line 48) `class CatalogEntry`
-  - `CommandCatalog` (class, line 115) `class CommandCatalog`
-  - `AbstractSelector` (class, line 3984) `class AbstractSelector(ABC)`
-  - `ServiceAwareSelector` (class, line 4002) `class ServiceAwareSelector(AbstractSelector)`
-  - `MitreAlignedSelector` (class, line 4042) `class MitreAlignedSelector(AbstractSelector)`
-  - `TagSelector` (class, line 4071) `class TagSelector(AbstractSelector)`
-  - `ContextEnricher` (class, line 4103) `class ContextEnricher`
-  - `PhaseMapper` (class, line 4153) `class PhaseMapper`
-  - `BridgeDispatcher` (class, line 4233) `class BridgeDispatcher`
-  - `get_dispatcher` (function, line 4409) `def get_dispatcher()`
-  - `build_command` (method, line 63) `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)`
-  - `matches_service` (method, line 94) `def matches_service(self, services)`
-  - `matches_os` (method, line 104) `def matches_os(self, os_hint)`
-  - `__init__` (method, line 118) `def __init__(self)`
-  - `_populate` (method, line 122) `def _populate(self)`
-  - `by_phase` (method, line 3946) `def by_phase(self, phase)`
-  - `by_mitre` (method, line 3952) `def by_mitre(self, technique_id)`
-  - `by_service` (method, line 3956) `def by_service(self, service_name)`
-  - `by_tag` (method, line 3960) `def by_tag(self, tag)`
-  - `by_os` (method, line 3963) `def by_os(self, os_hint)`
-  - `all_phases` (method, line 3966) `def all_phases(self)`
-  - `get` (method, line 3969) `def get(self, command)`
-  - `count` (method, line 3975) `def count(self)`
-  - `select` (method, line 3986) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `select` (method, line 4005) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `__init__` (method, line 4045) `def __init__(self, technique_id)`
-  - `select` (method, line 4049) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `__init__` (method, line 4074) `def __init__(self, tag)`
-  - `select` (method, line 4078) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `enrich` (method, line 4106) `def enrich(self, entry, target, world_snapshot)`
-  - `canonical_kill_chain_order` (method, line 4204) `def canonical_kill_chain_order()`
-  - `to_bridge_phase` (method, line 4210) `def to_bridge_phase(self, wm_phase)`
-  - `kill_chain_order` (method, line 4223) `def kill_chain_order(self)`
-  - `__init__` (method, line 4239) `def __init__(self, catalog, selector, enricher, phase_mapper)`
-  - `suggest` (method, line 4251) `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)`
-  - `suggest_sequence` (method, line 4296) `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)`
-  - `suggest_for_wm_phase` (method, line 4325) `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
-  - `list_phase` (method, line 4343) `def list_phase(self, phase)`
-  - `all_phases` (method, line 4347) `def all_phases(self)`
-  - `catalog_summary` (method, line 4350) `def catalog_summary(self)`
-  - `catalog_summary_filtered` (method, line 4358) `def catalog_summary_filtered(self, phase, os_hint)`
-  - `catalog_count` (method, line 4395) `def catalog_count(self)`
-  - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
-- Depends on: `modules/killchain.py`
-- Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
-
-## modules/lazyown_metaextract0r.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `signal_handler` (function, line 42) `def signal_handler(sig, frame)`
-  - `extract_pdf_metadata` (function, line 51) `def extract_pdf_metadata(file_path)`
-  - `extract_docx_metadata` (function, line 62) `def extract_docx_metadata(file_path)`
-  - `extract_ole_metadata` (function, line 73) `def extract_ole_metadata(file_path)`
-  - `extract_image_metadata` (function, line 85) `def extract_image_metadata(file_path)`
-  - `extract_metadata` (function, line 96) `def extract_metadata(file_path)`
-  - `find_and_extract_metadata` (function, line 109) `def find_and_extract_metadata(directory, output_file)`
-  - `parse_arguments` (function, line 130) `def parse_arguments()`
-  - `main` (function, line 140) `def main()`
-
-## modules/lazyown_parquet_tool.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `highlight_term` (function, line 34) `def highlight_term(text, term)`
-  - `search_in_parquet` (function, line 39) `def search_in_parquet(term, parquet_files)`
-  - `buscar_binarios` (function, line 53) `def buscar_binarios(args)`
-  - `ejecutar_opciones` (function, line 136) `def ejecutar_opciones()`
 
 
 Next: [KB_modules_p9.md](KB_modules_p9.md)

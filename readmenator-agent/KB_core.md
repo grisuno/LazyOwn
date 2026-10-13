@@ -96,7 +96,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `as_params` (method, line 223) `def as_params(self)`
   - `overridden_keys` (method, line 233) `def overridden_keys(self)`
 - Depends on: `core/logging.py`, `core/payload_schema.py`
-- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `utils.py`
+- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `utils.py`
 
 ## core/console.py
 - Doc: ANSI color constants and console output helpers.
@@ -400,33 +400,33 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `FieldKind` (class, line 71) `class FieldKind(StrEnum)`
-  - `Severity` (class, line 89) `class Severity(StrEnum)`
-  - `FieldSpec` (class, line 98) `class FieldSpec`
-  - `ValidationIssue` (class, line 140) `class ValidationIssue`
-  - `_validate_string` (function, line 163) `def _validate_string(value)`
-  - `_validate_int` (function, line 169) `def _validate_int(value)`
-  - `_validate_port` (function, line 183) `def _validate_port(value)`
-  - `_validate_bool` (function, line 193) `def _validate_bool(value)`
-  - `_validate_ip` (function, line 210) `def _validate_ip(value)`
-  - `_validate_hostname` (function, line 218) `def _validate_hostname(value)`
-  - `_validate_url` (function, line 230) `def _validate_url(value)`
-  - `_validate_path` (function, line 238) `def _validate_path(value)`
-  - `_validate_interface` (function, line 244) `def _validate_interface(value)`
-  - `_validate_hex` (function, line 252) `def _validate_hex(value)`
-  - `_validate_os_id` (function, line 260) `def _validate_os_id(value)`
-  - `_validate_json_blob` (function, line 266) `def _validate_json_blob(value)`
-  - `_validate_opaque` (function, line 278) `def _validate_opaque(_value)`
-  - `_coerce_int` (function, line 299) `def _coerce_int(raw)`
-  - `_coerce_bool` (function, line 314) `def _coerce_bool(raw)`
-  - `_spec` (function, line 333) `def _spec(name, kind, default, description)`
-  - `field_for` (function, line 1489) `def field_for(key)`
-  - `coerce_value` (function, line 1494) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 1517) `def validate_value(key, value)`
-  - `validate_payload` (function, line 1591) `def validate_payload(payload)`
-  - `format_issue` (function, line 1626) `def format_issue(issue)`
-  - `default_payload` (function, line 1644) `def default_payload()`
-  - `categories` (function, line 1652) `def categories()`
+  - `FieldKind` (class, line 73) `class FieldKind(StrEnum)`
+  - `Severity` (class, line 91) `class Severity(StrEnum)`
+  - `FieldSpec` (class, line 100) `class FieldSpec`
+  - `ValidationIssue` (class, line 142) `class ValidationIssue`
+  - `_validate_string` (function, line 165) `def _validate_string(value)`
+  - `_validate_int` (function, line 171) `def _validate_int(value)`
+  - `_validate_port` (function, line 185) `def _validate_port(value)`
+  - `_validate_bool` (function, line 195) `def _validate_bool(value)`
+  - `_validate_ip` (function, line 212) `def _validate_ip(value)`
+  - `_validate_hostname` (function, line 220) `def _validate_hostname(value)`
+  - `_validate_url` (function, line 232) `def _validate_url(value)`
+  - `_validate_path` (function, line 240) `def _validate_path(value)`
+  - `_validate_interface` (function, line 246) `def _validate_interface(value)`
+  - `_validate_hex` (function, line 254) `def _validate_hex(value)`
+  - `_validate_os_id` (function, line 262) `def _validate_os_id(value)`
+  - `_validate_json_blob` (function, line 268) `def _validate_json_blob(value)`
+  - `_validate_opaque` (function, line 280) `def _validate_opaque(_value)`
+  - `_coerce_int` (function, line 301) `def _coerce_int(raw)`
+  - `_coerce_bool` (function, line 316) `def _coerce_bool(raw)`
+  - `_spec` (function, line 335) `def _spec(name, kind, default, description)`
+  - `field_for` (function, line 1547) `def field_for(key)`
+  - `coerce_value` (function, line 1552) `def coerce_value(key, raw)`
+  - `validate_value` (function, line 1575) `def validate_value(key, value)`
+  - `validate_payload` (function, line 1649) `def validate_payload(payload)`
+  - `format_issue` (function, line 1684) `def format_issue(issue)`
+  - `default_payload` (function, line 1702) `def default_payload()`
+  - `categories` (function, line 1710) `def categories()`
 - Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 

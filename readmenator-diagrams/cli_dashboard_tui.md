@@ -1,6 +1,6 @@
-# cli: status_bar
+# cli: dashboard_tui
 
-cli: status_bar groups 101 files (c, py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli: dashboard_tui groups 102 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -14,7 +14,6 @@ graph LR
     cli -- "calls into" --> modules
     cli -- "calls into" --> tests
     core -- "calls into" --> tests
-    modules -- "depends on" --> core
     poc_tui -- "depends on" --> cli
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
@@ -23,15 +22,15 @@ graph LR
 
 ## cli (4.1)
 
-cli groups 44 files (py) around Theme, get_theme, theme_from_payload, ContainerCommandSet, do_docker_enum. LazyOwn CLI infrastructure.
+cli groups 47 files (py) around Theme, get_theme, theme_from_payload, ContainerCommandSet, do_docker_enum. LazyOwn CLI infrastructure.
 
 ## core (4.2)
 
-core groups 12 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Core primitives for the LazyOwn framework.
+core groups 10 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Core primitives for the LazyOwn framework.
 
 ## modules (4.3)
 
-modules groups 3 files (c, py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 2 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Purple Team Closed-Loop — honest measurement of offensive detection.
 
 ## poc_tui (4.4)
 
@@ -43,7 +42,7 @@ skills groups 1 files (py) around OrchestratorConfig, from_payload, Orchestrator
 
 ## tests (4.6)
 
-tests groups 37 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
+tests groups 38 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
@@ -61,11 +60,14 @@ tests groups 37 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/commands/recon.py
 - cli/config_status.py
 - cli/contextual_help.py
+- cli/dashboard_layout.py
+- cli/dashboard_tui.py
 - cli/doctor.py
 - cli/exploit_advisor.py
 - cli/exploration.py
 - cli/exploration_view.py
 - cli/graph_overlay.py
+- cli/killchain.py
 - cli/lazynmap_post.py
 - cli/noise_verbs.py
 - cli/palette.py
@@ -93,19 +95,16 @@ tests groups 37 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/wizard_scope.py
 - core/__init__.py
 - core/console.py
-- core/crypto.py
 - core/dependencies.py
 - core/error_advice.py
 - core/errors.py
 - core/http.py
 - core/network.py
 - core/profiles.py
-- core/protocols.py
 - core/safe_console.py
 - core/text_utils.py
 - modules/auto_purple.py
 - modules/lazyk8s.py
-- modules/rootkit/rootkit.c
 - poc_tui/__main__.py
 - poc_tui/app.py
 - poc_tui/run.py
@@ -117,13 +116,14 @@ tests groups 37 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_command_form.py
 - tests/test_command_palette.py
 - tests/test_console_stdio.py
-- tests/test_core.py
+- tests/test_dashboard_tui.py
 - tests/test_dependencies.py
 - tests/test_doctor.py
 - tests/test_evidence_hints.py
 - tests/test_exploration_and_addons.py
 - tests/test_graph_overlay.py
 - tests/test_improvements_spec.py
+- tests/test_killchain.py
 - tests/test_killchain_auto_refresh.py
 - tests/test_lazynmap_post.py
 - tests/test_loop_progress.py

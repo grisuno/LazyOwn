@@ -74,6 +74,7 @@ DEFAULT_COLD_DEBOUNCE_SEC = 300.0
 DEFAULT_PRIORITY = 5
 MAX_PRIORITY = 10
 MAX_INTENTS_PER_ROUND = 4
+REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
 RETEST_MAX_ATTEMPTS = 2
@@ -296,6 +297,77 @@ WAKE_SUPPRESSED_KINDS = frozenset(
 _WAKE_LOCK = threading.Lock()
 _WAKE_EVENTS: dict[str, threading.Event] = {}
 
+_LOOP_EXIT = threading.Event()
+_LOOP_EXECUTORS_LOCK = threading.Lock()
+_LOOP_EXECUTORS: set = set()
+
+
+def loop_exiting() -> bool:
+    """Return True once the shell is tearing the loop runtime down."""
+    return _LOOP_EXIT.is_set()
+
+
+def _register_loop_executor(executor) -> None:
+    """Track one round executor so shutdown can cancel it."""
+    with _LOOP_EXECUTORS_LOCK:
+        _LOOP_EXECUTORS.add(executor)
+
+
+def _unregister_loop_executor(executor) -> None:
+    """Drop one round executor from the shutdown set."""
+    with _LOOP_EXECUTORS_LOCK:
+        _LOOP_EXECUTORS.discard(executor)
+
+
+def arm_exit_watchdog(seconds: float = 8.0) -> None:
+    """Guarantee process death even with threads stuck in socket reads.
+
+    ``qa``/``exit`` run every graceful teardown first; the watchdog only
+    fires when the interpreter is still alive past the budget (atexit
+    joining a ThreadPoolExecutor whose workers block on a hung LLM
+    server). Daemon by design: a clean exit never triggers it.
+    """
+    budget = max(2.0, float(seconds or 8.0))
+
+    def _kill() -> None:
+        time.sleep(budget)
+        try:
+            import os as _os
+
+            _os._exit(0)
+        except Exception:
+            pass
+
+    thread = threading.Thread(target=_kill, name="lazy-exit-watchdog", daemon=True)
+    thread.start()
+
+_SECRET_PATTERNS = (
+    re.compile(r"gsk_[A-Za-z0-9]+"),
+    re.compile(r"sk-[A-Za-z0-9\-_]{8,}"),
+    re.compile(r"(?i)(api[_-]?key\s*[=:]\s*['\"]?)([\w\-.]{8,})(['\"]?)"),
+    re.compile(r"(?i)((?:GROQ|OPENAI|DEEPSEEK|ANTHROPIC)[_A-Z]*KEY\s*=\s*['\"]?)([^'\"\s]{8,})"),
+)
+
+
+def scrub_secrets(text: str) -> str:
+    """Mask API keys/tokens before a string reaches logs or the panel.
+
+    Shell verbs echo their own command lines (``export GROQ_API_KEY=...``)
+    into the transcript and activity store; without scrubbing, one
+    ``lazy_trace`` read or git slip leaks the operator's cloud keys.
+    """
+    cleaned = str(text or "")
+
+    def _mask_key(match: "re.Match") -> str:
+        groups = match.groups()
+        if len(groups) >= 2 and groups[0] and groups[-1] is not None:
+            return f"{groups[0]}***{groups[-1] if len(groups) > 2 else ''}"
+        return "***"
+
+    for pattern in _SECRET_PATTERNS:
+        cleaned = pattern.sub("***" if pattern.groups == 0 else _mask_key, cleaned)
+    return cleaned
+
 
 def wake_task(task_id: str) -> None:
     """Signal a running engine that new work landed for its task.
@@ -359,6 +431,14 @@ def shutdown_loop_runtime(reason: str = "shell exit") -> dict:
         "proxy_stopped": False,
         "reason": reason,
     }
+    _LOOP_EXIT.set()
+    with _LOOP_EXECUTORS_LOCK:
+        executors = list(_LOOP_EXECUTORS)
+    for executor in executors:
+        try:
+            executor.shutdown(wait=False, cancel_futures=True)
+        except Exception:
+            continue
     try:
         from modules import auto_registry
 
@@ -1145,12 +1225,13 @@ class ActivityLog:
 
     def emit(self, worker: str, kind: str, text: str, intent_id: int = 0, tool_use_id: str = "") -> dict:
         """Append one activity record and return it."""
+        cleaned = scrub_secrets(text)
         record = {
             "ts": _now(),
             "task": self.task_id,
             "worker": worker,
             "kind": kind,
-            "text": text[:4000],
+            "text": cleaned[:4000],
             "intent_id": int(intent_id),
             "tool_use_id": str(tool_use_id or "")[:32],
         }
@@ -1161,7 +1242,7 @@ class ActivityLog:
         try:
             from modules.loop_ai_bridge import publish_loop_event
 
-            publish_loop_event(self.task_id, worker, kind, text)
+            publish_loop_event(self.task_id, worker, kind, cleaned)
         except Exception:
             pass
         return record
@@ -2854,6 +2935,79 @@ class Planner:
                 created.append(node)
         return created
 
+    def refine(self) -> dict:
+        """Re-plan pending intents against fresh outcomes, like plan refinement.
+
+        Runs after :meth:`plan` every round: drops duplicate pending intents,
+        settles intents covered by terminal work on the same assets, blocks
+        intents hit by new deny constraints, and caps pending overflow by
+        lowest priority. Every transition is emitted so the operator and
+        the dataset see what the re-plan changed.
+
+        Returns:
+            Counts by refine action (dupe, covered, denied, capped).
+        """
+        summary = {"dupe": 0, "covered": 0, "denied": 0, "capped": 0}
+
+        def _signature(text: str) -> str:
+            norm = re.sub(r"[^a-z0-9]+", " ", (text or "").lower())
+            return re.sub(r"\s+", " ", norm).strip()
+
+        pending = [n for n in self.graph.list("intent") if n.state in INTENT_OPEN_STATES]
+        seen: dict[str, ExplorationNode] = {}
+        for node in sorted(pending, key=lambda n: n.node_id):
+            sig = _signature(node.text)
+            if sig and sig in seen:
+                self.graph.set_state(node.node_id, "exhausted")
+                self.activity.emit(
+                    "planner", "refine", f"dupe of #{seen[sig].node_id} -> exhausted: {node.text[:120]}", intent_id=node.node_id
+                )
+                summary["dupe"] += 1
+                continue
+            if sig:
+                seen[sig] = node
+        pending = [n for n in self.graph.list("intent") if n.state in INTENT_OPEN_STATES]
+        terminal_asset_sets = []
+        for node in self.graph.list("intent"):
+            if node.state in EXPLORATION_TERMINAL_STATES:
+                terminal_asset_sets.append((node.node_id, set(self.graph.anchors_for(node.node_id)), _signature(node.text)))
+        for node in pending:
+            denied = self._denied(node.text)
+            if denied:
+                self.graph.set_state(node.node_id, "blocked")
+                self.activity.emit(
+                    "planner", "refine", f"deny constraint '{denied}' -> blocked: {node.text[:120]}", intent_id=node.node_id
+                )
+                summary["denied"] += 1
+                continue
+            anchors = set(self.graph.anchors_for(node.node_id))
+            if not anchors:
+                continue
+            sig = _signature(node.text)
+            for terminal_id, terminal_anchors, terminal_sig in terminal_asset_sets:
+                if terminal_anchors and terminal_anchors <= anchors and (not sig or terminal_sig == sig or not terminal_sig):
+                    self.graph.set_state(node.node_id, "exhausted")
+                    self.activity.emit(
+                        "planner",
+                        "refine",
+                        f"covered by terminal #{terminal_id} -> exhausted: {node.text[:120]}",
+                        intent_id=node.node_id,
+                    )
+                    summary["covered"] += 1
+                    break
+        pending = sorted(
+            [n for n in self.graph.list("intent") if n.state in INTENT_OPEN_STATES],
+            key=lambda n: (n.priority, -n.node_id),
+        )
+        overflow = pending[: max(0, len(pending) - REFINE_MAX_PENDING)]
+        for node in overflow:
+            self.graph.set_state(node.node_id, "exhausted")
+            self.activity.emit(
+                "planner", "refine", f"pending overflow (cap {REFINE_MAX_PENDING}) -> exhausted: {node.text[:120]}", intent_id=node.node_id
+            )
+            summary["capped"] += 1
+        return summary
+
     def _origin_fact(self) -> int:
         """Return origin fact id, creating it once."""
         facts = self.graph.list("fact")
@@ -2886,6 +3040,30 @@ class Planner:
             self.graph.set_state(hint.node_id, "done")
         for asset in self.assets.untested_for(self.graph, scope, limit=MAX_INTENTS_PER_ROUND):
             out.append((f"probe {asset.kind} {asset.value}", [asset.asset_id], [], 6))
+        try:
+            from modules.lazy_installer import installer_enabled as _installer_on
+            from modules.lazy_installer import intent_for as _installer_intent
+
+            if _installer_on():
+                wanted = {n.text for n in self.graph.list("intent")}
+                proposed = {summary for summary, _a, _p, _r in out}
+                for fact in self.graph.list("fact"):
+                    gap = str((fact.meta or {}).get("capability_gap", "") or "")
+                    if not gap:
+                        continue
+                    try:
+                        from modules.auto_registry import binary_available as _binary_ok
+
+                        if _binary_ok(gap):
+                            continue
+                    except Exception:
+                        pass
+                    summary = _installer_intent(gap)
+                    if summary and summary not in wanted and summary not in proposed:
+                        out.append((summary, [], [], 7))
+                        proposed.add(summary)
+        except Exception:
+            pass
         try:
             scores = load_intel_scores()
         except Exception:
@@ -3259,6 +3437,18 @@ class Worker:
             return self._finish(intent, outcome, transcripts, worker_tools)
         prior_commands, prior_text = self._prior_steps(intent)
         steps = self._with_llm_steps(intent, self._steps_for(intent), prior_text)
+        try:
+            from modules.lazy_intel import record_routing_decision as _record_decision
+            from modules.lazy_intel import stack_signature as _stack_sig
+            from modules.lazy_orchestrator_feedback import order_steps as _order_steps
+
+            _target = self._target_for(intent)
+            _stack = _stack_sig(self.assets)
+            steps = _order_steps(steps, _stack)
+            for _step in steps[:MAX_WORKER_STEPS]:
+                _record_decision(self.task_id, intent.node_id, _step, intent.text, _target, _stack)
+        except Exception:
+            pass
         if prior_commands:
             fresh = [step for step in steps if step not in prior_commands]
             skipped = len(steps) - len(fresh)
@@ -3300,6 +3490,47 @@ class Worker:
         skipped_tools: set[str] = set()
         deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
         for index, command in enumerate(steps[:MAX_WORKER_STEPS], start=1):
+            trailing = 0
+            for prev_command, _prev_output in reversed(transcripts):
+                if prev_command == command:
+                    trailing += 1
+                else:
+                    break
+            if trailing >= 2:
+                self.activity.emit(
+                    self.name,
+                    "loop-guard",
+                    f"intent #{intent.node_id} repeating '{command[:120]}' "
+                    f"({trailing + 1}x consecutive); settling instead of burning steps",
+                    intent_id=intent.node_id,
+                )
+                try:
+                    from modules.lazy_engine import LlmPool
+                    from modules.lazy_roles import role_prompt as _sage_prompt
+
+                    pool = LlmPool()
+                    chain = task_llm_chain(self.store, self.task_id)
+                    if pool.members() or chain:
+                        advice = pool.complete(
+                            _sage_prompt(
+                                "sage",
+                                f"intent: {intent.text[:200]}",
+                                f"repeated {trailing + 1}x with no progress: {command[:200]}",
+                            )
+                            + " Reply with one alternative approach.",
+                            max_tokens=120,
+                            members=chain or None,
+                            task_id=self.task_id,
+                        ) or ""
+                        if advice.strip():
+                            self.activity.emit(
+                                self.name, "mentor", advice.strip()[:500], intent_id=intent.node_id
+                            )
+                except Exception:
+                    pass
+                self._settle_partial(intent, transcripts, reason="repetition")
+                outcome["state"] = "exhausted"
+                break
             if deadline and _now() >= deadline:
                 self.activity.emit(
                     self.name,
@@ -3402,6 +3633,23 @@ class Worker:
                 intent_id=intent.node_id,
             )
         self.graph.set_state(intent.node_id, outcome["state"])
+        try:
+            from modules.lazy_intel import record_routing_outcome as _record_outcome
+            from modules.lazy_intel import stack_signature as _stack_sig
+
+            _stack = _stack_sig(self.assets)
+            for _cmd, _out in transcripts:
+                _record_outcome(
+                    self.task_id,
+                    intent.node_id,
+                    _cmd,
+                    outcome["state"],
+                    outcome.get("facts", 0),
+                    outcome.get("findings", 0),
+                    _stack,
+                )
+        except Exception:
+            pass
         for asset_id in self.graph.anchors_for(intent.node_id):
             self.assets.mark_tested(asset_id)
         self.activity.emit(
@@ -5499,7 +5747,17 @@ def build_prompt_context(
             parts.append(skill_text)
     except Exception:
         pass
-    return "\n".join(parts)[: max(200, int(budget))]
+    return _mask_prompt_context("\n".join(parts)[: max(200, int(budget))])
+
+
+def _mask_prompt_context(text: str) -> str:
+    """Strip operator-configured secrets from LLM-bound context."""
+    try:
+        from modules.lazy_intel import mask_configured as _mask_cfg
+
+        return _mask_cfg(text)
+    except Exception:
+        return str(text or "")
 
 
 def finding_severity(text: str, evidence: str = "") -> str:
@@ -6169,7 +6427,8 @@ class LlmPool:
     """
 
     DEFAULT_MEMBERS = (
-        {"name": "groq-cloud", "model": "groq:llama-3.3-70b-versatile", "priority": 10},
+        {"name": "llamacpp-local", "model": "llamacpp:local-model", "priority": 10},
+        {"name": "groq-cloud", "model": "groq:llama-3.3-70b-versatile", "priority": 7},
         {"name": "ollama-local", "model": "ollama:deepseek-r1:1.5b", "priority": 5},
         {"name": "toposwarm-agent", "model": "toposwarm:router", "priority": 1},
     )
@@ -6186,12 +6445,25 @@ class LlmPool:
             self._health = None
 
     def _seed_defaults(self) -> None:
-        """Persist the 3 default legs once so operators can edit/remove them."""
+        """Persist the default legs once so operators can edit/remove them.
+
+        Pools seeded before a new default leg ships are backfilled by
+        name, so existing operators gain the leg without losing edits.
+        """
         try:
             payload = _load_json(self._path, {"members": []})
-            if payload.get("members"):
+            members = payload.get("members") or []
+            if not members:
+                payload["members"] = [dict(spec) for spec in self.DEFAULT_MEMBERS]
+                _save_json(self._path, payload)
                 return
-            payload["members"] = [dict(spec) for spec in self.DEFAULT_MEMBERS]
+            known = {str(item.get("name", "")) for item in members if isinstance(item, dict)}
+            missing = [dict(spec) for spec in self.DEFAULT_MEMBERS if spec["name"] not in known]
+            if not missing:
+                return
+            members.extend(missing)
+            members.sort(key=lambda item: -int(item.get("priority", 0)))
+            payload["members"] = members
             _save_json(self._path, payload)
         except Exception:
             pass
@@ -6219,6 +6491,19 @@ class LlmPool:
             _save_json(self._path, payload)
             return True
         return False
+
+    def set_priority(self, name: str, priority: int) -> bool:
+        """Change one member's failover rank, keeping the rest untouched."""
+        payload = _load_json(self._path, {"members": []})
+        touched = False
+        for member in payload.get("members", []):
+            if isinstance(member, dict) and member.get("name") == name:
+                member["priority"] = int(priority)
+                touched = True
+        if touched:
+            payload["members"].sort(key=lambda m: -int(m.get("priority", 0)))
+            _save_json(self._path, payload)
+        return touched
 
     def usage(self) -> dict:
         """Return per-member call ledger like llm_usage."""
@@ -7742,6 +8027,19 @@ class LazyLoopEngine:
             activity.emit("intel", "sync-fail", str(exc)[:200], intent_id=0)
             return {}
         world = summary.get("world", {}) if isinstance(summary, dict) else {}
+        try:
+            from modules.lazy_intel import fuse_routing_decisions as _fuse_routing
+            from modules.lazy_orchestrator_feedback import adjust_from_usage as _adjust_priors
+            from modules.lazy_orchestrator_feedback import export_dataset as _export_dataset
+
+            fused = _fuse_routing(task_id)
+            priors = _adjust_priors()
+            dataset = _export_dataset() if force else {"rows": 0}
+            summary["routing"] = {"fused": fused.get("fused", 0), "priors": priors.get("verbs", 0)}
+            if force:
+                summary["routing"]["dataset_rows"] = dataset.get("rows", 0)
+        except Exception as exc:
+            activity.emit("intel", "routing-fail", str(exc)[:200], intent_id=0)
         activity.emit(
             "intel",
             "sync",
@@ -7836,6 +8134,7 @@ class LazyLoopEngine:
             activity.emit("scheduler", "fire", detail)
         planner = Planner(task_id, self.assets, graph, activity, self.store)
         new_intents = planner.plan(triggers=triggers) if stage_enabled("planner") else []
+        refined = planner.refine() if stage_enabled("planner") else {"dupe": 0, "covered": 0, "denied": 0, "capped": 0}
         frontier = Frontier(graph)
         claimed = []
         if stage_enabled("workers"):
@@ -7885,9 +8184,35 @@ class LazyLoopEngine:
                     )
                 return worker.execute(node, executor=executor)
 
-            with _futures.ThreadPoolExecutor(max_workers=budget) as workers_exec:
-                for outcome in workers_exec.map(_run_one, enumerate(claimed)):
-                    results.append(outcome)
+            workers_exec = _futures.ThreadPoolExecutor(max_workers=budget)
+            _register_loop_executor(workers_exec)
+            try:
+                slots: list = [None] * len(claimed)
+                pending = {workers_exec.submit(_run_one, item): pos for pos, item in enumerate(claimed)}
+                while pending:
+                    try:
+                        done, _ = _futures.wait(set(pending), timeout=1.0)
+                    except KeyboardInterrupt:
+                        for future in pending:
+                            future.cancel()
+                        raise
+                    if loop_exiting():
+                        for future in pending:
+                            future.cancel()
+                        break
+                    for future in done:
+                        pos = pending.pop(future, None)
+                        try:
+                            slots[pos] = future.result()
+                        except Exception as exc:
+                            slots[pos] = {"error": str(exc)[:200]}
+                results.extend(slot for slot in slots if slot is not None)
+            finally:
+                _unregister_loop_executor(workers_exec)
+                try:
+                    workers_exec.shutdown(wait=False, cancel_futures=True)
+                except Exception:
+                    pass
             if owns_pool:
                 for worker in created:
                     worker.close()
@@ -7941,6 +8266,7 @@ class LazyLoopEngine:
             "engine",
             "round",
             f"new={len(new_intents)} executed={len(results)} "
+            f"refined={sum(refined.values())} "
             f"enriched={enriched} retested={retested} "
             f"compacted={compacted.get('compacted', 0)} "
             f"proxy={ingested} inbox={imported_inbox} "
@@ -7963,6 +8289,7 @@ class LazyLoopEngine:
         return {
             "task_id": task_id,
             "new_intents": len(new_intents),
+            "refined": refined,
             "executed": len(results),
             "results": results,
             "enriched": enriched,
@@ -8112,6 +8439,94 @@ class LazyLoopEngine:
         except Exception:
             return ""
 
+    def _evaluate_goal(self, task_id: str) -> dict:
+        """Judge the task against its original goal, independent of step claims.
+
+        Ports the evaluator idea: every subtask may report success while the
+        user objective stands unmet. The verdict derives from graph evidence
+        (findings, coverage, facts), never from worker self-reports; an LLM
+        turn only upgrades the wording when a pool exists. The report lands
+        at ``sessions/lazy/report_<task>.md`` for the operator and the dataset.
+
+        Returns:
+            Verdict dict with goal, verdict, coverage, counts and path.
+        """
+        verdict: dict = {"task_id": task_id, "verdict": "failed", "path": ""}
+        try:
+            record = self.store.get(task_id) or {}
+            goal = str(record.get("goal", "") or "")
+            status = str(record.get("status", "") or "")
+            graph = ExplorationGraph(task_id)
+            activity = ActivityLog(task_id)
+            scope = record.get("scope", []) or []
+            coverage = self.assets.coverage_for(graph, scope)
+            facts = [n for n in graph.list("fact") if not n.meta.get("cold_digest")]
+            findings = graph.list("finding")
+            confirmed = [n for n in findings if str(n.state) in ("confirmed",) or "reproduced" in str(n.meta.get("verdict", ""))]
+            lowered_goal = goal.lower()
+            wants_creds = any(k in lowered_goal for k in ("cred", "password", "hash", "login"))
+            wants_access = any(k in lowered_goal for k in ("access", "shell", "session", "own", "exploit", "compromis", "foothold"))
+            cred_hit = any(
+                k in (n.text or "").lower() for n in findings for k in ("password", "hash", "login:", "credential")
+            )
+            if status == "done":
+                verdict["verdict"] = "achieved"
+            elif wants_creds and cred_hit:
+                verdict["verdict"] = "achieved"
+            elif wants_access and confirmed:
+                verdict["verdict"] = "achieved"
+            elif facts or (coverage.get("tested", 0) or 0) > 0:
+                verdict["verdict"] = "partial"
+            verdict.update(
+                {
+                    "goal": goal[:300],
+                    "status": status,
+                    "coverage_pct": coverage.get("pct", 0.0),
+                    "tested": coverage.get("tested", 0),
+                    "total": coverage.get("total", 0),
+                    "facts": len(facts),
+                    "findings": len(findings),
+                    "confirmed": len(confirmed),
+                }
+            )
+            note = ""
+            try:
+                pool = LlmPool()
+                chain = task_llm_chain(self.store, task_id)
+                if pool.members() or chain:
+                    from modules.lazy_roles import role_prompt as _role_prompt
+
+                    prompt = _role_prompt(
+                        "mirror", goal,
+                        f"coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)} confirmed={len(confirmed)}",
+                    ) + " Reply with one verdict line: achieved, partial or failed, plus why."
+                    note = (pool.complete(prompt, max_tokens=120, members=chain or None, task_id=task_id) or "").strip()[:400]
+            except Exception:
+                note = ""
+            if note:
+                verdict["review"] = note
+            lines = [
+                f"# Lazy verdict {task_id}",
+                "",
+                f"- goal: {goal[:300]}",
+                f"- verdict: {verdict['verdict']} (engine status: {status})",
+                f"- coverage: {coverage.get('pct', 0)}% tested={coverage.get('tested', 0)}/{coverage.get('total', 0)}",
+                f"- facts={len(facts)} findings={len(findings)} confirmed={len(confirmed)}",
+            ]
+            if note:
+                lines += ["", f"> {note}"]
+            if findings:
+                lines.append("")
+                for node in findings[-20:]:
+                    lines.append(f"- finding #{node.node_id}[{node.state}] {node.text[:140]}")
+            path = _store_path(f"report_{task_id}.md")
+            path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            verdict["path"] = str(path)
+            activity.emit("planner", "verdict", f"{verdict['verdict']}: coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)}")
+        except Exception:
+            pass
+        return verdict
+
     def run(
         self,
         task_id: str,
@@ -8156,6 +8571,9 @@ class LazyLoopEngine:
             round_index = 0
             while round_index < max(1, max_rounds):
                 round_index += 1
+                if loop_exiting():
+                    self.runtime.abort(task_id, "shutdown", "shell exit during run")
+                    break
                 if (self.store.get(task_id) or {}).get("status") == "paused":
                     self.runtime.abort(task_id, "paused", "run loop yielded on pause")
                     break
@@ -8208,6 +8626,12 @@ class LazyLoopEngine:
             except Exception:
                 pass
             self._wrapup_summary(task_id, str(record.get("status", "")))
+        verdict: dict = {}
+        if record.get("status") in ("done", "exhausted", "timeout") and _stage_enabled("wrapup"):
+            try:
+                verdict = self._evaluate_goal(task_id)
+            except Exception:
+                verdict = {}
         archived = ""
         traffic_archive = ""
         if record.get("status") in ("done", "exhausted", "timeout"):
@@ -8268,6 +8692,7 @@ class LazyLoopEngine:
             "task_id": task_id,
             "status": record.get("status", "done"),
             "rounds": len(rounds),
+            "verdict": verdict,
             "detail": rounds,
             "archive": archived,
             "traffic_archive": traffic_archive,

@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_display_adversary_info` | method | `lazyown.py:4868` | `def _display_adversary_info(self, adversary, commands)` |
+| `_execute_commands` | method | `lazyown.py:4875` | `def _execute_commands(self, confirm, remote_cmds)` |
+| `_handler` | function | `lazyown.py:1135` | `def _handler(received, frame, _signum)` |
+| `_install_crypto_signal_handlers` | method | `lazyown.py:1118` | `def _install_crypto_signal_handlers(self)` |
+| `_load_adversaries` | method | `lazyown.py:4821` | `def _load_adversaries(self)` |
+| `_load_extended_params` | method | `lazyown.py:744` | `def _load_extended_params(self)` |
+| `_maybe_chain_prompt` | method | `lazyown.py:1072` | `def _maybe_chain_prompt(self, cmd, phase)` |
+| `_parse_adversary_args` | method | `lazyown.py:4835` | `def _parse_adversary_args(self, line)` |
 | `_parse_bool_setting` | function | `lazyown.py:211` | `def _parse_bool_setting(value)` |
 | `_patch_template_if_needed` | method | `lazyown.py:4844` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
 | `_persist` | function | `lazyown.py:690` | `def _persist(name, _old, _new)` |
@@ -206,39 +214,45 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
 | `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
 | `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
-| `AIModel` | class | `modules/ai_model.py:41` | `class AIModel(ABC)` |
-| `AnthropicModel` | class | `modules/ai_model.py:366` | `class AnthropicModel(AIModel)` |
-| `DeepSeekModel` | class | `modules/ai_model.py:422` | `class DeepSeekModel(AIModel)` |
-| `GroqModel` | class | `modules/ai_model.py:125` | `class GroqModel(AIModel)` |
-| `OllamaModel` | class | `modules/ai_model.py:240` | `class OllamaModel(AIModel)` |
-| `OpenAIModel` | class | `modules/ai_model.py:307` | `class OpenAIModel(AIModel)` |
-| `_LazyImporter` | class | `modules/ai_model.py:93` | `class _LazyImporter` |
-| `__init__` | method | `modules/ai_model.py:133` | `def __init__(self, api_key, model)` |
-| `__init__` | method | `modules/ai_model.py:248` | `def __init__(self, model, host)` |
-| `__init__` | method | `modules/ai_model.py:313` | `def __init__(self, api_key, model)` |
-| `__init__` | method | `modules/ai_model.py:372` | `def __init__(self, api_key, model)` |
-| `__init__` | method | `modules/ai_model.py:429` | `def __init__(self, api_key, model)` |
-| `_model_chain` | method | `modules/ai_model.py:137` | `def _model_chain(self)` |
-| `anthropic` | method | `modules/ai_model.py:117` | `def anthropic(cls)` |
-| `complete` | method | `modules/ai_model.py:59` | `def complete(self, system, user, max_tokens, temperature)` |
-| `complete` | method | `modules/ai_model.py:212` | `def complete(self, system, user, max_tokens, temperature)` |
-| `complete` | method | `modules/ai_model.py:343` | `def complete(self, system, user, max_tokens, temperature)` |
-| `complete` | method | `modules/ai_model.py:402` | `def complete(self, system, user, max_tokens, temperature)` |
-| `complete` | method | `modules/ai_model.py:462` | `def complete(self, system, user, max_tokens, temperature)` |
-| `generate` | method | `modules/ai_model.py:52` | `def generate(self, prompt)` |
-| `generate` | method | `modules/ai_model.py:151` | `def generate(self, prompt)` |
-| `generate` | method | `modules/ai_model.py:256` | `def generate(self, prompt)` |
-| `generate` | method | `modules/ai_model.py:317` | `def generate(self, prompt)` |
-| `generate` | method | `modules/ai_model.py:376` | `def generate(self, prompt)` |
-| `generate` | method | `modules/ai_model.py:436` | `def generate(self, prompt)` |
-| `groq` | method | `modules/ai_model.py:101` | `def groq(cls)` |
-| `openai` | method | `modules/ai_model.py:109` | `def openai(cls)` |
-| `stream_generate` | method | `modules/ai_model.py:56` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:179` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:276` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:328` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:388` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:447` | `def stream_generate(self, prompt)` |
+| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
+| `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
+| `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
+| `GroqModel` | class | `modules/ai_model.py:129` | `class GroqModel(AIModel)` |
+| `LlamaCppModel` | class | `modules/ai_model.py:313` | `class LlamaCppModel(AIModel)` |
+| `OllamaModel` | class | `modules/ai_model.py:244` | `class OllamaModel(AIModel)` |
+| `OpenAIModel` | class | `modules/ai_model.py:434` | `class OpenAIModel(AIModel)` |
+| `_LazyImporter` | class | `modules/ai_model.py:97` | `class _LazyImporter` |
+| `__init__` | method | `modules/ai_model.py:137` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:252` | `def __init__(self, model, host)` |
+| `__init__` | method | `modules/ai_model.py:324` | `def __init__(self, model, host)` |
+| `__init__` | method | `modules/ai_model.py:440` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:499` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:556` | `def __init__(self, api_key, model)` |
+| `_chat` | method | `modules/ai_model.py:341` | `def _chat(self, messages, max_tokens, stream)` |
+| `_model_chain` | method | `modules/ai_model.py:141` | `def _model_chain(self)` |
+| `anthropic` | method | `modules/ai_model.py:121` | `def anthropic(cls)` |
+| `complete` | method | `modules/ai_model.py:63` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:216` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:413` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:470` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:529` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:589` | `def complete(self, system, user, max_tokens, temperature)` |
+| `generate` | method | `modules/ai_model.py:56` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:155` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:260` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:362` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:444` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:503` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:563` | `def generate(self, prompt)` |
+| `groq` | method | `modules/ai_model.py:105` | `def groq(cls)` |
+| `openai` | method | `modules/ai_model.py:113` | `def openai(cls)` |
+| `stream_generate` | method | `modules/ai_model.py:60` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:183` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:281` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:382` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:455` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:515` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:574` | `def stream_generate(self, prompt)` |
 | `AMS1patch_E_ACCESSDENIED` | function | `modules/amsi.c:274` | `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)` |
 | `AMS1patch_E_HANDLE` | function | `modules/amsi.c:326` | `void AMS1patch_E_HANDLE(HANDLE hproc)` |
 | `AMS1patch_E_OUTOFMEMORY` | function | `modules/amsi.c:378` | `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)` |
@@ -367,43 +381,43 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `measure_only` | method | `modules/auto_purple.py:493` | `def measure_only(self, command, args, category)` |
 | `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
 | `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
-| `AutoVerb` | class | `modules/auto_registry.py:59` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:570` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:577` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:587` | `def __init__(self, observer)` |
-| `_invoke` | function | `modules/auto_registry.py:628` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:775` | `def _kill()` |
-| `_parse_trigger_lines` | function | `modules/auto_registry.py:330` | `def _parse_trigger_lines(lines, start)` |
-| `_register_process` | function | `modules/auto_registry.py:698` | `def _register_process(process)` |
-| `_repo_base` | function | `modules/auto_registry.py:267` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:639` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:704` | `def _unregister_process(process)` |
-| `_verb_row` | function | `modules/auto_registry.py:173` | `def _verb_row(name)` |
-| `_verb_rows` | function | `modules/auto_registry.py:129` | `def _verb_rows()` |
-| `addon_hits_for` | function | `modules/auto_registry.py:420` | `def addon_hits_for(service_text, limit)` |
+| `AutoVerb` | class | `modules/auto_registry.py:66` | `class AutoVerb` |
+| `ShellResult` | class | `modules/auto_registry.py:642` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:649` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:659` | `def __init__(self, observer)` |
+| `_invoke` | function | `modules/auto_registry.py:700` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:852` | `def _kill()` |
+| `_parse_trigger_lines` | function | `modules/auto_registry.py:337` | `def _parse_trigger_lines(lines, start)` |
+| `_register_process` | function | `modules/auto_registry.py:775` | `def _register_process(process)` |
+| `_repo_base` | function | `modules/auto_registry.py:274` | `def _repo_base()` |
+| `_target` | function | `modules/auto_registry.py:711` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:781` | `def _unregister_process(process)` |
+| `_verb_row` | function | `modules/auto_registry.py:180` | `def _verb_row(name)` |
+| `_verb_rows` | function | `modules/auto_registry.py:136` | `def _verb_rows()` |
+| `addon_hits_for` | function | `modules/auto_registry.py:427` | `def addon_hits_for(service_text, limit)` |
 | `auto_verb_target` | function | `modules/auto_registry.py:35` | `def auto_verb_target(command)` |
-| `binary_available` | function | `modules/auto_registry.py:274` | `def binary_available(name)` |
-| `build_command` | function | `modules/auto_registry.py:494` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:720` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:605` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:743` | `def execute_streaming(command, on_output, timeout_sec)` |
-| `is_routable_command` | function | `modules/auto_registry.py:472` | `def is_routable_command(line)` |
-| `is_shell_verb` | function | `modules/auto_registry.py:488` | `def is_shell_verb(token)` |
-| `iter_addon_triggers` | function | `modules/auto_registry.py:361` | `def iter_addon_triggers()` |
-| `iter_tool_triggers` | function | `modules/auto_registry.py:397` | `def iter_tool_triggers()` |
-| `missing_binary` | function | `modules/auto_registry.py:290` | `def missing_binary(command)` |
-| `propose_addon_intents` | function | `modules/auto_registry.py:446` | `def propose_addon_intents(service_texts, target, limit)` |
-| `propose_intents` | function | `modules/auto_registry.py:511` | `def propose_intents(goal, target, finding_texts)` |
-| `service_tokens` | function | `modules/auto_registry.py:319` | `def service_tokens(service_text)` |
-| `steps_for` | function | `modules/auto_registry.py:528` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:710` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:715` | `def untrack_process(process)` |
-| `verb_available` | function | `modules/auto_registry.py:314` | `def verb_available(verb)` |
-| `verb_enabled` | function | `modules/auto_registry.py:182` | `def verb_enabled(name)` |
-| `verb_gap` | function | `modules/auto_registry.py:302` | `def verb_gap(verb)` |
-| `verbs` | function | `modules/auto_registry.py:483` | `def verbs()` |
-| `verbs_for` | function | `modules/auto_registry.py:505` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:592` | `def write(self, data)` |
+| `binary_available` | function | `modules/auto_registry.py:281` | `def binary_available(name)` |
+| `build_command` | function | `modules/auto_registry.py:524` | `def build_command(verb, target)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:797` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:677` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:820` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `is_routable_command` | function | `modules/auto_registry.py:479` | `def is_routable_command(line)` |
+| `is_shell_verb` | function | `modules/auto_registry.py:502` | `def is_shell_verb(token)` |
+| `iter_addon_triggers` | function | `modules/auto_registry.py:368` | `def iter_addon_triggers()` |
+| `iter_tool_triggers` | function | `modules/auto_registry.py:404` | `def iter_tool_triggers()` |
+| `missing_binary` | function | `modules/auto_registry.py:297` | `def missing_binary(command)` |
+| `propose_addon_intents` | function | `modules/auto_registry.py:453` | `def propose_addon_intents(service_texts, target, limit)` |
+| `propose_intents` | function | `modules/auto_registry.py:541` | `def propose_intents(goal, target, finding_texts)` |
+| `service_tokens` | function | `modules/auto_registry.py:326` | `def service_tokens(service_text)` |
+| `steps_for` | function | `modules/auto_registry.py:558` | `def steps_for(text, target)` |
+| `track_process` | function | `modules/auto_registry.py:787` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:792` | `def untrack_process(process)` |
+| `verb_available` | function | `modules/auto_registry.py:321` | `def verb_available(verb)` |
+| `verb_enabled` | function | `modules/auto_registry.py:189` | `def verb_enabled(name)` |
+| `verb_gap` | function | `modules/auto_registry.py:309` | `def verb_gap(verb)` |
+| `verbs` | function | `modules/auto_registry.py:497` | `def verbs()` |
+| `verbs_for` | function | `modules/auto_registry.py:535` | `def verbs_for(text)` |
+| `write` | method | `modules/auto_registry.py:664` | `def write(self, data)` |
 | `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
 | `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
 | `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
 | `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
 | `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
-| `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
-| `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
-| `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
-| `records_path` | method | `modules/beacon_history.py:43` | `def records_path(self, client_id)` |
-| `records_path` | function | `modules/beacon_history.py:145` | `def records_path(client_id, config)` |
-| `sanitize_client_id` | function | `modules/beacon_history.py:70` | `def sanitize_client_id(client_id)` |
-| `sessions_dir` | method | `modules/beacon_history.py:39` | `def sessions_dir(self)` |
-| `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
-| `main` | function | `modules/bin2img.py:54` | `def main()` |
-| `BitMState` | class | `modules/bitm_engine.py:85` | `class BitMState` |
-| `_build_js_payload` | function | `modules/bitm_engine.py:151` | `def _build_js_payload(payload_name, lhost, lport)` |
-| `_check_tool` | function | `modules/bitm_engine.py:168` | `def _check_tool(tool)` |
-| `_ensure_bitm_dir` | function | `modules/bitm_engine.py:103` | `def _ensure_bitm_dir()` |
-| `_get_default_interface` | function | `modules/bitm_engine.py:195` | `def _get_default_interface()` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

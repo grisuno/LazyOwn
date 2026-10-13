@@ -3,9 +3,104 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `get_client` | function | `modules/llm_client.py:243` | `def get_client(api_key)` |
-| `summarize` | method | `modules/llm_client.py:154` | `def summarize(self, text)` |
-| `summarize` | function | `modules/llm_client.py:268` | `def summarize(text)` |
+| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
+| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
+| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
+| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
+| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
+| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
+| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
+| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
+| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
+| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
+| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
+| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
+| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
+| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
+| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
+| `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
+| `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
+| `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
+| `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
+| `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
+| `simple_parse_log_line` | function | `modules/lilsplunky.py:69` | `def simple_parse_log_line(line, file_path)` |
+| `start_monitoring` | function | `modules/lilsplunky.py:413` | `def start_monitoring(log_dir, mode)` |
+| `store_event` | function | `modules/lilsplunky.py:108` | `def store_event(event_data)` |
+| `LinuxAdvancedConfig` | class | `modules/linux_advanced_payloads.py:64` | `class LinuxAdvancedConfig` |
+| `LinuxAdvancedPayloadFactory` | class | `modules/linux_advanced_payloads.py:92` | `class LinuxAdvancedPayloadFactory` |
+| `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
+| `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
+| `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
+| `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
+| `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
+| `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
+| `generate_ld_preload_rootkit` | method | `modules/linux_advanced_payloads.py:110` | `def generate_ld_preload_rootkit(self)` |
+| `generate_motd_backdoor` | method | `modules/linux_advanced_payloads.py:689` | `def generate_motd_backdoor(self)` |
+| `generate_pam_backdoor` | method | `modules/linux_advanced_payloads.py:311` | `def generate_pam_backdoor(self)` |
+| `generate_process_masquerade` | method | `modules/linux_advanced_payloads.py:632` | `def generate_process_masquerade(self)` |
+| `generate_ssh_persistence` | method | `modules/linux_advanced_payloads.py:458` | `def generate_ssh_persistence(self)` |
+| `generate_systemd_persistence` | method | `modules/linux_advanced_payloads.py:398` | `def generate_systemd_persistence(self)` |
+| `generate_udev_persistence` | method | `modules/linux_advanced_payloads.py:676` | `def generate_udev_persistence(self)` |
+| `list_hook_functions` | method | `modules/linux_advanced_payloads.py:793` | `def list_hook_functions()` |
+| `list_persistence_methods` | method | `modules/linux_advanced_payloads.py:797` | `def list_persistence_methods()` |
+| `Listener` | class | `modules/listener_manager.py:141` | `class Listener` |
+| `ListenerManager` | class | `modules/listener_manager.py:172` | `class ListenerManager` |
+| `__init__` | method | `modules/listener_manager.py:179` | `def __init__(self, app, sessions_dir, payload)` |
+| `_bind_address` | method | `modules/listener_manager.py:191` | `def _bind_address(self, port)` |
+| `_collect_listener_bind_candidates` | function | `modules/listener_manager.py:35` | `def _collect_listener_bind_candidates(payload)` |
+| `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
+| `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
+| `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
+| `_resolve_listener_bind_address` | function | `modules/listener_manager.py:110` | `def _resolve_listener_bind_address(payload, port)` |
+| `_save` | method | `modules/listener_manager.py:217` | `def _save(self)` |
+| `_stop` | method | `modules/listener_manager.py:331` | `def _stop(self, listener)` |
+| `add` | method | `modules/listener_manager.py:229` | `def add(self, port, ssl, listener_id)` |
+| `from_dict` | method | `modules/listener_manager.py:162` | `def from_dict(cls, data)` |
+| `get_default_port` | method | `modules/listener_manager.py:367` | `def get_default_port(self, fallback)` |
+| `remove` | method | `modules/listener_manager.py:242` | `def remove(self, listener_id)` |
+| `set_payload` | method | `modules/listener_manager.py:187` | `def set_payload(self, payload)` |
+| `start` | method | `modules/listener_manager.py:255` | `def start(self, listener_id)` |
+| `start_all` | method | `modules/listener_manager.py:344` | `def start_all(self)` |
+| `status` | method | `modules/listener_manager.py:355` | `def status(self)` |
+| `stop` | method | `modules/listener_manager.py:323` | `def stop(self, listener_id)` |
+| `stop_all` | method | `modules/listener_manager.py:350` | `def stop_all(self)` |
+| `to_dict` | method | `modules/listener_manager.py:152` | `def to_dict(self)` |
+| `_emit_edge` | function | `modules/live_surface.py:126` | `def _emit_edge(source, target, relation, weight)` |
+| `_emit_node` | function | `modules/live_surface.py:106` | `def _emit_node(node_id, state, title)` |
+| `_group_for` | function | `modules/live_surface.py:55` | `def _group_for(node_id)` |
+| `_is_compromised` | function | `modules/live_surface.py:45` | `def _is_compromised(state)` |
+| `_label_for` | function | `modules/live_surface.py:64` | `def _label_for(node_id)` |
+| `_node_value` | function | `modules/live_surface.py:50` | `def _node_value(centrality)` |
+| `build_live_graph` | function | `modules/live_surface.py:72` | `def build_live_graph(world)` |
+| `_complete` | function | `modules/llm_adapter.py:82` | `def _complete(client, full_prompt, model)` |
+| `_configure_logging` | function | `modules/llm_adapter.py:65` | `def _configure_logging(debug)` |
+| `_process` | function | `modules/llm_adapter.py:96` | `def _process(client, prompt, debug, template, config)` |
+| `_read_error` | function | `modules/llm_adapter.py:78` | `def _read_error(prompt)` |
+| `_read_prompt_file` | function | `modules/llm_adapter.py:70` | `def _read_prompt_file(prompt)` |
+| `ask_general` | function | `modules/llm_adapter.py:254` | `def ask_general(prompt, debug)` |
+| `process_prompt` | function | `modules/llm_adapter.py:119` | `def process_prompt(client, prompt, debug)` |
+| `process_prompt_adversary` | function | `modules/llm_adapter.py:147` | `def process_prompt_adversary(client, prompt, debug)` |
+| `process_prompt_general` | function | `modules/llm_adapter.py:161` | `def process_prompt_general(client, prompt, debug)` |
+| `process_prompt_redop` | function | `modules/llm_adapter.py:237` | `def process_prompt_redop(client, prompt, debug)` |
+| `process_prompt_script` | function | `modules/llm_adapter.py:133` | `def process_prompt_script(client, prompt, debug)` |
+| `process_prompt_search` | function | `modules/llm_adapter.py:175` | `def process_prompt_search(client, prompt, debug)` |
+| `process_prompt_task` | function | `modules/llm_adapter.py:189` | `def process_prompt_task(client, prompt, debug)` |
+| `process_prompt_vuln` | function | `modules/llm_adapter.py:206` | `def process_prompt_vuln(client, prompt, debug, event)` |
+| `safe_groq_client` | function | `modules/llm_adapter.py:48` | `def safe_groq_client(api_key)` |
+| `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
+| `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
+| `_ask_groq` | method | `modules/llm_client.py:179` | `def _ask_groq(self, prompt, model, system, temperature)` |
+| `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
+| `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
+| `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
+| `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
+| `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
+| `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
+| `get_client` | function | `modules/llm_client.py:268` | `def get_client(api_key)` |
+| `summarize` | method | `modules/llm_client.py:159` | `def summarize(self, text)` |
+| `summarize` | function | `modules/llm_client.py:293` | `def summarize(text)` |
 | `DecisionRecord` | class | `modules/llm_evaluator.py:21` | `class DecisionRecord` |
 | `JSONLRecorder` | class | `modules/llm_evaluator.py:75` | `class JSONLRecorder(OutcomeRecorder)` |
 | `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
@@ -34,31 +129,32 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
 | `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
 | `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
-| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:179` | `class LLMBackendNotSupportedError(ValueError)` |
-| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:175` | `class LLMBackendUnavailableError(RuntimeError)` |
-| `_build_anthropic` | function | `modules/llm_factory.py:449` | `def _build_anthropic(config)` |
-| `_build_backend` | function | `modules/llm_factory.py:610` | `def _build_backend(normalized, resolved_config)` |
-| `_build_deepseek` | function | `modules/llm_factory.py:471` | `def _build_deepseek(config)` |
-| `_build_groq` | function | `modules/llm_factory.py:391` | `def _build_groq(config)` |
-| `_build_ollama` | function | `modules/llm_factory.py:413` | `def _build_ollama(config)` |
-| `_build_openai` | function | `modules/llm_factory.py:427` | `def _build_openai(config)` |
-| `_normalize_backend` | function | `modules/llm_factory.py:368` | `def _normalize_backend(backend)` |
-| `_resolve_api_key` | function | `modules/llm_factory.py:314` | `def _resolve_api_key(config)` |
-| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:337` | `def _resolve_api_key_for_backend(backend, config)` |
-| `_resolve_model_identifier` | function | `modules/llm_factory.py:493` | `def _resolve_model_identifier(backend_identifier, config)` |
-| `_wrap_with_budget` | function | `modules/llm_factory.py:520` | `def _wrap_with_budget(backend, config, backend_identifier)` |
-| `api_key_config_key` | function | `modules/llm_factory.py:249` | `def api_key_config_key(backend)` |
-| `backend_requires_api_key` | function | `modules/llm_factory.py:272` | `def backend_requires_api_key(backend)` |
-| `complete` | function | `modules/llm_factory.py:759` | `def complete(model, prompt, max_tokens)` |
-| `default_model_for` | function | `modules/llm_factory.py:207` | `def default_model_for(backend)` |
-| `get_llm_backend` | function | `modules/llm_factory.py:558` | `def get_llm_backend(config, backend)` |
-| `get_llm_backend_raw` | function | `modules/llm_factory.py:644` | `def get_llm_backend_raw(config, backend)` |
-| `groq_model_chain` | function | `modules/llm_factory.py:132` | `def groq_model_chain(config)` |
-| `is_model_missing_error` | function | `modules/llm_factory.py:112` | `def is_model_missing_error(message)` |
-| `load_payload` | function | `modules/llm_factory.py:290` | `def load_payload(payload_path)` |
-| `model_config_key` | function | `modules/llm_factory.py:228` | `def model_config_key(backend)` |
-| `stream_complete` | function | `modules/llm_factory.py:690` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
-| `try_get_llm_backend` | function | `modules/llm_factory.py:666` | `def try_get_llm_backend(config, backend)` |
+| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:188` | `class LLMBackendNotSupportedError(ValueError)` |
+| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:184` | `class LLMBackendUnavailableError(RuntimeError)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:476` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:637` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:498` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:404` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:440` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:426` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:454` | `def _build_openai(config)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:381` | `def _normalize_backend(backend)` |
+| `_resolve_api_key` | function | `modules/llm_factory.py:327` | `def _resolve_api_key(config)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:350` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:520` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:547` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | function | `modules/llm_factory.py:260` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | function | `modules/llm_factory.py:285` | `def backend_requires_api_key(backend)` |
+| `complete` | function | `modules/llm_factory.py:788` | `def complete(model, prompt, max_tokens)` |
+| `default_model_for` | function | `modules/llm_factory.py:218` | `def default_model_for(backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:585` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:673` | `def get_llm_backend_raw(config, backend)` |
+| `groq_model_chain` | function | `modules/llm_factory.py:139` | `def groq_model_chain(config)` |
+| `is_model_missing_error` | function | `modules/llm_factory.py:119` | `def is_model_missing_error(message)` |
+| `load_payload` | function | `modules/llm_factory.py:303` | `def load_payload(payload_path)` |
+| `model_config_key` | function | `modules/llm_factory.py:239` | `def model_config_key(backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:719` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:695` | `def try_get_llm_backend(config, backend)` |
 | `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
 | `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
 | `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
@@ -400,101 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `get_port_list` | method | `modules/nmap2csv.py:204` | `def get_port_list(self)` |
 | `get_port_number_list` | method | `modules/nmap2csv.py:207` | `def get_port_number_list(self)` |
 | `get_port_protocol_list` | method | `modules/nmap2csv.py:216` | `def get_port_protocol_list(self)` |
-| `get_port_script_list` | method | `modules/nmap2csv.py:243` | `def get_port_script_list(self)` |
-| `get_port_service_list` | method | `modules/nmap2csv.py:225` | `def get_port_service_list(self)` |
-| `get_port_version_list` | method | `modules/nmap2csv.py:234` | `def get_port_version_list(self)` |
-| `get_protocol` | method | `modules/nmap2csv.py:293` | `def get_protocol(self)` |
-| `get_rdns_record` | method | `modules/nmap2csv.py:201` | `def get_rdns_record(self)` |
-| `get_script` | method | `modules/nmap2csv.py:302` | `def get_script(self)` |
-| `get_service` | method | `modules/nmap2csv.py:296` | `def get_service(self)` |
-| `get_version` | method | `modules/nmap2csv.py:299` | `def get_version(self)` |
-| `is_format_valid` | function | `modules/nmap2csv.py:572` | `def is_format_valid(fmt)` |
-| `main` | function | `modules/nmap2csv.py:688` | `def main()` |
-| `num_to_dottedquad` | function | `modules/nmap2csv.py:133` | `def num_to_dottedquad(n)` |
-| `parse` | function | `modules/nmap2csv.py:362` | `def parse(fd)` |
-| `parse_xml` | function | `modules/nmap2csv.py:492` | `def parse_xml(xml_file)` |
-| `repeat_attributes` | function | `modules/nmap2csv.py:639` | `def repeat_attributes(attribute_list)` |
-| `set_fqdn` | method | `modules/nmap2csv.py:265` | `def set_fqdn(self, fqdn)` |
-| `set_mac` | method | `modules/nmap2csv.py:274` | `def set_mac(self, mac_address, mac_address_vendor)` |
-| `set_network_distance` | method | `modules/nmap2csv.py:278` | `def set_network_distance(self, network_distance)` |
-| `set_os` | method | `modules/nmap2csv.py:271` | `def set_os(self, os)` |
-| `set_rdns_record` | method | `modules/nmap2csv.py:268` | `def set_rdns_record(self, rdns_record)` |
-| `set_script` | method | `modules/nmap2csv.py:311` | `def set_script(self, script)` |
-| `set_service` | method | `modules/nmap2csv.py:305` | `def set_service(self, service)` |
-| `set_version` | method | `modules/nmap2csv.py:308` | `def set_version(self, version)` |
-| `split_grepable_match` | function | `modules/nmap2csv.py:315` | `def split_grepable_match(raw_string)` |
-| `unique_match_from_list` | function | `modules/nmap2csv.py:140` | `def unique_match_from_list(list)` |
-| `Channel` | class | `modules/notify.py:105` | `class Channel` |
-| `Notifier` | class | `modules/notify.py:123` | `class Notifier` |
-| `NotifyConfig` | class | `modules/notify.py:15` | `class NotifyConfig` |
-| `NotifyMessage` | class | `modules/notify.py:92` | `class NotifyMessage` |
-| `__init__` | method | `modules/notify.py:126` | `def __init__(self, config)` |
-| `__post_init__` | method | `modules/notify.py:117` | `def __post_init__(self)` |
-| `dispatch` | method | `modules/notify.py:163` | `def dispatch(self, message, channels)` |
-| `flush_digest` | method | `modules/notify.py:179` | `def flush_digest(self, max_age_sec)` |
-| `mask_secrets` | function | `modules/notify.py:39` | `def mask_secrets(text, config)` |
-| `render` | method | `modules/notify.py:157` | `def render(self, message)` |
-| `severity_rank` | function | `modules/notify.py:31` | `def severity_rank(severity, config)` |
-| `should_send` | method | `modules/notify.py:134` | `def should_send(self, message, channel)` |
-| `url_allowed` | function | `modules/notify.py:57` | `def url_allowed(url)` |
-| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
-| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
-| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
-| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
-| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
-| `main` | function | `modules/nuclei_templates_sync.py:337` | `def main(argv)` |
-| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
-| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
-| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
-| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
-| `resolve_plan` | function | `modules/nuclei_templates_sync.py:308` | `def resolve_plan(args)` |
-| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
-| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
-| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
-| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
-| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
-| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
-| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
-| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
-| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
-| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
-| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
-| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
-| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
-| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
-| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
-| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
-| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
-| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
-| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
-| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
-| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
-| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
-| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
-| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
-| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
-| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
-| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
-| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
-| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
-| `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
-| `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
-| `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
-| `register` | method | `modules/obs_parser.py:109` | `def register(self, extractor)` |
-| `register` | method | `modules/obs_parser.py:450` | `def register(self, extractor)` |
-| `run_all` | method | `modules/obs_parser.py:112` | `def run_all(self, text, host)` |
-| `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
-| `Operation` | class | `modules/operation.py:79` | `class Operation` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

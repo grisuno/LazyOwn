@@ -230,10 +230,16 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyops.py` -> `modules/auto_registry.py`
 - `cli/commands/lazyops.py` -> `modules/custom_tools.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_agent.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_cli_bridge.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_engine.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_installer.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_proxy.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_roles.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_runner.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_sandbox.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_skill_mirror.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_skills.py`
+- `cli/commands/lazyops.py` -> `modules/orchestrator_config.py`
 - `cli/commands/lazyops.py` -> `modules/selfupdate.py`
 - `cli/commands/lazyops.py` -> `modules/traffic_recorder.py`
 - `cli/commands/lazyops.py` -> `utils.py`
@@ -490,11 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/reactive_hints.py` -> `core/console.py`
 - `cli/reactive_hints.py` -> `core/logging.py`
 - `cli/reactive_hints.py` -> `core/text_utils.py`
-- `cli/reasoning_stream.py` -> `core/text_utils.py`
-- `cli/recommendation_signals.py` -> `cli/exploration.py`
-- `cli/recommendation_signals.py` -> `cli/graph_advisor.py`
-- `cli/recommendation_signals.py` -> `cli/reactive_hints.py`
-- `cli/recommendation_signals.py` -> `cli/recommendation.py`
-- `cli/recommendation_signals.py` -> `cli/recon_plan.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

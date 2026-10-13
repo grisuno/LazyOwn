@@ -1,0 +1,17 @@
+name: lazy_hermes
+description: >
+  Invoke the Hermes agent detached for one task (like opencode run).
+  Runs hermes chat --oneshot against the local Qwen server and exits
+  with the final answer. Quote multi-word tasks. Flags --in DIR and
+  --resume SESSION scope or continue work. Requires the hermes CLI and
+  the lazy_llamacpp server up. Free args form the task query.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params: []
+os: any
+trigger: []
+tool:
+  name: Hermes dispatcher
+  execute_command: bash scripts/lazy_hermes_ask.sh
+category: 16. Artificial Intelligence

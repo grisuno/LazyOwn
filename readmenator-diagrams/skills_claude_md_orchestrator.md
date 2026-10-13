@@ -13,19 +13,19 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## modules (9.1)
+## modules (10.1)
 
 modules groups 2 files (py) around SecurityConfig, from_payload, HeaderValueSanitizer, __init__, is_valid_name. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## root (9.2)
+## root (10.2)
 
 root groups 1 files (py) around _build_substitutions, _fix_sessions_owner, _run_tool. This software must not be used by military or secret service organisations.
 
-## skills (9.3)
+## skills (10.3)
 
 skills groups 13 files (py) around _now_iso, Stage, Severity, Contract, to_dict. Public API for the claude_md_orchestrator skill.
 
-## tests (9.4)
+## tests (10.4)
 
 tests groups 1 files (py) around cfg, TestSecurityConfig, test_defaults_are_conservative, test_from_payload_accepts_known_keys, test_from_payload_drops_wrong_types. Unit tests for :mod:`modules.security_sanitizers`.
 

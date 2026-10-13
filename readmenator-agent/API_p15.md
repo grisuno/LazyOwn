@@ -1,6 +1,95 @@
 # API (page 15 of 22)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/professional_report.py
+Depends on: `modules/llm_factory.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
+- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:217` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:244` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:841` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:865` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:911` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
+## modules/r.sh
+Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
+- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
+
+## modules/reactive_engine.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
+- `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
+- `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
+- `PrivescHintMatcher.match` (method) `modules/reactive_engine.py:192` `def match(self, output, context)`
+- `NewHostMatcher.match` (method) `modules/reactive_engine.py:214` `def match(self, output, context)`
+- `ServiceVersionMatcher.match` (method) `modules/reactive_engine.py:247` `def match(self, output, context)`
+- `ShellErrorMatcher.match` (method) `modules/reactive_engine.py:276` `def match(self, output, context)`
+- `LateralOpportunityMatcher.match` (method) `modules/reactive_engine.py:307` `def match(self, output, context)`
+- `DataOfInterestMatcher.match` (method) `modules/reactive_engine.py:349` `def match(self, output, context)`
+- `ParquetAdvisor.__init__` (method) `modules/reactive_engine.py:395` `def __init__(self, root)`
+- `ParquetAdvisor.gtfobins_for` (method) `modules/reactive_engine.py:421` `def gtfobins_for(self, binary)`
+- `ParquetAdvisor.lolbas_for` (method) `modules/reactive_engine.py:434` `def lolbas_for(self, binary)` -- Returns [(function_name, att&ck_technique), ...].
+- `ParquetAdvisor.technique_commands_for` (method) `modules/reactive_engine.py:448` `def technique_commands_for(self, platform, keyword)` -- Return atomic test commands for platform matching keyword.
+- `EvasionAdvisor.suggest` (method) `modules/reactive_engine.py:504` `def suggest(self, signals, platform)`
+- `PrivescAdvisor.suggest` (method) `modules/reactive_engine.py:565` `def suggest(self, signals, platform, parquet)`
+- `SemanticContextAdvisor.__init__` (method) `modules/reactive_engine.py:644` `def __init__(self, rag, config_loader, min_score, query_limit)` -- Initialise the advisor.
+- `SemanticContextAdvisor.suggest` (method) `modules/reactive_engine.py:734` `def suggest(self, output, command, platform, context)` -- Return semantic next-step hints derived from past sessions.
+- `ReactiveEngine.__init__` (method) `modules/reactive_engine.py:810` `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+- `ReactiveEngine.analyse` (method) `modules/reactive_engine.py:835` `def analyse(self, output, command, platform, context)` -- Parse *output* and return prioritised ReactiveDecisions.
+- `ReactiveEngine.top_decision` (method) `modules/reactive_engine.py:958` `def top_decision(self, output, command, platform, context)` -- Return only the single highest-priority decision, or None.
+- `get_engine` (function) `modules/reactive_engine.py:977` `def get_engine()`
+
+## modules/recommender.py
+Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+Imported by: `skills/lazyown_mcp.py`
+- `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
+- `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
+
+## modules/redteam_gym.py
+Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
+Imported by: `cli/commands/redteam_gym.py`, `modules/exploitgym_gym.py`, `tests/test_infra_disposable.py`
+- `list_challenges` (function) `modules/redteam_gym.py:357` `def list_challenges()` -- Return all defined gym challenges with metadata.
+- `start_challenge` (function) `modules/redteam_gym.py:378` `def start_challenge(challenge_id)` -- Begin a gym challenge and track start time.
+- `submit_challenge` (function) `modules/redteam_gym.py:448` `def submit_challenge(techniques_used, success)` -- Submit a completed challenge for scoring.
+- `show_leaderboard` (function) `modules/redteam_gym.py:679` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
+- `get_active_challenge` (function) `modules/redteam_gym.py:706` `def get_active_challenge()` -- Return the currently active challenge for this operator, if any.
+- `record_external_attempt` (function) `modules/redteam_gym.py:736` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
+- `main` (function) `modules/redteam_gym.py:790` `def main()` -- CLI entry point — show gym leaderboard from command line.
+
+## modules/reflective_dll.py
+- `PEParser.__init__` (method) `modules/reflective_dll.py:151` `def __init__(self, pe_data)`
+- `PEParser.parse_file_header` (method) `modules/reflective_dll.py:166` `def parse_file_header(self)` -- Extract the COFF file header.
+- `PEParser.parse_sections` (method) `modules/reflective_dll.py:208` `def parse_sections(self, num_sections)` -- Parse all section headers from the PE.
+- `PEParser.parse_data_directories` (method) `modules/reflective_dll.py:243` `def parse_data_directories(self, num_entries)` -- Parse the PE data directory entries.
+- `PEParser.rva_to_offset` (method) `modules/reflective_dll.py:265` `def rva_to_offset(self, rva, sections)` -- Convert a relative virtual address to a file offset.
+- `PEParser.parse_imports` (method) `modules/reflective_dll.py:280` `def parse_imports(self, import_dir, sections)` -- Parse the import directory to enumerate imported DLLs and functions.
+- `PEParser.parse_relocations` (method) `modules/reflective_dll.py:326` `def parse_relocations(self, reloc_dir, sections)` -- Parse base relocation entries.
+- `PEParser.parse_exports` (method) `modules/reflective_dll.py:374` `def parse_exports(self, export_dir, sections)` -- Parse the export directory.
+- `PEParser.is_64bit` (method) `modules/reflective_dll.py:456` `def is_64bit(self)`
+- `PEParser.raw_data` (method) `modules/reflective_dll.py:460` `def raw_data(self)`
+- `ReflectiveLoader.__init__` (method) `modules/reflective_dll.py:492` `def __init__(self, pe_data, config)`
+- `ReflectiveLoader.sha256` (method) `modules/reflective_dll.py:505` `def sha256(self)` -- SHA-256 hash of the raw PE bytes.
+- `ReflectiveLoader.architecture` (method) `modules/reflective_dll.py:510` `def architecture(self)` -- CPU architecture string ('x64' or 'x86').
+- `ReflectiveLoader.required_imports` (method) `modules/reflective_dll.py:515` `def required_imports(self)` -- DLL names needed for import resolution.
+- `ReflectiveLoader.plan_injection` (method) `modules/reflective_dll.py:526` `def plan_injection(self)` -- Generate an injection plan based on the configured technique.
+- `ReflectiveLoader.generate_c_stub` (method) `modules/reflective_dll.py:588` `def generate_c_stub(self)` -- Generate a C stub that implements reflective loading.
+- `ReflectiveLoader.generate_powershell_stub` (method) `modules/reflective_dll.py:666` `def generate_powershell_stub(self)` -- Generate PowerShell reflective loader script.
+- `ReflectiveLoader.summarize` (method) `modules/reflective_dll.py:685` `def summarize(self)` -- Human-readable summary of the parsed PE for operator review.
+
+## modules/resource_script.py
+Depends on: `core/safe_exec.py`
+Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+- `ScriptContext.__init__` (method) `modules/resource_script.py:89` `def __init__(self, shell_params, on_command, on_print)`
+- `ScriptContext.print` (method) `modules/resource_script.py:138` `def print(self, msg)`
+- `ScriptContext.run_command` (method) `modules/resource_script.py:147` `def run_command(self, cmd)`
+- `ScriptContext.eval_condition` (method) `modules/resource_script.py:191` `def eval_condition(self, raw_condition)` -- Evaluate an ``if``/``while`` condition expression.
+- `ResourceScriptEngine.__init__` (method) `modules/resource_script.py:276` `def __init__(self, context)`
+- `ResourceScriptEngine.execute` (method) `modules/resource_script.py:279` `def execute(self, script_path)` -- Load and run a script file.
+- `ResourceScriptEngine.execute_lines` (method) `modules/resource_script.py:293` `def execute_lines(self, lines, source)` -- Execute a list of script lines.
+- `ResourceScriptEngine.execute_string` (method) `modules/resource_script.py:327` `def execute_string(self, script)` -- Execute a script string (split on newlines).
+
 ## modules/reverse-shell.c
 - `reverse_shell_init` (function) `modules/reverse-shell.c:12` `static int __init reverse_shell_init(void)` -- call_usermodehelper function is used to create user mode processes from kernel space
 - `reverse_shell_exit` (function) `modules/reverse-shell.c:16` `static void __exit reverse_shell_exit(void)`
@@ -405,79 +494,6 @@ Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runn
 - `FakeEngine.orchestrate` (method) `modules/tools/loop_smoke.py:56` `def orchestrate(self)` -- Run the injected executor once and report a done summary.
 - `run` (function) `modules/tools/loop_smoke.py:77` `def run()` -- Run the smoke and return ``{"ok": bool, "checks": {...}, "result": {...}}``.
 - `main` (function) `modules/tools/loop_smoke.py:114` `def main()` -- CLI entry point: print the checks and exit 0/1.
-
-## modules/tools/monitor_smoke.py
-Depends on: `cli/lazy_monitor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-- `run` (function) `modules/tools/monitor_smoke.py:20` `def run()` -- Run the monitor smoke and return ``{"ok": bool, "checks": {...}}``.
-- `main` (function) `modules/tools/monitor_smoke.py:59` `def main()` -- CLI entry point: print the checks and exit 0/1.
-
-## modules/toolset.py
-Imported by: `skills/autonomous_daemon.py`
-- `builtin_seeds` (function) `modules/toolset.py:35` `def builtin_seeds()` -- Return the default graph-tool catalog (handlers stay in code).
-- `resolve` (function) `modules/toolset.py:72` `def resolve(agent, tool_key)` -- Return the seed when bound to agent, else None (LAZY ToolResolve).
-- `extract_tool` (function) `modules/toolset.py:105` `def extract_tool(command)` -- Split tool name with shlex; flag shell metacharacters.
-- `validate_shell` (function) `modules/toolset.py:128` `def validate_shell(role, command)` -- Check a shell command against the role allowlist.
-
-## modules/toposwarm_bridge.py
-Depends on: `core/logging.py`
-Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
-- `RoutedCall.lazyown_command` (method) `modules/toposwarm_bridge.py:81` `def lazyown_command(self)` -- Return the LazyOwn shell command string to execute this tool call.
-- `OnlineFeedbackLoop.__init__` (method) `modules/toposwarm_bridge.py:296` `def __init__(self, maxsize)`
-- `OnlineFeedbackLoop.register` (method) `modules/toposwarm_bridge.py:303` `def register(self, result, hidden)` -- Register a routing result as pending feedback.
-- `OnlineFeedbackLoop.feedback` (method) `modules/toposwarm_bridge.py:318` `def feedback(self, result_id, good, comment, routing_head)` -- Apply feedback for a routing decision.
-- `OnlineFeedbackLoop.pending_count` (method) `modules/toposwarm_bridge.py:379` `def pending_count(self)`
-- `OnlineFeedbackLoop.stats` (method) `modules/toposwarm_bridge.py:382` `def stats(self)`
-- `OnlineFeedbackLoop.load_feedback_for_training` (method) `modules/toposwarm_bridge.py:389` `def load_feedback_for_training(self)` -- Load persisted feedback for --finetune.
-- `TopoSwarmBridge.__init__` (method) `modules/toposwarm_bridge.py:432` `def __init__(self)`
-- `TopoSwarmBridge.available` (method) `modules/toposwarm_bridge.py:444` `def available(self)` -- True if TopoSwarm directory exists (even if model not loaded).
-- `TopoSwarmBridge.model_loaded` (method) `modules/toposwarm_bridge.py:449` `def model_loaded(self)`
-- `TopoSwarmBridge.feedback` (method) `modules/toposwarm_bridge.py:562` `def feedback(self, result_id, good, comment)` -- Optional user feedback on a routing decision.
-- `TopoSwarmBridge.route` (method) `modules/toposwarm_bridge.py:586` `def route(self, prompt)` -- Route an operator prompt to a LazyOwn tool call.
-- `TopoSwarmBridge.execute_via_orchestrator` (method) `modules/toposwarm_bridge.py:613` `def execute_via_orchestrator(self, prompt, no_model)` -- Execute a prompt through the full TopoSwarm orchestrator (subprocess).
-- `get_bridge` (function) `modules/toposwarm_bridge.py:645` `def get_bridge()` -- Return the module-level TopoSwarmBridge singleton (lazy init).
-
-## modules/traffic_morpher.py
-Imported by: `cli/commands/persist_migrated.py`
-- `TrafficMorpher.__init__` (method) `modules/traffic_morpher.py:77` `def __init__(self)`
-- `TrafficMorpher.get_random_http_headers` (method) `modules/traffic_morpher.py:81` `def get_random_http_headers(self)` -- Return a randomized set of HTTP headers mimicking a real browser.
-- `TrafficMorpher.get_cdn_fronting_hosts` (method) `modules/traffic_morpher.py:91` `def get_cdn_fronting_hosts(self, provider, count)` -- Return CDN domains suitable for domain fronting.
-- `TrafficMorpher.generate_traffic_padding` (method) `modules/traffic_morpher.py:108` `def generate_traffic_padding(self, min_bytes, max_bytes)` -- Generate random padding bytes to normalize packet sizes.
-- `TrafficMorpher.generate_jitter` (method) `modules/traffic_morpher.py:125` `def generate_jitter(self, base_delay, jitter_pct)` -- Calculate a sleep delay with jitter.
-- `TrafficMorpher.generate_dns_tunnel_payload` (method) `modules/traffic_morpher.py:138` `def generate_dns_tunnel_payload(self, data, domain)` -- Encode data as DNS query subdomains for tunneling.
-- `TrafficMorpher.generate_icmp_exfil_payload` (method) `modules/traffic_morpher.py:164` `def generate_icmp_exfil_payload(self, data, chunk_size)` -- Generate ICMP echo payloads for data exfiltration.
-- `TrafficMorpher.generate_websocket_masking` (method) `modules/traffic_morpher.py:190` `def generate_websocket_masking(self, data)` -- Apply WebSocket frame masking with random key.
-- `TrafficMorpher.generate_cloudflare_worker_proxy_config` (method) `modules/traffic_morpher.py:205` `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` -- Generate a Cloudflare Worker script that proxies C2 traffic.
-- `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
-
-## modules/traffic_recorder.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-- `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
-- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:94` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
-- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:138` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
-- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:230` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
-- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:247` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
-- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:253` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
-- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:275` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
-- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:284` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
-- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:317` `def count(self)` -- Return the total number of recorded exchanges.
-- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:343` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
-- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:382` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
-- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:451` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
-- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:493` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
-- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
-- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
-
-## modules/ttp_coverage.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/caldera.py`
-- `TTPCoverage.__init__` (method) `modules/ttp_coverage.py:68` `def __init__(self)`
-- `TTPCoverage.rebuild_from_operations` (method) `modules/ttp_coverage.py:76` `def rebuild_from_operations(self)` -- Re-walk every operation on disk and refresh the matrix.
-- `TTPCoverage.add` (method) `modules/ttp_coverage.py:125` `def add(self, technique_id, name, tactic, status, operation_id)`
-- `TTPCoverage.compute_ready` (method) `modules/ttp_coverage.py:149` `def compute_ready(self, available_facts)` -- Return the techniques that could run given available facts.
-- `TTPCoverage.matrix` (method) `modules/ttp_coverage.py:190` `def matrix(self)` -- Render a coloured-by-tactic table of all techniques.
-- `TTPCoverage.status_by_id` (method) `modules/ttp_coverage.py:231` `def status_by_id(self, technique_id)`
-- `TTPCoverage.to_dict` (method) `modules/ttp_coverage.py:234` `def to_dict(self)`
-- `get_coverage` (function) `modules/ttp_coverage.py:260` `def get_coverage()` -- Return a fresh :class:`TTPCoverage`.
 
 
 Next: [API_p16.md](API_p16.md)

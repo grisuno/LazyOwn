@@ -1,0 +1,27 @@
+name: lazy_msf_lab
+description: >
+  Metasploitable2 smoke lab for the Lazy autonomous loop. First time:
+  lazy_msf_lab setup (unzips the operator-provided
+  metasploitable-linux-2.0.0.zip into external/.exploit/lazy_msf_lab and
+  prints the VirtualBox import guidance). Daily use: lazy_msf_lab up
+  starts the VM headless, status shows state and guest IP, down stops it.
+  Smoke run: lazy_msf_lab smoke [target] drives the loop (recon, cred
+  spray, exploit intents) against the lab and prints the verdict.
+  Takes optional target IP as free arg.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+  - name: msf_lab_target
+    type: string
+    required: false
+    description: Guest IP of the Metasploitable2 VM for smoke runs.
+os: linux
+trigger: []
+tool:
+  name: Lazy MSF Lab
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: external/.exploit/lazy_msf_lab
+  install_command: bash scripts/lazy_msf_lab.sh setup
+  execute_command: bash scripts/lazy_msf_lab.sh status
+category: 16. Artificial Intelligence

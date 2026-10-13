@@ -93,8 +93,8 @@ class LLMClient:
         prompt : str
             The user prompt.
         provider : str
-            One of: "groq", "ollama", "auto".
-            "auto" tries groq first, falls back to ollama, then returns static msg.
+            One of: "groq", "ollama", "llamacpp", "auto".
+            "auto" tries groq first, then ollama, then llamacpp, then returns static msg.
         model : str, optional
             Override the default model for the selected provider.
         system : str, optional
@@ -111,6 +111,8 @@ class LLMClient:
             return self._ask_groq(prompt, model or self.groq_model, system, temperature)
         if provider == "ollama":
             return self._ask_ollama(prompt, model or self.ollama_model)
+        if provider == "llamacpp":
+            return self._ask_llamacpp(prompt, model or None, system)
         if provider == "auto":
             if self.api_key:
                 result = self._ask_groq(prompt, model or self.groq_model, system, temperature)
@@ -119,8 +121,11 @@ class LLMClient:
             result = self._ask_ollama(prompt, model or self.ollama_model)
             if not result.startswith("[LLM error]"):
                 return result
-            return "[LLM error] No LLM provider available. Set GROQ_API_KEY or start Ollama."
-        return f"[LLM error] Unknown provider: {provider}. Use 'groq', 'ollama', or 'auto'."
+            result = self._ask_llamacpp(prompt, None, system)
+            if not result.startswith("[LLM error]"):
+                return result
+            return "[LLM error] No LLM provider available. Set GROQ_API_KEY, start Ollama or llama.cpp."
+        return f"[LLM error] Unknown provider: {provider}. Use 'groq', 'ollama', 'llamacpp' or 'auto'."
 
     def classify(
         self,
@@ -233,6 +238,26 @@ class LLMClient:
         except Exception as exc:
             log.warning(f"Ollama request failed: {exc}")
             return f"[LLM error] Ollama: {exc}"
+
+    def _ask_llamacpp(self, prompt: str, model: str | None, system: str = "") -> str:
+        """Ask the local llama.cpp server (OpenAI-compatible, keyless)."""
+        try:
+            try:
+                from modules.ai_model import LlamaCppModel
+            except ModuleNotFoundError:
+                from ai_model import LlamaCppModel  # type: ignore[no-redef]
+            backend = LlamaCppModel(model=model or "local-model")
+            text = backend.complete(
+                system or "You are a helpful penetration testing assistant.",
+                prompt,
+                max_tokens=self.max_tokens,
+            )
+            if not text.strip():
+                return "[LLM error] llama.cpp returned empty reply"
+            return text.strip()
+        except Exception as exc:
+            log.warning(f"llama.cpp request failed: {exc}")
+            return f"[LLM error] llama.cpp: {exc}"
 
 
 # ── Module-level singleton (lazy init) ────────────────────────────────────────

@@ -1,14 +1,14 @@
-# cli: status_bar
+# cli: dashboard_tui
 
-*Community 3 | 101 files | cohesion 0.53*
+*Community 3 | 102 files | cohesion 0.54*
 
 ## Definition
 
-This community groups 101 file(s) rooted at `cli` with dominant language py (cohesion 0.53). Central symbols: `AESdecrypt`, `AESencrypt`, `AddonCatalog`, `AddonEntry`, `AuthError`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 102 file(s) rooted at `cli` with dominant language py (cohesion 0.54). Central symbols: `AddonCatalog`, `AddonEntry`, `AuthError`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`, `BackendRegistrySpec`, `BinarySpec`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
-### `cli` (38 files)
+### `cli` (41 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,21 +17,22 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 | `cli/chain_mode.py` | py | utility | 23 | yes |
 | `cli/command_chain.py` | py | utility | 25 | yes |
 
-### `tests` (37 files)
+### `tests` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_autosuggest.py` | py | testing | 41 | yes |
 | `tests/test_chain_mode.py` | py | testing | 28 | yes |
 | `tests/test_command_chain.py` | py | testing | 24 | yes |
+| `tests/test_command_form.py` | py | testing | 13 | yes |
 
-### `core` (12 files)
+### `core` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `core/__init__.py` | py | utility | 0 | yes |
 | `core/console.py` | py | utility | 11 | yes |
-| `core/crypto.py` | py | utility | 7 | yes |
+| `core/dependencies.py` | py | utility | 23 | yes |
 
 ### `cli/commands` (6 files)
 
@@ -56,19 +57,13 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 | `modules/auto_purple.py` | py | utility | 40 | yes |
 | `modules/lazyk8s.py` | py | utility | 32 | yes |
 
-### `modules/rootkit` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
-
 ### `skills` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/unified_orchestrator.py` | py | utility | 59 | yes |
 
-*... and 81 more files in this community.*
+*... and 82 more files in this community.*
 
 
 ## Key Symbols
@@ -106,13 +101,13 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 335
-- Cross-boundary resolved imports (EXTRACTED): 210
+- Internal resolved imports (EXTRACTED): 331
+- Cross-boundary resolved imports (EXTRACTED): 200
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
-- [EXTRACTED] depends_on community 0 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
+- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
+- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
 - [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/assign.py.
 - [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/ops_commands.py.
 - [EXTRACTED] depends_on community 3 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports core/config.py.
@@ -120,7 +115,6 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
 - [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
@@ -131,8 +125,8 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 
 ## Open Questions
 
-- What would break if the most connected file in cli: status_bar changed?
-- Should cli: status_bar be split, given cohesion 0.53?
+- What would break if the most connected file in cli: dashboard_tui changed?
+- Should cli: dashboard_tui be split, given cohesion 0.54?
 
 ## Sources
 
@@ -150,10 +144,10 @@ This community groups 101 file(s) rooted at `cli` with dominant language py (coh
 - `cli/commands/recon.py`
 - `cli/config_status.py`
 - `cli/contextual_help.py`
+- `cli/dashboard_layout.py`
+- `cli/dashboard_tui.py`
 - `cli/doctor.py`
 - `cli/exploit_advisor.py`
 - `cli/exploration.py`
 - `cli/exploration_view.py`
-- `cli/graph_overlay.py`
-- `cli/lazynmap_post.py`
-- *... and 81 more*
+- *... and 82 more*

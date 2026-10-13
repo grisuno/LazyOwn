@@ -79,17 +79,17 @@ Pages: [KB_root.md](KB_root.md), [KB_root_p2.md](KB_root_p2.md)
 - Language: sh
 - Symbols:
   - `_jq` (function, line 31)
-  - `log` (function, line 55)
-  - `spin` (function, line 56)
-  - `err_box` (function, line 57)
-  - `ensure_gum` (function, line 63)
-  - `check_deps` (function, line 74)
-  - `check_sudo` (function, line 83)
-  - `parse_args` (function, line 92)
-  - `t_send` (function, line 110)
-  - `t_lazyown` (function, line 117)
-  - `t_priv_user` (function, line 130)
-  - `start_chown_watcher` (function, line 141)
+  - `log` (function, line 59)
+  - `spin` (function, line 60)
+  - `err_box` (function, line 61)
+  - `ensure_gum` (function, line 67)
+  - `check_deps` (function, line 78)
+  - `check_sudo` (function, line 87)
+  - `parse_args` (function, line 96)
+  - `t_send` (function, line 114)
+  - `t_lazyown` (function, line 121)
+  - `t_priv_user` (function, line 134)
+  - `start_chown_watcher` (function, line 145)
 
 ## gen_cert.sh
 - Doc: Verifica si se pasó una IP

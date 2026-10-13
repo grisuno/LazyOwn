@@ -9,11 +9,11 @@ graph LR
     cli -- "calls into" --> modules
 ```
 
-## cli (11.1)
+## cli (12.1)
 
 cli groups 1 files (py) around ActiveDirectoryCommandSet, do_kerberos_ticket, do_delegation_enum, do_delegation_attack, do_dacl_abuse. Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO...
 
-## modules (11.2)
+## modules (12.2)
 
 modules groups 6 files (py) around KerberosPrincipal, to_string, EncryptedData, KerberosTicket, has_flag. DACL/SACL abuse module — ACL manipulation for AD privilege escalation.
 

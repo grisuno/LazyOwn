@@ -61,7 +61,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/lateral.py` -> __future__, cmd2
 - `cli/commands/lateral_migrated.py` -> __future__, cmd2, os
 - `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
-- `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, shlex, uuid, yaml
+- `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, re, shlex, subprocess, uuid, yaml
 - `cli/commands/marketplace.py` -> __future__, cmd2, pathlib, shutil, subprocess
 - `cli/commands/mcp_bridge.py` -> __future__, argparse, cmd2, defusedxml.ElementTree, json, pathlib
 - `cli/commands/misc_migrated.py` -> __future__, base64, cmd2, csv, glob, json, os, rich.rule, rich.table, shlex, shutil, subprocess, sys, time
@@ -409,13 +409,21 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
 - `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
 - `modules/lazy_bridge.py` -> __future__, json, pathlib, re, time, uuid
+- `modules/lazy_cli_bridge.py` -> __future__, pathlib, re, threading, time
 - `modules/lazy_engine.py` -> __future__
+- `modules/lazy_installer.py` -> __future__
+- `modules/lazy_intel.py` -> __future__, ipaddress, json, pathlib, time
 - `modules/lazy_loop.py` -> __future__, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, queue, re, signal, smtplib, socket, subprocess, threading, time, urllib.request, zipfile
 - `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, modules.lazy_finding, pathlib, re
+- `modules/lazy_orchestrator_feedback.py` -> __future__, json, pathlib, threading, time
 - `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
 - `modules/lazy_rbac.py` -> __future__, collections.abc, dataclasses, flask, flask_login, functools, hmac, json, os, pathlib, pyotp, re, secrets, time, typing
+- `modules/lazy_roles.py` -> __future__, json, pathlib, time
 - `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, pathlib, queue, shlex, signal, sys, threading, time
+- `modules/lazy_sandbox.py` -> __future__, os, pathlib, re, shutil, subprocess, threading
+- `modules/lazy_skill_mirror.py` -> __future__, pathlib, re, shutil, time, yaml
 - `modules/lazy_skills.py` -> __future__, pathlib, re
+- `modules/lazy_summarizer.py` -> __future__, collections.abc
 - `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
 - `modules/lazyencoder_decoder.py` -> base64
 - `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/rootkit/mrhyde3.c` -> arpa/inet.h, dirent.h, dlfcn.h, errno.h, fcntl.h, linux/io_uring.h, linux/limits.h, netinet/in.h, poll.h, pthread.h, pwd.h, signal.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/mman.h, sys/socket.h, sys/stat.h, sys/syscall.h, sys/types.h, sys/wait.h, unistd.h
 - `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/module.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
 - `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
-- `modules/search.py` -> bs4, csv, requests
-- `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
-- `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
-- `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
-- `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
-- `modules/session_reader.py` -> __future__, abc, csv, dataclasses, glob, json, os, pathlib, typing
-- `modules/session_state.py` -> csv, datetime, json, pathlib, re
-- `modules/sidequestion.py` -> __future__, dataclasses, threading, time, typing, uuid
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 26 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
+static/js groups 29 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -13,6 +13,7 @@ graph LR
     root["root"]
     static["static"]
     tests["tests"]
+    cli -- "calls into" --> core
     contrib -- "depends on" --> core
     root -- "depends on" --> core
     static -- "depends on" --> cli
@@ -21,6 +22,7 @@ graph LR
     static -- "depends on" --> lazyown_docker
     static -- "depends on" --> modules
     tests -- "calls into" --> cli
+    tests -- "calls into" --> core
 ```
 
 ## cli (8.1)
@@ -33,7 +35,7 @@ contrib groups 1 files (py) around generate_key_iv, main.
 
 ## core (8.3)
 
-core groups 2 files (py) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. Process and subprocess utilities for the LazyOwn framework.
+core groups 3 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Declarative schema and validation for ``payload.json``.
 
 ## lazyc2 (8.4)
 
@@ -57,7 +59,7 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 
 ## tests (8.9)
 
-tests groups 1 files (py) around _add_repo_root_to_syspath, TestApplyAssign, test_returns_true_when_key_exists, test_returns_false_when_key_missing, test_does_not_invoke_save_on_failure. ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
+tests groups 3 files (py) around _add_repo_root_to_syspath, TestApplyAssign, test_returns_true_when_key_exists, test_returns_false_when_key_missing, test_does_not_invoke_save_on_failure. ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
 
 **Files**:
 
@@ -65,6 +67,7 @@ tests groups 1 files (py) around _add_repo_root_to_syspath, TestApplyAssign, tes
 - cli/show.py
 - cli/style.py
 - contrib/legacy/lazybinenc.py
+- core/payload_schema.py
 - core/process.py
 - core/prompt.py
 - key.py
@@ -87,3 +90,5 @@ tests groups 1 files (py) around _add_repo_root_to_syspath, TestApplyAssign, tes
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
 - tests/test_cli_assign.py
+- tests/test_core_config.py
+- tests/test_payload_schema.py

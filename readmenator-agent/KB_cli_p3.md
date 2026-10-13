@@ -9,43 +9,46 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `ConfigField` (class, line 59) `class ConfigField`
   - `FormModal` (class, line 81) `class FormModal`
   - `LazyOrchestratorApp` (class, line 118) `class LazyOrchestratorApp`
-  - `_coerce` (function, line 588) `def _coerce(raw)`
-  - `run_orchestrator_console` (function, line 605) `def run_orchestrator_console(task_id)`
+  - `_coerce` (function, line 634) `def _coerce(raw)`
+  - `run_orchestrator_console` (function, line 651) `def run_orchestrator_console(task_id)`
   - `__init__` (method, line 86) `def __init__(self, title, fields)`
   - `compose` (method, line 92) `def compose(self)`
   - `on_button_pressed` (method, line 101) `def on_button_pressed(self, event)`
   - `on_input_submitted` (method, line 110) `def on_input_submitted(self, event)`
-  - `__init__` (method, line 141) `def __init__(self, payload_path, task_id)`
-  - `compose` (method, line 151) `def compose(self)`
-  - `on_mount` (method, line 176) `def on_mount(self)`
-  - `toggle_stage` (method, line 186) `def toggle_stage(self, name)`
-  - `toggle_verb` (method, line 195) `def toggle_verb(self, name)`
-  - `add_auto_verb` (method, line 204) `def add_auto_verb(self, name, keywords, needs_target, description)`
-  - `remove_auto_verb` (method, line 219) `def remove_auto_verb(self, name)`
-  - `_refresh_stages` (method, line 227) `def _refresh_stages(self)`
-  - `_refresh_verbs` (method, line 243) `def _refresh_verbs(self)`
-  - `_load_payload` (method, line 267) `def _load_payload(self)`
-  - `_load_payload_into_form` (method, line 277) `def _load_payload_into_form(self)`
-  - `save_config` (method, line 288) `def save_config(self, values)`
-  - `add_model_member` (method, line 310) `def add_model_member(self, name, model, priority)`
-  - `remove_model_member` (method, line 318) `def remove_model_member(self, name)`
-  - `add_guard_rule` (method, line 326) `def add_guard_rule(self, pattern, action, reason)`
-  - `remove_guard_rule` (method, line 334) `def remove_guard_rule(self, pattern)`
-  - `_refresh_models` (method, line 342) `def _refresh_models(self)`
-  - `_refresh_guard` (method, line 363) `def _refresh_guard(self)`
-  - `_resolve_task` (method, line 385) `def _resolve_task(self)`
-  - `_poll_now` (method, line 403) `def _poll_now(self)`
-  - `on_button_pressed` (method, line 438) `def on_button_pressed(self, event)`
-  - `action_refresh` (method, line 456) `def action_refresh(self)`
-  - `_selected_row` (method, line 464) `def _selected_row(self, table_id)`
-  - `action_toggle_item` (method, line 473) `def action_toggle_item(self)`
-  - `action_save_config` (method, line 485) `def action_save_config(self)`
-  - `_active_tab` (method, line 495) `def _active_tab(self)`
-  - `action_add_item` (method, line 502) `def action_add_item(self)`
-  - `action_delete_item` (method, line 563) `def action_delete_item(self)`
-  - `_done` (function, line 507) `def _done(values)`
-  - `_done_rule` (function, line 524) `def _done_rule(values)`
-  - `_done_verb` (function, line 541) `def _done_verb(values)`
+  - `__init__` (method, line 142) `def __init__(self, payload_path, task_id)`
+  - `compose` (method, line 152) `def compose(self)`
+  - `on_mount` (method, line 177) `def on_mount(self)`
+  - `toggle_stage` (method, line 187) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 196) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 205) `def add_auto_verb(self, name, keywords, needs_target, description)`
+  - `remove_auto_verb` (method, line 220) `def remove_auto_verb(self, name)`
+  - `_refresh_stages` (method, line 228) `def _refresh_stages(self)`
+  - `_refresh_verbs` (method, line 244) `def _refresh_verbs(self)`
+  - `_load_payload` (method, line 268) `def _load_payload(self)`
+  - `_load_payload_into_form` (method, line 278) `def _load_payload_into_form(self)`
+  - `save_config` (method, line 289) `def save_config(self, values)`
+  - `add_model_member` (method, line 311) `def add_model_member(self, name, model, priority)`
+  - `remove_model_member` (method, line 319) `def remove_model_member(self, name)`
+  - `set_model_priority` (method, line 327) `def set_model_priority(self, name, priority)`
+  - `add_guard_rule` (method, line 339) `def add_guard_rule(self, pattern, action, reason)`
+  - `remove_guard_rule` (method, line 347) `def remove_guard_rule(self, pattern)`
+  - `_refresh_models` (method, line 355) `def _refresh_models(self)`
+  - `_refresh_guard` (method, line 376) `def _refresh_guard(self)`
+  - `_resolve_task` (method, line 398) `def _resolve_task(self)`
+  - `_poll_now` (method, line 416) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 451) `def on_button_pressed(self, event)`
+  - `action_refresh` (method, line 469) `def action_refresh(self)`
+  - `_selected_row` (method, line 477) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 486) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 498) `def action_save_config(self)`
+  - `_active_tab` (method, line 508) `def _active_tab(self)`
+  - `action_add_item` (method, line 515) `def action_add_item(self)`
+  - `action_edit_item` (method, line 575) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 609) `def action_delete_item(self)`
+  - `_done` (function, line 588) `def _done(values)`
+  - `_done` (function, line 520) `def _done(values)`
+  - `_done_rule` (function, line 537) `def _done_rule(values)`
+  - `_done_verb` (function, line 554) `def _done_verb(values)`
 - Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
 - Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`
 

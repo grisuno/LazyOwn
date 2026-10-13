@@ -1888,6 +1888,85 @@ def _h_exploitgym_score(arguments: dict, tool_name: str) -> list[types.TextConte
         return _make_text(tool_name, json.dumps({"error": str(error)}))
 
 
+@register_handler("lazyown_opencode_config")
+def _h_opencode_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Point opencode/hermes configs at the Lazy llama.cpp server (backup first)."""
+    target = str(arguments.get("target", "both") or "both").strip().lower()
+    set_default = bool(arguments.get("set_default", False))
+    try:
+        import sys
+
+        scripts = str(LAZYOWN_DIR / "scripts")
+        if scripts not in sys.path:
+            sys.path.insert(0, scripts)
+        from lazy_opencode_config import patch_hermes, patch_opencode
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    results = []
+    if target in ("opencode", "both"):
+        results.append(patch_opencode(set_default=set_default))
+    if target in ("hermes", "both"):
+        results.append(patch_hermes())
+    return _make_text(tool_name, json.dumps(results, indent=2))
+
+
+@register_handler("lazyown_loop_smoke")
+def _h_loop_smoke(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Run the autonomous loop smoke test against a target with one LLM leg.
+
+    Binds the task to a single pool member (default llamacpp-local, the
+    local Qwen server), runs the orchestrator for the given rounds and
+    returns the independent goal verdict plus findings. Used to prove a
+    model leg end to end before trusting it in production runs.
+    """
+    target = str(arguments.get("target", "") or "").strip()
+    if not target:
+        return _make_text(tool_name, "target is required (lab IP, e.g. MSF guest)")
+    member = str(arguments.get("member", "llamacpp-local") or "llamacpp-local").strip()
+    model = str(arguments.get("model", "llamacpp:local-model") or "llamacpp:local-model").strip()
+    try:
+        rounds = max(1, min(12, int(arguments.get("rounds", 4) or 4)))
+    except (TypeError, ValueError):
+        rounds = 4
+    try:
+        workers = max(1, min(5, int(arguments.get("workers", 2) or 2)))
+    except (TypeError, ValueError):
+        workers = 2
+    goal = str(arguments.get("goal", "") or f"gain initial access on {target}").strip()
+    try:
+        from modules.lazy_engine import LazyEngine
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        engine = LazyEngine()
+        summary = engine.create_task(goal)
+        task_id = summary["task_id"]
+        engine.ensure_target(task_id, target, "loop smoke")
+        engine.store.set_llm_chain(task_id, [{"name": member, "model": model, "priority": 10}])
+        result = engine.run(task_id, max_rounds=rounds, workers=workers, executor=None)
+        verdict = result.get("verdict") or {}
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {
+                    "task": task_id,
+                    "status": result.get("status"),
+                    "rounds": result.get("rounds"),
+                    "verdict": verdict.get("verdict"),
+                    "coverage_pct": verdict.get("coverage_pct"),
+                    "facts": verdict.get("facts"),
+                    "findings": verdict.get("findings"),
+                    "confirmed": verdict.get("confirmed"),
+                    "report": verdict.get("path"),
+                    "member": member,
+                },
+                indent=2,
+            ),
+        )
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
@@ -5067,6 +5146,73 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": ["task_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_opencode_config",
+            description=(
+                "Point the operator's opencode (~/.config/opencode/opencode.json) "
+                "and/or hermes (~/.hermes/config.yaml) at the Lazy llama.cpp "
+                "local server. Backs files up first; idempotent (no-op when "
+                "already patched). Target opencode|hermes|both."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Which config to patch (default both).",
+                        "default": "both",
+                    },
+                    "set_default": {
+                        "type": "boolean",
+                        "description": "Also set opencode's top-level model to llamacpp/local-model.",
+                        "default": False,
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_loop_smoke",
+            description=(
+                "Run the autonomous loop smoke test against a target with one "
+                "LLM leg (default llamacpp-local, the local Qwen server). "
+                "Returns the independent goal verdict plus findings. Proves "
+                "a model leg end to end before production runs."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP for the smoke run (lab guest).",
+                    },
+                    "member": {
+                        "type": "string",
+                        "description": "Pool member name to bind (default llamacpp-local).",
+                        "default": "llamacpp-local",
+                    },
+                    "model": {
+                        "type": "string",
+                        "description": "Model spec to bind (default llamacpp:local-model).",
+                        "default": "llamacpp:local-model",
+                    },
+                    "rounds": {
+                        "type": "integer",
+                        "description": "Max orchestrator rounds (default 4, cap 12).",
+                        "default": 4,
+                    },
+                    "workers": {
+                        "type": "integer",
+                        "description": "Parallel workers (default 2, cap 5).",
+                        "default": 2,
+                    },
+                    "goal": {
+                        "type": "string",
+                        "description": "Goal override (default gain initial access on target).",
+                    },
+                },
+                "required": ["target"],
             },
         ),
         types.Tool(

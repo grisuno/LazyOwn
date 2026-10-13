@@ -5,30 +5,30 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 243.20, imported by 121 files)
-- `utils.py` (score: 210.40, imported by 87 files)
+- `utils.py` (score: 212.40, imported by 88 files)
 - `cli/commands/_base.py` (score: 182.70, imported by 89 files)
-- `skills/lazyown_mcp.py` (score: 179.80, imported by 8 files)
-- `modules/lazy_loop.py` (score: 152.00, imported by 38 files)
+- `skills/lazyown_mcp.py` (score: 182.00, imported by 8 files)
+- `modules/lazy_loop.py` (score: 162.50, imported by 41 files)
 - `lazyc2.py` (score: 122.40)
 - `lazyown.py` (score: 116.90, imported by 8 files)
 - `core/console.py` (score: 101.10, imported by 50 files)
 - `skills/autonomous_daemon.py` (score: 98.80, imported by 15 files)
-- `core/config.py` (score: 87.70, imported by 41 files)
+- `core/config.py` (score: 97.70, imported by 46 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `core/process.py` -- 12 direct, 126 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 125 total dependents
-- `modules/cli_auth.py` -- 10 direct, 125 total dependents
-- `core/config.py` -- 41 direct, 124 total dependents
 - `core/logging.py` -- 50 direct, 121 total dependents
-- `core/hardening.py` -- 18 direct, 112 total dependents
-- `core/crypto.py` -- 9 direct, 111 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 101 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 100 total dependents
-- `core/validators.py` -- 12 direct, 96 total dependents
+- `modules/cli_auth.py` -- 10 direct, 119 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 118 total dependents
+- `core/crypto.py` -- 9 direct, 116 total dependents
+- `core/hardening.py` -- 18 direct, 116 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 102 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 101 total dependents
+- `core/process.py` -- 12 direct, 99 total dependents
+- `core/parsers.py` -- 9 direct, 97 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 97 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -49,14 +49,14 @@ Circular dependencies. Refactor to break the cycle.
 
 - `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
+- `modules/lazy_loop.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py`
 - `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
 - `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
+- `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/lazy_roles.py` -> `modules/lazy_engine.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
-- `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 
 ## Layer Violations
 

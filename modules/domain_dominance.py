@@ -846,13 +846,56 @@ class DomainDominance:
         """
         return ",".join(f"DC={part}" for part in domain.split("."))
 
+    @staticmethod
+    def _seal_loot_secret(secret: str) -> str:
+        """Seal a loot secret for storage; plaintext fallback when no vault.
+
+        Args:
+            secret: Password or hash to persist.
+
+        Returns:
+            Sealed value when the credential vault resolves, else plaintext.
+        """
+        text = str(secret or "")
+        if not text:
+            return ""
+        try:
+            from core.hardening import seal_secret as _seal_secret
+
+            return _seal_secret(text)
+        except Exception:
+            pass
+        return text
+
+    @staticmethod
+    def _unseal_loot_secret(stored: str) -> str:
+        """Reveal a loot secret stored by :meth:`_seal_loot_secret`.
+
+        Args:
+            stored: Sealed or legacy plaintext loot value.
+
+        Returns:
+            Plaintext secret, or empty string when undecryptable.
+        """
+        text = str(stored or "")
+        if not text:
+            return ""
+        try:
+            from core.hardening import unseal_secret as _unseal_secret
+
+            return str(_unseal_secret(text) or "")
+        except Exception:
+            return text
+
     def _save_credential(self, username: str, secret: str, secret_type: str, source: str) -> None:
         """Save a discovered credential to the sessions directory.
 
-        Loot must stay operator-readable for the engagement, so it is kept
-        in clear text with owner-only permissions (directory 0700, file
-        0600) and never written to logs. Callers must scrub ``secret``
-        from any returned strings.
+        Loot is sealed with the credential vault (AES-256-GCM) when a key
+        resolves, falling back to owner-only plaintext for legacy
+        workflows. File and directory stay owner-only (0700/0600) and the
+        secret is never written to logs. Callers must scrub ``secret``
+        from any returned strings. Use :meth:`_unseal_loot_secret` to
+        reveal stored values for operator reuse.
 
         Args:
             username: Username.
@@ -869,7 +912,8 @@ class DomainDominance:
         except OSError:
             pass
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-        line = f"{timestamp} | {source} | {username} | {secret} | {secret_type}\n"
+        stored_secret = self._seal_loot_secret(secret)
+        line = f"{timestamp} | {source} | {username} | {stored_secret} | {secret_type}\n"
         with cred_file.open("a") as f:
             f.write(line)
         try:

@@ -146,46 +146,46 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_smtpuserenum` (method, line 441) `def do_smtpuserenum(self, line)`
   - `do_sessionssh` (method, line 480) `def do_sessionssh(self, line)`
   - `do_smbattack` (method, line 504) `def do_smbattack(self, line)`
-  - `do_parsero` (method, line 640) `def do_parsero(self, line)`
-  - `do_changeme` (method, line 672) `def do_changeme(self, line)`
-  - `do_enum4linux_ng` (method, line 703) `def do_enum4linux_ng(self, line)`
-  - `do_fuzz` (method, line 743) `def do_fuzz(self, line)`
-  - `do_kerbrute` (method, line 788) `def do_kerbrute(self, line)`
-  - `do_davtest` (method, line 874) `def do_davtest(self, line)`
-  - `do_evil_ssdp` (method, line 915) `def do_evil_ssdp(self, line)`
-  - `do_netexec` (method, line 961) `def do_netexec(self, line)`
-  - `do_allin` (method, line 1214) `def do_allin(self, line)`
-  - `do_windapsearch` (method, line 1285) `def do_windapsearch(self, line)`
-  - `do_ldapsearch` (method, line 1413) `def do_ldapsearch(self, line)`
-  - `do_arjun` (method, line 1474) `def do_arjun(self, line)`
-  - `do_finger_user_enum` (method, line 1542) `def do_finger_user_enum(self, line)`
-  - `do_wpscan` (method, line 1588) `def do_wpscan(self, line)`
-  - `do_loxs` (method, line 1651) `def do_loxs(self, line)`
-  - `do_blazy` (method, line 1695) `def do_blazy(self, line)`
-  - `do_parth` (method, line 1744) `def do_parth(self, line)`
-  - `do_breacher` (method, line 1813) `def do_breacher(self, line)`
-  - `do_openredirex` (method, line 1875) `def do_openredirex(self, line)`
-  - `do_odat` (method, line 1943) `def do_odat(self, line)`
-  - `do_rpcmap_py` (method, line 2061) `def do_rpcmap_py(self, line)`
-  - `do_pykerbrute` (method, line 2104) `def do_pykerbrute(self, line)`
-  - `do_netview` (method, line 2174) `def do_netview(self, line)`
-  - `do_rdp_check_py` (method, line 2238) `def do_rdp_check_py(self, line)`
-  - `do_mqtt_check_py` (method, line 2303) `def do_mqtt_check_py(self, line)`
-  - `do_lookupsid_py` (method, line 2358) `def do_lookupsid_py(self, line)`
-  - `do_lookupsid` (method, line 2431) `def do_lookupsid(self, line)`
-  - `do_certipy_ad` (method, line 2493) `def do_certipy_ad(self, line)`
-  - `do_certipy` (method, line 2557) `def do_certipy(self, line)`
-  - `do_sawks` (method, line 2651) `def do_sawks(self, line)`
-  - `do_ad_ldap_enum` (method, line 2688) `def do_ad_ldap_enum(self, line)`
-  - `do_net_rpc_addmem` (method, line 2742) `def do_net_rpc_addmem(self, line)`
-  - `do_pre2k` (method, line 2788) `def do_pre2k(self, line)`
-  - `do_hound` (method, line 2881) `def do_hound(self, line)`
+  - `do_parsero` (method, line 648) `def do_parsero(self, line)`
+  - `do_changeme` (method, line 680) `def do_changeme(self, line)`
+  - `do_enum4linux_ng` (method, line 711) `def do_enum4linux_ng(self, line)`
+  - `do_fuzz` (method, line 751) `def do_fuzz(self, line)`
+  - `do_kerbrute` (method, line 796) `def do_kerbrute(self, line)`
+  - `do_davtest` (method, line 882) `def do_davtest(self, line)`
+  - `do_evil_ssdp` (method, line 923) `def do_evil_ssdp(self, line)`
+  - `do_netexec` (method, line 969) `def do_netexec(self, line)`
+  - `do_allin` (method, line 1222) `def do_allin(self, line)`
+  - `do_windapsearch` (method, line 1293) `def do_windapsearch(self, line)`
+  - `do_ldapsearch` (method, line 1421) `def do_ldapsearch(self, line)`
+  - `do_arjun` (method, line 1482) `def do_arjun(self, line)`
+  - `do_finger_user_enum` (method, line 1550) `def do_finger_user_enum(self, line)`
+  - `do_wpscan` (method, line 1596) `def do_wpscan(self, line)`
+  - `do_loxs` (method, line 1659) `def do_loxs(self, line)`
+  - `do_blazy` (method, line 1703) `def do_blazy(self, line)`
+  - `do_parth` (method, line 1752) `def do_parth(self, line)`
+  - `do_breacher` (method, line 1821) `def do_breacher(self, line)`
+  - `do_openredirex` (method, line 1883) `def do_openredirex(self, line)`
+  - `do_odat` (method, line 1951) `def do_odat(self, line)`
+  - `do_rpcmap_py` (method, line 2069) `def do_rpcmap_py(self, line)`
+  - `do_pykerbrute` (method, line 2112) `def do_pykerbrute(self, line)`
+  - `do_netview` (method, line 2182) `def do_netview(self, line)`
+  - `do_rdp_check_py` (method, line 2246) `def do_rdp_check_py(self, line)`
+  - `do_mqtt_check_py` (method, line 2311) `def do_mqtt_check_py(self, line)`
+  - `do_lookupsid_py` (method, line 2366) `def do_lookupsid_py(self, line)`
+  - `do_lookupsid` (method, line 2439) `def do_lookupsid(self, line)`
+  - `do_certipy_ad` (method, line 2501) `def do_certipy_ad(self, line)`
+  - `do_certipy` (method, line 2565) `def do_certipy(self, line)`
+  - `do_sawks` (method, line 2659) `def do_sawks(self, line)`
+  - `do_ad_ldap_enum` (method, line 2696) `def do_ad_ldap_enum(self, line)`
+  - `do_net_rpc_addmem` (method, line 2750) `def do_net_rpc_addmem(self, line)`
+  - `do_pre2k` (method, line 2796) `def do_pre2k(self, line)`
+  - `do_hound` (method, line 2889) `def do_hound(self, line)`
   - `find_tgts` (function, line 533) `def find_tgts(subnet)`
   - `setup_handler` (function, line 559) `def setup_handler(config_file, lhost, lport)`
   - `conficker_exploit` (function, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
   - `smb_brute` (function, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
-  - `install_netexec` (function, line 988) `def install_netexec()`
-  - `install_netexec_pipx` (function, line 993) `def install_netexec_pipx()`
+  - `install_netexec` (function, line 996) `def install_netexec()`
+  - `install_netexec_pipx` (function, line 1001) `def install_netexec_pipx()`
 - Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/security.py
@@ -237,11 +237,11 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_collab_join` (method, line 1294) `def do_collab_join(self, line)`
   - `do_kick` (method, line 1325) `def do_kick(self, line)`
   - `do_qa` (method, line 1374) `def do_qa(self, line)`
-  - `do_clock` (method, line 1430) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1478) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1490) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1540) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1586) `def do_msfshellcoder(self, line)`
+  - `do_clock` (method, line 1436) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1484) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1496) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1546) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1592) `def do_msfshellcoder(self, line)`
   - `_flag_value` (function, line 924) `def _flag_value(flag_name)`
   - `_flag_value` (function, line 1036) `def _flag_value(flag_name)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`

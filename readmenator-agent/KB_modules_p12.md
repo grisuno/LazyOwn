@@ -1,6 +1,61 @@
 # Subsystem: modules (page 12 of 14)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/privesc_predictor.py
+- Doc: Crystal Ball — privilege escalation vector prediction engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PrivescVector` (class, line 97) `class PrivescVector`
+  - `SystemProfile` (class, line 114) `class SystemProfile`
+  - `_parse_kernel_version` (function, line 136) `def _parse_kernel_version(version_str)`
+  - `_parse_version_from_range` (function, line 153) `def _parse_version_from_range(range_str)`
+  - `parse_linpeas_output` (function, line 165) `def parse_linpeas_output(text)`
+  - `parse_winpeas_output` (function, line 218) `def parse_winpeas_output(text)`
+  - `match_known_cves` (function, line 249) `def match_known_cves(profile)`
+  - `suid_vectors` (function, line 287) `def suid_vectors(profile)`
+  - `capability_vectors` (function, line 361) `def capability_vectors(profile)`
+  - `group_vectors` (function, line 463) `def group_vectors(profile)`
+  - `sudo_vectors` (function, line 501) `def sudo_vectors(profile)`
+  - `cron_vectors` (function, line 578) `def cron_vectors(profile)`
+  - `_load_gtfobins_map` (function, line 617) `def _load_gtfobins_map()`
+  - `_try_llm_analysis` (function, line 655) `def _try_llm_analysis(profile)`
+  - `analyze_privesc` (function, line 742) `def analyze_privesc(filepath, text)`
+  - `format_crystal_ball_output` (function, line 827) `def format_crystal_ball_output(result)`
+  - `main` (function, line 908) `def main()`
+- Depends on: `core/console.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/crystal_ball.py`
+
+## modules/professional_report.py
+- Doc: Professional Red Team Report Generator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReportFinding` (class, line 87) `class ReportFinding`
+  - `ReportMetadata` (class, line 102) `class ReportMetadata`
+  - `RedTeamReportGenerator` (class, line 114) `class RedTeamReportGenerator`
+  - `__init__` (method, line 173) `def __init__(self, include_credentials)`
+  - `collect_data` (method, line 179) `def collect_data(self)`
+  - `classify_findings` (method, line 217) `def classify_findings(self, data)`
+  - `generate` (method, line 244) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
+  - `_generate_html` (method, line 298) `def _generate_html(self, out_path, timestamp)`
+  - `_generate_markdown` (method, line 450) `def _generate_markdown(self, out_path, timestamp)`
+  - `_generate_json` (method, line 513) `def _generate_json(self, out_path, timestamp)`
+  - `_html_to_pdf` (method, line 552) `def _html_to_pdf(self, html_path)`
+  - `_classify_services` (method, line 585) `def _classify_services(self, services, hosts)`
+  - `_classify_vulnerabilities` (method, line 640) `def _classify_vulnerabilities(self, vulns, hosts)`
+  - `_classify_credentials` (method, line 682) `def _classify_credentials(self, credentials, hosts)`
+  - `_classify_sessions` (method, line 758) `def _classify_sessions(self, sessions, hosts)`
+  - `_load_json` (method, line 805) `def _load_json(self, filename)`
+  - `_extract_scope` (method, line 822) `def _extract_scope(self, data)`
+  - `collect_command_history` (method, line 841) `def collect_command_history(self, max_entries)`
+  - `collect_loot_summary` (method, line 865) `def collect_loot_summary(self)`
+  - `_accumulate_loot` (method, line 893) `def _accumulate_loot(self, summary, path)`
+  - `generate_executive_summary` (method, line 911) `def generate_executive_summary(self, data, with_ai, ai_backend)`
+  - `_ai_draft_summary` (method, line 956) `def _ai_draft_summary(self, data, fallback, backend)`
+- Depends on: `modules/llm_factory.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+
 ## modules/r.sh
 - Doc: Obtener la versión del kernel actual
 - Layer: utility
@@ -425,47 +480,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `cancel` (method, line 104) `def cancel(self, request_id)`
   - `history` (method, line 113) `def history(self, limit, before)`
 - Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-
-## modules/sleep_obfuscation.py
-- Doc: Sleep obfuscation engine for beacon memory evasion.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `OsPlatform` (class, line 57) `class OsPlatform(str, Enum)`
-  - `TechniqueRisk` (class, line 64) `class TechniqueRisk(str, Enum)`
-  - `SleepTechnique` (class, line 73) `class SleepTechnique`
-  - `SleepObfuscationConfig` (class, line 100) `class SleepObfuscationConfig`
-  - `SleepTechniqueCatalog` (class, line 163) `class SleepTechniqueCatalog`
-  - `_build_default_catalog` (function, line 201) `def _build_default_catalog()`
-  - `SleepTechniqueValidator` (class, line 365) `class SleepTechniqueValidator`
-  - `SleepObfuscationEngine` (class, line 394) `class SleepObfuscationEngine`
-  - `to_dict` (method, line 129) `def to_dict(self)`
-  - `from_dict` (method, line 146) `def from_dict(cls, raw)`
-  - `__init__` (method, line 170) `def __init__(self)`
-  - `register` (method, line 173) `def register(self, technique)`
-  - `get` (method, line 177) `def get(self, name)`
-  - `list_all` (method, line 184) `def list_all(self)`
-  - `list_by_platform` (method, line 192) `def list_by_platform(self, platform)`
-  - `list_names` (method, line 196) `def list_names(self)`
-  - `validate` (method, line 369) `def validate(config, technique)`
-  - `validate_config` (method, line 386) `def validate_config(config)`
-  - `__init__` (method, line 407) `def __init__(self, catalog)`
-  - `catalog` (method, line 416) `def catalog(self)`
-  - `config` (method, line 421) `def config(self)`
-  - `detection_resistance` (method, line 426) `def detection_resistance(self)`
-  - `select` (method, line 442) `def select(self, technique_name)`
-  - `configure` (method, line 449) `def configure(self, technique, overrides)`
-  - `validate` (method, line 484) `def validate(self, config)`
-  - `recommend` (method, line 500) `def recommend(self, platform)`
-  - `to_dict` (method, line 513) `def to_dict(self)`
-  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-
-## modules/smbver.sh
-- Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

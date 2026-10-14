@@ -5,6 +5,7 @@
 - Layer: utility
 - Language: py
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/orchestrator.py`
+- Imported by: `tests/test_security_codeql_batch.py`
 
 ## skills/claude_md_orchestrator/bdd_agent.py
 - Doc: Behavior-Driven Development agent.
@@ -223,20 +224,20 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CheckResult` (class, line 65) `class CheckResult`
-  - `find_block_comments` (function, line 85) `def find_block_comments(source)`
-  - `find_inline_comments` (function, line 107) `def find_inline_comments(source)`
-  - `check_no_comments` (function, line 124) `def check_no_comments(source, path)`
-  - `check_no_emoji` (function, line 155) `def check_no_emoji(content, path)`
-  - `check_no_forbidden_markers` (function, line 177) `def check_no_forbidden_markers(content, path)`
-  - `check_english_only` (function, line 194) `def check_english_only(source, path)`
-  - `check_docstrings` (function, line 218) `def check_docstrings(source, path)`
-  - `check_no_hardcoded_paths_or_ips` (function, line 259) `def check_no_hardcoded_paths_or_ips(source, path)`
-  - `check_magic_numbers` (function, line 293) `def check_magic_numbers(source, path, allow)`
-  - `check_source` (function, line 328) `def check_source(source, path, allow_numbers)`
-  - `check_markdown` (function, line 341) `def check_markdown(content, path)`
-  - `check_spec` (function, line 350) `def check_spec(spec, min_sad_paths)`
-  - `passed` (method, line 76) `def passed(self)`
-  - `blocks` (method, line 80) `def blocks(self)`
+  - `CheckResult` (class, line 77) `class CheckResult`
+  - `find_block_comments` (function, line 97) `def find_block_comments(source)`
+  - `find_inline_comments` (function, line 119) `def find_inline_comments(source)`
+  - `check_no_comments` (function, line 136) `def check_no_comments(source, path)`
+  - `check_no_emoji` (function, line 167) `def check_no_emoji(content, path)`
+  - `check_no_forbidden_markers` (function, line 189) `def check_no_forbidden_markers(content, path)`
+  - `check_english_only` (function, line 206) `def check_english_only(source, path)`
+  - `check_docstrings` (function, line 230) `def check_docstrings(source, path)`
+  - `check_no_hardcoded_paths_or_ips` (function, line 271) `def check_no_hardcoded_paths_or_ips(source, path)`
+  - `check_magic_numbers` (function, line 305) `def check_magic_numbers(source, path, allow)`
+  - `check_source` (function, line 340) `def check_source(source, path, allow_numbers)`
+  - `check_markdown` (function, line 353) `def check_markdown(content, path)`
+  - `check_spec` (function, line 362) `def check_spec(spec, min_sad_paths)`
+  - `passed` (method, line 88) `def passed(self)`
+  - `blocks` (method, line 92) `def blocks(self)`
 - Depends on: `skills/claude_md_orchestrator/models.py`
 - Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`

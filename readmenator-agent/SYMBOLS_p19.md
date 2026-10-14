@@ -3,6 +3,34 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
+| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
+| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
+| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
+| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
+| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
+| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
+| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
+| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
+| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
+| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
+| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
+| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
+| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
+| `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
+| `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
+| `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
+| `SocksValidator` | class | `modules/socks_proxy.py:244` | `class SocksValidator` |
+| `__init__` | method | `modules/socks_proxy.py:381` | `def __init__(self, config)` |
+| `_check_access_control` | method | `modules/socks_proxy.py:340` | `def _check_access_control(host, port, config)` |
+| `_find_oldest_session` | method | `modules/socks_proxy.py:515` | `def _find_oldest_session(self)` |
+| `add_bytes` | method | `modules/socks_proxy.py:486` | `def add_bytes(self, session_id, sent, received)` |
+| `build_spec` | method | `modules/socks_proxy.py:413` | `def build_spec(self)` |
+| `cleanup_expired` | method | `modules/socks_proxy.py:497` | `def cleanup_expired(self)` |
+| `config` | method | `modules/socks_proxy.py:387` | `def config(self)` |
 | `create_session` | method | `modules/socks_proxy.py:436` | `def create_session(self, session_id, target_host, target_port, beacon_client_id)` |
 | `elapsed_seconds` | method | `modules/socks_proxy.py:144` | `def elapsed_seconds(self)` |
 | `from_dict` | method | `modules/socks_proxy.py:218` | `def from_dict(cls, raw)` |
@@ -468,33 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `get_hosts_summary` | method | `modules/world_model.py:642` | `def get_hosts_summary(self)` |
 | `get_phase` | method | `modules/world_model.py:963` | `def get_phase(self)` |
 | `get_suggested_tools` | method | `modules/world_model.py:967` | `def get_suggested_tools(self)` |
-| `get_world_model` | function | `modules/world_model.py:1126` | `def get_world_model(path)` |
-| `graph_snapshot` | method | `modules/world_model.py:956` | `def graph_snapshot(self)` |
-| `in_degree` | method | `modules/world_model.py:286` | `def in_degree(self, node)` |
-| `link_credential_to_failure` | method | `modules/world_model.py:706` | `def link_credential_to_failure(self, value, host)` |
-| `link_credential_to_success` | method | `modules/world_model.py:685` | `def link_credential_to_success(self, value, host)` |
-| `neighbors` | method | `modules/world_model.py:282` | `def neighbors(self, node)` |
-| `out_degree` | method | `modules/world_model.py:290` | `def out_degree(self, node)` |
-| `pivot_candidates` | method | `modules/world_model.py:309` | `def pivot_candidates(self, top_k)` |
-| `pivot_candidates` | method | `modules/world_model.py:948` | `def pivot_candidates(self, top_k)` |
-| `rank` | method | `modules/world_model.py:160` | `def rank(self)` |
-| `read_state_dict` | function | `modules/world_model.py:72` | `def read_state_dict(path)` |
-| `reload` | method | `modules/world_model.py:1078` | `def reload(self)` |
-| `reset` | method | `modules/world_model.py:1094` | `def reset(self)` |
-| `reset_host` | method | `modules/world_model.py:573` | `def reset_host(self, ip)` |
-| `set_os_hint` | method | `modules/world_model.py:616` | `def set_os_hint(self, ip, os_hint)` |
-| `snapshot` | method | `modules/world_model.py:1105` | `def snapshot(self)` |
-| `to_context_string` | method | `modules/world_model.py:970` | `def to_context_string(self)` |
-| `to_dict` | method | `modules/world_model.py:331` | `def to_dict(self)` |
-| `to_dict` | method | `modules/world_model.py:385` | `def to_dict(self)` |
-| `update_from_findings` | method | `modules/world_model.py:762` | `def update_from_findings(self, findings)` |
-| `write_state_dict` | function | `modules/world_model.py:118` | `def write_state_dict(path, data)` |
-| `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
-| `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
-| `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
-| `create_yaml_addon` | method | `modules/yaml_generator.py:109` | `def create_yaml_addon(self, user_request, output_dir)` |
-| `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
-| `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
-| `load_payload` | method | `modules/yaml_generator.py:25` | `def load_payload(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

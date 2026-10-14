@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 68 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _collect_validation_warnings. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 69 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _collect_validation_warnings. exploit commands migrated from lazyown.py.
 
 ```mermaid
 graph LR
@@ -33,7 +33,7 @@ modules groups 31 files (py) around plausible_command, _sudo_unavailable, _is_ip
 
 ## tests (5.4)
 
-tests groups 28 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+tests groups 29 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
@@ -104,4 +104,5 @@ tests groups 28 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_loop_supervision.py
 - tests/test_loop_worker_traces.py
 - tests/test_safety_gates.py
+- tests/test_security_codeql_batch.py
 - tests/test_unified_bridge_delegate.py

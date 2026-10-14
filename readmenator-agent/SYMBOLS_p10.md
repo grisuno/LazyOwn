@@ -159,42 +159,43 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `request_certificate_esc1` | method | `modules/adcs_attacks.py:268` | `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` |
 | `request_certificate_esc8` | method | `modules/adcs_attacks.py:322` | `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` |
 | `ASTToolExtractor` | class | `modules/agent_runner.py:134` | `class ASTToolExtractor` |
-| `AgentRunner` | class | `modules/agent_runner.py:173` | `class AgentRunner` |
+| `AgentRunner` | class | `modules/agent_runner.py:190` | `class AgentRunner` |
 | `AgentTool` | class | `modules/agent_runner.py:66` | `class AgentTool` |
 | `CommandMetadata` | class | `modules/agent_runner.py:127` | `class CommandMetadata` |
-| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:462` | `class LazyOwnShellWrapper` |
-| `VulnBotCLI` | class | `modules/agent_runner.py:539` | `class VulnBotCLI` |
+| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:482` | `class LazyOwnShellWrapper` |
+| `VulnBotCLI` | class | `modules/agent_runner.py:559` | `class VulnBotCLI` |
 | `__init__` | method | `modules/agent_runner.py:69` | `def __init__(self, name, description, func, parameters, required)` |
-| `__init__` | method | `modules/agent_runner.py:176` | `def __init__(self, model, system_prompt, max_iterations)` |
-| `__init__` | method | `modules/agent_runner.py:465` | `def __init__(self, script_path)` |
-| `__init__` | method | `modules/agent_runner.py:540` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_call_model` | method | `modules/agent_runner.py:278` | `def _call_model(self)` |
-| `_emit_delta` | method | `modules/agent_runner.py:398` | `def _emit_delta(self, kind, text)` |
-| `_load_model` | method | `modules/agent_runner.py:552` | `def _load_model(self)` |
-| `_load_shell` | method | `modules/agent_runner.py:472` | `def _load_shell(self)` |
-| `_manage_memory` | method | `modules/agent_runner.py:193` | `def _manage_memory(self)` |
-| `_process_tool_call` | method | `modules/agent_runner.py:417` | `def _process_tool_call(self, tool_call)` |
-| `_reset_history` | method | `modules/agent_runner.py:190` | `def _reset_history(self)` |
-| `_setup_agent` | method | `modules/agent_runner.py:567` | `def _setup_agent(self)` |
-| `_stream_call` | method | `modules/agent_runner.py:324` | `def _stream_call(self, model_name, messages, max_tokens)` |
+| `__init__` | method | `modules/agent_runner.py:193` | `def __init__(self, model, system_prompt, max_iterations)` |
+| `__init__` | method | `modules/agent_runner.py:485` | `def __init__(self, script_path)` |
+| `__init__` | method | `modules/agent_runner.py:560` | `def __init__(self, provider, mode, debug, script_path)` |
+| `_call_model` | method | `modules/agent_runner.py:295` | `def _call_model(self)` |
+| `_emit_delta` | method | `modules/agent_runner.py:415` | `def _emit_delta(self, kind, text)` |
+| `_load_model` | method | `modules/agent_runner.py:572` | `def _load_model(self)` |
+| `_load_shell` | method | `modules/agent_runner.py:492` | `def _load_shell(self)` |
+| `_manage_memory` | method | `modules/agent_runner.py:210` | `def _manage_memory(self)` |
+| `_process_tool_call` | method | `modules/agent_runner.py:434` | `def _process_tool_call(self, tool_call)` |
+| `_reset_history` | method | `modules/agent_runner.py:207` | `def _reset_history(self)` |
+| `_setup_agent` | method | `modules/agent_runner.py:587` | `def _setup_agent(self)` |
+| `_stream_call` | method | `modules/agent_runner.py:341` | `def _stream_call(self, model_name, messages, max_tokens)` |
+| `_tool_call_snapshot` | function | `modules/agent_runner.py:173` | `def _tool_call_snapshot(tool_call)` |
 | `configure_logging` | function | `modules/agent_runner.py:60` | `def configure_logging(debug)` |
 | `execute` | method | `modules/agent_runner.py:83` | `def execute(self)` |
-| `execute_command` | method | `modules/agent_runner.py:495` | `def execute_command(self, command)` |
+| `execute_command` | method | `modules/agent_runner.py:515` | `def execute_command(self, command)` |
 | `extract_commands_from_file` | method | `modules/agent_runner.py:138` | `def extract_commands_from_file(file_path, prefix)` |
-| `get_commands_summary` | method | `modules/agent_runner.py:532` | `def get_commands_summary(self)` |
-| `get_tools_for_api` | method | `modules/agent_runner.py:249` | `def get_tools_for_api(self)` |
-| `interactive_mode` | function | `modules/agent_runner.py:600` | `def interactive_mode(bot)` |
-| `main` | function | `modules/agent_runner.py:634` | `def main()` |
-| `make_executor` | function | `modules/agent_runner.py:226` | `def make_executor(cmd_name)` |
-| `parse_args` | function | `modules/agent_runner.py:624` | `def parse_args()` |
-| `process_request` | method | `modules/agent_runner.py:595` | `def process_request(self, user_input)` |
-| `register_tool` | method | `modules/agent_runner.py:201` | `def register_tool(self, tool)` |
-| `register_tool_from_instance` | method | `modules/agent_runner.py:204` | `def register_tool_from_instance(self, func)` |
-| `register_tools_from_metadata` | method | `modules/agent_runner.py:222` | `def register_tools_from_metadata(self, commands, executor)` |
-| `run` | method | `modules/agent_runner.py:254` | `def run(self, user_input)` |
-| `target` | function | `modules/agent_runner.py:502` | `def target()` |
+| `get_commands_summary` | method | `modules/agent_runner.py:552` | `def get_commands_summary(self)` |
+| `get_tools_for_api` | method | `modules/agent_runner.py:266` | `def get_tools_for_api(self)` |
+| `interactive_mode` | function | `modules/agent_runner.py:620` | `def interactive_mode(bot)` |
+| `main` | function | `modules/agent_runner.py:654` | `def main()` |
+| `make_executor` | function | `modules/agent_runner.py:243` | `def make_executor(cmd_name)` |
+| `parse_args` | function | `modules/agent_runner.py:644` | `def parse_args()` |
+| `process_request` | method | `modules/agent_runner.py:615` | `def process_request(self, user_input)` |
+| `register_tool` | method | `modules/agent_runner.py:218` | `def register_tool(self, tool)` |
+| `register_tool_from_instance` | method | `modules/agent_runner.py:221` | `def register_tool_from_instance(self, func)` |
+| `register_tools_from_metadata` | method | `modules/agent_runner.py:239` | `def register_tools_from_metadata(self, commands, executor)` |
+| `run` | method | `modules/agent_runner.py:271` | `def run(self, user_input)` |
+| `target` | function | `modules/agent_runner.py:522` | `def target()` |
 | `to_api_format` | method | `modules/agent_runner.py:77` | `def to_api_format(self)` |
-| `wrapper` | function | `modules/agent_runner.py:227` | `def wrapper(command)` |
+| `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
 | `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
 | `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
 | `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
 | `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
 | `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
-| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

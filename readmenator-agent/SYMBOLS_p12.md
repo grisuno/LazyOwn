@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
 | `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
 | `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
 | `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
@@ -91,8 +92,8 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
 | `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
 | `_save_credential` | method | `modules/domain_dominance.py:849` | `def _save_credential(self, username, secret, secret_type, source)` |
-| `_save_dominance_report` | method | `modules/domain_dominance.py:885` | `def _save_dominance_report(self)` |
-| `_save_session` | method | `modules/domain_dominance.py:865` | `def _save_session(self, session_id, target, method, user)` |
+| `_save_dominance_report` | method | `modules/domain_dominance.py:900` | `def _save_dominance_report(self)` |
+| `_save_session` | method | `modules/domain_dominance.py:880` | `def _save_session(self, session_id, target, method, user)` |
 | `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
 | `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
 | `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
 | `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
 | `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
-| `_load_records` | function | `modules/exploitgym_gym.py:500` | `def _load_records()` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

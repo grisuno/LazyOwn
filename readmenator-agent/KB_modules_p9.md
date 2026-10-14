@@ -1,6 +1,28 @@
 # Subsystem: modules (page 9 of 14)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
+## modules/lazyown_bprfuzzer.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_security_config` (function, line 45) `def _load_security_config()`
+  - `load_headers_from_file` (function, line 93) `def load_headers_from_file(file_path)`
+  - `load_data_from_file` (function, line 99) `def load_data_from_file(file_path)`
+  - `signal_handler` (function, line 105) `def signal_handler(sig, frame)`
+  - `ProxyHandler` (class, line 114) `class ProxyHandler(BaseHTTPRequestHandler)`
+  - `run_proxy` (function, line 162) `def run_proxy(port)`
+  - `edit_file_with_nano` (function, line 169) `def edit_file_with_nano(content)`
+  - `send_request` (function, line 179) `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)`
+  - `repeater` (function, line 203) `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)`
+  - `lazyfuzz` (function, line 233) `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)`
+  - `parse_arguments` (function, line 278) `def parse_arguments()`
+  - `main` (function, line 302) `def main()`
+  - `do_GET` (method, line 115) `def do_GET(self)`
+  - `do_POST` (method, line 118) `def do_POST(self)`
+  - `_handle_request` (method, line 121) `def _handle_request(self, method)`
+- Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
+
 ## modules/lazyown_bridge.py
 - Doc: modules/lazyown_bridge.py
 - Layer: utility
@@ -447,35 +469,6 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `auditd_disable_commands` (method, line 307) `def auditd_disable_commands(self)`
   - `sysmon_disable_commands` (method, line 341) `def sysmon_disable_commands(self)`
 - Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/logging_config.py
-- Doc: Centralized logging configuration for the LazyOwn framework.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
-  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
-  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
-  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
-  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
-  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
-  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
-  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
-  - `_use_json_format` (function, line 235) `def _use_json_format()`
-  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
-  - `get_logger` (function, line 328) `def get_logger(name, level)`
-  - `set_level` (function, line 357) `def set_level(name, level)`
-  - `set_quiet` (function, line 367) `def set_quiet()`
-  - `set_verbose` (function, line 373) `def set_verbose()`
-  - `silence_module` (function, line 379) `def silence_module(name)`
-  - `reset` (function, line 388) `def reset()`
-  - `format` (method, line 39) `def format(self, record)`
-  - `format` (method, line 72) `def format(self, record)`
-  - `filter` (method, line 94) `def filter(self, record)`
-  - `emit` (method, line 116) `def emit(self, record)`
-  - `handleError` (method, line 122) `def handleError(self, record)`
-- Depends on: `core/logging.py`
-- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
 
 
 Next: [KB_modules_p10.md](KB_modules_p10.md)

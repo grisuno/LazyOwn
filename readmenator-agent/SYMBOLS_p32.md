@@ -3,6 +3,36 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_text_detail_omits_calls_when_empty` | method | `tests/test_command_palette.py:1689` | `def test_text_detail_omits_calls_when_empty(self, suite_config)` |
+| `test_text_detail_truncates_neighbour_list` | method | `tests/test_command_palette.py:1678` | `def test_text_detail_truncates_neighbour_list(self, suite_config)` |
+| `test_third_position_returns_empty` | method | `tests/test_command_palette.py:934` | `def test_third_position_returns_empty(self, completer, synthetic_index, suite_config)` |
+| `test_tool_declared_in_list_tools` | method | `tests/test_command_palette.py:1346` | `def test_tool_declared_in_list_tools(self, src, suite_config)` |
+| `test_top_level_keys_present` | method | `tests/test_command_palette.py:421` | `def test_top_level_keys_present(self, index_document, suite_config)` |
+| `test_totals_match_canonical_command_count` | method | `tests/test_command_palette.py:1221` | `def test_totals_match_canonical_command_count(self, synthetic_index, suite_config)` |
+| `test_totals_match_command_list` | method | `tests/test_command_palette.py:426` | `def test_totals_match_command_list(self, index_document)` |
+| `test_unique_count_matches_ast` | method | `tests/test_command_palette.py:464` | `def test_unique_count_matches_ast(self, index_document, ast_command_names)` |
+| `test_unknown_phases_appear_after_known_ones` | method | `tests/test_command_palette.py:1260` | `def test_unknown_phases_appear_after_known_ones(self, suite_config)` |
+| `test_unknown_token_routes_to_search` | method | `tests/test_command_palette.py:673` | `def test_unknown_token_routes_to_search(self, suite_config, parser)` |
+| `TestDormancyMechanism` | class | `tests/test_command_set_migration.py:139` | `class TestDormancyMechanism` |
+| `TestMigratedSetsStructure` | class | `tests/test_command_set_migration.py:249` | `class TestMigratedSetsStructure` |
+| `TestParityWithLegacyShell` | class | `tests/test_command_set_migration.py:284` | `class TestParityWithLegacyShell` |
+| `TestProductionHygiene` | class | `tests/test_command_set_migration.py:312` | `class TestProductionHygiene` |
+| `TestShellForwarding` | class | `tests/test_command_set_migration.py:189` | `class TestShellForwarding` |
+| `_Bare` | class | `tests/test_command_set_migration.py:180` | `class _Bare(Cmd)` |
+| `_Probe` | class | `tests/test_command_set_migration.py:202` | `class _Probe(LazyOwnCommandSet)` |
+| `_Sample` | class | `tests/test_command_set_migration.py:157` | `class _Sample(PendingCommandSet)` |
+| `_Shell` | class | `tests/test_command_set_migration.py:219` | `class _Shell(Cmd)` |
+| `_Shell` | class | `tests/test_command_set_migration.py:234` | `class _Shell(Cmd)` |
+| `__init__` | method | `tests/test_command_set_migration.py:181` | `def __init__(self)` |
+| `__init__` | method | `tests/test_command_set_migration.py:220` | `def __init__(self)` |
+| `__init__` | method | `tests/test_command_set_migration.py:235` | `def __init__(self)` |
+| `_category_argument` | function | `tests/test_command_set_migration.py:82` | `def _category_argument(decorator)` |
+| `_collect_legacy_do_methods` | function | `tests/test_command_set_migration.py:110` | `def _collect_legacy_do_methods()` |
+| `_collect_migrated_modules` | function | `tests/test_command_set_migration.py:57` | `def _collect_migrated_modules()` |
+| `_discover_migrated_class_names` | function | `tests/test_command_set_migration.py:38` | `def _discover_migrated_class_names()` |
+| `_make_set` | method | `tests/test_command_set_migration.py:199` | `def _make_set(self)` |
+| `_module_path` | function | `tests/test_command_set_migration.py:134` | `def _module_path(module_name)` |
+| `_parse_class` | function | `tests/test_command_set_migration.py:62` | `def _parse_class(file_path, class_name)` |
 | `cmd` | method | `tests/test_command_set_migration.py:239` | `def cmd(self, line)` |
 | `migrated_modules` | method | `tests/test_command_set_migration.py:251` | `def migrated_modules(self)` |
 | `module_names` | method | `tests/test_command_set_migration.py:255` | `def module_names(self, migrated_modules)` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_multiple_files_summed` | method | `tests/test_dashboard_tui.py:59` | `def test_multiple_files_summed(self, tmp_path)` |
 | `test_no_matching_files_returns_zero` | method | `tests/test_dashboard_tui.py:56` | `def test_no_matching_files_returns_zero(self, tmp_path)` |
 | `test_phases_ordered` | method | `tests/test_dashboard_tui.py:125` | `def test_phases_ordered(self)` |
-| `test_reads_recent_commands` | method | `tests/test_dashboard_tui.py:77` | `def test_reads_recent_commands(self, tmp_path)` |
-| `test_reads_valid_file` | method | `tests/test_dashboard_tui.py:30` | `def test_reads_valid_file(self, tmp_path)` |
-| `test_respects_window_limit` | method | `tests/test_dashboard_tui.py:98` | `def test_respects_window_limit(self, tmp_path)` |
-| `test_returns_labels_from_advisor` | method | `tests/test_dashboard_tui.py:142` | `def test_returns_labels_from_advisor(self)` |
-| `test_returns_list_on_exception` | method | `tests/test_dashboard_tui.py:137` | `def test_returns_list_on_exception(self)` |
-| `test_returns_list_when_advisor_unavailable` | method | `tests/test_dashboard_tui.py:132` | `def test_returns_list_when_advisor_unavailable(self)` |
-| `test_skips_empty_tool_rows` | method | `tests/test_dashboard_tui.py:105` | `def test_skips_empty_tool_rows(self, tmp_path)` |
-| `TestLazyOwnDB` | class | `tests/test_db.py:28` | `class TestLazyOwnDB` |
-| `fresh_db` | function | `tests/test_db.py:20` | `def fresh_db()` |
-| `test_credential_storage` | method | `tests/test_db.py:94` | `def test_credential_storage(self, fresh_db)` |
-| `test_csv_export` | method | `tests/test_db.py:105` | `def test_csv_export(self, fresh_db)` |
-| `test_duplicate_workspace_returns_negative_one` | method | `tests/test_db.py:54` | `def test_duplicate_workspace_returns_negative_one(self, fresh_db)` |
-| `test_host_crud` | method | `tests/test_db.py:60` | `def test_host_crud(self, fresh_db)` |
-| `test_host_upsert_updates_existing` | method | `tests/test_db.py:73` | `def test_host_upsert_updates_existing(self, fresh_db)` |
-| `test_initial_schema` | method | `tests/test_db.py:29` | `def test_initial_schema(self, fresh_db)` |
-| `test_loot_and_notes` | method | `tests/test_db.py:151` | `def test_loot_and_notes(self, fresh_db)` |
-| `test_nmap_xml_import` | method | `tests/test_db.py:114` | `def test_nmap_xml_import(self, fresh_db, tmp_path)` |
-| `test_service_crud` | method | `tests/test_db.py:82` | `def test_service_crud(self, fresh_db)` |
-| `test_workspace_create_and_list` | method | `tests/test_db.py:46` | `def test_workspace_create_and_list(self, fresh_db)` |
-| `test_workspace_delete` | method | `tests/test_db.py:144` | `def test_workspace_delete(self, fresh_db)` |
-| `TestMissingDependencyError` | class | `tests/test_dependencies.py:82` | `class TestMissingDependencyError` |
-| `TestOptionalAttr` | class | `tests/test_dependencies.py:146` | `class TestOptionalAttr` |
-| `TestOptionalImportAbsent` | class | `tests/test_dependencies.py:113` | `class TestOptionalImportAbsent` |
-| `TestOptionalImportPresent` | class | `tests/test_dependencies.py:102` | `class TestOptionalImportPresent` |
-| `TestProbe` | class | `tests/test_dependencies.py:204` | `class TestProbe` |
-| `TestRegistry` | class | `tests/test_dependencies.py:170` | `class TestRegistry` |
-| `TestReport` | class | `tests/test_dependencies.py:220` | `class TestReport` |
-| `TestUtilsIntegration` | class | `tests/test_dependencies.py:255` | `class TestUtilsIntegration` |
-| `_run_in_subprocess` | function | `tests/test_dependencies.py:59` | `def _run_in_subprocess(snippet)` |
-| `test_absent_dependency` | method | `tests/test_dependencies.py:213` | `def test_absent_dependency(self)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

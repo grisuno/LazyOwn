@@ -5,7 +5,7 @@
 - Layer: utility
 - Language: py
 - Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
-- Imported by: `lazyc2.py`, `lazyc2/app_factory.py`
+- Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_codeql_batch.py`
 
 ## lazyc2/blueprints/addons.py
 - Doc: LazyAddon creator blueprint for the C2 dashboard.
@@ -42,7 +42,7 @@
   - `require_api_auth_with_store` (function, line 129) `def require_api_auth_with_store(view)`
   - `health_tenant` (function, line 157) `def health_tenant()`
   - `get_defaults` (function, line 182) `def get_defaults()`
-  - `set_default` (function, line 210) `def set_default()`
+  - `set_default` (function, line 211) `def set_default()`
   - `guarded` (function, line 146) `def guarded()`
 - Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
 - Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`

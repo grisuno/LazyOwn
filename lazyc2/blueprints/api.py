@@ -192,7 +192,8 @@ def get_defaults():
     try:
         doc = load_defaults()
     except (FileNotFoundError, ValueError) as exc:
-        return jsonify({"error": f"Cannot load defaults: {exc}"}), 500
+        logger.debug("defaults load failed: %s", type(exc).__name__)
+        return jsonify({"error": "Cannot load defaults"}), 500
     live = {}
     try:
         from core.config import load_payload

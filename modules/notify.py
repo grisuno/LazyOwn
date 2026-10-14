@@ -57,35 +57,116 @@ def mask_secrets(text: str, config: NotifyConfig = CONFIG) -> str:
 def url_allowed(url: str) -> tuple[bool, str]:
     """SSRF dial-guard for webhook delivery (LAZY parity).
 
-    Blocks loopback/link-local unless LAZY_NOTIFY_ALLOW_LOCAL=1 and
-    never allows cross-host redirects (checked by the caller).
+    Denies cloud metadata hosts/IPs always, denies loopback/link-local/
+    private/unspecified/multicast/reserved unless
+    ``LAZY_NOTIFY_ALLOW_LOCAL=1``, denies userinfo credentials in the URL,
+    and resolves DNS names to catch metadata-address aliases. Redirects
+    must be re-checked by the caller with this same function.
+
     Returns (allowed, reason).
     """
     import ipaddress as _ip
     import os as _os
+    import socket as _socket
     import urllib.parse as _url
+
+    _metadata_ips = {"169.254.169.254", "169.254.169.253", "100.100.100.200", "fd00:ec2::254"}
+    _metadata_hosts = {
+        "metadata.google.internal",
+        "metadata.goog",
+        "metadata.azure.internal",
+        "instance-data",
+        "instance-data-compute",
+    }
     try:
-        parts = _url.urlparse(str(url or ""))
+        raw = str(url or "")
+        parts = _url.urlparse(raw)
     except Exception:
         return False, "unparseable url"
     if parts.scheme not in ("http", "https"):
         return False, f"unsupported scheme: {parts.scheme}"
+    if parts.username or parts.password or "@" in (parts.netloc or ""):
+        return False, "userinfo in URL denied"
     host = (parts.hostname or "").strip().lower()
-    if not host:
+    if not host or len(host) > 253 or "\x00" in host:
         return False, "empty host"
-    if host in ("localhost",):
-        if _os.environ.get("LAZY_NOTIFY_ALLOW_LOCAL", "") != "1":
-            return False, "loopback blocked (set LAZY_NOTIFY_ALLOW_LOCAL=1)"
-        return True, "ok-local"
+    if host in _metadata_hosts or host in _metadata_ips:
+        return False, "metadata service denied"
+    if host.endswith(".metadata.google.internal"):
+        return False, "metadata service denied"
     try:
-        addr = _ip.ip_address(host)
-        if addr.is_loopback or addr.is_link_local:
-            if _os.environ.get("LAZY_NOTIFY_ALLOW_LOCAL", "") != "1":
-                return False, "loopback/link-local blocked"
-            return True, "ok-local"
+        port = parts.port
+    except ValueError:
+        return False, "invalid port"
+    if port is not None and not 1 <= port <= 65535:
+        return False, "port out of range"
+    allow_local = _os.environ.get("LAZY_NOTIFY_ALLOW_LOCAL", "") == "1"
+
+    def _addr_denied(addr: _ip._BaseAddress) -> str | None:
+        if str(addr).lower() in _metadata_ips or str(getattr(addr, "compressed", addr)).lower() in _metadata_ips:
+            return "metadata service denied"
+        if addr.is_unspecified or addr.is_multicast:
+            return "restricted address denied"
+        if (addr.is_loopback or addr.is_link_local or addr.is_private or addr.is_reserved) and not allow_local:
+            return "loopback/link-local/private blocked (set LAZY_NOTIFY_ALLOW_LOCAL=1)"
+        return None
+
+    try:
+        literal = _ip.ip_address(host.strip("[]"))
+        denied = _addr_denied(literal)
+        if denied:
+            return False, denied
         return True, "ok"
     except ValueError:
-        return True, "ok-hostname"
+        pass
+    try:
+        infos = _socket.getaddrinfo(host, None, family=_socket.AF_UNSPEC, type=_socket.SOCK_STREAM)
+    except OSError:
+        return True, "ok-hostname-unresolved"
+    seen: set[str] = set()
+    for info in infos:
+        sockaddr = info[4] if len(info) > 4 else ()
+        if not sockaddr:
+            continue
+        ip_text = str(sockaddr[0])
+        if ip_text in seen:
+            continue
+        seen.add(ip_text)
+        try:
+            resolved = _ip.ip_address(ip_text.strip("[]"))
+        except ValueError:
+            continue
+        denied = _addr_denied(resolved)
+        if denied:
+            return False, denied
+    return True, "ok-hostname"
+
+
+def post_url_validated(url: str, data: bytes, timeout: float = 8) -> None:
+    """POST data to a webhook URL after SSRF validation, guarding redirects.
+
+    Each redirect target is re-validated with :func:`url_allowed`; a
+    denied redirect aborts without following it. Raises ValueError on a
+    denied URL and OSError on transport failure.
+    """
+    import urllib.request as _request
+
+    ok, reason = url_allowed(url)
+    if not ok:
+        raise ValueError(f"webhook target denied: {reason}")
+
+    class _GuardRedirect(_request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ANN001, ANN202
+            joined = _request.urljoin(req.full_url, newurl or "")
+            allowed, why = url_allowed(joined)
+            if not allowed:
+                raise ValueError(f"webhook redirect denied: {why}")
+            return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+    opener = _request.build_opener(_GuardRedirect)
+    post = _request.Request(url, data=data, headers={"Content-Type": "application/json"}, method="POST")
+    with opener.open(post, timeout=timeout):
+        pass
 
 
 @dataclass

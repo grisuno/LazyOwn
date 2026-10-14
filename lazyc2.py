@@ -128,7 +128,25 @@ from modules.security_sanitizers import (
     SessionPathResolver,
     build_default_config,
 )
+from core.hardening import (
+    is_safe_dir_path as _is_safe_dir_path,
+)
+from core.hardening import (
+    is_safe_yaml_name as _is_safe_yaml_name,
+)
+from core.hardening import (
+    safe_join_under as _safe_join_under,
+)
+from core.hardening import (
+    store_secret_owner_only as _store_secret_owner_only,
+)
 from utils import Config, anti_debug, getprompt, load_payload
+
+_YAML_VIEW_MAX_FILES = 500
+_YAML_VIEW_MAX_BYTES = 1_000_000
+_YAML_VIEW_MAX_TESTS = 2000
+_YAML_VIEW_TESTS_PER_FILE = 100
+_YAML_VIEW_DIR_MAX_LENGTH = 256
 
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
@@ -4248,7 +4266,8 @@ def palette_view():
     try:
         palette_index = _palette_load_index()
     except _PaletteIndexError as exc:
-        return render_template("palette.html", error=str(exc), context=None), 503
+        logger.error("palette index load failed: %s", type(exc).__name__)
+        return render_template("palette.html", error="Command index unavailable", context=None), 503
     context = _palette_build_view(palette_index)
     return render_template(
         "palette.html",
@@ -4636,26 +4655,17 @@ def view_yaml():
         return redirect(url_for("index"))
 
     raw = str(selected_directory or "")
-    if "\x00" in raw or len(raw) > 256 or "\\" in raw:
-        return jsonify({"error": "Invalid directory"}), 400
-    if raw.startswith("/") or ".." in raw.split("/"):
-        return jsonify({"error": "Invalid directory"}), 400
-    if not re.fullmatch(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*", raw):
+    if len(raw) > _YAML_VIEW_DIR_MAX_LENGTH or not _is_safe_dir_path(raw):
         return jsonify({"error": "Invalid directory"}), 400
     try:
         atomic_abs = os.path.realpath(os.path.abspath(str(atomic_framework_path)))
-        selected_abs = os.path.realpath(os.path.join(atomic_abs, raw))
-        if os.path.commonpath([atomic_abs, selected_abs]) != atomic_abs:
-            return jsonify({"error": "Access denied"}), 403
-    except ValueError:
+        selected_abs = _safe_join_under(atomic_abs, raw)
+    except (ValueError, Exception):
         return jsonify({"error": "Access denied"}), 403
     if not os.path.isdir(selected_abs):
         return jsonify({"error": "Invalid directory"}), 400
 
     yaml_data = []
-    _MAX_YAML_FILES = 500
-    _MAX_YAML_BYTES = 1_000_000
-    _MAX_YAML_TESTS = 2000
     seen_files = 0
     try:
         for root, dirs, files in os.walk(selected_abs, followlinks=False):
@@ -4671,14 +4681,10 @@ def view_yaml():
                 continue
             dirs[:] = [d for d in dirs if d not in (".", "..") and not d.startswith(".")]
             dirs.sort()
-            if len(files) > _MAX_YAML_FILES:
-                files = sorted(files)[:_MAX_YAML_FILES]
+            if len(files) > _YAML_VIEW_MAX_FILES:
+                files = sorted(files)[:_YAML_VIEW_MAX_FILES]
             for name in sorted(files):
-                if not name.endswith(".yaml") or "/" in name or "\\" in name or "\x00" in name:
-                    continue
-                if name.startswith(".") or ".." in name:
-                    continue
-                if not re.fullmatch(r"[A-Za-z0-9._-]+\.yaml", name):
+                if not _is_safe_yaml_name(name):
                     continue
                 candidate = os.path.realpath(os.path.join(root, name))
                 try:
@@ -4691,12 +4697,12 @@ def view_yaml():
                 if not os.path.isfile(candidate):
                     continue
                 try:
-                    if os.path.getsize(candidate) > _MAX_YAML_BYTES:
+                    if os.path.getsize(candidate) > _YAML_VIEW_MAX_BYTES:
                         continue
                 except OSError:
                     continue
                 seen_files += 1
-                if seen_files > _MAX_YAML_FILES or len(yaml_data) >= _MAX_YAML_TESTS:
+                if seen_files > _YAML_VIEW_MAX_FILES or len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
                     break
                 try:
                     with open(candidate, "r", encoding="utf-8", errors="replace") as handle:
@@ -4708,7 +4714,7 @@ def view_yaml():
                 tests = data.get("atomic_tests", [])
                 if not isinstance(tests, list):
                     continue
-                for test in tests[:100]:
+                for test in tests[:_YAML_VIEW_TESTS_PER_FILE]:
                     if len(yaml_data) >= _MAX_YAML_TESTS:
                         break
                     if not isinstance(test, dict):
@@ -4810,7 +4816,7 @@ def get_output():
         logger.info(f"[INFO] Type of output: {type(output)}")
 
     if isinstance(output, BaseException):
-        logger.error(f"Shell output was an exception: {output}")
+        logger.error("Shell output was an exception: %s", type(output).__name__)
         return jsonify({"error": "Command execution error"}), 500
     elif isinstance(output, str):
         serializable_output = output
@@ -4846,47 +4852,82 @@ def get_results():
 _REVERSE_SHELL_PASSWORD_CACHE: str = ""
 
 
+def _seal_reverse_shell_password(plaintext: str) -> str:
+    """Seal a reverse-shell password for storage (delegates to vault contract).
+
+    Args:
+        plaintext: Generated fallback password.
+
+    Returns:
+        Sealed value when sealing resolves, else plaintext.
+    """
+    from core.reverse_shell_secret import seal_reverse_shell_password as _seal
+
+    return _seal(plaintext)
+
+
+def _load_reverse_shell_password(secret_path: str) -> str:
+    """Load a persisted reverse-shell password (delegates to vault contract).
+
+    Args:
+        secret_path: Path of the persisted fallback secret.
+
+    Returns:
+        Stored password, or empty string when unreadable.
+    """
+    from core.reverse_shell_secret import load_reverse_shell_password as _load
+
+    return _load(secret_path)
+
+
 def _resolve_reverse_shell_password() -> str:
     """Return the password used to authenticate to the /lazyos reverse shell.
 
     When ``c2_reverse_shell_password`` is configured and meets the minimum
-    length (12 chars), that value is used. Otherwise a cryptographically
-    random 32-byte hex token is generated once per process lifetime,
-    persisted owner-only under ``sessions/.reverse_shell_password`` for
-    the authenticated operator, and never written to logs.
+    length, that value is used. Otherwise a cryptographically random
+    32-byte hex token is generated once per process lifetime, persisted
+    sealed (AES-256-GCM via the credential vault, owner-only 0600) under
+    ``sessions/.reverse_shell_password`` for the authenticated operator,
+    and never written to logs. A previously persisted fallback is reused
+    so operator sessions survive restarts.
 
     Returns:
         The active reverse-shell authentication password.
     """
     global _REVERSE_SHELL_PASSWORD_CACHE
+    from core.reverse_shell_secret import (
+        REVERSE_SHELL_PASSWORD_MIN_LENGTH as _PASSWORD_MIN_LENGTH,
+    )
+    from core.reverse_shell_secret import (
+        REVERSE_SHELL_SECRET_FILENAME as _SECRET_FILENAME,
+    )
+    from core.reverse_shell_secret import (
+        generate_reverse_shell_password as _generate_password,
+    )
+
     candidate = str(getattr(config, "c2_reverse_shell_password", "") or "").strip()
     is_valid, _ = _validate_password_length(candidate)
     if candidate and is_valid:
         return candidate
     if _REVERSE_SHELL_PASSWORD_CACHE:
         return _REVERSE_SHELL_PASSWORD_CACHE
-    import secrets as _secrets
-
-    _REVERSE_SHELL_PASSWORD_CACHE = _secrets.token_hex(32)
+    sessions_dir = SESSIONS_DIR if isinstance(SESSIONS_DIR, str) else str(SESSIONS_DIR)
+    secret_path = os.path.join(sessions_dir, _SECRET_FILENAME)
     try:
-        sessions_dir = SESSIONS_DIR if isinstance(SESSIONS_DIR, str) else str(SESSIONS_DIR)
-        os.makedirs(sessions_dir, exist_ok=True)
-        try:
-            os.chmod(sessions_dir, 0o700)
-        except OSError:
-            pass
-        secret_path = os.path.join(sessions_dir, ".reverse_shell_password")
-        with open(secret_path, "w") as handle:
-            handle.write(_REVERSE_SHELL_PASSWORD_CACHE + "\n")
-        try:
-            os.chmod(secret_path, 0o600)
-        except OSError:
-            pass
+        reused = _load_reverse_shell_password(secret_path)
+        if reused:
+            _REVERSE_SHELL_PASSWORD_CACHE = reused
+            return _REVERSE_SHELL_PASSWORD_CACHE
+    except Exception:
+        pass
+    _REVERSE_SHELL_PASSWORD_CACHE = _generate_password()
+    try:
+        _store_secret_owner_only(secret_path, _seal_reverse_shell_password(_REVERSE_SHELL_PASSWORD_CACHE) + "\n")
         logger.warning(
             "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
-            "Auto-generated fallback stored owner-only at %s. "
+            "Auto-generated fallback stored sealed owner-only at %s. "
             "Set c2_reverse_shell_password in payload.json to silence this warning.",
-            12,
+            _PASSWORD_MIN_LENGTH,
             secret_path,
         )
     except OSError as exc:
@@ -4894,7 +4935,7 @@ def _resolve_reverse_shell_password() -> str:
             "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
             "Auto-generated fallback kept in memory only (persist failed). "
             "Set c2_reverse_shell_password in payload.json to silence this warning.",
-            12,
+            _PASSWORD_MIN_LENGTH,
         )
         logger.debug("reverse-shell fallback persist failed: %s", type(exc).__name__)
     return _REVERSE_SHELL_PASSWORD_CACHE
@@ -6041,7 +6082,8 @@ def admin_create_tenant():
         tc = tm.create_tenant(name)
         flash(f'Tenant "{tc.name}" created.', "success")
     except ValueError as e:
-        flash(str(e), "error")
+        logger.warning("tenant create failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
     return redirect(url_for("admin_tenants"))
 
 
@@ -6056,7 +6098,8 @@ def admin_switch_tenant(tenant_id):
         tc = tm.switch_tenant(tenant_id)
         flash(f'Switched to tenant "{tc.name}". Sessions: {tc.sessions_dir}', "success")
     except ValueError as e:
-        flash(str(e), "error")
+        logger.warning("tenant switch failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
     return redirect(url_for("admin_tenants"))
 
 
@@ -6336,7 +6379,8 @@ def compliance_report():
     except ImportError:
         flash("Compliance module not available.", "error")
     except Exception as e:
-        flash(f"Error generating compliance report: {e}", "error")
+        logger.warning("compliance report failed: %s", type(e).__name__)
+        flash("Error generating compliance report.", "error")
     return redirect(url_for("compliance_dashboard"))
 
 

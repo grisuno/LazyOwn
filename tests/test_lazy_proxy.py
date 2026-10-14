@@ -97,8 +97,9 @@ def test_http_capture_records_exchange(tmp_path):
         upstream.shutdown()
 
 
-def test_https_mitm_capture(tmp_path):
+def test_https_mitm_capture(tmp_path, monkeypatch):
     """BDD: CONNECT tunnels are terminated and recorded end to end."""
+    monkeypatch.setenv("LAZY_PROXY_ALLOW_SELF_SIGNED_LAB", "1")
     from modules.lazy_proxy import CertificateAuthority
 
     upstream_authority = CertificateAuthority(tmp_path / "upstream_pki")

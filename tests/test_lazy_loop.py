@@ -386,9 +386,15 @@ def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
             parts = urlparse.urlsplit(url)
         except ValueError:
             return False
+        if parts.username or parts.password:
+            return False
         return parts.scheme == "https" and (parts.hostname or "").lower() == "hooks.example"
 
     assert any(_is_hooks_url(url) and b'"text"' in data for url, data in sent)
+    assert _is_hooks_url("https://hooks.example/T1") is True
+    assert _is_hooks_url("https://user:pass@hooks.example/T1") is False
+    assert _is_hooks_url("https://hooks.example.evil.com/T1") is False
+    assert _is_hooks_url("http://hooks.example/T1") is False
     assert any(call[0] == "send" and call[1] == "ops@example.com" for call in smtp_calls)
     assert notifier.remove_channel(1) is True
     assert len(notifier.channels()) == 2

@@ -22,6 +22,8 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
+import subprocess
 import sys
 from collections.abc import Callable, Mapping
 from typing import Any
@@ -174,6 +176,10 @@ DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
 DEFAULT_LLAMACPP_MODEL = "local-model"
 DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
+
+PI_PROVIDER_ID = "local-qwen"
+PI_DEFAULT_MODEL = "local-model"
+PI_TIMEOUT_SEC = 300
 
 ENV_GROQ_API_KEY = "GROQ_API_KEY"
 ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
@@ -716,6 +722,59 @@ def try_get_llm_backend(
         return None
 
 
+def _pi_timeout() -> int:
+    """Return the pi CLI subprocess timeout in seconds.
+
+    Returns:
+        Configured timeout from ``LAZYOWN_PI_TIMEOUT`` or the default.
+    """
+    try:
+        return max(1, int(os.environ.get("LAZYOWN_PI_TIMEOUT", str(PI_TIMEOUT_SEC))))
+    except (TypeError, ValueError):
+        return PI_TIMEOUT_SEC
+
+
+def _pi_complete(model: str | None, prompt: str, max_tokens: int = 800) -> str:
+    """Complete a prompt through the local pi coding-agent CLI (keyless).
+
+    The CLI must be installed (``pi_qwen`` lazyaddon or
+    ``scripts/pi_qwen_setup.sh``) with the ``local-qwen`` provider
+    registered in Pi models.json pointing at the llama.cpp server.
+    Uses list-form ``subprocess.run`` with ``shell=False`` so prompt
+    text never touches a shell. No secrets travel here: the leg is
+    keyless by design.
+
+    Args:
+        model: Pi model id (defaults to ``local-model``).
+        prompt: User prompt text.
+        max_tokens: Ignored; the pi CLI owns its generation budget.
+
+    Returns:
+        Response text, never empty on success.
+
+    Raises:
+        RuntimeError: When the CLI is missing, times out, exits
+            non-zero, or returns an empty reply, so pool callers can
+            fail over to the next leg.
+    """
+    exe = shutil.which("pi")
+    if not exe:
+        raise RuntimeError("pi leg unavailable: pi CLI not in PATH")
+    cmd = [exe, "--model", f"{PI_PROVIDER_ID}/{model or PI_DEFAULT_MODEL}", "--print", prompt[:6000]]
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=_pi_timeout(), shell=False)
+    except FileNotFoundError as exc:
+        raise RuntimeError("pi leg unavailable: pi CLI not in PATH") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError(f"pi leg timed out after {_pi_timeout()}s") from exc
+    if proc.returncode != 0:
+        raise RuntimeError(f"pi leg failed: {(proc.stderr or '')[:200]}")
+    text = (proc.stdout or "").strip()
+    if not text:
+        raise RuntimeError("pi leg returned empty reply")
+    return text
+
+
 def stream_complete(
     model: str,
     prompt: str,
@@ -744,7 +803,7 @@ def stream_complete(
     name: str | None = None
     if ":" in spec:
         head, tail = spec.split(":", 1)
-        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp"):
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp", "pi"):
             provider = head.strip().lower()
             name = tail.strip() or None
         else:
@@ -752,6 +811,8 @@ def stream_complete(
     else:
         name = spec if spec.lower() != "auto" else None
     if provider == "toposwarm":
+        return complete(model, prompt, max_tokens=max_tokens)
+    if provider == "pi":
         return complete(model, prompt, max_tokens=max_tokens)
     try:
         backend = get_llm_backend(backend=provider)
@@ -789,7 +850,8 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     """Complete a prompt through one model spec; raise when unanswered.
 
     The ``model`` spec accepts an optional ``backend:`` prefix selecting
-    the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``auto:`` (groq first, then ollama)
+    the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``pi:`` (local pi agent,
+    keyless), ``auto:`` (groq first, then ollama)
     or ``toposwarm:`` (local agentic router, keyless). A bare model name
     resolves through the ``auto`` chain. Empty prompt returns empty
     string; any backend outage raises so pool callers can fail over to
@@ -813,13 +875,15 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
     name: str | None = None
     if ":" in spec:
         head, tail = spec.split(":", 1)
-        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp"):
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp", "pi"):
             provider = head.strip().lower()
             name = tail.strip() or None
         else:
             name = spec
     else:
         name = spec if spec.lower() != "auto" else None
+    if provider == "pi":
+        return _pi_complete(name, prompt, max_tokens)
     if provider == "toposwarm":
         try:
             import sys as _sys

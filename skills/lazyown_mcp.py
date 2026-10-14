@@ -8834,11 +8834,27 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return True, ""
 
         def _trace_append(record: dict) -> None:
-            """Append one worker-trace record to the append-only log."""
+            """Append one redacted worker-trace record to the append-only log."""
+            try:
+                from core.hardening import redact_text as _redact_text
+
+                scrubbed = {}
+                for key, value in (record or {}).items():
+                    scrubbed[key] = _redact_text(value) if isinstance(value, str) else value
+            except Exception:
+                scrubbed = dict(record or {})
             try:
                 _trace_path.parent.mkdir(parents=True, exist_ok=True)
+                try:
+                    os.chmod(_trace_path.parent, 0o700)
+                except OSError:
+                    pass
                 with _trace_path.open("a", encoding="utf-8") as _fh:
-                    _fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+                    _fh.write(json.dumps(scrubbed, ensure_ascii=False) + "\n")
+                try:
+                    os.chmod(_trace_path, 0o600)
+                except OSError:
+                    pass
             except Exception:
                 pass
 

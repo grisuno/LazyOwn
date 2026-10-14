@@ -1056,10 +1056,15 @@ class ExplorationGraph:
     def add_node(
         self, kind: str, text: str, state: str = "pending", priority: int = DEFAULT_PRIORITY, meta: dict | None = None
     ) -> ExplorationNode:
-        """Append node and return it."""
+        """Append node and return it.
+
+        Text is scrubbed of secrets before persistence so graph stores
+        never hold credentials; sealed credential stores stay the only
+        home for secrets.
+        """
         if kind not in EXPLORATION_NODE_KINDS:
             raise ValueError(f"unknown node kind: {kind}")
-        text = (text or "").strip()
+        text = scrub_secrets((text or "").strip())
         if not text:
             raise ValueError("node text is required")
         with self._lock:
@@ -5315,7 +5320,7 @@ class ColdCompactor:
             signature = str(node.meta.get("sig", ""))
             stored = str(bodies.get(signature, "") or "").strip()
             if stored and node.text != stored[:500]:
-                node.text = stored[:500]
+                node.text = scrub_secrets(stored[:500])
                 node.updated = _now()
                 upgraded += 1
         if upgraded:
@@ -6559,6 +6564,7 @@ class LlmPool:
     DEFAULT_MEMBERS = (
         {"name": "llamacpp-local", "model": "llamacpp:local-model", "priority": 10},
         {"name": "groq-cloud", "model": "groq:llama-3.3-70b-versatile", "priority": 7},
+        {"name": "pi-qwen", "model": "pi:local-model", "priority": 6},
         {"name": "ollama-local", "model": "ollama:deepseek-r1:1.5b", "priority": 5},
         {"name": "toposwarm-agent", "model": "toposwarm:router", "priority": 1},
     )
@@ -7797,7 +7803,7 @@ class LazyLoopEngine:
         node = graph.get(int(goal_id))
         if node is None or node.kind != "goal" or not (text or "").strip():
             return False
-        node.text = text.strip()[:300]
+        node.text = scrub_secrets(text.strip()[:300])
         node.updated = _now()
         graph._persist()
         ActivityLog(task_id).emit("planner", "goal", f"goal #{goal_id} edited")

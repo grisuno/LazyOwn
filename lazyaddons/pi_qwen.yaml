@@ -1,0 +1,27 @@
+name: pi_qwen
+description: |
+  Pi coding agent (earendil-works/pi) driving your local llama.cpp Qwen 27B via the
+  local-qwen endpoint. First run installs pi (needs Node 22.19+), ensures llama.cpp is
+  up and registers the endpoint. Use: pi_qwen "summarize sessions/world_model.json".
+  Tune with assign llamacpp_host <url> and assign llm_model_llamacpp <id>.
+author: earendil-works
+version: "1.0"
+enabled: true
+params:
+  - name: llamacpp_host
+    type: string
+    required: false
+    description: llama.cpp base URL Pi connects to. Set with assign llamacpp_host <url>.
+  - name: llm_model_llamacpp
+    type: string
+    required: false
+    description: Model ID Pi selects with --model. Set with assign llm_model_llamacpp <id>.
+os: any
+trigger: []
+category: "16. Artificial Intelligence"
+tool:
+  name: Pi Qwen Local
+  repo_url: https://github.com/earendil-works/pi.git
+  install_path: external/.exploit/pi_qwen
+  install_command: bash ../../../scripts/pi_qwen_setup.sh {llamacpp_host} {llm_model_llamacpp}
+  execute_command: bash ../../../scripts/lazy_llamacpp_serve.sh && bash ../../../scripts/pi_qwen_setup.sh {llamacpp_host} {llm_model_llamacpp} && pi --model local-qwen/{llm_model_llamacpp} --print "You are the LazyOwn red-team operator. Read payload.json and sessions/world_model.json before acting. Execute the operator task appended below now."

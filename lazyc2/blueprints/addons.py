@@ -18,6 +18,7 @@ Design (SOLID):
 
 from __future__ import annotations
 
+import logging
 import re
 import secrets
 from collections.abc import Callable
@@ -54,6 +55,8 @@ from lazyc2.extensions.decoy import decoy_response
 from lazyc2.security.csrf import CSRFPolicy
 
 addons_bp = Blueprint("addons", __name__)
+
+logger = logging.getLogger("lazyc2.blueprints.addons")
 
 require_operator_session(addons_bp)
 
@@ -302,7 +305,8 @@ def create_addon():
             yaml_text = AddonYamlRenderer().render(draft)
             store.save(draft.name.strip(), yaml_text)
         except (OSError, AddonValidationError, yaml.YAMLError) as exc:
-            flash(f"Could not save the addon: {exc}", "danger")
+            logger.warning("addon save failed: %s", type(exc).__name__)
+            flash("Could not save the addon.", "danger")
             return _render_create(draft, issues)
         flash(
             f"Addon '{draft.name.strip()}' created under the addons directory. Run 'reload' in the CLI to register it.",

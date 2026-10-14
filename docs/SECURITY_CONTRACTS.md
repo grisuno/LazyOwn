@@ -46,6 +46,12 @@ Plus pre-existing contracts from the first security pass:
 | 10 | `lazyc2/security/services.py::SafeFileService` | Path-traversal-safe file I/O | `tests/test_security_lazyc2.py` | n/a |
 | 11 | `lazyc2/security/services.py::AESKeyManager` | On-disk AES key generator | `tests/test_security_lazyc2.py` | n/a |
 | 12 | `lazyc2/security/validators.py` | Pure validators (route, template, yaml, AES, password) | `tests/test_security_lazyc2.py` | n/a |
+| 13 | `core/hardening.py` (TLS, path, secret, emoji contracts) | Shared security primitives for the CodeQL batch | `tests/test_security_alerts_fix.py` | `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB`, `LAZY_PROXY_TRUST_CA` |
+| 14 | `modules/lazy_proxy.py` (SSRF pinning, TLS opt-in) | Validated-IP dialing, origin-form paths, gated self-signed fallback | `tests/test_security_alerts_fix.py`, `tests/test_lazy_proxy.py` | `LAZY_PROXY_ALLOW_PRIVATE`, `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB`, `LAZY_PROXY_TRUST_CA` |
+| 15 | `core/reverse_shell_secret.py` + `lazyc2.py` | Sealed reverse-shell fallback password | `tests/test_security_alerts_fix.py` | `c2_reverse_shell_password` |
+| 16 | `modules/domain_dominance.py` (loot sealing) | Sealed AD loot with legacy fallback | `tests/test_security_alerts_fix.py` | n/a (shared `key.aes`) |
+| 17 | `skills/claude_md_orchestrator/validators.py` (emoji matcher) | Regex-range-free emoji detection | `tests/test_security_alerts_fix.py` | n/a |
+| 18 | `skills/lazyown_mcp.py` (trace redaction) + `cli/commands/scan_migrated.py` (MSF rc shred) | Redacted worker traces, minimal plaintext lifetime for SMB creds | `tests/test_security_alerts_fix.py` | `LAZYOWN_KEEP_MSF_RC` |
 
 ## Contract 1: CORS origin allowlist
 
@@ -224,6 +230,63 @@ length guard.
    hashes of the plaintext.
 3. No bootstrap admin password, sprayed password, or captured credential is
    written to stdout or stored in clear text.
+
+## Contract 10: CodeQL batch — SSRF, TLS, clear-text storage, ReDoS, paths
+
+Test suite: `tests/test_security_alerts_fix.py` (16 tests, TDD red-to-green
+for this batch). Mutation spot-checks: metadata-guard bypass, plaintext
+sealing fallback, and `commonpath` removal are all killed by the suite
+(one overlapping guard, the `("." , "..")` tuple in `is_safe_path_segment`,
+is intentionally redundant with the leading-dot rule and documented as
+defense in depth).
+
+| CodeQL | File | Fix |
+|--------|------|-----|
+| #941, #952-954 SSRF | `modules/lazy_proxy.py` | `resolve_validated_target()` validates the target, resolves DNS, and returns pinned IP literals; `_dial_pinned()` dials the pinned IPs in order (no re-resolution, no rebinding TOCTOU) while SNI and Host keep the validated hostname; `_PinnedHTTPConnection` / `_PinnedHTTPSConnection` apply the same pinning to relayed requests; `_validate_upstream_path()` accepts origin-form paths only |
+| #949, #964, #965 insecure TLS | `modules/lazy_proxy.py`, `tests/test_lazy_proxy.py` | the `CERT_NONE` fallback is gated by `tls_lab_unverified_allowed()` (loopback/private literal plus explicit `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1`); default is fail-closed with an actionable hint (`LAZY_PROXY_TRUST_CA` or the opt-in flag); TLS 1.2 floor lives in `core/hardening.tls_secure_context()` |
+| #963 clear-text storage | `lazyc2.py`, `core/reverse_shell_secret.py` | the generated fallback is sealed with Fernet (`enc:v2:`, key from the shared `key.aes` resolver), written owner-only (0700 dir / 0600 file), and reused across restarts; legacy plaintext files still load |
+| #961 clear-text storage | `modules/domain_dominance.py` | loot secrets sealed via `core/hardening.seal_secret()` with plaintext fallback for legacy workflows; `_unseal_loot_secret()` reveals values for operator reuse |
+| #962 clear-text storage | `modules/lazy_loop.py` | activity records are scrubbed with `scrub_secrets()` before the append-only write and stored 0600; covered by regression test, no code change needed |
+| #938 clear-text storage | `skills/lazyown_mcp.py` | `_trace_append()` redacts records with `core/hardening.redact_text()` and enforces 0700/0600 modes |
+| #924 clear-text storage | `cli/commands/scan_migrated.py` | the MSF rc file is created with `O_NOFOLLOW` + 0600 and shredded (overwrite + unlink) after `msfconsole` runs unless `LAZYOWN_KEEP_MSF_RC=1` |
+| #955-959 path injection | `lazyc2.py` (`view_yaml`) | directory and filename checks replaced with linear-scan validators (`is_safe_dir_path`, `is_safe_yaml_name`, no regex); resolution goes through `safe_join_under()` (realpath + commonpath); enumeration caps are named constants |
+| #960 polynomial regex | `lazyc2.py` (`view_yaml`) | the YAML filename regex is gone, replaced by the linear `is_safe_yaml_name()` scan |
+| #966-972 permissive regex range | `skills/claude_md_orchestrator/validators.py` | the broad emoji character class is replaced by `_EmojiPattern`, an ordinal-interval matcher over `core/hardening` intervals with the same `finditer` API; no regex literal with wide ranges remains |
+| #926 clear-text logging | `lazyc2.py` (`get_output`) | shell output (routinely credential-bearing) is no longer interpolated into server logs; only `type(output).__name__` is logged, mirroring the `/api/run` handler |
+| #942-947 exception exposure | `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/addons.py` | no `jsonify` / `render_template` / `flash` response carries a raw exception object: palette errors, tenant flashes, addon-save flashes, and compliance flashes are generic strings with a server-side `type(exc).__name__` log; enforced by an AST audit test over `lazyc2.py` and every blueprint |
+| #950 URL sanitization (test) | `tests/test_lazy_loop.py` | the webhook helper additionally rejects userinfo (`user:pass@host`) so credential-bearing URLs can never match; exact-host equality was already fail-closed |
+| #951 clear-text storage | `modules/lazy_loop.py` | graph node text is scrubbed with `scrub_secrets()` at the choke points (`ExplorationGraph.add_node`, engine `edit_goal`, cold-digest restore) so finding/goal stores never persist credentials; sealed credential stores stay the only home for secrets |
+
+**Invariants:**
+
+1. No upstream socket is ever opened to a hostname; only to a validated,
+   policy-filtered IP literal, with the hostname used solely for SNI,
+   Host header, and certificate verification.
+2. Cloud metadata endpoints (IPs and hostnames, including DNS-resolved
+   addresses) are always denied, independent of `LAZY_PROXY_ALLOW_PRIVATE`.
+3. Unverified TLS never engages by default; it requires an explicit
+   operator opt-in scoped to lab hosts, and the TLS 1.2 floor still applies.
+4. Path and filename validation is linear-time with no regular
+   expressions on untrusted input.
+5. Secrets at rest are sealed (`enc:v2:`) or scrubbed/redacted, files are
+   owner-only, and plaintext lifetime is minimized (shred after use).
+6. HTTP responses and flashes carry generic error strings only; exception
+   objects (paths, library internals) stay in server-side logs as type
+   names. An AST test audits every response call in `lazyc2.py` and all
+   blueprints.
+7. Server logs never interpolate command output or exception text; type
+   names only.
+
+**Operator notes (behavior changes):**
+
+- Lab targets with self-signed certificates now fail closed. For recorder
+  workflows against such targets, set `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1`
+  or provide a bundle via `LAZY_PROXY_TRUST_CA=<path>`.
+- `LAZY_PROXY_ALLOW_PRIVATE=0` denies resolved private/loopback addresses;
+  the default (`1`) keeps lab targets reachable, as required by the
+  pentest workflow.
+- `LAZYOWN_KEEP_MSF_RC=1` preserves `sessions/meta.rc` after `smbattack`
+  for debugging; the default deletes it.
 
 ## v4 reference — command execution hardening details
 

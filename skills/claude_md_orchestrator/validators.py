@@ -52,22 +52,41 @@ SPANISH_HINTS = (
 )
 
 FORBIDDEN_MARKERS = ("TODO", "FIXME", "XXX", "HACK")
-EMOJI_PATTERN = re.compile(
-    "[\U0001f600-\U0001f64f"
-    "\U0001f300-\U0001f5ff"
-    "\U0001f680-\U0001f6ff"
-    "\U0001f700-\U0001f77f"
-    "\U0001f780-\U0001f7ff"
-    "\U0001f800-\U0001f8ff"
-    "\U0001f900-\U0001f9ff"
-    "\U0001fa70-\U0001faff"
-    "\u2600-\u26ff"
-    "\u2700-\u27bf"
-    "\u2b00-\u2bff"
-    "\ufe00-\ufe0f"
-    "\u200d]+",
-    flags=re.UNICODE,
-)
+
+
+class _EmojiSpan:
+    """Minimal regex-match stand-in carrying offset and text."""
+
+    def __init__(self, start: int, text: str) -> None:
+        """Store match offset and matched text."""
+        self._start = start
+        self._text = text
+
+    def start(self) -> int:
+        """Return the match offset."""
+        return self._start
+
+    def group(self, index: int = 0) -> str:
+        """Return the matched text."""
+        return self._text
+
+
+class _EmojiPattern:
+    """Emoji matcher without broad regex ranges (CodeQL-safe).
+
+    Detection reuses the ordinal intervals in ``core.hardening`` so the
+    validator and the hardening contract share one source of truth.
+    """
+
+    def finditer(self, content: str):  # noqa: ANN202
+        """Yield one span per emoji character in encounter order."""
+        from core.hardening import iter_emoji_spans
+
+        for offset, char in iter_emoji_spans(content or ""):
+            yield _EmojiSpan(offset, char)
+
+
+EMOJI_PATTERN = _EmojiPattern()
 HARDCODED_IPV4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 HARDCODED_ABS_PATH = re.compile(r"(/home/[A-Za-z0-9._-]+|/root/[^\s\"']+)")
 MAGIC_NUMBER_PATTERN = re.compile(r"(?<![\w.])\b(\d{2,})\b")

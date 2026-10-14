@@ -76,11 +76,13 @@ def test_summary_scores_and_suggests(tmp_path: Path) -> None:
 
 
 def test_llm_defaults_seeded() -> None:
-    """Groq, ollama and agentic legs exist with failover priority order."""
+    """Local, cloud, pi-agent and agentic legs exist with failover priority order."""
     from modules.lazy_loop import LlmPool
 
     names = [m["name"] for m in LlmPool.DEFAULT_MEMBERS]
-    assert names == ["groq-cloud", "ollama-local", "toposwarm-agent"]
+    assert names == ["llamacpp-local", "groq-cloud", "pi-qwen", "ollama-local", "toposwarm-agent"]
+    specs = [m["model"] for m in LlmPool.DEFAULT_MEMBERS]
+    assert specs[2] == "pi:local-model"
     prios = [m["priority"] for m in LlmPool.DEFAULT_MEMBERS]
     assert prios == sorted(prios, reverse=True)
 

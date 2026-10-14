@@ -524,10 +524,10 @@ def _save_payload(data: dict) -> str:
     try:
         with open(PAYLOAD_FILE, "w") as f:
             json.dump(data, f, indent=2)
-        os.chmod(PAYLOAD_FILE, 0o644)
+        os.chmod(PAYLOAD_FILE, 0o600)
         return "ok"
     except Exception as e:
-        return f"error: {e}"
+        return "error: unable to save payload"
 
 
 def _c2_creds():
@@ -553,18 +553,58 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
     data = json.dumps(body).encode() if body else None
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
 
-    # Skip SSL verification for self-signed certs (common in lab environments)
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
+    def _verified_context() -> "ssl.SSLContext":
+        context = ssl.create_default_context()
+        context.check_hostname = True
+        context.verify_mode = ssl.CERT_REQUIRED
+        try:
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
+        except (AttributeError, ValueError):
+            pass
+        return context
+
+    def _is_lab_target(name: str) -> bool:
+        value = (name or "").strip().strip("[]").lower()
+        if value in ("localhost",):
+            return True
+        try:
+            import ipaddress as _ip
+
+            addr = _ip.ip_address(value)
+            return bool(addr.is_loopback or addr.is_private or addr.is_link_local)
+        except ValueError:
+            return False
 
     try:
-        with urllib.request.urlopen(req, context=ctx, timeout=10) as resp:
+        with urllib.request.urlopen(req, context=_verified_context(), timeout=10) as resp:
             return json.loads(resp.read().decode())
+    except ssl.SSLCertVerificationError:
+        if not _is_lab_target(host) or os.environ.get("LAZYOWN_MCP_INSECURE_TLS", "") == "0":
+            return {"error": "TLS verification failed"}
+        try:
+            import logging as _logging
+
+            _logging.getLogger("lazyown_mcp").warning("unverified TLS fallback for lab C2 %r", host)
+        except Exception:
+            pass
+        fallback = ssl.create_default_context()
+        fallback.check_hostname = False
+        fallback.verify_mode = ssl.CERT_NONE
+        try:
+            fallback.minimum_version = ssl.TLSVersion.TLSv1_2
+        except (AttributeError, ValueError):
+            pass
+        try:
+            with urllib.request.urlopen(req, context=fallback, timeout=10) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            return {"error": f"HTTP {e.code}"}
+        except Exception:
+            return {"error": "C2 request failed"}
     except urllib.error.HTTPError as e:
-        return {"error": f"HTTP {e.code}: {e.reason}"}
-    except Exception as e:
-        return {"error": str(e)}
+        return {"error": f"HTTP {e.code}"}
+    except Exception:
+        return {"error": "C2 request failed"}
 
 
 # ── Tool handler dispatch table ────────────────────────────────────────────────
@@ -8162,11 +8202,23 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             existing = sj.get("notes") or ""
             sj["notes"] = (existing + f"\n[{ts}] {note_text}").strip()
             SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+            try:
+                os.chmod(SESSIONS_DIR, 0o700)
+            except OSError:
+                pass
             sj_file.write_text(json.dumps(sj, indent=4, ensure_ascii=False))
+            try:
+                os.chmod(sj_file, 0o600)
+            except OSError:
+                pass
             return text(f"Note appended at {ts}.")
         elif action == "clear":
             sj["notes"] = ""
             sj_file.write_text(json.dumps(sj, indent=4, ensure_ascii=False))
+            try:
+                os.chmod(sj_file, 0o600)
+            except OSError:
+                pass
             return text("Notes cleared.")
         return text(f"Unknown action: {action}")
 

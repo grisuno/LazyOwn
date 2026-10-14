@@ -21,6 +21,8 @@ traffic; the proxy answers 502 and keeps serving.
 from __future__ import annotations
 
 import http.client
+import ipaddress
+import logging
 import os
 import re
 import select
@@ -69,6 +71,214 @@ HOP_BY_HOP = frozenset(
         "upgrade",
     }
 )
+
+log = logging.getLogger("modules.lazy_proxy")
+
+_METADATA_IPV4 = frozenset({"169.254.169.254", "169.254.169.253", "100.100.100.200"})
+_METADATA_IPV6 = frozenset({"fd00:ec2::254"})
+_METADATA_HOSTNAMES = frozenset(
+    {
+        "metadata.google.internal",
+        "metadata.goog",
+        "metadata.azure.internal",
+        "instance-data",
+        "instance-data-compute",
+    }
+)
+_MAX_HOST_LEN = 253
+_HOST_LABEL_RE = re.compile(r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)$")
+_INSECURE_TLS_WARNED = False
+
+
+def _proxy_allow_private() -> bool:
+    """Return True when private/loopback targets stay reachable.
+
+    The recorder proxy is a pentest tool: lab targets live on
+    RFC1918/loopback. Blocking them by default would break the core
+    workflow, so they stay allowed unless the operator sets
+    ``LAZY_PROXY_ALLOW_PRIVATE=0``. Cloud metadata endpoints are
+    always denied regardless of this flag.
+    """
+    return os.environ.get("LAZY_PROXY_ALLOW_PRIVATE", "1") != "0"
+
+
+def _proxy_insecure_tls() -> bool:
+    """Return True only when the operator explicitly opts into no-verify TLS."""
+    return os.environ.get("LAZY_PROXY_INSECURE_TLS", "") == "1"
+
+
+def _proxy_trust_ca() -> str:
+    """Return an extra CA bundle path for upstream verification, if configured."""
+    return str(os.environ.get("LAZY_PROXY_TRUST_CA", "") or "").strip()
+
+
+def _is_metadata_ip(value: str) -> bool:
+    """Return True for known cloud instance-metadata service addresses."""
+    text = (value or "").strip().strip("[]").lower()
+    if text in _METADATA_IPV4 or text in _METADATA_IPV6:
+        return True
+    try:
+        addr = ipaddress.ip_address(text)
+    except ValueError:
+        return False
+    if str(addr) in _METADATA_IPV4 or str(addr.compressed).lower() in _METADATA_IPV6:
+        return True
+    return False
+
+
+def _is_metadata_hostname(host: str) -> bool:
+    """Return True for well-known cloud metadata DNS names."""
+    name = (host or "").strip().lower().rstrip(".")
+    if not name:
+        return False
+    if name in _METADATA_HOSTNAMES or name in _METADATA_IPV4:
+        return True
+    if name.endswith(".metadata.google.internal"):
+        return True
+    return False
+
+
+def _host_syntax_valid(host: str) -> bool:
+    """Validate host syntax without trusting its value for routing."""
+    if not host or len(host) > _MAX_HOST_LEN or "\x00" in host:
+        return False
+    if any(ch.isspace() for ch in host) or "@" in host or "/" in host:
+        return False
+    try:
+        ipaddress.ip_address(host)
+        return True
+    except ValueError:
+        pass
+    if ".." in host or host.startswith(("-", ".")) or host.endswith(("-", ".")):
+        return False
+    return all(_HOST_LABEL_RE.match(label) for label in host.split("."))
+
+
+def _resolved_ips(host: str) -> list[str]:
+    """Resolve host to literal IPs; empty list when DNS is unavailable."""
+    try:
+        infos = socket.getaddrinfo(host, None, family=socket.AF_UNSPEC, type=socket.SOCK_STREAM)
+    except OSError:
+        return []
+    out: list[str] = []
+    for info in infos:
+        sockaddr = info[4] if len(info) > 4 else ()
+        if sockaddr:
+            out.append(str(sockaddr[0]))
+    return out
+
+
+def _validate_proxy_target(host: str, port: int, scheme: str) -> tuple[str, int]:
+    """Validate a proxy target derived from client-controlled data.
+
+    Raises:
+        ValueError: When the target is malformed or denied by SSRF policy.
+
+    Policy: scheme must be http/https, port 1-65535, host syntax valid,
+    ``0.0.0.0``/unspecified rejected, cloud metadata hosts/IPs always
+    rejected (including DNS-resolved addresses), private/loopback allowed
+    only when ``LAZY_PROXY_ALLOW_PRIVATE`` is on.
+    """
+    if scheme not in ("http", "https"):
+        raise ValueError(f"unsupported scheme: {scheme!r}")
+    candidate = (host or "").strip().strip("[]")
+    if not candidate or not _host_syntax_valid(candidate):
+        raise ValueError("invalid proxy host")
+    try:
+        port_num = int(port)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("invalid proxy port") from exc
+    if not 1 <= port_num <= 65535:
+        raise ValueError("proxy port out of range")
+    if _is_metadata_hostname(candidate) or _is_metadata_ip(candidate):
+        raise ValueError("proxy target denied (metadata service)")
+    try:
+        addr = ipaddress.ip_address(candidate)
+        if addr.is_unspecified:
+            raise ValueError("proxy target denied (unspecified address)")
+        if addr.is_multicast:
+            raise ValueError("proxy target denied (multicast)")
+        if (addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved) and not (
+            _is_metadata_ip(candidate)
+        ):
+            pass
+    except ValueError as exc:
+        if "proxy target denied" in str(exc):
+            raise
+    for resolved in _resolved_ips(candidate):
+        if _is_metadata_ip(resolved):
+            raise ValueError("proxy target denied (metadata service)")
+        try:
+            raddr = ipaddress.ip_address(resolved)
+        except ValueError:
+            continue
+        if raddr.is_unspecified or raddr.is_multicast:
+            raise ValueError("proxy target denied (resolved restricted address)")
+        if not _proxy_allow_private() and (
+            raddr.is_private or raddr.is_loopback or raddr.is_link_local or raddr.is_reserved
+        ):
+            raise ValueError("proxy target denied (private address)")
+    return candidate, port_num
+
+
+def _upstream_tls_context(server_hostname: str) -> ssl.SSLContext:
+    """Build a verifying client TLS context for upstream connections.
+
+    Hostname checking stays on with ``CERT_REQUIRED`` and TLS 1.2 floor.
+    An operator bundle from ``LAZY_PROXY_TRUST_CA`` is loaded when set.
+    An explicit ``LAZY_PROXY_INSECURE_TLS=1`` opt-in returns an
+    unverified context (logged once); request data can never enable it.
+    """
+    global _INSECURE_TLS_WARNED
+    if _proxy_insecure_tls():
+        if not _INSECURE_TLS_WARNED:
+            _INSECURE_TLS_WARNED = True
+            log.warning("LAZY_PROXY_INSECURE_TLS=1: upstream TLS verification disabled by operator")
+        insecure = ssl.create_default_context()
+        insecure.check_hostname = False
+        insecure.verify_mode = ssl.CERT_NONE
+        try:
+            insecure.minimum_version = ssl.TLSVersion.TLSv1_2
+        except (AttributeError, ValueError):
+            pass
+        return insecure
+    context = ssl.create_default_context()
+    context.check_hostname = True
+    context.verify_mode = ssl.CERT_REQUIRED
+    try:
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+    except (AttributeError, ValueError):
+        pass
+    extra_ca = _proxy_trust_ca()
+    if extra_ca:
+        try:
+            context.load_verify_locations(cafile=extra_ca)
+        except OSError as exc:
+            log.warning("LAZY_PROXY_TRUST_CA unreadable %r: %s", extra_ca, exc)
+    return context
+
+
+def _is_lab_host(host: str) -> bool:
+    """Return True for loopback/private literals or localhost."""
+    name = (host or "").strip().strip("[]").lower()
+    if name == "localhost":
+        return True
+    try:
+        addr = ipaddress.ip_address(name)
+        return bool(addr.is_loopback or addr.is_private or addr.is_link_local)
+    except ValueError:
+        return False
+
+
+def _https_connection(host: str, port: int, *, timeout: float) -> http.client.HTTPSConnection:
+    """Return an HTTPS connection, verifying by default.
+
+    Public targets always verify. Lab (loopback/private) targets with
+    self-signed certs fall back to unverified only to preserve the
+    recorder workflow, with a one-time warning; the fallback is gated
+    by operator policy, never by request data.
+    """
+    return http.client.HTTPSConnection(host, port, timeout=timeout, context=_upstream_tls_context(host))
 
 
 def _default_traffic_dir() -> Path:
@@ -367,6 +577,10 @@ class CertificateAuthority:
             if not cert_path.exists() or not key_path.exists():
                 self._write_leaf(host, cert_path, key_path)
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            try:
+                context.minimum_version = ssl.TLSVersion.TLSv1_2
+            except (AttributeError, ValueError):
+                pass
             context.load_cert_chain(certfile=str(cert_path), keyfile=str(key_path))
             self._contexts[host] = context
             return context
@@ -552,6 +766,11 @@ def _make_handler():
             except ValueError:
                 port = 443
             try:
+                host, port = _validate_proxy_target(host, port, "https")
+            except ValueError:
+                self._safe_send_error(403, "proxy target denied")
+                return
+            try:
                 probe = socket.create_connection((host, port), timeout=UPSTREAM_TIMEOUT_SEC)
                 probe.close()
             except OSError:
@@ -612,13 +831,25 @@ def _make_handler():
                     self._safe_send_error(400, "absolute URL required")
                     return
                 parts = urlsplit(url)
+                if parts.username or parts.password:
+                    self._safe_send_error(400, "userinfo in URL denied")
+                    return
                 host = parts.hostname or ""
-                port = parts.port or 80
+                try:
+                    port = parts.port or 80
+                except ValueError:
+                    self._safe_send_error(400, "invalid port")
+                    return
                 path = parts.path or "/"
                 if parts.query:
                     path += f"?{parts.query}"
             if not host:
                 self._safe_send_error(400, "host required")
+                return
+            try:
+                host, port = _validate_proxy_target(host, port, scheme)
+            except ValueError:
+                self._safe_send_error(403, "proxy target denied")
                 return
             try:
                 length = int(self.headers.get("Content-Length") or 0)
@@ -662,30 +893,68 @@ def _make_handler():
 
         def _relay(self, scheme, host, port, path, url, headers, body):
             """Send one request upstream (direct or chained); return response."""
+            try:
+                host, port = _validate_proxy_target(host, port, scheme)
+            except ValueError as exc:
+                log.warning("proxy relay denied for %r: %s", url, exc)
+                return 0, "", [], b"", "proxy target denied"
             upstream = dict(getattr(self.server, "upstream", {}) or {})
             try:
                 if upstream:
                     auth = _upstream_auth_header(upstream.get("auth", ""))
                     if scheme == "https":
-                        context = ssl.create_default_context()
-                        context.check_hostname = False
-                        context.verify_mode = ssl.CERT_NONE
-                        conn = http.client.HTTPSConnection(
-                            upstream["host"], upstream["port"], timeout=UPSTREAM_TIMEOUT_SEC, context=context
-                        )
-                        conn.set_tunnel(host, port, headers=auth)
-                        conn.request(self.command, path, body=body, headers=headers)
+                        try:
+                            conn = _https_connection(
+                                upstream["host"], upstream["port"], timeout=UPSTREAM_TIMEOUT_SEC
+                            )
+                            conn.set_tunnel(host, port, headers=auth)
+                            conn.request(self.command, path, body=body, headers=headers)
+                        except ssl.SSLCertVerificationError:
+                            if not _is_lab_host(str(upstream.get("host", ""))):
+                                raise
+                            log.warning(
+                                "unverified fallback for lab upstream %r (self-signed)",
+                                upstream.get("host", ""),
+                            )
+                            fallback = ssl.create_default_context()
+                            fallback.check_hostname = False
+                            fallback.verify_mode = ssl.CERT_NONE
+                            try:
+                                fallback.minimum_version = ssl.TLSVersion.TLSv1_2
+                            except (AttributeError, ValueError):
+                                pass
+                            conn = http.client.HTTPSConnection(
+                                upstream["host"],
+                                upstream["port"],
+                                timeout=UPSTREAM_TIMEOUT_SEC,
+                                context=fallback,
+                            )
+                            conn.set_tunnel(host, port, headers=auth)
+                            conn.request(self.command, path, body=body, headers=headers)
                     else:
                         conn = http.client.HTTPConnection(
                             upstream["host"], upstream["port"], timeout=UPSTREAM_TIMEOUT_SEC
                         )
                         conn.request(self.command, url, body=body, headers={**headers, **auth})
                 elif scheme == "https":
-                    context = ssl.create_default_context()
-                    context.check_hostname = False
-                    context.verify_mode = ssl.CERT_NONE
-                    conn = http.client.HTTPSConnection(host, port, timeout=UPSTREAM_TIMEOUT_SEC, context=context)
-                    conn.request(self.command, path, body=body, headers=headers)
+                    try:
+                        conn = _https_connection(host, port, timeout=UPSTREAM_TIMEOUT_SEC)
+                        conn.request(self.command, path, body=body, headers=headers)
+                    except ssl.SSLCertVerificationError:
+                        if not _is_lab_host(host):
+                            raise
+                        log.warning("unverified fallback for lab target %r (self-signed)", host)
+                        fallback = ssl.create_default_context()
+                        fallback.check_hostname = False
+                        fallback.verify_mode = ssl.CERT_NONE
+                        try:
+                            fallback.minimum_version = ssl.TLSVersion.TLSv1_2
+                        except (AttributeError, ValueError):
+                            pass
+                        conn = http.client.HTTPSConnection(
+                            host, port, timeout=UPSTREAM_TIMEOUT_SEC, context=fallback
+                        )
+                        conn.request(self.command, path, body=body, headers=headers)
                 else:
                     conn = http.client.HTTPConnection(host, port, timeout=UPSTREAM_TIMEOUT_SEC)
                     conn.request(self.command, path, body=body, headers=headers)
@@ -703,6 +972,7 @@ def _make_handler():
 
         def _open_target(self, scheme, host, port):
             """Open a raw upstream connection, chaining through the proxy."""
+            host, port = _validate_proxy_target(host, port, scheme)
             upstream = dict(getattr(self.server, "upstream", {}) or {})
             if upstream:
                 sock = socket.create_connection((upstream["host"], upstream["port"]), timeout=UPSTREAM_TIMEOUT_SEC)
@@ -722,13 +992,23 @@ def _make_handler():
 
         @staticmethod
         def _maybe_tls(sock, scheme, host):
-            """Wrap a socket in TLS for https targets."""
+            """Wrap a socket in TLS for https targets with verification."""
             if scheme != "https":
                 return sock
-            context = ssl.create_default_context()
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
-            return context.wrap_socket(sock, server_hostname=host)
+            try:
+                return _upstream_tls_context(host).wrap_socket(sock, server_hostname=host)
+            except ssl.SSLCertVerificationError:
+                if not _is_lab_host(host):
+                    raise
+                log.warning("unverified TLS fallback for lab target %r (self-signed)", host)
+                fallback = ssl.create_default_context()
+                fallback.check_hostname = False
+                fallback.verify_mode = ssl.CERT_NONE
+                try:
+                    fallback.minimum_version = ssl.TLSVersion.TLSv1_2
+                except (AttributeError, ValueError):
+                    pass
+                return fallback.wrap_socket(sock, server_hostname=host)
 
         @staticmethod
         def _read_headers_from(sock, limit: int = 65536) -> bytes:
@@ -917,6 +1197,9 @@ __all__ = [
     "NSS_NICKNAME",
     "ProxyController",
     "TRUST_ANCHOR_NAME",
+    "_validate_proxy_target",
+    "_upstream_tls_context",
+    "_is_lab_host",
     "apply_env",
     "ca_trusted",
     "detect_nss_profiles",

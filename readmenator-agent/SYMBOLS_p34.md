@@ -3,6 +3,36 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_lazyown_source_has_no_invalid_escape_warning` | function | `tests/test_fuzzy_picker.py:265` | `def test_lazyown_source_has_no_invalid_escape_warning()` |
+| `test_picker_cancel_returns_none` | function | `tests/test_fuzzy_picker.py:146` | `def test_picker_cancel_returns_none(sample_items)` |
+| `test_picker_empty_input_returns_none` | function | `tests/test_fuzzy_picker.py:152` | `def test_picker_empty_input_returns_none()` |
+| `test_picker_routes_through_view_for_multiple_items` | function | `tests/test_fuzzy_picker.py:138` | `def test_picker_routes_through_view_for_multiple_items(sample_items)` |
+| `test_picker_short_circuits_single_item` | function | `tests/test_fuzzy_picker.py:132` | `def test_picker_short_circuits_single_item()` |
+| `test_prefix_match_outranks_substring` | function | `tests/test_fuzzy_picker.py:84` | `def test_prefix_match_outranks_substring(scorer)` |
+| `test_similarity_floor_excludes_unrelated_text` | function | `tests/test_fuzzy_picker.py:98` | `def test_similarity_floor_excludes_unrelated_text(scorer)` |
+| `test_strip_ansi_passes_through_plain_text` | function | `tests/test_fuzzy_picker.py:165` | `def test_strip_ansi_passes_through_plain_text()` |
+| `test_strip_ansi_removes_csi_sequences` | function | `tests/test_fuzzy_picker.py:160` | `def test_strip_ansi_removes_csi_sequences()` |
+| `test_subsequence_match_emits_positions` | function | `tests/test_fuzzy_picker.py:90` | `def test_subsequence_match_emits_positions(scorer, sample_items)` |
+| `test_subsequence_positions_helper_returns_empty_when_no_match` | function | `tests/test_fuzzy_picker.py:104` | `def test_subsequence_positions_helper_returns_empty_when_no_match()` |
+| `advisor` | function | `tests/test_graph_advisor.py:133` | `def advisor(small_graph_path)` |
+| `small_graph_data` | function | `tests/test_graph_advisor.py:34` | `def small_graph_data()` |
+| `small_graph_path` | function | `tests/test_graph_advisor.py:126` | `def small_graph_path(tmp_path, small_graph_data)` |
+| `test_advisor_did_you_mean_returns_close_labels` | function | `tests/test_graph_advisor.py:268` | `def test_advisor_did_you_mean_returns_close_labels(advisor)` |
+| `test_advisor_god_nodes_ranks_by_degree` | function | `tests/test_graph_advisor.py:254` | `def test_advisor_god_nodes_ranks_by_degree(advisor)` |
+| `test_advisor_handles_missing_graph_gracefully` | function | `tests/test_graph_advisor.py:280` | `def test_advisor_handles_missing_graph_gracefully(tmp_path)` |
+| `test_advisor_neighbors_respects_depth` | function | `tests/test_graph_advisor.py:248` | `def test_advisor_neighbors_respects_depth(advisor)` |
+| `test_advisor_neighbors_returns_layered_walk` | function | `tests/test_graph_advisor.py:239` | `def test_advisor_neighbors_returns_layered_walk(advisor)` |
+| `test_advisor_reads_recent_commands_from_csv` | function | `tests/test_graph_advisor.py:292` | `def test_advisor_reads_recent_commands_from_csv(tmp_path, advisor)` |
+| `test_advisor_search_returns_ranked_nodes` | function | `tests/test_graph_advisor.py:231` | `def test_advisor_search_returns_ranked_nodes(advisor)` |
+| `test_advisor_suggest_next_walks_from_recent` | function | `tests/test_graph_advisor.py:260` | `def test_advisor_suggest_next_walks_from_recent(advisor)` |
+| `test_advisor_summary_flags_empty_graph` | function | `tests/test_graph_advisor.py:199` | `def test_advisor_summary_flags_empty_graph(tmp_path)` |
+| `test_advisor_summary_flags_stale_graph` | function | `tests/test_graph_advisor.py:212` | `def test_advisor_summary_flags_stale_graph(tmp_path)` |
+| `test_advisor_summary_reports_topology` | function | `tests/test_graph_advisor.py:188` | `def test_advisor_summary_reports_topology(advisor)` |
+| `test_advisor_truncate_respects_token_budget` | function | `tests/test_graph_advisor.py:274` | `def test_advisor_truncate_respects_token_budget(advisor)` |
+| `test_format_god_nodes_handles_empty` | function | `tests/test_graph_advisor.py:322` | `def test_format_god_nodes_handles_empty()` |
+| `test_format_neighbors_renders_when_match_found` | function | `tests/test_graph_advisor.py:316` | `def test_format_neighbors_renders_when_match_found(advisor)` |
+| `test_format_search_table_renders_rows` | function | `tests/test_graph_advisor.py:309` | `def test_format_search_table_renders_rows(advisor)` |
+| `test_format_suggestions_handles_empty` | function | `tests/test_graph_advisor.py:326` | `def test_format_suggestions_handles_empty()` |
 | `test_index_builds_adjacency_and_degree` | function | `tests/test_graph_advisor.py:153` | `def test_index_builds_adjacency_and_degree(small_graph_data)` |
 | `test_loader_resolves_explicit_path` | function | `tests/test_graph_advisor.py:138` | `def test_loader_resolves_explicit_path(tmp_path, small_graph_data)` |
 | `test_loader_returns_none_when_missing` | function | `tests/test_graph_advisor.py:147` | `def test_loader_returns_none_when_missing(tmp_path)` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_worker_agentic_tool_calling` | function | `tests/test_lazy_agent.py:63` | `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)` |
 | `_stub_executor` | function | `tests/test_lazy_engine.py:11` | `def _stub_executor(command)` |
 | `engine` | function | `tests/test_lazy_engine.py:23` | `def engine(tmp_path, monkeypatch)` |
-| `test_create_auto_scope_and_asset` | function | `tests/test_lazy_engine.py:35` | `def test_create_auto_scope_and_asset(engine)` |
-| `test_delete_task_sweeps_only_its_store_files` | function | `tests/test_lazy_engine.py:97` | `def test_delete_task_sweeps_only_its_store_files(engine, tmp_path)` |
-| `test_delete_task_unknown_returns_empty` | function | `tests/test_lazy_engine.py:111` | `def test_delete_task_unknown_returns_empty(engine)` |
-| `test_lazy_alias_surface` | function | `tests/test_lazy_engine.py:87` | `def test_lazy_alias_surface()` |
-| `test_no_premature_done_goals_pending` | function | `tests/test_lazy_engine.py:52` | `def test_no_premature_done_goals_pending(engine)` |
-| `test_pause_resume` | function | `tests/test_lazy_engine.py:67` | `def test_pause_resume(engine)` |
-| `test_prove_goal_needs_reason_and_evidence` | function | `tests/test_lazy_engine.py:77` | `def test_prove_goal_needs_reason_and_evidence(engine)` |
-| `test_scope_strict_no_external_intents` | function | `tests/test_lazy_engine.py:42` | `def test_scope_strict_no_external_intents(engine)` |
-| `test_worker_aggregates_single_fact` | function | `tests/test_lazy_engine.py:61` | `def test_worker_aggregates_single_fact(engine)` |
-| `test_export_evidence_freezes_files_with_hashes` | function | `tests/test_lazy_evidence.py:53` | `def test_export_evidence_freezes_files_with_hashes(tmp_path, monkeypatch)` |
-| `test_legacy_fts_is_migrated_in_place` | function | `tests/test_lazy_evidence.py:34` | `def test_legacy_fts_is_migrated_in_place(tmp_path)` |
-| `test_trigram_search_finds_mid_token` | function | `tests/test_lazy_evidence.py:16` | `def test_trigram_search_finds_mid_token(tmp_path)` |
-| `_Ctx` | class | `tests/test_lazy_loop.py:345` | `class _Ctx` |
-| `_Smtp` | class | `tests/test_lazy_loop.py:359` | `class _Smtp` |
-| `__enter__` | method | `tests/test_lazy_loop.py:346` | `def __enter__(self)` |
-| `__enter__` | method | `tests/test_lazy_loop.py:363` | `def __enter__(self)` |
-| `__exit__` | method | `tests/test_lazy_loop.py:349` | `def __exit__(self)` |
-| `__exit__` | method | `tests/test_lazy_loop.py:366` | `def __exit__(self)` |
-| `__init__` | method | `tests/test_lazy_loop.py:360` | `def __init__(self, host, port, timeout)` |
-| `_patched_engine` | function | `tests/test_lazy_loop.py:8` | `def _patched_engine(tmp_path, monkeypatch)` |
-| `fake_urlopen` | function | `tests/test_lazy_loop.py:352` | `def fake_urlopen(request, timeout)` |
-| `git` | function | `tests/test_lazy_loop.py:232` | `def git(cwd)` |
-| `login` | method | `tests/test_lazy_loop.py:372` | `def login(self, user, password)` |
-| `send_message` | method | `tests/test_lazy_loop.py:375` | `def send_message(self, message)` |
-| `starttls` | method | `tests/test_lazy_loop.py:369` | `def starttls(self)` |
-| `test_admission_queue_fifo_and_drain` | function | `tests/test_lazy_loop.py:412` | `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)` |
-| `test_bridge_reads_engine_store_fixture` | function | `tests/test_lazy_loop.py:505` | `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)` |
-| `test_broadcast_rows_and_worker_traces` | function | `tests/test_lazy_loop.py:478` | `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)` |
-| `test_build_prompt_context_bounded_with_digests` | function | `tests/test_lazy_loop.py:437` | `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)` |
-| `test_c2_board_bridge_upserts` | function | `tests/test_lazy_loop.py:266` | `def test_c2_board_bridge_upserts(tmp_path, monkeypatch)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

@@ -849,18 +849,33 @@ class DomainDominance:
     def _save_credential(self, username: str, secret: str, secret_type: str, source: str) -> None:
         """Save a discovered credential to the sessions directory.
 
+        Loot must stay operator-readable for the engagement, so it is kept
+        in clear text with owner-only permissions (directory 0700, file
+        0600) and never written to logs. Callers must scrub ``secret``
+        from any returned strings.
+
         Args:
             username: Username.
             secret: Password or hash.
             secret_type: Type of secret.
             source: Where the credential came from.
         """
+        import os as _os
+
         cred_file = SESSIONS_DIR / "credentials_dominance.txt"
         cred_file.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            _os.chmod(cred_file.parent, 0o700)
+        except OSError:
+            pass
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
         line = f"{timestamp} | {source} | {username} | {secret} | {secret_type}\n"
         with cred_file.open("a") as f:
             f.write(line)
+        try:
+            _os.chmod(cred_file, 0o600)
+        except OSError:
+            pass
 
     def _save_session(self, session_id: str, target: str, method: str, user: str) -> None:
         """Save session metadata.

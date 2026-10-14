@@ -3,6 +3,36 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_run_tests` | function | `tests/run_mutation_contract_manifest.py:35` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_contract_manifest.py:47` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_infra_report.py:92` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_infra_report.py:137` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_infra_report.py:110` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_infra_report.py:122` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_killchain.py:56` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_killchain.py:81` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_killchain.py:65` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_killchain.py:71` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_llm.py:60` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_llm.py:84` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_llm.py:69` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_llm.py:74` | `def run_tests()` |
+| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_phase1.py:138` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_phase1.py:164` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_phase1.py:147` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_phase1.py:153` | `def run_tests()` |
+| `_run_tests` | function | `tests/run_mutation_shell_semantics.py:41` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_shell_semantics.py:53` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_tests.py:69` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_tests.py:103` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_tests.py:78` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_tests.py:84` | `def run_tests()` |
 | `_backups` | function | `tests/run_mutation_ux_usability.py:71` | `def _backups(mutations)` |
 | `_restore` | function | `tests/run_mutation_ux_usability.py:79` | `def _restore(backups, mutations)` |
 | `_run_tests` | function | `tests/run_mutation_ux_usability.py:60` | `def _run_tests()` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
 | `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
 | `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
-| `_FakeAdvisor` | class | `tests/test_autosuggest.py:203` | `class _FakeAdvisor` |
-| `_RaisingProvider` | class | `tests/test_autosuggest.py:52` | `class _RaisingProvider` |
-| `_SequenceProvider` | class | `tests/test_autosuggest.py:339` | `class _SequenceProvider` |
-| `_StaticProvider` | class | `tests/test_autosuggest.py:42` | `class _StaticProvider` |
-| `__init__` | method | `tests/test_autosuggest.py:45` | `def __init__(self, suggestion)` |
-| `__init__` | method | `tests/test_autosuggest.py:204` | `def __init__(self, results, available)` |
-| `__init__` | method | `tests/test_autosuggest.py:296` | `def __init__(self)` |
-| `__init__` | method | `tests/test_autosuggest.py:342` | `def __init__(self, suggestions)` |
-| `is_available` | method | `tests/test_autosuggest.py:208` | `def is_available(self)` |
-| `print` | method | `tests/test_autosuggest.py:299` | `def print(self, value)` |
-| `suggest` | method | `tests/test_autosuggest.py:48` | `def suggest(self, context)` |
-| `suggest` | method | `tests/test_autosuggest.py:55` | `def suggest(self, context)` |
-| `suggest` | method | `tests/test_autosuggest.py:346` | `def suggest(self, context)` |
-| `suggest_next` | method | `tests/test_autosuggest.py:211` | `def suggest_next(self, recent_commands, limit)` |
-| `test_build_default_engine_includes_killchain_only_when_no_advisor` | function | `tests/test_autosuggest.py:246` | `def test_build_default_engine_includes_killchain_only_when_no_advisor()` |
-| `test_build_default_engine_with_unavailable_advisor` | function | `tests/test_autosuggest.py:372` | `def test_build_default_engine_with_unavailable_advisor()` |
-| `test_composite_picks_highest_score` | function | `tests/test_autosuggest.py:133` | `def test_composite_picks_highest_score()` |
-| `test_composite_returns_none_when_no_provider_responds` | function | `tests/test_autosuggest.py:152` | `def test_composite_returns_none_when_no_provider_responds()` |
-| `test_composite_skips_raising_provider` | function | `tests/test_autosuggest.py:143` | `def test_composite_skips_raising_provider()` |
-| `test_engine_accept_returns_command_and_clears` | function | `tests/test_autosuggest.py:69` | `def test_engine_accept_returns_command_and_clears()` |
-| `test_engine_advances_suggestion_after_accept_refresh` | function | `tests/test_autosuggest.py:354` | `def test_engine_advances_suggestion_after_accept_refresh()` |
-| `test_engine_disabled_clears_state_and_returns_none` | function | `tests/test_autosuggest.py:81` | `def test_engine_disabled_clears_state_and_returns_none()` |
-| `test_engine_display_text_empty_without_suggestion` | function | `tests/test_autosuggest.py:102` | `def test_engine_display_text_empty_without_suggestion()` |
-| `test_engine_display_text_renders_active_suggestion` | function | `tests/test_autosuggest.py:108` | `def test_engine_display_text_renders_active_suggestion()` |
-| `test_engine_display_text_truncates_long_command` | function | `tests/test_autosuggest.py:119` | `def test_engine_display_text_truncates_long_command()` |
-| `test_engine_refresh_stores_suggestion` | function | `tests/test_autosuggest.py:59` | `def test_engine_refresh_stores_suggestion()` |
-| `test_engine_skip_commands_do_not_refresh` | function | `tests/test_autosuggest.py:93` | `def test_engine_skip_commands_do_not_refresh()` |
-| `test_format_hint_line_includes_accept_key_and_reason` | function | `tests/test_autosuggest.py:261` | `def test_format_hint_line_includes_accept_key_and_reason()` |
-| `test_format_hint_line_omits_reason_when_blank` | function | `tests/test_autosuggest.py:287` | `def test_format_hint_line_omits_reason_when_blank()` |
-| `test_format_hint_line_truncates_long_command` | function | `tests/test_autosuggest.py:275` | `def test_format_hint_line_truncates_long_command()` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

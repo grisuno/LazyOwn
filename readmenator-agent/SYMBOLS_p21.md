@@ -3,6 +3,34 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cmd_run` | function | `skills/autonomous_daemon.py:4617` | `def cmd_run(max_steps)` |
+| `cmd_start` | function | `skills/autonomous_daemon.py:4626` | `def cmd_start(max_steps)` |
+| `cmd_status` | function | `skills/autonomous_daemon.py:4673` | `def cmd_status()` |
+| `cmd_stop` | function | `skills/autonomous_daemon.py:4656` | `def cmd_stop()` |
+| `compute_decision_seed` | function | `skills/autonomous_daemon.py:353` | `def compute_decision_seed(objective_id, step_n, source)` |
+| `detect_in_output` | method | `skills/autonomous_daemon.py:3225` | `def detect_in_output(self, output, target)` |
+| `did_switch` | method | `skills/autonomous_daemon.py:3079` | `def did_switch(self)` |
+| `engagement_id` | method | `skills/autonomous_daemon.py:3316` | `def engagement_id(self)` |
+| `handle` | method | `skills/autonomous_daemon.py:1416` | `def handle(self, objective_id, objective_text, target, context)` |
+| `handle` | method | `skills/autonomous_daemon.py:1454` | `def handle(self, objective_id, objective_text, target, context)` |
+| `heartbeat_loop` | function | `skills/autonomous_daemon.py:4490` | `def heartbeat_loop()` |
+| `mcp_autonomous_events` | function | `skills/autonomous_daemon.py:4838` | `def mcp_autonomous_events(last_n)` |
+| `mcp_autonomous_inject` | function | `skills/autonomous_daemon.py:4794` | `def mcp_autonomous_inject(text, priority, target)` |
+| `mcp_autonomous_start` | function | `skills/autonomous_daemon.py:4723` | `def mcp_autonomous_start(max_steps, backend)` |
+| `mcp_autonomous_status` | function | `skills/autonomous_daemon.py:4781` | `def mcp_autonomous_status()` |
+| `mcp_autonomous_stop` | function | `skills/autonomous_daemon.py:4765` | `def mcp_autonomous_stop()` |
+| `mcp_engage_approve` | function | `skills/autonomous_daemon.py:4080` | `def mcp_engage_approve(approval_id, decision, operator)` |
+| `mcp_engage_list_pending` | function | `skills/autonomous_daemon.py:4105` | `def mcp_engage_list_pending()` |
+| `mcp_engage_status` | function | `skills/autonomous_daemon.py:4054` | `def mcp_engage_status(last_n)` |
+| `mcp_engage_target` | function | `skills/autonomous_daemon.py:3964` | `def mcp_engage_target(target, max_switches_per_step, detach, auto)` |
+| `name` | method | `skills/autonomous_daemon.py:390` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:441` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:461` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:557` | `def name(self)` |
+| `next_command` | method | `skills/autonomous_daemon.py:1306` | `def next_command(self, target, phase, context)` |
+| `next_command` | method | `skills/autonomous_daemon.py:1382` | `def next_command(self, target, phase, services, os_hint)` |
+| `next_tool` | method | `skills/autonomous_daemon.py:3088` | `def next_tool(self, failed_command, phase, attempt)` |
+| `next_tool` | method | `skills/autonomous_daemon.py:3105` | `def next_tool(self, failed_command, phase, attempt)` |
 | `next_tool` | method | `skills/autonomous_daemon.py:3152` | `def next_tool(self, failed_command, phase, attempt)` |
 | `objective_loop` | function | `skills/autonomous_daemon.py:4162` | `def objective_loop(max_steps, loop)` |
 | `poll` | method | `skills/autonomous_daemon.py:3184` | `def poll(self, target)` |
@@ -196,21 +224,21 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
 | `test_tdd_agent_lands_red` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:102` | `def test_tdd_agent_lands_red(config)` |
 | `tmp_run_dir` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:46` | `def tmp_run_dir(tmp_path)` |
-| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:65` | `class CheckResult` |
-| `blocks` | method | `skills/claude_md_orchestrator/validators.py:80` | `def blocks(self)` |
-| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:218` | `def check_docstrings(source, path)` |
-| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:194` | `def check_english_only(source, path)` |
-| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:293` | `def check_magic_numbers(source, path, allow)` |
-| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:341` | `def check_markdown(content, path)` |
-| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:124` | `def check_no_comments(source, path)` |
-| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:155` | `def check_no_emoji(content, path)` |
-| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:177` | `def check_no_forbidden_markers(content, path)` |
-| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:259` | `def check_no_hardcoded_paths_or_ips(source, path)` |
-| `check_source` | function | `skills/claude_md_orchestrator/validators.py:328` | `def check_source(source, path, allow_numbers)` |
-| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:350` | `def check_spec(spec, min_sad_paths)` |
-| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:85` | `def find_block_comments(source)` |
-| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:107` | `def find_inline_comments(source)` |
-| `passed` | method | `skills/claude_md_orchestrator/validators.py:76` | `def passed(self)` |
+| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:77` | `class CheckResult` |
+| `blocks` | method | `skills/claude_md_orchestrator/validators.py:92` | `def blocks(self)` |
+| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:230` | `def check_docstrings(source, path)` |
+| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:206` | `def check_english_only(source, path)` |
+| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:305` | `def check_magic_numbers(source, path, allow)` |
+| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:353` | `def check_markdown(content, path)` |
+| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:136` | `def check_no_comments(source, path)` |
+| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:167` | `def check_no_emoji(content, path)` |
+| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:189` | `def check_no_forbidden_markers(content, path)` |
+| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:271` | `def check_no_hardcoded_paths_or_ips(source, path)` |
+| `check_source` | function | `skills/claude_md_orchestrator/validators.py:340` | `def check_source(source, path, allow_numbers)` |
+| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:362` | `def check_spec(spec, min_sad_paths)` |
+| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:97` | `def find_block_comments(source)` |
+| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:119` | `def find_inline_comments(source)` |
+| `passed` | method | `skills/claude_md_orchestrator/validators.py:88` | `def passed(self)` |
 | `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
 | `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
 | `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
@@ -468,33 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `recall_episodic` | method | `skills/hive_mind.py:633` | `def recall_episodic(self, query, top_k, role, event_type)` |
 | `recall_longterm` | method | `skills/hive_mind.py:660` | `def recall_longterm(self, query, top_k)` |
 | `recall_semantic` | method | `skills/hive_mind.py:647` | `def recall_semantic(self, query, top_k, where)` |
-| `receive` | method | `skills/hive_mind.py:746` | `def receive(self, agent_id, max_msgs)` |
-| `recover_from_store` | method | `skills/hive_mind.py:1687` | `def recover_from_store(self)` |
-| `requeue_interrupted` | method | `skills/hive_mind.py:1741` | `def requeue_interrupted(self, backend, api_key, max_iterations)` |
-| `run` | method | `skills/hive_mind.py:175` | `def run(self, command, timeout)` |
-| `spawn` | method | `skills/hive_mind.py:1708` | `def spawn(self, role, goal, backend, api_key, model, max_iterations, runner)` |
-| `spawn` | method | `skills/hive_mind.py:1829` | `def spawn(self, goal, role, backend, api_key, max_iterations)` |
-| `spawn_hive` | method | `skills/hive_mind.py:1846` | `def spawn_hive(self, goal, n_drones, backend, api_key, max_iterations)` |
-| `start` | method | `skills/hive_mind.py:1128` | `def start(self)` |
-| `stats` | method | `skills/hive_mind.py:322` | `def stats(self)` |
-| `stats` | method | `skills/hive_mind.py:694` | `def stats(self)` |
-| `status` | method | `skills/hive_mind.py:1863` | `def status(self)` |
-| `store` | method | `skills/hive_mind.py:157` | `def store(self, content)` |
-| `store` | method | `skills/hive_mind.py:235` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
-| `store` | method | `skills/hive_mind.py:386` | `def store(self, content, agent_id, role, event_type, meta, session_tag, event_id)` |
-| `store` | method | `skills/hive_mind.py:515` | `def store(self, content)` |
-| `store` | method | `skills/hive_mind.py:596` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
-| `synthesize` | method | `skills/hive_mind.py:1447` | `def synthesize(self, drone_ids, original_goal)` |
-| `upsert` | method | `skills/hive_mind.py:1523` | `def upsert(self, state)` |
-| `AutoMapper` | class | `skills/lazyown_automapper.py:332` | `class AutoMapper` |
-| `__init__` | method | `skills/lazyown_automapper.py:341` | `def __init__(self, lazyown_dir)` |
-| `_addon_to_mcp_tool` | function | `skills/lazyown_automapper.py:265` | `def _addon_to_mcp_tool(spec)` |
-| `_expand_tool_command` | function | `skills/lazyown_automapper.py:247` | `def _expand_tool_command(template, ip, port, ssl, outputdir, toolname)` |
-| `_load_addons` | function | `skills/lazyown_automapper.py:142` | `def _load_addons(lazyaddons_dir)` |
-| `_load_dottools` | function | `skills/lazyown_automapper.py:173` | `def _load_dottools(tools_dir)` |
-| `_load_plugins` | function | `skills/lazyown_automapper.py:214` | `def _load_plugins(plugins_dir)` |
-| `_load_yaml` | function | `skills/lazyown_automapper.py:79` | `def _load_yaml(path)` |
-| `_params_to_schema` | function | `skills/lazyown_automapper.py:104` | `def _params_to_schema(params)` |
-| `_plugin_to_mcp_tool` | function | `skills/lazyown_automapper.py:314` | `def _plugin_to_mcp_tool(spec)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

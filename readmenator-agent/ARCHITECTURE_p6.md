@@ -357,7 +357,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/detection_feed.py` -> __future__, dataclasses, json, pathlib, re, requests, yaml
 - `modules/detection_oracle.py` -> __future__, abc, argparse, dataclasses, sys, typing
 - `modules/dns_beacon.py` -> __future__, base64, datetime, dns.resolver, json, os, random, subprocess, time, uuid
-- `modules/domain_dominance.py` -> __future__, dataclasses, json, pathlib, subprocess, threading, time, typing, uuid
+- `modules/domain_dominance.py` -> __future__, dataclasses, json, os, pathlib, subprocess, threading, time, typing, uuid
 - `modules/dotnet_payload.py` -> __future__, base64, dataclasses, os, pathlib, subprocess, tempfile, typing
 - `modules/dpapi_harvester.py` -> __future__, base64, cryptography.hazmat.primitives.ciphers.aead, ctypes, dataclasses, json, os, sqlite3, subprocess, sys
 - `modules/edr_detector.py` -> __future__, dataclasses, subprocess, sys, typing
@@ -413,10 +413,10 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/lazy_engine.py` -> __future__
 - `modules/lazy_installer.py` -> __future__
 - `modules/lazy_intel.py` -> __future__, ipaddress, json, pathlib, time
-- `modules/lazy_loop.py` -> __future__, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, queue, re, signal, smtplib, socket, subprocess, threading, time, urllib.request, zipfile
+- `modules/lazy_loop.py` -> __future__, base64, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, queue, re, signal, smtplib, socket, subprocess, threading, time, urllib.request, zipfile
 - `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, modules.lazy_finding, pathlib, re
 - `modules/lazy_orchestrator_feedback.py` -> __future__, json, pathlib, threading, time
-- `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
+- `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, ipaddress, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
 - `modules/lazy_rbac.py` -> __future__, collections.abc, dataclasses, flask, flask_login, functools, hmac, json, os, pathlib, pyotp, re, secrets, time, typing
 - `modules/lazy_roles.py` -> __future__, json, pathlib, time
 - `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, pathlib, queue, shlex, signal, sys, threading, time
@@ -463,7 +463,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/mysql_hookandroot_lib.c` -> arpa/inet.h, dlfcn.h, fcntl.h, netinet/in.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, unistd.h
 - `modules/network_opsec.py` -> __future__, dataclasses, pathlib, random, socket, ssl, typing
 - `modules/nmap2csv.py` -> argparse, csv, re, socket, struct, sys, xml.etree.ElementTree
-- `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, time, urllib.parse
+- `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, socket, time, urllib.parse, urllib.request
 - `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
 - `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
 - `modules/ooficesod0woodo.py` -> uno

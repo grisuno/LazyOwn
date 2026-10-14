@@ -3,6 +3,36 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `tt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `u` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `u` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `w` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `w` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `wt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `d` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `e` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `t` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `a` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `but` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `b` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `c` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
 | `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
 | `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
 | `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `run_tests` | function | `tests/run_mutation_autonomous_ops.py:76` | `def run_tests()` |
 | `_run_tests` | function | `tests/run_mutation_c2_route_auth.py:29` | `def _run_tests()` |
 | `main` | function | `tests/run_mutation_c2_route_auth.py:40` | `def main()` |
-| `_run_tests` | function | `tests/run_mutation_contract_manifest.py:35` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_contract_manifest.py:47` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_infra_report.py:92` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_infra_report.py:137` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_infra_report.py:110` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_infra_report.py:122` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_killchain.py:56` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_killchain.py:81` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_killchain.py:65` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_killchain.py:71` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_llm.py:60` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_llm.py:84` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_llm.py:69` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_llm.py:74` | `def run_tests()` |
-| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_phase1.py:138` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_phase1.py:164` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_phase1.py:147` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_phase1.py:153` | `def run_tests()` |
-| `_run_tests` | function | `tests/run_mutation_shell_semantics.py:41` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_shell_semantics.py:53` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_tests.py:69` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_tests.py:103` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_tests.py:78` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_tests.py:84` | `def run_tests()` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

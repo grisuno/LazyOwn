@@ -32,6 +32,50 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `_do_benign` (function, line 147) `def _do_benign()`
 - Depends on: `core/console.py`, `lazyown.py`
 
+## tests/test_security_codeql_batch.py
+- Doc: SDD regression tests for the CodeQL security batch.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_server` (function, line 27) `def _server()`
+  - `TestProxySsrfGuard` (class, line 45) `class TestProxySsrfGuard`
+  - `TestProxyTlsDefaults` (class, line 92) `class TestProxyTlsDefaults`
+  - `TestWebhookSsrfGuard` (class, line 116) `class TestWebhookSsrfGuard`
+  - `TestChannelSecrets` (class, line 149) `class TestChannelSecrets`
+  - `TestReverseShellFallback` (class, line 186) `class TestReverseShellFallback`
+  - `TestViewYamlTraversal` (class, line 207) `class TestViewYamlTraversal`
+  - `_login_and_call` (function, line 251) `def _login_and_call(monkeypatch, tmp_path, view, path)`
+  - `TestGenericErrorResponses` (class, line 267) `class TestGenericErrorResponses`
+  - `TestEmojiPattern` (class, line 357) `class TestEmojiPattern`
+  - `test_allows_lab_targets_by_default` (method, line 48) `def test_allows_lab_targets_by_default(self)`
+  - `test_blocks_cloud_metadata` (method, line 55) `def test_blocks_cloud_metadata(self)`
+  - `test_blocks_malformed_targets` (method, line 65) `def test_blocks_malformed_targets(self)`
+  - `test_blocks_private_when_operator_opts_out` (method, line 81) `def test_blocks_private_when_operator_opts_out(self, monkeypatch)`
+  - `test_verified_context_by_default` (method, line 95) `def test_verified_context_by_default(self, monkeypatch)`
+  - `test_insecure_only_with_explicit_opt_in` (method, line 106) `def test_insecure_only_with_explicit_opt_in(self, monkeypatch)`
+  - `test_blocks_metadata_and_userinfo_and_ftp` (method, line 119) `def test_blocks_metadata_and_userinfo_and_ftp(self)`
+  - `test_loopback_needs_explicit_opt_in` (method, line 132) `def test_loopback_needs_explicit_opt_in(self, monkeypatch)`
+  - `test_allows_public_webhook` (method, line 142) `def test_allows_public_webhook(self)`
+  - `test_scrub_masks_passwords_and_tokens` (method, line 152) `def test_scrub_masks_passwords_and_tokens(self)`
+  - `test_password_roundtrip_with_key` (method, line 160) `def test_password_roundtrip_with_key(self, monkeypatch)`
+  - `test_password_roundtrip_without_key` (method, line 168) `def test_password_roundtrip_without_key(self, tmp_path, monkeypatch)`
+  - `test_channel_store_is_owner_only` (method, line 175) `def test_channel_store_is_owner_only(self, tmp_path, monkeypatch)`
+  - `test_secret_not_logged_and_file_restricted` (method, line 189) `def test_secret_not_logged_and_file_restricted(self, tmp_path, monkeypatch, caplog)`
+  - `_client` (method, line 211) `def _client(monkeypatch, tmp_path)`
+  - `test_blocks_traversal_inputs` (method, line 221) `def test_blocks_traversal_inputs(self, tmp_path, monkeypatch)`
+  - `test_serves_valid_subdir_and_ignores_symlink_escape` (method, line 228) `def test_serves_valid_subdir_and_ignores_symlink_escape(self, tmp_path, monkeypatch)`
+  - `test_broadcast_hides_exception` (method, line 270) `def test_broadcast_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_loop_graph_hides_exception` (method, line 283) `def test_loop_graph_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_guard_lookup_hides_exception` (method, line 295) `def test_guard_lookup_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_mentions_hide_exception` (method, line 310) `def test_mentions_hide_exception(self, tmp_path, monkeypatch)`
+  - `test_sse_stream_hides_exception` (method, line 323) `def test_sse_stream_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_api_defaults_hide_exception` (method, line 340) `def test_api_defaults_hide_exception(self, monkeypatch)`
+  - `test_blocks_common_emoji_and_clean_text_passes` (method, line 360) `def test_blocks_common_emoji_and_clean_text_passes(self)`
+  - `test_no_mega_range_in_source` (method, line 366) `def test_no_mega_range_in_source(self)`
+  - `_boom` (function, line 315) `def _boom()`
+  - `_boom` (function, line 345) `def _boom()`
+- Depends on: `core/defaults.py`, `core/logging.py`, `lazyc2/blueprints/__init__.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_proxy.py`, `modules/notify.py`, `skills/claude_md_orchestrator/__init__.py`
+
 ## tests/test_security_hardening.py
 - Doc: SDD+TDD+BDD tests for security hardening contracts.
 - Layer: testing
@@ -446,54 +490,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_registry_registers_target` (function, line 122) `def test_registry_registers_target()`
   - `test_no_command_collisions_with_source` (function, line 129) `def test_no_command_collisions_with_source()`
 - Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/registry.py`
-
-## tests/test_sessions_browser.py
-- Doc: Tests for cli/sessions_browser.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_populate` (function, line 24) `def _populate(tmp_path)`
-  - `test_index_groups_known_files` (function, line 34) `def test_index_groups_known_files(tmp_path)`
-  - `test_index_other_bucket_contains_unmatched_files` (function, line 47) `def test_index_other_bucket_contains_unmatched_files(tmp_path)`
-  - `test_preview_returns_text_for_text_files` (function, line 56) `def test_preview_returns_text_for_text_files(tmp_path)`
-  - `test_preview_flags_binary_files` (function, line 64) `def test_preview_flags_binary_files(tmp_path)`
-  - `test_preview_rejects_path_traversal` (function, line 71) `def test_preview_rejects_path_traversal(tmp_path)`
-  - `test_state_filter_keeps_matching_entries` (function, line 79) `def test_state_filter_keeps_matching_entries(tmp_path)`
-  - `test_category_label_for_known_identifier` (function, line 89) `def test_category_label_for_known_identifier(tmp_path)`
-- Depends on: `cli/sessions_browser.py`
-
-## tests/test_shell_semantics.py
-- Doc: Contract tests for shell-semantics detection and colored child output.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_needs_shell_detects_control_and_expansion` (function, line 17) `def test_needs_shell_detects_control_and_expansion()`
-  - `test_needs_shell_accepts_plain_argv` (function, line 32) `def test_needs_shell_accepts_plain_argv()`
-  - `test_run_command_interprets_semicolon` (function, line 38) `def test_run_command_interprets_semicolon()`
-  - `test_run_command_expands_tilde_and_glob` (function, line 45) `def test_run_command_expands_tilde_and_glob(tmp_path, monkeypatch)`
-  - `test_terminal_env_forces_color` (function, line 53) `def test_terminal_env_forces_color(monkeypatch)`
-  - `test_terminal_env_respects_no_color` (function, line 61) `def test_terminal_env_respects_no_color(monkeypatch)`
-  - `test_linpeas_http_server_is_detached` (function, line 69) `def test_linpeas_http_server_is_detached(monkeypatch)`
-  - `test_safe_runner_interprets_shell_syntax` (function, line 87) `def test_safe_runner_interprets_shell_syntax()`
-  - `_FakePopen` (class, line 75) `class _FakePopen`
-  - `__init__` (method, line 76) `def __init__(self, argv)`
-- Depends on: `cli/commands/privilege_escalation.py`, `core/hardening.py`, `core/process.py`, `core/safe_exec.py`, `core/safe_subprocess.py`
-
-## tests/test_shellsys_command_set.py
-- Doc: Shell/sys command set extraction tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
-  - `ShellsysSuiteConfig` (class, line 38) `class ShellsysSuiteConfig`
-  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_shellsys_cluster` (function, line 82) `def test_target_exposes_full_shellsys_cluster()`
-  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
-- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/shellsys.py`, `cli/registry.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

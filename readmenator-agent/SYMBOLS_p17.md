@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `connection_jitter_schedule` | method | `modules/network_opsec.py:294` | `def connection_jitter_schedule(self, beacon_interval)` |
+| `dns_over_https_config` | method | `modules/network_opsec.py:246` | `def dns_over_https_config(self)` |
+| `source_port_randomize` | method | `modules/network_opsec.py:269` | `def source_port_randomize(self)` |
+| `summary` | method | `modules/network_opsec.py:349` | `def summary(self)` |
+| `Host` | class | `modules/nmap2csv.py:176` | `class Host` |
+| `Port` | class | `modules/nmap2csv.py:282` | `class Port` |
+| `__init__` | method | `modules/nmap2csv.py:177` | `def __init__(self, ip, fqdn)` |
+| `__init__` | method | `modules/nmap2csv.py:283` | `def __init__(self, number, protocol, service, version, script)` |
+| `add_port` | method | `modules/nmap2csv.py:188` | `def add_port(self, port)` |
+| `dottedquad_to_num` | function | `modules/nmap2csv.py:126` | `def dottedquad_to_num(ip)` |
+| `extract_matching_pattern` | function | `modules/nmap2csv.py:156` | `def extract_matching_pattern(regex, group_name, unfiltered_list)` |
+| `formatted_item` | function | `modules/nmap2csv.py:606` | `def formatted_item(host, format_item)` |
+| `generate_csv` | function | `modules/nmap2csv.py:653` | `def generate_csv(fd, results, options)` |
+| `get_fqdn` | method | `modules/nmap2csv.py:198` | `def get_fqdn(self)` |
+| `get_ip_dotted_format` | method | `modules/nmap2csv.py:195` | `def get_ip_dotted_format(self)` |
+| `get_ip_num_format` | method | `modules/nmap2csv.py:192` | `def get_ip_num_format(self)` |
+| `get_mac_address` | method | `modules/nmap2csv.py:255` | `def get_mac_address(self)` |
+| `get_mac_address_vendor` | method | `modules/nmap2csv.py:258` | `def get_mac_address_vendor(self)` |
+| `get_network_distance` | method | `modules/nmap2csv.py:261` | `def get_network_distance(self)` |
+| `get_number` | method | `modules/nmap2csv.py:290` | `def get_number(self)` |
+| `get_os` | method | `modules/nmap2csv.py:252` | `def get_os(self)` |
+| `get_port_list` | method | `modules/nmap2csv.py:204` | `def get_port_list(self)` |
+| `get_port_number_list` | method | `modules/nmap2csv.py:207` | `def get_port_number_list(self)` |
+| `get_port_protocol_list` | method | `modules/nmap2csv.py:216` | `def get_port_protocol_list(self)` |
 | `get_port_script_list` | method | `modules/nmap2csv.py:243` | `def get_port_script_list(self)` |
 | `get_port_service_list` | method | `modules/nmap2csv.py:225` | `def get_port_service_list(self)` |
 | `get_port_version_list` | method | `modules/nmap2csv.py:234` | `def get_port_version_list(self)` |
@@ -27,18 +51,22 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `set_version` | method | `modules/nmap2csv.py:308` | `def set_version(self, version)` |
 | `split_grepable_match` | function | `modules/nmap2csv.py:315` | `def split_grepable_match(raw_string)` |
 | `unique_match_from_list` | function | `modules/nmap2csv.py:140` | `def unique_match_from_list(list)` |
-| `Channel` | class | `modules/notify.py:105` | `class Channel` |
-| `Notifier` | class | `modules/notify.py:123` | `class Notifier` |
+| `Channel` | class | `modules/notify.py:186` | `class Channel` |
+| `Notifier` | class | `modules/notify.py:204` | `class Notifier` |
 | `NotifyConfig` | class | `modules/notify.py:15` | `class NotifyConfig` |
-| `NotifyMessage` | class | `modules/notify.py:92` | `class NotifyMessage` |
-| `__init__` | method | `modules/notify.py:126` | `def __init__(self, config)` |
-| `__post_init__` | method | `modules/notify.py:117` | `def __post_init__(self)` |
-| `dispatch` | method | `modules/notify.py:163` | `def dispatch(self, message, channels)` |
-| `flush_digest` | method | `modules/notify.py:179` | `def flush_digest(self, max_age_sec)` |
+| `NotifyMessage` | class | `modules/notify.py:173` | `class NotifyMessage` |
+| `_GuardRedirect` | class | `modules/notify.py:158` | `class _GuardRedirect(HTTPRedirectHandler)` |
+| `__init__` | method | `modules/notify.py:207` | `def __init__(self, config)` |
+| `__post_init__` | method | `modules/notify.py:198` | `def __post_init__(self)` |
+| `_addr_denied` | function | `modules/notify.py:105` | `def _addr_denied(addr)` |
+| `dispatch` | method | `modules/notify.py:244` | `def dispatch(self, message, channels)` |
+| `flush_digest` | method | `modules/notify.py:260` | `def flush_digest(self, max_age_sec)` |
 | `mask_secrets` | function | `modules/notify.py:39` | `def mask_secrets(text, config)` |
-| `render` | method | `modules/notify.py:157` | `def render(self, message)` |
+| `post_url_validated` | function | `modules/notify.py:145` | `def post_url_validated(url, data, timeout)` |
+| `redirect_request` | method | `modules/notify.py:159` | `def redirect_request(self, req, fp, code, msg, headers, newurl)` |
+| `render` | method | `modules/notify.py:238` | `def render(self, message)` |
 | `severity_rank` | function | `modules/notify.py:31` | `def severity_rank(severity, config)` |
-| `should_send` | method | `modules/notify.py:134` | `def should_send(self, message, channel)` |
+| `should_send` | method | `modules/notify.py:215` | `def should_send(self, message, channel)` |
 | `url_allowed` | function | `modules/notify.py:57` | `def url_allowed(url)` |
 | `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
 | `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
@@ -468,33 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_classify_sessions` | method | `modules/professional_report.py:758` | `def _classify_sessions(self, sessions, hosts)` |
 | `_classify_vulnerabilities` | method | `modules/professional_report.py:640` | `def _classify_vulnerabilities(self, vulns, hosts)` |
 | `_extract_scope` | method | `modules/professional_report.py:822` | `def _extract_scope(self, data)` |
-| `_generate_html` | method | `modules/professional_report.py:298` | `def _generate_html(self, out_path, timestamp)` |
-| `_generate_json` | method | `modules/professional_report.py:513` | `def _generate_json(self, out_path, timestamp)` |
-| `_generate_markdown` | method | `modules/professional_report.py:450` | `def _generate_markdown(self, out_path, timestamp)` |
-| `_html_to_pdf` | method | `modules/professional_report.py:552` | `def _html_to_pdf(self, html_path)` |
-| `_load_json` | method | `modules/professional_report.py:805` | `def _load_json(self, filename)` |
-| `classify_findings` | method | `modules/professional_report.py:217` | `def classify_findings(self, data)` |
-| `collect_command_history` | method | `modules/professional_report.py:841` | `def collect_command_history(self, max_entries)` |
-| `collect_data` | method | `modules/professional_report.py:179` | `def collect_data(self)` |
-| `collect_loot_summary` | method | `modules/professional_report.py:865` | `def collect_loot_summary(self)` |
-| `generate` | method | `modules/professional_report.py:244` | `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` |
-| `generate_executive_summary` | method | `modules/professional_report.py:911` | `def generate_executive_summary(self, data, with_ai, ai_backend)` |
-| `download_kernel_sources` | function | `modules/r.sh:10` | `` |
-| `AVBlockedMatcher` | class | `modules/reactive_engine.py:102` | `class AVBlockedMatcher(AbstractSignalMatcher)` |
-| `AbstractSignalMatcher` | class | `modules/reactive_engine.py:97` | `class AbstractSignalMatcher(ABC)` |
-| `CredentialFoundMatcher` | class | `modules/reactive_engine.py:147` | `class CredentialFoundMatcher(AbstractSignalMatcher)` |
-| `DataOfInterestMatcher` | class | `modules/reactive_engine.py:323` | `class DataOfInterestMatcher(AbstractSignalMatcher)` |
-| `EvasionAdvisor` | class | `modules/reactive_engine.py:481` | `class EvasionAdvisor` |
-| `LateralOpportunityMatcher` | class | `modules/reactive_engine.py:293` | `class LateralOpportunityMatcher(AbstractSignalMatcher)` |
-| `NewHostMatcher` | class | `modules/reactive_engine.py:209` | `class NewHostMatcher(AbstractSignalMatcher)` |
-| `ParquetAdvisor` | class | `modules/reactive_engine.py:389` | `class ParquetAdvisor` |
-| `PrivescAdvisor` | class | `modules/reactive_engine.py:537` | `class PrivescAdvisor` |
-| `PrivescHintMatcher` | class | `modules/reactive_engine.py:174` | `class PrivescHintMatcher(AbstractSignalMatcher)` |
-| `ReactiveDecision` | class | `modules/reactive_engine.py:80` | `class ReactiveDecision` |
-| `ReactiveEngine` | class | `modules/reactive_engine.py:804` | `class ReactiveEngine` |
-| `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
-| `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
-| `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
-| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

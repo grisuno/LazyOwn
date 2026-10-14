@@ -103,7 +103,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `skills/lazyown_groq_agents.py` -> __future__, argparse, collections.abc, dataclasses, datetime, json, os, pathlib, pprint, subprocess, sys, threading, typing, urllib.request, uuid
 - `skills/lazyown_hooks.py` -> collections.abc, datetime, json, pathlib, re, time
 - `skills/lazyown_llm.py` -> __future__, argparse, collections.abc, dataclasses, glob, json, os, pathlib, re, sys, typing, urllib.error, urllib.request
-- `skills/lazyown_mcp.py` -> ast, asyncio, base64, c2_profile, csv, dataclasses, datetime, fcntl, glob, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, report_generator, secrets, select, shlex, shutil, signal, ssl, starlette.applications, starlette.routing, struct, subprocess, sys, termios, textwrap, threading, time, typing, urllib.error, urllib.request, uuid, uvicorn, warnings, xml.etree.ElementTree, yaml
+- `skills/lazyown_mcp.py` -> ast, asyncio, base64, c2_profile, csv, dataclasses, datetime, fcntl, glob, ipaddress, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, report_generator, secrets, select, shlex, shutil, signal, ssl, starlette.applications, starlette.routing, struct, subprocess, sys, termios, textwrap, threading, time, typing, urllib.error, urllib.request, uuid, uvicorn, warnings, xml.etree.ElementTree, yaml
 - `skills/lazyown_mcp_helpers.py` -> __future__, csv, dataclasses, datetime, json, os, pathlib, re, shutil, threading, time, typing, uuid
 - `skills/lazyown_mcp_opencode.py` -> asyncio, mcp, mcp.server.stdio, pathlib, sys, typing
 - `skills/lazyown_objective.py` -> __future__, argparse, dataclasses, datetime, hashlib, json, pathlib, re, secrets
@@ -261,7 +261,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_lazy_agent.py` -> __future__, json, shutil, time, types
 - `tests/test_lazy_engine.py` -> __future__, pytest
 - `tests/test_lazy_evidence.py` -> __future__, hashlib, json, sqlite3, zipfile
-- `tests/test_lazy_loop.py` -> __future__, ast, json, pathlib, re, smtplib, subprocess, urllib.request
+- `tests/test_lazy_loop.py` -> __future__, ast, json, pathlib, re, smtplib, subprocess, urllib.parse
 - `tests/test_lazy_orchestrator.py` -> __future__, asyncio, json, pytest, textual.widgets
 - `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
 - `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
@@ -347,6 +347,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
 - `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
 - `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
+- `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
 - `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
 - `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
 - `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock

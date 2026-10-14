@@ -344,8 +344,19 @@ def arm_exit_watchdog(seconds: float = 8.0) -> None:
 _SECRET_PATTERNS = (
     re.compile(r"gsk_[A-Za-z0-9]+"),
     re.compile(r"sk-[A-Za-z0-9\-_]{8,}"),
+    re.compile(r"ghp_[A-Za-z0-9]{8,}"),
+    re.compile(r"gho_[A-Za-z0-9]{8,}"),
+    re.compile(r"glpat-[A-Za-z0-9\-_]{8,}"),
+    re.compile(r"AKIA[0-9A-Z]{16}"),
+    re.compile(r"xox[bpa]-[A-Za-z0-9\-]{8,}"),
     re.compile(r"(?i)(api[_-]?key\s*[=:]\s*['\"]?)([\w\-.]{8,})(['\"]?)"),
     re.compile(r"(?i)((?:GROQ|OPENAI|DEEPSEEK|ANTHROPIC)[_A-Z]*KEY\s*=\s*['\"]?)([^'\"\s]{8,})"),
+    re.compile(r"(?i)(password\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
+    re.compile(r"(?i)(passwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
+    re.compile(r"(?i)(pwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
+    re.compile(r"(?i)(bearer\s+)([A-Za-z0-9\-._~+/]{8,})"),
+    re.compile(r"https?://[^/\s]*:[^@/\s]+@[^\s]+"),
+    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
 )
 
 
@@ -367,6 +378,90 @@ def scrub_secrets(text: str) -> str:
     for pattern in _SECRET_PATTERNS:
         cleaned = pattern.sub("***" if pattern.groups == 0 else _mask_key, cleaned)
     return cleaned
+
+
+_CHANNEL_SECRET_PREFIX = "enc:v1:"
+_CHANNEL_SECRET_WARNED = False
+
+
+def _restrict_file(path: Path) -> None:
+    """Best-effort chmod 600 on a secret-bearing file; never raises."""
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+
+
+def _channel_encryption_key() -> bytes | None:
+    """Return the AES key for channel secrets, or None when unconfigured."""
+    try:
+        from core.hardening import require_encryption_key
+    except ImportError:
+        return None
+    try:
+        secret = require_encryption_key(
+            env_key="LAZYOWN_SECRET_KEY",
+            secret_file=BASE_DIR / "sessions" / ".secret_key",
+        )
+    except Exception:
+        return None
+    return hashlib.sha256(secret.encode("utf-8")).digest()
+
+
+def _encrypt_channel_secret(plaintext: str) -> str:
+    """Encrypt a channel password for storage; plaintext fallback when no key.
+
+    When ``LAZYOWN_SECRET_KEY`` (or ``sessions/.secret_key``) is set the
+    value is AES-256-GCM sealed and prefixed ``enc:v1:``. Otherwise the
+    value is stored as-is with 0600 file perms and a one-time warning;
+    callers must still restrict the store file.
+    """
+    global _CHANNEL_SECRET_WARNED
+    text = str(plaintext or "")
+    if not text:
+        return ""
+    if text.startswith(_CHANNEL_SECRET_PREFIX):
+        return text
+    key = _channel_encryption_key()
+    if key is None:
+        if not _CHANNEL_SECRET_WARNED:
+            _CHANNEL_SECRET_WARNED = True
+            try:
+                import logging as _logging
+
+                _logging.getLogger("modules.lazy_loop").warning(
+                    "channel password stored without encryption; set LAZYOWN_SECRET_KEY"
+                )
+            except Exception:
+                pass
+        return text
+    try:
+        import base64 as _b64
+
+        from core.crypto import AESencrypt
+
+        blob, _ = AESencrypt(text.encode("utf-8"), key)
+        return _CHANNEL_SECRET_PREFIX + _b64.b64encode(blob).decode("ascii")
+    except Exception:
+        return text
+
+
+def _decrypt_channel_secret(stored: str) -> str:
+    """Reveal a channel password stored by :func:`_encrypt_channel_secret`."""
+    text = str(stored or "")
+    if not text.startswith(_CHANNEL_SECRET_PREFIX):
+        return text
+    key = _channel_encryption_key()
+    if key is None:
+        return ""
+    try:
+        import base64 as _b64
+
+        from core.crypto import AESdecrypt
+
+        return AESdecrypt(_b64.b64decode(text[len(_CHANNEL_SECRET_PREFIX) :]), key).decode("utf-8")
+    except Exception:
+        return ""
 
 
 def wake_task(task_id: str) -> None:
@@ -551,7 +646,14 @@ def _now() -> float:
 def _store_path(name: str) -> Path:
     """Return JSON store path, ensuring the directory exists."""
     STORE_DIR.mkdir(parents=True, exist_ok=True)
-    return STORE_DIR / name
+    try:
+        os.chmod(STORE_DIR, 0o700)
+    except OSError:
+        pass
+    path = STORE_DIR / name
+    if path.exists():
+        _restrict_file(path)
+    return path
 
 
 def _load_json(path: Path, default: dict) -> dict:
@@ -574,7 +676,9 @@ def _save_json(path: Path, payload: dict) -> None:
     tmp = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
     with STORE_LOCK:
         tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+        _restrict_file(tmp)
         tmp.replace(path)
+        _restrict_file(path)
 
 
 def _slug(value: str) -> str:
@@ -1237,6 +1341,7 @@ class ActivityLog:
         }
         with self._path.open("a") as handle:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        _restrict_file(self._path)
         if str(kind) not in WAKE_SUPPRESSED_KINDS:
             wake_task(self.task_id)
         try:
@@ -6160,12 +6265,31 @@ class Notifier:
         """
         if kind not in ("log", "webhook", "file", "slack", "email"):
             raise ValueError("kind must be log|webhook|file|slack|email")
+        if kind in ("webhook", "slack"):
+            try:
+                from modules.notify import url_allowed as _allowed
+
+                ok, _reason = _allowed(str(target or ""))
+                if not ok:
+                    raise ValueError(f"webhook target denied: {_reason}")
+            except ValueError:
+                raise
+            except Exception:
+                pass
+        if kind == "email":
+            _target = str(target or "")
+            _host = _target.rpartition(":")[0] or _target
+            if not _host or len(_host) > 253 or any(ch.isspace() for ch in _host):
+                raise ValueError("invalid smtp target")
         payload = _load_json(_store_path("notify_channels.json"), {"channels": []})
         item = {"kind": kind, "target": target[:500], "min_severity": min_severity or ""}
         for key in ("to", "from_addr", "user", "password", "tls"):
             value = (extra or {}).get(key)
             if value not in (None, ""):
-                item[key] = value
+                if key == "password":
+                    item[key] = _encrypt_channel_secret(str(value))
+                else:
+                    item[key] = value
         payload.setdefault("channels", []).append(item)
         _save_json(_store_path("notify_channels.json"), payload)
         return item
@@ -6189,16 +6313,21 @@ class Notifier:
         from email.message import EmailMessage
 
         to_addr = str(channel.get("to") or "")
-        if not to_addr:
+        if not to_addr or "@" not in to_addr or len(to_addr) > 320:
             return False
         target = str(channel.get("target", ""))
         host, _, port_text = target.rpartition(":")
         if not host:
             host, port_text = target, "25"
+        host = host.strip()
+        if not host or len(host) > 253 or any(ch.isspace() for ch in host):
+            return False
         try:
             port = int(port_text or 25)
         except ValueError:
             port = 25
+        if not 1 <= port <= 65535:
+            return False
         message = EmailMessage()
         message["Subject"] = f"[LazyOwn] {event}"
         message["From"] = str(channel.get("from_addr") or channel.get("user") or "lazyown@localhost")
@@ -6212,7 +6341,7 @@ class Notifier:
                     pass
             user = str(channel.get("user") or "")
             if user:
-                smtp.login(user, str(channel.get("password") or ""))
+                smtp.login(user, _decrypt_channel_secret(str(channel.get("password") or "")))
             smtp.send_message(message)
         return True
 
@@ -6230,8 +6359,10 @@ class Notifier:
         except Exception:
             safe_data = dict(data or {})
         line = json.dumps({"ts": _now(), "task": task_id, "event": event, **safe_data}, ensure_ascii=False)
-        with _store_path("notify.log").open("a") as handle:
+        notify_path = _store_path("notify.log")
+        with notify_path.open("a") as handle:
             handle.write(line + "\n")
+        _restrict_file(notify_path)
         delivered = 0
         for channel in self.channels():
             floor = str(channel.get("min_severity", "") or "")
@@ -6241,19 +6372,18 @@ class Notifier:
             try:
                 if kind in ("webhook", "slack") and channel.get("target"):
                     try:
-                        from modules.notify import url_allowed as _allowed
+                        from modules import notify as _notify
 
-                        ok, _reason = _allowed(str(channel["target"]))
+                        ok, _reason = _notify.url_allowed(str(channel["target"]))
                     except Exception:
                         ok, _reason = True, "ok"
                     if not ok:
                         continue
                     payload = json.dumps({"text": line}).encode() if kind == "slack" else line.encode()
-                    request = urllib.request.Request(
-                        channel["target"], data=payload, headers={"Content-Type": "application/json"}, method="POST"
-                    )
-                    with urllib.request.urlopen(request, timeout=8):
-                        pass
+                    try:
+                        _notify.post_url_validated(str(channel["target"]), payload, timeout=8)
+                    except ValueError:
+                        continue
                 elif kind == "email":
                     if not self._send_email(channel, line, event):
                         continue

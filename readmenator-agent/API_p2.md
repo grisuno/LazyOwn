@@ -400,17 +400,17 @@ Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`
 - `MiscMigratedCommandSet.do_graph_overlay` (method) `cli/commands/misc_migrated.py:631` `def do_graph_overlay(self, line)` -- Open the graph overlay over the graphify knowledge graph.
 - `MiscMigratedCommandSet.do_toast_clear` (method) `cli/commands/misc_migrated.py:651` `def do_toast_clear(self, line)` -- Mark every pending toast event as seen without printing them.
 - `MiscMigratedCommandSet.do_exit` (method) `cli/commands/misc_migrated.py:671` `def do_exit(self, arg)` -- Exit the command line interface.
-- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:738` `def do_banner(self, line)` -- Show the banner
-- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:748` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
-- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:792` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
-- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:820` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
-- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:880` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:926` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:972` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
-- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1035` `def do_news(self, line)` -- Show the Hacker News in the terminal.
-- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1048` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
-- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1093` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
-- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1145` `def do_listaliases(self, _)` -- List all available aliases.
+- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:744` `def do_banner(self, line)` -- Show the banner
+- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:754` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
+- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:798` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
+- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:826` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:886` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:932` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:978` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
+- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1041` `def do_news(self, line)` -- Show the Hacker News in the terminal.
+- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1054` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
+- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1099` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
+- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1151` `def do_listaliases(self, _)` -- List all available aliases.
 
 ## cli/commands/mobile_macos.py
 Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`

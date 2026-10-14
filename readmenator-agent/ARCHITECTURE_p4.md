@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `skills/lazyown_mcp.py` -> `skills/lazyown_mcp_helpers.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_objective.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_parquet_db.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_permissions.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_policy.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_session.py`
 - `skills/lazyown_mcp.py` -> `skills/mcp_lazy.py`
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
 - `tests/test_payload_factory.py` -> `modules/payload_factory.py`
 - `tests/test_payload_schema.py` -> `cli/assign.py`
-- `tests/test_payload_schema.py` -> `core/payload_schema.py`
-- `tests/test_payload_schema.py` -> `modules/llm_factory.py`
-- `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

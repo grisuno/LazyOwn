@@ -1,14 +1,14 @@
-# cli/commands
+# cli/commands: utils
 
-*Community 0 | 139 files | cohesion 0.57*
+*Community 0 | 125 files | cohesion 0.55*
 
 ## Definition
 
-This community groups 139 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.57). Central symbols: `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AliasResolver`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `AuditCommandSet`, `BeaconConfig`. Core file: `utils.py` (124 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
+This community groups 125 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.55). Central symbols: `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AliasResolver`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `AuditCommandSet`, `BitMCommandSet`. Core file: `utils.py` (124 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
 
 ## Files
 
-### `cli/commands` (52 files)
+### `cli/commands` (48 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,21 +16,21 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 | `cli/commands/_dormancy.py` | py | utility | 2 | yes |
 | `cli/commands/anti_forensics.py` | py | utility | 7 | yes |
 
-### `tests` (35 files)
+### `tests` (30 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_api_key_resolution.py` | py | testing | 9 | yes |
 | `tests/test_bdd_infra_range_report.py` | py | testing | 5 | yes |
-| `tests/test_beacon_config_builder.py` | py | testing | 16 | yes |
+| `tests/test_campaign_import_safety.py` | py | testing | 14 | yes |
 
-### `modules` (30 files)
+### `modules` (25 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/beacon_config_builder.py` | py | infrastructure | 14 | yes |
 | `modules/bitm_engine.py` | py | utility | 18 | yes |
-| `modules/bof_registry.py` | py | utility | 43 | yes |
+| `modules/c2_builder.py` | py | infrastructure | 21 | yes |
+| `modules/categories.py` | py | utility | 0 | yes |
 
 ### `cli` (7 files)
 
@@ -78,7 +78,7 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 3 | yes |
 
-*... and 119 more files in this community.*
+*... and 105 more files in this community.*
 
 
 ## Key Symbols
@@ -116,28 +116,30 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 445
-- Cross-boundary resolved imports (EXTRACTED): 293
+- Internal resolved imports (EXTRACTED): 411
+- Cross-boundary resolved imports (EXTRACTED): 292
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
 - [EXTRACTED] depends_on community 0 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
 - [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
-- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 12 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 0 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/campaign.py imports modules/db.py.
-- [EXTRACTED] depends_on community 12 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 13 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/host_policy.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/safe_subprocess.py` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
@@ -147,15 +149,13 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
-- [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
-- [dataflow UNCHECKED_ALLOC] `banner.py:29` `image_to_bash` `img`: Result of allocator stored in `img` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 5 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
-- What would break if the most connected file in cli/commands changed?
-- Should cli/commands be split, given cohesion 0.57?
+- What would break if the most connected file in cli/commands: utils changed?
+- Should cli/commands: utils be split, given cohesion 0.55?
 
 ## Sources
 
@@ -168,8 +168,6 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 - `cli/commands/applocker_bypass.py`
 - `cli/commands/audit.py`
 - `cli/commands/bitm.py`
-- `cli/commands/bof_registry.py`
-- `cli/commands/c2_profile.py`
 - `cli/commands/campaign.py`
 - `cli/commands/catalog.py`
 - `cli/commands/cicd.py`
@@ -179,4 +177,6 @@ This community groups 139 file(s) rooted at `cli/commands` with dominant languag
 - `cli/commands/cred.py`
 - `cli/commands/cred_migrated.py`
 - `cli/commands/crystal_ball.py`
-- *... and 119 more*
+- `cli/commands/defaults.py`
+- `cli/commands/demo.py`
+- *... and 105 more*

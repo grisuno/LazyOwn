@@ -1,6 +1,6 @@
 # skills/hermes-lazyown
 
-*Community 13 | 7 files | cohesion 0.85*
+*Community 14 | 7 files | cohesion 0.85*
 
 ## Definition
 

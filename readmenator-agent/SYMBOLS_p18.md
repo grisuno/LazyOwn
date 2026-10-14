@@ -3,6 +3,34 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_generate_html` | method | `modules/professional_report.py:298` | `def _generate_html(self, out_path, timestamp)` |
+| `_generate_json` | method | `modules/professional_report.py:513` | `def _generate_json(self, out_path, timestamp)` |
+| `_generate_markdown` | method | `modules/professional_report.py:450` | `def _generate_markdown(self, out_path, timestamp)` |
+| `_html_to_pdf` | method | `modules/professional_report.py:552` | `def _html_to_pdf(self, html_path)` |
+| `_load_json` | method | `modules/professional_report.py:805` | `def _load_json(self, filename)` |
+| `classify_findings` | method | `modules/professional_report.py:217` | `def classify_findings(self, data)` |
+| `collect_command_history` | method | `modules/professional_report.py:841` | `def collect_command_history(self, max_entries)` |
+| `collect_data` | method | `modules/professional_report.py:179` | `def collect_data(self)` |
+| `collect_loot_summary` | method | `modules/professional_report.py:865` | `def collect_loot_summary(self)` |
+| `generate` | method | `modules/professional_report.py:244` | `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` |
+| `generate_executive_summary` | method | `modules/professional_report.py:911` | `def generate_executive_summary(self, data, with_ai, ai_backend)` |
+| `download_kernel_sources` | function | `modules/r.sh:10` | `` |
+| `AVBlockedMatcher` | class | `modules/reactive_engine.py:102` | `class AVBlockedMatcher(AbstractSignalMatcher)` |
+| `AbstractSignalMatcher` | class | `modules/reactive_engine.py:97` | `class AbstractSignalMatcher(ABC)` |
+| `CredentialFoundMatcher` | class | `modules/reactive_engine.py:147` | `class CredentialFoundMatcher(AbstractSignalMatcher)` |
+| `DataOfInterestMatcher` | class | `modules/reactive_engine.py:323` | `class DataOfInterestMatcher(AbstractSignalMatcher)` |
+| `EvasionAdvisor` | class | `modules/reactive_engine.py:481` | `class EvasionAdvisor` |
+| `LateralOpportunityMatcher` | class | `modules/reactive_engine.py:293` | `class LateralOpportunityMatcher(AbstractSignalMatcher)` |
+| `NewHostMatcher` | class | `modules/reactive_engine.py:209` | `class NewHostMatcher(AbstractSignalMatcher)` |
+| `ParquetAdvisor` | class | `modules/reactive_engine.py:389` | `class ParquetAdvisor` |
+| `PrivescAdvisor` | class | `modules/reactive_engine.py:537` | `class PrivescAdvisor` |
+| `PrivescHintMatcher` | class | `modules/reactive_engine.py:174` | `class PrivescHintMatcher(AbstractSignalMatcher)` |
+| `ReactiveDecision` | class | `modules/reactive_engine.py:80` | `class ReactiveDecision` |
+| `ReactiveEngine` | class | `modules/reactive_engine.py:804` | `class ReactiveEngine` |
+| `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
+| `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
+| `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
+| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
 | `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
 | `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
 | `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
@@ -468,33 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
 | `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
 | `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
-| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
-| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
-| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
-| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
-| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
-| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
-| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
-| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
-| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
-| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
-| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
-| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
-| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
-| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
-| `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
-| `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
-| `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
-| `SocksValidator` | class | `modules/socks_proxy.py:244` | `class SocksValidator` |
-| `__init__` | method | `modules/socks_proxy.py:381` | `def __init__(self, config)` |
-| `_check_access_control` | method | `modules/socks_proxy.py:340` | `def _check_access_control(host, port, config)` |
-| `_find_oldest_session` | method | `modules/socks_proxy.py:515` | `def _find_oldest_session(self)` |
-| `add_bytes` | method | `modules/socks_proxy.py:486` | `def add_bytes(self, session_id, sent, received)` |
-| `build_spec` | method | `modules/socks_proxy.py:413` | `def build_spec(self)` |
-| `cleanup_expired` | method | `modules/socks_proxy.py:497` | `def cleanup_expired(self)` |
-| `config` | method | `modules/socks_proxy.py:387` | `def config(self)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

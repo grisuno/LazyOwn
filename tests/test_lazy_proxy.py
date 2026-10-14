@@ -109,6 +109,12 @@ def test_https_mitm_capture(tmp_path):
     status = controller.start(port=0, traffic_dir=tmp_path / "traffic")
     try:
         client_ctx = ssl.create_default_context(cafile=controller.ca_path())
+        client_ctx.check_hostname = True
+        client_ctx.verify_mode = ssl.CERT_REQUIRED
+        try:
+            client_ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+        except (AttributeError, ValueError):
+            pass
         raw = socket.create_connection(("127.0.0.1", status["port"]), timeout=5)
         raw.sendall(
             f"CONNECT localhost:{up_port} HTTP/1.1\r\n"

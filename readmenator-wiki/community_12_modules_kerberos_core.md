@@ -1,6 +1,6 @@
 # modules: kerberos_core
 
-*Community 11 | 7 files | cohesion 0.88*
+*Community 12 | 7 files | cohesion 0.88*
 
 ## Definition
 
@@ -58,7 +58,7 @@ This community groups 7 file(s) rooted at `modules` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 12 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
 
 ## Risks
 

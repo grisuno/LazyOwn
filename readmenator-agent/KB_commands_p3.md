@@ -139,7 +139,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Language: py
 - Symbols:
   - `MiscMigratedCommandSet` (class, line 87) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
-  - `__getattr__` (function, line 1166) `def __getattr__(name)`
+  - `__getattr__` (function, line 1172) `def __getattr__(name)`
   - `do_notify` (method, line 92) `def do_notify(self, arg)`
   - `do_EOF` (method, line 111) `def do_EOF(self, line)`
   - `_handle_killchain_auto` (method, line 150) `def _handle_killchain_auto(self, spec)`
@@ -158,18 +158,18 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_graph_overlay` (method, line 631) `def do_graph_overlay(self, line)`
   - `do_toast_clear` (method, line 651) `def do_toast_clear(self, line)`
   - `do_exit` (method, line 671) `def do_exit(self, arg)`
-  - `_persist_chainmode` (method, line 720) `def _persist_chainmode(self, enabled)`
-  - `do_banner` (method, line 738) `def do_banner(self, line)`
-  - `do_config_banner` (method, line 748) `def do_config_banner(self, line)`
-  - `do_aliass` (method, line 792) `def do_aliass(self, line)`
-  - `do_graph` (method, line 820) `def do_graph(self, line)`
-  - `do_h` (method, line 880) `def do_h(self, arg)`
-  - `do_v` (method, line 926) `def do_v(self, arg)`
-  - `do_links` (method, line 972) `def do_links(self, line)`
-  - `do_news` (method, line 1035) `def do_news(self, line)`
-  - `do_check_update` (method, line 1048) `def do_check_update(self, line)`
-  - `do_addalias` (method, line 1093) `def do_addalias(self, arglist)`
-  - `do_listaliases` (method, line 1145) `def do_listaliases(self, _)`
+  - `_persist_chainmode` (method, line 726) `def _persist_chainmode(self, enabled)`
+  - `do_banner` (method, line 744) `def do_banner(self, line)`
+  - `do_config_banner` (method, line 754) `def do_config_banner(self, line)`
+  - `do_aliass` (method, line 798) `def do_aliass(self, line)`
+  - `do_graph` (method, line 826) `def do_graph(self, line)`
+  - `do_h` (method, line 886) `def do_h(self, arg)`
+  - `do_v` (method, line 932) `def do_v(self, arg)`
+  - `do_links` (method, line 978) `def do_links(self, line)`
+  - `do_news` (method, line 1041) `def do_news(self, line)`
+  - `do_check_update` (method, line 1054) `def do_check_update(self, line)`
+  - `do_addalias` (method, line 1099) `def do_addalias(self, arglist)`
+  - `do_listaliases` (method, line 1151) `def do_listaliases(self, _)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
 - Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 

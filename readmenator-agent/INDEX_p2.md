@@ -29,7 +29,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/mysql_hookandroot_lib.c` | reverse_shell: fork & send a bash shell to the attacker before starting mysqld | modules | 6 | 0 |
 | `modules/network_opsec.py` | Network OPSEC — proxy chain enforcement, canary detection, traffic randomization. | modules | 12 | 1 |
 | `modules/nmap2csv.py` | This file is part of nmaptocsv. | modules | 44 | 0 |
-| `modules/notify.py` | Stateless multi-channel notifier for finding events. | modules | 13 | 6 |
+| `modules/notify.py` | Stateless multi-channel notifier for finding events. | modules | 17 | 7 |
 | `modules/nuclei_templates_sync.py` | Sync community Nuclei template collections into the LazyOwn marketplace. | modules | 16 | 0 |
 | `modules/obs_parser.py` | modules/obs_parser.py | modules | 41 | 10 |
 | `modules/ooficesod0woodo.py` | - | modules | 0 | 0 |
@@ -180,7 +180,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/aci_planner.py` | Autonomous Campaign Intelligence (ACI) Planner | skills | 42 | 2 |
 | `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 148 | 15 |
 | `skills/autonomous_replay.py` | Deterministic replay of past autonomous-daemon runs. | skills | 19 | 2 |
-| `skills/claude_md_orchestrator/__init__.py` | Public API for the claude_md_orchestrator skill. | claude_md_orchestrator | 0 | 0 |
+| `skills/claude_md_orchestrator/__init__.py` | Public API for the claude_md_orchestrator skill. | claude_md_orchestrator | 0 | 1 |
 | `skills/claude_md_orchestrator/bdd_agent.py` | Behavior-Driven Development agent. | claude_md_orchestrator | 8 | 0 |
 | `skills/claude_md_orchestrator/boy_scout.py` | Boy Scout refactor pass. | claude_md_orchestrator | 5 | 0 |
 | `skills/claude_md_orchestrator/cicd_agent.py` | CI and CD agent. | claude_md_orchestrator | 7 | 0 |
@@ -216,7 +216,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 4 |
-| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 140 | 8 |
+| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 142 | 8 |
 | `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 2 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 3 | 0 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 7 |
@@ -396,7 +396,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_lazy_agent.py` | Agentic tool-calling: worker agent path, resume and main sessions. | tests | 18 | 0 |
 | `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 11 | 0 |
 | `tests/test_lazy_evidence.py` | Traffic recorder trigram search and frozen evidence package export. | tests | 3 | 0 |
-| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 38 | 0 |
+| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 36 | 0 |
 | `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 15 | 0 |
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
@@ -482,6 +482,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_scope_bound_auto_gate.py` | tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto... | tests | 37 | 0 |
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
 | `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 24 | 0 |
+| `tests/test_security_codeql_batch.py` | SDD regression tests for the CodeQL security batch. | tests | 37 | 0 |
 | `tests/test_security_hardening.py` | SDD+TDD+BDD tests for security hardening contracts. | tests | 36 | 0 |
 | `tests/test_security_hardening_v2.py` | SDD+TDD+BDD tests for security hardening batch v2. | tests | 39 | 0 |
 | `tests/test_security_hardening_v3.py` | Security hardening tests — SDD+TDD+BDD for all boy-scout fixes. | tests | 64 | 0 |
@@ -495,6 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
 | `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
-| `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

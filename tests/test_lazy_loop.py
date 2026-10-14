@@ -333,7 +333,7 @@ def test_trigger_task_create_fires_once(tmp_path, monkeypatch):
 def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
     """BDD: slack/email/file channels deliver with severity floors."""
     import smtplib
-    import urllib.request as urlreq
+    import urllib.parse as urlparse
 
     import modules.lazy_loop as loop
     import modules.notify as notify_module
@@ -342,18 +342,10 @@ def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
     monkeypatch.setattr(notify_module, "url_allowed", lambda url: (True, "ok"))
     sent: list[tuple[str, bytes]] = []
 
-    class _Ctx:
-        def __enter__(self):
-            return self
+    def fake_post(url, data, timeout=8):
+        sent.append((url, data))
 
-        def __exit__(self, *args):
-            return False
-
-    def fake_urlopen(request, timeout=8):
-        sent.append((request.full_url, request.data))
-        return _Ctx()
-
-    monkeypatch.setattr(urlreq, "urlopen", fake_urlopen)
+    monkeypatch.setattr(notify_module, "post_url_validated", fake_post)
     smtp_calls: list[tuple] = []
 
     class _Smtp:
@@ -388,8 +380,15 @@ def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
     assert file_target.exists()
     high = notifier.emit("t0001", "finding_created", {"severity": "high", "name": "y"})
     assert high == 3
-    assert any(url.startswith("https://hooks.example") and b'"text"' in data
-               for url, data in sent)
+
+    def _is_hooks_url(url: str) -> bool:
+        try:
+            parts = urlparse.urlsplit(url)
+        except ValueError:
+            return False
+        return parts.scheme == "https" and (parts.hostname or "").lower() == "hooks.example"
+
+    assert any(_is_hooks_url(url) and b'"text"' in data for url, data in sent)
     assert any(call[0] == "send" and call[1] == "ops@example.com" for call in smtp_calls)
     assert notifier.remove_channel(1) is True
     assert len(notifier.channels()) == 2

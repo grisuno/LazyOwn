@@ -1,21 +1,21 @@
 # modules: lazyc2
 
-*Community 1 | 125 files | cohesion 0.50*
+*Community 1 | 123 files | cohesion 0.50*
 
 ## Definition
 
-This community groups 125 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIModel`, `AIResult`. Core file: `lazyc2.py` (284 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
+This community groups 123 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIModel`, `AIResult`. Core file: `lazyc2.py` (284 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
 
 ## Files
 
-### `modules` (43 files)
+### `modules` (44 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/agent_runner.py` | py | utility | 37 | yes |
+| `modules/agent_runner.py` | py | utility | 38 | yes |
 | `modules/ai_fallback.py` | py | utility | 8 | yes |
 
-### `tests` (28 files)
+### `tests` (26 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -29,12 +29,19 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 | `contrib/legacy/lazyaddon_creator.py` | py | utility | 14 | yes |
 | `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
 
-### `lazyc2/security` (9 files)
+### `lazyc2/security` (8 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
-| `lazyc2/security/command_allowlist.py` | py | utility | 8 | yes |
+| `lazyc2/security/constants.py` | py | utility | 0 | yes |
+
+### `skills` (8 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/aci_planner.py` | py | utility | 42 | yes |
+| `skills/daemon_health.py` | py | utility | 16 | yes |
 
 ### `.` (7 files)
 
@@ -48,25 +55,18 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `core/command_bridge.py` | py | utility | 9 | yes |
-| `core/executor.py` | py | utility | 6 | yes |
-
-### `skills` (7 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/aci_planner.py` | py | utility | 42 | yes |
-
-### `cli` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/auto_crypto.py` | py | utility | 13 | yes |
 
 ### `cli/commands` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/ai.py` | py | utility | 8 | yes |
+
+### `cli` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/auto_crypto.py` | py | utility | 13 | yes |
 
 ### `lazyc2/blueprints` (2 files)
 
@@ -98,7 +98,7 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `static/js/xterm.js` | js | utility | 62 | no |
 
-*... and 105 more files in this community.*
+*... and 103 more files in this community.*
 
 
 ## Key Symbols
@@ -136,8 +136,8 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 454
-- Cross-boundary resolved imports (EXTRACTED): 326
+- Internal resolved imports (EXTRACTED): 450
+- Cross-boundary resolved imports (EXTRACTED): 333
 
 ## Connections
 
@@ -152,14 +152,14 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
@@ -179,7 +179,6 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 - `cli/commands/automation.py`
 - `cli/commands/collaboration.py`
 - `cli/headless.py`
-- `cli/scope_guard.py`
 - `contrib/legacy/lazyaddon_creator.py`
 - `contrib/legacy/lazydeepseekcli.py`
 - `contrib/legacy/lazygptcli.py`
@@ -194,4 +193,5 @@ This community groups 125 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazyssh.py`
 - `core/command_bridge.py`
 - `core/executor.py`
-- *... and 105 more*
+- `core/llm_budget.py`
+- *... and 103 more*

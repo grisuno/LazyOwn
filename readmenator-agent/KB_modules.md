@@ -84,39 +84,40 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `AgentTool` (class, line 66) `class AgentTool`
   - `CommandMetadata` (class, line 127) `class CommandMetadata`
   - `ASTToolExtractor` (class, line 134) `class ASTToolExtractor`
-  - `AgentRunner` (class, line 173) `class AgentRunner`
-  - `LazyOwnShellWrapper` (class, line 462) `class LazyOwnShellWrapper`
-  - `VulnBotCLI` (class, line 539) `class VulnBotCLI`
-  - `interactive_mode` (function, line 600) `def interactive_mode(bot)`
-  - `parse_args` (function, line 624) `def parse_args()`
-  - `main` (function, line 634) `def main()`
+  - `_tool_call_snapshot` (function, line 173) `def _tool_call_snapshot(tool_call)`
+  - `AgentRunner` (class, line 190) `class AgentRunner`
+  - `LazyOwnShellWrapper` (class, line 482) `class LazyOwnShellWrapper`
+  - `VulnBotCLI` (class, line 559) `class VulnBotCLI`
+  - `interactive_mode` (function, line 620) `def interactive_mode(bot)`
+  - `parse_args` (function, line 644) `def parse_args()`
+  - `main` (function, line 654) `def main()`
   - `__init__` (method, line 69) `def __init__(self, name, description, func, parameters, required)`
   - `to_api_format` (method, line 77) `def to_api_format(self)`
   - `execute` (method, line 83) `def execute(self)`
   - `extract_commands_from_file` (method, line 138) `def extract_commands_from_file(file_path, prefix)`
-  - `__init__` (method, line 176) `def __init__(self, model, system_prompt, max_iterations)`
-  - `_reset_history` (method, line 190) `def _reset_history(self)`
-  - `_manage_memory` (method, line 193) `def _manage_memory(self)`
-  - `register_tool` (method, line 201) `def register_tool(self, tool)`
-  - `register_tool_from_instance` (method, line 204) `def register_tool_from_instance(self, func)`
-  - `register_tools_from_metadata` (method, line 222) `def register_tools_from_metadata(self, commands, executor)`
-  - `get_tools_for_api` (method, line 249) `def get_tools_for_api(self)`
-  - `run` (method, line 254) `def run(self, user_input)`
-  - `_call_model` (method, line 278) `def _call_model(self)`
-  - `_stream_call` (method, line 324) `def _stream_call(self, model_name, messages, max_tokens)`
-  - `_emit_delta` (method, line 398) `def _emit_delta(self, kind, text)`
-  - `_process_tool_call` (method, line 417) `def _process_tool_call(self, tool_call)`
-  - `__init__` (method, line 465) `def __init__(self, script_path)`
-  - `_load_shell` (method, line 472) `def _load_shell(self)`
-  - `execute_command` (method, line 495) `def execute_command(self, command)`
-  - `get_commands_summary` (method, line 532) `def get_commands_summary(self)`
-  - `__init__` (method, line 540) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 552) `def _load_model(self)`
-  - `_setup_agent` (method, line 567) `def _setup_agent(self)`
-  - `process_request` (method, line 595) `def process_request(self, user_input)`
-  - `target` (function, line 502) `def target()`
-  - `make_executor` (function, line 226) `def make_executor(cmd_name)`
-  - `wrapper` (function, line 227) `def wrapper(command)`
+  - `__init__` (method, line 193) `def __init__(self, model, system_prompt, max_iterations)`
+  - `_reset_history` (method, line 207) `def _reset_history(self)`
+  - `_manage_memory` (method, line 210) `def _manage_memory(self)`
+  - `register_tool` (method, line 218) `def register_tool(self, tool)`
+  - `register_tool_from_instance` (method, line 221) `def register_tool_from_instance(self, func)`
+  - `register_tools_from_metadata` (method, line 239) `def register_tools_from_metadata(self, commands, executor)`
+  - `get_tools_for_api` (method, line 266) `def get_tools_for_api(self)`
+  - `run` (method, line 271) `def run(self, user_input)`
+  - `_call_model` (method, line 295) `def _call_model(self)`
+  - `_stream_call` (method, line 341) `def _stream_call(self, model_name, messages, max_tokens)`
+  - `_emit_delta` (method, line 415) `def _emit_delta(self, kind, text)`
+  - `_process_tool_call` (method, line 434) `def _process_tool_call(self, tool_call)`
+  - `__init__` (method, line 485) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 492) `def _load_shell(self)`
+  - `execute_command` (method, line 515) `def execute_command(self, command)`
+  - `get_commands_summary` (method, line 552) `def get_commands_summary(self)`
+  - `__init__` (method, line 560) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 572) `def _load_model(self)`
+  - `_setup_agent` (method, line 587) `def _setup_agent(self)`
+  - `process_request` (method, line 615) `def process_request(self, user_input)`
+  - `target` (function, line 522) `def target()`
+  - `make_executor` (function, line 243) `def make_executor(cmd_name)`
+  - `wrapper` (function, line 244) `def wrapper(command)`
 - Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 - Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
 

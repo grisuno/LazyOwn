@@ -2,17 +2,17 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1014 files at commit `a7f47dc892e9`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1015 files at commit `43ddc4b8a289`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (414), `modules` (390), `lazy` (386), `file` (359), `all` (358), `not` (346), `own` (338), `path` (327), `cli` (323), `run` (321), `one` (318), `json` (314), `name` (309), `without` (297), `set` (295)
-- Subsystem `cli/commands`: 139 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 125 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `modules: autonomous_daemon`: 118 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli: dashboard_tui`: 102 files, core `cli/dashboard_tui.py`: LazyOwn operator dashboard — a full-screen Textual TUI.
-- Subsystem `modules: lazy_loop`: 68 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Domain vocabulary (term, files): `command` (414), `modules` (390), `lazy` (386), `file` (361), `all` (359), `not` (347), `own` (338), `path` (328), `cli` (323), `run` (321), `one` (318), `json` (315), `name` (309), `without` (300), `set` (296)
+- Subsystem `cli/commands: utils`: 125 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyc2`: 123 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: autonomous_daemon`: 113 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `cli: status_bar`: 97 files, core `cli/status_bar.py`: Persistent operator status bar for the LazyOwn cmd2 shell.
+- Subsystem `modules: lazy_loop`: 69 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
 - Subsystem `modules: estorides_importer`: 50 files, core `modules/estorides_importer.py`: estorides_importer
 - Subsystem `static/js`: 29 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 886 files, 17322 symbols; docstrings on 53% of symbols; functions snake_case (99%); types PascalCase (100%); median file 226 lines, max 12457.
+- py: 887 files, 17387 symbols; docstrings on 53% of symbols; functions snake_case (99%); types PascalCase (100%); median file 228 lines, max 12509.
 - sh: 61 files, 204 symbols; docstrings on 41% of symbols; functions snake_case (100%); median file 78 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 263 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 264 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 

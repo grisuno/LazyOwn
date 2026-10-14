@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
 | `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
 | `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
 | `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
 | `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
 | `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
-| `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

@@ -1,6 +1,6 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 735 modules, 14071 documented entities, documentation coverage 72.7% (6452/8877 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 735 modules, 14072 documented entities, documentation coverage 72.7% (6453/8878 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
@@ -632,7 +632,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/mysql_hookandroot_lib.c`](modules/modules.mysql_hookandroot_lib.c.md) |  | 0 | 6 | 28.6% |
 | [`modules.network_opsec`](modules/modules.network_opsec.py.md) | Network OPSEC — proxy chain enforcement, canary detection, traffic randomization. | 2 | 9 | 83.3% |
 | [`modules.nmap2csv`](modules/modules.nmap2csv.py.md) | This file is part of nmaptocsv. | 2 | 42 | 26.7% |
-| [`modules.notify`](modules/modules.notify.py.md) | Stateless multi-channel notifier for finding events. | 4 | 9 | 100.0% |
+| [`modules.notify`](modules/modules.notify.py.md) | Stateless multi-channel notifier for finding events. | 4 | 10 | 100.0% |
 | [`modules.nuclei_templates_sync`](modules/modules.nuclei_templates_sync.py.md) | Sync community Nuclei template collections into the LazyOwn marketplace. | 0 | 15 | 100.0% |
 | [`modules.obs_parser`](modules/modules.obs_parser.py.md) | modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output. | 5 | 8 | 57.1% |
 | [`modules.ooficesod0woodo`](modules/modules.ooficesod0woodo.py.md) |  | 0 | 0 | 0.0% |

@@ -719,7 +719,7 @@ Note:
 
 #### `MiscMigratedCommandSet.do_banner`
 
-`method` | [cli/commands/misc_migrated.py:738](../../cli/commands/misc_migrated.py#L738)
+`method` | [cli/commands/misc_migrated.py:744](../../cli/commands/misc_migrated.py#L744)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -741,7 +741,7 @@ Show the banner
 
 #### `MiscMigratedCommandSet.do_config_banner`
 
-`method` | [cli/commands/misc_migrated.py:748](../../cli/commands/misc_migrated.py#L748)
+`method` | [cli/commands/misc_migrated.py:754](../../cli/commands/misc_migrated.py#L754)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -771,7 +771,7 @@ requiring a restart.
 
 #### `MiscMigratedCommandSet.do_aliass`
 
-`method` | [cli/commands/misc_migrated.py:792](../../cli/commands/misc_migrated.py#L792)
+`method` | [cli/commands/misc_migrated.py:798](../../cli/commands/misc_migrated.py#L798)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -809,7 +809,7 @@ Note: This function assumes that aliases are managed by the [`LazyOwnShell`](laz
 
 #### `MiscMigratedCommandSet.do_graph`
 
-`method` | [cli/commands/misc_migrated.py:820](../../cli/commands/misc_migrated.py#L820)
+`method` | [cli/commands/misc_migrated.py:826](../../cli/commands/misc_migrated.py#L826)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -833,7 +833,7 @@ Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
 
 #### `MiscMigratedCommandSet.do_h`
 
-`method` | [cli/commands/misc_migrated.py:880](../../cli/commands/misc_migrated.py#L880)
+`method` | [cli/commands/misc_migrated.py:886](../../cli/commands/misc_migrated.py#L886)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -876,7 +876,7 @@ the `./run --no-banner` command within it.
 
 #### `MiscMigratedCommandSet.do_v`
 
-`method` | [cli/commands/misc_migrated.py:926](../../cli/commands/misc_migrated.py#L926)
+`method` | [cli/commands/misc_migrated.py:932](../../cli/commands/misc_migrated.py#L932)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -919,7 +919,7 @@ the `./run --no-banner` command within it.
 
 #### `MiscMigratedCommandSet.do_links`
 
-`method` | [cli/commands/misc_migrated.py:972](../../cli/commands/misc_migrated.py#L972)
+`method` | [cli/commands/misc_migrated.py:978](../../cli/commands/misc_migrated.py#L978)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -953,7 +953,7 @@ None
 
 #### `MiscMigratedCommandSet.do_news`
 
-`method` | [cli/commands/misc_migrated.py:1035](../../cli/commands/misc_migrated.py#L1035)
+`method` | [cli/commands/misc_migrated.py:1041](../../cli/commands/misc_migrated.py#L1041)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -977,7 +977,7 @@ Return None
 
 #### `MiscMigratedCommandSet.do_check_update`
 
-`method` | [cli/commands/misc_migrated.py:1048](../../cli/commands/misc_migrated.py#L1048)
+`method` | [cli/commands/misc_migrated.py:1054](../../cli/commands/misc_migrated.py#L1054)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1011,7 +1011,7 @@ Usage:
 
 #### `MiscMigratedCommandSet.do_addalias`
 
-`method` | [cli/commands/misc_migrated.py:1093](../../cli/commands/misc_migrated.py#L1093)
+`method` | [cli/commands/misc_migrated.py:1099](../../cli/commands/misc_migrated.py#L1099)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1041,7 +1041,7 @@ addalias scan run_script "lazyscripts/nmap_scan.ls {rhost}"
 
 #### `MiscMigratedCommandSet.do_listaliases`
 
-`method` | [cli/commands/misc_migrated.py:1145](../../cli/commands/misc_migrated.py#L1145)
+`method` | [cli/commands/misc_migrated.py:1151](../../cli/commands/misc_migrated.py#L1151)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1067,7 +1067,7 @@ List all available aliases.
 
 ### `__getattr__`
 
-`function` | [cli/commands/misc_migrated.py:1166](../../cli/commands/misc_migrated.py#L1166)
+`function` | [cli/commands/misc_migrated.py:1172](../../cli/commands/misc_migrated.py#L1172)
 
 ```python
 def __getattr__(name: str)

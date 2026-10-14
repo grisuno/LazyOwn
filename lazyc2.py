@@ -4635,34 +4635,99 @@ def view_yaml():
     if not selected_directory:
         return redirect(url_for("index"))
 
-    # Prevent path traversal
-    if not selected_directory or ".." in selected_directory or selected_directory.startswith("/"):
+    raw = str(selected_directory or "")
+    if "\x00" in raw or len(raw) > 256 or "\\" in raw:
         return jsonify({"error": "Invalid directory"}), 400
-    selected_path = os.path.normpath(os.path.join(atomic_framework_path, selected_directory))
-    atomic_abs = os.path.normpath(os.path.abspath(str(atomic_framework_path)))
-    selected_abs = os.path.normpath(os.path.abspath(str(selected_path)))
-    if not selected_abs.startswith(atomic_abs + os.sep) and selected_abs != atomic_abs:
+    if raw.startswith("/") or ".." in raw.split("/"):
+        return jsonify({"error": "Invalid directory"}), 400
+    if not re.fullmatch(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*", raw):
+        return jsonify({"error": "Invalid directory"}), 400
+    try:
+        atomic_abs = os.path.realpath(os.path.abspath(str(atomic_framework_path)))
+        selected_abs = os.path.realpath(os.path.join(atomic_abs, raw))
+        if os.path.commonpath([atomic_abs, selected_abs]) != atomic_abs:
+            return jsonify({"error": "Access denied"}), 403
+    except ValueError:
         return jsonify({"error": "Access denied"}), 403
+    if not os.path.isdir(selected_abs):
+        return jsonify({"error": "Invalid directory"}), 400
 
     yaml_data = []
+    _MAX_YAML_FILES = 500
+    _MAX_YAML_BYTES = 1_000_000
+    _MAX_YAML_TESTS = 2000
+    seen_files = 0
+    try:
+        for root, dirs, files in os.walk(selected_abs, followlinks=False):
+            try:
+                if os.path.commonpath([atomic_abs, os.path.realpath(root)]) != atomic_abs:
+                    dirs[:] = []
+                    continue
+                if os.path.commonpath([selected_abs, os.path.realpath(root)]) != selected_abs:
+                    dirs[:] = []
+                    continue
+            except ValueError:
+                dirs[:] = []
+                continue
+            dirs[:] = [d for d in dirs if d not in (".", "..") and not d.startswith(".")]
+            dirs.sort()
+            if len(files) > _MAX_YAML_FILES:
+                files = sorted(files)[:_MAX_YAML_FILES]
+            for name in sorted(files):
+                if not name.endswith(".yaml") or "/" in name or "\\" in name or "\x00" in name:
+                    continue
+                if name.startswith(".") or ".." in name:
+                    continue
+                if not re.fullmatch(r"[A-Za-z0-9._-]+\.yaml", name):
+                    continue
+                candidate = os.path.realpath(os.path.join(root, name))
+                try:
+                    if os.path.commonpath([atomic_abs, candidate]) != atomic_abs:
+                        continue
+                    if os.path.commonpath([selected_abs, candidate]) != selected_abs:
+                        continue
+                except ValueError:
+                    continue
+                if not os.path.isfile(candidate):
+                    continue
+                try:
+                    if os.path.getsize(candidate) > _MAX_YAML_BYTES:
+                        continue
+                except OSError:
+                    continue
+                seen_files += 1
+                if seen_files > _MAX_YAML_FILES or len(yaml_data) >= _MAX_YAML_TESTS:
+                    break
+                try:
+                    with open(candidate, "r", encoding="utf-8", errors="replace") as handle:
+                        data = yaml.safe_load(handle)
+                except (OSError, yaml.YAMLError, UnicodeError):
+                    continue
+                if not isinstance(data, dict):
+                    continue
+                tests = data.get("atomic_tests", [])
+                if not isinstance(tests, list):
+                    continue
+                for test in tests[:100]:
+                    if len(yaml_data) >= _MAX_YAML_TESTS:
+                        break
+                    if not isinstance(test, dict):
+                        continue
+                    description = test.get("description") or ""
+                    yaml_data.append(
+                        {
+                            "auto_generated_guid": test.get("auto_generated_guid"),
+                            "name": escape_js_string(test.get("name")),
+                            "description": escape_js_string(str(description).replace("\n", "<br>")),
+                            "supported_platforms": test.get("supported_platforms"),
+                        }
+                    )
+            if seen_files > _MAX_YAML_FILES or len(yaml_data) >= _MAX_YAML_TESTS:
+                break
+    except OSError:
+        return jsonify({"error": "Unable to read directory"}), 500
 
-    for root, dirs, files in os.walk(selected_path):
-        for file in files:
-            if file.endswith(".yaml"):
-                yaml_file_path = os.path.join(root, file)
-                with open(yaml_file_path, "r") as file:
-                    data = yaml.safe_load(file)
-                    for test in data.get("atomic_tests", []):
-                        yaml_data.append(
-                            {
-                                "auto_generated_guid": test.get("auto_generated_guid"),
-                                "name": escape_js_string(test.get("name")),
-                                "description": escape_js_string(test.get("description").replace("\n", "<br>")),
-                                "supported_platforms": test.get("supported_platforms"),
-                            }
-                        )
-
-    return render_template("yaml_view.html", yaml_data=yaml_data, directory=selected_directory)
+    return render_template("yaml_view.html", yaml_data=yaml_data, directory=raw)
 
 
 @app.route("/api/run", methods=["POST"])
@@ -4786,8 +4851,9 @@ def _resolve_reverse_shell_password() -> str:
 
     When ``c2_reverse_shell_password`` is configured and meets the minimum
     length (12 chars), that value is used. Otherwise a cryptographically
-    random 32-character hex token is generated once per process lifetime,
-    logged prominently, and used as a fallback.
+    random 32-byte hex token is generated once per process lifetime,
+    persisted owner-only under ``sessions/.reverse_shell_password`` for
+    the authenticated operator, and never written to logs.
 
     Returns:
         The active reverse-shell authentication password.
@@ -4802,13 +4868,35 @@ def _resolve_reverse_shell_password() -> str:
     import secrets as _secrets
 
     _REVERSE_SHELL_PASSWORD_CACHE = _secrets.token_hex(32)
-    logger.warning(
-        "[c2] c2_reverse_shell_password missing or too short "
-        "(minimum %d chars). Auto-generated fallback: %s. "
-        "Set c2_reverse_shell_password in payload.json to silence this warning.",
-        12,
-        _REVERSE_SHELL_PASSWORD_CACHE,
-    )
+    try:
+        sessions_dir = SESSIONS_DIR if isinstance(SESSIONS_DIR, str) else str(SESSIONS_DIR)
+        os.makedirs(sessions_dir, exist_ok=True)
+        try:
+            os.chmod(sessions_dir, 0o700)
+        except OSError:
+            pass
+        secret_path = os.path.join(sessions_dir, ".reverse_shell_password")
+        with open(secret_path, "w") as handle:
+            handle.write(_REVERSE_SHELL_PASSWORD_CACHE + "\n")
+        try:
+            os.chmod(secret_path, 0o600)
+        except OSError:
+            pass
+        logger.warning(
+            "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
+            "Auto-generated fallback stored owner-only at %s. "
+            "Set c2_reverse_shell_password in payload.json to silence this warning.",
+            12,
+            secret_path,
+        )
+    except OSError as exc:
+        logger.warning(
+            "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
+            "Auto-generated fallback kept in memory only (persist failed). "
+            "Set c2_reverse_shell_password in payload.json to silence this warning.",
+            12,
+        )
+        logger.debug("reverse-shell fallback persist failed: %s", type(exc).__name__)
     return _REVERSE_SHELL_PASSWORD_CACHE
 
 
@@ -7126,7 +7214,8 @@ def api_loop_broadcast_stream():
             try:
                 result = engine.broadcast_events(task_id, cursor=state["cursor"])
             except Exception as exc:
-                yield f"event: error\ndata: {json.dumps({'error': str(exc)[:200]})}\n\n"
+                logger.debug("broadcast_events failed: %s", type(exc).__name__)
+                yield f"event: error\ndata: {json.dumps({'error': 'event stream failed'})}\n\n"
                 return
             for record in result["items"]:
                 state["cursor"] += 1
@@ -7179,7 +7268,8 @@ def api_loop_broadcast():
             task_id, kinds=kinds or None, query=query, order=order, page=page, per_page=per_page
         )
     except Exception as exc:
-        return jsonify({"error": str(exc)[:300]}), 404
+        logger.debug("loop broadcast failed: %s", type(exc).__name__)
+        return jsonify({"error": "broadcast unavailable"}), 404
     return jsonify(result)
 
 
@@ -7224,7 +7314,8 @@ def api_guard_audit():
         try:
             payload["lookup"] = guard.lookup(lookup_id)
         except KeyError as exc:
-            return jsonify({"error": str(exc)[:300]}), 404
+            logger.debug("guard lookup failed: %s", type(exc).__name__)
+            return jsonify({"error": "lookup not found"}), 404
     return jsonify(payload)
 
 
@@ -7254,7 +7345,8 @@ def api_loop_graph():
         graph = engine.loop_graph(task_id)
         graph["context"] = engine.graph_context(task_id)
     except Exception as exc:
-        return jsonify({"error": str(exc)[:300]}), 404
+        logger.debug("loop graph failed: %s", type(exc).__name__)
+        return jsonify({"error": "graph unavailable"}), 404
     return jsonify(graph)
 
 
@@ -7281,9 +7373,11 @@ def api_lazy_mentions():
             request.args.get("cursor", "") or "",
         )
     except InvalidCursor as exc:
-        return jsonify({"error": str(exc)[:300]}), 400
+        logger.debug("mentions page failed: %s", type(exc).__name__)
+        return jsonify({"error": "invalid cursor"}), 400
     except ValueError as exc:
-        return jsonify({"error": str(exc)[:300]}), 400
+        logger.debug("mentions search failed: %s", type(exc).__name__)
+        return jsonify({"error": "search unavailable"}), 400
     return jsonify(
         {
             "items": [{"kind": i.kind, "id": i.id, "label": i.label, "description": i.description} for i in page.items],

@@ -9,23 +9,23 @@ Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_str
 - `AgentTool.to_api_format` (method) `modules/agent_runner.py:77` `def to_api_format(self)`
 - `AgentTool.execute` (method) `modules/agent_runner.py:83` `def execute(self)` -- Ejecuta con validación de argumentos y formato claro
 - `ASTToolExtractor.extract_commands_from_file` (method) `modules/agent_runner.py:138` `def extract_commands_from_file(file_path, prefix)`
-- `AgentRunner.__init__` (method) `modules/agent_runner.py:176` `def __init__(self, model, system_prompt, max_iterations)`
-- `AgentRunner.register_tool` (method) `modules/agent_runner.py:201` `def register_tool(self, tool)`
-- `AgentRunner.register_tool_from_instance` (method) `modules/agent_runner.py:204` `def register_tool_from_instance(self, func)` -- Wrap a plain function as an AgentTool using its signature and docstring.
-- `AgentRunner.register_tools_from_metadata` (method) `modules/agent_runner.py:222` `def register_tools_from_metadata(self, commands, executor)`
-- `make_executor` (function) `modules/agent_runner.py:226` `def make_executor(cmd_name)`
-- `wrapper` (function) `modules/agent_runner.py:227` `def wrapper(command)`
-- `AgentRunner.get_tools_for_api` (method) `modules/agent_runner.py:249` `def get_tools_for_api(self)`
-- `AgentRunner.run` (method) `modules/agent_runner.py:254` `def run(self, user_input)`
-- `LazyOwnShellWrapper.__init__` (method) `modules/agent_runner.py:465` `def __init__(self, script_path)`
-- `LazyOwnShellWrapper.execute_command` (method) `modules/agent_runner.py:495` `def execute_command(self, command)` -- Ejecuta comando con timeout usando threading
-- `target` (function) `modules/agent_runner.py:502` `def target()`
-- `LazyOwnShellWrapper.get_commands_summary` (method) `modules/agent_runner.py:532` `def get_commands_summary(self)`
-- `VulnBotCLI.__init__` (method) `modules/agent_runner.py:540` `def __init__(self, provider, mode, debug, script_path)`
-- `VulnBotCLI.process_request` (method) `modules/agent_runner.py:595` `def process_request(self, user_input)`
-- `interactive_mode` (function) `modules/agent_runner.py:600` `def interactive_mode(bot)`
-- `parse_args` (function) `modules/agent_runner.py:624` `def parse_args()`
-- `main` (function) `modules/agent_runner.py:634` `def main()`
+- `AgentRunner.__init__` (method) `modules/agent_runner.py:193` `def __init__(self, model, system_prompt, max_iterations)`
+- `AgentRunner.register_tool` (method) `modules/agent_runner.py:218` `def register_tool(self, tool)`
+- `AgentRunner.register_tool_from_instance` (method) `modules/agent_runner.py:221` `def register_tool_from_instance(self, func)` -- Wrap a plain function as an AgentTool using its signature and docstring.
+- `AgentRunner.register_tools_from_metadata` (method) `modules/agent_runner.py:239` `def register_tools_from_metadata(self, commands, executor)`
+- `make_executor` (function) `modules/agent_runner.py:243` `def make_executor(cmd_name)`
+- `wrapper` (function) `modules/agent_runner.py:244` `def wrapper(command)`
+- `AgentRunner.get_tools_for_api` (method) `modules/agent_runner.py:266` `def get_tools_for_api(self)`
+- `AgentRunner.run` (method) `modules/agent_runner.py:271` `def run(self, user_input)`
+- `LazyOwnShellWrapper.__init__` (method) `modules/agent_runner.py:485` `def __init__(self, script_path)`
+- `LazyOwnShellWrapper.execute_command` (method) `modules/agent_runner.py:515` `def execute_command(self, command)` -- Ejecuta comando con timeout usando threading
+- `target` (function) `modules/agent_runner.py:522` `def target()`
+- `LazyOwnShellWrapper.get_commands_summary` (method) `modules/agent_runner.py:552` `def get_commands_summary(self)`
+- `VulnBotCLI.__init__` (method) `modules/agent_runner.py:560` `def __init__(self, provider, mode, debug, script_path)`
+- `VulnBotCLI.process_request` (method) `modules/agent_runner.py:615` `def process_request(self, user_input)`
+- `interactive_mode` (function) `modules/agent_runner.py:620` `def interactive_mode(bot)`
+- `parse_args` (function) `modules/agent_runner.py:644` `def parse_args()`
+- `main` (function) `modules/agent_runner.py:654` `def main()`
 
 ## modules/ai_exploit_chain.py
 Depends on: `modules/autonomous_exploit_engine.py`

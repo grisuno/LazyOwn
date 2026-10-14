@@ -1,6 +1,35 @@
 # Subsystem: modules (page 10 of 14)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/logging_config.py
+- Doc: Centralized logging configuration for the LazyOwn framework.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
+  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
+  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
+  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
+  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
+  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
+  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
+  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
+  - `_use_json_format` (function, line 235) `def _use_json_format()`
+  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
+  - `get_logger` (function, line 328) `def get_logger(name, level)`
+  - `set_level` (function, line 357) `def set_level(name, level)`
+  - `set_quiet` (function, line 367) `def set_quiet()`
+  - `set_verbose` (function, line 373) `def set_verbose()`
+  - `silence_module` (function, line 379) `def silence_module(name)`
+  - `reset` (function, line 388) `def reset()`
+  - `format` (method, line 39) `def format(self, record)`
+  - `format` (method, line 72) `def format(self, record)`
+  - `filter` (method, line 94) `def filter(self, record)`
+  - `emit` (method, line 116) `def emit(self, record)`
+  - `handleError` (method, line 122) `def handleError(self, record)`
+- Depends on: `core/logging.py`
+- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
+
 ## modules/loop_ai_bridge.py
 - Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
 - Layer: utility
@@ -408,16 +437,20 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `severity_rank` (function, line 31) `def severity_rank(severity, config)`
   - `mask_secrets` (function, line 39) `def mask_secrets(text, config)`
   - `url_allowed` (function, line 57) `def url_allowed(url)`
-  - `NotifyMessage` (class, line 92) `class NotifyMessage`
-  - `Channel` (class, line 105) `class Channel`
-  - `Notifier` (class, line 123) `class Notifier`
-  - `__post_init__` (method, line 117) `def __post_init__(self)`
-  - `__init__` (method, line 126) `def __init__(self, config)`
-  - `should_send` (method, line 134) `def should_send(self, message, channel)`
-  - `render` (method, line 157) `def render(self, message)`
-  - `dispatch` (method, line 163) `def dispatch(self, message, channels)`
-  - `flush_digest` (method, line 179) `def flush_digest(self, max_age_sec)`
-- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
+  - `post_url_validated` (function, line 145) `def post_url_validated(url, data, timeout)`
+  - `NotifyMessage` (class, line 173) `class NotifyMessage`
+  - `Channel` (class, line 186) `class Channel`
+  - `Notifier` (class, line 204) `class Notifier`
+  - `_addr_denied` (function, line 105) `def _addr_denied(addr)`
+  - `_GuardRedirect` (class, line 158) `class _GuardRedirect(HTTPRedirectHandler)`
+  - `__post_init__` (method, line 198) `def __post_init__(self)`
+  - `__init__` (method, line 207) `def __init__(self, config)`
+  - `should_send` (method, line 215) `def should_send(self, message, channel)`
+  - `render` (method, line 238) `def render(self, message)`
+  - `dispatch` (method, line 244) `def dispatch(self, message, channels)`
+  - `flush_digest` (method, line 260) `def flush_digest(self, max_age_sec)`
+  - `redirect_request` (method, line 159) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
+- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
 
 ## modules/nuclei_templates_sync.py
 - Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
@@ -440,59 +473,6 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `resolve_plan` (function, line 308) `def resolve_plan(args)`
   - `main` (function, line 337) `def main(argv)`
   - `normalize` (function, line 179) `def normalize(url)`
-
-## modules/obs_parser.py
-- Doc: modules/obs_parser.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `FindingType` (class, line 50) `class FindingType(StrEnum)`
-  - `Finding` (class, line 66) `class Finding`
-  - `Observation` (class, line 76) `class Observation`
-  - `Extractor` (class, line 95) `class Extractor(ABC)`
-  - `_ExtractorRegistry` (class, line 103) `class _ExtractorRegistry`
-  - `_IPExtractor` (class, line 127) `class _IPExtractor(Extractor)`
-  - `_CredentialExtractor` (class, line 145) `class _CredentialExtractor(Extractor)`
-  - `_ServiceVersionExtractor` (class, line 193) `class _ServiceVersionExtractor(Extractor)`
-  - `_PathExtractor` (class, line 219) `class _PathExtractor(Extractor)`
-  - `_UsernameExtractor` (class, line 235) `class _UsernameExtractor(Extractor)`
-  - `_HashExtractor` (class, line 257) `class _HashExtractor(Extractor)`
-  - `_CVEExtractor` (class, line 283) `class _CVEExtractor(Extractor)`
-  - `_DomainExtractor` (class, line 299) `class _DomainExtractor(Extractor)`
-  - `_EmailExtractor` (class, line 318) `class _EmailExtractor(Extractor)`
-  - `_ErrorExtractor` (class, line 334) `class _ErrorExtractor(Extractor)`
-  - `_CloudIdentityExtractor` (class, line 355) `class _CloudIdentityExtractor(Extractor)`
-  - `_SuccessDetector` (class, line 390) `class _SuccessDetector`
-  - `ObsParser` (class, line 423) `class ObsParser`
-  - `get_parser` (function, line 500) `def get_parser()`
-  - `parse` (function, line 508) `def parse(output, host, tool)`
-  - `by_type` (method, line 83) `def by_type(self, ftype)`
-  - `has` (method, line 86) `def has(self, ftype)`
-  - `extract` (method, line 99) `def extract(self, text, host)`
-  - `__init__` (method, line 106) `def __init__(self)`
-  - `register` (method, line 109) `def register(self, extractor)`
-  - `run_all` (method, line 112) `def run_all(self, text, host)`
-  - `extract` (method, line 134) `def extract(self, text, host)`
-  - `extract` (method, line 175) `def extract(self, text, host)`
-  - `extract` (method, line 198) `def extract(self, text, host)`
-  - `extract` (method, line 224) `def extract(self, text, host)`
-  - `extract` (method, line 245) `def extract(self, text, host)`
-  - `extract` (method, line 271) `def extract(self, text, host)`
-  - `extract` (method, line 288) `def extract(self, text, host)`
-  - `extract` (method, line 305) `def extract(self, text, host)`
-  - `extract` (method, line 323) `def extract(self, text, host)`
-  - `extract` (method, line 345) `def extract(self, text, host)`
-  - `extract` (method, line 367) `def extract(self, text, host)`
-  - `is_success` (method, line 407) `def is_success(self, text)`
-  - `__init__` (method, line 431) `def __init__(self)`
-  - `register` (method, line 450) `def register(self, extractor)`
-  - `parse` (method, line 454) `def parse(self, output, host, tool)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-
-## modules/ooficesod0woodo.py
-- Layer: utility
-- Language: py
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

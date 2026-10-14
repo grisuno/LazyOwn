@@ -586,7 +586,7 @@ None
 
 #### `ScanMigratedCommandSet.do_parsero`
 
-`method` | [cli/commands/scan_migrated.py:640](../../cli/commands/scan_migrated.py#L640)
+`method` | [cli/commands/scan_migrated.py:648](../../cli/commands/scan_migrated.py#L648)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -614,7 +614,7 @@ Otherwise, it will use the target specified in self.params['rhost'].
 
 #### `ScanMigratedCommandSet.do_changeme`
 
-`method` | [cli/commands/scan_migrated.py:672](../../cli/commands/scan_migrated.py#L672)
+`method` | [cli/commands/scan_migrated.py:680](../../cli/commands/scan_migrated.py#L680)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -642,7 +642,7 @@ Otherwise, it will use the target specified in self.params['rhost'].
 
 #### `ScanMigratedCommandSet.do_enum4linux_ng`
 
-`method` | [cli/commands/scan_migrated.py:703](../../cli/commands/scan_migrated.py#L703)
+`method` | [cli/commands/scan_migrated.py:711](../../cli/commands/scan_migrated.py#L711)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -679,7 +679,7 @@ For example:
 
 #### `ScanMigratedCommandSet.do_fuzz`
 
-`method` | [cli/commands/scan_migrated.py:743](../../cli/commands/scan_migrated.py#L743)
+`method` | [cli/commands/scan_migrated.py:751](../../cli/commands/scan_migrated.py#L751)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -715,7 +715,7 @@ To run the fuzzing script, enter the required parameters when prompted by the fu
 
 #### `ScanMigratedCommandSet.do_kerbrute`
 
-`method` | [cli/commands/scan_migrated.py:788](../../cli/commands/scan_migrated.py#L788)
+`method` | [cli/commands/scan_migrated.py:796](../../cli/commands/scan_migrated.py#L796)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -757,7 +757,7 @@ then run this function to perform the enumeration.
 
 #### `ScanMigratedCommandSet.do_davtest`
 
-`method` | [cli/commands/scan_migrated.py:874](../../cli/commands/scan_migrated.py#L874)
+`method` | [cli/commands/scan_migrated.py:882](../../cli/commands/scan_migrated.py#L882)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -795,7 +795,7 @@ For example:
 
 #### `ScanMigratedCommandSet.do_evil_ssdp`
 
-`method` | [cli/commands/scan_migrated.py:915](../../cli/commands/scan_migrated.py#L915)
+`method` | [cli/commands/scan_migrated.py:923](../../cli/commands/scan_migrated.py#L923)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -819,7 +819,7 @@ Runs evil-ssdp with various options and user-selected templates.
 
 #### `ScanMigratedCommandSet.do_netexec`
 
-`method` | [cli/commands/scan_migrated.py:961](../../cli/commands/scan_migrated.py#L961)
+`method` | [cli/commands/scan_migrated.py:969](../../cli/commands/scan_migrated.py#L969)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -863,7 +863,7 @@ If no specific command is provided, the function will prompt the user to select 
 
 #### `ScanMigratedCommandSet.do_allin`
 
-`method` | [cli/commands/scan_migrated.py:1214](../../cli/commands/scan_migrated.py#L1214)
+`method` | [cli/commands/scan_migrated.py:1222](../../cli/commands/scan_migrated.py#L1222)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -891,7 +891,7 @@ Based on the user's input, it generates the corresponding command and executes i
 
 #### `ScanMigratedCommandSet.do_windapsearch`
 
-`method` | [cli/commands/scan_migrated.py:1285](../../cli/commands/scan_migrated.py#L1285)
+`method` | [cli/commands/scan_migrated.py:1293](../../cli/commands/scan_migrated.py#L1293)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -919,7 +919,7 @@ the command, and executes it.
 
 #### `ScanMigratedCommandSet.do_ldapsearch`
 
-`method` | [cli/commands/scan_migrated.py:1413](../../cli/commands/scan_migrated.py#L1413)
+`method` | [cli/commands/scan_migrated.py:1421](../../cli/commands/scan_migrated.py#L1421)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -958,7 +958,7 @@ This function is useful in penetration testing engagements where LDAP enumeratio
 
 #### `ScanMigratedCommandSet.do_arjun`
 
-`method` | [cli/commands/scan_migrated.py:1474](../../cli/commands/scan_migrated.py#L1474)
+`method` | [cli/commands/scan_migrated.py:1482](../../cli/commands/scan_migrated.py#L1482)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -983,7 +983,7 @@ a command to run Arjun against the provided URL with user-defined options.
 
 #### `ScanMigratedCommandSet.do_finger_user_enum`
 
-`method` | [cli/commands/scan_migrated.py:1542](../../cli/commands/scan_migrated.py#L1542)
+`method` | [cli/commands/scan_migrated.py:1550](../../cli/commands/scan_migrated.py#L1550)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1011,7 +1011,7 @@ usernames and target host, and executes the command in the system.
 
 #### `ScanMigratedCommandSet.do_wpscan`
 
-`method` | [cli/commands/scan_migrated.py:1588](../../cli/commands/scan_migrated.py#L1588)
+`method` | [cli/commands/scan_migrated.py:1596](../../cli/commands/scan_migrated.py#L1596)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1048,7 +1048,7 @@ wpscan --url blog.tld
 
 #### `ScanMigratedCommandSet.do_loxs`
 
-`method` | [cli/commands/scan_migrated.py:1651](../../cli/commands/scan_migrated.py#L1651)
+`method` | [cli/commands/scan_migrated.py:1659](../../cli/commands/scan_migrated.py#L1659)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1086,7 +1086,7 @@ loxs --url target.com
 
 #### `ScanMigratedCommandSet.do_blazy`
 
-`method` | [cli/commands/scan_migrated.py:1695](../../cli/commands/scan_migrated.py#L1695)
+`method` | [cli/commands/scan_migrated.py:1703](../../cli/commands/scan_migrated.py#L1703)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1124,7 +1124,7 @@ python3 main.py -i target.com
 
 #### `ScanMigratedCommandSet.do_parth`
 
-`method` | [cli/commands/scan_migrated.py:1744](../../cli/commands/scan_migrated.py#L1744)
+`method` | [cli/commands/scan_migrated.py:1752](../../cli/commands/scan_migrated.py#L1752)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1162,7 +1162,7 @@ parth -t example.com
 
 #### `ScanMigratedCommandSet.do_breacher`
 
-`method` | [cli/commands/scan_migrated.py:1813](../../cli/commands/scan_migrated.py#L1813)
+`method` | [cli/commands/scan_migrated.py:1821](../../cli/commands/scan_migrated.py#L1821)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1200,7 +1200,7 @@ breacher -u example.com --type php
 
 #### `ScanMigratedCommandSet.do_openredirex`
 
-`method` | [cli/commands/scan_migrated.py:1875](../../cli/commands/scan_migrated.py#L1875)
+`method` | [cli/commands/scan_migrated.py:1883](../../cli/commands/scan_migrated.py#L1883)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1236,7 +1236,7 @@ openredirex list_of_urls.txt payloads.txt FUZZ 50
 
 #### `ScanMigratedCommandSet.do_odat`
 
-`method` | [cli/commands/scan_migrated.py:1943](../../cli/commands/scan_migrated.py#L1943)
+`method` | [cli/commands/scan_migrated.py:1951](../../cli/commands/scan_migrated.py#L1951)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1271,7 +1271,7 @@ odat
 
 #### `ScanMigratedCommandSet.do_rpcmap_py`
 
-`method` | [cli/commands/scan_migrated.py:2061](../../cli/commands/scan_migrated.py#L2061)
+`method` | [cli/commands/scan_migrated.py:2069](../../cli/commands/scan_migrated.py#L2069)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1307,7 +1307,7 @@ rpcmap_py 'ncacn_ip_tcp:10.10.10.213' -brute-opnums -auth-level 1 -opnum-max 5
 
 #### `ScanMigratedCommandSet.do_pykerbrute`
 
-`method` | [cli/commands/scan_migrated.py:2104](../../cli/commands/scan_migrated.py#L2104)
+`method` | [cli/commands/scan_migrated.py:2112](../../cli/commands/scan_migrated.py#L2112)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1336,7 +1336,7 @@ This function performs the following tasks:
 
 #### `ScanMigratedCommandSet.do_netview`
 
-`method` | [cli/commands/scan_migrated.py:2174](../../cli/commands/scan_migrated.py#L2174)
+`method` | [cli/commands/scan_migrated.py:2182](../../cli/commands/scan_migrated.py#L2182)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1373,7 +1373,7 @@ None
 
 #### `ScanMigratedCommandSet.do_rdp_check_py`
 
-`method` | [cli/commands/scan_migrated.py:2238](../../cli/commands/scan_migrated.py#L2238)
+`method` | [cli/commands/scan_migrated.py:2246](../../cli/commands/scan_migrated.py#L2246)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1410,7 +1410,7 @@ None
 
 #### `ScanMigratedCommandSet.do_mqtt_check_py`
 
-`method` | [cli/commands/scan_migrated.py:2303](../../cli/commands/scan_migrated.py#L2303)
+`method` | [cli/commands/scan_migrated.py:2311](../../cli/commands/scan_migrated.py#L2311)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1446,7 +1446,7 @@ None
 
 #### `ScanMigratedCommandSet.do_lookupsid_py`
 
-`method` | [cli/commands/scan_migrated.py:2358](../../cli/commands/scan_migrated.py#L2358)
+`method` | [cli/commands/scan_migrated.py:2366](../../cli/commands/scan_migrated.py#L2366)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1484,7 +1484,7 @@ None
 
 #### `ScanMigratedCommandSet.do_lookupsid`
 
-`method` | [cli/commands/scan_migrated.py:2431](../../cli/commands/scan_migrated.py#L2431)
+`method` | [cli/commands/scan_migrated.py:2439](../../cli/commands/scan_migrated.py#L2439)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1520,7 +1520,7 @@ None
 
 #### `ScanMigratedCommandSet.do_certipy_ad`
 
-`method` | [cli/commands/scan_migrated.py:2493](../../cli/commands/scan_migrated.py#L2493)
+`method` | [cli/commands/scan_migrated.py:2501](../../cli/commands/scan_migrated.py#L2501)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1547,7 +1547,7 @@ Requires self.params['rhost'], self.params['domain'], and credentials in payload
 
 #### `ScanMigratedCommandSet.do_certipy`
 
-`method` | [cli/commands/scan_migrated.py:2557](../../cli/commands/scan_migrated.py#L2557)
+`method` | [cli/commands/scan_migrated.py:2565](../../cli/commands/scan_migrated.py#L2565)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1588,7 +1588,7 @@ None
 
 #### `ScanMigratedCommandSet.do_sawks`
 
-`method` | [cli/commands/scan_migrated.py:2651](../../cli/commands/scan_migrated.py#L2651)
+`method` | [cli/commands/scan_migrated.py:2659](../../cli/commands/scan_migrated.py#L2659)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1620,7 +1620,7 @@ None
 
 #### `ScanMigratedCommandSet.do_ad_ldap_enum`
 
-`method` | [cli/commands/scan_migrated.py:2688](../../cli/commands/scan_migrated.py#L2688)
+`method` | [cli/commands/scan_migrated.py:2696](../../cli/commands/scan_migrated.py#L2696)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1661,7 +1661,7 @@ Usage:
 
 #### `ScanMigratedCommandSet.do_net_rpc_addmem`
 
-`method` | [cli/commands/scan_migrated.py:2742](../../cli/commands/scan_migrated.py#L2742)
+`method` | [cli/commands/scan_migrated.py:2750](../../cli/commands/scan_migrated.py#L2750)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1701,7 +1701,7 @@ None
 
 #### `ScanMigratedCommandSet.do_pre2k`
 
-`method` | [cli/commands/scan_migrated.py:2788](../../cli/commands/scan_migrated.py#L2788)
+`method` | [cli/commands/scan_migrated.py:2796](../../cli/commands/scan_migrated.py#L2796)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 
@@ -1736,7 +1736,7 @@ Usage:
 
 #### `ScanMigratedCommandSet.do_hound`
 
-`method` | [cli/commands/scan_migrated.py:2881](../../cli/commands/scan_migrated.py#L2881)
+`method` | [cli/commands/scan_migrated.py:2889](../../cli/commands/scan_migrated.py#L2889)
 
 Decorators: `@cmd2.with_category('02. Scanning & Enumeration')`
 

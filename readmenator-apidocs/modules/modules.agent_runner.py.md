@@ -227,7 +227,7 @@ def extract_commands_from_file(file_path: str, prefix: str = 'do_') -> list[Comm
 
 ### `AgentRunner`
 
-`class` | [modules/agent_runner.py:173](../../modules/agent_runner.py#L173)
+`class` | [modules/agent_runner.py:190](../../modules/agent_runner.py#L190)
 
 ```python
 class AgentRunner
@@ -252,7 +252,7 @@ Motor del agente con Límite de Uso por Herramienta (Anti-Spam)
 
 #### `AgentRunner.__init__`
 
-`constructor` | [modules/agent_runner.py:176](../../modules/agent_runner.py#L176)
+`constructor` | [modules/agent_runner.py:193](../../modules/agent_runner.py#L193)
 
 ```python
 def __init__(self, model: Any, system_prompt: str = None, max_iterations: int = 10)
@@ -270,7 +270,7 @@ def __init__(self, model: Any, system_prompt: str = None, max_iterations: int = 
 
 #### `AgentRunner.register_tool`
 
-`method` | [modules/agent_runner.py:201](../../modules/agent_runner.py#L201)
+`method` | [modules/agent_runner.py:218](../../modules/agent_runner.py#L218)
 
 ```python
 def register_tool(self, tool: AgentTool)
@@ -288,7 +288,7 @@ def register_tool(self, tool: AgentTool)
 
 #### `AgentRunner.register_tool_from_instance`
 
-`method` | [modules/agent_runner.py:204](../../modules/agent_runner.py#L204)
+`method` | [modules/agent_runner.py:221](../../modules/agent_runner.py#L221)
 
 ```python
 def register_tool_from_instance(self, func: Callable)
@@ -308,7 +308,7 @@ Wrap a plain function as an AgentTool using its signature and docstring.
 
 #### `AgentRunner.register_tools_from_metadata`
 
-`method` | [modules/agent_runner.py:222](../../modules/agent_runner.py#L222)
+`method` | [modules/agent_runner.py:239](../../modules/agent_runner.py#L239)
 
 ```python
 def register_tools_from_metadata(self, commands: list[CommandMetadata], executor: Callable[[str], str])
@@ -327,7 +327,7 @@ def register_tools_from_metadata(self, commands: list[CommandMetadata], executor
 
 #### `AgentRunner.get_tools_for_api`
 
-`method` | [modules/agent_runner.py:249](../../modules/agent_runner.py#L249)
+`method` | [modules/agent_runner.py:266](../../modules/agent_runner.py#L266)
 
 ```python
 def get_tools_for_api(self) -> list[dict[str, Any]] | None
@@ -339,7 +339,7 @@ def get_tools_for_api(self) -> list[dict[str, Any]] | None
 
 #### `AgentRunner.run`
 
-`method` | [modules/agent_runner.py:254](../../modules/agent_runner.py#L254)
+`method` | [modules/agent_runner.py:271](../../modules/agent_runner.py#L271)
 
 ```python
 def run(self, user_input: str) -> str
@@ -361,7 +361,7 @@ def run(self, user_input: str) -> str
 
 ### `LazyOwnShellWrapper`
 
-`class` | [modules/agent_runner.py:462](../../modules/agent_runner.py#L462)
+`class` | [modules/agent_runner.py:482](../../modules/agent_runner.py#L482)
 
 ```python
 class LazyOwnShellWrapper
@@ -381,7 +381,7 @@ Wrapper que ejecuta comandos en hilos seguros
 
 #### `LazyOwnShellWrapper.__init__`
 
-`constructor` | [modules/agent_runner.py:465](../../modules/agent_runner.py#L465)
+`constructor` | [modules/agent_runner.py:485](../../modules/agent_runner.py#L485)
 
 ```python
 def __init__(self, script_path: str)
@@ -399,7 +399,7 @@ def __init__(self, script_path: str)
 
 #### `LazyOwnShellWrapper.execute_command`
 
-`method` | [modules/agent_runner.py:495](../../modules/agent_runner.py#L495)
+`method` | [modules/agent_runner.py:515](../../modules/agent_runner.py#L515)
 
 ```python
 def execute_command(self, command: str) -> str
@@ -419,7 +419,7 @@ Ejecuta comando con timeout usando threading
 
 #### `LazyOwnShellWrapper.get_commands_summary`
 
-`method` | [modules/agent_runner.py:532](../../modules/agent_runner.py#L532)
+`method` | [modules/agent_runner.py:552](../../modules/agent_runner.py#L552)
 
 ```python
 def get_commands_summary(self) -> str
@@ -433,7 +433,7 @@ def get_commands_summary(self) -> str
 
 ### `VulnBotCLI`
 
-`class` | [modules/agent_runner.py:539](../../modules/agent_runner.py#L539)
+`class` | [modules/agent_runner.py:559](../../modules/agent_runner.py#L559)
 
 ```python
 class VulnBotCLI
@@ -450,7 +450,7 @@ class VulnBotCLI
 
 #### `VulnBotCLI.__init__`
 
-`constructor` | [modules/agent_runner.py:540](../../modules/agent_runner.py#L540)
+`constructor` | [modules/agent_runner.py:560](../../modules/agent_runner.py#L560)
 
 ```python
 def __init__(self, provider: str, mode: str, debug: bool, script_path: str)
@@ -473,7 +473,7 @@ def __init__(self, provider: str, mode: str, debug: bool, script_path: str)
 
 #### `VulnBotCLI.process_request`
 
-`method` | [modules/agent_runner.py:595](../../modules/agent_runner.py#L595)
+`method` | [modules/agent_runner.py:615](../../modules/agent_runner.py#L615)
 
 ```python
 def process_request(self, user_input: str) -> str
@@ -521,7 +521,7 @@ def configure_logging(debug: bool = False)
 
 ### `interactive_mode`
 
-`function` | [modules/agent_runner.py:600](../../modules/agent_runner.py#L600)
+`function` | [modules/agent_runner.py:620](../../modules/agent_runner.py#L620)
 
 ```python
 def interactive_mode(bot: VulnBotCLI)
@@ -543,7 +543,7 @@ def interactive_mode(bot: VulnBotCLI)
 
 ### `parse_args`
 
-`function` | [modules/agent_runner.py:624](../../modules/agent_runner.py#L624)
+`function` | [modules/agent_runner.py:644](../../modules/agent_runner.py#L644)
 
 ```python
 def parse_args()
@@ -557,7 +557,7 @@ def parse_args()
 
 ### `main`
 
-`function` | [modules/agent_runner.py:634](../../modules/agent_runner.py#L634)
+`function` | [modules/agent_runner.py:654](../../modules/agent_runner.py#L654)
 
 ```python
 def main()

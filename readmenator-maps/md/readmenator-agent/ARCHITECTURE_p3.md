@@ -115,6 +115,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_intel.py` -> `modules/world_model.py`
 - `modules/lazy_intel.py` -> `utils.py`
 - `modules/lazy_loop.py` -> `core/config.py`
+- `modules/lazy_loop.py` -> `core/crypto.py`
+- `modules/lazy_loop.py` -> `core/hardening.py`
+- `modules/lazy_loop.py` -> `core/logging.py`
 - `modules/lazy_loop.py` -> `core/process.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
@@ -139,6 +142,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py`
+- `modules/lazy_proxy.py` -> `core/logging.py`
 - `modules/lazy_proxy.py` -> `modules/backdoor/server.c`
 - `modules/lazy_proxy.py` -> `modules/traffic_recorder.py`
 - `modules/lazy_rbac.py` -> `cli/commands/enum.py`
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/lazyown_mcp.py` -> `skills/lazyown_groq_agents.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_hooks.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_llm.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_mcp_helpers.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_objective.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_parquet_db.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_permissions.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

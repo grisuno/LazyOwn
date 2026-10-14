@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_load_records` | function | `modules/exploitgym_gym.py:500` | `def _load_records()` |
 | `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
 | `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
 | `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
 | `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
 | `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
-| `KillChainConfig` | class | `modules/killchain.py:38` | `class KillChainConfig` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

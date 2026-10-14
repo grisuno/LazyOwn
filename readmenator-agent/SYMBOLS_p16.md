@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `handle_command` | function | `modules/lazyownclient.py:69` | `def handle_command(cmd, key)` |
+| `main` | function | `modules/lazyownclient.py:198` | `def main()` |
+| `pad` | function | `modules/lazyownclient.py:51` | `def pad(s)` |
+| `signal_handler` | function | `modules/lazyownclient.py:34` | `def signal_handler(sig, frame)` |
+| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
+| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
+| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
+| `decrypt` | function | `modules/lazyownserver.py:53` | `def decrypt(ciphertext, key)` |
+| `encrypt` | function | `modules/lazyownserver.py:46` | `def encrypt(plaintext, key)` |
+| `handle_client` | function | `modules/lazyownserver.py:60` | `def handle_client(conn, addr, key)` |
+| `main` | function | `modules/lazyownserver.py:97` | `def main()` |
+| `pad` | function | `modules/lazyownserver.py:42` | `def pad(s)` |
+| `signal_handler` | function | `modules/lazyownserver.py:34` | `def signal_handler(sig, frame)` |
+| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
+| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
+| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
+| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
+| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
+| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
+| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
+| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
+| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
+| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
+| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
 | `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
 | `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
 | `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `canary_detection_setup` | method | `modules/network_opsec.py:317` | `def canary_detection_setup(self)` |
 | `check_canary_tokens` | method | `modules/network_opsec.py:131` | `def check_canary_tokens(self)` |
 | `configure_proxy_chain` | method | `modules/network_opsec.py:87` | `def configure_proxy_chain(self, chain_type)` |
-| `connection_jitter_schedule` | method | `modules/network_opsec.py:294` | `def connection_jitter_schedule(self, beacon_interval)` |
-| `dns_over_https_config` | method | `modules/network_opsec.py:246` | `def dns_over_https_config(self)` |
-| `source_port_randomize` | method | `modules/network_opsec.py:269` | `def source_port_randomize(self)` |
-| `summary` | method | `modules/network_opsec.py:349` | `def summary(self)` |
-| `Host` | class | `modules/nmap2csv.py:176` | `class Host` |
-| `Port` | class | `modules/nmap2csv.py:282` | `class Port` |
-| `__init__` | method | `modules/nmap2csv.py:177` | `def __init__(self, ip, fqdn)` |
-| `__init__` | method | `modules/nmap2csv.py:283` | `def __init__(self, number, protocol, service, version, script)` |
-| `add_port` | method | `modules/nmap2csv.py:188` | `def add_port(self, port)` |
-| `dottedquad_to_num` | function | `modules/nmap2csv.py:126` | `def dottedquad_to_num(ip)` |
-| `extract_matching_pattern` | function | `modules/nmap2csv.py:156` | `def extract_matching_pattern(regex, group_name, unfiltered_list)` |
-| `formatted_item` | function | `modules/nmap2csv.py:606` | `def formatted_item(host, format_item)` |
-| `generate_csv` | function | `modules/nmap2csv.py:653` | `def generate_csv(fd, results, options)` |
-| `get_fqdn` | method | `modules/nmap2csv.py:198` | `def get_fqdn(self)` |
-| `get_ip_dotted_format` | method | `modules/nmap2csv.py:195` | `def get_ip_dotted_format(self)` |
-| `get_ip_num_format` | method | `modules/nmap2csv.py:192` | `def get_ip_num_format(self)` |
-| `get_mac_address` | method | `modules/nmap2csv.py:255` | `def get_mac_address(self)` |
-| `get_mac_address_vendor` | method | `modules/nmap2csv.py:258` | `def get_mac_address_vendor(self)` |
-| `get_network_distance` | method | `modules/nmap2csv.py:261` | `def get_network_distance(self)` |
-| `get_number` | method | `modules/nmap2csv.py:290` | `def get_number(self)` |
-| `get_os` | method | `modules/nmap2csv.py:252` | `def get_os(self)` |
-| `get_port_list` | method | `modules/nmap2csv.py:204` | `def get_port_list(self)` |
-| `get_port_number_list` | method | `modules/nmap2csv.py:207` | `def get_port_number_list(self)` |
-| `get_port_protocol_list` | method | `modules/nmap2csv.py:216` | `def get_port_protocol_list(self)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

@@ -406,8 +406,8 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_load_config` (method, line 827) `def _load_config(self)`
   - `_domain_to_dn` (method, line 838) `def _domain_to_dn(self, domain)`
   - `_save_credential` (method, line 849) `def _save_credential(self, username, secret, secret_type, source)`
-  - `_save_session` (method, line 865) `def _save_session(self, session_id, target, method, user)`
-  - `_save_dominance_report` (method, line 885) `def _save_dominance_report(self)`
+  - `_save_session` (method, line 880) `def _save_session(self, session_id, target, method, user)`
+  - `_save_dominance_report` (method, line 900) `def _save_dominance_report(self)`
 - Imported by: `cli/commands/lateral_migrated.py`
 
 ## modules/dotnet_payload.py

@@ -147,28 +147,29 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_enable_streaming` (function, line 123) `def _enable_streaming(runner, on_event)`
   - `ObservableAgentRunner` (class, line 145) `class ObservableAgentRunner(AgentRunner)`
   - `_json_default` (function, line 221) `def _json_default(value)`
-  - `_json_safe` (function, line 235) `def _json_safe(messages)`
-  - `ConversationStore` (class, line 243) `class ConversationStore`
-  - `register_tools` (function, line 304) `def register_tools(runner, specs)`
-  - `run_worker_session` (function, line 317) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
-  - `run_main_session` (function, line 356) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
-  - `run_external_opencode` (function, line 378) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
-  - `run_external_hermes` (function, line 454) `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)`
-  - `_session_from_line` (function, line 538) `def _session_from_line(line)`
-  - `_process_watchdog` (function, line 560) `def _process_watchdog(timeout_sec, process)`
+  - `_deep_clean` (function, line 237) `def _deep_clean(value, _depth)`
+  - `_json_safe` (function, line 253) `def _json_safe(messages)`
+  - `ConversationStore` (class, line 261) `class ConversationStore`
+  - `register_tools` (function, line 322) `def register_tools(runner, specs)`
+  - `run_worker_session` (function, line 335) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
+  - `run_main_session` (function, line 374) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
+  - `run_external_opencode` (function, line 396) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
+  - `run_external_hermes` (function, line 472) `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)`
+  - `_session_from_line` (function, line 556) `def _session_from_line(line)`
+  - `_process_watchdog` (function, line 578) `def _process_watchdog(timeout_sec, process)`
   - `__init__` (method, line 148) `def __init__(self, model, system_prompt, max_iterations, on_event)`
   - `_process_tool_call` (method, line 159) `def _process_tool_call(self, tool_call)`
   - `run` (method, line 168) `def run(self, user_input)`
   - `_call_model` (method, line 174) `def _call_model(self)`
-  - `__init__` (method, line 246) `def __init__(self, task_id)`
-  - `_load` (method, line 251) `def _load(self)`
-  - `intent_messages` (method, line 255) `def intent_messages(self, intent_id)`
-  - `save_intent` (method, line 260) `def save_intent(self, intent_id, messages)`
-  - `session` (method, line 269) `def session(self, session_id)`
-  - `sessions` (method, line 273) `def sessions(self)`
-  - `save_session` (method, line 287) `def save_session(self, session_id, messages, title)`
-  - `reset_intents` (method, line 297) `def reset_intents(self)`
-  - `_kill` (function, line 565) `def _kill()`
+  - `__init__` (method, line 264) `def __init__(self, task_id)`
+  - `_load` (method, line 269) `def _load(self)`
+  - `intent_messages` (method, line 273) `def intent_messages(self, intent_id)`
+  - `save_intent` (method, line 278) `def save_intent(self, intent_id, messages)`
+  - `session` (method, line 287) `def session(self, session_id)`
+  - `sessions` (method, line 291) `def sessions(self)`
+  - `save_session` (method, line 305) `def save_session(self, session_id, messages, title)`
+  - `reset_intents` (method, line 315) `def reset_intents(self)`
+  - `_kill` (function, line 583) `def _kill()`
   - `_invoke` (function, line 190) `def _invoke()`
   - `_tick` (function, line 196) `def _tick()`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`

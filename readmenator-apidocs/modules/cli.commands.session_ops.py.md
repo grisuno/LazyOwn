@@ -1156,7 +1156,7 @@ Note:
 
 #### `SessionOpsCommandSet.do_clock`
 
-`method` | [cli/commands/session_ops.py:1430](../../cli/commands/session_ops.py#L1430)
+`method` | [cli/commands/session_ops.py:1436](../../cli/commands/session_ops.py#L1436)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1201,7 +1201,7 @@ Dependencies:
 
 #### `SessionOpsCommandSet.do_gencert`
 
-`method` | [cli/commands/session_ops.py:1478](../../cli/commands/session_ops.py#L1478)
+`method` | [cli/commands/session_ops.py:1484](../../cli/commands/session_ops.py#L1484)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1225,7 +1225,7 @@ Generates a certificate authority (CA), client certificate, and client key.
 
 #### `SessionOpsCommandSet.do_load_session`
 
-`method` | [cli/commands/session_ops.py:1490](../../cli/commands/session_ops.py#L1490)
+`method` | [cli/commands/session_ops.py:1496](../../cli/commands/session_ops.py#L1496)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1250,7 +1250,7 @@ of parameters, credentials, hashes, notes, plan, id_rsa, implants, and redop.
 
 #### `SessionOpsCommandSet.do_clone_site`
 
-`method` | [cli/commands/session_ops.py:1540](../../cli/commands/session_ops.py#L1540)
+`method` | [cli/commands/session_ops.py:1546](../../cli/commands/session_ops.py#L1546)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1274,7 +1274,7 @@ Clone a website and serve the files in sessions/{url_cloned}.
 
 #### `SessionOpsCommandSet.do_msfshellcoder`
 
-`method` | [cli/commands/session_ops.py:1586](../../cli/commands/session_ops.py#L1586)
+`method` | [cli/commands/session_ops.py:1592](../../cli/commands/session_ops.py#L1592)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 

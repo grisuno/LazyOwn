@@ -170,7 +170,7 @@ Base loop plus final-turn persistence for true resume.
 
 ### `ConversationStore`
 
-`class` | [modules/lazy_agent.py:243](../../modules/lazy_agent.py#L243)
+`class` | [modules/lazy_agent.py:261](../../modules/lazy_agent.py#L261)
 
 ```python
 class ConversationStore
@@ -194,7 +194,7 @@ Per-task persistence of agent conversations (intents and sessions).
 
 #### `ConversationStore.__init__`
 
-`constructor` | [modules/lazy_agent.py:246](../../modules/lazy_agent.py#L246)
+`constructor` | [modules/lazy_agent.py:264](../../modules/lazy_agent.py#L264)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -214,7 +214,7 @@ Bind the conversation store for one task (``main`` when empty).
 
 #### `ConversationStore.intent_messages`
 
-`method` | [modules/lazy_agent.py:255](../../modules/lazy_agent.py#L255)
+`method` | [modules/lazy_agent.py:273](../../modules/lazy_agent.py#L273)
 
 ```python
 def intent_messages(self, intent_id: int) -> list[dict]
@@ -236,7 +236,7 @@ Return the stored messages for one intent (resume seed).
 
 #### `ConversationStore.save_intent`
 
-`method` | [modules/lazy_agent.py:260](../../modules/lazy_agent.py#L260)
+`method` | [modules/lazy_agent.py:278](../../modules/lazy_agent.py#L278)
 
 ```python
 def save_intent(self, intent_id: int, messages: Iterable[dict]) -> None
@@ -257,7 +257,7 @@ Persist the tail of one intent conversation.
 
 #### `ConversationStore.session`
 
-`method` | [modules/lazy_agent.py:269](../../modules/lazy_agent.py#L269)
+`method` | [modules/lazy_agent.py:287](../../modules/lazy_agent.py#L287)
 
 ```python
 def session(self, session_id: str) -> dict
@@ -279,7 +279,7 @@ Return one main-agent session payload (empty when unknown).
 
 #### `ConversationStore.sessions`
 
-`method` | [modules/lazy_agent.py:273](../../modules/lazy_agent.py#L273)
+`method` | [modules/lazy_agent.py:291](../../modules/lazy_agent.py#L291)
 
 ```python
 def sessions(self) -> list[dict]
@@ -295,7 +295,7 @@ List main-agent sessions with title, message count and age.
 
 #### `ConversationStore.save_session`
 
-`method` | [modules/lazy_agent.py:287](../../modules/lazy_agent.py#L287)
+`method` | [modules/lazy_agent.py:305](../../modules/lazy_agent.py#L305)
 
 ```python
 def save_session(self, session_id: str, messages: Iterable[dict], title: str = '') -> None
@@ -317,7 +317,7 @@ Persist one main-agent session conversation tail.
 
 #### `ConversationStore.reset_intents`
 
-`method` | [modules/lazy_agent.py:297](../../modules/lazy_agent.py#L297)
+`method` | [modules/lazy_agent.py:315](../../modules/lazy_agent.py#L315)
 
 ```python
 def reset_intents(self) -> None
@@ -406,7 +406,7 @@ this intent so a failing member cannot pin the whole attempt.
 
 ### `register_tools`
 
-`function` | [modules/lazy_agent.py:304](../../modules/lazy_agent.py#L304)
+`function` | [modules/lazy_agent.py:322](../../modules/lazy_agent.py#L322)
 
 ```python
 def register_tools(runner: ObservableAgentRunner, specs: Iterable[dict]) -> None
@@ -431,7 +431,7 @@ Register tool specs (name, description, func, parameters, required).
 
 ### `run_worker_session`
 
-`function` | [modules/lazy_agent.py:317](../../modules/lazy_agent.py#L317)
+`function` | [modules/lazy_agent.py:335](../../modules/lazy_agent.py#L335)
 
 ```python
 def run_worker_session(model, task_id: str, intent_id: int, system_prompt: str, launch_prompt: str, tools: Iterable[dict], on_event: Callable[[str, str, str], None] | None = None) -> dict
@@ -461,7 +461,7 @@ Run one agentic intent attempt with resume seeding.
 
 ### `run_main_session`
 
-`function` | [modules/lazy_agent.py:356](../../modules/lazy_agent.py#L356)
+`function` | [modules/lazy_agent.py:374](../../modules/lazy_agent.py#L374)
 
 ```python
 def run_main_session(model, session_id: str, system_prompt: str, prompt: str, tools: Iterable[dict], on_event: Callable[[str, str, str], None] | None = None) -> dict
@@ -492,7 +492,7 @@ Run one main-agent turn, resuming the stored session conversation.
 
 ### `run_external_opencode`
 
-`function` | [modules/lazy_agent.py:378](../../modules/lazy_agent.py#L378)
+`function` | [modules/lazy_agent.py:396](../../modules/lazy_agent.py#L396)
 
 ```python
 def run_external_opencode(prompt: str, session_id: str = '', agent: str = '', cwd: str = '', timeout_sec: float = EXTERNAL_TIMEOUT_SEC) -> dict

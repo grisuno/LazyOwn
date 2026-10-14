@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_payload_schema.py` -> `core/payload_schema.py`
+- `tests/test_payload_schema.py` -> `modules/llm_factory.py`
+- `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
+- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
 - `tests/test_phase1_data_gaps.py` -> `modules/obs_parser.py`
 - `tests/test_phase1_data_gaps.py` -> `modules/world_model.py`
 - `tests/test_phase_labels.py` -> `cli/contextual_help.py`
@@ -42,6 +46,14 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_scope_guard.py` -> `utils.py`
 - `tests/test_scope_guard_integration.py` -> `core/console.py`
 - `tests/test_scope_guard_integration.py` -> `lazyown.py`
+- `tests/test_security_codeql_batch.py` -> `core/defaults.py`
+- `tests/test_security_codeql_batch.py` -> `core/logging.py`
+- `tests/test_security_codeql_batch.py` -> `lazyc2/blueprints/__init__.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_loop.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_mentions.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_proxy.py`
+- `tests/test_security_codeql_batch.py` -> `modules/notify.py`
+- `tests/test_security_codeql_batch.py` -> `skills/claude_md_orchestrator/__init__.py`
 - `tests/test_security_hardening.py` -> `core/safe_subprocess.py`
 - `tests/test_security_hardening.py` -> `modules/db.py`
 - `tests/test_security_hardening_v3.py` -> `core/hardening.py`

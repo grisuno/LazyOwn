@@ -3,6 +3,34 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_confidence` | method | `tests/test_reactive_lateral_data.py:54` | `def test_confidence(self)` |
+| `test_confidence_levels` | method | `tests/test_reactive_lateral_data.py:107` | `def test_confidence_levels(self)` |
+| `test_data_signals_produce_decisions` | method | `tests/test_reactive_lateral_data.py:146` | `def test_data_signals_produce_decisions(self)` |
+| `test_decisions_sorted_by_priority` | method | `tests/test_reactive_lateral_data.py:161` | `def test_decisions_sorted_by_priority(self)` |
+| `test_domain_admin` | method | `tests/test_reactive_lateral_data.py:44` | `def test_domain_admin(self)` |
+| `test_file_pattern_config` | method | `tests/test_reactive_lateral_data.py:97` | `def test_file_pattern_config(self)` |
+| `test_file_pattern_env` | method | `tests/test_reactive_lateral_data.py:92` | `def test_file_pattern_env(self)` |
+| `test_kerberos_ticket` | method | `tests/test_reactive_lateral_data.py:13` | `def test_kerberos_ticket(self)` |
+| `test_lateral_signals_produce_decisions` | method | `tests/test_reactive_lateral_data.py:132` | `def test_lateral_signals_produce_decisions(self)` |
+| `test_no_match` | method | `tests/test_reactive_lateral_data.py:49` | `def test_no_match(self)` |
+| `test_no_match` | method | `tests/test_reactive_lateral_data.py:102` | `def test_no_match(self)` |
+| `test_pii_credit_card` | method | `tests/test_reactive_lateral_data.py:72` | `def test_pii_credit_card(self)` |
+| `test_pii_email` | method | `tests/test_reactive_lateral_data.py:62` | `def test_pii_email(self)` |
+| `test_pii_ssn` | method | `tests/test_reactive_lateral_data.py:67` | `def test_pii_ssn(self)` |
+| `test_rdp_session` | method | `tests/test_reactive_lateral_data.py:19` | `def test_rdp_session(self)` |
+| `test_secret_api_key` | method | `tests/test_reactive_lateral_data.py:77` | `def test_secret_api_key(self)` |
+| `test_secret_aws_key` | method | `tests/test_reactive_lateral_data.py:82` | `def test_secret_aws_key(self)` |
+| `test_secret_private_key` | method | `tests/test_reactive_lateral_data.py:87` | `def test_secret_private_key(self)` |
+| `test_smb_admin_share` | method | `tests/test_reactive_lateral_data.py:24` | `def test_smb_admin_share(self)` |
+| `test_ssh_key` | method | `tests/test_reactive_lateral_data.py:34` | `def test_ssh_key(self)` |
+| `test_winrm_access` | method | `tests/test_reactive_lateral_data.py:29` | `def test_winrm_access(self)` |
+| `test_wmi_access` | method | `tests/test_reactive_lateral_data.py:39` | `def test_wmi_access(self)` |
+| `_write_events` | function | `tests/test_reasoning_stream.py:28` | `def _write_events(path, events)` |
+| `test_event_to_entry_extracts_reward` | function | `tests/test_reasoning_stream.py:85` | `def test_event_to_entry_extracts_reward()` |
+| `test_event_to_entry_handles_non_dict_payload` | function | `tests/test_reasoning_stream.py:111` | `def test_event_to_entry_handles_non_dict_payload()` |
+| `test_event_to_entry_metrics_skip_renders_success_rate` | function | `tests/test_reasoning_stream.py:95` | `def test_event_to_entry_metrics_skip_renders_success_rate()` |
+| `test_event_to_entry_step_done_failure_flips_icon_and_style` | function | `tests/test_reasoning_stream.py:75` | `def test_event_to_entry_step_done_failure_flips_icon_and_style()` |
+| `test_event_to_entry_step_start_uses_reason_and_source` | function | `tests/test_reasoning_stream.py:53` | `def test_event_to_entry_step_start_uses_reason_and_source()` |
 | `test_event_to_entry_unknown_type_falls_back` | function | `tests/test_reasoning_stream.py:105` | `def test_event_to_entry_unknown_type_falls_back()` |
 | `test_format_size_threshold` | function | `tests/test_reasoning_stream.py:117` | `def test_format_size_threshold()` |
 | `test_latest_reasoning_end_to_end` | function | `tests/test_reasoning_stream.py:127` | `def test_latest_reasoning_end_to_end(tmp_path)` |
@@ -282,6 +310,43 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `test_normalizes_string` | method | `tests/test_scope_guard_integration.py:133` | `def test_normalizes_string(self)` |
 | `test_off_mode_allows` | method | `tests/test_scope_guard_integration.py:104` | `def test_off_mode_allows(self)` |
 | `test_warn_mode_allows_out_of_scope` | method | `tests/test_scope_guard_integration.py:81` | `def test_warn_mode_allows_out_of_scope(self, capsys)` |
+| `TestChannelSecrets` | class | `tests/test_security_codeql_batch.py:149` | `class TestChannelSecrets` |
+| `TestEmojiPattern` | class | `tests/test_security_codeql_batch.py:357` | `class TestEmojiPattern` |
+| `TestGenericErrorResponses` | class | `tests/test_security_codeql_batch.py:267` | `class TestGenericErrorResponses` |
+| `TestProxySsrfGuard` | class | `tests/test_security_codeql_batch.py:45` | `class TestProxySsrfGuard` |
+| `TestProxyTlsDefaults` | class | `tests/test_security_codeql_batch.py:92` | `class TestProxyTlsDefaults` |
+| `TestReverseShellFallback` | class | `tests/test_security_codeql_batch.py:186` | `class TestReverseShellFallback` |
+| `TestViewYamlTraversal` | class | `tests/test_security_codeql_batch.py:207` | `class TestViewYamlTraversal` |
+| `TestWebhookSsrfGuard` | class | `tests/test_security_codeql_batch.py:116` | `class TestWebhookSsrfGuard` |
+| `_boom` | function | `tests/test_security_codeql_batch.py:315` | `def _boom()` |
+| `_boom` | function | `tests/test_security_codeql_batch.py:345` | `def _boom()` |
+| `_client` | method | `tests/test_security_codeql_batch.py:211` | `def _client(monkeypatch, tmp_path)` |
+| `_login_and_call` | function | `tests/test_security_codeql_batch.py:251` | `def _login_and_call(monkeypatch, tmp_path, view, path)` |
+| `_server` | function | `tests/test_security_codeql_batch.py:27` | `def _server()` |
+| `test_allows_lab_targets_by_default` | method | `tests/test_security_codeql_batch.py:48` | `def test_allows_lab_targets_by_default(self)` |
+| `test_allows_public_webhook` | method | `tests/test_security_codeql_batch.py:142` | `def test_allows_public_webhook(self)` |
+| `test_api_defaults_hide_exception` | method | `tests/test_security_codeql_batch.py:340` | `def test_api_defaults_hide_exception(self, monkeypatch)` |
+| `test_blocks_cloud_metadata` | method | `tests/test_security_codeql_batch.py:55` | `def test_blocks_cloud_metadata(self)` |
+| `test_blocks_common_emoji_and_clean_text_passes` | method | `tests/test_security_codeql_batch.py:360` | `def test_blocks_common_emoji_and_clean_text_passes(self)` |
+| `test_blocks_malformed_targets` | method | `tests/test_security_codeql_batch.py:65` | `def test_blocks_malformed_targets(self)` |
+| `test_blocks_metadata_and_userinfo_and_ftp` | method | `tests/test_security_codeql_batch.py:119` | `def test_blocks_metadata_and_userinfo_and_ftp(self)` |
+| `test_blocks_private_when_operator_opts_out` | method | `tests/test_security_codeql_batch.py:81` | `def test_blocks_private_when_operator_opts_out(self, monkeypatch)` |
+| `test_blocks_traversal_inputs` | method | `tests/test_security_codeql_batch.py:221` | `def test_blocks_traversal_inputs(self, tmp_path, monkeypatch)` |
+| `test_broadcast_hides_exception` | method | `tests/test_security_codeql_batch.py:270` | `def test_broadcast_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_channel_store_is_owner_only` | method | `tests/test_security_codeql_batch.py:175` | `def test_channel_store_is_owner_only(self, tmp_path, monkeypatch)` |
+| `test_guard_lookup_hides_exception` | method | `tests/test_security_codeql_batch.py:295` | `def test_guard_lookup_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_insecure_only_with_explicit_opt_in` | method | `tests/test_security_codeql_batch.py:106` | `def test_insecure_only_with_explicit_opt_in(self, monkeypatch)` |
+| `test_loop_graph_hides_exception` | method | `tests/test_security_codeql_batch.py:283` | `def test_loop_graph_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_loopback_needs_explicit_opt_in` | method | `tests/test_security_codeql_batch.py:132` | `def test_loopback_needs_explicit_opt_in(self, monkeypatch)` |
+| `test_mentions_hide_exception` | method | `tests/test_security_codeql_batch.py:310` | `def test_mentions_hide_exception(self, tmp_path, monkeypatch)` |
+| `test_no_mega_range_in_source` | method | `tests/test_security_codeql_batch.py:366` | `def test_no_mega_range_in_source(self)` |
+| `test_password_roundtrip_with_key` | method | `tests/test_security_codeql_batch.py:160` | `def test_password_roundtrip_with_key(self, monkeypatch)` |
+| `test_password_roundtrip_without_key` | method | `tests/test_security_codeql_batch.py:168` | `def test_password_roundtrip_without_key(self, tmp_path, monkeypatch)` |
+| `test_scrub_masks_passwords_and_tokens` | method | `tests/test_security_codeql_batch.py:152` | `def test_scrub_masks_passwords_and_tokens(self)` |
+| `test_secret_not_logged_and_file_restricted` | method | `tests/test_security_codeql_batch.py:189` | `def test_secret_not_logged_and_file_restricted(self, tmp_path, monkeypatch, caplog)` |
+| `test_serves_valid_subdir_and_ignores_symlink_escape` | method | `tests/test_security_codeql_batch.py:228` | `def test_serves_valid_subdir_and_ignores_symlink_escape(self, tmp_path, monkeypatch)` |
+| `test_sse_stream_hides_exception` | method | `tests/test_security_codeql_batch.py:323` | `def test_sse_stream_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_verified_context_by_default` | method | `tests/test_security_codeql_batch.py:95` | `def test_verified_context_by_default(self, monkeypatch)` |
 | `TestAuthTimingIntegration` | class | `tests/test_security_hardening.py:377` | `class TestAuthTimingIntegration` |
 | `TestCalderaConfigSecrets` | class | `tests/test_security_hardening.py:250` | `class TestCalderaConfigSecrets` |
 | `TestConfigConstantsConsolidation` | class | `tests/test_security_hardening.py:279` | `class TestConfigConstantsConsolidation` |
@@ -431,70 +496,5 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `TestReconMigratedNoOsSystem` | class | `tests/test_security_hardening_v4.py:559` | `class TestReconMigratedNoOsSystem` |
 | `TestSafeClearScreen` | class | `tests/test_security_hardening_v4.py:529` | `class TestSafeClearScreen` |
 | `TestSafeFileRead` | class | `tests/test_security_hardening_v4.py:576` | `class TestSafeFileRead` |
-| `TestSafeFindTool` | class | `tests/test_security_hardening_v4.py:624` | `class TestSafeFindTool` |
-| `TestSafeGitClone` | class | `tests/test_security_hardening_v4.py:201` | `class TestSafeGitClone` |
-| `TestSafeIpShow` | class | `tests/test_security_hardening_v4.py:231` | `class TestSafeIpShow` |
-| `TestSafeRunArgv` | class | `tests/test_security_hardening_v4.py:100` | `class TestSafeRunArgv` |
-| `TestSafeSystem` | class | `tests/test_security_hardening_v4.py:34` | `class TestSafeSystem` |
-| `TestValidateUrl` | class | `tests/test_security_hardening_v4.py:135` | `class TestValidateUrl` |
-| `_get_validate_fn` | method | `tests/test_security_hardening_v4.py:270` | `def _get_validate_fn(self)` |
-| `test_allows_simple_command` | method | `tests/test_security_hardening_v4.py:86` | `def test_allows_simple_command(self)` |
-| `test_allows_valid_http_url` | method | `tests/test_security_hardening_v4.py:187` | `def test_allows_valid_http_url(self)` |
-| `test_allows_valid_https_url` | method | `tests/test_security_hardening_v4.py:179` | `def test_allows_valid_https_url(self)` |
-| `test_executes_without_shell` | method | `tests/test_security_hardening_v4.py:120` | `def test_executes_without_shell(self)` |
-| `test_finds_existing_tool` | method | `tests/test_security_hardening_v4.py:628` | `def test_finds_existing_tool(self)` |
-| `test_handles_missing_command` | method | `tests/test_security_hardening_v4.py:251` | `def test_handles_missing_command(self)` |
-| `test_ip_uses_subprocess_list_form` | method | `tests/test_security_hardening_v4.py:419` | `def test_ip_uses_subprocess_list_form(self)` |
-| `test_no_home_grisun0_in_configs_and_docs` | method | `tests/test_security_hardening_v4.py:467` | `def test_no_home_grisun0_in_configs_and_docs(self)` |
-| `test_no_home_grisun0_in_production` | method | `tests/test_security_hardening_v4.py:443` | `def test_no_home_grisun0_in_production(self)` |
-| `test_no_os_system` | method | `tests/test_security_hardening_v4.py:533` | `def test_no_os_system(self)` |
-| `test_no_os_system_for_encryption` | method | `tests/test_security_hardening_v4.py:363` | `def test_no_os_system_for_encryption(self)` |
-| `test_no_os_system_for_path_setup` | method | `tests/test_security_hardening_v4.py:563` | `def test_no_os_system_for_path_setup(self)` |
-| `test_no_os_system_for_tunnel` | method | `tests/test_security_hardening_v4.py:370` | `def test_no_os_system_for_tunnel(self)` |
-| `test_no_os_system_in_morse` | method | `tests/test_security_hardening_v4.py:339` | `def test_no_os_system_in_morse(self)` |
-| `test_no_root_home_in_anti_forensics` | method | `tests/test_security_hardening_v4.py:491` | `def test_no_root_home_in_anti_forensics(self)` |
-| `test_no_xclip_shell_true` | method | `tests/test_security_hardening_v4.py:426` | `def test_no_xclip_shell_true(self)` |
-| `test_reads_valid_file` | method | `tests/test_security_hardening_v4.py:595` | `def test_reads_valid_file(self)` |
-| `test_rejects_backtick` | method | `tests/test_security_hardening_v4.py:54` | `def test_rejects_backtick(self)` |
-| `test_rejects_backtick_in_url` | method | `tests/test_security_hardening_v4.py:147` | `def test_rejects_backtick_in_url(self)` |
-| `test_rejects_dollar_paren` | method | `tests/test_security_hardening_v4.py:62` | `def test_rejects_dollar_paren(self)` |
-| `test_rejects_empty_argv` | method | `tests/test_security_hardening_v4.py:112` | `def test_rejects_empty_argv(self)` |
-| `test_rejects_empty_command` | method | `tests/test_security_hardening_v4.py:70` | `def test_rejects_empty_command(self)` |
-| `test_rejects_empty_url` | method | `tests/test_security_hardening_v4.py:163` | `def test_rejects_empty_url(self)` |
-| `test_rejects_ftp_scheme` | method | `tests/test_security_hardening_v4.py:155` | `def test_rejects_ftp_scheme(self)` |
-| `test_rejects_injection_in_url` | method | `tests/test_security_hardening_v4.py:205` | `def test_rejects_injection_in_url(self)` |
-| `test_rejects_missing_file` | method | `tests/test_security_hardening_v4.py:610` | `def test_rejects_missing_file(self)` |
-| `test_rejects_missing_netloc` | method | `tests/test_security_hardening_v4.py:171` | `def test_rejects_missing_netloc(self)` |
-| `test_rejects_null_byte` | method | `tests/test_security_hardening_v4.py:104` | `def test_rejects_null_byte(self)` |
-| `test_rejects_oversized_file` | method | `tests/test_security_hardening_v4.py:580` | `def test_rejects_oversized_file(self)` |
-| `test_rejects_pipe` | method | `tests/test_security_hardening_v4.py:46` | `def test_rejects_pipe(self)` |
-| `test_rejects_semicolon` | method | `tests/test_security_hardening_v4.py:38` | `def test_rejects_semicolon(self)` |
-| `test_rejects_semicolon_in_url` | method | `tests/test_security_hardening_v4.py:139` | `def test_rejects_semicolon_in_url(self)` |
-| `test_rejects_whitespace_only` | method | `tests/test_security_hardening_v4.py:78` | `def test_rejects_whitespace_only(self)` |
-| `test_returns_list_of_dicts` | method | `tests/test_security_hardening_v4.py:235` | `def test_returns_list_of_dicts(self)` |
-| `test_returns_none_for_missing_tool` | method | `tests/test_security_hardening_v4.py:637` | `def test_returns_none_for_missing_tool(self)` |
-| `test_telegram_hermes_uses_env_shebang` | method | `tests/test_security_hardening_v4.py:499` | `def test_telegram_hermes_uses_env_shebang(self)` |
-| `test_uses_python_native_for_encryption` | method | `tests/test_security_hardening_v4.py:377` | `def test_uses_python_native_for_encryption(self)` |
-| `test_uses_shell_false` | method | `tests/test_security_hardening_v4.py:395` | `def test_uses_shell_false(self)` |
-| `test_uses_shlex_quote` | method | `tests/test_security_hardening_v4.py:516` | `def test_uses_shlex_quote(self)` |
-| `test_uses_shlex_split` | method | `tests/test_security_hardening_v4.py:402` | `def test_uses_shlex_split(self)` |
-| `test_uses_subprocess` | method | `tests/test_security_hardening_v4.py:543` | `def test_uses_subprocess(self)` |
-| `test_uses_subprocess_instead` | method | `tests/test_security_hardening_v4.py:346` | `def test_uses_subprocess_instead(self)` |
-| `test_uses_subprocess_list_form` | method | `tests/test_security_hardening_v4.py:214` | `def test_uses_subprocess_list_form(self, mock_run)` |
-| `test_validate_clone_url_allows_valid_url` | method | `tests/test_security_hardening_v4.py:323` | `def test_validate_clone_url_allows_valid_url(self)` |
-| `test_validate_clone_url_rejects_backtick` | method | `tests/test_security_hardening_v4.py:302` | `def test_validate_clone_url_rejects_backtick(self)` |
-| `test_validate_clone_url_rejects_dollar` | method | `tests/test_security_hardening_v4.py:295` | `def test_validate_clone_url_rejects_dollar(self)` |
-| `test_validate_clone_url_rejects_empty` | method | `tests/test_security_hardening_v4.py:309` | `def test_validate_clone_url_rejects_empty(self)` |
-| `test_validate_clone_url_rejects_non_http` | method | `tests/test_security_hardening_v4.py:316` | `def test_validate_clone_url_rejects_non_http(self)` |
-| `test_validate_clone_url_rejects_pipe` | method | `tests/test_security_hardening_v4.py:288` | `def test_validate_clone_url_rejects_pipe(self)` |
-| `test_validate_clone_url_rejects_semicolon` | method | `tests/test_security_hardening_v4.py:281` | `def test_validate_clone_url_rejects_semicolon(self)` |
-| `BrokenDB` | class | `tests/test_security_hardening_v5.py:280` | `class BrokenDB` |
-| `TestBootstrapPasswordNotPrinted` | class | `tests/test_security_hardening_v5.py:196` | `class TestBootstrapPasswordNotPrinted` |
-| `TestCalderaConfigNoHardcodedSecrets` | class | `tests/test_security_hardening_v5.py:119` | `class TestCalderaConfigNoHardcodedSecrets` |
-| `TestCredentialLogHashing` | class | `tests/test_security_hardening_v5.py:93` | `class TestCredentialLogHashing` |
-| `TestCsrfCookieInjection` | class | `tests/test_security_hardening_v5.py:235` | `class TestCsrfCookieInjection` |
-| `TestHealthEndpointNoExceptionLeak` | class | `tests/test_security_hardening_v5.py:259` | `class TestHealthEndpointNoExceptionLeak` |
-| `TestIcmpAuthenticatedCrypto` | class | `tests/test_security_hardening_v5.py:43` | `class TestIcmpAuthenticatedCrypto` |
-| `TestNetworkOpsecTlsVersion` | class | `tests/test_security_hardening_v5.py:222` | `class TestNetworkOpsecTlsVersion` |
 
 Next: [SYMBOLS_p39.md](SYMBOLS_p39.md)

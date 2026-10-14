@@ -1,6 +1,6 @@
-# cli/commands
+# cli/commands: utils
 
-cli/commands groups 139 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands: utils groups 125 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -35,7 +35,7 @@ graph LR
 
 ## cli (1.1)
 
-cli groups 59 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 55 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
 ## contrib (1.2)
 
@@ -47,7 +47,7 @@ core groups 7 files (py) around check_rhost, check_lhost, check_lport, check_por
 
 ## modules (1.4)
 
-modules groups 31 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Beacon configuration builder — wires profile engines into beacon compile-time config.
+modules groups 26 files (c, py) around main, _classify, _classify_module_source, _extract_docstring_summary, ModuleInfo. Browser-in-the-Middle (BitM) attack engine.
 
 ## root (1.5)
 
@@ -63,7 +63,7 @@ skills groups 1 files (py) around list_tools, call_tool, main. LazyOwn MCP OpenC
 
 ## tests (1.8)
 
-tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
+tests groups 30 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
 
 **Files**:
 
@@ -76,8 +76,6 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/applocker_bypass.py
 - cli/commands/audit.py
 - cli/commands/bitm.py
-- cli/commands/bof_registry.py
-- cli/commands/c2_profile.py
 - cli/commands/campaign.py
 - cli/commands/catalog.py
 - cli/commands/cicd.py
@@ -119,8 +117,6 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/scan.py
 - cli/commands/scan_migrated.py
 - cli/commands/shellsys.py
-- cli/commands/sleep_obfuscation.py
-- cli/commands/socks_proxy.py
 - cli/commands/supply_chain.py
 - cli/confirm.py
 - cli/marketplace_config.py
@@ -138,11 +134,8 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - core/safe_subprocess.py
 - core/validators.py
 - modules/backdoor/server.c
-- modules/beacon_config_builder.py
 - modules/bitm_engine.py
-- modules/bof_registry.py
 - modules/c2_builder.py
-- modules/c2_profile_engine.py
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
@@ -163,8 +156,6 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - modules/professional_report.py
 - modules/resource_script.py
 - modules/session_cleanup.py
-- modules/sleep_obfuscation.py
-- modules/socks_proxy.py
 - modules/traffic_morpher.py
 - modules/websocket_beacon.py
 - modules/yara_scanner.py
@@ -172,9 +163,6 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - skills/lazyown_mcp_opencode.py
 - tests/test_api_key_resolution.py
 - tests/test_bdd_infra_range_report.py
-- tests/test_beacon_config_builder.py
-- tests/test_bof_registry.py
-- tests/test_c2_profile_engine.py
 - tests/test_campaign_import_safety.py
 - tests/test_categories.py
 - tests/test_cli_command_sets.py
@@ -203,6 +191,4 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - tests/test_session_ops_command_set.py
 - tests/test_shell_semantics.py
 - tests/test_shellsys_command_set.py
-- tests/test_sleep_obfuscation.py
-- tests/test_socks_proxy.py
 - utils.py

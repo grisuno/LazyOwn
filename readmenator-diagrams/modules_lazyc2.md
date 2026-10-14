@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 125 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automatic encryption of sensitive session data on app open/close.
+modules: lazyc2 groups 123 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automatic encryption of sensitive session data on app open/close.
 
 ```mermaid
 graph LR
@@ -41,7 +41,7 @@ graph LR
     root -- "calls into" --> skills
     scripts -- "calls into" --> root
     skills -- "depends on" --> core
-    skills -- "depends on" --> modules
+    skills -- "calls into" --> modules
     skills -- "calls into" --> root
     static -- "calls into" --> modules
     static -- "calls into" --> root
@@ -49,7 +49,7 @@ graph LR
 
 ## cli (2.1)
 
-cli groups 6 files (py) around ScopeMode, from_value, ScopeDecision, build_offensive_commands, normalize_scope. Automatic encryption of sensitive session data on app open/close.
+cli groups 5 files (py) around AutoCryptoConfig, AutoCryptoEngine, __init__, enabled, is_encrypted. Automatic encryption of sensitive session data on app open/close.
 
 ## contrib (2.2)
 
@@ -61,11 +61,11 @@ core groups 7 files (py) around StructuredLogConfig, _JsonLineFormatter, __init_
 
 ## lazyc2 (2.4)
 
-lazyc2 groups 12 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. Beacon communication blueprint for the LazyOwn C2 server.
+lazyc2 groups 11 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. Beacon communication blueprint for the LazyOwn C2 server.
 
 ## modules (2.5)
 
-modules groups 43 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria...
+modules groups 44 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria...
 
 ## root (2.6)
 
@@ -77,7 +77,7 @@ scripts groups 1 files (py) around AuditConfig, argparser_commands, audit, main.
 
 ## skills (2.8)
 
-skills groups 8 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 9 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. Autonomous Campaign Intelligence (ACI) Planner
 
 ## static (2.9)
 
@@ -85,7 +85,7 @@ static groups 1 files (js) around P, S, a, a, a.
 
 ## tests (2.10)
 
-tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
+tests groups 26 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
 
 **Files**:
 
@@ -94,7 +94,6 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - cli/commands/automation.py
 - cli/commands/collaboration.py
 - cli/headless.py
-- cli/scope_guard.py
 - contrib/legacy/lazyaddon_creator.py
 - contrib/legacy/lazydeepseekcli.py
 - contrib/legacy/lazygptcli.py
@@ -121,7 +120,6 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - lazyc2/blueprints/phishing.py
 - lazyc2/extensions/short_urls.py
 - lazyc2/security/__init__.py
-- lazyc2/security/command_allowlist.py
 - lazyc2/security/constants.py
 - lazyc2/security/cors.py
 - lazyc2/security/html_sanitizer.py
@@ -149,6 +147,7 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/ia_logs_analysis.py
 - modules/ia_network_analysis.py
 - modules/lazyownerweb.py
+- modules/lesson_ingestor.py
 - modules/lilsplunky.py
 - modules/listener_manager.py
 - modules/llm_adapter.py
@@ -177,6 +176,7 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/aci_planner.py
 - skills/daemon_health.py
 - skills/heartbeat.py
+- skills/lazyown_campaign.py
 - skills/lazyown_daemon.py
 - skills/lazyown_facts.py
 - skills/sessions_watcher.py
@@ -190,8 +190,6 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_ai_commands_llm.py
 - tests/test_auto_crypto.py
 - tests/test_collab_and_onboarding.py
-- tests/test_command_allowlist.py
-- tests/test_command_allowlist_behavior.py
 - tests/test_conditional_hooks_extended.py
 - tests/test_core_command_bridge.py
 - tests/test_core_executor.py
@@ -202,13 +200,13 @@ tests groups 28 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_html_sanitizer.py
 - tests/test_https_redirect.py
 - tests/test_lazy_streaming.py
+- tests/test_lesson_ingestor.py
 - tests/test_llm_adapter_parity.py
 - tests/test_llm_budget.py
 - tests/test_llm_prompts.py
 - tests/test_logging_config.py
 - tests/test_metrics.py
 - tests/test_pipeline_engine.py
-- tests/test_scope_guard.py
 - tests/test_security_lazyc2.py
 - tests/test_short_url_file_containment.py
 - tests/test_single_implementation.py

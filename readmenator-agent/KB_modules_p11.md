@@ -1,6 +1,59 @@
 # Subsystem: modules (page 11 of 14)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/obs_parser.py
+- Doc: modules/obs_parser.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FindingType` (class, line 50) `class FindingType(StrEnum)`
+  - `Finding` (class, line 66) `class Finding`
+  - `Observation` (class, line 76) `class Observation`
+  - `Extractor` (class, line 95) `class Extractor(ABC)`
+  - `_ExtractorRegistry` (class, line 103) `class _ExtractorRegistry`
+  - `_IPExtractor` (class, line 127) `class _IPExtractor(Extractor)`
+  - `_CredentialExtractor` (class, line 145) `class _CredentialExtractor(Extractor)`
+  - `_ServiceVersionExtractor` (class, line 193) `class _ServiceVersionExtractor(Extractor)`
+  - `_PathExtractor` (class, line 219) `class _PathExtractor(Extractor)`
+  - `_UsernameExtractor` (class, line 235) `class _UsernameExtractor(Extractor)`
+  - `_HashExtractor` (class, line 257) `class _HashExtractor(Extractor)`
+  - `_CVEExtractor` (class, line 283) `class _CVEExtractor(Extractor)`
+  - `_DomainExtractor` (class, line 299) `class _DomainExtractor(Extractor)`
+  - `_EmailExtractor` (class, line 318) `class _EmailExtractor(Extractor)`
+  - `_ErrorExtractor` (class, line 334) `class _ErrorExtractor(Extractor)`
+  - `_CloudIdentityExtractor` (class, line 355) `class _CloudIdentityExtractor(Extractor)`
+  - `_SuccessDetector` (class, line 390) `class _SuccessDetector`
+  - `ObsParser` (class, line 423) `class ObsParser`
+  - `get_parser` (function, line 500) `def get_parser()`
+  - `parse` (function, line 508) `def parse(output, host, tool)`
+  - `by_type` (method, line 83) `def by_type(self, ftype)`
+  - `has` (method, line 86) `def has(self, ftype)`
+  - `extract` (method, line 99) `def extract(self, text, host)`
+  - `__init__` (method, line 106) `def __init__(self)`
+  - `register` (method, line 109) `def register(self, extractor)`
+  - `run_all` (method, line 112) `def run_all(self, text, host)`
+  - `extract` (method, line 134) `def extract(self, text, host)`
+  - `extract` (method, line 175) `def extract(self, text, host)`
+  - `extract` (method, line 198) `def extract(self, text, host)`
+  - `extract` (method, line 224) `def extract(self, text, host)`
+  - `extract` (method, line 245) `def extract(self, text, host)`
+  - `extract` (method, line 271) `def extract(self, text, host)`
+  - `extract` (method, line 288) `def extract(self, text, host)`
+  - `extract` (method, line 305) `def extract(self, text, host)`
+  - `extract` (method, line 323) `def extract(self, text, host)`
+  - `extract` (method, line 345) `def extract(self, text, host)`
+  - `extract` (method, line 367) `def extract(self, text, host)`
+  - `is_success` (method, line 407) `def is_success(self, text)`
+  - `__init__` (method, line 431) `def __init__(self)`
+  - `register` (method, line 450) `def register(self, extractor)`
+  - `parse` (method, line 454) `def parse(self, output, host, tool)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+
+## modules/ooficesod0woodo.py
+- Layer: utility
+- Language: py
+
 ## modules/operation.py
 - Doc: Caldera-style operation lifecycle: create, start, pause, resume, stop, status.
 - Layer: utility
@@ -435,61 +488,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `generate_decoder_stub` (method, line 397) `def generate_decoder_stub(self, arch)`
   - `get_audit_summary` (method, line 422) `def get_audit_summary(self)`
 - Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/privesc_predictor.py
-- Doc: Crystal Ball — privilege escalation vector prediction engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PrivescVector` (class, line 97) `class PrivescVector`
-  - `SystemProfile` (class, line 114) `class SystemProfile`
-  - `_parse_kernel_version` (function, line 136) `def _parse_kernel_version(version_str)`
-  - `_parse_version_from_range` (function, line 153) `def _parse_version_from_range(range_str)`
-  - `parse_linpeas_output` (function, line 165) `def parse_linpeas_output(text)`
-  - `parse_winpeas_output` (function, line 218) `def parse_winpeas_output(text)`
-  - `match_known_cves` (function, line 249) `def match_known_cves(profile)`
-  - `suid_vectors` (function, line 287) `def suid_vectors(profile)`
-  - `capability_vectors` (function, line 361) `def capability_vectors(profile)`
-  - `group_vectors` (function, line 463) `def group_vectors(profile)`
-  - `sudo_vectors` (function, line 501) `def sudo_vectors(profile)`
-  - `cron_vectors` (function, line 578) `def cron_vectors(profile)`
-  - `_load_gtfobins_map` (function, line 617) `def _load_gtfobins_map()`
-  - `_try_llm_analysis` (function, line 655) `def _try_llm_analysis(profile)`
-  - `analyze_privesc` (function, line 742) `def analyze_privesc(filepath, text)`
-  - `format_crystal_ball_output` (function, line 827) `def format_crystal_ball_output(result)`
-  - `main` (function, line 908) `def main()`
-- Depends on: `core/console.py`, `modules/llm_factory.py`
-- Imported by: `cli/commands/crystal_ball.py`
-
-## modules/professional_report.py
-- Doc: Professional Red Team Report Generator.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReportFinding` (class, line 87) `class ReportFinding`
-  - `ReportMetadata` (class, line 102) `class ReportMetadata`
-  - `RedTeamReportGenerator` (class, line 114) `class RedTeamReportGenerator`
-  - `__init__` (method, line 173) `def __init__(self, include_credentials)`
-  - `collect_data` (method, line 179) `def collect_data(self)`
-  - `classify_findings` (method, line 217) `def classify_findings(self, data)`
-  - `generate` (method, line 244) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
-  - `_generate_html` (method, line 298) `def _generate_html(self, out_path, timestamp)`
-  - `_generate_markdown` (method, line 450) `def _generate_markdown(self, out_path, timestamp)`
-  - `_generate_json` (method, line 513) `def _generate_json(self, out_path, timestamp)`
-  - `_html_to_pdf` (method, line 552) `def _html_to_pdf(self, html_path)`
-  - `_classify_services` (method, line 585) `def _classify_services(self, services, hosts)`
-  - `_classify_vulnerabilities` (method, line 640) `def _classify_vulnerabilities(self, vulns, hosts)`
-  - `_classify_credentials` (method, line 682) `def _classify_credentials(self, credentials, hosts)`
-  - `_classify_sessions` (method, line 758) `def _classify_sessions(self, sessions, hosts)`
-  - `_load_json` (method, line 805) `def _load_json(self, filename)`
-  - `_extract_scope` (method, line 822) `def _extract_scope(self, data)`
-  - `collect_command_history` (method, line 841) `def collect_command_history(self, max_entries)`
-  - `collect_loot_summary` (method, line 865) `def collect_loot_summary(self)`
-  - `_accumulate_loot` (method, line 893) `def _accumulate_loot(self, summary, path)`
-  - `generate_executive_summary` (method, line 911) `def generate_executive_summary(self, data, with_ai, ai_backend)`
-  - `_ai_draft_summary` (method, line 956) `def _ai_draft_summary(self, data, fallback, backend)`
-- Depends on: `modules/llm_factory.py`
-- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

@@ -3,7 +3,7 @@
  "format": "jsonl",
  "meta": {
   "modules": 735,
-  "entities": 14071,
+  "entities": 14072,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -24,7 +24,7 @@
    "constructor": 502,
    "enum": 38,
    "exception": 36,
-   "function": 2378,
+   "function": 2379,
    "macro": 113,
    "method": 3358,
    "module": 735,
@@ -36,13 +36,13 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 279,
+  "skipped_files": 280,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6452,
-   "total": 8877,
+   "documented": 6453,
+   "total": 8878,
    "percent": 72.7
   },
   "by_kind": {
@@ -72,8 +72,8 @@
     "percent": 94.4
    },
    "function": {
-    "documented": 1490,
-    "total": 2378,
+    "documented": 1491,
+    "total": 2379,
     "percent": 62.7
    },
    "macro": {
@@ -2709,8 +2709,8 @@
     "percent": 26.7
    },
    "modules/notify.py": {
-    "documented": 14,
-    "total": 14,
+    "documented": 15,
+    "total": 15,
     "percent": 100.0
    },
    "modules/nuclei_templates_sync.py": {
@@ -6389,7 +6389,7 @@
   {
    "uid": "modules/notify.py",
    "path": "modules/modules.notify.py.jsonl",
-   "entities": 35
+   "entities": 36
   },
   {
    "uid": "modules/nuclei_templates_sync.py",

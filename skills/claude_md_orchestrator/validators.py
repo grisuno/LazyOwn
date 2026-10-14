@@ -53,7 +53,19 @@ SPANISH_HINTS = (
 
 FORBIDDEN_MARKERS = ("TODO", "FIXME", "XXX", "HACK")
 EMOJI_PATTERN = re.compile(
-    "[\U0001f300-\U0001faff\U00002700-\U000027bf\U0001f600-\U0001f64f\U0001f900-\U0001f9ff]+",
+    "[\U0001f600-\U0001f64f"
+    "\U0001f300-\U0001f5ff"
+    "\U0001f680-\U0001f6ff"
+    "\U0001f700-\U0001f77f"
+    "\U0001f780-\U0001f7ff"
+    "\U0001f800-\U0001f8ff"
+    "\U0001f900-\U0001f9ff"
+    "\U0001fa70-\U0001faff"
+    "\u2600-\u26ff"
+    "\u2700-\u27bf"
+    "\u2b00-\u2bff"
+    "\ufe00-\ufe0f"
+    "\u200d]+",
     flags=re.UNICODE,
 )
 HARDCODED_IPV4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")

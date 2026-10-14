@@ -11,7 +11,7 @@ drop noise and secret patterns are masked before dispatch.
 ## Contents
 
 - **Classes:** [`NotifyConfig`](#notifyconfig), [`NotifyMessage`](#notifymessage), [`Channel`](#channel), [`Notifier`](#notifier)
-- **Functions:** [`severity_rank`](#severity_rank), [`mask_secrets`](#mask_secrets), [`url_allowed`](#url_allowed)
+- **Functions:** [`severity_rank`](#severity_rank), [`mask_secrets`](#mask_secrets), [`url_allowed`](#url_allowed), [`post_url_validated`](#post_url_validated)
 - **Constants:** [`CONFIG`](#config)
 
 ## Type Diagram
@@ -57,12 +57,15 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_modules_notify_py__post_url_validated(["post_url_validated"])
+    n_modules_notify_py__url_allowed(["url_allowed"])
     n_modules_notify_py__Notifier_should_send(["Notifier.should_send"])
     n_modules_notify_py__severity_rank(["severity_rank"])
     n_modules_notify_py__Notifier_render(["Notifier.render"])
     n_modules_notify_py__mask_secrets(["mask_secrets"])
     n_modules_notify_py__Notifier_dispatch(["Notifier.dispatch"])
     n_modules_notify_py__Notifier_flush_digest(["Notifier.flush_digest"])
+    n_modules_notify_py__post_url_validated --> n_modules_notify_py__url_allowed
     n_modules_notify_py__Notifier_should_send --> n_modules_notify_py__severity_rank
     n_modules_notify_py__Notifier_render --> n_modules_notify_py__mask_secrets
     n_modules_notify_py__Notifier_dispatch --> n_modules_notify_py__Notifier_render
@@ -102,7 +105,7 @@ Centralized constants for notification behavior (LAZY parity).
 
 ### `NotifyMessage`
 
-`class` `dataclass` | [modules/notify.py:92](../../modules/notify.py#L92)
+`class` `dataclass` | [modules/notify.py:173](../../modules/notify.py#L173)
 
 Decorators: `@dataclass`
 
@@ -130,7 +133,7 @@ Event payload awaiting channel fan-out.
 
 ### `Channel`
 
-`class` `dataclass` | [modules/notify.py:105](../../modules/notify.py#L105)
+`class` `dataclass` | [modules/notify.py:186](../../modules/notify.py#L186)
 
 Decorators: `@dataclass`
 
@@ -163,7 +166,7 @@ Single destination with its own filter and credentials.
 
 #### `Channel.__post_init__`
 
-`method` | [modules/notify.py:117](../../modules/notify.py#L117)
+`method` | [modules/notify.py:198](../../modules/notify.py#L198)
 
 ```python
 def __post_init__(self) -> None
@@ -181,7 +184,7 @@ Validate channel kind and event compatibility.
 
 ### `Notifier`
 
-`class` | [modules/notify.py:123](../../modules/notify.py#L123)
+`class` | [modules/notify.py:204](../../modules/notify.py#L204)
 
 ```python
 class Notifier
@@ -203,7 +206,7 @@ Filter, render, and dispatch messages across channels.
 
 #### `Notifier.__init__`
 
-`constructor` | [modules/notify.py:126](../../modules/notify.py#L126)
+`constructor` | [modules/notify.py:207](../../modules/notify.py#L207)
 
 ```python
 def __init__(self, config: NotifyConfig = CONFIG) -> None
@@ -221,7 +224,7 @@ Initialize with shared notification constants.
 
 #### `Notifier.should_send`
 
-`method` | [modules/notify.py:134](../../modules/notify.py#L134)
+`method` | [modules/notify.py:215](../../modules/notify.py#L215)
 
 ```python
 def should_send(self, message: NotifyMessage, channel: Channel) -> bool
@@ -246,7 +249,7 @@ Apply event, severity, keyword and scope gates (LAZY parity).
 
 #### `Notifier.render`
 
-`method` | [modules/notify.py:157](../../modules/notify.py#L157)
+`method` | [modules/notify.py:238](../../modules/notify.py#L238)
 
 ```python
 def render(self, message: NotifyMessage) -> str
@@ -270,7 +273,7 @@ Render masked Markdown text for a message.
 
 #### `Notifier.dispatch`
 
-`method` | [modules/notify.py:163](../../modules/notify.py#L163)
+`method` | [modules/notify.py:244](../../modules/notify.py#L244)
 
 ```python
 def dispatch(self, message: NotifyMessage, channels: list[Channel]) -> list[dict]
@@ -293,7 +296,7 @@ Fan out to eligible channels and journal deliveries.
 
 #### `Notifier.flush_digest`
 
-`method` | [modules/notify.py:179](../../modules/notify.py#L179)
+`method` | [modules/notify.py:260](../../modules/notify.py#L260)
 
 ```python
 def flush_digest(self, max_age_sec: float = 0.0) -> list[dict]
@@ -377,8 +380,12 @@ def url_allowed(url: str) -> tuple[bool, str]
 
 SSRF dial-guard for webhook delivery (LAZY parity).
 
-Blocks loopback/link-local unless LAZY_NOTIFY_ALLOW_LOCAL=1 and
-never allows cross-host redirects (checked by the caller).
+Denies cloud metadata hosts/IPs always, denies loopback/link-local/
+private/unspecified/multicast/reserved unless
+``LAZY_NOTIFY_ALLOW_LOCAL=1``, denies userinfo credentials in the URL,
+and resolves DNS names to catch metadata-address aliases. Redirects
+must be re-checked by the caller with this same function.
+
 Returns (allowed, reason).
 
 **Parameters**
@@ -388,6 +395,40 @@ Returns (allowed, reason).
 | `url` | `str` |  |  |
 
 **Returns:** `tuple[bool, str]`
+
+*Called by:* [`post_url_validated`](#post_url_validated)
+
+---
+
+<a id="post_url_validated"></a>
+
+### `post_url_validated`
+
+`function` | [modules/notify.py:145](../../modules/notify.py#L145)
+
+```python
+def post_url_validated(url: str, data: bytes, timeout: float = 8) -> None
+```
+
+POST data to a webhook URL after SSRF validation, guarding redirects.
+
+Each redirect target is re-validated with [`url_allowed`](#url_allowed); a
+denied redirect aborts without following it. Raises ValueError on a
+denied URL and OSError on transport failure.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `url` | `str` |  |  |
+| `data` | `bytes` |  |  |
+| `timeout` | `float` | `8` |  |
+
+**Raises**
+
+- `ValueError`: (raised in the body, not documented)
+
+*Calls:* [`url_allowed`](#url_allowed)
 
 ---
 

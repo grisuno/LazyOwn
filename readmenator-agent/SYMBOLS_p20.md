@@ -3,6 +3,34 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_world_model` | function | `modules/world_model.py:1126` | `def get_world_model(path)` |
+| `graph_snapshot` | method | `modules/world_model.py:956` | `def graph_snapshot(self)` |
+| `in_degree` | method | `modules/world_model.py:286` | `def in_degree(self, node)` |
+| `link_credential_to_failure` | method | `modules/world_model.py:706` | `def link_credential_to_failure(self, value, host)` |
+| `link_credential_to_success` | method | `modules/world_model.py:685` | `def link_credential_to_success(self, value, host)` |
+| `neighbors` | method | `modules/world_model.py:282` | `def neighbors(self, node)` |
+| `out_degree` | method | `modules/world_model.py:290` | `def out_degree(self, node)` |
+| `pivot_candidates` | method | `modules/world_model.py:309` | `def pivot_candidates(self, top_k)` |
+| `pivot_candidates` | method | `modules/world_model.py:948` | `def pivot_candidates(self, top_k)` |
+| `rank` | method | `modules/world_model.py:160` | `def rank(self)` |
+| `read_state_dict` | function | `modules/world_model.py:72` | `def read_state_dict(path)` |
+| `reload` | method | `modules/world_model.py:1078` | `def reload(self)` |
+| `reset` | method | `modules/world_model.py:1094` | `def reset(self)` |
+| `reset_host` | method | `modules/world_model.py:573` | `def reset_host(self, ip)` |
+| `set_os_hint` | method | `modules/world_model.py:616` | `def set_os_hint(self, ip, os_hint)` |
+| `snapshot` | method | `modules/world_model.py:1105` | `def snapshot(self)` |
+| `to_context_string` | method | `modules/world_model.py:970` | `def to_context_string(self)` |
+| `to_dict` | method | `modules/world_model.py:331` | `def to_dict(self)` |
+| `to_dict` | method | `modules/world_model.py:385` | `def to_dict(self)` |
+| `update_from_findings` | method | `modules/world_model.py:762` | `def update_from_findings(self, findings)` |
+| `write_state_dict` | function | `modules/world_model.py:118` | `def write_state_dict(path, data)` |
+| `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
+| `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
+| `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
+| `create_yaml_addon` | method | `modules/yaml_generator.py:109` | `def create_yaml_addon(self, user_request, output_dir)` |
+| `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
+| `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
+| `load_payload` | method | `modules/yaml_generator.py:25` | `def load_payload(self)` |
 | `main` | function | `modules/yaml_generator.py:141` | `def main()` |
 | `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
 | `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
@@ -468,33 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_write_status` | function | `skills/autonomous_daemon.py:4151` | `def _write_status()` |
 | `cmd_engage` | function | `skills/autonomous_daemon.py:4123` | `def cmd_engage(target, max_switches_per_step, detach)` |
 | `cmd_inject` | function | `skills/autonomous_daemon.py:4689` | `def cmd_inject(text, priority)` |
-| `cmd_run` | function | `skills/autonomous_daemon.py:4617` | `def cmd_run(max_steps)` |
-| `cmd_start` | function | `skills/autonomous_daemon.py:4626` | `def cmd_start(max_steps)` |
-| `cmd_status` | function | `skills/autonomous_daemon.py:4673` | `def cmd_status()` |
-| `cmd_stop` | function | `skills/autonomous_daemon.py:4656` | `def cmd_stop()` |
-| `compute_decision_seed` | function | `skills/autonomous_daemon.py:353` | `def compute_decision_seed(objective_id, step_n, source)` |
-| `detect_in_output` | method | `skills/autonomous_daemon.py:3225` | `def detect_in_output(self, output, target)` |
-| `did_switch` | method | `skills/autonomous_daemon.py:3079` | `def did_switch(self)` |
-| `engagement_id` | method | `skills/autonomous_daemon.py:3316` | `def engagement_id(self)` |
-| `handle` | method | `skills/autonomous_daemon.py:1416` | `def handle(self, objective_id, objective_text, target, context)` |
-| `handle` | method | `skills/autonomous_daemon.py:1454` | `def handle(self, objective_id, objective_text, target, context)` |
-| `heartbeat_loop` | function | `skills/autonomous_daemon.py:4490` | `def heartbeat_loop()` |
-| `mcp_autonomous_events` | function | `skills/autonomous_daemon.py:4838` | `def mcp_autonomous_events(last_n)` |
-| `mcp_autonomous_inject` | function | `skills/autonomous_daemon.py:4794` | `def mcp_autonomous_inject(text, priority, target)` |
-| `mcp_autonomous_start` | function | `skills/autonomous_daemon.py:4723` | `def mcp_autonomous_start(max_steps, backend)` |
-| `mcp_autonomous_status` | function | `skills/autonomous_daemon.py:4781` | `def mcp_autonomous_status()` |
-| `mcp_autonomous_stop` | function | `skills/autonomous_daemon.py:4765` | `def mcp_autonomous_stop()` |
-| `mcp_engage_approve` | function | `skills/autonomous_daemon.py:4080` | `def mcp_engage_approve(approval_id, decision, operator)` |
-| `mcp_engage_list_pending` | function | `skills/autonomous_daemon.py:4105` | `def mcp_engage_list_pending()` |
-| `mcp_engage_status` | function | `skills/autonomous_daemon.py:4054` | `def mcp_engage_status(last_n)` |
-| `mcp_engage_target` | function | `skills/autonomous_daemon.py:3964` | `def mcp_engage_target(target, max_switches_per_step, detach, auto)` |
-| `name` | method | `skills/autonomous_daemon.py:390` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:441` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:461` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:557` | `def name(self)` |
-| `next_command` | method | `skills/autonomous_daemon.py:1306` | `def next_command(self, target, phase, context)` |
-| `next_command` | method | `skills/autonomous_daemon.py:1382` | `def next_command(self, target, phase, services, os_hint)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3088` | `def next_tool(self, failed_command, phase, attempt)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3105` | `def next_tool(self, failed_command, phase, attempt)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

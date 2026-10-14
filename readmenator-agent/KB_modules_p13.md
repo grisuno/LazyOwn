@@ -1,6 +1,47 @@
 # Subsystem: modules (page 13 of 14)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/sleep_obfuscation.py
+- Doc: Sleep obfuscation engine for beacon memory evasion.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OsPlatform` (class, line 57) `class OsPlatform(str, Enum)`
+  - `TechniqueRisk` (class, line 64) `class TechniqueRisk(str, Enum)`
+  - `SleepTechnique` (class, line 73) `class SleepTechnique`
+  - `SleepObfuscationConfig` (class, line 100) `class SleepObfuscationConfig`
+  - `SleepTechniqueCatalog` (class, line 163) `class SleepTechniqueCatalog`
+  - `_build_default_catalog` (function, line 201) `def _build_default_catalog()`
+  - `SleepTechniqueValidator` (class, line 365) `class SleepTechniqueValidator`
+  - `SleepObfuscationEngine` (class, line 394) `class SleepObfuscationEngine`
+  - `to_dict` (method, line 129) `def to_dict(self)`
+  - `from_dict` (method, line 146) `def from_dict(cls, raw)`
+  - `__init__` (method, line 170) `def __init__(self)`
+  - `register` (method, line 173) `def register(self, technique)`
+  - `get` (method, line 177) `def get(self, name)`
+  - `list_all` (method, line 184) `def list_all(self)`
+  - `list_by_platform` (method, line 192) `def list_by_platform(self, platform)`
+  - `list_names` (method, line 196) `def list_names(self)`
+  - `validate` (method, line 369) `def validate(config, technique)`
+  - `validate_config` (method, line 386) `def validate_config(config)`
+  - `__init__` (method, line 407) `def __init__(self, catalog)`
+  - `catalog` (method, line 416) `def catalog(self)`
+  - `config` (method, line 421) `def config(self)`
+  - `detection_resistance` (method, line 426) `def detection_resistance(self)`
+  - `select` (method, line 442) `def select(self, technique_name)`
+  - `configure` (method, line 449) `def configure(self, technique, overrides)`
+  - `validate` (method, line 484) `def validate(self, config)`
+  - `recommend` (method, line 500) `def recommend(self, platform)`
+  - `to_dict` (method, line 513) `def to_dict(self)`
+  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
+
+## modules/smbver.sh
+- Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
+- Layer: utility
+- Language: sh
+
 ## modules/socks_proxy.py
 - Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.
 - Layer: utility
@@ -441,35 +482,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `parse_args` (function, line 10) `def parse_args()`
   - `main` (function, line 22) `def main()`
 - Depends on: `modules/vulnbot.py`
-
-## modules/vulnbot.py
-- Doc: list_files: Lista archivos en un directorio
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `VulnBotCLI` (class, line 29) `class VulnBotCLI`
-  - `__init__` (method, line 30) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 46) `def _load_model(self)`
-  - `_setup_agent` (method, line 61) `def _setup_agent(self, script_path)`
-  - `_register_file_tools` (method, line 83) `def _register_file_tools(self)`
-  - `_load_external_tools` (method, line 109) `def _load_external_tools(self, script_path)`
-  - `_stream_agent_response` (method, line 136) `def _stream_agent_response(self, prompt)`
-  - `load_knowledge_base` (method, line 145) `def load_knowledge_base(self)`
-  - `save_knowledge_base` (method, line 151) `def save_knowledge_base(self, kb)`
-  - `get_relevant_knowledge` (method, line 155) `def get_relevant_knowledge(self, prompt)`
-  - `create_complex_prompt` (method, line 160) `def create_complex_prompt(self, base_prompt, history, knowledge)`
-  - `read_file_content` (method, line 176) `def read_file_content(self, file_path)`
-  - `load_event_config` (method, line 182) `def load_event_config(self)`
-  - `process_with_context` (method, line 190) `def process_with_context(self, file_path, event)`
-  - `stream_response` (method, line 206) `def stream_response(self, prompt)`
-  - `add_to_knowledge_base` (method, line 212) `def add_to_knowledge_base(self, prompt, response)`
-  - `list_files` (function, line 86) `def list_files(directory)`
-  - `read_file` (function, line 90) `def read_file(path)`
-  - `edit_file` (function, line 95) `def edit_file(path, content, old_text)`
-  - `generate` (function, line 139) `def generate()`
-  - `generate` (function, line 207) `def generate()`
-- Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
-- Imported by: `modules/vuln_bot_cli.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

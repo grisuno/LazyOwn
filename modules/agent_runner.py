@@ -431,8 +431,8 @@ class AgentRunner:
         state["last"] = now
         sink(kind, f"streaming... {state['chars']} chars")
 
-        def _process_tool_call(self, tool_call):
-            tool_name = tool_call.function.name
+    def _process_tool_call(self, tool_call):
+        tool_name = tool_call.function.name
 
         # --- LÓGICA ANTI-LOOP MEJORADA ---
         # 1. Incrementar contador global de esa herramienta

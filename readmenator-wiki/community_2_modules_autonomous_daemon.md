@@ -1,14 +1,14 @@
 # modules: autonomous_daemon
 
-*Community 2 | 118 files | cohesion 0.53*
+*Community 2 | 113 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 118 file(s) rooted at `modules` with dominant language py (cohesion 0.53). Central symbols: `AIExploitChainer`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `ActionCategory`, `Anchor`, `ApprovalDecision`. Core file: `skills/autonomous_daemon.py` (148 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 113 file(s) rooted at `modules` with dominant language py (cohesion 0.53). Central symbols: `AIExploitChainer`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`, `AbstractSignalMatcher`, `ActionCategory`, `Anchor`, `ApprovalDecision`. Core file: `skills/autonomous_daemon.py` (148 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `modules` (39 files)
+### `modules` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,40 +16,40 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 | `modules/apt_playbooks.py` | py | utility | 15 | yes |
 | `modules/asset_graph.py` | py | utility | 17 | yes |
 
-### `tests` (34 files)
+### `tests` (35 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
 | `tests/test_autonomous_ops.py` | py | testing | 17 | yes |
 
-### `skills` (21 files)
+### `skills` (15 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/autonomous_daemon.py` | py | utility | 148 | yes |
 | `skills/autonomous_replay.py` | py | utility | 19 | yes |
 
-### `skills/tests` (6 files)
+### `cli` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/dashboard_layout.py` | py | presentation | 3 | yes |
+| `cli/dashboard_tui.py` | py | utility | 64 | yes |
+
+### `skills/tests` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/tests/test_autonomous_daemon.py` | py | testing | 88 | yes |
-| `skills/tests/test_harness_e2e.py` | py | testing | 10 | yes |
+| `skills/tests/test_hive_mind.py` | py | testing | 95 | yes |
 
-### `cli/commands` (5 files)
+### `cli/commands` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
 | `cli/commands/daemon_ctl.py` | py | utility | 8 | yes |
-
-### `cli` (4 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/graph_advisor.py` | py | utility | 52 | yes |
-| `cli/ops_commands.py` | py | utility | 53 | yes |
 
 ### `contrib/legacy` (3 files)
 
@@ -78,7 +78,7 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 98 more files in this community.*
+*... and 93 more files in this community.*
 
 
 ## Key Symbols
@@ -112,26 +112,22 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 - `do_daemon_focus` (method, `cli/commands/daemon_ctl.py:141`) `def do_daemon_focus(self, line)` - Restrict the autonomous daemon to a set of focus targets.
 - `do_daemon_approve` (method, `cli/commands/daemon_ctl.py:175`) `def do_daemon_approve(self, line)` - Approve or veto the daemon's currently-pending action.
 - `do_gatecheck` (method, `cli/commands/daemon_ctl.py:224`) `def do_gatecheck(self, line)` - Dry-run the safety gate against one command line.
-- `EnumCommandSet` (class, `cli/commands/enum.py:31`) `class EnumCommandSet(LazyOwnCommandSet)` - Enumeration phase commands.
+- `PwnCommandSet` (class, `cli/commands/pwn.py:28`) `class PwnCommandSet(LazyOwnCommandSet)` - Autonomous exploitation, LOLBAS, and advanced attack commands.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 709
-- Cross-boundary resolved imports (EXTRACTED): 360
+- Internal resolved imports (EXTRACTED): 686
+- Cross-boundary resolved imports (EXTRACTED): 357
 
 ## Connections
 
 - [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 - [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 10 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 11 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
 - [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/exploit_migrated.py imports modules/exploit_recommender.py.
-- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/ops_commands.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [cycle] `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
 - [cycle] `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
@@ -144,11 +140,14 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
+- [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
+- [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
+- [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 
 ## Open Questions
 
 - Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazypwn.py`)? What purpose do they serve?
-- Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
+- Can the cycle `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` be broken with an interface?
 - What would break if the most connected file in modules: autonomous_daemon changed?
 - Should modules: autonomous_daemon be split, given cohesion 0.53?
 
@@ -156,10 +155,12 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 
 - `cli/commands/caldera.py`
 - `cli/commands/daemon_ctl.py`
-- `cli/commands/enum.py`
 - `cli/commands/pwn.py`
 - `cli/commands/session_ops.py`
+- `cli/dashboard_layout.py`
+- `cli/dashboard_tui.py`
 - `cli/graph_advisor.py`
+- `cli/killchain.py`
 - `cli/ops_commands.py`
 - `cli/recommendation.py`
 - `cli/recommendation_signals.py`
@@ -172,6 +173,4 @@ This community groups 118 file(s) rooted at `modules` with dominant language py 
 - `modules/apt_playbooks.py`
 - `modules/asset_graph.py`
 - `modules/atomic_enricher.py`
-- `modules/auto_pivot.py`
-- `modules/autonomous_exploit_engine.py`
-- *... and 98 more*
+- *... and 93 more*

@@ -311,20 +311,20 @@ Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
 ## skills/claude_md_orchestrator/validators.py
 Depends on: `skills/claude_md_orchestrator/models.py`
 Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
-- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:76` `def passed(self)` -- Return True when the result has no findings.
-- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:80` `def blocks(self)` -- Return the blocker findings only.
-- `find_block_comments` (function) `skills/claude_md_orchestrator/validators.py:85` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
-- `find_inline_comments` (function) `skills/claude_md_orchestrator/validators.py:107` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
-- `check_no_comments` (function) `skills/claude_md_orchestrator/validators.py:124` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
-- `check_no_emoji` (function) `skills/claude_md_orchestrator/validators.py:155` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
-- `check_no_forbidden_markers` (function) `skills/claude_md_orchestrator/validators.py:177` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
-- `check_english_only` (function) `skills/claude_md_orchestrator/validators.py:194` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
-- `check_docstrings` (function) `skills/claude_md_orchestrator/validators.py:218` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
-- `check_no_hardcoded_paths_or_ips` (function) `skills/claude_md_orchestrator/validators.py:259` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
-- `check_magic_numbers` (function) `skills/claude_md_orchestrator/validators.py:293` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
-- `check_source` (function) `skills/claude_md_orchestrator/validators.py:328` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
-- `check_markdown` (function) `skills/claude_md_orchestrator/validators.py:341` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
-- `check_spec` (function) `skills/claude_md_orchestrator/validators.py:350` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
+- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:88` `def passed(self)` -- Return True when the result has no findings.
+- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:92` `def blocks(self)` -- Return the blocker findings only.
+- `find_block_comments` (function) `skills/claude_md_orchestrator/validators.py:97` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
+- `find_inline_comments` (function) `skills/claude_md_orchestrator/validators.py:119` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
+- `check_no_comments` (function) `skills/claude_md_orchestrator/validators.py:136` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
+- `check_no_emoji` (function) `skills/claude_md_orchestrator/validators.py:167` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
+- `check_no_forbidden_markers` (function) `skills/claude_md_orchestrator/validators.py:189` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
+- `check_english_only` (function) `skills/claude_md_orchestrator/validators.py:206` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
+- `check_docstrings` (function) `skills/claude_md_orchestrator/validators.py:230` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
+- `check_no_hardcoded_paths_or_ips` (function) `skills/claude_md_orchestrator/validators.py:271` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
+- `check_magic_numbers` (function) `skills/claude_md_orchestrator/validators.py:305` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
+- `check_source` (function) `skills/claude_md_orchestrator/validators.py:340` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
+- `check_markdown` (function) `skills/claude_md_orchestrator/validators.py:353` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
+- `check_spec` (function) `skills/claude_md_orchestrator/validators.py:362` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
 
 ## skills/daemon_control.py
 Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_daemon_control.py`

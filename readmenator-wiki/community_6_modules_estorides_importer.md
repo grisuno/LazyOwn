@@ -1,10 +1,10 @@
 # modules: estorides_importer
 
-*Community 6 | 50 files | cohesion 0.47*
+*Community 6 | 50 files | cohesion 0.46*
 
 ## Definition
 
-This community groups 50 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESdecrypt`, `AESencrypt`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `tests/test_addon_creator.py` (86 symbols). Documented purpose: Estorides integration commands — bidirectional feedback loop with passive OSINT.  Commands: estorides_seed     Feed LazyOwn hosts into Estorides for passive dis.
+This community groups 50 file(s) rooted at `tests` with dominant language py (cohesion 0.46). Central symbols: `AESdecrypt`, `AESencrypt`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `tests/test_addon_creator.py` (86 symbols). Documented purpose: Estorides integration commands — bidirectional feedback loop with passive OSINT.  Commands: estorides_seed     Feed LazyOwn hosts into Estorides for passive dis.
 
 ## Files
 
@@ -117,13 +117,13 @@ This community groups 50 file(s) rooted at `tests` with dominant language py (co
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 98
-- Cross-boundary resolved imports (EXTRACTED): 102
+- Cross-boundary resolved imports (EXTRACTED): 105
 
 ## Connections
 
 - [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
 - [EXTRACTED] depends_on community 0 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/campaign.py imports modules/db.py.
-- [EXTRACTED] depends_on community 10 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
+- [EXTRACTED] depends_on community 11 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
 
 ## Risks
 
@@ -146,7 +146,7 @@ This community groups 50 file(s) rooted at `tests` with dominant language py (co
 ## Open Questions
 
 - What would break if the most connected file in modules: estorides_importer changed?
-- Should modules: estorides_importer be split, given cohesion 0.47?
+- Should modules: estorides_importer be split, given cohesion 0.46?
 
 ## Sources
 

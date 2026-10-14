@@ -180,7 +180,7 @@ Mirrors the ``defaults show`` CLI command for the web GUI.
 
 ### `set_default`
 
-`function` | [lazyc2/blueprints/api.py:210](../../lazyc2/blueprints/api.py#L210)
+`function` | [lazyc2/blueprints/api.py:211](../../lazyc2/blueprints/api.py#L211)
 
 Decorators: `@api_bp.route('/defaults', methods=['POST'])`, `@require_api_auth_with_store`
 

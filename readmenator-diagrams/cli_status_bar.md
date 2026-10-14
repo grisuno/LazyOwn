@@ -1,6 +1,6 @@
-# cli: dashboard_tui
+# cli: status_bar
 
-cli: dashboard_tui groups 102 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli: status_bar groups 97 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -22,7 +22,7 @@ graph LR
 
 ## cli (4.1)
 
-cli groups 47 files (py) around Theme, get_theme, theme_from_payload, ContainerCommandSet, do_docker_enum. LazyOwn CLI infrastructure.
+cli groups 44 files (py) around Theme, get_theme, theme_from_payload, ContainerCommandSet, do_docker_enum. LazyOwn CLI infrastructure.
 
 ## core (4.2)
 
@@ -42,7 +42,7 @@ skills groups 1 files (py) around OrchestratorConfig, from_payload, Orchestrator
 
 ## tests (4.6)
 
-tests groups 38 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
+tests groups 36 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
@@ -60,14 +60,11 @@ tests groups 38 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/commands/recon.py
 - cli/config_status.py
 - cli/contextual_help.py
-- cli/dashboard_layout.py
-- cli/dashboard_tui.py
 - cli/doctor.py
 - cli/exploit_advisor.py
 - cli/exploration.py
 - cli/exploration_view.py
 - cli/graph_overlay.py
-- cli/killchain.py
 - cli/lazynmap_post.py
 - cli/noise_verbs.py
 - cli/palette.py
@@ -116,14 +113,12 @@ tests groups 38 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_command_form.py
 - tests/test_command_palette.py
 - tests/test_console_stdio.py
-- tests/test_dashboard_tui.py
 - tests/test_dependencies.py
 - tests/test_doctor.py
 - tests/test_evidence_hints.py
 - tests/test_exploration_and_addons.py
 - tests/test_graph_overlay.py
 - tests/test_improvements_spec.py
-- tests/test_killchain.py
 - tests/test_killchain_auto_refresh.py
 - tests/test_lazynmap_post.py
 - tests/test_loop_progress.py

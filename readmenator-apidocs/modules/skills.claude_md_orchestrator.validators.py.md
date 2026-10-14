@@ -66,7 +66,7 @@ flowchart LR
 
 ### `CheckResult`
 
-`class` `dataclass` | [skills/claude_md_orchestrator/validators.py:65](../../skills/claude_md_orchestrator/validators.py#L65)
+`class` `dataclass` | [skills/claude_md_orchestrator/validators.py:77](../../skills/claude_md_orchestrator/validators.py#L77)
 
 Decorators: `@dataclass`
 
@@ -93,7 +93,7 @@ Outcome of running one validator over a piece of content.
 
 #### `CheckResult.passed`
 
-`property` | [skills/claude_md_orchestrator/validators.py:76](../../skills/claude_md_orchestrator/validators.py#L76)
+`property` | [skills/claude_md_orchestrator/validators.py:88](../../skills/claude_md_orchestrator/validators.py#L88)
 
 Decorators: `@property`
 
@@ -109,7 +109,7 @@ Return True when the result has no findings.
 
 #### `CheckResult.blocks`
 
-`method` | [skills/claude_md_orchestrator/validators.py:80](../../skills/claude_md_orchestrator/validators.py#L80)
+`method` | [skills/claude_md_orchestrator/validators.py:92](../../skills/claude_md_orchestrator/validators.py#L92)
 
 ```python
 def blocks(self) -> list[Finding]
@@ -127,7 +127,7 @@ Return the blocker findings only.
 
 ### `find_block_comments`
 
-`function` | [skills/claude_md_orchestrator/validators.py:85](../../skills/claude_md_orchestrator/validators.py#L85)
+`function` | [skills/claude_md_orchestrator/validators.py:97](../../skills/claude_md_orchestrator/validators.py#L97)
 
 ```python
 def find_block_comments(source: str) -> list[tuple[int, int]]
@@ -152,7 +152,7 @@ end line of a block comment.
 
 ### `find_inline_comments`
 
-`function` | [skills/claude_md_orchestrator/validators.py:107](../../skills/claude_md_orchestrator/validators.py#L107)
+`function` | [skills/claude_md_orchestrator/validators.py:119](../../skills/claude_md_orchestrator/validators.py#L119)
 
 ```python
 def find_inline_comments(source: str) -> list[int]
@@ -179,7 +179,7 @@ The helper walks the token stream and ignores shebang lines.
 
 ### `check_no_comments`
 
-`function` | [skills/claude_md_orchestrator/validators.py:124](../../skills/claude_md_orchestrator/validators.py#L124)
+`function` | [skills/claude_md_orchestrator/validators.py:136](../../skills/claude_md_orchestrator/validators.py#L136)
 
 ```python
 def check_no_comments(source: str, path: str) -> list[Finding]
@@ -206,7 +206,7 @@ Return a finding for every comment in the source code.
 
 ### `check_no_emoji`
 
-`function` | [skills/claude_md_orchestrator/validators.py:155](../../skills/claude_md_orchestrator/validators.py#L155)
+`function` | [skills/claude_md_orchestrator/validators.py:167](../../skills/claude_md_orchestrator/validators.py#L167)
 
 ```python
 def check_no_emoji(content: str, path: str) -> list[Finding]
@@ -233,7 +233,7 @@ Return a finding for every emoji the content carries.
 
 ### `check_no_forbidden_markers`
 
-`function` | [skills/claude_md_orchestrator/validators.py:177](../../skills/claude_md_orchestrator/validators.py#L177)
+`function` | [skills/claude_md_orchestrator/validators.py:189](../../skills/claude_md_orchestrator/validators.py#L189)
 
 ```python
 def check_no_forbidden_markers(content: str, path: str) -> list[Finding]
@@ -260,7 +260,7 @@ Return a finding for every TODO, FIXME, XXX, or HACK marker.
 
 ### `check_english_only`
 
-`function` | [skills/claude_md_orchestrator/validators.py:194](../../skills/claude_md_orchestrator/validators.py#L194)
+`function` | [skills/claude_md_orchestrator/validators.py:206](../../skills/claude_md_orchestrator/validators.py#L206)
 
 ```python
 def check_english_only(source: str, path: str) -> list[Finding]
@@ -292,7 +292,7 @@ non blocker through the strict flag.
 
 ### `check_docstrings`
 
-`function` | [skills/claude_md_orchestrator/validators.py:218](../../skills/claude_md_orchestrator/validators.py#L218)
+`function` | [skills/claude_md_orchestrator/validators.py:230](../../skills/claude_md_orchestrator/validators.py#L230)
 
 ```python
 def check_docstrings(source: str, path: str) -> list[Finding]
@@ -323,7 +323,7 @@ missing docstring is a blocker.
 
 ### `check_no_hardcoded_paths_or_ips`
 
-`function` | [skills/claude_md_orchestrator/validators.py:259](../../skills/claude_md_orchestrator/validators.py#L259)
+`function` | [skills/claude_md_orchestrator/validators.py:271](../../skills/claude_md_orchestrator/validators.py#L271)
 
 ```python
 def check_no_hardcoded_paths_or_ips(source: str, path: str) -> list[Finding]
@@ -350,7 +350,7 @@ Return a finding for every absolute path or IP literal.
 
 ### `check_magic_numbers`
 
-`function` | [skills/claude_md_orchestrator/validators.py:293](../../skills/claude_md_orchestrator/validators.py#L293)
+`function` | [skills/claude_md_orchestrator/validators.py:305](../../skills/claude_md_orchestrator/validators.py#L305)
 
 ```python
 def check_magic_numbers(source: str, path: str, allow: Iterable[int] | None = None) -> list[Finding]
@@ -378,7 +378,7 @@ Return a finding for every numeric literal that is not in the allow list.
 
 ### `check_source`
 
-`function` | [skills/claude_md_orchestrator/validators.py:328](../../skills/claude_md_orchestrator/validators.py#L328)
+`function` | [skills/claude_md_orchestrator/validators.py:340](../../skills/claude_md_orchestrator/validators.py#L340)
 
 ```python
 def check_source(source: str, path: str, allow_numbers: Iterable[int] | None = None) -> list[Finding]
@@ -406,7 +406,7 @@ Run every source level DoD check and return the findings.
 
 ### `check_markdown`
 
-`function` | [skills/claude_md_orchestrator/validators.py:341](../../skills/claude_md_orchestrator/validators.py#L341)
+`function` | [skills/claude_md_orchestrator/validators.py:353](../../skills/claude_md_orchestrator/validators.py#L353)
 
 ```python
 def check_markdown(content: str, path: str) -> list[Finding]
@@ -433,7 +433,7 @@ Run every markdown level DoD check and return the findings.
 
 ### `check_spec`
 
-`function` | [skills/claude_md_orchestrator/validators.py:350](../../skills/claude_md_orchestrator/validators.py#L350)
+`function` | [skills/claude_md_orchestrator/validators.py:362](../../skills/claude_md_orchestrator/validators.py#L362)
 
 ```python
 def check_spec(spec: Spec, min_sad_paths: int) -> list[Finding]
@@ -489,7 +489,7 @@ FORBIDDEN_MARKERS = ('TODO', 'FIXME', 'XXX', 'HACK')
 `constant` | [skills/claude_md_orchestrator/validators.py:55](../../skills/claude_md_orchestrator/validators.py#L55)
 
 ```python
-EMOJI_PATTERN = re.compile('[🌀-\U0001faff✀-➿😀-🙏🤀-🧿]+', flags=re.UNICODE)
+EMOJI_PATTERN
 ```
 
 ---
@@ -498,7 +498,7 @@ EMOJI_PATTERN = re.compile('[🌀-\U0001faff✀-➿😀-🙏🤀-🧿]+', flags=
 
 ### `HARDCODED_IPV4`
 
-`constant` | [skills/claude_md_orchestrator/validators.py:59](../../skills/claude_md_orchestrator/validators.py#L59)
+`constant` | [skills/claude_md_orchestrator/validators.py:71](../../skills/claude_md_orchestrator/validators.py#L71)
 
 ```python
 HARDCODED_IPV4 = re.compile('\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b')
@@ -510,7 +510,7 @@ HARDCODED_IPV4 = re.compile('\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b')
 
 ### `HARDCODED_ABS_PATH`
 
-`constant` | [skills/claude_md_orchestrator/validators.py:60](../../skills/claude_md_orchestrator/validators.py#L60)
+`constant` | [skills/claude_md_orchestrator/validators.py:72](../../skills/claude_md_orchestrator/validators.py#L72)
 
 ```python
 HARDCODED_ABS_PATH = re.compile('(/home/[A-Za-z0-9._-]+|/root/[^\\s\\"\']+)')
@@ -522,7 +522,7 @@ HARDCODED_ABS_PATH = re.compile('(/home/[A-Za-z0-9._-]+|/root/[^\\s\\"\']+)')
 
 ### `MAGIC_NUMBER_PATTERN`
 
-`constant` | [skills/claude_md_orchestrator/validators.py:61](../../skills/claude_md_orchestrator/validators.py#L61)
+`constant` | [skills/claude_md_orchestrator/validators.py:73](../../skills/claude_md_orchestrator/validators.py#L73)
 
 ```python
 MAGIC_NUMBER_PATTERN = re.compile('(?<![\\w.])\\b(\\d{2,})\\b')

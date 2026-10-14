@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **72.7%** (6452 of 8877 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,7 +13,7 @@ Overall: **72.7%** (6452 of 8877 public modules, types, and callables). Data mem
 | constructor | 184 | 502 | 36.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 34 | 36 | 94.4% |
-| function | 1490 | 2378 | 62.7% |
+| function | 1491 | 2379 | 62.7% |
 | macro | 3 | 113 | 2.7% |
 | method | 2673 | 3358 | 79.6% |
 | module | 613 | 735 | 83.4% |
@@ -687,7 +687,7 @@ Overall: **72.7%** (6452 of 8877 public modules, types, and callables). Data mem
 | [`modules.metrics`](modules/modules.metrics.py.md) | 22 | 22 | 100.0% |
 | [`modules/mkcloudflaretunnel.sh`](modules/modules.mkcloudflaretunnel.sh.md) | 1 | 1 | 100.0% |
 | [`modules.morse`](modules/modules.morse.py.md) | 8 | 8 | 100.0% |
-| [`modules.notify`](modules/modules.notify.py.md) | 14 | 14 | 100.0% |
+| [`modules.notify`](modules/modules.notify.py.md) | 15 | 15 | 100.0% |
 | [`modules.nuclei_templates_sync`](modules/modules.nuclei_templates_sync.py.md) | 16 | 16 | 100.0% |
 | [`modules.orchestrator_config`](modules/modules.orchestrator_config.py.md) | 10 | 10 | 100.0% |
 | [`modules.osint_enrich`](modules/modules.osint_enrich.py.md) | 6 | 6 | 100.0% |
@@ -904,7 +904,7 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `cli/commands/recon_migrated.py:38` class ReconMigratedCommandSet is not documented
 - DOC003 `cli/commands/recon_migrated.py:784` documented parameter 'self.params['rhost']' is not in the signature of ReconMigratedCommandSet.do_apache_users
 - DOC001 `cli/commands/scan_migrated.py:29` class ScanMigratedCommandSet is not documented
-- DOC003 `cli/commands/scan_migrated.py:703` documented parameter 'self.params['rhost']' is not in the signature of ScanMigratedCommandSet.do_enum4linux_ng
+- DOC003 `cli/commands/scan_migrated.py:711` documented parameter 'self.params['rhost']' is not in the signature of ScanMigratedCommandSet.do_enum4linux_ng
 - DOC001 `cli/commands/security.py:267` method SecurityCommandSet.complete_opsec is not documented
 - DOC001 `cli/commands/security.py:276` method SecurityCommandSet.complete_crack_hashes is not documented
 - DOC001 `cli/dashboard_tui.py:836` method LazyOwnDashboard.compose is not documented

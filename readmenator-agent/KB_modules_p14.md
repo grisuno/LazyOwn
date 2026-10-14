@@ -1,6 +1,35 @@
 # Subsystem: modules (page 14 of 14)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/vulnbot.py
+- Doc: list_files: Lista archivos en un directorio
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `VulnBotCLI` (class, line 29) `class VulnBotCLI`
+  - `__init__` (method, line 30) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 46) `def _load_model(self)`
+  - `_setup_agent` (method, line 61) `def _setup_agent(self, script_path)`
+  - `_register_file_tools` (method, line 83) `def _register_file_tools(self)`
+  - `_load_external_tools` (method, line 109) `def _load_external_tools(self, script_path)`
+  - `_stream_agent_response` (method, line 136) `def _stream_agent_response(self, prompt)`
+  - `load_knowledge_base` (method, line 145) `def load_knowledge_base(self)`
+  - `save_knowledge_base` (method, line 151) `def save_knowledge_base(self, kb)`
+  - `get_relevant_knowledge` (method, line 155) `def get_relevant_knowledge(self, prompt)`
+  - `create_complex_prompt` (method, line 160) `def create_complex_prompt(self, base_prompt, history, knowledge)`
+  - `read_file_content` (method, line 176) `def read_file_content(self, file_path)`
+  - `load_event_config` (method, line 182) `def load_event_config(self)`
+  - `process_with_context` (method, line 190) `def process_with_context(self, file_path, event)`
+  - `stream_response` (method, line 206) `def stream_response(self, prompt)`
+  - `add_to_knowledge_base` (method, line 212) `def add_to_knowledge_base(self, prompt, response)`
+  - `list_files` (function, line 86) `def list_files(directory)`
+  - `read_file` (function, line 90) `def read_file(path)`
+  - `edit_file` (function, line 95) `def edit_file(path, content, old_text)`
+  - `generate` (function, line 139) `def generate()`
+  - `generate` (function, line 207) `def generate()`
+- Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
+- Imported by: `modules/vuln_bot_cli.py`
+
 ## modules/websocket_beacon.py
 - Doc: WebSocket beacon transport for modern C2 channels.
 - Layer: utility

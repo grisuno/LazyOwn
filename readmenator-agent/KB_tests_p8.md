@@ -254,7 +254,7 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_layouts_circular_spherical_force` (function, line 58) `def test_layouts_circular_spherical_force(tmp_path)`
   - `test_summary_scores_and_suggests` (function, line 69) `def test_summary_scores_and_suggests(tmp_path)`
   - `test_llm_defaults_seeded` (function, line 78) `def test_llm_defaults_seeded()`
-  - `test_factory_complete_rejects_empty` (function, line 88) `def test_factory_complete_rejects_empty()`
+  - `test_factory_complete_rejects_empty` (function, line 90) `def test_factory_complete_rejects_empty()`
 - Depends on: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
 
 ## tests/test_intelligence_engine.py

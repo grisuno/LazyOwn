@@ -1,10 +1,10 @@
 # cli/commands: utils
 
-*Community 0 | 125 files | cohesion 0.55*
+*Community 0 | 127 files | cohesion 0.54*
 
 ## Definition
 
-This community groups 125 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.55). Central symbols: `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AliasResolver`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `AuditCommandSet`, `BitMCommandSet`. Core file: `utils.py` (124 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
+This community groups 127 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.54). Central symbols: `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AliasResolver`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`, `AuditCommandSet`, `BitMCommandSet`. Core file: `utils.py` (124 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Este archivo contiene la.
 
 ## Files
 
@@ -16,7 +16,7 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 | `cli/commands/_dormancy.py` | py | utility | 2 | yes |
 | `cli/commands/anti_forensics.py` | py | utility | 7 | yes |
 
-### `tests` (30 files)
+### `tests` (31 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -32,19 +32,19 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 | `modules/c2_builder.py` | py | infrastructure | 21 | yes |
 | `modules/categories.py` | py | utility | 0 | yes |
 
+### `core` (8 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/defaults.py` | py | utility | 8 | yes |
+| `core/hardening.py` | py | utility | 34 | yes |
+
 ### `cli` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/aliases.py` | py | utility | 7 | yes |
 | `cli/cli_enhancements.py` | py | utility | 69 | yes |
-
-### `core` (7 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/defaults.py` | py | utility | 8 | yes |
-| `core/hardening.py` | py | utility | 16 | yes |
 
 ### `contrib/legacy` (3 files)
 
@@ -78,7 +78,7 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 3 | yes |
 
-*... and 105 more files in this community.*
+*... and 107 more files in this community.*
 
 
 ## Key Symbols
@@ -116,8 +116,8 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 411
-- Cross-boundary resolved imports (EXTRACTED): 292
+- Internal resolved imports (EXTRACTED): 425
+- Cross-boundary resolved imports (EXTRACTED): 319
 
 ## Connections
 
@@ -135,11 +135,9 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/host_policy.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_subprocess.py` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
@@ -149,13 +147,15 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
+- [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
+- [dataflow UNCHECKED_ALLOC] `banner.py:29` `image_to_bash` `img`: Result of allocator stored in `img` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 5 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in cli/commands: utils changed?
-- Should cli/commands: utils be split, given cohesion 0.55?
+- Should cli/commands: utils be split, given cohesion 0.54?
 
 ## Sources
 
@@ -179,4 +179,4 @@ This community groups 125 file(s) rooted at `cli/commands` with dominant languag
 - `cli/commands/crystal_ball.py`
 - `cli/commands/defaults.py`
 - `cli/commands/demo.py`
-- *... and 105 more*
+- *... and 107 more*

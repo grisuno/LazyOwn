@@ -1,6 +1,53 @@
 # API (page 10 of 22)
 Previous: [API_p9.md](API_p9.md)
 
+## modules/collab_bp.py
+Depends on: `core/logging.py`, `modules/lazy_rbac.py`
+Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+- `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
+- `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
+- `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
+- `decorator` (function) `modules/collab_bp.py:139` `def decorator(f)`
+- `decorated` (function) `modules/collab_bp.py:141` `def decorated()`
+- `ColabEvent.to_sse` (method) `modules/collab_bp.py:170` `def to_sse(self)`
+- `EventBus.__init__` (method) `modules/collab_bp.py:198` `def __init__(self)`
+- `EventBus.subscribe` (method) `modules/collab_bp.py:203` `def subscribe(self, subscriber_id)`
+- `EventBus.unsubscribe` (method) `modules/collab_bp.py:215` `def unsubscribe(self, subscriber_id)`
+- `EventBus.publish` (method) `modules/collab_bp.py:219` `def publish(self, event)`
+- `EventBus.recent` (method) `modules/collab_bp.py:234` `def recent(self, n)`
+- `EventBus.reset` (method) `modules/collab_bp.py:238` `def reset(self)`
+- `LockManager.__init__` (method) `modules/collab_bp.py:263` `def __init__(self)`
+- `LockManager.acquire` (method) `modules/collab_bp.py:267` `def acquire(self, target, operator, ttl_secs)`
+- `LockManager.release` (method) `modules/collab_bp.py:279` `def release(self, target, operator)`
+- `LockManager.status` (method) `modules/collab_bp.py:287` `def status(self, target)`
+- `LockManager.all_locks` (method) `modules/collab_bp.py:292` `def all_locks(self)`
+- `LockManager.reset` (method) `modules/collab_bp.py:304` `def reset(self)`
+- `OperatorRegistry.__init__` (method) `modules/collab_bp.py:319` `def __init__(self)`
+- `OperatorRegistry.join` (method) `modules/collab_bp.py:323` `def join(self, name)`
+- `OperatorRegistry.heartbeat` (method) `modules/collab_bp.py:334` `def heartbeat(self, name)`
+- `OperatorRegistry.leave` (method) `modules/collab_bp.py:340` `def leave(self, name)`
+- `OperatorRegistry.active_operators` (method) `modules/collab_bp.py:345` `def active_operators(self)`
+- `OperatorRegistry.reset` (method) `modules/collab_bp.py:356` `def reset(self)`
+- `get_event_bus` (function) `modules/collab_bp.py:370` `def get_event_bus()`
+- `get_lock_manager` (function) `modules/collab_bp.py:374` `def get_lock_manager()`
+- `get_operator_registry` (function) `modules/collab_bp.py:378` `def get_operator_registry()`
+- `publish_event` (function) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
+- `collab_ui` (function) `modules/collab_bp.py:396` `def collab_ui()`
+- `stream` (function) `modules/collab_bp.py:411` `def stream()`
+- `generate` (function) `modules/collab_bp.py:424` `def generate()`
+- `operators` (function) `modules/collab_bp.py:458` `def operators()`
+- `publish` (function) `modules/collab_bp.py:470` `def publish()`
+- `lock` (function) `modules/collab_bp.py:483` `def lock()`
+- `unlock` (function) `modules/collab_bp.py:504` `def unlock()`
+- `locks` (function) `modules/collab_bp.py:522` `def locks()`
+- `history` (function) `modules/collab_bp.py:537` `def history()`
+
+## modules/colors.py
+Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+- `retModel` (function) `modules/colors.py:40` `def retModel()` -- gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k    32,768...
+- `delete_lines` (function) `modules/colors.py:68` `def delete_lines(content, to_delete)`
+- `no_html` (function) `modules/colors.py:74` `def no_html(content)`
+
 ## modules/command_executor.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
 Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
@@ -226,7 +273,8 @@ Imported by: `cli/commands/dns_exfil.py`
 - `DNSC2Server.get_results` (method) `modules/dns_beacon.py:327` `def get_results(self, beacon_id)` -- Get received results for a beacon.
 
 ## modules/domain_dominance.py
-Imported by: `cli/commands/lateral_migrated.py`
+Depends on: `core/hardening.py`
+Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
 - `DomainDominance.__init__` (method) `modules/domain_dominance.py:103` `def __init__(self)`
 - `DomainDominance.get_instance` (method) `modules/domain_dominance.py:110` `def get_instance(cls)`
 - `DomainDominance.dominate` (method) `modules/domain_dominance.py:121` `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` -- Execute the full AD dominance kill-chain.
@@ -446,25 +494,6 @@ Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
 - `DashboardPusher.__call__` (method) `modules/event_consumers.py:361` `def __call__(self, event)`
 - `wire_all_consumers` (function) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
 - `unwire_all_consumers` (function) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
-
-## modules/event_engine.py
-Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
-- `load_rules` (function) `modules/event_engine.py:99` `def load_rules()` -- Load rules from event_rules.json, creating it with defaults if missing.
-- `save_rules` (function) `modules/event_engine.py:110` `def save_rules(rules)`
-- `add_rule` (function) `modules/event_engine.py:114` `def add_rule(rule)` -- Add or replace a rule by id.
-- `process_new_rows` (function) `modules/event_engine.py:181` `def process_new_rows()` -- Read new rows from the session CSV since last watermark.
-- `read_events` (function) `modules/event_engine.py:250` `def read_events(limit, status)` -- Return up to `limit` events matching `status` (pending/processed/all).
-- `ack_event` (function) `modules/event_engine.py:270` `def ack_event(event_id)` -- Mark an event as processed.
-
-## modules/evidence.py
-Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-- `hash_bytes` (function) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
-- `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
-- `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.
-- `EvidenceStore.put` (method) `modules/evidence.py:70` `def put(self, data)` -- Atomically store bytes and return their SHA-256 hash.
-- `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
-- `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
-- `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
 
 
 Next: [API_p11.md](API_p11.md)

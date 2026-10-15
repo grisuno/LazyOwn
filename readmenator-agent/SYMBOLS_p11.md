@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `lambda_backdoor` | method | `modules/aws_attacks.py:127` | `def lambda_backdoor(self, function_name)` |
+| `s3_enumeration` | method | `modules/aws_attacks.py:206` | `def s3_enumeration(self)` |
+| `sts_role_chain` | method | `modules/aws_attacks.py:155` | `def sts_role_chain(self, target_role_arn)` |
+| `summary` | method | `modules/aws_attacks.py:293` | `def summary(self)` |
+| `Shell` | function | `modules/backdoor/backdoor.c:84` | `void Shell()` |
+| `WinMain` | function | `modules/backdoor/backdoor.c:125` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
+| `bootRun` | function | `modules/backdoor/backdoor.c:18` | `int bootRun()` |
+| `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
+| `str_cut` | function | `modules/backdoor/backdoor.c:49` | `char * str_cut(char str[], int slice_from, int slice_to)` |
+| `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
+| `main` | function | `modules/backdoor/server.c:10` | `int main()` |
+| `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
+| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:237` | `class BeaconConfigBuilder` |
+| `__init__` | method | `modules/beacon_config_builder.py:245` | `def __init__(self, payload)` |
+| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:318` | `def _inject_profile_engine(self, config)` |
+| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:366` | `def _inject_sleep_engine(self, config)` |
+| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:385` | `def _inject_socks_engine(self, config)` |
+| `build` | method | `modules/beacon_config_builder.py:248` | `def build(self, name)` |
+| `from_payload` | method | `modules/beacon_config_builder.py:403` | `def from_payload(cls, payload)` |
+| `from_payload_file` | method | `modules/beacon_config_builder.py:408` | `def from_payload_file(cls, path)` |
+| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:416` | `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` |
+| `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
+| `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
+| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
 | `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
 | `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
 | `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
 | `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
 | `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
-| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
-| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
-| `close` | method | `modules/db.py:804` | `def close(self)` |
-| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
-| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
-| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
-| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
-| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
-| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
-| `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
-| `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
-| `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
-| `host_list` | method | `modules/db.py:401` | `def host_list(self, workspace_id)` |
-| `import_nmap_xml` | method | `modules/db.py:664` | `def import_nmap_xml(self, workspace_id, xml_path)` |
-| `loot_add` | method | `modules/db.py:596` | `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` |
-| `loot_list` | method | `modules/db.py:615` | `def loot_list(self, workspace_id)` |
-| `migration_status` | method | `modules/db.py:222` | `def migration_status(self)` |
-| `note_add` | method | `modules/db.py:631` | `def note_add(self, workspace_id, data, note_type, host_id)` |
-| `note_list` | method | `modules/db.py:648` | `def note_list(self, workspace_id)` |
-| `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
-| `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
-| `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
-| `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
-| `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

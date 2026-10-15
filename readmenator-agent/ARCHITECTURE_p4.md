@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `skills/lazyown_mcp.py` -> `skills/daemon_control.py`
+- `skills/lazyown_mcp.py` -> `skills/hive_mind.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_automapper.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_campaign.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_claudemd.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_context.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_facts.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_groq_agents.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_hooks.py`
+- `skills/lazyown_mcp.py` -> `skills/lazyown_llm.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_mcp_helpers.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_objective.py`
 - `skills/lazyown_mcp.py` -> `skills/lazyown_parquet_db.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_nethelpers_command_set.py` -> `cli/commands/_base.py`
 - `tests/test_nethelpers_command_set.py` -> `cli/commands/_dormancy.py`
 - `tests/test_nethelpers_command_set.py` -> `cli/commands/misc_migrated.py`
-- `tests/test_nethelpers_command_set.py` -> `cli/commands/nethelpers.py`
-- `tests/test_nethelpers_command_set.py` -> `cli/registry.py`
-- `tests/test_nuclei_parser.py` -> `modules/integrations/nuclei_parser.py`
-- `tests/test_ops_loot_phase.py` -> `cli/ops_commands.py`
-- `tests/test_ops_loot_phase.py` -> `modules/world_model.py`
-- `tests/test_opsec_scorer.py` -> `modules/opsec_scorer.py`
-- `tests/test_opsec_scorer_consolidated.py` -> `modules/opsec_scorer.py`
-- `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
-- `tests/test_payload_factory.py` -> `modules/payload_factory.py`
-- `tests/test_payload_schema.py` -> `cli/assign.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

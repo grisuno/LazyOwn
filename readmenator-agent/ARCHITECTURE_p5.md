@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_nethelpers_command_set.py` -> `cli/commands/nethelpers.py`
+- `tests/test_nethelpers_command_set.py` -> `cli/registry.py`
+- `tests/test_nuclei_parser.py` -> `modules/integrations/nuclei_parser.py`
+- `tests/test_ops_loot_phase.py` -> `cli/ops_commands.py`
+- `tests/test_ops_loot_phase.py` -> `modules/world_model.py`
+- `tests/test_opsec_scorer.py` -> `modules/opsec_scorer.py`
+- `tests/test_opsec_scorer_consolidated.py` -> `modules/opsec_scorer.py`
+- `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
+- `tests/test_payload_factory.py` -> `modules/payload_factory.py`
+- `tests/test_payload_schema.py` -> `cli/assign.py`
 - `tests/test_payload_schema.py` -> `core/payload_schema.py`
 - `tests/test_payload_schema.py` -> `modules/llm_factory.py`
 - `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
@@ -11,6 +21,8 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_phase_labels.py` -> `cli/contextual_help.py`
 - `tests/test_phase_labels.py` -> `cli/phase_labels.py`
 - `tests/test_phase_labels.py` -> `cli/tips_engine.py`
+- `tests/test_pi_leg.py` -> `modules/__init__.py`
+- `tests/test_pi_leg.py` -> `modules/lazy_loop.py`
 - `tests/test_pipeline_engine.py` -> `modules/pipeline_engine.py`
 - `tests/test_pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - `tests/test_placeholder_coverage.py` -> `core/payload_schema.py`
@@ -46,6 +58,12 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_scope_guard.py` -> `utils.py`
 - `tests/test_scope_guard_integration.py` -> `core/console.py`
 - `tests/test_scope_guard_integration.py` -> `lazyown.py`
+- `tests/test_security_alerts_fix.py` -> `core/hardening.py`
+- `tests/test_security_alerts_fix.py` -> `core/reverse_shell_secret.py`
+- `tests/test_security_alerts_fix.py` -> `modules/domain_dominance.py`
+- `tests/test_security_alerts_fix.py` -> `modules/lazy_loop.py`
+- `tests/test_security_alerts_fix.py` -> `modules/lazy_proxy.py`
+- `tests/test_security_alerts_fix.py` -> `skills/claude_md_orchestrator/validators.py`
 - `tests/test_security_codeql_batch.py` -> `core/defaults.py`
 - `tests/test_security_codeql_batch.py` -> `core/logging.py`
 - `tests/test_security_codeql_batch.py` -> `lazyc2/blueprints/__init__.py`

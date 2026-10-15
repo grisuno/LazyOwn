@@ -1,10 +1,10 @@
 # cli: banner_config
 
-*Community 8 | 29 files | cohesion 0.46*
+*Community 8 | 29 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 29 file(s) rooted at `tests` with dominant language py (cohesion 0.46). Central symbols: `BannerConfig`, `BannerConfigurator`, `BannerRenderer`, `BannerSettings`, `BatteryLoadSegment`, `CliAuthCommandSet`, `ColorPalette`, `ColorRegistry`. Core file: `cli/banner_config.py` (120 symbols). Documented purpose: Configurable Neon Box banner for the LazyOwn interactive shell.  The module exposes a single, self-contained banner subsystem with three extension axes the oper.
+This community groups 29 file(s) rooted at `tests` with dominant language py (cohesion 0.45). Central symbols: `BannerConfig`, `BannerConfigurator`, `BannerRenderer`, `BannerSettings`, `BatteryLoadSegment`, `CliAuthCommandSet`, `ColorPalette`, `ColorRegistry`. Core file: `cli/banner_config.py` (120 symbols). Documented purpose: Configurable Neon Box banner for the LazyOwn interactive shell.  The module exposes a single, self-contained banner subsystem with three extension axes the oper.
 
 ## Files
 
@@ -107,7 +107,7 @@ This community groups 29 file(s) rooted at `tests` with dominant language py (co
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 155
-- Cross-boundary resolved imports (EXTRACTED): 64
+- Cross-boundary resolved imports (EXTRACTED): 65
 
 ## Connections
 
@@ -118,19 +118,19 @@ This community groups 29 file(s) rooted at `tests` with dominant language py (co
 
 - [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
+- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 
 ## Open Questions
 
@@ -138,7 +138,7 @@ This community groups 29 file(s) rooted at `tests` with dominant language py (co
 - Can the cycle `cli/engagement_hooks.py` -> `modules/cli_auth.py` be broken with an interface?
 - Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
 - What would break if the most connected file in cli: banner_config changed?
-- Should cli: banner_config be split, given cohesion 0.46?
+- Should cli: banner_config be split, given cohesion 0.45?
 
 ## Sources
 

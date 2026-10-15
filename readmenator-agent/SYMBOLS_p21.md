@@ -3,6 +3,45 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_is_running` | function | `skills/autonomous_daemon.py:4606` | `def _is_running()` |
+| `_ledger_path` | function | `skills/autonomous_daemon.py:3013` | `def _ledger_path()` |
+| `_ledger_write` | function | `skills/autonomous_daemon.py:3023` | `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)` |
+| `_llm_candidate` | method | `skills/autonomous_daemon.py:831` | `def _llm_candidate(self, target, phase, context)` |
+| `_load_campaign_blacklist` | function | `skills/autonomous_daemon.py:1565` | `def _load_campaign_blacklist()` |
+| `_load_payload` | function | `skills/autonomous_daemon.py:1536` | `def _load_payload()` |
+| `_main_async` | function | `skills/autonomous_daemon.py:4538` | `def _main_async(max_steps)` |
+| `_maybe_generate_report` | function | `skills/autonomous_daemon.py:3895` | `def _maybe_generate_report()` |
+| `_notify_finding` | function | `skills/autonomous_daemon.py:287` | `def _notify_finding(title, body, severity)` |
+| `_objective_proven` | function | `skills/autonomous_daemon.py:312` | `def _objective_proven(objective_text, world_model, target, credential_found)` |
+| `_parquet_candidate` | method | `skills/autonomous_daemon.py:726` | `def _parquet_candidate(self, category, target)` |
+| `_planner_fallback_verb` | method | `skills/autonomous_daemon.py:3598` | `def _planner_fallback_verb(self, tried)` |
+| `_read_pid` | function | `skills/autonomous_daemon.py:4599` | `def _read_pid()` |
+| `_read_recent_csv_commands` | function | `skills/autonomous_daemon.py:1544` | `def _read_recent_csv_commands(limit)` |
+| `_record_intent` | function | `skills/autonomous_daemon.py:272` | `def _record_intent(objective_id, step_n, command, state, reason)` |
+| `_resolve_source` | method | `skills/autonomous_daemon.py:1081` | `def _resolve_source(self)` |
+| `_run` | function | `skills/autonomous_daemon.py:4737` | `def _run()` |
+| `_run_lazyown` | function | `skills/autonomous_daemon.py:581` | `def _run_lazyown(command, timeout)` |
+| `_run_objective` | function | `skills/autonomous_daemon.py:1725` | `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...` |
+| `_run_planner_intents` | method | `skills/autonomous_daemon.py:3479` | `def _run_planner_intents(self, results, fp_before, max_intents, planner)` |
+| `_run_step` | method | `skills/autonomous_daemon.py:3622` | `def _run_step(self, step)` |
+| `_run_sync` | method | `skills/autonomous_daemon.py:1484` | `def _run_sync(self, objective_id, objective_text, target)` |
+| `_settle_state` | function | `skills/autonomous_daemon.py:3037` | `def _settle_state(result)` |
+| `_should_skip` | method | `skills/autonomous_daemon.py:1138` | `def _should_skip(self, command)` |
+| `_step_succeeded` | method | `skills/autonomous_daemon.py:3863` | `def _step_succeeded(command, output)` |
+| `_strip_between_markers` | function | `skills/autonomous_daemon.py:403` | `def _strip_between_markers(output, marker)` |
+| `_swan_candidate` | method | `skills/autonomous_daemon.py:953` | `def _swan_candidate(self, target, phase, context)` |
+| `_tactic_phase` | function | `skills/autonomous_daemon.py:3008` | `def _tactic_phase(tactic)` |
+| `_target_services` | function | `skills/autonomous_daemon.py:2989` | `def _target_services(target)` |
+| `_try_import` | function | `skills/autonomous_daemon.py:126` | `def _try_import(module, attr)` |
+| `_update_task_status` | function | `skills/autonomous_daemon.py:185` | `def _update_task_status(title, new_status)` |
+| `_with_markers` | function | `skills/autonomous_daemon.py:394` | `def _with_markers(command, marker)` |
+| `_worker` | function | `skills/autonomous_daemon.py:4018` | `def _worker()` |
+| `_world_fingerprint` | function | `skills/autonomous_daemon.py:2967` | `def _world_fingerprint()` |
+| `_wrap_chain_with_metrics_bias` | function | `skills/autonomous_daemon.py:1202` | `def _wrap_chain_with_metrics_bias(selectors, enabled)` |
+| `_write_pid` | function | `skills/autonomous_daemon.py:4589` | `def _write_pid()` |
+| `_write_status` | function | `skills/autonomous_daemon.py:4151` | `def _write_status()` |
+| `cmd_engage` | function | `skills/autonomous_daemon.py:4123` | `def cmd_engage(target, max_switches_per_step, detach)` |
+| `cmd_inject` | function | `skills/autonomous_daemon.py:4689` | `def cmd_inject(text, priority)` |
 | `cmd_run` | function | `skills/autonomous_daemon.py:4617` | `def cmd_run(max_steps)` |
 | `cmd_start` | function | `skills/autonomous_daemon.py:4626` | `def cmd_start(max_steps)` |
 | `cmd_status` | function | `skills/autonomous_daemon.py:4673` | `def cmd_status()` |
@@ -224,21 +263,27 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
 | `test_tdd_agent_lands_red` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:102` | `def test_tdd_agent_lands_red(config)` |
 | `tmp_run_dir` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:46` | `def tmp_run_dir(tmp_path)` |
-| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:77` | `class CheckResult` |
-| `blocks` | method | `skills/claude_md_orchestrator/validators.py:92` | `def blocks(self)` |
-| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:230` | `def check_docstrings(source, path)` |
-| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:206` | `def check_english_only(source, path)` |
-| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:305` | `def check_magic_numbers(source, path, allow)` |
-| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:353` | `def check_markdown(content, path)` |
-| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:136` | `def check_no_comments(source, path)` |
-| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:167` | `def check_no_emoji(content, path)` |
-| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:189` | `def check_no_forbidden_markers(content, path)` |
-| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:271` | `def check_no_hardcoded_paths_or_ips(source, path)` |
-| `check_source` | function | `skills/claude_md_orchestrator/validators.py:340` | `def check_source(source, path, allow_numbers)` |
-| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:362` | `def check_spec(spec, min_sad_paths)` |
-| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:97` | `def find_block_comments(source)` |
-| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:119` | `def find_inline_comments(source)` |
-| `passed` | method | `skills/claude_md_orchestrator/validators.py:88` | `def passed(self)` |
+| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:96` | `class CheckResult` |
+| `_EmojiPattern` | class | `skills/claude_md_orchestrator/validators.py:74` | `class _EmojiPattern` |
+| `_EmojiSpan` | class | `skills/claude_md_orchestrator/validators.py:57` | `class _EmojiSpan` |
+| `__init__` | method | `skills/claude_md_orchestrator/validators.py:60` | `def __init__(self, start, text)` |
+| `blocks` | method | `skills/claude_md_orchestrator/validators.py:111` | `def blocks(self)` |
+| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:249` | `def check_docstrings(source, path)` |
+| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:225` | `def check_english_only(source, path)` |
+| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:324` | `def check_magic_numbers(source, path, allow)` |
+| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:372` | `def check_markdown(content, path)` |
+| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:155` | `def check_no_comments(source, path)` |
+| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:186` | `def check_no_emoji(content, path)` |
+| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:208` | `def check_no_forbidden_markers(content, path)` |
+| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:290` | `def check_no_hardcoded_paths_or_ips(source, path)` |
+| `check_source` | function | `skills/claude_md_orchestrator/validators.py:359` | `def check_source(source, path, allow_numbers)` |
+| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:381` | `def check_spec(spec, min_sad_paths)` |
+| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:116` | `def find_block_comments(source)` |
+| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:138` | `def find_inline_comments(source)` |
+| `finditer` | method | `skills/claude_md_orchestrator/validators.py:81` | `def finditer(self, content)` |
+| `group` | method | `skills/claude_md_orchestrator/validators.py:69` | `def group(self, index)` |
+| `passed` | method | `skills/claude_md_orchestrator/validators.py:107` | `def passed(self)` |
+| `start` | method | `skills/claude_md_orchestrator/validators.py:65` | `def start(self)` |
 | `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
 | `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
 | `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_run` | method | `skills/hive_mind.py:1142` | `def _run(self)` |
 | `_sanitize_fts` | method | `skills/hive_mind.py:266` | `def _sanitize_fts(query)` |
 | `_stealth_vote` | method | `skills/hive_mind.py:975` | `def _stealth_vote(self, detection_risk)` |
-| `_weighted_approval` | method | `skills/hive_mind.py:1041` | `def _weighted_approval(votes)` |
-| `ack_broadcast` | method | `skills/hive_mind.py:754` | `def ack_broadcast(self, agent_id, msg_id)` |
-| `active_count` | method | `skills/hive_mind.py:1801` | `def active_count(self)` |
-| `available` | method | `skills/hive_mind.py:380` | `def available(self)` |
-| `build_default_hive_memory` | function | `skills/hive_mind.py:558` | `def build_default_hive_memory(db_path)` |
-| `collect` | method | `skills/hive_mind.py:1417` | `def collect(self, drone_ids, timeout, poll_interval)` |
-| `collect_and_synthesize` | method | `skills/hive_mind.py:1896` | `def collect_and_synthesize(self, drone_ids, goal)` |
-| `count` | method | `skills/hive_mind.py:477` | `def count(self)` |
-| `delete_older_than` | method | `skills/hive_mind.py:1643` | `def delete_older_than(self, days)` |
-| `dispatch` | method | `skills/hive_mind.py:1332` | `def dispatch(self, tasks, backend, api_key, max_iterations)` |
-| `drone_result` | method | `skills/hive_mind.py:1882` | `def drone_result(self, drone_id)` |
-| `evaluate` | method | `skills/hive_mind.py:946` | `def evaluate(self, role, goal)` |
-| `forget` | method | `skills/hive_mind.py:329` | `def forget(self, older_than_hours, topic)` |
-| `forget` | method | `skills/hive_mind.py:704` | `def forget(self, older_than_hours, topic)` |
-| `forget` | method | `skills/hive_mind.py:1900` | `def forget(self, older_than_hours, topic)` |
-| `get_hive` | function | `skills/hive_mind.py:1911` | `def get_hive()` |
-| `get_state` | method | `skills/hive_mind.py:1767` | `def get_state(self, drone_id)` |
-| `join` | method | `skills/hive_mind.py:1137` | `def join(self, timeout)` |
-| `list_all` | method | `skills/hive_mind.py:1776` | `def list_all(self, limit)` |
-| `load_all` | method | `skills/hive_mind.py:1553` | `def load_all(self, limit)` |
-| `load_interrupted` | method | `skills/hive_mind.py:1609` | `def load_interrupted(self)` |
-| `mark_interrupted` | method | `skills/hive_mind.py:1588` | `def mark_interrupted(self)` |
-| `mcp_hive_collect` | function | `skills/hive_mind.py:2010` | `def mcp_hive_collect(drone_ids_csv, goal)` |
-| `mcp_hive_forget` | function | `skills/hive_mind.py:2021` | `def mcp_hive_forget(older_than_hours, topic)` |
-| `mcp_hive_plan` | function | `skills/hive_mind.py:1995` | `def mcp_hive_plan(goal, n_drones)` |
-| `mcp_hive_recall` | function | `skills/hive_mind.py:1981` | `def mcp_hive_recall(query, top_k)` |
-| `mcp_hive_recover` | function | `skills/hive_mind.py:2027` | `def mcp_hive_recover(backend, api_key, max_iterations)` |
-| `mcp_hive_result` | function | `skills/hive_mind.py:2004` | `def mcp_hive_result(drone_id)` |
-| `mcp_hive_spawn` | function | `skills/hive_mind.py:1926` | `def mcp_hive_spawn(goal, role, n_drones, backend, max_iterations, api_key)` |
-| `mcp_hive_status` | function | `skills/hive_mind.py:1976` | `def mcp_hive_status()` |
-| `name` | method | `skills/hive_mind.py:180` | `def name(self)` |
-| `pending_count` | method | `skills/hive_mind.py:758` | `def pending_count(self, agent_id)` |
-| `plan` | method | `skills/hive_mind.py:1313` | `def plan(self, goal, n_drones)` |
-| `plan_and_dispatch` | method | `skills/hive_mind.py:1405` | `def plan_and_dispatch(self, goal, n_drones, backend, api_key, max_iterations)` |
-| `publish` | method | `skills/hive_mind.py:740` | `def publish(self, msg)` |
-| `read_bus` | method | `skills/hive_mind.py:1471` | `def read_bus(self)` |
-| `recall` | method | `skills/hive_mind.py:149` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:274` | `def recall(self, query, top_k, role, event_type)` |
-| `recall` | method | `skills/hive_mind.py:434` | `def recall(self, query, top_k, where)` |
-| `recall` | method | `skills/hive_mind.py:519` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:668` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:1878` | `def recall(self, query, top_k)` |
-| `recall_episodic` | method | `skills/hive_mind.py:633` | `def recall_episodic(self, query, top_k, role, event_type)` |
-| `recall_longterm` | method | `skills/hive_mind.py:660` | `def recall_longterm(self, query, top_k)` |
-| `recall_semantic` | method | `skills/hive_mind.py:647` | `def recall_semantic(self, query, top_k, where)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

@@ -1,6 +1,25 @@
 # API (page 11 of 22)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/event_engine.py
+Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
+- `load_rules` (function) `modules/event_engine.py:99` `def load_rules()` -- Load rules from event_rules.json, creating it with defaults if missing.
+- `save_rules` (function) `modules/event_engine.py:110` `def save_rules(rules)`
+- `add_rule` (function) `modules/event_engine.py:114` `def add_rule(rule)` -- Add or replace a rule by id.
+- `process_new_rows` (function) `modules/event_engine.py:181` `def process_new_rows()` -- Read new rows from the session CSV since last watermark.
+- `read_events` (function) `modules/event_engine.py:250` `def read_events(limit, status)` -- Return up to `limit` events matching `status` (pending/processed/all).
+- `ack_event` (function) `modules/event_engine.py:270` `def ack_event(event_id)` -- Mark an event as processed.
+
+## modules/evidence.py
+Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- `hash_bytes` (function) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
+- `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
+- `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.
+- `EvidenceStore.put` (method) `modules/evidence.py:70` `def put(self, data)` -- Atomically store bytes and return their SHA-256 hash.
+- `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
+- `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
+- `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
+
 ## modules/exp.c
 Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
 - `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
@@ -466,32 +485,6 @@ Depends on: `modules/killchain.py`
 Imported by: `lazyc2.py`
 - `generate_html` (function) `modules/kill_chain_viz.py:69` `def generate_html(target, sessions)`
 - `generate_svg` (function) `modules/kill_chain_viz.py:102` `def generate_svg(target, sessions)`
-
-## modules/killchain.py
-Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
-- `KillChainConfig.world_model_path` (method) `modules/killchain.py:116` `def world_model_path(self)` -- Return the resolved path to world_model.json.
-- `KillChainConfig.phase_index` (method) `modules/killchain.py:120` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
-- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:127` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
-- `KillChain.config` (method) `modules/killchain.py:154` `def config()` -- Return the centralised configuration.
-- `KillChain.phases` (method) `modules/killchain.py:159` `def phases()` -- Return the canonical 8-phase tuple.
-- `KillChain.phase_labels` (method) `modules/killchain.py:164` `def phase_labels()` -- Return the canonical phase label mapping.
-- `KillChain.phase_colors` (method) `modules/killchain.py:169` `def phase_colors()` -- Return the canonical phase hex-color mapping.
-- `KillChain.phase_rich_colors` (method) `modules/killchain.py:174` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
-- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:179` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
-- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:191` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
-- `KillChain.current_phase` (method) `modules/killchain.py:204` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
-- `KillChain.advance_phase` (method) `modules/killchain.py:251` `def advance_phase(new_phase, world_model_path)` -- Advance the kill-chain phase for all connected surfaces.
-- `KillChain.get_progress` (method) `modules/killchain.py:315` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
-- `KillChain.compact_progress` (method) `modules/killchain.py:364` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
-- `KillChain.phases_for_display` (method) `modules/killchain.py:384` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
-- `KillChain.phase_index` (method) `modules/killchain.py:395` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
-- `KillChain.snapshot` (method) `modules/killchain.py:400` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
-- `get_killchain` (function) `modules/killchain.py:440` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
-
-## modules/kivi.py
-- `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
-- `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
 
 
 Next: [API_p12.md](API_p12.md)

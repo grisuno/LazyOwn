@@ -1,10 +1,10 @@
 # skills/claude_md_orchestrator
 
-*Community 10 | 17 files | cohesion 0.79*
+*Community 10 | 17 files | cohesion 0.75*
 
 ## Definition
 
-This community groups 17 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.79). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `CommandRedactor`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Lazy Burp-Like Fuzzer co.
+This community groups 17 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.75). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `CommandRedactor`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: GPL v3  Descripción: Lazy Burp-Like Fuzzer co.
 
 ## Files
 
@@ -25,7 +25,7 @@ This community groups 17 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/claude_md_orchestrator/reviewer_agent.py` | py | utility | 10 | yes |
 | `skills/claude_md_orchestrator/sdd_agent.py` | py | utility | 6 | yes |
 | `skills/claude_md_orchestrator/tdd_agent.py` | py | utility | 7 | yes |
-| `skills/claude_md_orchestrator/validators.py` | py | utility | 15 | yes |
+| `skills/claude_md_orchestrator/validators.py` | py | utility | 21 | yes |
 | `tests/test_security_sanitizers.py` | py | testing | 45 | yes |
 
 ## Key Symbols
@@ -64,7 +64,7 @@ This community groups 17 file(s) rooted at `skills/claude_md_orchestrator` with 
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 37
-- Cross-boundary resolved imports (EXTRACTED): 9
+- Cross-boundary resolved imports (EXTRACTED): 11
 
 ## Connections
 
@@ -79,7 +79,7 @@ This community groups 17 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.79?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.75?
 
 ## Sources
 

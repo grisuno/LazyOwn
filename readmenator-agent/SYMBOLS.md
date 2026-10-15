@@ -3,9 +3,9 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `get_commit_type` | function | `DEPLOY.sh:190` | `` |
+| `get_commit_type` | function | `DEPLOY.sh:203` | `` |
 | `increment_version` | function | `DEPLOY.sh:19` | `` |
-| `update_section_html` | function | `DEPLOY.sh:86` | `` |
+| `update_section_html` | function | `DEPLOY.sh:99` | `` |
 | `image_to_bash` | function | `banner.py:26` | `def image_to_bash(image_path, image_res)` |
 | `list_png_files` | function | `banner.py:50` | `def list_png_files()` |
 | `main` | function | `banner.py:60` | `def main()` |

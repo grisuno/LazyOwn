@@ -217,22 +217,40 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `safe_run` | function | `core/executor.py:96` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:98` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:101` | `def safe_run(command)` |
-| `SecurityViolation` | class | `core/hardening.py:82` | `class SecurityViolation(PermissionError)` |
-| `build_sshpass_command` | function | `core/hardening.py:191` | `def build_sshpass_command(password, ssh_args)` |
-| `defused_xml_parse` | function | `core/hardening.py:353` | `def defused_xml_parse(source)` |
-| `escape_html_content` | function | `core/hardening.py:239` | `def escape_html_content(value)` |
-| `escape_powershell_single_quoted` | function | `core/hardening.py:61` | `def escape_powershell_single_quoted(value)` |
-| `reject_option_injection` | function | `core/hardening.py:42` | `def reject_option_injection(argv)` |
-| `require_encryption_key` | function | `core/hardening.py:325` | `def require_encryption_key(env_key, secret_file)` |
-| `safe_clipboard_copy` | function | `core/hardening.py:152` | `def safe_clipboard_copy(content)` |
-| `safe_path_join` | function | `core/hardening.py:251` | `def safe_path_join(base_dir, user_path)` |
-| `safe_subprocess_run` | function | `core/hardening.py:107` | `def safe_subprocess_run(argv)` |
-| `sanitize_filename` | function | `core/hardening.py:375` | `def sanitize_filename(filename, max_length)` |
-| `set_sshpass_env` | function | `core/hardening.py:220` | `def set_sshpass_env(password)` |
-| `terminal_env` | function | `core/hardening.py:86` | `def terminal_env(base)` |
-| `validate_host` | function | `core/hardening.py:305` | `def validate_host(host)` |
-| `validate_network_cidr` | function | `core/hardening.py:277` | `def validate_network_cidr(cidr)` |
-| `validate_port_spec` | function | `core/hardening.py:289` | `def validate_port_spec(ports)` |
+| `SecurityViolation` | class | `core/hardening.py:127` | `class SecurityViolation(PermissionError)` |
+| `_is_emoji_codepoint` | function | `core/hardening.py:700` | `def _is_emoji_codepoint(code)` |
+| `_mask` | function | `core/hardening.py:837` | `def _mask(match)` |
+| `_seal_key` | function | `core/hardening.py:742` | `def _seal_key(sessions_dir)` |
+| `build_sshpass_command` | function | `core/hardening.py:236` | `def build_sshpass_command(password, ssh_args)` |
+| `contains_emoji` | function | `core/hardening.py:708` | `def contains_emoji(text)` |
+| `defused_xml_parse` | function | `core/hardening.py:398` | `def defused_xml_parse(source)` |
+| `escape_html_content` | function | `core/hardening.py:284` | `def escape_html_content(value)` |
+| `escape_powershell_single_quoted` | function | `core/hardening.py:106` | `def escape_powershell_single_quoted(value)` |
+| `is_safe_dir_path` | function | `core/hardening.py:564` | `def is_safe_dir_path(raw)` |
+| `is_safe_path_segment` | function | `core/hardening.py:543` | `def is_safe_path_segment(segment)` |
+| `is_safe_yaml_name` | function | `core/hardening.py:590` | `def is_safe_yaml_name(name)` |
+| `iter_emoji_spans` | function | `core/hardening.py:723` | `def iter_emoji_spans(text)` |
+| `redact_text` | function | `core/hardening.py:826` | `def redact_text(text)` |
+| `reject_option_injection` | function | `core/hardening.py:87` | `def reject_option_injection(argv)` |
+| `require_encryption_key` | function | `core/hardening.py:370` | `def require_encryption_key(env_key, secret_file)` |
+| `safe_clipboard_copy` | function | `core/hardening.py:197` | `def safe_clipboard_copy(content)` |
+| `safe_join_under` | function | `core/hardening.py:609` | `def safe_join_under(base_dir, user_path)` |
+| `safe_open_under` | function | `core/hardening.py:638` | `def safe_open_under(base_dir, user_path, mode)` |
+| `safe_path_join` | function | `core/hardening.py:296` | `def safe_path_join(base_dir, user_path)` |
+| `safe_subprocess_run` | function | `core/hardening.py:152` | `def safe_subprocess_run(argv)` |
+| `sanitize_filename` | function | `core/hardening.py:420` | `def sanitize_filename(filename, max_length)` |
+| `seal_secret` | function | `core/hardening.py:756` | `def seal_secret(plaintext)` |
+| `set_sshpass_env` | function | `core/hardening.py:265` | `def set_sshpass_env(password)` |
+| `store_secret_owner_only` | function | `core/hardening.py:665` | `def store_secret_owner_only(path, text)` |
+| `terminal_env` | function | `core/hardening.py:131` | `def terminal_env(base)` |
+| `tls_lab_fallback_context` | function | `core/hardening.py:492` | `def tls_lab_fallback_context()` |
+| `tls_lab_unverified_allowed` | function | `core/hardening.py:465` | `def tls_lab_unverified_allowed(host)` |
+| `tls_secure_context` | function | `core/hardening.py:440` | `def tls_secure_context(extra_ca)` |
+| `unseal_secret` | function | `core/hardening.py:787` | `def unseal_secret(stored)` |
+| `validate_host` | function | `core/hardening.py:350` | `def validate_host(host)` |
+| `validate_network_cidr` | function | `core/hardening.py:322` | `def validate_network_cidr(cidr)` |
+| `validate_port_spec` | function | `core/hardening.py:334` | `def validate_port_spec(ports)` |
+| `validate_upstream_path` | function | `core/hardening.py:514` | `def validate_upstream_path(path)` |
 | `is_valid_cidr` | function | `core/host_policy.py:32` | `def is_valid_cidr(value)` |
 | `is_valid_host` | function | `core/host_policy.py:48` | `def is_valid_host(value)` |
 | `rejects_shell_meta` | function | `core/host_policy.py:20` | `def rejects_shell_meta(value)` |
@@ -374,6 +392,10 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `put` | method | `core/protocols.py:54` | `def put(self, key, value)` |
 | `search` | method | `core/protocols.py:58` | `def search(self, query, k)` |
 | `suggest` | method | `core/protocols.py:27` | `def suggest(self, target, phase, context)` |
+| `generate_reverse_shell_password` | function | `core/reverse_shell_secret.py:65` | `def generate_reverse_shell_password()` |
+| `is_configured_password_valid` | function | `core/reverse_shell_secret.py:74` | `def is_configured_password_valid(candidate, minimum_length)` |
+| `load_reverse_shell_password` | function | `core/reverse_shell_secret.py:41` | `def load_reverse_shell_password(secret_path)` |
+| `seal_reverse_shell_password` | function | `core/reverse_shell_secret.py:24` | `def seal_reverse_shell_password(plaintext)` |
 | `get_console` | function | `core/safe_console.py:42` | `def get_console()` |
 | `milestone_glyph` | function | `core/safe_console.py:57` | `def milestone_glyph(state)` |
 | `panel_box` | function | `core/safe_console.py:52` | `def panel_box()` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `start_chown_watcher` | function | `fast_run_as_r00t.sh:145` | `` |
 | `t_lazyown` | function | `fast_run_as_r00t.sh:121` | `` |
 | `t_priv_user` | function | `fast_run_as_r00t.sh:134` | `` |
-| `t_send` | function | `fast_run_as_r00t.sh:114` | `` |
-| `download_file` | function | `install.sh:251` | `` |
-| `ensure_gum` | function | `install.sh:128` | `` |
-| `generate_certificates` | function | `install.sh:274` | `` |
-| `install_encoder_module` | function | `install.sh:263` | `` |
-| `install_external_storage` | function | `install.sh:218` | `` |
-| `install_external_tools` | function | `install.sh:150` | `` |
-| `install_lazyownbt` | function | `install.sh:231` | `` |
-| `install_ollama` | function | `install.sh:206` | `` |
-| `install_python_environment` | function | `install.sh:165` | `` |
-| `install_system_packages` | function | `install.sh:139` | `` |
-| `log` | function | `install.sh:88` | `` |
-| `main` | function | `install.sh:310` | `` |
-| `seed_payload_config` | function | `install.sh:281` | `` |
-| `spin_run` | function | `install.sh:98` | `` |
-| `usage` | function | `install.sh:49` | `` |
-| `verify_installation` | function | `install.sh:294` | `` |
-| `main` | function | `key.py:10` | `def main()` |
-| `Alert` | class | `lazy_sentinel4.py:271` | `class Alert` |
-| `App` | class | `lazy_sentinel4.py:544` | `class App(Cmd)` |
-| `Database` | class | `lazy_sentinel4.py:214` | `class Database` |
-| `LazySentinel` | class | `lazy_sentinel4.py:340` | `class LazySentinel` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

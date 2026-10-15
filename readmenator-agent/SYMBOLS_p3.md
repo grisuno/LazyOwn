@@ -360,58 +360,58 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_portservicediscover` | method | `cli/commands/scan.py:724` | `def do_portservicediscover(self, line)` |
 | `do_skipfish` | method | `cli/commands/scan.py:789` | `def do_skipfish(self, line)` |
 | `do_vscan` | method | `cli/commands/scan.py:839` | `def do_vscan(self, line)` |
-| `ScanMigratedCommandSet` | class | `cli/commands/scan_migrated.py:29` | `class ScanMigratedCommandSet(LazyOwnCommandSet)` |
-| `conficker_exploit` | function | `cli/commands/scan_migrated.py:579` | `def conficker_exploit(config_file, host, lhost, lport)` |
-| `do_ad_ldap_enum` | method | `cli/commands/scan_migrated.py:2696` | `def do_ad_ldap_enum(self, line)` |
-| `do_allin` | method | `cli/commands/scan_migrated.py:1222` | `def do_allin(self, line)` |
-| `do_arjun` | method | `cli/commands/scan_migrated.py:1482` | `def do_arjun(self, line)` |
-| `do_blazy` | method | `cli/commands/scan_migrated.py:1703` | `def do_blazy(self, line)` |
-| `do_bloodhound` | method | `cli/commands/scan_migrated.py:215` | `def do_bloodhound(self, line)` |
-| `do_breacher` | method | `cli/commands/scan_migrated.py:1821` | `def do_breacher(self, line)` |
-| `do_certipy` | method | `cli/commands/scan_migrated.py:2565` | `def do_certipy(self, line)` |
-| `do_certipy_ad` | method | `cli/commands/scan_migrated.py:2501` | `def do_certipy_ad(self, line)` |
-| `do_changeme` | method | `cli/commands/scan_migrated.py:680` | `def do_changeme(self, line)` |
-| `do_cme` | method | `cli/commands/scan_migrated.py:34` | `def do_cme(self, line)` |
-| `do_davtest` | method | `cli/commands/scan_migrated.py:882` | `def do_davtest(self, line)` |
-| `do_enum4linux_ng` | method | `cli/commands/scan_migrated.py:711` | `def do_enum4linux_ng(self, line)` |
-| `do_evil_ssdp` | method | `cli/commands/scan_migrated.py:923` | `def do_evil_ssdp(self, line)` |
-| `do_finger_user_enum` | method | `cli/commands/scan_migrated.py:1550` | `def do_finger_user_enum(self, line)` |
-| `do_fuzz` | method | `cli/commands/scan_migrated.py:751` | `def do_fuzz(self, line)` |
-| `do_hound` | method | `cli/commands/scan_migrated.py:2889` | `def do_hound(self, line)` |
-| `do_kerbrute` | method | `cli/commands/scan_migrated.py:796` | `def do_kerbrute(self, line)` |
-| `do_ldapdomaindump` | method | `cli/commands/scan_migrated.py:173` | `def do_ldapdomaindump(self, line)` |
-| `do_ldapsearch` | method | `cli/commands/scan_migrated.py:1421` | `def do_ldapsearch(self, line)` |
-| `do_lookupsid` | method | `cli/commands/scan_migrated.py:2439` | `def do_lookupsid(self, line)` |
-| `do_lookupsid_py` | method | `cli/commands/scan_migrated.py:2366` | `def do_lookupsid_py(self, line)` |
-| `do_loxs` | method | `cli/commands/scan_migrated.py:1659` | `def do_loxs(self, line)` |
-| `do_lynis` | method | `cli/commands/scan_migrated.py:358` | `def do_lynis(self, line)` |
-| `do_mqtt_check_py` | method | `cli/commands/scan_migrated.py:2311` | `def do_mqtt_check_py(self, line)` |
-| `do_net_rpc_addmem` | method | `cli/commands/scan_migrated.py:2750` | `def do_net_rpc_addmem(self, line)` |
-| `do_netexec` | method | `cli/commands/scan_migrated.py:969` | `def do_netexec(self, line)` |
-| `do_netview` | method | `cli/commands/scan_migrated.py:2182` | `def do_netview(self, line)` |
-| `do_odat` | method | `cli/commands/scan_migrated.py:1951` | `def do_odat(self, line)` |
-| `do_openredirex` | method | `cli/commands/scan_migrated.py:1883` | `def do_openredirex(self, line)` |
-| `do_parsero` | method | `cli/commands/scan_migrated.py:648` | `def do_parsero(self, line)` |
-| `do_parth` | method | `cli/commands/scan_migrated.py:1752` | `def do_parth(self, line)` |
-| `do_pre2k` | method | `cli/commands/scan_migrated.py:2796` | `def do_pre2k(self, line)` |
-| `do_pykerbrute` | method | `cli/commands/scan_migrated.py:2112` | `def do_pykerbrute(self, line)` |
-| `do_rdp_check_py` | method | `cli/commands/scan_migrated.py:2246` | `def do_rdp_check_py(self, line)` |
-| `do_rpcmap_py` | method | `cli/commands/scan_migrated.py:2069` | `def do_rpcmap_py(self, line)` |
-| `do_samrdump` | method | `cli/commands/scan_migrated.py:303` | `def do_samrdump(self, line)` |
-| `do_sawks` | method | `cli/commands/scan_migrated.py:2659` | `def do_sawks(self, line)` |
-| `do_sessionssh` | method | `cli/commands/scan_migrated.py:480` | `def do_sessionssh(self, line)` |
-| `do_smbattack` | method | `cli/commands/scan_migrated.py:504` | `def do_smbattack(self, line)` |
-| `do_smtpuserenum` | method | `cli/commands/scan_migrated.py:441` | `def do_smtpuserenum(self, line)` |
-| `do_snmpcheck` | method | `cli/commands/scan_migrated.py:387` | `def do_snmpcheck(self, line)` |
-| `do_snmpwalk` | method | `cli/commands/scan_migrated.py:414` | `def do_snmpwalk(self, line)` |
-| `do_swaks` | method | `cli/commands/scan_migrated.py:264` | `def do_swaks(self, line)` |
-| `do_windapsearch` | method | `cli/commands/scan_migrated.py:1293` | `def do_windapsearch(self, line)` |
-| `do_wpscan` | method | `cli/commands/scan_migrated.py:1596` | `def do_wpscan(self, line)` |
-| `find_tgts` | function | `cli/commands/scan_migrated.py:533` | `def find_tgts(subnet)` |
-| `install_netexec` | function | `cli/commands/scan_migrated.py:996` | `def install_netexec()` |
-| `install_netexec_pipx` | function | `cli/commands/scan_migrated.py:1001` | `def install_netexec_pipx()` |
-| `setup_handler` | function | `cli/commands/scan_migrated.py:559` | `def setup_handler(config_file, lhost, lport)` |
-| `smb_brute` | function | `cli/commands/scan_migrated.py:599` | `def smb_brute(config_file, host, passwd_file, lhost, lport)` |
+| `ScanMigratedCommandSet` | class | `cli/commands/scan_migrated.py:32` | `class ScanMigratedCommandSet(LazyOwnCommandSet)` |
+| `conficker_exploit` | function | `cli/commands/scan_migrated.py:582` | `def conficker_exploit(config_file, host, lhost, lport)` |
+| `do_ad_ldap_enum` | method | `cli/commands/scan_migrated.py:2715` | `def do_ad_ldap_enum(self, line)` |
+| `do_allin` | method | `cli/commands/scan_migrated.py:1241` | `def do_allin(self, line)` |
+| `do_arjun` | method | `cli/commands/scan_migrated.py:1501` | `def do_arjun(self, line)` |
+| `do_blazy` | method | `cli/commands/scan_migrated.py:1722` | `def do_blazy(self, line)` |
+| `do_bloodhound` | method | `cli/commands/scan_migrated.py:218` | `def do_bloodhound(self, line)` |
+| `do_breacher` | method | `cli/commands/scan_migrated.py:1840` | `def do_breacher(self, line)` |
+| `do_certipy` | method | `cli/commands/scan_migrated.py:2584` | `def do_certipy(self, line)` |
+| `do_certipy_ad` | method | `cli/commands/scan_migrated.py:2520` | `def do_certipy_ad(self, line)` |
+| `do_changeme` | method | `cli/commands/scan_migrated.py:699` | `def do_changeme(self, line)` |
+| `do_cme` | method | `cli/commands/scan_migrated.py:37` | `def do_cme(self, line)` |
+| `do_davtest` | method | `cli/commands/scan_migrated.py:901` | `def do_davtest(self, line)` |
+| `do_enum4linux_ng` | method | `cli/commands/scan_migrated.py:730` | `def do_enum4linux_ng(self, line)` |
+| `do_evil_ssdp` | method | `cli/commands/scan_migrated.py:942` | `def do_evil_ssdp(self, line)` |
+| `do_finger_user_enum` | method | `cli/commands/scan_migrated.py:1569` | `def do_finger_user_enum(self, line)` |
+| `do_fuzz` | method | `cli/commands/scan_migrated.py:770` | `def do_fuzz(self, line)` |
+| `do_hound` | method | `cli/commands/scan_migrated.py:2908` | `def do_hound(self, line)` |
+| `do_kerbrute` | method | `cli/commands/scan_migrated.py:815` | `def do_kerbrute(self, line)` |
+| `do_ldapdomaindump` | method | `cli/commands/scan_migrated.py:176` | `def do_ldapdomaindump(self, line)` |
+| `do_ldapsearch` | method | `cli/commands/scan_migrated.py:1440` | `def do_ldapsearch(self, line)` |
+| `do_lookupsid` | method | `cli/commands/scan_migrated.py:2458` | `def do_lookupsid(self, line)` |
+| `do_lookupsid_py` | method | `cli/commands/scan_migrated.py:2385` | `def do_lookupsid_py(self, line)` |
+| `do_loxs` | method | `cli/commands/scan_migrated.py:1678` | `def do_loxs(self, line)` |
+| `do_lynis` | method | `cli/commands/scan_migrated.py:361` | `def do_lynis(self, line)` |
+| `do_mqtt_check_py` | method | `cli/commands/scan_migrated.py:2330` | `def do_mqtt_check_py(self, line)` |
+| `do_net_rpc_addmem` | method | `cli/commands/scan_migrated.py:2769` | `def do_net_rpc_addmem(self, line)` |
+| `do_netexec` | method | `cli/commands/scan_migrated.py:988` | `def do_netexec(self, line)` |
+| `do_netview` | method | `cli/commands/scan_migrated.py:2201` | `def do_netview(self, line)` |
+| `do_odat` | method | `cli/commands/scan_migrated.py:1970` | `def do_odat(self, line)` |
+| `do_openredirex` | method | `cli/commands/scan_migrated.py:1902` | `def do_openredirex(self, line)` |
+| `do_parsero` | method | `cli/commands/scan_migrated.py:667` | `def do_parsero(self, line)` |
+| `do_parth` | method | `cli/commands/scan_migrated.py:1771` | `def do_parth(self, line)` |
+| `do_pre2k` | method | `cli/commands/scan_migrated.py:2815` | `def do_pre2k(self, line)` |
+| `do_pykerbrute` | method | `cli/commands/scan_migrated.py:2131` | `def do_pykerbrute(self, line)` |
+| `do_rdp_check_py` | method | `cli/commands/scan_migrated.py:2265` | `def do_rdp_check_py(self, line)` |
+| `do_rpcmap_py` | method | `cli/commands/scan_migrated.py:2088` | `def do_rpcmap_py(self, line)` |
+| `do_samrdump` | method | `cli/commands/scan_migrated.py:306` | `def do_samrdump(self, line)` |
+| `do_sawks` | method | `cli/commands/scan_migrated.py:2678` | `def do_sawks(self, line)` |
+| `do_sessionssh` | method | `cli/commands/scan_migrated.py:483` | `def do_sessionssh(self, line)` |
+| `do_smbattack` | method | `cli/commands/scan_migrated.py:507` | `def do_smbattack(self, line)` |
+| `do_smtpuserenum` | method | `cli/commands/scan_migrated.py:444` | `def do_smtpuserenum(self, line)` |
+| `do_snmpcheck` | method | `cli/commands/scan_migrated.py:390` | `def do_snmpcheck(self, line)` |
+| `do_snmpwalk` | method | `cli/commands/scan_migrated.py:417` | `def do_snmpwalk(self, line)` |
+| `do_swaks` | method | `cli/commands/scan_migrated.py:267` | `def do_swaks(self, line)` |
+| `do_windapsearch` | method | `cli/commands/scan_migrated.py:1312` | `def do_windapsearch(self, line)` |
+| `do_wpscan` | method | `cli/commands/scan_migrated.py:1615` | `def do_wpscan(self, line)` |
+| `find_tgts` | function | `cli/commands/scan_migrated.py:536` | `def find_tgts(subnet)` |
+| `install_netexec` | function | `cli/commands/scan_migrated.py:1015` | `def install_netexec()` |
+| `install_netexec_pipx` | function | `cli/commands/scan_migrated.py:1020` | `def install_netexec_pipx()` |
+| `setup_handler` | function | `cli/commands/scan_migrated.py:562` | `def setup_handler(config_file, lhost, lport)` |
+| `smb_brute` | function | `cli/commands/scan_migrated.py:602` | `def smb_brute(config_file, host, passwd_file, lhost, lport)` |
 | `SecurityCommandSet` | class | `cli/commands/security.py:20` | `class SecurityCommandSet(LazyOwnCommandSet)` |
 | `complete_crack_hashes` | method | `cli/commands/security.py:276` | `def complete_crack_hashes(self, text, line, begidx, endidx)` |
 | `complete_opsec` | method | `cli/commands/security.py:267` | `def complete_opsec(self, text, line, begidx, endidx)` |

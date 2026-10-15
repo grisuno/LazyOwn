@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `m` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `m` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `n` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `ot` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `qt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `rt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `st` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `tt` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `u` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `u` | class | `static/js/quill-2.0.3.js:2` | `` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `text_command` | function | `telegram_hermes.py:712` | `def text_command(update, context)` |
 | `validate_session` | method | `telegram_hermes.py:229` | `def validate_session(self, user_id)` |
 | `decrypt_data` | function | `test/config.py:33` | `def decrypt_data(b64_data)` |
-| `encrypt_data` | function | `test/config.py:24` | `def encrypt_data(data)` |
-| `get_encrypted_command` | function | `test/test_commands.py:51` | `def get_encrypted_command()` |
-| `post_result` | function | `test/test_commands.py:59` | `def post_result(result_data)` |
-| `send_command_via_web` | function | `test/test_commands.py:36` | `def send_command_via_web(command)` |
-| `test_discover` | function | `test/test_commands.py:110` | `def test_discover()` |
-| `test_download` | function | `test/test_commands.py:138` | `def test_download()` |
-| `test_migrate` | function | `test/test_commands.py:79` | `def test_migrate()` |
-| `test_persistence` | function | `test/test_commands.py:176` | `def test_persistence()` |
-| `test_portscan` | function | `test/test_commands.py:99` | `def test_portscan()` |
-| `test_proxy` | function | `test/test_commands.py:121` | `def test_proxy()` |
-| `test_reverse_shell` | function | `test/test_commands.py:206` | `def test_reverse_shell()` |
-| `test_shutdown` | function | `test/test_commands.py:216` | `def test_shutdown()` |
-| `test_simulate` | function | `test/test_commands.py:196` | `def test_simulate()` |
-| `test_softenum` | function | `test/test_commands.py:186` | `def test_softenum()` |
-| `test_uac_bypass` | function | `test/test_commands.py:89` | `def test_uac_bypass()` |
-| `test_upload` | function | `test/test_commands.py:159` | `def test_upload()` |
-| `TestFunctions` | class | `testmeneitor.py:35` | `class TestFunctions(TestCase)` |
-| `extract_functions` | function | `testmeneitor.py:13` | `def extract_functions(script_path)` |
-| `run_command_with_timeout` | function | `testmeneitor.py:54` | `def run_command_with_timeout(command, timeout)` |
-| `run_tests_with_bash` | function | `testmeneitor.py:80` | `def run_tests_with_bash(script_path, functions)` |
-| `run_tests_with_script` | function | `testmeneitor.py:30` | `def run_tests_with_script(script_path, functions)` |
-| `_HealthyRegistry` | class | `tests/conftest.py:94` | `class _HealthyRegistry` |
-| `_fast_llm_connect_backoff` | function | `tests/conftest.py:46` | `def _fast_llm_connect_backoff(monkeypatch)` |
-| `_isolated_llm_health` | function | `tests/conftest.py:16` | `def _isolated_llm_health(tmp_path, monkeypatch)` |
-| `_isolated_path` | function | `tests/conftest.py:32` | `def _isolated_path()` |
-| `_offline` | function | `tests/conftest.py:89` | `def _offline(model, prompt, max_tokens)` |
-| `_offline_llm_for_loop_tests` | function | `tests/conftest.py:72` | `def _offline_llm_for_loop_tests(request, monkeypatch)` |
-| `_reset_world_model_singleton` | function | `tests/conftest.py:62` | `def _reset_world_model_singleton()` |
-| `healthy` | method | `tests/conftest.py:97` | `def healthy(self, name)` |
-| `report_failure` | method | `tests/conftest.py:100` | `def report_failure(self, name, reason)` |
-| `report_success` | method | `tests/conftest.py:103` | `def report_success(self, name)` |
-| `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
-| `backup_files` | function | `tests/run_mutation_addon_creator.py:94` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_addon_creator.py:140` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_addon_creator.py:112` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_addon_creator.py:125` | `def run_tests()` |
-| `_apply_mutation` | function | `tests/run_mutation_api_authz.py:64` | `def _apply_mutation(source, data)` |
-| `_run_mutation_subprocess` | function | `tests/run_mutation_api_authz.py:71` | `def _run_mutation_subprocess(test)` |
-| `run` | function | `tests/run_mutation_api_authz.py:83` | `def run()` |
-| `backup_files` | function | `tests/run_mutation_autonomous_ops.py:59` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_autonomous_ops.py:87` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_autonomous_ops.py:69` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_autonomous_ops.py:76` | `def run_tests()` |
-| `_run_tests` | function | `tests/run_mutation_c2_route_auth.py:29` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_c2_route_auth.py:40` | `def main()` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

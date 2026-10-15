@@ -96,7 +96,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `as_params` (method, line 223) `def as_params(self)`
   - `overridden_keys` (method, line 233) `def overridden_keys(self)`
 - Depends on: `core/logging.py`, `core/payload_schema.py`
-- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `utils.py`
+- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `utils.py`
 
 ## core/console.py
 - Doc: ANSI color constants and console output helpers.
@@ -130,7 +130,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `rotate_aes_key` (function, line 186) `def rotate_aes_key(payload, current_key)`
   - `generate_secure_defaults` (function, line 215) `def generate_secure_defaults()`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/security.py`, `lazyown.py`, `tests/test_credential_vault.py`
+- Imported by: `cli/commands/security.py`, `core/hardening.py`, `lazyown.py`, `tests/test_credential_vault.py`
 
 ## core/crypto.py
 - Doc: Symmetric primitives used by the framework.
@@ -253,24 +253,42 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `reject_option_injection` (function, line 42) `def reject_option_injection(argv)`
-  - `escape_powershell_single_quoted` (function, line 61) `def escape_powershell_single_quoted(value)`
-  - `SecurityViolation` (class, line 82) `class SecurityViolation(PermissionError)`
-  - `terminal_env` (function, line 86) `def terminal_env(base)`
-  - `safe_subprocess_run` (function, line 107) `def safe_subprocess_run(argv)`
-  - `safe_clipboard_copy` (function, line 152) `def safe_clipboard_copy(content)`
-  - `build_sshpass_command` (function, line 191) `def build_sshpass_command(password, ssh_args)`
-  - `set_sshpass_env` (function, line 220) `def set_sshpass_env(password)`
-  - `escape_html_content` (function, line 239) `def escape_html_content(value)`
-  - `safe_path_join` (function, line 251) `def safe_path_join(base_dir, user_path)`
-  - `validate_network_cidr` (function, line 277) `def validate_network_cidr(cidr)`
-  - `validate_port_spec` (function, line 289) `def validate_port_spec(ports)`
-  - `validate_host` (function, line 305) `def validate_host(host)`
-  - `require_encryption_key` (function, line 325) `def require_encryption_key(env_key, secret_file)`
-  - `defused_xml_parse` (function, line 353) `def defused_xml_parse(source)`
-  - `sanitize_filename` (function, line 375) `def sanitize_filename(filename, max_length)`
-- Depends on: `core/host_policy.py`, `core/logging.py`
-- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/lazy_loop.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_host_policy.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+  - `reject_option_injection` (function, line 87) `def reject_option_injection(argv)`
+  - `escape_powershell_single_quoted` (function, line 106) `def escape_powershell_single_quoted(value)`
+  - `SecurityViolation` (class, line 127) `class SecurityViolation(PermissionError)`
+  - `terminal_env` (function, line 131) `def terminal_env(base)`
+  - `safe_subprocess_run` (function, line 152) `def safe_subprocess_run(argv)`
+  - `safe_clipboard_copy` (function, line 197) `def safe_clipboard_copy(content)`
+  - `build_sshpass_command` (function, line 236) `def build_sshpass_command(password, ssh_args)`
+  - `set_sshpass_env` (function, line 265) `def set_sshpass_env(password)`
+  - `escape_html_content` (function, line 284) `def escape_html_content(value)`
+  - `safe_path_join` (function, line 296) `def safe_path_join(base_dir, user_path)`
+  - `validate_network_cidr` (function, line 322) `def validate_network_cidr(cidr)`
+  - `validate_port_spec` (function, line 334) `def validate_port_spec(ports)`
+  - `validate_host` (function, line 350) `def validate_host(host)`
+  - `require_encryption_key` (function, line 370) `def require_encryption_key(env_key, secret_file)`
+  - `defused_xml_parse` (function, line 398) `def defused_xml_parse(source)`
+  - `sanitize_filename` (function, line 420) `def sanitize_filename(filename, max_length)`
+  - `tls_secure_context` (function, line 440) `def tls_secure_context(extra_ca)`
+  - `tls_lab_unverified_allowed` (function, line 465) `def tls_lab_unverified_allowed(host)`
+  - `tls_lab_fallback_context` (function, line 492) `def tls_lab_fallback_context()`
+  - `validate_upstream_path` (function, line 514) `def validate_upstream_path(path)`
+  - `is_safe_path_segment` (function, line 543) `def is_safe_path_segment(segment)`
+  - `is_safe_dir_path` (function, line 564) `def is_safe_dir_path(raw)`
+  - `is_safe_yaml_name` (function, line 590) `def is_safe_yaml_name(name)`
+  - `safe_join_under` (function, line 609) `def safe_join_under(base_dir, user_path)`
+  - `safe_open_under` (function, line 638) `def safe_open_under(base_dir, user_path, mode)`
+  - `store_secret_owner_only` (function, line 665) `def store_secret_owner_only(path, text)`
+  - `_is_emoji_codepoint` (function, line 700) `def _is_emoji_codepoint(code)`
+  - `contains_emoji` (function, line 708) `def contains_emoji(text)`
+  - `iter_emoji_spans` (function, line 723) `def iter_emoji_spans(text)`
+  - `_seal_key` (function, line 742) `def _seal_key(sessions_dir)`
+  - `seal_secret` (function, line 756) `def seal_secret(plaintext)`
+  - `unseal_secret` (function, line 787) `def unseal_secret(stored)`
+  - `redact_text` (function, line 826) `def redact_text(text)`
+  - `_mask` (function, line 837) `def _mask(match)`
+- Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `skills/lazyown_mcp.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
 
 ## core/host_policy.py
 - Doc: Single source of truth for host and network shape validation.
@@ -369,7 +387,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `format` (method, line 78) `def format(self, record)`
   - `format` (method, line 132) `def format(self, record)`
   - `makeRecord` (method, line 148) `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
-- Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`
 
 ## core/network.py
 - Doc: Network primitives for the LazyOwn framework.
@@ -475,25 +493,6 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `getprompt` (function, line 127) `def getprompt()`
 - Depends on: `core/config.py`
 - Imported by: `contrib/legacy/lazybinenc.py`, `key.py`, `static/js/quill-2.0.3.js`
-
-## core/protocols.py
-- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `Selector` (class, line 17) `class Selector(Protocol)`
-  - `LLMBackend` (class, line 37) `class LLMBackend(Protocol)`
-  - `MemoryStore` (class, line 51) `class MemoryStore(Protocol)`
-  - `BridgeCatalog` (class, line 62) `class BridgeCatalog(Protocol)`
-  - `OutcomeEvaluator` (class, line 70) `class OutcomeEvaluator(Protocol)`
-  - `suggest` (method, line 27) `def suggest(self, target, phase, context)`
-  - `complete` (method, line 40) `def complete(self, system, user, max_tokens, temperature)`
-  - `put` (method, line 54) `def put(self, key, value)`
-  - `get` (method, line 56) `def get(self, key, default)`
-  - `search` (method, line 58) `def search(self, query, k)`
-  - `filter` (method, line 65) `def filter(self, phase, os_id)`
-  - `evaluate` (method, line 73) `def evaluate(self, command, output, target, phase)`
-- Imported by: `tests/test_core.py`
 
 
 Next: [KB_core_p2.md](KB_core_p2.md)

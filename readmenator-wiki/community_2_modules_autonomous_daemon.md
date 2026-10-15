@@ -117,7 +117,7 @@ This community groups 113 file(s) rooted at `modules` with dominant language py 
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 686
-- Cross-boundary resolved imports (EXTRACTED): 357
+- Cross-boundary resolved imports (EXTRACTED): 358
 
 ## Connections
 

@@ -62,7 +62,7 @@ flowchart LR
 
 ### `init_addons_bp`
 
-`function` | [lazyc2/blueprints/addons.py:66](../../lazyc2/blueprints/addons.py#L66)
+`function` | [lazyc2/blueprints/addons.py:69](../../lazyc2/blueprints/addons.py#L69)
 
 ```python
 def init_addons_bp(base_dir: str | None = None) -> None
@@ -82,7 +82,7 @@ Configure the blueprint state before registration.
 
 ### `csrf_protect`
 
-`function` | [lazyc2/blueprints/addons.py:93](../../lazyc2/blueprints/addons.py#L93)
+`function` | [lazyc2/blueprints/addons.py:96](../../lazyc2/blueprints/addons.py#L96)
 
 ```python
 def csrf_protect(view: Callable[..., Response]) -> Callable[..., Response]
@@ -107,7 +107,7 @@ token bound to the stable client cookie issued on the form page.
 
 ### `list_addons`
 
-`function` | [lazyc2/blueprints/addons.py:260](../../lazyc2/blueprints/addons.py#L260)
+`function` | [lazyc2/blueprints/addons.py:263](../../lazyc2/blueprints/addons.py#L263)
 
 Decorators: `@addons_bp.route('/addons')`
 
@@ -125,7 +125,7 @@ Render the addon dashboard list page with a fresh CSRF token.
 
 ### `create_addon`
 
-`function` | [lazyc2/blueprints/addons.py:274](../../lazyc2/blueprints/addons.py#L274)
+`function` | [lazyc2/blueprints/addons.py:277](../../lazyc2/blueprints/addons.py#L277)
 
 Decorators: `@addons_bp.route('/addons/create', methods=['GET', 'POST'])`, `@csrf_protect`
 
@@ -146,7 +146,7 @@ with per-field errors or a redirect to the YAML preview.
 
 ### `view_addon`
 
-`function` | [lazyc2/blueprints/addons.py:317](../../lazyc2/blueprints/addons.py#L317)
+`function` | [lazyc2/blueprints/addons.py:321](../../lazyc2/blueprints/addons.py#L321)
 
 Decorators: `@addons_bp.route('/addons/<name>/view')`
 
@@ -172,7 +172,7 @@ Render the persisted YAML document for an addon.
 
 ### `delete_addon`
 
-`function` | [lazyc2/blueprints/addons.py:341](../../lazyc2/blueprints/addons.py#L341)
+`function` | [lazyc2/blueprints/addons.py:345](../../lazyc2/blueprints/addons.py#L345)
 
 Decorators: `@addons_bp.route('/addons/<name>/delete', methods=['POST'])`, `@csrf_protect`
 

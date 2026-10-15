@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,10 +13,10 @@ Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data mem
 | constructor | 184 | 502 | 36.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 34 | 36 | 94.4% |
-| function | 1491 | 2379 | 62.7% |
+| function | 1513 | 2401 | 63.0% |
 | macro | 3 | 113 | 2.7% |
 | method | 2673 | 3358 | 79.6% |
-| module | 613 | 735 | 83.4% |
+| module | 615 | 737 | 83.4% |
 | property | 130 | 174 | 74.7% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 74 | 86 | 86.0% |
@@ -526,7 +526,7 @@ Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data mem
 | [`core.dependencies`](modules/core.dependencies.py.md) | 14 | 14 | 100.0% |
 | [`core.error_advice`](modules/core.error_advice.py.md) | 6 | 6 | 100.0% |
 | [`core.executor`](modules/core.executor.py.md) | 3 | 3 | 100.0% |
-| [`core.hardening`](modules/core.hardening.py.md) | 16 | 16 | 100.0% |
+| [`core.hardening`](modules/core.hardening.py.md) | 31 | 31 | 100.0% |
 | [`core.host_policy`](modules/core.host_policy.py.md) | 4 | 4 | 100.0% |
 | [`core.http`](modules/core.http.py.md) | 11 | 11 | 100.0% |
 | [`core.network`](modules/core.network.py.md) | 9 | 9 | 100.0% |
@@ -535,6 +535,7 @@ Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data mem
 | [`core.process`](modules/core.process.py.md) | 10 | 10 | 100.0% |
 | [`core.profiles`](modules/core.profiles.py.md) | 4 | 4 | 100.0% |
 | [`core.prompt`](modules/core.prompt.py.md) | 8 | 8 | 100.0% |
+| [`core.reverse_shell_secret`](modules/core.reverse_shell_secret.py.md) | 5 | 5 | 100.0% |
 | [`core.safe_console`](modules/core.safe_console.py.md) | 6 | 6 | 100.0% |
 | [`core.safe_exec`](modules/core.safe_exec.py.md) | 12 | 12 | 100.0% |
 | [`core.safe_import`](modules/core.safe_import.py.md) | 5 | 5 | 100.0% |
@@ -660,7 +661,7 @@ Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data mem
 | [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 291 | 291 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
-| [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 20 | 20 | 100.0% |
+| [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
@@ -730,6 +731,7 @@ Overall: **72.7%** (6453 of 8878 public modules, types, and callables). Data mem
 | [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | 3 | 3 | 100.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | 1 | 1 | 100.0% |
+| [`scripts/pi_qwen_setup.sh`](modules/scripts.pi_qwen_setup.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.read_journal`](modules/scripts.read_journal.py.md) | 2 | 2 | 100.0% |
 | [`scripts/setup_hermes_mcp.sh`](modules/scripts.setup_hermes_mcp.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.sync_doc_stats`](modules/scripts.sync_doc_stats.py.md) | 7 | 7 | 100.0% |
@@ -903,8 +905,8 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC003 `cli/commands/recon.py:461` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_openssl_sclient
 - DOC001 `cli/commands/recon_migrated.py:38` class ReconMigratedCommandSet is not documented
 - DOC003 `cli/commands/recon_migrated.py:784` documented parameter 'self.params['rhost']' is not in the signature of ReconMigratedCommandSet.do_apache_users
-- DOC001 `cli/commands/scan_migrated.py:29` class ScanMigratedCommandSet is not documented
-- DOC003 `cli/commands/scan_migrated.py:711` documented parameter 'self.params['rhost']' is not in the signature of ScanMigratedCommandSet.do_enum4linux_ng
+- DOC001 `cli/commands/scan_migrated.py:32` class ScanMigratedCommandSet is not documented
+- DOC003 `cli/commands/scan_migrated.py:730` documented parameter 'self.params['rhost']' is not in the signature of ScanMigratedCommandSet.do_enum4linux_ng
 - DOC001 `cli/commands/security.py:267` method SecurityCommandSet.complete_opsec is not documented
 - DOC001 `cli/commands/security.py:276` method SecurityCommandSet.complete_crack_hashes is not documented
 - DOC001 `cli/dashboard_tui.py:836` method LazyOwnDashboard.compose is not documented

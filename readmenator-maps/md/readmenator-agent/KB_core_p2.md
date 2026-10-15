@@ -1,6 +1,37 @@
 # Subsystem: core (page 2 of 2)
 Previous: [KB_core.md](KB_core.md)
 
+## core/protocols.py
+- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Selector` (class, line 17) `class Selector(Protocol)`
+  - `LLMBackend` (class, line 37) `class LLMBackend(Protocol)`
+  - `MemoryStore` (class, line 51) `class MemoryStore(Protocol)`
+  - `BridgeCatalog` (class, line 62) `class BridgeCatalog(Protocol)`
+  - `OutcomeEvaluator` (class, line 70) `class OutcomeEvaluator(Protocol)`
+  - `suggest` (method, line 27) `def suggest(self, target, phase, context)`
+  - `complete` (method, line 40) `def complete(self, system, user, max_tokens, temperature)`
+  - `put` (method, line 54) `def put(self, key, value)`
+  - `get` (method, line 56) `def get(self, key, default)`
+  - `search` (method, line 58) `def search(self, query, k)`
+  - `filter` (method, line 65) `def filter(self, phase, os_id)`
+  - `evaluate` (method, line 73) `def evaluate(self, command, output, target, phase)`
+- Imported by: `tests/test_core.py`
+
+## core/reverse_shell_secret.py
+- Doc: Reverse-shell fallback secret — sealed persistence contract.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `seal_reverse_shell_password` (function, line 24) `def seal_reverse_shell_password(plaintext)`
+  - `load_reverse_shell_password` (function, line 41) `def load_reverse_shell_password(secret_path)`
+  - `generate_reverse_shell_password` (function, line 65) `def generate_reverse_shell_password()`
+  - `is_configured_password_valid` (function, line 74) `def is_configured_password_valid(candidate, minimum_length)`
+- Depends on: `core/hardening.py`
+- Imported by: `lazyc2.py`, `tests/test_security_alerts_fix.py`
+
 ## core/safe_console.py
 - Doc: Terminal-safe Rich console factory.
 - Layer: utility

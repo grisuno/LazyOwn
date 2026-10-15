@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 735 modules, 14072 documented entities, documentation coverage 72.7% (6453/8878 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 737 modules, 14107 documented entities, documentation coverage 72.8% (6477/8902 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (625), sh (58)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (626), sh (59)
 
 ## Modules
 
@@ -270,7 +270,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`core.error_advice`](modules/core.error_advice.py.md) | Actionable error advice with fix command and documentation link. | 2 | 3 | 100.0% |
 | [`core.errors`](modules/core.errors.py.md) | Error taxonomy for the LazyOwn framework. | 11 | 11 | 56.5% |
 | [`core.executor`](modules/core.executor.py.md) | Centralised subprocess wrapper for the LazyOwn framework. | 0 | 4 | 100.0% |
-| [`core.hardening`](modules/core.hardening.py.md) | Centralized security hardening utilities for the LazyOwn framework. | 1 | 14 | 100.0% |
+| [`core.hardening`](modules/core.hardening.py.md) | Centralized security hardening utilities for the LazyOwn framework. | 1 | 29 | 100.0% |
 | [`core.host_policy`](modules/core.host_policy.py.md) | Single source of truth for host and network shape validation. | 0 | 3 | 100.0% |
 | [`core.http`](modules/core.http.py.md) | HTTP and API utilities for the LazyOwn framework. | 0 | 10 | 100.0% |
 | [`core.llm_budget`](modules/core.llm_budget.py.md) | LLM budget cap and per call token counter. | 9 | 24 | 82.4% |
@@ -282,6 +282,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`core.profiles`](modules/core.profiles.py.md) | Runtime profiles: ``light`` vs ``full`` installations. | 0 | 3 | 100.0% |
 | [`core.prompt`](modules/core.prompt.py.md) | Prompt builder for LazyOwn CLI and C2 dashboard banner. | 0 | 7 | 100.0% |
 | [`core.protocols`](modules/core.protocols.py.md) | Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration. | 5 | 7 | 76.9% |
+| [`core.reverse_shell_secret`](modules/core.reverse_shell_secret.py.md) | Reverse-shell fallback secret — sealed persistence contract. | 0 | 4 | 100.0% |
 | [`core.safe_console`](modules/core.safe_console.py.md) | Terminal-safe Rich console factory. | 0 | 5 | 100.0% |
 | [`core.safe_exec`](modules/core.safe_exec.py.md) | Centralized safe command execution for the LazyOwn framework. | 2 | 9 | 100.0% |
 | [`core.safe_import`](modules/core.safe_import.py.md) | Fail-closed import of attacker-supplied campaign packages. | 0 | 4 | 100.0% |
@@ -570,7 +571,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 29 | 261 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
-| [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 17 | 100.0% |
+| [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 5 | 100.0% |
@@ -826,6 +827,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`scripts.migrate_lazyown`](modules/scripts.migrate_lazyown.py.md) | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | 0 | 4 | 80.0% |
 | [`scripts/mutate.sh`](modules/scripts.mutate.sh.md) | Mutation gate for LazyOwn. | 0 | 3 | 25.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | Patch APT playbooks: replace placeholder atomic_ids with real technique_ids. | 0 | 0 | 100.0% |
+| [`scripts/pi_qwen_setup.sh`](modules/scripts.pi_qwen_setup.sh.md) | pi_qwen_setup.sh - idempotent bootstrap for the pi_qwen lazyaddon. | 0 | 0 | 100.0% |
 | [`scripts/publish_wiki.sh`](modules/scripts.publish_wiki.sh.md) | Publish LazyOwn documentation to the GitHub wiki. | 0 | 8 | 11.1% |
 | [`scripts.read_journal`](modules/scripts.read_journal.py.md) | Print the recent engineering journal before a change is written. | 0 | 1 | 100.0% |
 | [`scripts/setup_hermes_mcp.sh`](modules/scripts.setup_hermes_mcp.sh.md) | setup_hermes_mcp.sh — register LazyOwn MCP server in Hermes Agent config Usage: bash scripts/setup_hermes_mcp.sh [--check] --check verify registration without... | 0 | 0 | 100.0% |

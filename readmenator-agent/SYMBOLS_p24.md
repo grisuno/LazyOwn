@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_ipp` | function | `skills/mcp_generated_tools.py:3082` | `def _gen_ipp(arguments, tool_name, _cmd)` |
+| `_gen_issue_command_to_c2` | function | `skills/mcp_generated_tools.py:3090` | `def _gen_issue_command_to_c2(arguments, tool_name, _cmd)` |
+| `_gen_ivy` | function | `skills/mcp_generated_tools.py:3098` | `def _gen_ivy(arguments, tool_name, _cmd)` |
+| `_gen_jenkins_enum` | function | `skills/mcp_generated_tools.py:3106` | `def _gen_jenkins_enum(arguments, tool_name, _cmd)` |
+| `_gen_john2hash` | function | `skills/mcp_generated_tools.py:3114` | `def _gen_john2hash(arguments, tool_name, _cmd)` |
+| `_gen_john2keepas` | function | `skills/mcp_generated_tools.py:3122` | `def _gen_john2keepas(arguments, tool_name, _cmd)` |
+| `_gen_john2zip` | function | `skills/mcp_generated_tools.py:3130` | `def _gen_john2zip(arguments, tool_name, _cmd)` |
+| `_gen_jwt_tool` | function | `skills/mcp_generated_tools.py:3138` | `def _gen_jwt_tool(arguments, tool_name, _cmd)` |
+| `_gen_k8s_enum` | function | `skills/mcp_generated_tools.py:3146` | `def _gen_k8s_enum(arguments, tool_name, _cmd)` |
+| `_gen_k8s_pods` | function | `skills/mcp_generated_tools.py:3154` | `def _gen_k8s_pods(arguments, tool_name, _cmd)` |
+| `_gen_k8s_secrets` | function | `skills/mcp_generated_tools.py:3162` | `def _gen_k8s_secrets(arguments, tool_name, _cmd)` |
+| `_gen_karma` | function | `skills/mcp_generated_tools.py:3170` | `def _gen_karma(arguments, tool_name, _cmd)` |
+| `_gen_keepass` | function | `skills/mcp_generated_tools.py:3178` | `def _gen_keepass(arguments, tool_name, _cmd)` |
+| `_gen_kerbrute` | function | `skills/mcp_generated_tools.py:3186` | `def _gen_kerbrute(arguments, tool_name, _cmd)` |
+| `_gen_kick` | function | `skills/mcp_generated_tools.py:3194` | `def _gen_kick(arguments, tool_name, _cmd)` |
+| `_gen_knokknok` | function | `skills/mcp_generated_tools.py:3202` | `def _gen_knokknok(arguments, tool_name, _cmd)` |
+| `_gen_krbrelayx_py` | function | `skills/mcp_generated_tools.py:3210` | `def _gen_krbrelayx_py(arguments, tool_name, _cmd)` |
+| `_gen_kusa` | function | `skills/mcp_generated_tools.py:3218` | `def _gen_kusa(arguments, tool_name, _cmd)` |
+| `_gen_l00t` | function | `skills/mcp_generated_tools.py:3226` | `def _gen_l00t(arguments, tool_name, _cmd)` |
+| `_gen_lab` | function | `skills/mcp_generated_tools.py:3234` | `def _gen_lab(arguments, tool_name, _cmd)` |
+| `_gen_lateral_mov_lin` | function | `skills/mcp_generated_tools.py:3242` | `def _gen_lateral_mov_lin(arguments, tool_name, _cmd)` |
+| `_gen_launchpad` | function | `skills/mcp_generated_tools.py:3250` | `def _gen_launchpad(arguments, tool_name, _cmd)` |
+| `_gen_lazy_payload_keys` | function | `skills/mcp_generated_tools.py:3258` | `def _gen_lazy_payload_keys(arguments, tool_name, _cmd)` |
+| `_gen_lazy_runtime` | function | `skills/mcp_generated_tools.py:3266` | `def _gen_lazy_runtime(arguments, tool_name, _cmd)` |
+| `_gen_lazynmap` | function | `skills/mcp_generated_tools.py:3274` | `def _gen_lazynmap(arguments, tool_name, _cmd)` |
+| `_gen_lazypwn` | function | `skills/mcp_generated_tools.py:3282` | `def _gen_lazypwn(arguments, tool_name, _cmd)` |
+| `_gen_lazyreport` | function | `skills/mcp_generated_tools.py:3290` | `def _gen_lazyreport(arguments, tool_name, _cmd)` |
+| `_gen_lazyscript` | function | `skills/mcp_generated_tools.py:3298` | `def _gen_lazyscript(arguments, tool_name, _cmd)` |
+| `_gen_lazywebshell` | function | `skills/mcp_generated_tools.py:3306` | `def _gen_lazywebshell(arguments, tool_name, _cmd)` |
+| `_gen_ldapdomaindump` | function | `skills/mcp_generated_tools.py:3314` | `def _gen_ldapdomaindump(arguments, tool_name, _cmd)` |
+| `_gen_ldapsearch` | function | `skills/mcp_generated_tools.py:3322` | `def _gen_ldapsearch(arguments, tool_name, _cmd)` |
+| `_gen_les` | function | `skills/mcp_generated_tools.py:3330` | `def _gen_les(arguments, tool_name, _cmd)` |
+| `_gen_lfi` | function | `skills/mcp_generated_tools.py:3338` | `def _gen_lfi(arguments, tool_name, _cmd)` |
+| `_gen_ligolo` | function | `skills/mcp_generated_tools.py:3346` | `def _gen_ligolo(arguments, tool_name, _cmd)` |
+| `_gen_links` | function | `skills/mcp_generated_tools.py:3354` | `def _gen_links(arguments, tool_name, _cmd)` |
+| `_gen_linpeas` | function | `skills/mcp_generated_tools.py:3362` | `def _gen_linpeas(arguments, tool_name, _cmd)` |
+| `_gen_list` | function | `skills/mcp_generated_tools.py:3370` | `def _gen_list(arguments, tool_name, _cmd)` |
+| `_gen_listaliases` | function | `skills/mcp_generated_tools.py:3378` | `def _gen_listaliases(arguments, tool_name, _cmd)` |
+| `_gen_listener` | function | `skills/mcp_generated_tools.py:3386` | `def _gen_listener(arguments, tool_name, _cmd)` |
+| `_gen_listener_go` | function | `skills/mcp_generated_tools.py:3394` | `def _gen_listener_go(arguments, tool_name, _cmd)` |
+| `_gen_listener_py` | function | `skills/mcp_generated_tools.py:3402` | `def _gen_listener_py(arguments, tool_name, _cmd)` |
+| `_gen_llm_budget` | function | `skills/mcp_generated_tools.py:3410` | `def _gen_llm_budget(arguments, tool_name, _cmd)` |
+| `_gen_load_session` | function | `skills/mcp_generated_tools.py:3418` | `def _gen_load_session(arguments, tool_name, _cmd)` |
+| `_gen_lock_target` | function | `skills/mcp_generated_tools.py:3426` | `def _gen_lock_target(arguments, tool_name, _cmd)` |
+| `_gen_login` | function | `skills/mcp_generated_tools.py:3434` | `def _gen_login(arguments, tool_name, _cmd)` |
 | `_gen_logout` | function | `skills/mcp_generated_tools.py:3442` | `def _gen_logout(arguments, tool_name, _cmd)` |
 | `_gen_lol` | function | `skills/mcp_generated_tools.py:3450` | `def _gen_lol(arguments, tool_name, _cmd)` |
 | `_gen_lookupsid` | function | `skills/mcp_generated_tools.py:3458` | `def _gen_lookupsid(arguments, tool_name, _cmd)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `test_name_reflects_all_runners` | method | `skills/tests/test_autonomous_daemon.py:182` | `def test_name_reflects_all_runners(self)` |
 | `test_passes_context_to_selectors` | method | `skills/tests/test_autonomous_daemon.py:337` | `def test_passes_context_to_selectors(self)` |
 | `test_raises_when_all_fail` | method | `skills/tests/test_autonomous_daemon.py:172` | `def test_raises_when_all_fail(self)` |
-| `test_raises_when_import_fails` | method | `skills/tests/test_autonomous_daemon.py:105` | `def test_raises_when_import_fails(self)` |
-| `test_requires_at_least_one_runner` | method | `skills/tests/test_autonomous_daemon.py:192` | `def test_requires_at_least_one_runner(self)` |
-| `test_respects_fail_counts` | method | `skills/tests/test_autonomous_daemon.py:275` | `def test_respects_fail_counts(self)` |
-| `test_returns_assigned_id` | method | `skills/tests/test_autonomous_daemon.py:412` | `def test_returns_assigned_id(self)` |
-| `test_returns_candidate_when_pdb_has_history` | method | `skills/tests/test_autonomous_daemon.py:259` | `def test_returns_candidate_when_pdb_has_history(self)` |
-| `test_returns_command_decision_type` | method | `skills/tests/test_autonomous_daemon.py:216` | `def test_returns_command_decision_type(self)` |
-| `test_returns_error_string_when_store_unavailable` | method | `skills/tests/test_autonomous_daemon.py:596` | `def test_returns_error_string_when_store_unavailable(self)` |
-| `test_returns_false_when_file_missing` | method | `skills/tests/test_autonomous_daemon.py:473` | `def test_returns_false_when_file_missing(self)` |
-| `test_returns_first_non_none_result` | method | `skills/tests/test_autonomous_daemon.py:309` | `def test_returns_first_non_none_result(self)` |
-| `test_returns_json_with_both_ids` | method | `skills/tests/test_autonomous_daemon.py:581` | `def test_returns_json_with_both_ids(self)` |
-| `test_returns_none_when_pdb_unavailable` | method | `skills/tests/test_autonomous_daemon.py:251` | `def test_returns_none_when_pdb_unavailable(self)` |
-| `test_returns_valid_json` | method | `skills/tests/test_autonomous_daemon.py:623` | `def test_returns_valid_json(self)` |
-| `test_running_is_false_when_no_daemon` | method | `skills/tests/test_autonomous_daemon.py:641` | `def test_running_is_false_when_no_daemon(self)` |
-| `test_source_is_fallback` | method | `skills/tests/test_autonomous_daemon.py:225` | `def test_source_is_fallback(self)` |
-| `test_unknown_phase_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:233` | `def test_unknown_phase_returns_decision(self)` |
-| `test_updates_existing_task` | method | `skills/tests/test_autonomous_daemon.py:455` | `def test_updates_existing_task(self)` |
-| `test_uses_fallback_when_all_none` | method | `skills/tests/test_autonomous_daemon.py:325` | `def test_uses_fallback_when_all_none(self)` |
-| `test_uses_first_runner_when_successful` | method | `skills/tests/test_autonomous_daemon.py:152` | `def test_uses_first_runner_when_successful(self)` |
-| `test_writes_valid_json_line` | method | `skills/tests/test_autonomous_daemon.py:499` | `def test_writes_valid_json_line(self)` |
-| `TestCrackMapExecParser` | class | `skills/tests/test_facts.py:61` | `class TestCrackMapExecParser` |
-| `TestEnum4linuxParser` | class | `skills/tests/test_facts.py:81` | `class TestEnum4linuxParser` |
-| `TestFactStore` | class | `skills/tests/test_facts.py:300` | `class TestFactStore` |
-| `TestGobusterParser` | class | `skills/tests/test_facts.py:149` | `class TestGobusterParser` |
-| `TestKerbruteParser` | class | `skills/tests/test_facts.py:119` | `class TestKerbruteParser` |
-| `TestNiktoParser` | class | `skills/tests/test_facts.py:176` | `class TestNiktoParser` |
-| `TestNmapXmlParser` | class | `skills/tests/test_facts.py:246` | `class TestNmapXmlParser` |
-| `TestNucleiParser` | class | `skills/tests/test_facts.py:196` | `class TestNucleiParser` |
-| `TestRpcclientParser` | class | `skills/tests/test_facts.py:138` | `class TestRpcclientParser` |
-| `TestSecretsdumpParser` | class | `skills/tests/test_facts.py:105` | `class TestSecretsdumpParser` |
-| `TestSslscanParser` | class | `skills/tests/test_facts.py:218` | `class TestSslscanParser` |
-| `_make_config` | function | `skills/tests/test_facts.py:42` | `def _make_config(tmp_path)` |
-| `test_context_for_command` | method | `skills/tests/test_facts.py:322` | `def test_context_for_command(self, tmp_path)` |
-| `test_context_for_unknown_host` | method | `skills/tests/test_facts.py:356` | `def test_context_for_unknown_host(self, tmp_path)` |
-| `test_crackmapexec_parser` | method | `skills/tests/test_facts.py:62` | `def test_crackmapexec_parser(self)` |
-| `test_crackmapexec_pwned` | method | `skills/tests/test_facts.py:73` | `def test_crackmapexec_pwned(self)` |
-| `test_dedup_creds` | method | `skills/tests/test_facts.py:429` | `def test_dedup_creds(self, tmp_path)` |
-| `test_enum4linux_access_when_results` | method | `skills/tests/test_facts.py:97` | `def test_enum4linux_access_when_results(self)` |
-| `test_enum4linux_parser` | method | `skills/tests/test_facts.py:82` | `def test_enum4linux_parser(self)` |
-| `test_factstore_dedup` | method | `skills/tests/test_facts.py:301` | `def test_factstore_dedup(self, tmp_path)` |
-| `test_factstore_save_and_reload` | method | `skills/tests/test_facts.py:363` | `def test_factstore_save_and_reload(self, tmp_path)` |
-| `test_gobuster_multiple_paths` | method | `skills/tests/test_facts.py:162` | `def test_gobuster_multiple_paths(self)` |
-| `test_gobuster_parser_parse_extended` | method | `skills/tests/test_facts.py:150` | `def test_gobuster_parser_parse_extended(self)` |
-| `test_ingest_text_crackmapexec` | method | `skills/tests/test_facts.py:416` | `def test_ingest_text_crackmapexec(self, tmp_path)` |
-| `test_ingest_xml` | method | `skills/tests/test_facts.py:390` | `def test_ingest_xml(self, tmp_path)` |
-| `test_kerbrute_multiple_users` | method | `skills/tests/test_facts.py:129` | `def test_kerbrute_multiple_users(self)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

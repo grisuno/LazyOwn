@@ -1,6 +1,40 @@
 # API (page 9 of 22)
 Previous: [API_p8.md](API_p8.md)
 
+## modules/LazyOwnExplorer.py
+- `AutocompleteEntry.__init__` (method) `modules/LazyOwnExplorer.py:31` `def __init__(self, get_suggestions_func)`
+- `AutocompleteEntry.changed` (method) `modules/LazyOwnExplorer.py:45` `def changed(self, name, index, mode)`
+- `AutocompleteEntry.selection` (method) `modules/LazyOwnExplorer.py:68` `def selection(self, event)`
+- `AutocompleteEntry.move_up` (method) `modules/LazyOwnExplorer.py:75` `def move_up(self, event)`
+- `AutocompleteEntry.move_down` (method) `modules/LazyOwnExplorer.py:87` `def move_down(self, event)`
+- `AutocompleteEntry.comparison` (method) `modules/LazyOwnExplorer.py:99` `def comparison(self, pattern)`
+- `LazyOwnGUI.__init__` (method) `modules/LazyOwnExplorer.py:105` `def __init__(self)`
+- `LazyOwnGUI.create_widgets` (method) `modules/LazyOwnExplorer.py:119` `def create_widgets(self)`
+- `get_suggestions` (function) `modules/LazyOwnExplorer.py:124` `def get_suggestions(term)`
+- `LazyOwnGUI.load_parquet_files` (method) `modules/LazyOwnExplorer.py:181` `def load_parquet_files(self)`
+- `LazyOwnGUI.get_unique_values` (method) `modules/LazyOwnExplorer.py:241` `def get_unique_values(self)`
+- `LazyOwnGUI.search` (method) `modules/LazyOwnExplorer.py:248` `def search(self)`
+- `LazyOwnGUI.search_in_parquet` (method) `modules/LazyOwnExplorer.py:267` `def search_in_parquet(self, term)`
+- `LazyOwnGUI.on_row_double_click` (method) `modules/LazyOwnExplorer.py:278` `def on_row_double_click(self, event)`
+- `LazyOwnGUI.show_row_details` (method) `modules/LazyOwnExplorer.py:283` `def show_row_details(self, row)`
+- `LazyOwnGUI.add_new_attack_vector` (method) `modules/LazyOwnExplorer.py:305` `def add_new_attack_vector(self)`
+- `save_new_vector` (function) `modules/LazyOwnExplorer.py:325` `def save_new_vector()`
+- `LazyOwnGUI.scan_system_for_binaries` (method) `modules/LazyOwnExplorer.py:357` `def scan_system_for_binaries(self)`
+- `is_binary` (function) `modules/LazyOwnExplorer.py:358` `def is_binary(file_path)`
+- `LazyOwnGUI.show_scan_results` (method) `modules/LazyOwnExplorer.py:374` `def show_scan_results(self, binaries)`
+- `LazyOwnGUI.export_to_csv` (method) `modules/LazyOwnExplorer.py:385` `def export_to_csv(self)`
+
+## modules/adcs_attacks.py
+Imported by: `cli/commands/exploit_migrated.py`
+- `CertificateTemplate.esc_vulnerabilities` (method) `modules/adcs_attacks.py:35` `def esc_vulnerabilities(self)` -- Determine which ESC attack paths apply to this template.
+- `ADCSCertipyWrapper.__init__` (method) `modules/adcs_attacks.py:80` `def __init__(self, certipy_path, timeout)`
+- `ADCSCertipyWrapper.find_certificate_authorities` (method) `modules/adcs_attacks.py:113` `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` -- Enumerate certificate authorities in an Active Directory domain.
+- `ADCSCertipyWrapper.enumerate_templates` (method) `modules/adcs_attacks.py:189` `def enumerate_templates(self, username, password, domain, dc_ip, hashes)` -- Enumerate vulnerable certificate templates.
+- `ADCSCertipyWrapper.request_certificate_esc1` (method) `modules/adcs_attacks.py:268` `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` -- ESC1: Request a certificate with a user-supplied subject alternative name.
+- `ADCSCertipyWrapper.request_certificate_esc8` (method) `modules/adcs_attacks.py:322` `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` -- ESC8: HTTP-based certificate enrollment (NTLM relay to AD CS).
+- `ADCSCertipyWrapper.authenticate_with_certificate` (method) `modules/adcs_attacks.py:367` `def authenticate_with_certificate(self, cert_file, domain, dc_ip, username)` -- Authenticate to the domain using a certificate and retrieve NT hash.
+- `ADCSCertipyWrapper.assess_vulnerability` (method) `modules/adcs_attacks.py:411` `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)` -- Run a full AD CS vulnerability assessment.
+
 ## modules/agent_runner.py
 Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
@@ -439,53 +473,6 @@ Imported by: `cli/commands/cloud.py`
 - `CloudEnumerator.enumerate_storage` (method) `modules/cloud_enum.py:251` `def enumerate_storage(self, target_bucket)` -- Enumerate cloud storage buckets and objects.
 - `CloudEnumerator.enumerate_iam` (method) `modules/cloud_enum.py:372` `def enumerate_iam(self)` -- Enumerate IAM roles, users, and policies.
 - `CloudEnumerator.full_enumeration` (method) `modules/cloud_enum.py:576` `def full_enumeration(self)` -- Run full cloud enumeration: metadata + storage + IAM.
-
-## modules/collab_bp.py
-Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
-- `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
-- `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
-- `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
-- `decorator` (function) `modules/collab_bp.py:139` `def decorator(f)`
-- `decorated` (function) `modules/collab_bp.py:141` `def decorated()`
-- `ColabEvent.to_sse` (method) `modules/collab_bp.py:170` `def to_sse(self)`
-- `EventBus.__init__` (method) `modules/collab_bp.py:198` `def __init__(self)`
-- `EventBus.subscribe` (method) `modules/collab_bp.py:203` `def subscribe(self, subscriber_id)`
-- `EventBus.unsubscribe` (method) `modules/collab_bp.py:215` `def unsubscribe(self, subscriber_id)`
-- `EventBus.publish` (method) `modules/collab_bp.py:219` `def publish(self, event)`
-- `EventBus.recent` (method) `modules/collab_bp.py:234` `def recent(self, n)`
-- `EventBus.reset` (method) `modules/collab_bp.py:238` `def reset(self)`
-- `LockManager.__init__` (method) `modules/collab_bp.py:263` `def __init__(self)`
-- `LockManager.acquire` (method) `modules/collab_bp.py:267` `def acquire(self, target, operator, ttl_secs)`
-- `LockManager.release` (method) `modules/collab_bp.py:279` `def release(self, target, operator)`
-- `LockManager.status` (method) `modules/collab_bp.py:287` `def status(self, target)`
-- `LockManager.all_locks` (method) `modules/collab_bp.py:292` `def all_locks(self)`
-- `LockManager.reset` (method) `modules/collab_bp.py:304` `def reset(self)`
-- `OperatorRegistry.__init__` (method) `modules/collab_bp.py:319` `def __init__(self)`
-- `OperatorRegistry.join` (method) `modules/collab_bp.py:323` `def join(self, name)`
-- `OperatorRegistry.heartbeat` (method) `modules/collab_bp.py:334` `def heartbeat(self, name)`
-- `OperatorRegistry.leave` (method) `modules/collab_bp.py:340` `def leave(self, name)`
-- `OperatorRegistry.active_operators` (method) `modules/collab_bp.py:345` `def active_operators(self)`
-- `OperatorRegistry.reset` (method) `modules/collab_bp.py:356` `def reset(self)`
-- `get_event_bus` (function) `modules/collab_bp.py:370` `def get_event_bus()`
-- `get_lock_manager` (function) `modules/collab_bp.py:374` `def get_lock_manager()`
-- `get_operator_registry` (function) `modules/collab_bp.py:378` `def get_operator_registry()`
-- `publish_event` (function) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
-- `collab_ui` (function) `modules/collab_bp.py:396` `def collab_ui()`
-- `stream` (function) `modules/collab_bp.py:411` `def stream()`
-- `generate` (function) `modules/collab_bp.py:424` `def generate()`
-- `operators` (function) `modules/collab_bp.py:458` `def operators()`
-- `publish` (function) `modules/collab_bp.py:470` `def publish()`
-- `lock` (function) `modules/collab_bp.py:483` `def lock()`
-- `unlock` (function) `modules/collab_bp.py:504` `def unlock()`
-- `locks` (function) `modules/collab_bp.py:522` `def locks()`
-- `history` (function) `modules/collab_bp.py:537` `def history()`
-
-## modules/colors.py
-Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
-- `retModel` (function) `modules/colors.py:40` `def retModel()` -- gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k    32,768...
-- `delete_lines` (function) `modules/colors.py:68` `def delete_lines(content, to_delete)`
-- `no_html` (function) `modules/colors.py:74` `def no_html(content)`
 
 
 Next: [API_p10.md](API_p10.md)

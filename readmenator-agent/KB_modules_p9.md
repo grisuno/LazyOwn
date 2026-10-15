@@ -362,32 +362,34 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `is_model_missing_error` (function, line 119) `def is_model_missing_error(message)`
-  - `groq_model_chain` (function, line 139) `def groq_model_chain(config)`
-  - `LLMBackendUnavailableError` (class, line 184) `class LLMBackendUnavailableError(RuntimeError)`
-  - `LLMBackendNotSupportedError` (class, line 188) `class LLMBackendNotSupportedError(ValueError)`
-  - `default_model_for` (function, line 218) `def default_model_for(backend)`
-  - `model_config_key` (function, line 239) `def model_config_key(backend)`
-  - `api_key_config_key` (function, line 260) `def api_key_config_key(backend)`
-  - `backend_requires_api_key` (function, line 285) `def backend_requires_api_key(backend)`
-  - `load_payload` (function, line 303) `def load_payload(payload_path)`
-  - `_resolve_api_key` (function, line 327) `def _resolve_api_key(config)`
-  - `_resolve_api_key_for_backend` (function, line 350) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (function, line 381) `def _normalize_backend(backend)`
-  - `_build_groq` (function, line 404) `def _build_groq(config)`
-  - `_build_ollama` (function, line 426) `def _build_ollama(config)`
-  - `_build_llamacpp` (function, line 440) `def _build_llamacpp(config)`
-  - `_build_openai` (function, line 454) `def _build_openai(config)`
-  - `_build_anthropic` (function, line 476) `def _build_anthropic(config)`
-  - `_build_deepseek` (function, line 498) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (function, line 520) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (function, line 547) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (function, line 585) `def get_llm_backend(config, backend)`
-  - `_build_backend` (function, line 637) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (function, line 673) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (function, line 695) `def try_get_llm_backend(config, backend)`
-  - `stream_complete` (function, line 719) `def stream_complete(model, prompt, max_tokens, on_delta)`
-  - `complete` (function, line 788) `def complete(model, prompt, max_tokens)`
+  - `is_model_missing_error` (function, line 121) `def is_model_missing_error(message)`
+  - `groq_model_chain` (function, line 141) `def groq_model_chain(config)`
+  - `LLMBackendUnavailableError` (class, line 190) `class LLMBackendUnavailableError(RuntimeError)`
+  - `LLMBackendNotSupportedError` (class, line 194) `class LLMBackendNotSupportedError(ValueError)`
+  - `default_model_for` (function, line 224) `def default_model_for(backend)`
+  - `model_config_key` (function, line 245) `def model_config_key(backend)`
+  - `api_key_config_key` (function, line 266) `def api_key_config_key(backend)`
+  - `backend_requires_api_key` (function, line 291) `def backend_requires_api_key(backend)`
+  - `load_payload` (function, line 309) `def load_payload(payload_path)`
+  - `_resolve_api_key` (function, line 333) `def _resolve_api_key(config)`
+  - `_resolve_api_key_for_backend` (function, line 356) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 387) `def _normalize_backend(backend)`
+  - `_build_groq` (function, line 410) `def _build_groq(config)`
+  - `_build_ollama` (function, line 432) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 446) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 460) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 482) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 504) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (function, line 526) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 553) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 591) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 643) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 679) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 701) `def try_get_llm_backend(config, backend)`
+  - `_pi_timeout` (function, line 725) `def _pi_timeout()`
+  - `_pi_complete` (function, line 737) `def _pi_complete(model, prompt, max_tokens)`
+  - `stream_complete` (function, line 778) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 849) `def complete(model, prompt, max_tokens)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
 - Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 

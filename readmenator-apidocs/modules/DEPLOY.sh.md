@@ -24,7 +24,7 @@ increment_version()
 
 ### `update_section_html`
 
-`function` | [DEPLOY.sh:86](../../DEPLOY.sh#L86)
+`function` | [DEPLOY.sh:99](../../DEPLOY.sh#L99)
 
 ```bash
 update_section_html()
@@ -38,7 +38,7 @@ Función para actualizar una sección específica
 
 ### `get_commit_type`
 
-`function` | [DEPLOY.sh:190](../../DEPLOY.sh#L190)
+`function` | [DEPLOY.sh:203](../../DEPLOY.sh#L203)
 
 ```bash
 get_commit_type()

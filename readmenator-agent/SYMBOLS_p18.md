@@ -3,6 +3,45 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_multi_xor_encrypt` | method | `modules/polymorphic_engine.py:309` | `def _multi_xor_encrypt(self, data)` |
+| `_nop_insertion` | method | `modules/polymorphic_engine.py:253` | `def _nop_insertion(self, data, arch)` |
+| `_nop_substitution` | method | `modules/polymorphic_engine.py:231` | `def _nop_substitution(self, data, arch)` |
+| `_register_reassignment` | method | `modules/polymorphic_engine.py:262` | `def _register_reassignment(self, data, arch)` |
+| `_single_pass` | method | `modules/polymorphic_engine.py:184` | `def _single_pass(self, data, arch, pass_num, original_size)` |
+| `_xor_encrypt` | method | `modules/polymorphic_engine.py:303` | `def _xor_encrypt(self, data, arch)` |
+| `decode_multi_xor` | method | `modules/polymorphic_engine.py:377` | `def decode_multi_xor(data)` |
+| `decode_xor` | method | `modules/polymorphic_engine.py:361` | `def decode_xor(data)` |
+| `generate_decoder_stub` | method | `modules/polymorphic_engine.py:397` | `def generate_decoder_stub(self, arch)` |
+| `get_audit_summary` | method | `modules/polymorphic_engine.py:422` | `def get_audit_summary(self)` |
+| `mutate` | method | `modules/polymorphic_engine.py:163` | `def mutate(self, shellcode, arch)` |
+| `PrivescVector` | class | `modules/privesc_predictor.py:97` | `class PrivescVector` |
+| `SystemProfile` | class | `modules/privesc_predictor.py:114` | `class SystemProfile` |
+| `_load_gtfobins_map` | function | `modules/privesc_predictor.py:617` | `def _load_gtfobins_map()` |
+| `_parse_kernel_version` | function | `modules/privesc_predictor.py:136` | `def _parse_kernel_version(version_str)` |
+| `_parse_version_from_range` | function | `modules/privesc_predictor.py:153` | `def _parse_version_from_range(range_str)` |
+| `_try_llm_analysis` | function | `modules/privesc_predictor.py:655` | `def _try_llm_analysis(profile)` |
+| `analyze_privesc` | function | `modules/privesc_predictor.py:742` | `def analyze_privesc(filepath, text)` |
+| `capability_vectors` | function | `modules/privesc_predictor.py:361` | `def capability_vectors(profile)` |
+| `cron_vectors` | function | `modules/privesc_predictor.py:578` | `def cron_vectors(profile)` |
+| `format_crystal_ball_output` | function | `modules/privesc_predictor.py:827` | `def format_crystal_ball_output(result)` |
+| `group_vectors` | function | `modules/privesc_predictor.py:463` | `def group_vectors(profile)` |
+| `main` | function | `modules/privesc_predictor.py:908` | `def main()` |
+| `match_known_cves` | function | `modules/privesc_predictor.py:249` | `def match_known_cves(profile)` |
+| `parse_linpeas_output` | function | `modules/privesc_predictor.py:165` | `def parse_linpeas_output(text)` |
+| `parse_winpeas_output` | function | `modules/privesc_predictor.py:218` | `def parse_winpeas_output(text)` |
+| `sudo_vectors` | function | `modules/privesc_predictor.py:501` | `def sudo_vectors(profile)` |
+| `suid_vectors` | function | `modules/privesc_predictor.py:287` | `def suid_vectors(profile)` |
+| `RedTeamReportGenerator` | class | `modules/professional_report.py:114` | `class RedTeamReportGenerator` |
+| `ReportFinding` | class | `modules/professional_report.py:87` | `class ReportFinding` |
+| `ReportMetadata` | class | `modules/professional_report.py:102` | `class ReportMetadata` |
+| `__init__` | method | `modules/professional_report.py:173` | `def __init__(self, include_credentials)` |
+| `_accumulate_loot` | method | `modules/professional_report.py:893` | `def _accumulate_loot(self, summary, path)` |
+| `_ai_draft_summary` | method | `modules/professional_report.py:956` | `def _ai_draft_summary(self, data, fallback, backend)` |
+| `_classify_credentials` | method | `modules/professional_report.py:682` | `def _classify_credentials(self, credentials, hosts)` |
+| `_classify_services` | method | `modules/professional_report.py:585` | `def _classify_services(self, services, hosts)` |
+| `_classify_sessions` | method | `modules/professional_report.py:758` | `def _classify_sessions(self, sessions, hosts)` |
+| `_classify_vulnerabilities` | method | `modules/professional_report.py:640` | `def _classify_vulnerabilities(self, vulns, hosts)` |
+| `_extract_scope` | method | `modules/professional_report.py:822` | `def _extract_scope(self, data)` |
 | `_generate_html` | method | `modules/professional_report.py:298` | `def _generate_html(self, out_path, timestamp)` |
 | `_generate_json` | method | `modules/professional_report.py:513` | `def _generate_json(self, out_path, timestamp)` |
 | `_generate_markdown` | method | `modules/professional_report.py:450` | `def _generate_markdown(self, out_path, timestamp)` |
@@ -457,44 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
 | `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
 | `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
-| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
-| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
-| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
-| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
-| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
-| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
-| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
-| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
-| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
-| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
-| `load` | function | `modules/session_state.py:251` | `def load()` |
-| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
-| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
-| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
-| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
-| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
-| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
-| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
-| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
-| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
-| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
-| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
-| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
-| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
-| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
-| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
-| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
-| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
-| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
-| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
-| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
-| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
-| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `modules/beacon_config_builder.py` -> `modules/sleep_obfuscation.py`
+- `modules/beacon_config_builder.py` -> `modules/socks_proxy.py`
+- `modules/beacon_history.py` -> `core/logging.py`
+- `modules/bof_registry.py` -> `cli/commands/enum.py`
+- `modules/bof_registry.py` -> `core/logging.py`
+- `modules/c2_builder.py` -> `core/validators.py`
 - `modules/c2_builder.py` -> `modules/metrics.py`
 - `modules/c2_builder.py` -> `utils.py`
 - `modules/c2_profile.py` -> `core/logging.py`
@@ -37,6 +43,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/detection_oracle.py` -> `core/logging.py`
 - `modules/detection_oracle.py` -> `modules/detection_feed.py`
 - `modules/dns_beacon.py` -> `core/safe_exec.py`
+- `modules/domain_dominance.py` -> `core/hardening.py`
 - `modules/engage_summary.py` -> `cli/recommendation_signals.py`
 - `modules/engage_summary.py` -> `modules/enrich.py`
 - `modules/engage_summary.py` -> `modules/evidence.py`
@@ -142,6 +149,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py`
+- `modules/lazy_proxy.py` -> `core/hardening.py`
 - `modules/lazy_proxy.py` -> `core/logging.py`
 - `modules/lazy_proxy.py` -> `modules/backdoor/server.c`
 - `modules/lazy_proxy.py` -> `modules/traffic_recorder.py`
@@ -374,6 +382,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/config.py`
 - `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/models.py`
 - `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/validators.py`
+- `skills/claude_md_orchestrator/validators.py` -> `core/hardening.py`
 - `skills/claude_md_orchestrator/validators.py` -> `skills/claude_md_orchestrator/models.py`
 - `skills/heartbeat.py` -> `modules/event_engine.py`
 - `skills/heartbeat.py` -> `modules/session_state.py`
@@ -431,6 +440,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/lazyown_mcp.py` -> `cli/palette_command.py`
 - `skills/lazyown_mcp.py` -> `cli/recommendation.py`
 - `skills/lazyown_mcp.py` -> `cli/recommendation_signals.py`
+- `skills/lazyown_mcp.py` -> `core/hardening.py`
 - `skills/lazyown_mcp.py` -> `core/llm_budget.py`
 - `skills/lazyown_mcp.py` -> `core/logging.py`
 - `skills/lazyown_mcp.py` -> `core/payload_schema.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/lazyown_mcp.py` -> `skills/aci_planner.py`
 - `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py`
 - `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py`
-- `skills/lazyown_mcp.py` -> `skills/daemon_control.py`
-- `skills/lazyown_mcp.py` -> `skills/hive_mind.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_automapper.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_campaign.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_claudemd.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_context.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_facts.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_groq_agents.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_hooks.py`
-- `skills/lazyown_mcp.py` -> `skills/lazyown_llm.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

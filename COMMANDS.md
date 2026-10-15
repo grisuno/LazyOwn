@@ -4368,7 +4368,7 @@ Enrich asset with DNS/HTTP. Usage: lazy_enrich <host-or-url>
 
 **Phase:** uncategorized | **Source:** `cli/commands/lazyops.py`
 
-Evidence vault: add <finding> <kind> <body>|list <finding>|verify|gc|export <path>. Usage: lazy_evidence ... [--task T]
+Evidence vault and frozen package.
 
 ### `lazy_fact`
 
@@ -4440,13 +4440,13 @@ Terminate running intent. Usage: lazy_kill <intent> [--task T]
 
 **Phase:** uncategorized | **Source:** `cli/commands/lazyops.py`
 
-LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|bind <member...> --task T|chain --task T|failover --task T. Usage: lazy_llm ...
+LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--role R]|bind <member...> --task T|chain --task T|failover --task T. Usage: lazy_llm ...
 
 ### `lazy_loop`
 
 **Phase:** uncategorized | **Source:** `cli/commands/lazyops.py`
 
-Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--view|--plain] [<goal>]
+Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--sandbox [image]] [--view|--plain] [<goal>]
 
 ### `lazy_node`
 
@@ -4530,7 +4530,7 @@ Self-update: check [--branch B]|apply [--yes] [--branch B]. Usage: lazy_selfupda
 
 **Phase:** uncategorized | **Source:** `cli/commands/lazyops.py`
 
-Skills: list|show <name>|preview|inject <name...>|clear|auto on|off. Usage: lazy_skill ... [--task T]
+Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes. Usage: lazy_skill ... [--task T]
 
 ### `lazy_status`
 

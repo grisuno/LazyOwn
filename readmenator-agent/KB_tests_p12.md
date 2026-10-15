@@ -264,6 +264,28 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
 - Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
 
+## tests/test_pi_leg.py
+- Doc: pi loop-leg contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Proc` (class, line 20) `class _Proc`
+  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
+  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
+  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
+  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
+  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
+  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
+  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
+  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
+  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
+  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
+  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
+  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
+  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
+  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
+
 ## tests/test_pipeline_engine.py
 - Doc: tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)...
 - Layer: testing
@@ -445,37 +467,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_rendered_commands_have_no_empty_host` (function, line 115) `def test_rendered_commands_have_no_empty_host()`
   - `test_gobuster_templates_use_valid_syntax` (function, line 129) `def test_gobuster_templates_use_valid_syntax()`
   - `test_no_hardcoded_always_ssl_flag` (function, line 141) `def test_no_hardcoded_always_ssl_flag()`
-
-## tests/test_rea_mcp.py
-- Doc: Tests for the lazyown_rea MCP tool (REA reverse-engineering skill).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_stub_mcp_sdk` (function, line 21) `def _stub_mcp_sdk()`
-  - `_call` (function, line 73) `def _call(arguments, monkeypatch)`
-  - `test_list_tools_has_rea` (function, line 90) `def test_list_tools_has_rea()`
-  - `test_unknown_action_rejected` (function, line 99) `def test_unknown_action_rejected(monkeypatch)`
-  - `test_missing_binary` (function, line 105) `def test_missing_binary(monkeypatch)`
-  - `test_doctor_argv` (function, line 113) `def test_doctor_argv(monkeypatch)`
-  - `test_inspect_artifact_argv` (function, line 119) `def test_inspect_artifact_argv(tmp_path, monkeypatch)`
-  - `test_large_output_survives_compaction` (function, line 132) `def test_large_output_survives_compaction(tmp_path, monkeypatch)`
-  - `test_analyze_uses_explicit_target` (function, line 148) `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)`
-  - `test_analyze_missing_target` (function, line 155) `def test_analyze_missing_target(monkeypatch)`
-  - `test_target_flag_injection_rejected` (function, line 168) `def test_target_flag_injection_rejected(monkeypatch)`
-  - `test_decompile_needs_valid_address` (function, line 174) `def test_decompile_needs_valid_address(tmp_path, monkeypatch)`
-  - `test_search_needs_query` (function, line 189) `def test_search_needs_query(tmp_path, monkeypatch)`
-  - `test_provider_flag_appended` (function, line 201) `def test_provider_flag_appended(tmp_path, monkeypatch)`
-  - `Tool` (class, line 35) `class Tool`
-  - `TextContent` (class, line 39) `class TextContent`
-  - `Server` (class, line 46) `class Server`
-  - `_fake_run` (function, line 78) `def _fake_run(argv)`
-  - `_fake_run` (function, line 138) `def _fake_run(argv)`
-  - `__init__` (method, line 36) `def __init__(self)`
-  - `__init__` (method, line 40) `def __init__(self)`
-  - `__init__` (method, line 47) `def __init__(self)`
-  - `list_tools` (method, line 50) `def list_tools(self)`
-  - `call_tool` (method, line 53) `def call_tool(self)`
-- Depends on: `skills/lazyown_mcp.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

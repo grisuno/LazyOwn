@@ -157,7 +157,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:12470](../../skills/lazyown_mcp.py#L12470)
+`function` `async` | [skills/lazyown_mcp.py:12486](../../skills/lazyown_mcp.py#L12486)
 
 ```python
 async def main()

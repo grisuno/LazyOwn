@@ -24,8 +24,8 @@ Invariants:
 ## Contents
 
 - **Exceptions:** [`SecurityViolation`](#securityviolation)
-- **Functions:** [`reject_option_injection`](#reject_option_injection), [`escape_powershell_single_quoted`](#escape_powershell_single_quoted), [`safe_subprocess_run`](#safe_subprocess_run), [`safe_clipboard_copy`](#safe_clipboard_copy), [`build_sshpass_command`](#build_sshpass_command), [`set_sshpass_env`](#set_sshpass_env), [`escape_html_content`](#escape_html_content), [`safe_path_join`](#safe_path_join), [`validate_network_cidr`](#validate_network_cidr), [`validate_port_spec`](#validate_port_spec), [`validate_host`](#validate_host), [`require_encryption_key`](#require_encryption_key), [`defused_xml_parse`](#defused_xml_parse), [`sanitize_filename`](#sanitize_filename)
-- **Constants:** [`MAX_SSH_COMMAND_LENGTH`](#max_ssh_command_length), [`MAX_CLIPBOARD_CONTENT_LENGTH`](#max_clipboard_content_length), [`SHELL_OPERATOR_CHARS`](#shell_operator_chars), [`PROGRAM_NAME_PATTERN`](#program_name_pattern)
+- **Functions:** [`reject_option_injection`](#reject_option_injection), [`escape_powershell_single_quoted`](#escape_powershell_single_quoted), [`safe_subprocess_run`](#safe_subprocess_run), [`safe_clipboard_copy`](#safe_clipboard_copy), [`build_sshpass_command`](#build_sshpass_command), [`set_sshpass_env`](#set_sshpass_env), [`escape_html_content`](#escape_html_content), [`safe_path_join`](#safe_path_join), [`validate_network_cidr`](#validate_network_cidr), [`validate_port_spec`](#validate_port_spec), [`validate_host`](#validate_host), [`require_encryption_key`](#require_encryption_key), [`defused_xml_parse`](#defused_xml_parse), [`sanitize_filename`](#sanitize_filename), [`tls_secure_context`](#tls_secure_context), [`tls_lab_unverified_allowed`](#tls_lab_unverified_allowed), [`tls_lab_fallback_context`](#tls_lab_fallback_context), [`validate_upstream_path`](#validate_upstream_path), [`is_safe_path_segment`](#is_safe_path_segment), [`is_safe_dir_path`](#is_safe_dir_path), [`is_safe_yaml_name`](#is_safe_yaml_name), [`safe_join_under`](#safe_join_under), [`safe_open_under`](#safe_open_under), [`store_secret_owner_only`](#store_secret_owner_only), [`contains_emoji`](#contains_emoji), [`iter_emoji_spans`](#iter_emoji_spans), [`seal_secret`](#seal_secret), [`unseal_secret`](#unseal_secret), [`redact_text`](#redact_text)
+- **Constants:** [`MAX_SSH_COMMAND_LENGTH`](#max_ssh_command_length), [`MAX_CLIPBOARD_CONTENT_LENGTH`](#max_clipboard_content_length), [`SHELL_OPERATOR_CHARS`](#shell_operator_chars), [`PROGRAM_NAME_PATTERN`](#program_name_pattern), [`TLS_MINIMUM_VERSION`](#tls_minimum_version), [`UPSTREAM_PATH_MAX_LENGTH`](#upstream_path_max_length), [`DIR_PATH_MAX_LENGTH`](#dir_path_max_length), [`PATH_SEGMENT_MAX_LENGTH`](#path_segment_max_length), [`YAML_NAME_MAX_LENGTH`](#yaml_name_max_length), [`SECRET_FILE_MODE`](#secret_file_mode), [`SECRET_DIR_MODE`](#secret_dir_mode), [`SEALED_SECRET_PREFIX`](#sealed_secret_prefix)
 
 ## Type Diagram
 
@@ -52,6 +52,11 @@ flowchart LR
     n_core_hardening_py__set_sshpass_env(["set_sshpass_env"])
     n_core_hardening_py__safe_path_join(["safe_path_join"])
     n_core_hardening_py__require_encryption_key(["require_encryption_key"])
+    n_core_hardening_py__is_safe_dir_path(["is_safe_dir_path"])
+    n_core_hardening_py__is_safe_path_segment(["is_safe_path_segment"])
+    n_core_hardening_py__is_safe_yaml_name(["is_safe_yaml_name"])
+    n_core_hardening_py__safe_join_under(["safe_join_under"])
+    n_core_hardening_py__safe_open_under(["safe_open_under"])
     n_core_hardening_py__reject_option_injection --> n_core_hardening_py__SecurityViolation
     n_core_hardening_py__safe_subprocess_run --> n_core_hardening_py__SecurityViolation
     n_core_hardening_py__safe_clipboard_copy --> n_core_hardening_py__SecurityViolation
@@ -59,6 +64,10 @@ flowchart LR
     n_core_hardening_py__set_sshpass_env --> n_core_hardening_py__SecurityViolation
     n_core_hardening_py__safe_path_join --> n_core_hardening_py__SecurityViolation
     n_core_hardening_py__require_encryption_key --> n_core_hardening_py__SecurityViolation
+    n_core_hardening_py__is_safe_dir_path --> n_core_hardening_py__is_safe_path_segment
+    n_core_hardening_py__is_safe_yaml_name --> n_core_hardening_py__is_safe_path_segment
+    n_core_hardening_py__safe_join_under --> n_core_hardening_py__SecurityViolation
+    n_core_hardening_py__safe_open_under --> n_core_hardening_py__safe_join_under
 ```
 
 ## Exceptions
@@ -67,7 +76,7 @@ flowchart LR
 
 ### `SecurityViolation`
 
-`exception` | [core/hardening.py:82](../../core/hardening.py#L82)
+`exception` | [core/hardening.py:127](../../core/hardening.py#L127)
 
 ```python
 class SecurityViolation(PermissionError)
@@ -85,7 +94,7 @@ Raised when a security invariant is violated.
 
 ### `reject_option_injection`
 
-`function` | [core/hardening.py:42](../../core/hardening.py#L42)
+`function` | [core/hardening.py:87](../../core/hardening.py#L87)
 
 ```python
 def reject_option_injection(argv: Sequence[str], *, allow_options: bool = True) -> None
@@ -112,7 +121,7 @@ Reject argument-injection payloads in argv.
 
 ### `escape_powershell_single_quoted`
 
-`function` | [core/hardening.py:61](../../core/hardening.py#L61)
+`function` | [core/hardening.py:106](../../core/hardening.py#L106)
 
 ```python
 def escape_powershell_single_quoted(value: str) -> str
@@ -136,7 +145,7 @@ Escape a value for embedding in a PowerShell single-quoted string.
 
 ### `safe_subprocess_run`
 
-`function` | [core/hardening.py:107](../../core/hardening.py#L107)
+`function` | [core/hardening.py:152](../../core/hardening.py#L152)
 
 ```python
 def safe_subprocess_run(argv: Sequence[str], *, timeout: float | None = None, capture_output: bool = True, reason: str = '') -> subprocess.CompletedProcess[str]
@@ -170,7 +179,7 @@ Execute a command via subprocess without shell interpretation.
 
 ### `safe_clipboard_copy`
 
-`function` | [core/hardening.py:152](../../core/hardening.py#L152)
+`function` | [core/hardening.py:197](../../core/hardening.py#L197)
 
 ```python
 def safe_clipboard_copy(content: str) -> bool
@@ -202,7 +211,7 @@ Uses subprocess list-form with xclip or xsel. Never uses os.system.
 
 ### `build_sshpass_command`
 
-`function` | [core/hardening.py:191](../../core/hardening.py#L191)
+`function` | [core/hardening.py:236](../../core/hardening.py#L236)
 
 ```python
 def build_sshpass_command(password: str, ssh_args: list[str], *, max_password_length: int = 256) -> list[str]
@@ -234,7 +243,7 @@ Never uses sshpass -p which exposes passwords in process listings.
 
 ### `set_sshpass_env`
 
-`function` | [core/hardening.py:220](../../core/hardening.py#L220)
+`function` | [core/hardening.py:265](../../core/hardening.py#L265)
 
 ```python
 def set_sshpass_env(password: str) -> dict[str, str]
@@ -264,7 +273,7 @@ Create an environment dict with SSHPASS set for sshpass -e.
 
 ### `escape_html_content`
 
-`function` | [core/hardening.py:239](../../core/hardening.py#L239)
+`function` | [core/hardening.py:284](../../core/hardening.py#L284)
 
 ```python
 def escape_html_content(value: str) -> str
@@ -286,7 +295,7 @@ Escape HTML special characters to prevent XSS.
 
 ### `safe_path_join`
 
-`function` | [core/hardening.py:251](../../core/hardening.py#L251)
+`function` | [core/hardening.py:296](../../core/hardening.py#L296)
 
 ```python
 def safe_path_join(base_dir: str, user_path: str) -> str
@@ -321,7 +330,7 @@ verifies the result starts with the allowed base directory.
 
 ### `validate_network_cidr`
 
-`function` | [core/hardening.py:277](../../core/hardening.py#L277)
+`function` | [core/hardening.py:322](../../core/hardening.py#L322)
 
 ```python
 def validate_network_cidr(cidr: str) -> bool
@@ -343,7 +352,7 @@ Validate a network CIDR notation string.
 
 ### `validate_port_spec`
 
-`function` | [core/hardening.py:289](../../core/hardening.py#L289)
+`function` | [core/hardening.py:334](../../core/hardening.py#L334)
 
 ```python
 def validate_port_spec(ports: str) -> bool
@@ -369,7 +378,7 @@ Supports comma-separated ports and ranges (e.g. "22,80,443-445").
 
 ### `validate_host`
 
-`function` | [core/hardening.py:305](../../core/hardening.py#L305)
+`function` | [core/hardening.py:350](../../core/hardening.py#L350)
 
 ```python
 def validate_host(host: str) -> bool
@@ -397,7 +406,7 @@ are additionally accepted by the network pattern below.
 
 ### `require_encryption_key`
 
-`function` | [core/hardening.py:325](../../core/hardening.py#L325)
+`function` | [core/hardening.py:370](../../core/hardening.py#L370)
 
 ```python
 def require_encryption_key(env_key: str = 'LAZYOWN_SECRET_KEY', secret_file: Path | None = None) -> str
@@ -426,7 +435,7 @@ Require a proper encryption key; never fall back to a static default.
 
 ### `defused_xml_parse`
 
-`function` | [core/hardening.py:353](../../core/hardening.py#L353)
+`function` | [core/hardening.py:398](../../core/hardening.py#L398)
 
 ```python
 def defused_xml_parse(source: str | Path) -> Any
@@ -453,7 +462,7 @@ Parse XML safely using defusedxml.
 
 ### `sanitize_filename`
 
-`function` | [core/hardening.py:375](../../core/hardening.py#L375)
+`function` | [core/hardening.py:420](../../core/hardening.py#L420)
 
 ```python
 def sanitize_filename(filename: str, max_length: int = 255) -> str
@@ -472,13 +481,384 @@ Sanitize a filename by removing dangerous characters.
 
 ---
 
+<a id="tls_secure_context"></a>
+
+### `tls_secure_context`
+
+`function` | [core/hardening.py:440](../../core/hardening.py#L440)
+
+```python
+def tls_secure_context(extra_ca: str = '') -> ssl.SSLContext
+```
+
+Build a verifying client TLS context with a TLS 1.2 floor.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `extra_ca` | `str` | `''` | Optional extra CA bundle path loaded for verification. |
+
+**Returns:** `ssl.SSLContext` - Verifying SSLContext with hostname checking enabled.
+
+---
+
+<a id="tls_lab_unverified_allowed"></a>
+
+### `tls_lab_unverified_allowed`
+
+`function` | [core/hardening.py:465](../../core/hardening.py#L465)
+
+```python
+def tls_lab_unverified_allowed(host: str) -> bool
+```
+
+Return True only when unverified lab TLS is explicitly opted in.
+
+Both conditions must hold: the host is a loopback/private literal (or
+localhost) and the operator set ``LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1``.
+Request data can never enable it alone.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `host` | `str` |  | Target hostname or IP literal. |
+
+**Returns:** `bool` - True when the operator opt-in covers this lab host.
+
+---
+
+<a id="tls_lab_fallback_context"></a>
+
+### `tls_lab_fallback_context`
+
+`function` | [core/hardening.py:492](../../core/hardening.py#L492)
+
+```python
+def tls_lab_fallback_context() -> ssl.SSLContext
+```
+
+Build the gated unverified context for lab self-signed hosts.
+
+This is the single audited location allowed to disable verification.
+Callers must check [`tls_lab_unverified_allowed`](#tls_lab_unverified_allowed) first; the TLS
+1.2 floor still applies so only verification (not protocol version)
+is relaxed.
+
+**Returns:** `ssl.SSLContext` - Unverified SSLContext with TLS 1.2 floor.
+
+---
+
+<a id="validate_upstream_path"></a>
+
+### `validate_upstream_path`
+
+`function` | [core/hardening.py:514](../../core/hardening.py#L514)
+
+```python
+def validate_upstream_path(path: str) -> bool
+```
+
+Validate an origin-form upstream path without regular expressions.
+
+Only ``/absolute-path[?query]`` is accepted: absolute URLs, control
+characters, NUL/CR/LF and overlong values are rejected in linear time.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` |  | Upstream path or target string. |
+
+**Returns:** `bool` - True when the path is safe to send upstream.
+
+---
+
+<a id="is_safe_path_segment"></a>
+
+### `is_safe_path_segment`
+
+`function` | [core/hardening.py:543](../../core/hardening.py#L543)
+
+```python
+def is_safe_path_segment(segment: str) -> bool
+```
+
+Validate one path segment with a linear charset scan (no regex).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `segment` | `str` |  | Single directory or filename stem segment. |
+
+**Returns:** `bool` - True when the segment uses only safe characters.
+
+*Called by:* [`is_safe_dir_path`](#is_safe_dir_path), [`is_safe_yaml_name`](#is_safe_yaml_name)
+
+---
+
+<a id="is_safe_dir_path"></a>
+
+### `is_safe_dir_path`
+
+`function` | [core/hardening.py:564](../../core/hardening.py#L564)
+
+```python
+def is_safe_dir_path(raw: str) -> bool
+```
+
+Validate a relative directory path with linear scans (no regex).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `raw` | `str` |  | Untrusted relative directory path. |
+
+**Returns:** `bool` - True when every segment is safe and no traversal is present.
+
+*Calls:* [`is_safe_path_segment`](#is_safe_path_segment)
+
+---
+
+<a id="is_safe_yaml_name"></a>
+
+### `is_safe_yaml_name`
+
+`function` | [core/hardening.py:590](../../core/hardening.py#L590)
+
+```python
+def is_safe_yaml_name(name: str) -> bool
+```
+
+Validate a YAML filename with linear scans (no regex).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` |  | Untrusted filename. |
+
+**Returns:** `bool` - True when the name is a safe ``*.yaml`` file.
+
+*Calls:* [`is_safe_path_segment`](#is_safe_path_segment)
+
+---
+
+<a id="safe_join_under"></a>
+
+### `safe_join_under`
+
+`function` | [core/hardening.py:609](../../core/hardening.py#L609)
+
+```python
+def safe_join_under(base_dir: str, user_path: str) -> str
+```
+
+Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
+
+Uses realpath on both sides plus a commonpath prefix check so
+``..`` segments and symlink escapes are rejected.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `base_dir` | `str` |  | Allowed root directory. |
+| `user_path` | `str` |  | Untrusted relative path. |
+
+**Returns:** `str` - Resolved absolute path within ``base_dir``.
+
+**Raises**
+
+- [`SecurityViolation`](#securityviolation): If the resolved path escapes ``base_dir``.
+- `ValueError`: If ``user_path`` is empty.
+
+*Calls:* [`SecurityViolation`](#securityviolation)
+
+*Called by:* [`safe_open_under`](#safe_open_under)
+
+---
+
+<a id="safe_open_under"></a>
+
+### `safe_open_under`
+
+`function` | [core/hardening.py:638](../../core/hardening.py#L638)
+
+```python
+def safe_open_under(base_dir: str, user_path: str, mode: str = 'r', **kwargs: Any) -> Any
+```
+
+Open a file under ``base_dir`` after traversal validation.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `base_dir` | `str` |  | Allowed root directory. |
+| `user_path` | `str` |  | Untrusted relative path. |
+| `mode` | `str` | `'r'` | Open mode (binary-safe modes rejected for writes of text secrets). |
+| `**kwargs` | `Any` |  |  |
+
+**Returns:** `Any` - Open file handle. Caller must close it.
+
+*Calls:* [`safe_join_under`](#safe_join_under)
+
+---
+
+<a id="store_secret_owner_only"></a>
+
+### `store_secret_owner_only`
+
+`function` | [core/hardening.py:665](../../core/hardening.py#L665)
+
+```python
+def store_secret_owner_only(path: str | Path, text: str) -> str
+```
+
+Atomically store a secret owner-only (0600, dir 0700).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str \| Path` |  | Destination file path. |
+| `text` | `str` |  | Secret text to persist. |
+
+**Returns:** `str` - Resolved absolute path as string.
+
+---
+
+<a id="contains_emoji"></a>
+
+### `contains_emoji`
+
+`function` | [core/hardening.py:708](../../core/hardening.py#L708)
+
+```python
+def contains_emoji(text: str) -> bool
+```
+
+Return True when ``text`` carries any emoji codepoint.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `text` | `str` |  | Text to inspect. |
+
+**Returns:** `bool` - True on first emoji hit; linear scan, no regex.
+
+---
+
+<a id="iter_emoji_spans"></a>
+
+### `iter_emoji_spans`
+
+`function` | [core/hardening.py:723](../../core/hardening.py#L723)
+
+```python
+def iter_emoji_spans(text: str) -> list[tuple[int, str]]
+```
+
+Return ``(offset, char)`` for every emoji char in ``text``.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `text` | `str` |  | Text to inspect. |
+
+**Returns:** `list[tuple[int, str]]` - List of offset/character pairs in encounter order.
+
+---
+
+<a id="seal_secret"></a>
+
+### `seal_secret`
+
+`function` | [core/hardening.py:756](../../core/hardening.py#L756)
+
+```python
+def seal_secret(plaintext: str, *, sessions_dir: str | Path = 'sessions') -> str
+```
+
+Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
+
+The key comes from the shared ``key.aes`` resolver so sealed values
+round-trip across restarts without new configuration. Failures fall
+back to plaintext so loot/operator flows never break; callers keep
+owner-only file modes regardless.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `plaintext` | `str` |  | Secret to protect. |
+| `sessions_dir` | `str \| Path` | `'sessions'` | Key directory override (tests). |
+
+**Returns:** `str` - ``enc:v2:`` sealed value, or plaintext when sealing is unavailable.
+
+---
+
+<a id="unseal_secret"></a>
+
+### `unseal_secret`
+
+`function` | [core/hardening.py:787](../../core/hardening.py#L787)
+
+```python
+def unseal_secret(stored: str, *, sessions_dir: str | Path = 'sessions') -> str
+```
+
+Reveal a secret stored by [`seal_secret`](#seal_secret) (legacy-compatible).
+
+Legacy ``enc:v1:`` vault values and plaintext fall back to the
+credential vault / passthrough so existing stores keep working.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `stored` | `str` |  | Sealed or plaintext value. |
+| `sessions_dir` | `str \| Path` | `'sessions'` | Key directory override (tests). |
+
+**Returns:** `str` - Plaintext secret, or empty string when undecryptable.
+
+---
+
+<a id="redact_text"></a>
+
+### `redact_text`
+
+`function` | [core/hardening.py:826](../../core/hardening.py#L826)
+
+```python
+def redact_text(text: str) -> str
+```
+
+Mask credential-like patterns before persistence or display.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `text` | `str` |  | Raw text that may embed secrets. |
+
+**Returns:** `str` - Text with secrets replaced by ``***`` markers.
+
+---
+
 ## Constants
 
 <a id="max_ssh_command_length"></a>
 
 ### `MAX_SSH_COMMAND_LENGTH`
 
-`constant` | [core/hardening.py:36](../../core/hardening.py#L36)
+`constant` | [core/hardening.py:37](../../core/hardening.py#L37)
 
 ```python
 MAX_SSH_COMMAND_LENGTH = 4096
@@ -490,7 +870,7 @@ MAX_SSH_COMMAND_LENGTH = 4096
 
 ### `MAX_CLIPBOARD_CONTENT_LENGTH`
 
-`constant` | [core/hardening.py:37](../../core/hardening.py#L37)
+`constant` | [core/hardening.py:38](../../core/hardening.py#L38)
 
 ```python
 MAX_CLIPBOARD_CONTENT_LENGTH = 65536
@@ -502,7 +882,7 @@ MAX_CLIPBOARD_CONTENT_LENGTH = 65536
 
 ### `SHELL_OPERATOR_CHARS`
 
-`constant` | [core/hardening.py:38](../../core/hardening.py#L38)
+`constant` | [core/hardening.py:39](../../core/hardening.py#L39)
 
 ```python
 SHELL_OPERATOR_CHARS = frozenset([';', '|', '&', '$', '`', '\n', '\r'])
@@ -514,10 +894,106 @@ SHELL_OPERATOR_CHARS = frozenset([';', '|', '&', '$', '`', '\n', '\r'])
 
 ### `PROGRAM_NAME_PATTERN`
 
-`constant` | [core/hardening.py:39](../../core/hardening.py#L39)
+`constant` | [core/hardening.py:40](../../core/hardening.py#L40)
 
 ```python
 PROGRAM_NAME_PATTERN = re.compile('^[a-zA-Z0-9._/\\-][a-zA-Z0-9._/\\- ]*$')
+```
+
+---
+
+<a id="tls_minimum_version"></a>
+
+### `TLS_MINIMUM_VERSION`
+
+`constant` | [core/hardening.py:42](../../core/hardening.py#L42)
+
+```python
+TLS_MINIMUM_VERSION = ssl.TLSVersion.TLSv1_2
+```
+
+---
+
+<a id="upstream_path_max_length"></a>
+
+### `UPSTREAM_PATH_MAX_LENGTH`
+
+`constant` | [core/hardening.py:43](../../core/hardening.py#L43)
+
+```python
+UPSTREAM_PATH_MAX_LENGTH = 8192
+```
+
+---
+
+<a id="dir_path_max_length"></a>
+
+### `DIR_PATH_MAX_LENGTH`
+
+`constant` | [core/hardening.py:44](../../core/hardening.py#L44)
+
+```python
+DIR_PATH_MAX_LENGTH = 256
+```
+
+---
+
+<a id="path_segment_max_length"></a>
+
+### `PATH_SEGMENT_MAX_LENGTH`
+
+`constant` | [core/hardening.py:45](../../core/hardening.py#L45)
+
+```python
+PATH_SEGMENT_MAX_LENGTH = 64
+```
+
+---
+
+<a id="yaml_name_max_length"></a>
+
+### `YAML_NAME_MAX_LENGTH`
+
+`constant` | [core/hardening.py:46](../../core/hardening.py#L46)
+
+```python
+YAML_NAME_MAX_LENGTH = 128
+```
+
+---
+
+<a id="secret_file_mode"></a>
+
+### `SECRET_FILE_MODE`
+
+`constant` | [core/hardening.py:48](../../core/hardening.py#L48)
+
+```python
+SECRET_FILE_MODE = 384
+```
+
+---
+
+<a id="secret_dir_mode"></a>
+
+### `SECRET_DIR_MODE`
+
+`constant` | [core/hardening.py:49](../../core/hardening.py#L49)
+
+```python
+SECRET_DIR_MODE = 448
+```
+
+---
+
+<a id="sealed_secret_prefix"></a>
+
+### `SEALED_SECRET_PREFIX`
+
+`constant` | [core/hardening.py:739](../../core/hardening.py#L739)
+
+```python
+SEALED_SECRET_PREFIX = 'enc:v2:'
 ```
 
 ---

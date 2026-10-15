@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_raises_when_import_fails` | method | `skills/tests/test_autonomous_daemon.py:105` | `def test_raises_when_import_fails(self)` |
+| `test_requires_at_least_one_runner` | method | `skills/tests/test_autonomous_daemon.py:192` | `def test_requires_at_least_one_runner(self)` |
+| `test_respects_fail_counts` | method | `skills/tests/test_autonomous_daemon.py:275` | `def test_respects_fail_counts(self)` |
+| `test_returns_assigned_id` | method | `skills/tests/test_autonomous_daemon.py:412` | `def test_returns_assigned_id(self)` |
+| `test_returns_candidate_when_pdb_has_history` | method | `skills/tests/test_autonomous_daemon.py:259` | `def test_returns_candidate_when_pdb_has_history(self)` |
+| `test_returns_command_decision_type` | method | `skills/tests/test_autonomous_daemon.py:216` | `def test_returns_command_decision_type(self)` |
+| `test_returns_error_string_when_store_unavailable` | method | `skills/tests/test_autonomous_daemon.py:596` | `def test_returns_error_string_when_store_unavailable(self)` |
+| `test_returns_false_when_file_missing` | method | `skills/tests/test_autonomous_daemon.py:473` | `def test_returns_false_when_file_missing(self)` |
+| `test_returns_first_non_none_result` | method | `skills/tests/test_autonomous_daemon.py:309` | `def test_returns_first_non_none_result(self)` |
+| `test_returns_json_with_both_ids` | method | `skills/tests/test_autonomous_daemon.py:581` | `def test_returns_json_with_both_ids(self)` |
+| `test_returns_none_when_pdb_unavailable` | method | `skills/tests/test_autonomous_daemon.py:251` | `def test_returns_none_when_pdb_unavailable(self)` |
+| `test_returns_valid_json` | method | `skills/tests/test_autonomous_daemon.py:623` | `def test_returns_valid_json(self)` |
+| `test_running_is_false_when_no_daemon` | method | `skills/tests/test_autonomous_daemon.py:641` | `def test_running_is_false_when_no_daemon(self)` |
+| `test_source_is_fallback` | method | `skills/tests/test_autonomous_daemon.py:225` | `def test_source_is_fallback(self)` |
+| `test_unknown_phase_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:233` | `def test_unknown_phase_returns_decision(self)` |
+| `test_updates_existing_task` | method | `skills/tests/test_autonomous_daemon.py:455` | `def test_updates_existing_task(self)` |
+| `test_uses_fallback_when_all_none` | method | `skills/tests/test_autonomous_daemon.py:325` | `def test_uses_fallback_when_all_none(self)` |
+| `test_uses_first_runner_when_successful` | method | `skills/tests/test_autonomous_daemon.py:152` | `def test_uses_first_runner_when_successful(self)` |
+| `test_writes_valid_json_line` | method | `skills/tests/test_autonomous_daemon.py:499` | `def test_writes_valid_json_line(self)` |
+| `TestCrackMapExecParser` | class | `skills/tests/test_facts.py:61` | `class TestCrackMapExecParser` |
+| `TestEnum4linuxParser` | class | `skills/tests/test_facts.py:81` | `class TestEnum4linuxParser` |
+| `TestFactStore` | class | `skills/tests/test_facts.py:300` | `class TestFactStore` |
+| `TestGobusterParser` | class | `skills/tests/test_facts.py:149` | `class TestGobusterParser` |
+| `TestKerbruteParser` | class | `skills/tests/test_facts.py:119` | `class TestKerbruteParser` |
+| `TestNiktoParser` | class | `skills/tests/test_facts.py:176` | `class TestNiktoParser` |
+| `TestNmapXmlParser` | class | `skills/tests/test_facts.py:246` | `class TestNmapXmlParser` |
+| `TestNucleiParser` | class | `skills/tests/test_facts.py:196` | `class TestNucleiParser` |
+| `TestRpcclientParser` | class | `skills/tests/test_facts.py:138` | `class TestRpcclientParser` |
+| `TestSecretsdumpParser` | class | `skills/tests/test_facts.py:105` | `class TestSecretsdumpParser` |
+| `TestSslscanParser` | class | `skills/tests/test_facts.py:218` | `class TestSslscanParser` |
+| `_make_config` | function | `skills/tests/test_facts.py:42` | `def _make_config(tmp_path)` |
+| `test_context_for_command` | method | `skills/tests/test_facts.py:322` | `def test_context_for_command(self, tmp_path)` |
+| `test_context_for_unknown_host` | method | `skills/tests/test_facts.py:356` | `def test_context_for_unknown_host(self, tmp_path)` |
+| `test_crackmapexec_parser` | method | `skills/tests/test_facts.py:62` | `def test_crackmapexec_parser(self)` |
+| `test_crackmapexec_pwned` | method | `skills/tests/test_facts.py:73` | `def test_crackmapexec_pwned(self)` |
+| `test_dedup_creds` | method | `skills/tests/test_facts.py:429` | `def test_dedup_creds(self, tmp_path)` |
+| `test_enum4linux_access_when_results` | method | `skills/tests/test_facts.py:97` | `def test_enum4linux_access_when_results(self)` |
+| `test_enum4linux_parser` | method | `skills/tests/test_facts.py:82` | `def test_enum4linux_parser(self)` |
+| `test_factstore_dedup` | method | `skills/tests/test_facts.py:301` | `def test_factstore_dedup(self, tmp_path)` |
+| `test_factstore_save_and_reload` | method | `skills/tests/test_facts.py:363` | `def test_factstore_save_and_reload(self, tmp_path)` |
+| `test_gobuster_multiple_paths` | method | `skills/tests/test_facts.py:162` | `def test_gobuster_multiple_paths(self)` |
+| `test_gobuster_parser_parse_extended` | method | `skills/tests/test_facts.py:150` | `def test_gobuster_parser_parse_extended(self)` |
+| `test_ingest_text_crackmapexec` | method | `skills/tests/test_facts.py:416` | `def test_ingest_text_crackmapexec(self, tmp_path)` |
+| `test_ingest_xml` | method | `skills/tests/test_facts.py:390` | `def test_ingest_xml(self, tmp_path)` |
+| `test_kerbrute_multiple_users` | method | `skills/tests/test_facts.py:129` | `def test_kerbrute_multiple_users(self)` |
 | `test_kerbrute_parser` | method | `skills/tests/test_facts.py:120` | `def test_kerbrute_parser(self)` |
 | `test_nikto_cve_line` | method | `skills/tests/test_facts.py:189` | `def test_nikto_cve_line(self)` |
 | `test_nikto_parser_parse_extended` | method | `skills/tests/test_facts.py:177` | `def test_nikto_parser_parse_extended(self)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `ye` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `yi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `ze` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `zs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `d` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `h` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `r` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `s` | function | `static/js/bootstrap-4.5.2.min.js:6` | `` |
-| `K` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `M` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `Ni` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `Nn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `Ti` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `Ui` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `W` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `Y` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `_n` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `a` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `ci` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `dn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `ft` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `h` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `ln` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `o` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `pi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `q` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `r` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `rt` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `vi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `xn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `zi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `As` | class | `static/js/chart.min.js:13` | `` |
-| `Ge` | function | `static/js/chart.min.js:13` | `` |
-| `Ho` | class | `static/js/chart.min.js:13` | `` |
-| `Jt` | class | `static/js/chart.min.js:13` | `` |
-| `Rn` | class | `static/js/chart.min.js:13` | `` |
-| `Ro` | class | `static/js/chart.min.js:13` | `` |
-| `Se` | function | `static/js/chart.min.js:13` | `` |
-| `So` | class | `static/js/chart.min.js:13` | `` |
-| `Ss` | class | `static/js/chart.min.js:13` | `` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

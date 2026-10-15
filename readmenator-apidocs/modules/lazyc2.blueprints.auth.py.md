@@ -57,7 +57,7 @@ flowchart LR
 
 ### `register`
 
-`function` | [lazyc2/blueprints/auth.py:92](../../lazyc2/blueprints/auth.py#L92)
+`function` | [lazyc2/blueprints/auth.py:96](../../lazyc2/blueprints/auth.py#L96)
 
 Decorators: `@auth_bp.route('/register', methods=['GET', 'POST'])`
 
@@ -73,7 +73,7 @@ def register()
 
 ### `login`
 
-`function` | [lazyc2/blueprints/auth.py:151](../../lazyc2/blueprints/auth.py#L151)
+`function` | [lazyc2/blueprints/auth.py:155](../../lazyc2/blueprints/auth.py#L155)
 
 Decorators: `@auth_bp.route('/login', methods=['GET', 'POST'])`
 
@@ -89,7 +89,7 @@ def login()
 
 ### `mfa_setup`
 
-`function` | [lazyc2/blueprints/auth.py:196](../../lazyc2/blueprints/auth.py#L196)
+`function` | [lazyc2/blueprints/auth.py:200](../../lazyc2/blueprints/auth.py#L200)
 
 Decorators: `@auth_bp.route('/mfa/setup', methods=['GET', 'POST'])`, `@login_required`
 
@@ -105,7 +105,7 @@ def mfa_setup()
 
 ### `mfa_qr`
 
-`function` | [lazyc2/blueprints/auth.py:269](../../lazyc2/blueprints/auth.py#L269)
+`function` | [lazyc2/blueprints/auth.py:273](../../lazyc2/blueprints/auth.py#L273)
 
 Decorators: `@auth_bp.route('/mfa/qr/<username>')`, `@login_required`
 
@@ -127,7 +127,7 @@ def mfa_qr(username)
 
 ### `mfa_verify`
 
-`function` | [lazyc2/blueprints/auth.py:291](../../lazyc2/blueprints/auth.py#L291)
+`function` | [lazyc2/blueprints/auth.py:295](../../lazyc2/blueprints/auth.py#L295)
 
 Decorators: `@auth_bp.route('/mfa/verify', methods=['GET', 'POST'])`
 
@@ -143,7 +143,7 @@ def mfa_verify()
 
 ### `profile`
 
-`function` | [lazyc2/blueprints/auth.py:335](../../lazyc2/blueprints/auth.py#L335)
+`function` | [lazyc2/blueprints/auth.py:339](../../lazyc2/blueprints/auth.py#L339)
 
 Decorators: `@auth_bp.route('/profile')`, `@login_required`
 
@@ -159,7 +159,7 @@ def profile()
 
 ### `logout`
 
-`function` | [lazyc2/blueprints/auth.py:360](../../lazyc2/blueprints/auth.py#L360)
+`function` | [lazyc2/blueprints/auth.py:364](../../lazyc2/blueprints/auth.py#L364)
 
 Decorators: `@auth_bp.route('/logout')`, `@login_required`
 
@@ -175,7 +175,7 @@ def logout()
 
 ### `admin_users`
 
-`function` | [lazyc2/blueprints/auth.py:379](../../lazyc2/blueprints/auth.py#L379)
+`function` | [lazyc2/blueprints/auth.py:383](../../lazyc2/blueprints/auth.py#L383)
 
 Decorators: `@auth_bp.route('/admin/users')`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -191,7 +191,7 @@ def admin_users()
 
 ### `admin_set_role`
 
-`function` | [lazyc2/blueprints/auth.py:396](../../lazyc2/blueprints/auth.py#L396)
+`function` | [lazyc2/blueprints/auth.py:400](../../lazyc2/blueprints/auth.py#L400)
 
 Decorators: `@auth_bp.route('/admin/users/<int:user_id>/role', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -213,7 +213,7 @@ def admin_set_role(user_id)
 
 ### `admin_reset_mfa`
 
-`function` | [lazyc2/blueprints/auth.py:418](../../lazyc2/blueprints/auth.py#L418)
+`function` | [lazyc2/blueprints/auth.py:422](../../lazyc2/blueprints/auth.py#L422)
 
 Decorators: `@auth_bp.route('/admin/users/<int:user_id>/mfa/reset', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -233,7 +233,7 @@ def admin_reset_mfa(user_id)
 
 ### `admin_delete_user`
 
-`function` | [lazyc2/blueprints/auth.py:430](../../lazyc2/blueprints/auth.py#L430)
+`function` | [lazyc2/blueprints/auth.py:434](../../lazyc2/blueprints/auth.py#L434)
 
 Decorators: `@auth_bp.route('/admin/users/<int:user_id>/delete', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -253,7 +253,7 @@ def admin_delete_user(user_id)
 
 ### `admin_tenants`
 
-`function` | [lazyc2/blueprints/auth.py:448](../../lazyc2/blueprints/auth.py#L448)
+`function` | [lazyc2/blueprints/auth.py:452](../../lazyc2/blueprints/auth.py#L452)
 
 Decorators: `@auth_bp.route('/admin/tenants')`, `@login_required`
 
@@ -269,7 +269,7 @@ def admin_tenants()
 
 ### `admin_create_tenant`
 
-`function` | [lazyc2/blueprints/auth.py:468](../../lazyc2/blueprints/auth.py#L468)
+`function` | [lazyc2/blueprints/auth.py:472](../../lazyc2/blueprints/auth.py#L472)
 
 Decorators: `@auth_bp.route('/admin/tenants/create', methods=['POST'])`, `@login_required`
 
@@ -283,7 +283,7 @@ def admin_create_tenant()
 
 ### `admin_switch_tenant`
 
-`function` | [lazyc2/blueprints/auth.py:486](../../lazyc2/blueprints/auth.py#L486)
+`function` | [lazyc2/blueprints/auth.py:491](../../lazyc2/blueprints/auth.py#L491)
 
 Decorators: `@auth_bp.route('/admin/tenants/<tenant_id>/switch', methods=['POST'])`, `@login_required`
 

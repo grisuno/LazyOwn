@@ -1,6 +1,140 @@
 # API (page 17 of 22)
 Previous: [API_p16.md](API_p16.md)
 
+## plugins/generate_stub.lua
+- `write_file` (function) `plugins/generate_stub.lua:4`
+- `read_file` (function) `plugins/generate_stub.lua:12`
+- `xor_data` (function) `plugins/generate_stub.lua:21`
+- `xor_string` (function) `plugins/generate_stub.lua:30`
+- `generate_stub_ps1` (function) `plugins/generate_stub.lua:43`
+
+## plugins/init_plugins.lua
+- `load_plugin` (function) `plugins/init_plugins.lua:6`
+
+## plugins/kerberos_harvest.lua
+- `kerberos_harvest` (function) `plugins/kerberos_harvest.lua:1`
+
+## plugins/lolbas_certutil_download_exec.lua
+- `write_file` (function) `plugins/lolbas_certutil_download_exec.lua:5`
+- `read_file` (function) `plugins/lolbas_certutil_download_exec.lua:13`
+- `xor_data` (function) `plugins/lolbas_certutil_download_exec.lua:21`
+
+## plugins/lolbas_certutil_exe.lua
+- `run_msfvenom` (function) `plugins/lolbas_certutil_exe.lua:2`
+
+## plugins/lolbas_wmic_xsl_execution.lua
+- `write_file` (function) `plugins/lolbas_wmic_xsl_execution.lua:4`
+
+## plugins/parse_nmap_with_xmlstarlet.lua
+- `parse_nmap_with_xmlstarlet` (function) `plugins/parse_nmap_with_xmlstarlet.lua:1`
+
+## plugins/run_nuclei_on_nmap_files.lua
+- `run_nuclei_on_nmap_files` (function) `plugins/run_nuclei_on_nmap_files.lua:1`
+
+## plugins/run_python_rev_c2.lua
+- `run_python_rev_c2` (function) `plugins/run_python_rev_c2.lua:2`
+
+## plugins/rundll32_sct_from_url.lua
+- `write_file` (function) `plugins/rundll32_sct_from_url.lua:4`
+- `read_file` (function) `plugins/rundll32_sct_from_url.lua:12`
+- `base64_encode` (function) `plugins/rundll32_sct_from_url.lua:22`
+- `generate_sct` (function) `plugins/rundll32_sct_from_url.lua:58`
+
+## plugins/validate_shellcode.lua
+- `hex_to_bytes` (function) `plugins/validate_shellcode.lua:2`
+- `esc_hex_to_bytes` (function) `plugins/validate_shellcode.lua:21`
+- `hex_list_to_byte_values` (function) `plugins/validate_shellcode.lua:65`
+- `validate_shellcode` (function) `plugins/validate_shellcode.lua:81`
+
+## plugins/visualize_network.lua
+- `visualize_network` (function) `plugins/visualize_network.lua:1`
+
+## poc_tui/app.py
+Depends on: `cli/commands/containers.py`, `lazyown.py`
+Imported by: `poc_tui/__main__.py`, `poc_tui/run.py`, `poc_tui/test_app.py`
+- `ShellBackend.__init__` (method) `poc_tui/app.py:47` `def __init__(self, base_dir)`
+- `ShellBackend.import_shell_class` (method) `poc_tui/app.py:53` `def import_shell_class(self)` -- Import LazyOwnShell in the main thread (required for signal handlers).
+- `ShellBackend.start` (method) `poc_tui/app.py:71` `def start(self)` -- Instantiate LazyOwnShell (must be called from main thread).
+- `ShellBackend.run` (method) `poc_tui/app.py:83` `def run(self, cmd)` -- Execute a command and return its captured output.
+- `ShellBackend.get_commands` (method) `poc_tui/app.py:106` `def get_commands(self)` -- Return {command_name: help_text} from the live shell.
+- `ShellBackend.get_aliases` (method) `poc_tui/app.py:119` `def get_aliases(self)`
+- `ShellBackend.stop` (method) `poc_tui/app.py:124` `def stop(self)`
+- `DashboardPanel.__init__` (method) `poc_tui/app.py:140` `def __init__(self, base_dir)`
+- `DashboardPanel.compose` (method) `poc_tui/app.py:144` `def compose(self)`
+- `DashboardPanel.refresh_data` (method) `poc_tui/app.py:165` `def refresh_data(self, backend, cmd_count)` -- Pull latest state from the LIVE shell params (not stale disk file).
+- `PluginBrowser.__init__` (method) `poc_tui/app.py:198` `def __init__(self)`
+- `PluginBrowser.compose` (method) `poc_tui/app.py:201` `def compose(self)`
+- `PluginBrowser.update_commands` (method) `poc_tui/app.py:207` `def update_commands(self, commands)`
+- `OutputPanel.__init__` (method) `poc_tui/app.py:248` `def __init__(self)`
+- `OutputPanel.compose` (method) `poc_tui/app.py:252` `def compose(self)`
+- `OutputPanel.write_renderable` (method) `poc_tui/app.py:258` `def write_renderable(self, renderable)` -- Write a Rich renderable (no markup parsing applied).
+- `OutputPanel.write_markup` (method) `poc_tui/app.py:263` `def write_markup(self, text)` -- Write a trusted internal string with Rich markup.
+- `OutputPanel.append_command` (method) `poc_tui/app.py:268` `def append_command(self, cmd)`
+- `OutputPanel.append_result` (method) `poc_tui/app.py:273` `def append_result(self, text, success)` -- Write real shell output, converting ANSI — never markup-parsed.
+- `OutputPanel.append_error` (method) `poc_tui/app.py:283` `def append_error(self, text)` -- Write a TUI-side error message (plain, no markup from unsafe text).
+- `OutputPanel.append_system` (method) `poc_tui/app.py:287` `def append_system(self, text)` -- Write a TUI-side status message.
+- `LazyOwnTUI.__init__` (method) `poc_tui/app.py:394` `def __init__(self, base_dir)`
+- `LazyOwnTUI.compose` (method) `poc_tui/app.py:405` `def compose(self)`
+- `LazyOwnTUI.on_mount` (method) `poc_tui/app.py:418` `def on_mount(self)` -- Start the real cmd2 shell backend.
+- `LazyOwnTUI.execute_command` (method) `poc_tui/app.py:470` `def execute_command(self, cmd_str)` -- Send command to real cmd2 shell, display captured output.
+- `LazyOwnTUI.action_clear_output` (method) `poc_tui/app.py:539` `def action_clear_output(self)`
+- `LazyOwnTUI.action_tab_complete` (method) `poc_tui/app.py:544` `def action_tab_complete(self)`
+- `LazyOwnTUI.action_toggle_sidebar` (method) `poc_tui/app.py:549` `def action_toggle_sidebar(self)`
+- `LazyOwnTUI.action_refresh_dashboard` (method) `poc_tui/app.py:555` `def action_refresh_dashboard(self)`
+- `LazyOwnTUI.action_quit` (method) `poc_tui/app.py:561` `def action_quit(self)` -- Clean shutdown: drop the queue, stop the shell, exit the app.
+- `LazyOwnTUI.on_command_submitted` (method) `poc_tui/app.py:577` `def on_command_submitted(self, event)`
+- `LazyOwnTUI.on_key` (method) `poc_tui/app.py:586` `def on_key(self, event)`
+- `main` (function) `poc_tui/app.py:629` `def main()`
+
+## poc_tui/config.py
+Imported by: `poc_tui/plugin_loader.py`
+- `PayloadConfig.reload` (method) `poc_tui/config.py:21` `def reload(self)` -- Re-read payload.json from disk.
+- `PayloadConfig.save` (method) `poc_tui/config.py:28` `def save(self)` -- Persist current state back to payload.json.
+- `PayloadConfig.get` (method) `poc_tui/config.py:35` `def get(self, key, default)`
+- `PayloadConfig.set` (method) `poc_tui/config.py:38` `def set(self, key, value)`
+- `PayloadConfig.keys` (method) `poc_tui/config.py:41` `def keys(self)`
+- `PayloadConfig.items` (method) `poc_tui/config.py:44` `def items(self)`
+
+## poc_tui/plugin_loader.py
+Depends on: `poc_tui/config.py`
+- `PluginLoader.__init__` (method) `poc_tui/plugin_loader.py:91` `def __init__(self, config, base_dir)`
+- `wrapper` (function) `poc_tui/plugin_loader.py:117` `def wrapper(arg)`
+- `PluginLoader.load_all` (method) `poc_tui/plugin_loader.py:139` `def load_all(self)` -- Load yaml addons, lua plugins, and .tool files.
+- `wrapper` (function) `poc_tui/plugin_loader.py:172` `def wrapper(arg)`
+- `wrapper` (function) `poc_tui/plugin_loader.py:269` `def wrapper(arg)`
+- `_LuaAppProxy.__init__` (method) `poc_tui/plugin_loader.py:294` `def __init__(self, config)`
+- `_LuaAppProxy.params` (method) `poc_tui/plugin_loader.py:298` `def params(self)`
+- `_LuaAppProxy.one_cmd` (method) `poc_tui/plugin_loader.py:301` `def one_cmd(self, cmd)`
+
+## poc_tui/run.py
+Depends on: `poc_tui/app.py`
+- `main` (function) `poc_tui/run.py:9` `def main()`
+
+## readmeneitor.py
+- `normalize_trailing_newline` (function) `readmeneitor.py:74` `def normalize_trailing_newline(output_path)` -- Collapse a generated file tail to exactly one newline.
+- `load_command_index` (function) `readmeneitor.py:83` `def load_command_index(index_path)` -- Load and parse the command index JSON file.
+- `build_command_map` (function) `readmeneitor.py:104` `def build_command_map(index_data)` -- Build a lookup dict from command name to its metadata.
+- `extract_docstrings_from_file` (function) `readmeneitor.py:132` `def extract_docstrings_from_file(filepath)` -- Parse a single Python file with AST and extract docstrings of ``do_*`` methods.
+- `extract_docstrings_from_dir` (function) `readmeneitor.py:161` `def extract_docstrings_from_dir(dirpath)` -- Recursively scan a directory for Python files and extract all ``do_*`` docstrings.
+- `group_commands_by_phase` (function) `readmeneitor.py:187` `def group_commands_by_phase(cmd_map)` -- Group command names by their kill-chain phase.
+- `extract_functions_from_file` (function) `readmeneitor.py:209` `def extract_functions_from_file(filepath)` -- Parse a Python file with AST and extract docstrings of public functions.
+- `write_utils_md` (function) `readmeneitor.py:241` `def write_utils_md(functions, output_path)` -- Generate UTILS.md with a helper-function reference for ``utils.py``.
+- `write_commands_md` (function) `readmeneitor.py:276` `def write_commands_md(cmd_map, docstrings, groups, output_path)` -- Generate COMMANDS.md with a table of contents and per-phase command reference.
+- `convert_to_html` (function) `readmeneitor.py:343` `def convert_to_html(md_path, html_path)` -- Convert the generated Markdown file to HTML using pandoc.
+- `main` (function) `readmeneitor.py:379` `def main()` -- Entry point: scan sources, load metadata, and generate reference docs.
+
+## run_topoexploit_agent.sh
+- `banner` (function) `run_topoexploit_agent.sh:29`
+- `start_api` (function) `run_topoexploit_agent.sh:38`
+
+## scripts/activate_migrations.py
+- `find_migrated_sets` (function) `scripts/activate_migrations.py:32` `def find_migrated_sets()` -- Return paths to all *_migrated.py files using PendingCommandSet.
+- `extract_command_names` (function) `scripts/activate_migrations.py:42` `def extract_command_names(migrated_path)` -- Extract do_* method names from a migrated CommandSet file.
+- `find_in_lazyown` (function) `scripts/activate_migrations.py:52` `def find_in_lazyown(command_names)` -- Return {name: (start_line, end_line)} for commands in lazyown.py.
+- `remove_from_lazyown` (function) `scripts/activate_migrations.py:62` `def remove_from_lazyown(locations, dry_run)` -- Remove the specified do_* methods from lazyown.py.
+- `activate_migrated_file` (function) `scripts/activate_migrations.py:75` `def activate_migrated_file(migrated_path, dry_run)` -- Change PendingCommandSet to LazyOwnCommandSet in the migrated file.
+- `main` (function) `scripts/activate_migrations.py:88` `def main()`
+
 ## scripts/backfill_addon_os_trigger.py
 - `classify_os` (function) `scripts/backfill_addon_os_trigger.py:104` `def classify_os(filename)` -- Return a MITRE-platform string for the addon based on filename.
 - `known_trigger` (function) `scripts/backfill_addon_os_trigger.py:121` `def known_trigger(name)` -- Return the curated trigger tuple for an addon, or ``()``.
@@ -309,22 +443,26 @@ Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
 - `read_test_source` (function) `skills/claude_md_orchestrator/tdd_agent.py:228` `def read_test_source(test_path)` -- Return the test source for inspection.
 
 ## skills/claude_md_orchestrator/validators.py
-Depends on: `skills/claude_md_orchestrator/models.py`
-Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
-- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:88` `def passed(self)` -- Return True when the result has no findings.
-- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:92` `def blocks(self)` -- Return the blocker findings only.
-- `find_block_comments` (function) `skills/claude_md_orchestrator/validators.py:97` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
-- `find_inline_comments` (function) `skills/claude_md_orchestrator/validators.py:119` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
-- `check_no_comments` (function) `skills/claude_md_orchestrator/validators.py:136` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
-- `check_no_emoji` (function) `skills/claude_md_orchestrator/validators.py:167` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
-- `check_no_forbidden_markers` (function) `skills/claude_md_orchestrator/validators.py:189` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
-- `check_english_only` (function) `skills/claude_md_orchestrator/validators.py:206` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
-- `check_docstrings` (function) `skills/claude_md_orchestrator/validators.py:230` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
-- `check_no_hardcoded_paths_or_ips` (function) `skills/claude_md_orchestrator/validators.py:271` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
-- `check_magic_numbers` (function) `skills/claude_md_orchestrator/validators.py:305` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
-- `check_source` (function) `skills/claude_md_orchestrator/validators.py:340` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
-- `check_markdown` (function) `skills/claude_md_orchestrator/validators.py:353` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
-- `check_spec` (function) `skills/claude_md_orchestrator/validators.py:362` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
+Depends on: `core/hardening.py`, `skills/claude_md_orchestrator/models.py`
+Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `tests/test_security_alerts_fix.py`
+- `_EmojiSpan.__init__` (method) `skills/claude_md_orchestrator/validators.py:60` `def __init__(self, start, text)` -- Store match offset and matched text.
+- `_EmojiSpan.start` (method) `skills/claude_md_orchestrator/validators.py:65` `def start(self)` -- Return the match offset.
+- `_EmojiSpan.group` (method) `skills/claude_md_orchestrator/validators.py:69` `def group(self, index)` -- Return the matched text.
+- `_EmojiPattern.finditer` (method) `skills/claude_md_orchestrator/validators.py:81` `def finditer(self, content)` -- Yield one span per emoji character in encounter order.
+- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:107` `def passed(self)` -- Return True when the result has no findings.
+- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:111` `def blocks(self)` -- Return the blocker findings only.
+- `find_block_comments` (function) `skills/claude_md_orchestrator/validators.py:116` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
+- `find_inline_comments` (function) `skills/claude_md_orchestrator/validators.py:138` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
+- `check_no_comments` (function) `skills/claude_md_orchestrator/validators.py:155` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
+- `check_no_emoji` (function) `skills/claude_md_orchestrator/validators.py:186` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
+- `check_no_forbidden_markers` (function) `skills/claude_md_orchestrator/validators.py:208` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
+- `check_english_only` (function) `skills/claude_md_orchestrator/validators.py:225` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
+- `check_docstrings` (function) `skills/claude_md_orchestrator/validators.py:249` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
+- `check_no_hardcoded_paths_or_ips` (function) `skills/claude_md_orchestrator/validators.py:290` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
+- `check_magic_numbers` (function) `skills/claude_md_orchestrator/validators.py:324` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
+- `check_source` (function) `skills/claude_md_orchestrator/validators.py:359` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
+- `check_markdown` (function) `skills/claude_md_orchestrator/validators.py:372` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
+- `check_spec` (function) `skills/claude_md_orchestrator/validators.py:381` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
 
 ## skills/daemon_control.py
 Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_daemon_control.py`
@@ -351,114 +489,6 @@ Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skill
 - `DaemonControl.target_in_focus` (method) `skills/daemon_control.py:386` `def target_in_focus(self, target)` -- Return ``True`` when no focus is configured or ``target`` is in focus.
 - `wait_for_decision` (function) `skills/daemon_control.py:394` `def wait_for_decision(control, action)` -- Block until the operator decides or the TTL expires.
 - `wait_until_unpaused` (function) `skills/daemon_control.py:445` `def wait_until_unpaused(control)` -- Block while the daemon is paused, returning when it resumes.
-
-## skills/daemon_health.py
-Imported by: `lazyc2.py`
-- `is_daemon_alive` (function) `skills/daemon_health.py:36` `def is_daemon_alive(timeout)` -- Check whether the autonomous daemon wrote a heartbeat recently.
-- `daemon_status` (function) `skills/daemon_health.py:58` `def daemon_status(timeout)` -- Return the full daemon health snapshot.
-- `DaemonHealth.__init__` (method) `skills/daemon_health.py:102` `def __init__(self, interval, health_file)`
-- `DaemonHealth.error_count` (method) `skills/daemon_health.py:114` `def error_count(self)`
-- `DaemonHealth.error_count` (method) `skills/daemon_health.py:119` `def error_count(self, value)`
-- `DaemonHealth.phase` (method) `skills/daemon_health.py:124` `def phase(self)`
-- `DaemonHealth.phase` (method) `skills/daemon_health.py:129` `def phase(self, value)`
-- `DaemonHealth.start` (method) `skills/daemon_health.py:155` `def start(self)` -- Launch the heartbeat thread.
-- `DaemonHealth.stop` (method) `skills/daemon_health.py:164` `def stop(self)` -- Stop the heartbeat thread.
-- `DaemonHealth.record_error` (method) `skills/daemon_health.py:175` `def record_error(self)` -- Increment the error counter.
-- `DaemonHealth.set_phase` (method) `skills/daemon_health.py:180` `def set_phase(self, phase)` -- Update the current daemon phase.
-- `DaemonHealth.increment_cycles` (method) `skills/daemon_health.py:185` `def increment_cycles(self)` -- Increment the completed cycles counter.
-
-## skills/heartbeat.py
-Depends on: `modules/event_engine.py`, `modules/session_state.py`, `modules/timeline_narrator.py`
-- `write_pid` (function) `skills/heartbeat.py:53` `def write_pid()`
-- `clear_pid` (function) `skills/heartbeat.py:57` `def clear_pid()`
-- `is_running` (function) `skills/heartbeat.py:62` `def is_running()` -- Return (is_running, pid).
-- `run_loop` (function) `skills/heartbeat.py:74` `def run_loop(interval, once)`
-- `main` (function) `skills/heartbeat.py:127` `def main()`
-
-## skills/hermes-lazyown/claudemd_rules.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `RuleSetBuilder.__init__` (method) `skills/hermes-lazyown/claudemd_rules.py:24` `def __init__(self)`
-- `RuleSetBuilder.with_phase` (method) `skills/hermes-lazyown/claudemd_rules.py:31` `def with_phase(self, phase)` -- Set the current engagement phase.
-- `RuleSetBuilder.with_target` (method) `skills/hermes-lazyown/claudemd_rules.py:36` `def with_target(self, rhost)` -- Set the active target IP.
-- `RuleSetBuilder.with_services` (method) `skills/hermes-lazyown/claudemd_rules.py:41` `def with_services(self, services)` -- Set discovered services (e.g., ['http:80', 'smb:445']).
-- `RuleSetBuilder.with_creds` (method) `skills/hermes-lazyown/claudemd_rules.py:46` `def with_creds(self, found)` -- Set whether credentials have been discovered.
-- `RuleSetBuilder.with_hermes` (method) `skills/hermes-lazyown/claudemd_rules.py:51` `def with_hermes(self, is_hermes)` -- Set whether running inside a Hermes session.
-- `RuleSetBuilder.build` (method) `skills/hermes-lazyown/claudemd_rules.py:56` `def build(self)` -- Build and return the complete rule set markdown.
-- `generate_rules` (function) `skills/hermes-lazyown/claudemd_rules.py:185` `def generate_rules(phase, rhost, services, creds_found, is_hermes)` -- Convenience function: build a rule set from parameters.
-
-## skills/hermes-lazyown/config_bridge.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `ConfigBridge.__init__` (method) `skills/hermes-lazyown/config_bridge.py:35` `def __init__(self, payload_path)`
-- `ConfigBridge.get` (method) `skills/hermes-lazyown/config_bridge.py:42` `def get(self, key, default)` -- Return the value for *key*, or *default* if not found anywhere.
-- `ConfigBridge.get_required` (method) `skills/hermes-lazyown/config_bridge.py:46` `def get_required(self, key)` -- Return the value for *key*, raising ConfigBridgeError if missing.
-- `ConfigBridge.get_str` (method) `skills/hermes-lazyown/config_bridge.py:53` `def get_str(self, key, default)` -- Return the string value for *key*.
-- `ConfigBridge.get_int` (method) `skills/hermes-lazyown/config_bridge.py:58` `def get_int(self, key, default)` -- Return the integer value for *key*.
-- `ConfigBridge.get_bool` (method) `skills/hermes-lazyown/config_bridge.py:66` `def get_bool(self, key, default)` -- Return the boolean value for *key*.
-- `ConfigBridge.refresh` (method) `skills/hermes-lazyown/config_bridge.py:75` `def refresh(self)` -- Invalidate all caches so the next read reloads from disk.
-- `ConfigBridge.active_target` (method) `skills/hermes-lazyown/config_bridge.py:80` `def active_target(self)` -- Return a dict with the minimal target context (rhost, domain, os_id).
-- `ConfigBridge.attacker_context` (method) `skills/hermes-lazyown/config_bridge.py:90` `def attacker_context(self)` -- Return a dict with the attacker context (lhost, lport, etc.).
-- `ConfigBridge.is_hermes_session` (method) `skills/hermes-lazyown/config_bridge.py:99` `def is_hermes_session(self)` -- Return True if running inside a Hermes agent session.
-
-## skills/hermes-lazyown/constants.py
-Depends on: `modules/killchain.py`
-Imported by: `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/hermes-lazyown/output_compactor.py`
-- `Paths.lazyown_dir` (method) `skills/hermes-lazyown/constants.py:106` `def lazyown_dir()` -- Return the LazyOwn project root directory.
-- `Paths.payload_file` (method) `skills/hermes-lazyown/constants.py:115` `def payload_file()` -- Return the path to payload.json.
-- `Paths.sessions_dir` (method) `skills/hermes-lazyown/constants.py:120` `def sessions_dir()` -- Return the path to the sessions directory.
-- `Paths.scan_file` (method) `skills/hermes-lazyown/constants.py:125` `def scan_file(rhost)` -- Return the expected nmap scan file for a target.
-- `Paths.vulns_file` (method) `skills/hermes-lazyown/constants.py:130` `def vulns_file(rhost)` -- Return the expected vulnerability scan file for a target.
-- `Paths.world_model_file` (method) `skills/hermes-lazyown/constants.py:135` `def world_model_file()` -- Return the path to world_model.json.
-- `Paths.objectives_file` (method) `skills/hermes-lazyown/constants.py:140` `def objectives_file()` -- Return the path to objectives.jsonl.
-- `Paths.tasks_file` (method) `skills/hermes-lazyown/constants.py:145` `def tasks_file()` -- Return the path to tasks.json.
-- `Paths.soul_file` (method) `skills/hermes-lazyown/constants.py:150` `def soul_file()` -- Return the path to soul.md.
-- `Paths.claude_md_file` (method) `skills/hermes-lazyown/constants.py:155` `def claude_md_file()` -- Return the path to CLAUDE.md.
-
-## skills/hermes-lazyown/executor.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `ExecutionResult.__init__` (method) `skills/hermes-lazyown/executor.py:24` `def __init__(self, stdout, stderr, returncode, timed_out, duration_ms)`
-- `ExecutionResult.combined` (method) `skills/hermes-lazyown/executor.py:39` `def combined(self)` -- Return stdout and stderr combined.
-- `ExecutionResult.success` (method) `skills/hermes-lazyown/executor.py:47` `def success(self)` -- Return True if the command exited cleanly and did not time out.
-- `LazyOwnExecutor.__init__` (method) `skills/hermes-lazyown/executor.py:66` `def __init__(self, lazyown_dir, timeout)`
-- `LazyOwnExecutor.execute` (method) `skills/hermes-lazyown/executor.py:77` `def execute(self, command, timeout)` -- Execute a single LazyOwn command string.
-- `LazyOwnExecutor.execute_batch` (method) `skills/hermes-lazyown/executor.py:98` `def execute_batch(self, commands, timeout)` -- Execute multiple commands in a single LazyOwn session.
-
-## skills/hermes-lazyown/hermes_sync.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `CheckpointSerializer.__init__` (method) `skills/hermes-lazyown/hermes_sync.py:33` `def __init__(self, sessions_dir)`
-- `CheckpointSerializer.write` (method) `skills/hermes-lazyown/hermes_sync.py:37` `def write(self, state)` -- Write a checkpoint to disk.
-- `CheckpointSerializer.read` (method) `skills/hermes-lazyown/hermes_sync.py:49` `def read(self)` -- Read the latest checkpoint, or None if absent / stale.
-- `CheckpointSerializer.clear` (method) `skills/hermes-lazyown/hermes_sync.py:64` `def clear(self)` -- Remove the checkpoint file.
-- `ObjectiveTodoSync.__init__` (method) `skills/hermes-lazyown/hermes_sync.py:82` `def __init__(self, objectives_path)`
-- `ObjectiveTodoSync.pending_objectives` (method) `skills/hermes-lazyown/hermes_sync.py:85` `def pending_objectives(self)` -- Return all pending objectives from objectives.jsonl.
-- `ObjectiveTodoSync.mark_done` (method) `skills/hermes-lazyown/hermes_sync.py:106` `def mark_done(self, objective_text)` -- Mark an objective as done by appending a completion record.
-- `ObjectiveTodoSync.inject_objective` (method) `skills/hermes-lazyown/hermes_sync.py:127` `def inject_objective(self, text, priority, notes)` -- Inject a new objective into the LazyOwn queue.
-- `DelegationPlanner.plan_for_service` (method) `skills/hermes-lazyown/hermes_sync.py:154` `def plan_for_service(self, service, port, rhost)` -- Return a list of delegation task descriptors for a discovered service.
-- `DelegationPlanner.plan_for_credential` (method) `skills/hermes-lazyown/hermes_sync.py:233` `def plan_for_credential(self, cred_type, value, rhost)` -- Return delegation tasks triggered by a newly found credential.
-
-## skills/hermes-lazyown/mcp_server.py
-Depends on: `modules/backdoor/server.c`, `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/constants.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/output_compactor.py`
-- `list_tools` (function) `skills/hermes-lazyown/mcp_server.py:329` `def list_tools()`
-- `call_tool` (function) `skills/hermes-lazyown/mcp_server.py:334` `def call_tool(name, arguments)` -- Dispatch incoming tool calls to the appropriate handler.
-- `main` (function) `skills/hermes-lazyown/mcp_server.py:751` `def main()`
-
-## skills/hermes-lazyown/output_compactor.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `CompactionResult.__init__` (method) `skills/hermes-lazyown/output_compactor.py:20` `def __init__(self, compacted, original_lines, compacted_lines)`
-- `CompactionResult.reduction_ratio` (method) `skills/hermes-lazyown/output_compactor.py:26` `def reduction_ratio(self)` -- Return the ratio of lines removed (0.0 to 1.0).
-- `CompactionStrategy.compact` (method) `skills/hermes-lazyown/output_compactor.py:40` `def compact(self, raw_output, tool_name)` -- Compact *raw_output* and return a CompactionResult.
-- `ReconCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:55` `def compact(self, raw_output, tool_name)`
-- `EnumCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:93` `def compact(self, raw_output, tool_name)`
-- `ExploitCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:124` `def compact(self, raw_output, tool_name)`
-- `PrivescCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:151` `def compact(self, raw_output, tool_name)`
-- `DefaultCompaction.__init__` (method) `skills/hermes-lazyown/output_compactor.py:165` `def __init__(self, max_lines)`
-- `DefaultCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:168` `def compact(self, raw_output, tool_name)`
-- `OutputCompactor.__init__` (method) `skills/hermes-lazyown/output_compactor.py:196` `def __init__(self, default_max_lines)`
-- `OutputCompactor.compact` (method) `skills/hermes-lazyown/output_compactor.py:200` `def compact(self, raw_output, phase, tool_name)` -- Compact *raw_output* according to *phase*.
 
 
 Next: [API_p18.md](API_p18.md)

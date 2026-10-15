@@ -1,10 +1,10 @@
 # modules: lazyc2
 
-*Community 1 | 123 files | cohesion 0.50*
+*Community 1 | 123 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 123 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIModel`, `AIResult`. Core file: `lazyc2.py` (284 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
+This community groups 123 file(s) rooted at `modules` with dominant language py (cohesion 0.49). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIModel`, `AIResult`. Core file: `lazyc2.py` (286 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
 
 ## Files
 
@@ -137,7 +137,7 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 450
-- Cross-boundary resolved imports (EXTRACTED): 333
+- Cross-boundary resolved imports (EXTRACTED): 344
 
 ## Connections
 
@@ -152,14 +152,14 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
@@ -170,7 +170,7 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 - Why do 13 file(s) lack file-level docs (e.g. `contrib/legacy/lazyllmchat.py`)? What purpose do they serve?
 - Can the cycle `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.50?
+- Should modules: lazyc2 be split, given cohesion 0.49?
 
 ## Sources
 

@@ -3,8 +3,8 @@ Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4
 
 ## DEPLOY.sh
 - `increment_version` (function) `DEPLOY.sh:19`
-- `update_section_html` (function) `DEPLOY.sh:86` -- Función para actualizar una sección específica
-- `get_commit_type` (function) `DEPLOY.sh:190` -- Función para obtener el tipo de cambio basado en el mensaje del commit
+- `update_section_html` (function) `DEPLOY.sh:99` -- Función para actualizar una sección específica
+- `get_commit_type` (function) `DEPLOY.sh:203` -- Función para obtener el tipo de cambio basado en el mensaje del commit
 
 ## banner.py
 Depends on: `utils.py`

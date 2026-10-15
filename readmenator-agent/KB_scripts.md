@@ -161,6 +161,11 @@
 - Layer: utility
 - Language: py
 
+## scripts/pi_qwen_setup.sh
+- Doc: idempotent bootstrap for the pi_qwen lazyaddon.
+- Layer: infrastructure
+- Language: sh
+
 ## scripts/publish_wiki.sh
 - Doc: Publish LazyOwn documentation to the GitHub wiki.
 - Layer: utility

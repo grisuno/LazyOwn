@@ -405,10 +405,13 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_attempt_dcsync` (method, line 768) `def _attempt_dcsync(self, dc_ip)`
   - `_load_config` (method, line 827) `def _load_config(self)`
   - `_domain_to_dn` (method, line 838) `def _domain_to_dn(self, domain)`
-  - `_save_credential` (method, line 849) `def _save_credential(self, username, secret, secret_type, source)`
-  - `_save_session` (method, line 880) `def _save_session(self, session_id, target, method, user)`
-  - `_save_dominance_report` (method, line 900) `def _save_dominance_report(self)`
-- Imported by: `cli/commands/lateral_migrated.py`
+  - `_seal_loot_secret` (method, line 850) `def _seal_loot_secret(secret)`
+  - `_unseal_loot_secret` (method, line 871) `def _unseal_loot_secret(stored)`
+  - `_save_credential` (method, line 890) `def _save_credential(self, username, secret, secret_type, source)`
+  - `_save_session` (method, line 924) `def _save_session(self, session_id, target, method, user)`
+  - `_save_dominance_report` (method, line 944) `def _save_dominance_report(self)`
+- Depends on: `core/hardening.py`
+- Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
 
 ## modules/dotnet_payload.py
 - Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.

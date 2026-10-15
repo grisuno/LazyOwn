@@ -122,7 +122,6 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `core/process.py` via `subprocess` (5 hops)
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
 - [dataflow DEAD_STORE] `modules/exp.c:274` `awake_partial_keys` `keylen`: `keylen` assigned at line 274 but never read afterwards.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.
@@ -132,9 +131,6 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - [dataflow DEAD_STORE] `modules/exp.c:356` `set_stable_table_and_set` `table_seq`: `table_seq` assigned at line 356 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:406` `set_trigger_set_and_overwrite` `exprid`: `exprid` assigned at line 406 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:423` `set_trigger_set_and_overwrite` `seq`: `seq` assigned at line 423 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:453` `spray_mqueue` `unresolved`: `unresolved` assigned at line 453 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:455` `spray_mqueue` `priority`: `priority` assigned at line 455 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:465` `gather_mqueue` `priority`: `priority` assigned at line 465 but never read afterwards.
 
 ## Open Questions
 

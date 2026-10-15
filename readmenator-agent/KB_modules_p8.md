@@ -25,64 +25,75 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_proxy_allow_private` (function, line 93) `def _proxy_allow_private()`
-  - `_proxy_insecure_tls` (function, line 105) `def _proxy_insecure_tls()`
-  - `_proxy_trust_ca` (function, line 110) `def _proxy_trust_ca()`
-  - `_is_metadata_ip` (function, line 115) `def _is_metadata_ip(value)`
-  - `_is_metadata_hostname` (function, line 129) `def _is_metadata_hostname(host)`
-  - `_host_syntax_valid` (function, line 141) `def _host_syntax_valid(host)`
-  - `_resolved_ips` (function, line 157) `def _resolved_ips(host)`
-  - `_validate_proxy_target` (function, line 171) `def _validate_proxy_target(host, port, scheme)`
-  - `_upstream_tls_context` (function, line 224) `def _upstream_tls_context(server_hostname)`
-  - `_is_lab_host` (function, line 261) `def _is_lab_host(host)`
-  - `_https_connection` (function, line 273) `def _https_connection(host, port)`
-  - `_default_traffic_dir` (function, line 284) `def _default_traffic_dir()`
-  - `_parse_upstream` (function, line 289) `def _parse_upstream(spec)`
-  - `_upstream_auth_header` (function, line 307) `def _upstream_auth_header(auth)`
-  - `_cert_stem` (function, line 317) `def _cert_stem(host)`
-  - `detect_trust_target` (function, line 322) `def detect_trust_target()`
-  - `ca_trusted` (function, line 330) `def ca_trusted(ca_path)`
-  - `_run_root` (function, line 342) `def _run_root(argv)`
-  - `detect_nss_profiles` (function, line 349) `def detect_nss_profiles()`
-  - `install_ca_nss` (function, line 364) `def install_ca_nss(ca_path, runner, profiles)`
-  - `install_ca_trust` (function, line 404) `def install_ca_trust(ca_path, runner)`
-  - `CertificateAuthority` (class, line 455) `class CertificateAuthority`
-  - `_utc` (function, line 589) `def _utc(timestamp)`
-  - `_sha256` (function, line 596) `def _sha256()`
-  - `_server_class` (function, line 603) `def _server_class()`
-  - `ProxyController` (class, line 635) `class ProxyController`
-  - `_make_handler` (function, line 743) `def _make_handler()`
-  - `get_proxy` (function, line 1151) `def get_proxy()`
-  - `env_for_ca` (function, line 1160) `def env_for_ca(ca_path, host, port)`
-  - `apply_env` (function, line 1176) `def apply_env(ca_path, host, port)`
-  - `restore_env` (function, line 1183) `def restore_env(previous)`
-  - `__init__` (method, line 458) `def __init__(self, pki_dir)`
-  - `_ensure_ca` (method, line 470) `def _ensure_ca(self)`
-  - `_write_leaf` (method, line 525) `def _write_leaf(self, host, cert_path, key_path)`
-  - `context_for` (method, line 568) `def context_for(self, host)`
-  - `RecorderServer` (class, line 607) `class RecorderServer(ThreadingHTTPServer)`
-  - `__init__` (method, line 638) `def __init__(self)`
-  - `start` (method, line 651) `def start(self, host, port, task_id, traffic_dir, upstream)`
-  - `stop` (method, line 696) `def stop(self)`
-  - `status` (method, line 712) `def status(self)`
-  - `recorder` (method, line 734) `def recorder(self)`
-  - `ca_path` (method, line 738) `def ca_path(self)`
-  - `ProxyHandler` (class, line 747) `class ProxyHandler(BaseHTTPRequestHandler)`
-  - `__init__` (method, line 611) `def __init__(self, address, handler)`
-  - `handle_error` (method, line 618) `def handle_error(self, request, client_address)`
-  - `log_message` (method, line 753) `def log_message(self, fmt)`
-  - `do_CONNECT` (method, line 757) `def do_CONNECT(self)`
-  - `_safe_send_error` (method, line 802) `def _safe_send_error(self, code, message)`
-  - `do_GET` (method, line 809) `def do_GET(self)`
-  - `_forward_plain` (method, line 820) `def _forward_plain(self)`
-  - `_relay` (method, line 894) `def _relay(self, scheme, host, port, path, url, headers, body)`
-  - `_open_target` (method, line 973) `def _open_target(self, scheme, host, port)`
-  - `_maybe_tls` (method, line 994) `def _maybe_tls(sock, scheme, host)`
-  - `_read_headers_from` (method, line 1014) `def _read_headers_from(sock, limit)`
-  - `_handle_websocket` (method, line 1024) `def _handle_websocket(self, scheme, host, port, path, url, req_headers)`
-  - `_record` (method, line 1109) `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)`
-- Depends on: `core/logging.py`, `modules/backdoor/server.c`, `modules/traffic_recorder.py`
-- Imported by: `cli/commands/lazyops.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_security_codeql_batch.py`
+  - `_proxy_allow_private` (function, line 105) `def _proxy_allow_private()`
+  - `_proxy_insecure_tls` (function, line 117) `def _proxy_insecure_tls()`
+  - `_proxy_trust_ca` (function, line 122) `def _proxy_trust_ca()`
+  - `_is_metadata_ip` (function, line 127) `def _is_metadata_ip(value)`
+  - `_is_metadata_hostname` (function, line 141) `def _is_metadata_hostname(host)`
+  - `_host_syntax_valid` (function, line 153) `def _host_syntax_valid(host)`
+  - `_resolved_ips` (function, line 169) `def _resolved_ips(host)`
+  - `_validate_proxy_target` (function, line 183) `def _validate_proxy_target(host, port, scheme)`
+  - `_upstream_tls_context` (function, line 236) `def _upstream_tls_context(server_hostname)`
+  - `tls_lab_unverified_allowed` (function, line 253) `def tls_lab_unverified_allowed(host)`
+  - `_validate_upstream_path` (function, line 265) `def _validate_upstream_path(path)`
+  - `resolve_validated_target` (function, line 282) `def resolve_validated_target(host, port, scheme)`
+  - `_dial_pinned` (function, line 329) `def _dial_pinned(ips, port)`
+  - `connect_pinned` (function, line 355) `def connect_pinned(host, ips, port, scheme)`
+  - `_PinnedHTTPConnection` (class, line 381) `class _PinnedHTTPConnection(HTTPConnection)`
+  - `_PinnedHTTPSConnection` (class, line 394) `class _PinnedHTTPSConnection(HTTPSConnection)`
+  - `_is_lab_host` (function, line 416) `def _is_lab_host(host)`
+  - `_https_connection` (function, line 428) `def _https_connection(host, port)`
+  - `_default_traffic_dir` (function, line 439) `def _default_traffic_dir()`
+  - `_parse_upstream` (function, line 444) `def _parse_upstream(spec)`
+  - `_upstream_auth_header` (function, line 475) `def _upstream_auth_header(auth)`
+  - `_cert_stem` (function, line 485) `def _cert_stem(host)`
+  - `detect_trust_target` (function, line 490) `def detect_trust_target()`
+  - `ca_trusted` (function, line 498) `def ca_trusted(ca_path)`
+  - `_run_root` (function, line 510) `def _run_root(argv)`
+  - `detect_nss_profiles` (function, line 517) `def detect_nss_profiles()`
+  - `install_ca_nss` (function, line 532) `def install_ca_nss(ca_path, runner, profiles)`
+  - `install_ca_trust` (function, line 572) `def install_ca_trust(ca_path, runner)`
+  - `CertificateAuthority` (class, line 623) `class CertificateAuthority`
+  - `_utc` (function, line 757) `def _utc(timestamp)`
+  - `_sha256` (function, line 764) `def _sha256()`
+  - `_server_class` (function, line 771) `def _server_class()`
+  - `ProxyController` (class, line 803) `class ProxyController`
+  - `_make_handler` (function, line 911) `def _make_handler()`
+  - `get_proxy` (function, line 1336) `def get_proxy()`
+  - `env_for_ca` (function, line 1345) `def env_for_ca(ca_path, host, port)`
+  - `apply_env` (function, line 1361) `def apply_env(ca_path, host, port)`
+  - `restore_env` (function, line 1368) `def restore_env(previous)`
+  - `__init__` (method, line 384) `def __init__(self, host, port)`
+  - `connect` (method, line 389) `def connect(self)`
+  - `__init__` (method, line 397) `def __init__(self, host, port)`
+  - `connect` (method, line 410) `def connect(self)`
+  - `__init__` (method, line 626) `def __init__(self, pki_dir)`
+  - `_ensure_ca` (method, line 638) `def _ensure_ca(self)`
+  - `_write_leaf` (method, line 693) `def _write_leaf(self, host, cert_path, key_path)`
+  - `context_for` (method, line 736) `def context_for(self, host)`
+  - `RecorderServer` (class, line 775) `class RecorderServer(ThreadingHTTPServer)`
+  - `__init__` (method, line 806) `def __init__(self)`
+  - `start` (method, line 819) `def start(self, host, port, task_id, traffic_dir, upstream)`
+  - `stop` (method, line 864) `def stop(self)`
+  - `status` (method, line 880) `def status(self)`
+  - `recorder` (method, line 902) `def recorder(self)`
+  - `ca_path` (method, line 906) `def ca_path(self)`
+  - `ProxyHandler` (class, line 915) `class ProxyHandler(BaseHTTPRequestHandler)`
+  - `__init__` (method, line 779) `def __init__(self, address, handler)`
+  - `handle_error` (method, line 786) `def handle_error(self, request, client_address)`
+  - `log_message` (method, line 921) `def log_message(self, fmt)`
+  - `do_CONNECT` (method, line 925) `def do_CONNECT(self)`
+  - `_safe_send_error` (method, line 971) `def _safe_send_error(self, code, message)`
+  - `do_GET` (method, line 978) `def do_GET(self)`
+  - `_forward_plain` (method, line 989) `def _forward_plain(self)`
+  - `_relay` (method, line 1063) `def _relay(self, scheme, host, port, path, url, headers, body)`
+  - `_open_target` (method, line 1161) `def _open_target(self, scheme, host, port)`
+  - `_maybe_tls` (method, line 1183) `def _maybe_tls(sock, scheme, host)`
+  - `_read_headers_from` (method, line 1199) `def _read_headers_from(sock, limit)`
+  - `_handle_websocket` (method, line 1209) `def _handle_websocket(self, scheme, host, port, path, url, req_headers)`
+  - `_record` (method, line 1294) `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)`
+- Depends on: `core/hardening.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/traffic_recorder.py`
+- Imported by: `cli/commands/lazyops.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`
 
 ## modules/lazy_rbac.py
 - Doc: modules/lazy_rbac.py

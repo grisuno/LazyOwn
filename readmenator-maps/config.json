@@ -1,0 +1,47 @@
+{
+ "_meta": {
+  "generated_at": 1792025557,
+  "project": "LazyOwn",
+  "source": "readmenator.toml",
+  "version": 4
+ },
+ "branding": {
+  "accent": "#22d3ee",
+  "accent2": "#f472b6",
+  "author": "",
+  "description": "",
+  "github_url": "",
+  "home_url": "",
+  "logo_url": "",
+  "name": "",
+  "pages_url": ""
+ },
+ "bundle_beta": 0.85,
+ "charge": -300,
+ "html_style": "dark",
+ "hulls_enabled": true,
+ "label_top_n": 30,
+ "label_zoom": 1.6,
+ "link_distance": 120,
+ "link_strength": 0.3,
+ "maps": {
+  "sourceview_max_files": 2500,
+  "sourceview_max_total_chars": 20000000
+ },
+ "messages": {
+  "agent_extra": "",
+  "agent_heading": "",
+  "agent_intro": "",
+  "folder_notice": "",
+  "readme_agents_line": "",
+  "readme_developers_line": "",
+  "readme_heading": "",
+  "readme_intro": "",
+  "readme_regen_command": ""
+ },
+ "mode": "2d",
+ "motion_enabled": true,
+ "particles": 4,
+ "preset": "classic",
+ "theme": "dark"
+}

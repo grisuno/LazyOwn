@@ -219,57 +219,57 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/scan_migrated.py
 Depends on: `cli/commands/_base.py`, `utils.py`
-- `ScanMigratedCommandSet.do_cme` (method) `cli/commands/scan_migrated.py:34` `def do_cme(self, line)` -- Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.
-- `ScanMigratedCommandSet.do_ldapdomaindump` (method) `cli/commands/scan_migrated.py:173` `def do_ldapdomaindump(self, line)` -- Dumps LDAP information using `ldapdomaindump` with credentials from a file.
-- `ScanMigratedCommandSet.do_bloodhound` (method) `cli/commands/scan_migrated.py:215` `def do_bloodhound(self, line)` -- Perform LDAP enumeration using bloodhound-python with credentials from a file.
-- `ScanMigratedCommandSet.do_swaks` (method) `cli/commands/scan_migrated.py:264` `def do_swaks(self, line)` -- Sends an email using `swaks` (Swiss Army Knife for SMTP).
-- `ScanMigratedCommandSet.do_samrdump` (method) `cli/commands/scan_migrated.py:303` `def do_samrdump(self, line)` -- Run `impacket-samrdump` to dump SAM data from specified ports.
-- `ScanMigratedCommandSet.do_lynis` (method) `cli/commands/scan_migrated.py:358` `def do_lynis(self, line)` -- Performs a Lynis audit on the specified remote system.
-- `ScanMigratedCommandSet.do_snmpcheck` (method) `cli/commands/scan_migrated.py:387` `def do_snmpcheck(self, line)` -- Performs an SNMP check on the specified target host.
-- `ScanMigratedCommandSet.do_snmpwalk` (method) `cli/commands/scan_migrated.py:414` `def do_snmpwalk(self, line)` -- Performs an SNMP check on the specified target host.
-- `ScanMigratedCommandSet.do_smtpuserenum` (method) `cli/commands/scan_migrated.py:441` `def do_smtpuserenum(self, line)` -- Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
-- `ScanMigratedCommandSet.do_sessionssh` (method) `cli/commands/scan_migrated.py:480` `def do_sessionssh(self, line)` -- Execute a command to list active SSH connections.
-- `ScanMigratedCommandSet.do_smbattack` (method) `cli/commands/scan_migrated.py:504` `def do_smbattack(self, line)` -- Scans for hosts with SMB service open on port 445 in the specified target network.
-- `find_tgts` (function) `cli/commands/scan_migrated.py:533` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
-- `setup_handler` (function) `cli/commands/scan_migrated.py:559` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
-- `conficker_exploit` (function) `cli/commands/scan_migrated.py:579` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
-- `smb_brute` (function) `cli/commands/scan_migrated.py:599` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
-- `ScanMigratedCommandSet.do_parsero` (method) `cli/commands/scan_migrated.py:648` `def do_parsero(self, line)` -- Executes a parsero scan on a specified target URL or host.
-- `ScanMigratedCommandSet.do_changeme` (method) `cli/commands/scan_migrated.py:680` `def do_changeme(self, line)` -- Executes a changeme scan on a specified target URL or host.
-- `ScanMigratedCommandSet.do_enum4linux_ng` (method) `cli/commands/scan_migrated.py:711` `def do_enum4linux_ng(self, line)` -- Performs enumeration of information from a target system using `enum4linux-ng`.
-- `ScanMigratedCommandSet.do_fuzz` (method) `cli/commands/scan_migrated.py:751` `def do_fuzz(self, line)` -- Executes a web server fuzzing script with user-provided parameters.
-- `ScanMigratedCommandSet.do_kerbrute` (method) `cli/commands/scan_migrated.py:796` `def do_kerbrute(self, line)` -- Executes the Kerbrute tool to enumerate user accounts against a specified target self.params['domain'] controller.
-- `ScanMigratedCommandSet.do_davtest` (method) `cli/commands/scan_migrated.py:882` `def do_davtest(self, line)` -- Tests WebDAV server configurations using `davtest`.
-- `ScanMigratedCommandSet.do_evil_ssdp` (method) `cli/commands/scan_migrated.py:923` `def do_evil_ssdp(self, line)` -- Runs evil-ssdp with various options and user-selected templates.
-- `ScanMigratedCommandSet.do_netexec` (method) `cli/commands/scan_migrated.py:969` `def do_netexec(self, line)` -- Executes netexec with various options for network protocol operations.
-- `install_netexec` (function) `cli/commands/scan_migrated.py:996` `def install_netexec()`
-- `install_netexec_pipx` (function) `cli/commands/scan_migrated.py:1001` `def install_netexec_pipx()`
-- `ScanMigratedCommandSet.do_allin` (method) `cli/commands/scan_migrated.py:1222` `def do_allin(self, line)` -- Execute the AlliN.py tool with various scan modes and parameters.
-- `ScanMigratedCommandSet.do_windapsearch` (method) `cli/commands/scan_migrated.py:1293` `def do_windapsearch(self, line)` -- Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
-- `ScanMigratedCommandSet.do_ldapsearch` (method) `cli/commands/scan_migrated.py:1421` `def do_ldapsearch(self, line)` -- Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.
-- `ScanMigratedCommandSet.do_arjun` (method) `cli/commands/scan_migrated.py:1482` `def do_arjun(self, line)` -- Executes an Arjun scan on the specified URL for parameter discovery.
-- `ScanMigratedCommandSet.do_finger_user_enum` (method) `cli/commands/scan_migrated.py:1550` `def do_finger_user_enum(self, line)` -- Executes the `finger-user-enum` tool for enumerating users on the target host.
-- `ScanMigratedCommandSet.do_wpscan` (method) `cli/commands/scan_migrated.py:1596` `def do_wpscan(self, line)` -- Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.
-- `ScanMigratedCommandSet.do_loxs` (method) `cli/commands/scan_migrated.py:1659` `def do_loxs(self, line)` -- Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
-- `ScanMigratedCommandSet.do_blazy` (method) `cli/commands/scan_migrated.py:1703` `def do_blazy(self, line)` -- Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
-- `ScanMigratedCommandSet.do_parth` (method) `cli/commands/scan_migrated.py:1752` `def do_parth(self, line)` -- Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
-- `ScanMigratedCommandSet.do_breacher` (method) `cli/commands/scan_migrated.py:1821` `def do_breacher(self, line)` -- Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
-- `ScanMigratedCommandSet.do_openredirex` (method) `cli/commands/scan_migrated.py:1883` `def do_openredirex(self, line)` -- Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
-- `ScanMigratedCommandSet.do_odat` (method) `cli/commands/scan_migrated.py:1951` `def do_odat(self, line)` -- Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
-- `ScanMigratedCommandSet.do_rpcmap_py` (method) `cli/commands/scan_migrated.py:2069` `def do_rpcmap_py(self, line)` -- Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
-- `ScanMigratedCommandSet.do_pykerbrute` (method) `cli/commands/scan_migrated.py:2112` `def do_pykerbrute(self, line)` -- Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory...
-- `ScanMigratedCommandSet.do_netview` (method) `cli/commands/scan_migrated.py:2182` `def do_netview(self, line)` -- Executes the Impacket netview tool to list network shares on a specified target.
-- `ScanMigratedCommandSet.do_rdp_check_py` (method) `cli/commands/scan_migrated.py:2246` `def do_rdp_check_py(self, line)` -- Executes the RDP check tool to verify credentials or hash-based authentication on a target system.
-- `ScanMigratedCommandSet.do_mqtt_check_py` (method) `cli/commands/scan_migrated.py:2311` `def do_mqtt_check_py(self, line)` -- Executes the MQTT check tool to verify credentials on a target system with optional SSL.
-- `ScanMigratedCommandSet.do_lookupsid_py` (method) `cli/commands/scan_migrated.py:2366` `def do_lookupsid_py(self, line)` -- Executes the LookupSID tool to perform SID enumeration on a target system.
-- `ScanMigratedCommandSet.do_lookupsid` (method) `cli/commands/scan_migrated.py:2439` `def do_lookupsid(self, line)` -- Executes the Impacket lookupsid tool to enumerate SIDs on a target system.
-- `ScanMigratedCommandSet.do_certipy_ad` (method) `cli/commands/scan_migrated.py:2501` `def do_certipy_ad(self, line)` -- Run certipy-ad against Active Directory Certificate Services.
-- `ScanMigratedCommandSet.do_certipy` (method) `cli/commands/scan_migrated.py:2565` `def do_certipy(self, line)` -- Executes the Certipy tool to interact with Active Directory Certificate Services.
-- `ScanMigratedCommandSet.do_sawks` (method) `cli/commands/scan_migrated.py:2659` `def do_sawks(self, line)` -- Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
-- `ScanMigratedCommandSet.do_ad_ldap_enum` (method) `cli/commands/scan_migrated.py:2696` `def do_ad_ldap_enum(self, line)` -- Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) through LDAP, collecting...
-- `ScanMigratedCommandSet.do_net_rpc_addmem` (method) `cli/commands/scan_migrated.py:2750` `def do_net_rpc_addmem(self, line)` -- Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
-- `ScanMigratedCommandSet.do_pre2k` (method) `cli/commands/scan_migrated.py:2796` `def do_pre2k(self, line)` -- Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list...
-- `ScanMigratedCommandSet.do_hound` (method) `cli/commands/scan_migrated.py:2889` `def do_hound(self, line)` -- Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
+- `ScanMigratedCommandSet.do_cme` (method) `cli/commands/scan_migrated.py:37` `def do_cme(self, line)` -- Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.
+- `ScanMigratedCommandSet.do_ldapdomaindump` (method) `cli/commands/scan_migrated.py:176` `def do_ldapdomaindump(self, line)` -- Dumps LDAP information using `ldapdomaindump` with credentials from a file.
+- `ScanMigratedCommandSet.do_bloodhound` (method) `cli/commands/scan_migrated.py:218` `def do_bloodhound(self, line)` -- Perform LDAP enumeration using bloodhound-python with credentials from a file.
+- `ScanMigratedCommandSet.do_swaks` (method) `cli/commands/scan_migrated.py:267` `def do_swaks(self, line)` -- Sends an email using `swaks` (Swiss Army Knife for SMTP).
+- `ScanMigratedCommandSet.do_samrdump` (method) `cli/commands/scan_migrated.py:306` `def do_samrdump(self, line)` -- Run `impacket-samrdump` to dump SAM data from specified ports.
+- `ScanMigratedCommandSet.do_lynis` (method) `cli/commands/scan_migrated.py:361` `def do_lynis(self, line)` -- Performs a Lynis audit on the specified remote system.
+- `ScanMigratedCommandSet.do_snmpcheck` (method) `cli/commands/scan_migrated.py:390` `def do_snmpcheck(self, line)` -- Performs an SNMP check on the specified target host.
+- `ScanMigratedCommandSet.do_snmpwalk` (method) `cli/commands/scan_migrated.py:417` `def do_snmpwalk(self, line)` -- Performs an SNMP check on the specified target host.
+- `ScanMigratedCommandSet.do_smtpuserenum` (method) `cli/commands/scan_migrated.py:444` `def do_smtpuserenum(self, line)` -- Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
+- `ScanMigratedCommandSet.do_sessionssh` (method) `cli/commands/scan_migrated.py:483` `def do_sessionssh(self, line)` -- Execute a command to list active SSH connections.
+- `ScanMigratedCommandSet.do_smbattack` (method) `cli/commands/scan_migrated.py:507` `def do_smbattack(self, line)` -- Scans for hosts with SMB service open on port 445 in the specified target network.
+- `find_tgts` (function) `cli/commands/scan_migrated.py:536` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
+- `setup_handler` (function) `cli/commands/scan_migrated.py:562` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
+- `conficker_exploit` (function) `cli/commands/scan_migrated.py:582` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
+- `smb_brute` (function) `cli/commands/scan_migrated.py:602` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
+- `ScanMigratedCommandSet.do_parsero` (method) `cli/commands/scan_migrated.py:667` `def do_parsero(self, line)` -- Executes a parsero scan on a specified target URL or host.
+- `ScanMigratedCommandSet.do_changeme` (method) `cli/commands/scan_migrated.py:699` `def do_changeme(self, line)` -- Executes a changeme scan on a specified target URL or host.
+- `ScanMigratedCommandSet.do_enum4linux_ng` (method) `cli/commands/scan_migrated.py:730` `def do_enum4linux_ng(self, line)` -- Performs enumeration of information from a target system using `enum4linux-ng`.
+- `ScanMigratedCommandSet.do_fuzz` (method) `cli/commands/scan_migrated.py:770` `def do_fuzz(self, line)` -- Executes a web server fuzzing script with user-provided parameters.
+- `ScanMigratedCommandSet.do_kerbrute` (method) `cli/commands/scan_migrated.py:815` `def do_kerbrute(self, line)` -- Executes the Kerbrute tool to enumerate user accounts against a specified target self.params['domain'] controller.
+- `ScanMigratedCommandSet.do_davtest` (method) `cli/commands/scan_migrated.py:901` `def do_davtest(self, line)` -- Tests WebDAV server configurations using `davtest`.
+- `ScanMigratedCommandSet.do_evil_ssdp` (method) `cli/commands/scan_migrated.py:942` `def do_evil_ssdp(self, line)` -- Runs evil-ssdp with various options and user-selected templates.
+- `ScanMigratedCommandSet.do_netexec` (method) `cli/commands/scan_migrated.py:988` `def do_netexec(self, line)` -- Executes netexec with various options for network protocol operations.
+- `install_netexec` (function) `cli/commands/scan_migrated.py:1015` `def install_netexec()`
+- `install_netexec_pipx` (function) `cli/commands/scan_migrated.py:1020` `def install_netexec_pipx()`
+- `ScanMigratedCommandSet.do_allin` (method) `cli/commands/scan_migrated.py:1241` `def do_allin(self, line)` -- Execute the AlliN.py tool with various scan modes and parameters.
+- `ScanMigratedCommandSet.do_windapsearch` (method) `cli/commands/scan_migrated.py:1312` `def do_windapsearch(self, line)` -- Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
+- `ScanMigratedCommandSet.do_ldapsearch` (method) `cli/commands/scan_migrated.py:1440` `def do_ldapsearch(self, line)` -- Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.
+- `ScanMigratedCommandSet.do_arjun` (method) `cli/commands/scan_migrated.py:1501` `def do_arjun(self, line)` -- Executes an Arjun scan on the specified URL for parameter discovery.
+- `ScanMigratedCommandSet.do_finger_user_enum` (method) `cli/commands/scan_migrated.py:1569` `def do_finger_user_enum(self, line)` -- Executes the `finger-user-enum` tool for enumerating users on the target host.
+- `ScanMigratedCommandSet.do_wpscan` (method) `cli/commands/scan_migrated.py:1615` `def do_wpscan(self, line)` -- Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.
+- `ScanMigratedCommandSet.do_loxs` (method) `cli/commands/scan_migrated.py:1678` `def do_loxs(self, line)` -- Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
+- `ScanMigratedCommandSet.do_blazy` (method) `cli/commands/scan_migrated.py:1722` `def do_blazy(self, line)` -- Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
+- `ScanMigratedCommandSet.do_parth` (method) `cli/commands/scan_migrated.py:1771` `def do_parth(self, line)` -- Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
+- `ScanMigratedCommandSet.do_breacher` (method) `cli/commands/scan_migrated.py:1840` `def do_breacher(self, line)` -- Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
+- `ScanMigratedCommandSet.do_openredirex` (method) `cli/commands/scan_migrated.py:1902` `def do_openredirex(self, line)` -- Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
+- `ScanMigratedCommandSet.do_odat` (method) `cli/commands/scan_migrated.py:1970` `def do_odat(self, line)` -- Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
+- `ScanMigratedCommandSet.do_rpcmap_py` (method) `cli/commands/scan_migrated.py:2088` `def do_rpcmap_py(self, line)` -- Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
+- `ScanMigratedCommandSet.do_pykerbrute` (method) `cli/commands/scan_migrated.py:2131` `def do_pykerbrute(self, line)` -- Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory...
+- `ScanMigratedCommandSet.do_netview` (method) `cli/commands/scan_migrated.py:2201` `def do_netview(self, line)` -- Executes the Impacket netview tool to list network shares on a specified target.
+- `ScanMigratedCommandSet.do_rdp_check_py` (method) `cli/commands/scan_migrated.py:2265` `def do_rdp_check_py(self, line)` -- Executes the RDP check tool to verify credentials or hash-based authentication on a target system.
+- `ScanMigratedCommandSet.do_mqtt_check_py` (method) `cli/commands/scan_migrated.py:2330` `def do_mqtt_check_py(self, line)` -- Executes the MQTT check tool to verify credentials on a target system with optional SSL.
+- `ScanMigratedCommandSet.do_lookupsid_py` (method) `cli/commands/scan_migrated.py:2385` `def do_lookupsid_py(self, line)` -- Executes the LookupSID tool to perform SID enumeration on a target system.
+- `ScanMigratedCommandSet.do_lookupsid` (method) `cli/commands/scan_migrated.py:2458` `def do_lookupsid(self, line)` -- Executes the Impacket lookupsid tool to enumerate SIDs on a target system.
+- `ScanMigratedCommandSet.do_certipy_ad` (method) `cli/commands/scan_migrated.py:2520` `def do_certipy_ad(self, line)` -- Run certipy-ad against Active Directory Certificate Services.
+- `ScanMigratedCommandSet.do_certipy` (method) `cli/commands/scan_migrated.py:2584` `def do_certipy(self, line)` -- Executes the Certipy tool to interact with Active Directory Certificate Services.
+- `ScanMigratedCommandSet.do_sawks` (method) `cli/commands/scan_migrated.py:2678` `def do_sawks(self, line)` -- Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
+- `ScanMigratedCommandSet.do_ad_ldap_enum` (method) `cli/commands/scan_migrated.py:2715` `def do_ad_ldap_enum(self, line)` -- Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) through LDAP, collecting...
+- `ScanMigratedCommandSet.do_net_rpc_addmem` (method) `cli/commands/scan_migrated.py:2769` `def do_net_rpc_addmem(self, line)` -- Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
+- `ScanMigratedCommandSet.do_pre2k` (method) `cli/commands/scan_migrated.py:2815` `def do_pre2k(self, line)` -- Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list...
+- `ScanMigratedCommandSet.do_hound` (method) `cli/commands/scan_migrated.py:2908` `def do_hound(self, line)` -- Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
 
 ## cli/commands/security.py
 Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `modules/hash_cracker.py`, `modules/opsec_scorer.py`

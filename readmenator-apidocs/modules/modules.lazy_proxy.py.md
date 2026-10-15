@@ -24,7 +24,7 @@ traffic; the proxy answers 502 and keeps serving.
 ## Contents
 
 - **Classes:** [`CertificateAuthority`](#certificateauthority), [`ProxyController`](#proxycontroller)
-- **Functions:** [`detect_trust_target`](#detect_trust_target), [`ca_trusted`](#ca_trusted), [`detect_nss_profiles`](#detect_nss_profiles), [`install_ca_nss`](#install_ca_nss), [`install_ca_trust`](#install_ca_trust), [`get_proxy`](#get_proxy), [`env_for_ca`](#env_for_ca), [`apply_env`](#apply_env), [`restore_env`](#restore_env)
+- **Functions:** [`tls_lab_unverified_allowed`](#tls_lab_unverified_allowed), [`resolve_validated_target`](#resolve_validated_target), [`connect_pinned`](#connect_pinned), [`detect_trust_target`](#detect_trust_target), [`ca_trusted`](#ca_trusted), [`detect_nss_profiles`](#detect_nss_profiles), [`install_ca_nss`](#install_ca_nss), [`install_ca_trust`](#install_ca_trust), [`get_proxy`](#get_proxy), [`env_for_ca`](#env_for_ca), [`apply_env`](#apply_env), [`restore_env`](#restore_env)
 - **Constants:** [`DEFAULT_PROXY_HOST`](#default_proxy_host), [`DEFAULT_PROXY_PORT`](#default_proxy_port), [`CA_CERT_NAME`](#ca_cert_name), [`TRUST_ANCHOR_NAME`](#trust_anchor_name), [`NSS_NICKNAME`](#nss_nickname)
 
 ## Type Diagram
@@ -84,7 +84,7 @@ flowchart LR
 
 ### `CertificateAuthority`
 
-`class` | [modules/lazy_proxy.py:455](../../modules/lazy_proxy.py#L455)
+`class` | [modules/lazy_proxy.py:623](../../modules/lazy_proxy.py#L623)
 
 ```python
 class CertificateAuthority
@@ -103,7 +103,7 @@ On-disk CA plus cached per-host leaf certificates for MITM.
 
 #### `CertificateAuthority.__init__`
 
-`constructor` | [modules/lazy_proxy.py:458](../../modules/lazy_proxy.py#L458)
+`constructor` | [modules/lazy_proxy.py:626](../../modules/lazy_proxy.py#L626)
 
 ```python
 def __init__(self, pki_dir: str | Path) -> None
@@ -123,7 +123,7 @@ Load or create the CA under ``pki_dir``.
 
 #### `CertificateAuthority.context_for`
 
-`method` | [modules/lazy_proxy.py:568](../../modules/lazy_proxy.py#L568)
+`method` | [modules/lazy_proxy.py:736](../../modules/lazy_proxy.py#L736)
 
 ```python
 def context_for(self, host: str) -> ssl.SSLContext
@@ -145,7 +145,7 @@ Return the server TLS context for one host, generating on miss.
 
 ### `ProxyController`
 
-`class` | [modules/lazy_proxy.py:635](../../modules/lazy_proxy.py#L635)
+`class` | [modules/lazy_proxy.py:803](../../modules/lazy_proxy.py#L803)
 
 ```python
 class ProxyController
@@ -168,7 +168,7 @@ Owns the single shared recorder proxy instance.
 
 #### `ProxyController.__init__`
 
-`constructor` | [modules/lazy_proxy.py:638](../../modules/lazy_proxy.py#L638)
+`constructor` | [modules/lazy_proxy.py:806](../../modules/lazy_proxy.py#L806)
 
 ```python
 def __init__(self) -> None
@@ -182,7 +182,7 @@ Prepare state; nothing binds until `start`.
 
 #### `ProxyController.start`
 
-`method` | [modules/lazy_proxy.py:651](../../modules/lazy_proxy.py#L651)
+`method` | [modules/lazy_proxy.py:819](../../modules/lazy_proxy.py#L819)
 
 ```python
 def start(self, host: str = DEFAULT_PROXY_HOST, port: int = DEFAULT_PROXY_PORT, task_id: str = '', traffic_dir: str | Path | None = None, upstream: str = '') -> dict
@@ -208,7 +208,7 @@ Bind the recorder proxy; idempotent while already running.
 
 #### `ProxyController.stop`
 
-`method` | [modules/lazy_proxy.py:696](../../modules/lazy_proxy.py#L696)
+`method` | [modules/lazy_proxy.py:864](../../modules/lazy_proxy.py#L864)
 
 ```python
 def stop(self) -> dict
@@ -224,7 +224,7 @@ Shut the proxy down; safe when it was never started.
 
 #### `ProxyController.status`
 
-`method` | [modules/lazy_proxy.py:712](../../modules/lazy_proxy.py#L712)
+`method` | [modules/lazy_proxy.py:880](../../modules/lazy_proxy.py#L880)
 
 ```python
 def status(self) -> dict
@@ -242,7 +242,7 @@ Report running state, address, CA path and exchange count.
 
 #### `ProxyController.recorder`
 
-`method` | [modules/lazy_proxy.py:734](../../modules/lazy_proxy.py#L734)
+`method` | [modules/lazy_proxy.py:902](../../modules/lazy_proxy.py#L902)
 
 ```python
 def recorder(self) -> TrafficRecorder | None
@@ -256,7 +256,7 @@ Return the live recorder for ingestion, or None when stopped.
 
 #### `ProxyController.ca_path`
 
-`method` | [modules/lazy_proxy.py:738](../../modules/lazy_proxy.py#L738)
+`method` | [modules/lazy_proxy.py:906](../../modules/lazy_proxy.py#L906)
 
 ```python
 def ca_path(self) -> str
@@ -270,11 +270,93 @@ Return the CA certificate path for trust-store wiring.
 
 ## Functions
 
+<a id="tls_lab_unverified_allowed"></a>
+
+### `tls_lab_unverified_allowed`
+
+`function` | [modules/lazy_proxy.py:253](../../modules/lazy_proxy.py#L253)
+
+```python
+def tls_lab_unverified_allowed(host: str) -> bool
+```
+
+Return True only when a lab host has explicit self-signed opt-in.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `host` | `str` |  | Target hostname or IP literal. |
+
+**Returns:** `bool` - True when ``LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1`` covers this host.
+
+---
+
+<a id="resolve_validated_target"></a>
+
+### `resolve_validated_target`
+
+`function` | [modules/lazy_proxy.py:282](../../modules/lazy_proxy.py#L282)
+
+```python
+def resolve_validated_target(host: str, port: int, scheme: str) -> tuple[str, list[str]]
+```
+
+Validate a target and return its pinned IP literals.
+
+The returned IPs already passed the metadata/private policy, so
+callers must dial one of them instead of re-resolving the hostname
+(DNS-rebinding TOCTOU guard) while keeping SNI/host header as the
+original validated hostname.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `host` | `str` |  | Client-supplied target host. |
+| `port` | `int` |  | Client-supplied target port. |
+| `scheme` | `str` |  | ``http`` or ``https``. |
+
+**Returns:** `tuple[str, list[str]]` - Tuple of validated hostname and pinned IP list (possibly empty
+for IP literals, in which case the literal itself is the pin).
+
+**Raises**
+
+- `ValueError`: When the target is denied by SSRF policy.
+
+---
+
+<a id="connect_pinned"></a>
+
+### `connect_pinned`
+
+`function` | [modules/lazy_proxy.py:355](../../modules/lazy_proxy.py#L355)
+
+```python
+def connect_pinned(host: str, ips: list[str], port: int, scheme: str, *, timeout: float)
+```
+
+Open a socket to a pinned validated IP, wrapping TLS for https.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `host` | `str` |  | Validated hostname for SNI and certificate verification. |
+| `ips` | `list[str]` |  | Pinned IP literals from [`resolve_validated_target`](#resolve_validated_target). |
+| `port` | `int` |  | Validated port. |
+| `scheme` | `str` |  | ``http`` or ``https``. |
+| `timeout` | `float` |  | Connection timeout in seconds. |
+
+**Returns:** Connected (optionally TLS-wrapped) socket.
+
+---
+
 <a id="detect_trust_target"></a>
 
 ### `detect_trust_target`
 
-`function` | [modules/lazy_proxy.py:322](../../modules/lazy_proxy.py#L322)
+`function` | [modules/lazy_proxy.py:490](../../modules/lazy_proxy.py#L490)
 
 ```python
 def detect_trust_target() -> tuple[str, tuple[str, ...]]
@@ -292,7 +374,7 @@ Return the first existing system trust anchor directory and refresh command.
 
 ### `ca_trusted`
 
-`function` | [modules/lazy_proxy.py:330](../../modules/lazy_proxy.py#L330)
+`function` | [modules/lazy_proxy.py:498](../../modules/lazy_proxy.py#L498)
 
 ```python
 def ca_trusted(ca_path: str | Path) -> bool
@@ -318,7 +400,7 @@ Return True when the system anchor already holds this CA.
 
 ### `detect_nss_profiles`
 
-`function` | [modules/lazy_proxy.py:349](../../modules/lazy_proxy.py#L349)
+`function` | [modules/lazy_proxy.py:517](../../modules/lazy_proxy.py#L517)
 
 ```python
 def detect_nss_profiles() -> list[str]
@@ -336,7 +418,7 @@ Return user NSS database directories (Firefox profiles + Chrome).
 
 ### `install_ca_nss`
 
-`function` | [modules/lazy_proxy.py:364](../../modules/lazy_proxy.py#L364)
+`function` | [modules/lazy_proxy.py:532](../../modules/lazy_proxy.py#L532)
 
 ```python
 def install_ca_nss(ca_path: str | Path, runner=None, profiles: list[str] | None = None) -> dict
@@ -367,7 +449,7 @@ no-op when certutil or the profiles are missing.
 
 ### `install_ca_trust`
 
-`function` | [modules/lazy_proxy.py:404](../../modules/lazy_proxy.py#L404)
+`function` | [modules/lazy_proxy.py:572](../../modules/lazy_proxy.py#L572)
 
 ```python
 def install_ca_trust(ca_path: str | Path, runner=None) -> dict
@@ -398,7 +480,7 @@ callers (MCP) fail soft with a reason instead of hanging.
 
 ### `get_proxy`
 
-`function` | [modules/lazy_proxy.py:1151](../../modules/lazy_proxy.py#L1151)
+`function` | [modules/lazy_proxy.py:1336](../../modules/lazy_proxy.py#L1336)
 
 ```python
 def get_proxy() -> ProxyController
@@ -418,7 +500,7 @@ Return the process-wide recorder proxy controller.
 
 ### `env_for_ca`
 
-`function` | [modules/lazy_proxy.py:1160](../../modules/lazy_proxy.py#L1160)
+`function` | [modules/lazy_proxy.py:1345](../../modules/lazy_proxy.py#L1345)
 
 ```python
 def env_for_ca(ca_path: str, host: str = DEFAULT_PROXY_HOST, port: int = DEFAULT_PROXY_PORT) -> dict
@@ -444,7 +526,7 @@ Build the environment overrides that route tools through the proxy.
 
 ### `apply_env`
 
-`function` | [modules/lazy_proxy.py:1176](../../modules/lazy_proxy.py#L1176)
+`function` | [modules/lazy_proxy.py:1361](../../modules/lazy_proxy.py#L1361)
 
 ```python
 def apply_env(ca_path: str, host: str = DEFAULT_PROXY_HOST, port: int = DEFAULT_PROXY_PORT) -> dict
@@ -470,7 +552,7 @@ Apply proxy env vars, returning the previous values for restore.
 
 ### `restore_env`
 
-`function` | [modules/lazy_proxy.py:1183](../../modules/lazy_proxy.py#L1183)
+`function` | [modules/lazy_proxy.py:1368](../../modules/lazy_proxy.py#L1368)
 
 ```python
 def restore_env(previous: dict) -> None
@@ -492,7 +574,7 @@ Restore environment values captured by [`apply_env`](#apply_env).
 
 ### `DEFAULT_PROXY_HOST`
 
-`constant` | [modules/lazy_proxy.py:43](../../modules/lazy_proxy.py#L43)
+`constant` | [modules/lazy_proxy.py:55](../../modules/lazy_proxy.py#L55)
 
 ```python
 DEFAULT_PROXY_HOST = '127.0.0.1'
@@ -504,7 +586,7 @@ DEFAULT_PROXY_HOST = '127.0.0.1'
 
 ### `DEFAULT_PROXY_PORT`
 
-`constant` | [modules/lazy_proxy.py:44](../../modules/lazy_proxy.py#L44)
+`constant` | [modules/lazy_proxy.py:56](../../modules/lazy_proxy.py#L56)
 
 ```python
 DEFAULT_PROXY_PORT = 8899
@@ -516,7 +598,7 @@ DEFAULT_PROXY_PORT = 8899
 
 ### `CA_CERT_NAME`
 
-`constant` | [modules/lazy_proxy.py:46](../../modules/lazy_proxy.py#L46)
+`constant` | [modules/lazy_proxy.py:58](../../modules/lazy_proxy.py#L58)
 
 ```python
 CA_CERT_NAME = 'ca.pem'
@@ -528,7 +610,7 @@ CA_CERT_NAME = 'ca.pem'
 
 ### `TRUST_ANCHOR_NAME`
 
-`constant` | [modules/lazy_proxy.py:54](../../modules/lazy_proxy.py#L54)
+`constant` | [modules/lazy_proxy.py:66](../../modules/lazy_proxy.py#L66)
 
 ```python
 TRUST_ANCHOR_NAME = 'lazyown-recorder-ca.crt'
@@ -540,7 +622,7 @@ TRUST_ANCHOR_NAME = 'lazyown-recorder-ca.crt'
 
 ### `NSS_NICKNAME`
 
-`constant` | [modules/lazy_proxy.py:55](../../modules/lazy_proxy.py#L55)
+`constant` | [modules/lazy_proxy.py:67](../../modules/lazy_proxy.py#L67)
 
 ```python
 NSS_NICKNAME = 'LazyOwn Recorder CA'

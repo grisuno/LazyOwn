@@ -206,20 +206,20 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/api_authz.py` | Tenant-bound API authorization for the LazyOwn C2 dashboard. | core | 31 | 4 |
 | `core/autonomous.py` | Autonomous-run mode for the loop engine. | core | 3 | 5 |
 | `core/command_bridge.py` | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | core | 9 | 1 |
-| `core/config.py` | Configuration loader and Config wrapper. | core | 17 | 46 |
+| `core/config.py` | Configuration loader and Config wrapper. | core | 17 | 47 |
 | `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 50 |
-| `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 3 |
+| `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 4 |
 | `core/crypto.py` | Symmetric primitives used by the framework. | core | 7 | 10 |
 | `core/defaults.py` | Build-time default constants loaded from ``config/defaults.toml``. | core | 8 | 7 |
 | `core/dependencies.py` | Graceful optional-import handling for heavy third-party dependencies. | core | 23 | 3 |
 | `core/error_advice.py` | Actionable error advice with fix command and documentation link. | core | 5 | 0 |
 | `core/errors.py` | Error taxonomy for the LazyOwn framework. | core | 23 | 1 |
 | `core/executor.py` | Centralised subprocess wrapper for the LazyOwn framework. | core | 6 | 1 |
-| `core/hardening.py` | Centralized security hardening utilities for the LazyOwn framework. | core | 16 | 19 |
+| `core/hardening.py` | Centralized security hardening utilities for the LazyOwn framework. | core | 34 | 25 |
 | `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
-| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 124 |
+| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 126 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
 | `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
 | `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 11 |
@@ -227,6 +227,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/profiles.py` | Runtime profiles: ``light`` vs ``full`` installations. | core | 3 | 3 |
 | `core/prompt.py` | Prompt builder for LazyOwn CLI and C2 dashboard banner. | core | 8 | 3 |
 | `core/protocols.py` | Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration. | core | 12 | 1 |
+| `core/reverse_shell_secret.py` | Reverse-shell fallback secret — sealed persistence contract. | core | 4 | 2 |
 | `core/safe_console.py` | Terminal-safe Rich console factory. | core | 5 | 5 |
 | `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 16 |
 | `core/safe_import.py` | Fail-closed import of attacker-supplied campaign packages. | core | 4 | 2 |
@@ -244,7 +245,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `install.sh` | LazyOwn installer. | root | 16 | 0 |
 | `key.py` | - | root | 1 | 0 |
 | `lazy_sentinel4.py` | RAGManager: Manages RAG functionality with CAG caching for document processing and querying. | root | 47 | 0 |
-| `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 284 | 0 |
+| `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 286 | 0 |
 | `lazyc2/__init__.py` | - | lazyc2 | 0 | 2 |
 | `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 38 | 3 |
 | `lazyc2/app_factory.py` | Flask application factory for the LazyOwn C2 server. | lazyc2 | 9 | 0 |
@@ -336,7 +337,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
 | `modules/LazyOwnExplorer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 23 | 0 |
-| `modules/__init__.py` | - | modules | 0 | 14 |
+| `modules/__init__.py` | - | modules | 0 | 15 |
 | `modules/adcs_attacks.py` | Active Directory Certificate Services (AD CS) attack module. | modules | 14 | 1 |
 | `modules/agent_runner.py` | LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación... | modules | 38 | 3 |
 | `modules/ai_exploit_chain.py` | AI-Driven Exploit Chaining Engine. | modules | 11 | 2 |
@@ -391,7 +392,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/detection_feed.py` | Dynamic detection feed for the Detection Oracle. | modules | 13 | 2 |
 | `modules/detection_oracle.py` | modules/detection_oracle.py | modules | 17 | 9 |
 | `modules/dns_beacon.py` | DNS Beacon — covert C2 channel via DNS tunneling. | modules | 19 | 1 |
-| `modules/domain_dominance.py` | Domain Dominance Engine — automated Active Directory takeover. | modules | 30 | 1 |
+| `modules/domain_dominance.py` | Domain Dominance Engine — automated Active Directory takeover. | modules | 32 | 2 |
 | `modules/dotnet_payload.py` | .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation. | modules | 12 | 1 |
 | `modules/dpapi_harvester.py` | DPAPI credential decryption and harvesting engine. | modules | 19 | 1 |
 | `modules/duckdns.sh` | Solicita el TOKEN y el DOMAIN al usuario | modules | 0 | 0 |
@@ -456,10 +457,10 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 30 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 456 | 42 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 456 | 44 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 3 |
-| `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 56 | 4 |
+| `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 9 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
 | `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 31 | 5 |
@@ -495,6 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/legacy/__init__.py` | Backward-compatibility shims for deprecated scripts. | misc | 0 | 0 |
 | `modules/lesson_ingestor.py` | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | modules | 11 | 2 |
 | `modules/lilsplunky.py` | Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: GPL v3... | modules | 14 | 0 |
-| `modules/linux_advanced_payloads.py` | Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants. | modules | 17 | 1 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

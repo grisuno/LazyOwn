@@ -1,6 +1,45 @@
 # API (page 8 of 22)
 Previous: [API_p7.md](API_p7.md)
 
+## lazyc2/security/csrf.py
+Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_policy.py`
+- `CSRFPolicy.__init__` (method) `lazyc2/security/csrf.py:69` `def __init__(self, header, form_field, cookie_name, exempt_paths, secret)`
+- `CSRFPolicy.header` (method) `lazyc2/security/csrf.py:85` `def header(self)` -- Return the HTTP header name carrying the token.
+- `CSRFPolicy.cookie_name` (method) `lazyc2/security/csrf.py:90` `def cookie_name(self)` -- Return the cookie name that should hold the readable token.
+- `CSRFPolicy.issue` (method) `lazyc2/security/csrf.py:94` `def issue(self, session_id)` -- Return the token bound to ``session_id``.
+- `CSRFPolicy.rotate` (method) `lazyc2/security/csrf.py:111` `def rotate(self, session_id)` -- Force a fresh token for ``session_id``.
+- `CSRFPolicy.forget` (method) `lazyc2/security/csrf.py:126` `def forget(self, session_id)` -- Drop the token bound to ``session_id`` (e.g. on logout).
+- `CSRFPolicy.validate` (method) `lazyc2/security/csrf.py:130` `def validate(self, session_id, candidate)` -- Return ``True`` iff ``candidate`` matches the stored token.
+- `CSRFPolicy.is_exempt` (method) `lazyc2/security/csrf.py:147` `def is_exempt(self, path)` -- Return ``True`` if ``path`` is in the exempt set.
+- `CSRFPolicy.extract_token` (method) `lazyc2/security/csrf.py:163` `def extract_token(self, request)` -- Return the token from a Flask-shaped request.
+- `CSRFPolicy.check_request` (method) `lazyc2/security/csrf.py:182` `def check_request(self, session_id, request)` -- Run the full CSRF gate against a request.
+
+## lazyc2/security/html_sanitizer.py
+Depends on: `lazyc2/security/constants.py`
+Imported by: `lazyc2.py`, `tests/test_html_sanitizer.py`
+- `sanitize_html` (function) `lazyc2/security/html_sanitizer.py:78` `def sanitize_html(raw_html, allowed_tags, allowed_attributes)` -- Return a sanitized HTML string safe for ``render_template``.
+
+## lazyc2/security/https_redirect.py
+Imported by: `lazyc2.py`, `tests/test_https_redirect.py`
+- `HTTPSRedirect.__init__` (method) `lazyc2/security/https_redirect.py:51` `def __init__(self, env, enabled)`
+- `HTTPSRedirect.enabled` (method) `lazyc2/security/https_redirect.py:56` `def enabled(self)` -- Return ``True`` when the policy is active.
+- `HTTPSRedirect.evaluate` (method) `lazyc2/security/https_redirect.py:60` `def evaluate(self, request)` -- Return a redirect response, or ``None`` if the request can pass.
+
+## lazyc2/security/services.py
+Depends on: `lazyc2/security/constants.py`, `lazyc2/security/validators.py`
+Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_lazyc2.py`
+- `SecretKeyManager.__init__` (method) `lazyc2/security/services.py:30` `def __init__(self, sessions_dir)`
+- `SecretKeyManager.get_or_create` (method) `lazyc2/security/services.py:33` `def get_or_create(self)` -- Return an existing secret key or generate and persist a new one.
+- `SafeFileService.__init__` (method) `lazyc2/security/services.py:63` `def __init__(self, base_dir)`
+- `SafeFileService.read_bytes` (method) `lazyc2/security/services.py:86` `def read_bytes(self, relative_path)` -- Read a file as bytes after path validation.
+- `SafeFileService.read_text` (method) `lazyc2/security/services.py:102` `def read_text(self, relative_path, encoding)` -- Read a file as text after path validation.
+- `SafeFileService.write_bytes` (method) `lazyc2/security/services.py:119` `def write_bytes(self, relative_path, data)` -- Write bytes to a file after path validation.
+- `SafeFileService.exists` (method) `lazyc2/security/services.py:136` `def exists(self, relative_path)` -- Check if a path exists after validation.
+- `AESKeyManager.__init__` (method) `lazyc2/security/services.py:158` `def __init__(self, key_file)`
+- `AESKeyManager.get_or_generate` (method) `lazyc2/security/services.py:161` `def get_or_generate(self)` -- Return an existing AES key or generate a new one.
+- `UploadSizeValidator.__init__` (method) `lazyc2/security/services.py:189` `def __init__(self, max_size_bytes)`
+- `UploadSizeValidator.validate` (method) `lazyc2/security/services.py:192` `def validate(self, content_length)` -- Validate upload size.
+
 ## lazyc2/security/trusted_proxy.py
 Imported by: `lazyc2.py`, `tests/test_trusted_proxy.py`
 - `TrustedProxyResolver.__init__` (method) `lazyc2/security/trusted_proxy.py:42` `def __init__(self, trusted_count, operator_allowlist)`
@@ -449,40 +488,6 @@ Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/ap
 
 ## modules/CVE-2023-28432.py
 - `poc` (function) `modules/CVE-2023-28432.py:12` `def poc(url)`
-
-## modules/LazyOwnExplorer.py
-- `AutocompleteEntry.__init__` (method) `modules/LazyOwnExplorer.py:31` `def __init__(self, get_suggestions_func)`
-- `AutocompleteEntry.changed` (method) `modules/LazyOwnExplorer.py:45` `def changed(self, name, index, mode)`
-- `AutocompleteEntry.selection` (method) `modules/LazyOwnExplorer.py:68` `def selection(self, event)`
-- `AutocompleteEntry.move_up` (method) `modules/LazyOwnExplorer.py:75` `def move_up(self, event)`
-- `AutocompleteEntry.move_down` (method) `modules/LazyOwnExplorer.py:87` `def move_down(self, event)`
-- `AutocompleteEntry.comparison` (method) `modules/LazyOwnExplorer.py:99` `def comparison(self, pattern)`
-- `LazyOwnGUI.__init__` (method) `modules/LazyOwnExplorer.py:105` `def __init__(self)`
-- `LazyOwnGUI.create_widgets` (method) `modules/LazyOwnExplorer.py:119` `def create_widgets(self)`
-- `get_suggestions` (function) `modules/LazyOwnExplorer.py:124` `def get_suggestions(term)`
-- `LazyOwnGUI.load_parquet_files` (method) `modules/LazyOwnExplorer.py:181` `def load_parquet_files(self)`
-- `LazyOwnGUI.get_unique_values` (method) `modules/LazyOwnExplorer.py:241` `def get_unique_values(self)`
-- `LazyOwnGUI.search` (method) `modules/LazyOwnExplorer.py:248` `def search(self)`
-- `LazyOwnGUI.search_in_parquet` (method) `modules/LazyOwnExplorer.py:267` `def search_in_parquet(self, term)`
-- `LazyOwnGUI.on_row_double_click` (method) `modules/LazyOwnExplorer.py:278` `def on_row_double_click(self, event)`
-- `LazyOwnGUI.show_row_details` (method) `modules/LazyOwnExplorer.py:283` `def show_row_details(self, row)`
-- `LazyOwnGUI.add_new_attack_vector` (method) `modules/LazyOwnExplorer.py:305` `def add_new_attack_vector(self)`
-- `save_new_vector` (function) `modules/LazyOwnExplorer.py:325` `def save_new_vector()`
-- `LazyOwnGUI.scan_system_for_binaries` (method) `modules/LazyOwnExplorer.py:357` `def scan_system_for_binaries(self)`
-- `is_binary` (function) `modules/LazyOwnExplorer.py:358` `def is_binary(file_path)`
-- `LazyOwnGUI.show_scan_results` (method) `modules/LazyOwnExplorer.py:374` `def show_scan_results(self, binaries)`
-- `LazyOwnGUI.export_to_csv` (method) `modules/LazyOwnExplorer.py:385` `def export_to_csv(self)`
-
-## modules/adcs_attacks.py
-Imported by: `cli/commands/exploit_migrated.py`
-- `CertificateTemplate.esc_vulnerabilities` (method) `modules/adcs_attacks.py:35` `def esc_vulnerabilities(self)` -- Determine which ESC attack paths apply to this template.
-- `ADCSCertipyWrapper.__init__` (method) `modules/adcs_attacks.py:80` `def __init__(self, certipy_path, timeout)`
-- `ADCSCertipyWrapper.find_certificate_authorities` (method) `modules/adcs_attacks.py:113` `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` -- Enumerate certificate authorities in an Active Directory domain.
-- `ADCSCertipyWrapper.enumerate_templates` (method) `modules/adcs_attacks.py:189` `def enumerate_templates(self, username, password, domain, dc_ip, hashes)` -- Enumerate vulnerable certificate templates.
-- `ADCSCertipyWrapper.request_certificate_esc1` (method) `modules/adcs_attacks.py:268` `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` -- ESC1: Request a certificate with a user-supplied subject alternative name.
-- `ADCSCertipyWrapper.request_certificate_esc8` (method) `modules/adcs_attacks.py:322` `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` -- ESC8: HTTP-based certificate enrollment (NTLM relay to AD CS).
-- `ADCSCertipyWrapper.authenticate_with_certificate` (method) `modules/adcs_attacks.py:367` `def authenticate_with_certificate(self, cert_file, domain, dc_ip, username)` -- Authenticate to the domain using a certificate and retrieve NT hash.
-- `ADCSCertipyWrapper.assess_vulnerability` (method) `modules/adcs_attacks.py:411` `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)` -- Run a full AD CS vulnerability assessment.
 
 
 Next: [API_p9.md](API_p9.md)

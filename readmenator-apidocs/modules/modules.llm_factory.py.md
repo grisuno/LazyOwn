@@ -68,7 +68,7 @@ flowchart LR
 
 ### `LLMBackendUnavailableError`
 
-`exception` | [modules/llm_factory.py:184](../../modules/llm_factory.py#L184)
+`exception` | [modules/llm_factory.py:190](../../modules/llm_factory.py#L190)
 
 ```python
 class LLMBackendUnavailableError(RuntimeError)
@@ -84,7 +84,7 @@ Raised when no LLM backend can be instantiated from the current config.
 
 ### `LLMBackendNotSupportedError`
 
-`exception` | [modules/llm_factory.py:188](../../modules/llm_factory.py#L188)
+`exception` | [modules/llm_factory.py:194](../../modules/llm_factory.py#L194)
 
 ```python
 class LLMBackendNotSupportedError(ValueError)
@@ -102,7 +102,7 @@ Raised when the requested backend identifier is unknown.
 
 ### `is_model_missing_error`
 
-`function` | [modules/llm_factory.py:119](../../modules/llm_factory.py#L119)
+`function` | [modules/llm_factory.py:121](../../modules/llm_factory.py#L121)
 
 ```python
 def is_model_missing_error(message: object) -> bool
@@ -127,7 +127,7 @@ APIs, so callers can fail over to another model id.
 
 ### `groq_model_chain`
 
-`function` | [modules/llm_factory.py:139](../../modules/llm_factory.py#L139)
+`function` | [modules/llm_factory.py:141](../../modules/llm_factory.py#L141)
 
 ```python
 def groq_model_chain(config: Mapping[str, Any] | None = None) -> tuple[str, ...]
@@ -156,7 +156,7 @@ model still gets a working backend.
 
 ### `default_model_for`
 
-`function` | [modules/llm_factory.py:218](../../modules/llm_factory.py#L218)
+`function` | [modules/llm_factory.py:224](../../modules/llm_factory.py#L224)
 
 ```python
 def default_model_for(backend: str | None) -> str
@@ -185,7 +185,7 @@ the Groq cloud leg first.
 
 ### `model_config_key`
 
-`function` | [modules/llm_factory.py:239](../../modules/llm_factory.py#L239)
+`function` | [modules/llm_factory.py:245](../../modules/llm_factory.py#L245)
 
 ```python
 def model_config_key(backend: str | None) -> str
@@ -214,7 +214,7 @@ the Groq cloud leg first.
 
 ### `api_key_config_key`
 
-`function` | [modules/llm_factory.py:260](../../modules/llm_factory.py#L260)
+`function` | [modules/llm_factory.py:266](../../modules/llm_factory.py#L266)
 
 ```python
 def api_key_config_key(backend: str | None) -> str | None
@@ -245,7 +245,7 @@ to the Groq key slot because the auto chain tries Groq first.
 
 ### `backend_requires_api_key`
 
-`function` | [modules/llm_factory.py:285](../../modules/llm_factory.py#L285)
+`function` | [modules/llm_factory.py:291](../../modules/llm_factory.py#L291)
 
 ```python
 def backend_requires_api_key(backend: str | None) -> bool
@@ -276,7 +276,7 @@ leg needs a key (it still degrades to keyless Ollama without one).
 
 ### `load_payload`
 
-`function` | [modules/llm_factory.py:303](../../modules/llm_factory.py#L303)
+`function` | [modules/llm_factory.py:309](../../modules/llm_factory.py#L309)
 
 ```python
 def load_payload(payload_path: str | None = None) -> dict[str, Any]
@@ -302,7 +302,7 @@ can fall back to environment variables and defaults.
 
 ### `get_llm_backend`
 
-`function` | [modules/llm_factory.py:585](../../modules/llm_factory.py#L585)
+`function` | [modules/llm_factory.py:591](../../modules/llm_factory.py#L591)
 
 ```python
 def get_llm_backend(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel
@@ -355,7 +355,7 @@ Groq selected with no API key).
 
 ### `get_llm_backend_raw`
 
-`function` | [modules/llm_factory.py:673](../../modules/llm_factory.py#L673)
+`function` | [modules/llm_factory.py:679](../../modules/llm_factory.py#L679)
 
 ```python
 def get_llm_backend_raw(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel
@@ -386,7 +386,7 @@ callers should keep using [`get_llm_backend`](#get_llm_backend).
 
 ### `try_get_llm_backend`
 
-`function` | [modules/llm_factory.py:695](../../modules/llm_factory.py#L695)
+`function` | [modules/llm_factory.py:701](../../modules/llm_factory.py#L701)
 
 ```python
 def try_get_llm_backend(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel | None
@@ -418,7 +418,7 @@ available.
 
 ### `stream_complete`
 
-`function` | [modules/llm_factory.py:719](../../modules/llm_factory.py#L719)
+`function` | [modules/llm_factory.py:778](../../modules/llm_factory.py#L778)
 
 ```python
 def stream_complete(model: str, prompt: str, max_tokens: int = 800, on_delta: Callable[[str], None] | None = None) -> str
@@ -449,7 +449,7 @@ any error, so a backend without streaming never breaks a caller.
 
 ### `complete`
 
-`function` | [modules/llm_factory.py:788](../../modules/llm_factory.py#L788)
+`function` | [modules/llm_factory.py:849](../../modules/llm_factory.py#L849)
 
 ```python
 def complete(model: str, prompt: str, max_tokens: int = 800) -> str
@@ -458,7 +458,8 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str
 Complete a prompt through one model spec; raise when unanswered.
 
 The ``model`` spec accepts an optional ``backend:`` prefix selecting
-the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``auto:`` (groq first, then ollama)
+the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``pi:`` (local pi agent,
+keyless), ``auto:`` (groq first, then ollama)
 or ``toposwarm:`` (local agentic router, keyless). A bare model name
 resolves through the ``auto`` chain. Empty prompt returns empty
 string; any backend outage raises so pool callers can fail over to
@@ -488,7 +489,7 @@ the next leg and finally to the heuristic path.
 
 ### `BACKEND_GROQ`
 
-`constant` | [modules/llm_factory.py:74](../../modules/llm_factory.py#L74)
+`constant` | [modules/llm_factory.py:76](../../modules/llm_factory.py#L76)
 
 ```python
 BACKEND_GROQ = 'groq'
@@ -500,7 +501,7 @@ BACKEND_GROQ = 'groq'
 
 ### `BACKEND_OLLAMA`
 
-`constant` | [modules/llm_factory.py:75](../../modules/llm_factory.py#L75)
+`constant` | [modules/llm_factory.py:77](../../modules/llm_factory.py#L77)
 
 ```python
 BACKEND_OLLAMA = 'ollama'
@@ -512,7 +513,7 @@ BACKEND_OLLAMA = 'ollama'
 
 ### `BACKEND_OPENAI`
 
-`constant` | [modules/llm_factory.py:76](../../modules/llm_factory.py#L76)
+`constant` | [modules/llm_factory.py:78](../../modules/llm_factory.py#L78)
 
 ```python
 BACKEND_OPENAI = 'openai'
@@ -524,7 +525,7 @@ BACKEND_OPENAI = 'openai'
 
 ### `BACKEND_ANTHROPIC`
 
-`constant` | [modules/llm_factory.py:77](../../modules/llm_factory.py#L77)
+`constant` | [modules/llm_factory.py:79](../../modules/llm_factory.py#L79)
 
 ```python
 BACKEND_ANTHROPIC = 'anthropic'
@@ -536,7 +537,7 @@ BACKEND_ANTHROPIC = 'anthropic'
 
 ### `BACKEND_DEEPSEEK`
 
-`constant` | [modules/llm_factory.py:78](../../modules/llm_factory.py#L78)
+`constant` | [modules/llm_factory.py:80](../../modules/llm_factory.py#L80)
 
 ```python
 BACKEND_DEEPSEEK = 'deepseek'
@@ -548,7 +549,7 @@ BACKEND_DEEPSEEK = 'deepseek'
 
 ### `BACKEND_LLAMACPP`
 
-`constant` | [modules/llm_factory.py:79](../../modules/llm_factory.py#L79)
+`constant` | [modules/llm_factory.py:81](../../modules/llm_factory.py#L81)
 
 ```python
 BACKEND_LLAMACPP = 'llamacpp'
@@ -560,7 +561,7 @@ BACKEND_LLAMACPP = 'llamacpp'
 
 ### `BACKEND_AUTO`
 
-`constant` | [modules/llm_factory.py:80](../../modules/llm_factory.py#L80)
+`constant` | [modules/llm_factory.py:82](../../modules/llm_factory.py#L82)
 
 ```python
 BACKEND_AUTO = 'auto'
@@ -572,7 +573,7 @@ BACKEND_AUTO = 'auto'
 
 ### `SUPPORTED_BACKENDS`
 
-`constant` | [modules/llm_factory.py:82](../../modules/llm_factory.py#L82)
+`constant` | [modules/llm_factory.py:84](../../modules/llm_factory.py#L84)
 
 ```python
 SUPPORTED_BACKENDS
@@ -584,7 +585,7 @@ SUPPORTED_BACKENDS
 
 ### `CONFIG_KEY_BACKEND`
 
-`constant` | [modules/llm_factory.py:92](../../modules/llm_factory.py#L92)
+`constant` | [modules/llm_factory.py:94](../../modules/llm_factory.py#L94)
 
 ```python
 CONFIG_KEY_BACKEND = 'llm_backend'
@@ -596,7 +597,7 @@ CONFIG_KEY_BACKEND = 'llm_backend'
 
 ### `CONFIG_KEY_MODEL_GROQ`
 
-`constant` | [modules/llm_factory.py:93](../../modules/llm_factory.py#L93)
+`constant` | [modules/llm_factory.py:95](../../modules/llm_factory.py#L95)
 
 ```python
 CONFIG_KEY_MODEL_GROQ = 'llm_model_groq'
@@ -608,7 +609,7 @@ CONFIG_KEY_MODEL_GROQ = 'llm_model_groq'
 
 ### `CONFIG_KEY_MODEL_OLLAMA`
 
-`constant` | [modules/llm_factory.py:94](../../modules/llm_factory.py#L94)
+`constant` | [modules/llm_factory.py:96](../../modules/llm_factory.py#L96)
 
 ```python
 CONFIG_KEY_MODEL_OLLAMA = 'llm_model_ollama'
@@ -620,7 +621,7 @@ CONFIG_KEY_MODEL_OLLAMA = 'llm_model_ollama'
 
 ### `CONFIG_KEY_MODEL_OPENAI`
 
-`constant` | [modules/llm_factory.py:95](../../modules/llm_factory.py#L95)
+`constant` | [modules/llm_factory.py:97](../../modules/llm_factory.py#L97)
 
 ```python
 CONFIG_KEY_MODEL_OPENAI = 'llm_model_openai'
@@ -632,7 +633,7 @@ CONFIG_KEY_MODEL_OPENAI = 'llm_model_openai'
 
 ### `CONFIG_KEY_MODEL_ANTHROPIC`
 
-`constant` | [modules/llm_factory.py:96](../../modules/llm_factory.py#L96)
+`constant` | [modules/llm_factory.py:98](../../modules/llm_factory.py#L98)
 
 ```python
 CONFIG_KEY_MODEL_ANTHROPIC = 'llm_model_anthropic'
@@ -644,7 +645,7 @@ CONFIG_KEY_MODEL_ANTHROPIC = 'llm_model_anthropic'
 
 ### `CONFIG_KEY_MODEL_DEEPSEEK`
 
-`constant` | [modules/llm_factory.py:97](../../modules/llm_factory.py#L97)
+`constant` | [modules/llm_factory.py:99](../../modules/llm_factory.py#L99)
 
 ```python
 CONFIG_KEY_MODEL_DEEPSEEK = 'llm_model_deepseek'
@@ -656,7 +657,7 @@ CONFIG_KEY_MODEL_DEEPSEEK = 'llm_model_deepseek'
 
 ### `CONFIG_KEY_MODEL_LLAMACPP`
 
-`constant` | [modules/llm_factory.py:98](../../modules/llm_factory.py#L98)
+`constant` | [modules/llm_factory.py:100](../../modules/llm_factory.py#L100)
 
 ```python
 CONFIG_KEY_MODEL_LLAMACPP = 'llm_model_llamacpp'
@@ -668,7 +669,7 @@ CONFIG_KEY_MODEL_LLAMACPP = 'llm_model_llamacpp'
 
 ### `CONFIG_KEY_OLLAMA_HOST`
 
-`constant` | [modules/llm_factory.py:99](../../modules/llm_factory.py#L99)
+`constant` | [modules/llm_factory.py:101](../../modules/llm_factory.py#L101)
 
 ```python
 CONFIG_KEY_OLLAMA_HOST = 'ollama_host'
@@ -680,7 +681,7 @@ CONFIG_KEY_OLLAMA_HOST = 'ollama_host'
 
 ### `CONFIG_KEY_LLAMACPP_HOST`
 
-`constant` | [modules/llm_factory.py:100](../../modules/llm_factory.py#L100)
+`constant` | [modules/llm_factory.py:102](../../modules/llm_factory.py#L102)
 
 ```python
 CONFIG_KEY_LLAMACPP_HOST = 'llamacpp_host'
@@ -692,7 +693,7 @@ CONFIG_KEY_LLAMACPP_HOST = 'llamacpp_host'
 
 ### `CONFIG_KEY_API_KEY`
 
-`constant` | [modules/llm_factory.py:101](../../modules/llm_factory.py#L101)
+`constant` | [modules/llm_factory.py:103](../../modules/llm_factory.py#L103)
 
 ```python
 CONFIG_KEY_API_KEY = 'api_key'
@@ -704,7 +705,7 @@ CONFIG_KEY_API_KEY = 'api_key'
 
 ### `CONFIG_KEY_OPENAI_API_KEY`
 
-`constant` | [modules/llm_factory.py:103](../../modules/llm_factory.py#L103)
+`constant` | [modules/llm_factory.py:105](../../modules/llm_factory.py#L105)
 
 ```python
 CONFIG_KEY_OPENAI_API_KEY = 'openai_api_key'
@@ -716,7 +717,7 @@ CONFIG_KEY_OPENAI_API_KEY = 'openai_api_key'
 
 ### `CONFIG_KEY_ANTHROPIC_API_KEY`
 
-`constant` | [modules/llm_factory.py:104](../../modules/llm_factory.py#L104)
+`constant` | [modules/llm_factory.py:106](../../modules/llm_factory.py#L106)
 
 ```python
 CONFIG_KEY_ANTHROPIC_API_KEY = 'anthropic_api_key'
@@ -728,7 +729,7 @@ CONFIG_KEY_ANTHROPIC_API_KEY = 'anthropic_api_key'
 
 ### `CONFIG_KEY_DEEPSEEK_API_KEY`
 
-`constant` | [modules/llm_factory.py:105](../../modules/llm_factory.py#L105)
+`constant` | [modules/llm_factory.py:107](../../modules/llm_factory.py#L107)
 
 ```python
 CONFIG_KEY_DEEPSEEK_API_KEY = 'deepseek_api_key'
@@ -740,7 +741,7 @@ CONFIG_KEY_DEEPSEEK_API_KEY = 'deepseek_api_key'
 
 ### `DEFAULT_BACKEND`
 
-`constant` | [modules/llm_factory.py:107](../../modules/llm_factory.py#L107)
+`constant` | [modules/llm_factory.py:109](../../modules/llm_factory.py#L109)
 
 ```python
 DEFAULT_BACKEND = BACKEND_AUTO
@@ -752,7 +753,7 @@ DEFAULT_BACKEND = BACKEND_AUTO
 
 ### `DEFAULT_GROQ_MODEL`
 
-`constant` | [modules/llm_factory.py:108](../../modules/llm_factory.py#L108)
+`constant` | [modules/llm_factory.py:110](../../modules/llm_factory.py#L110)
 
 ```python
 DEFAULT_GROQ_MODEL = 'llama-3.3-70b-versatile'
@@ -764,7 +765,7 @@ DEFAULT_GROQ_MODEL = 'llama-3.3-70b-versatile'
 
 ### `ENV_GROQ_MODEL`
 
-`constant` | [modules/llm_factory.py:110](../../modules/llm_factory.py#L110)
+`constant` | [modules/llm_factory.py:112](../../modules/llm_factory.py#L112)
 
 ```python
 ENV_GROQ_MODEL = 'LAZYOWN_GROQ_MODEL'
@@ -776,7 +777,7 @@ ENV_GROQ_MODEL = 'LAZYOWN_GROQ_MODEL'
 
 ### `GROQ_MODEL_FALLBACKS`
 
-`constant` | [modules/llm_factory.py:112](../../modules/llm_factory.py#L112)
+`constant` | [modules/llm_factory.py:114](../../modules/llm_factory.py#L114)
 
 ```python
 GROQ_MODEL_FALLBACKS: tuple[str, ...] = ('llama-3.1-8b-instant', 'openai/gpt-oss-120b', 'gemma2-9b-it')
@@ -788,7 +789,7 @@ GROQ_MODEL_FALLBACKS: tuple[str, ...] = ('llama-3.1-8b-instant', 'openai/gpt-oss
 
 ### `DEFAULT_OLLAMA_MODEL`
 
-`constant` | [modules/llm_factory.py:170](../../modules/llm_factory.py#L170)
+`constant` | [modules/llm_factory.py:172](../../modules/llm_factory.py#L172)
 
 ```python
 DEFAULT_OLLAMA_MODEL = 'deepseek-r1:1.5b'
@@ -800,7 +801,7 @@ DEFAULT_OLLAMA_MODEL = 'deepseek-r1:1.5b'
 
 ### `DEFAULT_OLLAMA_HOST`
 
-`constant` | [modules/llm_factory.py:171](../../modules/llm_factory.py#L171)
+`constant` | [modules/llm_factory.py:173](../../modules/llm_factory.py#L173)
 
 ```python
 DEFAULT_OLLAMA_HOST = 'http://localhost:11434'
@@ -812,7 +813,7 @@ DEFAULT_OLLAMA_HOST = 'http://localhost:11434'
 
 ### `DEFAULT_OPENAI_MODEL`
 
-`constant` | [modules/llm_factory.py:172](../../modules/llm_factory.py#L172)
+`constant` | [modules/llm_factory.py:174](../../modules/llm_factory.py#L174)
 
 ```python
 DEFAULT_OPENAI_MODEL = 'gpt-4o'
@@ -824,7 +825,7 @@ DEFAULT_OPENAI_MODEL = 'gpt-4o'
 
 ### `DEFAULT_ANTHROPIC_MODEL`
 
-`constant` | [modules/llm_factory.py:173](../../modules/llm_factory.py#L173)
+`constant` | [modules/llm_factory.py:175](../../modules/llm_factory.py#L175)
 
 ```python
 DEFAULT_ANTHROPIC_MODEL = 'claude-sonnet-4-20250514'
@@ -836,7 +837,7 @@ DEFAULT_ANTHROPIC_MODEL = 'claude-sonnet-4-20250514'
 
 ### `DEFAULT_DEEPSEEK_MODEL`
 
-`constant` | [modules/llm_factory.py:174](../../modules/llm_factory.py#L174)
+`constant` | [modules/llm_factory.py:176](../../modules/llm_factory.py#L176)
 
 ```python
 DEFAULT_DEEPSEEK_MODEL = 'deepseek-chat'
@@ -848,7 +849,7 @@ DEFAULT_DEEPSEEK_MODEL = 'deepseek-chat'
 
 ### `DEFAULT_LLAMACPP_MODEL`
 
-`constant` | [modules/llm_factory.py:175](../../modules/llm_factory.py#L175)
+`constant` | [modules/llm_factory.py:177](../../modules/llm_factory.py#L177)
 
 ```python
 DEFAULT_LLAMACPP_MODEL = 'local-model'
@@ -860,7 +861,7 @@ DEFAULT_LLAMACPP_MODEL = 'local-model'
 
 ### `DEFAULT_LLAMACPP_HOST`
 
-`constant` | [modules/llm_factory.py:176](../../modules/llm_factory.py#L176)
+`constant` | [modules/llm_factory.py:178](../../modules/llm_factory.py#L178)
 
 ```python
 DEFAULT_LLAMACPP_HOST = 'http://127.0.0.1:8080'
@@ -872,7 +873,7 @@ DEFAULT_LLAMACPP_HOST = 'http://127.0.0.1:8080'
 
 ### `ENV_GROQ_API_KEY`
 
-`constant` | [modules/llm_factory.py:178](../../modules/llm_factory.py#L178)
+`constant` | [modules/llm_factory.py:184](../../modules/llm_factory.py#L184)
 
 ```python
 ENV_GROQ_API_KEY = 'GROQ_API_KEY'
@@ -884,7 +885,7 @@ ENV_GROQ_API_KEY = 'GROQ_API_KEY'
 
 ### `ENV_OPENAI_API_KEY`
 
-`constant` | [modules/llm_factory.py:179](../../modules/llm_factory.py#L179)
+`constant` | [modules/llm_factory.py:185](../../modules/llm_factory.py#L185)
 
 ```python
 ENV_OPENAI_API_KEY = 'OPENAI_API_KEY'
@@ -896,7 +897,7 @@ ENV_OPENAI_API_KEY = 'OPENAI_API_KEY'
 
 ### `ENV_ANTHROPIC_API_KEY`
 
-`constant` | [modules/llm_factory.py:180](../../modules/llm_factory.py#L180)
+`constant` | [modules/llm_factory.py:186](../../modules/llm_factory.py#L186)
 
 ```python
 ENV_ANTHROPIC_API_KEY = 'ANTHROPIC_API_KEY'
@@ -908,7 +909,7 @@ ENV_ANTHROPIC_API_KEY = 'ANTHROPIC_API_KEY'
 
 ### `ENV_DEEPSEEK_API_KEY`
 
-`constant` | [modules/llm_factory.py:181](../../modules/llm_factory.py#L181)
+`constant` | [modules/llm_factory.py:187](../../modules/llm_factory.py#L187)
 
 ```python
 ENV_DEEPSEEK_API_KEY = 'DEEPSEEK_API_KEY'

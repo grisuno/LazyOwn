@@ -1,6 +1,6 @@
 # cli/commands: utils
 
-cli/commands: utils groups 125 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands: utils groups 127 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -20,7 +20,7 @@ graph LR
     contrib -- "depends on" --> modules
     contrib -- "depends on" --> root
     modules -- "calls into" --> contrib
-    modules -- "calls into" --> core
+    modules -- "depends on" --> core
     modules -- "calls into" --> root
     root -- "calls into" --> core
     root -- "depends on" --> modules
@@ -43,7 +43,7 @@ contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, 
 
 ## core (1.3)
 
-core groups 7 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
+core groups 8 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
 
 ## modules (1.4)
 
@@ -63,7 +63,7 @@ skills groups 1 files (py) around list_tools, call_tool, main. LazyOwn MCP OpenC
 
 ## tests (1.8)
 
-tests groups 30 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
+tests groups 31 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
 
 **Files**:
 
@@ -129,6 +129,7 @@ tests groups 30 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - core/defaults.py
 - core/hardening.py
 - core/host_policy.py
+- core/reverse_shell_secret.py
 - core/safe_exec.py
 - core/safe_import.py
 - core/safe_subprocess.py
@@ -184,6 +185,7 @@ tests groups 30 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - tests/test_resource_script.py
 - tests/test_safe_subprocess.py
 - tests/test_safe_subprocess_behavior.py
+- tests/test_security_alerts_fix.py
 - tests/test_security_hardening.py
 - tests/test_security_hardening_v3.py
 - tests/test_security_hardening_v4.py

@@ -3,12 +3,13 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/linux_advanced_payloads.py` | Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants. | modules | 17 | 1 |
 | `modules/listener_manager.py` | Multi-listener manager for LazyOwn C2. | modules | 22 | 2 |
 | `modules/live_surface.py` | Live attack-surface graph derived from the world model. | modules | 7 | 3 |
 | `modules/llm_adapter.py` | LLM adapter facade — single import point for all LLM backends used by lazyc2. | modules | 15 | 6 |
 | `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 5 |
 | `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
-| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 26 | 27 |
+| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 28 | 27 |
 | `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 8 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 4 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
@@ -167,6 +168,7 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/migrate_lazyown.py` | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | scripts | 6 | 1 |
 | `scripts/mutate.sh` | Mutation gate for LazyOwn. | scripts | 3 | 0 |
 | `scripts/patch_playbook_atomic_ids.py` | Patch APT playbooks: replace placeholder atomic_ids with real technique_ids. | scripts | 0 | 0 |
+| `scripts/pi_qwen_setup.sh` | idempotent bootstrap for the pi_qwen lazyaddon. | scripts | 0 | 0 |
 | `scripts/publish_wiki.sh` | Publish LazyOwn documentation to the GitHub wiki. | scripts | 8 | 0 |
 | `scripts/read_journal.py` | Print the recent engineering journal before a change is written. | scripts | 2 | 0 |
 | `scripts/setup_hermes_mcp.sh` | — register LazyOwn MCP server in Hermes Agent config Usage: bash scripts/setup_hermes_mcp.sh... | scripts | 0 | 0 |
@@ -194,7 +196,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/claude_md_orchestrator/tdd_agent.py` | Test-Driven Development agent. | claude_md_orchestrator | 7 | 1 |
 | `skills/claude_md_orchestrator/tests/conftest.py` | Pytest bootstrap for the claude_md_orchestrator test suite. | skills_claude_md_orchestrator_tests | 0 | 0 |
 | `skills/claude_md_orchestrator/tests/test_orchestrator.py` | Unit tests for the claude_md_orchestrator package. | skills_claude_md_orchestrator_tests | 20 | 0 |
-| `skills/claude_md_orchestrator/validators.py` | DoD validators for every artifact the orchestrator produces. | claude_md_orchestrator | 15 | 5 |
+| `skills/claude_md_orchestrator/validators.py` | DoD validators for every artifact the orchestrator produces. | claude_md_orchestrator | 21 | 6 |
 | `skills/daemon_control.py` | Operator steering layer for the LazyOwn autonomous daemon. | skills | 27 | 4 |
 | `skills/daemon_health.py` | Daemon health monitor — watchdog for the autonomous daemon and C2 listeners. | skills | 16 | 1 |
 | `skills/heartbeat.py` | LazyOwn Heartbeat | skills | 5 | 0 |
@@ -456,6 +458,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_payload_schema.py` | Tests for the ``core.payload_schema`` validation layer. | tests | 53 | 0 |
 | `tests/test_phase1_data_gaps.py` | Phase 1 data-gap closure: SDD + TDD + BDD tests. | tests | 55 | 0 |
 | `tests/test_phase_labels.py` | Tests for cli.phase_labels — canonical phase display labels contract. | tests | 5 | 0 |
+| `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
 | `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
 | `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
 | `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
@@ -482,6 +485,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_scope_bound_auto_gate.py` | tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto... | tests | 37 | 0 |
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
 | `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 24 | 0 |
+| `tests/test_security_alerts_fix.py` | Regression tests for CodeQL alerts #941-#972 (SSRF, TLS, clear-text, ReDoS, paths). | tests | 24 | 0 |
 | `tests/test_security_codeql_batch.py` | SDD regression tests for the CodeQL security batch. | tests | 37 | 0 |
 | `tests/test_security_hardening.py` | SDD+TDD+BDD tests for security hardening contracts. | tests | 36 | 0 |
 | `tests/test_security_hardening_v2.py` | SDD+TDD+BDD tests for security hardening batch v2. | tests | 39 | 0 |
@@ -492,9 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
 | `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
 | `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
-| `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
-| `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
-| `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
-| `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

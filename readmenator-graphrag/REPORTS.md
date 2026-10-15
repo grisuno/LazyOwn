@@ -1,19 +1,19 @@
 # GraphRAG Community Reports
 
-Entities: 20585 | Relationships: 64193 | Communities: 25 | Themes: 10 | Text units: 20473
+Entities: 20673 | Relationships: 64626 | Communities: 25 | Themes: 10 | Text units: 20561
 
 Query with `readmenator . ask "<question>"` (local: BM25 + Personalized PageRank; global: map-reduce over these reports) or the MCP tool `readmenator.graphrag`.
 
 ## Project overview (`root`, root, rating 7.0)
 
-1015 files in 25 communities and 10 themes. Highest-impact communities: modules: lazyc2 (7.0), cli/commands: utils (6.1), modules: autonomous_daemon (3.8). God nodes: core/logging.py, utils.py, cli/commands/_base.py, skills/lazyown_mcp.py, modules/lazy_loop.py.
+1019 files in 25 communities and 10 themes. Highest-impact communities: modules: lazyc2 (7.0), cli/commands: utils (6.2), modules: autonomous_daemon (3.8). God nodes: core/logging.py, utils.py, skills/lazyown_mcp.py, cli/commands/_base.py, modules/lazy_loop.py.
 
-- [modules: lazyc2] rating 7.0: `core/logging.py` ranks 1 by PageRank, 161 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
-- [cli/commands: utils] rating 6.1: `utils.py` ranks 1 by PageRank, 115 importers, 124 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
+- [modules: lazyc2] rating 7.0: `core/logging.py` ranks 1 by PageRank, 163 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
+- [cli/commands: utils] rating 6.2: `utils.py` ranks 1 by PageRank, 115 importers, 124 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
 - [modules: autonomous_daemon] rating 3.8: `modules/world_model.py` ranks 1 by PageRank, 77 importers, 61 symbols: modules/world_model.py
 - [unassigned files] rating 3.7: `.claude/skills/run-lazyown/driver.sh` ranks 1 by PageRank, 0 importers, 0 symbols: Build and drive LazyOwn inside its Docker sandbox (Debian container).
 - [cli: status_bar] rating 3.7: `core/console.py` ranks 1 by PageRank, 62 importers, 11 symbols: ANSI color constants and console output helpers.
-- [modules: lazy_loop] rating 2.9: `core/config.py` ranks 1 by PageRank, 83 importers, 17 symbols: Configuration loader and Config wrapper.
+- [modules: lazy_loop] rating 3.0: `core/config.py` ranks 1 by PageRank, 84 importers, 17 symbols: Configuration loader and Config wrapper.
 - [lazygui/panels] rating 1.8: `lazygui/config/constants.py` ranks 1 by PageRank, 34 importers, 14 symbols: Immutable application constants.
 - [cli/commands: c2_profile_engine] rating 1.6: `cli/commands/enum.py` ranks 1 by PageRank, 23 importers, 11 symbols: Enumeration command set.
 - Key entities: file:lazyc2.py, file:lazyown.py, file:utils.py, file:tests/test_security_hardening_v4.py, file:skills/lazyown_mcp.py, file:skills/autonomous_daemon.py
@@ -22,23 +22,23 @@ Query with `readmenator . ask "<question>"` (local: BM25 + Personalized PageRank
 
 ## modules: lazyc2 + modules: autonomous_daemon +9 (`t0`, theme, rating 7.0)
 
-Theme of 11 communities and 612 files: modules: lazyc2 (123 files, rating 7.0); modules: autonomous_daemon (113 files, rating 3.8); cli: status_bar (97 files, rating 3.7); modules: lazy_loop (69 files, rating 2.9); lazygui/panels (54 files, rating 1.8); cli/commands: c2_profile_engine (26 files, rating 1.6); modules: estorides_importer (50 files, rating 1.4); cli: banner_config (29 files, rating 1.3); static/js (29 files, rating 1.2); modules: surface_graph (15 files, rating 0.5); skills/hermes-lazyown (7 files, rating 0.2).
+Theme of 11 communities and 613 files: modules: lazyc2 (123 files, rating 7.0); modules: autonomous_daemon (113 files, rating 3.8); cli: status_bar (97 files, rating 3.7); modules: lazy_loop (70 files, rating 3.0); lazygui/panels (54 files, rating 1.8); cli/commands: c2_profile_engine (26 files, rating 1.6); modules: estorides_importer (50 files, rating 1.5); static/js (29 files, rating 1.2); cli: banner_config (29 files, rating 1.2); modules: surface_graph (15 files, rating 0.5); skills/hermes-lazyown (7 files, rating 0.2).
 
-- [modules: lazyc2] `core/logging.py` ranks 1 by PageRank, 161 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
-- [modules: lazyc2] `modules/llm_factory.py` ranks 2 by PageRank, 49 importers, 26 symbols: LLM backend factory and selection utilities.
+- [modules: lazyc2] `core/logging.py` ranks 1 by PageRank, 163 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
+- [modules: lazyc2] `modules/llm_factory.py` ranks 2 by PageRank, 49 importers, 28 symbols: LLM backend factory and selection utilities.
 - [modules: autonomous_daemon] `modules/world_model.py` ranks 1 by PageRank, 77 importers, 61 symbols: modules/world_model.py
 - [modules: autonomous_daemon] `modules/killchain.py` ranks 2 by PageRank, 28 importers, 21 symbols: Unified kill-chain — single source of truth consumed by all surfaces.
 - [cli: status_bar] `core/console.py` ranks 1 by PageRank, 62 importers, 11 symbols: ANSI color constants and console output helpers.
 - [cli: status_bar] `cli/themes.py` ranks 2 by PageRank, 17 importers, 3 symbols: Theme registry for the LazyOwn TUI surfaces.
-- [modules: lazy_loop] `core/config.py` ranks 1 by PageRank, 83 importers, 17 symbols: Configuration loader and Config wrapper.
-- [modules: lazy_loop] `modules/lazy_loop.py` ranks 2 by PageRank, 182 importers, 456 symbols: Lazy autonomous loop for LazyOwn.
+- [modules: lazy_loop] `core/config.py` ranks 1 by PageRank, 84 importers, 17 symbols: Configuration loader and Config wrapper.
+- [modules: lazy_loop] `modules/lazy_loop.py` ranks 2 by PageRank, 187 importers, 456 symbols: Lazy autonomous loop for LazyOwn.
 - Key entities: file:lazyc2.py, file:lazyown.py, file:skills/lazyown_mcp.py, file:skills/autonomous_daemon.py, sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, sym:modules/workspace.py::write_text@72, file:modules/lazy_loop.py
-- Children: c1, c2, c3, c4, c5, c9, c6, c8, c7, c11, c14
+- Children: c1, c2, c3, c4, c5, c9, c6, c7, c8, c11, c14
 - Theme rating = highest child community rating.
 
-## cli/commands: utils + skills/claude_md_orchestrator +4 (`t2`, theme, rating 6.1)
+## cli/commands: utils + skills/claude_md_orchestrator +4 (`t2`, theme, rating 6.2)
 
-Theme of 6 communities and 167 files: cli/commands: utils (125 files, rating 6.1); skills/claude_md_orchestrator (17 files, rating 0.6); modules: kerberos_core (7 files, rating 0.2); contrib/legacy (5 files, rating 0.2); modules: saas_attacks (7 files, rating 0.1); modules: polymorphic_engine (6 files, rating 0.1).
+Theme of 6 communities and 169 files: cli/commands: utils (127 files, rating 6.2); skills/claude_md_orchestrator (17 files, rating 0.6); modules: kerberos_core (7 files, rating 0.2); contrib/legacy (5 files, rating 0.2); modules: saas_attacks (7 files, rating 0.1); modules: polymorphic_engine (6 files, rating 0.1).
 
 - [cli/commands: utils] `utils.py` ranks 1 by PageRank, 115 importers, 124 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
 - [cli/commands: utils] `core/validators.py` ranks 2 by PageRank, 19 importers, 8 symbols: Input validators for runtime configuration values.
@@ -48,13 +48,13 @@ Theme of 6 communities and 167 files: cli/commands: utils (125 files, rating 6.1
 - [modules: kerberos_core] `modules/delegation_attacks.py` ranks 2 by PageRank, 2 importers, 12 symbols: Active Directory delegation enumeration and abuse.
 - [contrib/legacy] `modules/lazyencoder_decoder.py` ranks 1 by PageRank, 5 importers, 10 symbols.
 - [contrib/legacy] `contrib/legacy/lazycreate_webshell.py` ranks 2 by PageRank, 0 importers, 0 symbols.
-- Key entities: file:utils.py, file:tests/test_security_hardening_v4.py, file:tests/test_security_sanitizers.py, file:skills/claude_md_orchestrator/models.py, file:modules/kerberos_core.py, file:modules/kerberos_tickets.py, file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py
+- Key entities: file:utils.py, file:tests/test_security_hardening_v4.py, sym:skills/claude_md_orchestrator/validators.py::group@69, file:tests/test_security_sanitizers.py, file:modules/kerberos_core.py, file:modules/kerberos_tickets.py, file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py
 - Children: c0, c10, c12, c16, c13, c15
 - Theme rating = highest child community rating.
 
 ## unassigned files (`t1`, theme, rating 3.7)
 
-Theme of 1 communities and 221 files: unassigned files (221 files, rating 3.7).
+Theme of 1 communities and 222 files: unassigned files (222 files, rating 3.7).
 
 - [unassigned files] `.claude/skills/run-lazyown/driver.sh` ranks 1 by PageRank, 0 importers, 0 symbols: Build and drive LazyOwn inside its Docker sandbox (Debian container).
 - [unassigned files] `DEPLOY.sh` ranks 2 by PageRank, 0 importers, 3 symbols: update_section_html: Función para actualizar una sección específica
@@ -134,22 +134,22 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 
 ## modules: lazyc2 (`c1`, community, rating 7.0)
 
-123 files under modules (py 122, js 1), mostly utility. Core file core/logging.py (PageRank 0.0709, imported by 161 files): Structured JSON-lines logging for the LazyOwn framework. Key abstractions: StructuredLogConfig, StructuredLogger, format, format, makeRecord, get_logger. Depends on cli: status_bar (39), cli/commands: utils (34), modules: autonomous_daemon (28). Used by modules: autonomous_daemon (88), modules: lazy_loop (22), modules: estorides_importer (16).
+123 files under modules (py 122, js 1), mostly utility. Core file core/logging.py (PageRank 0.0711, imported by 163 files): Structured JSON-lines logging for the LazyOwn framework. Key abstractions: StructuredLogConfig, StructuredLogger, format, format, makeRecord, get_logger. Depends on cli/commands: utils (43), cli: status_bar (39), modules: autonomous_daemon (28). Used by modules: autonomous_daemon (88), modules: lazy_loop (22), modules: estorides_importer (17).
 
-- `core/logging.py` ranks 1 by PageRank, 161 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
-- `modules/llm_factory.py` ranks 2 by PageRank, 49 importers, 26 symbols: LLM backend factory and selection utilities.
+- `core/logging.py` ranks 1 by PageRank, 163 importers, 12 symbols: Structured JSON-lines logging for the LazyOwn framework.
+- `modules/llm_factory.py` ranks 2 by PageRank, 49 importers, 28 symbols: LLM backend factory and selection utilities.
 - `modules/ai_model.py` ranks 3 by PageRank, 8 importers, 39 symbols: Concrete language model backends for LazyOwn.
 - Hotspot `static/js/xterm.js`: 62 symbols, 3665 connections (score 0.31).
-- Hotspot `lazyc2.py`: 284 symbols, 252 connections (score 0.17).
+- Hotspot `lazyc2.py`: 286 symbols, 269 connections (score 0.18).
 - Dependency cycle: autonomous_daemon.py -> lazyown_mcp.py -> pipeline_engine.py -> autonomous_daemon.py.
 - 14 layer violations, e.g. test_collab_and_onboarding.py (testing) -> collab_bp.py (presentation).
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 7 paths reach this group via subprocess.
 - Key entities: file:lazyc2.py, file:lazyown.py, file:tests/test_collab_and_onboarding.py, file:core/logging.py, file:modules/pipeline_engine.py, file:skills/lazyown_facts.py, file:tests/test_aci_planner.py, file:tests/test_pipeline_engine.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 450.
 
-## cli/commands: utils (`c0`, community, rating 6.1)
+## cli/commands: utils (`c0`, community, rating 6.2)
 
-125 files under cli/commands (py 124, c 1), mostly utility. Core file utils.py (PageRank 0.0269, imported by 115 files): Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗... Key abstractions: MyServer, SimpleHTTPRequestHandler, IP2ASN, VulnerabilityScanner, needs_sudo, sudo_available. Depends on modules: autonomous_daemon (40), cli: status_bar (29), modules: lazyc2 (14). Used by modules: lazyc2 (34), modules: autonomous_daemon (30), modules: lazy_loop (28).
+127 files under cli/commands (py 126, c 1), mostly utility. Core file utils.py (PageRank 0.0267, imported by 115 files): Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗... Key abstractions: MyServer, SimpleHTTPRequestHandler, IP2ASN, VulnerabilityScanner, needs_sudo, sudo_available. Depends on modules: autonomous_daemon (40), cli: status_bar (29), modules: lazy_loop (23). Used by modules: lazyc2 (43), modules: lazy_loop (32), modules: autonomous_daemon (31).
 
 - `utils.py` ranks 1 by PageRank, 115 importers, 124 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
 - `core/validators.py` ranks 2 by PageRank, 19 importers, 8 symbols: Input validators for runtime configuration values.
@@ -158,28 +158,28 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_security_hardening_v3.py`: 64 symbols, 107 connections (score 0.04).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 6 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 6 paths reach this group via subprocess.
-- Key entities: file:utils.py, file:tests/test_security_hardening_v4.py, file:tests/test_categories.py, file:cli/cli_enhancements.py, file:tests/test_security_hardening_v3.py, sym:cli/commands/_base.py::LazyOwnCommandSet@53, file:tests/test_cli_command_sets.py, file:cli/commands/_base.py
-- Rating 6.1/10 = 7 x PageRank share 0.88 + 3 x risk 0.00. Internal imports: 411.
+- Taint: 4 paths reach this group via subprocess.
+- Key entities: file:utils.py, file:tests/test_security_hardening_v4.py, file:tests/test_categories.py, file:tests/test_security_hardening_v3.py, file:cli/cli_enhancements.py, sym:cli/commands/_base.py::LazyOwnCommandSet@53, file:tests/test_cli_command_sets.py, file:cli/commands/_base.py
+- Rating 6.2/10 = 7 x PageRank share 0.88 + 3 x risk 0.00. Internal imports: 425.
 
 ## modules: autonomous_daemon (`c2`, community, rating 3.8)
 
-113 files under modules (py 113), mostly utility. Core file modules/world_model.py (PageRank 0.0097, imported by 77 files): modules/world_model.py Key abstractions: HostState, EngagementPhase, ServiceInfo, CredentialEntry, VulnerabilityEntry, EmailEntry. Depends on modules: lazyc2 (88), modules: lazy_loop (35), cli: status_bar (31). Used by cli/commands: utils (40), modules: lazy_loop (34), modules: lazyc2 (28).
+113 files under modules (py 113), mostly utility. Core file modules/world_model.py (PageRank 0.0096, imported by 77 files): modules/world_model.py Key abstractions: HostState, EngagementPhase, ServiceInfo, CredentialEntry, VulnerabilityEntry, EmailEntry. Depends on modules: lazyc2 (88), modules: lazy_loop (35), cli/commands: utils (31). Used by cli/commands: utils (40), modules: lazy_loop (34), modules: lazyc2 (28).
 
 - `modules/world_model.py` ranks 1 by PageRank, 77 importers, 61 symbols: modules/world_model.py
 - `modules/killchain.py` ranks 2 by PageRank, 28 importers, 21 symbols: Unified kill-chain — single source of truth consumed by all surfaces.
 - `skills/autonomous_daemon.py` ranks 3 by PageRank, 111 importers, 148 symbols: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Hotspot `skills/lazyown_mcp.py`: 142 symbols, 455 connections (score 0.11).
+- Hotspot `skills/lazyown_mcp.py`: 142 symbols, 457 connections (score 0.11).
 - Hotspot `skills/autonomous_daemon.py`: 148 symbols, 256 connections (score 0.10).
 - Dependency cycle: lazyown_mcp.py -> hive_mind.py -> lazyown_groq_agents.py -> lazyown_mcp.py.
 - 17 layer violations, e.g. integration_autonomous_flow.py (testing) -> moe_router.py (presentation).
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in health_check).
 - Key entities: file:skills/lazyown_mcp.py, file:skills/autonomous_daemon.py, file:skills/lazyown_policy.py, file:skills/hive_mind.py, file:tests/test_core_modules.py, file:skills/tests/test_autonomous_daemon.py, file:skills/tests/test_hive_mind.py, file:tests/test_engage_orchestrator.py
-- Rating 3.8/10 = 7 x PageRank share 0.55 + 3 x risk 0.00. Internal imports: 686.
+- Rating 3.8/10 = 7 x PageRank share 0.54 + 3 x risk 0.00. Internal imports: 686.
 
 ## unassigned files (`c24`, community, rating 3.7)
 
-221 files under modules (py 116, sh 60, lua 26, c 11, js 4, asm 1, cpp 1, cs 1, php 1), mostly utility. Core file .claude/skills/run-lazyown/driver.sh (PageRank 0.0005, imported by 0 files): Build and drive LazyOwn inside its Docker sandbox (Debian container). Key abstractions: increment_version, update_section_html, get_commit_type, usage, log, fail.
+222 files under modules (py 116, sh 61, lua 26, c 11, js 4, asm 1, cpp 1, cs 1, php 1), mostly utility. Core file .claude/skills/run-lazyown/driver.sh (PageRank 0.0004, imported by 0 files): Build and drive LazyOwn inside its Docker sandbox (Debian container). Key abstractions: increment_version, update_section_html, get_commit_type, usage, log, fail.
 
 - `.claude/skills/run-lazyown/driver.sh` ranks 1 by PageRank, 0 importers, 0 symbols: Build and drive LazyOwn inside its Docker sandbox (Debian container).
 - `DEPLOY.sh` ranks 2 by PageRank, 0 importers, 3 symbols: update_section_html: Función para actualizar una sección específica
@@ -188,11 +188,11 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `static/js/select2-4.1.0.min.js`: 3 symbols, 972 connections (score 0.08).
 - Dataflow: 8 INFERRED issues (first: UNCHECKED_ALLOC in exploit).
 - Key entities: file:skills/mcp_generated_tools.py, file:modules/rootkit/mrhyde3.c, file:tests/test_packaging.py, file:tests/test_attack_surface_addons.py, file:tests/test_blacksandbeacon_addon.py, file:modules/rootkit/mrhyde.c, file:modules/rootkit/mr.c, file:modules/rootkit/mrhyde2.c
-- Rating 3.7/10 = 7 x PageRank share 0.53 + 3 x risk 0.00. Internal imports: 0.
+- Rating 3.7/10 = 7 x PageRank share 0.52 + 3 x risk 0.00. Internal imports: 0.
 
 ## cli: status_bar (`c3`, community, rating 3.7)
 
-97 files under cli (py 97), mostly utility. Core file core/console.py (PageRank 0.0209, imported by 62 files): ANSI color constants and console output helpers. Key abstractions: colors_enabled, format_line, print_error, print_msg, print_warn, print_succ. Depends on modules: autonomous_daemon (23), cli/commands: utils (15), modules: lazyc2 (11). Used by modules: lazyc2 (39), modules: autonomous_daemon (31), cli/commands: utils (29).
+97 files under cli (py 97), mostly utility. Core file core/console.py (PageRank 0.0207, imported by 62 files): ANSI color constants and console output helpers. Key abstractions: colors_enabled, format_line, print_error, print_msg, print_warn, print_succ. Depends on modules: autonomous_daemon (23), cli/commands: utils (15), modules: lazyc2 (11). Used by modules: lazyc2 (39), modules: autonomous_daemon (31), cli/commands: utils (29).
 
 - `core/console.py` ranks 1 by PageRank, 62 importers, 11 symbols: ANSI color constants and console output helpers.
 - `cli/themes.py` ranks 2 by PageRank, 17 importers, 3 symbols: Theme registry for the LazyOwn TUI surfaces.
@@ -202,26 +202,26 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - 1 layer violations, e.g. test_exploration_and_addons.py (testing) -> exploration_view.py (presentation).
 - Taint: 2 paths reach this group via subprocess.
 - Dataflow: 2 INFERRED issues (first: UNCHECKED_ALLOC in _run_single_search).
-- Key entities: sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, file:tests/test_command_palette.py, file:tests/test_improvements_spec.py, sym:core/console.py::print_warn@149, file:tests/test_tips_engine.py, file:cli/status_bar.py, file:cli/tips_engine.py
+- Key entities: sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, file:tests/test_command_palette.py, file:tests/test_improvements_spec.py, sym:core/console.py::print_warn@149, file:tests/test_tips_engine.py, file:cli/tips_engine.py, file:cli/status_bar.py
 - Rating 3.7/10 = 7 x PageRank share 0.53 + 3 x risk 0.00. Internal imports: 320.
 
-## modules: lazy_loop (`c4`, community, rating 2.9)
+## modules: lazy_loop (`c4`, community, rating 3.0)
 
-69 files under tests (py 69), mostly utility. Core file core/config.py (PageRank 0.0160, imported by 83 files): Configuration loader and Config wrapper. Key abstractions: Config, as_params, overridden_keys, resolve_aes_key, load_payload, load_and_validate. Depends on modules: autonomous_daemon (34), cli/commands: utils (28), modules: lazyc2 (22). Used by modules: autonomous_daemon (35), modules: lazyc2 (20), static/js (19).
+70 files under tests (py 70), mostly utility. Core file core/config.py (PageRank 0.0177, imported by 84 files): Configuration loader and Config wrapper. Key abstractions: Config, as_params, overridden_keys, resolve_aes_key, load_payload, load_and_validate. Depends on modules: autonomous_daemon (34), cli/commands: utils (32), modules: lazyc2 (22). Used by modules: autonomous_daemon (35), cli/commands: utils (23), modules: lazyc2 (20).
 
-- `core/config.py` ranks 1 by PageRank, 83 importers, 17 symbols: Configuration loader and Config wrapper.
-- `modules/lazy_loop.py` ranks 2 by PageRank, 182 importers, 456 symbols: Lazy autonomous loop for LazyOwn.
-- `modules/auto_registry.py` ranks 3 by PageRank, 42 importers, 37 symbols: Registry of loop-ready automation verbs (the ``auto_*`` family).
-- Hotspot `modules/lazy_loop.py`: 456 symbols, 381 connections (score 0.28).
+- `core/config.py` ranks 1 by PageRank, 84 importers, 17 symbols: Configuration loader and Config wrapper.
+- `modules/lazy_loop.py` ranks 2 by PageRank, 187 importers, 456 symbols: Lazy autonomous loop for LazyOwn.
+- `modules/__init__.py` ranks 3 by PageRank, 57 importers, 0 symbols.
+- Hotspot `modules/lazy_loop.py`: 456 symbols, 386 connections (score 0.28).
 - Hotspot `tests/test_lazy_runner.py`: 143 symbols, 264 connections (score 0.10).
 - Dependency cycle: lazy_loop.py -> auto_registry.py -> lazy_orchestrator_feedback.py -> lazy_intel.py -> lazy_loop.py.
 - Taint: 1 paths reach this group via subprocess.
-- Key entities: sym:modules/workspace.py::write_text@72, file:modules/lazy_loop.py, file:tests/test_lazy_runner.py, sym:modules/lazy_loop.py::get@911, sym:modules/lazy_loop.py::ExplorationGraph@1019, file:modules/lazy_proxy.py, sym:modules/lazy_loop.py::ActivityLog@1322, file:cli/commands/lazyops.py
-- Rating 2.9/10 = 7 x PageRank share 0.42 + 3 x risk 0.00. Internal imports: 577.
+- Key entities: sym:modules/workspace.py::write_text@72, file:modules/lazy_loop.py, file:tests/test_lazy_runner.py, sym:modules/lazy_loop.py::get@911, file:modules/lazy_proxy.py, sym:modules/lazy_loop.py::ExplorationGraph@1019, sym:modules/lazy_loop.py::ActivityLog@1327, file:cli/commands/lazyops.py
+- Rating 3.0/10 = 7 x PageRank share 0.43 + 3 x risk 0.00. Internal imports: 579.
 
 ## lazygui/panels (`c5`, community, rating 1.8)
 
-54 files under lazygui/panels (py 54), mostly utility. Core file lazygui/config/constants.py (PageRank 0.0080, imported by 34 files): Immutable application constants. Key abstractions: WindowConstants, TimingConstants, NetworkConstants, PtyConstants, FontConstants, KeybindingConstants. Depends on modules: lazyc2 (6), cli/commands: c2_profile_engine (2), modules: autonomous_daemon (1). Used by static/js (3).
+54 files under lazygui/panels (py 54), mostly utility. Core file lazygui/config/constants.py (PageRank 0.0079, imported by 34 files): Immutable application constants. Key abstractions: WindowConstants, TimingConstants, NetworkConstants, PtyConstants, FontConstants, KeybindingConstants. Depends on modules: lazyc2 (6), cli/commands: c2_profile_engine (2), modules: autonomous_daemon (1). Used by static/js (3).
 
 - `lazygui/config/constants.py` ranks 1 by PageRank, 34 importers, 14 symbols: Immutable application constants.
 - `lazygui/services/models.py` ranks 2 by PageRank, 20 importers, 15 symbols: Immutable domain types consumed by the UI.
@@ -234,7 +234,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 
 ## cli/commands: c2_profile_engine (`c9`, community, rating 1.6)
 
-26 files under tests (py 26), mostly utility. Core file cli/commands/enum.py (PageRank 0.0266, imported by 23 files): Enumeration command set. Key abstractions: EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap, do_getnpusers. Depends on cli/commands: utils (12), modules: lazyc2 (5), modules: lazy_loop (3). Used by modules: autonomous_daemon (15), modules: lazyc2 (6), cli: status_bar (3).
+26 files under tests (py 26), mostly utility. Core file cli/commands/enum.py (PageRank 0.0263, imported by 23 files): Enumeration command set. Key abstractions: EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap, do_getnpusers. Depends on cli/commands: utils (12), modules: lazyc2 (5), modules: lazy_loop (3). Used by modules: autonomous_daemon (15), modules: lazyc2 (6), cli: status_bar (3).
 
 - `cli/commands/enum.py` ranks 1 by PageRank, 23 importers, 11 symbols: Enumeration command set.
 - `modules/c2_profile_engine.py` ranks 2 by PageRank, 6 importers, 47 symbols: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.
@@ -246,24 +246,39 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Key entities: file:tests/test_c2_profile_engine.py, file:modules/c2_profile_engine.py, file:tests/test_bof_registry.py, file:tests/test_socks_proxy.py, file:tests/test_scope_guard.py, file:modules/bof_registry.py, file:tests/test_sleep_obfuscation.py, file:modules/socks_proxy.py
 - Rating 1.6/10 = 7 x PageRank share 0.23 + 3 x risk 0.00. Internal imports: 52.
 
-## modules: estorides_importer (`c6`, community, rating 1.4)
+## modules: estorides_importer (`c6`, community, rating 1.5)
 
-50 files under tests (py 49, c 1), mostly utility. Core file core/crypto.py (PageRank 0.0049, imported by 17 files): Symmetric primitives used by the framework. Key abstractions: generate_salt, derive_key, xor_encrypt_decrypt, generate_xor_key, AESencrypt, AESdecrypt. Depends on modules: lazyc2 (16), modules: lazy_loop (16), cli/commands: utils (14). Used by modules: lazyc2 (11), modules: autonomous_daemon (11), cli/commands: utils (10).
+50 files under tests (py 49, c 1), mostly utility. Core file core/crypto.py (PageRank 0.0053, imported by 17 files): Symmetric primitives used by the framework. Key abstractions: generate_salt, derive_key, xor_encrypt_decrypt, generate_xor_key, AESencrypt, AESdecrypt. Depends on modules: lazyc2 (17), modules: lazy_loop (16), cli/commands: utils (14). Used by cli/commands: utils (11), modules: lazyc2 (11), modules: autonomous_daemon (11).
 
 - `core/crypto.py` ranks 1 by PageRank, 17 importers, 7 symbols: Symmetric primitives used by the framework.
 - `modules/db.py` ranks 2 by PageRank, 24 importers, 37 symbols: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
-- `lazyc2/security/csrf.py` ranks 3 by PageRank, 4 importers, 11 symbols: CSRF protection policy for the LazyOwn C2 web layer.
+- `core/credential_vault.py` ranks 3 by PageRank, 6 importers, 8 symbols: Credential vault — AES-256-GCM encryption for sensitive config values.
 - Hotspot `tests/test_addon_creator.py`: 86 symbols, 11 connections (score 0.05).
 - Hotspot `tests/test_api_authz.py`: 48 symbols, 52 connections (score 0.03).
 - 27 layer violations, e.g. operations.py (presentation) -> storage.py (data_access).
 - Dataflow: 3 INFERRED issues (first: UNCHECKED_ALLOC in _import_to_scope).
-- Surprising bridge: session_auth.py <-> search.py (8 hops across communities).
+- Surprising bridge: __init__.py <-> state.py (8 hops across communities).
 - Key entities: file:tests/test_addon_creator.py, file:modules/rootkit/rootkit.c, file:tests/test_core.py, file:modules/estorides_importer.py, file:modules/db.py, file:lazyc2/addon_creator.py, file:modules/opsec_scorer.py, file:tests/test_api_authz.py
-- Rating 1.4/10 = 7 x PageRank share 0.21 + 3 x risk 0.00. Internal imports: 98.
+- Rating 1.5/10 = 7 x PageRank share 0.21 + 3 x risk 0.00. Internal imports: 98.
 
-## cli: banner_config (`c8`, community, rating 1.3)
+## static/js (`c7`, community, rating 1.2)
 
-29 files under tests (py 27, js 2), mostly utility. Core file modules/lazy_rbac.py (PageRank 0.0061, imported by 20 files): modules/lazy_rbac.py Key abstractions: Role, Permission, RBACUser, RBACStore, TenantConfig, TenantManager. Depends on cli/commands: utils (16), cli: status_bar (3), modules: lazy_loop (3). Used by modules: lazyc2 (14), cli: status_bar (8), cli/commands: utils (7).
+29 files under static/js (js 14, py 13, c 1, sh 1), mostly utility. Core file core/payload_schema.py (PageRank 0.0110, imported by 13 files): Declarative schema and validation for ``payload.json``. Key abstractions: FieldKind, Severity, FieldSpec, ValidationIssue, field_for, coerce_value. Depends on modules: lazy_loop (19), cli/commands: utils (4), cli: status_bar (4). Used by cli/commands: utils (11), cli: status_bar (6), modules: autonomous_daemon (4).
+
+- `core/payload_schema.py` ranks 1 by PageRank, 13 importers, 27 symbols: Declarative schema and validation for ``payload.json``.
+- `core/process.py` ranks 2 by PageRank, 20 importers, 12 symbols: Process and subprocess utilities for the LazyOwn framework.
+- `cli/assign.py` ranks 3 by PageRank, 124 importers, 1 symbols: ``assign`` business logic.
+- Hotspot `static/js/html2pdf.bundle.min.js`: 738 symbols, 4927 connections (score 0.78).
+- Hotspot `static/js/3d-force-graph-1.73.4.min.js`: 176 symbols, 7838 connections (score 0.70).
+- Taint: 1 paths reach this group via subprocess.
+- Dataflow: 9 INFERRED issues (first: UNCHECKED_ALLOC in spray_keyring_list_overwrite_purpose).
+- Surprising bridge: __init__.py <-> search.py (9 hops across communities).
+- Key entities: file:static/js/html2pdf.bundle.min.js, file:static/js/3d-force-graph-1.73.4.min.js, file:static/js/vis-network-9.1.2.min.js, file:static/js/vis-network.min.js, file:modules/exp.c, file:static/js/chart.min.js, file:static/js/quill-2.0.3.js, file:tests/test_payload_schema.py
+- Rating 1.2/10 = 7 x PageRank share 0.17 + 3 x risk 0.00. Internal imports: 251.
+
+## cli: banner_config (`c8`, community, rating 1.2)
+
+29 files under tests (py 27, js 2), mostly utility. Core file modules/lazy_rbac.py (PageRank 0.0060, imported by 20 files): modules/lazy_rbac.py Key abstractions: Role, Permission, RBACUser, RBACStore, TenantConfig, TenantManager. Depends on cli/commands: utils (16), modules: lazyc2 (3), cli: status_bar (3). Used by modules: lazyc2 (14), cli: status_bar (8), cli/commands: utils (7).
 
 - `modules/lazy_rbac.py` ranks 1 by PageRank, 20 importers, 86 symbols: modules/lazy_rbac.py
 - `modules/cli_auth.py` ranks 2 by PageRank, 19 importers, 18 symbols: CLI authentication module — login against users.json with remember-me.
@@ -273,26 +288,11 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Dependency cycle: engagement_hooks.py -> cli_auth.py -> engagement_hooks.py.
 - Taint: 4 paths reach this group via subprocess.
 - Key entities: file:cli/banner_config.py, file:modules/lazy_rbac.py, file:tests/test_engagement_and_ping.py, file:cli/fuzzy_picker.py, file:tests/test_banner_config.py, file:cli/engagement_hooks.py, file:tests/test_engagement_elo_and_methodology.py, file:tests/test_fuzzy_picker.py
-- Rating 1.3/10 = 7 x PageRank share 0.18 + 3 x risk 0.00. Internal imports: 155.
-
-## static/js (`c7`, community, rating 1.2)
-
-29 files under static/js (js 14, py 13, c 1, sh 1), mostly utility. Core file core/payload_schema.py (PageRank 0.0103, imported by 13 files): Declarative schema and validation for ``payload.json``. Key abstractions: FieldKind, Severity, FieldSpec, ValidationIssue, field_for, coerce_value. Depends on modules: lazy_loop (19), cli/commands: utils (4), cli: status_bar (4). Used by cli/commands: utils (11), cli: status_bar (6), modules: autonomous_daemon (4).
-
-- `core/payload_schema.py` ranks 1 by PageRank, 13 importers, 27 symbols: Declarative schema and validation for ``payload.json``.
-- `core/process.py` ranks 2 by PageRank, 20 importers, 12 symbols: Process and subprocess utilities for the LazyOwn framework.
-- `cli/assign.py` ranks 3 by PageRank, 124 importers, 1 symbols: ``assign`` business logic.
-- Hotspot `static/js/html2pdf.bundle.min.js`: 738 symbols, 4927 connections (score 0.78).
-- Hotspot `static/js/3d-force-graph-1.73.4.min.js`: 176 symbols, 7838 connections (score 0.70).
-- Taint: 2 paths reach this group via subprocess.
-- Dataflow: 12 INFERRED issues (first: UNCHECKED_ALLOC in spray_keyring_list_overwrite_purpose).
-- Surprising bridge: __init__.py <-> search.py (9 hops across communities).
-- Key entities: file:static/js/html2pdf.bundle.min.js, file:static/js/3d-force-graph-1.73.4.min.js, file:static/js/vis-network-9.1.2.min.js, file:static/js/vis-network.min.js, file:modules/exp.c, file:static/js/chart.min.js, file:static/js/quill-2.0.3.js, file:tests/test_payload_schema.py
-- Rating 1.2/10 = 7 x PageRank share 0.17 + 3 x risk 0.00. Internal imports: 251.
+- Rating 1.2/10 = 7 x PageRank share 0.18 + 3 x risk 0.00. Internal imports: 155.
 
 ## skills/claude_md_orchestrator (`c10`, community, rating 0.6)
 
-17 files under skills/claude_md_orchestrator (py 17), mostly utility. Core file skills/claude_md_orchestrator/models.py (PageRank 0.0039, imported by 15 files): Data models for the claude_md_orchestrator skill. Key abstractions: Stage, Severity, Contract, SadPath, Spec, TestSuite. Depends on cli/commands: utils (1), modules: lazyc2 (1), modules: lazy_loop (1). Used by modules: lazyc2 (3), cli/commands: utils (1), modules: lazy_loop (1).
+17 files under skills/claude_md_orchestrator (py 17), mostly utility. Core file skills/claude_md_orchestrator/models.py (PageRank 0.0034, imported by 15 files): Data models for the claude_md_orchestrator skill. Key abstractions: Stage, Severity, Contract, SadPath, Spec, TestSuite. Depends on cli/commands: utils (2), modules: lazyc2 (1), modules: lazy_loop (1). Used by modules: lazyc2 (3), cli/commands: utils (2), modules: lazy_loop (1).
 
 - `skills/claude_md_orchestrator/models.py` ranks 1 by PageRank, 15 importers, 32 symbols: Data models for the claude_md_orchestrator skill.
 - `skills/claude_md_orchestrator/config.py` ranks 2 by PageRank, 10 importers, 15 symbols: Centralized configuration for the claude_md_orchestrator skill.
@@ -300,7 +300,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_security_sanitizers.py`: 45 symbols, 8 connections (score 0.03).
 - Hotspot `skills/claude_md_orchestrator/models.py`: 32 symbols, 23 connections (score 0.02).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
-- Key entities: file:tests/test_security_sanitizers.py, file:skills/claude_md_orchestrator/models.py, file:modules/security_sanitizers.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py, file:skills/claude_md_orchestrator/validators.py, file:modules/lazyown_bprfuzzer.py, file:skills/claude_md_orchestrator/parser.py
+- Key entities: sym:skills/claude_md_orchestrator/validators.py::group@69, file:tests/test_security_sanitizers.py, file:skills/claude_md_orchestrator/models.py, file:modules/security_sanitizers.py, file:skills/claude_md_orchestrator/validators.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py, file:modules/lazyown_bprfuzzer.py
 - Rating 0.6/10 = 7 x PageRank share 0.09 + 3 x risk 0.00. Internal imports: 37.
 
 ## modules: surface_graph (`c11`, community, rating 0.5)
@@ -312,7 +312,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `modules/finding_lifecycle.py` ranks 3 by PageRank, 11 importers, 26 symbols: Finding confirmation lifecycle: pending -> confirmed / rejected.
 - Hotspot `cli/surface_graph.py`: 33 symbols, 15 connections (score 0.02).
 - Hotspot `modules/finding_lifecycle.py`: 26 symbols, 18 connections (score 0.02).
-- Key entities: file:cli/surface_graph.py, file:modules/finding_lifecycle.py, file:modules/intel_fusion.py, file:cli/surface_tui.py, file:cli/commands/database.py, file:modules/estorides_fusion.py, file:modules/attack_surface3d.py, file:modules/osint_enrich.py
+- Key entities: file:cli/surface_graph.py, file:modules/finding_lifecycle.py, file:modules/intel_fusion.py, file:cli/surface_tui.py, file:cli/commands/database.py, file:modules/attack_surface3d.py, file:modules/estorides_fusion.py, file:modules/osint_enrich.py
 - Rating 0.5/10 = 7 x PageRank share 0.07 + 3 x risk 0.00. Internal imports: 29.
 
 ## modules: kerberos_core (`c12`, community, rating 0.2)
@@ -330,7 +330,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 
 ## skills/hermes-lazyown (`c14`, community, rating 0.2)
 
-7 files under skills/hermes-lazyown (py 7), mostly utility. Core file skills/hermes-lazyown/constants.py (PageRank 0.0027, imported by 6 files): Central constants for the Hermes-LazyOwn integration layer. Key abstractions: ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths, lazyown_dir. Depends on cli/commands: utils (1), modules: autonomous_daemon (1).
+7 files under skills/hermes-lazyown (py 7), mostly utility. Core file skills/hermes-lazyown/constants.py (PageRank 0.0026, imported by 6 files): Central constants for the Hermes-LazyOwn integration layer. Key abstractions: ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths, lazyown_dir. Depends on cli/commands: utils (1), modules: autonomous_daemon (1).
 
 - `skills/hermes-lazyown/constants.py` ranks 1 by PageRank, 6 importers, 15 symbols: Central constants for the Hermes-LazyOwn integration layer.
 - `skills/hermes-lazyown/claudemd_rules.py` ranks 2 by PageRank, 1 importers, 14 symbols: Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
@@ -349,8 +349,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `contrib/legacy/lazylogpoisoning.py` ranks 3 by PageRank, 0 importers, 3 symbols.
 - Hotspot `modules/lazyencoder_decoder.py`: 10 symbols, 6 connections (score 0.01).
 - Hotspot `contrib/legacy/lazylogpoisoning.py`: 3 symbols, 7 connections (score 0.00).
-- Taint: 1 paths reach this group via subprocess.
-- Key entities: file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py, file:contrib/legacy/lazyreversentlmv2.py, sym:modules/lazyencoder_decoder.py::decode_string@94, sym:modules/lazyencoder_decoder.py::encode_string@75, sym:modules/lazyencoder_decoder.py::base64_encode@4, sym:modules/lazyencoder_decoder.py::decode@82, sym:modules/lazyencoder_decoder.py::base64_decode@8
+- Key entities: file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py, file:contrib/legacy/lazyreversentlmv2.py, sym:modules/lazyencoder_decoder.py::decode_string@94, sym:modules/lazyencoder_decoder.py::encode_string@75, sym:modules/lazyencoder_decoder.py::base64_encode@4, sym:modules/lazyencoder_decoder.py::decode@82, sym:modules/lazyencoder_decoder.py::caesar_cipher@13
 - Rating 0.2/10 = 7 x PageRank share 0.03 + 3 x risk 0.00. Internal imports: 4.
 
 ## modules: saas_attacks (`c13`, community, rating 0.1)
@@ -409,7 +408,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `poc_tui/plugin_loader.py` ranks 2 by PageRank, 0 importers, 22 symbols: Unified plugin loader — YAML addons, Lua plugins, and .tool files.
 - Hotspot `poc_tui/plugin_loader.py`: 22 symbols, 14 connections (score 0.01).
 - Hotspot `poc_tui/config.py`: 11 symbols, 6 connections (score 0.01).
-- Key entities: sym:poc_tui/config.py::items@44, file:poc_tui/plugin_loader.py, file:poc_tui/config.py, sym:poc_tui/plugin_loader.py::_register_yaml_addon@161, sym:poc_tui/plugin_loader.py::load_all@139, sym:poc_tui/plugin_loader.py::PluginSpec@29, sym:poc_tui/plugin_loader.py::_register_tool@261, sym:poc_tui/plugin_loader.py::_replace_placeholders@41
+- Key entities: sym:poc_tui/config.py::items@44, file:poc_tui/plugin_loader.py, file:poc_tui/config.py, sym:poc_tui/plugin_loader.py::_register_yaml_addon@161, sym:poc_tui/plugin_loader.py::_replace_placeholders@41, sym:poc_tui/plugin_loader.py::load_all@139, sym:poc_tui/plugin_loader.py::PluginSpec@29, sym:poc_tui/plugin_loader.py::_register_tool@261
 - Rating 0.0/10 = 7 x PageRank share 0.01 + 3 x risk 0.00. Internal imports: 1.
 
 ## scripts: check_contract_manifest (`c20`, community, rating 0.0)
@@ -431,7 +430,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `tests/test_migrate_lazyown_generator.py` ranks 2 by PageRank, 0 importers, 6 symbols: Regression guard for the ``cli/commands`` migration generator.
 - Hotspot `scripts/migrate_lazyown.py`: 6 symbols, 6 connections (score 0.00).
 - Hotspot `tests/test_migrate_lazyown_generator.py`: 6 symbols, 4 connections (score 0.00).
-- Key entities: file:scripts/migrate_lazyown.py, file:tests/test_migrate_lazyown_generator.py, sym:scripts/migrate_lazyown.py::build_migrated_module@124, sym:scripts/migrate_lazyown.py::main@173, sym:tests/test_migrate_lazyown_generator.py::_module_all@27, sym:tests/test_migrate_lazyown_generator.py::test_all_is_static_and_matches_class_name@62, sym:tests/test_migrate_lazyown_generator.py::test_compound_phase_title_casing@68, sym:tests/test_migrate_lazyown_generator.py::test_method_bodies_are_embedded_in_order@81
+- Key entities: file:scripts/migrate_lazyown.py, file:tests/test_migrate_lazyown_generator.py, sym:scripts/migrate_lazyown.py::build_migrated_module@124, sym:scripts/migrate_lazyown.py::main@173, sym:tests/test_migrate_lazyown_generator.py::_module_all@27, sym:tests/test_migrate_lazyown_generator.py::test_all_is_static_and_matches_class_name@62, sym:tests/test_migrate_lazyown_generator.py::test_compound_phase_title_casing@68, sym:scripts/migrate_lazyown.py::rewrite_globals@96
 - Rating 0.0/10 = 7 x PageRank share 0.01 + 3 x risk 0.00. Internal imports: 1.
 
 ## test (`c22`, community, rating 0.0)

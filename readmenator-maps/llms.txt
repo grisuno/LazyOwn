@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 24 communities, 1015 files, 9665 imports, 10 languages, 19585 symbols.
+> Static analysis knowledge base for LazyOwn: 24 communities, 1019 files, 9738 imports, 10 languages, 19669 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -9,16 +9,16 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/INDEX.md](md/readmenator-agent/INDEX.md)
 - [readmenator-agent/GOTCHAS.md](md/readmenator-agent/GOTCHAS.md): These files have the most connections. Changes here have high blast radius.
 - [readmenator-agent/API.md](md/readmenator-agent/API.md): incrementversion (function) DEPLOY.sh:19
-- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Depends on: core/logging.py, core/safeexec.py, modules/autoregistry.py, modules/eventbus.py
-- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Imported by: static/js/3d-force-graph-1.73.4.min.js, static/js/force-graph-1.43.5.min.js
-- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Depends on: core/config.py, modules/init.py, modules/agentrunner.py, modules/autoregistry.py, modules/lazyloop.py, modules/llmfactory.py...
-- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/config.py
-- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: core/logging.py, modules/llmfactory.py
-- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Depends on: modules/llmfactory.py
-- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: cli/lazymonitor.py, modules/lazyengine.py, modules/lazyloop.py
-- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): classifyos (function) scripts/backfilladdonostrigger.py:104 def classifyos(filename) -- Return a MITRE-platform string for the addon based on filename.
-- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: core/logging.py, modules/loggingconfig.py, skills/lazyowngroqagents.py, skills/lazyownllm.py, skills/lazyownparquetdb.py
-- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: modules/engagesummary.py, skills/autonomousdaemon.py, skills/hivemind.py, skills/swanagent.py
+- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Depends on: core/logging.py, modules/lazyrbac.py
+- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Imported by: lazyc2.py, skills/heartbeat.py, skills/lazyowndaemon.py, skills/lazyownmcp.py, skills/sessionswatcher.py
+- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Depends on: core/logging.py, modules/worldmodel.py
+- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: cli/commands/enum.py, core/logging.py
+- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: modules/colors.py
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Depends on: core/logging.py, modules/engagementhooks.py, skills/autonomousdaemon.py
+- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: cli/commands/enum.py, core/logging.py
+- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): writefile (function) plugins/generatestub.lua:4
+- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): isdaemonalive (function) skills/daemonhealth.py:36 def isdaemonalive(timeout) -- Check whether the autonomous daemon wrote a heartbeat recently.
+- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: cli/commands/enum.py, core/logging.py, modules/detectionoracle.py, modules/loggingconfig.py
 - [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, modules/goals.py, modules/intercept.py, skills/daemoncontrol.py, utils.py
 - [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
 - [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
@@ -27,16 +27,16 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Imported by: cli/commandchain.py, cli/commands/miscmigrated.py, cli/explorationview.py, cli/lazynmappost.py, cli/recommendationsignals.py, cli/reconplan.py...
 - [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): Depends on: cli/reactivehints.py, cli/themes.py
 - [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: modules/lazyencoderdecoder.py
-- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/console.py, core/prompt.py
-- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Imported by: lazyc2.py, tests/testtrustedproxy.py
-- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: core/logging.py, modules/aimodel.py, modules/llmfactory.py, modules/loggingconfig.py
+- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): log (function) fastrunasr00t.sh:59 -- ── Pretty-print helpers ──────────────────────────────────────────────────────
+- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Imported by: lazyc2.py, lazyc2/blueprints/addons.py, tests/testcsrfbehavior.py, tests/testcsrfpolicy.py
+- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): AutocompleteEntry.init (method) modules/LazyOwnExplorer.py:31 def init(self, getsuggestionsfunc)
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
 - [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/reasoningstream.py -> core/textutils.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/c2builder.py -> modules/metrics.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): skills/lazyownmcp.py -> skills/lazyownmcphelpers.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testpayloadschema.py -> core/payloadschema.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/beaconconfigbuilder.py -> modules/sleepobfuscation.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): skills/lazyownmcp.py -> skills/daemoncontrol.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testnethelperscommandset.py -> cli/commands/nethelpers.py
 - [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/search.py -> bs4, csv, requests
+- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/saasattacks.py -> future, dataclasses, requests, typing
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)
@@ -55,7 +55,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_commands_p4.md](md/readmenator-agent/KB_commands_p4.md): Doc: Autonomous exploitation and LOLBAS command set.
 - [readmenator-agent/KB_config.md](md/readmenator-agent/KB_config.md): Doc: Configuration layer.
 - [readmenator-agent/KB_core.md](md/readmenator-agent/KB_core.md): Doc: Core primitives for the LazyOwn framework.
-- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Terminal-safe Rich console factory.
+- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Stable structural interfaces (PEP 544 Protocol) for high-level orchestration.
 - [readmenator-agent/KB_devtools.md](md/readmenator-agent/KB_devtools.md): Doc: Audit every registered shell command for dispatch and parser errors.
 - [readmenator-agent/KB_extensions.md](md/readmenator-agent/KB_extensions.md): Doc: Shared C2 extension modules.
 - [readmenator-agent/KB_hermes-lazyown.md](md/readmenator-agent/KB_hermes-lazyown.md): Doc: Hermes-LazyOwn integration package.

@@ -2095,6 +2095,7 @@
 - [`connect`](modules/lazyc2.py.md#connect) function in `lazyc2`
 - [`connect_dialog_height`](modules/lazygui.config.constants.py.md#windowconstants-connect_dialog_height) attribute of `WindowConstants` in `lazygui.config.constants`
 - [`connect_dialog_width`](modules/lazygui.config.constants.py.md#windowconstants-connect_dialog_width) attribute of `WindowConstants` in `lazygui.config.constants`
+- [`connect_pinned`](modules/modules.lazy_proxy.py.md#connect_pinned) function in `modules.lazy_proxy`
 - [`connect_to_server`](modules/modules.kivi.py.md#reverseshellapp-connect_to_server) method of `ReverseShellApp` in `modules.kivi`
 - [`ConnectDialog`](modules/lazygui.windows.connect_dialog.py.md#connectdialog) class in `lazygui.windows.connect_dialog`
 - [`CONNECTED`](modules/lazygui.services.backend.py.md#backendstatus-connected) attribute of `BackendStatus` in `lazygui.services.backend`
@@ -2130,6 +2131,7 @@
 - [`ContainerFinding`](modules/modules.lazyk8s.py.md#containerfinding) class in `modules.lazyk8s`
 - [`ContainerResource`](modules/modules.lazyk8s.py.md#containerresource) class in `modules.lazyk8s`
 - [`ContainerRuntimeDetector`](modules/modules.lazyk8s.py.md#containerruntimedetector) class in `modules.lazyk8s`
+- [`contains_emoji`](modules/core.hardening.py.md#contains_emoji) function in `core.hardening`
 - [`content`](modules/skills.lazyown_context.py.md#compactionresult-content) attribute of `CompactionResult` in `skills.lazyown_context`
 - [`context`](modules/modules.world_model.py.md#domainentry-context) attribute of `DomainEntry` in `modules.world_model`
 - [`context`](modules/modules.world_model.py.md#emailentry-context) attribute of `EmailEntry` in `modules.world_model`
@@ -2858,6 +2860,7 @@
 - [`digest_overview`](modules/modules.lazy_loop.py.md#coldcompactor-digest_overview) method of `ColdCompactor` in `modules.lazy_loop`
 - [`digest_sec`](modules/modules.notify.py.md#notifyconfig-digest_sec) attribute of `NotifyConfig` in `modules.notify`
 - [`DIM`](modules/tools.gen_demo_gifs.py.md#dim) constant in `tools.gen_demo_gifs`
+- [`DIR_PATH_MAX_LENGTH`](modules/core.hardening.py.md#dir_path_max_length) constant in `core.hardening`
 - [`DIR_PERMISSION_OWNER_RWX`](modules/lazyc2.security.constants.py.md#dir_permission_owner_rwx) constant in `lazyc2.security.constants`
 - [`DIRECT`](modules/modules.ai_exploit_chain.py.md#direct) constant in `modules.ai_exploit_chain`
 - [`DIRECTORY_TO_WATCH`](modules/lazyc2.py.md#directory_to_watch) constant in `lazyc2`
@@ -5079,6 +5082,7 @@
 - [`generate_recommendations`](modules/modules.integrations.nuclei_parser.py.md#nucleiparser-generate_recommendations) method of `NucleiParser` in `modules.integrations.nuclei_parser`
 - [`generate_report`](modules/modules.exploit_chain.py.md#exploitchain-generate_report) method of `ExploitChain` in `modules.exploit_chain`
 - [`generate_reverse_shell`](modules/plugins.generate_reverse_shell.lua.md#generate_reverse_shell) function in `plugins/generate_reverse_shell.lua`
+- [`generate_reverse_shell_password`](modules/core.reverse_shell_secret.py.md#generate_reverse_shell_password) function in `core.reverse_shell_secret`
 - [`generate_rsa_key`](modules/contrib.legacy.lazyhoneypot.py.md#generate_rsa_key) function in `contrib.legacy.lazyhoneypot`
 - [`generate_rules`](modules/skills.hermes-lazyown.claudemd_rules.py.md#generate_rules) function in `skills.hermes-lazyown.claudemd_rules`
 - [`generate_sct`](modules/plugins.rundll32_sct_from_url.lua.md#generate_sct) function in `plugins/rundll32_sct_from_url.lua`
@@ -6718,6 +6722,7 @@
 - [`is_binary`](modules/lazyc2.py.md#is_binary) function in `lazyc2`
 - [`is_binary_present`](modules/core.process.py.md#is_binary_present) function in `core.process`
 - [`is_cli_verb`](modules/modules.lazy_cli_bridge.py.md#is_cli_verb) function in `modules.lazy_cli_bridge`
+- [`is_configured_password_valid`](modules/core.reverse_shell_secret.py.md#is_configured_password_valid) function in `core.reverse_shell_secret`
 - [`is_constrained`](modules/modules.delegation_attacks.py.md#delegationtarget-is_constrained) attribute of `DelegationTarget` in `modules.delegation_attacks`
 - [`is_critical_risk`](modules/modules.detection_oracle.py.md#detectionassessment-is_critical_risk) property of `DetectionAssessment` in `modules.detection_oracle`
 - [`is_daemon_alive`](modules/skills.daemon_health.py.md#is_daemon_alive) function in `skills.daemon_health`
@@ -6769,8 +6774,11 @@
 - [`is_retired`](modules/core.api_authz.py.md#apikey-is_retired) method of `ApiKey` in `core.api_authz`
 - [`is_routable_command`](modules/modules.auto_registry.py.md#is_routable_command) function in `modules.auto_registry`
 - [`is_running`](modules/skills.heartbeat.py.md#is_running) function in `skills.heartbeat`
+- [`is_safe_dir_path`](modules/core.hardening.py.md#is_safe_dir_path) function in `core.hardening`
 - [`is_safe_identifier`](modules/core.safe_import.py.md#is_safe_identifier) function in `core.safe_import`
+- [`is_safe_path_segment`](modules/core.hardening.py.md#is_safe_path_segment) function in `core.hardening`
 - [`is_safe_template_path`](modules/lazyc2.py.md#is_safe_template_path) function in `lazyc2`
+- [`is_safe_yaml_name`](modules/core.hardening.py.md#is_safe_yaml_name) function in `core.hardening`
 - [`is_secure`](modules/lazygui.services.models.py.md#listener-is_secure) attribute of `Listener` in `lazygui.services.models`
 - [`is_service_running`](modules/modules.fast_run_service.sh.md#is_service_running) function in `modules/fast_run_service.sh`
 - [`is_shell_verb`](modules/modules.auto_registry.py.md#is_shell_verb) function in `modules.auto_registry`
@@ -6808,6 +6816,7 @@
 - [`iter_addon_triggers`](modules/modules.auto_registry.py.md#iter_addon_triggers) function in `modules.auto_registry`
 - [`iter_command_sets`](modules/cli.registry.py.md#iter_command_sets) function in `cli.registry`
 - [`iter_descendants`](modules/cli.surface_graph.py.md#iter_descendants) function in `cli.surface_graph`
+- [`iter_emoji_spans`](modules/core.hardening.py.md#iter_emoji_spans) function in `core.hardening`
 - [`iter_tool_triggers`](modules/modules.auto_registry.py.md#iter_tool_triggers) function in `modules.auto_registry`
 - [`iterations`](modules/skills.hive_mind.py.md#dronestate-iterations) attribute of `DroneState` in `skills.hive_mind`
 - [`ITextOutputParser`](modules/skills.lazyown_facts.py.md#itextoutputparser) class in `skills.lazyown_facts`
@@ -7502,6 +7511,7 @@
 - [`load_profile`](modules/modules.operator_profiles.py.md#operatorprofilemanager-load_profile) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`load_profile`](modules/cli.headless.py.md#load_profile) function in `cli.headless`
 - [`load_report_context`](modules/modules.llm_prompts.py.md#llmpromptconfig-load_report_context) method of `LlmPromptConfig` in `modules.llm_prompts`
+- [`load_reverse_shell_password`](modules/core.reverse_shell_secret.py.md#load_reverse_shell_password) function in `core.reverse_shell_secret`
 - [`load_rootkit`](modules/modules.rootkit.mr.c.md#load_rootkit) function in `modules/rootkit/mr.c`
 - [`load_routes`](modules/lazyc2.py.md#load_routes) function in `lazyc2`
 - [`load_routes`](modules/lazyc2.extensions.storage.py.md#load_routes) function in `lazyc2.extensions.storage`
@@ -8945,6 +8955,7 @@
 - [`path`](modules/modules.c2_profile_engine.py.md#websocketprofile-path) attribute of `WebSocketProfile` in `modules.c2_profile_engine`
 - [`path_extensions`](modules/scripts.check_contract_manifest.py.md#manifestconfig-path_extensions) attribute of `ManifestConfig` in `scripts.check_contract_manifest`
 - [`PATH_MAX`](modules/modules.rootkit.mr.c.md#path_max) macro in `modules/rootkit/mr.c`
+- [`PATH_SEGMENT_MAX_LENGTH`](modules/core.hardening.py.md#path_segment_max_length) constant in `core.hardening`
 - [`path_segment_pattern`](modules/modules.security_sanitizers.py.md#securityconfig-path_segment_pattern) attribute of `SecurityConfig` in `modules.security_sanitizers`
 - [`PATH_TRAVERSAL`](modules/modules.ai_exploit_chain.py.md#path_traversal) constant in `modules.ai_exploit_chain`
 - [`PATHMRHYDE`](modules/modules.rootkit.mrhyde.c.md#pathmrhyde) macro in `modules/rootkit/mrhyde.c`
@@ -9944,6 +9955,7 @@
 - [`red`](modules/skills.claude_md_orchestrator.tdd_agent.py.md#tddresult-red) attribute of `TddResult` in `skills.claude_md_orchestrator.tdd_agent`
 - [`red_output_hash`](modules/modules.auto_purple.py.md#purpleresult-red_output_hash) attribute of `PurpleResult` in `modules.auto_purple`
 - [`redact_secrets`](modules/utils.py.md#redact_secrets) function in `utils`
+- [`redact_text`](modules/core.hardening.py.md#redact_text) function in `core.hardening`
 - [`redacted_fields`](modules/core.logging.py.md#structuredlogconfig-redacted_fields) attribute of `StructuredLogConfig` in `core.logging`
 - [`redacted_password_token`](modules/modules.security_sanitizers.py.md#securityconfig-redacted_password_token) attribute of `SecurityConfig` in `modules.security_sanitizers`
 - [`redacted_username_token`](modules/modules.security_sanitizers.py.md#securityconfig-redacted_username_token) attribute of `SecurityConfig` in `modules.security_sanitizers`
@@ -10352,6 +10364,7 @@
 - [`resolve_retest`](modules/modules.finding_lifecycle.py.md#resolve_retest) function in `modules.finding_lifecycle`
 - [`resolve_target`](modules/modules.lazy_loop.py.md#resolve_target) function in `modules.lazy_loop`
 - [`resolve_target_dir`](modules/bootstrap.sh.md#resolve_target_dir) function in `bootstrap.sh`
+- [`resolve_validated_target`](modules/modules.lazy_proxy.py.md#resolve_validated_target) function in `modules.lazy_proxy`
 - [`resolved_path`](modules/cli.wizard.py.md#binarystatus-resolved_path) attribute of `BinaryStatus` in `cli.wizard`
 - [`resource`](modules/modules.lazycloud.py.md#cloudfinding-resource) attribute of `CloudFinding` in `modules.lazycloud`
 - [`resource`](modules/modules.lazyk8s.py.md#containerfinding-resource) attribute of `ContainerFinding` in `modules.lazyk8s`
@@ -10417,9 +10430,12 @@
 - [`reverse_morse_code`](modules/modules.morse.py.md#reverse_morse_code) function in `modules.morse`
 - [`reverse_shell`](modules/contrib.legacy.lazyreversentlmv2.py.md#reverse_shell) function in `contrib.legacy.lazyreversentlmv2`
 - [`reverse_shell`](modules/modules.mysql_hookandroot_lib.c.md#reverse_shell) function in `modules/mysql_hookandroot_lib.c`
+- [`REVERSE_SHELL_PASSWORD_MIN_LENGTH`](modules/core.reverse_shell_secret.py.md#reverse_shell_password_min_length) constant in `core.reverse_shell_secret`
 - [`reverse_shell_port`](modules/modules.beacon_config_builder.py.md#beaconconfig-reverse_shell_port) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`REVERSE_SHELL_PORT`](modules/skills.hermes-lazyown.constants.py.md#configkeys-reverse_shell_port) attribute of `ConfigKeys` in `skills.hermes-lazyown.constants`
+- [`REVERSE_SHELL_SECRET_FILENAME`](modules/core.reverse_shell_secret.py.md#reverse_shell_secret_filename) constant in `core.reverse_shell_secret`
 - [`REVERSE_SHELL_TEMPLATES`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator-reverse_shell_templates) attribute of `EvasivePayloadGenerator` in `modules.evasive_payloads`
+- [`REVERSE_SHELL_TOKEN_HEX_BYTES`](modules/core.reverse_shell_secret.py.md#reverse_shell_token_hex_bytes) constant in `core.reverse_shell_secret`
 - [`ReverseShellApp`](modules/modules.kivi.py.md#reverseshellapp) class in `modules.kivi`
 - [`ReverseShellPayload`](modules/modules.payload_factory.py.md#reverseshellpayload) class in `modules.payload_factory`
 - [`REVIEW`](modules/skills.claude_md_orchestrator.models.py.md#stage-review) attribute of `Stage` in `skills.claude_md_orchestrator.models`
@@ -10718,8 +10734,10 @@
 - [`safe_git_clone`](modules/core.safe_exec.py.md#safe_git_clone) function in `core.safe_exec`
 - [`safe_groq_client`](modules/modules.llm_adapter.py.md#safe_groq_client) function in `modules.llm_adapter`
 - [`safe_ip_show`](modules/core.safe_exec.py.md#safe_ip_show) function in `core.safe_exec`
+- [`safe_join_under`](modules/core.hardening.py.md#safe_join_under) function in `core.hardening`
 - [`safe_load_graph`](modules/cli.palette_graph.py.md#safe_load_graph) function in `cli.palette_graph`
 - [`safe_load_telemetry`](modules/cli.palette_telemetry.py.md#safe_load_telemetry) function in `cli.palette_telemetry`
+- [`safe_open_under`](modules/core.hardening.py.md#safe_open_under) function in `core.hardening`
 - [`safe_path_join`](modules/core.hardening.py.md#safe_path_join) function in `core.hardening`
 - [`safe_run`](modules/core.executor.py.md#safe_run) function in `core.executor`
 - [`safe_run_argv`](modules/core.safe_exec.py.md#safe_run_argv) function in `core.safe_exec`
@@ -10909,7 +10927,10 @@
 - [`SDD`](modules/skills.claude_md_orchestrator.models.py.md#stage-sdd) attribute of `Stage` in `skills.claude_md_orchestrator.models`
 - [`SddResult`](modules/skills.claude_md_orchestrator.sdd_agent.py.md#sddresult) class in `skills.claude_md_orchestrator.sdd_agent`
 - [`seal_payload`](modules/core.credential_vault.py.md#seal_payload) function in `core.credential_vault`
+- [`seal_reverse_shell_password`](modules/core.reverse_shell_secret.py.md#seal_reverse_shell_password) function in `core.reverse_shell_secret`
+- [`seal_secret`](modules/core.hardening.py.md#seal_secret) function in `core.hardening`
 - [`seal_value`](modules/core.credential_vault.py.md#seal_value) function in `core.credential_vault`
+- [`SEALED_SECRET_PREFIX`](modules/core.hardening.py.md#sealed_secret_prefix) constant in `core.hardening`
 - [`search`](modules/modules.lazy_loop.py.md#activitylog-search) method of `ActivityLog` in `modules.lazy_loop`
 - [`search`](modules/modules.bof_registry.py.md#bofcatalog-search) method of `BofCatalog` in `modules.bof_registry`
 - [`search`](modules/modules.bof_registry.py.md#bofmarketplace-search) method of `BofMarketplace` in `modules.bof_registry`
@@ -10965,6 +10986,8 @@
 - [`seconds_per_day`](modules/core.api_authz.py.md#apiauthzconfig-seconds_per_day) attribute of `ApiAuthzConfig` in `core.api_authz`
 - [`secret`](modules/cli.ops_commands.py.md#lootentry-secret) attribute of `LootEntry` in `cli.ops_commands`
 - [`secret_access_key`](modules/modules.aws_attacks.py.md#awsconfig-secret_access_key) attribute of `AWSConfig` in `modules.aws_attacks`
+- [`SECRET_DIR_MODE`](modules/core.hardening.py.md#secret_dir_mode) constant in `core.hardening`
+- [`SECRET_FILE_MODE`](modules/core.hardening.py.md#secret_file_mode) constant in `core.hardening`
 - [`secret_patterns`](modules/modules.notify.py.md#notifyconfig-secret_patterns) attribute of `NotifyConfig` in `modules.notify`
 - [`SECRET_PATTERNS`](modules/modules.cicd_enumerator.py.md#secret_patterns) constant in `modules.cicd_enumerator`
 - [`SecretKeyManager`](modules/lazyc2.security.services.py.md#secretkeymanager) class in `lazyc2.security.services`
@@ -12002,6 +12025,7 @@
 - [`store`](modules/skills.hive_mind.py.md#semanticstore-store) method of `SemanticStore` in `skills.hive_mind`
 - [`store_event`](modules/modules.lilsplunky.py.md#store_event) function in `modules.lilsplunky`
 - [`STORE_FILENAME`](modules/modules.finding_lifecycle.py.md#store_filename) constant in `modules.finding_lifecycle`
+- [`store_secret_owner_only`](modules/core.hardening.py.md#store_secret_owner_only) function in `core.hardening`
 - [`str_cut`](modules/modules.backdoor.backdoor.c.md#str_cut) function in `modules/backdoor/backdoor.c`
 - [`strategy`](modules/modules.autonomous_exploit_engine.py.md#exploitcandidate-strategy) attribute of `ExploitCandidate` in `modules.autonomous_exploit_engine`
 - [`StrategyEngine`](modules/skills.autonomous_daemon.py.md#strategyengine) class in `skills.autonomous_daemon`
@@ -12552,8 +12576,13 @@
 - [`tls_enabled`](modules/modules.beacon_config_builder.py.md#beaconconfig-tls_enabled) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`tls_grease_enabled`](modules/modules.beacon_config_builder.py.md#beaconconfig-tls_grease_enabled) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`tls_ja3_hash`](modules/modules.beacon_config_builder.py.md#beaconconfig-tls_ja3_hash) attribute of `BeaconConfig` in `modules.beacon_config_builder`
+- [`tls_lab_fallback_context`](modules/core.hardening.py.md#tls_lab_fallback_context) function in `core.hardening`
+- [`tls_lab_unverified_allowed`](modules/core.hardening.py.md#tls_lab_unverified_allowed) function in `core.hardening`
+- [`tls_lab_unverified_allowed`](modules/modules.lazy_proxy.py.md#tls_lab_unverified_allowed) function in `modules.lazy_proxy`
 - [`tls_min_version`](modules/modules.beacon_config_builder.py.md#beaconconfig-tls_min_version) attribute of `BeaconConfig` in `modules.beacon_config_builder`
+- [`TLS_MINIMUM_VERSION`](modules/core.hardening.py.md#tls_minimum_version) constant in `core.hardening`
 - [`tls_profile`](modules/modules.c2_profile_engine.py.md#profileengine-tls_profile) property of `ProfileEngine` in `modules.c2_profile_engine`
+- [`tls_secure_context`](modules/core.hardening.py.md#tls_secure_context) function in `core.hardening`
 - [`tls_sni_hostname`](modules/modules.beacon_config_builder.py.md#beaconconfig-tls_sni_hostname) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`tls_version_override`](modules/modules.network_opsec.py.md#networkopsecconfig-tls_version_override) attribute of `NetworkOpsecConfig` in `modules.network_opsec`
 - [`TlsProfile`](modules/modules.c2_profile_engine.py.md#tlsprofile) class in `modules.c2_profile_engine`
@@ -12918,6 +12947,7 @@
 - [`unprivileged_sessions`](modules/modules.session_reader.py.md#sessionsummary-unprivileged_sessions) property of `SessionSummary` in `modules.session_reader`
 - [`UNSCANNED`](modules/modules.world_model.py.md#hoststate-unscanned) attribute of `HostState` in `modules.world_model`
 - [`unseal_payload`](modules/core.credential_vault.py.md#unseal_payload) function in `core.credential_vault`
+- [`unseal_secret`](modules/core.hardening.py.md#unseal_secret) function in `core.hardening`
 - [`unseal_value`](modules/core.credential_vault.py.md#unseal_value) function in `core.credential_vault`
 - [`unshare_setup`](modules/modules.exp.c.md#unshare_setup) function in `modules/exp.c`
 - [`unsubscribe`](modules/modules.collab_bp.py.md#eventbus-unsubscribe) method of `EventBus` in `modules.collab_bp`
@@ -12974,6 +13004,7 @@
 - [`upsert`](modules/skills.hive_mind.py.md#dronestatestore-upsert) method of `DroneStateStore` in `skills.hive_mind`
 - [`upsert_asset`](modules/modules.asset_graph.py.md#assetgraph-upsert_asset) method of `AssetGraph` in `modules.asset_graph`
 - [`upsert_verb`](modules/modules.orchestrator_config.py.md#upsert_verb) function in `modules.orchestrator_config`
+- [`UPSTREAM_PATH_MAX_LENGTH`](modules/core.hardening.py.md#upstream_path_max_length) constant in `core.hardening`
 - [`urgency_score`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-urgency_score) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
 - [`uri_paths`](modules/modules.c2_profile.py.md#httpconfig-uri_paths) attribute of `HttpConfig` in `modules.c2_profile`
 - [`uri_pool`](modules/modules.evasion_engine.py.md#malleableprofile-uri_pool) attribute of `MalleableProfile` in `modules.evasion_engine`
@@ -13118,6 +13149,7 @@
 - [`VALIDATE_TIMEOUT`](modules/modules.nuclei_templates_sync.py.md#validate_timeout) constant in `modules.nuclei_templates_sync`
 - [`validate_tls`](modules/modules.c2_profile_engine.py.md#profilevalidator-validate_tls) staticmethod of `ProfileValidator` in `modules.c2_profile_engine`
 - [`validate_upload_size`](modules/lazyc2.security.validators.py.md#validate_upload_size) function in `lazyc2.security.validators`
+- [`validate_upstream_path`](modules/core.hardening.py.md#validate_upstream_path) function in `core.hardening`
 - [`validate_url`](modules/core.safe_exec.py.md#validate_url) function in `core.safe_exec`
 - [`validate_value`](modules/core.payload_schema.py.md#validate_value) function in `core.payload_schema`
 - [`validate_websocket`](modules/modules.c2_profile_engine.py.md#profilevalidator-validate_websocket) staticmethod of `ProfileValidator` in `modules.c2_profile_engine`
@@ -13455,6 +13487,7 @@
 - [`Y`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y) class of `Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X` in `static/js/quill-2.0.3.js`
 - [`YAML_ADDON_TEMPLATE`](modules/cli.marketplace_config.py.md#marketplaceconfig-yaml_addon_template) attribute of `MarketplaceConfig` in `cli.marketplace_config`
 - [`YAML_FILENAME_PATTERN`](modules/lazyc2.security.constants.py.md#yaml_filename_pattern) constant in `lazyc2.security.constants`
+- [`YAML_NAME_MAX_LENGTH`](modules/core.hardening.py.md#yaml_name_max_length) constant in `core.hardening`
 - [`yaml_width`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-yaml_width) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`YAMLPromptGenerator`](modules/modules.yaml_generator.py.md#yamlpromptgenerator) class in `modules.yaml_generator`
 - [`YARA_DIR`](modules/cli.marketplace_config.py.md#yara_dir) constant in `cli.marketplace_config`

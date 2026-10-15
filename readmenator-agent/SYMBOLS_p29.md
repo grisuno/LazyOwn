@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `encrypt_data` | function | `test/config.py:24` | `def encrypt_data(data)` |
+| `get_encrypted_command` | function | `test/test_commands.py:51` | `def get_encrypted_command()` |
+| `post_result` | function | `test/test_commands.py:59` | `def post_result(result_data)` |
+| `send_command_via_web` | function | `test/test_commands.py:36` | `def send_command_via_web(command)` |
+| `test_discover` | function | `test/test_commands.py:110` | `def test_discover()` |
+| `test_download` | function | `test/test_commands.py:138` | `def test_download()` |
+| `test_migrate` | function | `test/test_commands.py:79` | `def test_migrate()` |
+| `test_persistence` | function | `test/test_commands.py:176` | `def test_persistence()` |
+| `test_portscan` | function | `test/test_commands.py:99` | `def test_portscan()` |
+| `test_proxy` | function | `test/test_commands.py:121` | `def test_proxy()` |
+| `test_reverse_shell` | function | `test/test_commands.py:206` | `def test_reverse_shell()` |
+| `test_shutdown` | function | `test/test_commands.py:216` | `def test_shutdown()` |
+| `test_simulate` | function | `test/test_commands.py:196` | `def test_simulate()` |
+| `test_softenum` | function | `test/test_commands.py:186` | `def test_softenum()` |
+| `test_uac_bypass` | function | `test/test_commands.py:89` | `def test_uac_bypass()` |
+| `test_upload` | function | `test/test_commands.py:159` | `def test_upload()` |
+| `TestFunctions` | class | `testmeneitor.py:35` | `class TestFunctions(TestCase)` |
+| `extract_functions` | function | `testmeneitor.py:13` | `def extract_functions(script_path)` |
+| `run_command_with_timeout` | function | `testmeneitor.py:54` | `def run_command_with_timeout(command, timeout)` |
+| `run_tests_with_bash` | function | `testmeneitor.py:80` | `def run_tests_with_bash(script_path, functions)` |
+| `run_tests_with_script` | function | `testmeneitor.py:30` | `def run_tests_with_script(script_path, functions)` |
+| `_HealthyRegistry` | class | `tests/conftest.py:94` | `class _HealthyRegistry` |
+| `_fast_llm_connect_backoff` | function | `tests/conftest.py:46` | `def _fast_llm_connect_backoff(monkeypatch)` |
+| `_isolated_llm_health` | function | `tests/conftest.py:16` | `def _isolated_llm_health(tmp_path, monkeypatch)` |
+| `_isolated_path` | function | `tests/conftest.py:32` | `def _isolated_path()` |
+| `_offline` | function | `tests/conftest.py:89` | `def _offline(model, prompt, max_tokens)` |
+| `_offline_llm_for_loop_tests` | function | `tests/conftest.py:72` | `def _offline_llm_for_loop_tests(request, monkeypatch)` |
+| `_reset_world_model_singleton` | function | `tests/conftest.py:62` | `def _reset_world_model_singleton()` |
+| `healthy` | method | `tests/conftest.py:97` | `def healthy(self, name)` |
+| `report_failure` | method | `tests/conftest.py:100` | `def report_failure(self, name, reason)` |
+| `report_success` | method | `tests/conftest.py:103` | `def report_success(self, name)` |
+| `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
+| `backup_files` | function | `tests/run_mutation_addon_creator.py:94` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_addon_creator.py:140` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_addon_creator.py:112` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_addon_creator.py:125` | `def run_tests()` |
+| `_apply_mutation` | function | `tests/run_mutation_api_authz.py:64` | `def _apply_mutation(source, data)` |
+| `_run_mutation_subprocess` | function | `tests/run_mutation_api_authz.py:71` | `def _run_mutation_subprocess(test)` |
+| `run` | function | `tests/run_mutation_api_authz.py:83` | `def run()` |
+| `backup_files` | function | `tests/run_mutation_autonomous_ops.py:59` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_autonomous_ops.py:87` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_autonomous_ops.py:69` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_autonomous_ops.py:76` | `def run_tests()` |
+| `_run_tests` | function | `tests/run_mutation_c2_route_auth.py:29` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_c2_route_auth.py:40` | `def main()` |
 | `_run_tests` | function | `tests/run_mutation_contract_manifest.py:35` | `def _run_tests()` |
 | `main` | function | `tests/run_mutation_contract_manifest.py:47` | `def main()` |
 | `backup_files` | function | `tests/run_mutation_infra_report.py:92` | `def backup_files(mutations, base_dir)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `test_execute_shell_verb_captures_output` | function | `tests/test_auto_registry.py:96` | `def test_execute_shell_verb_captures_output()` |
 | `test_execute_shell_verb_rejects_non_verbs` | function | `tests/test_auto_registry.py:104` | `def test_execute_shell_verb_rejects_non_verbs()` |
 | `test_execute_shell_verb_timeout_never_hangs` | function | `tests/test_auto_registry.py:112` | `def test_execute_shell_verb_timeout_never_hangs()` |
-| `test_execute_shell_verb_without_shell` | function | `tests/test_auto_registry.py:118` | `def test_execute_shell_verb_without_shell()` |
-| `test_is_shell_verb_matches_first_token` | function | `tests/test_auto_registry.py:47` | `def test_is_shell_verb_matches_first_token()` |
-| `test_missing_binary_skips_builtins_paths_and_scripts` | function | `tests/test_auto_registry.py:134` | `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)` |
-| `test_propose_and_steps_skip_unavailable_verbs` | function | `tests/test_auto_registry.py:144` | `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)` |
-| `test_propose_and_translate_roundtrip` | function | `tests/test_auto_registry.py:63` | `def test_propose_and_translate_roundtrip()` |
-| `test_registry_covers_auto_family` | function | `tests/test_auto_registry.py:28` | `def test_registry_covers_auto_family()` |
-| `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
-| `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
-| `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
-| `boom` | function | `tests/test_autonomous_ops.py:101` | `def boom(_prompt)` |
-| `test_c04_dedup_anchor_coverage` | function | `tests/test_autonomous_ops.py:11` | `def test_c04_dedup_anchor_coverage()` |
-| `test_c04_mirror_to_campaign_db` | function | `tests/test_autonomous_ops.py:26` | `def test_c04_mirror_to_campaign_db(tmp_path)` |
-| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:43` | `def test_c05_frontier_emits_once_then_empty()` |
-| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:58` | `def test_c05_todo_blocks_lateral_until_creds()` |
-| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:70` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
-| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:98` | `def test_c07_pool_failover_and_exhaustion()` |
-| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:116` | `def test_c08_notify_filter_and_redact()` |
-| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:128` | `def test_c09_side_question_isolated()` |
-| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:159` | `def test_c10_rollback_restores_previous(tmp_path)` |
-| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:143` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
-| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:186` | `def test_i2_pool_hard_trips_on_auth_errors()` |
-| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:171` | `def test_i2_shared_registry_survives_rebuilds()` |
-| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:194` | `def test_i3_classify_retest_verdicts()` |
-| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:203` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
-| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:224` | `def test_i4_shared_engine_cooldown()` |
-| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:232` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
-| `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
-| `_event` | function | `tests/test_autonomous_replay.py:40` | `def _event(event_id, objective_id, step, command, source, seed_override)` |
-| `_write_jsonl` | function | `tests/test_autonomous_replay.py:65` | `def _write_jsonl(path, events)` |
-| `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
-| `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
-| `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
-| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
-| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
-| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
-| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
-| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
-| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
-| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
-| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
-| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
-| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
-| `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

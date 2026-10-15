@@ -1,10 +1,10 @@
 # orphans
 
-*Community 24 | 221 files | cohesion 0.00*
+*Community 24 | 222 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 221 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 222 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
@@ -32,7 +32,7 @@ This community groups 221 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `contrib/legacy/__init__.py` | py | utility | 0 | yes |
 
-### `scripts` (20 files)
+### `scripts` (21 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -128,14 +128,14 @@ This community groups 221 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/hermes-lazyown/__init__.py` | py | utility | 0 | yes |
 
-*... and 201 more files in this community.*
+*... and 202 more files in this community.*
 
 
 ## Key Symbols
 
 - `increment_version` (function, `DEPLOY.sh:19`)
-- `update_section_html` (function, `DEPLOY.sh:86`) - Función para actualizar una sección específica
-- `get_commit_type` (function, `DEPLOY.sh:190`) - Función para obtener el tipo de cambio basado en el mensaje del commit
+- `update_section_html` (function, `DEPLOY.sh:99`) - Función para actualizar una sección específica
+- `get_commit_type` (function, `DEPLOY.sh:203`) - Función para obtener el tipo de cambio basado en el mensaje del commit
 - `usage` (function, `bootstrap.sh:70`)
 - `log` (function, `bootstrap.sh:74`)
 - `fail` (function, `bootstrap.sh:92`)
@@ -212,4 +212,4 @@ This community groups 221 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazymitmap.py`
 - `contrib/legacy/lazynetbios.py`
 - `contrib/legacy/lazyntlrelayx.py`
-- *... and 201 more*
+- *... and 202 more*

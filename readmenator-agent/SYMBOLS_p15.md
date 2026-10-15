@@ -3,76 +3,102 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `request` | method | `modules/lazy_loop.py:2343` | `def request(self, tool, command, reason, tool_use_id)` |
-| `resolve_target` | function | `modules/lazy_loop.py:2850` | `def resolve_target(task_id, store, graph)` |
-| `restore` | method | `modules/lazy_loop.py:7163` | `def restore(self, path)` |
-| `resume` | method | `modules/lazy_loop.py:2549` | `def resume(self, task_id)` |
-| `resume_intent` | method | `modules/lazy_loop.py:8010` | `def resume_intent(self, task_id, intent_id)` |
-| `resume_task` | method | `modules/lazy_loop.py:7639` | `def resume_task(self, task_id)` |
-| `retest` | method | `modules/lazy_loop.py:5077` | `def retest(self, finding_id, executor, note)` |
-| `retest_context` | method | `modules/lazy_loop.py:5147` | `def retest_context(self, finding_id)` |
-| `run` | method | `modules/lazy_loop.py:8660` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
-| `run_command` | function | `modules/lazy_loop.py:4162` | `def run_command(command, background)` |
-| `run_round` | method | `modules/lazy_loop.py:8183` | `def run_round(self, task_id, workers, executor, pool)` |
-| `save` | method | `modules/lazy_loop.py:7120` | `def save(self, task_id)` |
-| `say` | method | `modules/lazy_loop.py:7313` | `def say(self, task_id, text, pool, session)` |
+| `read` | method | `modules/lazy_loop.py:1360` | `def read(self, limit)` |
+| `read` | method | `modules/lazy_loop.py:1490` | `def read(self, limit)` |
+| `read` | method | `modules/lazy_loop.py:6195` | `def read(self, evidence_id, offset, length)` |
+| `rebind` | method | `modules/lazy_loop.py:3426` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
+| `record` | method | `modules/lazy_loop.py:1468` | `def record(self, kind, command, output, meta)` |
+| `record_fact` | method | `modules/lazy_loop.py:1277` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
+| `record_fact` | function | `modules/lazy_loop.py:4192` | `def record_fact(text)` |
+| `record_fact` | method | `modules/lazy_loop.py:8097` | `def record_fact(self, task_id, text, evidence, intent_id)` |
+| `record_raw` | method | `modules/lazy_loop.py:6917` | `def record_raw(self)` |
+| `record_round` | method | `modules/lazy_loop.py:2206` | `def record_round(self, task_id)` |
+| `record_toolcall` | method | `modules/lazy_loop.py:2194` | `def record_toolcall(self, task_id, intent_id)` |
+| `record_verdict` | method | `modules/lazy_loop.py:8104` | `def record_verdict(self, task_id, finding_id, verdict, note)` |
+| `recorder_blob` | method | `modules/lazy_loop.py:1579` | `def recorder_blob(self, digest, part, offset, length)` |
+| `recorder_body` | method | `modules/lazy_loop.py:1550` | `def recorder_body(self, digest)` |
+| `refine` | method | `modules/lazy_loop.py:3048` | `def refine(self)` |
+| `register_worker` | function | `modules/lazy_loop.py:501` | `def register_worker(worker)` |
+| `reload` | method | `modules/lazy_loop.py:1177` | `def reload(self)` |
+| `remove` | method | `modules/lazy_loop.py:2116` | `def remove(self, rule_id, action)` |
+| `remove` | method | `modules/lazy_loop.py:6437` | `def remove(self, trigger_id)` |
+| `remove` | method | `modules/lazy_loop.py:7267` | `def remove(self, name)` |
+| `remove_channel` | method | `modules/lazy_loop.py:6302` | `def remove_channel(self, index)` |
+| `remove_member` | method | `modules/lazy_loop.py:6621` | `def remove_member(self, name)` |
+| `remove_rule` | method | `modules/lazy_loop.py:1758` | `def remove_rule(self, pattern)` |
+| `reorder_evidence` | method | `modules/lazy_loop.py:1681` | `def reorder_evidence(self, finding_id, digests, graph)` |
+| `report` | method | `modules/lazy_loop.py:5897` | `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` |
+| `report_finding` | function | `modules/lazy_loop.py:4201` | `def report_finding(name, evidence, severity)` |
+| `request` | method | `modules/lazy_loop.py:2348` | `def request(self, tool, command, reason, tool_use_id)` |
+| `resolve_target` | function | `modules/lazy_loop.py:2855` | `def resolve_target(task_id, store, graph)` |
+| `restore` | method | `modules/lazy_loop.py:7169` | `def restore(self, path)` |
+| `resume` | method | `modules/lazy_loop.py:2554` | `def resume(self, task_id)` |
+| `resume_intent` | method | `modules/lazy_loop.py:8016` | `def resume_intent(self, task_id, intent_id)` |
+| `resume_task` | method | `modules/lazy_loop.py:7645` | `def resume_task(self, task_id)` |
+| `retest` | method | `modules/lazy_loop.py:5082` | `def retest(self, finding_id, executor, note)` |
+| `retest_context` | method | `modules/lazy_loop.py:5152` | `def retest_context(self, finding_id)` |
+| `run` | method | `modules/lazy_loop.py:8666` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
+| `run_command` | function | `modules/lazy_loop.py:4167` | `def run_command(command, background)` |
+| `run_round` | method | `modules/lazy_loop.py:8189` | `def run_round(self, task_id, workers, executor, pool)` |
+| `save` | method | `modules/lazy_loop.py:7126` | `def save(self, task_id)` |
+| `say` | method | `modules/lazy_loop.py:7319` | `def say(self, task_id, text, pool, session)` |
 | `scoped` | method | `modules/lazy_loop.py:948` | `def scoped(self, scope, kind)` |
 | `scrub_secrets` | function | `modules/lazy_loop.py:363` | `def scrub_secrets(text)` |
-| `search` | method | `modules/lazy_loop.py:1441` | `def search(self, query, exclude_intent)` |
-| `search` | method | `modules/lazy_loop.py:1499` | `def search(self, query, limit)` |
-| `search_all` | method | `modules/lazy_loop.py:1411` | `def search_all(self, query, limit)` |
-| `search_host` | method | `modules/lazy_loop.py:1510` | `def search_host(self, host, port, limit)` |
-| `search_proxy_body` | method | `modules/lazy_loop.py:9104` | `def search_proxy_body(self, task_id, query, limit)` |
-| `send_worker_message` | method | `modules/lazy_loop.py:8033` | `def send_worker_message(self, task_id, intent_id, message, request_id)` |
-| `sessions` | method | `modules/lazy_loop.py:7077` | `def sessions(self, task_id)` |
-| `sessions` | method | `modules/lazy_loop.py:7372` | `def sessions(self, task_id)` |
-| `set` | method | `modules/lazy_loop.py:7287` | `def set(self, task_id, category)` |
-| `set_concurrency` | method | `modules/lazy_loop.py:8982` | `def set_concurrency(self, limit)` |
-| `set_context_budget` | method | `modules/lazy_loop.py:6954` | `def set_context_budget(self, chars)` |
-| `set_deadline` | method | `modules/lazy_loop.py:2685` | `def set_deadline(self, task_id, timeout_sec)` |
-| `set_goals` | method | `modules/lazy_loop.py:7777` | `def set_goals(self, task_id, specs)` |
-| `set_judge` | method | `modules/lazy_loop.py:1762` | `def set_judge(self, enabled, fail_action)` |
-| `set_limits` | method | `modules/lazy_loop.py:2166` | `def set_limits(self, task_id)` |
-| `set_llm_chain` | method | `modules/lazy_loop.py:2602` | `def set_llm_chain(self, task_id, members, active)` |
-| `set_priority` | method | `modules/lazy_loop.py:6625` | `def set_priority(self, name, priority)` |
-| `set_record_raw` | method | `modules/lazy_loop.py:6916` | `def set_record_raw(self, enabled)` |
-| `set_skills` | method | `modules/lazy_loop.py:2660` | `def set_skills(self, task_id, names, auto)` |
-| `set_state` | method | `modules/lazy_loop.py:1083` | `def set_state(self, node_id, state)` |
-| `set_status` | method | `modules/lazy_loop.py:2533` | `def set_status(self, task_id, status)` |
-| `set_status` | method | `modules/lazy_loop.py:6086` | `def set_status(self, finding_id, status)` |
-| `settlement_prompt` | function | `modules/lazy_loop.py:5764` | `def settlement_prompt(agent, reason)` |
-| `shell_open` | function | `modules/lazy_loop.py:4235` | `def shell_open()` |
-| `shell_send` | function | `modules/lazy_loop.py:4239` | `def shell_send(command)` |
+| `search` | method | `modules/lazy_loop.py:1446` | `def search(self, query, exclude_intent)` |
+| `search` | method | `modules/lazy_loop.py:1504` | `def search(self, query, limit)` |
+| `search_all` | method | `modules/lazy_loop.py:1416` | `def search_all(self, query, limit)` |
+| `search_host` | method | `modules/lazy_loop.py:1515` | `def search_host(self, host, port, limit)` |
+| `search_proxy_body` | method | `modules/lazy_loop.py:9110` | `def search_proxy_body(self, task_id, query, limit)` |
+| `send_worker_message` | method | `modules/lazy_loop.py:8039` | `def send_worker_message(self, task_id, intent_id, message, request_id)` |
+| `sessions` | method | `modules/lazy_loop.py:7083` | `def sessions(self, task_id)` |
+| `sessions` | method | `modules/lazy_loop.py:7378` | `def sessions(self, task_id)` |
+| `set` | method | `modules/lazy_loop.py:7293` | `def set(self, task_id, category)` |
+| `set_concurrency` | method | `modules/lazy_loop.py:8988` | `def set_concurrency(self, limit)` |
+| `set_context_budget` | method | `modules/lazy_loop.py:6960` | `def set_context_budget(self, chars)` |
+| `set_deadline` | method | `modules/lazy_loop.py:2690` | `def set_deadline(self, task_id, timeout_sec)` |
+| `set_goals` | method | `modules/lazy_loop.py:7783` | `def set_goals(self, task_id, specs)` |
+| `set_judge` | method | `modules/lazy_loop.py:1767` | `def set_judge(self, enabled, fail_action)` |
+| `set_limits` | method | `modules/lazy_loop.py:2171` | `def set_limits(self, task_id)` |
+| `set_llm_chain` | method | `modules/lazy_loop.py:2607` | `def set_llm_chain(self, task_id, members, active)` |
+| `set_priority` | method | `modules/lazy_loop.py:6631` | `def set_priority(self, name, priority)` |
+| `set_record_raw` | method | `modules/lazy_loop.py:6922` | `def set_record_raw(self, enabled)` |
+| `set_skills` | method | `modules/lazy_loop.py:2665` | `def set_skills(self, task_id, names, auto)` |
+| `set_state` | method | `modules/lazy_loop.py:1088` | `def set_state(self, node_id, state)` |
+| `set_status` | method | `modules/lazy_loop.py:2538` | `def set_status(self, task_id, status)` |
+| `set_status` | method | `modules/lazy_loop.py:6091` | `def set_status(self, finding_id, status)` |
+| `settlement_prompt` | function | `modules/lazy_loop.py:5769` | `def settlement_prompt(agent, reason)` |
+| `shell_open` | function | `modules/lazy_loop.py:4240` | `def shell_open()` |
+| `shell_send` | function | `modules/lazy_loop.py:4244` | `def shell_send(command)` |
 | `shutdown_loop_runtime` | function | `modules/lazy_loop.py:513` | `def shutdown_loop_runtime(reason)` |
-| `sink` | function | `modules/lazy_loop.py:3279` | `def sink(text)` |
-| `sink` | function | `modules/lazy_loop.py:4689` | `def sink(text)` |
-| `spawn_task` | method | `modules/lazy_loop.py:7550` | `def spawn_task(self, goal, source_task_ids, description)` |
-| `stage_enabled` | function | `modules/lazy_loop.py:8234` | `def stage_enabled(_name)` |
-| `stats` | method | `modules/lazy_loop.py:1906` | `def stats(self)` |
-| `stats` | method | `modules/lazy_loop.py:7230` | `def stats(self)` |
-| `status` | method | `modules/lazy_loop.py:9380` | `def status(self, task_id)` |
-| `steer` | method | `modules/lazy_loop.py:2731` | `def steer(self, task_id, intent_id, message)` |
-| `steer_for` | method | `modules/lazy_loop.py:2751` | `def steer_for(self, task_id, intent_id)` |
-| `structural_cold` | method | `modules/lazy_loop.py:5360` | `def structural_cold(self, hot)` |
-| `task_findings` | method | `modules/lazy_loop.py:7655` | `def task_findings(self, task_id)` |
-| `task_graph` | method | `modules/lazy_loop.py:7649` | `def task_graph(self, task_id)` |
+| `sink` | function | `modules/lazy_loop.py:3284` | `def sink(text)` |
+| `sink` | function | `modules/lazy_loop.py:4694` | `def sink(text)` |
+| `spawn_task` | method | `modules/lazy_loop.py:7556` | `def spawn_task(self, goal, source_task_ids, description)` |
+| `stage_enabled` | function | `modules/lazy_loop.py:8240` | `def stage_enabled(_name)` |
+| `stats` | method | `modules/lazy_loop.py:1911` | `def stats(self)` |
+| `stats` | method | `modules/lazy_loop.py:7236` | `def stats(self)` |
+| `status` | method | `modules/lazy_loop.py:9386` | `def status(self, task_id)` |
+| `steer` | method | `modules/lazy_loop.py:2736` | `def steer(self, task_id, intent_id, message)` |
+| `steer_for` | method | `modules/lazy_loop.py:2756` | `def steer_for(self, task_id, intent_id)` |
+| `structural_cold` | method | `modules/lazy_loop.py:5365` | `def structural_cold(self, hot)` |
+| `task_findings` | method | `modules/lazy_loop.py:7661` | `def task_findings(self, task_id)` |
+| `task_graph` | method | `modules/lazy_loop.py:7655` | `def task_graph(self, task_id)` |
 | `task_llm_chain` | function | `modules/lazy_loop.py:728` | `def task_llm_chain(store, task_id)` |
-| `task_node_detail` | method | `modules/lazy_loop.py:7683` | `def task_node_detail(self, task_id, node_id)` |
-| `task_traces` | method | `modules/lazy_loop.py:7674` | `def task_traces(self, task_id, query, limit)` |
-| `templates` | method | `modules/lazy_loop.py:1605` | `def templates(self, limit)` |
-| `trace` | method | `modules/lazy_loop.py:1373` | `def trace(self, intent_id, query, step_id, limit)` |
-| `traffic_search` | function | `modules/lazy_loop.py:4207` | `def traffic_search(query)` |
-| `unbind` | method | `modules/lazy_loop.py:7003` | `def unbind(self, agent, tool)` |
-| `unfolded` | method | `modules/lazy_loop.py:5667` | `def unfolded(self, limit)` |
+| `task_node_detail` | method | `modules/lazy_loop.py:7689` | `def task_node_detail(self, task_id, node_id)` |
+| `task_traces` | method | `modules/lazy_loop.py:7680` | `def task_traces(self, task_id, query, limit)` |
+| `templates` | method | `modules/lazy_loop.py:1610` | `def templates(self, limit)` |
+| `trace` | method | `modules/lazy_loop.py:1378` | `def trace(self, intent_id, query, step_id, limit)` |
+| `traffic_search` | function | `modules/lazy_loop.py:4212` | `def traffic_search(query)` |
+| `unbind` | method | `modules/lazy_loop.py:7009` | `def unbind(self, agent, tool)` |
+| `unfolded` | method | `modules/lazy_loop.py:5672` | `def unfolded(self, limit)` |
 | `unregister_worker` | function | `modules/lazy_loop.py:507` | `def unregister_worker(worker)` |
 | `untested` | method | `modules/lazy_loop.py:961` | `def untested(self, limit)` |
 | `untested_for` | method | `modules/lazy_loop.py:994` | `def untested_for(self, graph, scope, limit)` |
-| `update_finding_report` | method | `modules/lazy_loop.py:7689` | `def update_finding_report(self, task_id, finding_id, report)` |
-| `update_report` | method | `modules/lazy_loop.py:6103` | `def update_report(self, finding_id, report)` |
-| `usage` | method | `modules/lazy_loop.py:2179` | `def usage(self, task_id)` |
-| `usage` | method | `modules/lazy_loop.py:6638` | `def usage(self)` |
-| `verify` | method | `modules/lazy_loop.py:6161` | `def verify(self)` |
-| `wait` | method | `modules/lazy_loop.py:2431` | `def wait(self, item_id, timeout_sec)` |
+| `update_finding_report` | method | `modules/lazy_loop.py:7695` | `def update_finding_report(self, task_id, finding_id, report)` |
+| `update_report` | method | `modules/lazy_loop.py:6108` | `def update_report(self, finding_id, report)` |
+| `usage` | method | `modules/lazy_loop.py:2184` | `def usage(self, task_id)` |
+| `usage` | method | `modules/lazy_loop.py:6644` | `def usage(self)` |
+| `verify` | method | `modules/lazy_loop.py:6166` | `def verify(self)` |
+| `wait` | method | `modules/lazy_loop.py:2436` | `def wait(self, item_id, timeout_sec)` |
 | `wake_task` | function | `modules/lazy_loop.py:467` | `def wake_task(task_id)` |
 | `InvalidCursor` | class | `modules/lazy_mentions.py:52` | `class InvalidCursor(ValueError)` |
 | `LazyMention` | class | `modules/lazy_mentions.py:35` | `class LazyMention` |
@@ -100,62 +126,73 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `order_steps` | function | `modules/lazy_orchestrator_feedback.py:213` | `def order_steps(steps, stack)` |
 | `rank_verbs` | function | `modules/lazy_orchestrator_feedback.py:189` | `def rank_verbs(phase, verbs, stack)` |
 | `verb_prior` | function | `modules/lazy_orchestrator_feedback.py:162` | `def verb_prior(phase, verb, stack)` |
-| `CertificateAuthority` | class | `modules/lazy_proxy.py:455` | `class CertificateAuthority` |
-| `ProxyController` | class | `modules/lazy_proxy.py:635` | `class ProxyController` |
-| `ProxyHandler` | class | `modules/lazy_proxy.py:747` | `class ProxyHandler(BaseHTTPRequestHandler)` |
-| `RecorderServer` | class | `modules/lazy_proxy.py:607` | `class RecorderServer(ThreadingHTTPServer)` |
-| `__init__` | method | `modules/lazy_proxy.py:458` | `def __init__(self, pki_dir)` |
-| `__init__` | method | `modules/lazy_proxy.py:611` | `def __init__(self, address, handler)` |
-| `__init__` | method | `modules/lazy_proxy.py:638` | `def __init__(self)` |
-| `_cert_stem` | function | `modules/lazy_proxy.py:317` | `def _cert_stem(host)` |
-| `_default_traffic_dir` | function | `modules/lazy_proxy.py:284` | `def _default_traffic_dir()` |
-| `_ensure_ca` | method | `modules/lazy_proxy.py:470` | `def _ensure_ca(self)` |
-| `_forward_plain` | method | `modules/lazy_proxy.py:820` | `def _forward_plain(self)` |
-| `_handle_websocket` | method | `modules/lazy_proxy.py:1024` | `def _handle_websocket(self, scheme, host, port, path, url, req_headers)` |
-| `_host_syntax_valid` | function | `modules/lazy_proxy.py:141` | `def _host_syntax_valid(host)` |
-| `_https_connection` | function | `modules/lazy_proxy.py:273` | `def _https_connection(host, port)` |
-| `_is_lab_host` | function | `modules/lazy_proxy.py:261` | `def _is_lab_host(host)` |
-| `_is_metadata_hostname` | function | `modules/lazy_proxy.py:129` | `def _is_metadata_hostname(host)` |
-| `_is_metadata_ip` | function | `modules/lazy_proxy.py:115` | `def _is_metadata_ip(value)` |
-| `_make_handler` | function | `modules/lazy_proxy.py:743` | `def _make_handler()` |
-| `_maybe_tls` | method | `modules/lazy_proxy.py:994` | `def _maybe_tls(sock, scheme, host)` |
-| `_open_target` | method | `modules/lazy_proxy.py:973` | `def _open_target(self, scheme, host, port)` |
-| `_parse_upstream` | function | `modules/lazy_proxy.py:289` | `def _parse_upstream(spec)` |
-| `_proxy_allow_private` | function | `modules/lazy_proxy.py:93` | `def _proxy_allow_private()` |
-| `_proxy_insecure_tls` | function | `modules/lazy_proxy.py:105` | `def _proxy_insecure_tls()` |
-| `_proxy_trust_ca` | function | `modules/lazy_proxy.py:110` | `def _proxy_trust_ca()` |
-| `_read_headers_from` | method | `modules/lazy_proxy.py:1014` | `def _read_headers_from(sock, limit)` |
-| `_record` | method | `modules/lazy_proxy.py:1109` | `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)` |
-| `_relay` | method | `modules/lazy_proxy.py:894` | `def _relay(self, scheme, host, port, path, url, headers, body)` |
-| `_resolved_ips` | function | `modules/lazy_proxy.py:157` | `def _resolved_ips(host)` |
-| `_run_root` | function | `modules/lazy_proxy.py:342` | `def _run_root(argv)` |
-| `_safe_send_error` | method | `modules/lazy_proxy.py:802` | `def _safe_send_error(self, code, message)` |
-| `_server_class` | function | `modules/lazy_proxy.py:603` | `def _server_class()` |
-| `_sha256` | function | `modules/lazy_proxy.py:596` | `def _sha256()` |
-| `_upstream_auth_header` | function | `modules/lazy_proxy.py:307` | `def _upstream_auth_header(auth)` |
-| `_upstream_tls_context` | function | `modules/lazy_proxy.py:224` | `def _upstream_tls_context(server_hostname)` |
-| `_utc` | function | `modules/lazy_proxy.py:589` | `def _utc(timestamp)` |
-| `_validate_proxy_target` | function | `modules/lazy_proxy.py:171` | `def _validate_proxy_target(host, port, scheme)` |
-| `_write_leaf` | method | `modules/lazy_proxy.py:525` | `def _write_leaf(self, host, cert_path, key_path)` |
-| `apply_env` | function | `modules/lazy_proxy.py:1176` | `def apply_env(ca_path, host, port)` |
-| `ca_path` | method | `modules/lazy_proxy.py:738` | `def ca_path(self)` |
-| `ca_trusted` | function | `modules/lazy_proxy.py:330` | `def ca_trusted(ca_path)` |
-| `context_for` | method | `modules/lazy_proxy.py:568` | `def context_for(self, host)` |
-| `detect_nss_profiles` | function | `modules/lazy_proxy.py:349` | `def detect_nss_profiles()` |
-| `detect_trust_target` | function | `modules/lazy_proxy.py:322` | `def detect_trust_target()` |
-| `do_CONNECT` | method | `modules/lazy_proxy.py:757` | `def do_CONNECT(self)` |
-| `do_GET` | method | `modules/lazy_proxy.py:809` | `def do_GET(self)` |
-| `env_for_ca` | function | `modules/lazy_proxy.py:1160` | `def env_for_ca(ca_path, host, port)` |
-| `get_proxy` | function | `modules/lazy_proxy.py:1151` | `def get_proxy()` |
-| `handle_error` | method | `modules/lazy_proxy.py:618` | `def handle_error(self, request, client_address)` |
-| `install_ca_nss` | function | `modules/lazy_proxy.py:364` | `def install_ca_nss(ca_path, runner, profiles)` |
-| `install_ca_trust` | function | `modules/lazy_proxy.py:404` | `def install_ca_trust(ca_path, runner)` |
-| `log_message` | method | `modules/lazy_proxy.py:753` | `def log_message(self, fmt)` |
-| `recorder` | method | `modules/lazy_proxy.py:734` | `def recorder(self)` |
-| `restore_env` | function | `modules/lazy_proxy.py:1183` | `def restore_env(previous)` |
-| `start` | method | `modules/lazy_proxy.py:651` | `def start(self, host, port, task_id, traffic_dir, upstream)` |
-| `status` | method | `modules/lazy_proxy.py:712` | `def status(self)` |
-| `stop` | method | `modules/lazy_proxy.py:696` | `def stop(self)` |
+| `CertificateAuthority` | class | `modules/lazy_proxy.py:623` | `class CertificateAuthority` |
+| `ProxyController` | class | `modules/lazy_proxy.py:803` | `class ProxyController` |
+| `ProxyHandler` | class | `modules/lazy_proxy.py:915` | `class ProxyHandler(BaseHTTPRequestHandler)` |
+| `RecorderServer` | class | `modules/lazy_proxy.py:775` | `class RecorderServer(ThreadingHTTPServer)` |
+| `_PinnedHTTPConnection` | class | `modules/lazy_proxy.py:381` | `class _PinnedHTTPConnection(HTTPConnection)` |
+| `_PinnedHTTPSConnection` | class | `modules/lazy_proxy.py:394` | `class _PinnedHTTPSConnection(HTTPSConnection)` |
+| `__init__` | method | `modules/lazy_proxy.py:384` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:397` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:626` | `def __init__(self, pki_dir)` |
+| `__init__` | method | `modules/lazy_proxy.py:779` | `def __init__(self, address, handler)` |
+| `__init__` | method | `modules/lazy_proxy.py:806` | `def __init__(self)` |
+| `_cert_stem` | function | `modules/lazy_proxy.py:485` | `def _cert_stem(host)` |
+| `_default_traffic_dir` | function | `modules/lazy_proxy.py:439` | `def _default_traffic_dir()` |
+| `_dial_pinned` | function | `modules/lazy_proxy.py:329` | `def _dial_pinned(ips, port)` |
+| `_ensure_ca` | method | `modules/lazy_proxy.py:638` | `def _ensure_ca(self)` |
+| `_forward_plain` | method | `modules/lazy_proxy.py:989` | `def _forward_plain(self)` |
+| `_handle_websocket` | method | `modules/lazy_proxy.py:1209` | `def _handle_websocket(self, scheme, host, port, path, url, req_headers)` |
+| `_host_syntax_valid` | function | `modules/lazy_proxy.py:153` | `def _host_syntax_valid(host)` |
+| `_https_connection` | function | `modules/lazy_proxy.py:428` | `def _https_connection(host, port)` |
+| `_is_lab_host` | function | `modules/lazy_proxy.py:416` | `def _is_lab_host(host)` |
+| `_is_metadata_hostname` | function | `modules/lazy_proxy.py:141` | `def _is_metadata_hostname(host)` |
+| `_is_metadata_ip` | function | `modules/lazy_proxy.py:127` | `def _is_metadata_ip(value)` |
+| `_make_handler` | function | `modules/lazy_proxy.py:911` | `def _make_handler()` |
+| `_maybe_tls` | method | `modules/lazy_proxy.py:1183` | `def _maybe_tls(sock, scheme, host)` |
+| `_open_target` | method | `modules/lazy_proxy.py:1161` | `def _open_target(self, scheme, host, port)` |
+| `_parse_upstream` | function | `modules/lazy_proxy.py:444` | `def _parse_upstream(spec)` |
+| `_proxy_allow_private` | function | `modules/lazy_proxy.py:105` | `def _proxy_allow_private()` |
+| `_proxy_insecure_tls` | function | `modules/lazy_proxy.py:117` | `def _proxy_insecure_tls()` |
+| `_proxy_trust_ca` | function | `modules/lazy_proxy.py:122` | `def _proxy_trust_ca()` |
+| `_read_headers_from` | method | `modules/lazy_proxy.py:1199` | `def _read_headers_from(sock, limit)` |
+| `_record` | method | `modules/lazy_proxy.py:1294` | `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)` |
+| `_relay` | method | `modules/lazy_proxy.py:1063` | `def _relay(self, scheme, host, port, path, url, headers, body)` |
+| `_resolved_ips` | function | `modules/lazy_proxy.py:169` | `def _resolved_ips(host)` |
+| `_run_root` | function | `modules/lazy_proxy.py:510` | `def _run_root(argv)` |
+| `_safe_send_error` | method | `modules/lazy_proxy.py:971` | `def _safe_send_error(self, code, message)` |
+| `_server_class` | function | `modules/lazy_proxy.py:771` | `def _server_class()` |
+| `_sha256` | function | `modules/lazy_proxy.py:764` | `def _sha256()` |
+| `_upstream_auth_header` | function | `modules/lazy_proxy.py:475` | `def _upstream_auth_header(auth)` |
+| `_upstream_tls_context` | function | `modules/lazy_proxy.py:236` | `def _upstream_tls_context(server_hostname)` |
+| `_utc` | function | `modules/lazy_proxy.py:757` | `def _utc(timestamp)` |
+| `_validate_proxy_target` | function | `modules/lazy_proxy.py:183` | `def _validate_proxy_target(host, port, scheme)` |
+| `_validate_upstream_path` | function | `modules/lazy_proxy.py:265` | `def _validate_upstream_path(path)` |
+| `_write_leaf` | method | `modules/lazy_proxy.py:693` | `def _write_leaf(self, host, cert_path, key_path)` |
+| `apply_env` | function | `modules/lazy_proxy.py:1361` | `def apply_env(ca_path, host, port)` |
+| `ca_path` | method | `modules/lazy_proxy.py:906` | `def ca_path(self)` |
+| `ca_trusted` | function | `modules/lazy_proxy.py:498` | `def ca_trusted(ca_path)` |
+| `connect` | method | `modules/lazy_proxy.py:389` | `def connect(self)` |
+| `connect` | method | `modules/lazy_proxy.py:410` | `def connect(self)` |
+| `connect_pinned` | function | `modules/lazy_proxy.py:355` | `def connect_pinned(host, ips, port, scheme)` |
+| `context_for` | method | `modules/lazy_proxy.py:736` | `def context_for(self, host)` |
+| `detect_nss_profiles` | function | `modules/lazy_proxy.py:517` | `def detect_nss_profiles()` |
+| `detect_trust_target` | function | `modules/lazy_proxy.py:490` | `def detect_trust_target()` |
+| `do_CONNECT` | method | `modules/lazy_proxy.py:925` | `def do_CONNECT(self)` |
+| `do_GET` | method | `modules/lazy_proxy.py:978` | `def do_GET(self)` |
+| `env_for_ca` | function | `modules/lazy_proxy.py:1345` | `def env_for_ca(ca_path, host, port)` |
+| `get_proxy` | function | `modules/lazy_proxy.py:1336` | `def get_proxy()` |
+| `handle_error` | method | `modules/lazy_proxy.py:786` | `def handle_error(self, request, client_address)` |
+| `install_ca_nss` | function | `modules/lazy_proxy.py:532` | `def install_ca_nss(ca_path, runner, profiles)` |
+| `install_ca_trust` | function | `modules/lazy_proxy.py:572` | `def install_ca_trust(ca_path, runner)` |
+| `log_message` | method | `modules/lazy_proxy.py:921` | `def log_message(self, fmt)` |
+| `recorder` | method | `modules/lazy_proxy.py:902` | `def recorder(self)` |
+| `resolve_validated_target` | function | `modules/lazy_proxy.py:282` | `def resolve_validated_target(host, port, scheme)` |
+| `restore_env` | function | `modules/lazy_proxy.py:1368` | `def restore_env(previous)` |
+| `start` | method | `modules/lazy_proxy.py:819` | `def start(self, host, port, task_id, traffic_dir, upstream)` |
+| `status` | method | `modules/lazy_proxy.py:880` | `def status(self)` |
+| `stop` | method | `modules/lazy_proxy.py:864` | `def stop(self)` |
+| `tls_lab_unverified_allowed` | function | `modules/lazy_proxy.py:253` | `def tls_lab_unverified_allowed(host)` |
 | `Permission` | class | `modules/lazy_rbac.py:66` | `class Permission(Enum)` |
 | `RBACStore` | class | `modules/lazy_rbac.py:210` | `class RBACStore` |
 | `RBACUser` | class | `modules/lazy_rbac.py:124` | `class RBACUser` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
 | `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
 | `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
-| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
-| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
-| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
-| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
-| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
-| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
-| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
-| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
-| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
-| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
-| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
-| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
-| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
-| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
-| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
-| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
-| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
-| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
-| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
-| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
-| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
-| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
-| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
-| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
-| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
-| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
-| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
-| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
-| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
-| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
-| `decrypt` | function | `modules/lazyownclient.py:62` | `def decrypt(ciphertext, key)` |
-| `encrypt` | function | `modules/lazyownclient.py:55` | `def encrypt(plaintext, key)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

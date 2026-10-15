@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_unified_bridge_delegate.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_unified_bridge_delegate.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.

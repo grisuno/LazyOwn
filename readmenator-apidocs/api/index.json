@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 735,
-  "entities": 14072,
+  "modules": 737,
+  "entities": 14107,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 625,
-   "sh": 58
+   "py": 626,
+   "sh": 59
   },
   "kinds": {
    "attribute": 3991,
    "class": 1338,
    "classmethod": 81,
-   "constant": 1191,
+   "constant": 1202,
    "constructor": 502,
    "enum": 38,
    "exception": 36,
-   "function": 2379,
+   "function": 2401,
    "macro": 113,
    "method": 3358,
-   "module": 735,
+   "module": 737,
    "property": 174,
    "protocol": 14,
    "staticmethod": 86,
@@ -36,14 +36,14 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 280,
+  "skipped_files": 282,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6453,
-   "total": 8878,
-   "percent": 72.7
+   "documented": 6477,
+   "total": 8902,
+   "percent": 72.8
   },
   "by_kind": {
    "class": {
@@ -72,9 +72,9 @@
     "percent": 94.4
    },
    "function": {
-    "documented": 1491,
-    "total": 2379,
-    "percent": 62.7
+    "documented": 1513,
+    "total": 2401,
+    "percent": 63.0
    },
    "macro": {
     "documented": 3,
@@ -87,8 +87,8 @@
     "percent": 79.6
    },
    "module": {
-    "documented": 613,
-    "total": 735,
+    "documented": 615,
+    "total": 737,
     "percent": 83.4
    },
    "property": {
@@ -1179,8 +1179,8 @@
     "percent": 100.0
    },
    "core/hardening.py": {
-    "documented": 16,
-    "total": 16,
+    "documented": 31,
+    "total": 31,
     "percent": 100.0
    },
    "core/host_policy.py": {
@@ -1237,6 +1237,11 @@
     "documented": 10,
     "total": 13,
     "percent": 76.9
+   },
+   "core/reverse_shell_secret.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
    },
    "core/safe_console.py": {
     "documented": 6,
@@ -2394,8 +2399,8 @@
     "percent": 100.0
    },
    "modules/lazy_proxy.py": {
-    "documented": 20,
-    "total": 20,
+    "documented": 23,
+    "total": 23,
     "percent": 100.0
    },
    "modules/lazy_rbac.py": {
@@ -3384,6 +3389,11 @@
     "percent": 25.0
    },
    "scripts/patch_playbook_atomic_ids.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "scripts/pi_qwen_setup.sh": {
     "documented": 1,
     "total": 1,
     "percent": 100.0
@@ -4859,7 +4869,7 @@
   {
    "uid": "core/hardening.py",
    "path": "modules/core.hardening.py.jsonl",
-   "entities": 20
+   "entities": 43
   },
   {
    "uid": "core/host_policy.py",
@@ -4915,6 +4925,11 @@
    "uid": "core/protocols.py",
    "path": "modules/core.protocols.py.jsonl",
    "entities": 14
+  },
+  {
+   "uid": "core/reverse_shell_secret.py",
+   "path": "modules/core.reverse_shell_secret.py.jsonl",
+   "entities": 8
   },
   {
    "uid": "core/safe_console.py",
@@ -6074,7 +6089,7 @@
   {
    "uid": "modules/lazy_proxy.py",
    "path": "modules/modules.lazy_proxy.py.jsonl",
-   "entities": 25
+   "entities": 28
   },
   {
    "uid": "modules/lazy_rbac.py",
@@ -7064,6 +7079,11 @@
   {
    "uid": "scripts/patch_playbook_atomic_ids.py",
    "path": "modules/scripts.patch_playbook_atomic_ids.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "scripts/pi_qwen_setup.sh",
+   "path": "modules/scripts.pi_qwen_setup.sh.jsonl",
    "entities": 1
   },
   {

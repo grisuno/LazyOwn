@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
+| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
+| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
+| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
+| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
+| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
+| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
+| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
+| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
+| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
+| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
+| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
+| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
+| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
+| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
+| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
+| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
+| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
+| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
+| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
+| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
+| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
+| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
+| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
+| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
+| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
+| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
+| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
+| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
+| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
+| `decrypt` | function | `modules/lazyownclient.py:62` | `def decrypt(ciphertext, key)` |
+| `encrypt` | function | `modules/lazyownclient.py:55` | `def encrypt(plaintext, key)` |
 | `handle_command` | function | `modules/lazyownclient.py:69` | `def handle_command(cmd, key)` |
 | `main` | function | `modules/lazyownclient.py:198` | `def main()` |
 | `pad` | function | `modules/lazyownclient.py:51` | `def pad(s)` |
@@ -153,32 +190,34 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
 | `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
 | `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
-| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:188` | `class LLMBackendNotSupportedError(ValueError)` |
-| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:184` | `class LLMBackendUnavailableError(RuntimeError)` |
-| `_build_anthropic` | function | `modules/llm_factory.py:476` | `def _build_anthropic(config)` |
-| `_build_backend` | function | `modules/llm_factory.py:637` | `def _build_backend(normalized, resolved_config)` |
-| `_build_deepseek` | function | `modules/llm_factory.py:498` | `def _build_deepseek(config)` |
-| `_build_groq` | function | `modules/llm_factory.py:404` | `def _build_groq(config)` |
-| `_build_llamacpp` | function | `modules/llm_factory.py:440` | `def _build_llamacpp(config)` |
-| `_build_ollama` | function | `modules/llm_factory.py:426` | `def _build_ollama(config)` |
-| `_build_openai` | function | `modules/llm_factory.py:454` | `def _build_openai(config)` |
-| `_normalize_backend` | function | `modules/llm_factory.py:381` | `def _normalize_backend(backend)` |
-| `_resolve_api_key` | function | `modules/llm_factory.py:327` | `def _resolve_api_key(config)` |
-| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:350` | `def _resolve_api_key_for_backend(backend, config)` |
-| `_resolve_model_identifier` | function | `modules/llm_factory.py:520` | `def _resolve_model_identifier(backend_identifier, config)` |
-| `_wrap_with_budget` | function | `modules/llm_factory.py:547` | `def _wrap_with_budget(backend, config, backend_identifier)` |
-| `api_key_config_key` | function | `modules/llm_factory.py:260` | `def api_key_config_key(backend)` |
-| `backend_requires_api_key` | function | `modules/llm_factory.py:285` | `def backend_requires_api_key(backend)` |
-| `complete` | function | `modules/llm_factory.py:788` | `def complete(model, prompt, max_tokens)` |
-| `default_model_for` | function | `modules/llm_factory.py:218` | `def default_model_for(backend)` |
-| `get_llm_backend` | function | `modules/llm_factory.py:585` | `def get_llm_backend(config, backend)` |
-| `get_llm_backend_raw` | function | `modules/llm_factory.py:673` | `def get_llm_backend_raw(config, backend)` |
-| `groq_model_chain` | function | `modules/llm_factory.py:139` | `def groq_model_chain(config)` |
-| `is_model_missing_error` | function | `modules/llm_factory.py:119` | `def is_model_missing_error(message)` |
-| `load_payload` | function | `modules/llm_factory.py:303` | `def load_payload(payload_path)` |
-| `model_config_key` | function | `modules/llm_factory.py:239` | `def model_config_key(backend)` |
-| `stream_complete` | function | `modules/llm_factory.py:719` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
-| `try_get_llm_backend` | function | `modules/llm_factory.py:695` | `def try_get_llm_backend(config, backend)` |
+| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:194` | `class LLMBackendNotSupportedError(ValueError)` |
+| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:190` | `class LLMBackendUnavailableError(RuntimeError)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:482` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:643` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:504` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:410` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:446` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:432` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:460` | `def _build_openai(config)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:387` | `def _normalize_backend(backend)` |
+| `_pi_complete` | function | `modules/llm_factory.py:737` | `def _pi_complete(model, prompt, max_tokens)` |
+| `_pi_timeout` | function | `modules/llm_factory.py:725` | `def _pi_timeout()` |
+| `_resolve_api_key` | function | `modules/llm_factory.py:333` | `def _resolve_api_key(config)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:356` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:526` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:553` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | function | `modules/llm_factory.py:266` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | function | `modules/llm_factory.py:291` | `def backend_requires_api_key(backend)` |
+| `complete` | function | `modules/llm_factory.py:849` | `def complete(model, prompt, max_tokens)` |
+| `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:591` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:679` | `def get_llm_backend_raw(config, backend)` |
+| `groq_model_chain` | function | `modules/llm_factory.py:141` | `def groq_model_chain(config)` |
+| `is_model_missing_error` | function | `modules/llm_factory.py:121` | `def is_model_missing_error(message)` |
+| `load_payload` | function | `modules/llm_factory.py:309` | `def load_payload(payload_path)` |
+| `model_config_key` | function | `modules/llm_factory.py:245` | `def model_config_key(backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:778` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:701` | `def try_get_llm_backend(config, backend)` |
 | `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
 | `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
 | `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
@@ -457,44 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
 | `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
 | `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
-| `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
-| `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
-| `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
-| `get_expert` | method | `modules/moe_router.py:605` | `def get_expert(self, expert_id)` |
-| `get_router` | function | `modules/moe_router.py:684` | `def get_router(api_key)` |
-| `is_available` | method | `modules/moe_router.py:447` | `def is_available(self, expert, api_key)` |
-| `is_local` | method | `modules/moe_router.py:96` | `def is_local(self)` |
-| `performance_bonus` | method | `modules/moe_router.py:325` | `def performance_bonus(self, expert_id, task_type)` |
-| `record` | method | `modules/moe_router.py:298` | `def record(self, expert_id, task_type, reward, detection_prob)` |
-| `record_outcome` | method | `modules/moe_router.py:575` | `def record_outcome(self, expert_id, task_type, reward, detection_prob)` |
-| `route` | method | `modules/moe_router.py:515` | `def route(self, task_type, goal, deterministic)` |
-| `select` | method | `modules/moe_router.py:261` | `def select(self, candidates, task_type, performance_store, deterministic)` |
-| `select` | method | `modules/moe_router.py:388` | `def select(self, candidates, task_type, performance_store, deterministic)` |
-| `status_report` | method | `modules/moe_router.py:609` | `def status_report(self)` |
-| `temperature` | method | `modules/moe_router.py:381` | `def temperature(self)` |
-| `temperature` | method | `modules/moe_router.py:385` | `def temperature(self, value)` |
-| `top_experts_for_task` | method | `modules/moe_router.py:589` | `def top_experts_for_task(self, task_type, top_k)` |
-| `update` | method | `modules/moe_router.py:115` | `def update(self, reward, detection_prob)` |
-| `MorseConfig` | class | `modules/morse.py:16` | `class MorseConfig` |
-| `clear_screen` | function | `modules/morse.py:157` | `def clear_screen(config)` |
-| `morse_to_text` | function | `modules/morse.py:130` | `def morse_to_text(morse_code, config)` |
-| `read_choice` | function | `modules/morse.py:171` | `def read_choice(config)` |
-| `reverse_morse_code` | function | `modules/morse.py:98` | `def reverse_morse_code()` |
-| `run_driver` | function | `modules/morse.py:186` | `def run_driver(config)` |
-| `text_to_morse` | function | `modules/morse.py:109` | `def text_to_morse(text, config)` |
-| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
-| `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
-| `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
-| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
-| `execvp` | function | `modules/mysql_hookandroot_lib.c:128` | `int execvp(const char* filename, char* const argv[])` |
-| `reverse_shell` | function | `modules/mysql_hookandroot_lib.c:74` | `void reverse_shell(void)` |
-| `NetworkOpsecConfig` | class | `modules/network_opsec.py:23` | `class NetworkOpsecConfig` |
-| `NetworkOpsecEngine` | class | `modules/network_opsec.py:53` | `class NetworkOpsecEngine` |
-| `__init__` | method | `modules/network_opsec.py:83` | `def __init__(self, config)` |
-| `_build_proxychains_config` | method | `modules/network_opsec.py:119` | `def _build_proxychains_config(proxies)` |
-| `analyze_traffic_with_canary_check` | method | `modules/network_opsec.py:179` | `def analyze_traffic_with_canary_check(self, target_host, target_port)` |
-| `canary_detection_setup` | method | `modules/network_opsec.py:317` | `def canary_detection_setup(self)` |
-| `check_canary_tokens` | method | `modules/network_opsec.py:131` | `def check_canary_tokens(self)` |
-| `configure_proxy_chain` | method | `modules/network_opsec.py:87` | `def configure_proxy_chain(self, chain_type)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

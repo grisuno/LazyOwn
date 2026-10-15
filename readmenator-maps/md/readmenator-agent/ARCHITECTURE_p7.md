@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
 - `modules/search.py` -> bs4, csv, requests
 - `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
 - `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
@@ -321,6 +322,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_payload_schema.py` -> __future__, json, pathlib, sys
 - `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
 - `tests/test_phase_labels.py` -> __future__, json, pathlib
+- `tests/test_pi_leg.py` -> __future__, pytest, subprocess
 - `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
 - `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
 - `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
@@ -347,6 +349,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
 - `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
 - `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
+- `tests/test_security_alerts_fix.py` -> __future__, ast, json, os, pathlib, pytest, ssl, time
 - `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
 - `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
 - `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re

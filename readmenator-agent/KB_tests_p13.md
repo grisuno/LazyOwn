@@ -1,6 +1,37 @@
 # Subsystem: tests (page 13 of 16)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_rea_mcp.py
+- Doc: Tests for the lazyown_rea MCP tool (REA reverse-engineering skill).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_stub_mcp_sdk` (function, line 21) `def _stub_mcp_sdk()`
+  - `_call` (function, line 73) `def _call(arguments, monkeypatch)`
+  - `test_list_tools_has_rea` (function, line 90) `def test_list_tools_has_rea()`
+  - `test_unknown_action_rejected` (function, line 99) `def test_unknown_action_rejected(monkeypatch)`
+  - `test_missing_binary` (function, line 105) `def test_missing_binary(monkeypatch)`
+  - `test_doctor_argv` (function, line 113) `def test_doctor_argv(monkeypatch)`
+  - `test_inspect_artifact_argv` (function, line 119) `def test_inspect_artifact_argv(tmp_path, monkeypatch)`
+  - `test_large_output_survives_compaction` (function, line 132) `def test_large_output_survives_compaction(tmp_path, monkeypatch)`
+  - `test_analyze_uses_explicit_target` (function, line 148) `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)`
+  - `test_analyze_missing_target` (function, line 155) `def test_analyze_missing_target(monkeypatch)`
+  - `test_target_flag_injection_rejected` (function, line 168) `def test_target_flag_injection_rejected(monkeypatch)`
+  - `test_decompile_needs_valid_address` (function, line 174) `def test_decompile_needs_valid_address(tmp_path, monkeypatch)`
+  - `test_search_needs_query` (function, line 189) `def test_search_needs_query(tmp_path, monkeypatch)`
+  - `test_provider_flag_appended` (function, line 201) `def test_provider_flag_appended(tmp_path, monkeypatch)`
+  - `Tool` (class, line 35) `class Tool`
+  - `TextContent` (class, line 39) `class TextContent`
+  - `Server` (class, line 46) `class Server`
+  - `_fake_run` (function, line 78) `def _fake_run(argv)`
+  - `_fake_run` (function, line 138) `def _fake_run(argv)`
+  - `__init__` (method, line 36) `def __init__(self)`
+  - `__init__` (method, line 40) `def __init__(self)`
+  - `__init__` (method, line 47) `def __init__(self)`
+  - `list_tools` (method, line 50) `def list_tools(self)`
+  - `call_tool` (method, line 53) `def call_tool(self)`
+- Depends on: `skills/lazyown_mcp.py`
+
 ## tests/test_reactive_engine_semantic.py
 - Doc: Tests for the semantic context advisor in ``modules/reactive_engine.py``.
 - Layer: testing
@@ -416,59 +447,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `__init__` (method, line 212) `def __init__(self, target, max_switches_per_step, approval_gate)`
   - `run` (method, line 216) `def run(self)`
 - Depends on: `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`
-
-## tests/test_scope_guard.py
-- Doc: Test suite for cli/scope_guard.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestScopeMode` (class, line 33) `class TestScopeMode`
-  - `TestNormalizeScope` (class, line 53) `class TestNormalizeScope`
-  - `TestTargetInScope` (class, line 80) `class TestTargetInScope`
-  - `TestBuildOffensiveCommands` (class, line 119) `class TestBuildOffensiveCommands`
-  - `_guard` (function, line 135) `def _guard(scope, mode, offensive_names)`
-  - `TestScopeGuardEvaluate` (class, line 140) `class TestScopeGuardEvaluate`
-  - `TestScopeExemptions` (class, line 194) `class TestScopeExemptions`
-  - `TestOffensiveCategoryDrift` (class, line 210) `class TestOffensiveCategoryDrift`
-  - `test_from_value_passthrough` (method, line 34) `def test_from_value_passthrough(self)`
-  - `test_from_value_strings` (method, line 45) `def test_from_value_strings(self, raw, expected)`
-  - `test_unknown_defaults_to_warn` (method, line 49) `def test_unknown_defaults_to_warn(self, raw)`
-  - `test_none` (method, line 54) `def test_none(self)`
-  - `test_list` (method, line 57) `def test_list(self)`
-  - `test_tuple_and_set` (method, line 60) `def test_tuple_and_set(self)`
-  - `test_json_array_string` (method, line 64) `def test_json_array_string(self)`
-  - `test_comma_separated_string` (method, line 67) `def test_comma_separated_string(self)`
-  - `test_space_separated_string` (method, line 70) `def test_space_separated_string(self)`
-  - `test_empty_string` (method, line 73) `def test_empty_string(self)`
-  - `test_unsupported_type` (method, line 76) `def test_unsupported_type(self)`
-  - `test_empty_target` (method, line 81) `def test_empty_target(self)`
-  - `test_ip_in_cidr` (method, line 84) `def test_ip_in_cidr(self)`
-  - `test_ip_outside_cidr` (method, line 87) `def test_ip_outside_cidr(self)`
-  - `test_bare_ip_match` (method, line 90) `def test_bare_ip_match(self)`
-  - `test_bare_ip_mismatch` (method, line 93) `def test_bare_ip_mismatch(self)`
-  - `test_exact_hostname` (method, line 96) `def test_exact_hostname(self)`
-  - `test_subdomain_match` (method, line 99) `def test_subdomain_match(self)`
-  - `test_wildcard_match` (method, line 102) `def test_wildcard_match(self)`
-  - `test_hostname_not_in_cidr` (method, line 106) `def test_hostname_not_in_cidr(self)`
-  - `test_ip_not_matched_by_hostname_entry` (method, line 109) `def test_ip_not_matched_by_hostname_entry(self)`
-  - `test_ipv6_in_cidr` (method, line 112) `def test_ipv6_in_cidr(self)`
-  - `test_blank_entries_ignored` (method, line 115) `def test_blank_entries_ignored(self)`
-  - `test_selects_offensive_only` (method, line 120) `def test_selects_offensive_only(self)`
-  - `test_empty` (method, line 131) `def test_empty(self)`
-  - `test_mode_off_is_noop` (method, line 141) `def test_mode_off_is_noop(self)`
-  - `test_no_scope_allows` (method, line 146) `def test_no_scope_allows(self)`
-  - `test_benign_command_allowed` (method, line 151) `def test_benign_command_allowed(self)`
-  - `test_empty_target_allowed` (method, line 156) `def test_empty_target_allowed(self)`
-  - `test_in_scope_allowed` (method, line 160) `def test_in_scope_allowed(self)`
-  - `test_out_of_scope_warn_allows_with_reason` (method, line 165) `def test_out_of_scope_warn_allows_with_reason(self)`
-  - `test_out_of_scope_enforce_blocks` (method, line 172) `def test_out_of_scope_enforce_blocks(self)`
-  - `test_classifier_exception_fails_open` (method, line 179) `def test_classifier_exception_fails_open(self)`
-  - `test_decision_is_value_object` (method, line 187) `def test_decision_is_value_object(self)`
-  - `test_exempt_command_allowed_out_of_scope` (method, line 197) `def test_exempt_command_allowed_out_of_scope(self)`
-  - `test_exempt_set_covers_offensive_operational_surfaces` (method, line 203) `def test_exempt_set_covers_offensive_operational_surfaces(self)`
-  - `test_categories_exist_in_utils` (method, line 213) `def test_categories_exist_in_utils(self)`
-  - `boom` (function, line 180) `def boom(_name)`
-- Depends on: `cli/scope_guard.py`, `utils.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

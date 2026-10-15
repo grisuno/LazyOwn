@@ -3,6 +3,45 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
+| `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
+| `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
+| `get_expert` | method | `modules/moe_router.py:605` | `def get_expert(self, expert_id)` |
+| `get_router` | function | `modules/moe_router.py:684` | `def get_router(api_key)` |
+| `is_available` | method | `modules/moe_router.py:447` | `def is_available(self, expert, api_key)` |
+| `is_local` | method | `modules/moe_router.py:96` | `def is_local(self)` |
+| `performance_bonus` | method | `modules/moe_router.py:325` | `def performance_bonus(self, expert_id, task_type)` |
+| `record` | method | `modules/moe_router.py:298` | `def record(self, expert_id, task_type, reward, detection_prob)` |
+| `record_outcome` | method | `modules/moe_router.py:575` | `def record_outcome(self, expert_id, task_type, reward, detection_prob)` |
+| `route` | method | `modules/moe_router.py:515` | `def route(self, task_type, goal, deterministic)` |
+| `select` | method | `modules/moe_router.py:261` | `def select(self, candidates, task_type, performance_store, deterministic)` |
+| `select` | method | `modules/moe_router.py:388` | `def select(self, candidates, task_type, performance_store, deterministic)` |
+| `status_report` | method | `modules/moe_router.py:609` | `def status_report(self)` |
+| `temperature` | method | `modules/moe_router.py:381` | `def temperature(self)` |
+| `temperature` | method | `modules/moe_router.py:385` | `def temperature(self, value)` |
+| `top_experts_for_task` | method | `modules/moe_router.py:589` | `def top_experts_for_task(self, task_type, top_k)` |
+| `update` | method | `modules/moe_router.py:115` | `def update(self, reward, detection_prob)` |
+| `MorseConfig` | class | `modules/morse.py:16` | `class MorseConfig` |
+| `clear_screen` | function | `modules/morse.py:157` | `def clear_screen(config)` |
+| `morse_to_text` | function | `modules/morse.py:130` | `def morse_to_text(morse_code, config)` |
+| `read_choice` | function | `modules/morse.py:171` | `def read_choice(config)` |
+| `reverse_morse_code` | function | `modules/morse.py:98` | `def reverse_morse_code()` |
+| `run_driver` | function | `modules/morse.py:186` | `def run_driver(config)` |
+| `text_to_morse` | function | `modules/morse.py:109` | `def text_to_morse(text, config)` |
+| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
+| `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
+| `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
+| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
+| `execvp` | function | `modules/mysql_hookandroot_lib.c:128` | `int execvp(const char* filename, char* const argv[])` |
+| `reverse_shell` | function | `modules/mysql_hookandroot_lib.c:74` | `void reverse_shell(void)` |
+| `NetworkOpsecConfig` | class | `modules/network_opsec.py:23` | `class NetworkOpsecConfig` |
+| `NetworkOpsecEngine` | class | `modules/network_opsec.py:53` | `class NetworkOpsecEngine` |
+| `__init__` | method | `modules/network_opsec.py:83` | `def __init__(self, config)` |
+| `_build_proxychains_config` | method | `modules/network_opsec.py:119` | `def _build_proxychains_config(proxies)` |
+| `analyze_traffic_with_canary_check` | method | `modules/network_opsec.py:179` | `def analyze_traffic_with_canary_check(self, target_host, target_port)` |
+| `canary_detection_setup` | method | `modules/network_opsec.py:317` | `def canary_detection_setup(self)` |
+| `check_canary_tokens` | method | `modules/network_opsec.py:131` | `def check_canary_tokens(self)` |
+| `configure_proxy_chain` | method | `modules/network_opsec.py:87` | `def configure_proxy_chain(self, chain_type)` |
 | `connection_jitter_schedule` | method | `modules/network_opsec.py:294` | `def connection_jitter_schedule(self, beacon_interval)` |
 | `dns_over_https_config` | method | `modules/network_opsec.py:246` | `def dns_over_https_config(self)` |
 | `source_port_randomize` | method | `modules/network_opsec.py:269` | `def source_port_randomize(self)` |
@@ -457,44 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_compress_data` | method | `modules/polymorphic_engine.py:324` | `def _compress_data(self, data)` |
 | `_estimate_entropy` | method | `modules/polymorphic_engine.py:344` | `def _estimate_entropy(data)` |
 | `_junk_insertion` | method | `modules/polymorphic_engine.py:282` | `def _junk_insertion(self, data, arch)` |
-| `_multi_xor_encrypt` | method | `modules/polymorphic_engine.py:309` | `def _multi_xor_encrypt(self, data)` |
-| `_nop_insertion` | method | `modules/polymorphic_engine.py:253` | `def _nop_insertion(self, data, arch)` |
-| `_nop_substitution` | method | `modules/polymorphic_engine.py:231` | `def _nop_substitution(self, data, arch)` |
-| `_register_reassignment` | method | `modules/polymorphic_engine.py:262` | `def _register_reassignment(self, data, arch)` |
-| `_single_pass` | method | `modules/polymorphic_engine.py:184` | `def _single_pass(self, data, arch, pass_num, original_size)` |
-| `_xor_encrypt` | method | `modules/polymorphic_engine.py:303` | `def _xor_encrypt(self, data, arch)` |
-| `decode_multi_xor` | method | `modules/polymorphic_engine.py:377` | `def decode_multi_xor(data)` |
-| `decode_xor` | method | `modules/polymorphic_engine.py:361` | `def decode_xor(data)` |
-| `generate_decoder_stub` | method | `modules/polymorphic_engine.py:397` | `def generate_decoder_stub(self, arch)` |
-| `get_audit_summary` | method | `modules/polymorphic_engine.py:422` | `def get_audit_summary(self)` |
-| `mutate` | method | `modules/polymorphic_engine.py:163` | `def mutate(self, shellcode, arch)` |
-| `PrivescVector` | class | `modules/privesc_predictor.py:97` | `class PrivescVector` |
-| `SystemProfile` | class | `modules/privesc_predictor.py:114` | `class SystemProfile` |
-| `_load_gtfobins_map` | function | `modules/privesc_predictor.py:617` | `def _load_gtfobins_map()` |
-| `_parse_kernel_version` | function | `modules/privesc_predictor.py:136` | `def _parse_kernel_version(version_str)` |
-| `_parse_version_from_range` | function | `modules/privesc_predictor.py:153` | `def _parse_version_from_range(range_str)` |
-| `_try_llm_analysis` | function | `modules/privesc_predictor.py:655` | `def _try_llm_analysis(profile)` |
-| `analyze_privesc` | function | `modules/privesc_predictor.py:742` | `def analyze_privesc(filepath, text)` |
-| `capability_vectors` | function | `modules/privesc_predictor.py:361` | `def capability_vectors(profile)` |
-| `cron_vectors` | function | `modules/privesc_predictor.py:578` | `def cron_vectors(profile)` |
-| `format_crystal_ball_output` | function | `modules/privesc_predictor.py:827` | `def format_crystal_ball_output(result)` |
-| `group_vectors` | function | `modules/privesc_predictor.py:463` | `def group_vectors(profile)` |
-| `main` | function | `modules/privesc_predictor.py:908` | `def main()` |
-| `match_known_cves` | function | `modules/privesc_predictor.py:249` | `def match_known_cves(profile)` |
-| `parse_linpeas_output` | function | `modules/privesc_predictor.py:165` | `def parse_linpeas_output(text)` |
-| `parse_winpeas_output` | function | `modules/privesc_predictor.py:218` | `def parse_winpeas_output(text)` |
-| `sudo_vectors` | function | `modules/privesc_predictor.py:501` | `def sudo_vectors(profile)` |
-| `suid_vectors` | function | `modules/privesc_predictor.py:287` | `def suid_vectors(profile)` |
-| `RedTeamReportGenerator` | class | `modules/professional_report.py:114` | `class RedTeamReportGenerator` |
-| `ReportFinding` | class | `modules/professional_report.py:87` | `class ReportFinding` |
-| `ReportMetadata` | class | `modules/professional_report.py:102` | `class ReportMetadata` |
-| `__init__` | method | `modules/professional_report.py:173` | `def __init__(self, include_credentials)` |
-| `_accumulate_loot` | method | `modules/professional_report.py:893` | `def _accumulate_loot(self, summary, path)` |
-| `_ai_draft_summary` | method | `modules/professional_report.py:956` | `def _ai_draft_summary(self, data, fallback, backend)` |
-| `_classify_credentials` | method | `modules/professional_report.py:682` | `def _classify_credentials(self, credentials, hosts)` |
-| `_classify_services` | method | `modules/professional_report.py:585` | `def _classify_services(self, services, hosts)` |
-| `_classify_sessions` | method | `modules/professional_report.py:758` | `def _classify_sessions(self, sessions, hosts)` |
-| `_classify_vulnerabilities` | method | `modules/professional_report.py:640` | `def _classify_vulnerabilities(self, vulns, hosts)` |
-| `_extract_scope` | method | `modules/professional_report.py:822` | `def _extract_scope(self, data)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

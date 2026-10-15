@@ -207,7 +207,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `core/dependencies.py` -> __future__, dataclasses, importlib, typing
 - `core/error_advice.py` -> __future__, dataclasses
 - `core/executor.py` -> __future__, os, shlex, subprocess, typing
-- `core/hardening.py` -> __future__, collections.abc, defusedxml.ElementTree, html, os, pathlib, re, subprocess, typing
+- `core/hardening.py` -> __future__, base64, collections.abc, cryptography.fernet, defusedxml.ElementTree, html, ipaddress, os, pathlib, re, ssl, subprocess, typing
 - `core/host_policy.py` -> __future__, ipaddress, re
 - `core/http.py` -> __future__, bs4, json, requests, requests.exceptions, typing
 - `core/llm_budget.py` -> __future__, collections.abc, dataclasses, datetime, json, os, pathlib, tiktoken, typing
@@ -219,6 +219,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `core/profiles.py` -> __future__, collections.abc, os, typing
 - `core/prompt.py` -> __future__, netifaces, os, pathlib, platform, socket, subprocess, time
 - `core/protocols.py` -> __future__, typing
+- `core/reverse_shell_secret.py` -> __future__, pathlib, secrets
 - `core/safe_console.py` -> __future__, rich, sys
 - `core/safe_exec.py` -> __future__, collections.abc, pathlib, re, shlex, shutil, subprocess, sys, urllib.parse
 - `core/safe_import.py` -> __future__, pathlib, re, zipfile
@@ -443,7 +444,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/llm_adapter.py` -> __future__, groq, typing
 - `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
 - `modules/llm_evaluator.py` -> __future__, abc, argparse, dataclasses, json, pathlib, threading, time, uuid
-- `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, sys, typing
+- `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, shutil, subprocess, sys, typing
 - `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
 - `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/rootkit/mrhyde2.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h
 - `modules/rootkit/mrhyde3.c` -> arpa/inet.h, dirent.h, dlfcn.h, errno.h, fcntl.h, linux/io_uring.h, linux/limits.h, netinet/in.h, poll.h, pthread.h, pwd.h, signal.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/mman.h, sys/socket.h, sys/stat.h, sys/syscall.h, sys/types.h, sys/wait.h, unistd.h
 - `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/module.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
-- `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

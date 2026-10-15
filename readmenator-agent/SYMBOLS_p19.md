@@ -3,6 +3,45 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
+| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
+| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
+| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
+| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
+| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
+| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
+| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
+| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
+| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
+| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
+| `load` | function | `modules/session_state.py:251` | `def load()` |
+| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
+| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
+| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
+| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
+| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
+| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
+| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
+| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
+| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
+| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
+| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
+| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
+| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
+| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
+| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
+| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
+| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
+| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
 | `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
 | `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
 | `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
@@ -457,44 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `root` | function | `modules/workspace.py:21` | `def root()` |
 | `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
 | `CredentialEntry` | class | `modules/world_model.py:188` | `class CredentialEntry` |
-| `DomainEntry` | class | `modules/world_model.py:214` | `class DomainEntry` |
-| `EmailEntry` | class | `modules/world_model.py:206` | `class EmailEntry` |
-| `EngagementPhase` | class | `modules/world_model.py:167` | `class EngagementPhase(StrEnum)` |
-| `HostEntry` | class | `modules/world_model.py:364` | `class HostEntry` |
-| `HostState` | class | `modules/world_model.py:151` | `class HostState(StrEnum)` |
-| `NetworkGraph` | class | `modules/world_model.py:244` | `class NetworkGraph` |
-| `NetworkRelation` | class | `modules/world_model.py:222` | `class NetworkRelation` |
-| `ServiceInfo` | class | `modules/world_model.py:179` | `class ServiceInfo` |
-| `VulnerabilityEntry` | class | `modules/world_model.py:197` | `class VulnerabilityEntry` |
-| `WorldModel` | class | `modules/world_model.py:541` | `class WorldModel` |
-| `_PhaseDeriver` | class | `modules/world_model.py:416` | `class _PhaseDeriver` |
-| `__init__` | method | `modules/world_model.py:267` | `def __init__(self)` |
-| `__init__` | method | `modules/world_model.py:549` | `def __init__(self, path)` |
-| `_derive_crypto_key` | function | `modules/world_model.py:58` | `def _derive_crypto_key(password, salt)` |
-| `_load` | method | `modules/world_model.py:1048` | `def _load(self)` |
-| `_master_password` | function | `modules/world_model.py:67` | `def _master_password()` |
-| `_save` | method | `modules/world_model.py:1029` | `def _save(self)` |
-| `add_credential` | method | `modules/world_model.py:653` | `def add_credential(self, value, host, service)` |
-| `add_domain` | method | `modules/world_model.py:748` | `def add_domain(self, domain, host, context)` |
-| `add_email` | method | `modules/world_model.py:742` | `def add_email(self, address, host, context)` |
-| `add_host` | method | `modules/world_model.py:565` | `def add_host(self, ip)` |
-| `add_note` | method | `modules/world_model.py:609` | `def add_note(self, ip, note)` |
-| `add_relation` | method | `modules/world_model.py:274` | `def add_relation(self, relation)` |
-| `add_relation` | method | `modules/world_model.py:927` | `def add_relation(self, source, target, relation, weight)` |
-| `add_service` | method | `modules/world_model.py:373` | `def add_service(self, svc)` |
-| `add_service` | method | `modules/world_model.py:592` | `def add_service(self, ip, port, name, version, protocol)` |
-| `add_vulnerability` | method | `modules/world_model.py:736` | `def add_vulnerability(self, description, host, cve, severity)` |
-| `advance` | method | `modules/world_model.py:377` | `def advance(self, new_state)` |
-| `advance_host` | method | `modules/world_model.py:583` | `def advance_host(self, ip, new_state)` |
-| `can_advance_to` | method | `modules/world_model.py:163` | `def can_advance_to(self, next_state)` |
-| `consume_policy_facts` | method | `modules/world_model.py:835` | `def consume_policy_facts(self, facts_path)` |
-| `degree_centrality` | method | `modules/world_model.py:294` | `def degree_centrality(self)` |
-| `derive` | method | `modules/world_model.py:430` | `def derive(self, hosts)` |
-| `from_dict` | method | `modules/world_model.py:348` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/world_model.py:397` | `def from_dict(cls, d)` |
-| `get_host` | method | `modules/world_model.py:630` | `def get_host(self, ip)` |
-| `get_hosts_summary` | method | `modules/world_model.py:642` | `def get_hosts_summary(self)` |
-| `get_phase` | method | `modules/world_model.py:963` | `def get_phase(self)` |
-| `get_suggested_tools` | method | `modules/world_model.py:967` | `def get_suggested_tools(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

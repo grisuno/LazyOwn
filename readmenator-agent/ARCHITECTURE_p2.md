@@ -106,6 +106,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/error_advice.py` -> `core/console.py`
 - `core/errors.py` -> `cli/commands/enum.py`
 - `core/executor.py` -> `core/logging.py`
+- `core/hardening.py` -> `core/config.py`
+- `core/hardening.py` -> `core/credential_vault.py`
 - `core/hardening.py` -> `core/host_policy.py`
 - `core/hardening.py` -> `core/logging.py`
 - `core/http.py` -> `core/console.py`
@@ -118,6 +120,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/process.py` -> `core/safe_subprocess.py`
 - `core/process.py` -> `core/validators.py`
 - `core/prompt.py` -> `core/config.py`
+- `core/reverse_shell_secret.py` -> `core/hardening.py`
 - `core/safe_console.py` -> `core/console.py`
 - `core/safe_exec.py` -> `core/logging.py`
 - `core/safe_subprocess.py` -> `core/hardening.py`
@@ -140,6 +143,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `core/hardening.py`
 - `lazyc2.py` -> `core/logging.py`
 - `lazyc2.py` -> `core/parsers.py`
+- `lazyc2.py` -> `core/reverse_shell_secret.py`
 - `lazyc2.py` -> `lazyc2/blueprints/__init__.py`
 - `lazyc2.py` -> `lazyc2/extensions/users.py`
 - `lazyc2.py` -> `lazyc2/security/command_allowlist.py`
@@ -192,6 +196,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/__init__.py` -> `lazyc2/blueprints/beacon.py`
 - `lazyc2/blueprints/__init__.py` -> `lazyc2/blueprints/operations.py`
 - `lazyc2/blueprints/__init__.py` -> `lazyc2/blueprints/phishing.py`
+- `lazyc2/blueprints/addons.py` -> `core/logging.py`
 - `lazyc2/blueprints/addons.py` -> `lazyc2/addon_creator.py`
 - `lazyc2/blueprints/addons.py` -> `lazyc2/blueprints/session_auth.py`
 - `lazyc2/blueprints/addons.py` -> `lazyc2/extensions/decoy.py`
@@ -205,6 +210,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/api_v1.py` -> `lazyc2/blueprints/api.py`
 - `lazyc2/blueprints/api_v1.py` -> `modules/beacon_history.py`
 - `lazyc2/blueprints/api_v1.py` -> `modules/db.py`
+- `lazyc2/blueprints/auth.py` -> `core/logging.py`
 - `lazyc2/blueprints/auth.py` -> `lazyc2/__init__.py`
 - `lazyc2/blueprints/auth.py` -> `lazyc2/extensions/decoy.py`
 - `lazyc2/blueprints/auth.py` -> `lazyc2/extensions/users.py`
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/beacon_config_builder.py` -> `core/config.py`
 - `modules/beacon_config_builder.py` -> `core/logging.py`
 - `modules/beacon_config_builder.py` -> `modules/c2_profile_engine.py`
-- `modules/beacon_config_builder.py` -> `modules/sleep_obfuscation.py`
-- `modules/beacon_config_builder.py` -> `modules/socks_proxy.py`
-- `modules/beacon_history.py` -> `core/logging.py`
-- `modules/bof_registry.py` -> `cli/commands/enum.py`
-- `modules/bof_registry.py` -> `core/logging.py`
-- `modules/c2_builder.py` -> `core/validators.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

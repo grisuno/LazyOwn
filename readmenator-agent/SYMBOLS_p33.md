@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestDashboardIndexRoute` | class | `tests/test_dashboard_routes.py:391` | `class TestDashboardIndexRoute` |
+| `TestLootRoute` | class | `tests/test_dashboard_routes.py:75` | `class TestLootRoute` |
+| `TestTimelineRoute` | class | `tests/test_dashboard_routes.py:180` | `class TestTimelineRoute` |
+| `_TestUser` | class | `tests/test_dashboard_routes.py:16` | `class _TestUser(UserMixin)` |
+| `__init__` | method | `tests/test_dashboard_routes.py:17` | `def __init__(self, user_id)` |
+| `_write_credentials_file` | function | `tests/test_dashboard_routes.py:45` | `def _write_credentials_file(sessions_dir, filename, lines)` |
+| `_write_csv_report` | function | `tests/test_dashboard_routes.py:60` | `def _write_csv_report(sessions_dir, rows)` |
+| `_write_events_jsonl` | function | `tests/test_dashboard_routes.py:69` | `def _write_events_jsonl(sessions_dir, events)` |
+| `_write_hashes_file` | function | `tests/test_dashboard_routes.py:49` | `def _write_hashes_file(sessions_dir, filename, lines)` |
+| `_write_loot_file` | function | `tests/test_dashboard_routes.py:53` | `def _write_loot_file(sessions_dir, rel_path, content)` |
+| `client` | function | `tests/test_dashboard_routes.py:22` | `def client(tmp_path)` |
+| `load_user` | function | `tests/test_dashboard_routes.py:34` | `def load_user(user_id)` |
+| `test_dashboard_api_data_returns_json` | method | `tests/test_dashboard_routes.py:401` | `def test_dashboard_api_data_returns_json(self, client)` |
+| `test_dashboard_index_returns_200` | method | `tests/test_dashboard_routes.py:394` | `def test_dashboard_index_returns_200(self, client)` |
+| `test_loot_empty_returns_200` | method | `tests/test_dashboard_routes.py:107` | `def test_loot_empty_returns_200(self, client)` |
+| `test_loot_multiple_credential_files` | method | `tests/test_dashboard_routes.py:165` | `def test_loot_multiple_credential_files(self, client)` |
+| `test_loot_respects_max_entries` | method | `tests/test_dashboard_routes.py:148` | `def test_loot_respects_max_entries(self, client)` |
+| `test_loot_route_returns_200_with_data` | method | `tests/test_dashboard_routes.py:78` | `def test_loot_route_returns_200_with_data(self, client)` |
+| `test_loot_skips_comment_lines` | method | `tests/test_dashboard_routes.py:117` | `def test_loot_skips_comment_lines(self, client)` |
+| `test_timeline_csv_without_timestamp` | method | `tests/test_dashboard_routes.py:278` | `def test_timeline_csv_without_timestamp(self, client)` |
+| `test_timeline_empty_returns_200` | method | `tests/test_dashboard_routes.py:230` | `def test_timeline_empty_returns_200(self, client)` |
+| `test_timeline_handles_csv_tool_column` | method | `tests/test_dashboard_routes.py:266` | `def test_timeline_handles_csv_tool_column(self, client)` |
+| `test_timeline_handles_malformed_jsonl` | method | `tests/test_dashboard_routes.py:375` | `def test_timeline_handles_malformed_jsonl(self, client)` |
+| `test_timeline_normalizes_iso_timestamps` | method | `tests/test_dashboard_routes.py:318` | `def test_timeline_normalizes_iso_timestamps(self, client)` |
+| `test_timeline_only_csv_no_events` | method | `tests/test_dashboard_routes.py:360` | `def test_timeline_only_csv_no_events(self, client)` |
+| `test_timeline_only_events_no_csv` | method | `tests/test_dashboard_routes.py:339` | `def test_timeline_only_events_no_csv(self, client)` |
+| `test_timeline_respects_max_rows` | method | `tests/test_dashboard_routes.py:296` | `def test_timeline_respects_max_rows(self, client)` |
+| `test_timeline_route_returns_200_with_data` | method | `tests/test_dashboard_routes.py:183` | `def test_timeline_route_returns_200_with_data(self, client)` |
+| `test_timeline_sorted_newest_first` | method | `tests/test_dashboard_routes.py:238` | `def test_timeline_sorted_newest_first(self, client)` |
+| `TestCountLinesInGlob` | class | `tests/test_dashboard_tui.py:44` | `class TestCountLinesInGlob` |
+| `TestGraphHints` | class | `tests/test_dashboard_tui.py:131` | `class TestGraphHints` |
+| `TestKillChainPhases` | class | `tests/test_dashboard_tui.py:117` | `class TestKillChainPhases` |
+| `TestReadJson` | class | `tests/test_dashboard_tui.py:29` | `class TestReadJson` |
+| `TestReadRecentCommands` | class | `tests/test_dashboard_tui.py:65` | `class TestReadRecentCommands` |
+| `_make_transcript` | method | `tests/test_dashboard_tui.py:66` | `def _make_transcript(self, tmp_path, rows)` |
+| `test_all_phases_present` | method | `tests/test_dashboard_tui.py:118` | `def test_all_phases_present(self)` |
+| `test_counts_non_empty_lines` | method | `tests/test_dashboard_tui.py:45` | `def test_counts_non_empty_lines(self, tmp_path)` |
+| `test_empty_file_returns_empty` | method | `tests/test_dashboard_tui.py:93` | `def test_empty_file_returns_empty(self, tmp_path)` |
+| `test_empty_file_returns_zero` | method | `tests/test_dashboard_tui.py:51` | `def test_empty_file_returns_zero(self, tmp_path)` |
+| `test_invalid_json_returns_empty_dict` | method | `tests/test_dashboard_tui.py:38` | `def test_invalid_json_returns_empty_dict(self, tmp_path)` |
+| `test_missing_file_returns_empty` | method | `tests/test_dashboard_tui.py:89` | `def test_missing_file_returns_empty(self, tmp_path)` |
+| `test_missing_file_returns_empty_dict` | method | `tests/test_dashboard_tui.py:35` | `def test_missing_file_returns_empty_dict(self, tmp_path)` |
+| `test_multiple_files_summed` | method | `tests/test_dashboard_tui.py:59` | `def test_multiple_files_summed(self, tmp_path)` |
+| `test_no_matching_files_returns_zero` | method | `tests/test_dashboard_tui.py:56` | `def test_no_matching_files_returns_zero(self, tmp_path)` |
+| `test_phases_ordered` | method | `tests/test_dashboard_tui.py:125` | `def test_phases_ordered(self)` |
 | `test_reads_recent_commands` | method | `tests/test_dashboard_tui.py:77` | `def test_reads_recent_commands(self, tmp_path)` |
 | `test_reads_valid_file` | method | `tests/test_dashboard_tui.py:30` | `def test_reads_valid_file(self, tmp_path)` |
 | `test_respects_window_limit` | method | `tests/test_dashboard_tui.py:98` | `def test_respects_window_limit(self, tmp_path)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `fake_sessions` | function | `tests/test_exploration_and_addons.py:71` | `def fake_sessions(tmp_path)` |
 | `fake_tools` | function | `tests/test_exploration_and_addons.py:127` | `def fake_tools(tmp_path)` |
 | `test_addon_catalog_invalidates_cache_on_change` | method | `tests/test_exploration_and_addons.py:237` | `def test_addon_catalog_invalidates_cache_on_change(self, fake_addons, monkeypatch)` |
-| `test_addon_catalog_loads_os_and_trigger` | method | `tests/test_exploration_and_addons.py:209` | `def test_addon_catalog_loads_os_and_trigger(self, fake_addons, monkeypatch)` |
-| `test_addon_catalog_reuses_cache_when_mtime_unchanged` | method | `tests/test_exploration_and_addons.py:228` | `def test_addon_catalog_reuses_cache_when_mtime_unchanged(self, fake_addons, monkeypatch)` |
-| `test_all_have_os_in_allowed_values` | method | `tests/test_exploration_and_addons.py:372` | `def test_all_have_os_in_allowed_values(self, addon_files)` |
-| `test_all_have_trigger_list` | method | `tests/test_exploration_and_addons.py:381` | `def test_all_have_trigger_list(self, addon_files)` |
-| `test_at_least_one_addon_exists` | method | `tests/test_exploration_and_addons.py:369` | `def test_at_least_one_addon_exists(self, addon_files)` |
-| `test_disabled_addon_skipped` | method | `tests/test_exploration_and_addons.py:283` | `def test_disabled_addon_skipped(self)` |
-| `test_normalise_os` | method | `tests/test_exploration_and_addons.py:163` | `def test_normalise_os(self, value, expected)` |
-| `test_normalise_trigger` | method | `tests/test_exploration_and_addons.py:178` | `def test_normalise_trigger(self, value, expected)` |
-| `test_os_compat_any_passes` | method | `tests/test_exploration_and_addons.py:265` | `def test_os_compat_any_passes(self)` |
-| `test_os_mismatch_filters_out` | method | `tests/test_exploration_and_addons.py:271` | `def test_os_mismatch_filters_out(self)` |
-| `test_reads_only_open_ports` | method | `tests/test_exploration_and_addons.py:185` | `def test_reads_only_open_ports(self, fake_sessions, monkeypatch)` |
-| `test_records_product_version` | method | `tests/test_exploration_and_addons.py:197` | `def test_records_product_version(self, fake_sessions, monkeypatch)` |
-| `test_renders_empty_scope` | method | `tests/test_exploration_and_addons.py:340` | `def test_renders_empty_scope(self, tmp_path, monkeypatch)` |
-| `test_renders_populated_scope` | method | `tests/test_exploration_and_addons.py:350` | `def test_renders_populated_scope(self, fake_sessions, fake_addons, fake_tools, monkeypatch, tmp_path)` |
-| `test_resolves` | method | `tests/test_exploration_and_addons.py:333` | `def test_resolves(self, payload, expected)` |
-| `test_suggestions_and_coverage` | method | `tests/test_exploration_and_addons.py:293` | `def test_suggestions_and_coverage(self, fake_sessions, fake_addons, fake_tools, monkeypatch, tmp_path)` |
-| `test_target_filter_excludes_other_hosts` | method | `tests/test_exploration_and_addons.py:192` | `def test_target_filter_excludes_other_hosts(self, fake_sessions, monkeypatch)` |
-| `test_tool_catalog_loads_os_default` | method | `tests/test_exploration_and_addons.py:219` | `def test_tool_catalog_loads_os_default(self, fake_tools, monkeypatch)` |
-| `test_tool_catalog_reuses_cache_when_mtime_unchanged` | method | `tests/test_exploration_and_addons.py:252` | `def test_tool_catalog_reuses_cache_when_mtime_unchanged(self, fake_tools, monkeypatch)` |
-| `test_unexplored_excludes_history` | method | `tests/test_exploration_and_addons.py:308` | `def test_unexplored_excludes_history(self, fake_sessions, fake_addons, fake_tools, monkeypatch, tmp_path)` |
-| `test_wildcard_matches_any_service` | method | `tests/test_exploration_and_addons.py:277` | `def test_wildcard_matches_any_service(self)` |
-| `_boom` | function | `tests/test_finding_lifecycle.py:87` | `def _boom(cve, sessions)` |
-| `_finding` | function | `tests/test_finding_lifecycle.py:24` | `def _finding(fid, sources)` |
-| `test_apply_confirmation_stamps_nodes` | function | `tests/test_finding_lifecycle.py:65` | `def test_apply_confirmation_stamps_nodes(tmp_path)` |
-| `test_dead_end_suppresses_value` | function | `tests/test_finding_lifecycle.py:57` | `def test_dead_end_suppresses_value(tmp_path)` |
-| `test_enrich_evidence_appends_keyless_verdicts` | function | `tests/test_finding_lifecycle.py:75` | `def test_enrich_evidence_appends_keyless_verdicts(tmp_path, monkeypatch)` |
-| `test_enrich_evidence_never_fails_offline` | function | `tests/test_finding_lifecycle.py:85` | `def test_enrich_evidence_never_fails_offline(tmp_path, monkeypatch)` |
-| `test_explicit_confirm_with_evidence` | function | `tests/test_finding_lifecycle.py:41` | `def test_explicit_confirm_with_evidence(tmp_path)` |
-| `test_multi_source_auto_confirms` | function | `tests/test_finding_lifecycle.py:35` | `def test_multi_source_auto_confirms(tmp_path)` |
-| `test_pending_by_default` | function | `tests/test_finding_lifecycle.py:30` | `def test_pending_by_default(tmp_path)` |
-| `test_reject_beats_auto_confirm` | function | `tests/test_finding_lifecycle.py:49` | `def test_reject_beats_auto_confirm(tmp_path)` |
-| `_FakeView` | class | `tests/test_fuzzy_picker.py:35` | `class _FakeView(PickerView)` |
-| `__init__` | method | `tests/test_fuzzy_picker.py:38` | `def __init__(self, selection_index)` |
-| `_collect_runtime_strings` | function | `tests/test_fuzzy_picker.py:198` | `def _collect_runtime_strings()` |
-| `_collect_string_constants` | function | `tests/test_fuzzy_picker.py:174` | `def _collect_string_constants(source)` |
-| `run` | method | `tests/test_fuzzy_picker.py:43` | `def run(self, items, initial_query)` |
-| `sample_items` | function | `tests/test_fuzzy_picker.py:59` | `def sample_items()` |
-| `scorer` | function | `tests/test_fuzzy_picker.py:54` | `def scorer()` |
-| `test_config_from_payload_ignores_unknown_keys` | function | `tests/test_fuzzy_picker.py:119` | `def test_config_from_payload_ignores_unknown_keys()` |
-| `test_config_from_payload_respects_known_overrides` | function | `tests/test_fuzzy_picker.py:112` | `def test_config_from_payload_respects_known_overrides()` |
-| `test_config_from_payload_returns_defaults_when_no_block` | function | `tests/test_fuzzy_picker.py:124` | `def test_config_from_payload_returns_defaults_when_no_block()` |
-| `test_empty_query_returns_all_items_in_order` | function | `tests/test_fuzzy_picker.py:72` | `def test_empty_query_returns_all_items_in_order(scorer, sample_items)` |
-| `test_exact_match_scores_highest` | function | `tests/test_fuzzy_picker.py:78` | `def test_exact_match_scores_highest(scorer, sample_items)` |
-| `test_getprompt_renders_three_lines_and_includes_payload_segments` | function | `tests/test_fuzzy_picker.py:280` | `def test_getprompt_renders_three_lines_and_includes_payload_segments()` |
-| `test_lazyown_runtime_strings_preserve_shell_payload` | function | `tests/test_fuzzy_picker.py:260` | `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

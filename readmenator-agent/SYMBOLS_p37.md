@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_target_exposes_full_nethelpers_cluster` | function | `tests/test_nethelpers_command_set.py:82` | `def test_target_exposes_full_nethelpers_cluster()` |
+| `test_target_is_active_command_set` | function | `tests/test_nethelpers_command_set.py:73` | `def test_target_is_active_command_set()` |
+| `test_target_phase_metadata` | function | `tests/test_nethelpers_command_set.py:89` | `def test_target_phase_metadata()` |
+| `ScanConfig` | class | `tests/test_no_shell_execution.py:20` | `class ScanConfig` |
+| `_parse` | function | `tests/test_no_shell_execution.py:64` | `def _parse(path)` |
+| `find_os_system_calls` | function | `tests/test_no_shell_execution.py:72` | `def find_os_system_calls(config)` |
+| `find_stdout_assignments` | function | `tests/test_no_shell_execution.py:96` | `def find_stdout_assignments(config)` |
+| `iter_files` | method | `tests/test_no_shell_execution.py:44` | `def iter_files(self)` |
+| `test_no_manual_stdout_reassignment` | function | `tests/test_no_shell_execution.py:130` | `def test_no_manual_stdout_reassignment()` |
+| `test_no_os_system_in_production` | function | `tests/test_no_shell_execution.py:124` | `def test_no_os_system_in_production()` |
+| `test_scanner_detects_a_synthetic_os_system` | function | `tests/test_no_shell_execution.py:136` | `def test_scanner_detects_a_synthetic_os_system(tmp_path)` |
+| `TestMitreTactics` | class | `tests/test_nuclei_parser.py:128` | `class TestMitreTactics` |
+| `TestNucleiFinding` | class | `tests/test_nuclei_parser.py:13` | `class TestNucleiFinding` |
+| `TestNucleiParserJson` | class | `tests/test_nuclei_parser.py:73` | `class TestNucleiParserJson` |
+| `TestNucleiParserText` | class | `tests/test_nuclei_parser.py:58` | `class TestNucleiParserText` |
+| `TestRecommendations` | class | `tests/test_nuclei_parser.py:134` | `class TestRecommendations` |
+| `TestSeverityMap` | class | `tests/test_nuclei_parser.py:120` | `class TestSeverityMap` |
+| `test_all_tactics_have_ta_prefix` | method | `tests/test_nuclei_parser.py:129` | `def test_all_tactics_have_ta_prefix(self)` |
+| `test_critical_is_10` | method | `tests/test_nuclei_parser.py:121` | `def test_critical_is_10(self)` |
+| `test_exploit_probability_map` | method | `tests/test_nuclei_parser.py:28` | `def test_exploit_probability_map(self)` |
+| `test_fields` | method | `tests/test_nuclei_parser.py:14` | `def test_fields(self)` |
+| `test_generate_for_critical` | method | `tests/test_nuclei_parser.py:135` | `def test_generate_for_critical(self)` |
+| `test_info_is_1` | method | `tests/test_nuclei_parser.py:124` | `def test_info_is_1(self)` |
+| `test_mitre_tactic` | method | `tests/test_nuclei_parser.py:46` | `def test_mitre_tactic(self)` |
+| `test_parse_empty` | method | `tests/test_nuclei_parser.py:59` | `def test_parse_empty(self)` |
+| `test_parse_empty` | method | `tests/test_nuclei_parser.py:74` | `def test_parse_empty(self)` |
+| `test_parse_json_array` | method | `tests/test_nuclei_parser.py:99` | `def test_parse_json_array(self)` |
+| `test_parse_json_multiple_findings` | method | `tests/test_nuclei_parser.py:90` | `def test_parse_json_multiple_findings(self)` |
+| `test_parse_json_single_finding` | method | `tests/test_nuclei_parser.py:78` | `def test_parse_json_single_finding(self)` |
+| `test_parse_nuclei_line` | method | `tests/test_nuclei_parser.py:64` | `def test_parse_nuclei_line(self)` |
+| `test_parse_with_cve_classification` | method | `tests/test_nuclei_parser.py:108` | `def test_parse_with_cve_classification(self)` |
+| `test_skip_low_severity` | method | `tests/test_nuclei_parser.py:151` | `def test_skip_low_severity(self)` |
+| `_seed_loot` | function | `tests/test_ops_loot_phase.py:34` | `def _seed_loot(sessions_dir)` |
+| `_write_world` | function | `tests/test_ops_loot_phase.py:46` | `def _write_world(sessions_dir, world)` |
+| `test_gather_loot_parses_kinds_and_skips_noise` | function | `tests/test_ops_loot_phase.py:53` | `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)` |
+| `test_link_credential_to_failure_edge_and_roundtrip` | function | `tests/test_ops_loot_phase.py:310` | `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)` |
+| `test_loot_entry_value` | function | `tests/test_ops_loot_phase.py:65` | `def test_loot_entry_value()` |
+| `test_loot_graph_empty` | function | `tests/test_ops_loot_phase.py:196` | `def test_loot_graph_empty(tmp_path, capsys)` |
+| `test_loot_graph_renders_edges` | function | `tests/test_ops_loot_phase.py:174` | `def test_loot_graph_renders_edges(tmp_path, capsys)` |
+| `test_loot_mark_rejects_bad_outcome` | function | `tests/test_ops_loot_phase.py:222` | `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)` |
+| `test_loot_mark_unknown_credential` | function | `tests/test_ops_loot_phase.py:230` | `def test_loot_mark_unknown_credential(tmp_path, capsys)` |
+| `test_loot_mark_writes_rejected_edge` | function | `tests/test_ops_loot_phase.py:206` | `def test_loot_mark_writes_rejected_edge(tmp_path)` |
+| `test_loot_reuse_excludes_rejected_and_flags_confirmed` | function | `tests/test_ops_loot_phase.py:148` | `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)` |
+| `test_loot_reuse_no_loot` | function | `tests/test_ops_loot_phase.py:141` | `def test_loot_reuse_no_loot(tmp_path, capsys)` |
+| `test_loot_reuse_no_target` | function | `tests/test_ops_loot_phase.py:133` | `def test_loot_reuse_no_target(tmp_path, capsys)` |
 | `test_loot_search_hits_and_provenance` | function | `tests/test_ops_loot_phase.py:101` | `def test_loot_search_hits_and_provenance(tmp_path, capsys)` |
 | `test_loot_search_no_match` | function | `tests/test_ops_loot_phase.py:115` | `def test_loot_search_no_match(tmp_path, capsys)` |
 | `test_loot_search_requires_query` | function | `tests/test_ops_loot_phase.py:123` | `def test_loot_search_requires_query(tmp_path, capsys)` |
@@ -269,6 +314,21 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_phase_label_falls_back_to_title_case` | function | `tests/test_phase_labels.py:19` | `def test_phase_label_falls_back_to_title_case()` |
 | `test_phase_label_keys_cover_command_index_phases` | function | `tests/test_phase_labels.py:26` | `def test_phase_label_keys_cover_command_index_phases()` |
 | `test_tips_engine_reuses_canonical_labels` | function | `tests/test_phase_labels.py:38` | `def test_tips_engine_reuses_canonical_labels()` |
+| `_Proc` | class | `tests/test_pi_leg.py:20` | `class _Proc` |
+| `__init__` | method | `tests/test_pi_leg.py:21` | `def __init__(self, returncode, stdout, stderr)` |
+| `_fake_run` | function | `tests/test_pi_leg.py:32` | `def _fake_run(cmd)` |
+| `_patch_run` | function | `tests/test_pi_leg.py:27` | `def _patch_run(monkeypatch, proc)` |
+| `test_pi_default_model` | function | `tests/test_pi_leg.py:67` | `def test_pi_default_model(monkeypatch)` |
+| `test_pi_empty_prompt_short_circuits` | function | `tests/test_pi_leg.py:106` | `def test_pi_empty_prompt_short_circuits(monkeypatch)` |
+| `test_pi_empty_reply_raises` | function | `tests/test_pi_leg.py:88` | `def test_pi_empty_reply_raises(monkeypatch)` |
+| `test_pi_missing_binary_raises` | function | `tests/test_pi_leg.py:44` | `def test_pi_missing_binary_raises(monkeypatch)` |
+| `test_pi_model_passthrough` | function | `tests/test_pi_leg.py:60` | `def test_pi_model_passthrough(monkeypatch)` |
+| `test_pi_nonzero_exit_raises` | function | `tests/test_pi_leg.py:81` | `def test_pi_nonzero_exit_raises(monkeypatch)` |
+| `test_pi_pool_member_resolves` | function | `tests/test_pi_leg.py:121` | `def test_pi_pool_member_resolves(monkeypatch, tmp_path)` |
+| `test_pi_prefix_case_insensitive` | function | `tests/test_pi_leg.py:74` | `def test_pi_prefix_case_insensitive(monkeypatch)` |
+| `test_pi_stream_falls_back_to_complete` | function | `tests/test_pi_leg.py:114` | `def test_pi_stream_falls_back_to_complete(monkeypatch)` |
+| `test_pi_success_returns_text` | function | `tests/test_pi_leg.py:51` | `def test_pi_success_returns_text(monkeypatch)` |
+| `test_pi_timeout_raises` | function | `tests/test_pi_leg.py:95` | `def test_pi_timeout_raises(monkeypatch)` |
 | `TestConditionEvaluator` | class | `tests/test_pipeline_engine.py:150` | `class TestConditionEvaluator` |
 | `TestMcpEntryPoints` | class | `tests/test_pipeline_engine.py:684` | `class TestMcpEntryPoints` |
 | `TestNestedPipelines` | class | `tests/test_pipeline_engine.py:577` | `class TestNestedPipelines` |
@@ -436,65 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_skips_same_command_and_dedupes` | function | `tests/test_reactive_engine_semantic.py:115` | `def test_skips_same_command_and_dedupes()` |
 | `TestExtractLabels` | class | `tests/test_reactive_hints.py:88` | `class TestExtractLabels` |
 | `TestFirstToken` | class | `tests/test_reactive_hints.py:57` | `class TestFirstToken` |
-| `TestRenderInlineHints` | class | `tests/test_reactive_hints.py:111` | `class TestRenderInlineHints` |
-| `TestTruncate` | class | `tests/test_reactive_hints.py:71` | `class TestTruncate` |
-| `_FakeAdvisor` | class | `tests/test_reactive_hints.py:29` | `class _FakeAdvisor` |
-| `__init__` | method | `tests/test_reactive_hints.py:32` | `def __init__(self, suggestions)` |
-| `advisor_with_three_hints` | function | `tests/test_reactive_hints.py:42` | `def advisor_with_three_hints()` |
-| `empty_advisor` | function | `tests/test_reactive_hints.py:53` | `def empty_advisor()` |
-| `suggest_next` | method | `tests/test_reactive_hints.py:36` | `def suggest_next(self, recent_commands, limit)` |
-| `test_advisor_called_with_correct_command` | method | `tests/test_reactive_hints.py:137` | `def test_advisor_called_with_correct_command(self, advisor_with_three_hints)` |
-| `test_all_skip_commands_are_skipped` | method | `tests/test_reactive_hints.py:149` | `def test_all_skip_commands_are_skipped(self, advisor_with_three_hints)` |
-| `test_disabled_flag_skips_render` | method | `tests/test_reactive_hints.py:112` | `def test_disabled_flag_skips_render(self, advisor_with_three_hints)` |
-| `test_empty_command_skips_render` | method | `tests/test_reactive_hints.py:122` | `def test_empty_command_skips_render(self, advisor_with_three_hints)` |
-| `test_empty_string` | method | `tests/test_reactive_hints.py:64` | `def test_empty_string(self)` |
-| `test_empty_suggestions_skips_render` | method | `tests/test_reactive_hints.py:127` | `def test_empty_suggestions_skips_render(self, empty_advisor)` |
-| `test_exact_length_unchanged` | method | `tests/test_reactive_hints.py:75` | `def test_exact_length_unchanged(self)` |
-| `test_exception_in_advisor_does_not_propagate` | method | `tests/test_reactive_hints.py:142` | `def test_exception_in_advisor_does_not_propagate(self)` |
-| `test_extracts_first_word` | method | `tests/test_reactive_hints.py:58` | `def test_extracts_first_word(self)` |
-| `test_falls_back_to_id_when_no_label` | method | `tests/test_reactive_hints.py:93` | `def test_falls_back_to_id_when_no_label(self)` |
-| `test_limit_is_passed_to_advisor` | method | `tests/test_reactive_hints.py:155` | `def test_limit_is_passed_to_advisor(self, advisor_with_three_hints)` |
-| `test_long_string_truncated` | method | `tests/test_reactive_hints.py:78` | `def test_long_string_truncated(self)` |
-| `test_normal_command_renders_hint` | method | `tests/test_reactive_hints.py:132` | `def test_normal_command_renders_hint(self, advisor_with_three_hints)` |
-| `test_picks_label_over_id` | method | `tests/test_reactive_hints.py:89` | `def test_picks_label_over_id(self)` |
-| `test_respects_limit` | method | `tests/test_reactive_hints.py:101` | `def test_respects_limit(self)` |
-| `test_short_string_unchanged` | method | `tests/test_reactive_hints.py:72` | `def test_short_string_unchanged(self)` |
-| `test_single_word` | method | `tests/test_reactive_hints.py:61` | `def test_single_word(self)` |
-| `test_skip_command_skips_render` | method | `tests/test_reactive_hints.py:117` | `def test_skip_command_skips_render(self, advisor_with_three_hints)` |
-| `test_skips_empty_entries` | method | `tests/test_reactive_hints.py:97` | `def test_skips_empty_entries(self)` |
-| `test_truncates_long_labels` | method | `tests/test_reactive_hints.py:105` | `def test_truncates_long_labels(self)` |
-| `test_truncation_preserves_start` | method | `tests/test_reactive_hints.py:83` | `def test_truncation_preserves_start(self)` |
-| `test_whitespace_only` | method | `tests/test_reactive_hints.py:67` | `def test_whitespace_only(self)` |
-| `TestKillChainNextExpanded` | class | `tests/test_reactive_hints_expanded.py:13` | `class TestKillChainNextExpanded` |
-| `TestPhasePriorityExpanded` | class | `tests/test_reactive_hints_expanded.py:71` | `class TestPhasePriorityExpanded` |
-| `TestProtipTriggers` | class | `tests/test_reactive_hints_expanded.py:161` | `class TestProtipTriggers` |
-| `TestProtipsExpanded` | class | `tests/test_reactive_hints_expanded.py:107` | `class TestProtipsExpanded` |
-| `test_after_trigger` | method | `tests/test_reactive_hints_expanded.py:175` | `def test_after_trigger(self)` |
-| `test_auto_pwn_has_followups` | method | `tests/test_reactive_hints_expanded.py:21` | `def test_auto_pwn_has_followups(self)` |
-| `test_auto_pwn_in_lazynmap_followups` | method | `tests/test_reactive_hints_expanded.py:14` | `def test_auto_pwn_in_lazynmap_followups(self)` |
-| `test_campaign_has_followups` | method | `tests/test_reactive_hints_expanded.py:58` | `def test_campaign_has_followups(self)` |
-| `test_chain_has_followups` | method | `tests/test_reactive_hints_expanded.py:28` | `def test_chain_has_followups(self)` |
-| `test_collab_has_followups` | method | `tests/test_reactive_hints_expanded.py:64` | `def test_collab_has_followups(self)` |
-| `test_enum_includes_nuclei` | method | `tests/test_reactive_hints_expanded.py:80` | `def test_enum_includes_nuclei(self)` |
-| `test_exploit_includes_automation` | method | `tests/test_reactive_hints_expanded.py:72` | `def test_exploit_includes_automation(self)` |
-| `test_hunt_has_followups` | method | `tests/test_reactive_hints_expanded.py:34` | `def test_hunt_has_followups(self)` |
-| `test_lateral_includes_collab` | method | `tests/test_reactive_hints_expanded.py:93` | `def test_lateral_includes_collab(self)` |
-| `test_lazynmap_suggests_nuclei` | method | `tests/test_reactive_hints_expanded.py:52` | `def test_lazynmap_suggests_nuclei(self)` |
-| `test_nuclei_has_followups` | method | `tests/test_reactive_hints_expanded.py:40` | `def test_nuclei_has_followups(self)` |
-| `test_os_linux_detection` | method | `tests/test_reactive_hints_expanded.py:162` | `def test_os_linux_detection(self)` |
-| `test_os_windows_detection` | method | `tests/test_reactive_hints_expanded.py:169` | `def test_os_windows_detection(self)` |
-| `test_persist_phase_exists` | method | `tests/test_reactive_hints_expanded.py:99` | `def test_persist_phase_exists(self)` |
-| `test_phase_in_trigger` | method | `tests/test_reactive_hints_expanded.py:181` | `def test_phase_in_trigger(self)` |
-| `test_postexp_includes_security` | method | `tests/test_reactive_hints_expanded.py:86` | `def test_postexp_includes_security(self)` |
-| `test_session_tips_expanded` | method | `tests/test_reactive_hints_expanded.py:149` | `def test_session_tips_expanded(self)` |
-| `test_tips_include_automation` | method | `tests/test_reactive_hints_expanded.py:108` | `def test_tips_include_automation(self)` |
-| `test_tips_include_collab` | method | `tests/test_reactive_hints_expanded.py:130` | `def test_tips_include_collab(self)` |
-| `test_tips_include_discovery` | method | `tests/test_reactive_hints_expanded.py:141` | `def test_tips_include_discovery(self)` |
-| `test_tips_include_security` | method | `tests/test_reactive_hints_expanded.py:120` | `def test_tips_include_security(self)` |
-| `test_yara_scan_has_followups` | method | `tests/test_reactive_hints_expanded.py:46` | `def test_yara_scan_has_followups(self)` |
-| `TestDataOfInterestMatcher` | class | `tests/test_reactive_lateral_data.py:61` | `class TestDataOfInterestMatcher` |
-| `TestLateralOpportunityMatcher` | class | `tests/test_reactive_lateral_data.py:12` | `class TestLateralOpportunityMatcher` |
-| `TestReactiveEngineIntegration` | class | `tests/test_reactive_lateral_data.py:119` | `class TestReactiveEngineIntegration` |
-| `_make_engine` | method | `tests/test_reactive_lateral_data.py:120` | `def _make_engine(self, matchers)` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

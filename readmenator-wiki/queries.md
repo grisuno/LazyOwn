@@ -4,7 +4,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (124 connections)
+### Q: What does logging.py depend on, and what depends on it? (126 connections)
 
 - Status: unanswered
 
@@ -12,11 +12,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does _base.py depend on, and what depends on it? (91 connections)
+### Q: What does lazyown_mcp.py depend on, and what depends on it? (85 connections)
 
 - Status: unanswered
 
-### Q: How are the 125 files in 'cli/commands: utils' related to each other?
+### Q: How are the 127 files in 'cli/commands: utils' related to each other?
 
 - Status: unanswered
 

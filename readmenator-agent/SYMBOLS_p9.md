@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
+| `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
+| `load_tasks` | function | `lazyc2/extensions/storage.py:31` | `def load_tasks()` |
+| `save_cves` | function | `lazyc2/extensions/storage.py:73` | `def save_cves(cves)` |
+| `save_note` | function | `lazyc2/extensions/storage.py:107` | `def save_note(content)` |
+| `save_routes` | function | `lazyc2/extensions/storage.py:194` | `def save_routes(routes)` |
+| `save_tasks` | function | `lazyc2/extensions/storage.py:45` | `def save_tasks(tasks)` |
+| `configure` | function | `lazyc2/extensions/users.py:16` | `def configure(users_path)` |
+| `load_users` | function | `lazyc2/extensions/users.py:26` | `def load_users()` |
+| `save_users` | function | `lazyc2/extensions/users.py:48` | `def save_users(users)` |
+| `User` | class | `lazyc2/models.py:16` | `class User(UserMixin)` |
+| `__init__` | method | `lazyc2/models.py:17` | `def __init__(self, user_data)` |
+| `CommandAllowlist` | class | `lazyc2/security/command_allowlist.py:70` | `class CommandAllowlist` |
+| `CommandDecision` | class | `lazyc2/security/command_allowlist.py:48` | `class CommandDecision` |
+| `CommandRejectionReason` | class | `lazyc2/security/command_allowlist.py:36` | `class CommandRejectionReason(StrEnum)` |
+| `__init__` | method | `lazyc2/security/command_allowlist.py:82` | `def __init__(self, allowed, audit_log_path)` |
+| `_audit` | method | `lazyc2/security/command_allowlist.py:126` | `def _audit(self, decision, command)` |
+| `allowed` | method | `lazyc2/security/command_allowlist.py:94` | `def allowed(self)` |
+| `check` | method | `lazyc2/security/command_allowlist.py:98` | `def check(self, command)` |
+| `to_dict` | method | `lazyc2/security/command_allowlist.py:61` | `def to_dict(self)` |
+| `CorsConfigError` | class | `lazyc2/security/cors.py:46` | `class CorsConfigError(ValueError)` |
+| `CorsPolicy` | class | `lazyc2/security/cors.py:50` | `class CorsPolicy` |
+| `__init__` | method | `lazyc2/security/cors.py:70` | `def __init__(self, env, lhost, allowed_origins, c2_port, extra_socketio_ports)` |
+| `_clean` | method | `lazyc2/security/cors.py:175` | `def _clean(candidates)` |
 | `_collect_candidates` | method | `lazyc2/security/cors.py:166` | `def _collect_candidates(self)` |
 | `_dev_fallback` | method | `lazyc2/security/cors.py:193` | `def _dev_fallback(self)` |
 | `_dev_fallback_origins` | method | `lazyc2/security/cors.py:185` | `def _dev_fallback_origins(self)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `build_image` | function | `lazyown-docker/mkdocker.sh:93` | `` |
 | `check_docker` | function | `lazyown-docker/mkdocker.sh:41` | `` |
 | `check_file` | function | `lazyown-docker/mkdocker.sh:49` | `` |
-| `clean_container_and_image` | function | `lazyown-docker/mkdocker.sh:197` | `` |
-| `container_exists` | function | `lazyown-docker/mkdocker.sh:58` | `` |
-| `get_ports` | function | `lazyown-docker/mkdocker.sh:68` | `` |
-| `image_exists` | function | `lazyown-docker/mkdocker.sh:63` | `` |
-| `log` | function | `lazyown-docker/mkdocker.sh:36` | `` |
-| `run_container` | function | `lazyown-docker/mkdocker.sh:117` | `` |
-| `stop_container` | function | `lazyown-docker/mkdocker.sh:187` | `` |
-| `usage` | function | `lazyown-docker/mkdocker.sh:23` | `` |
-| `validate_payload` | function | `lazyown-docker/mkdocker.sh:109` | `` |
-| `LazyOwnShell` | class | `lazyown.py:298` | `class LazyOwnShell(Cmd)` |
-| `_PayloadSettableProxy` | class | `lazyown.py:233` | `class _PayloadSettableProxy` |
-| `__getattr__` | method | `lazyown.py:249` | `def __getattr__(self, name)` |
-| `__init__` | method | `lazyown.py:245` | `def __init__(self, params)` |
-| `__init__` | method | `lazyown.py:373` | `def __init__(self)` |
-| `__setattr__` | method | `lazyown.py:255` | `def __setattr__(self, name, value)` |
-| `_build_chain_prompt_engine` | method | `lazyown.py:1029` | `def _build_chain_prompt_engine(self)` |
-| `_build_command_stack` | method | `lazyown.py:4854` | `def _build_command_stack(self, adversary, r)` |
-| `_build_scope_offensive` | method | `lazyown.py:1670` | `def _build_scope_offensive(self)` |
-| `_chain_boot_prompt` | method | `lazyown.py:1014` | `def _chain_boot_prompt(self)` |
-| `_chain_part_exists` | method | `lazyown.py:1642` | `def _chain_part_exists(self, part)` |
-| `_chain_perror` | function | `lazyown.py:1597` | `def _chain_perror()` |
-| `_chain_resolver` | method | `lazyown.py:1054` | `def _chain_resolver(self, cmd, phase)` |
-| `_create_strict_yaml_prompt` | method | `lazyown.py:4662` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
-| `_did_you_mean` | method | `lazyown.py:1239` | `def _did_you_mean(self, query, limit)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

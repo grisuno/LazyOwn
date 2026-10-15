@@ -3,6 +3,45 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `DomainEntry` | class | `modules/world_model.py:214` | `class DomainEntry` |
+| `EmailEntry` | class | `modules/world_model.py:206` | `class EmailEntry` |
+| `EngagementPhase` | class | `modules/world_model.py:167` | `class EngagementPhase(StrEnum)` |
+| `HostEntry` | class | `modules/world_model.py:364` | `class HostEntry` |
+| `HostState` | class | `modules/world_model.py:151` | `class HostState(StrEnum)` |
+| `NetworkGraph` | class | `modules/world_model.py:244` | `class NetworkGraph` |
+| `NetworkRelation` | class | `modules/world_model.py:222` | `class NetworkRelation` |
+| `ServiceInfo` | class | `modules/world_model.py:179` | `class ServiceInfo` |
+| `VulnerabilityEntry` | class | `modules/world_model.py:197` | `class VulnerabilityEntry` |
+| `WorldModel` | class | `modules/world_model.py:541` | `class WorldModel` |
+| `_PhaseDeriver` | class | `modules/world_model.py:416` | `class _PhaseDeriver` |
+| `__init__` | method | `modules/world_model.py:267` | `def __init__(self)` |
+| `__init__` | method | `modules/world_model.py:549` | `def __init__(self, path)` |
+| `_derive_crypto_key` | function | `modules/world_model.py:58` | `def _derive_crypto_key(password, salt)` |
+| `_load` | method | `modules/world_model.py:1048` | `def _load(self)` |
+| `_master_password` | function | `modules/world_model.py:67` | `def _master_password()` |
+| `_save` | method | `modules/world_model.py:1029` | `def _save(self)` |
+| `add_credential` | method | `modules/world_model.py:653` | `def add_credential(self, value, host, service)` |
+| `add_domain` | method | `modules/world_model.py:748` | `def add_domain(self, domain, host, context)` |
+| `add_email` | method | `modules/world_model.py:742` | `def add_email(self, address, host, context)` |
+| `add_host` | method | `modules/world_model.py:565` | `def add_host(self, ip)` |
+| `add_note` | method | `modules/world_model.py:609` | `def add_note(self, ip, note)` |
+| `add_relation` | method | `modules/world_model.py:274` | `def add_relation(self, relation)` |
+| `add_relation` | method | `modules/world_model.py:927` | `def add_relation(self, source, target, relation, weight)` |
+| `add_service` | method | `modules/world_model.py:373` | `def add_service(self, svc)` |
+| `add_service` | method | `modules/world_model.py:592` | `def add_service(self, ip, port, name, version, protocol)` |
+| `add_vulnerability` | method | `modules/world_model.py:736` | `def add_vulnerability(self, description, host, cve, severity)` |
+| `advance` | method | `modules/world_model.py:377` | `def advance(self, new_state)` |
+| `advance_host` | method | `modules/world_model.py:583` | `def advance_host(self, ip, new_state)` |
+| `can_advance_to` | method | `modules/world_model.py:163` | `def can_advance_to(self, next_state)` |
+| `consume_policy_facts` | method | `modules/world_model.py:835` | `def consume_policy_facts(self, facts_path)` |
+| `degree_centrality` | method | `modules/world_model.py:294` | `def degree_centrality(self)` |
+| `derive` | method | `modules/world_model.py:430` | `def derive(self, hosts)` |
+| `from_dict` | method | `modules/world_model.py:348` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/world_model.py:397` | `def from_dict(cls, d)` |
+| `get_host` | method | `modules/world_model.py:630` | `def get_host(self, ip)` |
+| `get_hosts_summary` | method | `modules/world_model.py:642` | `def get_hosts_summary(self)` |
+| `get_phase` | method | `modules/world_model.py:963` | `def get_phase(self)` |
+| `get_suggested_tools` | method | `modules/world_model.py:967` | `def get_suggested_tools(self)` |
 | `get_world_model` | function | `modules/world_model.py:1126` | `def get_world_model(path)` |
 | `graph_snapshot` | method | `modules/world_model.py:956` | `def graph_snapshot(self)` |
 | `in_degree` | method | `modules/world_model.py:286` | `def in_degree(self, node)` |
@@ -457,44 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_get_campaign_blacklist` | function | `skills/autonomous_daemon.py:1595` | `def _get_campaign_blacklist()` |
 | `_get_phase_command_catalog` | function | `skills/autonomous_daemon.py:799` | `def _get_phase_command_catalog(phase)` |
 | `_inject_to_tasks_json` | function | `skills/autonomous_daemon.py:206` | `def _inject_to_tasks_json(title, description, operator, status)` |
-| `_is_running` | function | `skills/autonomous_daemon.py:4606` | `def _is_running()` |
-| `_ledger_path` | function | `skills/autonomous_daemon.py:3013` | `def _ledger_path()` |
-| `_ledger_write` | function | `skills/autonomous_daemon.py:3023` | `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)` |
-| `_llm_candidate` | method | `skills/autonomous_daemon.py:831` | `def _llm_candidate(self, target, phase, context)` |
-| `_load_campaign_blacklist` | function | `skills/autonomous_daemon.py:1565` | `def _load_campaign_blacklist()` |
-| `_load_payload` | function | `skills/autonomous_daemon.py:1536` | `def _load_payload()` |
-| `_main_async` | function | `skills/autonomous_daemon.py:4538` | `def _main_async(max_steps)` |
-| `_maybe_generate_report` | function | `skills/autonomous_daemon.py:3895` | `def _maybe_generate_report()` |
-| `_notify_finding` | function | `skills/autonomous_daemon.py:287` | `def _notify_finding(title, body, severity)` |
-| `_objective_proven` | function | `skills/autonomous_daemon.py:312` | `def _objective_proven(objective_text, world_model, target, credential_found)` |
-| `_parquet_candidate` | method | `skills/autonomous_daemon.py:726` | `def _parquet_candidate(self, category, target)` |
-| `_planner_fallback_verb` | method | `skills/autonomous_daemon.py:3598` | `def _planner_fallback_verb(self, tried)` |
-| `_read_pid` | function | `skills/autonomous_daemon.py:4599` | `def _read_pid()` |
-| `_read_recent_csv_commands` | function | `skills/autonomous_daemon.py:1544` | `def _read_recent_csv_commands(limit)` |
-| `_record_intent` | function | `skills/autonomous_daemon.py:272` | `def _record_intent(objective_id, step_n, command, state, reason)` |
-| `_resolve_source` | method | `skills/autonomous_daemon.py:1081` | `def _resolve_source(self)` |
-| `_run` | function | `skills/autonomous_daemon.py:4737` | `def _run()` |
-| `_run_lazyown` | function | `skills/autonomous_daemon.py:581` | `def _run_lazyown(command, timeout)` |
-| `_run_objective` | function | `skills/autonomous_daemon.py:1725` | `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...` |
-| `_run_planner_intents` | method | `skills/autonomous_daemon.py:3479` | `def _run_planner_intents(self, results, fp_before, max_intents, planner)` |
-| `_run_step` | method | `skills/autonomous_daemon.py:3622` | `def _run_step(self, step)` |
-| `_run_sync` | method | `skills/autonomous_daemon.py:1484` | `def _run_sync(self, objective_id, objective_text, target)` |
-| `_settle_state` | function | `skills/autonomous_daemon.py:3037` | `def _settle_state(result)` |
-| `_should_skip` | method | `skills/autonomous_daemon.py:1138` | `def _should_skip(self, command)` |
-| `_step_succeeded` | method | `skills/autonomous_daemon.py:3863` | `def _step_succeeded(command, output)` |
-| `_strip_between_markers` | function | `skills/autonomous_daemon.py:403` | `def _strip_between_markers(output, marker)` |
-| `_swan_candidate` | method | `skills/autonomous_daemon.py:953` | `def _swan_candidate(self, target, phase, context)` |
-| `_tactic_phase` | function | `skills/autonomous_daemon.py:3008` | `def _tactic_phase(tactic)` |
-| `_target_services` | function | `skills/autonomous_daemon.py:2989` | `def _target_services(target)` |
-| `_try_import` | function | `skills/autonomous_daemon.py:126` | `def _try_import(module, attr)` |
-| `_update_task_status` | function | `skills/autonomous_daemon.py:185` | `def _update_task_status(title, new_status)` |
-| `_with_markers` | function | `skills/autonomous_daemon.py:394` | `def _with_markers(command, marker)` |
-| `_worker` | function | `skills/autonomous_daemon.py:4018` | `def _worker()` |
-| `_world_fingerprint` | function | `skills/autonomous_daemon.py:2967` | `def _world_fingerprint()` |
-| `_wrap_chain_with_metrics_bias` | function | `skills/autonomous_daemon.py:1202` | `def _wrap_chain_with_metrics_bias(selectors, enabled)` |
-| `_write_pid` | function | `skills/autonomous_daemon.py:4589` | `def _write_pid()` |
-| `_write_status` | function | `skills/autonomous_daemon.py:4151` | `def _write_status()` |
-| `cmd_engage` | function | `skills/autonomous_daemon.py:4123` | `def cmd_engage(target, max_switches_per_step, detach)` |
-| `cmd_inject` | function | `skills/autonomous_daemon.py:4689` | `def cmd_inject(text, priority)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

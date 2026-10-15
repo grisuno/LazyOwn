@@ -3438,10 +3438,7 @@ Usage: lazy_context [–task T] [–budget N]</p>
 <h3 id="lazy_evidence"><code>lazy_evidence</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
-Evidence vault: add <finding> <kind>
-<body>
-<p>|list <finding>|verify|gc|export <path>. Usage: lazy_evidence …
-[–task T]</p>
+<p>Evidence vault and frozen package.</p>
 <h3 id="lazy_fact"><code>lazy_fact</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3506,17 +3503,17 @@ Inject high-priority intent. Usage: lazy_intent
 <h3 id="lazy_llm"><code>lazy_llm</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
-<p>LLM chain: list|add <name> [model] [–priority N]|remove
-<name>|usage|health|context [N]|record [on|off]|raw [–limit N]|bind
-&lt;member…&gt; –task T|chain –task T|failover –task T. Usage: lazy_llm
-…</p>
+<p>LLM chain: list|add <name> [model] [–priority N]|priority <name>
+<N>|remove <name>|usage|health|context [N]|record [on|off]|raw [–limit
+N]|conformance [–role R]|bind &lt;member…&gt; –task T|chain –task
+T|failover –task T. Usage: lazy_llm …</p>
 <h3 id="lazy_loop"><code>lazy_loop</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
 <p>Run the single orchestrator: auto-invokes
 scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
 Usage: lazy_loop [–task T] [–rounds N] [–workers N] [–timeout S]
-[–view|–plain] [<goal>]</p>
+[–sandbox [image]] [–view|–plain] [<goal>]</p>
 <h3 id="lazy_node"><code>lazy_node</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3584,7 +3581,7 @@ lazy_selfupdate …</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
 <p>Skills: list|show <name>|preview|inject &lt;name…&gt;|clear|auto
-on|off. Usage: lazy_skill … [–task T]</p>
+on|off|mirror [name]|register-hermes. Usage: lazy_skill … [–task T]</p>
 <h3 id="lazy_status"><code>lazy_status</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>

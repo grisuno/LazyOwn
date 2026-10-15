@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `clean_container_and_image` | function | `lazyown-docker/mkdocker.sh:197` | `` |
+| `container_exists` | function | `lazyown-docker/mkdocker.sh:58` | `` |
+| `get_ports` | function | `lazyown-docker/mkdocker.sh:68` | `` |
+| `image_exists` | function | `lazyown-docker/mkdocker.sh:63` | `` |
+| `log` | function | `lazyown-docker/mkdocker.sh:36` | `` |
+| `run_container` | function | `lazyown-docker/mkdocker.sh:117` | `` |
+| `stop_container` | function | `lazyown-docker/mkdocker.sh:187` | `` |
+| `usage` | function | `lazyown-docker/mkdocker.sh:23` | `` |
+| `validate_payload` | function | `lazyown-docker/mkdocker.sh:109` | `` |
+| `LazyOwnShell` | class | `lazyown.py:298` | `class LazyOwnShell(Cmd)` |
+| `_PayloadSettableProxy` | class | `lazyown.py:233` | `class _PayloadSettableProxy` |
+| `__getattr__` | method | `lazyown.py:249` | `def __getattr__(self, name)` |
+| `__init__` | method | `lazyown.py:245` | `def __init__(self, params)` |
+| `__init__` | method | `lazyown.py:373` | `def __init__(self)` |
+| `__setattr__` | method | `lazyown.py:255` | `def __setattr__(self, name, value)` |
+| `_build_chain_prompt_engine` | method | `lazyown.py:1029` | `def _build_chain_prompt_engine(self)` |
+| `_build_command_stack` | method | `lazyown.py:4854` | `def _build_command_stack(self, adversary, r)` |
+| `_build_scope_offensive` | method | `lazyown.py:1670` | `def _build_scope_offensive(self)` |
+| `_chain_boot_prompt` | method | `lazyown.py:1014` | `def _chain_boot_prompt(self)` |
+| `_chain_part_exists` | method | `lazyown.py:1642` | `def _chain_part_exists(self, part)` |
+| `_chain_perror` | function | `lazyown.py:1597` | `def _chain_perror()` |
+| `_chain_resolver` | method | `lazyown.py:1054` | `def _chain_resolver(self, cmd, phase)` |
+| `_create_strict_yaml_prompt` | method | `lazyown.py:4662` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
+| `_did_you_mean` | method | `lazyown.py:1239` | `def _did_you_mean(self, query, limit)` |
 | `_display_adversary_info` | method | `lazyown.py:4868` | `def _display_adversary_info(self, adversary, commands)` |
 | `_execute_commands` | method | `lazyown.py:4875` | `def _execute_commands(self, confirm, remote_cmds)` |
 | `_handler` | function | `lazyown.py:1135` | `def _handler(received, frame, _signum)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `ec2_ssm_session_abuse` | method | `modules/aws_attacks.py:274` | `def ec2_ssm_session_abuse(self)` |
 | `ec2_user_data_exfil` | method | `modules/aws_attacks.py:181` | `def ec2_user_data_exfil(self)` |
 | `enumerate_iam_permissions` | method | `modules/aws_attacks.py:95` | `def enumerate_iam_permissions(self)` |
-| `lambda_backdoor` | method | `modules/aws_attacks.py:127` | `def lambda_backdoor(self, function_name)` |
-| `s3_enumeration` | method | `modules/aws_attacks.py:206` | `def s3_enumeration(self)` |
-| `sts_role_chain` | method | `modules/aws_attacks.py:155` | `def sts_role_chain(self, target_role_arn)` |
-| `summary` | method | `modules/aws_attacks.py:293` | `def summary(self)` |
-| `Shell` | function | `modules/backdoor/backdoor.c:84` | `void Shell()` |
-| `WinMain` | function | `modules/backdoor/backdoor.c:125` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
-| `bootRun` | function | `modules/backdoor/backdoor.c:18` | `int bootRun()` |
-| `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
-| `str_cut` | function | `modules/backdoor/backdoor.c:49` | `char * str_cut(char str[], int slice_from, int slice_to)` |
-| `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
-| `main` | function | `modules/backdoor/server.c:10` | `int main()` |
-| `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
-| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:237` | `class BeaconConfigBuilder` |
-| `__init__` | method | `modules/beacon_config_builder.py:245` | `def __init__(self, payload)` |
-| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:318` | `def _inject_profile_engine(self, config)` |
-| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:366` | `def _inject_sleep_engine(self, config)` |
-| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:385` | `def _inject_socks_engine(self, config)` |
-| `build` | method | `modules/beacon_config_builder.py:248` | `def build(self, name)` |
-| `from_payload` | method | `modules/beacon_config_builder.py:403` | `def from_payload(cls, payload)` |
-| `from_payload_file` | method | `modules/beacon_config_builder.py:408` | `def from_payload_file(cls, path)` |
-| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:416` | `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` |
-| `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
-| `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
-| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

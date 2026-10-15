@@ -4,31 +4,31 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 249.20, imported by 124 files)
+- `core/logging.py` (score: 253.20, imported by 126 files)
 - `utils.py` (score: 212.40, imported by 88 files)
+- `skills/lazyown_mcp.py` (score: 184.20, imported by 8 files)
 - `cli/commands/_base.py` (score: 182.70, imported by 89 files)
-- `skills/lazyown_mcp.py` (score: 182.20, imported by 8 files)
-- `modules/lazy_loop.py` (score: 171.60, imported by 42 files)
-- `lazyc2.py` (score: 122.40)
+- `modules/lazy_loop.py` (score: 175.60, imported by 44 files)
+- `lazyc2.py` (score: 124.60)
 - `lazyown.py` (score: 116.90, imported by 8 files)
 - `core/console.py` (score: 101.10, imported by 50 files)
+- `core/config.py` (score: 99.70, imported by 47 files)
 - `skills/autonomous_daemon.py` (score: 98.80, imported by 15 files)
-- `core/config.py` (score: 97.70, imported by 46 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `core/logging.py` -- 50 direct, 124 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 103 total dependents
+- `modules/cli_auth.py` -- 10 direct, 127 total dependents
+- `core/logging.py` -- 50 direct, 126 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 124 total dependents
+- `core/validators.py` -- 12 direct, 118 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 106 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 104 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 102 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 100 total dependents
 - `cli/banner_config.py` -- 6 direct, 99 total dependents
 - `core/parsers.py` -- 9 direct, 99 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 99 total dependents
-- `core/validators.py` -- 12 direct, 98 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 94 total dependents
-- `core/dependencies.py` -- 3 direct, 93 total dependents
-- `modules/lazyencoder_decoder.py` -- 5 direct, 93 total dependents
 
 ## Hotspots (complexity + centrality)
 

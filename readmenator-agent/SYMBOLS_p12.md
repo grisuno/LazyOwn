@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
+| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
+| `close` | method | `modules/db.py:804` | `def close(self)` |
+| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
+| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
+| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
+| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
+| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
+| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
+| `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
+| `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
+| `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
+| `host_list` | method | `modules/db.py:401` | `def host_list(self, workspace_id)` |
+| `import_nmap_xml` | method | `modules/db.py:664` | `def import_nmap_xml(self, workspace_id, xml_path)` |
+| `loot_add` | method | `modules/db.py:596` | `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` |
+| `loot_list` | method | `modules/db.py:615` | `def loot_list(self, workspace_id)` |
+| `migration_status` | method | `modules/db.py:222` | `def migration_status(self)` |
+| `note_add` | method | `modules/db.py:631` | `def note_add(self, workspace_id, data, note_type, host_id)` |
+| `note_list` | method | `modules/db.py:648` | `def note_list(self, workspace_id)` |
+| `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
+| `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
+| `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
+| `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
+| `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
 | `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
 | `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
 | `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
@@ -91,9 +115,11 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
 | `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
 | `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
-| `_save_credential` | method | `modules/domain_dominance.py:849` | `def _save_credential(self, username, secret, secret_type, source)` |
-| `_save_dominance_report` | method | `modules/domain_dominance.py:900` | `def _save_dominance_report(self)` |
-| `_save_session` | method | `modules/domain_dominance.py:880` | `def _save_session(self, session_id, target, method, user)` |
+| `_save_credential` | method | `modules/domain_dominance.py:890` | `def _save_credential(self, username, secret, secret_type, source)` |
+| `_save_dominance_report` | method | `modules/domain_dominance.py:944` | `def _save_dominance_report(self)` |
+| `_save_session` | method | `modules/domain_dominance.py:924` | `def _save_session(self, session_id, target, method, user)` |
+| `_seal_loot_secret` | method | `modules/domain_dominance.py:850` | `def _seal_loot_secret(secret)` |
+| `_unseal_loot_secret` | method | `modules/domain_dominance.py:871` | `def _unseal_loot_secret(stored)` |
 | `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
 | `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
 | `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
@@ -470,31 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_parse_nmap_text` | method | `modules/exploit_chain.py:404` | `def _parse_nmap_text(self, output)` |
 | `_parse_single_xml` | method | `modules/exploit_chain.py:367` | `def _parse_single_xml(self, xml_path)` |
 | `fingerprint_services` | method | `modules/exploit_chain.py:311` | `def fingerprint_services(self, nmap_output)` |
-| `generate_exploit_plan` | method | `modules/exploit_chain.py:499` | `def generate_exploit_plan(self)` |
-| `generate_report` | method | `modules/exploit_chain.py:531` | `def generate_report(self)` |
-| `get_post_exploit_commands` | method | `modules/exploit_chain.py:519` | `def get_post_exploit_commands(self, platform)` |
-| `map_vulnerabilities` | method | `modules/exploit_chain.py:446` | `def map_vulnerabilities(self)` |
-| `save_report` | method | `modules/exploit_chain.py:566` | `def save_report(self, path)` |
-| `ExploitMatch` | class | `modules/exploit_recommender.py:37` | `class ExploitMatch` |
-| `ExploitRecommender` | class | `modules/exploit_recommender.py:50` | `class ExploitRecommender` |
-| `__init__` | method | `modules/exploit_recommender.py:120` | `def __init__(self, world_model)` |
-| `_compare_versions` | method | `modules/exploit_recommender.py:165` | `def _compare_versions(version, max_vulnerable)` |
-| `_extract_cve_ids` | method | `modules/exploit_recommender.py:161` | `def _extract_cve_ids(text)` |
-| `_generate_lazyown_commands` | method | `modules/exploit_recommender.py:214` | `def _generate_lazyown_commands(self, cve_id, service, host_ip)` |
-| `_load_exploitdb` | method | `modules/exploit_recommender.py:135` | `def _load_exploitdb(self)` |
-| `_query_nvd` | method | `modules/exploit_recommender.py:175` | `def _query_nvd(self, cve_id)` |
-| `_try_nvd` | method | `modules/exploit_recommender.py:211` | `def _try_nvd(self, cve_id)` |
-| `format_for_llm` | method | `modules/exploit_recommender.py:390` | `def format_for_llm(self, matches, max_items)` |
-| `match_services` | method | `modules/exploit_recommender.py:244` | `def match_services(self, hosts)` |
-| `parse_version` | function | `modules/exploit_recommender.py:25` | `def parse_version(v)` |
-| `persist_recommendations` | method | `modules/exploit_recommender.py:370` | `def persist_recommendations(self, matches)` |
-| `recommend` | method | `modules/exploit_recommender.py:337` | `def recommend(self, hosts, top_n)` |
-| `set_nvd_api_key` | method | `modules/exploit_recommender.py:132` | `def set_nvd_api_key(self, key)` |
-| `set_world_model` | method | `modules/exploit_recommender.py:129` | `def set_world_model(self, world_model)` |
-| `_detect_domain` | function | `modules/exploitgym_gym.py:96` | `def _detect_domain(task_id)` |
-| `_ensure_clone` | function | `modules/exploitgym_gym.py:232` | `def _ensure_clone(root, timeout)` |
-| `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
-| `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
-| `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

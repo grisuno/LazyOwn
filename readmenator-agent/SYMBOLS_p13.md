@@ -3,6 +3,32 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate_exploit_plan` | method | `modules/exploit_chain.py:499` | `def generate_exploit_plan(self)` |
+| `generate_report` | method | `modules/exploit_chain.py:531` | `def generate_report(self)` |
+| `get_post_exploit_commands` | method | `modules/exploit_chain.py:519` | `def get_post_exploit_commands(self, platform)` |
+| `map_vulnerabilities` | method | `modules/exploit_chain.py:446` | `def map_vulnerabilities(self)` |
+| `save_report` | method | `modules/exploit_chain.py:566` | `def save_report(self, path)` |
+| `ExploitMatch` | class | `modules/exploit_recommender.py:37` | `class ExploitMatch` |
+| `ExploitRecommender` | class | `modules/exploit_recommender.py:50` | `class ExploitRecommender` |
+| `__init__` | method | `modules/exploit_recommender.py:120` | `def __init__(self, world_model)` |
+| `_compare_versions` | method | `modules/exploit_recommender.py:165` | `def _compare_versions(version, max_vulnerable)` |
+| `_extract_cve_ids` | method | `modules/exploit_recommender.py:161` | `def _extract_cve_ids(text)` |
+| `_generate_lazyown_commands` | method | `modules/exploit_recommender.py:214` | `def _generate_lazyown_commands(self, cve_id, service, host_ip)` |
+| `_load_exploitdb` | method | `modules/exploit_recommender.py:135` | `def _load_exploitdb(self)` |
+| `_query_nvd` | method | `modules/exploit_recommender.py:175` | `def _query_nvd(self, cve_id)` |
+| `_try_nvd` | method | `modules/exploit_recommender.py:211` | `def _try_nvd(self, cve_id)` |
+| `format_for_llm` | method | `modules/exploit_recommender.py:390` | `def format_for_llm(self, matches, max_items)` |
+| `match_services` | method | `modules/exploit_recommender.py:244` | `def match_services(self, hosts)` |
+| `parse_version` | function | `modules/exploit_recommender.py:25` | `def parse_version(v)` |
+| `persist_recommendations` | method | `modules/exploit_recommender.py:370` | `def persist_recommendations(self, matches)` |
+| `recommend` | method | `modules/exploit_recommender.py:337` | `def recommend(self, hosts, top_n)` |
+| `set_nvd_api_key` | method | `modules/exploit_recommender.py:132` | `def set_nvd_api_key(self, key)` |
+| `set_world_model` | method | `modules/exploit_recommender.py:129` | `def set_world_model(self, world_model)` |
+| `_detect_domain` | function | `modules/exploitgym_gym.py:96` | `def _detect_domain(task_id)` |
+| `_ensure_clone` | function | `modules/exploitgym_gym.py:232` | `def _ensure_clone(root, timeout)` |
+| `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
+| `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
+| `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
 | `_load_records` | function | `modules/exploitgym_gym.py:500` | `def _load_records()` |
 | `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
 | `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
@@ -470,31 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
 | `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
 | `_build_diamond_pac` | method | `modules/kerberos_tickets.py:446` | `def _build_diamond_pac(self, config)` |
-| `_build_enc_ticket_part` | method | `modules/kerberos_tickets.py:206` | `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)` |
-| `_build_golden_enc_part` | method | `modules/kerberos_tickets.py:346` | `def _build_golden_enc_part(self, config, start, end, flags, key)` |
-| `_build_golden_pac` | method | `modules/kerberos_tickets.py:339` | `def _build_golden_pac(self, config)` |
-| `_build_kirbi` | method | `modules/kerberos_tickets.py:235` | `def _build_kirbi(self, ticket, enc_part, etype)` |
-| `_build_silver_pac` | method | `modules/kerberos_tickets.py:200` | `def _build_silver_pac(self, config, start, end)` |
-| `_build_ticket_structure` | method | `modules/kerberos_tickets.py:225` | `def _build_ticket_structure(self, config, flags, enc_part)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:254` | `def _impacket_command(self, config)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:388` | `def _impacket_command(self, config)` |
-| `_mimikatz_command` | method | `modules/kerberos_tickets.py:379` | `def _mimikatz_command(self, config)` |
-| `_mimikatz_inject_command` | method | `modules/kerberos_tickets.py:244` | `def _mimikatz_inject_command(self, config)` |
-| `_resolve_key` | method | `modules/kerberos_tickets.py:190` | `def _resolve_key(self, config)` |
-| `_resolve_krbtgt_key` | method | `modules/kerberos_tickets.py:324` | `def _resolve_krbtgt_key(self, config)` |
-| `cleanup_command` | method | `modules/kerberos_tickets.py:612` | `def cleanup_command()` |
-| `detect_skeleton_key` | method | `modules/kerberos_tickets.py:578` | `def detect_skeleton_key(target_host, domain, dc_ip)` |
-| `forge` | method | `modules/kerberos_tickets.py:134` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:275` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:408` | `def forge(self, config)` |
-| `forge_rbcd` | method | `modules/kerberos_tickets.py:530` | `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` |
-| `forge_s4u2self` | method | `modules/kerberos_tickets.py:472` | `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` |
-| `inject_command` | method | `modules/kerberos_tickets.py:600` | `def inject_command(target_host)` |
-| `_build_svg` | function | `modules/kill_chain_viz.py:34` | `def _build_svg(phases)` |
-| `_load_phases` | function | `modules/kill_chain_viz.py:20` | `def _load_phases(sessions)` |
-| `_read_target` | function | `modules/kill_chain_viz.py:27` | `def _read_target()` |
-| `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
-| `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
-| `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

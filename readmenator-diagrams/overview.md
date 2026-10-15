@@ -24,7 +24,7 @@ graph LR
     scripts_migrate_lazyown["scripts: migrate_lazyown"]
     test["test"]
     tools["tools"]
-    cli_commands_utils -- "depends on" --> skills_claude_md_orchestrator
+    cli_commands_utils -- "calls into" --> skills_claude_md_orchestrator
     cli_commands_utils -- "depends on" --> modules_surface_graph
     cli_commands_utils -- "calls into" --> modules_polymorphic_engine
     cli_commands_utils -- "calls into" --> contrib_legacy
@@ -58,6 +58,7 @@ graph LR
     skills_claude_md_orchestrator -- "calls into" --> modules_lazy_loop
     skills_claude_md_orchestrator -- "calls into" --> lazygui_panels
     modules_surface_graph -- "calls into" --> cli_commands_utils
+    modules_surface_graph -- "calls into" --> skills_claude_md_orchestrator
     modules_surface_graph -- "calls into" --> modules_polymorphic_engine
     modules_surface_graph -- "calls into" --> modules_lazyc2
     modules_surface_graph -- "calls into" --> poc_tui
@@ -68,6 +69,7 @@ graph LR
     modules_surface_graph -- "calls into" --> modules_estorides_importer
     modules_surface_graph -- "calls into" --> static_js
     modules_kerberos_core -- "calls into" --> cli_commands_utils
+    modules_kerberos_core -- "calls into" --> skills_claude_md_orchestrator
     modules_kerberos_core -- "calls into" --> poc_tui
     modules_kerberos_core -- "calls into" --> lazygui_panels
     modules_saas_attacks -- "calls into" --> cli_commands_utils
@@ -103,8 +105,10 @@ graph LR
     modules_lazyc2 -- "calls into" --> modules_estorides_importer
     modules_lazyc2 -- "calls into" --> static_js
     modules_lazyc2 -- "calls into" --> cli_banner_config
+    poc_tui -- "calls into" --> skills_claude_md_orchestrator
     poc_tui -- "calls into" --> modules_polymorphic_engine
     poc_tui -- "calls into" --> modules_lazy_loop
+    scripts_check_contract_manifest -- "calls into" --> skills_claude_md_orchestrator
     scripts_check_contract_manifest -- "calls into" --> modules_polymorphic_engine
     scripts_check_contract_manifest -- "calls into" --> modules_lazy_loop
     scripts_check_contract_manifest -- "calls into" --> lazygui_panels
@@ -115,6 +119,7 @@ graph LR
     test -- "calls into" --> modules_lazy_loop
     modules_autonomous_daemon -- "calls into" --> cli_commands_utils
     modules_autonomous_daemon -- "depends on" --> cli_commands_c2_profile_engine
+    modules_autonomous_daemon -- "calls into" --> skills_claude_md_orchestrator
     modules_autonomous_daemon -- "calls into" --> modules_surface_graph
     modules_autonomous_daemon -- "calls into" --> modules_kerberos_core
     modules_autonomous_daemon -- "calls into" --> modules_polymorphic_engine
@@ -129,6 +134,7 @@ graph LR
     modules_autonomous_daemon -- "calls into" --> cli_banner_config
     cli_status_bar -- "calls into" --> cli_commands_utils
     cli_status_bar -- "depends on" --> cli_commands_c2_profile_engine
+    cli_status_bar -- "calls into" --> skills_claude_md_orchestrator
     cli_status_bar -- "calls into" --> modules_polymorphic_engine
     cli_status_bar -- "calls into" --> scripts_journal
     cli_status_bar -- "calls into" --> modules_lazyc2
@@ -152,6 +158,7 @@ graph LR
     modules_lazy_loop -- "calls into" --> modules_estorides_importer
     modules_lazy_loop -- "calls into" --> static_js
     lazygui_panels -- "depends on" --> cli_commands_c2_profile_engine
+    lazygui_panels -- "calls into" --> skills_claude_md_orchestrator
     lazygui_panels -- "calls into" --> modules_polymorphic_engine
     lazygui_panels -- "calls into" --> scripts_journal
     lazygui_panels -- "calls into" --> modules_lazyc2
@@ -164,6 +171,7 @@ graph LR
     lazygui_panels -- "depends on" --> cli_banner_config
     modules_estorides_importer -- "calls into" --> cli_commands_utils
     modules_estorides_importer -- "depends on" --> cli_commands_c2_profile_engine
+    modules_estorides_importer -- "calls into" --> skills_claude_md_orchestrator
     modules_estorides_importer -- "calls into" --> modules_polymorphic_engine
     modules_estorides_importer -- "calls into" --> scripts_journal
     modules_estorides_importer -- "depends on" --> modules_lazyc2
@@ -176,6 +184,7 @@ graph LR
     modules_estorides_importer -- "depends on" --> cli_banner_config
     static_js -- "calls into" --> cli_commands_utils
     static_js -- "calls into" --> cli_commands_c2_profile_engine
+    static_js -- "calls into" --> skills_claude_md_orchestrator
     static_js -- "calls into" --> modules_polymorphic_engine
     static_js -- "calls into" --> modules_lazyc2
     static_js -- "calls into" --> poc_tui
@@ -186,6 +195,7 @@ graph LR
     static_js -- "calls into" --> cli_banner_config
     cli_banner_config -- "calls into" --> cli_commands_utils
     cli_banner_config -- "depends on" --> cli_commands_c2_profile_engine
+    cli_banner_config -- "calls into" --> skills_claude_md_orchestrator
     cli_banner_config -- "calls into" --> modules_polymorphic_engine
     cli_banner_config -- "calls into" --> modules_lazyc2
     cli_banner_config -- "calls into" --> poc_tui
@@ -214,11 +224,11 @@ graph LR
 
 ## Details
 
-Static architecture map of 1015 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 24 components: cli/commands: utils, modules: lazyc2, modules: autonomous_daemon, cli: status_bar, modules: lazy_loop, lazygui/panels, modules: estorides_importer, static/js. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 1019 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 24 components: cli/commands: utils, modules: lazyc2, modules: autonomous_daemon, cli: status_bar, modules: lazy_loop, lazygui/panels, modules: estorides_importer, static/js. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### cli/commands: utils (1)
 
-cli/commands: utils groups 125 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands: utils groups 127 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 **Related Classes/Methods**:
 
@@ -278,7 +288,7 @@ cli: status_bar groups 97 files (py) around _sanitize, colors_enabled, _paint, f
 
 ### modules: lazy_loop (5)
 
-modules: lazy_loop groups 69 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _collect_validation_warnings. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 70 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _collect_validation_warnings. exploit commands migrated from lazyown.py.
 
 **Related Classes/Methods**:
 

@@ -32,16 +32,16 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_report_export_md_csv_and_terminal_trigger` (function, line 289) `def test_report_export_md_csv_and_terminal_trigger(tmp_path, monkeypatch)`
   - `test_trigger_task_create_fires_once` (function, line 313) `def test_trigger_task_create_fires_once(tmp_path, monkeypatch)`
   - `test_notifier_channels_slack_email_file` (function, line 333) `def test_notifier_channels_slack_email_file(tmp_path, monkeypatch)`
-  - `test_task_status_notification_on_terminal` (function, line 398) `def test_task_status_notification_on_terminal(tmp_path, monkeypatch)`
-  - `test_admission_queue_fifo_and_drain` (function, line 411) `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)`
-  - `test_build_prompt_context_bounded_with_digests` (function, line 436) `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)`
-  - `test_record_verdict_manual` (function, line 454) `def test_record_verdict_manual(tmp_path, monkeypatch)`
-  - `test_broadcast_rows_and_worker_traces` (function, line 477) `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)`
-  - `test_bridge_reads_engine_store_fixture` (function, line 504) `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)`
-  - `test_delete_task_sweeps_store_files` (function, line 536) `def test_delete_task_sweeps_store_files(tmp_path, monkeypatch)`
-  - `test_lazy_command_set_registered` (function, line 549) `def test_lazy_command_set_registered()`
-  - `test_mcp_lazy_handlers_registered` (function, line 569) `def test_mcp_lazy_handlers_registered()`
-  - `test_mcp_lazy_tools_declared_for_every_handler` (function, line 579) `def test_mcp_lazy_tools_declared_for_every_handler()`
+  - `test_task_status_notification_on_terminal` (function, line 404) `def test_task_status_notification_on_terminal(tmp_path, monkeypatch)`
+  - `test_admission_queue_fifo_and_drain` (function, line 417) `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)`
+  - `test_build_prompt_context_bounded_with_digests` (function, line 442) `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)`
+  - `test_record_verdict_manual` (function, line 460) `def test_record_verdict_manual(tmp_path, monkeypatch)`
+  - `test_broadcast_rows_and_worker_traces` (function, line 483) `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)`
+  - `test_bridge_reads_engine_store_fixture` (function, line 510) `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)`
+  - `test_delete_task_sweeps_store_files` (function, line 542) `def test_delete_task_sweeps_store_files(tmp_path, monkeypatch)`
+  - `test_lazy_command_set_registered` (function, line 555) `def test_lazy_command_set_registered()`
+  - `test_mcp_lazy_handlers_registered` (function, line 575) `def test_mcp_lazy_handlers_registered()`
+  - `test_mcp_lazy_tools_declared_for_every_handler` (function, line 585) `def test_mcp_lazy_tools_declared_for_every_handler()`
   - `git` (function, line 232) `def git(cwd)`
   - `fake_post` (function, line 345) `def fake_post(url, data, timeout)`
   - `_Smtp` (class, line 351) `class _Smtp`
@@ -120,28 +120,28 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `_read_until` (function, line 47) `def _read_until(sock, marker, limit)`
   - `test_ca_and_leaf_verify` (function, line 57) `def test_ca_and_leaf_verify(tmp_path)`
   - `test_http_capture_records_exchange` (function, line 75) `def test_http_capture_records_exchange(tmp_path)`
-  - `test_https_mitm_capture` (function, line 100) `def test_https_mitm_capture(tmp_path)`
-  - `test_env_for_ca_exports_trust` (function, line 138) `def test_env_for_ca_exports_trust(tmp_path)`
-  - `test_engine_ingests_recorder_rows` (function, line 148) `def test_engine_ingests_recorder_rows(tmp_path, monkeypatch)`
-  - `test_writeback_auto_binds_recent_traffic` (function, line 176) `def test_writeback_auto_binds_recent_traffic(tmp_path, monkeypatch)`
-  - `test_proxy_status_and_stop` (function, line 198) `def test_proxy_status_and_stop(tmp_path)`
-  - `test_status_declares_https_mitm` (function, line 211) `def test_status_declares_https_mitm(tmp_path)`
-  - `test_install_ca_trust_prompts_only_when_needed` (function, line 223) `def test_install_ca_trust_prompts_only_when_needed(tmp_path, monkeypatch)`
-  - `test_recorder_body_search_and_archive_roundtrip` (function, line 254) `def test_recorder_body_search_and_archive_roundtrip(tmp_path)`
-  - `test_recorder_gc_removes_old_exchanges` (function, line 282) `def test_recorder_gc_removes_old_exchanges(tmp_path, monkeypatch)`
-  - `test_task_scoped_query_and_export` (function, line 300) `def test_task_scoped_query_and_export(tmp_path)`
-  - `test_engine_exports_task_traffic_and_gc_runs_once` (function, line 317) `def test_engine_exports_task_traffic_and_gc_runs_once(tmp_path, monkeypatch)`
-  - `test_recorder_inbox_auto_import` (function, line 344) `def test_recorder_inbox_auto_import(tmp_path, monkeypatch)`
-  - `test_install_ca_nss_with_fake_profiles` (function, line 371) `def test_install_ca_nss_with_fake_profiles(tmp_path, monkeypatch)`
-  - `test_body_ranged_reads` (function, line 411) `def test_body_ranged_reads(tmp_path)`
-  - `test_upstream_chaining_captures_in_both` (function, line 434) `def test_upstream_chaining_captures_in_both(tmp_path)`
-  - `test_websocket_passthrough_recorded` (function, line 459) `def test_websocket_passthrough_recorded(tmp_path)`
-  - `test_writeback_auto_binds_body_hits` (function, line 509) `def test_writeback_auto_binds_body_hits(tmp_path, monkeypatch)`
+  - `test_https_mitm_capture` (function, line 100) `def test_https_mitm_capture(tmp_path, monkeypatch)`
+  - `test_env_for_ca_exports_trust` (function, line 139) `def test_env_for_ca_exports_trust(tmp_path)`
+  - `test_engine_ingests_recorder_rows` (function, line 149) `def test_engine_ingests_recorder_rows(tmp_path, monkeypatch)`
+  - `test_writeback_auto_binds_recent_traffic` (function, line 177) `def test_writeback_auto_binds_recent_traffic(tmp_path, monkeypatch)`
+  - `test_proxy_status_and_stop` (function, line 199) `def test_proxy_status_and_stop(tmp_path)`
+  - `test_status_declares_https_mitm` (function, line 212) `def test_status_declares_https_mitm(tmp_path)`
+  - `test_install_ca_trust_prompts_only_when_needed` (function, line 224) `def test_install_ca_trust_prompts_only_when_needed(tmp_path, monkeypatch)`
+  - `test_recorder_body_search_and_archive_roundtrip` (function, line 255) `def test_recorder_body_search_and_archive_roundtrip(tmp_path)`
+  - `test_recorder_gc_removes_old_exchanges` (function, line 283) `def test_recorder_gc_removes_old_exchanges(tmp_path, monkeypatch)`
+  - `test_task_scoped_query_and_export` (function, line 301) `def test_task_scoped_query_and_export(tmp_path)`
+  - `test_engine_exports_task_traffic_and_gc_runs_once` (function, line 318) `def test_engine_exports_task_traffic_and_gc_runs_once(tmp_path, monkeypatch)`
+  - `test_recorder_inbox_auto_import` (function, line 345) `def test_recorder_inbox_auto_import(tmp_path, monkeypatch)`
+  - `test_install_ca_nss_with_fake_profiles` (function, line 372) `def test_install_ca_nss_with_fake_profiles(tmp_path, monkeypatch)`
+  - `test_body_ranged_reads` (function, line 412) `def test_body_ranged_reads(tmp_path)`
+  - `test_upstream_chaining_captures_in_both` (function, line 435) `def test_upstream_chaining_captures_in_both(tmp_path)`
+  - `test_websocket_passthrough_recorded` (function, line 460) `def test_websocket_passthrough_recorded(tmp_path)`
+  - `test_writeback_auto_binds_body_hits` (function, line 510) `def test_writeback_auto_binds_body_hits(tmp_path, monkeypatch)`
   - `do_GET` (method, line 27) `def do_GET(self)`
   - `log_message` (method, line 35) `def log_message(self, fmt)`
-  - `runner` (function, line 236) `def runner(argv)`
-  - `runner` (function, line 387) `def runner(argv)`
-  - `_serve` (function, line 469) `def _serve()`
+  - `runner` (function, line 237) `def runner(argv)`
+  - `runner` (function, line 388) `def runner(argv)`
+  - `_serve` (function, line 470) `def _serve()`
 - Depends on: `modules/backdoor/server.c`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/traffic_recorder.py`
 
 ## tests/test_lazy_runner.py

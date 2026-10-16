@@ -3437,11 +3437,17 @@ def _build_startup_parser() -> argparse.ArgumentParser:
 arguments = sys.argv[1:]
 anti_debug()
 
+# Startup-flag parsing runs ONLY for real LazyOwn entry points. utils is
+# also imported as a library by headless tools (bridges, MCP, tests)
+# whose own argv would otherwise be misreported as "Wrong argument".
+_ENTRY_BASENAMES = {"lazyown.py", "lazyown", "run", "run.bat", "lazyown.cmd"}
+_is_entry_point = os.path.basename(sys.argv[0]) in _ENTRY_BASENAMES if sys.argv and sys.argv[0] else False
+
 startup_ns, unknown_args = _build_startup_parser().parse_known_args(arguments)
 
-if startup_ns.help:
+if startup_ns.help and _is_entry_point:
     halp()
-if startup_ns.version:
+if startup_ns.version and _is_entry_point:
     print_msg(f"LazyOwn Framework: {version}")
     sys.exit(0)
 if startup_ns.no_banner:
@@ -3467,7 +3473,7 @@ if startup_ns.profile:
     if not HEADLESS:
         print_msg(f"Profile: {startup_ns.profile}")
 for u_arg in unknown_args:
-    if u_arg.startswith("-"):
+    if u_arg.startswith("-") and _is_entry_point:
         print_error(f"Error: Wrong argument: {u_arg}")
 
 if sys.version_info <= (3, 0):

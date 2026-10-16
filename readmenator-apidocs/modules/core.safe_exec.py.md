@@ -165,7 +165,7 @@ Execute a command via subprocess without shell interpretation.
 
 *Calls:* [`CommandInjectionError`](#commandinjectionerror)
 
-*Called by:* [`safe_ip_show`](#safe_ip_show)
+*Called by:* [`safe_ip_show`](#safe_ip_show), [`AtomicResolver.ensure_repo`](modules.atomic_resolver.py.md#atomicresolver-ensure_repo)
 
 ---
 
@@ -200,7 +200,7 @@ Execute a command through the shell, gated by policy.
 
 *Calls:* [`PermissionError.__init__`](core.errors.py.md#permissionerror-__init__)
 
-*Called by:* [`PwnCommandSet.do_lolbas_use`](cli.commands.pwn.py.md#pwncommandset-do_lolbas_use), [`DNSBeacon.run`](modules.dns_beacon.py.md#dnsbeacon-run)
+*Called by:* [`PwnCommandSet.do_lolbas_use`](cli.commands.pwn.py.md#pwncommandset-do_lolbas_use), [`ensure_session`](modules.atomic_exploit_bridge.py.md#ensure_session), [`run_spec`](modules.atomic_exploit_bridge.py.md#run_spec), [`DNSBeacon.run`](modules.dns_beacon.py.md#dnsbeacon-run)
 
 ---
 
@@ -281,6 +281,8 @@ Never uses os.system. Validates the URL before execution.
 - [`UrlValidationError`](#urlvalidationerror): If the URL is invalid.
 
 *Calls:* [`validate_url`](#validate_url)
+
+*Called by:* [`AtomicResolver.ensure_repo`](modules.atomic_resolver.py.md#atomicresolver-ensure_repo)
 
 ---
 

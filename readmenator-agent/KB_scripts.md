@@ -156,6 +156,15 @@
   - `changed_sources` (function, line 33)
   - `usage` (function, line 40)
 
+## scripts/mutation_gate.py
+- Doc: Consolidated mutation gate for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `discover_runners` (function, line 25) `def discover_runners()`
+  - `run_runner` (function, line 34) `def run_runner(path, timeout_s)`
+  - `main` (function, line 63) `def main(argv)`
+
 ## scripts/patch_playbook_atomic_ids.py
 - Doc: Patch APT playbooks: replace placeholder atomic_ids with real technique_ids.
 - Layer: utility

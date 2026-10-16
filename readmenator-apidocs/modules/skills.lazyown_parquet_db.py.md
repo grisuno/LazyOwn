@@ -492,7 +492,7 @@ def get_pdb(lazyown_dir: Path = BASE_DIR) -> ParquetDB | None
 
 *Calls:* [`ParquetDB.__init__`](#parquetdb-__init__)
 
-*Called by:* [`McpBridgeCommandSet.do_parquet_query`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_parquet_query), [`LongtermStore.recall`](skills.hive_mind.py.md#longtermstore-recall)
+*Called by:* [`McpBridgeCommandSet.do_parquet_query`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_parquet_query), [`do_chain`](modules.ttpscope_bridge.py.md#do_chain), [`LongtermStore.recall`](skills.hive_mind.py.md#longtermstore-recall)
 
 ---
 

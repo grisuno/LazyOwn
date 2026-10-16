@@ -1,8 +1,44 @@
-# Symbols (page 10 of 40)
+# Symbols (page 10 of 41)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_restore_last_choice` | method | `lazygui/windows/connect_dialog.py:168` | `def _restore_last_choice(self)` |
+| `persist_choice` | method | `lazygui/windows/connect_dialog.py:120` | `def persist_choice(self)` |
+| `request` | method | `lazygui/windows/connect_dialog.py:105` | `def request(self)` |
+| `MainWindow` | class | `lazygui/windows/main_window.py:37` | `class MainWindow(QMainWindow)` |
+| `__init__` | method | `lazygui/windows/main_window.py:40` | `def __init__(self, constants, settings, theme_manager, backend, event_log, parent)` |
+| `_apply` | function | `lazygui/windows/main_window.py:314` | `def _apply()` |
+| `_build_palette_actions` | method | `lazygui/windows/main_window.py:261` | `def _build_palette_actions(self)` |
+| `_emit_request_connect` | method | `lazygui/windows/main_window.py:372` | `def _emit_request_connect(self)` |
+| `_install_layout` | method | `lazygui/windows/main_window.py:108` | `def _install_layout(self)` |
+| `_install_menu_bar` | method | `lazygui/windows/main_window.py:131` | `def _install_menu_bar(self)` |
+| `_install_shortcuts` | method | `lazygui/windows/main_window.py:220` | `def _install_shortcuts(self)` |
+| `_install_statusbar` | method | `lazygui/windows/main_window.py:195` | `def _install_statusbar(self)` |
+| `_install_toolbar` | method | `lazygui/windows/main_window.py:171` | `def _install_toolbar(self)` |
+| `_make_panel_toggle` | method | `lazygui/windows/main_window.py:300` | `def _make_panel_toggle(self, panel)` |
+| `_make_theme_apply` | method | `lazygui/windows/main_window.py:311` | `def _make_theme_apply(self, identifier)` |
+| `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
+| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
+| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
+| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
+| `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
+| `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
+| `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
+| `_restore_geometry_and_state` | method | `lazygui/windows/main_window.py:252` | `def _restore_geometry_and_state(self)` |
+| `_show_beacon_command_modal` | method | `lazygui/windows/main_window.py:354` | `def _show_beacon_command_modal(self)` |
+| `_show_command_palette` | method | `lazygui/windows/main_window.py:361` | `def _show_command_palette(self)` |
+| `_tick_clock` | method | `lazygui/windows/main_window.py:386` | `def _tick_clock(self)` |
+| `_toggle` | function | `lazygui/windows/main_window.py:303` | `def _toggle()` |
+| `closeEvent` | method | `lazygui/windows/main_window.py:99` | `def closeEvent(self, event)` |
+| `panels` | method | `lazygui/windows/main_window.py:398` | `def panels(self)` |
+| `status_badge` | method | `lazygui/windows/main_window.py:393` | `def status_badge(self)` |
+| `window_requests_connect` | method | `lazygui/windows/main_window.py:376` | `def window_requests_connect(self)` |
+| `extract_ips_from_arp` | function | `lazyown-docker/hostdiscover.sh:21` | `` |
+| `extract_listening_ips_from_netstat` | function | `lazyown-docker/hostdiscover.sh:26` | `` |
+| `build_image` | function | `lazyown-docker/mkdocker.sh:93` | `` |
+| `check_docker` | function | `lazyown-docker/mkdocker.sh:41` | `` |
+| `check_file` | function | `lazyown-docker/mkdocker.sh:49` | `` |
 | `clean_container_and_image` | function | `lazyown-docker/mkdocker.sh:197` | `` |
 | `container_exists` | function | `lazyown-docker/mkdocker.sh:58` | `` |
 | `get_ports` | function | `lazyown-docker/mkdocker.sh:68` | `` |
@@ -18,129 +54,129 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `__init__` | method | `lazyown.py:245` | `def __init__(self, params)` |
 | `__init__` | method | `lazyown.py:373` | `def __init__(self)` |
 | `__setattr__` | method | `lazyown.py:255` | `def __setattr__(self, name, value)` |
-| `_build_chain_prompt_engine` | method | `lazyown.py:1029` | `def _build_chain_prompt_engine(self)` |
-| `_build_command_stack` | method | `lazyown.py:4854` | `def _build_command_stack(self, adversary, r)` |
-| `_build_scope_offensive` | method | `lazyown.py:1670` | `def _build_scope_offensive(self)` |
-| `_chain_boot_prompt` | method | `lazyown.py:1014` | `def _chain_boot_prompt(self)` |
-| `_chain_part_exists` | method | `lazyown.py:1642` | `def _chain_part_exists(self, part)` |
-| `_chain_perror` | function | `lazyown.py:1597` | `def _chain_perror()` |
-| `_chain_resolver` | method | `lazyown.py:1054` | `def _chain_resolver(self, cmd, phase)` |
-| `_create_strict_yaml_prompt` | method | `lazyown.py:4662` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
-| `_did_you_mean` | method | `lazyown.py:1239` | `def _did_you_mean(self, query, limit)` |
-| `_display_adversary_info` | method | `lazyown.py:4868` | `def _display_adversary_info(self, adversary, commands)` |
-| `_execute_commands` | method | `lazyown.py:4875` | `def _execute_commands(self, confirm, remote_cmds)` |
-| `_handler` | function | `lazyown.py:1135` | `def _handler(received, frame, _signum)` |
-| `_install_crypto_signal_handlers` | method | `lazyown.py:1118` | `def _install_crypto_signal_handlers(self)` |
-| `_load_adversaries` | method | `lazyown.py:4821` | `def _load_adversaries(self)` |
-| `_load_extended_params` | method | `lazyown.py:744` | `def _load_extended_params(self)` |
-| `_maybe_chain_prompt` | method | `lazyown.py:1072` | `def _maybe_chain_prompt(self, cmd, phase)` |
-| `_parse_adversary_args` | method | `lazyown.py:4835` | `def _parse_adversary_args(self, line)` |
+| `_build_chain_prompt_engine` | method | `lazyown.py:1032` | `def _build_chain_prompt_engine(self)` |
+| `_build_command_stack` | method | `lazyown.py:4868` | `def _build_command_stack(self, adversary, r)` |
+| `_build_scope_offensive` | method | `lazyown.py:1673` | `def _build_scope_offensive(self)` |
+| `_chain_boot_prompt` | method | `lazyown.py:1017` | `def _chain_boot_prompt(self)` |
+| `_chain_part_exists` | method | `lazyown.py:1645` | `def _chain_part_exists(self, part)` |
+| `_chain_perror` | function | `lazyown.py:1600` | `def _chain_perror()` |
+| `_chain_resolver` | method | `lazyown.py:1057` | `def _chain_resolver(self, cmd, phase)` |
+| `_create_strict_yaml_prompt` | method | `lazyown.py:4676` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
+| `_did_you_mean` | method | `lazyown.py:1242` | `def _did_you_mean(self, query, limit)` |
+| `_display_adversary_info` | method | `lazyown.py:4882` | `def _display_adversary_info(self, adversary, commands)` |
+| `_execute_commands` | method | `lazyown.py:4889` | `def _execute_commands(self, confirm, remote_cmds)` |
+| `_handler` | function | `lazyown.py:1138` | `def _handler(received, frame, _signum)` |
+| `_install_crypto_signal_handlers` | method | `lazyown.py:1121` | `def _install_crypto_signal_handlers(self)` |
+| `_load_adversaries` | method | `lazyown.py:4835` | `def _load_adversaries(self)` |
+| `_load_extended_params` | method | `lazyown.py:747` | `def _load_extended_params(self)` |
+| `_maybe_chain_prompt` | method | `lazyown.py:1075` | `def _maybe_chain_prompt(self, cmd, phase)` |
+| `_parse_adversary_args` | method | `lazyown.py:4849` | `def _parse_adversary_args(self, line)` |
 | `_parse_bool_setting` | function | `lazyown.py:211` | `def _parse_bool_setting(value)` |
-| `_patch_template_if_needed` | method | `lazyown.py:4844` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
-| `_persist` | function | `lazyown.py:690` | `def _persist(name, _old, _new)` |
-| `_read_recent_commands_for_autosuggest` | method | `lazyown.py:1173` | `def _read_recent_commands_for_autosuggest(self, limit)` |
-| `_recording_hook` | method | `lazyown.py:1226` | `def _recording_hook(self, data)` |
-| `_refresh_autosuggest` | method | `lazyown.py:1200` | `def _refresh_autosuggest(self, executed_command)` |
-| `_register_adversary_command` | method | `lazyown.py:2273` | `def _register_adversary_command(self, adv)` |
-| `_register_lua_command` | method | `lazyown.py:2034` | `def _register_lua_command(self, command_name, lua_function)` |
-| `_register_ux_settables` | method | `lazyown.py:673` | `def _register_ux_settables(self)` |
-| `_render_chain_next` | method | `lazyown.py:4301` | `def _render_chain_next(self, raw_args)` |
-| `_resolve_offensive` | method | `lazyown.py:1689` | `def _resolve_offensive(self, name)` |
-| `_run_and_chain` | method | `lazyown.py:1560` | `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)` |
-| `_run_auto_decrypt` | method | `lazyown.py:1144` | `def _run_auto_decrypt(self)` |
-| `_run_auto_encrypt` | method | `lazyown.py:1156` | `def _run_auto_encrypt(self)` |
-| `_scope_check` | method | `lazyown.py:1708` | `def _scope_check(self, cmd_name)` |
-| `_scope_confirm` | method | `lazyown.py:1755` | `def _scope_confirm(self, decision)` |
-| `_scope_entries` | method | `lazyown.py:2638` | `def _scope_entries(self)` |
-| `_scope_render` | method | `lazyown.py:2662` | `def _scope_render(self, entries, mode)` |
-| `_scope_save` | method | `lazyown.py:2644` | `def _scope_save(self, entries, mode)` |
-| `_split_and_chain` | method | `lazyown.py:1515` | `def _split_and_chain(raw_input)` |
-| `_sync_c2_credentials` | method | `lazyown.py:4422` | `def _sync_c2_credentials(self)` |
-| `_sync_chain_active` | method | `lazyown.py:1000` | `def _sync_chain_active(self, tips_engine)` |
-| `_toast_hook` | method | `lazyown.py:935` | `def _toast_hook(self, data)` |
-| `_ui_hints_level` | method | `lazyown.py:924` | `def _ui_hints_level(self)` |
-| `_unified_tips_hook` | method | `lazyown.py:964` | `def _unified_tips_hook(self, data)` |
+| `_patch_template_if_needed` | method | `lazyown.py:4858` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
+| `_persist` | function | `lazyown.py:693` | `def _persist(name, _old, _new)` |
+| `_read_recent_commands_for_autosuggest` | method | `lazyown.py:1176` | `def _read_recent_commands_for_autosuggest(self, limit)` |
+| `_recording_hook` | method | `lazyown.py:1229` | `def _recording_hook(self, data)` |
+| `_refresh_autosuggest` | method | `lazyown.py:1203` | `def _refresh_autosuggest(self, executed_command)` |
+| `_register_adversary_command` | method | `lazyown.py:2276` | `def _register_adversary_command(self, adv)` |
+| `_register_lua_command` | method | `lazyown.py:2037` | `def _register_lua_command(self, command_name, lua_function)` |
+| `_register_ux_settables` | method | `lazyown.py:676` | `def _register_ux_settables(self)` |
+| `_render_chain_next` | method | `lazyown.py:4304` | `def _render_chain_next(self, raw_args)` |
+| `_resolve_offensive` | method | `lazyown.py:1692` | `def _resolve_offensive(self, name)` |
+| `_run_and_chain` | method | `lazyown.py:1563` | `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)` |
+| `_run_auto_decrypt` | method | `lazyown.py:1147` | `def _run_auto_decrypt(self)` |
+| `_run_auto_encrypt` | method | `lazyown.py:1159` | `def _run_auto_encrypt(self)` |
+| `_scope_check` | method | `lazyown.py:1711` | `def _scope_check(self, cmd_name)` |
+| `_scope_confirm` | method | `lazyown.py:1758` | `def _scope_confirm(self, decision)` |
+| `_scope_entries` | method | `lazyown.py:2641` | `def _scope_entries(self)` |
+| `_scope_render` | method | `lazyown.py:2665` | `def _scope_render(self, entries, mode)` |
+| `_scope_save` | method | `lazyown.py:2647` | `def _scope_save(self, entries, mode)` |
+| `_split_and_chain` | method | `lazyown.py:1518` | `def _split_and_chain(raw_input)` |
+| `_sync_c2_credentials` | method | `lazyown.py:4428` | `def _sync_c2_credentials(self)` |
+| `_sync_chain_active` | method | `lazyown.py:1003` | `def _sync_chain_active(self, tips_engine)` |
+| `_toast_hook` | method | `lazyown.py:938` | `def _toast_hook(self, data)` |
+| `_ui_hints_level` | method | `lazyown.py:927` | `def _ui_hints_level(self)` |
+| `_unified_tips_hook` | method | `lazyown.py:967` | `def _unified_tips_hook(self, data)` |
 | `_ux_debug` | function | `lazyown.py:156` | `def _ux_debug(context, exc)` |
-| `_wrap_text` | method | `lazyown.py:2351` | `def _wrap_text(self, text, max_width)` |
-| `cmd` | method | `lazyown.py:1321` | `def cmd(self, line)` |
-| `cmd_wrapper` | function | `lazyown.py:2282` | `def cmd_wrapper(_)` |
-| `complete_assign` | method | `lazyown.py:2608` | `def complete_assign(self, text, line, begidx, endidx)` |
-| `complete_issue_command_to_c2` | method | `lazyown.py:4485` | `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` |
-| `complete_l00t` | method | `lazyown.py:2597` | `def complete_l00t(self, text, line, begidx, endidx)` |
-| `complete_loot` | method | `lazyown.py:2603` | `def complete_loot(self, text, line, begidx, endidx)` |
-| `complete_palette` | method | `lazyown.py:2676` | `def complete_palette(self, text, line, begidx, endidx)` |
-| `complete_phase` | method | `lazyown.py:2592` | `def complete_phase(self, text, line, begidx, endidx)` |
-| `complete_scope` | method | `lazyown.py:2625` | `def complete_scope(self, text, line, begidx, endidx)` |
-| `complete_upload_c2` | method | `lazyown.py:4365` | `def complete_upload_c2(self, text, line, begidx, endidx)` |
-| `completedefault` | method | `lazyown.py:2368` | `def completedefault(self, text, line, begidx, endidx)` |
-| `default` | method | `lazyown.py:840` | `def default(self, line)` |
-| `display_toastr` | method | `lazyown.py:2289` | `def display_toastr(self, message, type)` |
-| `do_event_log` | method | `lazyown.py:4894` | `def do_event_log(self, line)` |
-| `do_route` | method | `lazyown.py:4963` | `def do_route(self, line)` |
-| `do_set` | method | `lazyown.py:899` | `def do_set(self, line)` |
-| `do_state_snapshot` | method | `lazyown.py:4924` | `def do_state_snapshot(self, line)` |
-| `download_file_from_c2` | method | `lazyown.py:4393` | `def download_file_from_c2(self, file_name, clientid)` |
-| `emptyline` | method | `lazyown.py:1822` | `def emptyline(self)` |
-| `get_available_actions` | method | `lazyown.py:4656` | `def get_available_actions(self)` |
-| `get_output` | method | `lazyown.py:4334` | `def get_output(self)` |
-| `issue_command_to_c2` | method | `lazyown.py:4454` | `def issue_command_to_c2(self, command, client_id)` |
-| `list_files_in_directory` | method | `lazyown.py:1871` | `def list_files_in_directory(self, directory)` |
-| `load_plugins` | method | `lazyown.py:2061` | `def load_plugins(self)` |
-| `load_user_commands` | method | `lazyown.py:1847` | `def load_user_commands(self)` |
-| `load_yaml_plugins` | method | `lazyown.py:2091` | `def load_yaml_plugins(self)` |
-| `log_command` | method | `lazyown.py:777` | `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` |
-| `logcsv` | method | `lazyown.py:1280` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
-| `main` | function | `lazyown.py:4986` | `def main()` |
-| `make_wrapper` | function | `lazyown.py:1936` | `def make_wrapper(cmd_template, tname, default_target)` |
-| `one_cmd` | method | `lazyown.py:1776` | `def one_cmd(self, command)` |
-| `onecmd_plus_hooks` | method | `lazyown.py:1413` | `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` |
-| `postloop` | method | `lazyown.py:2559` | `def postloop(self)` |
-| `postparsing_precmd` | method | `lazyown.py:2531` | `def postparsing_precmd(self, statement)` |
-| `preloop` | method | `lazyown.py:2393` | `def preloop(self)` |
-| `process_scan_csv` | method | `lazyown.py:4739` | `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` |
-| `process_vuln_csv` | method | `lazyown.py:4762` | `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` |
-| `refresh_prompt` | method | `lazyown.py:888` | `def refresh_prompt(self)` |
-| `register_all_adversary_commands` | method | `lazyown.py:2260` | `def register_all_adversary_commands(self)` |
-| `register_tool_commands` | method | `lazyown.py:1877` | `def register_tool_commands(self)` |
-| `register_yaml_plugin` | method | `lazyown.py:2114` | `def register_yaml_plugin(self, plugin_data)` |
-| `run_command` | method | `lazyown.py:4254` | `def run_command(self, command)` |
-| `run_lazyarpspoofing` | method | `lazyown.py:3856` | `def run_lazyarpspoofing(self)` |
-| `run_lazyaslrcheck` | method | `lazyown.py:4142` | `def run_lazyaslrcheck(self)` |
-| `run_lazyattack` | method | `lazyown.py:3910` | `def run_lazyattack(self)` |
-| `run_lazybotcli` | method | `lazyown.py:3574` | `def run_lazybotcli(self)` |
-| `run_lazybotnet` | method | `lazyown.py:3390` | `def run_lazybotnet(self)` |
-| `run_lazyburpfuzzer` | method | `lazyown.py:3680` | `def run_lazyburpfuzzer(self)` |
-| `run_lazyftpsniff` | method | `lazyown.py:3014` | `def run_lazyftpsniff(self)` |
-| `run_lazygath` | method | `lazyown.py:2918` | `def run_lazygath(self)` |
-| `run_lazyhoneypot` | method | `lazyown.py:3111` | `def run_lazyhoneypot(self)` |
-| `run_lazylfi2rce` | method | `lazyown.py:3446` | `def run_lazylfi2rce(self)` |
-| `run_lazylogpoisoning` | method | `lazyown.py:3527` | `def run_lazylogpoisoning(self)` |
-| `run_lazymetaextract0r` | method | `lazyown.py:3228` | `def run_lazymetaextract0r(self)` |
-| `run_lazymsfvenom` | method | `lazyown.py:3965` | `def run_lazymsfvenom(self)` |
-| `run_lazynetbios` | method | `lazyown.py:3060` | `def run_lazynetbios(self)` |
-| `run_lazynmap` | method | `lazyown.py:2796` | `def run_lazynmap(self)` |
-| `run_lazynmapdiscovery` | method | `lazyown.py:2950` | `def run_lazynmapdiscovery(self)` |
-| `run_lazyown` | method | `lazyown.py:2740` | `def run_lazyown(self)` |
-| `run_lazyownrat` | method | `lazyown.py:3329` | `def run_lazyownrat(self)` |
-| `run_lazyownratcli` | method | `lazyown.py:3269` | `def run_lazyownratcli(self)` |
-| `run_lazypathhijacking` | method | `lazyown.py:4189` | `def run_lazypathhijacking(self)` |
-| `run_lazyreverse_shell` | method | `lazyown.py:3806` | `def run_lazyreverse_shell(self)` |
-| `run_lazysearch` | method | `lazyown.py:2693` | `def run_lazysearch(self)` |
-| `run_lazysearch_bot` | method | `lazyown.py:3177` | `def run_lazysearch_bot(self)` |
-| `run_lazysearch_gui` | method | `lazyown.py:2710` | `def run_lazysearch_gui(self)` |
-| `run_lazysniff` | method | `lazyown.py:2965` | `def run_lazysniff(self)` |
-| `run_lazyssh77enum` | method | `lazyown.py:3630` | `def run_lazyssh77enum(self)` |
-| `run_lazywerkzeugdebug` | method | `lazyown.py:2861` | `def run_lazywerkzeugdebug(self)` |
-| `run_script` | method | `lazyown.py:4222` | `def run_script(self, script_name)` |
-| `run_update_db` | method | `lazyown.py:2766` | `def run_update_db(self)` |
-| `save_user_command` | method | `lazyown.py:1859` | `def save_user_command(self, alias, command)` |
-| `scripts` | method | `lazyown.py:869` | `def scripts(self)` |
-| `show_toastr` | function | `lazyown.py:2346` | `def show_toastr()` |
-| `tool_wrapper` | function | `lazyown.py:1937` | `def tool_wrapper(arg)` |
-| `upload_file_to_c2` | method | `lazyown.py:4339` | `def upload_file_to_c2(self, file_path, clientid)` |
-| `view_code` | method | `lazyown.py:4551` | `def view_code(self, stdscr)` |
-| `wrapper` | function | `lazyown.py:2038` | `def wrapper(arg)` |
-| `wrapper_yaml` | function | `lazyown.py:2154` | `def wrapper_yaml(arg)` |
+| `_wrap_text` | method | `lazyown.py:2354` | `def _wrap_text(self, text, max_width)` |
+| `cmd` | method | `lazyown.py:1324` | `def cmd(self, line)` |
+| `cmd_wrapper` | function | `lazyown.py:2285` | `def cmd_wrapper(_)` |
+| `complete_assign` | method | `lazyown.py:2611` | `def complete_assign(self, text, line, begidx, endidx)` |
+| `complete_issue_command_to_c2` | method | `lazyown.py:4499` | `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` |
+| `complete_l00t` | method | `lazyown.py:2600` | `def complete_l00t(self, text, line, begidx, endidx)` |
+| `complete_loot` | method | `lazyown.py:2606` | `def complete_loot(self, text, line, begidx, endidx)` |
+| `complete_palette` | method | `lazyown.py:2679` | `def complete_palette(self, text, line, begidx, endidx)` |
+| `complete_phase` | method | `lazyown.py:2595` | `def complete_phase(self, text, line, begidx, endidx)` |
+| `complete_scope` | method | `lazyown.py:2628` | `def complete_scope(self, text, line, begidx, endidx)` |
+| `complete_upload_c2` | method | `lazyown.py:4368` | `def complete_upload_c2(self, text, line, begidx, endidx)` |
+| `completedefault` | method | `lazyown.py:2371` | `def completedefault(self, text, line, begidx, endidx)` |
+| `default` | method | `lazyown.py:843` | `def default(self, line)` |
+| `display_toastr` | method | `lazyown.py:2292` | `def display_toastr(self, message, type)` |
+| `do_event_log` | method | `lazyown.py:4908` | `def do_event_log(self, line)` |
+| `do_route` | method | `lazyown.py:4977` | `def do_route(self, line)` |
+| `do_set` | method | `lazyown.py:902` | `def do_set(self, line)` |
+| `do_state_snapshot` | method | `lazyown.py:4938` | `def do_state_snapshot(self, line)` |
+| `download_file_from_c2` | method | `lazyown.py:4396` | `def download_file_from_c2(self, file_name, clientid)` |
+| `emptyline` | method | `lazyown.py:1825` | `def emptyline(self)` |
+| `get_available_actions` | method | `lazyown.py:4670` | `def get_available_actions(self)` |
+| `get_output` | method | `lazyown.py:4337` | `def get_output(self)` |
+| `issue_command_to_c2` | method | `lazyown.py:4465` | `def issue_command_to_c2(self, command, client_id)` |
+| `list_files_in_directory` | method | `lazyown.py:1874` | `def list_files_in_directory(self, directory)` |
+| `load_plugins` | method | `lazyown.py:2064` | `def load_plugins(self)` |
+| `load_user_commands` | method | `lazyown.py:1850` | `def load_user_commands(self)` |
+| `load_yaml_plugins` | method | `lazyown.py:2094` | `def load_yaml_plugins(self)` |
+| `log_command` | method | `lazyown.py:780` | `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` |
+| `logcsv` | method | `lazyown.py:1283` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
+| `main` | function | `lazyown.py:5000` | `def main()` |
+| `make_wrapper` | function | `lazyown.py:1939` | `def make_wrapper(cmd_template, tname, default_target)` |
+| `one_cmd` | method | `lazyown.py:1779` | `def one_cmd(self, command)` |
+| `onecmd_plus_hooks` | method | `lazyown.py:1416` | `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` |
+| `postloop` | method | `lazyown.py:2562` | `def postloop(self)` |
+| `postparsing_precmd` | method | `lazyown.py:2534` | `def postparsing_precmd(self, statement)` |
+| `preloop` | method | `lazyown.py:2396` | `def preloop(self)` |
+| `process_scan_csv` | method | `lazyown.py:4753` | `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` |
+| `process_vuln_csv` | method | `lazyown.py:4776` | `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` |
+| `refresh_prompt` | method | `lazyown.py:891` | `def refresh_prompt(self)` |
+| `register_all_adversary_commands` | method | `lazyown.py:2263` | `def register_all_adversary_commands(self)` |
+| `register_tool_commands` | method | `lazyown.py:1880` | `def register_tool_commands(self)` |
+| `register_yaml_plugin` | method | `lazyown.py:2117` | `def register_yaml_plugin(self, plugin_data)` |
+| `run_command` | method | `lazyown.py:4257` | `def run_command(self, command)` |
+| `run_lazyarpspoofing` | method | `lazyown.py:3859` | `def run_lazyarpspoofing(self)` |
+| `run_lazyaslrcheck` | method | `lazyown.py:4145` | `def run_lazyaslrcheck(self)` |
+| `run_lazyattack` | method | `lazyown.py:3913` | `def run_lazyattack(self)` |
+| `run_lazybotcli` | method | `lazyown.py:3577` | `def run_lazybotcli(self)` |
+| `run_lazybotnet` | method | `lazyown.py:3393` | `def run_lazybotnet(self)` |
+| `run_lazyburpfuzzer` | method | `lazyown.py:3683` | `def run_lazyburpfuzzer(self)` |
+| `run_lazyftpsniff` | method | `lazyown.py:3017` | `def run_lazyftpsniff(self)` |
+| `run_lazygath` | method | `lazyown.py:2921` | `def run_lazygath(self)` |
+| `run_lazyhoneypot` | method | `lazyown.py:3114` | `def run_lazyhoneypot(self)` |
+| `run_lazylfi2rce` | method | `lazyown.py:3449` | `def run_lazylfi2rce(self)` |
+| `run_lazylogpoisoning` | method | `lazyown.py:3530` | `def run_lazylogpoisoning(self)` |
+| `run_lazymetaextract0r` | method | `lazyown.py:3231` | `def run_lazymetaextract0r(self)` |
+| `run_lazymsfvenom` | method | `lazyown.py:3968` | `def run_lazymsfvenom(self)` |
+| `run_lazynetbios` | method | `lazyown.py:3063` | `def run_lazynetbios(self)` |
+| `run_lazynmap` | method | `lazyown.py:2799` | `def run_lazynmap(self)` |
+| `run_lazynmapdiscovery` | method | `lazyown.py:2953` | `def run_lazynmapdiscovery(self)` |
+| `run_lazyown` | method | `lazyown.py:2743` | `def run_lazyown(self)` |
+| `run_lazyownrat` | method | `lazyown.py:3332` | `def run_lazyownrat(self)` |
+| `run_lazyownratcli` | method | `lazyown.py:3272` | `def run_lazyownratcli(self)` |
+| `run_lazypathhijacking` | method | `lazyown.py:4192` | `def run_lazypathhijacking(self)` |
+| `run_lazyreverse_shell` | method | `lazyown.py:3809` | `def run_lazyreverse_shell(self)` |
+| `run_lazysearch` | method | `lazyown.py:2696` | `def run_lazysearch(self)` |
+| `run_lazysearch_bot` | method | `lazyown.py:3180` | `def run_lazysearch_bot(self)` |
+| `run_lazysearch_gui` | method | `lazyown.py:2713` | `def run_lazysearch_gui(self)` |
+| `run_lazysniff` | method | `lazyown.py:2968` | `def run_lazysniff(self)` |
+| `run_lazyssh77enum` | method | `lazyown.py:3633` | `def run_lazyssh77enum(self)` |
+| `run_lazywerkzeugdebug` | method | `lazyown.py:2864` | `def run_lazywerkzeugdebug(self)` |
+| `run_script` | method | `lazyown.py:4225` | `def run_script(self, script_name)` |
+| `run_update_db` | method | `lazyown.py:2769` | `def run_update_db(self)` |
+| `save_user_command` | method | `lazyown.py:1862` | `def save_user_command(self, alias, command)` |
+| `scripts` | method | `lazyown.py:872` | `def scripts(self)` |
+| `show_toastr` | function | `lazyown.py:2349` | `def show_toastr()` |
+| `tool_wrapper` | function | `lazyown.py:1940` | `def tool_wrapper(arg)` |
+| `upload_file_to_c2` | method | `lazyown.py:4342` | `def upload_file_to_c2(self, file_path, clientid)` |
+| `view_code` | method | `lazyown.py:4565` | `def view_code(self, stdscr)` |
+| `wrapper` | function | `lazyown.py:2041` | `def wrapper(arg)` |
+| `wrapper_yaml` | function | `lazyown.py:2157` | `def wrapper_yaml(arg)` |
 | `auth` | function | `modules/49803.py:43` | `def auth()` |
 | `connection` | function | `modules/49803.py:106` | `def connection()` |
 | `injection` | function | `modules/49803.py:69` | `def injection()` |
@@ -297,13 +333,13 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `CalderaAbilityRef` | class | `modules/apt_playbooks.py:48` | `class CalderaAbilityRef` |
 | `PhaseStep` | class | `modules/apt_playbooks.py:54` | `class PhaseStep` |
 | `__init__` | method | `modules/apt_playbooks.py:114` | `def __init__(self, playbook_dir)` |
-| `_build_atomic_index` | method | `modules/apt_playbooks.py:175` | `def _build_atomic_index(self, atomic_yaml_path)` |
+| `_build_atomic_index` | method | `modules/apt_playbooks.py:199` | `def _build_atomic_index(self, atomic_yaml_path)` |
 | `_load_all` | method | `modules/apt_playbooks.py:119` | `def _load_all(self)` |
 | `from_dict` | method | `modules/apt_playbooks.py:74` | `def from_dict(cls, data)` |
-| `generate_attack_plan` | method | `modules/apt_playbooks.py:189` | `def generate_attack_plan(self, pb, output_path)` |
+| `generate_attack_plan` | method | `modules/apt_playbooks.py:213` | `def generate_attack_plan(self, pb, output_path)` |
 | `get` | method | `modules/apt_playbooks.py:134` | `def get(self, name)` |
 | `list_playbooks` | method | `modules/apt_playbooks.py:131` | `def list_playbooks(self)` |
-| `report_json` | method | `modules/apt_playbooks.py:204` | `def report_json(self, pb, output_path)` |
+| `report_json` | method | `modules/apt_playbooks.py:230` | `def report_json(self, pb, output_path)` |
 | `to_summary` | method | `modules/apt_playbooks.py:99` | `def to_summary(self)` |
 | `validate` | method | `modules/apt_playbooks.py:138` | `def validate(self, pb, atomic_path)` |
 | `Anchor` | class | `modules/asset_graph.py:63` | `class Anchor` |
@@ -323,6 +359,17 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `mirror_to_campaign` | method | `modules/asset_graph.py:170` | `def mirror_to_campaign(self, db, world_model, workspace_id)` |
 | `nodes_for_asset` | method | `modules/asset_graph.py:151` | `def nodes_for_asset(self, key)` |
 | `upsert_asset` | method | `modules/asset_graph.py:82` | `def upsert_asset(self, asset_type, value, parent_key, company)` |
+| `_load_credentials` | function | `modules/atomic_cli.py:147` | `def _load_credentials(params, non_interactive)` |
+| `_print` | function | `modules/atomic_cli.py:107` | `def _print(shell, text)` |
+| `_prompt_choice` | function | `modules/atomic_cli.py:171` | `def _prompt_choice(count, prompt, non_interactive)` |
+| `_resolver` | function | `modules/atomic_cli.py:99` | `def _resolver()` |
+| `_safe_copy` | function | `modules/atomic_cli.py:132` | `def _safe_copy(text)` |
+| `_sanitized_script_name` | function | `modules/atomic_cli.py:319` | `def _sanitized_script_name(test_id, extension)` |
+| `_wants_interactive` | function | `modules/atomic_cli.py:127` | `def _wants_interactive(non_interactive)` |
+| `_warn` | function | `modules/atomic_cli.py:118` | `def _warn(text)` |
+| `parse_atomic_line` | function | `modules/atomic_cli.py:37` | `def parse_atomic_line(line)` |
+| `run_atomic_gen` | function | `modules/atomic_cli.py:325` | `def run_atomic_gen(params, line, shell)` |
+| `run_atomic_tests` | function | `modules/atomic_cli.py:185` | `def run_atomic_tests(params, line, shell)` |
 | `_parse_complexity` | function | `modules/atomic_enricher.py:142` | `def _parse_complexity(command)` |
 | `_parse_keyword_tags` | function | `modules/atomic_enricher.py:152` | `def _parse_keyword_tags(name, description)` |
 | `_parse_platforms` | function | `modules/atomic_enricher.py:122` | `def _parse_platforms(raw)` |
@@ -332,6 +379,65 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `enrich` | function | `modules/atomic_enricher.py:173` | `def enrich(force)` |
 | `load_enriched` | function | `modules/atomic_enricher.py:215` | `def load_enriched()` |
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
+| `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:69` | `class ExploitCommand` |
+| `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:77` | `class ExploitSpec` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:555` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:563` | `def __init__(self, target, port, sock)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:810` | `def _adopt_live_shell(spec, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:741` | `def _destroy_gym(container)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:593` | `def _read_until(self, marker, timeout)` |
+| `_string_list` | function | `modules/atomic_exploit_bridge.py:127` | `def _string_list(value)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:826` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:572` | `def alive(self, timeout)` |
+| `auto` | function | `modules/atomic_exploit_bridge.py:322` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:437` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:683` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:621` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:648` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:455` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:911` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir)` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:759` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:859` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `load_all` | function | `modules/atomic_exploit_bridge.py:211` | `def load_all(exploits_dir)` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1097` | `def main()` |
+| `match_score` | function | `modules/atomic_exploit_bridge.py:266` | `def match_score(spec, service, product, version)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:520` | `def open_shell(target, services, lhost, exploits_dir, attempts)` |
+| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:285` | `def parse_scan_xml(xml_path)` |
+| `rank` | function | `modules/atomic_exploit_bridge.py:406` | `def rank(services, exploits_dir)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:999` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:841` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:579` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:464` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `severity_rank` | method | `modules/atomic_exploit_bridge.py:102` | `def severity_rank(self)` |
+| `to_dict` | method | `modules/atomic_exploit_bridge.py:106` | `def to_dict(self)` |
+| `validate_spec` | function | `modules/atomic_exploit_bridge.py:135` | `def validate_spec(data, filename)` |
+| `AtomicResolver` | class | `modules/atomic_resolver.py:219` | `class AtomicResolver` |
+| `AtomicTest` | class | `modules/atomic_resolver.py:131` | `class AtomicTest` |
+| `__init__` | method | `modules/atomic_resolver.py:226` | `def __init__(self, atomics_dir)` |
+| `_safe_yaml_files` | function | `modules/atomic_resolver.py:171` | `def _safe_yaml_files(atomics_dir)` |
+| `_test_from_raw` | function | `modules/atomic_resolver.py:192` | `def _test_from_raw(test, mitre_id)` |
+| `available` | method | `modules/atomic_resolver.py:233` | `def available(self)` |
+| `build_index` | method | `modules/atomic_resolver.py:265` | `def build_index(self, force)` |
+| `build_variables` | function | `modules/atomic_resolver.py:452` | `def build_variables(test, rhost, domain, rport, username, password)` |
+| `chain` | method | `modules/atomic_resolver.py:380` | `def chain(self, techniques, platform, first_match_only)` |
+| `ensure_repo` | method | `modules/atomic_resolver.py:237` | `def ensure_repo(self)` |
+| `get_by_guid` | method | `modules/atomic_resolver.py:311` | `def get_by_guid(self, guid)` |
+| `get_resolver` | function | `modules/atomic_resolver.py:424` | `def get_resolver(atomics_dir)` |
+| `guids_for_technique` | method | `modules/atomic_resolver.py:305` | `def guids_for_technique(self, mitre_id)` |
+| `is_guid` | function | `modules/atomic_resolver.py:109` | `def is_guid(raw)` |
+| `is_mitre_id` | function | `modules/atomic_resolver.py:84` | `def is_mitre_id(raw)` |
+| `list_for_technique` | method | `modules/atomic_resolver.py:317` | `def list_for_technique(self, mitre_id, platform)` |
+| `mitre_url` | method | `modules/atomic_resolver.py:147` | `def mitre_url(self)` |
+| `normalize_guid` | function | `modules/atomic_resolver.py:93` | `def normalize_guid(raw)` |
+| `normalize_mitre_id` | function | `modules/atomic_resolver.py:66` | `def normalize_mitre_id(raw)` |
+| `normalize_platform` | function | `modules/atomic_resolver.py:118` | `def normalize_platform(raw)` |
+| `render_command` | function | `modules/atomic_resolver.py:488` | `def render_command(template, variables)` |
+| `resolve` | method | `modules/atomic_resolver.py:334` | `def resolve(self, query, platform)` |
+| `resolve_chain` | function | `modules/atomic_resolver.py:442` | `def resolve_chain(techniques, platform, atomics_dir)` |
+| `resolve_technique` | function | `modules/atomic_resolver.py:432` | `def resolve_technique(mitre_id, platform, atomics_dir)` |
+| `stats` | method | `modules/atomic_resolver.py:415` | `def stats(self)` |
+| `technique_env_override` | function | `modules/atomic_resolver.py:496` | `def technique_env_override()` |
+| `to_dict` | method | `modules/atomic_resolver.py:151` | `def to_dict(self)` |
 | `_doc` | function | `modules/attack_surface3d.py:327` | `def _doc(node)` |
 | `_enrich` | function | `modules/attack_surface3d.py:365` | `def _enrich(nodes, edges)` |
 | `_family_color` | function | `modules/attack_surface3d.py:100` | `def _family_color(name)` |
@@ -390,111 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_write_feedback` | method | `modules/auto_purple.py:704` | `def _write_feedback(self, result)` |
 | `category_accuracy` | method | `modules/auto_purple.py:217` | `def category_accuracy(self, category)` |
 | `category_accuracy` | method | `modules/auto_purple.py:599` | `def category_accuracy(self, category)` |
-| `engagement_score` | method | `modules/auto_purple.py:201` | `def engagement_score(self)` |
-| `engagement_score` | method | `modules/auto_purple.py:529` | `def engagement_score(self)` |
-| `execute_and_measure` | method | `modules/auto_purple.py:185` | `def execute_and_measure(self, command, args, category)` |
-| `execute_and_measure` | method | `modules/auto_purple.py:443` | `def execute_and_measure(self, command, args, category)` |
-| `export_dataset` | method | `modules/auto_purple.py:204` | `def export_dataset(self)` |
-| `export_dataset` | method | `modules/auto_purple.py:567` | `def export_dataset(self)` |
-| `export_report` | method | `modules/auto_purple.py:207` | `def export_report(self)` |
-| `export_report` | method | `modules/auto_purple.py:571` | `def export_report(self)` |
-| `get_loop` | function | `modules/auto_purple.py:772` | `def get_loop(bt_path, detection_delay, methods, auto_feedback)` |
-| `last_results` | method | `modules/auto_purple.py:214` | `def last_results(self, n)` |
-| `last_results` | method | `modules/auto_purple.py:596` | `def last_results(self, n)` |
-| `load_config_from_payload` | function | `modules/auto_purple.py:790` | `def load_config_from_payload(params)` |
-| `measure_only` | method | `modules/auto_purple.py:193` | `def measure_only(self, command, args, category)` |
-| `measure_only` | method | `modules/auto_purple.py:493` | `def measure_only(self, command, args, category)` |
-| `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
-| `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
-| `AutoVerb` | class | `modules/auto_registry.py:66` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:642` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:649` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:659` | `def __init__(self, observer)` |
-| `_invoke` | function | `modules/auto_registry.py:700` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:852` | `def _kill()` |
-| `_parse_trigger_lines` | function | `modules/auto_registry.py:337` | `def _parse_trigger_lines(lines, start)` |
-| `_register_process` | function | `modules/auto_registry.py:775` | `def _register_process(process)` |
-| `_repo_base` | function | `modules/auto_registry.py:274` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:711` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:781` | `def _unregister_process(process)` |
-| `_verb_row` | function | `modules/auto_registry.py:180` | `def _verb_row(name)` |
-| `_verb_rows` | function | `modules/auto_registry.py:136` | `def _verb_rows()` |
-| `addon_hits_for` | function | `modules/auto_registry.py:427` | `def addon_hits_for(service_text, limit)` |
-| `auto_verb_target` | function | `modules/auto_registry.py:35` | `def auto_verb_target(command)` |
-| `binary_available` | function | `modules/auto_registry.py:281` | `def binary_available(name)` |
-| `build_command` | function | `modules/auto_registry.py:524` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:797` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:677` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:820` | `def execute_streaming(command, on_output, timeout_sec)` |
-| `is_routable_command` | function | `modules/auto_registry.py:479` | `def is_routable_command(line)` |
-| `is_shell_verb` | function | `modules/auto_registry.py:502` | `def is_shell_verb(token)` |
-| `iter_addon_triggers` | function | `modules/auto_registry.py:368` | `def iter_addon_triggers()` |
-| `iter_tool_triggers` | function | `modules/auto_registry.py:404` | `def iter_tool_triggers()` |
-| `missing_binary` | function | `modules/auto_registry.py:297` | `def missing_binary(command)` |
-| `propose_addon_intents` | function | `modules/auto_registry.py:453` | `def propose_addon_intents(service_texts, target, limit)` |
-| `propose_intents` | function | `modules/auto_registry.py:541` | `def propose_intents(goal, target, finding_texts)` |
-| `service_tokens` | function | `modules/auto_registry.py:326` | `def service_tokens(service_text)` |
-| `steps_for` | function | `modules/auto_registry.py:558` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:787` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:792` | `def untrack_process(process)` |
-| `verb_available` | function | `modules/auto_registry.py:321` | `def verb_available(verb)` |
-| `verb_enabled` | function | `modules/auto_registry.py:189` | `def verb_enabled(name)` |
-| `verb_gap` | function | `modules/auto_registry.py:309` | `def verb_gap(verb)` |
-| `verbs` | function | `modules/auto_registry.py:497` | `def verbs()` |
-| `verbs_for` | function | `modules/auto_registry.py:535` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:664` | `def write(self, data)` |
-| `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
-| `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
-| `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
-| `TargetProfile` | class | `modules/autonomous_exploit_engine.py:59` | `class TargetProfile` |
-| `__init__` | method | `modules/autonomous_exploit_engine.py:114` | `def __init__(self)` |
-| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1637` | `def _apply_stealth_delay(self)` |
-| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1105` | `def _build_command_chain(self, candidate, profile)` |
-| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:1937` | `def _check_known_cves(self, profile)` |
-| `_check_success` | method | `modules/autonomous_exploit_engine.py:1237` | `def _check_success(self, output, candidate)` |
-| `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
-| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1524` | `def _detect_os_from_payload(self)` |
-| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1330` | `def _detect_shell(self, output)` |
-| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1358` | `def _determine_access_level(self, ip, credentials)` |
-| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2458` | `def _discover_internal_interfaces(self, profile)` |
-| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2293` | `def _execute_privesc(self, technique, profile, session_id)` |
-| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1709` | `def _extract_cves_from_text(self, text)` |
-| `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:284` | `def _filter_placeholder_creds(credentials)` |
-| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1621` | `def _get_os_type(self, profile)` |
-| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2564` | `def _get_stealth_scan_flags(self)` |
-| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:492` | `def _heuristic_match(self, service, product, version)` |
-| `_is_placeholder` | function | `modules/autonomous_exploit_engine.py:299` | `def _is_placeholder(value)` |
-| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1542` | `def _load_from_nmap_xml(self, target)` |
-| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1416` | `def _load_payload_config(self)` |
-| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1427` | `def _load_world_model(self, target)` |
-| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:962` | `def _match_by_port(self, port, os_type)` |
-| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:454` | `def _match_exploit_db(self, service, product, version)` |
-| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2103` | `def _match_privesc_techniques(self, findings, os_type)` |
-| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1757` | `def _match_service_banners(self, profile)` |
-| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1674` | `def _parse_nse_output(self, target_ip)` |
-| `_register_session` | method | `modules/autonomous_exploit_engine.py:1388` | `def _register_session(self, ip, output)` |
-| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1088` | `def _resolve_port(self, candidate, profile)` |
-| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1059` | `def _run_exploit(self, candidate, profile)` |
-| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:1991` | `def _run_linux_privesc_checks(self, profile, session_id)` |
-| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2060` | `def _run_windows_privesc_checks(self, profile, session_id)` |
-| `_scorer` | method | `modules/autonomous_exploit_engine.py:1019` | `def _scorer(self, exploit, service, product, version)` |
-| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:1963` | `def chain_privesc(self, profile, session_id)` |
-| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2519` | `def enable_stealth(self, stealth_level)` |
-| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:412` | `def execute_candidate(self, candidate, profile)` |
-| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2583` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
-| `get_instance` | method | `modules/autonomous_exploit_engine.py:134` | `def get_instance(cls)` |
-| `hunt` | method | `modules/autonomous_exploit_engine.py:145` | `def hunt(self, target, max_exploits, profile)` |
-| `profile` | method | `modules/autonomous_exploit_engine.py:328` | `def profile(self, target)` |
-| `rank_exploits` | method | `modules/autonomous_exploit_engine.py:389` | `def rank_exploits(self, profile)` |
-| `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:184` | `def retry_with_credentials(self, target, credentials)` |
-| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1648` | `def scan_vulnerabilities(self, profile)` |
-| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2393` | `def trigger_pivot(self, profile, session_id)` |
-| `AWSAttackEngine` | class | `modules/aws_attacks.py:80` | `class AWSAttackEngine` |
-| `AWSConfig` | class | `modules/aws_attacks.py:58` | `class AWSConfig` |
-| `__init__` | method | `modules/aws_attacks.py:91` | `def __init__(self, config)` |
-| `cloudformation_drift` | method | `modules/aws_attacks.py:242` | `def cloudformation_drift(self)` |
-| `ec2_ssm_session_abuse` | method | `modules/aws_attacks.py:274` | `def ec2_ssm_session_abuse(self)` |
-| `ec2_user_data_exfil` | method | `modules/aws_attacks.py:181` | `def ec2_user_data_exfil(self)` |
-| `enumerate_iam_permissions` | method | `modules/aws_attacks.py:95` | `def enumerate_iam_permissions(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

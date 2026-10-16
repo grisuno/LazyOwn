@@ -1,0 +1,26 @@
+# deploynator.toml -- LazyOwn deploy config.
+# `deploynator release` reads this. CLI flags win.
+
+[project]
+name = "LazyOwn"
+version_file = "version.json"
+
+[tests]
+commands = ["python -m pytest tests/ -q"]
+timeout_s = 3600
+allow_no_tests = false
+
+[docs]
+auto = true
+command = "python -m readmenator . --rebuild"
+timeout_s = 3600
+
+[deploy]
+branch = "main"
+remote = "origin"
+
+[pypi]
+enabled = false
+repo = "pypi"
+clean_dist = true
+timeout_s = 600

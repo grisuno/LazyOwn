@@ -1,0 +1,6 @@
+name: apt_apt28
+description: Full APT chain for apt28 (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: apt28

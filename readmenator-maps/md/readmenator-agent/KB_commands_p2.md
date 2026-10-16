@@ -1,6 +1,49 @@
 # Subsystem: commands (page 2 of 4)
 Previous: [KB_commands.md](KB_commands.md)
 
+## cli/commands/database.py
+- Doc: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and...
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `DatabaseCommandSet` (class, line 26) `class DatabaseCommandSet(LazyOwnCommandSet)`
+  - `shlex_split` (function, line 560) `def shlex_split(text)`
+  - `_get_db` (method, line 32) `def _get_db(self)`
+  - `_active_workspace` (method, line 40) `def _active_workspace(self)`
+  - `do_db_init` (method, line 57) `def do_db_init(self, line)`
+  - `do_db_workspace` (method, line 75) `def do_db_workspace(self, line)`
+  - `do_db_hosts` (method, line 124) `def do_db_hosts(self, line)`
+  - `do_db_services` (method, line 185) `def do_db_services(self, line)`
+  - `do_db_vulns` (method, line 213) `def do_db_vulns(self, line)`
+  - `do_retest` (method, line 267) `def do_retest(self, line)`
+  - `do_db_creds` (method, line 349) `def do_db_creds(self, line)`
+  - `do_db_loot` (method, line 393) `def do_db_loot(self, line)`
+  - `do_db_notes` (method, line 433) `def do_db_notes(self, line)`
+  - `do_db_import` (method, line 471) `def do_db_import(self, line)`
+  - `do_db_export` (method, line 509) `def do_db_export(self, line)`
+  - `do_db_status` (method, line 543) `def do_db_status(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/db.py`, `modules/finding_lifecycle.py`, `skills/autonomous_daemon.py`, `utils.py`
+
+## cli/commands/defaults.py
+- Doc: Build-defaults inspection and override command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DefaultsCommandSet` (class, line 38) `class DefaultsCommandSet(LazyOwnCommandSet)`
+  - `do_defaults` (method, line 45) `def do_defaults(self, line)`
+  - `_show` (method, line 60) `def _show(self, section)`
+  - `_set` (method, line 77) `def _set(self, name, value)`
+- Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/defaults.py`, `utils.py`
+
+## cli/commands/demo.py
+- Doc: End-to-end demo command — MCP registration plus the golden path.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DemoCommandSet` (class, line 22) `class DemoCommandSet(LazyOwnCommandSet)`
+  - `do_demo` (method, line 29) `def do_demo(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
 ## cli/commands/diagnostics.py
 - Doc: Diagnostics CommandSet (Tier 2 pilot).
 - Layer: utility
@@ -95,7 +138,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_enum4linux` (method, line 528) `def do_enum4linux(self, line)`
   - `do_rpcclient` (method, line 558) `def do_rpcclient(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 
 ## cli/commands/estorides.py
 - Doc: Estorides integration commands — bidirectional feedback loop with passive OSINT.
@@ -414,7 +457,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
   - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
   - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
-  - `do_lazy_view` (method, line 299) `def do_lazy_view(self, line)`
+  - `do_lazy_view` (method, line 301) `def do_lazy_view(self, line)`
 - Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
 - Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 

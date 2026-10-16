@@ -147,6 +147,9 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Threat-informed recon | `hunt` |
 | Chain commands | `chain` |
 | Auto attack loop | `auto_loop` |
+| Full APT chain (one command) | `apt_chain apt_rocke 172.17.0.2` |
+| Interactive root shell on target | `atomic_shell --interactive 172.17.0.2` |
+| Cleanup artefacts / tear down gym | `atomic_clean 172.17.0.2` / `atomic_clean --hard 172.17.0.2` |
 | Generate playbook | `playbook_generate` |
 | Run playbook | `playbook_run` |
 
@@ -157,6 +160,11 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Goal | Command |
 |------|---------|
 | Start C2 server | `lazyc2` |
+| Headless C2 (start/status/stop) | `c2_server start` |
+| Reboot C2 with rotated creds | `c2_reboot` |
+| Deploy malleable agent to target | `c2_deploy 172.17.0.2` |
+| Run command on live session | `c2_exec msf-172-17-0-2 id` |
+| Exfiltrate file via session | `c2_loot msf-172-17-0-2 /etc/shadow` |
 | Open C2 dashboard | `cc` |
 | Team collaboration URL | `collab_join <handle>` |
 | Download beacon | `download_c2` |

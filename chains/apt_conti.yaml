@@ -1,0 +1,6 @@
+name: apt_conti
+description: Full APT chain for conti (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: conti

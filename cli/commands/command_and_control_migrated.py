@@ -1220,347 +1220,160 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category("10. Command & Control")
     def do_atomic_tests(self, line):
+        """Stage an Atomic Red Team test by MITRE technique ID or GUID.
+
+        Accepts human-friendly MITRE IDs (``T1078``, ``T1059.001``),
+        raw GUIDs, or prefixes (``T1059``), with optional flags:
+
+            atomic_tests T1078 --platform linux --non-interactive
+            atomic_tests <guid> --platform windows
+            atomic_tests --platform linux   (lists, interactive only)
+
+        Non-interactive mode (``--non-interactive`` or piped stdin,
+        as used by MCP and the autonomous loop) stages the first
+        matching test to the clipboard without blocking on input.
+        Implementation lives in :mod:`modules.atomic_cli`.
         """
-        Executes Atomic Red Team tests based on user-selected platform and test.
+        from modules.atomic_cli import run_atomic_tests
 
-        This function performs the following actions:
-        1. Verifies the presence of the Atomic Red Team repository; if not present, it clones it locally.
-        2. Prompts the user to select a target platform, filtering the available tests to only those compatible.
-        3. Displays the filtered tests, including their description and platform compatibility.
-        4. Allows the user to select and execute a test or specify parameters directly.
-
-        Parameters:
-        line (str): Command-line arguments for specifying a test ID or additional parameters.
-                    If not provided, interactive input will be used.
-
-        Returns:
-        None
-        """
-        atomic_repo = "https://github.com/redcanaryco/atomic-red-team.git"
-        atomic_path = os.path.join("external", ".exploit", "atomic-red-team")
-        atomic_yaml_path = os.path.join(atomic_path, "atomics")
-        path = os.getcwd()
-        credentials = f"{path}/sessions/credentials.txt"
-        if not os.path.exists(atomic_path):
-            print_warn("Atomic Red Team repository not found. Cloning...")
-            self.cmd(f"git clone {atomic_repo} {atomic_path}")
-            print_msg("Repository cloned successfully.")
-        else:
-            command = f"cd {atomic_path} && git pull"
-            print_msg("Try to update...")
-            self.cmd(command)
-
-        print_msg("Select the platform to target:")
-        platforms = ['windows', 'macos', 'linux', 'office-365', 'azure-ad', 'google-workspace', 'saas', 'iaas', 'containers', 'iaas:aws', 'iaas:azure', 'iaas:gcp']
-        for idx, platform in enumerate(platforms, 1):
-            print_msg(f"    {idx}. {platform}")
-
-        try:
-            platform_choice = int(input("    [!] Enter the number of the platform to target: ").strip())
-            selected_platform = platforms[platform_choice - 1]
-        except (ValueError, IndexError):
-            print_warn("Invalid platform selection.")
-            return
-
-        yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
-        tests = {}
-        for file in yaml_files:
-            with open(file) as f:
-                data = yaml.safe_load(f)
-                if "atomic_tests" in data:
-                    for test in data["atomic_tests"]:
-                        if selected_platform in test.get("supported_platforms", []):
-                            tests[test["auto_generated_guid"]] = {
-                                "name": test["name"],
-                                "description": test.get("description", "No description available"),
-                                "platforms": test.get("supported_platforms", []),
-                                "command": test.get("executor", {}).get("command", "No command available"),
-                                "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", ""),
-                                "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", ""),
-                                "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
-                                "input_arguments": test.get("input_arguments", {}),
-                                "mitre_id": data.get("attack_technique", "No MITRE ID available")
-                            }
-
-        if not tests:
-            print_warn(f"No tests available for the selected platform: {selected_platform}")
-            return
-
-        if line:
-            test_id = line.strip()
-            selected_test = tests.get(test_id)
-            if not selected_test:
-                print_warn(f"Test ID {test_id} not found.")
-                return
-        else:
-            print_msg(f"Available Atomic Red Team tests for {selected_platform}:")
-            for idx, (test_id, test) in enumerate(tests.items(), 1):
-                print_msg(f"{idx}. {test['name']} (Platforms: {', '.join(test['platforms'])}) Id: {test_id}")
-            try:
-                test_choice = int(input("    [!] Enter the number of the test to execute: ").strip())
-                test_id = list(tests.keys())[test_choice - 1]
-                selected_test = tests[test_id]
-            except (ValueError, IndexError):
-                print_warn("Invalid choice.")
-                return
-
-        mitre_url = selected_test['mitre_id'].replace(".","/")
-        print_msg(f"Atomic ID: {test_id}")
-        print_msg(f"Executing test: {selected_test['name']}")
-        print_msg(f"Description: \n {selected_test['description']}")
-        print_msg(f"Platforms: {', '.join(selected_test['platforms'])}")
-        print_msg(f"MITRE ID: {selected_test['mitre_id']}")
-        print_msg(f"MITRE url: https://attack.mitre.org/techniques/{mitre_url}")
-
-        rhost = self.params['rhost']
-        domain = self.params['domain']
-        rport = self.params['rport']
-        input_arguments = selected_test['input_arguments']
-        username = ""
-        password = ""
-        if not os.path.exists(credentials):
-            if not username:
-                print_error("Username not defined.")
-                username = input("    [!] Enter the username: ")
-
-            if not password:
-                print_error("Password not defined.")
-                password = input("    [!] Enter the password: ")
-        else:
-            credentials = get_credentials()
-            if not credentials:
-                return
-            for usr, passwd in credentials:
-                username = usr
-                password = passwd
-
-        variables = {
-            "#{ip_address}": self.params['rhost'],
-            "#{endpoint_domain}": self.params['rhost'],
-            "#{username}": username,
-            "#{password}": password,
-            "#{self.params['domain']}": self.params['domain'],
-            "#{port}": rport,
-            "#{hostname}": self.params['domain']
-        }
-        for key, value in input_arguments.items():
-            formatted_key = "#{{key}}".replace("{key}",key)
-            if formatted_key not in variables:
-                variables[formatted_key] = value.get("default", "")
-
-        prereq_command = selected_test["prereq_command"]
-        prereq_command = replace_variables(prereq_command, variables)
-        get_prereq_command = selected_test["get_prereq_command"]
-        get_prereq_command = replace_variables(get_prereq_command, variables)
-        command = selected_test["command"]
-        command = replace_variables(command, variables)
-        cleanup_command = selected_test["cleanup_command"]
-        cleanup_command = replace_variables(cleanup_command, variables)
-
-        if prereq_command:
-            print_msg(f"Prerequisite command to execute: {prereq_command}")
-            copy2clip(prereq_command)
-            input("    [!] Press Enter after executing the prerequisite command...")
-
-        if get_prereq_command:
-            print_msg(f"Get prerequisite command to execute: {get_prereq_command}")
-            copy2clip(get_prereq_command)
-            input("    [!] Press Enter after executing the get prerequisite command...")
-
-        print_msg(f"Command to execute: {command}")
-        copy2clip(command)
-        input("    [!] Press Enter after executing the command...")
-
-        if cleanup_command:
-            print_msg(f"Cleanup command to execute: {cleanup_command}")
-            copy2clip(cleanup_command)
-            input("    [!] Press Enter after executing the cleanup command...")
-        self.logcsv(f"atomic_test {command}")
-        print_msg("Test execution completed.")
+        run_atomic_tests(dict(self.params), line or "", shell=self)
+        return
 
     @cmd2.with_category("10. Command & Control")
     def do_atomic_gen(self, line):
+        """Generate test + cleanup scripts for a MITRE ID or GUID.
+
+        Usage:
+            atomic_gen T1078 [--platform linux] [--non-interactive]
+            atomic_gen <guid>
+
+        Scripts land in ``sessions/temp_uploads/`` with 0600 mode.
+        Implementation lives in :mod:`modules.atomic_cli`.
         """
-        Generates test and cleanup scripts for a given Atomic Red Team technique ID.
+        from modules.atomic_cli import run_atomic_gen
 
-        Parameters:
-        line (str): The technique ID.
+        run_atomic_gen(dict(self.params), line or "", shell=self)
+        return
 
-        Returns:
-        None
+    @cmd2.with_category("10. Command & Control")
+    def do_atomic_shell(self, line):
+        """Open an interactive root shell on the target when possible.
+
+        Usage:
+            atomic_shell [target] [--interactive]
+
+        Without ``--interactive`` (the loop-safe default) it only
+        verifies the multiplexed session and reports how to attach.
+        With ``--interactive`` in a foreground terminal it drops the
+        operator into a live ``target#`` REPL until exit.
         """
-        if not line:
-            print_warn("No technique ID provided.")
+        from modules.atomic_exploit_bridge import interactive_shell
+
+        parts = (line or "").strip().split()
+        interactive = "--interactive" in parts
+        target = next((p for p in parts if not p.startswith("-")), "")
+        target = target or (self.params.get("rhost", "") or "")
+        if not target:
+            print_warn("Usage: atomic_shell [target] [--interactive]")
             return
-
-        atomic_repo = "https://github.com/redcanaryco/atomic-red-team.git"
-        atomic_path = os.path.join("external", ".exploit", "atomic-red-team")
-        atomic_yaml_path = os.path.join(atomic_path, "atomics")
-        sessions_path = os.path.join("sessions/temp_uploads")
-        tmp_path = "/tmp/lazyown_atomic_test"
-        atomic = "PathToAtomicsFolder"
-        if not os.path.exists(atomic_path):
-            print_warn("Atomic Red Team repository not found. Cloning...")
-            self.cmd(f"git clone {atomic_repo} {atomic_path}")
-            print_msg("Repository cloned successfully.")
+        result = interactive_shell(target, interactive=interactive)
+        if result.get("repl"):
+            print_msg(f"Session on {target} closed.")
+        elif result.get("live"):
+            print_msg(f"Shell is live on {target} via {result.get('via')}. {result.get('hint', '')}")
         else:
-            command = f"cd {atomic_path} && git pull"
-            print_msg("Try to update...")
-            self.cmd(command)
-        if not os.path.exists(sessions_path):
-            os.makedirs(sessions_path)
+            print_warn(f"No shell on {target}: {result.get('error', 'unknown')}")
+        return
 
-        test_id = line.strip()
-        yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
-        selected_test = None
+    @cmd2.with_category("10. Command & Control")
+    def do_atomic_clean(self, line):
+        """Clean up engagement artefacts (soft) or tear down the gym (hard).
 
-        # Try 1: exact auto_generated_guid match
-        for file in yaml_files:
-            with open(file) as f:
-                data = yaml.safe_load(f)
-            if "atomic_tests" in data:
-                for test in data["atomic_tests"]:
-                    if test.get("auto_generated_guid") == test_id:
-                        selected_test = {
-                            "name": test["name"],
-                            "description": test.get("description", "No description available"),
-                            "platforms": test.get("supported_platforms", []),
-                            "executor": test.get("executor", {}).get("name", "No name available"),
-                            "command": test.get("executor", {}).get("command", "No command available"),
-                            "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", "") if test.get("dependencies") else "",
-                            "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", "") if test.get("dependencies") else "",
-                            "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
-                            "input_arguments": test.get("input_arguments", {}),
-                            "mitre_id": data.get("attack_technique", "No MITRE ID available")
-                        }
-                        break
-            if selected_test:
-                break
+        Usage:
+            atomic_clean [target]            # soft: target artefacts + local staging
+            atomic_clean --hard [target]     # soft + stop and remove the gym container
 
-        # Try 2: fallback to MITRE technique ID (e.g. T1566.001) — use first available test
-        if not selected_test and test_id.upper().startswith("T"):
-            print_warn(f"GUID not found for {test_id}. Falling back to MITRE technique ID lookup...")
-            for file in yaml_files:
-                with open(file) as f:
-                    data = yaml.safe_load(f)
-                technique = data.get("attack_technique", "")
-                if technique and technique.upper() == test_id.upper() and "atomic_tests" in data:
-                    test = data["atomic_tests"][0]
-                    selected_test = {
-                        "name": test["name"],
-                        "description": test.get("description", "No description available"),
-                        "platforms": test.get("supported_platforms", []),
-                        "executor": test.get("executor", {}).get("name", "No name available"),
-                        "command": test.get("executor", {}).get("command", "No command available"),
-                        "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", "") if test.get("dependencies") else "",
-                        "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", "") if test.get("dependencies") else "",
-                        "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
-                        "input_arguments": test.get("input_arguments", {}),
-                        "mitre_id": data.get("attack_technique", "No MITRE ID available")
-                    }
-                    print_msg(f"Found fallback test: {test.get('auto_generated_guid', 'N/A')} — {test['name']}")
-                    break
-            if not selected_test:
-                print_warn(f"No Atomic Red Team tests found for technique {test_id}.")
-                print_warn("Run 'atomic_tests <platform>' to browse available tests, then update the playbook with real GUIDs.")
-                return
+        Soft removes the agent, drop files and test outputs from the
+        target and clears local staging doubles. Loot, reports and logs
+        are evidence and are always kept. Hard additionally destroys
+        the lab container (default lazyown-lab-metasploitable).
+        """
+        from modules.atomic_exploit_bridge import cleanup_target
 
-        if not selected_test:
-            print_warn(f"Test ID {test_id} not found.")
-            print_warn("This playbook may contain placeholder IDs. Run scripts/update_apt_atomic_ids.py after cloning Atomic Red Team.")
+        parts = (line or "").strip().split()
+        hard = "--hard" in parts
+        target = next((p for p in parts if not p.startswith("-")), "")
+        target = target or (self.params.get("rhost", "") or "")
+        if not target:
+            print_warn("Usage: atomic_clean [target] [--hard]")
             return
-        mitre_url = selected_test['mitre_id'].replace(".","/")
-        root = f"{tmp_path}/{atomic}"
-        src = f"{atomic_yaml_path}/{selected_test['mitre_id']}/src"
-        bin = f"{atomic_yaml_path}/{selected_test['mitre_id']}/bin"
-        self.cmd(f" mkdir -p {root}/{selected_test['mitre_id']} 2>/dev/null")
-        self.cmd(f"cp -R {src} {root}/{selected_test['mitre_id']}/src 2>/dev/null")
-        self.cmd(f"cp -R {bin} {root}/{selected_test['mitre_id']}/bin 2>/dev/null")
-        print_msg(f"Atomic ID: {test_id}")
-        print_msg(f"Executing test: {selected_test['name']}")
-        print_msg(f"Description: \n {selected_test['description']}")
-        print_msg(f"Platforms: {', '.join(selected_test['platforms'])}")
-        print_msg(f"Executor: {selected_test['executor']}")
-        print_msg(f"MITRE ID: {selected_test['mitre_id']}")
-        print_msg(f"MITRE url: https://attack.mitre.org/techniques/{mitre_url}")
+        report = cleanup_target(target, hard=hard)
+        for step in report.get("remote", []):
+            status = "ok" if step.get("ok") else "FAIL"
+            print_msg(f"[remote:{status}] {step.get('step')}: {step.get('detail', '')[:120]}")
+        for path in report.get("local", []):
+            print_msg(f"[local] removed {path}")
+        gym = report.get("gym", {})
+        if gym:
+            if gym.get("ok"):
+                print_msg("[gym] container stopped and removed")
+            else:
+                print_warn(f"[gym] {gym.get('detail', 'failed')}")
+        print_msg(f"Cleanup ({report.get('mode')}) finished. Loot, reports and logs kept.")
+        return
 
-        rhost = self.params['rhost']
-        domain = self.params['domain']
-        rport = self.params['rport']
-        input_arguments = selected_test['input_arguments']
+    @cmd2.with_category("10. Command & Control")
+    def do_atomic_emulate(self, line):
+        """Execute emulation tests on the target through a working shell.
 
-        variables = {
-            "#{ip_address}": self.params['rhost'],
-            "#{endpoint_domain}": self.params['rhost'],
-            "#{self.params['domain']}": self.params['domain'],
-            "#{port}": rport,
-            "#{hostname}": self.params['domain']
-        }
-        for key, value in input_arguments.items():
-            formatted_key = "#{{key}}".replace("{key}", key)
-            if formatted_key not in variables:
-                variables[formatted_key] = value.get("default", "")
+        Usage:
+            atomic_emulate --target 172.17.0.2 --playbook rocke [--platform linux]
+            atomic_emulate --target 172.17.0.2 --techniques T1018,T1057
 
-        prereq_command = selected_test["prereq_command"]
-        prereq_command = replace_variables(prereq_command, variables)
-        get_prereq_command = selected_test["get_prereq_command"]
-        get_prereq_command = replace_variables(get_prereq_command, variables)
-        command = selected_test["command"]
-        command = replace_variables(command, variables)
-        cleanup_command = selected_test["cleanup_command"]
-        cleanup_command = replace_variables(cleanup_command, variables)
+        Opens a one-shot remote shell (exec-capable exploits/*.yaml in
+        rank order), runs each technique's first platform-compatible
+        Atomic test, and stages sessions/atomic_emulate_<target>_<ts>.json
+        with per-test outputs. Lab and in-scope targets only.
+        """
+        import shlex
 
-        platform = selected_test["platforms"][0]
-        extension = ".sh" if platform in ["linux", "macos"] else ".ps1"
-        log_path = f"{tmp_path}/{test_id}.log"
+        from modules.atomic_exploit_bridge import emulate as _emulate
 
-        if platform == "windows":
-            test_script_content = f"""
-            Start-Transcript -Path "{log_path}"
-            # Get prerequisite command
-            {get_prereq_command}
-
-            # Prerequisite command
-            {prereq_command}
-
-            # Test command
-            {command}
-            Stop-Transcript
-            """.replace("            ","")
-            cleanup_script_content = f"""
-            # Cleanup command
-            {cleanup_command}
-            """.replace("            ","")
-        else:
-            test_script_content = f"""#!/bin/sh
-            exec > >(tee -a {log_path}) 2>&1
-            # Get prerequisite command
-            {get_prereq_command}
-
-            # Prerequisite command
-            {prereq_command}
-
-            # Test command
-            {command}
-            """.replace("            ","")
-            cleanup_script_content = f"""#!/bin/sh
-            # Cleanup command
-            {cleanup_command}
-            rm -rf {tmp_path}
-            """.replace("            ","")
-
-        test_script_path = os.path.join(sessions_path, f"atomic_test_{test_id}{extension}")
-        cleanup_script_path = os.path.join(sessions_path, f"atomic_clean_test_{test_id}{extension}")
-
-        with open(test_script_path, "w") as test_file:
-            test_file.write(test_script_content)
-
-        with open(cleanup_script_path, "w") as cleanup_file:
-            cleanup_file.write(cleanup_script_content)
-
-        print_msg(f"Test script generated: {test_script_path}")
-        print_msg(f"Cleanup script generated: {cleanup_script_path}")
-        self.logcsv(f"atomic_get {test_script_path} {cleanup_script_path}")
+        try:
+            parts = shlex.split(line or "")
+        except ValueError:
+            print_warn("Usage: atomic_emulate --target <ip> [--playbook <name>|--techniques T1,T2]")
+            return
+        args = {"target": "", "playbook": "", "techniques": "", "platform": "linux", "lhost": "127.0.0.1"}
+        key = ""
+        for part in parts:
+            if part.startswith("--"):
+                key = part[2:]
+            elif key in args:
+                args[key] = part
+                key = ""
+        target = args["target"] or self.params.get("rhost", "")
+        if not target:
+            print_warn("Usage: atomic_emulate --target <ip> [--playbook <name>|--techniques T1,T2]")
+            return
+        techniques = [t.strip() for t in args["techniques"].split(",") if t.strip()]
+        try:
+            report = _emulate(
+                target,
+                techniques=techniques or None,
+                playbook=args["playbook"],
+                platform=args["platform"],
+                lhost=args["lhost"] or self.params.get("lhost", "127.0.0.1"),
+            )
+        except (ValueError, RuntimeError) as exc:
+            print_warn(f"Emulation failed: {exc}")
+            return
+        for row in report["results"]:
+            status = "EXEC" if row.get("guid") else "SKIP"
+            print_msg(f"[{status}] {row['technique']} {(row.get('name') or row.get('note', ''))[:70]}")
+        print_msg(f"Executed {report['executed']}/{len(report['results'])} via {report['via']}")
+        print_msg(f"Report: {report['staged']}")
+        return
 
     @cmd2.with_category("10. Command & Control")
     def do_atomic_agent(self, line):
@@ -1585,17 +1398,22 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             return
 
         extension = ".sh" if test_scripts[0].endswith(".sh") else ".ps1"
+        win_drop_path = str(self.params.get("backdoor_win_service_path", "") or "").replace("/", "\\").rstrip("\\")
+        if not win_drop_path:
+            print_warn("backdoor_win_service_path unset: assign it before deploying Windows agents.")
+            return
+        win_atomic_path = f"{win_drop_path}\\lazyown_atomic_test"
         if extension == ".sh":
             atomic_agent_content = "\n".join([f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts])
         else:
-            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
+            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
         atomic_agent_path = os.path.join(tmp_path, f"atomic_agent{extension}")
         with open(atomic_agent_path, "w") as f:
             f.write(atomic_agent_content)
         if extension == ".sh":
             atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts])
         else:
-            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
+            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
         atomic_clean_agent_path = os.path.join(tmp_path, f"atomic_clean_agent{extension}")
         with open(atomic_clean_agent_path, "w") as f:
             f.write(atomic_clean_agent_content)
@@ -1620,8 +1438,6 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         rhost = self.params['rhost']
         sudo_pass = self.params.get("start_pass", "CHANGE_ME")
-        win_drop_path = self.params.get("backdoor_win_service_path", "C:/Users/lazyown/Documents")
-        win_atomic_path = f"{win_drop_path}/lazyown_atomic_test"
         print_msg("Deploying agent.")
         import os as _os
         from core.hardening import set_sshpass_env
@@ -1664,19 +1480,26 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category("10. Command & Control")
     def do_attack_plan(self, line):
-        """
-        Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
+        """Execute a multi-step APT simulation plan.
 
-        Parameters:
-        line (str) optional: Path to the YAML plan file. Append --auto to execute
-                              generated scripts immediately instead of just generating.
+        Usage:
+            attack_plan <plan.yaml> [--platform linux] [--auto]
 
-        Returns:
-        None
+        The platform filter is mandatory for correct emulation: without
+        it the first indexed test wins regardless of OS (Windows scripts
+        for a Linux target). It defaults to the plan's own ``platforms:``
+        entry (enriched playbooks) and must be passed explicitly for
+        bare step lists. ``--auto`` executes generated scripts locally:
+        only use it when the target IS this host.
         """
         playbook_dir = "playbooks"
         auto_mode = "--auto" in line
         line = line.replace("--auto", "").strip()
+        forced_platform = ""
+        if "--platform" in line:
+            parts = line.split("--platform", 1)
+            line = parts[0].strip()
+            forced_platform = parts[1].strip().split()[0] if parts[1].strip() else ""
 
         if not line.strip():
             yaml_files = [f for f in os.listdir(playbook_dir) if f.endswith(".yaml") or f.endswith(".yml")]
@@ -1718,9 +1541,28 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_warn("No steps defined in plan.")
             return
 
+        platform = forced_platform
+        if not platform:
+            platform = str(plan.get("platform", "") or "").strip().lower()
+        if not platform:
+            declared = plan.get("platforms", []) or []
+            if isinstance(declared, list) and declared:
+                platform = str(declared[0]).strip().lower()
+        if platform:
+            try:
+                from modules.atomic_resolver import normalize_platform
+
+                platform = normalize_platform(platform)
+            except ValueError:
+                print_warn(f"Ignoring unknown platform: {platform}")
+                platform = ""
+        if not platform:
+            print_warn("No --platform given and plan declares none: tests may target the wrong OS.")
+        gen_args = f" --platform {platform}" if platform else ""
+
         print_msg(f"Executing APT plan: {plan.get('apt_name', 'Unnamed')}\n{plan.get('description', '')}")
         if auto_mode:
-            print_warn("AUTO MODE: Generated scripts will be executed immediately. Use with caution.")
+            print_warn("AUTO MODE: scripts execute on THIS host. Only use when target IS this host.")
 
         for i, step in enumerate(steps):
             atomic_id = step.get("atomic_id")
@@ -1728,7 +1570,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 print_warn(f"Step {i+1} missing atomic_id.")
                 continue
             print_msg(f"Generating step {i+1}: {atomic_id}")
-            self.do_atomic_gen(atomic_id)
+            self.do_atomic_gen(f"{atomic_id}{gen_args}")
             if auto_mode:
                 os.path.join(os.getcwd(), "sessions", f"atomic_test_{atomic_id}*")
                 import fnmatch
@@ -1747,9 +1589,13 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         # After generation, build ordered super-agent
         sessions_path = os.path.join(os.getcwd(), "sessions")
         tmp_path = "/tmp/lazyown_atomic_test"
-        extension = ".sh" if any(glob.glob(os.path.join(sessions_path, "*.sh"))) else ".ps1"
-        test_scripts = sorted(glob.glob(os.path.join(sessions_path, f"atomic_test_*.{extension[1:]}")))
-        clean_scripts = sorted(glob.glob(os.path.join(sessions_path, f"atomic_clean_test_*.{extension[1:]}")))
+        os.makedirs(tmp_path, exist_ok=True)
+        uploads = os.path.join(sessions_path, "temp_uploads")
+        sh_count = len(glob.glob(os.path.join(uploads, "atomic_test_*.sh")))
+        ps_count = len(glob.glob(os.path.join(uploads, "atomic_test_*.ps1")))
+        extension = ".sh" if sh_count >= ps_count else ".ps1"
+        test_scripts = sorted(glob.glob(os.path.join(uploads, f"atomic_test_*.{extension[1:]}")))
+        clean_scripts = sorted(glob.glob(os.path.join(uploads, f"atomic_clean_test_*.{extension[1:]}")))
 
         if extension == ".sh":
             agent_lines = [
@@ -1768,13 +1614,18 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_scripts
             ]
         else:
+            win_drop = str(self.params.get("backdoor_win_service_path", "") or "").replace("/", "\\").rstrip("\\")
+            if not win_drop:
+                print_warn("backdoor_win_service_path unset: assign it before building Windows agents.")
+                return
+            win_agent_path = f"{win_drop}\\lazyown_atomic_test"
             agent_lines = [
-                f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts
             ]
             agent_lines.append("Compress-Archive -Path C:\\ProgramData\\lazyown_logs\\* -DestinationPath C:\\ProgramData\\lazyown_logs.zip")
 
             clean_lines = [
-                f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in clean_scripts
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs" for script in clean_scripts
             ]
 
         with open(os.path.join(tmp_path, f"apt_agent{extension}"), "w") as f:
@@ -1785,6 +1636,94 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         print_msg(f"APT agent created and ready at: {tmp_path}/apt_agent{extension}")
         print_msg(f"Cleanup agent created: {tmp_path}/apt_clean_agent{extension}")
+
+    @cmd2.with_category("10. Command & Control")
+    def do_apt_chain(self, line):
+        """Run a fully YAML-administered APT chain with one command.
+
+        Usage:
+            apt_chain [chain] [target]
+            apt_chain apt_rocke 172.17.0.2
+            apt_chain rocke 172.17.0.2   (playbook shorthand)
+
+        The first token names a file in ``chains/`` (per-APT files like
+        ``apt_rocke.yaml`` inherit the base ``apt_chain.yaml`` and only
+        pin the playbook default). A bare playbook name falls back to
+        its ``apt_<name>`` chain; anything else runs the base chain with
+        that playbook. Target defaults to ``rhost``. Manage chains from
+        the orchestrator Chains tab or by editing the YAML directly —
+        this method only interprets.
+        """
+        from modules.auto_registry import _looks_like_target as _is_target
+        from modules.chain_registry import CHAINS_DIR as _CHAINS_DIR
+        from modules.chain_registry import get as _get_chain
+
+        def _chain_file_exists(name: str) -> bool:
+            """True when chains/<name>.yaml exists, even if disabled."""
+            return (_CHAINS_DIR / f"{name}.yaml").is_file()
+
+        tokens = [t for t in (line or "").strip().split() if not t.startswith("-")]
+        target = (self.params.get("rhost", "") or "").strip()
+        chain_name = "apt_chain"
+        playbook_override = ""
+        try:
+            from modules.apt_playbooks import AptPlaybookEngine as _PBE
+
+            _known = _PBE(playbook_dir="playbooks")
+        except Exception:
+            _known = None
+        for token in tokens:
+            lowered = token.lower()
+            if _is_target(token):
+                target = token
+            elif _chain_file_exists(lowered):
+                if _get_chain(lowered) is None:
+                    print_warn(f"Chain disabled: {lowered}. Enable it from the orchestrator Chains tab.")
+                    return
+                chain_name = lowered
+            elif _known is not None and _known.get(token) is not None:
+                if _chain_file_exists(f"apt_{lowered}"):
+                    chain_name = f"apt_{lowered}"
+                else:
+                    playbook_override = lowered
+            elif _get_chain(f"apt_{lowered}") is not None:
+                chain_name = f"apt_{lowered}"
+            else:
+                playbook_override = lowered
+        if not target:
+            print_warn("Usage: apt_chain [chain] [target] (no target and rhost unset).")
+            return
+
+        try:
+            chain = _get_chain(chain_name)
+        except Exception as exc:
+            print_warn(f"Chain registry unavailable: {exc}")
+            chain = None
+        if chain is None:
+            print_warn(f"Chain not found or disabled: {chain_name}. See chains/ or the orchestrator Chains tab.")
+            return
+
+        try:
+            shell = self._resolve_shell() or self
+        except Exception:
+            shell = self
+
+        tokens_map = {"target": target}
+        if playbook_override:
+            tokens_map["playbook"] = playbook_override
+        print_msg(f"[apt_chain] chain={chain_name} target={target}")
+        for step in chain.resolve(tokens_map):
+            if step["skipped"]:
+                print_msg(f"[apt_chain] skip: {step['run']} ({step['reason']})")
+                continue
+            print_msg(f"[apt_chain] > {step['run']}")
+            try:
+                shell.onecmd(step["run"])
+            except Exception as exc:
+                print_warn(f"[apt_chain] step failed, aborting: {step['run']} ({exc})")
+                return
+        print_msg("[apt_chain] chain finished — review each step's output above; "
+                  "a green run line means the step was issued, not that the target fell.")
 
     @cmd2.with_category("10. Command & Control")
     def do_apt_playbook(self, line):

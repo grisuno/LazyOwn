@@ -46,7 +46,7 @@ flowchart LR
 
 ### `Config`
 
-`class` | [core/config.py:195](../../core/config.py#L195)
+`class` | [core/config.py:206](../../core/config.py#L206)
 
 ```python
 class Config
@@ -75,7 +75,7 @@ substitute ``{{aes_key}}`` and other tokens in lazyaddons.
 
 #### `Config.__init__`
 
-`constructor` | [core/config.py:208](../../core/config.py#L208)
+`constructor` | [core/config.py:219](../../core/config.py#L219)
 
 ```python
 def __init__(self, config_dict: dict[str, Any], sessions_dir: str | os.PathLike[str] | None = None) -> None
@@ -96,7 +96,7 @@ def __init__(self, config_dict: dict[str, Any], sessions_dir: str | os.PathLike[
 
 #### `Config.as_params`
 
-`method` | [core/config.py:223](../../core/config.py#L223)
+`method` | [core/config.py:234](../../core/config.py#L234)
 
 ```python
 def as_params(self) -> dict[str, Any]
@@ -112,7 +112,7 @@ consumed by lazyaddon template substitution.
 
 #### `Config.overridden_keys`
 
-`method` | [core/config.py:233](../../core/config.py#L233)
+`method` | [core/config.py:244](../../core/config.py#L244)
 
 ```python
 def overridden_keys(self) -> list[str]
@@ -130,7 +130,7 @@ Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
 
 ### `resolve_aes_key`
 
-`function` | [core/config.py:250](../../core/config.py#L250)
+`function` | [core/config.py:261](../../core/config.py#L261)
 
 ```python
 def resolve_aes_key(config_dict: dict[str, Any], *, sessions_dir: str | os.PathLike[str]) -> bytes
@@ -159,7 +159,7 @@ Return a 32-byte AES key derived from config, disk, or randomness.
 
 ### `load_payload`
 
-`function` | [core/config.py:316](../../core/config.py#L316)
+`function` | [core/config.py:327](../../core/config.py#L327)
 
 ```python
 def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]
@@ -195,7 +195,7 @@ Environment variable overrides
 
 ### `load_and_validate`
 
-`function` | [core/config.py:334](../../core/config.py#L334)
+`function` | [core/config.py:345](../../core/config.py#L345)
 
 ```python
 def load_and_validate(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]
@@ -231,7 +231,7 @@ Validation never raises: problems are collected in the `[`warnings`](cli.doctor.
 
 ### `save_payload`
 
-`function` | [core/config.py:385](../../core/config.py#L385)
+`function` | [core/config.py:396](../../core/config.py#L396)
 
 ```python
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None

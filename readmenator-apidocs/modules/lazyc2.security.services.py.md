@@ -298,6 +298,8 @@ def __init__(self, key_file: Path)
 |---|---|---|---|
 | `key_file` | `Path` |  |  |
 
+*Called by:* [`deploy`](modules.c2_agent.py.md#deploy)
+
 <a id="aeskeymanager-get_or_generate"></a>
 
 #### `AESKeyManager.get_or_generate`
@@ -317,6 +319,8 @@ Return an existing AES key or generate a new one.
 - `ValueError`: If an existing key has an invalid length.
 
 *Calls:* [`validate_aes_key`](lazyc2.security.validators.py.md#validate_aes_key)
+
+*Called by:* [`deploy`](modules.c2_agent.py.md#deploy)
 
 ---
 

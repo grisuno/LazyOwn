@@ -283,6 +283,7 @@ class TestLlmBackendSchema:
             "openai",
             "anthropic",
             "deepseek",
+            "llamacpp",
             "auto",
         }
 

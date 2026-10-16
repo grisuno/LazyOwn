@@ -189,6 +189,7 @@ class AddonCreatorConfig:
 
     payload_placeholders: frozenset[str] = frozenset(
         {
+            "action",
             "aes_key",
             "api_key",
             "backdoor_linux_home",
@@ -268,6 +269,7 @@ class AddonCreatorConfig:
             "mcp_port",
             "mode",
             "nameserver",
+            "note_text",
             "os_id",
             "outputdir",
             "params",
@@ -275,9 +277,11 @@ class AddonCreatorConfig:
             "pass",
             "password",
             "path",
+            "platform",
             "port",
             "prompt",
             "proxy_port",
+            "query",
             "rat_key",
             "region",
             "report_output_path",
@@ -300,6 +304,7 @@ class AddonCreatorConfig:
             "subdomain",
             "target",
             "target_path",
+            "technique_id",
             "template_name",
             "toast_max_per_tick",
             "toolname",

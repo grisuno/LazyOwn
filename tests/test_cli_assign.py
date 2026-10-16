@@ -255,3 +255,35 @@ class TestCompleteAssignBehaviour:
         tokens = shlex.split(line[:endidx]) if line else []
         index = len(tokens) - (0 if line[:endidx].endswith(" ") else 1)
         assert index == 2
+
+    def test_refuses_null_on_required(self):
+        from cli.assign import apply_assign
+
+        params = {"rhost": "1.1.1.1"}
+        calls = []
+        assert apply_assign(params, "rhost", None, save=lambda p: calls.append(dict(p))) is False
+        assert apply_assign(params, "rhost", "", save=lambda p: calls.append(dict(p))) is False
+        assert params["rhost"] == "1.1.1.1" and not calls
+
+    def test_warn_saves_invalid_but_present(self):
+        from cli.assign import apply_assign
+
+        params = {"rhost": "1.1.1.1"}
+        issues = []
+        assert apply_assign(params, "rhost", "x", on_issue=issues.append) is True
+        assert params["rhost"] == "x" and len(issues) == 1
+
+    def test_auto_populate_refuses_shell_less_save(self):
+        from cli.commands.mcp_bridge import McpBridgeCommandSet
+
+        cmds = McpBridgeCommandSet()
+        assert cmds.params == {}
+        import argparse
+
+        args = argparse.Namespace(target="9.9.9.9", force=False)
+        before = open("payload.json", encoding="utf-8").read()
+        underlying = getattr(McpBridgeCommandSet.do_auto_populate, "__wrapped__", None)
+        assert underlying is not None
+        underlying(cmds, args)
+        after = open("payload.json", encoding="utf-8").read()
+        assert before == after

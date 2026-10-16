@@ -1,6 +1,27 @@
 # Subsystem: commands (page 4 of 4)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/purple_team.py
+- Doc: Purple Team CommandSet: closed-loop offensive detection measurement.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_exec_parser` (function, line 29) `def _build_exec_parser()`
+  - `_build_test_parser` (function, line 67) `def _build_test_parser()`
+  - `_build_config_parser` (function, line 92) `def _build_config_parser()`
+  - `_build_history_parser` (function, line 106) `def _build_history_parser()`
+  - `PurpleTeamCommandSet` (class, line 124) `class PurpleTeamCommandSet(LazyOwnCommandSet)`
+  - `_get_loop` (method, line 130) `def _get_loop(self)`
+  - `do_purple_exec` (method, line 144) `def do_purple_exec(self, line)`
+  - `do_purple_test` (method, line 203) `def do_purple_test(self, args)`
+  - `do_purple_score` (method, line 223) `def do_purple_score(self, line)`
+  - `do_purple_report` (method, line 271) `def do_purple_report(self, line)`
+  - `do_purple_methods` (method, line 285) `def do_purple_methods(self, line)`
+  - `do_purple_config` (method, line 297) `def do_purple_config(self, args)`
+  - `do_purple_dashboard` (method, line 350) `def do_purple_dashboard(self, line)`
+  - `do_purple_history` (method, line 367) `def do_purple_history(self, args)`
+- Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `modules/auto_purple.py`
+
 ## cli/commands/pwn.py
 - Doc: Autonomous exploitation and LOLBAS command set.
 - Layer: utility
@@ -217,34 +238,34 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_scans` (method, line 219) `def do_scans(self, line)`
   - `do_sitrep` (method, line 236) `def do_sitrep(self, line)`
   - `do_assign` (method, line 253) `def do_assign(self, line)`
-  - `do_tenant` (method, line 306) `def do_tenant(self, line)`
-  - `do_scope` (method, line 379) `def do_scope(self, line)`
-  - `do_show` (method, line 445) `def do_show(self, line)`
-  - `do_list` (method, line 521) `def do_list(self, line)`
-  - `do_run` (method, line 550) `def do_run(self, line)`
-  - `do_payload` (method, line 589) `def do_payload(self, line)`
-  - `do_next` (method, line 640) `def do_next(self, line)`
-  - `do_frontier` (method, line 684) `def do_frontier(self, line)`
-  - `do_traces` (method, line 728) `def do_traces(self, line)`
-  - `do_chainmode` (method, line 809) `def do_chainmode(self, line)`
-  - `do_engage` (method, line 860) `def do_engage(self, line)`
-  - `do_pipeline` (method, line 987) `def do_pipeline(self, line)`
-  - `do_lazyscript` (method, line 1078) `def do_lazyscript(self, line)`
-  - `do_hunt` (method, line 1110) `def do_hunt(self, line)`
-  - `do_resume` (method, line 1201) `def do_resume(self, line)`
-  - `do_getseclist` (method, line 1223) `def do_getseclist(self, line)`
-  - `do_download_resources` (method, line 1261) `def do_download_resources(self, line)`
-  - `do_collab_join` (method, line 1294) `def do_collab_join(self, line)`
-  - `do_kick` (method, line 1325) `def do_kick(self, line)`
-  - `do_qa` (method, line 1374) `def do_qa(self, line)`
-  - `do_clock` (method, line 1436) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1484) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1496) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1546) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1592) `def do_msfshellcoder(self, line)`
-  - `_flag_value` (function, line 924) `def _flag_value(flag_name)`
-  - `_flag_value` (function, line 1036) `def _flag_value(flag_name)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+  - `do_tenant` (method, line 317) `def do_tenant(self, line)`
+  - `do_scope` (method, line 390) `def do_scope(self, line)`
+  - `do_show` (method, line 456) `def do_show(self, line)`
+  - `do_list` (method, line 532) `def do_list(self, line)`
+  - `do_run` (method, line 561) `def do_run(self, line)`
+  - `do_payload` (method, line 600) `def do_payload(self, line)`
+  - `do_next` (method, line 651) `def do_next(self, line)`
+  - `do_frontier` (method, line 695) `def do_frontier(self, line)`
+  - `do_traces` (method, line 739) `def do_traces(self, line)`
+  - `do_chainmode` (method, line 820) `def do_chainmode(self, line)`
+  - `do_engage` (method, line 871) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 998) `def do_pipeline(self, line)`
+  - `do_lazyscript` (method, line 1089) `def do_lazyscript(self, line)`
+  - `do_hunt` (method, line 1121) `def do_hunt(self, line)`
+  - `do_resume` (method, line 1212) `def do_resume(self, line)`
+  - `do_getseclist` (method, line 1234) `def do_getseclist(self, line)`
+  - `do_download_resources` (method, line 1272) `def do_download_resources(self, line)`
+  - `do_collab_join` (method, line 1305) `def do_collab_join(self, line)`
+  - `do_kick` (method, line 1336) `def do_kick(self, line)`
+  - `do_qa` (method, line 1385) `def do_qa(self, line)`
+  - `do_clock` (method, line 1447) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1495) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1507) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1557) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1603) `def do_msfshellcoder(self, line)`
+  - `_flag_value` (function, line 935) `def _flag_value(flag_name)`
+  - `_flag_value` (function, line 1047) `def _flag_value(flag_name)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
 - Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
 
 ## cli/commands/shellsys.py

@@ -131,8 +131,12 @@ class LazyCommandSet(LazyOwnCommandSet):
             result = lazy_agent.run_external_opencode(task, session_id=resume, cwd=cwd, timeout_sec=timeout)
         else:
             result = lazy_agent.run_external_hermes(
-                task, session_id=resume, cwd=cwd, timeout_sec=timeout,
-                max_turns=max_turns, run_budget=run_budget,
+                task,
+                session_id=resume,
+                cwd=cwd,
+                timeout_sec=timeout,
+                max_turns=max_turns,
+                run_budget=run_budget,
             )
         reply = str(result.get("reply", "") or "").strip()
         print_msg(reply[-4000:] if reply else "[*] no reply.")
@@ -365,7 +369,7 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[+] skills auto-match {'on' if state['skills_auto'] else 'off'}.")
             return
         if args[0] == "mirror":
-            from modules.lazy_skill_mirror import available_skills, mirror_all, mirror_skill
+            from modules.lazy_skill_mirror import mirror_all, mirror_skill
 
             names = [token for token in args[1:] if not token.startswith("--")]
             if names:
@@ -391,7 +395,9 @@ class LazyCommandSet(LazyOwnCommandSet):
                     f"{summary.get('backup') or 'none — already registered'})."
                 )
             return
-        print_error("Usage: lazy_skill list|show <name>|preview|inject <name...>|clear|auto on|off|mirror|register-hermes [--task T]")
+        print_error(
+            "Usage: lazy_skill list|show <name>|preview|inject <name...>|clear|auto on|off|mirror|register-hermes [--task T]"
+        )
 
     @cmd2.with_category(ai_category)
     def do_lazy_workspace(self, line):
@@ -1873,7 +1879,9 @@ class LazyCommandSet(LazyOwnCommandSet):
             if phase:
                 entries = [e for e in entries if phase.lower() in [p.lower() for p in e.get("phases", [])]]
             if query:
-                entries = [e for e in entries if query in e["name"].lower() or query in e.get("description", "").lower()]
+                entries = [
+                    e for e in entries if query in e["name"].lower() or query in e.get("description", "").lower()
+                ]
             print_msg(f"[*] {len(entries)} verb(s):")
             for entry in entries:
                 state = "on" if entry["enabled"] else "off"
@@ -1881,7 +1889,9 @@ class LazyCommandSet(LazyOwnCommandSet):
             try:
                 from modules.lazy_cli_bridge import cli_verbs, full_cli_enabled
 
-                print_msg(f"[*] full-cli routing: {'on' if full_cli_enabled() else 'off'} ({len(cli_verbs())} shell verbs visible)")
+                print_msg(
+                    f"[*] full-cli routing: {'on' if full_cli_enabled() else 'off'} ({len(cli_verbs())} shell verbs visible)"
+                )
             except Exception:
                 pass
             return
@@ -2653,9 +2663,15 @@ class LazyCommandSet(LazyOwnCommandSet):
             import subprocess as _sp
 
             print_msg(f"[*] building {image_name()} from Dockerfile.sandbox (takes minutes)...")
-            proc = _sp.run(["docker", "build", "-f", "Dockerfile.sandbox", "-t", image_name(), "."],
-                            capture_output=True, text=True, timeout=1800)
-            print_msg("[+] image ready." if proc.returncode == 0 else f"[-] build failed:\n{(proc.stderr or '')[-2000:]}")
+            proc = _sp.run(
+                ["docker", "build", "-f", "Dockerfile.sandbox", "-t", image_name(), "."],
+                capture_output=True,
+                text=True,
+                timeout=1800,
+            )
+            print_msg(
+                "[+] image ready." if proc.returncode == 0 else f"[-] build failed:\n{(proc.stderr or '')[-2000:]}"
+            )
             return
         if args[0] == "exec":
             task_id = extract_flag(args, "--task") or self._task_id(args)
@@ -2685,7 +2701,7 @@ class LazyCommandSet(LazyOwnCommandSet):
             state = set_installer_enabled(args[0] == "on")
             print_msg(f"[+] loop installer: {'on' if state else 'off'}")
             if state:
-                print_msg("[*] recommended gate: lazy_guard rule-add \"apt-get install\" ask installs-write-to-host")
+                print_msg('[*] recommended gate: lazy_guard rule-add "apt-get install" ask installs-write-to-host')
             return
         if args[0] == "list":
             print_msg(f"[*] loop installer: {'on' if installer_enabled() else 'off'} ({len(TOOL_INSTALL)} recipes)")

@@ -1,6 +1,6 @@
 # `cli.commands.persist_migrated`
 
-> Source: [cli/commands/persist_migrated.py:1](../../cli/commands/persist_migrated.py#L1) | language `py` | coverage 96.2% | [API index](../index.md)
+> Source: [cli/commands/persist_migrated.py:1](../../cli/commands/persist_migrated.py#L1) | language `py` | coverage 96.6% | [API index](../index.md)
 
 persist commands migrated from lazyown.py.
 
@@ -18,6 +18,9 @@ classDiagram
     class PersistMigratedCommandSet
     PersistMigratedCommandSet : phase
     PersistMigratedCommandSet : category
+    PersistMigratedCommandSet : generate_backdoor_username()
+    PersistMigratedCommandSet : generate_backdoor_password()
+    PersistMigratedCommandSet : resolve_backdoor_creds()
     PersistMigratedCommandSet : do_pwncat()
     PersistMigratedCommandSet : do_ftp()
     PersistMigratedCommandSet : do_rdp()
@@ -37,9 +40,6 @@ classDiagram
     PersistMigratedCommandSet : do_setoolKits()
     PersistMigratedCommandSet : do_darkarmour()
     PersistMigratedCommandSet : do_knokknok()
-    PersistMigratedCommandSet : do_listener_go()
-    PersistMigratedCommandSet : do_listener_py()
-    PersistMigratedCommandSet : do_service()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- PersistMigratedCommandSet
 ```
@@ -50,6 +50,9 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_resolve_backdoor_creds(["PersistMigratedCommandSet.resolve_backdoor_creds"])
+    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_generate_backdoor_password(["PersistMigratedCommandSet.generate_backdoor_password"])
+    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_generate_backdoor_username(["PersistMigratedCommandSet.generate_backdoor_username"])
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_pwncat(["PersistMigratedCommandSet.do_pwncat"])
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_msg["console.print_msg"]
@@ -67,6 +70,8 @@ flowchart LR
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevelygen(["PersistMigratedCommandSet.do_weevelygen"])
     n_core_process_py__is_binary_present["process.is_binary_present"]
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevely(["PersistMigratedCommandSet.do_weevely"])
+    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_resolve_backdoor_creds --> n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_generate_backdoor_password
+    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_resolve_backdoor_creds --> n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_generate_backdoor_username
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_pwncat -.-> n_core_console_py__print_error
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_pwncat -.-> n_core_console_py__print_msg
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_ftp -.-> n_core_console_py__print_msg
@@ -80,7 +85,6 @@ flowchart LR
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0 -.-> n_core_console_py__print_msg
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0 -.-> n_core_console_py__print_warn
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0 -.-> n_core_hardening_py__safe_clipboard_copy
-    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0w -.-> n_core_console_py__print_error
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0w -.-> n_core_hardening_py__escape_powershell_single_quoted
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_grisun0w -.-> n_utils_py__copy2clip
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_asprevbase64 -.-> n_core_console_py__print_error
@@ -90,7 +94,6 @@ flowchart LR
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevelygen -.-> n_core_console_py__print_warn
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevelygen -.-> n_core_process_py__is_binary_present
     n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevely -.-> n_core_console_py__print_error
-    n_cli_commands_persist_migrated_py__PersistMigratedCommandSet_do_weevely -.-> n_core_console_py__print_msg
 ```
 
 ## Classes
@@ -99,7 +102,7 @@ flowchart LR
 
 ### `PersistMigratedCommandSet`
 
-`class` | [cli/commands/persist_migrated.py:28](../../cli/commands/persist_migrated.py#L28)
+`class` | [cli/commands/persist_migrated.py:32](../../cli/commands/persist_migrated.py#L32)
 
 ```python
 class PersistMigratedCommandSet(LazyOwnCommandSet)
@@ -118,6 +121,9 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 
 | Member | Kind | Summary |
 |---|---|---|
+| [`generate_backdoor_username`](#persistmigratedcommandset-generate_backdoor_username) | staticmethod | Generate a random backdoor username (same shape as C2 operators). |
+| [`generate_backdoor_password`](#persistmigratedcommandset-generate_backdoor_password) | staticmethod | Generate a random backdoor password safe for assign, chpasswd and CLIs. |
+| [`resolve_backdoor_creds`](#persistmigratedcommandset-resolve_backdoor_creds) | staticmethod | Return configured creds, or fresh random ones when unset. |
 | [`do_pwncat`](#persistmigratedcommandset-do_pwncat) | method | Runs `pwncat` with the specified port for listening. |
 | [`do_ftp`](#persistmigratedcommandset-do_ftp) | method | Connects to an ftp host using credentials from a file and a specified port. |
 | [`do_rdp`](#persistmigratedcommandset-do_rdp) | method | Reads credentials from a file, encrypts the password, and executes the RDP connection command. |
@@ -143,11 +149,77 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 | [`do_toctoc`](#persistmigratedcommandset-do_toctoc) | method | Sends a magic packet to the Chinese malware. |
 | [`do_beaconcfg`](#persistmigratedcommandset-do_beaconcfg) | method | Generate a C2 beacon profile with traffic morphing and domain fronting. |
 
+<a id="persistmigratedcommandset-generate_backdoor_username"></a>
+
+#### `PersistMigratedCommandSet.generate_backdoor_username`
+
+`staticmethod` | [cli/commands/persist_migrated.py:37](../../cli/commands/persist_migrated.py#L37)
+
+Decorators: `@staticmethod`
+
+```python
+def generate_backdoor_username() -> str
+```
+
+Generate a random backdoor username (same shape as C2 operators).
+
+**Returns:** `str`
+
+*Called by:* [`PersistMigratedCommandSet.resolve_backdoor_creds`](#persistmigratedcommandset-resolve_backdoor_creds)
+
+<a id="persistmigratedcommandset-generate_backdoor_password"></a>
+
+#### `PersistMigratedCommandSet.generate_backdoor_password`
+
+`staticmethod` | [cli/commands/persist_migrated.py:43](../../cli/commands/persist_migrated.py#L43)
+
+Decorators: `@staticmethod`
+
+```python
+def generate_backdoor_password() -> str
+```
+
+Generate a random backdoor password safe for assign, chpasswd and CLIs.
+
+Excludes every character rejected by `[`apply_assign`](cli.assign.py.md#apply_assign)` (shell
+metacharacters) plus ``:`` (chpasswd delimiter) and quotes.
+
+**Returns:** `str`
+
+*Called by:* [`PersistMigratedCommandSet.resolve_backdoor_creds`](#persistmigratedcommandset-resolve_backdoor_creds)
+
+<a id="persistmigratedcommandset-resolve_backdoor_creds"></a>
+
+#### `PersistMigratedCommandSet.resolve_backdoor_creds`
+
+`staticmethod` | [cli/commands/persist_migrated.py:53](../../cli/commands/persist_migrated.py#L53)
+
+Decorators: `@staticmethod`
+
+```python
+def resolve_backdoor_creds(params: dict) -> tuple[str, str]
+```
+
+Return configured creds, or fresh random ones when unset.
+
+Pure function (no I/O): callers persist via ``assign`` when the
+returned values differ from the placeholders.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `params` | `dict` |  |  |
+
+**Returns:** `tuple[str, str]`
+
+*Calls:* [`PersistMigratedCommandSet.generate_backdoor_password`](#persistmigratedcommandset-generate_backdoor_password), [`PersistMigratedCommandSet.generate_backdoor_username`](#persistmigratedcommandset-generate_backdoor_username)
+
 <a id="persistmigratedcommandset-do_pwncat"></a>
 
 #### `PersistMigratedCommandSet.do_pwncat`
 
-`method` | [cli/commands/persist_migrated.py:33](../../cli/commands/persist_migrated.py#L33)
+`method` | [cli/commands/persist_migrated.py:91](../../cli/commands/persist_migrated.py#L91)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -191,7 +263,7 @@ Dependencies:
 
 #### `PersistMigratedCommandSet.do_ftp`
 
-`method` | [cli/commands/persist_migrated.py:77](../../cli/commands/persist_migrated.py#L77)
+`method` | [cli/commands/persist_migrated.py:135](../../cli/commands/persist_migrated.py#L135)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -236,7 +308,7 @@ Note: Ensure `sshpass` is installed on your system for password-based SSH authen
 
 #### `PersistMigratedCommandSet.do_rdp`
 
-`method` | [cli/commands/persist_migrated.py:136](../../cli/commands/persist_migrated.py#L136)
+`method` | [cli/commands/persist_migrated.py:194](../../cli/commands/persist_migrated.py#L194)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -276,7 +348,7 @@ Example usage: `rdp`
 
 #### `PersistMigratedCommandSet.do_grisun0`
 
-`method` | [cli/commands/persist_migrated.py:210](../../cli/commands/persist_migrated.py#L210)
+`method` | [cli/commands/persist_migrated.py:268](../../cli/commands/persist_migrated.py#L268)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -315,7 +387,7 @@ Note: Ensure `xclip` is installed and available on your system.
 
 #### `PersistMigratedCommandSet.do_grisun0w`
 
-`method` | [cli/commands/persist_migrated.py:256](../../cli/commands/persist_migrated.py#L256)
+`method` | [cli/commands/persist_migrated.py:312](../../cli/commands/persist_migrated.py#L312)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -347,13 +419,13 @@ To manually execute the command:
 
 **Returns:** None
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`escape_powershell_single_quoted`](core.hardening.py.md#escape_powershell_single_quoted), [`copy2clip`](utils.py.md#copy2clip)
+*Calls:* [`escape_powershell_single_quoted`](core.hardening.py.md#escape_powershell_single_quoted), [`copy2clip`](utils.py.md#copy2clip)
 
 <a id="persistmigratedcommandset-do_asprevbase64"></a>
 
 #### `PersistMigratedCommandSet.do_asprevbase64`
 
-`method` | [cli/commands/persist_migrated.py:300](../../cli/commands/persist_migrated.py#L300)
+`method` | [cli/commands/persist_migrated.py:354](../../cli/commands/persist_migrated.py#L354)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -393,7 +465,7 @@ Note: Ensure `xclip` is installed and available on your system. For help on crea
 
 #### `PersistMigratedCommandSet.do_weevelygen`
 
-`method` | [cli/commands/persist_migrated.py:338](../../cli/commands/persist_migrated.py#L338)
+`method` | [cli/commands/persist_migrated.py:392](../../cli/commands/persist_migrated.py#L392)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -435,7 +507,7 @@ $ weevelygen s3cr3t
 
 #### `PersistMigratedCommandSet.do_weevely`
 
-`method` | [cli/commands/persist_migrated.py:378](../../cli/commands/persist_migrated.py#L378)
+`method` | [cli/commands/persist_migrated.py:432](../../cli/commands/persist_migrated.py#L432)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -477,7 +549,7 @@ $ weevelygen s3cr3t
 
 #### `PersistMigratedCommandSet.do_backdoor_factory`
 
-`method` | [cli/commands/persist_migrated.py:424](../../cli/commands/persist_migrated.py#L424)
+`method` | [cli/commands/persist_migrated.py:478](../../cli/commands/persist_migrated.py#L478)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -518,7 +590,7 @@ For example:
 
 #### `PersistMigratedCommandSet.do_msfpc`
 
-`method` | [cli/commands/persist_migrated.py:470](../../cli/commands/persist_migrated.py#L470)
+`method` | [cli/commands/persist_migrated.py:524](../../cli/commands/persist_migrated.py#L524)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -561,7 +633,7 @@ Example usage:
 
 #### `PersistMigratedCommandSet.do_ivy`
 
-`method` | [cli/commands/persist_migrated.py:551](../../cli/commands/persist_migrated.py#L551)
+`method` | [cli/commands/persist_migrated.py:605](../../cli/commands/persist_migrated.py#L605)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -605,7 +677,7 @@ Example usage:
 
 #### `PersistMigratedCommandSet.do_veil`
 
-`method` | [cli/commands/persist_migrated.py:651](../../cli/commands/persist_migrated.py#L651)
+`method` | [cli/commands/persist_migrated.py:705](../../cli/commands/persist_migrated.py#L705)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -642,7 +714,7 @@ Example usage:
 
 #### `PersistMigratedCommandSet.do_scarecrow`
 
-`method` | [cli/commands/persist_migrated.py:725](../../cli/commands/persist_migrated.py#L725)
+`method` | [cli/commands/persist_migrated.py:779](../../cli/commands/persist_migrated.py#L779)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -666,7 +738,7 @@ Executes ScareCrow with various options for bypassing EDR solutions and executin
 
 #### `PersistMigratedCommandSet.do_generate_revshell`
 
-`method` | [cli/commands/persist_migrated.py:843](../../cli/commands/persist_migrated.py#L843)
+`method` | [cli/commands/persist_migrated.py:897](../../cli/commands/persist_migrated.py#L897)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -694,7 +766,7 @@ reverse shell command.
 
 #### `PersistMigratedCommandSet.do_dr0p1t`
 
-`method` | [cli/commands/persist_migrated.py:909](../../cli/commands/persist_migrated.py#L909)
+`method` | [cli/commands/persist_migrated.py:963](../../cli/commands/persist_migrated.py#L963)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -723,7 +795,7 @@ the command and executes it.
 
 #### `PersistMigratedCommandSet.do_paranoid_meterpreter`
 
-`method` | [cli/commands/persist_migrated.py:972](../../cli/commands/persist_migrated.py#L972)
+`method` | [cli/commands/persist_migrated.py:1026](../../cli/commands/persist_migrated.py#L1026)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -756,7 +828,7 @@ None
 
 #### `PersistMigratedCommandSet.do_setoolKits`
 
-`method` | [cli/commands/persist_migrated.py:1060](../../cli/commands/persist_migrated.py#L1060)
+`method` | [cli/commands/persist_migrated.py:1114](../../cli/commands/persist_migrated.py#L1114)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -793,7 +865,7 @@ Workflow:
 
 #### `PersistMigratedCommandSet.do_darkarmour`
 
-`method` | [cli/commands/persist_migrated.py:1093](../../cli/commands/persist_migrated.py#L1093)
+`method` | [cli/commands/persist_migrated.py:1147](../../cli/commands/persist_migrated.py#L1147)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -825,7 +897,7 @@ None
 
 #### `PersistMigratedCommandSet.do_knokknok`
 
-`method` | [cli/commands/persist_migrated.py:1161](../../cli/commands/persist_migrated.py#L1161)
+`method` | [cli/commands/persist_migrated.py:1215](../../cli/commands/persist_migrated.py#L1215)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -849,7 +921,7 @@ Send special string to trigger a reverse shell, with the command 'c2 client_name
 
 #### `PersistMigratedCommandSet.do_listener_go`
 
-`method` | [cli/commands/persist_migrated.py:1196](../../cli/commands/persist_migrated.py#L1196)
+`method` | [cli/commands/persist_migrated.py:1250](../../cli/commands/persist_migrated.py#L1250)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -888,7 +960,7 @@ parameters.
 
 #### `PersistMigratedCommandSet.do_listener_py`
 
-`method` | [cli/commands/persist_migrated.py:1263](../../cli/commands/persist_migrated.py#L1263)
+`method` | [cli/commands/persist_migrated.py:1317](../../cli/commands/persist_migrated.py#L1317)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -927,7 +999,7 @@ parameters.
 
 #### `PersistMigratedCommandSet.do_service`
 
-`method` | [cli/commands/persist_migrated.py:1330](../../cli/commands/persist_migrated.py#L1330)
+`method` | [cli/commands/persist_migrated.py:1384](../../cli/commands/persist_migrated.py#L1384)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -965,7 +1037,7 @@ the script remotely via SSH.
 
 #### `PersistMigratedCommandSet.do_toctoc`
 
-`method` | [cli/commands/persist_migrated.py:1403](../../cli/commands/persist_migrated.py#L1403)
+`method` | [cli/commands/persist_migrated.py:1457](../../cli/commands/persist_migrated.py#L1457)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 
@@ -993,7 +1065,7 @@ The function extracts self.params['rhost'] and rport from self.params['rhost'] a
 
 #### `PersistMigratedCommandSet.do_beaconcfg`
 
-`method` | [cli/commands/persist_migrated.py:1426](../../cli/commands/persist_migrated.py#L1426)
+`method` | [cli/commands/persist_migrated.py:1480](../../cli/commands/persist_migrated.py#L1480)
 
 Decorators: `@cmd2.with_category('05. Persistence')`
 

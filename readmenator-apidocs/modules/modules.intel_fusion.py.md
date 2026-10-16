@@ -15,7 +15,7 @@ research graph.
 Payload shape mirrors ReadMenator ``ForceGraphRenderer.build_payload`` so
 ``templates/intel.html`` (a clone of ReadMenator ``_forcegraph_page``) can
 reuse the exact same engine, physics sizes, glyphs, colors, legend and
-inspector: file nodes carry ``family``/``layer``/``language``/``rank``/
+inspector: file nodes carry ``family``/``layer``/``language``/`[`rank`](modules.atomic_exploit_bridge.py.md#rank)`/
 ``doc``/``symbol_list``; community and layer hub nodes plus `[`member_of`](modules.kerberoasting.py.md#kerberoasttarget-member_of)` /
 ``layered_as`` structural edges are appended automatically.
 

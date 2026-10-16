@@ -202,7 +202,7 @@ def transform_knowledge_base(prompt_builder) -> None
 
 ### `process_prompt_local`
 
-`function` | [contrib/legacy/lazydeepseekcli.py:255](../../contrib/legacy/lazydeepseekcli.py#L255)
+`function` | [contrib/legacy/lazydeepseekcli.py:261](../../contrib/legacy/lazydeepseekcli.py#L261)
 
 ```python
 def process_prompt_local(prompt: str, debug: bool = False, mode: str = 'console') -> Response
@@ -226,7 +226,7 @@ def process_prompt_local(prompt: str, debug: bool = False, mode: str = 'console'
 
 ### `process_prompt_localreport`
 
-`function` | [contrib/legacy/lazydeepseekcli.py:263](../../contrib/legacy/lazydeepseekcli.py#L263)
+`function` | [contrib/legacy/lazydeepseekcli.py:269](../../contrib/legacy/lazydeepseekcli.py#L269)
 
 ```python
 def process_prompt_localreport(prompt: str, debug: bool = False, mode: str = 'console') -> Response
@@ -250,7 +250,7 @@ def process_prompt_localreport(prompt: str, debug: bool = False, mode: str = 'co
 
 ### `parse_args`
 
-`function` | [contrib/legacy/lazydeepseekcli.py:271](../../contrib/legacy/lazydeepseekcli.py#L271)
+`function` | [contrib/legacy/lazydeepseekcli.py:277](../../contrib/legacy/lazydeepseekcli.py#L277)
 
 ```python
 def parse_args() -> argparse.Namespace

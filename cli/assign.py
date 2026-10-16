@@ -77,8 +77,11 @@ def apply_assign(
             )
         return False
     issue = validate_value(key, coerced)
-    if issue is not None and on_issue is not None:
-        on_issue(issue)
+    if issue is not None:
+        if on_issue is not None:
+            on_issue(issue)
+        if issue.severity == Severity.ERROR and (coerced is None or coerced == ""):
+            return False
     if history is not None:
         try:
             history.push(params)

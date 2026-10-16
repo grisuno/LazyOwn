@@ -216,6 +216,9 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                         break
 
         if changed:
+            if "rhost" not in params or "lhost" not in params:
+                print_error("Refusing to save: shell params not bound (would truncate payload.json).")
+                return
             try:
                 save_payload(dict(params))
             except Exception as exc:

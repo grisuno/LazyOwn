@@ -512,7 +512,6 @@ class LazyOwnShell(cmd2.Cmd):
         self.c2_auth = (c2_user, c2_pass)
         self.c2_clientid = "no_priv"
         self.path = os.getcwd()
-        self._sync_c2_credentials()
         self.url_download = url_download
         self.version = version
         self.sessions_dir = f"{self.path}/sessions"
@@ -597,6 +596,10 @@ class LazyOwnShell(cmd2.Cmd):
             "tui_theme": "default",
         }
         self._load_extended_params()
+        # NOTE: must run after self.params exists (AttributeError before
+        # the params dict is assigned would be swallowed by the bare
+        # except inside and the sync would silently never happen).
+        self._sync_c2_credentials()
         try:
             self._chain_prompt = self._build_chain_prompt_engine()
         except Exception as exc:
@@ -4402,6 +4405,9 @@ class LazyOwnShell(cmd2.Cmd):
         None
         """
         if clientid == "":
+            if not sys.stdin.isatty():
+                print_error("download_file_from_c2 needs an explicit client id in non-interactive mode.")
+                return
             clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
         path = os.getcwd()
         sessions = f"{path}/sessions/temp_uploads"
@@ -4445,10 +4451,15 @@ class LazyOwnShell(cmd2.Cmd):
                     from core.config import save_payload
 
                     payload = load_payload()
+                    if "rhost" not in payload or "lhost" not in payload:
+                        print_warn("C2 credential sync skipped: loaded payload lacks core keys (not saving).")
+                        return
                     payload["c2_user"] = new_user
                     payload["c2_pass"] = new_pass
                     save_payload(payload)
-        except Exception:
+                    print_msg(f"C2 credentials synced from .c2_credentials.txt (user: {new_user})")
+        except Exception as exc:
+            print_warn(f"C2 credential sync skipped: {exc}")
             pass
 
     def issue_command_to_c2(self, command, client_id=""):
@@ -4464,6 +4475,9 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if client_id:
             clientid = client_id
+        elif not sys.stdin.isatty():
+            print_error("issue_command_to_c2 needs an explicit client_id in non-interactive mode.")
+            return
         else:
             clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
 

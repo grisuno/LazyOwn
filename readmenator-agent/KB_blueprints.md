@@ -72,26 +72,30 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_rbac_available` (function, line 55) `def _rbac_available()`
-  - `_get_rbac_store` (function, line 60) `def _get_rbac_store()`
-  - `_get_rbac_user_obj` (function, line 72) `def _get_rbac_user_obj(flask_user)`
-  - `_get_tenant_manager` (function, line 82) `def _get_tenant_manager()`
-  - `register` (function, line 96) `def register()`
-  - `login` (function, line 155) `def login()`
-  - `mfa_setup` (function, line 200) `def mfa_setup()`
-  - `mfa_qr` (function, line 273) `def mfa_qr(username)`
-  - `mfa_verify` (function, line 295) `def mfa_verify()`
-  - `profile` (function, line 339) `def profile()`
-  - `logout` (function, line 364) `def logout()`
-  - `admin_users` (function, line 383) `def admin_users()`
-  - `admin_set_role` (function, line 400) `def admin_set_role(user_id)`
-  - `admin_reset_mfa` (function, line 422) `def admin_reset_mfa(user_id)`
-  - `admin_delete_user` (function, line 434) `def admin_delete_user(user_id)`
-  - `admin_tenants` (function, line 452) `def admin_tenants()`
-  - `admin_create_tenant` (function, line 472) `def admin_create_tenant()`
-  - `admin_switch_tenant` (function, line 491) `def admin_switch_tenant(tenant_id)`
-  - `require_role` (function, line 35) `def require_role(role)`
-- Depends on: `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
+  - `_rbac_available` (function, line 87) `def _rbac_available()`
+  - `_get_rbac_store` (function, line 92) `def _get_rbac_store()`
+  - `_get_rbac_user_obj` (function, line 104) `def _get_rbac_user_obj(flask_user)`
+  - `_get_tenant_manager` (function, line 114) `def _get_tenant_manager()`
+  - `register` (function, line 128) `def register()`
+  - `login` (function, line 187) `def login()`
+  - `mfa_setup` (function, line 232) `def mfa_setup()`
+  - `mfa_qr` (function, line 305) `def mfa_qr(username)`
+  - `mfa_verify` (function, line 327) `def mfa_verify()`
+  - `profile` (function, line 371) `def profile()`
+  - `logout` (function, line 396) `def logout()`
+  - `admin_users` (function, line 415) `def admin_users()`
+  - `admin_set_role` (function, line 432) `def admin_set_role(user_id)`
+  - `admin_reset_mfa` (function, line 454) `def admin_reset_mfa(user_id)`
+  - `admin_delete_user` (function, line 466) `def admin_delete_user(user_id)`
+  - `admin_tenants` (function, line 484) `def admin_tenants()`
+  - `admin_create_tenant` (function, line 504) `def admin_create_tenant()`
+  - `admin_switch_tenant` (function, line 523) `def admin_switch_tenant(tenant_id)`
+  - `Role` (class, line 38) `class Role(Enum)`
+  - `require_role` (function, line 59) `def require_role(role)`
+  - `valid_roles` (method, line 51) `def valid_roles(cls)`
+  - `decorator` (function, line 69) `def decorator(view)`
+  - `wrapper` (function, line 71) `def wrapper()`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
 - Imported by: `lazyc2/blueprints/__init__.py`, `lazygui/services/teamserver_backend.py`, `static/js/socket.io-4.0.0.min.js`, `static/js/socket.io-4.3.2.min.js`
 
 ## lazyc2/blueprints/beacon.py

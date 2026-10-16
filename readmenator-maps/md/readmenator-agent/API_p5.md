@@ -1,5 +1,13 @@
-# API (page 5 of 22)
+# API (page 5 of 23)
 Previous: [API_p4.md](API_p4.md)
+
+## cli/splash.py
+Depends on: `cli/style.py`, `core/console.py`
+Imported by: `lazyown.py`, `tests/test_tui_splash.py`
+- `SplashEffect.render` (method) `cli/splash.py:71` `def render(self, console, lines, tokens, config)`
+- `TypewriterEffect.render` (method) `cli/splash.py:90` `def render(self, console, lines, tokens, config)`
+- `InstantEffect.render` (method) `cli/splash.py:150` `def render(self, console, lines, tokens, config)`
+- `render_splash` (function) `cli/splash.py:166` `def render_splash(console, lines, payload, config, effect_name)` -- Render the splash overlay and optionally clear the screen.
 
 ## cli/status_bar.py
 Depends on: `cli/reactive_hints.py`, `cli/themes.py`
@@ -249,7 +257,7 @@ Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
 
 ## contrib/legacy/lazydeepseekcli.py
 Depends on: `core/logging.py`
-Imported by: `modules/llm_adapter.py`
+Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
 - `truncate_message` (function) `contrib/legacy/lazydeepseekcli.py:41` `def truncate_message(message, max_chars)`
 - `configure_logging` (function) `contrib/legacy/lazydeepseekcli.py:45` `def configure_logging(debug)`
 - `load_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:167` `def load_knowledge_base(file_path)`
@@ -257,10 +265,10 @@ Imported by: `modules/llm_adapter.py`
 - `add_to_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:179` `def add_to_knowledge_base(prompt, command, file_path)`
 - `get_relevant_knowledge` (function) `contrib/legacy/lazydeepseekcli.py:185` `def get_relevant_knowledge(prompt)`
 - `transform_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:193` `def transform_knowledge_base(prompt_builder)`
-- `generate` (function) `contrib/legacy/lazydeepseekcli.py:231` `def generate()`
-- `process_prompt_local` (function) `contrib/legacy/lazydeepseekcli.py:255` `def process_prompt_local(prompt, debug, mode)`
-- `process_prompt_localreport` (function) `contrib/legacy/lazydeepseekcli.py:263` `def process_prompt_localreport(prompt, debug, mode)`
-- `parse_args` (function) `contrib/legacy/lazydeepseekcli.py:271` `def parse_args()`
+- `generate` (function) `contrib/legacy/lazydeepseekcli.py:232` `def generate()`
+- `process_prompt_local` (function) `contrib/legacy/lazydeepseekcli.py:261` `def process_prompt_local(prompt, debug, mode)`
+- `process_prompt_localreport` (function) `contrib/legacy/lazydeepseekcli.py:269` `def process_prompt_localreport(prompt, debug, mode)`
+- `parse_args` (function) `contrib/legacy/lazydeepseekcli.py:277` `def parse_args()`
 
 ## contrib/legacy/lazydisassebler.py
 - `X64Disassembler.__init__` (method) `contrib/legacy/lazydisassebler.py:34` `def __init__(self)` -- Initializes the X64Disassembler instance.
@@ -484,13 +492,6 @@ Depends on: `cli/commands/pwn.py`
 - `BinaryAttacker.prepare_attack` (method) `contrib/legacy/lazypwn.py:90` `def prepare_attack(self)`
 - `BinaryAttacker.exploit_with_pwntools` (method) `contrib/legacy/lazypwn.py:170` `def exploit_with_pwntools(self)`
 - `main` (function) `contrib/legacy/lazypwn.py:181` `def main()`
-
-## contrib/legacy/lazypwnkit.py
-- `rmrf` (function) `contrib/legacy/lazypwnkit.py:8` `def rmrf(path)` -- Elimina recursivamente un directorio y su contenido.
-- `create_exploit_environment` (function) `contrib/legacy/lazypwnkit.py:13` `def create_exploit_environment()` -- Crea el entorno necesario para el exploit.
-- `cleanup_exploit_environment` (function) `contrib/legacy/lazypwnkit.py:31` `def cleanup_exploit_environment()` -- Limpia el entorno creado para el exploit.
-- `execute_exploit` (function) `contrib/legacy/lazypwnkit.py:37` `def execute_exploit(cmd)` -- Ejecuta el exploit.
-- `main` (function) `contrib/legacy/lazypwnkit.py:79` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

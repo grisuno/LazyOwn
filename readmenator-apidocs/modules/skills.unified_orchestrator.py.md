@@ -952,7 +952,7 @@ Return a normalised goal or raise `ValueError`.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `goal` | `str` |  | Free-form objective string. |
-| `mode` | `str` | `''` | Routing mode (``auto`` / ``daemon`` / ``hive`` / ``swan``). |
+| `mode` | `str` | `''` | Routing mode (`[`auto`](modules.atomic_exploit_bridge.py.md#auto)` / ``daemon`` / ``hive`` / ``swan``). |
 | `phase` | `str` | `''` | Kill-chain phase identifier. |
 | `task_type` | `str` | `''` | SWAN task type identifier. |
 | `target` | `str` | `''` | Single-target identifier for the daemon backend. |

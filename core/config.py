@@ -146,12 +146,8 @@ def _mask_if_sensitive(key: str, value: Any) -> str:
 def _log_config_change(key: str, old_value: Any, new_value: Any) -> None:
     """Append a JSONL audit entry recording a configuration change.
 
-    Sensitive values are masked before logging.
-
-    Args:
-        key: The configuration key that changed.
-        old_value: The previous value (``None`` for newly added keys).
-        new_value: The new value.
+    Sensitive values are masked before logging. The outermost LazyOwn
+    caller frame is recorded so a future bad write names its author.
     """
     try:
         _CONFIG_AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -160,12 +156,27 @@ def _log_config_change(key: str, old_value: Any, new_value: Any) -> None:
             "key": key,
             "old_value": _mask_if_sensitive(key, old_value),
             "new_value": _mask_if_sensitive(key, new_value),
+            "caller": _calling_frame(),
         }
         with open(_CONFIG_AUDIT_LOG, "a", encoding="utf-8") as fh:
             json.dump(entry, fh)
             fh.write("\n")
     except OSError as exc:
         logger.warning("Failed to write config audit log: %s", exc)
+
+
+def _calling_frame() -> str:
+    """Return module:function of the outermost non-config caller."""
+    import inspect as _inspect
+
+    try:
+        for frame in _inspect.stack()[2:12]:
+            module = frame.frame.f_globals.get("__name__", "")
+            if module and not module.startswith("core.config"):
+                return f"{module}:{frame.function}"
+    except Exception:
+        pass
+    return "unknown"
 
 
 def _collect_validation_warnings(payload: dict[str, Any]) -> list[str]:
@@ -403,6 +414,9 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
             old_val = previous.get(key)
             if key not in previous or old_val != new_val:
                 _log_config_change(key, old_val, new_val)
+        for key in previous:
+            if key not in payload:
+                _log_config_change(key, previous.get(key), "<deleted>")
 
     disk_payload = payload
 

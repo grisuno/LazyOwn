@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 737,
-  "entities": 14107,
+  "modules": 746,
+  "entities": 14284,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,43 +13,43 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 626,
+   "py": 635,
    "sh": 59
   },
   "kinds": {
-   "attribute": 3991,
-   "class": 1338,
+   "attribute": 4037,
+   "class": 1346,
    "classmethod": 81,
-   "constant": 1202,
-   "constructor": 502,
+   "constant": 1210,
+   "constructor": 504,
    "enum": 38,
    "exception": 36,
-   "function": 2401,
+   "function": 2469,
    "macro": 113,
-   "method": 3358,
-   "module": 737,
-   "property": 174,
+   "method": 3388,
+   "module": 746,
+   "property": 177,
    "protocol": 14,
-   "staticmethod": 86,
+   "staticmethod": 89,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 282,
+  "skipped_files": 291,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6477,
-   "total": 8902,
-   "percent": 72.8
+   "documented": 6599,
+   "total": 9025,
+   "percent": 73.1
   },
   "by_kind": {
    "class": {
-    "documented": 1150,
-    "total": 1338,
-    "percent": 85.9
+    "documented": 1158,
+    "total": 1346,
+    "percent": 86.0
    },
    "classmethod": {
     "documented": 54,
@@ -57,8 +57,8 @@
     "percent": 66.7
    },
    "constructor": {
-    "documented": 184,
-    "total": 502,
+    "documented": 185,
+    "total": 504,
     "percent": 36.7
    },
    "enum": {
@@ -72,9 +72,9 @@
     "percent": 94.4
    },
    "function": {
-    "documented": 1513,
-    "total": 2401,
-    "percent": 63.0
+    "documented": 1581,
+    "total": 2469,
+    "percent": 64.0
    },
    "macro": {
     "documented": 3,
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2673,
-    "total": 3358,
-    "percent": 79.6
+    "documented": 2703,
+    "total": 3388,
+    "percent": 79.8
    },
    "module": {
-    "documented": 615,
-    "total": 737,
-    "percent": 83.4
+    "documented": 624,
+    "total": 746,
+    "percent": 83.6
    },
    "property": {
-    "documented": 130,
-    "total": 174,
-    "percent": 74.7
+    "documented": 133,
+    "total": 177,
+    "percent": 75.1
    },
    "protocol": {
     "documented": 14,
@@ -102,9 +102,9 @@
     "percent": 100.0
    },
    "staticmethod": {
-    "documented": 74,
-    "total": 86,
-    "percent": 86.0
+    "documented": 77,
+    "total": 89,
+    "percent": 86.5
    },
    "struct": {
     "documented": 1,
@@ -258,6 +258,11 @@
     "total": 6,
     "percent": 100.0
    },
+   "cli/commands/c2_session.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
    "cli/commands/caldera.py": {
     "documented": 18,
     "total": 18,
@@ -304,9 +309,9 @@
     "percent": 100.0
    },
    "cli/commands/command_and_control_migrated.py": {
-    "documented": 23,
-    "total": 24,
-    "percent": 95.8
+    "documented": 27,
+    "total": 28,
+    "percent": 96.4
    },
    "cli/commands/containers.py": {
     "documented": 8,
@@ -499,9 +504,9 @@
     "percent": 100.0
    },
    "cli/commands/persist_migrated.py": {
-    "documented": 25,
-    "total": 26,
-    "percent": 96.2
+    "documented": 28,
+    "total": 29,
+    "percent": 96.6
    },
    "cli/commands/phishing_wizard.py": {
     "documented": 5,
@@ -699,8 +704,8 @@
     "percent": 100.0
    },
    "cli/lazy_orchestrator.py": {
-    "documented": 28,
-    "total": 28,
+    "documented": 34,
+    "total": 34,
     "percent": 100.0
    },
    "cli/lazynmap_post.py": {
@@ -1833,9 +1838,24 @@
     "total": 18,
     "percent": 100.0
    },
+   "modules/atomic_cli.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "modules/atomic_enricher.py": {
     "documented": 4,
     "total": 4,
+    "percent": 100.0
+   },
+   "modules/atomic_exploit_bridge.py": {
+    "documented": 23,
+    "total": 23,
+    "percent": 100.0
+   },
+   "modules/atomic_resolver.py": {
+    "documented": 26,
+    "total": 26,
     "percent": 100.0
    },
    "modules/attack_surface3d.py": {
@@ -1908,6 +1928,11 @@
     "total": 41,
     "percent": 95.1
    },
+   "modules/c2_agent.py": {
+    "documented": 13,
+    "total": 14,
+    "percent": 92.9
+   },
    "modules/c2_builder.py": {
     "documented": 4,
     "total": 5,
@@ -1928,6 +1953,11 @@
     "total": 47,
     "percent": 95.7
    },
+   "modules/c2_surfaces.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
    "modules/cal.sh": {
     "documented": 3,
     "total": 4,
@@ -1947,6 +1977,11 @@
     "documented": 0,
     "total": 1,
     "percent": 0.0
+   },
+   "modules/chain_registry.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
    },
    "modules/cicd_enumerator.py": {
     "documented": 7,
@@ -3033,6 +3068,11 @@
     "total": 11,
     "percent": 54.5
    },
+   "modules/ttpscope_bridge.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
    "modules/unified_bridge.py": {
     "documented": 9,
     "total": 24,
@@ -3387,6 +3427,11 @@
     "documented": 1,
     "total": 4,
     "percent": 25.0
+   },
+   "scripts/mutation_gate.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
    },
    "scripts/patch_playbook_atomic_ids.py": {
     "documented": 1,
@@ -3947,6 +3992,11 @@
    "entities": 8
   },
   {
+   "uid": "cli/commands/c2_session.py",
+   "path": "modules/cli.commands.c2_session.py.jsonl",
+   "entities": 10
+  },
+  {
    "uid": "cli/commands/caldera.py",
    "path": "modules/cli.commands.caldera.py.jsonl",
    "entities": 20
@@ -3994,7 +4044,7 @@
   {
    "uid": "cli/commands/command_and_control_migrated.py",
    "path": "modules/cli.commands.command_and_control_migrated.py.jsonl",
-   "entities": 26
+   "entities": 30
   },
   {
    "uid": "cli/commands/containers.py",
@@ -4189,7 +4239,7 @@
   {
    "uid": "cli/commands/persist_migrated.py",
    "path": "modules/cli.commands.persist_migrated.py.jsonl",
-   "entities": 28
+   "entities": 31
   },
   {
    "uid": "cli/commands/phishing_wizard.py",
@@ -4389,7 +4439,7 @@
   {
    "uid": "cli/lazy_orchestrator.py",
    "path": "modules/cli.lazy_orchestrator.py.jsonl",
-   "entities": 31
+   "entities": 37
   },
   {
    "uid": "cli/lazynmap_post.py",
@@ -5522,9 +5572,24 @@
    "entities": 38
   },
   {
+   "uid": "modules/atomic_cli.py",
+   "path": "modules/modules.atomic_cli.py.jsonl",
+   "entities": 4
+  },
+  {
    "uid": "modules/atomic_enricher.py",
    "path": "modules/modules.atomic_enricher.py.jsonl",
    "entities": 7
+  },
+  {
+   "uid": "modules/atomic_exploit_bridge.py",
+   "path": "modules/modules.atomic_exploit_bridge.py.jsonl",
+   "entities": 47
+  },
+  {
+   "uid": "modules/atomic_resolver.py",
+   "path": "modules/modules.atomic_resolver.py.jsonl",
+   "entities": 37
   },
   {
    "uid": "modules/attack_surface3d.py",
@@ -5597,6 +5662,11 @@
    "entities": 68
   },
   {
+   "uid": "modules/c2_agent.py",
+   "path": "modules/modules.c2_agent.py.jsonl",
+   "entities": 15
+  },
+  {
    "uid": "modules/c2_builder.py",
    "path": "modules/modules.c2_builder.py.jsonl",
    "entities": 15
@@ -5617,6 +5687,11 @@
    "entities": 93
   },
   {
+   "uid": "modules/c2_surfaces.py",
+   "path": "modules/modules.c2_surfaces.py.jsonl",
+   "entities": 8
+  },
+  {
    "uid": "modules/cal.sh",
    "path": "modules/modules.cal.sh.jsonl",
    "entities": 4
@@ -5635,6 +5710,11 @@
    "uid": "modules/cgi-bin/lazywebshell.sh",
    "path": "modules/modules.cgi-bin.lazywebshell.sh.jsonl",
    "entities": 1
+  },
+  {
+   "uid": "modules/chain_registry.py",
+   "path": "modules/modules.chain_registry.py.jsonl",
+   "entities": 22
   },
   {
    "uid": "modules/cicd_enumerator.py",
@@ -6722,6 +6802,11 @@
    "entities": 19
   },
   {
+   "uid": "modules/ttpscope_bridge.py",
+   "path": "modules/modules.ttpscope_bridge.py.jsonl",
+   "entities": 14
+  },
+  {
    "uid": "modules/unified_bridge.py",
    "path": "modules/modules.unified_bridge.py.jsonl",
    "entities": 38
@@ -7075,6 +7160,11 @@
    "uid": "scripts/mutate.sh",
    "path": "modules/scripts.mutate.sh.jsonl",
    "entities": 4
+  },
+  {
+   "uid": "scripts/mutation_gate.py",
+   "path": "modules/scripts.mutation_gate.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "scripts/patch_playbook_atomic_ids.py",
@@ -7494,7 +7584,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2253
+  "total": 2256
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

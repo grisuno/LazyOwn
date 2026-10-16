@@ -226,7 +226,7 @@ flowchart LR
 
 ### `ICommandRunner`
 
-`class` `abstract` | [skills/autonomous_daemon.py:381](../../skills/autonomous_daemon.py#L381)
+`class` `abstract` | [skills/autonomous_daemon.py:422](../../skills/autonomous_daemon.py#L422)
 
 ```python
 class ICommandRunner(ABC)
@@ -249,7 +249,7 @@ Contract for executing a LazyOwn shell command.
 
 #### `ICommandRunner.run`
 
-`method` `abstract` | [skills/autonomous_daemon.py:385](../../skills/autonomous_daemon.py#L385)
+`method` `abstract` | [skills/autonomous_daemon.py:426](../../skills/autonomous_daemon.py#L426)
 
 Decorators: `@abstractmethod`
 
@@ -274,7 +274,7 @@ Return text output.
 
 #### `ICommandRunner.name`
 
-`property` `abstract` | [skills/autonomous_daemon.py:390](../../skills/autonomous_daemon.py#L390)
+`property` `abstract` | [skills/autonomous_daemon.py:431](../../skills/autonomous_daemon.py#L431)
 
 Decorators: `@property`, `@abstractmethod`
 
@@ -292,7 +292,7 @@ Human-readable identifier for this runner.
 
 ### `MCPCommandRunner`
 
-`class` | [skills/autonomous_daemon.py:434](../../skills/autonomous_daemon.py#L434)
+`class` | [skills/autonomous_daemon.py:475](../../skills/autonomous_daemon.py#L475)
 
 ```python
 class MCPCommandRunner(ICommandRunner)
@@ -315,7 +315,7 @@ Single Responsibility: MCP import + delegation only.
 
 #### `MCPCommandRunner.name`
 
-`property` | [skills/autonomous_daemon.py:441](../../skills/autonomous_daemon.py#L441)
+`property` | [skills/autonomous_daemon.py:482](../../skills/autonomous_daemon.py#L482)
 
 Decorators: `@property`
 
@@ -327,13 +327,13 @@ Human-readable identifier for this runner.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:390).
+> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:431).
 
 <a id="mcpcommandrunner-run"></a>
 
 #### `MCPCommandRunner.run`
 
-`method` | [skills/autonomous_daemon.py:444](../../skills/autonomous_daemon.py#L444)
+`method` | [skills/autonomous_daemon.py:485](../../skills/autonomous_daemon.py#L485)
 
 ```python
 def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str
@@ -358,7 +358,7 @@ Raises ImportError on failure.
 
 ### `PTYCommandRunner`
 
-`class` | [skills/autonomous_daemon.py:453](../../skills/autonomous_daemon.py#L453)
+`class` | [skills/autonomous_daemon.py:494](../../skills/autonomous_daemon.py#L494)
 
 ```python
 class PTYCommandRunner(ICommandRunner)
@@ -381,7 +381,7 @@ Single Responsibility: PTY subprocess management only.
 
 #### `PTYCommandRunner.name`
 
-`property` | [skills/autonomous_daemon.py:461](../../skills/autonomous_daemon.py#L461)
+`property` | [skills/autonomous_daemon.py:502](../../skills/autonomous_daemon.py#L502)
 
 Decorators: `@property`
 
@@ -393,13 +393,13 @@ Human-readable identifier for this runner.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:390).
+> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:431).
 
 <a id="ptycommandrunner-run"></a>
 
 #### `PTYCommandRunner.run`
 
-`method` | [skills/autonomous_daemon.py:464](../../skills/autonomous_daemon.py#L464)
+`method` | [skills/autonomous_daemon.py:505](../../skills/autonomous_daemon.py#L505)
 
 ```python
 def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str
@@ -424,7 +424,7 @@ Returns cleaned text output.
 
 ### `CommandRunnerChain`
 
-`class` | [skills/autonomous_daemon.py:542](../../skills/autonomous_daemon.py#L542)
+`class` | [skills/autonomous_daemon.py:583](../../skills/autonomous_daemon.py#L583)
 
 ```python
 class CommandRunnerChain(ICommandRunner)
@@ -451,7 +451,7 @@ Open/Closed: add new runners without modifying this class.
 
 #### `CommandRunnerChain.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:551](../../skills/autonomous_daemon.py#L551)
+`constructor` | [skills/autonomous_daemon.py:592](../../skills/autonomous_daemon.py#L592)
 
 ```python
 def __init__(self, runners: list[ICommandRunner]) -> None
@@ -471,7 +471,7 @@ def __init__(self, runners: list[ICommandRunner]) -> None
 
 #### `CommandRunnerChain.name`
 
-`property` | [skills/autonomous_daemon.py:557](../../skills/autonomous_daemon.py#L557)
+`property` | [skills/autonomous_daemon.py:598](../../skills/autonomous_daemon.py#L598)
 
 Decorators: `@property`
 
@@ -483,13 +483,13 @@ Human-readable identifier for this runner.
 
 **Returns:** `str`
 
-> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:390).
+> **Inherited:** Documentation from [`ICommandRunner.name`](#icommandrunner-name) (skills/autonomous_daemon.py:431).
 
 <a id="commandrunnerchain-run"></a>
 
 #### `CommandRunnerChain.run`
 
-`method` | [skills/autonomous_daemon.py:560](../../skills/autonomous_daemon.py#L560)
+`method` | [skills/autonomous_daemon.py:601](../../skills/autonomous_daemon.py#L601)
 
 ```python
 def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str
@@ -518,7 +518,7 @@ Return first successful output.
 
 ### `CommandDecision`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:633](../../skills/autonomous_daemon.py#L633)
+`class` `dataclass` | [skills/autonomous_daemon.py:674](../../skills/autonomous_daemon.py#L674)
 
 Decorators: `@dataclass`
 
@@ -545,7 +545,7 @@ Result of a command selection.
 
 ### `ICommandSelector`
 
-`class` `abstract` | [skills/autonomous_daemon.py:644](../../skills/autonomous_daemon.py#L644)
+`class` `abstract` | [skills/autonomous_daemon.py:685](../../skills/autonomous_daemon.py#L685)
 
 ```python
 class ICommandSelector(ABC)
@@ -567,7 +567,7 @@ Contract for command selection strategies.
 
 #### `ICommandSelector.select`
 
-`method` `abstract` | [skills/autonomous_daemon.py:648](../../skills/autonomous_daemon.py#L648)
+`method` `abstract` | [skills/autonomous_daemon.py:689](../../skills/autonomous_daemon.py#L689)
 
 Decorators: `@abstractmethod`
 
@@ -593,7 +593,7 @@ Return a CommandDecision or None if this selector has no suggestion.
 
 ### `ReactiveSelector`
 
-`class` | [skills/autonomous_daemon.py:657](../../skills/autonomous_daemon.py#L657)
+`class` | [skills/autonomous_daemon.py:698](../../skills/autonomous_daemon.py#L698)
 
 ```python
 class ReactiveSelector(ICommandSelector)
@@ -617,7 +617,7 @@ Single Responsibility: reactive engine integration only.
 
 #### `ReactiveSelector.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:663](../../skills/autonomous_daemon.py#L663)
+`constructor` | [skills/autonomous_daemon.py:704](../../skills/autonomous_daemon.py#L704)
 
 ```python
 def __init__(self, reactive_engine: Any) -> None
@@ -635,7 +635,7 @@ def __init__(self, reactive_engine: Any) -> None
 
 #### `ReactiveSelector.register_output`
 
-`method` | [skills/autonomous_daemon.py:667](../../skills/autonomous_daemon.py#L667)
+`method` | [skills/autonomous_daemon.py:708](../../skills/autonomous_daemon.py#L708)
 
 ```python
 def register_output(self, output: str, command: str, platform: str = 'linux') -> None
@@ -659,7 +659,7 @@ Feed reactive engine with last command output to generate new decisions.
 
 #### `ReactiveSelector.select`
 
-`method` | [skills/autonomous_daemon.py:694](../../skills/autonomous_daemon.py#L694)
+`method` | [skills/autonomous_daemon.py:735](../../skills/autonomous_daemon.py#L735)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -683,7 +683,7 @@ Pop and return the pending reactive decision if present.
 
 ### `ParquetSelector`
 
-`class` | [skills/autonomous_daemon.py:703](../../skills/autonomous_daemon.py#L703)
+`class` | [skills/autonomous_daemon.py:744](../../skills/autonomous_daemon.py#L744)
 
 ```python
 class ParquetSelector(ICommandSelector)
@@ -706,7 +706,7 @@ Single Responsibility: Parquet history lookup only.
 
 #### `ParquetSelector.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:709](../../skills/autonomous_daemon.py#L709)
+`constructor` | [skills/autonomous_daemon.py:750](../../skills/autonomous_daemon.py#L750)
 
 ```python
 def __init__(self, pdb: Any, fail_counts: dict[str, int]) -> None
@@ -725,7 +725,7 @@ def __init__(self, pdb: Any, fail_counts: dict[str, int]) -> None
 
 #### `ParquetSelector.select`
 
-`method` | [skills/autonomous_daemon.py:713](../../skills/autonomous_daemon.py#L713)
+`method` | [skills/autonomous_daemon.py:754](../../skills/autonomous_daemon.py#L754)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -751,7 +751,7 @@ Return the most-frequent successful command for this phase.
 
 ### `BridgeSelector`
 
-`class` | [skills/autonomous_daemon.py:749](../../skills/autonomous_daemon.py#L749)
+`class` | [skills/autonomous_daemon.py:790](../../skills/autonomous_daemon.py#L790)
 
 ```python
 class BridgeSelector(ICommandSelector)
@@ -774,7 +774,7 @@ Single Responsibility: bridge catalog lookup only.
 
 #### `BridgeSelector.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:755](../../skills/autonomous_daemon.py#L755)
+`constructor` | [skills/autonomous_daemon.py:796](../../skills/autonomous_daemon.py#L796)
 
 ```python
 def __init__(self, dispatcher: Any, fail_counts: dict[str, int]) -> None
@@ -793,7 +793,7 @@ def __init__(self, dispatcher: Any, fail_counts: dict[str, int]) -> None
 
 #### `BridgeSelector.select`
 
-`method` | [skills/autonomous_daemon.py:759](../../skills/autonomous_daemon.py#L759)
+`method` | [skills/autonomous_daemon.py:800](../../skills/autonomous_daemon.py#L800)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -817,7 +817,7 @@ Return a bridge catalog suggestion for this phase.
 
 ### `LLMSelector`
 
-`class` | [skills/autonomous_daemon.py:818](../../skills/autonomous_daemon.py#L818)
+`class` | [skills/autonomous_daemon.py:859](../../skills/autonomous_daemon.py#L859)
 
 ```python
 class LLMSelector(ICommandSelector)
@@ -839,7 +839,7 @@ Only active when AUTO_USE_LLM=1. Single Responsibility: LLM command recommendati
 
 #### `LLMSelector.select`
 
-`method` | [skills/autonomous_daemon.py:825](../../skills/autonomous_daemon.py#L825)
+`method` | [skills/autonomous_daemon.py:866](../../skills/autonomous_daemon.py#L866)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -863,7 +863,7 @@ Return an LLM-suggested command with catalog context, or None if disabled.
 
 ### `SWANSelector`
 
-`class` | [skills/autonomous_daemon.py:916](../../skills/autonomous_daemon.py#L916)
+`class` | [skills/autonomous_daemon.py:957](../../skills/autonomous_daemon.py#L957)
 
 ```python
 class SWANSelector(ICommandSelector)
@@ -893,7 +893,7 @@ Dependency Inversion  : depends on ICommandSelector interface; imports
 
 #### `SWANSelector.select`
 
-`method` | [skills/autonomous_daemon.py:947](../../skills/autonomous_daemon.py#L947)
+`method` | [skills/autonomous_daemon.py:988](../../skills/autonomous_daemon.py#L988)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -919,7 +919,7 @@ Returns None if disabled.
 
 ### `FallbackSelector`
 
-`class` | [skills/autonomous_daemon.py:986](../../skills/autonomous_daemon.py#L986)
+`class` | [skills/autonomous_daemon.py:1027](../../skills/autonomous_daemon.py#L1027)
 
 ```python
 class FallbackSelector(ICommandSelector)
@@ -941,7 +941,7 @@ Selects OS-appropriate commands when the OS is known. Single Responsibility: sta
 
 #### `FallbackSelector.select`
 
-`method` | [skills/autonomous_daemon.py:993](../../skills/autonomous_daemon.py#L993)
+`method` | [skills/autonomous_daemon.py:1034](../../skills/autonomous_daemon.py#L1034)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -969,7 +969,7 @@ Never returns None.
 
 ### `MetricsAwareSelector`
 
-`class` | [skills/autonomous_daemon.py:1009](../../skills/autonomous_daemon.py#L1009)
+`class` | [skills/autonomous_daemon.py:1050](../../skills/autonomous_daemon.py#L1050)
 
 ```python
 class MetricsAwareSelector(ICommandSelector)
@@ -1005,7 +1005,7 @@ cascade must still converge on *something*.
 
 #### `MetricsAwareSelector.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:1030](../../skills/autonomous_daemon.py#L1030)
+`constructor` | [skills/autonomous_daemon.py:1071](../../skills/autonomous_daemon.py#L1071)
 
 ```python
 def __init__(self, wrapped: ICommandSelector, metrics_source: Any = None, min_success_rate: float = METRICS_BIAS_MIN_SUCCESS, min_attempts: int = METRICS_BIAS_MIN_ATTEMPTS, window_seconds: int = METRICS_BIAS_WINDOW_S, cache_ttl_s: float = METRICS_BIAS_CACHE_TTL_S, clock: Any | None = None) -> None
@@ -1029,7 +1029,7 @@ Initialise the decorator.
 
 #### `MetricsAwareSelector.wrapped`
 
-`property` | [skills/autonomous_daemon.py:1076](../../skills/autonomous_daemon.py#L1076)
+`property` | [skills/autonomous_daemon.py:1117](../../skills/autonomous_daemon.py#L1117)
 
 Decorators: `@property`
 
@@ -1045,7 +1045,7 @@ Return the underlying selector for introspection in tests.
 
 #### `MetricsAwareSelector.select`
 
-`method` | [skills/autonomous_daemon.py:1162](../../skills/autonomous_daemon.py#L1162)
+`method` | [skills/autonomous_daemon.py:1203](../../skills/autonomous_daemon.py#L1203)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -1073,7 +1073,7 @@ fails the success-rate gate, returns ``None`` and emits a
 
 ### `CredentialSpraySelector`
 
-`class` | [skills/autonomous_daemon.py:1240](../../skills/autonomous_daemon.py#L1240)
+`class` | [skills/autonomous_daemon.py:1281](../../skills/autonomous_daemon.py#L1281)
 
 ```python
 class CredentialSpraySelector(ICommandSelector)
@@ -1098,7 +1098,7 @@ Single Responsibility: credential reuse selection only.
 
 #### `CredentialSpraySelector.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:1263](../../skills/autonomous_daemon.py#L1263)
+`constructor` | [skills/autonomous_daemon.py:1304](../../skills/autonomous_daemon.py#L1304)
 
 ```python
 def __init__(self, fail_counts: dict[str, int]) -> None
@@ -1116,7 +1116,7 @@ def __init__(self, fail_counts: dict[str, int]) -> None
 
 #### `CredentialSpraySelector.select`
 
-`method` | [skills/autonomous_daemon.py:1267](../../skills/autonomous_daemon.py#L1267)
+`method` | [skills/autonomous_daemon.py:1308](../../skills/autonomous_daemon.py#L1308)
 
 ```python
 def select(self, target: str, phase: str, context: dict) -> CommandDecision | None
@@ -1142,7 +1142,7 @@ Return a spray command when credentials + matching service are available.
 
 ### `CascadeStrategy`
 
-`class` | [skills/autonomous_daemon.py:1296](../../skills/autonomous_daemon.py#L1296)
+`class` | [skills/autonomous_daemon.py:1337](../../skills/autonomous_daemon.py#L1337)
 
 ```python
 class CascadeStrategy
@@ -1163,7 +1163,7 @@ Open/Closed: extend by adding selectors without modifying existing ones.
 
 #### `CascadeStrategy.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:1303](../../skills/autonomous_daemon.py#L1303)
+`constructor` | [skills/autonomous_daemon.py:1344](../../skills/autonomous_daemon.py#L1344)
 
 ```python
 def __init__(self, selectors: list[ICommandSelector]) -> None
@@ -1181,7 +1181,7 @@ def __init__(self, selectors: list[ICommandSelector]) -> None
 
 #### `CascadeStrategy.next_command`
 
-`method` | [skills/autonomous_daemon.py:1306](../../skills/autonomous_daemon.py#L1306)
+`method` | [skills/autonomous_daemon.py:1347](../../skills/autonomous_daemon.py#L1347)
 
 ```python
 def next_command(self, target: str, phase: str, context: dict | None = None) -> CommandDecision
@@ -1211,7 +1211,7 @@ The FallbackSelector ensures a result.
 
 ### `StrategyEngine`
 
-`class` | [skills/autonomous_daemon.py:1327](../../skills/autonomous_daemon.py#L1327)
+`class` | [skills/autonomous_daemon.py:1368](../../skills/autonomous_daemon.py#L1368)
 
 ```python
 class StrategyEngine
@@ -1240,7 +1240,7 @@ Dependency Inversion: runner and selectors are injected.
 
 #### `StrategyEngine.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:1341](../../skills/autonomous_daemon.py#L1341)
+`constructor` | [skills/autonomous_daemon.py:1382](../../skills/autonomous_daemon.py#L1382)
 
 ```python
 def __init__(self, runner: ICommandRunner, selectors: list[ICommandSelector] | None = None) -> None
@@ -1261,7 +1261,7 @@ def __init__(self, runner: ICommandRunner, selectors: list[ICommandSelector] | N
 
 #### `StrategyEngine.register_output`
 
-`method` | [skills/autonomous_daemon.py:1368](../../skills/autonomous_daemon.py#L1368)
+`method` | [skills/autonomous_daemon.py:1409](../../skills/autonomous_daemon.py#L1409)
 
 ```python
 def register_output(self, output: str, command: str, platform: str = 'linux', success: bool = True) -> None
@@ -1284,7 +1284,7 @@ Feed the reactive selector with the last command output.
 
 #### `StrategyEngine.next_command`
 
-`method` | [skills/autonomous_daemon.py:1382](../../skills/autonomous_daemon.py#L1382)
+`method` | [skills/autonomous_daemon.py:1423](../../skills/autonomous_daemon.py#L1423)
 
 ```python
 def next_command(self, target: str, phase: str, services: list[str] | None = None, os_hint: str = 'unknown') -> CommandDecision
@@ -1311,7 +1311,7 @@ Select the next command for target/phase using the cascade.
 
 ### `StepResult`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:1400](../../skills/autonomous_daemon.py#L1400)
+`class` `dataclass` | [skills/autonomous_daemon.py:1441](../../skills/autonomous_daemon.py#L1441)
 
 Decorators: `@dataclass`
 
@@ -1339,7 +1339,7 @@ Result of a single execution step.
 
 ### `IObjectiveHandler`
 
-`class` `abstract` | [skills/autonomous_daemon.py:1412](../../skills/autonomous_daemon.py#L1412)
+`class` `abstract` | [skills/autonomous_daemon.py:1453](../../skills/autonomous_daemon.py#L1453)
 
 ```python
 class IObjectiveHandler(ABC)
@@ -1361,7 +1361,7 @@ Contract for running an objective to completion.
 
 #### `IObjectiveHandler.handle`
 
-`method` `abstract` | [skills/autonomous_daemon.py:1416](../../skills/autonomous_daemon.py#L1416)
+`method` `abstract` | [skills/autonomous_daemon.py:1457](../../skills/autonomous_daemon.py#L1457)
 
 Decorators: `@abstractmethod`
 
@@ -1388,7 +1388,7 @@ Execute objective and return a list of step results.
 
 ### `ExecutionEngine`
 
-`class` | [skills/autonomous_daemon.py:1426](../../skills/autonomous_daemon.py#L1426)
+`class` | [skills/autonomous_daemon.py:1467](../../skills/autonomous_daemon.py#L1467)
 
 ```python
 class ExecutionEngine(IObjectiveHandler)
@@ -1417,7 +1417,7 @@ Dependency Inversion: strategy (which wraps runner) is injected.
 
 #### `ExecutionEngine.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:1438](../../skills/autonomous_daemon.py#L1438)
+`constructor` | [skills/autonomous_daemon.py:1479](../../skills/autonomous_daemon.py#L1479)
 
 ```python
 def __init__(self, strategy: StrategyEngine, max_steps: int = MAX_STEPS_DEFAULT, world_model: Any = None, obs_parser: Any = None, facts: Any = None, loop: asyncio.AbstractEventLoop | None = None) -> None
@@ -1440,7 +1440,7 @@ def __init__(self, strategy: StrategyEngine, max_steps: int = MAX_STEPS_DEFAULT,
 
 #### `ExecutionEngine.handle`
 
-`method` | [skills/autonomous_daemon.py:1454](../../skills/autonomous_daemon.py#L1454)
+`method` | [skills/autonomous_daemon.py:1495](../../skills/autonomous_daemon.py#L1495)
 
 ```python
 def handle(self, objective_id: str, objective_text: str, target: str, context: dict | None = None) -> list[StepResult]
@@ -1465,7 +1465,7 @@ Delegates to _run_sync.
 
 #### `ExecutionEngine.run_async`
 
-`method` `async` | [skills/autonomous_daemon.py:1464](../../skills/autonomous_daemon.py#L1464)
+`method` `async` | [skills/autonomous_daemon.py:1505](../../skills/autonomous_daemon.py#L1505)
 
 ```python
 async def run_async(self, objective_id: str, objective_text: str, target: str) -> list[StepResult]
@@ -1491,7 +1491,7 @@ Asyncio entry point used by objective_loop.
 
 ### `DroneCoordinator`
 
-`class` | [skills/autonomous_daemon.py:2764](../../skills/autonomous_daemon.py#L2764)
+`class` | [skills/autonomous_daemon.py:2805](../../skills/autonomous_daemon.py#L2805)
 
 ```python
 class DroneCoordinator
@@ -1510,7 +1510,7 @@ Watches ExecutionEngine results and launches hive drones when events worth paral
 
 #### `DroneCoordinator.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:2773](../../skills/autonomous_daemon.py#L2773)
+`constructor` | [skills/autonomous_daemon.py:2814](../../skills/autonomous_daemon.py#L2814)
 
 ```python
 def __init__(self) -> None
@@ -1522,7 +1522,7 @@ def __init__(self) -> None
 
 #### `DroneCoordinator.process_findings`
 
-`method` | [skills/autonomous_daemon.py:2778](../../skills/autonomous_daemon.py#L2778)
+`method` | [skills/autonomous_daemon.py:2819](../../skills/autonomous_daemon.py#L2819)
 
 ```python
 def process_findings(self, findings: list[dict], target: str, objective_id: str, payload_key: str = '') -> list[str]
@@ -1551,7 +1551,7 @@ Returns list of drone_ids.
 
 ### `EnginePhaseStep`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:3050](../../skills/autonomous_daemon.py#L3050)
+`class` `dataclass` | [skills/autonomous_daemon.py:3091](../../skills/autonomous_daemon.py#L3091)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -1576,7 +1576,7 @@ One step in the EngageOrchestrator plan.
 
 ### `EnginePhaseResult`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:3067](../../skills/autonomous_daemon.py#L3067)
+`class` `dataclass` | [skills/autonomous_daemon.py:3108](../../skills/autonomous_daemon.py#L3108)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -1608,7 +1608,7 @@ Result of one EnginePhaseStep execution.
 
 #### `EnginePhaseResult.did_switch`
 
-`property` | [skills/autonomous_daemon.py:3079](../../skills/autonomous_daemon.py#L3079)
+`property` | [skills/autonomous_daemon.py:3120](../../skills/autonomous_daemon.py#L3120)
 
 Decorators: `@property`
 
@@ -1626,7 +1626,7 @@ True when the orchestrator used a fallback tool.
 
 ### `IToolFallbackResolver`
 
-`class` `abstract` | [skills/autonomous_daemon.py:3084](../../skills/autonomous_daemon.py#L3084)
+`class` `abstract` | [skills/autonomous_daemon.py:3125](../../skills/autonomous_daemon.py#L3125)
 
 ```python
 class IToolFallbackResolver(ABC)
@@ -1648,7 +1648,7 @@ Contract for choosing a replacement tool after a failure.
 
 #### `IToolFallbackResolver.next_tool`
 
-`method` `abstract` | [skills/autonomous_daemon.py:3088](../../skills/autonomous_daemon.py#L3088)
+`method` `abstract` | [skills/autonomous_daemon.py:3129](../../skills/autonomous_daemon.py#L3129)
 
 Decorators: `@abstractmethod`
 
@@ -1674,7 +1674,7 @@ Return the next candidate command or None when exhausted.
 
 ### `StaticFallbackResolver`
 
-`class` | [skills/autonomous_daemon.py:3097](../../skills/autonomous_daemon.py#L3097)
+`class` | [skills/autonomous_daemon.py:3138](../../skills/autonomous_daemon.py#L3138)
 
 ```python
 class StaticFallbackResolver(IToolFallbackResolver)
@@ -1698,7 +1698,7 @@ primary command, returning None once the list is exhausted.
 
 #### `StaticFallbackResolver.next_tool`
 
-`method` | [skills/autonomous_daemon.py:3105](../../skills/autonomous_daemon.py#L3105)
+`method` | [skills/autonomous_daemon.py:3146](../../skills/autonomous_daemon.py#L3146)
 
 ```python
 def next_tool(self, failed_command: str, phase: str, attempt: int) -> str | None
@@ -1716,7 +1716,7 @@ Return the next candidate command or None when exhausted.
 
 **Returns:** `str | None`
 
-> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3088).
+> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3129).
 
 *Called by:* [`BridgeFallbackResolver.next_tool`](#bridgefallbackresolver-next_tool)
 
@@ -1726,7 +1726,7 @@ Return the next candidate command or None when exhausted.
 
 ### `BridgeFallbackResolver`
 
-`class` | [skills/autonomous_daemon.py:3118](../../skills/autonomous_daemon.py#L3118)
+`class` | [skills/autonomous_daemon.py:3159](../../skills/autonomous_daemon.py#L3159)
 
 ```python
 class BridgeFallbackResolver(IToolFallbackResolver)
@@ -1752,7 +1752,7 @@ don't re-query the catalog.
 
 #### `BridgeFallbackResolver.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:3127](../../skills/autonomous_daemon.py#L3127)
+`constructor` | [skills/autonomous_daemon.py:3168](../../skills/autonomous_daemon.py#L3168)
 
 ```python
 def __init__(self, dispatcher: Any = None) -> None
@@ -1772,7 +1772,7 @@ def __init__(self, dispatcher: Any = None) -> None
 
 #### `BridgeFallbackResolver.next_tool`
 
-`method` | [skills/autonomous_daemon.py:3152](../../skills/autonomous_daemon.py#L3152)
+`method` | [skills/autonomous_daemon.py:3193](../../skills/autonomous_daemon.py#L3193)
 
 ```python
 def next_tool(self, failed_command: str, phase: str, attempt: int) -> str | None
@@ -1790,7 +1790,7 @@ Return the next candidate command or None when exhausted.
 
 **Returns:** `str | None`
 
-> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3088).
+> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3129).
 
 *Calls:* [`StaticFallbackResolver.next_tool`](#staticfallbackresolver-next_tool)
 
@@ -1800,7 +1800,7 @@ Return the next candidate command or None when exhausted.
 
 ### `EngageOrchestrator`
 
-`class` | [skills/autonomous_daemon.py:3257](../../skills/autonomous_daemon.py#L3257)
+`class` | [skills/autonomous_daemon.py:3298](../../skills/autonomous_daemon.py#L3298)
 
 ```python
 class EngageOrchestrator
@@ -1834,7 +1834,7 @@ MCP caller) sees the full timeline.
 
 #### `EngageOrchestrator.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:3271](../../skills/autonomous_daemon.py#L3271)
+`constructor` | [skills/autonomous_daemon.py:3312](../../skills/autonomous_daemon.py#L3312)
 
 ```python
 def __init__(self, target: str, runner: ICommandRunner | None = None, narrator: Any = None, approval_gate: Any = None, fallback_resolver: IToolFallbackResolver | None = None, shell_detector: _ShellDetector | None = None, plan: tuple[EnginePhaseStep, ...] | None = None, max_switches_per_step: int = DEFAULT_MAX_SWITCHES_PER_STEP, safety_guard: Any = None) -> None
@@ -1864,7 +1864,7 @@ def __init__(self, target: str, runner: ICommandRunner | None = None, narrator: 
 
 #### `EngageOrchestrator.engagement_id`
 
-`property` | [skills/autonomous_daemon.py:3316](../../skills/autonomous_daemon.py#L3316)
+`property` | [skills/autonomous_daemon.py:3357](../../skills/autonomous_daemon.py#L3357)
 
 Decorators: `@property`
 
@@ -1880,7 +1880,7 @@ Stable id for this engagement (correlates events in logs).
 
 #### `EngageOrchestrator.run`
 
-`method` | [skills/autonomous_daemon.py:3320](../../skills/autonomous_daemon.py#L3320)
+`method` | [skills/autonomous_daemon.py:3361](../../skills/autonomous_daemon.py#L3361)
 
 ```python
 def run(self) -> dict[str, Any]
@@ -1901,7 +1901,7 @@ results, switch counts, and the final shell-obtained flag.
 
 ### `compute_decision_seed`
 
-`function` | [skills/autonomous_daemon.py:353](../../skills/autonomous_daemon.py#L353)
+`function` | [skills/autonomous_daemon.py:394](../../skills/autonomous_daemon.py#L394)
 
 ```python
 def compute_decision_seed(objective_id: str, step_n: int, source: str) -> str
@@ -1931,7 +1931,7 @@ replay is surfaced as a divergence, never as an abort.
 
 ### `mcp_engage_target`
 
-`function` | [skills/autonomous_daemon.py:3964](../../skills/autonomous_daemon.py#L3964)
+`function` | [skills/autonomous_daemon.py:4005](../../skills/autonomous_daemon.py#L4005)
 
 ```python
 def mcp_engage_target(target: str, max_switches_per_step: int = 3, detach: bool = True, auto: bool = False) -> str
@@ -1959,7 +1959,7 @@ plus the full result payload when detach is False.
 
 ### `mcp_engage_status`
 
-`function` | [skills/autonomous_daemon.py:4054](../../skills/autonomous_daemon.py#L4054)
+`function` | [skills/autonomous_daemon.py:4095](../../skills/autonomous_daemon.py#L4095)
 
 ```python
 def mcp_engage_status(last_n: int = 20) -> str
@@ -1983,7 +1983,7 @@ Return the last N lines of sessions/engagement.log plus pending approvals.
 
 ### `mcp_engage_approve`
 
-`function` | [skills/autonomous_daemon.py:4080](../../skills/autonomous_daemon.py#L4080)
+`function` | [skills/autonomous_daemon.py:4121](../../skills/autonomous_daemon.py#L4121)
 
 ```python
 def mcp_engage_approve(approval_id: str, decision: str, operator: str = '') -> str
@@ -2009,7 +2009,7 @@ Resolve a pending approval. decision must be 'approved' or 'denied'.
 
 ### `mcp_engage_list_pending`
 
-`function` | [skills/autonomous_daemon.py:4105](../../skills/autonomous_daemon.py#L4105)
+`function` | [skills/autonomous_daemon.py:4146](../../skills/autonomous_daemon.py#L4146)
 
 ```python
 def mcp_engage_list_pending() -> str
@@ -2027,7 +2027,7 @@ List every pending approval awaiting an operator decision.
 
 ### `cmd_engage`
 
-`function` | [skills/autonomous_daemon.py:4123](../../skills/autonomous_daemon.py#L4123)
+`function` | [skills/autonomous_daemon.py:4164](../../skills/autonomous_daemon.py#L4164)
 
 ```python
 def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False) -> None
@@ -2051,7 +2051,7 @@ CLI helper bound to the `engage <ip>` daemon subcommand.
 
 ### `objective_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4162](../../skills/autonomous_daemon.py#L4162)
+`function` `async` | [skills/autonomous_daemon.py:4203](../../skills/autonomous_daemon.py#L4203)
 
 ```python
 async def objective_loop(max_steps: int, loop: asyncio.AbstractEventLoop) -> None
@@ -2074,7 +2074,7 @@ Root autonomous loop: takes pending objectives from objectives.jsonl and execute
 
 ### `world_model_watcher`
 
-`function` `async` | [skills/autonomous_daemon.py:4305](../../skills/autonomous_daemon.py#L4305)
+`function` `async` | [skills/autonomous_daemon.py:4346](../../skills/autonomous_daemon.py#L4346)
 
 ```python
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None
@@ -2096,7 +2096,7 @@ When the phase changes, new hosts appear, new service versions are found, or act
 
 ### `heartbeat_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4490](../../skills/autonomous_daemon.py#L4490)
+`function` `async` | [skills/autonomous_daemon.py:4537](../../skills/autonomous_daemon.py#L4537)
 
 ```python
 async def heartbeat_loop() -> None
@@ -2110,7 +2110,7 @@ Emit heartbeat and write status every HEARTBEAT_S seconds.
 
 ### `cmd_run`
 
-`function` | [skills/autonomous_daemon.py:4617](../../skills/autonomous_daemon.py#L4617)
+`function` | [skills/autonomous_daemon.py:4664](../../skills/autonomous_daemon.py#L4664)
 
 ```python
 def cmd_run(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2130,7 +2130,7 @@ Run daemon in foreground (debug mode).
 
 ### `cmd_start`
 
-`function` | [skills/autonomous_daemon.py:4626](../../skills/autonomous_daemon.py#L4626)
+`function` | [skills/autonomous_daemon.py:4673](../../skills/autonomous_daemon.py#L4673)
 
 ```python
 def cmd_start(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2150,7 +2150,7 @@ Fork, detach, and run daemon in background.
 
 ### `cmd_stop`
 
-`function` | [skills/autonomous_daemon.py:4656](../../skills/autonomous_daemon.py#L4656)
+`function` | [skills/autonomous_daemon.py:4703](../../skills/autonomous_daemon.py#L4703)
 
 ```python
 def cmd_stop() -> None
@@ -2164,7 +2164,7 @@ Send SIGTERM to the running daemon.
 
 ### `cmd_status`
 
-`function` | [skills/autonomous_daemon.py:4673](../../skills/autonomous_daemon.py#L4673)
+`function` | [skills/autonomous_daemon.py:4720](../../skills/autonomous_daemon.py#L4720)
 
 ```python
 def cmd_status() -> None
@@ -2178,7 +2178,7 @@ Print current daemon status to stdout.
 
 ### `cmd_inject`
 
-`function` | [skills/autonomous_daemon.py:4689](../../skills/autonomous_daemon.py#L4689)
+`function` | [skills/autonomous_daemon.py:4736](../../skills/autonomous_daemon.py#L4736)
 
 ```python
 def cmd_inject(text: str, priority: str = 'high') -> None
@@ -2199,7 +2199,7 @@ Inject an objective from the CLI, split into verifiable sub-goals.
 
 ### `mcp_autonomous_start`
 
-`function` | [skills/autonomous_daemon.py:4723](../../skills/autonomous_daemon.py#L4723)
+`function` | [skills/autonomous_daemon.py:4770](../../skills/autonomous_daemon.py#L4770)
 
 ```python
 def mcp_autonomous_start(max_steps: int = MAX_STEPS_DEFAULT, backend: str = HIVE_BACKEND) -> str
@@ -2222,7 +2222,7 @@ Start the autonomous daemon in a background thread (for MCP calls).
 
 ### `mcp_autonomous_stop`
 
-`function` | [skills/autonomous_daemon.py:4765](../../skills/autonomous_daemon.py#L4765)
+`function` | [skills/autonomous_daemon.py:4812](../../skills/autonomous_daemon.py#L4812)
 
 ```python
 def mcp_autonomous_stop() -> str
@@ -2238,7 +2238,7 @@ Stop the autonomous daemon.
 
 ### `mcp_autonomous_status`
 
-`function` | [skills/autonomous_daemon.py:4781](../../skills/autonomous_daemon.py#L4781)
+`function` | [skills/autonomous_daemon.py:4828](../../skills/autonomous_daemon.py#L4828)
 
 ```python
 def mcp_autonomous_status() -> str
@@ -2254,7 +2254,7 @@ Current daemon state: objectives, steps, drones, phase.
 
 ### `mcp_autonomous_inject`
 
-`function` | [skills/autonomous_daemon.py:4794](../../skills/autonomous_daemon.py#L4794)
+`function` | [skills/autonomous_daemon.py:4841](../../skills/autonomous_daemon.py#L4841)
 
 ```python
 def mcp_autonomous_inject(text: str, priority: str = 'high', target: str = '') -> str
@@ -2278,7 +2278,7 @@ Inject an objective into the daemon queue and into sessions/tasks.json.
 
 ### `mcp_autonomous_events`
 
-`function` | [skills/autonomous_daemon.py:4838](../../skills/autonomous_daemon.py#L4838)
+`function` | [skills/autonomous_daemon.py:4885](../../skills/autonomous_daemon.py#L4885)
 
 ```python
 def mcp_autonomous_events(last_n: int = 20) -> str
@@ -2638,7 +2638,7 @@ METRICS_BIAS_CACHE_TTL_S = float(os.environ.get('AUTO_METRICS_CACHE_TTL_S', '5')
 
 ### `DECISION_SEED_LENGTH`
 
-`constant` | [skills/autonomous_daemon.py:268](../../skills/autonomous_daemon.py#L268)
+`constant` | [skills/autonomous_daemon.py:309](../../skills/autonomous_daemon.py#L309)
 
 ```python
 DECISION_SEED_LENGTH: int = 16
@@ -2650,7 +2650,7 @@ DECISION_SEED_LENGTH: int = 16
 
 ### `REWARD_DISPLAY_PRECISION`
 
-`constant` | [skills/autonomous_daemon.py:269](../../skills/autonomous_daemon.py#L269)
+`constant` | [skills/autonomous_daemon.py:310](../../skills/autonomous_daemon.py#L310)
 
 ```python
 REWARD_DISPLAY_PRECISION: int = 3

@@ -42,6 +42,12 @@ classDiagram
     LazyOrchestratorApp : toggle_verb()
     LazyOrchestratorApp : add_auto_verb()
     LazyOrchestratorApp : remove_auto_verb()
+    LazyOrchestratorApp : chain_rows()
+    LazyOrchestratorApp : chain_steps_preview()
+    LazyOrchestratorApp : toggle_chain()
+    LazyOrchestratorApp : generate_chain()
+    LazyOrchestratorApp : remove_chain()
+    LazyOrchestratorApp : on_data_table_row_highlighted()
     LazyOrchestratorApp : save_config()
     LazyOrchestratorApp : add_model_member()
     LazyOrchestratorApp : remove_model_member()
@@ -51,10 +57,6 @@ classDiagram
     LazyOrchestratorApp : on_button_pressed()
     LazyOrchestratorApp : action_refresh()
     LazyOrchestratorApp : action_toggle_item()
-    LazyOrchestratorApp : action_save_config()
-    LazyOrchestratorApp : action_add_item()
-    LazyOrchestratorApp : action_edit_item()
-    LazyOrchestratorApp : action_delete_item()
     class App
     App <|-- LazyOrchestratorApp
 ```
@@ -68,6 +70,7 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_on_button_pressed(["LazyOrchestratorApp.on_button_pressed"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_save_config(["LazyOrchestratorApp.save_config"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item(["LazyOrchestratorApp.action_toggle_item"])
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_chain(["LazyOrchestratorApp.toggle_chain"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_stage(["LazyOrchestratorApp.toggle_stage"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_verb(["LazyOrchestratorApp.toggle_verb"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_save_config(["LazyOrchestratorApp.action_save_config"])
@@ -76,10 +79,12 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_auto_verb(["LazyOrchestratorApp.add_auto_verb"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_guard_rule(["LazyOrchestratorApp.add_guard_rule"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_model_member(["LazyOrchestratorApp.add_model_member"])
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_generate_chain(["LazyOrchestratorApp.generate_chain"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_edit_item(["LazyOrchestratorApp.action_edit_item"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_set_model_priority(["LazyOrchestratorApp.set_model_priority"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_delete_item(["LazyOrchestratorApp.action_delete_item"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_auto_verb(["LazyOrchestratorApp.remove_auto_verb"])
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_chain(["LazyOrchestratorApp.remove_chain"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_guard_rule(["LazyOrchestratorApp.remove_guard_rule"])
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_model_member(["LazyOrchestratorApp.remove_model_member"])
     n_cli_lazy_orchestrator_py__run_orchestrator_console(["run_orchestrator_console"])
@@ -89,10 +94,10 @@ flowchart LR
     n_modules_orchestrator_config_py__upsert_verb["orchestrator_config.upsert_verb"]
     n_modules_orchestrator_config_py__verb_enabled["orchestrator_config.verb_enabled"]
     n_modules_orchestrator_config_py__remove_verb["orchestrator_config.remove_verb"]
-    n_core_config_py__save_payload["config.save_payload"]
-    n_modules_lazy_loop_py__LlmPool___init__["lazy_loop.LlmPool.__init__"]
-    n_modules_lazy_loop_py__LlmPool_add_member["lazy_loop.LlmPool.add_member"]
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_chain_rows(["LazyOrchestratorApp.chain_rows"])
+    n_modules_chain_registry_py__scan_all["chain_registry.scan_all"]
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_on_button_pressed --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_save_config
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_chain
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_stage
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_verb
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_save_config --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_save_config
@@ -100,9 +105,11 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_add_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_auto_verb
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_add_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_guard_rule
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_add_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_model_member
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_add_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_generate_chain
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_edit_item --> n_cli_lazy_orchestrator_py__FormModal___init__
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_edit_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_set_model_priority
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_delete_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_auto_verb
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_delete_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_chain
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_delete_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_guard_rule
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_delete_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_model_member
     n_cli_lazy_orchestrator_py__run_orchestrator_console --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp___init__
@@ -112,10 +119,7 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_verb -.-> n_modules_orchestrator_config_py__verb_enabled
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_auto_verb -.-> n_modules_orchestrator_config_py__upsert_verb
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_auto_verb -.-> n_modules_orchestrator_config_py__remove_verb
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_save_config -.-> n_core_config_py__save_payload
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_model_member -.-> n_modules_lazy_loop_py__LlmPool___init__
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_model_member -.-> n_modules_lazy_loop_py__LlmPool_add_member
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_model_member -.-> n_modules_lazy_loop_py__LlmPool___init__
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_chain_rows -.-> n_modules_chain_registry_py__scan_all
 ```
 
 ## Classes
@@ -234,7 +238,7 @@ class LazyOrchestratorApp(App[None])
 
 Bases: [`App[None]`](lazy_sentinel4.py.md#app)
 
-Admin console: Now / Config / Models / Guard.
+Admin console: Now / Config / Verbs / Chains / Models / Guard.
 
 **Attributes**
 
@@ -254,6 +258,12 @@ Admin console: Now / Config / Models / Guard.
 | [`toggle_verb`](#lazyorchestratorapp-toggle_verb) | method | Flip one auto verb on/off and persist it. |
 | [`add_auto_verb`](#lazyorchestratorapp-add_auto_verb) | method | Register a new operator-defined auto verb. |
 | [`remove_auto_verb`](#lazyorchestratorapp-remove_auto_verb) | method | Delete a custom verb, or disable a built-in one. |
+| [`chain_rows`](#lazyorchestratorapp-chain_rows) | method | Return one row per chain file, including disabled ones. |
+| [`chain_steps_preview`](#lazyorchestratorapp-chain_steps_preview) | method | Return the resolved step lines of a chain for the detail pane. |
+| [`toggle_chain`](#lazyorchestratorapp-toggle_chain) | method | Flip a chain's enabled flag in its YAML file. |
+| [`generate_chain`](#lazyorchestratorapp-generate_chain) | method | Generate chains/apt_<slug>.yaml from a playbook engine key. |
+| [`remove_chain`](#lazyorchestratorapp-remove_chain) | method | Delete a chain file unless others extend it or it is the base. |
+| [`on_data_table_row_highlighted`](#lazyorchestratorapp-on_data_table_row_highlighted) | method | Refresh the chains detail pane when the cursor moves. |
 | [`save_config`](#lazyorchestratorapp-save_config) | method | Merge the given keys into the payload and persist it. |
 | [`add_model_member`](#lazyorchestratorapp-add_model_member) | method | Append one LLM chain member; returns the stored name. |
 | [`remove_model_member`](#lazyorchestratorapp-remove_model_member) | method | Drop one LLM chain member by name. |
@@ -262,7 +272,7 @@ Admin console: Now / Config / Models / Guard.
 | [`remove_guard_rule`](#lazyorchestratorapp-remove_guard_rule) | method | Delete one guard rule by exact pattern. |
 | [`on_button_pressed`](#lazyorchestratorapp-on_button_pressed) | method | Handle the config save button. |
 | [`action_refresh`](#lazyorchestratorapp-action_refresh) | method | Reload tables and form from disk. |
-| [`action_toggle_item`](#lazyorchestratorapp-action_toggle_item) | method | Toggle the selected stage or auto verb. |
+| [`action_toggle_item`](#lazyorchestratorapp-action_toggle_item) | method | Toggle the selected stage, auto verb, or chain. |
 | [`action_save_config`](#lazyorchestratorapp-action_save_config) | method | Save the form values (keyboard shortcut). |
 | [`action_add_item`](#lazyorchestratorapp-action_add_item) | method | Open the add modal for the active tab. |
 | [`action_edit_item`](#lazyorchestratorapp-action_edit_item) | method | Edit the selected LLM member's priority (models tab only). |
@@ -293,7 +303,7 @@ Bind the console to a payload file and an optional task.
 
 #### `LazyOrchestratorApp.compose`
 
-`method` `generator` | [cli/lazy_orchestrator.py:152](../../cli/lazy_orchestrator.py#L152)
+`method` `generator` | [cli/lazy_orchestrator.py:153](../../cli/lazy_orchestrator.py#L153)
 
 ```python
 def compose(self) -> ComposeResult
@@ -307,7 +317,7 @@ Build the four panes.
 
 #### `LazyOrchestratorApp.on_mount`
 
-`method` | [cli/lazy_orchestrator.py:177](../../cli/lazy_orchestrator.py#L177)
+`method` | [cli/lazy_orchestrator.py:182](../../cli/lazy_orchestrator.py#L182)
 
 ```python
 def on_mount(self) -> None
@@ -319,7 +329,7 @@ Load the payload into the form and refresh the data tables.
 
 #### `LazyOrchestratorApp.toggle_stage`
 
-`method` | [cli/lazy_orchestrator.py:187](../../cli/lazy_orchestrator.py#L187)
+`method` | [cli/lazy_orchestrator.py:193](../../cli/lazy_orchestrator.py#L193)
 
 ```python
 def toggle_stage(self, name: str) -> bool
@@ -343,7 +353,7 @@ Flip one pipeline stage on/off and persist it.
 
 #### `LazyOrchestratorApp.toggle_verb`
 
-`method` | [cli/lazy_orchestrator.py:196](../../cli/lazy_orchestrator.py#L196)
+`method` | [cli/lazy_orchestrator.py:202](../../cli/lazy_orchestrator.py#L202)
 
 ```python
 def toggle_verb(self, name: str) -> bool
@@ -367,7 +377,7 @@ Flip one auto verb on/off and persist it.
 
 #### `LazyOrchestratorApp.add_auto_verb`
 
-`method` | [cli/lazy_orchestrator.py:205](../../cli/lazy_orchestrator.py#L205)
+`method` | [cli/lazy_orchestrator.py:211](../../cli/lazy_orchestrator.py#L211)
 
 ```python
 def add_auto_verb(self, name: str, keywords: str = '', needs_target: str = 'true', description: str = '') -> dict
@@ -394,7 +404,7 @@ Register a new operator-defined auto verb.
 
 #### `LazyOrchestratorApp.remove_auto_verb`
 
-`method` | [cli/lazy_orchestrator.py:220](../../cli/lazy_orchestrator.py#L220)
+`method` | [cli/lazy_orchestrator.py:226](../../cli/lazy_orchestrator.py#L226)
 
 ```python
 def remove_auto_verb(self, name: str) -> bool
@@ -414,11 +424,143 @@ Delete a custom verb, or disable a built-in one.
 
 *Called by:* [`LazyOrchestratorApp.action_delete_item`](#lazyorchestratorapp-action_delete_item)
 
+<a id="lazyorchestratorapp-chain_rows"></a>
+
+#### `LazyOrchestratorApp.chain_rows`
+
+`method` | [cli/lazy_orchestrator.py:242](../../cli/lazy_orchestrator.py#L242)
+
+```python
+def chain_rows(self) -> list[dict]
+```
+
+Return one row per chain file, including disabled ones.
+
+**Returns:** `list[dict]`
+
+*Calls:* [`scan_all`](modules.chain_registry.py.md#scan_all)
+
+<a id="lazyorchestratorapp-chain_steps_preview"></a>
+
+#### `LazyOrchestratorApp.chain_steps_preview`
+
+`method` | [cli/lazy_orchestrator.py:251](../../cli/lazy_orchestrator.py#L251)
+
+```python
+def chain_steps_preview(self, name: str, limit: int = 10) -> str
+```
+
+Return the resolved step lines of a chain for the detail pane.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` |  |  |
+| `limit` | `int` | `10` |  |
+
+**Returns:** `str`
+
+*Calls:* [`AptPlaybookEngine.get`](modules.apt_playbooks.py.md#aptplaybookengine-get)
+
+<a id="lazyorchestratorapp-toggle_chain"></a>
+
+#### `LazyOrchestratorApp.toggle_chain`
+
+`method` | [cli/lazy_orchestrator.py:268](../../cli/lazy_orchestrator.py#L268)
+
+```python
+def toggle_chain(self, name: str) -> bool
+```
+
+Flip a chain's enabled flag in its YAML file.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` |  |  |
+
+**Returns:** `bool`
+
+*Calls:* [`scan_all`](modules.chain_registry.py.md#scan_all), [`set_enabled`](modules.chain_registry.py.md#set_enabled)
+
+*Called by:* [`LazyOrchestratorApp.action_toggle_item`](#lazyorchestratorapp-action_toggle_item)
+
+<a id="lazyorchestratorapp-generate_chain"></a>
+
+#### `LazyOrchestratorApp.generate_chain`
+
+`method` | [cli/lazy_orchestrator.py:279](../../cli/lazy_orchestrator.py#L279)
+
+```python
+def generate_chain(self, playbook_key: str) -> str
+```
+
+Generate chains/apt_<slug>.yaml from a playbook engine key.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `playbook_key` | `str` |  |  |
+
+**Returns:** `str`
+
+*Calls:* [`AptPlaybookEngine.__init__`](modules.apt_playbooks.py.md#aptplaybookengine-__init__), [`AptPlaybookEngine.get`](modules.apt_playbooks.py.md#aptplaybookengine-get), [`generate_for_playbook`](modules.chain_registry.py.md#generate_for_playbook)
+
+*Called by:* [`LazyOrchestratorApp.action_add_item`](#lazyorchestratorapp-action_add_item)
+
+<a id="lazyorchestratorapp-remove_chain"></a>
+
+#### `LazyOrchestratorApp.remove_chain`
+
+`method` | [cli/lazy_orchestrator.py:293](../../cli/lazy_orchestrator.py#L293)
+
+```python
+def remove_chain(self, name: str) -> bool
+```
+
+Delete a chain file unless others extend it or it is the base.
+
+Returns False (refusing loudly) for the base ``apt_chain`` and
+for any parent with children — edit or disable those instead.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` |  |  |
+
+**Returns:** `bool`
+
+*Calls:* [`scan_all`](modules.chain_registry.py.md#scan_all)
+
+*Called by:* [`LazyOrchestratorApp.action_delete_item`](#lazyorchestratorapp-action_delete_item)
+
+<a id="lazyorchestratorapp-on_data_table_row_highlighted"></a>
+
+#### `LazyOrchestratorApp.on_data_table_row_highlighted`
+
+`method` | [cli/lazy_orchestrator.py:349](../../cli/lazy_orchestrator.py#L349)
+
+```python
+def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None
+```
+
+Refresh the chains detail pane when the cursor moves.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `event` | `DataTable.RowHighlighted` |  |  |
+
 <a id="lazyorchestratorapp-save_config"></a>
 
 #### `LazyOrchestratorApp.save_config`
 
-`method` | [cli/lazy_orchestrator.py:289](../../cli/lazy_orchestrator.py#L289)
+`method` | [cli/lazy_orchestrator.py:423](../../cli/lazy_orchestrator.py#L423)
 
 ```python
 def save_config(self, values: dict) -> dict
@@ -442,7 +584,7 @@ Merge the given keys into the payload and persist it.
 
 #### `LazyOrchestratorApp.add_model_member`
 
-`method` | [cli/lazy_orchestrator.py:311](../../cli/lazy_orchestrator.py#L311)
+`method` | [cli/lazy_orchestrator.py:445](../../cli/lazy_orchestrator.py#L445)
 
 ```python
 def add_model_member(self, name: str, model: str, priority: str = '0') -> str
@@ -468,7 +610,7 @@ Append one LLM chain member; returns the stored name.
 
 #### `LazyOrchestratorApp.remove_model_member`
 
-`method` | [cli/lazy_orchestrator.py:319](../../cli/lazy_orchestrator.py#L319)
+`method` | [cli/lazy_orchestrator.py:453](../../cli/lazy_orchestrator.py#L453)
 
 ```python
 def remove_model_member(self, name: str) -> bool
@@ -492,7 +634,7 @@ Drop one LLM chain member by name.
 
 #### `LazyOrchestratorApp.set_model_priority`
 
-`method` | [cli/lazy_orchestrator.py:327](../../cli/lazy_orchestrator.py#L327)
+`method` | [cli/lazy_orchestrator.py:461](../../cli/lazy_orchestrator.py#L461)
 
 ```python
 def set_model_priority(self, name: str, priority: str = '0') -> bool
@@ -517,7 +659,7 @@ Change one LLM member's failover rank and repaint the table.
 
 #### `LazyOrchestratorApp.add_guard_rule`
 
-`method` | [cli/lazy_orchestrator.py:339](../../cli/lazy_orchestrator.py#L339)
+`method` | [cli/lazy_orchestrator.py:473](../../cli/lazy_orchestrator.py#L473)
 
 ```python
 def add_guard_rule(self, pattern: str, action: str = 'ask', reason: str = '') -> bool
@@ -543,7 +685,7 @@ Register one guard intercept rule.
 
 #### `LazyOrchestratorApp.remove_guard_rule`
 
-`method` | [cli/lazy_orchestrator.py:347](../../cli/lazy_orchestrator.py#L347)
+`method` | [cli/lazy_orchestrator.py:481](../../cli/lazy_orchestrator.py#L481)
 
 ```python
 def remove_guard_rule(self, pattern: str) -> bool
@@ -567,7 +709,7 @@ Delete one guard rule by exact pattern.
 
 #### `LazyOrchestratorApp.on_button_pressed`
 
-`method` | [cli/lazy_orchestrator.py:451](../../cli/lazy_orchestrator.py#L451)
+`method` | [cli/lazy_orchestrator.py:585](../../cli/lazy_orchestrator.py#L585)
 
 ```python
 def on_button_pressed(self, event: Button.Pressed) -> None
@@ -587,7 +729,7 @@ Handle the config save button.
 
 #### `LazyOrchestratorApp.action_refresh`
 
-`method` | [cli/lazy_orchestrator.py:469](../../cli/lazy_orchestrator.py#L469)
+`method` | [cli/lazy_orchestrator.py:603](../../cli/lazy_orchestrator.py#L603)
 
 ```python
 def action_refresh(self) -> None
@@ -599,21 +741,21 @@ Reload tables and form from disk.
 
 #### `LazyOrchestratorApp.action_toggle_item`
 
-`method` | [cli/lazy_orchestrator.py:486](../../cli/lazy_orchestrator.py#L486)
+`method` | [cli/lazy_orchestrator.py:621](../../cli/lazy_orchestrator.py#L621)
 
 ```python
 def action_toggle_item(self) -> None
 ```
 
-Toggle the selected stage or auto verb.
+Toggle the selected stage, auto verb, or chain.
 
-*Calls:* [`LazyOrchestratorApp.toggle_stage`](#lazyorchestratorapp-toggle_stage), [`LazyOrchestratorApp.toggle_verb`](#lazyorchestratorapp-toggle_verb)
+*Calls:* [`LazyOrchestratorApp.toggle_chain`](#lazyorchestratorapp-toggle_chain), [`LazyOrchestratorApp.toggle_stage`](#lazyorchestratorapp-toggle_stage), [`LazyOrchestratorApp.toggle_verb`](#lazyorchestratorapp-toggle_verb)
 
 <a id="lazyorchestratorapp-action_save_config"></a>
 
 #### `LazyOrchestratorApp.action_save_config`
 
-`method` | [cli/lazy_orchestrator.py:498](../../cli/lazy_orchestrator.py#L498)
+`method` | [cli/lazy_orchestrator.py:637](../../cli/lazy_orchestrator.py#L637)
 
 ```python
 def action_save_config(self) -> None
@@ -627,7 +769,7 @@ Save the form values (keyboard shortcut).
 
 #### `LazyOrchestratorApp.action_add_item`
 
-`method` | [cli/lazy_orchestrator.py:515](../../cli/lazy_orchestrator.py#L515)
+`method` | [cli/lazy_orchestrator.py:654](../../cli/lazy_orchestrator.py#L654)
 
 ```python
 def action_add_item(self) -> None
@@ -635,13 +777,13 @@ def action_add_item(self) -> None
 
 Open the add modal for the active tab.
 
-*Calls:* [`FormModal.__init__`](#formmodal-__init__), [`LazyOrchestratorApp.add_auto_verb`](#lazyorchestratorapp-add_auto_verb), [`LazyOrchestratorApp.add_guard_rule`](#lazyorchestratorapp-add_guard_rule), [`LazyOrchestratorApp.add_model_member`](#lazyorchestratorapp-add_model_member)
+*Calls:* [`FormModal.__init__`](#formmodal-__init__), [`LazyOrchestratorApp.add_auto_verb`](#lazyorchestratorapp-add_auto_verb), [`LazyOrchestratorApp.add_guard_rule`](#lazyorchestratorapp-add_guard_rule), [`LazyOrchestratorApp.add_model_member`](#lazyorchestratorapp-add_model_member), [`LazyOrchestratorApp.generate_chain`](#lazyorchestratorapp-generate_chain)
 
 <a id="lazyorchestratorapp-action_edit_item"></a>
 
 #### `LazyOrchestratorApp.action_edit_item`
 
-`method` | [cli/lazy_orchestrator.py:575](../../cli/lazy_orchestrator.py#L575)
+`method` | [cli/lazy_orchestrator.py:730](../../cli/lazy_orchestrator.py#L730)
 
 ```python
 def action_edit_item(self) -> None
@@ -655,7 +797,7 @@ Edit the selected LLM member's priority (models tab only).
 
 #### `LazyOrchestratorApp.action_delete_item`
 
-`method` | [cli/lazy_orchestrator.py:609](../../cli/lazy_orchestrator.py#L609)
+`method` | [cli/lazy_orchestrator.py:764](../../cli/lazy_orchestrator.py#L764)
 
 ```python
 def action_delete_item(self) -> None
@@ -663,7 +805,7 @@ def action_delete_item(self) -> None
 
 Delete the selected row in the active tab.
 
-*Calls:* [`LazyOrchestratorApp.remove_auto_verb`](#lazyorchestratorapp-remove_auto_verb), [`LazyOrchestratorApp.remove_guard_rule`](#lazyorchestratorapp-remove_guard_rule), [`LazyOrchestratorApp.remove_model_member`](#lazyorchestratorapp-remove_model_member)
+*Calls:* [`LazyOrchestratorApp.remove_auto_verb`](#lazyorchestratorapp-remove_auto_verb), [`LazyOrchestratorApp.remove_chain`](#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.remove_guard_rule`](#lazyorchestratorapp-remove_guard_rule), [`LazyOrchestratorApp.remove_model_member`](#lazyorchestratorapp-remove_model_member)
 
 ---
 
@@ -673,7 +815,7 @@ Delete the selected row in the active tab.
 
 ### `run_orchestrator_console`
 
-`function` | [cli/lazy_orchestrator.py:651](../../cli/lazy_orchestrator.py#L651)
+`function` | [cli/lazy_orchestrator.py:810](../../cli/lazy_orchestrator.py#L810)
 
 ```python
 def run_orchestrator_console(task_id: str = '') -> None

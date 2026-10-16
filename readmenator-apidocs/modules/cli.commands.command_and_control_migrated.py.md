@@ -1,6 +1,6 @@
 # `cli.commands.command_and_control_migrated`
 
-> Source: [cli/commands/command_and_control_migrated.py:1](../../cli/commands/command_and_control_migrated.py#L1) | language `py` | coverage 95.8% | [API index](../index.md)
+> Source: [cli/commands/command_and_control_migrated.py:1](../../cli/commands/command_and_control_migrated.py#L1) | language `py` | coverage 96.4% | [API index](../index.md)
 
 command_and_control commands migrated from lazyown.py.
 
@@ -31,15 +31,15 @@ classDiagram
     CommandAndControlMigratedCommandSet : do_emp3r0r()
     CommandAndControlMigratedCommandSet : do_atomic_tests()
     CommandAndControlMigratedCommandSet : do_atomic_gen()
+    CommandAndControlMigratedCommandSet : do_atomic_shell()
+    CommandAndControlMigratedCommandSet : do_atomic_clean()
+    CommandAndControlMigratedCommandSet : do_atomic_emulate()
     CommandAndControlMigratedCommandSet : do_atomic_agent()
     CommandAndControlMigratedCommandSet : do_attack_plan()
+    CommandAndControlMigratedCommandSet : do_apt_chain()
     CommandAndControlMigratedCommandSet : do_apt_playbook()
     CommandAndControlMigratedCommandSet : do_mitre_test()
     CommandAndControlMigratedCommandSet : do_generate_playbook()
-    CommandAndControlMigratedCommandSet : do_my_playbook()
-    CommandAndControlMigratedCommandSet : do_caldera()
-    CommandAndControlMigratedCommandSet : do_caldera_import()
-    CommandAndControlMigratedCommandSet : do_caldera_export()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- CommandAndControlMigratedCommandSet
 ```
@@ -132,10 +132,14 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 | [`do_iis_webdav_upload_asp`](#commandandcontrolmigratedcommandset-do_iis_webdav_upload_asp) | method | (CVE-2017-7269). |
 | [`do_duckyspark`](#commandandcontrolmigratedcommandset-do_duckyspark) | method | duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus. |
 | [`do_emp3r0r`](#commandandcontrolmigratedcommandset-do_emp3r0r) | method | Command emp3r0r Downloads and sets up the Emperor server for local exploitation. |
-| [`do_atomic_tests`](#commandandcontrolmigratedcommandset-do_atomic_tests) | method | Executes Atomic Red Team tests based on user-selected platform and test. |
-| [`do_atomic_gen`](#commandandcontrolmigratedcommandset-do_atomic_gen) | method | Generates test and cleanup scripts for a given Atomic Red Team technique ID. |
+| [`do_atomic_tests`](#commandandcontrolmigratedcommandset-do_atomic_tests) | method | Stage an Atomic Red Team test by MITRE technique ID or GUID. |
+| [`do_atomic_gen`](#commandandcontrolmigratedcommandset-do_atomic_gen) | method | Generate test + cleanup scripts for a MITRE ID or GUID. |
+| [`do_atomic_shell`](#commandandcontrolmigratedcommandset-do_atomic_shell) | method | Open an interactive root shell on the target when possible. |
+| [`do_atomic_clean`](#commandandcontrolmigratedcommandset-do_atomic_clean) | method | Clean up engagement artefacts (soft) or tear down the gym (hard). |
+| [`do_atomic_emulate`](#commandandcontrolmigratedcommandset-do_atomic_emulate) | method | Execute emulation tests on the target through a working shell. |
 | [`do_atomic_agent`](#commandandcontrolmigratedcommandset-do_atomic_agent) | method | Generates and synchronizes atomic agent scripts. |
-| [`do_attack_plan`](#commandandcontrolmigratedcommandset-do_attack_plan) | method | Executes a multi-step APT simulation plan based on Atomic Red Team test IDs. |
+| [`do_attack_plan`](#commandandcontrolmigratedcommandset-do_attack_plan) | method | Execute a multi-step APT simulation plan. |
+| [`do_apt_chain`](#commandandcontrolmigratedcommandset-do_apt_chain) | method | Run a fully YAML-administered APT chain with one command. |
 | [`do_apt_playbook`](#commandandcontrolmigratedcommandset-do_apt_playbook) | method | List, validate, and run APT playbooks based on public threat reports. |
 | [`do_mitre_test`](#commandandcontrolmigratedcommandset-do_mitre_test) | method | Interacts with the MITRE ATT&CK framework using the STIX 2.0 format. |
 | [`do_generate_playbook`](#commandandcontrolmigratedcommandset-do_generate_playbook) | method | Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques. |
@@ -544,18 +548,19 @@ Decorators: `@cmd2.with_category('10. Command & Control')`
 def do_atomic_tests(self, line)
 ```
 
-Executes Atomic Red Team tests based on user-selected platform and test.
+Stage an Atomic Red Team test by MITRE technique ID or GUID.
 
-This function performs the following actions:
-1. Verifies the presence of the Atomic Red Team repository; if not present, it clones it locally.
-2. Prompts the user to select a target platform, filtering the available tests to only those compatible.
-3. Displays the filtered tests, including their description and platform compatibility.
-4. Allows the user to select and execute a test or specify parameters directly.
+Accepts human-friendly MITRE IDs (``T1078``, ``T1059.001``),
+raw GUIDs, or prefixes (``T1059``), with optional flags:
 
-line (str): Command-line arguments for specifying a test ID or additional parameters.
-            If not provided, interactive input will be used.
+    atomic_tests T1078 --platform linux --non-interactive
+    atomic_tests <guid> --platform windows
+    atomic_tests --platform linux   (lists, interactive only)
 
-None
+Non-interactive mode (``--non-interactive`` or piped stdin,
+as used by MCP and the autonomous loop) stages the first
+matching test to the clipboard without blocking on input.
+Implementation lives in [`modules.atomic_cli`](modules.atomic_cli.py.md).
 
 **Parameters**
 
@@ -563,13 +568,13 @@ None
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`copy2clip`](utils.py.md#copy2clip), [`get_credentials`](utils.py.md#get_credentials), [`replace_variables`](utils.py.md#replace_variables)
+*Calls:* [`run_atomic_tests`](modules.atomic_cli.py.md#run_atomic_tests)
 
 <a id="commandandcontrolmigratedcommandset-do_atomic_gen"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_gen`
 
-`method` | [cli/commands/command_and_control_migrated.py:1382](../../cli/commands/command_and_control_migrated.py#L1382)
+`method` | [cli/commands/command_and_control_migrated.py:1243](../../cli/commands/command_and_control_migrated.py#L1243)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -577,11 +582,14 @@ Decorators: `@cmd2.with_category('10. Command & Control')`
 def do_atomic_gen(self, line)
 ```
 
-Generates test and cleanup scripts for a given Atomic Red Team technique ID.
+Generate test + cleanup scripts for a MITRE ID or GUID.
 
-line (str): The technique ID.
+Usage:
+    atomic_gen T1078 [--platform linux] [--non-interactive]
+    atomic_gen <guid>
 
-None
+Scripts land in ``sessions/temp_uploads/`` with 0600 mode.
+Implementation lives in [`modules.atomic_cli`](modules.atomic_cli.py.md).
 
 **Parameters**
 
@@ -589,15 +597,107 @@ None
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`replace_variables`](utils.py.md#replace_variables)
+*Calls:* [`run_atomic_gen`](modules.atomic_cli.py.md#run_atomic_gen)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_attack_plan`](#commandandcontrolmigratedcommandset-do_attack_plan)
+
+<a id="commandandcontrolmigratedcommandset-do_atomic_shell"></a>
+
+#### `CommandAndControlMigratedCommandSet.do_atomic_shell`
+
+`method` | [cli/commands/command_and_control_migrated.py:1259](../../cli/commands/command_and_control_migrated.py#L1259)
+
+Decorators: `@cmd2.with_category('10. Command & Control')`
+
+```python
+def do_atomic_shell(self, line)
+```
+
+Open an interactive root shell on the target when possible.
+
+Usage:
+    atomic_shell [target] [--interactive]
+
+Without ``--interactive`` (the loop-safe default) it only
+verifies the multiplexed session and reports how to attach.
+With ``--interactive`` in a foreground terminal it drops the
+operator into a live ``target#`` REPL until exit.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`interactive_shell`](modules.atomic_exploit_bridge.py.md#interactive_shell)
+
+<a id="commandandcontrolmigratedcommandset-do_atomic_clean"></a>
+
+#### `CommandAndControlMigratedCommandSet.do_atomic_clean`
+
+`method` | [cli/commands/command_and_control_migrated.py:1289](../../cli/commands/command_and_control_migrated.py#L1289)
+
+Decorators: `@cmd2.with_category('10. Command & Control')`
+
+```python
+def do_atomic_clean(self, line)
+```
+
+Clean up engagement artefacts (soft) or tear down the gym (hard).
+
+Usage:
+    atomic_clean [target]            # soft: target artefacts + local staging
+    atomic_clean --hard [target]     # soft + stop and remove the gym container
+
+Soft removes the agent, drop files and test outputs from the
+target and clears local staging doubles. Loot, reports and logs
+are evidence and are always kept. Hard additionally destroys
+the lab container (default lazyown-lab-metasploitable).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`cleanup_target`](modules.atomic_exploit_bridge.py.md#cleanup_target)
+
+<a id="commandandcontrolmigratedcommandset-do_atomic_emulate"></a>
+
+#### `CommandAndControlMigratedCommandSet.do_atomic_emulate`
+
+`method` | [cli/commands/command_and_control_migrated.py:1326](../../cli/commands/command_and_control_migrated.py#L1326)
+
+Decorators: `@cmd2.with_category('10. Command & Control')`
+
+```python
+def do_atomic_emulate(self, line)
+```
+
+Execute emulation tests on the target through a working shell.
+
+Usage:
+    atomic_emulate --target 172.17.0.2 --playbook rocke [--platform linux]
+    atomic_emulate --target 172.17.0.2 --techniques T1018,T1057
+
+Opens a one-shot remote shell (exec-capable exploits/*.yaml in
+rank order), runs each technique's first platform-compatible
+Atomic test, and stages sessions/atomic_emulate_<target>_<ts>.json
+with per-test outputs. Lab and in-scope targets only.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
 
 <a id="commandandcontrolmigratedcommandset-do_atomic_agent"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_agent`
 
-`method` | [cli/commands/command_and_control_migrated.py:1566](../../cli/commands/command_and_control_migrated.py#L1566)
+`method` | [cli/commands/command_and_control_migrated.py:1379](../../cli/commands/command_and_control_migrated.py#L1379)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -623,7 +723,7 @@ None
 
 #### `CommandAndControlMigratedCommandSet.do_attack_plan`
 
-`method` | [cli/commands/command_and_control_migrated.py:1666](../../cli/commands/command_and_control_migrated.py#L1666)
+`method` | [cli/commands/command_and_control_migrated.py:1482](../../cli/commands/command_and_control_migrated.py#L1482)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -631,12 +731,17 @@ Decorators: `@cmd2.with_category('10. Command & Control')`
 def do_attack_plan(self, line)
 ```
 
-Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
+Execute a multi-step APT simulation plan.
 
-line (str) optional: Path to the YAML plan file. Append --auto to execute
-                      generated scripts immediately instead of just generating.
+Usage:
+    attack_plan <plan.yaml> [--platform linux] [--auto]
 
-None
+The platform filter is mandatory for correct emulation: without
+it the first indexed test wins regardless of OS (Windows scripts
+for a Linux target). It defaults to the plan's own ``platforms:``
+entry (enriched playbooks) and must be passed explicitly for
+bare step lists. ``--auto`` executes generated scripts locally:
+only use it when the target IS this host.
 
 **Parameters**
 
@@ -644,13 +749,48 @@ None
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`CommandAndControlMigratedCommandSet.do_atomic_gen`](#commandandcontrolmigratedcommandset-do_atomic_gen), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
+*Calls:* [`CommandAndControlMigratedCommandSet.do_atomic_gen`](#commandandcontrolmigratedcommandset-do_atomic_gen), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`normalize_platform`](modules.atomic_resolver.py.md#normalize_platform)
+
+<a id="commandandcontrolmigratedcommandset-do_apt_chain"></a>
+
+#### `CommandAndControlMigratedCommandSet.do_apt_chain`
+
+`method` | [cli/commands/command_and_control_migrated.py:1641](../../cli/commands/command_and_control_migrated.py#L1641)
+
+Decorators: `@cmd2.with_category('10. Command & Control')`
+
+```python
+def do_apt_chain(self, line)
+```
+
+Run a fully YAML-administered APT chain with one command.
+
+Usage:
+    apt_chain [chain] [target]
+    apt_chain apt_rocke 172.17.0.2
+    apt_chain rocke 172.17.0.2   (playbook shorthand)
+
+The first token names a file in ``chains/`` (per-APT files like
+``apt_rocke.yaml`` inherit the base ``apt_chain.yaml`` and only
+pin the playbook default). A bare playbook name falls back to
+its ``apt_<name>`` chain; anything else runs the base chain with
+that playbook. Target defaults to ``rhost``. Manage chains from
+the orchestrator Chains tab or by editing the YAML directly —
+this method only interprets.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
 
 <a id="commandandcontrolmigratedcommandset-do_apt_playbook"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:1790](../../cli/commands/command_and_control_migrated.py#L1790)
+`method` | [cli/commands/command_and_control_migrated.py:1729](../../cli/commands/command_and_control_migrated.py#L1729)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -687,7 +827,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:1910](../../cli/commands/command_and_control_migrated.py#L1910)
+`method` | [cli/commands/command_and_control_migrated.py:1849](../../cli/commands/command_and_control_migrated.py#L1849)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -718,7 +858,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2013](../../cli/commands/command_and_control_migrated.py#L2013)
+`method` | [cli/commands/command_and_control_migrated.py:1952](../../cli/commands/command_and_control_migrated.py#L1952)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -767,7 +907,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2192](../../cli/commands/command_and_control_migrated.py#L2192)
+`method` | [cli/commands/command_and_control_migrated.py:2131](../../cli/commands/command_and_control_migrated.py#L2131)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -791,7 +931,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2249](../../cli/commands/command_and_control_migrated.py#L2249)
+`method` | [cli/commands/command_and_control_migrated.py:2188](../../cli/commands/command_and_control_migrated.py#L2188)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -826,7 +966,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2298](../../cli/commands/command_and_control_migrated.py#L2298)
+`method` | [cli/commands/command_and_control_migrated.py:2237](../../cli/commands/command_and_control_migrated.py#L2237)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -859,7 +999,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2390](../../cli/commands/command_and_control_migrated.py#L2390)
+`method` | [cli/commands/command_and_control_migrated.py:2329](../../cli/commands/command_and_control_migrated.py#L2329)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

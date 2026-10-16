@@ -1,0 +1,6 @@
+name: apt_apt29
+description: Full APT chain for apt29 (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: apt29

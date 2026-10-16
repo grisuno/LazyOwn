@@ -1,8 +1,159 @@
-# Symbols (page 12 of 40)
+# Symbols (page 12 of 41)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_count_by_severity` | method | `modules/compliance.py:765` | `def _count_by_severity(self, findings)` |
+| `_format_compliance_report_md` | method | `modules/compliance.py:835` | `def _format_compliance_report_md(self, report)` |
+| `_hash_entry` | method | `modules/compliance.py:379` | `def _hash_entry(self, entry)` |
+| `_load` | method | `modules/compliance.py:364` | `def _load(self)` |
+| `_load_findings` | method | `modules/compliance.py:779` | `def _load_findings(self)` |
+| `add_evidence` | method | `modules/compliance.py:901` | `def add_evidence(self, filepath, operator, description)` |
+| `add_file` | method | `modules/compliance.py:383` | `def add_file(self, filepath, operator, description)` |
+| `export_pdf` | function | `modules/compliance.py:449` | `def export_pdf(report_md, output_path, title, classification)` |
+| `export_pdf` | method | `modules/compliance.py:831` | `def export_pdf(self, report, output_path)` |
+| `export_to_cef` | function | `modules/compliance.py:572` | `def export_to_cef(findings, output_path, vendor, product, version)` |
+| `export_to_elastic_ndjson` | function | `modules/compliance.py:533` | `def export_to_elastic_ndjson(findings, output_path, index_prefix)` |
+| `generate_compliance_report` | method | `modules/compliance.py:710` | `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` |
+| `get_chain_digest` | method | `modules/compliance.py:429` | `def get_chain_digest(self)` |
+| `map_findings_to_compliance` | method | `modules/compliance.py:639` | `def map_findings_to_compliance(self, findings, frameworks)` |
+| `to_report` | method | `modules/compliance.py:432` | `def to_report(self)` |
+| `verify` | method | `modules/compliance.py:410` | `def verify(self)` |
+| `verify_evidence_chain` | method | `modules/compliance.py:904` | `def verify_evidence_chain(self)` |
+| `HookEngine` | class | `modules/conditional_hooks.py:258` | `class HookEngine` |
+| `HookRule` | class | `modules/conditional_hooks.py:45` | `class HookRule` |
+| `__init__` | method | `modules/conditional_hooks.py:270` | `def __init__(self)` |
+| `_execute_action` | method | `modules/conditional_hooks.py:428` | `def _execute_action(self, action, context)` |
+| `_execute_cred_reuse` | method | `modules/conditional_hooks.py:500` | `def _execute_cred_reuse(self, context)` |
+| `_execute_local_command` | method | `modules/conditional_hooks.py:476` | `def _execute_local_command(command)` |
+| `_execute_shell_command` | method | `modules/conditional_hooks.py:467` | `def _execute_shell_command(self, command, context)` |
+| `_match_trigger` | method | `modules/conditional_hooks.py:369` | `def _match_trigger(self, rule_trigger, event, context)` |
+| `_resolve_placeholders` | method | `modules/conditional_hooks.py:414` | `def _resolve_placeholders(self, text, context)` |
+| `add_rule` | method | `modules/conditional_hooks.py:330` | `def add_rule(self, rule_dict)` |
+| `can_fire` | method | `modules/conditional_hooks.py:56` | `def can_fire(self, now)` |
+| `enable_rule` | method | `modules/conditional_hooks.py:359` | `def enable_rule(self, name, enabled)` |
+| `fire` | method | `modules/conditional_hooks.py:516` | `def fire(self, event, context)` |
+| `get_hook_engine` | function | `modules/conditional_hooks.py:586` | `def get_hook_engine()` |
+| `get_rule` | method | `modules/conditional_hooks.py:575` | `def get_rule(self, name)` |
+| `list_rules` | method | `modules/conditional_hooks.py:571` | `def list_rules(self)` |
+| `load_rules` | method | `modules/conditional_hooks.py:290` | `def load_rules(self, path)` |
+| `mark_fired` | method | `modules/conditional_hooks.py:65` | `def mark_fired(self)` |
+| `register_action_handler` | method | `modules/conditional_hooks.py:277` | `def register_action_handler(self, action_type, handler)` |
+| `remove_rule` | method | `modules/conditional_hooks.py:345` | `def remove_rule(self, name)` |
+| `save_rules` | method | `modules/conditional_hooks.py:322` | `def save_rules(self, path)` |
+| `set_placeholders` | method | `modules/conditional_hooks.py:286` | `def set_placeholders(self, placeholders)` |
+| `to_dict` | method | `modules/conditional_hooks.py:69` | `def to_dict(self)` |
+| `_ensure_loaded` | function | `modules/config_store.py:106` | `def _ensure_loaded()` |
+| `_load` | function | `modules/config_store.py:113` | `def _load()` |
+| `_persist` | function | `modules/config_store.py:131` | `def _persist()` |
+| `_start_watcher` | function | `modules/config_store.py:143` | `def _start_watcher(interval)` |
+| `_watch_loop` | function | `modules/config_store.py:148` | `def _watch_loop()` |
+| `get_config` | function | `modules/config_store.py:53` | `def get_config(key, default)` |
+| `init` | function | `modules/config_store.py:36` | `def init(path, watch)` |
+| `reload_config` | function | `modules/config_store.py:90` | `def reload_config()` |
+| `set_config` | function | `modules/config_store.py:66` | `def set_config()` |
+| `set_config_dict` | function | `modules/config_store.py:80` | `def set_config_dict(updates)` |
+| `stop_watcher` | function | `modules/config_store.py:96` | `def stop_watcher()` |
+| `CredentialReuseEngine` | class | `modules/credential_reuse.py:55` | `class CredentialReuseEngine` |
+| `ReuseCandidate` | class | `modules/credential_reuse.py:32` | `class ReuseCandidate` |
+| `__init__` | method | `modules/credential_reuse.py:80` | `def __init__(self)` |
+| `_build_command` | method | `modules/credential_reuse.py:196` | `def _build_command(self, username, password, host, target_services)` |
+| `_load_cache` | method | `modules/credential_reuse.py:85` | `def _load_cache(self)` |
+| `_save_cache` | method | `modules/credential_reuse.py:95` | `def _save_cache(self)` |
+| `_score_candidate` | method | `modules/credential_reuse.py:144` | `def _score_candidate(self, username, password, source_host, target_host, target_services)` |
+| `_subnet_distance` | method | `modules/credential_reuse.py:118` | `def _subnet_distance(self, ip_a, ip_b)` |
+| `get_credential_reuse_engine` | function | `modules/credential_reuse.py:358` | `def get_credential_reuse_engine()` |
+| `get_summary` | method | `modules/credential_reuse.py:338` | `def get_summary(self, candidates)` |
+| `mark_confirmed` | method | `modules/credential_reuse.py:112` | `def mark_confirmed(self, username, password, host)` |
+| `mark_failed` | method | `modules/credential_reuse.py:107` | `def mark_failed(self, username, password, host)` |
+| `rank` | method | `modules/credential_reuse.py:226` | `def rank(self, hosts, creds, host_services, limit)` |
+| `suggest_from_state_manager` | method | `modules/credential_reuse.py:278` | `def suggest_from_state_manager(self, state_manager, limit)` |
+| `suggest_from_world_model` | method | `modules/credential_reuse.py:308` | `def suggest_from_world_model(self, world_model, limit)` |
+| `to_dict` | method | `modules/credential_reuse.py:43` | `def to_dict(self)` |
+| `CrossCloudAttackEngine` | class | `modules/cross_cloud.py:54` | `class CrossCloudAttackEngine` |
+| `CrossCloudConfig` | class | `modules/cross_cloud.py:30` | `class CrossCloudConfig` |
+| `__init__` | method | `modules/cross_cloud.py:64` | `def __init__(self, config)` |
+| `aws_oidc_to_gcp` | method | `modules/cross_cloud.py:133` | `def aws_oidc_to_gcp(self)` |
+| `azure_saml_to_aws` | method | `modules/cross_cloud.py:67` | `def azure_saml_to_aws(self)` |
+| `detect_cross_cloud_federation` | method | `modules/cross_cloud.py:234` | `def detect_cross_cloud_federation(self)` |
+| `entra_id_to_gcp_workforce_federation` | method | `modules/cross_cloud.py:204` | `def entra_id_to_gcp_workforce_federation(self)` |
+| `gcp_oidc_to_azure` | method | `modules/cross_cloud.py:104` | `def gcp_oidc_to_azure(self)` |
+| `multi_cloud_imds_harvesting` | method | `modules/cross_cloud.py:167` | `def multi_cloud_imds_harvesting(self)` |
+| `summary` | method | `modules/cross_cloud.py:258` | `def summary(self)` |
+| `_load` | function | `modules/custom_tools.py:37` | `def _load()` |
+| `_run_http` | function | `modules/custom_tools.py:179` | `def _run_http(tool, arg, on_output)` |
+| `_save` | function | `modules/custom_tools.py:45` | `def _save(payload)` |
+| `_store_file` | function | `modules/custom_tools.py:30` | `def _store_file()` |
+| `_trigger_tokens` | function | `modules/custom_tools.py:122` | `def _trigger_tokens(raw)` |
+| `add_tool` | function | `modules/custom_tools.py:52` | `def add_tool(name, kind, target, description, method, body, timeout, trigger)` |
+| `get_tool` | function | `modules/custom_tools.py:114` | `def get_tool(name)` |
+| `list_tools` | function | `modules/custom_tools.py:109` | `def list_tools()` |
+| `match_tools` | function | `modules/custom_tools.py:128` | `def match_tools(text, limit)` |
+| `remove_tool` | function | `modules/custom_tools.py:97` | `def remove_tool(name)` |
+| `run_tool` | function | `modules/custom_tools.py:151` | `def run_tool(name, arg, on_output)` |
+| `CVEMatcher` | class | `modules/cve_matcher.py:60` | `class CVEMatcher` |
+| `CVEResult` | class | `modules/cve_matcher.py:51` | `class CVEResult` |
+| `__init__` | method | `modules/cve_matcher.py:70` | `def __init__(self, api_key, cache_dir)` |
+| `_cache_path` | method | `modules/cve_matcher.py:95` | `def _cache_path(self, params)` |
+| `_load_cache` | method | `modules/cve_matcher.py:100` | `def _load_cache(self, params)` |
+| `_query` | method | `modules/cve_matcher.py:128` | `def _query(self)` |
+| `_rate_limit` | method | `modules/cve_matcher.py:121` | `def _rate_limit(self)` |
+| `_save_cache` | method | `modules/cve_matcher.py:112` | `def _save_cache(self, params, results)` |
+| `get_matcher` | function | `modules/cve_matcher.py:198` | `def get_matcher()` |
+| `search` | method | `modules/cve_matcher.py:82` | `def search(self)` |
+| `search` | function | `modules/cve_matcher.py:206` | `def search(product, version, max_results)` |
+| `search_by_cpe` | method | `modules/cve_matcher.py:89` | `def search_by_cpe(self, cpe_name, max_results)` |
+| `ACEntry` | class | `modules/dacl_abuse.py:67` | `class ACEntry` |
+| `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
+| `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
+| `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
+| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
+| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
+| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
+| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
+| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
+| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
+| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
+| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
+| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
+| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
+| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
+| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
+| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
+| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
+| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
+| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
+| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
+| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
+| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
+| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
+| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
+| `dashboard_timeline` | function | `modules/dashboard_bp.py:1017` | `def dashboard_timeline()` |
+| `DashboardEdge` | class | `modules/dashboard_engine.py:111` | `class DashboardEdge` |
+| `DashboardEngine` | class | `modules/dashboard_engine.py:118` | `class DashboardEngine` |
+| `DashboardNode` | class | `modules/dashboard_engine.py:99` | `class DashboardNode` |
+| `__init__` | method | `modules/dashboard_engine.py:139` | `def __init__(self, world_model)` |
+| `_parse_nmap_xml_services` | function | `modules/dashboard_engine.py:39` | `def _parse_nmap_xml_services(sessions_dir)` |
+| `_phase_icon` | method | `modules/dashboard_engine.py:398` | `def _phase_icon(phase)` |
+| `build_snapshot` | method | `modules/dashboard_engine.py:160` | `def build_snapshot(self)` |
+| `export_json` | method | `modules/dashboard_engine.py:408` | `def export_json(self, snapshot)` |
+| `format_for_cli` | method | `modules/dashboard_engine.py:438` | `def format_for_cli(self, snapshot)` |
+| `persist_snapshot` | method | `modules/dashboard_engine.py:421` | `def persist_snapshot(self, snapshot)` |
+| `render_ascii_topology` | method | `modules/dashboard_engine.py:358` | `def render_ascii_topology(self, snapshot)` |
+| `render_text_map` | method | `modules/dashboard_engine.py:276` | `def render_text_map(self, snapshot)` |
+| `set_auto_pivot` | method | `modules/dashboard_engine.py:154` | `def set_auto_pivot(self, pivot)` |
+| `set_evasion_engine` | method | `modules/dashboard_engine.py:157` | `def set_evasion_engine(self, evasion)` |
+| `set_exploit_recommender` | method | `modules/dashboard_engine.py:151` | `def set_exploit_recommender(self, recommender)` |
+| `set_world_model` | method | `modules/dashboard_engine.py:148` | `def set_world_model(self, model)` |
+| `LazyOwnDB` | class | `modules/db.py:147` | `class LazyOwnDB` |
+| `__init__` | method | `modules/db.py:159` | `def __init__(self, db_path)` |
+| `_current_version` | method | `modules/db.py:192` | `def _current_version(self)` |
+| `_cursor` | method | `modules/db.py:235` | `def _cursor(self)` |
+| `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
+| `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
+| `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
 | `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
 | `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
 | `close` | method | `modules/db.py:804` | `def close(self)` |
@@ -345,156 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `generate_shellcode_loader_powershell` | method | `modules/evasive_payloads.py:239` | `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` |
 | `generate_vba_obfuscated` | method | `modules/evasive_payloads.py:197` | `def generate_vba_obfuscated(self, payload)` |
 | `list_techniques` | method | `modules/evasive_payloads.py:374` | `def list_techniques(self)` |
-| `CollabBusSink` | class | `modules/event_bus.py:163` | `class CollabBusSink(Sink)` |
-| `EngagementSink` | class | `modules/event_bus.py:202` | `class EngagementSink(Sink)` |
-| `EventCategory` | class | `modules/event_bus.py:47` | `class EventCategory(str, Enum)` |
-| `EventSeverity` | class | `modules/event_bus.py:73` | `class EventSeverity(str, Enum)` |
-| `JsonlSink` | class | `modules/event_bus.py:143` | `class JsonlSink(Sink)` |
-| `LazyEvent` | class | `modules/event_bus.py:82` | `class LazyEvent` |
-| `Sink` | class | `modules/event_bus.py:133` | `class Sink(ABC)` |
-| `UnifiedEventBus` | class | `modules/event_bus.py:230` | `class UnifiedEventBus` |
-| `__init__` | method | `modules/event_bus.py:146` | `def __init__(self, filepath)` |
-| `__init__` | method | `modules/event_bus.py:166` | `def __init__(self)` |
-| `__init__` | method | `modules/event_bus.py:255` | `def __init__(self)` |
-| `_bus` | method | `modules/event_bus.py:170` | `def _bus(self)` |
-| `_dispatch_event` | method | `modules/event_bus.py:441` | `def _dispatch_event(self, event)` |
-| `_dispatch_loop` | method | `modules/event_bus.py:416` | `def _dispatch_loop(self)` |
-| `_init_sinks` | method | `modules/event_bus.py:273` | `def _init_sinks(self)` |
-| `_match_topic` | method | `modules/event_bus.py:517` | `def _match_topic(self, topic, event)` |
-| `_notify_shutdown` | method | `modules/event_bus.py:479` | `def _notify_shutdown(self)` |
-| `close` | method | `modules/event_bus.py:140` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:159` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:198` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:226` | `def close(self)` |
-| `drain` | method | `modules/event_bus.py:354` | `def drain(self)` |
-| `from_dict` | method | `modules/event_bus.py:115` | `def from_dict(cls, d)` |
-| `get_event_bus` | function | `modules/event_bus.py:570` | `def get_event_bus()` |
-| `history` | method | `modules/event_bus.py:556` | `def history(self, n, category)` |
-| `history_since` | method | `modules/event_bus.py:564` | `def history_since(self, since_ts)` |
-| `instance` | method | `modules/event_bus.py:287` | `def instance(cls)` |
-| `publish` | method | `modules/event_bus.py:336` | `def publish(self, event)` |
-| `publish_event` | function | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
-| `shutdown` | method | `modules/event_bus.py:372` | `def shutdown(self)` |
-| `subscribe` | method | `modules/event_bus.py:300` | `def subscribe(self, subscriber_id, callback)` |
-| `subscribe_async` | method | `modules/event_bus.py:315` | `def subscribe_async(self, subscriber_id)` |
-| `subscribe_topic` | method | `modules/event_bus.py:305` | `def subscribe_topic(self, subscriber_id, topic, callback)` |
-| `subscriber_count` | method | `modules/event_bus.py:295` | `def subscriber_count(self)` |
-| `to_dict` | method | `modules/event_bus.py:96` | `def to_dict(self)` |
-| `to_json` | method | `modules/event_bus.py:111` | `def to_json(self)` |
-| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
-| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
-| `AutoRecommender` | class | `modules/event_consumers.py:201` | `class AutoRecommender` |
-| `CredentialReactor` | class | `modules/event_consumers.py:272` | `class CredentialReactor` |
-| `DashboardPusher` | class | `modules/event_consumers.py:358` | `class DashboardPusher` |
-| `PhaseTracker` | class | `modules/event_consumers.py:146` | `class PhaseTracker` |
-| `SoulSync` | class | `modules/event_consumers.py:320` | `class SoulSync` |
-| `__call__` | method | `modules/event_consumers.py:159` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:207` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:282` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:323` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:361` | `def __call__(self, event)` |
-| `__init__` | method | `modules/event_consumers.py:156` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:204` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
-| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
-| `_update_soul` | function | `modules/event_consumers.py:110` | `def _update_soul(phase, credentials, access)` |
-| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | function | `modules/event_consumers.py:409` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | function | `modules/event_consumers.py:380` | `def wire_all_consumers(bus)` |
-| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
-| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
-| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
-| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
-| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
-| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
-| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
-| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
-| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
-| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
-| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
-| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
-| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
-| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
-| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
-| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
-| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
-| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
-| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
-| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
-| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
-| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
-| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
-| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
-| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
-| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
-| `Msg` | struct | `modules/exp.c:100` | `` |
-| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
-| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
-| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
-| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
-| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
-| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
-| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
-| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
-| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
-| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
-| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
-| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
-| `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
-| `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
-| `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
-| `do_error_exit` | function | `modules/exp.c:161` | `void do_error_exit(char *info)` |
-| `fd_uring` | struct | `modules/exp.c:131` | `` |
-| `gather_mqueue` | function | `modules/exp.c:463` | `int gather_mqueue(mqd_t mqdes, int gather_size)` |
-| `gather_mqueue_nosave` | function | `modules/exp.c:485` | `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)` |
-| `get_keyring_leak` | function | `modules/exp.c:248` | `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `io_uring_register` | function | `modules/exp.c:524` | `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)` |
-| `io_uring_setup` | function | `modules/exp.c:520` | `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)` |
-| `key_serial_t` | type_alias | `modules/exp.c:135` | `typedef int32_t key_serial_t;` |
-| `keyctl` | function | `modules/exp.c:151` | `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...` |
-| `keyring_payload` | struct | `modules/exp.c:120` | `` |
-| `leak` | struct | `modules/exp.c:126` | `` |
-| `main` | function | `modules/exp.c:620` | `int main(int argc, char ** argv)` |
-| `msg` | struct | `modules/exp.c:84` | `` |
-| `msg_header` | struct | `modules/exp.c:90` | `` |
-| `nft_trans_phase` | enum | `modules/exp.c:77` | `` |
-| `prepare_root_shell` | function | `modules/exp.c:559` | `void prepare_root_shell(void)` |
-| `release_keys` | function | `modules/exp.c:279` | `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `release_partial_keys` | function | `modules/exp.c:290` | `void release_partial_keys(key_serial_t *id_buffer, int i)` |
-| `release_partial_uring` | function | `modules/exp.c:554` | `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)` |
-| `release_uring` | function | `modules/exp.c:546` | `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)` |
-| `sema_down` | function | `modules/exp.c:615` | `void sema_down(int *sema)` |
-| `sema_up` | function | `modules/exp.c:610` | `void sema_up(int *sema)` |
-| `set_cpu_affinity` | function | `modules/exp.c:438` | `void set_cpu_affinity(int cpu_n, pid_t pid)` |
-| `set_stable_table_and_set` | function | `modules/exp.c:322` | `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)` |
-| `set_trigger_set_and_overwrite` | function | `modules/exp.c:385` | `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)` |
-| `setup_modprobe_payload` | function | `modules/exp.c:601` | `void setup_modprobe_payload()` |
-| `spray_keyring` | function | `modules/exp.c:172` | `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)` |
-| `spray_keyring_list_del_purpose` | function | `modules/exp.c:190` | `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...` |
-| `spray_keyring_list_overwrite_purpose` | function | `modules/exp.c:214` | `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...` |
-| `spray_mqueue` | function | `modules/exp.c:448` | `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)` |
-| `spray_msg_msg` | function | `modules/exp.c:496` | `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)` |
-| `spray_uring` | function | `modules/exp.c:529` | `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)` |
-| `unshare_setup` | function | `modules/exp.c:297` | `void unshare_setup(uid_t uid, gid_t gid)` |
-| `user_rule_t` | struct | `modules/exp.c:105` | `` |
-| `userland_T` | function | `modules/exp.c:605` | `void userland_T(int *sema)` |
-| `write_new_modprobe` | function | `modules/exp.c:582` | `void write_new_modprobe()` |
-| `ChainResult` | class | `modules/exploit_chain.py:65` | `class ChainResult` |
-| `ExploitChain` | class | `modules/exploit_chain.py:289` | `class ExploitChain` |
-| `ExploitResult` | class | `modules/exploit_chain.py:54` | `class ExploitResult` |
-| `ServiceInfo` | class | `modules/exploit_chain.py:29` | `class ServiceInfo` |
-| `VulnerabilityMatch` | class | `modules/exploit_chain.py:41` | `class VulnerabilityMatch` |
-| `__init__` | method | `modules/exploit_chain.py:292` | `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)` |
-| `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
-| `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
-| `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
-| `_is_richer` | method | `modules/exploit_chain.py:361` | `def _is_richer(new_svc, existing)` |
-| `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:346` | `def _parse_all_nmap_xml(self)` |
-| `_parse_nmap_text` | method | `modules/exploit_chain.py:404` | `def _parse_nmap_text(self, output)` |
-| `_parse_single_xml` | method | `modules/exploit_chain.py:367` | `def _parse_single_xml(self, xml_path)` |
-| `fingerprint_services` | method | `modules/exploit_chain.py:311` | `def fingerprint_services(self, nmap_output)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

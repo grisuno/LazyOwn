@@ -105,6 +105,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`AssetGraph`](modules/modules.lazy_loop.py.md#assetgraph) class in `modules.lazy_loop`
 - [`AssetNode`](modules/modules.asset_graph.py.md#assetnode) class in `modules.asset_graph`
 - [`ASTToolExtractor`](modules/modules.agent_runner.py.md#asttoolextractor) class in `modules.agent_runner`
+- [`AtomicResolver`](modules/modules.atomic_resolver.py.md#atomicresolver) class in `modules.atomic_resolver`
+- [`AtomicTest`](modules/modules.atomic_resolver.py.md#atomictest) class in `modules.atomic_resolver`
 - [`AtomicTestRef`](modules/modules.apt_playbooks.py.md#atomictestref) class in `modules.apt_playbooks`
 - [`AttackPhase`](modules/skills.aci_planner.py.md#attackphase) class in `skills.aci_planner`
 - [`AuditConfig`](modules/scripts.devtools.command_audit.py.md#auditconfig) class in `scripts.devtools.command_audit`
@@ -170,6 +172,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`C2Credentials`](modules/lazygui.config.c2_credentials.py.md#c2credentials) class in `lazygui.config.c2_credentials`
 - [`C2Profile`](modules/modules.c2_builder.py.md#c2profile) class in `modules.c2_builder`
 - [`C2Profile`](modules/modules.c2_profile.py.md#c2profile) class in `modules.c2_profile`
+- [`C2Server`](modules/modules.c2_agent.py.md#c2server) class in `modules.c2_agent`
 - [`CalderaAbilityRef`](modules/modules.apt_playbooks.py.md#calderaabilityref) class in `modules.apt_playbooks`
 - [`Campaign`](modules/skills.lazyown_campaign.py.md#campaign) class in `skills.lazyown_campaign`
 - [`CampaignResult`](modules/modules.phishing_orchestrator.py.md#campaignresult) class in `modules.phishing_orchestrator`
@@ -184,12 +187,14 @@ Project types nested under the project types they derive from. External bases ar
 - [`CategorySpec`](modules/cli.sessions_browser.py.md#categoryspec) class in `cli.sessions_browser`
 - [`CertificateAuthority`](modules/modules.lazy_proxy.py.md#certificateauthority) class in `modules.lazy_proxy`
 - [`CertificateTemplate`](modules/modules.adcs_attacks.py.md#certificatetemplate) class in `modules.adcs_attacks`
+- [`Chain`](modules/modules.chain_registry.py.md#chain) class in `modules.chain_registry`
 - [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
 - [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
 - [`ChainModeStore`](modules/cli.chain_mode.py.md#chainmodestore) class in `cli.chain_mode`
 - [`ChainOutcome`](modules/cli.chain_mode.py.md#chainoutcome) class in `cli.chain_mode`
 - [`ChainPromptEngine`](modules/cli.chain_mode.py.md#chainpromptengine) class in `cli.chain_mode`
 - [`ChainResult`](modules/modules.exploit_chain.py.md#chainresult) class in `modules.exploit_chain`
+- [`ChainStep`](modules/modules.chain_registry.py.md#chainstep) class in `modules.chain_registry`
 - [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
 - [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
 - [`CheckpointSerializer`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer) class in `skills.hermes-lazyown.hermes_sync`
@@ -425,6 +430,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExploitCandidate`](modules/modules.autonomous_exploit_engine.py.md#exploitcandidate) class in `modules.autonomous_exploit_engine`
 - [`ExploitChain`](modules/modules.exploit_chain.py.md#exploitchain) class in `modules.exploit_chain`
 - [`ExploitChainContext`](modules/modules.ai_exploit_chain.py.md#exploitchaincontext) class in `modules.ai_exploit_chain`
+- [`ExploitCommand`](modules/modules.atomic_exploit_bridge.py.md#exploitcommand) class in `modules.atomic_exploit_bridge`
 - [`ExploitEntry`](modules/modules.integrations.searchsploit.py.md#exploitentry) class in `modules.integrations.searchsploit`
 - [`ExploitHit`](modules/cli.exploit_advisor.py.md#exploithit) class in `cli.exploit_advisor`
 - [`ExploitMatch`](modules/modules.exploit_recommender.py.md#exploitmatch) class in `modules.exploit_recommender`
@@ -434,6 +440,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExploitSource`](modules/modules.integrations.searchsploit.py.md#exploitsource) class in `modules.integrations.searchsploit`(ABC)
   - [`ExploitDBAPI`](modules/modules.integrations.searchsploit.py.md#exploitdbapi) class in `modules.integrations.searchsploit`
   - [`SearchsploitCLI`](modules/modules.integrations.searchsploit.py.md#searchsploitcli) class in `modules.integrations.searchsploit`
+- [`ExploitSpec`](modules/modules.atomic_exploit_bridge.py.md#exploitspec) class in `modules.atomic_exploit_bridge`
 - [`ExplorationConfig`](modules/cli.exploration.py.md#explorationconfig) class in `cli.exploration`
 - [`ExplorationEngine`](modules/cli.exploration.py.md#explorationengine) class in `cli.exploration`
 - [`ExplorationGraph`](modules/modules.lazy_loop.py.md#explorationgraph) class in `modules.lazy_loop`
@@ -732,6 +739,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`BitMCommandSet`](modules/cli.commands.bitm.py.md#bitmcommandset) class in `cli.commands.bitm`
   - [`BofMarketplaceCommandSet`](modules/cli.commands.bof_registry.py.md#bofmarketplacecommandset) class in `cli.commands.bof_registry`
   - [`C2ProfileCommandSet`](modules/cli.commands.c2_profile.py.md#c2profilecommandset) class in `cli.commands.c2_profile`
+  - [`C2SessionCommandSet`](modules/cli.commands.c2_session.py.md#c2sessioncommandset) class in `cli.commands.c2_session`
   - [`CalderaCommandSet`](modules/cli.commands.caldera.py.md#calderacommandset) class in `cli.commands.caldera`
   - [`CampaignCommandSet`](modules/cli.commands.campaign.py.md#campaigncommandset) class in `cli.commands.campaign`
   - [`CatalogCommandSet`](modules/cli.commands.catalog.py.md#catalogcommandset) class in `cli.commands.catalog`

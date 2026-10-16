@@ -1,6 +1,35 @@
 # Subsystem: cli (page 4 of 5)
 Previous: [KB_cli_p3.md](KB_cli_p3.md)
 
+## cli/recommendation.py
+- Doc: Unified next-best-action engine: the single source of truth for "what next".
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EngineWeights` (class, line 67) `class EngineWeights`
+  - `RecommendationContext` (class, line 101) `class RecommendationContext`
+  - `Proposal` (class, line 123) `class Proposal`
+  - `Recommendation` (class, line 150) `class Recommendation`
+  - `RecommendationSignal` (class, line 177) `class RecommendationSignal(Protocol)`
+  - `CategoryResolver` (class, line 192) `class CategoryResolver`
+  - `RecommendationEngine` (class, line 232) `class RecommendationEngine`
+  - `_Accumulator` (class, line 362) `class _Accumulator`
+  - `_clamp01` (function, line 400) `def _clamp01(value)`
+  - `_non_negative` (function, line 412) `def _non_negative(value)`
+  - `_load_command_index` (function, line 422) `def _load_command_index(path)`
+  - `propose` (method, line 187) `def propose(self, ctx)`
+  - `__init__` (method, line 201) `def __init__(self, index_path, loader)`
+  - `category_for` (method, line 227) `def category_for(self, action)`
+  - `__init__` (method, line 240) `def __init__(self, signals, resolver, weights)`
+  - `recommend` (method, line 258) `def recommend(self, ctx)`
+  - `_safe_propose` (method, line 280) `def _safe_propose(signal, ctx)`
+  - `_build_category_priors` (method, line 287) `def _build_category_priors(self, collected)`
+  - `_fuse_concrete_actions` (method, line 302) `def _fuse_concrete_actions(self, collected, priors)`
+  - `_category_recommendations` (method, line 331) `def _category_recommendations(self, collected, concrete)`
+  - `add` (method, line 374) `def add(self, source, contribution, proposal)`
+  - `build` (method, line 386) `def build(self)`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
+
 ## cli/recommendation_signals.py
 - Doc: Concrete :class:`cli.recommendation.RecommendationSignal` adapters.
 - Layer: utility

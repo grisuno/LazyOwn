@@ -1,4 +1,5 @@
-"""Registry of loop-ready automation verbs (the ``auto_*`` family).
+"""Registry of loop-ready automation verbs (the ``auto_*`` family plus
+read-only staging verbs such as ``atomic_tests`` / ``atomic_gen``).
 
 Every entry is a LazyOwn shell command that is already fully automated
 (``auto_pwn``, ``autopivot``, ``automsf``, ``autoblody``,
@@ -20,6 +21,7 @@ import contextlib
 import io
 import os
 import queue
+import re
 import shlex
 import shutil
 import signal
@@ -32,19 +34,51 @@ DEFAULT_SHELL_TIMEOUT_SEC = 600.0
 AUTO_VERB_PARAMS_LOCK = threading.Lock()
 
 
+def _looks_like_target(value: str) -> bool:
+    """Check whether a token is a plausible network target.
+
+    Args:
+        value: Raw command token.
+
+    Returns:
+        True for IPv4/IPv6 addresses, CIDR ranges, and hostnames.
+    """
+    import ipaddress
+    import re
+
+    if not value or value.startswith("-"):
+        return False
+    host = value.split("/")[0]
+    try:
+        ipaddress.ip_address(host)
+        return True
+    except ValueError:
+        pass
+    if "/" in value:
+        try:
+            ipaddress.ip_network(value, strict=False)
+            return True
+        except ValueError:
+            return False
+    return bool(re.match(r"^(?=.{1,253}$)[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?$", value))
+
+
 def auto_verb_target(command: str) -> str:
     """Return the target an ``auto <verb> <target>`` line carries, else ''.
 
     Auto verbs historically read ``payload.json`` (rhost); the loop
     binds each intent to its own target, so the executor overrides the
     payload for the duration of the verb under a lock. Routable verbs
-    like ``lazynmap`` carry the target the same way.
+    like ``lazynmap`` carry the target the same way. Subcommand tokens
+    such as ``run`` are never targets and yield no override.
     """
     parts = (command or "").strip().split()
     if len(parts) < 2:
         return ""
     candidate = parts[1]
     if candidate.startswith("-"):
+        return ""
+    if not _looks_like_target(candidate):
         return ""
     first = parts[0]
     entry = _verb_row(first)
@@ -56,6 +90,8 @@ def auto_verb_target(command: str) -> str:
         from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb, needs_target_for
 
         if full_cli_enabled() and is_cli_verb(first):
+            if len(parts) != 2:
+                return ""
             return candidate if needs_target_for(first) else ""
     except Exception:
         pass
@@ -129,6 +165,77 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         keywords=("exfil", "exfiltrate", "flag", "root.txt", "user.txt", "sensitive files"),
         needs_target=False,
         description="auto-detect flags and sensitive files, then exfiltrate",
+    ),
+    AutoVerb(
+        verb="atomic_tests",
+        phases=("c2",),
+        keywords=(
+            "atomic test",
+            "atomic_tests",
+            "adversary emulation",
+            "emulate technique",
+            "ttp chain",
+        ),
+        needs_target=False,
+        extra_args="--non-interactive",
+        description="stage an Atomic Red Team test by MITRE technique ID (read-only staging)",
+    ),
+    AutoVerb(
+        verb="atomic_gen",
+        phases=("c2",),
+        keywords=("atomic_gen", "generate test script", "stage test script"),
+        needs_target=False,
+        extra_args="--non-interactive",
+        description="generate test + cleanup scripts for a MITRE technique or GUID",
+    ),
+    AutoVerb(
+        verb="apt_playbook",
+        phases=("c2",),
+        keywords=("apt playbook", "emulate apt", "run playbook", "adversary playbook"),
+        needs_target=False,
+        extra_args="",
+        description="generate an attack plan from a named APT playbook (read-only staging)",
+    ),
+    AutoVerb(
+        verb="apt_chain",
+        phases=("recon", "exploit", "c2"),
+        keywords=(
+            "full apt chain",
+            "end-to-end emulation",
+            "prove the chain",
+            "run everything",
+            "apt chain",
+        ),
+        needs_target=True,
+        extra_args="",
+        description="one-command full chain: assign, scan, sweep, validate, plan, stage",
+    ),
+    AutoVerb(
+        verb="atomic_shell",
+        phases=("exploit", "c2"),
+        keywords=(
+            "interactive shell",
+            "attach shell",
+            "drop into shell",
+            "spawn shell",
+            "open shell",
+        ),
+        needs_target=True,
+        extra_args="",
+        description="verify live shell session (interactive REPL only in foreground terminal)",
+    ),
+    AutoVerb(
+        verb="atomic_clean",
+        phases=("c2",),
+        keywords=(
+            "cleanup artefacts",
+            "clean up lab",
+            "tear down gym",
+            "remove lab",
+        ),
+        needs_target=True,
+        extra_args="",
+        description="soft-clean target artefacts, or --hard tear down the gym",
     ),
 )
 
@@ -555,6 +662,74 @@ def propose_intents(goal: str, target: str = "", finding_texts: tuple[str, ...] 
     return seen
 
 
+_ATOMIC_VERBS = frozenset({"atomic_tests", "atomic_gen"})
+_TECHNIQUE_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
+_PLATFORM_RE = re.compile(r"\b(windows|linux|macos)\b", re.IGNORECASE)
+_PLAYBOOK_RE = re.compile(r"\b([a-z][a-z0-9_-]{1,40})\s+playbook\b", re.IGNORECASE)
+
+
+def _atomic_steps(verb: str, text: str) -> list[str] | None:
+    """Build a non-interactive atomic staging line from intent text.
+
+    Extracts the first MITRE technique ID (``T1059.001``) and an
+    optional platform; always appends ``--non-interactive`` so loop
+    workers never block on ``input()``. Returns None when the intent
+    names no technique (caller keeps its default probes).
+    """
+    match = _TECHNIQUE_RE.search(text or "")
+    if not match:
+        return None
+    technique = match.group(0).upper()
+    platform = _PLATFORM_RE.search(text or "")
+    tail = technique
+    if platform:
+        tail += f" --platform {platform.group(1).lower()}"
+    return [f"{verb} {tail} --non-interactive"]
+
+
+def _playbook_steps(text: str) -> list[str] | None:
+    """Build an apt_playbook staging line from intent text.
+    Extracts ``<name> playbook`` (e.g. "emulate the rocke playbook").
+    Read-only: generates the attack plan, never executes it.
+    Returns None when no playbook name is present.
+    """
+    match = _PLAYBOOK_RE.search(text or "")
+    if not match:
+        return None
+    name = match.group(1).lower()
+    if name in ("apt", "the", "an", "a"):
+        return None
+    return [f"apt_playbook run {name}"]
+
+
+def _apt_chain_steps(embedded: str, target: str, strict: bool = False) -> list[str]:
+    """Build the one-line apt_chain invocation from intent fragments.
+
+    The heavy lifting lives in the ``apt_chain`` shell command itself
+    (assign, scan, sweep, validate, plan, stage); here we only bind the
+    playbook name and the target. Defaults: playbook ``rocke``.
+
+    In ``strict`` mode (explicit ``auto apt_chain ...`` form) a lone
+    word binds the playbook. In free-text mode only the ``<name>
+    playbook`` form binds it, so sentence filler never becomes a
+    playbook name; explicit IPs always win over the ambient target.
+    """
+    playbook = "rocke"
+    chained = (target or "").strip()
+    tokens = [t for t in (embedded or "").split() if not t.startswith("-")]
+    for token in tokens:
+        if re.match(r"^[\d.:]+$", token) or ("." in token and _looks_like_target(token)):
+            chained = token
+        elif strict and playbook == "rocke":
+            playbook = token.lower()
+    if not strict:
+        planned = _playbook_steps(embedded or "")
+        if planned:
+            playbook = planned[0].split()[-1]
+    line = f"apt_chain {playbook}" + (f" {chained}" if chained else "")
+    return [line]
+
+
 def steps_for(text: str, target: str = "") -> list[str] | None:
     """Translate an intent summary into shell command lines, or None.
 
@@ -578,6 +753,18 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
                 if not match:
                     return None
                 return [f"automsf {match.group(0)}"]
+            if verb in _ATOMIC_VERBS:
+                return _atomic_steps(verb, text)
+            if verb == "apt_chain":
+                return _apt_chain_steps(" ".join(parts[2:]), target, strict=True)
+            if verb == "apt_playbook":
+                planned = _playbook_steps(text)
+                if planned is not None:
+                    return planned
+                embedded_pb = " ".join(parts[2:]).strip()
+                if embedded_pb:
+                    return [f"apt_playbook {embedded_pb}"]
+                return None
             embedded = " ".join(parts[2:]).strip()
             return [build_command(verb, target or embedded)]
         return None
@@ -598,7 +785,19 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
         except Exception:
             return None
     matched = [entry for entry in verbs_for(lowered) if not verb_gap(entry.verb)]
+    planned_kw = _playbook_steps(text)
+    if planned_kw is not None and not any(e.verb == "apt_chain" for e in verbs_for(lowered)):
+        return planned_kw
     if matched:
+        if matched[0].verb == "apt_chain":
+            return _apt_chain_steps(text, target)
+        if matched[0].verb in _ATOMIC_VERBS:
+            return _atomic_steps(matched[0].verb, text)
+        if matched[0].verb == "apt_playbook":
+            planned = _playbook_steps(text)
+            if planned is not None:
+                return planned
+            return None
         try:
             from modules.lazy_orchestrator_feedback import rank_verbs
 

@@ -1540,6 +1540,41 @@ SCHEMA: dict[str, FieldSpec] = {
             "Trivy scan target: image name, path, repo URL or config dir.",
             category="network",
         ),
+        _spec(
+            "action",
+            FieldKind.STRING,
+            "search",
+            "Addon subcommand selector (ttpscope/atomic tooling).",
+            category="general",
+        ),
+        _spec(
+            "query",
+            FieldKind.STRING,
+            "",
+            "Free-text search query for research addons.",
+            category="general",
+        ),
+        _spec(
+            "technique_id",
+            FieldKind.STRING,
+            "",
+            "MITRE ATT&CK object ID (T1059.001, G0016, ...).",
+            category="general",
+        ),
+        _spec(
+            "platform",
+            FieldKind.STRING,
+            "",
+            "Platform filter (Windows, Linux, macOS) for research addons.",
+            category="general",
+        ),
+        _spec(
+            "note_text",
+            FieldKind.STRING,
+            "",
+            "Research note body for note-taking addons.",
+            category="general",
+        ),
     )
 }
 

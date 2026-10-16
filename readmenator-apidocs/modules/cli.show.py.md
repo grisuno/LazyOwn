@@ -4,7 +4,7 @@
 
 Pretty-print the live payload for the operator.
 
-Tier 2.5 replaces `[`do_show`](cli.commands.session_ops.py.md#sessionopscommandset-do_show)`'s unordered, unaligned dump with a stable,
+Tier 2.5 replaces `[`do_show`](modules.ttpscope_bridge.py.md#do_show)`'s unordered, unaligned dump with a stable,
 deterministic rendering. Output is plain text (no ANSI) so the formatter is
 easy to test and reusable for logs, reports or the dashboard.
 

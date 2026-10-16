@@ -1,24 +1,196 @@
-# Symbols (page 29 of 40)
+# Symbols (page 29 of 41)
 Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `encrypt_data` | function | `test/config.py:24` | `def encrypt_data(data)` |
-| `get_encrypted_command` | function | `test/test_commands.py:51` | `def get_encrypted_command()` |
-| `post_result` | function | `test/test_commands.py:59` | `def post_result(result_data)` |
-| `send_command_via_web` | function | `test/test_commands.py:36` | `def send_command_via_web(command)` |
-| `test_discover` | function | `test/test_commands.py:110` | `def test_discover()` |
-| `test_download` | function | `test/test_commands.py:138` | `def test_download()` |
-| `test_migrate` | function | `test/test_commands.py:79` | `def test_migrate()` |
-| `test_persistence` | function | `test/test_commands.py:176` | `def test_persistence()` |
-| `test_portscan` | function | `test/test_commands.py:99` | `def test_portscan()` |
-| `test_proxy` | function | `test/test_commands.py:121` | `def test_proxy()` |
-| `test_reverse_shell` | function | `test/test_commands.py:206` | `def test_reverse_shell()` |
-| `test_shutdown` | function | `test/test_commands.py:216` | `def test_shutdown()` |
-| `test_simulate` | function | `test/test_commands.py:196` | `def test_simulate()` |
-| `test_softenum` | function | `test/test_commands.py:186` | `def test_softenum()` |
-| `test_uac_bypass` | function | `test/test_commands.py:89` | `def test_uac_bypass()` |
-| `test_upload` | function | `test/test_commands.py:159` | `def test_upload()` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network.min.js:33` | `` |
+| `h` | function | `static/js/vis-network.min.js:33` | `` |
+| `has` | function | `static/js/vis-network.min.js:48` | `` |
+| `i` | function | `static/js/vis-network.min.js:33` | `` |
+| `ik` | function | `static/js/vis-network.min.js:33` | `` |
+| `in` | function | `static/js/vis-network.min.js:33` | `` |
+| `kk` | function | `static/js/vis-network.min.js:33` | `` |
+| `ku` | function | `static/js/vis-network.min.js:33` | `` |
+| `kw` | function | `static/js/vis-network.min.js:33` | `` |
+| `l` | function | `static/js/vis-network.min.js:33` | `` |
+| `l` | function | `static/js/vis-network.min.js:48` | `` |
+| `lE` | function | `static/js/vis-network.min.js:33` | `` |
+| `lO` | function | `static/js/vis-network.min.js:48` | `` |
+| `lk` | function | `static/js/vis-network.min.js:33` | `` |
+| `mw` | function | `static/js/vis-network.min.js:33` | `` |
+| `nE` | function | `static/js/vis-network.min.js:33` | `` |
+| `nc` | function | `static/js/vis-network.min.js:26` | `` |
+| `nk` | function | `static/js/vis-network.min.js:33` | `` |
+| `np` | function | `static/js/vis-network.min.js:33` | `` |
+| `o` | function | `static/js/vis-network.min.js:33` | `` |
+| `o` | function | `static/js/vis-network.min.js:33` | `` |
+| `o` | function | `static/js/vis-network.min.js:33` | `` |
+| `or` | function | `static/js/vis-network.min.js:33` | `` |
+| `ov` | function | `static/js/vis-network.min.js:33` | `` |
+| `qw` | function | `static/js/vis-network.min.js:33` | `` |
+| `qx` | function | `static/js/vis-network.min.js:33` | `` |
+| `rO` | function | `static/js/vis-network.min.js:48` | `` |
+| `s` | function | `static/js/vis-network.min.js:33` | `` |
+| `s` | function | `static/js/vis-network.min.js:33` | `` |
+| `sk` | function | `static/js/vis-network.min.js:33` | `` |
+| `su` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:26` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:48` | `` |
+| `u` | function | `static/js/vis-network.min.js:48` | `` |
+| `uE` | function | `static/js/vis-network.min.js:33` | `` |
+| `v` | function | `static/js/vis-network.min.js:33` | `` |
+| `v` | function | `static/js/vis-network.min.js:48` | `` |
+| `vE` | function | `static/js/vis-network.min.js:33` | `` |
+| `vp` | function | `static/js/vis-network.min.js:33` | `` |
+| `yk` | function | `static/js/vis-network.min.js:33` | `` |
+| `zo` | function | `static/js/vis-network.min.js:26` | `` |
+| `a` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `r` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `P` | class | `static/js/xterm.js:1` | `` |
+| `S` | class | `static/js/xterm.js:1` | `` |
+| `a` | class | `static/js/xterm.js:1` | `` |
+| `a` | class | `static/js/xterm.js:1` | `` |
+| `a` | class | `static/js/xterm.js:1` | `` |
+| `c` | class | `static/js/xterm.js:1` | `` |
+| `c` | class | `static/js/xterm.js:1` | `` |
+| `c` | class | `static/js/xterm.js:1` | `` |
+| `c` | class | `static/js/xterm.js:1` | `` |
+| `d` | class | `static/js/xterm.js:1` | `` |
+| `d` | class | `static/js/xterm.js:1` | `` |
+| `e` | function | `static/js/xterm.js:1` | `` |
+| `e` | function | `static/js/xterm.js:1` | `` |
+| `e` | function | `static/js/xterm.js:1` | `` |
+| `e` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `extends` | class | `static/js/xterm.js:1` | `` |
+| `h` | class | `static/js/xterm.js:1` | `` |
+| `i` | function | `static/js/xterm.js:1` | `` |
+| `i` | function | `static/js/xterm.js:1` | `` |
+| `i` | function | `static/js/xterm.js:1` | `` |
+| `i` | function | `static/js/xterm.js:1` | `` |
+| `i` | function | `static/js/xterm.js:1` | `` |
+| `i` | class | `static/js/xterm.js:1` | `` |
+| `i` | class | `static/js/xterm.js:1` | `` |
+| `i` | class | `static/js/xterm.js:1` | `` |
+| `k` | class | `static/js/xterm.js:1` | `` |
+| `l` | class | `static/js/xterm.js:1` | `` |
+| `l` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `n` | class | `static/js/xterm.js:1` | `` |
+| `o` | class | `static/js/xterm.js:1` | `` |
+| `o` | class | `static/js/xterm.js:1` | `` |
+| `o` | class | `static/js/xterm.js:1` | `` |
+| `o` | class | `static/js/xterm.js:1` | `` |
+| `r` | function | `static/js/xterm.js:1` | `` |
+| `r` | function | `static/js/xterm.js:1` | `` |
+| `r` | class | `static/js/xterm.js:1` | `` |
+| `r` | class | `static/js/xterm.js:1` | `` |
+| `s` | function | `static/js/xterm.js:1` | `` |
+| `s` | function | `static/js/xterm.js:1` | `` |
+| `s` | class | `static/js/xterm.js:1` | `` |
+| `s` | class | `static/js/xterm.js:1` | `` |
+| `t` | function | `static/js/xterm.js:1` | `` |
+| `t` | function | `static/js/xterm.js:1` | `` |
+| `Config` | class | `telegram_c2.py:77` | `class Config` |
+| `SecureSessionManager` | class | `telegram_c2.py:18` | `class SecureSessionManager` |
+| `__getitem__` | method | `telegram_c2.py:83` | `def __getitem__(self, key)` |
+| `__init__` | method | `telegram_c2.py:19` | `def __init__(self)` |
+| `__init__` | method | `telegram_c2.py:78` | `def __init__(self, config_dict)` |
+| `add_cli` | function | `telegram_c2.py:191` | `def add_cli(update, context)` |
+| `check_lockout` | method | `telegram_c2.py:31` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `telegram_c2.py:40` | `def check_rate_limit(self, user_id)` |
+| `create_session` | method | `telegram_c2.py:53` | `def create_session(self, user_id, client_id)` |
+| `download_c2` | function | `telegram_c2.py:230` | `def download_c2(update, context)` |
+| `exce_cmd` | function | `telegram_c2.py:116` | `def exce_cmd(update, context)` |
+| `handle_file` | function | `telegram_c2.py:203` | `def handle_file(update, context)` |
+| `load_payload` | function | `telegram_c2.py:87` | `def load_payload()` |
+| `main` | function | `telegram_c2.py:286` | `def main()` |
+| `register_failed_attempt` | method | `telegram_c2.py:24` | `def register_failed_attempt(self, user_id)` |
+| `send_connected_clients` | function | `telegram_c2.py:271` | `def send_connected_clients(update, context)` |
+| `start` | function | `telegram_c2.py:93` | `def start(update, context)` |
+| `validate_session` | method | `telegram_c2.py:61` | `def validate_session(self, user_id)` |
+| `SecureSessionManager` | class | `telegram_hermes.py:186` | `class SecureSessionManager` |
+| `__init__` | method | `telegram_hermes.py:187` | `def __init__(self)` |
+| `add_cli` | function | `telegram_hermes.py:422` | `def add_cli(update, context)` |
+| `c2_command` | function | `telegram_hermes.py:464` | `def c2_command(update, context)` |
+| `c2_request` | function | `telegram_hermes.py:145` | `def c2_request(path, method, body)` |
+| `check_lockout` | method | `telegram_hermes.py:199` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `telegram_hermes.py:208` | `def check_rate_limit(self, user_id)` |
+| `config_cmd` | function | `telegram_hermes.py:373` | `def config_cmd(update, context)` |
+| `create_session` | method | `telegram_hermes.py:221` | `def create_session(self, user_id, client_id)` |
+| `cron_schedule_cmd` | function | `telegram_hermes.py:564` | `def cron_schedule_cmd(update, context)` |
+| `delegate_task_cmd` | function | `telegram_hermes.py:533` | `def delegate_task_cmd(update, context)` |
+| `download_file_cmd` | function | `telegram_hermes.py:647` | `def download_file_cmd(update, context)` |
+| `execute_command` | function | `telegram_hermes.py:306` | `def execute_command(update, context)` |
+| `get_client_id` | method | `telegram_hermes.py:241` | `def get_client_id(self, user_id)` |
+| `handle_file_upload` | function | `telegram_hermes.py:675` | `def handle_file_upload(update, context)` |
+| `help_cmd` | function | `telegram_hermes.py:278` | `def help_cmd(update, context)` |
+| `list_clients` | function | `telegram_hermes.py:437` | `def list_clients(update, context)` |
+| `load_payload` | function | `telegram_hermes.py:177` | `def load_payload()` |
+| `main` | function | `telegram_hermes.py:772` | `def main()` |
+| `register_failed_attempt` | method | `telegram_hermes.py:192` | `def register_failed_attempt(self, user_id)` |
+| `run_agent` | function | `telegram_hermes.py:504` | `def run_agent(update, context)` |
+| `run_lazyown_command` | function | `telegram_hermes.py:61` | `def run_lazyown_command(command, timeout)` |
+| `set_client_id` | method | `telegram_hermes.py:245` | `def set_client_id(self, user_id, client_id)` |
+| `sitrep` | function | `telegram_hermes.py:337` | `def sitrep(update, context)` |
+| `start` | function | `telegram_hermes.py:255` | `def start(update, context)` |
+| `status_cmd` | function | `telegram_hermes.py:597` | `def status_cmd(update, context)` |
+| `stop_daemon_cmd` | function | `telegram_hermes.py:630` | `def stop_daemon_cmd(update, context)` |
+| `text_command` | function | `telegram_hermes.py:712` | `def text_command(update, context)` |
+| `validate_session` | method | `telegram_hermes.py:229` | `def validate_session(self, user_id)` |
 | `TestFunctions` | class | `testmeneitor.py:35` | `class TestFunctions(TestCase)` |
 | `extract_functions` | function | `testmeneitor.py:13` | `def extract_functions(script_path)` |
 | `run_command_with_timeout` | function | `testmeneitor.py:54` | `def run_command_with_timeout(command, timeout)` |
@@ -34,6 +206,26 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `healthy` | method | `tests/conftest.py:97` | `def healthy(self, name)` |
 | `report_failure` | method | `tests/conftest.py:100` | `def report_failure(self, name, reason)` |
 | `report_success` | method | `tests/conftest.py:103` | `def report_success(self, name)` |
+| `TestDeployGate` | class | `tests/contract/test_suite_homologation.py:99` | `class TestDeployGate` |
+| `TestMutationCoverage` | class | `tests/contract/test_suite_homologation.py:120` | `class TestMutationCoverage` |
+| `TestPytestMarkers` | class | `tests/contract/test_suite_homologation.py:82` | `class TestPytestMarkers` |
+| `TestSuiteDocumentation` | class | `tests/contract/test_suite_homologation.py:141` | `class TestSuiteDocumentation` |
+| `TestSuiteNaming` | class | `tests/contract/test_suite_homologation.py:61` | `class TestSuiteNaming` |
+| `_test_modules` | function | `tests/contract/test_suite_homologation.py:50` | `def _test_modules()` |
+| `test_at_least_one_test_module_exists` | method | `tests/contract/test_suite_homologation.py:64` | `def test_at_least_one_test_module_exists(self)` |
+| `test_contract_readme_exists` | method | `tests/contract/test_suite_homologation.py:148` | `def test_contract_readme_exists(self)` |
+| `test_deploy_gate_runs_full_suite` | method | `tests/contract/test_suite_homologation.py:106` | `def test_deploy_gate_runs_full_suite(self)` |
+| `test_deploy_timeouts_allow_long_runs` | method | `tests/contract/test_suite_homologation.py:111` | `def test_deploy_timeouts_allow_long_runs(self)` |
+| `test_deploynator_toml_exists` | method | `tests/contract/test_suite_homologation.py:102` | `def test_deploynator_toml_exists(self)` |
+| `test_module_names_are_english_snake_case` | method | `tests/contract/test_suite_homologation.py:68` | `def test_module_names_are_english_snake_case(self)` |
+| `test_mutation_gate_script_exists` | method | `tests/contract/test_suite_homologation.py:128` | `def test_mutation_gate_script_exists(self)` |
+| `test_mutmut_config_scoped` | method | `tests/contract/test_suite_homologation.py:132` | `def test_mutmut_config_scoped(self)` |
+| `test_no_emoji_in_test_module_names` | method | `tests/contract/test_suite_homologation.py:74` | `def test_no_emoji_in_test_module_names(self)` |
+| `test_required_markers_registered` | method | `tests/contract/test_suite_homologation.py:85` | `def test_required_markers_registered(self)` |
+| `test_required_mutation_runners_exist` | method | `tests/contract/test_suite_homologation.py:123` | `def test_required_mutation_runners_exist(self)` |
+| `test_strict_markers_enabled` | method | `tests/contract/test_suite_homologation.py:91` | `def test_strict_markers_enabled(self)` |
+| `test_suite_guide_exists` | method | `tests/contract/test_suite_homologation.py:144` | `def test_suite_guide_exists(self)` |
+| `test_suite_guide_is_english_without_emoji` | method | `tests/contract/test_suite_homologation.py:152` | `def test_suite_guide_is_english_without_emoji(self)` |
 | `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
 | `backup_files` | function | `tests/run_mutation_addon_creator.py:94` | `def backup_files(mutations, base_dir)` |
 | `main` | function | `tests/run_mutation_addon_creator.py:140` | `def main()` |
@@ -304,197 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `_make_store` | method | `tests/test_api_authz.py:105` | `def _make_store(self, tmp_path)` |
 | `_make_store` | method | `tests/test_api_authz.py:380` | `def _make_store(self, tmp_path)` |
 | `_make_store` | method | `tests/test_api_authz.py:426` | `def _make_store(self, tmp_path)` |
-| `admin_only` | function | `tests/test_api_authz.py:328` | `def admin_only()` |
-| `g_check` | function | `tests/test_api_authz.py:318` | `def g_check()` |
-| `secure` | function | `tests/test_api_authz.py:313` | `def secure()` |
-| `test_allows_valid_key_in_bearer_header` | method | `tests/test_api_authz.py:333` | `def test_allows_valid_key_in_bearer_header(self, tmp_path)` |
-| `test_allows_valid_key_in_query_param` | method | `tests/test_api_authz.py:346` | `def test_allows_valid_key_in_query_param(self, tmp_path)` |
-| `test_allows_valid_key_in_x_api_key_header` | method | `tests/test_api_authz.py:340` | `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)` |
-| `test_atomic_write_leaves_no_tmp_files` | method | `tests/test_api_authz.py:450` | `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)` |
-| `test_checks_permissions_with_set_operations` | method | `tests/test_api_authz.py:87` | `def test_checks_permissions_with_set_operations(self)` |
-| `test_constant_time_comparison_rejects_wrong_secrets` | method | `tests/test_api_authz.py:435` | `def test_constant_time_comparison_rejects_wrong_secrets(self)` |
-| `test_creates_and_lists_keys_scoped_by_tenant` | method | `tests/test_api_authz.py:114` | `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)` |
-| `test_custom_overrides_preserve_typed_semantics` | method | `tests/test_api_authz.py:32` | `def test_custom_overrides_preserve_typed_semantics(self)` |
-| `test_defaults_are_secure_by_default` | method | `tests/test_api_authz.py:24` | `def test_defaults_are_secure_by_default(self)` |
-| `test_detects_expiration_correctly` | method | `tests/test_api_authz.py:65` | `def test_detects_expiration_correctly(self)` |
-| `test_enforces_max_keys_per_tenant_raises_value_error` | method | `tests/test_api_authz.py:183` | `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)` |
-| `test_generates_50_unique_tokens_without_collision` | method | `tests/test_api_authz.py:444` | `def test_generates_50_unique_tokens_without_collision(self)` |
-| `test_never_stores_plaintext_token_on_disk` | method | `tests/test_api_authz.py:275` | `def test_never_stores_plaintext_token_on_disk(self, tmp_path)` |
-| `test_old_key_rejected_after_rotation_grace_expires` | method | `tests/test_api_authz.py:225` | `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)` |
-| `test_old_key_stays_valid_during_rotation_grace` | method | `tests/test_api_authz.py:217` | `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)` |
-| `test_rejects_empty_plaintext_key` | method | `tests/test_api_authz.py:137` | `def test_rejects_empty_plaintext_key(self, tmp_path)` |
-| `test_rejects_expired_key` | method | `tests/test_api_authz.py:141` | `def test_rejects_expired_key(self, tmp_path)` |
-| `test_rejects_invalid_key_with_401` | method | `tests/test_api_authz.py:357` | `def test_rejects_invalid_key_with_401(self, tmp_path)` |
-| `test_rejects_key_with_insufficient_permissions_with_403` | method | `tests/test_api_authz.py:362` | `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)` |
-| `test_rejects_missing_key_with_401` | method | `tests/test_api_authz.py:352` | `def test_rejects_missing_key_with_401(self, tmp_path)` |
-| `test_rejects_unknown_key_returning_none` | method | `tests/test_api_authz.py:133` | `def test_rejects_unknown_key_returning_none(self, tmp_path)` |
-| `test_retired_keys_are_pruned_after_grace_expires` | method | `tests/test_api_authz.py:240` | `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)` |
-| `test_returns_a_validatable_token` | method | `tests/test_api_authz.py:389` | `def test_returns_a_validatable_token(self, tmp_path)` |
-| `test_revocation_is_idempotent` | method | `tests/test_api_authz.py:179` | `def test_revocation_is_idempotent(self, tmp_path)` |
-| `test_revokes_key_preventing_future_validation` | method | `tests/test_api_authz.py:173` | `def test_revokes_key_preventing_future_validation(self, tmp_path)` |
-| `test_rotates_key_preserving_tenant_label_and_permissions` | method | `tests/test_api_authz.py:196` | `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)` |
-| `test_rotation_copies_permissions_from_the_rotated_key` | method | `tests/test_api_authz.py:206` | `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)` |
-| `test_rotation_does_not_grow_active_key_count` | method | `tests/test_api_authz.py:258` | `def test_rotation_does_not_grow_active_key_count(self, tmp_path)` |
-| `test_serialization_roundtrip_preserves_all_fields` | method | `tests/test_api_authz.py:48` | `def test_serialization_roundtrip_preserves_all_fields(self)` |
-| `test_sets_expiration_when_days_are_provided` | method | `tests/test_api_authz.py:412` | `def test_sets_expiration_when_days_are_provided(self, tmp_path)` |
-| `test_sets_g_variables_with_api_key_context_on_success` | method | `tests/test_api_authz.py:368` | `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)` |
-| `test_stores_permissions_on_the_key_record` | method | `tests/test_api_authz.py:397` | `def test_stores_permissions_on_the_key_record(self, tmp_path)` |
-| `test_updates_last_used_on_successful_validation` | method | `tests/test_api_authz.py:162` | `def test_updates_last_used_on_successful_validation(self, tmp_path)` |
-| `test_validates_a_known_key_and_returns_record` | method | `tests/test_api_authz.py:125` | `def test_validates_a_known_key_and_returns_record(self, tmp_path)` |
-| `TestApiKeyWiredIntoParams` | class | `tests/test_api_key_resolution.py:21` | `class TestApiKeyWiredIntoParams` |
-| `TestReplaceCommandPlaceholders` | class | `tests/test_api_key_resolution.py:39` | `class TestReplaceCommandPlaceholders` |
-| `test_class_attribute_api_key_reads_payload` | method | `tests/test_api_key_resolution.py:34` | `def test_class_attribute_api_key_reads_payload(self)` |
-| `test_double_brace_substitution` | method | `tests/test_api_key_resolution.py:40` | `def test_double_brace_substitution(self)` |
-| `test_missing_key_left_intact` | method | `tests/test_api_key_resolution.py:63` | `def test_missing_key_left_intact(self)` |
-| `test_mixed_braces_in_one_command` | method | `tests/test_api_key_resolution.py:56` | `def test_mixed_braces_in_one_command(self)` |
-| `test_params_api_key_binds_config_attr` | method | `tests/test_api_key_resolution.py:28` | `def test_params_api_key_binds_config_attr(self)` |
-| `test_params_api_key_is_not_hardcoded_none` | method | `tests/test_api_key_resolution.py:22` | `def test_params_api_key_is_not_hardcoded_none(self)` |
-| `test_single_brace_substitution` | method | `tests/test_api_key_resolution.py:47` | `def test_single_brace_substitution(self)` |
-| `_auth` | function | `tests/test_api_v1.py:40` | `def _auth(token)` |
-| `api_client` | function | `tests/test_api_v1.py:23` | `def api_client(tmp_path)` |
-| `test_campaigns_empty_state` | function | `tests/test_api_v1.py:95` | `def test_campaigns_empty_state(api_client)` |
-| `test_campaigns_reads_state_files` | function | `tests/test_api_v1.py:101` | `def test_campaigns_reads_state_files(api_client)` |
-| `test_health_is_public` | function | `tests/test_api_v1.py:44` | `def test_health_is_public(api_client)` |
-| `test_mutating_endpoints_require_auth` | function | `tests/test_api_v1.py:134` | `def test_mutating_endpoints_require_auth(api_client)` |
-| `test_results_empty` | function | `tests/test_api_v1.py:76` | `def test_results_empty(api_client)` |
-| `test_results_per_client` | function | `tests/test_api_v1.py:82` | `def test_results_per_client(api_client)` |
-| `test_targets_empty_workspace` | function | `tests/test_api_v1.py:56` | `def test_targets_empty_workspace(api_client)` |
-| `test_targets_lists_hosts_with_services` | function | `tests/test_api_v1.py:64` | `def test_targets_lists_hosts_with_services(api_client)` |
-| `test_targets_requires_auth` | function | `tests/test_api_v1.py:51` | `def test_targets_requires_auth(api_client)` |
-| `test_webhook_crud` | function | `tests/test_api_v1.py:109` | `def test_webhook_crud(api_client)` |
-| `test_webhook_rejects_bad_url` | function | `tests/test_api_v1.py:126` | `def test_webhook_rejects_bad_url(api_client)` |
-| `gate_env` | function | `tests/test_asset_gate.py:18` | `def gate_env(tmp_path, monkeypatch)` |
-| `test_compact_unfolded_cap_and_flag` | function | `tests/test_asset_gate.py:157` | `def test_compact_unfolded_cap_and_flag(gate_env)` |
-| `test_digest_overview_expandable` | function | `tests/test_asset_gate.py:174` | `def test_digest_overview_expandable(gate_env)` |
-| `test_gate_blocks_asset_insert` | function | `tests/test_asset_gate.py:57` | `def test_gate_blocks_asset_insert(gate_env)` |
-| `test_gate_cidr_match` | function | `tests/test_asset_gate.py:36` | `def test_gate_cidr_match(gate_env)` |
-| `test_gate_exact_and_fuzzy_match` | function | `tests/test_asset_gate.py:25` | `def test_gate_exact_and_fuzzy_match(gate_env)` |
-| `test_gate_task_allow_is_closed_whitelist` | function | `tests/test_asset_gate.py:43` | `def test_gate_task_allow_is_closed_whitelist(gate_env)` |
-| `test_hot_facts_never_truncated` | function | `tests/test_asset_gate.py:194` | `def test_hot_facts_never_truncated(gate_env)` |
-| `test_intel_nodes_carry_community` | function | `tests/test_asset_gate.py:126` | `def test_intel_nodes_carry_community()` |
-| `test_intel_payload_readmenator_shape` | function | `tests/test_asset_gate.py:136` | `def test_intel_payload_readmenator_shape()` |
-| `test_intel_template_embedded_in_lazyown_chrome` | function | `tests/test_asset_gate.py:94` | `def test_intel_template_embedded_in_lazyown_chrome()` |
-| `test_intel_template_maps_edges_to_links` | function | `tests/test_asset_gate.py:106` | `def test_intel_template_maps_edges_to_links()` |
-| `test_intel_template_readmenator_grade` | function | `tests/test_asset_gate.py:114` | `def test_intel_template_readmenator_grade()` |
-| `test_intel_template_uses_vendored_libs` | function | `tests/test_asset_gate.py:83` | `def test_intel_template_uses_vendored_libs()` |
-| `test_lazy_gate_surface` | function | `tests/test_asset_gate.py:66` | `def test_lazy_gate_surface()` |
-| `test_traffic_clear` | function | `tests/test_asset_gate.py:75` | `def test_traffic_clear(gate_env)` |
-| `_fixture_sessions` | function | `tests/test_attack_surface3d.py:24` | `def _fixture_sessions(tmp_path)` |
-| `test_attack_bundle_payload` | function | `tests/test_attack_surface3d.py:72` | `def test_attack_bundle_payload(tmp_path)` |
-| `test_attack_fuses_surface_and_intel` | function | `tests/test_attack_surface3d.py:47` | `def test_attack_fuses_surface_and_intel(tmp_path)` |
-| `test_attack_menu_entry_and_routes` | function | `tests/test_attack_surface3d.py:129` | `def test_attack_menu_entry_and_routes()` |
-| `test_attack_pages_embedded_and_wired` | function | `tests/test_attack_surface3d.py:109` | `def test_attack_pages_embedded_and_wired()` |
-| `test_attack_payload_readmenator_shape` | function | `tests/test_attack_surface3d.py:59` | `def test_attack_payload_readmenator_shape(tmp_path)` |
-| `test_attack_summary_feeds_loop` | function | `tests/test_attack_surface3d.py:93` | `def test_attack_summary_feeds_loop(tmp_path)` |
-| `test_new_endpoints_require_login_and_decoy` | function | `tests/test_attack_surface3d.py:144` | `def test_new_endpoints_require_login_and_decoy()` |
-| `TestAddonExists` | class | `tests/test_attack_surface_addons.py:68` | `class TestAddonExists` |
-| `TestCloudSploitSpecific` | class | `tests/test_attack_surface_addons.py:294` | `class TestCloudSploitSpecific` |
-| `TestCommandTemplates` | class | `tests/test_attack_surface_addons.py:234` | `class TestCommandTemplates` |
-| `TestFuzzAddonStructure` | class | `tests/test_attack_surface_addons.py:384` | `class TestFuzzAddonStructure` |
-| `TestGrypeSpecific` | class | `tests/test_attack_surface_addons.py:333` | `class TestGrypeSpecific` |
-| `TestNoHardcodedSecrets` | class | `tests/test_attack_surface_addons.py:207` | `class TestNoHardcodedSecrets` |
-| `TestParams` | class | `tests/test_attack_surface_addons.py:151` | `class TestParams` |
-| `TestPathSafety` | class | `tests/test_attack_surface_addons.py:180` | `class TestPathSafety` |
-| `TestProwlerSpecific` | class | `tests/test_attack_surface_addons.py:273` | `class TestProwlerSpecific` |
-| `TestReportFullSpecific` | class | `tests/test_attack_surface_addons.py:353` | `class TestReportFullSpecific` |
-| `TestRequiredFields` | class | `tests/test_attack_surface_addons.py:88` | `class TestRequiredFields` |
-| `TestResultReview` | class | `tests/test_attack_surface_addons.py:418` | `class TestResultReview` |
-| `TestScoutSuiteSpecific` | class | `tests/test_attack_surface_addons.py:251` | `class TestScoutSuiteSpecific` |
-| `TestToolSection` | class | `tests/test_attack_surface_addons.py:118` | `class TestToolSection` |
-| `TestTrivySpecific` | class | `tests/test_attack_surface_addons.py:309` | `class TestTrivySpecific` |
-| `_all_addon_data` | function | `tests/test_attack_surface_addons.py:54` | `def _all_addon_data()` |
-| `_load` | function | `tests/test_attack_surface_addons.py:36` | `def _load(path)` |
-| `_loaded` | function | `tests/test_attack_surface_addons.py:59` | `def _loaded(name)` |
-| `_param_names` | function | `tests/test_attack_surface_addons.py:41` | `def _param_names(addon)` |
-| `_yaml_text` | function | `tests/test_attack_surface_addons.py:45` | `def _yaml_text(path)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:255` | `def addon(self)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:277` | `def addon(self)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:298` | `def addon(self)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:313` | `def addon(self)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:337` | `def addon(self)` |
-| `addon` | method | `tests/test_attack_surface_addons.py:357` | `def addon(self)` |
-| `no_duplicate_param_names` | method | `tests/test_attack_surface_addons.py:170` | `def no_duplicate_param_names(self, name, addon)` |
-| `test_category_falls_in_known_range` | method | `tests/test_attack_surface_addons.py:396` | `def test_category_falls_in_known_range(self, name, addon)` |
-| `test_category_is_recon_or_scan` | method | `tests/test_attack_surface_addons.py:290` | `def test_category_is_recon_or_scan(self, addon)` |
-| `test_category_is_reporting` | method | `tests/test_attack_surface_addons.py:363` | `def test_category_is_reporting(self, addon)` |
-| `test_description_is_string` | method | `tests/test_attack_surface_addons.py:101` | `def test_description_is_string(self, name, addon)` |
-| `test_description_mentions_vulnerability` | method | `tests/test_attack_surface_addons.py:349` | `def test_description_mentions_vulnerability(self, addon)` |
-| `test_each_param_has_description` | method | `tests/test_attack_surface_addons.py:165` | `def test_each_param_has_description(self, name, addon)` |
-| `test_each_param_has_name` | method | `tests/test_attack_surface_addons.py:160` | `def test_each_param_has_name(self, name, addon)` |
-| `test_enabled_is_true` | method | `tests/test_attack_surface_addons.py:107` | `def test_enabled_is_true(self, name, addon)` |
-| `test_execute_calls_report_generator` | method | `tests/test_attack_surface_addons.py:371` | `def test_execute_calls_report_generator(self, addon)` |
-| `test_execute_command_is_string` | method | `tests/test_attack_surface_addons.py:141` | `def test_execute_command_is_string(self, name, addon)` |
-| `test_execute_has_at_least_one_placeholder` | method | `tests/test_attack_surface_addons.py:238` | `def test_execute_has_at_least_one_placeholder(self, name, addon)` |
-| `test_file_present` | method | `tests/test_attack_surface_addons.py:72` | `def test_file_present(self, name, path)` |
-| `test_has_cloud_param` | method | `tests/test_attack_surface_addons.py:304` | `def test_has_cloud_param(self, addon)` |
-| `test_has_provider_param` | method | `tests/test_attack_surface_addons.py:267` | `def test_has_provider_param(self, addon)` |
-| `test_has_provider_param` | method | `tests/test_attack_surface_addons.py:286` | `def test_has_provider_param(self, addon)` |
-| `test_has_region_param` | method | `tests/test_attack_surface_addons.py:264` | `def test_has_region_param(self, addon)` |
-| `test_has_required_fields` | method | `tests/test_attack_surface_addons.py:92` | `def test_has_required_fields(self, name, addon)` |
-| `test_has_target_param` | method | `tests/test_attack_surface_addons.py:322` | `def test_has_target_param(self, addon)` |
-| `test_has_target_param` | method | `tests/test_attack_surface_addons.py:343` | `def test_has_target_param(self, addon)` |
-| `test_install_path_contained` | method | `tests/test_attack_surface_addons.py:184` | `def test_install_path_contained(self, name, addon)` |
-| `test_install_path_is_dot` | method | `tests/test_attack_surface_addons.py:366` | `def test_install_path_is_dot(self, addon)` |
-| `test_install_path_no_dot_dot_prefix` | method | `tests/test_attack_surface_addons.py:190` | `def test_install_path_no_dot_dot_prefix(self, name, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:258` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:280` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:301` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:316` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:340` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:360` | `def test_name(self, addon)` |
-| `test_name_is_string` | method | `tests/test_attack_surface_addons.py:97` | `def test_name_is_string(self, name, addon)` |
-| `test_name_lowercase` | method | `tests/test_attack_surface_addons.py:392` | `def test_name_lowercase(self, name, addon)` |
-| `test_name_no_spaces` | method | `tests/test_attack_surface_addons.py:388` | `def test_name_no_spaces(self, name, addon)` |
-| `test_no_hardcoded_ip` | method | `tests/test_attack_surface_addons.py:211` | `def test_no_hardcoded_ip(self, name, addon)` |
-| `test_no_password_literals` | method | `tests/test_attack_surface_addons.py:223` | `def test_no_password_literals(self, name, addon)` |
-| `test_no_tilde_in_paths` | method | `tests/test_attack_surface_addons.py:197` | `def test_no_tilde_in_paths(self, name, addon)` |
-| `test_no_well_known_ports` | method | `tests/test_attack_surface_addons.py:217` | `def test_no_well_known_ports(self, name, addon)` |
-| `test_os_is_containers` | method | `tests/test_attack_surface_addons.py:319` | `def test_os_is_containers(self, addon)` |
-| `test_os_is_iaas` | method | `tests/test_attack_surface_addons.py:261` | `def test_os_is_iaas(self, addon)` |
-| `test_os_is_iaas` | method | `tests/test_attack_surface_addons.py:283` | `def test_os_is_iaas(self, addon)` |
-| `test_os_is_known_value` | method | `tests/test_attack_surface_addons.py:407` | `def test_os_is_known_value(self, name, addon)` |
-| `test_params_is_list_when_present` | method | `tests/test_attack_surface_addons.py:155` | `def test_params_is_list_when_present(self, name, addon)` |
-| `test_repo_url_ends_with_git` | method | `tests/test_attack_surface_addons.py:131` | `def test_repo_url_ends_with_git(self, name, addon)` |
-| `test_repo_url_is_https` | method | `tests/test_attack_surface_addons.py:136` | `def test_repo_url_is_https(self, name, addon)` |
-| `test_repo_url_points_to_lazyown` | method | `tests/test_attack_surface_addons.py:375` | `def test_repo_url_points_to_lazyown(self, addon)` |
-| `test_summary_table` | method | `tests/test_attack_surface_addons.py:421` | `def test_summary_table(self)` |
-| `test_tool_is_dict` | method | `tests/test_attack_surface_addons.py:122` | `def test_tool_is_dict(self, name, addon)` |
-| `test_tool_required_keys` | method | `tests/test_attack_surface_addons.py:126` | `def test_tool_required_keys(self, name, addon)` |
-| `test_trigger_is_list_when_present` | method | `tests/test_attack_surface_addons.py:402` | `def test_trigger_is_list_when_present(self, name, addon)` |
-| `test_triggers_docker` | method | `tests/test_attack_surface_addons.py:328` | `def test_triggers_docker(self, addon)` |
-| `test_yaml_parses` | method | `tests/test_attack_surface_addons.py:76` | `def test_yaml_parses(self, name, path)` |
-| `TestAutoCryptoConfig` | class | `tests/test_auto_crypto.py:33` | `class TestAutoCryptoConfig` |
-| `TestAutoCryptoEngine` | class | `tests/test_auto_crypto.py:54` | `class TestAutoCryptoEngine` |
-| `TestExitEncryptWiring` | class | `tests/test_auto_crypto.py:169` | `class TestExitEncryptWiring` |
-| `TestHasPassword` | class | `tests/test_auto_crypto.py:152` | `class TestHasPassword` |
-| `TestPasswordProvider` | class | `tests/test_auto_crypto.py:144` | `class TestPasswordProvider` |
-| `_stub_shell` | method | `tests/test_auto_crypto.py:172` | `def _stub_shell(self, calls)` |
-| `crypto_module` | function | `tests/test_auto_crypto.py:21` | `def crypto_module()` |
-| `test_build_provider_returns_callable` | method | `tests/test_auto_crypto.py:145` | `def test_build_provider_returns_callable(self)` |
-| `test_custom_config` | method | `tests/test_auto_crypto.py:42` | `def test_custom_config(self, crypto_module)` |
-| `test_default_config` | method | `tests/test_auto_crypto.py:34` | `def test_default_config(self, crypto_module)` |
-| `test_disabled_engine_is_noop` | method | `tests/test_auto_crypto.py:55` | `def test_disabled_engine_is_noop(self, crypto_module, tmp_sessions)` |
-| `test_empty_directory_is_not_encrypted` | method | `tests/test_auto_crypto.py:77` | `def test_empty_directory_is_not_encrypted(self, crypto_module, tmp_sessions)` |
-| `test_encrypt_decrypt_roundtrip` | method | `tests/test_auto_crypto.py:86` | `def test_encrypt_decrypt_roundtrip(self, crypto_module, tmp_sessions)` |
-| `test_eof_encrypts_before_returning` | method | `tests/test_auto_crypto.py:211` | `def test_eof_encrypts_before_returning(self, monkeypatch)` |
-| `test_exit_encrypts_after_confirmation` | method | `tests/test_auto_crypto.py:194` | `def test_exit_encrypts_after_confirmation(self, monkeypatch)` |
-| `test_false_when_provider_returns_empty` | method | `tests/test_auto_crypto.py:163` | `def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions)` |
-| `test_false_without_provider` | method | `tests/test_auto_crypto.py:153` | `def test_false_without_provider(self, crypto_module, tmp_sessions)` |
-| `test_no_password_provider_returns_false` | method | `tests/test_auto_crypto.py:66` | `def test_no_password_provider_returns_false(self, crypto_module, tmp_sessions)` |
-| `test_qa_encrypts_before_exit` | method | `tests/test_auto_crypto.py:180` | `def test_qa_encrypts_before_exit(self, monkeypatch)` |
-| `test_salt_is_persisted` | method | `tests/test_auto_crypto.py:122` | `def test_salt_is_persisted(self, crypto_module, tmp_sessions)` |
-| `test_true_with_provider` | method | `tests/test_auto_crypto.py:158` | `def test_true_with_provider(self, crypto_module, tmp_sessions)` |
-| `tmp_sessions` | function | `tests/test_auto_crypto.py:28` | `def tmp_sessions()` |
-| `_FakeShell` | class | `tests/test_auto_registry.py:73` | `class _FakeShell` |
-| `_HangingShell` | class | `tests/test_auto_registry.py:86` | `class _HangingShell` |
-| `__init__` | method | `tests/test_auto_registry.py:76` | `def __init__(self, output)` |
-| `_run` | function | `tests/test_auto_registry.py:169` | `def _run()` |
-| `onecmd` | method | `tests/test_auto_registry.py:89` | `def onecmd(self, command)` |
-| `onecmd_plus_hooks` | method | `tests/test_auto_registry.py:80` | `def onecmd_plus_hooks(self, command)` |
-| `test_build_command_binds_target` | function | `tests/test_auto_registry.py:38` | `def test_build_command_binds_target()` |
-| `test_cancel_running_commands_kills_streaming` | function | `tests/test_auto_registry.py:160` | `def test_cancel_running_commands_kills_streaming()` |
-| `test_execute_shell_verb_captures_output` | function | `tests/test_auto_registry.py:96` | `def test_execute_shell_verb_captures_output()` |
-| `test_execute_shell_verb_rejects_non_verbs` | function | `tests/test_auto_registry.py:104` | `def test_execute_shell_verb_rejects_non_verbs()` |
-| `test_execute_shell_verb_timeout_never_hangs` | function | `tests/test_auto_registry.py:112` | `def test_execute_shell_verb_timeout_never_hangs()` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

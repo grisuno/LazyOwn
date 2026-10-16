@@ -1,0 +1,81 @@
+name: ttpscope
+description: >
+  TTPScope — offline-first terminal research client for MITRE ATT&CK
+  (Enterprise STIX bundle). Search IDs/names/aliases, show technique/group/
+  software objects with relationships, render the Enterprise matrix, and keep
+  timestamped Markdown research notes. All output is staged under sessions/
+  as ttpscope_<action>_<slug>_<ts>.txt (+ .json for chain) so agents can read
+  it without a TTY.
+
+  Human usage:
+    ttpscope action=sync
+    ttpscope action=search query="credential dumping"
+    ttpscope action=show technique_id=T1003
+    ttpscope action=matrix platform=Windows
+    ttpscope action=chain technique_id=T1059.001 platform=linux
+    ttpscope action=note technique_id=T1053.005 note_text="check event coverage"
+    ttpscope action=notes technique_id=T1053.005
+
+  Agent usage (MCP / autonomous loop, non-interactive):
+    1. lazyown_run_command("ttpscope action=show technique_id=T1078") then read
+       the staged file path from stdout.
+    2. Prefer action=chain for emulation: it joins ttpscope show +
+       Atomic Red Team tests (via atomic_resolver) + parquets/
+       techniques_enriched.parquet into one JSON briefing with concrete
+       GUIDs, command previews, and the next emulation command.
+    3. Chain with lazyown_atomic_search(mitre_id, platform) for full test
+       lists and lazyown_parquet_query(mode="context") for phase context.
+    4. Never run `tui` from agents (requires interactive terminal); use
+       search/show/matrix/chain only. First run needs action=sync once.
+    5. No hard dependency on the C binary: when it is missing, the bridge
+       answers from the cached STIX bundle + parquets/techniques*.parquet
+       (result carries backend=fallback-*) so research and chain keep
+       working unmaintained.
+author: bl4ckr0ss3
+version: 0.1.0
+enabled: true
+os: any
+trigger: []
+params:
+  - name: action
+    type: string
+    required: false
+    default: search
+    description: Subcommand (sync|search|show|matrix|note|notes|chain|version). Agents prefer search/show/chain.
+  - name: query
+    type: string
+    required: false
+    default: ""
+    description: Free-text search for action=search (e.g. "credential dumping", "scheduled task").
+  - name: technique_id
+    type: string
+    required: false
+    default: ""
+    description: ATT&CK object ID for show/notes/note/chain (T1003, T1059.001, G0016, S0002, M1040).
+  - name: platform
+    type: string
+    required: false
+    default: ""
+    description: Matrix filter or chain platform (Windows|Linux|macOS). Empty means all platforms.
+  - name: note_text
+    type: string
+    required: false
+    default: ""
+    description: Note body for action=note (appended as timestamped Markdown).
+  - name: limit
+    type: string
+    required: false
+    default: "5"
+    description: "Max Atomic/parquet hits for action=chain. Passed as free arg after the command."
+tool:
+  name: TTPScope
+  repo_url: https://github.com/bl4ckr0ss3/ttpscope.git
+  install_path: external/.exploit/ttpscope
+  install_command: >
+    cmake -S . -B build -DCMAKE_BUILD_TYPE=Release &&
+    cmake --build build && ./build/ttpscope version
+  execute_command: >
+    python3 ../../../modules/ttpscope_bridge.py {action}
+    --query "{query}" --id "{technique_id}" --platform "{platform}"
+    --text "{note_text}"
+category: 01. Reconnaissance

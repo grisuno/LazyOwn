@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1019 files at commit `6d143fab3eb8`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1037 files at commit `146a52570ef7`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (414), `modules` (390), `lazy` (388), `file` (363), `all` (359), `not` (348), `own` (339), `path` (331), `cli` (325), `run` (324), `one` (320), `json` (316), `name` (310), `without` (302), `set` (296)
-- Subsystem `cli/commands: utils`: 127 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 123 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `modules: autonomous_daemon`: 113 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli: status_bar`: 97 files, core `cli/status_bar.py`: Persistent operator status bar for the LazyOwn cmd2 shell.
-- Subsystem `modules: lazy_loop`: 70 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Domain vocabulary (term, files): `command` (422), `modules` (399), `lazy` (393), `file` (373), `all` (370), `not` (357), `own` (345), `path` (340), `one` (334), `cli` (333), `run` (332), `json` (324), `name` (317), `without` (312), `set` (299)
+- Subsystem `cli/commands`: 157 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyc2`: 128 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `cli`: 113 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: autonomous_daemon`: 108 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `modules: lazy_loop`: 67 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
-- Subsystem `modules: estorides_importer`: 50 files, core `modules/estorides_importer.py`: estorides_importer
-- Subsystem `static/js`: 29 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
+- Subsystem `skills/claude_md_orchestrator`: 37 files, core `static/js/xterm.js`
+- Subsystem `static/js`: 28 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 34; layer violations: 66 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 56; layer violations: 67 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 890 files, 17471 symbols; docstrings on 53% of symbols; functions snake_case (99%); types PascalCase (100%); median file 228 lines, max 12525.
+- py: 908 files, 17792 symbols; docstrings on 54% of symbols; functions snake_case (99%); types PascalCase (100%); median file 229 lines, max 12887.
 - sh: 62 files, 204 symbols; docstrings on 41% of symbols; functions snake_case (100%); median file 78 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 266 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 275 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -117,7 +117,7 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 52%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 34).
+- No new dependency cycles (current: 56).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
@@ -125,11 +125,11 @@ Measured baseline:
 
 - God nodes (changes ripple widely): `core/logging.py`, `utils.py`, `skills/lazyown_mcp.py`, `cli/commands/_base.py`, `modules/lazy_loop.py`
 - Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`
-- Cycle: `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- Cycle: `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
-- Cycle: `modules/lazy_loop.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py`
-- Cycle: `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
-- Cycle: `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
+- Cycle: `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- Cycle: `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- Cycle: `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- Cycle: `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- Cycle: `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/atomic_exploit_bridge.py`
 - Full blast radius: `readmenator-agent/GOTCHAS.md`; findings: `readmenator-agent/SECURITY.md`.
 
 ## 7. Session log (preserved across rebuilds)

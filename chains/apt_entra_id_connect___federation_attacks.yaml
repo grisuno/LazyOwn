@@ -1,0 +1,6 @@
+name: apt_entra_id_connect___federation_attacks
+description: Full APT chain for entra_id_connect_&_federation_attacks (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: entra_id_connect_&_federation_attacks

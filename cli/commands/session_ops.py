@@ -288,7 +288,11 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             history=_history,
         )
         if not updated:
-            print_error(f"Unknown parameter: {param}{RESET}")
+            errors = [i for i in issues if str(getattr(i, "severity", "")) == "error"]
+            if errors:
+                print_error(f"Invalid value for '{param}': {errors[0].message}{RESET}")
+            else:
+                print_error(f"Unknown parameter: {param}{RESET}")
             return
 
         try:
@@ -300,7 +304,14 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             print_warn(f"{param}: {issue.message}")
 
         self.refresh_prompt()
-        print_msg(f"{YELLOW}{param} assign to {GREEN}{self.params[param]} {RESET}")
+        try:
+            from core.payload_schema import SCHEMA as _PAYLOAD_SCHEMA
+
+            _sensitive = bool(_PAYLOAD_SCHEMA.get(param) and _PAYLOAD_SCHEMA[param].sensitive)
+        except Exception:
+            _sensitive = False
+        _shown = "<redacted>" if _sensitive else self.params[param]
+        print_msg(f"{YELLOW}{param} assign to {GREEN}{_shown} {RESET}")
 
     @cmd2.with_category("12. Miscellaneous")
     def do_tenant(self, line):

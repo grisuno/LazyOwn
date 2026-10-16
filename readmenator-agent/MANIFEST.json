@@ -1,19 +1,19 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-15T00:42:07Z",
+  "generated_at": "2026-10-16T00:25:18Z",
   "project_root": ".",
   "project_name": "LazyOwn",
-  "git_commit": "6d143fab3eb8a763762c3dd655d6458e652bcd67",
+  "git_commit": "146a52570ef792d1ec01ec4d3709b0c159990e47",
   "git_branch": "main",
-  "source_fingerprint": "ae636420f202a2de53729553f676e7461bc59b84617452e08fd8d93780ca7c93",
+  "source_fingerprint": "f82a34ec9ccdcf1dcf0b1482ae623f6b6b2af81f3060c43a00e82cd0a3b0c82f",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
-  "files": 1019,
-  "symbols": 19669,
-  "imports": 9738,
-  "calls": 142468,
-  "inherits": 659,
-  "resolved_imports": 4222,
+  "files": 1037,
+  "symbols": 19990,
+  "imports": 10057,
+  "calls": 145277,
+  "inherits": 661,
+  "resolved_imports": 4363,
   "security_findings": 0,
   "languages": {
     "asm": 1,
@@ -24,7 +24,7 @@
     "js": 21,
     "lua": 26,
     "php": 1,
-    "py": 890,
+    "py": 908,
     "sh": 62
   },
   "subsystems": {
@@ -33,8 +33,9 @@
     "cgi-bin": 2,
     "claude_md_orchestrator": 13,
     "cli": 68,
-    "commands": 82,
+    "commands": 83,
     "config": 5,
+    "contract": 2,
     "core": 35,
     "devtools": 2,
     "extensions": 5,
@@ -46,7 +47,7 @@
     "lazyown-docker": 4,
     "legacy": 44,
     "misc": 6,
-    "modules": 246,
+    "modules": 253,
     "modules_tools": 3,
     "palettes": 7,
     "panels": 14,
@@ -54,14 +55,13 @@
     "poc_tui": 6,
     "root": 26,
     "rootkit": 6,
-    "scripts": 26,
+    "scripts": 27,
     "security": 10,
     "services": 7,
     "skills": 34,
     "skills_claude_md_orchestrator_tests": 2,
     "skills_tests": 8,
-    "test": 2,
-    "tests": 250,
+    "tests": 259,
     "theme": 4,
     "tools": 4,
     "widgets": 8,
@@ -92,173 +92,178 @@
   "documents": [
     {
       "path": "API.md",
-      "lines": 500,
-      "approx_tokens": 16006
+      "lines": 472,
+      "approx_tokens": 14765
     },
     {
       "path": "API_p10.md",
-      "lines": 499,
-      "approx_tokens": 14349
+      "lines": 492,
+      "approx_tokens": 14338
     },
     {
       "path": "API_p11.md",
-      "lines": 490,
-      "approx_tokens": 13814
+      "lines": 492,
+      "approx_tokens": 13795
     },
     {
       "path": "API_p12.md",
-      "lines": 447,
-      "approx_tokens": 16478
+      "lines": 212,
+      "approx_tokens": 6615
     },
     {
       "path": "API_p13.md",
-      "lines": 483,
-      "approx_tokens": 12886
+      "lines": 489,
+      "approx_tokens": 16809
     },
     {
       "path": "API_p14.md",
-      "lines": 462,
-      "approx_tokens": 13586
+      "lines": 483,
+      "approx_tokens": 13541
     },
     {
       "path": "API_p15.md",
-      "lines": 492,
-      "approx_tokens": 14114
+      "lines": 500,
+      "approx_tokens": 14736
     },
     {
       "path": "API_p16.md",
-      "lines": 498,
-      "approx_tokens": 13325
+      "lines": 485,
+      "approx_tokens": 13608
     },
     {
       "path": "API_p17.md",
-      "lines": 494,
-      "approx_tokens": 13206
+      "lines": 497,
+      "approx_tokens": 11941
     },
     {
       "path": "API_p18.md",
       "lines": 449,
-      "approx_tokens": 13894
+      "approx_tokens": 13170
     },
     {
       "path": "API_p19.md",
-      "lines": 390,
-      "approx_tokens": 11315
+      "lines": 489,
+      "approx_tokens": 15580
     },
     {
       "path": "API_p2.md",
-      "lines": 488,
-      "approx_tokens": 18285
+      "lines": 496,
+      "approx_tokens": 19073
     },
     {
       "path": "API_p20.md",
+      "lines": 242,
+      "approx_tokens": 6683
+    },
+    {
+      "path": "API_p21.md",
       "lines": 500,
       "approx_tokens": 9674
     },
     {
-      "path": "API_p21.md",
+      "path": "API_p22.md",
       "lines": 407,
       "approx_tokens": 6523
     },
     {
-      "path": "API_p22.md",
-      "lines": 357,
-      "approx_tokens": 8264
+      "path": "API_p23.md",
+      "lines": 352,
+      "approx_tokens": 8226
     },
     {
       "path": "API_p3.md",
-      "lines": 482,
-      "approx_tokens": 17696
+      "lines": 497,
+      "approx_tokens": 18214
     },
     {
       "path": "API_p4.md",
-      "lines": 479,
-      "approx_tokens": 14069
+      "lines": 498,
+      "approx_tokens": 14838
     },
     {
       "path": "API_p5.md",
-      "lines": 496,
-      "approx_tokens": 12477
+      "lines": 497,
+      "approx_tokens": 12473
     },
     {
       "path": "API_p6.md",
-      "lines": 491,
-      "approx_tokens": 14017
+      "lines": 498,
+      "approx_tokens": 14300
     },
     {
       "path": "API_p7.md",
-      "lines": 490,
-      "approx_tokens": 11841
+      "lines": 493,
+      "approx_tokens": 11920
     },
     {
       "path": "API_p8.md",
       "lines": 493,
-      "approx_tokens": 15201
+      "approx_tokens": 15213
     },
     {
       "path": "API_p9.md",
-      "lines": 478,
-      "approx_tokens": 14096
+      "lines": 479,
+      "approx_tokens": 14530
     },
     {
       "path": "ARCHITECTURE.md",
       "lines": 500,
-      "approx_tokens": 6846
+      "approx_tokens": 6900
     },
     {
       "path": "ARCHITECTURE_p2.md",
       "lines": 500,
-      "approx_tokens": 6999
+      "approx_tokens": 6941
     },
     {
       "path": "ARCHITECTURE_p3.md",
       "lines": 500,
-      "approx_tokens": 7287
+      "approx_tokens": 7341
     },
     {
       "path": "ARCHITECTURE_p4.md",
       "lines": 500,
-      "approx_tokens": 7482
+      "approx_tokens": 7396
     },
     {
       "path": "ARCHITECTURE_p5.md",
-      "lines": 156,
-      "approx_tokens": 2308
+      "lines": 223,
+      "approx_tokens": 3365
     },
     {
       "path": "ARCHITECTURE_p6.md",
       "lines": 500,
-      "approx_tokens": 11864
+      "approx_tokens": 11697
     },
     {
       "path": "ARCHITECTURE_p7.md",
-      "lines": 395,
-      "approx_tokens": 8358
+      "lines": 412,
+      "approx_tokens": 8946
     },
     {
       "path": "CONCEPTS.md",
       "lines": 120,
-      "approx_tokens": 4628
+      "approx_tokens": 4625
     },
     {
       "path": "GOTCHAS.md",
       "lines": 85,
-      "approx_tokens": 1605
+      "approx_tokens": 1892
     },
     {
       "path": "INDEX.md",
       "lines": 500,
-      "approx_tokens": 12858
+      "approx_tokens": 12893
     },
     {
       "path": "INDEX_p2.md",
       "lines": 500,
-      "approx_tokens": 13171
+      "approx_tokens": 13133
     },
     {
       "path": "INDEX_p3.md",
-      "lines": 39,
-      "approx_tokens": 936
+      "lines": 57,
+      "approx_tokens": 1472
     },
     {
       "path": "KB_backdoor.md",
@@ -267,8 +272,8 @@
     },
     {
       "path": "KB_blueprints.md",
-      "lines": 155,
-      "approx_tokens": 2168
+      "lines": 159,
+      "approx_tokens": 2228
     },
     {
       "path": "KB_cgi-bin.md",
@@ -283,7 +288,7 @@
     {
       "path": "KB_cli.md",
       "lines": 481,
-      "approx_tokens": 7485
+      "approx_tokens": 7494
     },
     {
       "path": "KB_cli_p2.md",
@@ -292,13 +297,13 @@
     },
     {
       "path": "KB_cli_p3.md",
-      "lines": 493,
-      "approx_tokens": 7797
+      "lines": 474,
+      "approx_tokens": 7521
     },
     {
       "path": "KB_cli_p4.md",
-      "lines": 462,
-      "approx_tokens": 7645
+      "lines": 491,
+      "approx_tokens": 8124
     },
     {
       "path": "KB_cli_p5.md",
@@ -307,23 +312,23 @@
     },
     {
       "path": "KB_commands.md",
-      "lines": 500,
-      "approx_tokens": 7917
+      "lines": 479,
+      "approx_tokens": 7736
     },
     {
       "path": "KB_commands_p2.md",
-      "lines": 422,
-      "approx_tokens": 6506
+      "lines": 465,
+      "approx_tokens": 7072
     },
     {
       "path": "KB_commands_p3.md",
-      "lines": 497,
-      "approx_tokens": 8197
+      "lines": 481,
+      "approx_tokens": 7980
     },
     {
       "path": "KB_commands_p4.md",
-      "lines": 337,
-      "approx_tokens": 5059
+      "lines": 358,
+      "approx_tokens": 5395
     },
     {
       "path": "KB_config.md",
@@ -331,14 +336,19 @@
       "approx_tokens": 1388
     },
     {
+      "path": "KB_contract.md",
+      "lines": 31,
+      "approx_tokens": 519
+    },
+    {
       "path": "KB_core.md",
-      "lines": 498,
-      "approx_tokens": 8975
+      "lines": 499,
+      "approx_tokens": 9076
     },
     {
       "path": "KB_core_p2.md",
       "lines": 165,
-      "approx_tokens": 2230
+      "approx_tokens": 2263
     },
     {
       "path": "KB_devtools.md",
@@ -383,7 +393,7 @@
     {
       "path": "KB_lazyc2.md",
       "lines": 82,
-      "approx_tokens": 1084
+      "approx_tokens": 1085
     },
     {
       "path": "KB_lazygui.md",
@@ -398,7 +408,7 @@
     {
       "path": "KB_legacy.md",
       "lines": 498,
-      "approx_tokens": 6770
+      "approx_tokens": 6779
     },
     {
       "path": "KB_legacy_p2.md",
@@ -412,8 +422,8 @@
     },
     {
       "path": "KB_modules.md",
-      "lines": 491,
-      "approx_tokens": 8146
+      "lines": 486,
+      "approx_tokens": 7973
     },
     {
       "path": "KB_modules_p10.md",
@@ -423,7 +433,7 @@
     {
       "path": "KB_modules_p11.md",
       "lines": 493,
-      "approx_tokens": 8030
+      "approx_tokens": 8039
     },
     {
       "path": "KB_modules_p12.md",
@@ -432,38 +442,38 @@
     },
     {
       "path": "KB_modules_p13.md",
-      "lines": 487,
-      "approx_tokens": 7295
+      "lines": 481,
+      "approx_tokens": 7191
     },
     {
       "path": "KB_modules_p14.md",
-      "lines": 185,
-      "approx_tokens": 2960
+      "lines": 232,
+      "approx_tokens": 3732
     },
     {
       "path": "KB_modules_p2.md",
-      "lines": 468,
-      "approx_tokens": 6966
+      "lines": 487,
+      "approx_tokens": 7710
     },
     {
       "path": "KB_modules_p3.md",
-      "lines": 496,
-      "approx_tokens": 7570
+      "lines": 499,
+      "approx_tokens": 7766
     },
     {
       "path": "KB_modules_p4.md",
-      "lines": 491,
-      "approx_tokens": 7913
+      "lines": 494,
+      "approx_tokens": 7569
     },
     {
       "path": "KB_modules_p5.md",
-      "lines": 469,
-      "approx_tokens": 6622
+      "lines": 474,
+      "approx_tokens": 7038
     },
     {
       "path": "KB_modules_p6.md",
-      "lines": 272,
-      "approx_tokens": 4529
+      "lines": 410,
+      "approx_tokens": 6605
     },
     {
       "path": "KB_modules_p7.md",
@@ -507,13 +517,13 @@
     },
     {
       "path": "KB_root.md",
-      "lines": 476,
-      "approx_tokens": 7541
+      "lines": 478,
+      "approx_tokens": 7592
     },
     {
       "path": "KB_root_p2.md",
       "lines": 427,
-      "approx_tokens": 8030
+      "approx_tokens": 8050
     },
     {
       "path": "KB_rootkit.md",
@@ -522,13 +532,13 @@
     },
     {
       "path": "KB_scripts.md",
-      "lines": 257,
-      "approx_tokens": 2553
+      "lines": 266,
+      "approx_tokens": 2630
     },
     {
       "path": "KB_security.md",
       "lines": 143,
-      "approx_tokens": 1920
+      "approx_tokens": 1926
     },
     {
       "path": "KB_services.md",
@@ -537,8 +547,8 @@
     },
     {
       "path": "KB_skills.md",
-      "lines": 487,
-      "approx_tokens": 8558
+      "lines": 489,
+      "approx_tokens": 8606
     },
     {
       "path": "KB_skills_claude_md_orchestrator_tests.md",
@@ -548,12 +558,12 @@
     {
       "path": "KB_skills_p2.md",
       "lines": 486,
-      "approx_tokens": 8747
+      "approx_tokens": 8797
     },
     {
       "path": "KB_skills_p3.md",
       "lines": 214,
-      "approx_tokens": 3677
+      "approx_tokens": 3684
     },
     {
       "path": "KB_skills_p4.md",
@@ -571,89 +581,89 @@
       "approx_tokens": 6878
     },
     {
-      "path": "KB_test.md",
-      "lines": 32,
-      "approx_tokens": 368
-    },
-    {
       "path": "KB_tests.md",
       "lines": 495,
-      "approx_tokens": 9421
+      "approx_tokens": 9430
     },
     {
       "path": "KB_tests_p10.md",
-      "lines": 499,
-      "approx_tokens": 9204
+      "lines": 461,
+      "approx_tokens": 8977
     },
     {
       "path": "KB_tests_p11.md",
-      "lines": 449,
-      "approx_tokens": 8694
+      "lines": 480,
+      "approx_tokens": 9294
     },
     {
       "path": "KB_tests_p12.md",
-      "lines": 472,
-      "approx_tokens": 9596
+      "lines": 462,
+      "approx_tokens": 8982
     },
     {
       "path": "KB_tests_p13.md",
-      "lines": 452,
-      "approx_tokens": 8528
+      "lines": 499,
+      "approx_tokens": 9977
     },
     {
       "path": "KB_tests_p14.md",
-      "lines": 446,
-      "approx_tokens": 9486
+      "lines": 498,
+      "approx_tokens": 10001
     },
     {
       "path": "KB_tests_p15.md",
-      "lines": 431,
-      "approx_tokens": 8624
+      "lines": 460,
+      "approx_tokens": 9571
     },
     {
       "path": "KB_tests_p16.md",
-      "lines": 408,
-      "approx_tokens": 8152
+      "lines": 497,
+      "approx_tokens": 9686
+    },
+    {
+      "path": "KB_tests_p17.md",
+      "lines": 150,
+      "approx_tokens": 3049
     },
     {
       "path": "KB_tests_p2.md",
-      "lines": 448,
-      "approx_tokens": 9611
+      "lines": 477,
+      "approx_tokens": 10103
     },
     {
       "path": "KB_tests_p3.md",
-      "lines": 495,
-      "approx_tokens": 9969
+      "lines": 496,
+      "approx_tokens": 9972
     },
     {
       "path": "KB_tests_p4.md",
-      "lines": 496,
-      "approx_tokens": 11998
+      "lines": 381,
+      "approx_tokens": 7855
     },
     {
       "path": "KB_tests_p5.md",
-      "lines": 494,
-      "approx_tokens": 9758
+      "lines": 483,
+      "approx_tokens": 11410
     },
     {
       "path": "KB_tests_p6.md",
-      "lines": 458,
-      "approx_tokens": 9260
+      "lines": 478,
+      "approx_tokens": 9544
     },
     {
       "path": "KB_tests_p7.md",
-      "lines": 488,
-      "approx_tokens": 10007
+      "lines": 480,
+      "approx_tokens": 10022
     },
     {
       "path": "KB_tests_p8.md",
-      "lines": 497,
-      "approx_tokens": 10297
+      "lines": 491,
+      "approx_tokens": 10187
     },
     {
       "path": "KB_tests_p9.md",
-      "lines": 465,
-      "approx_tokens": 9928
+      "lines": 401,
+      "approx_tokens": 8296
     },
     {
       "path": "KB_theme.md",
@@ -683,7 +693,7 @@
     {
       "path": "MEMORY.md",
       "lines": 140,
-      "approx_tokens": 3234
+      "approx_tokens": 3405
     },
     {
       "path": "SECURITY.md",
@@ -698,197 +708,202 @@
     {
       "path": "SYMBOLS_p10.md",
       "lines": 500,
-      "approx_tokens": 12171
+      "approx_tokens": 12090
     },
     {
       "path": "SYMBOLS_p11.md",
       "lines": 500,
-      "approx_tokens": 11722
+      "approx_tokens": 11991
     },
     {
       "path": "SYMBOLS_p12.md",
       "lines": 500,
-      "approx_tokens": 12210
+      "approx_tokens": 12449
     },
     {
       "path": "SYMBOLS_p13.md",
       "lines": 500,
-      "approx_tokens": 12292
+      "approx_tokens": 12019
     },
     {
       "path": "SYMBOLS_p14.md",
       "lines": 500,
-      "approx_tokens": 11680
+      "approx_tokens": 11888
     },
     {
       "path": "SYMBOLS_p15.md",
       "lines": 500,
-      "approx_tokens": 11592
+      "approx_tokens": 11822
     },
     {
       "path": "SYMBOLS_p16.md",
       "lines": 500,
-      "approx_tokens": 12162
+      "approx_tokens": 11901
     },
     {
       "path": "SYMBOLS_p17.md",
       "lines": 500,
-      "approx_tokens": 11974
+      "approx_tokens": 11910
     },
     {
       "path": "SYMBOLS_p18.md",
       "lines": 500,
-      "approx_tokens": 12220
+      "approx_tokens": 12053
     },
     {
       "path": "SYMBOLS_p19.md",
       "lines": 500,
-      "approx_tokens": 12168
+      "approx_tokens": 12094
     },
     {
       "path": "SYMBOLS_p2.md",
       "lines": 500,
-      "approx_tokens": 12523
+      "approx_tokens": 12557
     },
     {
       "path": "SYMBOLS_p20.md",
       "lines": 500,
-      "approx_tokens": 11267
+      "approx_tokens": 11576
     },
     {
       "path": "SYMBOLS_p21.md",
       "lines": 500,
-      "approx_tokens": 13182
+      "approx_tokens": 12900
     },
     {
       "path": "SYMBOLS_p22.md",
       "lines": 500,
-      "approx_tokens": 12056
+      "approx_tokens": 12227
     },
     {
       "path": "SYMBOLS_p23.md",
       "lines": 500,
-      "approx_tokens": 14094
+      "approx_tokens": 12850
     },
     {
       "path": "SYMBOLS_p24.md",
       "lines": 500,
-      "approx_tokens": 14563
+      "approx_tokens": 15121
     },
     {
       "path": "SYMBOLS_p25.md",
       "lines": 500,
-      "approx_tokens": 12165
+      "approx_tokens": 14098
     },
     {
       "path": "SYMBOLS_p26.md",
       "lines": 500,
-      "approx_tokens": 8876
+      "approx_tokens": 8550
     },
     {
       "path": "SYMBOLS_p27.md",
       "lines": 500,
-      "approx_tokens": 9023
+      "approx_tokens": 9607
     },
     {
       "path": "SYMBOLS_p28.md",
       "lines": 500,
-      "approx_tokens": 7822
+      "approx_tokens": 7877
     },
     {
       "path": "SYMBOLS_p29.md",
       "lines": 500,
-      "approx_tokens": 15185
+      "approx_tokens": 12397
     },
     {
       "path": "SYMBOLS_p3.md",
       "lines": 500,
-      "approx_tokens": 12574
+      "approx_tokens": 12580
     },
     {
       "path": "SYMBOLS_p30.md",
       "lines": 500,
-      "approx_tokens": 16095
+      "approx_tokens": 16296
     },
     {
       "path": "SYMBOLS_p31.md",
       "lines": 500,
-      "approx_tokens": 16433
+      "approx_tokens": 15576
     },
     {
       "path": "SYMBOLS_p32.md",
       "lines": 500,
-      "approx_tokens": 15777
+      "approx_tokens": 16713
     },
     {
       "path": "SYMBOLS_p33.md",
       "lines": 500,
-      "approx_tokens": 15779
+      "approx_tokens": 15118
     },
     {
       "path": "SYMBOLS_p34.md",
       "lines": 500,
-      "approx_tokens": 15996
+      "approx_tokens": 16360
     },
     {
       "path": "SYMBOLS_p35.md",
       "lines": 500,
-      "approx_tokens": 14868
+      "approx_tokens": 15659
     },
     {
       "path": "SYMBOLS_p36.md",
       "lines": 500,
-      "approx_tokens": 16444
+      "approx_tokens": 15132
     },
     {
       "path": "SYMBOLS_p37.md",
       "lines": 500,
-      "approx_tokens": 15357
+      "approx_tokens": 15997
     },
     {
       "path": "SYMBOLS_p38.md",
       "lines": 500,
-      "approx_tokens": 15698
+      "approx_tokens": 15659
     },
     {
       "path": "SYMBOLS_p39.md",
       "lines": 500,
-      "approx_tokens": 15923
+      "approx_tokens": 15799
     },
     {
       "path": "SYMBOLS_p4.md",
       "lines": 500,
-      "approx_tokens": 11483
+      "approx_tokens": 11528
     },
     {
       "path": "SYMBOLS_p40.md",
-      "lines": 448,
-      "approx_tokens": 12623
+      "lines": 500,
+      "approx_tokens": 15887
+    },
+    {
+      "path": "SYMBOLS_p41.md",
+      "lines": 276,
+      "approx_tokens": 7216
     },
     {
       "path": "SYMBOLS_p5.md",
       "lines": 500,
-      "approx_tokens": 11585
+      "approx_tokens": 11595
     },
     {
       "path": "SYMBOLS_p6.md",
       "lines": 500,
-      "approx_tokens": 12374
+      "approx_tokens": 12313
     },
     {
       "path": "SYMBOLS_p7.md",
       "lines": 500,
-      "approx_tokens": 11125
+      "approx_tokens": 11341
     },
     {
       "path": "SYMBOLS_p8.md",
       "lines": 500,
-      "approx_tokens": 10467
+      "approx_tokens": 10275
     },
     {
       "path": "SYMBOLS_p9.md",
       "lines": 500,
-      "approx_tokens": 12681
+      "approx_tokens": 12614
     },
     {
       "path": "recipes/add-function.md",
@@ -898,12 +913,12 @@
     {
       "path": "recipes/change-impact.md",
       "lines": 9,
-      "approx_tokens": 108
+      "approx_tokens": 107
     },
     {
       "path": "recipes/fix-cycle.md",
       "lines": 7,
-      "approx_tokens": 183
+      "approx_tokens": 261
     },
     {
       "path": "recipes/fix-security.md",

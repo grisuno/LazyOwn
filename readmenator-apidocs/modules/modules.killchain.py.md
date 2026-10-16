@@ -450,6 +450,8 @@ in the raw ``world_model.json`` AND advances every host in the
 
 *Calls:* [`KillChain.cli_phase_to_host_state`](#killchain-cli_phase_to_host_state), [`HostState`](modules.world_model.py.md#hoststate), [`get_world_model`](modules.world_model.py.md#get_world_model), [`read_state_dict`](modules.world_model.py.md#read_state_dict), [`write_state_dict`](modules.world_model.py.md#write_state_dict)
 
+*Called by:* [`record_outcome`](modules.atomic_exploit_bridge.py.md#record_outcome)
+
 <a id="killchain-get_progress"></a>
 
 #### `KillChain.get_progress`

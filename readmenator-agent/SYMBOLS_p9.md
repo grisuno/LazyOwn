@@ -1,8 +1,44 @@
-# Symbols (page 9 of 40)
+# Symbols (page 9 of 41)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `issue_command` | function | `lazyc2/blueprints/beacon.py:245` | `def issue_command()` |
+| `receive_result` | function | `lazyc2/blueprints/beacon.py:131` | `def receive_result(client_id)` |
+| `send_command` | function | `lazyc2/blueprints/beacon.py:111` | `def send_command(client_id)` |
+| `cve_detail` | function | `lazyc2/blueprints/operations.py:117` | `def cve_detail(cve_id)` |
+| `cves` | function | `lazyc2/blueprints/operations.py:92` | `def cves()` |
+| `edit_cve` | function | `lazyc2/blueprints/operations.py:132` | `def edit_cve(cve_id)` |
+| `edit_notes` | function | `lazyc2/blueprints/operations.py:158` | `def edit_notes()` |
+| `edit_task` | function | `lazyc2/blueprints/operations.py:66` | `def edit_task(task_id)` |
+| `event_config` | function | `lazyc2/blueprints/operations.py:192` | `def event_config()` |
+| `event_config_view` | function | `lazyc2/blueprints/operations.py:198` | `def event_config_view()` |
+| `events` | function | `lazyc2/blueprints/operations.py:218` | `def events()` |
+| `get_notes` | function | `lazyc2/blueprints/operations.py:173` | `def get_notes()` |
+| `get_tasks` | function | `lazyc2/blueprints/operations.py:48` | `def get_tasks()` |
+| `task_detail` | function | `lazyc2/blueprints/operations.py:33` | `def task_detail(task_id)` |
+| `tasks` | function | `lazyc2/blueprints/operations.py:57` | `def tasks()` |
+| `view_note` | function | `lazyc2/blueprints/operations.py:182` | `def view_note()` |
+| `_get_config` | function | `lazyc2/blueprints/phishing.py:43` | `def _get_config(key, default)` |
+| `create_short_url` | function | `lazyc2/blueprints/phishing.py:49` | `def create_short_url()` |
+| `download_files` | function | `lazyc2/blueprints/phishing.py:192` | `def download_files(filename)` |
+| `redirect_to_file` | function | `lazyc2/blueprints/phishing.py:151` | `def redirect_to_file(short_url)` |
+| `track_interaction` | function | `lazyc2/blueprints/phishing.py:89` | `def track_interaction(short_url)` |
+| `update_short_url` | function | `lazyc2/blueprints/phishing.py:125` | `def update_short_url(short_url)` |
+| `webserver_report` | function | `lazyc2/blueprints/phishing.py:174` | `def webserver_report(filename)` |
+| `_guard` | function | `lazyc2/blueprints/session_auth.py:36` | `def _guard()` |
+| `require_operator_session` | function | `lazyc2/blueprints/session_auth.py:20` | `def require_operator_session(blueprint, login_endpoint)` |
+| `decoy_response` | function | `lazyc2/extensions/decoy.py:12` | `def decoy_response()` |
+| `_get_safe_file_path` | function | `lazyc2/extensions/short_urls.py:74` | `def _get_safe_file_path(user_path)` |
+| `configure` | function | `lazyc2/extensions/short_urls.py:21` | `def configure(sessions_phishing_dir)` |
+| `is_valid_url` | function | `lazyc2/extensions/short_urls.py:104` | `def is_valid_url(url)` |
+| `load_short_urls` | function | `lazyc2/extensions/short_urls.py:33` | `def load_short_urls()` |
+| `save_short_urls` | function | `lazyc2/extensions/short_urls.py:59` | `def save_short_urls(data)` |
+| `configure` | function | `lazyc2/extensions/storage.py:18` | `def configure(sessions_dir)` |
+| `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
+| `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
+| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
+| `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
 | `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
 | `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
 | `load_tasks` | function | `lazyc2/extensions/storage.py:31` | `def load_tasks()` |
@@ -460,41 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `_build_local_page` | method | `lazygui/windows/connect_dialog.py:135` | `def _build_local_page(self)` |
 | `_build_teamserver_page` | method | `lazygui/windows/connect_dialog.py:150` | `def _build_teamserver_page(self)` |
 | `_on_kind_changed` | method | `lazygui/windows/connect_dialog.py:186` | `def _on_kind_changed(self, index)` |
-| `_restore_last_choice` | method | `lazygui/windows/connect_dialog.py:168` | `def _restore_last_choice(self)` |
-| `persist_choice` | method | `lazygui/windows/connect_dialog.py:120` | `def persist_choice(self)` |
-| `request` | method | `lazygui/windows/connect_dialog.py:105` | `def request(self)` |
-| `MainWindow` | class | `lazygui/windows/main_window.py:37` | `class MainWindow(QMainWindow)` |
-| `__init__` | method | `lazygui/windows/main_window.py:40` | `def __init__(self, constants, settings, theme_manager, backend, event_log, parent)` |
-| `_apply` | function | `lazygui/windows/main_window.py:314` | `def _apply()` |
-| `_build_palette_actions` | method | `lazygui/windows/main_window.py:261` | `def _build_palette_actions(self)` |
-| `_emit_request_connect` | method | `lazygui/windows/main_window.py:372` | `def _emit_request_connect(self)` |
-| `_install_layout` | method | `lazygui/windows/main_window.py:108` | `def _install_layout(self)` |
-| `_install_menu_bar` | method | `lazygui/windows/main_window.py:131` | `def _install_menu_bar(self)` |
-| `_install_shortcuts` | method | `lazygui/windows/main_window.py:220` | `def _install_shortcuts(self)` |
-| `_install_statusbar` | method | `lazygui/windows/main_window.py:195` | `def _install_statusbar(self)` |
-| `_install_toolbar` | method | `lazygui/windows/main_window.py:171` | `def _install_toolbar(self)` |
-| `_make_panel_toggle` | method | `lazygui/windows/main_window.py:300` | `def _make_panel_toggle(self, panel)` |
-| `_make_theme_apply` | method | `lazygui/windows/main_window.py:311` | `def _make_theme_apply(self, identifier)` |
-| `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
-| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
-| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
-| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
-| `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
-| `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
-| `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
-| `_restore_geometry_and_state` | method | `lazygui/windows/main_window.py:252` | `def _restore_geometry_and_state(self)` |
-| `_show_beacon_command_modal` | method | `lazygui/windows/main_window.py:354` | `def _show_beacon_command_modal(self)` |
-| `_show_command_palette` | method | `lazygui/windows/main_window.py:361` | `def _show_command_palette(self)` |
-| `_tick_clock` | method | `lazygui/windows/main_window.py:386` | `def _tick_clock(self)` |
-| `_toggle` | function | `lazygui/windows/main_window.py:303` | `def _toggle()` |
-| `closeEvent` | method | `lazygui/windows/main_window.py:99` | `def closeEvent(self, event)` |
-| `panels` | method | `lazygui/windows/main_window.py:398` | `def panels(self)` |
-| `status_badge` | method | `lazygui/windows/main_window.py:393` | `def status_badge(self)` |
-| `window_requests_connect` | method | `lazygui/windows/main_window.py:376` | `def window_requests_connect(self)` |
-| `extract_ips_from_arp` | function | `lazyown-docker/hostdiscover.sh:21` | `` |
-| `extract_listening_ips_from_netstat` | function | `lazyown-docker/hostdiscover.sh:26` | `` |
-| `build_image` | function | `lazyown-docker/mkdocker.sh:93` | `` |
-| `check_docker` | function | `lazyown-docker/mkdocker.sh:41` | `` |
-| `check_file` | function | `lazyown-docker/mkdocker.sh:49` | `` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

@@ -203,6 +203,47 @@ def _update_task_status(title: str, new_status: str) -> bool:
             return False
 
 
+def _credential_worth_task(cred: object) -> bool:
+    """Return True when a detected credential deserves its own task.
+
+    Rejects timestamps, URLs, bare IPs and other parser false positives
+    (the exact junk that once flooded tasks.json), using the shared
+    ``is_likely_credential`` classifier. Never raises.
+    """
+    try:
+        from lazyown_mcp_helpers import is_likely_credential
+    except ImportError:
+        try:
+            from skills.lazyown_mcp_helpers import is_likely_credential  # type: ignore
+        except ImportError:
+            return True
+    try:
+        value = cred.get("value", "") if isinstance(cred, dict) else str(cred)
+        ok, conf, _reason = is_likely_credential(value)
+        return bool(ok and conf >= 0.5)
+    except Exception:
+        return True
+
+
+def _task_title_open(title: str) -> bool:
+    """Return True when an identical non-terminal task already exists."""
+    try:
+        if not TASKS_FILE.exists():
+            return False
+        tasks = json.loads(TASKS_FILE.read_text(encoding="utf-8"))
+        if not isinstance(tasks, list):
+            return False
+        wanted = (title or "").strip()
+        return any(
+            isinstance(t, dict)
+            and (t.get("title") or "").strip() == wanted
+            and t.get("status") not in ("Done", "Qa", "Blocked")
+            for t in tasks
+        )
+    except Exception:
+        return False
+
+
 def _inject_to_tasks_json(
     title: str,
     description: str = "",
@@ -4338,6 +4379,8 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         new_hosts = curr_hosts - prev_hosts
         for host in new_hosts:
             text = f"Enumerate newly discovered host {host}"
+            if _task_title_open(text):
+                continue
             try:
                 obj = store.inject(
                     text=text,
@@ -4370,7 +4413,11 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
             creds = snap.get("credentials", [])[-new_count:]
             for cred in creds:
                 cred_str = json.dumps(cred)[:80]
+                if not _credential_worth_task(cred):
+                    continue
                 text = f"Leverage new credential: {cred_str}"
+                if _task_title_open(text):
+                    continue
                 try:
                     obj = store.inject(
                         text=text,

@@ -1,5 +1,26 @@
-# API (page 4 of 22)
+# API (page 4 of 23)
 Previous: [API_p3.md](API_p3.md)
+
+## cli/engagement_hooks.py
+Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
+Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
+- `heal_commands_seen` (function) `cli/engagement_hooks.py:366` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
+- `get_karma_name` (function) `cli/engagement_hooks.py:717` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
+- `render_engagement_hook` (function) `cli/engagement_hooks.py:899` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
+- `get_state_snapshot` (function) `cli/engagement_hooks.py:979` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
+- `reset_session` (function) `cli/engagement_hooks.py:1067` `def reset_session()` -- Reset session counters without clearing cross-session progress.
+
+## cli/exploit_advisor.py
+Depends on: `core/console.py`
+Imported by: `cli/commands/recon.py`
+- `ServiceInfo.search_query` (method) `cli/exploit_advisor.py:122` `def search_query(self)` -- Best query string for searchsploit / NVD.
+- `ServiceInfo.display_name` (method) `cli/exploit_advisor.py:128` `def display_name(self)`
+- `ServiceInfo.next_commands` (method) `cli/exploit_advisor.py:132` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
+- `parse_nmap_xml` (function) `cli/exploit_advisor.py:164` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
+- `find_nmap_xml` (function) `cli/exploit_advisor.py:203` `def find_nmap_xml(rhost, sessions_dir)` -- Return all nmap XML files for a given rhost, newest first.
+- `print_exploit_summary` (function) `cli/exploit_advisor.py:222` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
+- `save_ss_results` (function) `cli/exploit_advisor.py:296` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
+- `inject_exploit_tasks` (function) `cli/exploit_advisor.py:338` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
 
 ## cli/exploration.py
 Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/exploration_view.py`, `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `cli/recon_plan.py`, `lazyown.py`, `tests/test_command_chain.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
@@ -150,33 +171,39 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tool
 - `run_monitor_session` (function) `cli/lazy_monitor.py:589` `def run_monitor_session(engine, config, params)` -- Run the loop inside the monitor (``lazy_loop --view``).
 
 ## cli/lazy_orchestrator.py
-Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
+Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
 Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`
 - `FormModal.__init__` (method) `cli/lazy_orchestrator.py:86` `def __init__(self, title, fields)` -- Store the title and (id, label, placeholder) field specs.
 - `FormModal.compose` (method) `cli/lazy_orchestrator.py:92` `def compose(self)` -- One labeled input per field plus a save button.
 - `FormModal.on_button_pressed` (method) `cli/lazy_orchestrator.py:101` `def on_button_pressed(self, event)` -- Collect the values and close the modal.
 - `FormModal.on_input_submitted` (method) `cli/lazy_orchestrator.py:110` `def on_input_submitted(self, event)` -- Enter commits the form like the save button.
 - `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:142` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
-- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:152` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:177` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:187` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:196` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:205` `def add_auto_verb(self, name, keywords, needs_target, description)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:220` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.save_config` (method) `cli/lazy_orchestrator.py:289` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
-- `LazyOrchestratorApp.add_model_member` (method) `cli/lazy_orchestrator.py:311` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
-- `LazyOrchestratorApp.remove_model_member` (method) `cli/lazy_orchestrator.py:319` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
-- `LazyOrchestratorApp.set_model_priority` (method) `cli/lazy_orchestrator.py:327` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `LazyOrchestratorApp.add_guard_rule` (method) `cli/lazy_orchestrator.py:339` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `LazyOrchestratorApp.remove_guard_rule` (method) `cli/lazy_orchestrator.py:347` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:451` `def on_button_pressed(self, event)` -- Handle the config save button.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:469` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:486` `def action_toggle_item(self)` -- Toggle the selected stage or auto verb.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:498` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:515` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:575` `def action_edit_item(self)` -- Edit the selected LLM member's priority (models tab only).
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:609` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:651` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
+- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:153` `def compose(self)` -- Build the four panes.
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:182` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:193` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:202` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:211` `def add_auto_verb(self, name, keywords, needs_target, description)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:226` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.chain_rows` (method) `cli/lazy_orchestrator.py:242` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
+- `LazyOrchestratorApp.chain_steps_preview` (method) `cli/lazy_orchestrator.py:251` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
+- `LazyOrchestratorApp.toggle_chain` (method) `cli/lazy_orchestrator.py:268` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
+- `LazyOrchestratorApp.generate_chain` (method) `cli/lazy_orchestrator.py:279` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
+- `LazyOrchestratorApp.remove_chain` (method) `cli/lazy_orchestrator.py:293` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
+- `LazyOrchestratorApp.on_data_table_row_highlighted` (method) `cli/lazy_orchestrator.py:349` `def on_data_table_row_highlighted(self, event)` -- Refresh the chains detail pane when the cursor moves.
+- `LazyOrchestratorApp.save_config` (method) `cli/lazy_orchestrator.py:423` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
+- `LazyOrchestratorApp.add_model_member` (method) `cli/lazy_orchestrator.py:445` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
+- `LazyOrchestratorApp.remove_model_member` (method) `cli/lazy_orchestrator.py:453` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
+- `LazyOrchestratorApp.set_model_priority` (method) `cli/lazy_orchestrator.py:461` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
+- `LazyOrchestratorApp.add_guard_rule` (method) `cli/lazy_orchestrator.py:473` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `LazyOrchestratorApp.remove_guard_rule` (method) `cli/lazy_orchestrator.py:481` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:585` `def on_button_pressed(self, event)` -- Handle the config save button.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:603` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:621` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:637` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:654` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:730` `def action_edit_item(self)` -- Edit the selected LLM member's priority (models tab only).
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:764` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:810` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`
@@ -466,14 +493,6 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_sessions_browser.py`
 ## cli/show.py
 Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
 - `format_payload` (function) `cli/show.py:14` `def format_payload(params)` -- Render ``params`` as a sorted, aligned ``key = value`` block.
-
-## cli/splash.py
-Depends on: `cli/style.py`, `core/console.py`
-Imported by: `lazyown.py`, `tests/test_tui_splash.py`
-- `SplashEffect.render` (method) `cli/splash.py:71` `def render(self, console, lines, tokens, config)`
-- `TypewriterEffect.render` (method) `cli/splash.py:90` `def render(self, console, lines, tokens, config)`
-- `InstantEffect.render` (method) `cli/splash.py:150` `def render(self, console, lines, tokens, config)`
-- `render_splash` (function) `cli/splash.py:166` `def render_splash(console, lines, payload, config, effect_name)` -- Render the splash overlay and optionally clear the screen.
 
 
 Next: [API_p5.md](API_p5.md)

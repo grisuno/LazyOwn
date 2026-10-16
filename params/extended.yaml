@@ -11,6 +11,11 @@
 # All files are loaded alphabetically at shell startup.
 
 target: ""
+action: "search"
+query: ""
+technique_id: ""
+platform: ""
+note_text: ""
 cloud_provider: "aws"
 cloud_region: "us-east-1"
 region: "us-east-1"

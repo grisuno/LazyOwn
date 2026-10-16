@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 29 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
+static/js groups 28 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -59,7 +59,7 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 
 ## tests (8.9)
 
-tests groups 3 files (py) around _add_repo_root_to_syspath, TestApplyAssign, test_returns_true_when_key_exists, test_returns_false_when_key_missing, test_does_not_invoke_save_on_failure. ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
+tests groups 2 files (py) around TestLoadPayload, test_returns_dict_with_expected_keys, test_roundtrips_values_correctly, test_handles_malformed_json, test_copies_from_example_when_payload_missing. Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
 
 **Files**:
 
@@ -89,6 +89,5 @@ tests groups 3 files (py) around _add_repo_root_to_syspath, TestApplyAssign, tes
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
-- tests/test_cli_assign.py
 - tests/test_core_config.py
 - tests/test_payload_schema.py

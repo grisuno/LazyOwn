@@ -78,12 +78,19 @@ flowchart LR
     n_modules_apt_playbooks_py__AtomicTestRef(["AtomicTestRef"])
     n_modules_apt_playbooks_py__CalderaAbilityRef(["CalderaAbilityRef"])
     n_modules_apt_playbooks_py__PhaseStep(["PhaseStep"])
+    n_modules_apt_playbooks_py__AptPlaybookEngine_validate(["AptPlaybookEngine.validate"])
+    n_modules_atomic_resolver_py__get_resolver["atomic_resolver.get_resolver"]
+    n_modules_atomic_resolver_py__is_guid["atomic_resolver.is_guid"]
+    n_modules_atomic_resolver_py__is_mitre_id["atomic_resolver.is_mitre_id"]
     n_modules_apt_playbooks_py__AptPlaybookEngine_generate_attack_plan(["AptPlaybookEngine.generate_attack_plan"])
     n_core_console_py__print_succ["console.print_succ"]
     n_modules_apt_playbooks_py__AptPlaybookEngine_report_json(["AptPlaybookEngine.report_json"])
     n_modules_apt_playbooks_py__AptPlaybook_from_dict --> n_modules_apt_playbooks_py__AtomicTestRef
     n_modules_apt_playbooks_py__AptPlaybook_from_dict --> n_modules_apt_playbooks_py__CalderaAbilityRef
     n_modules_apt_playbooks_py__AptPlaybook_from_dict --> n_modules_apt_playbooks_py__PhaseStep
+    n_modules_apt_playbooks_py__AptPlaybookEngine_validate -.-> n_modules_atomic_resolver_py__get_resolver
+    n_modules_apt_playbooks_py__AptPlaybookEngine_validate -.-> n_modules_atomic_resolver_py__is_guid
+    n_modules_apt_playbooks_py__AptPlaybookEngine_validate -.-> n_modules_atomic_resolver_py__is_mitre_id
     n_modules_apt_playbooks_py__AptPlaybookEngine_generate_attack_plan -.-> n_core_console_py__print_succ
     n_modules_apt_playbooks_py__AptPlaybookEngine_report_json -.-> n_core_console_py__print_succ
 ```
@@ -266,7 +273,7 @@ def __init__(self, playbook_dir: str = 'playbooks')
 |---|---|---|---|
 | `playbook_dir` | `str` | `'playbooks'` |  |
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
 
 <a id="aptplaybookengine-list_playbooks"></a>
 
@@ -300,7 +307,7 @@ def get(self, name: str) -> AptPlaybook | None
 
 **Returns:** `AptPlaybook | None`
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.chain_steps_preview`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_steps_preview), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
 
 <a id="aptplaybookengine-validate"></a>
 
@@ -314,6 +321,11 @@ def validate(self, pb: AptPlaybook, atomic_path: str | None = None) -> dict[str,
 
 Validate that all referenced atomic tests exist locally.
 
+Playbooks store MITRE technique IDs (``T1059.001``) or raw test
+GUIDs in `[`atomic_id`](#atomictestref-atomic_id)`. Technique IDs resolve through
+[`modules.atomic_resolver`](modules.atomic_resolver.py.md); GUIDs match against the local
+Atomic index. Unknown formats are reported missing, never crash.
+
 **Parameters**
 
 | Name | Type | Default | Description |
@@ -323,13 +335,15 @@ Validate that all referenced atomic tests exist locally.
 
 **Returns:** `dict[str, Any]`
 
+*Calls:* [`get_resolver`](modules.atomic_resolver.py.md#get_resolver), [`is_guid`](modules.atomic_resolver.py.md#is_guid), [`is_mitre_id`](modules.atomic_resolver.py.md#is_mitre_id)
+
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook)
 
 <a id="aptplaybookengine-generate_attack_plan"></a>
 
 #### `AptPlaybookEngine.generate_attack_plan`
 
-`method` | [modules/apt_playbooks.py:189](../../modules/apt_playbooks.py#L189)
+`method` | [modules/apt_playbooks.py:213](../../modules/apt_playbooks.py#L213)
 
 ```python
 def generate_attack_plan(self, pb: AptPlaybook, output_path: str) -> None
@@ -352,7 +366,7 @@ Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
 
 #### `AptPlaybookEngine.report_json`
 
-`method` | [modules/apt_playbooks.py:204](../../modules/apt_playbooks.py#L204)
+`method` | [modules/apt_playbooks.py:230](../../modules/apt_playbooks.py#L230)
 
 ```python
 def report_json(self, pb: AptPlaybook, output_path: str) -> None

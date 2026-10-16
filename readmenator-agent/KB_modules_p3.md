@@ -1,6 +1,155 @@
 # Subsystem: modules (page 3 of 14)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/cli_auth.py
+- Doc: CLI authentication module — login against users.json with remember-me.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_users` (function, line 34) `def _load_users()`
+  - `_save_users` (function, line 52) `def _save_users(users)`
+  - `_load_payload` (function, line 85) `def _load_payload()`
+  - `_save_payload` (function, line 100) `def _save_payload(payload)`
+  - `user_exists` (function, line 122) `def user_exists(username)`
+  - `register` (function, line 145) `def register(username, password)`
+  - `verify_password` (function, line 214) `def verify_password(username, password)`
+  - `login` (function, line 240) `def login(username, password, remember)`
+  - `logout` (function, line 293) `def logout()`
+  - `try_auto_login` (function, line 328) `def try_auto_login()`
+  - `whoami` (function, line 366) `def whoami()`
+  - `get_current_operator` (function, line 396) `def get_current_operator()`
+  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
+  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
+  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
+  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
+  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
+  - `needs_login` (function, line 487) `def needs_login()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+
+## modules/cloud_enum.py
+- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
+  - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
+  - `detect_provider` (method, line 47) `def detect_provider(self)`
+  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
+  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
+  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
+  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
+  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
+  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
+  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
+  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
+  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
+  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
+  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
+  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
+  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
+- Imported by: `cli/commands/cloud.py`
+
+## modules/collab_bp.py
+- Doc: modules/collab_bp.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_authenticated_operator` (function, line 90) `def _authenticated_operator()`
+  - `_check_collab_permission` (function, line 100) `def _check_collab_permission(perm_name)`
+  - `_collab_login_required` (function, line 120) `def _collab_login_required(f)`
+  - `_collab_permission_required` (function, line 136) `def _collab_permission_required(perm_name)`
+  - `ColabEvent` (class, line 163) `class ColabEvent`
+  - `OperatorInfo` (class, line 176) `class OperatorInfo`
+  - `EventBus` (class, line 188) `class EventBus`
+  - `TargetLock` (class, line 250) `class TargetLock`
+  - `LockManager` (class, line 257) `class LockManager`
+  - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
+  - `get_event_bus` (function, line 370) `def get_event_bus()`
+  - `get_lock_manager` (function, line 374) `def get_lock_manager()`
+  - `get_operator_registry` (function, line 378) `def get_operator_registry()`
+  - `publish_event` (function, line 382) `def publish_event(type, payload, operator)`
+  - `collab_ui` (function, line 396) `def collab_ui()`
+  - `stream` (function, line 411) `def stream()`
+  - `operators` (function, line 458) `def operators()`
+  - `publish` (function, line 470) `def publish()`
+  - `lock` (function, line 483) `def lock()`
+  - `unlock` (function, line 504) `def unlock()`
+  - `locks` (function, line 522) `def locks()`
+  - `history` (function, line 537) `def history()`
+  - `decorated` (function, line 124) `def decorated()`
+  - `decorator` (function, line 139) `def decorator(f)`
+  - `to_sse` (method, line 170) `def to_sse(self)`
+  - `__init__` (method, line 198) `def __init__(self)`
+  - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
+  - `unsubscribe` (method, line 215) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 219) `def publish(self, event)`
+  - `recent` (method, line 234) `def recent(self, n)`
+  - `reset` (method, line 238) `def reset(self)`
+  - `__init__` (method, line 263) `def __init__(self)`
+  - `acquire` (method, line 267) `def acquire(self, target, operator, ttl_secs)`
+  - `release` (method, line 279) `def release(self, target, operator)`
+  - `status` (method, line 287) `def status(self, target)`
+  - `all_locks` (method, line 292) `def all_locks(self)`
+  - `_expire` (method, line 297) `def _expire(self)`
+  - `reset` (method, line 304) `def reset(self)`
+  - `__init__` (method, line 319) `def __init__(self)`
+  - `join` (method, line 323) `def join(self, name)`
+  - `heartbeat` (method, line 334) `def heartbeat(self, name)`
+  - `leave` (method, line 340) `def leave(self, name)`
+  - `active_operators` (method, line 345) `def active_operators(self)`
+  - `_expire` (method, line 350) `def _expire(self)`
+  - `reset` (method, line 356) `def reset(self)`
+  - `generate` (function, line 424) `def generate()`
+  - `login_required` (function, line 80) `def login_required(f)`
+  - `decorated` (function, line 141) `def decorated()`
+  - `decorated` (function, line 84) `def decorated()`
+- Depends on: `core/logging.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+
+## modules/colors.py
+- Doc: retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `retModel` (function, line 40) `def retModel()`
+  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
+  - `no_html` (function, line 74) `def no_html(content)`
+- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+
+## modules/command_executor.py
+- Doc: UnifiedCommandExecutor — shared shell command execution service.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `set_thread_timeout` (function, line 41) `def set_thread_timeout(seconds)`
+  - `clear_thread_timeout` (function, line 46) `def clear_thread_timeout()`
+  - `thread_timeout` (function, line 54) `def thread_timeout()`
+  - `set_thread_stdin_devnull` (function, line 59) `def set_thread_stdin_devnull(enabled)`
+  - `clear_thread_stdin_devnull` (function, line 64) `def clear_thread_stdin_devnull()`
+  - `thread_stdin_devnull` (function, line 72) `def thread_stdin_devnull()`
+  - `_kill_process_group` (function, line 77) `def _kill_process_group(proc)`
+  - `ExecutionResult` (class, line 97) `class ExecutionResult`
+  - `CommandExecutor` (class, line 106) `class CommandExecutor`
+  - `get_executor` (function, line 426) `def get_executor()`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `instance` (method, line 122) `def instance(cls)`
+  - `add_hook` (method, line 127) `def add_hook(self, hook)`
+  - `run` (method, line 131) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 165) `def _needs_shell(self, command)`
+  - `_argv` (method, line 173) `def _argv(self, command)`
+  - `run_passthrough` (method, line 179) `def run_passthrough(self, command, env)`
+  - `run_tee` (method, line 194) `def run_tee(self, command)`
+  - `_default_writer` (method, line 291) `def _default_writer(line)`
+  - `_run_capture` (method, line 296) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 321) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 358) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 394) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 401) `def _publish_event(self, result)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+- Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
+
 ## modules/compliance.py
 - Doc: modules/compliance.py
 - Layer: utility
@@ -345,152 +494,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
 - Depends on: `core/logging.py`, `modules/detection_feed.py`
 - Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
-
-## modules/dns_beacon.py
-- Doc: DNS Beacon — covert C2 channel via DNS tunneling.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DNSBeacon` (class, line 23) `class DNSBeacon`
-  - `DNSC2Server` (class, line 199) `class DNSC2Server`
-  - `__init__` (method, line 38) `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
-  - `_ensure_dnspython` (method, line 57) `def _ensure_dnspython(self)`
-  - `_encode` (method, line 63) `def _encode(self, data)`
-  - `_decode` (method, line 70) `def _decode(self, data)`
-  - `_jittered_sleep` (method, line 78) `def _jittered_sleep(self)`
-  - `_dns_query` (method, line 84) `def _dns_query(self, name, qtype)`
-  - `_build_query` (method, line 96) `def _build_query(self, msg_type, payload)`
-  - `check_in` (method, line 105) `def check_in(self)`
-  - `send_result` (method, line 135) `def send_result(self, command, output, exit_code)`
-  - `run` (method, line 171) `def run(self)`
-  - `__init__` (method, line 211) `def __init__(self, domain, log_source, interface)`
-  - `register_beacon` (method, line 225) `def register_beacon(self, beacon_id, hostname)`
-  - `list_beacons` (method, line 235) `def list_beacons(self)`
-  - `send_task` (method, line 239) `def send_task(self, beacon_id, command)`
-  - `process_query_log` (method, line 248) `def process_query_log(self, line)`
-  - `_handle_result` (method, line 294) `def _handle_result(self, labels, query)`
-  - `get_results` (method, line 327) `def get_results(self, beacon_id)`
-- Depends on: `core/safe_exec.py`
-- Imported by: `cli/commands/dns_exfil.py`
-
-## modules/domain_dominance.py
-- Doc: Domain Dominance Engine — automated Active Directory takeover.
-- Layer: business_logic
-- Language: py
-- Symbols:
-  - `DomainInfo` (class, line 49) `class DomainInfo`
-  - `CredentialStash` (class, line 65) `class CredentialStash`
-  - `DominanceResult` (class, line 75) `class DominanceResult`
-  - `DomainDominance` (class, line 89) `class DomainDominance`
-  - `__init__` (method, line 103) `def __init__(self)`
-  - `get_instance` (method, line 110) `def get_instance(cls)`
-  - `dominate` (method, line 121) `def dominate(self, domain, dc_ip, username, password, ntlm_hash)`
-  - `enumerate_domain` (method, line 194) `def enumerate_domain(self, domain, dc_ip)`
-  - `extract_credentials` (method, line 227) `def extract_credentials(self, domain_info, known_creds)`
-  - `escalate` (method, line 260) `def escalate(self, domain_info, stash)`
-  - `persist` (method, line 314) `def persist(self, domain_info)`
-  - `_discover_dc` (method, line 340) `def _discover_dc(self, domain, dns_servers)`
-  - `_find_dcs` (method, line 366) `def _find_dcs(self, domain, dc_ip)`
-  - `_find_domain_admins` (method, line 392) `def _find_domain_admins(self, domain, dc_ip)`
-  - `_enumerate_users` (method, line 426) `def _enumerate_users(self, dc_ip)`
-  - `_enumerate_computers` (method, line 469) `def _enumerate_computers(self, dc_ip)`
-  - `_enumerate_groups` (method, line 495) `def _enumerate_groups(self, dc_ip)`
-  - `_enumerate_spns` (method, line 516) `def _enumerate_spns(self, dc_ip)`
-  - `_enumerate_trusts` (method, line 546) `def _enumerate_trusts(self, domain, dc_ip)`
-  - `_asrep_roast` (method, line 575) `def _asrep_roast(self, domain_info)`
-  - `_kerberoast` (method, line 625) `def _kerberoast(self, domain_info)`
-  - `_psexec_session` (method, line 666) `def _psexec_session(self, target, domain, user, password)`
-  - `_wmiexec_session` (method, line 697) `def _wmiexec_session(self, target, domain, user, password)`
-  - `_pth_session` (method, line 728) `def _pth_session(self, target, domain, user, ntlm_hash)`
-  - `_attempt_dcsync` (method, line 768) `def _attempt_dcsync(self, dc_ip)`
-  - `_load_config` (method, line 827) `def _load_config(self)`
-  - `_domain_to_dn` (method, line 838) `def _domain_to_dn(self, domain)`
-  - `_seal_loot_secret` (method, line 850) `def _seal_loot_secret(secret)`
-  - `_unseal_loot_secret` (method, line 871) `def _unseal_loot_secret(stored)`
-  - `_save_credential` (method, line 890) `def _save_credential(self, username, secret, secret_type, source)`
-  - `_save_session` (method, line 924) `def _save_session(self, session_id, target, method, user)`
-  - `_save_dominance_report` (method, line 944) `def _save_dominance_report(self)`
-- Depends on: `core/hardening.py`
-- Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
-
-## modules/dotnet_payload.py
-- Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DotNetPayloadConfig` (class, line 293) `class DotNetPayloadConfig`
-  - `DotNetPayloadFactory` (class, line 315) `class DotNetPayloadFactory`
-  - `__init__` (method, line 327) `def __init__(self, output_dir)`
-  - `_detect_compiler` (method, line 333) `def _detect_compiler()`
-  - `list_templates` (method, line 364) `def list_templates()`
-  - `_resolve_template` (method, line 368) `def _resolve_template(self, config)`
-  - `generate_source` (method, line 389) `def generate_source(self, config)`
-  - `compile` (method, line 403) `def compile(self, config, source_code)`
-  - `generate` (method, line 454) `def generate(self, config)`
-  - `generate_powershell_reflective` (method, line 481) `def generate_powershell_reflective(self, config)`
-  - `generate_inline_assembly` (method, line 500) `def generate_inline_assembly(self, config)`
-  - `to_format` (method, line 520) `def to_format(self, data, fmt)`
-- Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/dpapi_harvester.py
-- Doc: DPAPI credential decryption and harvesting engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DPAPICredential` (class, line 44) `class DPAPICredential`
-  - `DPAPIMasterKey` (class, line 54) `class DPAPIMasterKey`
-  - `DPAPIHarvester` (class, line 63) `class DPAPIHarvester`
-  - `__init__` (method, line 79) `def __init__(self, sessions_dir, masterkey_path)`
-  - `harvest_all` (method, line 90) `def harvest_all(self)`
-  - `_harvest_master_keys` (method, line 105) `def _harvest_master_keys(self)`
-  - `_harvest_credential_manager` (method, line 120) `def _harvest_credential_manager(self)`
-  - `_harvest_chrome` (method, line 143) `def _harvest_chrome(self)`
-  - `_harvest_chrome_offline` (method, line 188) `def _harvest_chrome_offline(self)`
-  - `_harvest_edge` (method, line 198) `def _harvest_edge(self)`
-  - `_harvest_wifi` (method, line 210) `def _harvest_wifi(self)`
-  - `_harvest_rdp` (method, line 250) `def _harvest_rdp(self)`
-  - `_harvest_windows_vault` (method, line 262) `def _harvest_windows_vault(self)`
-  - `_crack_login_data` (method, line 286) `def _crack_login_data(self, login_db_path, key, source)`
-  - `_crack_cookies` (method, line 320) `def _crack_cookies(self, cookies_path, key, source)`
-  - `_extract_sid_from_file` (method, line 355) `def _extract_sid_from_file(filepath)`
-  - `export_credentials` (method, line 367) `def export_credentials(self)`
-  - `masterkey_report` (method, line 386) `def masterkey_report(self)`
-  - `DATA_BLOB` (class, line 160) `class DATA_BLOB(Structure)`
-- Imported by: `cli/commands/dpapi.py`
-
-## modules/duckdns.sh
-- Doc: Solicita el TOKEN y el DOMAIN al usuario
-- Layer: utility
-- Language: sh
-
-## modules/edr_detector.py
-- Doc: EDR/AV Detection and Evasion Profiling Engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EDRFinding` (class, line 174) `class EDRFinding`
-  - `EDRProfile` (class, line 182) `class EDRProfile`
-  - `EDRDetector` (class, line 191) `class EDRDetector`
-  - `detect_local` (method, line 202) `def detect_local()`
-  - `detect_remote_commands` (method, line 221) `def detect_remote_commands(remote_type)`
-  - `_local_processes` (method, line 292) `def _local_processes()`
-  - `_local_services` (method, line 305) `def _local_services()`
-  - `_local_drivers` (method, line 322) `def _local_drivers()`
-  - `_match_signatures` (method, line 335) `def _match_signatures(profile)`
-  - `_generate_recommendations` (method, line 370) `def _generate_recommendations(profile)`
-  - `_severity` (method, line 428) `def _severity(profile)`
-  - `generate_edr_check_script` (method, line 440) `def generate_edr_check_script(remote_type)`
-- Imported by: `cli/commands/edr_detect.py`
-
-## modules/eegg.sh
-- Doc: Definición de colores
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `init_board` (function, line 26)
-  - `show_board` (function, line 40)
-  - `move_white_pawns` (function, line 61)
-  - `move_black_pawns` (function, line 78)
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

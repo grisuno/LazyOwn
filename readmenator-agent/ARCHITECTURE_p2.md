@@ -2,6 +2,20 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/palette_overlay.py` -> `cli/commands/containers.py`
+- `cli/palette_overlay.py` -> `cli/palette.py`
+- `cli/palette_overlay.py` -> `cli/palette_command.py`
+- `cli/palette_overlay.py` -> `cli/palette_telemetry.py`
+- `cli/palette_overlay.py` -> `cli/themes.py`
+- `cli/palette_overlay.py` -> `core/text_utils.py`
+- `cli/protips.py` -> `cli/noise_verbs.py`
+- `cli/protips.py` -> `core/console.py`
+- `cli/purple_tui.py` -> `cli/commands/containers.py`
+- `cli/reactive_hints.py` -> `cli/graph_advisor.py`
+- `cli/reactive_hints.py` -> `cli/noise_verbs.py`
+- `cli/reactive_hints.py` -> `core/console.py`
+- `cli/reactive_hints.py` -> `core/logging.py`
+- `cli/reactive_hints.py` -> `core/text_utils.py`
 - `cli/reasoning_stream.py` -> `core/text_utils.py`
 - `cli/recommendation_signals.py` -> `cli/exploration.py`
 - `cli/recommendation_signals.py` -> `cli/graph_advisor.py`
@@ -159,6 +173,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/attack_surface3d.py`
 - `lazyc2.py` -> `modules/backdoor/server.c`
 - `lazyc2.py` -> `modules/beacon_history.py`
+- `lazyc2.py` -> `modules/c2_surfaces.py`
 - `lazyc2.py` -> `modules/collab_bp.py`
 - `lazyc2.py` -> `modules/colors.py`
 - `lazyc2.py` -> `modules/compliance.py`
@@ -210,6 +225,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/api_v1.py` -> `lazyc2/blueprints/api.py`
 - `lazyc2/blueprints/api_v1.py` -> `modules/beacon_history.py`
 - `lazyc2/blueprints/api_v1.py` -> `modules/db.py`
+- `lazyc2/blueprints/auth.py` -> `cli/commands/enum.py`
 - `lazyc2/blueprints/auth.py` -> `core/logging.py`
 - `lazyc2/blueprints/auth.py` -> `lazyc2/__init__.py`
 - `lazyc2/blueprints/auth.py` -> `lazyc2/extensions/decoy.py`
@@ -474,27 +490,11 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/ai_model.py` -> `core/logging.py`
 - `modules/ai_model.py` -> `modules/llm_factory.py`
 - `modules/apt_playbooks.py` -> `core/console.py`
-- `modules/atomic_enricher.py` -> `core/logging.py`
-- `modules/attack_surface3d.py` -> `cli/surface_graph.py`
-- `modules/attack_surface3d.py` -> `modules/estorides_fusion.py`
-- `modules/attack_surface3d.py` -> `modules/finding_lifecycle.py`
-- `modules/attack_surface3d.py` -> `modules/intel_fusion.py`
-- `modules/auto_purple.py` -> `core/config.py`
-- `modules/auto_purple.py` -> `core/logging.py`
-- `modules/auto_purple.py` -> `core/process.py`
-- `modules/auto_purple.py` -> `modules/detection_oracle.py`
-- `modules/auto_registry.py` -> `modules/command_executor.py`
-- `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py`
-- `modules/auto_registry.py` -> `modules/lazy_installer.py`
-- `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py`
-- `modules/auto_registry.py` -> `modules/orchestrator_config.py`
-- `modules/autonomous_exploit_engine.py` -> `core/defaults.py`
-- `modules/autonomous_exploit_engine.py` -> `core/safe_exec.py`
-- `modules/autonomous_exploit_engine.py` -> `modules/auto_pivot.py`
-- `modules/autonomous_exploit_engine.py` -> `modules/db.py`
-- `modules/backdoor/backdoor.c` -> `modules/backdoor/keylogger.h`
-- `modules/beacon_config_builder.py` -> `core/config.py`
-- `modules/beacon_config_builder.py` -> `core/logging.py`
-- `modules/beacon_config_builder.py` -> `modules/c2_profile_engine.py`
+- `modules/apt_playbooks.py` -> `modules/atomic_resolver.py`
+- `modules/atomic_cli.py` -> `core/console.py`
+- `modules/atomic_cli.py` -> `core/hardening.py`
+- `modules/atomic_cli.py` -> `core/logging.py`
+- `modules/atomic_cli.py` -> `modules/atomic_resolver.py`
+- `modules/atomic_cli.py` -> `utils.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

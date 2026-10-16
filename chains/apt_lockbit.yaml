@@ -1,0 +1,6 @@
+name: apt_lockbit
+description: Full APT chain for lockbit (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: lockbit

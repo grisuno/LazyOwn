@@ -111,7 +111,7 @@
   - `__init__` (method, line 189) `def __init__(self, max_size_bytes)`
   - `validate` (method, line 192) `def validate(self, content_length)`
 - Depends on: `lazyc2/security/constants.py`, `lazyc2/security/validators.py`
-- Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `modules/c2_agent.py`, `tests/test_security_lazyc2.py`
 
 ## lazyc2/security/trusted_proxy.py
 - Doc: Trusted proxy resolver for the LazyOwn C2 web layer.

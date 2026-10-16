@@ -152,7 +152,7 @@ Route a goal through the unified orchestrator and print the result.
 
 The orchestrator picks one of ``daemon``, ``hive`` or ``swan`` and
 normalises the response into a single dataclass. Use ``--mode`` to
-force a specific backend; the default ``auto`` routes by
+force a specific backend; the default `[`auto`](modules.atomic_exploit_bridge.py.md#auto)` routes by
 signature heuristics.
 
 **Parameters**

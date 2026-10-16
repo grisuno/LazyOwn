@@ -461,7 +461,7 @@ The ``model`` spec accepts an optional ``backend:`` prefix selecting
 the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``pi:`` (local pi agent,
 keyless), ``auto:`` (groq first, then ollama)
 or ``toposwarm:`` (local agentic router, keyless). A bare model name
-resolves through the ``auto`` chain. Empty prompt returns empty
+resolves through the `[`auto`](modules.atomic_exploit_bridge.py.md#auto)` chain. Empty prompt returns empty
 string; any backend outage raises so pool callers can fail over to
 the next leg and finally to the heuristic path.
 

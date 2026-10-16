@@ -1,8 +1,159 @@
-# Symbols (page 17 of 40)
+# Symbols (page 17 of 41)
 Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate_phishing_dialog` | method | `modules/macos_payloads.py:447` | `def generate_phishing_dialog(self)` |
+| `generate_swift_stager` | method | `modules/macos_payloads.py:335` | `def generate_swift_stager(self)` |
+| `generate_tcc_bypass` | method | `modules/macos_payloads.py:268` | `def generate_tcc_bypass(self)` |
+| `list_persistence_methods` | method | `modules/macos_payloads.py:522` | `def list_persistence_methods()` |
+| `list_tcc_services` | method | `modules/macos_payloads.py:517` | `def list_tcc_services()` |
+| `check_collision` | function | `modules/mario.py:105` | `def check_collision(x, y, layer)` |
+| `AgentBridgeWorker` | class | `modules/mcp_agent_bridge.py:468` | `class AgentBridgeWorker` |
+| `GroqAgentWorker` | class | `modules/mcp_agent_bridge.py:234` | `class GroqAgentWorker` |
+| `OllamaReActWorker` | class | `modules/mcp_agent_bridge.py:367` | `class OllamaReActWorker` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:235` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:368` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:471` | `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)` |
+| `_agent_file` | function | `modules/mcp_agent_bridge.py:141` | `def _agent_file(agent_id)` |
+| `_make_client` | function | `modules/mcp_agent_bridge.py:39` | `def _make_client(backend)` |
+| `_ollama_chat` | function | `modules/mcp_agent_bridge.py:92` | `def _ollama_chat(model, messages, max_tokens, timeout)` |
+| `_parse` | method | `modules/mcp_agent_bridge.py:381` | `def _parse(self, text)` |
+| `_read_log` | function | `modules/mcp_agent_bridge.py:150` | `def _read_log(agent_id)` |
+| `_tools` | method | `modules/mcp_agent_bridge.py:248` | `def _tools(self)` |
+| `_write_log` | function | `modules/mcp_agent_bridge.py:145` | `def _write_log(agent_id, entry)` |
+| `dummy_runner` | function | `modules/mcp_agent_bridge.py:531` | `def dummy_runner(cmd)` |
+| `get_agent_result` | function | `modules/mcp_agent_bridge.py:188` | `def get_agent_result(agent_id)` |
+| `get_agent_status` | function | `modules/mcp_agent_bridge.py:163` | `def get_agent_status(agent_id)` |
+| `list_agents` | function | `modules/mcp_agent_bridge.py:211` | `def list_agents(limit)` |
+| `run` | method | `modules/mcp_agent_bridge.py:264` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:389` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:478` | `def run(self)` |
+| `start_agent` | function | `modules/mcp_agent_bridge.py:508` | `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` |
+| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
+| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
+| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
+| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
+| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
+| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
+| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
+| `MemoryEntry` | class | `modules/memory_store.py:81` | `class MemoryEntry` |
+| `MemoryStore` | class | `modules/memory_store.py:234` | `class MemoryStore` |
+| `SQLiteBackend` | class | `modules/memory_store.py:129` | `class SQLiteBackend(StorageBackend)` |
+| `StorageBackend` | class | `modules/memory_store.py:94` | `class StorageBackend(ABC)` |
+| `__init__` | method | `modules/memory_store.py:130` | `def __init__(self, db_path)` |
+| `__init__` | method | `modules/memory_store.py:237` | `def __init__(self, backend)` |
+| `_cli` | function | `modules/memory_store.py:341` | `def _cli()` |
+| `_connect` | method | `modules/memory_store.py:136` | `def _connect(self)` |
+| `_fetch` | method | `modules/memory_store.py:172` | `def _fetch(self, sql, params)` |
+| `_print_entries` | function | `modules/memory_store.py:328` | `def _print_entries(entries)` |
+| `_row_to_entry` | function | `modules/memory_store.py:114` | `def _row_to_entry(row)` |
+| `all_entries` | method | `modules/memory_store.py:108` | `def all_entries(self, limit)` |
+| `all_entries` | method | `modules/memory_store.py:212` | `def all_entries(self, limit)` |
+| `by_host` | method | `modules/memory_store.py:102` | `def by_host(self, host, top_k)` |
+| `by_host` | method | `modules/memory_store.py:189` | `def by_host(self, host, top_k)` |
+| `by_service` | method | `modules/memory_store.py:105` | `def by_service(self, service, top_k)` |
+| `by_service` | method | `modules/memory_store.py:200` | `def by_service(self, service, top_k)` |
+| `close` | method | `modules/memory_store.py:111` | `def close(self)` |
+| `close` | method | `modules/memory_store.py:229` | `def close(self)` |
+| `export_finetuning_dataset` | method | `modules/memory_store.py:284` | `def export_finetuning_dataset(self, path)` |
+| `get_memory_store` | function | `modules/memory_store.py:303` | `def get_memory_store()` |
+| `recall` | method | `modules/memory_store.py:267` | `def recall(self, query, top_k)` |
+| `recall` | function | `modules/memory_store.py:324` | `def recall(query, top_k)` |
+| `recall_by_host` | method | `modules/memory_store.py:270` | `def recall_by_host(self, host, top_k)` |
+| `recall_for_service` | method | `modules/memory_store.py:273` | `def recall_for_service(self, service_name, top_k)` |
+| `remember` | method | `modules/memory_store.py:240` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
+| `remember` | function | `modules/memory_store.py:312` | `def remember(session_id, host, tool, command, output, findings, success)` |
+| `save` | method | `modules/memory_store.py:96` | `def save(self, entry)` |
+| `save` | method | `modules/memory_store.py:145` | `def save(self, entry)` |
+| `search` | method | `modules/memory_store.py:99` | `def search(self, query, top_k)` |
+| `search` | method | `modules/memory_store.py:177` | `def search(self, query, top_k)` |
+| `stats` | method | `modules/memory_store.py:276` | `def stats(self)` |
+| `stats_raw` | method | `modules/memory_store.py:222` | `def stats_raw(self)` |
+| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
+| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
+| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
+| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
+| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
+| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
+| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
+| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
+| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
+| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
+| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
+| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
+| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
+| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
+| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
+| `path` | method | `modules/metrics.py:201` | `def path(self)` |
+| `path` | method | `modules/metrics.py:350` | `def path(self)` |
+| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
+| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
+| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
+| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
+| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
+| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
+| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
+| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
+| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
+| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
+| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
+| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
+| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
+| `generate_phishing_templates` | method | `modules/mfa_bypass.py:153` | `def generate_phishing_templates(self, target)` |
+| `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
+| `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
+| `saml_golden_ticket_check` | method | `modules/mfa_bypass.py:278` | `def saml_golden_ticket_check(self, adfs_server)` |
+| `ModuleInfo` | class | `modules/module_registry.py:150` | `class ModuleInfo` |
+| `ModuleRegistry` | class | `modules/module_registry.py:223` | `class ModuleRegistry` |
+| `__contains__` | method | `modules/module_registry.py:536` | `def __contains__(self, name)` |
+| `__init__` | method | `modules/module_registry.py:172` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
+| `__init__` | method | `modules/module_registry.py:235` | `def __init__(self, base_dir)` |
+| `__iter__` | method | `modules/module_registry.py:531` | `def __iter__(self)` |
+| `__len__` | method | `modules/module_registry.py:526` | `def __len__(self)` |
+| `__repr__` | method | `modules/module_registry.py:219` | `def __repr__(self)` |
+| `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
+| `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
+| `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
+| `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
+| `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
+| `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
+| `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
+| `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
+| `_scan_tools` | method | `modules/module_registry.py:419` | `def _scan_tools(self)` |
+| `_scan_yaml_addons` | method | `modules/module_registry.py:338` | `def _scan_yaml_addons(self)` |
+| `by_type` | method | `modules/module_registry.py:321` | `def by_type(self, module_type)` |
+| `deprecated_modules` | method | `modules/module_registry.py:315` | `def deprecated_modules(self)` |
+| `format_module_detail` | function | `modules/module_registry.py:589` | `def format_module_detail(m)` |
+| `format_module_table` | function | `modules/module_registry.py:542` | `def format_module_table(modules, cols)` |
+| `get` | method | `modules/module_registry.py:269` | `def get(self, name)` |
+| `get_instance` | method | `modules/module_registry.py:241` | `def get_instance(cls, base_dir)` |
+| `rescan` | method | `modules/module_registry.py:260` | `def rescan(self)` |
+| `scan` | method | `modules/module_registry.py:247` | `def scan(self)` |
+| `search` | method | `modules/module_registry.py:275` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
+| `summary` | method | `modules/module_registry.py:325` | `def summary(self)` |
+| `to_dict` | method | `modules/module_registry.py:202` | `def to_dict(self)` |
+| `ExpertAvailabilityChecker` | class | `modules/moe_router.py:437` | `class ExpertAvailabilityChecker` |
+| `ExpertPerformance` | class | `modules/moe_router.py:101` | `class ExpertPerformance` |
+| `ExpertPerformanceStore` | class | `modules/moe_router.py:276` | `class ExpertPerformanceStore` |
+| `ExpertProfile` | class | `modules/moe_router.py:83` | `class ExpertProfile` |
+| `IExpertSelector` | class | `modules/moe_router.py:257` | `class IExpertSelector(ABC)` |
+| `MoERouter` | class | `modules/moe_router.py:489` | `class MoERouter` |
+| `SoftmaxSelector` | class | `modules/moe_router.py:368` | `class SoftmaxSelector(IExpertSelector)` |
+| `__init__` | method | `modules/moe_router.py:283` | `def __init__(self, path)` |
+| `__init__` | method | `modules/moe_router.py:377` | `def __init__(self, temperature)` |
+| `__init__` | method | `modules/moe_router.py:443` | `def __init__(self)` |
+| `__init__` | method | `modules/moe_router.py:500` | `def __init__(self, experts, selector, performance_store, api_key)` |
+| `_anneal_temperature` | method | `modules/moe_router.py:645` | `def _anneal_temperature(self)` |
+| `_available_for_task` | method | `modules/moe_router.py:640` | `def _available_for_task(self, task_type)` |
+| `_check` | method | `modules/moe_router.py:458` | `def _check(expert, api_key)` |
+| `_compute_weights` | method | `modules/moe_router.py:410` | `def _compute_weights(candidates, task_type, store)` |
+| `_key` | method | `modules/moe_router.py:293` | `def _key(expert_id, task_type)` |
+| `_load` | method | `modules/moe_router.py:350` | `def _load(self)` |
+| `_load_groq_key` | function | `modules/moe_router.py:665` | `def _load_groq_key()` |
+| `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
+| `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
+| `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
 | `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
 | `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
 | `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
@@ -345,156 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `TemplateResolver` | class | `modules/pipeline_engine.py:260` | `class TemplateResolver` |
 | `_SilentNarrator` | class | `modules/pipeline_engine.py:863` | `class _SilentNarrator(INarratorAdapter)` |
 | `__init__` | method | `modules/pipeline_engine.py:275` | `def __init__(self, context)` |
-| `__init__` | method | `modules/pipeline_engine.py:537` | `def __init__(self, runner, onecmd)` |
-| `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
-| `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
-| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
-| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
-| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
-| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
-| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
-| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
-| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
-| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
-| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
-| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
-| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
-| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
-| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
-| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
-| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
-| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
-| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
-| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
-| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
-| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
-| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
-| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
-| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
-| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
-| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
-| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
-| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
-| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
-| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
-| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
-| `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
-| `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
-| `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
-| `mcp_pipeline_run` | function | `modules/pipeline_engine.py:1314` | `def mcp_pipeline_run(name, target, background, onecmd)` |
-| `mcp_pipeline_status` | function | `modules/pipeline_engine.py:1414` | `def mcp_pipeline_status(last_n)` |
-| `mcp_pipeline_validate` | function | `modules/pipeline_engine.py:1385` | `def mcp_pipeline_validate(name)` |
-| `narrate` | method | `modules/pipeline_engine.py:852` | `def narrate(self, kind, target, message, payload, severity)` |
-| `narrate` | method | `modules/pipeline_engine.py:864` | `def narrate(self)` |
-| `narrate` | method | `modules/pipeline_engine.py:881` | `def narrate(self, kind, target, message, payload, severity)` |
-| `open_run` | method | `modules/pipeline_engine.py:785` | `def open_run(self, pipeline_name, run_id)` |
-| `pipelines_dir` | method | `modules/pipeline_engine.py:642` | `def pipelines_dir(self)` |
-| `register` | method | `modules/pipeline_engine.py:389` | `def register(cls, command, deriver)` |
-| `render` | method | `modules/pipeline_engine.py:278` | `def render(self, template)` |
-| `resolve` | method | `modules/pipeline_engine.py:289` | `def resolve(self, dotted_path)` |
-| `resolve_path` | method | `modules/pipeline_engine.py:658` | `def resolve_path(self, name)` |
-| `run` | method | `modules/pipeline_engine.py:513` | `def run(self, command, args, target, timeout_s)` |
-| `run` | method | `modules/pipeline_engine.py:548` | `def run(self, command, args, target, timeout_s)` |
-| `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
-| `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
-| `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
-| `to_dict` | method | `modules/pipeline_engine.py:213` | `def to_dict(self)` |
-| `validate` | method | `modules/pipeline_engine.py:352` | `def validate(predicate, output)` |
-| `validate` | method | `modules/pipeline_engine.py:945` | `def validate(self, name)` |
-| `write_plan` | method | `modules/pipeline_engine.py:797` | `def write_plan(self, run_dir, spec)` |
-| `write_step` | method | `modules/pipeline_engine.py:814` | `def write_step(self, run_dir, result)` |
-| `write_summary` | method | `modules/pipeline_engine.py:828` | `def write_summary(self, run_dir, run)` |
-| `Frontier` | class | `modules/planner.py:505` | `class Frontier` |
-| `PlanCandidate` | class | `modules/planner.py:41` | `class PlanCandidate` |
-| `PlanResult` | class | `modules/planner.py:54` | `class PlanResult` |
-| `Planner` | class | `modules/planner.py:260` | `class Planner` |
-| `TodoItem` | class | `modules/planner.py:452` | `class TodoItem` |
-| `TodoList` | class | `modules/planner.py:460` | `class TodoList` |
-| `__init__` | method | `modules/planner.py:269` | `def __init__(self, world_model, obs_parser, api_key)` |
-| `__init__` | method | `modules/planner.py:468` | `def __init__(self)` |
-| `__init__` | method | `modules/planner.py:514` | `def __init__(self, planner, todos)` |
-| `__len__` | method | `modules/planner.py:560` | `def __len__(self)` |
-| `_build_rationale` | method | `modules/planner.py:374` | `def _build_rationale(chosen, facts, target)` |
-| `_gather_facts` | function | `modules/planner.py:64` | `def _gather_facts(world_model, obs_parser)` |
-| `_llm_tiebreak` | method | `modules/planner.py:387` | `def _llm_tiebreak(self, target, facts, candidates)` |
-| `_parser` | method | `modules/planner.py:294` | `def _parser(self)` |
-| `_risk_for` | function | `modules/planner.py:160` | `def _risk_for(technique_id)` |
-| `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
-| `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
-| `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
-| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
-| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
-| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
-| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
-| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
-| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
-| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
-| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
-| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
-| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
-| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
-| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
-| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
-| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
-| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
-| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
-| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
-| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
-| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
-| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
-| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
-| `_local_executor` | function | `modules/playbook_engine.py:713` | `def _local_executor(command, host)` |
-| `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
-| `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
-| `available` | method | `modules/playbook_engine.py:192` | `def available(self)` |
-| `available` | method | `modules/playbook_engine.py:264` | `def available(self)` |
-| `build` | method | `modules/playbook_engine.py:267` | `def build(self)` |
-| `derive` | method | `modules/playbook_engine.py:427` | `def derive(self, target, phase, platform, apt_name)` |
-| `execute` | method | `modules/playbook_engine.py:529` | `def execute(self, playbook, executor, dry_run)` |
-| `from_dict` | method | `modules/playbook_engine.py:128` | `def from_dict(cls, d)` |
-| `from_dict` | method | `modules/playbook_engine.py:152` | `def from_dict(cls, d)` |
-| `get_engine` | function | `modules/playbook_engine.py:660` | `def get_engine(api_key)` |
-| `load` | method | `modules/playbook_engine.py:602` | `def load(self, path)` |
-| `result_summary` | method | `modules/playbook_engine.py:631` | `def result_summary(self, result)` |
-| `save` | method | `modules/playbook_engine.py:590` | `def save(self, playbook, path)` |
-| `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
-| `store` | method | `modules/playbook_engine.py:195` | `def store(self)` |
-| `techniques_for_tactics` | method | `modules/playbook_engine.py:210` | `def techniques_for_tactics(self, tactic_shortnames, platform)` |
-| `tests_for_technique` | method | `modules/playbook_engine.py:300` | `def tests_for_technique(self, technique_id, platform)` |
-| `to_dict` | method | `modules/playbook_engine.py:113` | `def to_dict(self)` |
-| `to_dict` | method | `modules/playbook_engine.py:141` | `def to_dict(self)` |
-| `DefaultTTPMapper` | class | `modules/playbook_executor.py:101` | `class DefaultTTPMapper(ITTPMapper)` |
-| `ITTPMapper` | class | `modules/playbook_executor.py:93` | `class ITTPMapper(ABC)` |
-| `PlaybookEngine` | class | `modules/playbook_executor.py:336` | `class PlaybookEngine` |
-| `PlaybookLoader` | class | `modules/playbook_executor.py:203` | `class PlaybookLoader` |
-| `PlaybookRunResult` | class | `modules/playbook_executor.py:61` | `class PlaybookRunResult` |
-| `PlaybookSpec` | class | `modules/playbook_executor.py:48` | `class PlaybookSpec` |
-| `PlaybookTechnique` | class | `modules/playbook_executor.py:36` | `class PlaybookTechnique` |
-| `__init__` | method | `modules/playbook_executor.py:208` | `def __init__(self, playbooks_dir)` |
-| `__init__` | method | `modules/playbook_executor.py:339` | `def __init__(self, loader, mapper, pipelines_dir)` |
-| `_build_pipeline_yaml` | function | `modules/playbook_executor.py:285` | `def _build_pipeline_yaml(playbook, mapper, platform)` |
-| `_validate` | method | `modules/playbook_executor.py:235` | `def _validate(self, raw, source_path)` |
-| `analyze` | method | `modules/playbook_executor.py:353` | `def analyze(self, name, platform)` |
-| `generate_pipeline` | method | `modules/playbook_executor.py:378` | `def generate_pipeline(self, name, platform)` |
-| `list` | method | `modules/playbook_executor.py:211` | `def list(self)` |
-| `load` | method | `modules/playbook_executor.py:224` | `def load(self, name)` |
-| `loader` | method | `modules/playbook_executor.py:350` | `def loader(self)` |
-| `playbook_analyze` | function | `modules/playbook_executor.py:422` | `def playbook_analyze(name, platform)` |
-| `playbook_generate` | function | `modules/playbook_executor.py:429` | `def playbook_generate(name, platform)` |
-| `playbook_list` | function | `modules/playbook_executor.py:416` | `def playbook_list()` |
-| `playbook_run` | function | `modules/playbook_executor.py:436` | `def playbook_run(name, platform, target, onecmd)` |
-| `register` | method | `modules/playbook_executor.py:180` | `def register(cls, technique_id, platform, command)` |
-| `resolve` | method | `modules/playbook_executor.py:97` | `def resolve(self, technique_id, atomic_test, platform)` |
-| `resolve` | method | `modules/playbook_executor.py:185` | `def resolve(self, technique_id, atomic_test, platform)` |
-| `run` | method | `modules/playbook_executor.py:390` | `def run(self, name, platform, target, onecmd)` |
-| `to_dict` | method | `modules/playbook_executor.py:74` | `def to_dict(self)` |
-| `MutationConfig` | class | `modules/polymorphic_engine.py:93` | `class MutationConfig` |
-| `MutationResult` | class | `modules/polymorphic_engine.py:126` | `class MutationResult` |
-| `PolymorphicEngine` | class | `modules/polymorphic_engine.py:146` | `class PolymorphicEngine` |
-| `__init__` | method | `modules/polymorphic_engine.py:159` | `def __init__(self, config)` |
-| `_base64_wrap` | method | `modules/polymorphic_engine.py:330` | `def _base64_wrap(self, data, arch)` |
-| `_compress_data` | method | `modules/polymorphic_engine.py:324` | `def _compress_data(self, data)` |
-| `_estimate_entropy` | method | `modules/polymorphic_engine.py:344` | `def _estimate_entropy(data)` |
-| `_junk_insertion` | method | `modules/polymorphic_engine.py:282` | `def _junk_insertion(self, data, arch)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

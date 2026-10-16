@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_unified_bridge_delegate.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -244,11 +244,11 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `list_playbooks` (method, line 131) `def list_playbooks(self)`
   - `get` (method, line 134) `def get(self, name)`
   - `validate` (method, line 138) `def validate(self, pb, atomic_path)`
-  - `_build_atomic_index` (method, line 175) `def _build_atomic_index(self, atomic_yaml_path)`
-  - `generate_attack_plan` (method, line 189) `def generate_attack_plan(self, pb, output_path)`
-  - `report_json` (method, line 204) `def report_json(self, pb, output_path)`
-- Depends on: `core/console.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/recommendation_signals.py`, `modules/operation.py`
+  - `_build_atomic_index` (method, line 199) `def _build_atomic_index(self, atomic_yaml_path)`
+  - `generate_attack_plan` (method, line 213) `def generate_attack_plan(self, pb, output_path)`
+  - `report_json` (method, line 230) `def report_json(self, pb, output_path)`
+- Depends on: `core/console.py`, `modules/atomic_resolver.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `cli/recommendation_signals.py`, `modules/atomic_exploit_bridge.py`, `modules/operation.py`, `tests/test_atomic_loop.py`
 
 ## modules/asset_graph.py
 - Doc: Global asset truth store joined to per-task exploration chains.
@@ -274,6 +274,25 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `mirror_to_campaign` (method, line 170) `def mirror_to_campaign(self, db, world_model, workspace_id)`
 - Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
 
+## modules/atomic_cli.py
+- Doc: Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_atomic_line` (function, line 37) `def parse_atomic_line(line)`
+  - `_resolver` (function, line 99) `def _resolver()`
+  - `_print` (function, line 107) `def _print(shell, text)`
+  - `_warn` (function, line 118) `def _warn(text)`
+  - `_wants_interactive` (function, line 127) `def _wants_interactive(non_interactive)`
+  - `_safe_copy` (function, line 132) `def _safe_copy(text)`
+  - `_load_credentials` (function, line 147) `def _load_credentials(params, non_interactive)`
+  - `_prompt_choice` (function, line 171) `def _prompt_choice(count, prompt, non_interactive)`
+  - `run_atomic_tests` (function, line 185) `def run_atomic_tests(params, line, shell)`
+  - `_sanitized_script_name` (function, line 319) `def _sanitized_script_name(test_id, extension)`
+  - `run_atomic_gen` (function, line 325) `def run_atomic_gen(params, line, shell)`
+- Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`
+
 ## modules/atomic_enricher.py
 - Doc: — Enrich techniques.parquet with structured derived columns.
 - Layer: utility
@@ -290,6 +309,81 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `query_atomic` (function, line 232) `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
 - Depends on: `core/logging.py`
 - Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`
+
+## modules/atomic_exploit_bridge.py
+- Doc: Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitCommand` (class, line 69) `class ExploitCommand`
+  - `ExploitSpec` (class, line 77) `class ExploitSpec`
+  - `_string_list` (function, line 127) `def _string_list(value)`
+  - `validate_spec` (function, line 135) `def validate_spec(data, filename)`
+  - `load_all` (function, line 211) `def load_all(exploits_dir)`
+  - `match_score` (function, line 266) `def match_score(spec, service, product, version)`
+  - `parse_scan_xml` (function, line 285) `def parse_scan_xml(xml_path)`
+  - `auto` (function, line 322) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
+  - `rank` (function, line 406) `def rank(services, exploits_dir)`
+  - `build_commands` (function, line 437) `def build_commands(spec, rhost, lhost, lport, port)`
+  - `detect_shell` (function, line 455) `def detect_shell(spec, output)`
+  - `run_spec` (function, line 464) `def run_spec(spec, rhost, lhost, lport, port)`
+  - `open_shell` (function, line 520) `def open_shell(target, services, lhost, exploits_dir, attempts)`
+  - `_ShellSession` (class, line 555) `class _ShellSession`
+  - `close_sessions` (function, line 648) `def close_sessions(target)`
+  - `cleanup_target` (function, line 683) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
+  - `_destroy_gym` (function, line 741) `def _destroy_gym(container)`
+  - `ensure_session` (function, line 759) `def ensure_session(spec, target, lhost)`
+  - `_adopt_live_shell` (function, line 810) `def _adopt_live_shell(spec, target, port)`
+  - `_wait_port_closed` (function, line 826) `def _wait_port_closed(target, port, timeout)`
+  - `remote_exec` (function, line 841) `def remote_exec(spec, target, command, lhost)`
+  - `interactive_shell` (function, line 859) `def interactive_shell(target, lhost, interactive, exploits_dir)`
+  - `emulate` (function, line 911) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir)`
+  - `record_outcome` (function, line 999) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir)`
+  - `main` (function, line 1097) `def main()`
+  - `severity_rank` (method, line 102) `def severity_rank(self)`
+  - `to_dict` (method, line 106) `def to_dict(self)`
+  - `__init__` (method, line 563) `def __init__(self, target, port, sock)`
+  - `alive` (method, line 572) `def alive(self, timeout)`
+  - `run` (method, line 579) `def run(self, command, timeout)`
+  - `_read_until` (method, line 593) `def _read_until(self, marker, timeout)`
+  - `close` (method, line 621) `def close(self)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/apt_playbooks.py`, `modules/atomic_resolver.py`, `modules/c2_surfaces.py`, `modules/intel_fusion.py`, `modules/killchain.py`, `modules/lazy_intel.py`, `modules/obs_parser.py`, `modules/world_model.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`
+
+## modules/atomic_resolver.py
+- Doc: Central MITRE ATT&CK <-> Atomic Red Team translator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `normalize_mitre_id` (function, line 66) `def normalize_mitre_id(raw)`
+  - `is_mitre_id` (function, line 84) `def is_mitre_id(raw)`
+  - `normalize_guid` (function, line 93) `def normalize_guid(raw)`
+  - `is_guid` (function, line 109) `def is_guid(raw)`
+  - `normalize_platform` (function, line 118) `def normalize_platform(raw)`
+  - `AtomicTest` (class, line 131) `class AtomicTest`
+  - `_safe_yaml_files` (function, line 171) `def _safe_yaml_files(atomics_dir)`
+  - `_test_from_raw` (function, line 192) `def _test_from_raw(test, mitre_id)`
+  - `AtomicResolver` (class, line 219) `class AtomicResolver`
+  - `get_resolver` (function, line 424) `def get_resolver(atomics_dir)`
+  - `resolve_technique` (function, line 432) `def resolve_technique(mitre_id, platform, atomics_dir)`
+  - `resolve_chain` (function, line 442) `def resolve_chain(techniques, platform, atomics_dir)`
+  - `build_variables` (function, line 452) `def build_variables(test, rhost, domain, rport, username, password)`
+  - `render_command` (function, line 488) `def render_command(template, variables)`
+  - `technique_env_override` (function, line 496) `def technique_env_override()`
+  - `mitre_url` (method, line 147) `def mitre_url(self)`
+  - `to_dict` (method, line 151) `def to_dict(self)`
+  - `__init__` (method, line 226) `def __init__(self, atomics_dir)`
+  - `available` (method, line 233) `def available(self)`
+  - `ensure_repo` (method, line 237) `def ensure_repo(self)`
+  - `build_index` (method, line 265) `def build_index(self, force)`
+  - `guids_for_technique` (method, line 305) `def guids_for_technique(self, mitre_id)`
+  - `get_by_guid` (method, line 311) `def get_by_guid(self, guid)`
+  - `list_for_technique` (method, line 317) `def list_for_technique(self, mitre_id, platform)`
+  - `resolve` (method, line 334) `def resolve(self, query, platform)`
+  - `chain` (method, line 380) `def chain(self, techniques, platform, first_match_only)`
+  - `stats` (method, line 415) `def stats(self)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/ttpscope_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
 
 ## modules/attack_surface3d.py
 - Doc: Attack-surface 3D intel module: C2-centred campaign graph.
@@ -387,105 +481,6 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_get_detection_methods` (method, line 759) `def _get_detection_methods(self)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
 - Imported by: `cli/commands/purple_team.py`
-
-## modules/auto_registry.py
-- Doc: Registry of loop-ready automation verbs (the ``auto_*`` family).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `auto_verb_target` (function, line 35) `def auto_verb_target(command)`
-  - `AutoVerb` (class, line 66) `class AutoVerb`
-  - `_verb_rows` (function, line 136) `def _verb_rows()`
-  - `_verb_row` (function, line 180) `def _verb_row(name)`
-  - `verb_enabled` (function, line 189) `def verb_enabled(name)`
-  - `_repo_base` (function, line 274) `def _repo_base()`
-  - `binary_available` (function, line 281) `def binary_available(name)`
-  - `missing_binary` (function, line 297) `def missing_binary(command)`
-  - `verb_gap` (function, line 309) `def verb_gap(verb)`
-  - `verb_available` (function, line 321) `def verb_available(verb)`
-  - `service_tokens` (function, line 326) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 337) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 368) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 404) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 427) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 453) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 479) `def is_routable_command(line)`
-  - `verbs` (function, line 497) `def verbs()`
-  - `is_shell_verb` (function, line 502) `def is_shell_verb(token)`
-  - `build_command` (function, line 524) `def build_command(verb, target)`
-  - `verbs_for` (function, line 535) `def verbs_for(text)`
-  - `propose_intents` (function, line 541) `def propose_intents(goal, target, finding_texts)`
-  - `steps_for` (function, line 558) `def steps_for(text, target)`
-  - `ShellResult` (class, line 642) `class ShellResult`
-  - `_TeeCapture` (class, line 649) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 677) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 775) `def _register_process(process)`
-  - `_unregister_process` (function, line 781) `def _unregister_process(process)`
-  - `track_process` (function, line 787) `def track_process(process)`
-  - `untrack_process` (function, line 792) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 797) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 820) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 659) `def __init__(self, observer)`
-  - `write` (method, line 664) `def write(self, data)`
-  - `_invoke` (function, line 700) `def _invoke()`
-  - `_target` (function, line 711) `def _target()`
-  - `_kill` (function, line 852) `def _kill()`
-- Depends on: `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
-
-## modules/autonomous_exploit_engine.py
-- Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TargetProfile` (class, line 59) `class TargetProfile`
-  - `ExploitCandidate` (class, line 74) `class ExploitCandidate`
-  - `ExploitResult` (class, line 89) `class ExploitResult`
-  - `AutonomousExploitEngine` (class, line 101) `class AutonomousExploitEngine`
-  - `__init__` (method, line 114) `def __init__(self)`
-  - `get_instance` (method, line 134) `def get_instance(cls)`
-  - `hunt` (method, line 145) `def hunt(self, target, max_exploits, profile)`
-  - `retry_with_credentials` (method, line 184) `def retry_with_credentials(self, target, credentials)`
-  - `_credential_aware_rank` (method, line 241) `def _credential_aware_rank(self, profile, credentials)`
-  - `_filter_placeholder_creds` (method, line 284) `def _filter_placeholder_creds(credentials)`
-  - `profile` (method, line 328) `def profile(self, target)`
-  - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
-  - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
-  - `_match_exploit_db` (method, line 454) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 492) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 962) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1019) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1059) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1088) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1105) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1237) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1330) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1358) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1388) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1416) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1427) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1524) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1542) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1621) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1637) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1648) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1674) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1709) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1757) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1937) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 1963) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 1991) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2060) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2103) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2293) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2393) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2458) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2519) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2564) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2583) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
-  - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
-- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

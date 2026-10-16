@@ -1,6 +1,109 @@
 # Subsystem: modules (page 2 of 14)
 Previous: [KB_modules.md](KB_modules.md)
 
+## modules/auto_registry.py
+- Doc: Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_looks_like_target` (function, line 37) `def _looks_like_target(value)`
+  - `auto_verb_target` (function, line 66) `def auto_verb_target(command)`
+  - `AutoVerb` (class, line 102) `class AutoVerb`
+  - `_verb_rows` (function, line 243) `def _verb_rows()`
+  - `_verb_row` (function, line 287) `def _verb_row(name)`
+  - `verb_enabled` (function, line 296) `def verb_enabled(name)`
+  - `_repo_base` (function, line 381) `def _repo_base()`
+  - `binary_available` (function, line 388) `def binary_available(name)`
+  - `missing_binary` (function, line 404) `def missing_binary(command)`
+  - `verb_gap` (function, line 416) `def verb_gap(verb)`
+  - `verb_available` (function, line 428) `def verb_available(verb)`
+  - `service_tokens` (function, line 433) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 444) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 475) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 511) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 534) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 560) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 586) `def is_routable_command(line)`
+  - `verbs` (function, line 604) `def verbs()`
+  - `is_shell_verb` (function, line 609) `def is_shell_verb(token)`
+  - `build_command` (function, line 631) `def build_command(verb, target)`
+  - `verbs_for` (function, line 642) `def verbs_for(text)`
+  - `propose_intents` (function, line 648) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 671) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 690) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 705) `def _apt_chain_steps(embedded, target, strict)`
+  - `steps_for` (function, line 733) `def steps_for(text, target)`
+  - `ShellResult` (class, line 841) `class ShellResult`
+  - `_TeeCapture` (class, line 848) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 876) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 974) `def _register_process(process)`
+  - `_unregister_process` (function, line 980) `def _unregister_process(process)`
+  - `track_process` (function, line 986) `def track_process(process)`
+  - `untrack_process` (function, line 991) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 996) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1019) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 858) `def __init__(self, observer)`
+  - `write` (method, line 863) `def write(self, data)`
+  - `_invoke` (function, line 899) `def _invoke()`
+  - `_target` (function, line 910) `def _target()`
+  - `_kill` (function, line 1051) `def _kill()`
+- Depends on: `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+
+## modules/autonomous_exploit_engine.py
+- Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TargetProfile` (class, line 59) `class TargetProfile`
+  - `ExploitCandidate` (class, line 74) `class ExploitCandidate`
+  - `ExploitResult` (class, line 89) `class ExploitResult`
+  - `AutonomousExploitEngine` (class, line 101) `class AutonomousExploitEngine`
+  - `__init__` (method, line 114) `def __init__(self)`
+  - `get_instance` (method, line 134) `def get_instance(cls)`
+  - `hunt` (method, line 145) `def hunt(self, target, max_exploits, profile)`
+  - `retry_with_credentials` (method, line 184) `def retry_with_credentials(self, target, credentials)`
+  - `_credential_aware_rank` (method, line 241) `def _credential_aware_rank(self, profile, credentials)`
+  - `_filter_placeholder_creds` (method, line 284) `def _filter_placeholder_creds(credentials)`
+  - `profile` (method, line 328) `def profile(self, target)`
+  - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
+  - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
+  - `_match_exploit_db` (method, line 454) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 492) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 996) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1053) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1093) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1122) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1139) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1290) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1383) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1411) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1441) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1469) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1480) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1577) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1595) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1674) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1690) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1701) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1727) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1762) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1810) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1990) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2016) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2044) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2113) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2156) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2346) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2446) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2511) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2572) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2617) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2636) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_phase1_data_gaps.py`
+
 ## modules/aws_attacks.py
 - Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
 - Layer: utility
@@ -138,6 +241,34 @@ Previous: [KB_modules.md](KB_modules.md)
   - `bulk_install` (method, line 769) `def bulk_install(self, names)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
+
+## modules/c2_agent.py
+- Doc: Malleable C2 client lifecycle for lab targets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sync_credentials_file` (function, line 50) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 75) `def _unverified_context()`
+  - `client_id_for` (function, line 85) `def client_id_for(target)`
+  - `validate_client_id` (function, line 91) `def validate_client_id(raw)`
+  - `build_agent` (function, line 354) `def build_agent(c2_url, client_id, aes_hex, route, sleep)`
+  - `_ensure_key` (function, line 375) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 406) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 429) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 441) `def read_aes_hex()`
+  - `deploy` (function, line 446) `def deploy(target, c2_base, route, lhost, sleep)`
+  - `read_records` (function, line 517) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 534) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 548) `class C2Server`
+  - `__init__` (method, line 551) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 556) `def _pid(self)`
+  - `status` (method, line 568) `def status(self)`
+  - `start` (method, line 600) `def start(self)`
+  - `stop` (method, line 631) `def stop(self)`
+  - `ensure_http_listener` (method, line 654) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 662) `def _api(path, data)`
+- Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+- Imported by: `cli/commands/c2_session.py`
 
 ## modules/c2_builder.py
 - Doc: C2 agent builder with profile-driven compilation and safe templating.
@@ -281,6 +412,25 @@ Previous: [KB_modules.md](KB_modules.md)
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
 - Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
 
+## modules/c2_surfaces.py
+- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_read_json` (function, line 42) `def _read_json(path, default)`
+  - `_write_json` (function, line 54) `def _write_json(path, data)`
+  - `_stamp` (function, line 68) `def _stamp()`
+  - `publish_banner` (function, line 73) `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)`
+  - `publish_cve` (function, line 115) `def publish_cve(title, description, operator, risk, sessions_dir)`
+  - `append_note` (function, line 155) `def append_note(line, sessions_dir)`
+  - `register_loot_event` (function, line 184) `def register_loot_event(name, path_glob, description, event_config)`
+  - `refresh_session_report` (function, line 229) `def refresh_session_report(timeout)`
+  - `severity_to_risk` (function, line 251) `def severity_to_risk(severity)`
+  - `_normalize_task_title` (function, line 256) `def _normalize_task_title(title)`
+  - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
+- Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
+- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`
+
 ## modules/cal.sh
 - Doc: Función para calcular si un año es bisiesto
 - Layer: utility
@@ -295,6 +445,24 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
+
+## modules/chain_registry.py
+- Doc: Chain registry — ordered orchestration chains from ``chains/*.yaml``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ChainStep` (class, line 36) `class ChainStep`
+  - `Chain` (class, line 46) `class Chain`
+  - `validate_chain` (function, line 93) `def validate_chain(data, filename, chains_dir)`
+  - `load_all` (function, line 134) `def load_all(chains_dir)`
+  - `_materialize` (function, line 173) `def _materialize(name, raw, stack)`
+  - `get` (function, line 215) `def get(name, chains_dir)`
+  - `scan_all` (function, line 220) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 264) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 291) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `resolve` (method, line 57) `def resolve(self, tokens)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `skills/lazyown_mcp.py`, `tests/test_chain_registry.py`
 
 ## modules/cicd_enumerator.py
 - Doc: CI/CD Pipeline Enumeration Module.
@@ -314,155 +482,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
   - `export_findings` (method, line 387) `def export_findings(self)`
 - Imported by: `cli/commands/cicd.py`
-
-## modules/cli_auth.py
-- Doc: CLI authentication module — login against users.json with remember-me.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_users` (function, line 34) `def _load_users()`
-  - `_save_users` (function, line 52) `def _save_users(users)`
-  - `_load_payload` (function, line 85) `def _load_payload()`
-  - `_save_payload` (function, line 100) `def _save_payload(payload)`
-  - `user_exists` (function, line 122) `def user_exists(username)`
-  - `register` (function, line 145) `def register(username, password)`
-  - `verify_password` (function, line 214) `def verify_password(username, password)`
-  - `login` (function, line 240) `def login(username, password, remember)`
-  - `logout` (function, line 293) `def logout()`
-  - `try_auto_login` (function, line 328) `def try_auto_login()`
-  - `whoami` (function, line 366) `def whoami()`
-  - `get_current_operator` (function, line 396) `def get_current_operator()`
-  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
-  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
-  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
-  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
-  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
-  - `needs_login` (function, line 487) `def needs_login()`
-- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
-
-## modules/cloud_enum.py
-- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
-  - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
-  - `detect_provider` (method, line 47) `def detect_provider(self)`
-  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
-  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
-  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
-  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
-  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
-  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
-  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
-  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
-  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
-  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
-  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
-  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
-  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
-  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
-- Imported by: `cli/commands/cloud.py`
-
-## modules/collab_bp.py
-- Doc: modules/collab_bp.py
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `_authenticated_operator` (function, line 90) `def _authenticated_operator()`
-  - `_check_collab_permission` (function, line 100) `def _check_collab_permission(perm_name)`
-  - `_collab_login_required` (function, line 120) `def _collab_login_required(f)`
-  - `_collab_permission_required` (function, line 136) `def _collab_permission_required(perm_name)`
-  - `ColabEvent` (class, line 163) `class ColabEvent`
-  - `OperatorInfo` (class, line 176) `class OperatorInfo`
-  - `EventBus` (class, line 188) `class EventBus`
-  - `TargetLock` (class, line 250) `class TargetLock`
-  - `LockManager` (class, line 257) `class LockManager`
-  - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
-  - `get_event_bus` (function, line 370) `def get_event_bus()`
-  - `get_lock_manager` (function, line 374) `def get_lock_manager()`
-  - `get_operator_registry` (function, line 378) `def get_operator_registry()`
-  - `publish_event` (function, line 382) `def publish_event(type, payload, operator)`
-  - `collab_ui` (function, line 396) `def collab_ui()`
-  - `stream` (function, line 411) `def stream()`
-  - `operators` (function, line 458) `def operators()`
-  - `publish` (function, line 470) `def publish()`
-  - `lock` (function, line 483) `def lock()`
-  - `unlock` (function, line 504) `def unlock()`
-  - `locks` (function, line 522) `def locks()`
-  - `history` (function, line 537) `def history()`
-  - `decorated` (function, line 124) `def decorated()`
-  - `decorator` (function, line 139) `def decorator(f)`
-  - `to_sse` (method, line 170) `def to_sse(self)`
-  - `__init__` (method, line 198) `def __init__(self)`
-  - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
-  - `unsubscribe` (method, line 215) `def unsubscribe(self, subscriber_id)`
-  - `publish` (method, line 219) `def publish(self, event)`
-  - `recent` (method, line 234) `def recent(self, n)`
-  - `reset` (method, line 238) `def reset(self)`
-  - `__init__` (method, line 263) `def __init__(self)`
-  - `acquire` (method, line 267) `def acquire(self, target, operator, ttl_secs)`
-  - `release` (method, line 279) `def release(self, target, operator)`
-  - `status` (method, line 287) `def status(self, target)`
-  - `all_locks` (method, line 292) `def all_locks(self)`
-  - `_expire` (method, line 297) `def _expire(self)`
-  - `reset` (method, line 304) `def reset(self)`
-  - `__init__` (method, line 319) `def __init__(self)`
-  - `join` (method, line 323) `def join(self, name)`
-  - `heartbeat` (method, line 334) `def heartbeat(self, name)`
-  - `leave` (method, line 340) `def leave(self, name)`
-  - `active_operators` (method, line 345) `def active_operators(self)`
-  - `_expire` (method, line 350) `def _expire(self)`
-  - `reset` (method, line 356) `def reset(self)`
-  - `generate` (function, line 424) `def generate()`
-  - `login_required` (function, line 80) `def login_required(f)`
-  - `decorated` (function, line 141) `def decorated()`
-  - `decorated` (function, line 84) `def decorated()`
-- Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
-
-## modules/colors.py
-- Doc: retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `retModel` (function, line 40) `def retModel()`
-  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
-  - `no_html` (function, line 74) `def no_html(content)`
-- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
-
-## modules/command_executor.py
-- Doc: UnifiedCommandExecutor — shared shell command execution service.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `set_thread_timeout` (function, line 41) `def set_thread_timeout(seconds)`
-  - `clear_thread_timeout` (function, line 46) `def clear_thread_timeout()`
-  - `thread_timeout` (function, line 54) `def thread_timeout()`
-  - `set_thread_stdin_devnull` (function, line 59) `def set_thread_stdin_devnull(enabled)`
-  - `clear_thread_stdin_devnull` (function, line 64) `def clear_thread_stdin_devnull()`
-  - `thread_stdin_devnull` (function, line 72) `def thread_stdin_devnull()`
-  - `_kill_process_group` (function, line 77) `def _kill_process_group(proc)`
-  - `ExecutionResult` (class, line 97) `class ExecutionResult`
-  - `CommandExecutor` (class, line 106) `class CommandExecutor`
-  - `get_executor` (function, line 426) `def get_executor()`
-  - `__init__` (method, line 118) `def __init__(self)`
-  - `instance` (method, line 122) `def instance(cls)`
-  - `add_hook` (method, line 127) `def add_hook(self, hook)`
-  - `run` (method, line 131) `def run(self, command, timeout, stream)`
-  - `_needs_shell` (method, line 165) `def _needs_shell(self, command)`
-  - `_argv` (method, line 173) `def _argv(self, command)`
-  - `run_passthrough` (method, line 179) `def run_passthrough(self, command, env)`
-  - `run_tee` (method, line 194) `def run_tee(self, command)`
-  - `_default_writer` (method, line 291) `def _default_writer(line)`
-  - `_run_capture` (method, line 296) `def _run_capture(self, command, timeout)`
-  - `_run_stream` (method, line 321) `def _run_stream(self, command, timeout)`
-  - `run_with_tee` (method, line 358) `def run_with_tee(self, command, output_path, timeout)`
-  - `_fire_hooks` (method, line 394) `def _fire_hooks(self, result)`
-  - `_publish_event` (method, line 401) `def _publish_event(self, result)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
-- Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

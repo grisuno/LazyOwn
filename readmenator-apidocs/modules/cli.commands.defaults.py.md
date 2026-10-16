@@ -4,7 +4,7 @@
 
 Build-defaults inspection and override command set.
 
-Phase-scoped home for the `[`defaults`](cli.banner_config.py.md#bannersettings-defaults)` operator command (category
+Phase-scoped home for the ``defaults`` operator command (category
 ``12. Miscellaneous``). Build-time fallbacks live in
 ``config/defaults.toml`` and are read through `[`core.defaults`](core.defaults.py.md)`;
 this command shows effective values and writes per-engagement

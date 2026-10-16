@@ -136,13 +136,13 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `add_to_knowledge_base` (function, line 179) `def add_to_knowledge_base(prompt, command, file_path)`
   - `get_relevant_knowledge` (function, line 185) `def get_relevant_knowledge(prompt)`
   - `transform_knowledge_base` (function, line 193) `def transform_knowledge_base(prompt_builder)`
-  - `_ollama_stream` (function, line 223) `def _ollama_stream(prompt_text, mode)`
-  - `process_prompt_local` (function, line 255) `def process_prompt_local(prompt, debug, mode)`
-  - `process_prompt_localreport` (function, line 263) `def process_prompt_localreport(prompt, debug, mode)`
-  - `parse_args` (function, line 271) `def parse_args()`
-  - `generate` (function, line 231) `def generate()`
+  - `_ollama_stream` (function, line 223) `def _ollama_stream(prompt_text, mode, timeout)`
+  - `process_prompt_local` (function, line 261) `def process_prompt_local(prompt, debug, mode)`
+  - `process_prompt_localreport` (function, line 269) `def process_prompt_localreport(prompt, debug, mode)`
+  - `parse_args` (function, line 277) `def parse_args()`
+  - `generate` (function, line 232) `def generate()`
 - Depends on: `core/logging.py`
-- Imported by: `modules/llm_adapter.py`
+- Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
 
 ## contrib/legacy/lazydisassebler.py
 - Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3...

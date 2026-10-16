@@ -27,7 +27,7 @@ The stdio transport is used (default), matching OpenCode local MCP config.
 
 ### `list_tools`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:57](../../skills/lazyown_mcp_opencode.py#L57)
+`function` `async` | [skills/lazyown_mcp_opencode.py:62](../../skills/lazyown_mcp_opencode.py#L62)
 
 Decorators: `@server.list_tools()`
 
@@ -45,7 +45,7 @@ Expose the curated subset under short names, keeping original schemas.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:76](../../skills/lazyown_mcp_opencode.py#L76)
+`function` `async` | [skills/lazyown_mcp_opencode.py:81](../../skills/lazyown_mcp_opencode.py#L81)
 
 Decorators: `@server.call_tool()`
 
@@ -74,7 +74,7 @@ Proxy the short name to the full LazyOwn MCP handler.
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:84](../../skills/lazyown_mcp_opencode.py#L84)
+`function` `async` | [skills/lazyown_mcp_opencode.py:89](../../skills/lazyown_mcp_opencode.py#L89)
 
 ```python
 async def main() -> None

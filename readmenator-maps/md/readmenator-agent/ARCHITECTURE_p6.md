@@ -25,6 +25,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/bitm.py` -> __future__, cmd2, shlex
 - `cli/commands/bof_registry.py` -> __future__, base64, cmd2, os, shutil, ssl, urllib.error, urllib.parse, urllib.request
 - `cli/commands/c2_profile.py` -> __future__, cmd2, json
+- `cli/commands/c2_session.py` -> __future__, cmd2, json, pathlib, requests, secrets, string, sys, time
 - `cli/commands/caldera.py` -> __future__, cmd2, shlex, time
 - `cli/commands/campaign.py` -> __future__, cmd2, datetime, json, pathlib, shutil, sqlite3, tempfile, zipfile
 - `cli/commands/catalog.py` -> __future__, cmd2, json, os, shlex
@@ -34,7 +35,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/cloud_attacks.py` -> __future__
 - `cli/commands/collaboration.py` -> __future__, cmd2
 - `cli/commands/command_and_control.py` -> __future__, cmd2, json, os, time
-- `cli/commands/command_and_control_migrated.py` -> __future__, cmd2, fnmatch, glob, json, os, requests, subprocess, sys, time, yaml
+- `cli/commands/command_and_control_migrated.py` -> __future__, cmd2, fnmatch, glob, json, os, requests, shlex, subprocess, sys, time, yaml
 - `cli/commands/containers.py` -> __future__, cmd2, json, os
 - `cli/commands/cred.py` -> __future__, cmd2
 - `cli/commands/cred_migrated.py` -> __future__, cmd2, itertools, json, os, pykeepass, re, subprocess, time
@@ -73,7 +74,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/payload_arsenal.py` -> __future__, pathlib
 - `cli/commands/payload_generation.py` -> __future__, cmd2, shlex
 - `cli/commands/persist.py` -> __future__, cmd2, os, shlex
-- `cli/commands/persist_migrated.py` -> __future__, cmd2, json, os, secrets, subprocess
+- `cli/commands/persist_migrated.py` -> __future__, cmd2, json, os, secrets, string, subprocess
 - `cli/commands/phishing_wizard.py` -> __future__, cmd2, datetime, email.mime.multipart, email.mime.text, json, os, secrets, shlex, smtplib, time, uuid
 - `cli/commands/pivoting.py` -> __future__, cmd2, json, os, shlex, shutil, socket, subprocess, time
 - `cli/commands/postexp.py` -> __future__, cmd2, subprocess
@@ -199,7 +200,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `core/api_authz.py` -> __future__, collections.abc, dataclasses, flask, functools, hashlib, hmac, json, pathlib, secrets, threading, time, typing
 - `core/autonomous.py` -> __future__, builtins, collections.abc, contextlib, os
 - `core/command_bridge.py` -> __future__, contextlib, io, threading, typing
-- `core/config.py` -> __future__, datetime, json, os, pathlib, re, shutil, tempfile, typing
+- `core/config.py` -> __future__, datetime, inspect, json, os, pathlib, re, shutil, tempfile, typing
 - `core/console.py` -> __future__, os, sys
 - `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
 - `core/crypto.py` -> Crypto.Cipher, __future__, base64, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
@@ -239,7 +240,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `lazyc2/blueprints/addons.py` -> __future__, collections.abc, flask, functools, re, secrets, typing, yaml
 - `lazyc2/blueprints/api.py` -> __future__, dataclasses, flask, functools, time, typing
 - `lazyc2/blueprints/api_v1.py` -> __future__, flask, json, pathlib, typing
-- `lazyc2/blueprints/auth.py` -> __future__, flask, flask_login, pyotp, werkzeug.security
+- `lazyc2/blueprints/auth.py` -> __future__, flask, flask_login, functools, pyotp, werkzeug.security
 - `lazyc2/blueprints/beacon.py` -> __future__, flask, json, threading, typing
 - `lazyc2/blueprints/operations.py` -> __future__, flask, json, markdown
 - `lazyc2/blueprints/phishing.py` -> __future__, datetime, flask, os, pathlib, secrets, sqlite3, urllib.parse
@@ -317,11 +318,14 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/amt_auth_bypass.py` -> re
 - `modules/apt_playbooks.py` -> __future__, dataclasses, glob, json, os, time, typing, yaml
 - `modules/asset_graph.py` -> __future__, dataclasses, threading, time, uuid
+- `modules/atomic_cli.py` -> __future__, getpass, os, pathlib, re, shlex, sys, typing
 - `modules/atomic_enricher.py` -> __future__, argparse, collections, numpy, pandas, pathlib, re, sys, typing
+- `modules/atomic_exploit_bridge.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, secrets, socket, sys, threading, time, typing, xml.etree.ElementTree, yaml
+- `modules/atomic_resolver.py` -> __future__, dataclasses, glob, os, pathlib, re, typing, uuid, yaml
 - `modules/attack_surface3d.py` -> __future__, importlib.util, pathlib, sys, time
 - `modules/auto_pivot.py` -> __future__, dataclasses, datetime, json, pathlib, re, secrets, socket, typing
 - `modules/auto_purple.py` -> __future__, abc, argparse, csv, dataclasses, datetime, fcntl, hashlib, json, lazyownbt.detection, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
-- `modules/auto_registry.py` -> __future__, contextlib, dataclasses, io, json, os, pathlib, queue, re, shlex, shutil, signal, subprocess, threading, types
+- `modules/auto_registry.py` -> __future__, contextlib, dataclasses, io, ipaddress, json, os, pathlib, queue, re, shlex, shutil, signal, subprocess, threading, types
 - `modules/autonomous_exploit_engine.py` -> __future__, dataclasses, json, pathlib, random, re, subprocess, threading, time, typing, uuid, xml.etree.ElementTree
 - `modules/aws_attacks.py` -> __future__, boto3, dataclasses, typing
 - `modules/backdoor/backdoor.c` -> stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
@@ -331,11 +335,14 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/bin2img.py` -> PIL, numpy, sys
 - `modules/bitm_engine.py` -> __future__, dataclasses, json, os, pathlib, shutil, signal, subprocess, time, typing
 - `modules/bof_registry.py` -> __future__, dataclasses, datetime, hashlib, json, pathlib, shutil, typing
+- `modules/c2_agent.py` -> __future__, base64, datetime, json, os, pathlib, re, signal, ssl, subprocess, sys, time, typing, urllib.request
 - `modules/c2_builder.py` -> __future__, base64, collections.abc, contextlib, dataclasses, datetime, json, os, pathlib, re, shutil, subprocess, tempfile, time, typing
 - `modules/c2_messaging_base.py` -> time, typing
 - `modules/c2_profile.py` -> __future__, argparse, dataclasses, json, pathlib, random, typing, uuid, yaml
 - `modules/c2_profile_engine.py` -> __future__, base64, dataclasses, hashlib, pathlib, random, re, time, typing
+- `modules/c2_surfaces.py` -> __future__, datetime, json, os, pathlib, re, subprocess, sys, typing
 - `modules/cgi-bin/lazywebshell.py` -> cgi, subprocess
+- `modules/chain_registry.py` -> __future__, dataclasses, glob, os, pathlib, re, typing, yaml
 - `modules/cicd_enumerator.py` -> __future__, dataclasses, json, os, re
 - `modules/cli_auth.py` -> __future__, hmac, json, os, pathlib, secrets, time, typing, werkzeug.security
 - `modules/cloud_enum.py` -> json, requests, subprocess, typing
@@ -489,12 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/resource_script.py` -> __future__, collections.abc, datetime, os, re, shlex, subprocess, time, typing
 - `modules/reverse-shell.c` -> linux/kmod.h, linux/module.h
 - `modules/revshell.c` -> windows.h
-- `modules/rich_tui.py` -> __future__, rich.align, rich.box, rich.layout, rich.live, rich.panel, rich.table, rich.text, rich.tree, select, sys, termios, threading, time, tty, typing
-- `modules/rl_trainer.py` -> __future__, abc, argparse, collections.abc, dataclasses, json, pathlib, random, threading, time
-- `modules/rootkit/mr.c` -> arpa/inet.h, dirent.h, dlfcn.h, libgen.h, openssl/err.h, openssl/ssl.h, pthread.h, signal.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, sys/wait.h, time.h, unistd.h
-- `modules/rootkit/mrhyde.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, locale.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h, wchar.h
-- `modules/rootkit/mrhyde2.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h
-- `modules/rootkit/mrhyde3.c` -> arpa/inet.h, dirent.h, dlfcn.h, errno.h, fcntl.h, linux/io_uring.h, linux/limits.h, netinet/in.h, poll.h, pthread.h, pwd.h, signal.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/mman.h, sys/socket.h, sys/stat.h, sys/syscall.h, sys/types.h, sys/wait.h, unistd.h
-- `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/module.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

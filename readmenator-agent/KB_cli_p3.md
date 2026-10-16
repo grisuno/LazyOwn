@@ -9,47 +9,57 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `ConfigField` (class, line 59) `class ConfigField`
   - `FormModal` (class, line 81) `class FormModal`
   - `LazyOrchestratorApp` (class, line 118) `class LazyOrchestratorApp`
-  - `_coerce` (function, line 634) `def _coerce(raw)`
-  - `run_orchestrator_console` (function, line 651) `def run_orchestrator_console(task_id)`
+  - `_coerce` (function, line 793) `def _coerce(raw)`
+  - `run_orchestrator_console` (function, line 810) `def run_orchestrator_console(task_id)`
   - `__init__` (method, line 86) `def __init__(self, title, fields)`
   - `compose` (method, line 92) `def compose(self)`
   - `on_button_pressed` (method, line 101) `def on_button_pressed(self, event)`
   - `on_input_submitted` (method, line 110) `def on_input_submitted(self, event)`
   - `__init__` (method, line 142) `def __init__(self, payload_path, task_id)`
-  - `compose` (method, line 152) `def compose(self)`
-  - `on_mount` (method, line 177) `def on_mount(self)`
-  - `toggle_stage` (method, line 187) `def toggle_stage(self, name)`
-  - `toggle_verb` (method, line 196) `def toggle_verb(self, name)`
-  - `add_auto_verb` (method, line 205) `def add_auto_verb(self, name, keywords, needs_target, description)`
-  - `remove_auto_verb` (method, line 220) `def remove_auto_verb(self, name)`
-  - `_refresh_stages` (method, line 228) `def _refresh_stages(self)`
-  - `_refresh_verbs` (method, line 244) `def _refresh_verbs(self)`
-  - `_load_payload` (method, line 268) `def _load_payload(self)`
-  - `_load_payload_into_form` (method, line 278) `def _load_payload_into_form(self)`
-  - `save_config` (method, line 289) `def save_config(self, values)`
-  - `add_model_member` (method, line 311) `def add_model_member(self, name, model, priority)`
-  - `remove_model_member` (method, line 319) `def remove_model_member(self, name)`
-  - `set_model_priority` (method, line 327) `def set_model_priority(self, name, priority)`
-  - `add_guard_rule` (method, line 339) `def add_guard_rule(self, pattern, action, reason)`
-  - `remove_guard_rule` (method, line 347) `def remove_guard_rule(self, pattern)`
-  - `_refresh_models` (method, line 355) `def _refresh_models(self)`
-  - `_refresh_guard` (method, line 376) `def _refresh_guard(self)`
-  - `_resolve_task` (method, line 398) `def _resolve_task(self)`
-  - `_poll_now` (method, line 416) `def _poll_now(self)`
-  - `on_button_pressed` (method, line 451) `def on_button_pressed(self, event)`
-  - `action_refresh` (method, line 469) `def action_refresh(self)`
-  - `_selected_row` (method, line 477) `def _selected_row(self, table_id)`
-  - `action_toggle_item` (method, line 486) `def action_toggle_item(self)`
-  - `action_save_config` (method, line 498) `def action_save_config(self)`
-  - `_active_tab` (method, line 508) `def _active_tab(self)`
-  - `action_add_item` (method, line 515) `def action_add_item(self)`
-  - `action_edit_item` (method, line 575) `def action_edit_item(self)`
-  - `action_delete_item` (method, line 609) `def action_delete_item(self)`
-  - `_done` (function, line 588) `def _done(values)`
-  - `_done` (function, line 520) `def _done(values)`
-  - `_done_rule` (function, line 537) `def _done_rule(values)`
-  - `_done_verb` (function, line 554) `def _done_verb(values)`
-- Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
+  - `compose` (method, line 153) `def compose(self)`
+  - `on_mount` (method, line 182) `def on_mount(self)`
+  - `toggle_stage` (method, line 193) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 202) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 211) `def add_auto_verb(self, name, keywords, needs_target, description)`
+  - `remove_auto_verb` (method, line 226) `def remove_auto_verb(self, name)`
+  - `_chains_dir` (method, line 234) `def _chains_dir(self)`
+  - `chain_rows` (method, line 242) `def chain_rows(self)`
+  - `chain_steps_preview` (method, line 251) `def chain_steps_preview(self, name, limit)`
+  - `toggle_chain` (method, line 268) `def toggle_chain(self, name)`
+  - `generate_chain` (method, line 279) `def generate_chain(self, playbook_key)`
+  - `remove_chain` (method, line 293) `def remove_chain(self, name)`
+  - `_refresh_chains` (method, line 319) `def _refresh_chains(self)`
+  - `_update_chains_detail` (method, line 342) `def _update_chains_detail(self, name)`
+  - `on_data_table_row_highlighted` (method, line 349) `def on_data_table_row_highlighted(self, event)`
+  - `_refresh_stages` (method, line 362) `def _refresh_stages(self)`
+  - `_refresh_verbs` (method, line 378) `def _refresh_verbs(self)`
+  - `_load_payload` (method, line 402) `def _load_payload(self)`
+  - `_load_payload_into_form` (method, line 412) `def _load_payload_into_form(self)`
+  - `save_config` (method, line 423) `def save_config(self, values)`
+  - `add_model_member` (method, line 445) `def add_model_member(self, name, model, priority)`
+  - `remove_model_member` (method, line 453) `def remove_model_member(self, name)`
+  - `set_model_priority` (method, line 461) `def set_model_priority(self, name, priority)`
+  - `add_guard_rule` (method, line 473) `def add_guard_rule(self, pattern, action, reason)`
+  - `remove_guard_rule` (method, line 481) `def remove_guard_rule(self, pattern)`
+  - `_refresh_models` (method, line 489) `def _refresh_models(self)`
+  - `_refresh_guard` (method, line 510) `def _refresh_guard(self)`
+  - `_resolve_task` (method, line 532) `def _resolve_task(self)`
+  - `_poll_now` (method, line 550) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 585) `def on_button_pressed(self, event)`
+  - `action_refresh` (method, line 603) `def action_refresh(self)`
+  - `_selected_row` (method, line 612) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 621) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 637) `def action_save_config(self)`
+  - `_active_tab` (method, line 647) `def _active_tab(self)`
+  - `action_add_item` (method, line 654) `def action_add_item(self)`
+  - `action_edit_item` (method, line 730) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 764) `def action_delete_item(self)`
+  - `_done` (function, line 743) `def _done(values)`
+  - `_done` (function, line 659) `def _done(values)`
+  - `_done_rule` (function, line 676) `def _done_rule(values)`
+  - `_done_verb` (function, line 693) `def _done_verb(values)`
+  - `_done_chain` (function, line 716) `def _done_chain(values)`
+- Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
 - Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`
 
 ## cli/lazynmap_post.py
@@ -459,35 +469,6 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `latest_hint` (function, line 229) `def latest_hint(events_path)`
 - Depends on: `core/text_utils.py`
 - Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
-
-## cli/recommendation.py
-- Doc: Unified next-best-action engine: the single source of truth for "what next".
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EngineWeights` (class, line 67) `class EngineWeights`
-  - `RecommendationContext` (class, line 101) `class RecommendationContext`
-  - `Proposal` (class, line 123) `class Proposal`
-  - `Recommendation` (class, line 150) `class Recommendation`
-  - `RecommendationSignal` (class, line 177) `class RecommendationSignal(Protocol)`
-  - `CategoryResolver` (class, line 192) `class CategoryResolver`
-  - `RecommendationEngine` (class, line 232) `class RecommendationEngine`
-  - `_Accumulator` (class, line 362) `class _Accumulator`
-  - `_clamp01` (function, line 400) `def _clamp01(value)`
-  - `_non_negative` (function, line 412) `def _non_negative(value)`
-  - `_load_command_index` (function, line 422) `def _load_command_index(path)`
-  - `propose` (method, line 187) `def propose(self, ctx)`
-  - `__init__` (method, line 201) `def __init__(self, index_path, loader)`
-  - `category_for` (method, line 227) `def category_for(self, action)`
-  - `__init__` (method, line 240) `def __init__(self, signals, resolver, weights)`
-  - `recommend` (method, line 258) `def recommend(self, ctx)`
-  - `_safe_propose` (method, line 280) `def _safe_propose(signal, ctx)`
-  - `_build_category_priors` (method, line 287) `def _build_category_priors(self, collected)`
-  - `_fuse_concrete_actions` (method, line 302) `def _fuse_concrete_actions(self, collected, priors)`
-  - `_category_recommendations` (method, line 331) `def _category_recommendations(self, collected, concrete)`
-  - `add` (method, line 374) `def add(self, source, contribution, proposal)`
-  - `build` (method, line 386) `def build(self)`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
 
 
 Next: [KB_cli_p4.md](KB_cli_p4.md)

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **73.1%** (6599 of 9025 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,18 +8,18 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1150 | 1338 | 85.9% |
+| class | 1158 | 1346 | 86.0% |
 | classmethod | 54 | 81 | 66.7% |
-| constructor | 184 | 502 | 36.7% |
+| constructor | 185 | 504 | 36.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 34 | 36 | 94.4% |
-| function | 1513 | 2401 | 63.0% |
+| function | 1581 | 2469 | 64.0% |
 | macro | 3 | 113 | 2.7% |
-| method | 2673 | 3358 | 79.6% |
-| module | 615 | 737 | 83.4% |
-| property | 130 | 174 | 74.7% |
+| method | 2703 | 3388 | 79.8% |
+| module | 624 | 746 | 83.6% |
+| property | 133 | 177 | 75.1% |
 | protocol | 14 | 14 | 100.0% |
-| staticmethod | 74 | 86 | 86.0% |
+| staticmethod | 77 | 89 | 86.5% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
 
@@ -361,6 +361,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`modules.exploit_chain`](modules/modules.exploit_chain.py.md) | 12 | 13 | 92.3% |
 | [`skills.hermes-lazyown.config_bridge`](modules/skills.hermes-lazyown.config_bridge.py.md) | 12 | 13 | 92.3% |
 | [`skills.swan_agent`](modules/skills.swan_agent.py.md) | 24 | 26 | 92.3% |
+| [`modules.c2_agent`](modules/modules.c2_agent.py.md) | 13 | 14 | 92.9% |
 | [`modules.c2_profile`](modules/modules.c2_profile.py.md) | 26 | 28 | 92.9% |
 | [`modules.detection_oracle`](modules/modules.detection_oracle.py.md) | 13 | 14 | 92.9% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | 13 | 14 | 92.9% |
@@ -375,12 +376,12 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`modules.bof_registry`](modules/modules.bof_registry.py.md) | 39 | 41 | 95.1% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | 22 | 23 | 95.7% |
 | [`modules.c2_profile_engine`](modules/modules.c2_profile_engine.py.md) | 45 | 47 | 95.7% |
-| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 23 | 24 | 95.8% |
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | 23 | 24 | 95.8% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
-| [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 25 | 26 | 96.2% |
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 25 | 26 | 96.2% |
+| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 27 | 28 | 96.4% |
 | [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 57 | 59 | 96.6% |
+| [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 28 | 29 | 96.6% |
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | 29 | 30 | 96.7% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | 30 | 31 | 96.8% |
@@ -409,6 +410,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`cli.commands.bitm`](modules/cli.commands.bitm.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.bof_registry`](modules/cli.commands.bof_registry.py.md) | 9 | 9 | 100.0% |
 | [`cli.commands.c2_profile`](modules/cli.commands.c2_profile.py.md) | 6 | 6 | 100.0% |
+| [`cli.commands.c2_session`](modules/cli.commands.c2_session.py.md) | 7 | 7 | 100.0% |
 | [`cli.commands.caldera`](modules/cli.commands.caldera.py.md) | 18 | 18 | 100.0% |
 | [`cli.commands.campaign`](modules/cli.commands.campaign.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.catalog`](modules/cli.commands.catalog.py.md) | 4 | 4 | 100.0% |
@@ -480,7 +482,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`cli.graph_overlay`](modules/cli.graph_overlay.py.md) | 11 | 11 | 100.0% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | 3 | 3 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | 19 | 19 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 28 | 28 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 34 | 34 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | 4 | 4 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | 26 | 26 | 100.0% |
@@ -624,12 +626,17 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`lazyown-docker/mkdocker.sh`](modules/lazyown-docker.mkdocker.sh.md) | 13 | 13 | 100.0% |
 | [`modules.adcs_attacks`](modules/modules.adcs_attacks.py.md) | 11 | 11 | 100.0% |
 | [`modules.asset_graph`](modules/modules.asset_graph.py.md) | 18 | 18 | 100.0% |
+| [`modules.atomic_cli`](modules/modules.atomic_cli.py.md) | 4 | 4 | 100.0% |
 | [`modules.atomic_enricher`](modules/modules.atomic_enricher.py.md) | 4 | 4 | 100.0% |
+| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | 23 | 23 | 100.0% |
+| [`modules.atomic_resolver`](modules/modules.atomic_resolver.py.md) | 26 | 26 | 100.0% |
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | 3 | 3 | 100.0% |
 | [`modules.auto_registry`](modules/modules.auto_registry.py.md) | 25 | 25 | 100.0% |
 | [`modules.beacon_history`](modules/modules.beacon_history.py.md) | 8 | 8 | 100.0% |
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
+| [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
+| [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 10 | 10 | 100.0% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | 11 | 11 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | 8 | 8 | 100.0% |
 | [`modules.config_store`](modules/modules.config_store.py.md) | 7 | 7 | 100.0% |
@@ -711,6 +718,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`modules.tools.monitor_smoke`](modules/modules.tools.monitor_smoke.py.md) | 3 | 3 | 100.0% |
 | [`modules.toolset`](modules/modules.toolset.py.md) | 6 | 6 | 100.0% |
 | [`modules.traffic_recorder`](modules/modules.traffic_recorder.py.md) | 19 | 19 | 100.0% |
+| [`modules.ttpscope_bridge`](modules/modules.ttpscope_bridge.py.md) | 14 | 14 | 100.0% |
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | 1 | 1 | 100.0% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | 16 | 16 | 100.0% |
 | [`modules.workspace`](modules/modules.workspace.py.md) | 8 | 8 | 100.0% |
@@ -730,6 +738,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 | [`scripts/lazy_hermes_ask.sh`](modules/scripts.lazy_hermes_ask.sh.md) | 1 | 1 | 100.0% |
 | [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | 3 | 3 | 100.0% |
+| [`scripts.mutation_gate`](modules/scripts.mutation_gate.py.md) | 4 | 4 | 100.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | 1 | 1 | 100.0% |
 | [`scripts/pi_qwen_setup.sh`](modules/scripts.pi_qwen_setup.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.read_journal`](modules/scripts.read_journal.py.md) | 2 | 2 | 100.0% |
@@ -769,7 +778,7 @@ Overall: **72.8%** (6477 of 8902 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
+DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 40, DOC005: 41
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -885,13 +894,13 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'port' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'ssh_public_key' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC001 `cli/commands/lateral_migrated.py:24` class LateralMigratedCommandSet is not documented
-- DOC001 `cli/commands/lazyops.py:649` method LazyCommandSet.do_lazy_intent is not documented
-- DOC001 `cli/commands/lazyops.py:1189` method LazyCommandSet.do_lazy_finding is not documented
+- DOC001 `cli/commands/lazyops.py:655` method LazyCommandSet.do_lazy_intent is not documented
+- DOC001 `cli/commands/lazyops.py:1195` method LazyCommandSet.do_lazy_finding is not documented
 - DOC001 `cli/commands/misc_migrated.py:87` class MiscMigratedCommandSet is not documented
-- DOC001 `cli/commands/persist_migrated.py:28` class PersistMigratedCommandSet is not documented
-- DOC002 `cli/commands/persist_migrated.py:1060` parameter 'line' of PersistMigratedCommandSet.do_setoolKits is not documented
-- DOC003 `cli/commands/persist_migrated.py:1060` documented parameter 'None' is not in the signature of PersistMigratedCommandSet.do_setoolKits
-- DOC005 `cli/commands/persist_migrated.py:1060` PersistMigratedCommandSet.do_setoolKits raises ValueError but does not document it
+- DOC001 `cli/commands/persist_migrated.py:32` class PersistMigratedCommandSet is not documented
+- DOC002 `cli/commands/persist_migrated.py:1114` parameter 'line' of PersistMigratedCommandSet.do_setoolKits is not documented
+- DOC003 `cli/commands/persist_migrated.py:1114` documented parameter 'None' is not in the signature of PersistMigratedCommandSet.do_setoolKits
+- DOC005 `cli/commands/persist_migrated.py:1114` PersistMigratedCommandSet.do_setoolKits raises ValueError but does not document it
 - DOC001 `cli/commands/postexp_migrated.py:32` class PostexpMigratedCommandSet is not documented
 - DOC005 `cli/commands/postexp_migrated.py:2234` PostexpMigratedCommandSet.do_hex2shellcode raises ValueError but does not document it
 - DOC003 `cli/commands/recon.py:154` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_dig
@@ -1024,9 +1033,9 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `contrib/legacy/lazydeepseekcli.py:179` function add_to_knowledge_base is not documented
 - DOC001 `contrib/legacy/lazydeepseekcli.py:185` function get_relevant_knowledge is not documented
 - DOC001 `contrib/legacy/lazydeepseekcli.py:193` function transform_knowledge_base is not documented
-- DOC001 `contrib/legacy/lazydeepseekcli.py:255` function process_prompt_local is not documented
-- DOC001 `contrib/legacy/lazydeepseekcli.py:263` function process_prompt_localreport is not documented
-- DOC001 `contrib/legacy/lazydeepseekcli.py:271` function parse_args is not documented
+- DOC001 `contrib/legacy/lazydeepseekcli.py:261` function process_prompt_local is not documented
+- DOC001 `contrib/legacy/lazydeepseekcli.py:269` function process_prompt_localreport is not documented
+- DOC001 `contrib/legacy/lazydeepseekcli.py:277` function parse_args is not documented
 - DOC001 `contrib/legacy/lazyftpsniff.py:1` module contrib/legacy/lazyftpsniff.py is not documented
 - DOC001 `contrib/legacy/lazyftpsniff.py:21` function check_sudo is not documented
 - DOC001 `contrib/legacy/lazyftpsniff.py:34` function signal_handler is not documented
@@ -1239,7 +1248,7 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `core/api_authz.py:124` method ApiKey.is_retired is not documented
 - DOC001 `core/api_authz.py:127` method ApiKey.has_permission is not documented
 - DOC001 `core/api_authz.py:130` method ApiKey.has_all_permissions is not documented
-- DOC004 `core/config.py:316` return value of load_payload is not documented
+- DOC004 `core/config.py:327` return value of load_payload is not documented
 - DOC004 `core/crypto.py:67` return value of xor_encrypt_decrypt is not documented
 - DOC005 `core/crypto.py:83` generate_xor_key raises ValueError but does not document it
 - DOC005 `core/defaults.py:21` load_defaults raises ValueError but does not document it
@@ -1271,4 +1280,4 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 37, DOC005: 41
 - DOC001 `discord_c2.py:216` function handle_file is not documented
 - DOC001 `discord_c2.py:245` function download_c2 is not documented
 - DOC001 `discord_c2.py:256` function send_connected_clients is not documented
-- ... 1753 more in `api/warnings.jsonl`
+- ... 1756 more in `api/warnings.jsonl`

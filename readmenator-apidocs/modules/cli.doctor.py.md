@@ -71,6 +71,7 @@ flowchart LR
     n_cli_doctor_py__run(["run"])
     n_cli_doctor_py__render_report(["render_report"])
     n_cli_doctor_py__fix_report(["fix_report"])
+    n_modules_atomic_resolver_py__AtomicResolver_build_index["atomic_resolver.AtomicResolver.build_index"]
     n_core_profiles_py__specs_for_profile["profiles.specs_for_profile"]
     n_cli_doctor_py__check_python_version --> n_cli_doctor_py__CheckResult
     n_cli_doctor_py__check_virtualenv --> n_cli_doctor_py__CheckResult
@@ -94,6 +95,7 @@ flowchart LR
     n_cli_doctor_py__run --> n_cli_doctor_py__render_report
     n_cli_doctor_py__fix_report --> n_cli_doctor_py__gather_report
     n_cli_doctor_py__fix_report --> n_cli_doctor_py__render_report
+    n_cli_doctor_py__check_command_index -.-> n_modules_atomic_resolver_py__AtomicResolver_build_index
     n_cli_doctor_py__gather_report -.-> n_core_profiles_py__specs_for_profile
 ```
 
@@ -430,7 +432,7 @@ def check_command_index(root: Path) -> CheckResult
 
 **Returns:** `CheckResult`
 
-*Calls:* [`CheckResult`](#checkresult)
+*Calls:* [`CheckResult`](#checkresult), [`AtomicResolver.build_index`](modules.atomic_resolver.py.md#atomicresolver-build_index)
 
 *Called by:* [`gather_report`](#gather_report)
 

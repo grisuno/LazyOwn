@@ -14,7 +14,7 @@ Provides the Metasploit-like workflow:
 
 The active module context is stored on the parent shell
 (``_active_module`` and ``_active_module_options``) so the extended
-`[`do_show`](cli.commands.session_ops.py.md#sessionopscommandset-do_show)` and `[`do_run`](cli.commands.session_ops.py.md#sessionopscommandset-do_run)` in ``lazyown.py`` can read it.
+`[`do_show`](modules.ttpscope_bridge.py.md#do_show)` and `[`do_run`](cli.commands.session_ops.py.md#sessionopscommandset-do_run)` in ``lazyown.py`` can read it.
 
 ## Contents
 

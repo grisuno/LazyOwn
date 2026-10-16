@@ -1,6 +1,149 @@
 # Subsystem: modules (page 5 of 14)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/exp.c
+- Doc: gcc exp.c -o exp -l mnl -l nftnl -w
+- Layer: utility
+- Language: c
+- Symbols:
+  - `keyring_payload` (struct, line 120)
+  - `leak` (struct, line 126)
+  - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
+  - `add_key` (function, line 147) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+  - `keyctl` (function, line 151) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+  - `bye` (function, line 155) `void bye(char *info)`
+  - `do_error_exit` (function, line 161) `void do_error_exit(char *info)`
+  - `bye2` (function, line 167) `void bye2(char *info, char *arg)`
+  - `spray_keyring` (function, line 172) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+  - `spray_keyring_list_del_purpose` (function, line 190) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+  - `spray_keyring_list_overwrite_purpose` (function, line 214) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+  - `get_keyring_leak` (function, line 248) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `awake_partial_keys` (function, line 271) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+  - `release_keys` (function, line 279) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `release_partial_keys` (function, line 290) `void release_partial_keys(key_serial_t *id_buffer, int i)`
+  - `unshare_setup` (function, line 297) `void unshare_setup(uid_t uid, gid_t gid)`
+  - `set_stable_table_and_set` (function, line 322) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+  - `set_trigger_set_and_overwrite` (function, line 385) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+  - `set_cpu_affinity` (function, line 438) `void set_cpu_affinity(int cpu_n, pid_t pid)`
+  - `spray_mqueue` (function, line 448) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+  - `gather_mqueue` (function, line 463) `int gather_mqueue(mqd_t mqdes, int gather_size)`
+  - `gather_mqueue_nosave` (function, line 485) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+  - `spray_msg_msg` (function, line 496) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+  - `io_uring_setup` (function, line 520) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+  - `io_uring_register` (function, line 524) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+  - `spray_uring` (function, line 529) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+  - `release_uring` (function, line 546) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+  - `release_partial_uring` (function, line 554) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+  - `prepare_root_shell` (function, line 559) `void prepare_root_shell(void)`
+  - `create_dummy_file` (function, line 564) `void create_dummy_file(void)`
+  - `create_priv_file` (function, line 572) `void create_priv_file(void)`
+  - `write_new_modprobe` (function, line 582) `void write_new_modprobe()`
+  - `setup_modprobe_payload` (function, line 601) `void setup_modprobe_payload()`
+  - `userland_T` (function, line 605) `void userland_T(int *sema)`
+  - `sema_up` (function, line 610) `void sema_up(int *sema)`
+  - `sema_down` (function, line 615) `void sema_down(int *sema)`
+  - `main` (function, line 620) `int main(int argc, char ** argv)`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 49) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 52) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 56) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 60) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 62) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 65) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
+- Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
+
+## modules/exploit_chain.py
+- Doc: Autonomous exploitation chain engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ServiceInfo` (class, line 29) `class ServiceInfo`
+  - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
+  - `ExploitResult` (class, line 54) `class ExploitResult`
+  - `ChainResult` (class, line 65) `class ChainResult`
+  - `_compare_versions` (function, line 266) `def _compare_versions(version_a, version_b)`
+  - `ExploitChain` (class, line 289) `class ExploitChain`
+  - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
+  - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
+  - `_discover_xml_files` (method, line 331) `def _discover_xml_files(self)`
+  - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
+  - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
+  - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
+  - `_parse_nmap_text` (method, line 404) `def _parse_nmap_text(self, output)`
+  - `map_vulnerabilities` (method, line 446) `def map_vulnerabilities(self)`
+  - `_add_vuln` (method, line 485) `def _add_vuln(self, service, sig, version)`
+  - `generate_exploit_plan` (method, line 499) `def generate_exploit_plan(self)`
+  - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
+  - `generate_report` (method, line 531) `def generate_report(self)`
+  - `save_report` (method, line 566) `def save_report(self, path)`
+- Imported by: `cli/commands/exploit_migrated.py`
+
+## modules/exploit_recommender.py
+- Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitMatch` (class, line 37) `class ExploitMatch`
+  - `ExploitRecommender` (class, line 50) `class ExploitRecommender`
+  - `__init__` (method, line 120) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 129) `def set_world_model(self, world_model)`
+  - `set_nvd_api_key` (method, line 132) `def set_nvd_api_key(self, key)`
+  - `_load_exploitdb` (method, line 135) `def _load_exploitdb(self)`
+  - `_extract_cve_ids` (method, line 161) `def _extract_cve_ids(text)`
+  - `_compare_versions` (method, line 165) `def _compare_versions(version, max_vulnerable)`
+  - `_query_nvd` (method, line 175) `def _query_nvd(self, cve_id)`
+  - `_try_nvd` (method, line 211) `def _try_nvd(self, cve_id)`
+  - `_generate_lazyown_commands` (method, line 214) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
+  - `match_services` (method, line 244) `def match_services(self, hosts)`
+  - `recommend` (method, line 337) `def recommend(self, hosts, top_n)`
+  - `persist_recommendations` (method, line 370) `def persist_recommendations(self, matches)`
+  - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
+  - `parse_version` (function, line 25) `def parse_version(v)`
+- Depends on: `lazygui/version.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+
+## modules/exploitgym_gym.py
+- Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ensure_dir` (function, line 56) `def _ensure_dir()`
+  - `_resolve_root` (function, line 61) `def _resolve_root(params)`
+  - `_read_task_ids` (function, line 75) `def _read_task_ids(root)`
+  - `_detect_domain` (function, line 96) `def _detect_domain(task_id)`
+  - `check_readiness` (function, line 112) `def check_readiness(params)`
+  - `list_tasks` (function, line 178) `def list_tasks(params, domain, limit)`
+  - `_run_streaming` (function, line 206) `def _run_streaming(cmd, cwd, timeout)`
+  - `_ensure_clone` (function, line 232) `def _ensure_clone(root, timeout)`
+  - `setup_harness` (function, line 249) `def setup_harness(params, steps)`
+  - `_env_for_run` (function, line 315) `def _env_for_run(params)`
+  - `pull_task` (function, line 344) `def pull_task(task_id, params, timeout)`
+  - `_run_agent` (function, line 378) `def _run_agent(task_id, model, mitigations, root, params, timeout)`
+  - `run_task` (function, line 423) `def run_task(task_id, params, model, mitigations, timeout)`
+  - `_extract_flag` (function, line 487) `def _extract_flag(output)`
+  - `_load_records` (function, line 500) `def _load_records()`
+  - `_save_records` (function, line 514) `def _save_records(records)`
+  - `_record` (function, line 523) `def _record(task_id, success, elapsed, flag)`
+  - `verify_flag` (function, line 548) `def verify_flag(task_id, params)`
+  - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
+  - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
+- Depends on: `modules/redteam_gym.py`
+- Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+
 ## modules/fast_run_service.sh
 - Doc: LazyOwn service-mode orchestrator.
 - Layer: business_logic
@@ -325,145 +468,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `add_edge` (function, line 197) `def add_edge(src, dst, kind, evidence, weight)`
   - `tag_source` (function, line 205) `def tag_source(nid, source)`
 - Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
-- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
-
-## modules/intelligence_engine.py
-- Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `IntelligenceConfig` (class, line 57) `class IntelligenceConfig`
-  - `CollectedFact` (class, line 78) `class CollectedFact`
-  - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
-  - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
-  - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
-  - `get_intelligence_engine` (function, line 931) `def get_intelligence_engine(config)`
-  - `__init__` (method, line 142) `def __init__(self, config)`
-  - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
-  - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
-  - `collect_from_estorides` (method, line 292) `def collect_from_estorides(self, target)`
-  - `collect_from_nuclei` (method, line 334) `def collect_from_nuclei(self, target)`
-  - `collect_from_yara` (method, line 376) `def collect_from_yara(self, target_path)`
-  - `collect_from_factstore` (method, line 415) `def collect_from_factstore(self)`
-  - `analyze` (method, line 477) `def analyze(self)`
-  - `_correlate_services_to_vulns` (method, line 494) `def _correlate_services_to_vulns(self)`
-  - `_match_known_vulns` (method, line 537) `def _match_known_vulns(fact)`
-  - `_correlate_creds_to_hosts` (method, line 565) `def _correlate_creds_to_hosts(self)`
-  - `_correlate_domains_to_infrastructure` (method, line 588) `def _correlate_domains_to_infrastructure(self)`
-  - `_rank_targets` (method, line 604) `def _rank_targets(self)`
-  - `_detect_killchain_gaps` (method, line 644) `def _detect_killchain_gaps(self)`
-  - `produce_intelligence` (method, line 685) `def produce_intelligence(self)`
-  - `_map_category_to_mitre` (method, line 700) `def _map_category_to_mitre(category)`
-  - `produce_counter_intelligence` (method, line 715) `def produce_counter_intelligence(self)`
-  - `disseminate` (method, line 765) `def disseminate(self)`
-  - `run_full_cycle` (method, line 845) `def run_full_cycle(self, target)`
-  - `get_intel_report` (method, line 874) `def get_intel_report(self)`
-  - `_is_placeholder` (method, line 925) `def _is_placeholder(value)`
-- Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
-
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
-
-## modules/jsonl_tail.py
-- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `JsonlTail` (class, line 14) `class JsonlTail`
-  - `__init__` (method, line 17) `def __init__(self, path)`
-  - `read_new` (method, line 22) `def read_new(self, limit)`
-- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-
-## modules/jwtexploit.py
-- Layer: utility
-- Language: py
-
-## modules/k8s_attacks.py
-- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `K8sConfig` (class, line 57) `class K8sConfig`
-  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
-  - `__init__` (method, line 87) `def __init__(self, config)`
-  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
-  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
-  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
-  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
-  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
-  - `summary` (method, line 318) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/kerberoasting.py
-- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
-  - `KerberoastHash` (class, line 59) `class KerberoastHash`
-  - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
-  - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
-  - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
-  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
-  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
-  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
-  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
-  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
-  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
-  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
-  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
-  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
-  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
-  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
-  - `summary` (method, line 401) `def summary(self)`
-  - `priority` (function, line 172) `def priority(target)`
-- Depends on: `modules/kerberos_core.py`
-- Imported by: `cli/commands/active_directory.py`
+- Imported by: `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

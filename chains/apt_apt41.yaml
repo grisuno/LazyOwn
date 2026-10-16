@@ -1,0 +1,6 @@
+name: apt_apt41
+description: Full APT chain for apt41 (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: apt41

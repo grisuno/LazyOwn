@@ -169,6 +169,8 @@ Record the terminal outcome of one executed command.
 
 *Calls:* [`describe_command`](#describe_command)
 
+*Called by:* [`record_outcome`](modules.atomic_exploit_bridge.py.md#record_outcome)
+
 ---
 
 <a id="read_decisions"></a>

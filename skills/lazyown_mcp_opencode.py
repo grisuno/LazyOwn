@@ -50,6 +50,11 @@ CURATED_TOOLS: dict[str, str] = {
     "next_objective": "lazyown_next_objective",
     "phase_guide": "lazyown_phase_guide",
     "command_next": "lazyown_command_next",
+    "auto_loop": "lazyown_auto_loop",
+    "apt_chain": "lazyown_apt_chain",
+    "ttp_chain": "lazyown_ttp_chain",
+    "atomic_shell": "lazyown_atomic_shell",
+    "atomic_clean": "lazyown_atomic_clean",
 }
 
 

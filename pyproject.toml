@@ -151,7 +151,6 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "B"]
-"test/*" = ["S", "B"]
 # cli/commands: S103/S104/S608 are intentional in a pentest framework
 # (payloads chmod 0o755, C2 binding 0.0.0.0, imports over hardcoded tables).
 "cli/commands/*" = ["S103", "S104", "S608"]
@@ -179,7 +178,13 @@ addopts = [
     "--strict-config",
 ]
 markers = [
+    "unit: fast isolated unit tests with no network or sessions state",
     "integration: integration tests touching real services or sessions/ fixtures",
+    "bdd: behaviour scenarios stating Given/When/Then in the docstring",
+    "contract: SDD specification contracts pinning public behaviour",
+    "mutation: mutation gate probes asserting weak tests fail on mutants",
+    "sdd: specification-driven design contract tests",
+    "tdd: test-driven development regression tests",
     "slow: tests that take more than a few seconds",
 ]
 

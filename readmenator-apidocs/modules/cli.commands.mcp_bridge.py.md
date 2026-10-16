@@ -173,7 +173,7 @@ tool.
 
 #### `McpBridgeCommandSet.do_facts_show`
 
-`method` | [cli/commands/mcp_bridge.py:258](../../cli/commands/mcp_bridge.py#L258)
+`method` | [cli/commands/mcp_bridge.py:261](../../cli/commands/mcp_bridge.py#L261)
 
 Decorators: `@with_category(ai_category)`, `@with_argparser(_build_facts_show_parser())`
 
@@ -199,7 +199,7 @@ accessible shares and achieved access level per target. Mirrors the
 
 #### `McpBridgeCommandSet.do_rag_query`
 
-`method` | [cli/commands/mcp_bridge.py:283](../../cli/commands/mcp_bridge.py#L283)
+`method` | [cli/commands/mcp_bridge.py:286](../../cli/commands/mcp_bridge.py#L286)
 
 Decorators: `@with_category(ai_category)`, `@with_argparser(_build_rag_query_parser())`
 
@@ -223,7 +223,7 @@ Mirrors the ``lazyown_rag_query`` MCP tool.
 
 #### `McpBridgeCommandSet.do_parquet_query`
 
-`method` | [cli/commands/mcp_bridge.py:313](../../cli/commands/mcp_bridge.py#L313)
+`method` | [cli/commands/mcp_bridge.py:316](../../cli/commands/mcp_bridge.py#L316)
 
 Decorators: `@with_category(ai_category)`, `@with_argparser(_build_parquet_query_parser())`
 
@@ -249,7 +249,7 @@ Modes: ``session`` (past command outcomes by phase/target),
 
 #### `McpBridgeCommandSet.do_threat_model`
 
-`method` | [cli/commands/mcp_bridge.py:375](../../cli/commands/mcp_bridge.py#L375)
+`method` | [cli/commands/mcp_bridge.py:378](../../cli/commands/mcp_bridge.py#L378)
 
 Decorators: `@with_category(ai_category)`, `@with_argparser(_build_threat_model_parser())`
 
@@ -275,7 +275,7 @@ cached one, ``ttps`` lists observed ATT&CK techniques. Mirrors the
 
 #### `McpBridgeCommandSet.do_playbook_run`
 
-`method` | [cli/commands/mcp_bridge.py:428](../../cli/commands/mcp_bridge.py#L428)
+`method` | [cli/commands/mcp_bridge.py:431](../../cli/commands/mcp_bridge.py#L431)
 
 Decorators: `@with_category(ai_category)`, `@with_argparser(_build_playbook_run_parser())`
 
@@ -301,7 +301,7 @@ the ``lazyown_playbook_run`` MCP tool.
 
 #### `McpBridgeCommandSet.do_auto_loop`
 
-`method` | [cli/commands/mcp_bridge.py:486](../../cli/commands/mcp_bridge.py#L486)
+`method` | [cli/commands/mcp_bridge.py:489](../../cli/commands/mcp_bridge.py#L489)
 
 Decorators: `@with_category(ai_category)`
 
@@ -332,7 +332,7 @@ the live worker monitor instead of the milestone panel.
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:520](../../cli/commands/mcp_bridge.py#L520)
+`method` | [cli/commands/mcp_bridge.py:523](../../cli/commands/mcp_bridge.py#L523)
 
 Decorators: `@with_category(ai_category)`
 
@@ -352,7 +352,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:525](../../cli/commands/mcp_bridge.py#L525)
+`method` | [cli/commands/mcp_bridge.py:528](../../cli/commands/mcp_bridge.py#L528)
 
 Decorators: `@with_category(ai_category)`
 
@@ -372,7 +372,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:530](../../cli/commands/mcp_bridge.py#L530)
+`method` | [cli/commands/mcp_bridge.py:533](../../cli/commands/mcp_bridge.py#L533)
 
 Decorators: `@with_category(ai_category)`
 

@@ -402,6 +402,9 @@ lazyown_command_help(command="secretsdump")
 |------|---------|
 | `lazyown_groq_agent` | Spawn autonomous Groq/Ollama agent with **21 native LazyOwn tools** — full ReAct loop |
 | `lazyown_atomic_search` | Structured search over **1690 Atomic Red Team tests** (techniques_enriched.parquet). Filter by keyword, MITRE ID, platform, complexity |
+| `lazyown_apt_chain` | Run a fully YAML-administered APT chain (`chains/apt_rocke`, …) with one call: assign, scan, sweep, C2 deploy, loot, playbook, emulation |
+| `lazyown_atomic_shell` | Verify-only live shell session check (interactive REPL is foreground-terminal only, never via MCP) |
+| `lazyown_atomic_clean` | Soft cleanup of target artefacts (hard mode destroys the gym, needs confirm=true) |
 | `lazyown_fast_run` | Launch LazyOwn full-stack HackTheBox orchestrator: nmap + C2 + auto_loop + Flask + HTTP server + VPN |
 
 ---

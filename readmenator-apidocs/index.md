@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 737 modules, 14107 documented entities, documentation coverage 72.8% (6477/8902 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 746 modules, 14284 documented entities, documentation coverage 73.1% (6599/9025 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (626), sh (59)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (635), sh (59)
 
 ## Modules
 
@@ -77,7 +77,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.headless`](modules/cli.headless.py.md) | Headless / non-interactive runner for automated pipelines. | 1 | 5 | 85.7% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | Self-populating kill-chain progress derived from the daemon event stream. | 1 | 1 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | Live worker-visibility monitor for the autonomous loop. | 1 | 17 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 2 | 25 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 2 | 31 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | Post-scan side effects executed at the tail of ``do_lazynmap``. | 2 | 1 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 18 | 45.8% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
@@ -133,6 +133,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.bitm`](modules/cli.commands.bitm.py.md) | Browser-in-the-Middle CLI command set. | 1 | 1 | 100.0% |
 | [`cli.commands.bof_registry`](modules/cli.commands.bof_registry.py.md) | BOF marketplace CommandSet — Beacon Object File discovery, install, and execution. | 1 | 7 | 100.0% |
 | [`cli.commands.c2_profile`](modules/cli.commands.c2_profile.py.md) | C2 profile CommandSet — extended malleable C2 profiles (TLS, DNS, SMB, WS). | 1 | 4 | 100.0% |
+| [`cli.commands.c2_session`](modules/cli.commands.c2_session.py.md) | C2 session CommandSet — headless server, agent deploy, exec, loot. | 1 | 5 | 100.0% |
 | [`cli.commands.caldera`](modules/cli.commands.caldera.py.md) | Caldera-style command set — operation lifecycle, TTP coverage, and planner. | 1 | 16 | 100.0% |
 | [`cli.commands.campaign`](modules/cli.commands.campaign.py.md) | Campaign export/import commands — portable engagement packages. | 1 | 1 | 100.0% |
 | [`cli.commands.catalog`](modules/cli.commands.catalog.py.md) | Command catalog — browse all registered commands by keyword, phase or category. | 1 | 2 | 100.0% |
@@ -142,7 +143,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.cloud_attacks`](modules/cli.commands.cloud_attacks.py.md) | Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS. | 1 | 6 | 100.0% |
 | [`cli.commands.collaboration`](modules/cli.commands.collaboration.py.md) | Collaboration CLI commands — multi-operator teamwork from the shell. | 1 | 5 | 100.0% |
 | [`cli.commands.command_and_control`](modules/cli.commands.command_and_control.py.md) | Command & Control command set. | 1 | 6 | 100.0% |
-| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | command_and_control commands migrated from lazyown.py. | 1 | 22 | 95.8% |
+| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | command_and_control commands migrated from lazyown.py. | 1 | 26 | 96.4% |
 | [`cli.commands.containers`](modules/cli.commands.containers.py.md) | Container and Kubernetes attack command set. | 1 | 6 | 100.0% |
 | [`cli.commands.cred`](modules/cli.commands.cred.py.md) | Credential Access command set (pending). | 1 | 9 | 100.0% |
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | cred commands migrated from lazyown.py. | 1 | 22 | 95.8% |
@@ -181,7 +182,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.payload_arsenal`](modules/cli.commands.payload_arsenal.py.md) | Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic, macOS/Linux payloads. | 1 | 6 | 100.0% |
 | [`cli.commands.payload_generation`](modules/cli.commands.payload_generation.py.md) | Payload generation commands — list payloads and generate. | 1 | 1 | 100.0% |
 | [`cli.commands.persist`](modules/cli.commands.persist.py.md) | Persistence command set (pending). | 1 | 9 | 100.0% |
-| [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | persist commands migrated from lazyown.py. | 1 | 24 | 96.2% |
+| [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | persist commands migrated from lazyown.py. | 1 | 27 | 96.6% |
 | [`cli.commands.phishing_wizard`](modules/cli.commands.phishing_wizard.py.md) | Phishing Wizard command set. | 1 | 3 | 100.0% |
 | [`cli.commands.pivoting`](modules/cli.commands.pivoting.py.md) | Intelligent Pivoting command set. | 1 | 5 | 100.0% |
 | [`cli.commands.postexp`](modules/cli.commands.postexp.py.md) | Post-Exploitation command set (pending). | 1 | 8 | 100.0% |
@@ -468,11 +469,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.amt_auth_bypass`](modules/modules.amt_auth_bypass.py.md) |  | 1 | 2 | 0.0% |
 | [`modules.apt_playbooks`](modules/modules.apt_playbooks.py.md) | APT Playbook Engine — map public APT reports to executable Atomic Red Team chains. | 5 | 8 | 35.7% |
 | [`modules.asset_graph`](modules/modules.asset_graph.py.md) | Global asset truth store joined to per-task exploration chains. | 5 | 12 | 100.0% |
+| [`modules.atomic_cli`](modules/modules.atomic_cli.py.md) | Non-interactive, agent-safe implementation for atomic_tests / atomic_gen. | 0 | 3 | 100.0% |
 | [`modules.atomic_enricher`](modules/modules.atomic_enricher.py.md) | atomic_enricher.py — Enrich techniques.parquet with structured derived columns. | 0 | 3 | 100.0% |
+| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | 2 | 20 | 100.0% |
+| [`modules.atomic_resolver`](modules/modules.atomic_resolver.py.md) | Central MITRE ATT&CK <-> Atomic Red Team translator. | 2 | 23 | 100.0% |
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | Attack-surface 3D intel module: C2-centred campaign graph. | 0 | 2 | 100.0% |
 | [`modules.auto_pivot`](modules/modules.auto_pivot.py.md) | Auto-Pivoting Engine for LazyOwn. | 3 | 17 | 9.5% |
 | [`modules.auto_purple`](modules/modules.auto_purple.py.md) | Purple Team Closed-Loop — honest measurement of offensive detection. | 6 | 19 | 57.7% |
-| [`modules.auto_registry`](modules/modules.auto_registry.py.md) | Registry of loop-ready automation verbs (the ``auto_*`` family). | 2 | 22 | 100.0% |
+| [`modules.auto_registry`](modules/modules.auto_registry.py.md) | Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such as ``atomic_tests`` / ``atomic_gen``). | 2 | 22 | 100.0% |
 | [`modules.autonomous_exploit_engine`](modules/modules.autonomous_exploit_engine.py.md) | Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer. | 4 | 12 | 88.2% |
 | [`modules.aws_attacks`](modules/modules.aws_attacks.py.md) | AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining. | 2 | 9 | 83.3% |
 | [`modules.beacon_config_builder`](modules/modules.beacon_config_builder.py.md) | Beacon configuration builder — wires profile engines into beacon compile-time config. | 2 | 9 | 91.7% |
@@ -480,12 +484,15 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.bin2img`](modules/modules.bin2img.py.md) |  | 0 | 2 | 0.0% |
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | Browser-in-the-Middle (BitM) attack engine. | 1 | 6 | 100.0% |
 | [`modules.bof_registry`](modules/modules.bof_registry.py.md) | Beacon Object File (BOF) registry and marketplace for LazyOwn. | 7 | 33 | 95.1% |
+| [`modules.c2_agent`](modules/modules.c2_agent.py.md) | Malleable C2 client lifecycle for lab targets. | 1 | 12 | 92.9% |
 | [`modules.c2_builder`](modules/modules.c2_builder.py.md) | C2 agent builder with profile-driven compilation and safe templating. | 2 | 2 | 80.0% |
 | [`modules.c2_messaging_base`](modules/modules.c2_messaging_base.py.md) |  | 2 | 10 | 84.6% |
 | [`modules.c2_profile`](modules/modules.c2_profile.py.md) | modules/c2_profile.py ====================== Malleable C2 profile system for LazyOwn. | 8 | 19 | 92.9% |
 | [`modules.c2_profile_engine`](modules/modules.c2_profile_engine.py.md) | Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports. | 9 | 37 | 95.7% |
+| [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | C2 dashboard surfaces fed by the autonomous loop and APT chains. | 0 | 7 | 100.0% |
 | [`modules/cal.sh`](modules/modules.cal.sh.md) |  | 0 | 3 | 75.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | modules/categories.py ===================== cmd2 command category strings for LazyOwn. | 0 | 0 | 100.0% |
+| [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry — ordered orchestration chains from ``chains/*.yaml``. | 2 | 7 | 100.0% |
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | CI/CD Pipeline Enumeration Module. | 2 | 5 | 87.5% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | CLI authentication module — login against users.json with remember-me. | 0 | 10 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | Native cloud enumeration modules for AWS, Azure, and GCP. | 1 | 6 | 100.0% |
@@ -687,6 +694,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.traffic_morpher`](modules/modules.traffic_morpher.py.md) | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | 1 | 10 | 91.7% |
 | [`modules.traffic_recorder`](modules/modules.traffic_recorder.py.md) | HTTP traffic recorder with file-tree storage and SQLite index. | 3 | 15 | 100.0% |
 | [`modules.ttp_coverage`](modules/modules.ttp_coverage.py.md) | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | 2 | 8 | 54.5% |
+| [`modules.ttpscope_bridge`](modules/modules.ttpscope_bridge.py.md) | Secure bridge for the TTPScope MITRE ATT&CK research client. | 0 | 13 | 100.0% |
 | [`modules.unified_bridge`](modules/modules.unified_bridge.py.md) | UnifiedBridge — single API over all LazyOwn bridges and routing engines. | 7 | 16 | 37.5% |
 | [`modules.unified_dashboard`](modules/modules.unified_dashboard.py.md) | Unified campaign dashboard — combines all state sources into one view. | 1 | 5 | 85.7% |
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 0 | 100.0% |
@@ -826,6 +834,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`scripts.migrate_commandsets`](modules/scripts.migrate_commandsets.py.md) | Merge _migrated.py CommandSet methods into clean phase modules. | 0 | 2 | 66.7% |
 | [`scripts.migrate_lazyown`](modules/scripts.migrate_lazyown.py.md) | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | 0 | 4 | 80.0% |
 | [`scripts/mutate.sh`](modules/scripts.mutate.sh.md) | Mutation gate for LazyOwn. | 0 | 3 | 25.0% |
+| [`scripts.mutation_gate`](modules/scripts.mutation_gate.py.md) | Consolidated mutation gate for LazyOwn. | 0 | 3 | 100.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | Patch APT playbooks: replace placeholder atomic_ids with real technique_ids. | 0 | 0 | 100.0% |
 | [`scripts/pi_qwen_setup.sh`](modules/scripts.pi_qwen_setup.sh.md) | pi_qwen_setup.sh - idempotent bootstrap for the pi_qwen lazyaddon. | 0 | 0 | 100.0% |
 | [`scripts/publish_wiki.sh`](modules/scripts.publish_wiki.sh.md) | Publish LazyOwn documentation to the GitHub wiki. | 0 | 8 | 11.1% |

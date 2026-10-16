@@ -4,23 +4,23 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (126 connections)
+### Q: What does logging.py depend on, and what depends on it? (133 connections)
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (100 connections)
+### Q: What does utils.py depend on, and what depends on it? (102 connections)
 
 - Status: unanswered
 
-### Q: What does lazyown_mcp.py depend on, and what depends on it? (85 connections)
+### Q: What does lazyown_mcp.py depend on, and what depends on it? (90 connections)
 
 - Status: unanswered
 
-### Q: How are the 127 files in 'cli/commands: utils' related to each other?
+### Q: How are the 157 files in 'cli/commands' related to each other?
 
 - Status: unanswered
 
-### Q: Why are __init__.py and search.py connected through 9 hops across 5 communities?
+### Q: Why are __init__.py and search.py connected through 9 hops across 4 communities?
 
 - Status: unanswered
 

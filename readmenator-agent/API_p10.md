@@ -1,5 +1,104 @@
-# API (page 10 of 22)
+# API (page 10 of 23)
 Previous: [API_p9.md](API_p9.md)
+
+## modules/c2_profile_engine.py
+Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
+Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
+- `TlsProfile.get_cipher_suites` (method) `modules/c2_profile_engine.py:144` `def get_cipher_suites(self)` -- Return cipher suites, resolving library alias if set.
+- `TlsProfile.get_ja3_hash` (method) `modules/c2_profile_engine.py:155` `def get_ja3_hash(self)` -- Compute a JA3 fingerprint hash from the current profile.
+- `TlsProfile.from_dict` (method) `modules/c2_profile_engine.py:173` `def from_dict(raw)` -- Build a TlsProfile from a configuration dictionary.
+- `TlsProfile.to_dict` (method) `modules/c2_profile_engine.py:188` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `DnsProfile.build_query_subdomain` (method) `modules/c2_profile_engine.py:231` `def build_query_subdomain(self, data, packet_id)` -- Build a DNS query subdomain from encoded data and a packet ID.
+- `DnsProfile.from_dict` (method) `modules/c2_profile_engine.py:261` `def from_dict(raw)` -- Build a DnsProfile from a configuration dictionary.
+- `DnsProfile.to_dict` (method) `modules/c2_profile_engine.py:274` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `SmbProfile.from_dict` (method) `modules/c2_profile_engine.py:319` `def from_dict(raw)` -- Build an SmbProfile from a configuration dictionary.
+- `SmbProfile.to_dict` (method) `modules/c2_profile_engine.py:333` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `WebSocketProfile.from_dict` (method) `modules/c2_profile_engine.py:375` `def from_dict(raw)` -- Build a WebSocketProfile from a configuration dictionary.
+- `WebSocketProfile.to_dict` (method) `modules/c2_profile_engine.py:389` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `RotationSlot.is_available` (method) `modules/c2_profile_engine.py:429` `def is_available(self)` -- Return True if the cooldown window has elapsed.
+- `RotationSlot.touch` (method) `modules/c2_profile_engine.py:436` `def touch(self)` -- Mark this slot as just used.
+- `ProfileRotator.__init__` (method) `modules/c2_profile_engine.py:453` `def __init__(self, slots)`
+- `ProfileRotator.current_slot` (method) `modules/c2_profile_engine.py:460` `def current_slot(self)` -- Return the currently active rotation slot.
+- `ProfileRotator.transport` (method) `modules/c2_profile_engine.py:465` `def transport(self)` -- Return the transport type of the current slot.
+- `ProfileRotator.rotate` (method) `modules/c2_profile_engine.py:469` `def rotate(self)` -- Advance to the next available slot and return it.
+- `ProfileRotator.list_slots` (method) `modules/c2_profile_engine.py:487` `def list_slots(self)` -- Return a list of slot states for inspection.
+- `ProfileValidator.validate_tls` (method) `modules/c2_profile_engine.py:511` `def validate_tls(profile)` -- Validate a TlsProfile and return error messages.
+- `ProfileValidator.validate_dns` (method) `modules/c2_profile_engine.py:536` `def validate_dns(profile)` -- Validate a DnsProfile and return error messages.
+- `ProfileValidator.validate_smb` (method) `modules/c2_profile_engine.py:556` `def validate_smb(profile)` -- Validate an SmbProfile and return error messages.
+- `ProfileValidator.validate_websocket` (method) `modules/c2_profile_engine.py:576` `def validate_websocket(profile)` -- Validate a WebSocketProfile and return error messages.
+- `ProfileValidator.validate_all` (method) `modules/c2_profile_engine.py:591` `def validate_all(self, tls, dns, smb, websocket)` -- Validate all provided profiles and return a dict of transport -> errors.
+- `ProfileEngine.__init__` (method) `modules/c2_profile_engine.py:627` `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
+- `ProfileEngine.tls_profile` (method) `modules/c2_profile_engine.py:643` `def tls_profile(self)` -- Return the current TLS profile.
+- `ProfileEngine.dns_profile` (method) `modules/c2_profile_engine.py:648` `def dns_profile(self)` -- Return the current DNS profile.
+- `ProfileEngine.smb_profile` (method) `modules/c2_profile_engine.py:653` `def smb_profile(self)` -- Return the current SMB profile.
+- `ProfileEngine.websocket_profile` (method) `modules/c2_profile_engine.py:658` `def websocket_profile(self)` -- Return the current WebSocket profile.
+- `ProfileEngine.rotator` (method) `modules/c2_profile_engine.py:663` `def rotator(self)` -- Return the profile rotator.
+- `ProfileEngine.active_transport` (method) `modules/c2_profile_engine.py:668` `def active_transport(self)` -- Return the currently active transport type.
+- `ProfileEngine.rotate` (method) `modules/c2_profile_engine.py:672` `def rotate(self)` -- Advance to the next transport in the rotation queue.
+- `ProfileEngine.validate` (method) `modules/c2_profile_engine.py:676` `def validate(self)` -- Validate all transport profiles and return error dict.
+- `ProfileEngine.get_active_profile_dict` (method) `modules/c2_profile_engine.py:685` `def get_active_profile_dict(self)` -- Return a JSON-serializable dict of the active transport config.
+- `ProfileEngine.get_all_profiles_dict` (method) `modules/c2_profile_engine.py:699` `def get_all_profiles_dict(self)` -- Return a JSON-serializable dict of all profiles.
+- `ProfileEngine.from_dict` (method) `modules/c2_profile_engine.py:747` `def from_dict(cls, raw)` -- Build a ProfileEngine from a configuration dictionary.
+- `ProfileEngine.from_payload` (method) `modules/c2_profile_engine.py:766` `def from_payload(cls, payload)` -- Build a ProfileEngine from a LazyOwn payload configuration dict.
+- `ProfileEngine.from_config` (method) `modules/c2_profile_engine.py:771` `def from_config(cls, config)` -- Build a ProfileEngine from a LazyOwn Config object.
+
+## modules/c2_surfaces.py
+Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
+Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`
+- `publish_banner` (function) `modules/c2_surfaces.py:73` `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` -- Append a service banner to sessions/banners.json (deduplicated).
+- `publish_cve` (function) `modules/c2_surfaces.py:115` `def publish_cve(title, description, operator, risk, sessions_dir)` -- Append a CVE finding to sessions/cves.json (deduplicated by title).
+- `append_note` (function) `modules/c2_surfaces.py:155` `def append_note(line, sessions_dir)` -- Append one timestamped line to sessions/notes.txt (never overwrites).
+- `register_loot_event` (function) `modules/c2_surfaces.py:184` `def register_loot_event(name, path_glob, description, event_config)` -- Register an event_config.json rule watching an artefact glob.
+- `refresh_session_report` (function) `modules/c2_surfaces.py:229` `def refresh_session_report(timeout)` -- Regenerate sessions/sessionLazyOwn.json via modules/session_state.py.
+- `severity_to_risk` (function) `modules/c2_surfaces.py:251` `def severity_to_risk(severity)` -- Map exploit severity words to /cves risk levels.
+- `group_tasks_for_display` (function) `modules/c2_surfaces.py:261` `def group_tasks_for_display(tasks)` -- Group tasks for the /tasks page: unique hits with counts + noise tally.
+
+## modules/cal.sh
+- `is_leap_year` (function) `modules/cal.sh:4` -- Función para calcular si un año es bisiesto
+- `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
+- `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
+
+## modules/chain_registry.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `skills/lazyown_mcp.py`, `tests/test_chain_registry.py`
+- `Chain.resolve` (method) `modules/chain_registry.py:57` `def resolve(self, tokens)` -- Substitute tokens and evaluate guards.
+- `validate_chain` (function) `modules/chain_registry.py:93` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
+- `load_all` (function) `modules/chain_registry.py:134` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
+- `get` (function) `modules/chain_registry.py:215` `def get(name, chains_dir)` -- Return one chain by name, or None.
+- `scan_all` (function) `modules/chain_registry.py:220` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
+- `set_enabled` (function) `modules/chain_registry.py:264` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
+- `generate_for_playbook` (function) `modules/chain_registry.py:291` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
+
+## modules/cicd_enumerator.py
+Imported by: `cli/commands/cicd.py`
+- `CICDEnumerator.__init__` (method) `modules/cicd_enumerator.py:54` `def __init__(self, target_url, sessions_dir)`
+- `CICDEnumerator.scan` (method) `modules/cicd_enumerator.py:60` `def scan(self)` -- Run all CI/CD scans.
+- `CICDEnumerator.scan_build_log` (method) `modules/cicd_enumerator.py:297` `def scan_build_log(self, log_content, source)` -- Scan a build log for leaked secrets.
+- `CICDEnumerator.generate_ci_attack_matrix` (method) `modules/cicd_enumerator.py:322` `def generate_ci_attack_matrix(self)` -- Generate a comprehensive CI/CD attack matrix.
+- `CICDEnumerator.export_findings` (method) `modules/cicd_enumerator.py:387` `def export_findings(self)` -- Export CI/CD findings to a JSON file.
+
+## modules/cli_auth.py
+Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+- `user_exists` (function) `modules/cli_auth.py:122` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
+- `register` (function) `modules/cli_auth.py:145` `def register(username, password)` -- Register a new operator in users.json.
+- `verify_password` (function) `modules/cli_auth.py:214` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
+- `login` (function) `modules/cli_auth.py:240` `def login(username, password, remember)` -- Authenticate a CLI operator and optionally persist a remember-me token.
+- `logout` (function) `modules/cli_auth.py:293` `def logout()` -- Log out the current CLI operator and clear the remember-me token.
+- `try_auto_login` (function) `modules/cli_auth.py:328` `def try_auto_login()` -- Attempt auto-login using the remember-me token from payload.json.
+- `whoami` (function) `modules/cli_auth.py:366` `def whoami()` -- Return the currently logged-in CLI operator's identity.
+- `get_current_operator` (function) `modules/cli_auth.py:396` `def get_current_operator()` -- Return the current operator username, or None if not logged in.
+- `sync_elo_from_session` (function) `modules/cli_auth.py:408` `def sync_elo_from_session(elo)` -- Update the CLI session ELO from engagement state.
+- `needs_login` (function) `modules/cli_auth.py:487` `def needs_login()` -- Check if the current session has a logged-in operator.
+
+## modules/cloud_enum.py
+Imported by: `cli/commands/cloud.py`
+- `CloudEnumerator.__init__` (method) `modules/cloud_enum.py:34` `def __init__(self, provider, session, timeout)`
+- `CloudEnumerator.detect_provider` (method) `modules/cloud_enum.py:47` `def detect_provider(self)` -- Auto-detect which cloud provider the host is running on.
+- `CloudEnumerator.enumerate_metadata` (method) `modules/cloud_enum.py:75` `def enumerate_metadata(self)` -- Enumerate cloud instance metadata (IMDS).
+- `CloudEnumerator.enumerate_storage` (method) `modules/cloud_enum.py:251` `def enumerate_storage(self, target_bucket)` -- Enumerate cloud storage buckets and objects.
+- `CloudEnumerator.enumerate_iam` (method) `modules/cloud_enum.py:372` `def enumerate_iam(self)` -- Enumerate IAM roles, users, and policies.
+- `CloudEnumerator.full_enumeration` (method) `modules/cloud_enum.py:576` `def full_enumeration(self)` -- Run full cloud enumeration: metadata + storage + IAM.
 
 ## modules/collab_bp.py
 Depends on: `core/logging.py`, `modules/lazy_rbac.py`
@@ -388,112 +487,6 @@ Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/
 - `find_lan_bundle` (function) `modules/estorides_fusion.py:268` `def find_lan_bundle(sessions_dir)` -- Find a LAN bundle deliverable, preferring LazyOwn vocabulary.
 - `load_lan_bundle` (function) `modules/estorides_fusion.py:288` `def load_lan_bundle(path)` -- Load a LAN bundle file into nodes/edges lists.
 - `split_lan_targets` (function) `modules/estorides_fusion.py:323` `def split_lan_targets(est)` -- Split a LAN payload into intel (all) and attack (hosts) views.
-
-## modules/estorides_importer.py
-Depends on: `core/logging.py`, `modules/db.py`
-Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
-- `ImportResult.success` (method) `modules/estorides_importer.py:110` `def success(self)`
-- `ImportResult.to_dict` (method) `modules/estorides_importer.py:113` `def to_dict(self)`
-- `SeedResult.new_assets` (method) `modules/estorides_importer.py:139` `def new_assets(self)`
-- `extract_seeds_from_world_model` (function) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
-- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:175` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
-- `extract_seeds_from_db` (function) `modules/estorides_importer.py:203` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
-- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:242` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
-- `run_estorides_discover` (function) `modules/estorides_importer.py:272` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
-- `run_estorides_run` (function) `modules/estorides_importer.py:332` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
-- `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:388` `def __init__(self, db_path)`
-- `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:393` `def available(self)`
-- `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:402` `def list_cases(self, limit)`
-- `EstoridesCaseReader.get_entities` (method) `modules/estorides_importer.py:414` `def get_entities(self, case_id, entity_types, limit)` -- Fetch entities from the case store.
-- `EstoridesCaseReader.get_host_entities` (method) `modules/estorides_importer.py:469` `def get_host_entities(self, case_id)` -- Get entities of host-related types (ipv4, ipv6, domain, url, asn).
-- `EstoridesCaseReader.get_all_entities` (method) `modules/estorides_importer.py:473` `def get_all_entities(self, case_id)`
-- `EstoridesCaseReader.stats` (method) `modules/estorides_importer.py:476` `def stats(self)`
-- `EstoridesCaseReader.close` (method) `modules/estorides_importer.py:489` `def close(self)`
-- `EstoridesStixParser.__init__` (method) `modules/estorides_importer.py:511` `def __init__(self, stix_path)`
-- `EstoridesStixParser.available` (method) `modules/estorides_importer.py:515` `def available(self)`
-- `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:518` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
-- `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:552` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
-- `find_lan_bundle_files` (function) `modules/estorides_importer.py:586` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
-- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:632` `def __init__(self, lan_dir)`
-- `LanBundleReader.available` (method) `modules/estorides_importer.py:636` `def available(self)`
-- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:639` `def read_devices(self)` -- Return raw device dicts from the inventory file.
-- `LanBundleReader.parse` (method) `modules/estorides_importer.py:652` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
-- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:683` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
-- `ensure_directories` (function) `modules/estorides_importer.py:694` `def ensure_directories()` -- Ensure sessions/ directories exist.
-- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:703` `def __init__(self, db_path, config_path)`
-- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:711` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
-- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:834` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
-- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:892` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-- `FeedbackLoop.run` (method) `modules/estorides_importer.py:908` `def run(self, seed_methods)` -- Run the feedback loop.
-- `export_combined_graph` (function) `modules/estorides_importer.py:1027` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
-
-## modules/evasion_engine.py
-Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
-- `EvasionEngine.__init__` (method) `modules/evasion_engine.py:130` `def __init__(self, config)`
-- `EvasionEngine.set_config` (method) `modules/evasion_engine.py:136` `def set_config(self, config)`
-- `EvasionEngine.generate_profile` (method) `modules/evasion_engine.py:244` `def generate_profile(self, os_family)`
-- `EvasionEngine.rotate_profile` (method) `modules/evasion_engine.py:264` `def rotate_profile(self, os_family)`
-- `EvasionEngine.get_active_profile` (method) `modules/evasion_engine.py:269` `def get_active_profile(self)`
-- `EvasionEngine.get_beacon_config` (method) `modules/evasion_engine.py:272` `def get_beacon_config(self)`
-- `EvasionEngine.morph_traffic` (method) `modules/evasion_engine.py:287` `def morph_traffic(self, config)`
-- `EvasionEngine.get_history` (method) `modules/evasion_engine.py:328` `def get_history(self)`
-- `EvasionEngine.profile_to_json` (method) `modules/evasion_engine.py:343` `def profile_to_json(self, profile)`
-
-## modules/evasive_payloads.py
-Imported by: `cli/commands/evasive_payload.py`
-- `EvasivePayloadGenerator.__init__` (method) `modules/evasive_payloads.py:84` `def __init__(self)`
-- `EvasivePayloadGenerator.generate_powershell_obfuscated` (method) `modules/evasive_payloads.py:138` `def generate_powershell_obfuscated(self, payload, obfuscation_level)` -- Generate an obfuscated PowerShell payload.
-- `EvasivePayloadGenerator.generate_javascript_obfuscated` (method) `modules/evasive_payloads.py:178` `def generate_javascript_obfuscated(self, payload)` -- Generate an obfuscated JavaScript payload.
-- `EvasivePayloadGenerator.generate_vba_obfuscated` (method) `modules/evasive_payloads.py:197` `def generate_vba_obfuscated(self, payload)` -- Generate an obfuscated VBA macro payload.
-- `EvasivePayloadGenerator.generate_linux_evasive` (method) `modules/evasive_payloads.py:214` `def generate_linux_evasive(self, rhost, rport, technique)` -- Generate an evasive Linux reverse shell payload.
-- `EvasivePayloadGenerator.generate_shellcode_loader_powershell` (method) `modules/evasive_payloads.py:239` `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` -- Generate a PowerShell shellcode loader with AMSI bypass.
-- `EvasivePayloadGenerator.generate_lolbas_execution` (method) `modules/evasive_payloads.py:284` `def generate_lolbas_execution(self, payload_url, technique)` -- Generate a LOLBAS-based payload execution command.
-- `EvasivePayloadGenerator.generate_polymorphic_command` (method) `modules/evasive_payloads.py:334` `def generate_polymorphic_command(self, base_cmd, iterations)` -- Generate a polymorphic command that mutates at each execution.
-- `EvasivePayloadGenerator.list_techniques` (method) `modules/evasive_payloads.py:374` `def list_techniques(self)` -- Return all available evasion techniques.
-
-## modules/event_bus.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_loop_ai_bridge.py`
-- `LazyEvent.to_dict` (method) `modules/event_bus.py:96` `def to_dict(self)`
-- `LazyEvent.to_json` (method) `modules/event_bus.py:111` `def to_json(self)`
-- `LazyEvent.from_dict` (method) `modules/event_bus.py:115` `def from_dict(cls, d)`
-- `Sink.write` (method) `modules/event_bus.py:137` `def write(self, event)`
-- `Sink.close` (method) `modules/event_bus.py:140` `def close(self)`
-- `JsonlSink.__init__` (method) `modules/event_bus.py:146` `def __init__(self, filepath)`
-- `JsonlSink.write` (method) `modules/event_bus.py:151` `def write(self, event)`
-- `JsonlSink.close` (method) `modules/event_bus.py:159` `def close(self)`
-- `CollabBusSink.__init__` (method) `modules/event_bus.py:166` `def __init__(self)`
-- `CollabBusSink.write` (method) `modules/event_bus.py:181` `def write(self, event)`
-- `CollabBusSink.close` (method) `modules/event_bus.py:198` `def close(self)`
-- `EngagementSink.write` (method) `modules/event_bus.py:205` `def write(self, event)`
-- `EngagementSink.close` (method) `modules/event_bus.py:226` `def close(self)`
-- `UnifiedEventBus.__init__` (method) `modules/event_bus.py:255` `def __init__(self)`
-- `UnifiedEventBus.instance` (method) `modules/event_bus.py:287` `def instance(cls)`
-- `UnifiedEventBus.subscriber_count` (method) `modules/event_bus.py:295` `def subscriber_count(self)` -- Return the number of active subscribers across all registration types.
-- `UnifiedEventBus.subscribe` (method) `modules/event_bus.py:300` `def subscribe(self, subscriber_id, callback)` -- Register a callback for all events.
-- `UnifiedEventBus.subscribe_topic` (method) `modules/event_bus.py:305` `def subscribe_topic(self, subscriber_id, topic, callback)` -- Register a callback for events matching a topic.
-- `UnifiedEventBus.subscribe_async` (method) `modules/event_bus.py:315` `def subscribe_async(self, subscriber_id)` -- Get a Queue for async event consumption (for SSE, WebSocket, etc.).
-- `UnifiedEventBus.unsubscribe` (method) `modules/event_bus.py:327` `def unsubscribe(self, subscriber_id)` -- Remove all subscriptions for a subscriber.
-- `UnifiedEventBus.publish` (method) `modules/event_bus.py:336` `def publish(self, event)` -- Publish an event via the bounded dispatch queue.
-- `UnifiedEventBus.drain` (method) `modules/event_bus.py:354` `def drain(self)` -- Consume and drop all pending events from the dispatch queue.
-- `UnifiedEventBus.shutdown` (method) `modules/event_bus.py:372` `def shutdown(self)` -- Shut down the event bus cleanly.
-- `UnifiedEventBus.history` (method) `modules/event_bus.py:556` `def history(self, n, category)` -- Return recent events, optionally filtered by category.
-- `UnifiedEventBus.history_since` (method) `modules/event_bus.py:564` `def history_since(self, since_ts)` -- Return all events since a given timestamp.
-- `get_event_bus` (function) `modules/event_bus.py:570` `def get_event_bus()` -- Return the singleton UnifiedEventBus instance.
-- `publish_event` (function) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
-
-## modules/event_consumers.py
-Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
-- `PhaseTracker.__init__` (method) `modules/event_consumers.py:156` `def __init__(self)`
-- `PhaseTracker.__call__` (method) `modules/event_consumers.py:159` `def __call__(self, event)`
-- `AutoRecommender.__init__` (method) `modules/event_consumers.py:204` `def __init__(self)`
-- `AutoRecommender.__call__` (method) `modules/event_consumers.py:207` `def __call__(self, event)`
-- `CredentialReactor.__call__` (method) `modules/event_consumers.py:282` `def __call__(self, event)`
-- `SoulSync.__call__` (method) `modules/event_consumers.py:323` `def __call__(self, event)`
-- `DashboardPusher.__call__` (method) `modules/event_consumers.py:361` `def __call__(self, event)`
-- `wire_all_consumers` (function) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
-- `unwire_all_consumers` (function) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
 
 
 Next: [API_p11.md](API_p11.md)

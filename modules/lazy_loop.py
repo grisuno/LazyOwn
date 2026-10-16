@@ -8324,7 +8324,7 @@ class LazyLoopEngine:
             _register_loop_executor(workers_exec)
             try:
                 slots: list = [None] * len(claimed)
-                pending = {workers_exec.submit(_run_one, item): pos for pos, item in enumerate(claimed)}
+                pending = {workers_exec.submit(_run_one, (pos, item)): pos for pos, item in enumerate(claimed)}
                 while pending:
                     try:
                         done, _ = _futures.wait(set(pending), timeout=1.0)

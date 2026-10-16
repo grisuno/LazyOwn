@@ -1,8 +1,23 @@
-# Symbols (page 3 of 40)
+# Symbols (page 3 of 41)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `list_tasks` | function | `cli/commands/lazyops.py:1567` | `def list_tasks()` |
+| `run_command` | function | `cli/commands/lazyops.py:1545` | `def run_command(command)` |
+| `steer_intent` | function | `cli/commands/lazyops.py:1599` | `def steer_intent(intent, message)` |
+| `task_findings` | function | `cli/commands/lazyops.py:1575` | `def task_findings(task)` |
+| `task_graph` | function | `cli/commands/lazyops.py:1571` | `def task_graph(task)` |
+| `MarketplaceCommandSet` | class | `cli/commands/marketplace.py:62` | `class MarketplaceCommandSet(LazyOwnCommandSet)` |
+| `_installed_plugins` | method | `cli/commands/marketplace.py:86` | `def _installed_plugins(self)` |
+| `_mp_info` | method | `cli/commands/marketplace.py:333` | `def _mp_info(self, name)` |
+| `_mp_install` | method | `cli/commands/marketplace.py:241` | `def _mp_install(self, name)` |
+| `_mp_interactive_config` | method | `cli/commands/marketplace.py:414` | `def _mp_interactive_config(self)` |
+| `_mp_list` | method | `cli/commands/marketplace.py:175` | `def _mp_list(self, tier_filter)` |
+| `_mp_rate` | method | `cli/commands/marketplace.py:380` | `def _mp_rate(self, name, raw_stars)` |
+| `_mp_ratings` | method | `cli/commands/marketplace.py:394` | `def _mp_ratings(self, name)` |
+| `_mp_search` | method | `cli/commands/marketplace.py:203` | `def _mp_search(self, query)` |
+| `_mp_toggle_addon` | method | `cli/commands/marketplace.py:468` | `def _mp_toggle_addon(self, name, enable_state)` |
 | `_mp_update` | method | `cli/commands/marketplace.py:300` | `def _mp_update(self)` |
 | `_ratings_path` | method | `cli/commands/marketplace.py:78` | `def _ratings_path(self)` |
 | `_registry` | method | `cli/commands/marketplace.py:68` | `def _registry(self)` |
@@ -18,19 +33,19 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_build_playbook_run_parser` | function | `cli/commands/mcp_bridge.py:129` | `def _build_playbook_run_parser()` |
 | `_build_rag_query_parser` | function | `cli/commands/mcp_bridge.py:89` | `def _build_rag_query_parser()` |
 | `_build_threat_model_parser` | function | `cli/commands/mcp_bridge.py:116` | `def _build_threat_model_parser()` |
-| `_delegate` | method | `cli/commands/mcp_bridge.py:534` | `def _delegate(self, command, line)` |
-| `_executor` | function | `cli/commands/mcp_bridge.py:472` | `def _executor(command, host)` |
-| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:542` | `def _refresh_aliases(self)` |
-| `do_auto_loop` | method | `cli/commands/mcp_bridge.py:486` | `def do_auto_loop(self, line)` |
+| `_delegate` | method | `cli/commands/mcp_bridge.py:537` | `def _delegate(self, command, line)` |
+| `_executor` | function | `cli/commands/mcp_bridge.py:475` | `def _executor(command, host)` |
+| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:545` | `def _refresh_aliases(self)` |
+| `do_auto_loop` | method | `cli/commands/mcp_bridge.py:489` | `def do_auto_loop(self, line)` |
 | `do_auto_populate` | method | `cli/commands/mcp_bridge.py:151` | `def do_auto_populate(self, args)` |
-| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:525` | `def do_campaign_sitrep(self, line)` |
-| `do_facts_show` | method | `cli/commands/mcp_bridge.py:258` | `def do_facts_show(self, args)` |
-| `do_parquet_query` | method | `cli/commands/mcp_bridge.py:313` | `def do_parquet_query(self, args)` |
-| `do_playbook_run` | method | `cli/commands/mcp_bridge.py:428` | `def do_playbook_run(self, args)` |
-| `do_rag_query` | method | `cli/commands/mcp_bridge.py:283` | `def do_rag_query(self, args)` |
-| `do_session_state` | method | `cli/commands/mcp_bridge.py:520` | `def do_session_state(self, line)` |
-| `do_threat_model` | method | `cli/commands/mcp_bridge.py:375` | `def do_threat_model(self, args)` |
-| `do_timeline` | method | `cli/commands/mcp_bridge.py:530` | `def do_timeline(self, line)` |
+| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:528` | `def do_campaign_sitrep(self, line)` |
+| `do_facts_show` | method | `cli/commands/mcp_bridge.py:261` | `def do_facts_show(self, args)` |
+| `do_parquet_query` | method | `cli/commands/mcp_bridge.py:316` | `def do_parquet_query(self, args)` |
+| `do_playbook_run` | method | `cli/commands/mcp_bridge.py:431` | `def do_playbook_run(self, args)` |
+| `do_rag_query` | method | `cli/commands/mcp_bridge.py:286` | `def do_rag_query(self, args)` |
+| `do_session_state` | method | `cli/commands/mcp_bridge.py:523` | `def do_session_state(self, line)` |
+| `do_threat_model` | method | `cli/commands/mcp_bridge.py:378` | `def do_threat_model(self, args)` |
+| `do_timeline` | method | `cli/commands/mcp_bridge.py:533` | `def do_timeline(self, line)` |
 | `MiscMigratedCommandSet` | class | `cli/commands/misc_migrated.py:87` | `class MiscMigratedCommandSet(LazyOwnCommandSet)` |
 | `__getattr__` | function | `cli/commands/misc_migrated.py:1172` | `def __getattr__(name)` |
 | `_handle_killchain_auto` | method | `cli/commands/misc_migrated.py:150` | `def _handle_killchain_auto(self, spec)` |
@@ -136,31 +151,35 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_wmi_lateral` | method | `cli/commands/persist.py:170` | `def do_wmi_lateral(self, line)` |
 | `do_wmi_persist` | method | `cli/commands/persist.py:112` | `def do_wmi_persist(self, line)` |
 | `do_wmi_scheduled_task` | method | `cli/commands/persist.py:209` | `def do_wmi_scheduled_task(self, line)` |
-| `PersistMigratedCommandSet` | class | `cli/commands/persist_migrated.py:28` | `class PersistMigratedCommandSet(LazyOwnCommandSet)` |
-| `do_asprevbase64` | method | `cli/commands/persist_migrated.py:300` | `def do_asprevbase64(self, line)` |
-| `do_backdoor_factory` | method | `cli/commands/persist_migrated.py:424` | `def do_backdoor_factory(self, line)` |
-| `do_beaconcfg` | method | `cli/commands/persist_migrated.py:1426` | `def do_beaconcfg(self, line)` |
-| `do_darkarmour` | method | `cli/commands/persist_migrated.py:1093` | `def do_darkarmour(self, line)` |
-| `do_dr0p1t` | method | `cli/commands/persist_migrated.py:909` | `def do_dr0p1t(self, line)` |
-| `do_ftp` | method | `cli/commands/persist_migrated.py:77` | `def do_ftp(self, line)` |
-| `do_generate_revshell` | method | `cli/commands/persist_migrated.py:843` | `def do_generate_revshell(self, line)` |
-| `do_grisun0` | method | `cli/commands/persist_migrated.py:210` | `def do_grisun0(self, line)` |
-| `do_grisun0w` | method | `cli/commands/persist_migrated.py:256` | `def do_grisun0w(self, line)` |
-| `do_ivy` | method | `cli/commands/persist_migrated.py:551` | `def do_ivy(self, line)` |
-| `do_knokknok` | method | `cli/commands/persist_migrated.py:1161` | `def do_knokknok(self, line)` |
-| `do_listener_go` | method | `cli/commands/persist_migrated.py:1196` | `def do_listener_go(self, line)` |
-| `do_listener_py` | method | `cli/commands/persist_migrated.py:1263` | `def do_listener_py(self, line)` |
-| `do_msfpc` | method | `cli/commands/persist_migrated.py:470` | `def do_msfpc(self, line)` |
-| `do_paranoid_meterpreter` | method | `cli/commands/persist_migrated.py:972` | `def do_paranoid_meterpreter(self, line)` |
-| `do_pwncat` | method | `cli/commands/persist_migrated.py:33` | `def do_pwncat(self, line)` |
-| `do_rdp` | method | `cli/commands/persist_migrated.py:136` | `def do_rdp(self, line)` |
-| `do_scarecrow` | method | `cli/commands/persist_migrated.py:725` | `def do_scarecrow(self, line)` |
-| `do_service` | method | `cli/commands/persist_migrated.py:1330` | `def do_service(self, line)` |
-| `do_setoolKits` | method | `cli/commands/persist_migrated.py:1060` | `def do_setoolKits(self, line)` |
-| `do_toctoc` | method | `cli/commands/persist_migrated.py:1403` | `def do_toctoc(self, line)` |
-| `do_veil` | method | `cli/commands/persist_migrated.py:651` | `def do_veil(self, line)` |
-| `do_weevely` | method | `cli/commands/persist_migrated.py:378` | `def do_weevely(self, line)` |
-| `do_weevelygen` | method | `cli/commands/persist_migrated.py:338` | `def do_weevelygen(self, line)` |
+| `PersistMigratedCommandSet` | class | `cli/commands/persist_migrated.py:32` | `class PersistMigratedCommandSet(LazyOwnCommandSet)` |
+| `_ensure_backdoor_creds` | method | `cli/commands/persist_migrated.py:68` | `def _ensure_backdoor_creds(self)` |
+| `do_asprevbase64` | method | `cli/commands/persist_migrated.py:354` | `def do_asprevbase64(self, line)` |
+| `do_backdoor_factory` | method | `cli/commands/persist_migrated.py:478` | `def do_backdoor_factory(self, line)` |
+| `do_beaconcfg` | method | `cli/commands/persist_migrated.py:1480` | `def do_beaconcfg(self, line)` |
+| `do_darkarmour` | method | `cli/commands/persist_migrated.py:1147` | `def do_darkarmour(self, line)` |
+| `do_dr0p1t` | method | `cli/commands/persist_migrated.py:963` | `def do_dr0p1t(self, line)` |
+| `do_ftp` | method | `cli/commands/persist_migrated.py:135` | `def do_ftp(self, line)` |
+| `do_generate_revshell` | method | `cli/commands/persist_migrated.py:897` | `def do_generate_revshell(self, line)` |
+| `do_grisun0` | method | `cli/commands/persist_migrated.py:268` | `def do_grisun0(self, line)` |
+| `do_grisun0w` | method | `cli/commands/persist_migrated.py:312` | `def do_grisun0w(self, line)` |
+| `do_ivy` | method | `cli/commands/persist_migrated.py:605` | `def do_ivy(self, line)` |
+| `do_knokknok` | method | `cli/commands/persist_migrated.py:1215` | `def do_knokknok(self, line)` |
+| `do_listener_go` | method | `cli/commands/persist_migrated.py:1250` | `def do_listener_go(self, line)` |
+| `do_listener_py` | method | `cli/commands/persist_migrated.py:1317` | `def do_listener_py(self, line)` |
+| `do_msfpc` | method | `cli/commands/persist_migrated.py:524` | `def do_msfpc(self, line)` |
+| `do_paranoid_meterpreter` | method | `cli/commands/persist_migrated.py:1026` | `def do_paranoid_meterpreter(self, line)` |
+| `do_pwncat` | method | `cli/commands/persist_migrated.py:91` | `def do_pwncat(self, line)` |
+| `do_rdp` | method | `cli/commands/persist_migrated.py:194` | `def do_rdp(self, line)` |
+| `do_scarecrow` | method | `cli/commands/persist_migrated.py:779` | `def do_scarecrow(self, line)` |
+| `do_service` | method | `cli/commands/persist_migrated.py:1384` | `def do_service(self, line)` |
+| `do_setoolKits` | method | `cli/commands/persist_migrated.py:1114` | `def do_setoolKits(self, line)` |
+| `do_toctoc` | method | `cli/commands/persist_migrated.py:1457` | `def do_toctoc(self, line)` |
+| `do_veil` | method | `cli/commands/persist_migrated.py:705` | `def do_veil(self, line)` |
+| `do_weevely` | method | `cli/commands/persist_migrated.py:432` | `def do_weevely(self, line)` |
+| `do_weevelygen` | method | `cli/commands/persist_migrated.py:392` | `def do_weevelygen(self, line)` |
+| `generate_backdoor_password` | method | `cli/commands/persist_migrated.py:43` | `def generate_backdoor_password()` |
+| `generate_backdoor_username` | method | `cli/commands/persist_migrated.py:37` | `def generate_backdoor_username()` |
+| `resolve_backdoor_creds` | method | `cli/commands/persist_migrated.py:53` | `def resolve_backdoor_creds(params)` |
 | `PhishingHandler` | class | `cli/commands/phishing_wizard.py:388` | `class PhishingHandler(BaseHTTPRequestHandler)` |
 | `PhishingWizardCommandSet` | class | `cli/commands/phishing_wizard.py:183` | `class PhishingWizardCommandSet(LazyOwnCommandSet)` |
 | `_ensure_session_key` | function | `cli/commands/phishing_wizard.py:551` | `def _ensure_session_key()` |
@@ -421,41 +440,41 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
 | `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
 | `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:72` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:924` | `def _flag_value(flag_name)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:1036` | `def _flag_value(flag_name)` |
+| `_flag_value` | function | `cli/commands/session_ops.py:935` | `def _flag_value(flag_name)` |
+| `_flag_value` | function | `cli/commands/session_ops.py:1047` | `def _flag_value(flag_name)` |
 | `do_assign` | method | `cli/commands/session_ops.py:253` | `def do_assign(self, line)` |
-| `do_chainmode` | method | `cli/commands/session_ops.py:809` | `def do_chainmode(self, line)` |
-| `do_clock` | method | `cli/commands/session_ops.py:1436` | `def do_clock(self, line)` |
-| `do_clone_site` | method | `cli/commands/session_ops.py:1546` | `def do_clone_site(self, line)` |
-| `do_collab_join` | method | `cli/commands/session_ops.py:1294` | `def do_collab_join(self, line)` |
-| `do_download_resources` | method | `cli/commands/session_ops.py:1261` | `def do_download_resources(self, line)` |
-| `do_engage` | method | `cli/commands/session_ops.py:860` | `def do_engage(self, line)` |
-| `do_frontier` | method | `cli/commands/session_ops.py:684` | `def do_frontier(self, line)` |
-| `do_gencert` | method | `cli/commands/session_ops.py:1484` | `def do_gencert(self, line)` |
-| `do_getseclist` | method | `cli/commands/session_ops.py:1223` | `def do_getseclist(self, line)` |
-| `do_hunt` | method | `cli/commands/session_ops.py:1110` | `def do_hunt(self, line)` |
-| `do_kick` | method | `cli/commands/session_ops.py:1325` | `def do_kick(self, line)` |
+| `do_chainmode` | method | `cli/commands/session_ops.py:820` | `def do_chainmode(self, line)` |
+| `do_clock` | method | `cli/commands/session_ops.py:1447` | `def do_clock(self, line)` |
+| `do_clone_site` | method | `cli/commands/session_ops.py:1557` | `def do_clone_site(self, line)` |
+| `do_collab_join` | method | `cli/commands/session_ops.py:1305` | `def do_collab_join(self, line)` |
+| `do_download_resources` | method | `cli/commands/session_ops.py:1272` | `def do_download_resources(self, line)` |
+| `do_engage` | method | `cli/commands/session_ops.py:871` | `def do_engage(self, line)` |
+| `do_frontier` | method | `cli/commands/session_ops.py:695` | `def do_frontier(self, line)` |
+| `do_gencert` | method | `cli/commands/session_ops.py:1495` | `def do_gencert(self, line)` |
+| `do_getseclist` | method | `cli/commands/session_ops.py:1234` | `def do_getseclist(self, line)` |
+| `do_hunt` | method | `cli/commands/session_ops.py:1121` | `def do_hunt(self, line)` |
+| `do_kick` | method | `cli/commands/session_ops.py:1336` | `def do_kick(self, line)` |
 | `do_l00t` | method | `cli/commands/session_ops.py:104` | `def do_l00t(self, line)` |
-| `do_lazyscript` | method | `cli/commands/session_ops.py:1078` | `def do_lazyscript(self, line)` |
-| `do_list` | method | `cli/commands/session_ops.py:521` | `def do_list(self, line)` |
-| `do_load_session` | method | `cli/commands/session_ops.py:1496` | `def do_load_session(self, line)` |
+| `do_lazyscript` | method | `cli/commands/session_ops.py:1089` | `def do_lazyscript(self, line)` |
+| `do_list` | method | `cli/commands/session_ops.py:532` | `def do_list(self, line)` |
+| `do_load_session` | method | `cli/commands/session_ops.py:1507` | `def do_load_session(self, line)` |
 | `do_loot` | method | `cli/commands/session_ops.py:153` | `def do_loot(self, line)` |
-| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1592` | `def do_msfshellcoder(self, line)` |
-| `do_next` | method | `cli/commands/session_ops.py:640` | `def do_next(self, line)` |
+| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1603` | `def do_msfshellcoder(self, line)` |
+| `do_next` | method | `cli/commands/session_ops.py:651` | `def do_next(self, line)` |
 | `do_note` | method | `cli/commands/session_ops.py:79` | `def do_note(self, line)` |
-| `do_payload` | method | `cli/commands/session_ops.py:589` | `def do_payload(self, line)` |
-| `do_pipeline` | method | `cli/commands/session_ops.py:987` | `def do_pipeline(self, line)` |
+| `do_payload` | method | `cli/commands/session_ops.py:600` | `def do_payload(self, line)` |
+| `do_pipeline` | method | `cli/commands/session_ops.py:998` | `def do_pipeline(self, line)` |
 | `do_pivot` | method | `cli/commands/session_ops.py:161` | `def do_pivot(self, line)` |
-| `do_qa` | method | `cli/commands/session_ops.py:1374` | `def do_qa(self, line)` |
-| `do_resume` | method | `cli/commands/session_ops.py:1201` | `def do_resume(self, line)` |
-| `do_run` | method | `cli/commands/session_ops.py:550` | `def do_run(self, line)` |
+| `do_qa` | method | `cli/commands/session_ops.py:1385` | `def do_qa(self, line)` |
+| `do_resume` | method | `cli/commands/session_ops.py:1212` | `def do_resume(self, line)` |
+| `do_run` | method | `cli/commands/session_ops.py:561` | `def do_run(self, line)` |
 | `do_scans` | method | `cli/commands/session_ops.py:219` | `def do_scans(self, line)` |
-| `do_scope` | method | `cli/commands/session_ops.py:379` | `def do_scope(self, line)` |
-| `do_show` | method | `cli/commands/session_ops.py:445` | `def do_show(self, line)` |
+| `do_scope` | method | `cli/commands/session_ops.py:390` | `def do_scope(self, line)` |
+| `do_show` | method | `cli/commands/session_ops.py:456` | `def do_show(self, line)` |
 | `do_sitrep` | method | `cli/commands/session_ops.py:236` | `def do_sitrep(self, line)` |
 | `do_tasks` | method | `cli/commands/session_ops.py:186` | `def do_tasks(self, line)` |
-| `do_tenant` | method | `cli/commands/session_ops.py:306` | `def do_tenant(self, line)` |
-| `do_traces` | method | `cli/commands/session_ops.py:728` | `def do_traces(self, line)` |
+| `do_tenant` | method | `cli/commands/session_ops.py:317` | `def do_tenant(self, line)` |
+| `do_traces` | method | `cli/commands/session_ops.py:739` | `def do_traces(self, line)` |
 | `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
 | `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
 | `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_socks_export` | method | `cli/commands/socks_proxy.py:94` | `def do_socks_export(self, line)` |
 | `do_socks_sessions` | method | `cli/commands/socks_proxy.py:75` | `def do_socks_sessions(self, line)` |
 | `SupplyChainCommandSet` | class | `cli/commands/supply_chain.py:88` | `class SupplyChainCommandSet(LazyOwnCommandSet)` |
-| `_extract_flag` | function | `cli/commands/supply_chain.py:475` | `def _extract_flag(args, flag)` |
-| `_parse_cargo_toml` | function | `cli/commands/supply_chain.py:348` | `def _parse_cargo_toml(filepath)` |
-| `_parse_gemfile` | function | `cli/commands/supply_chain.py:328` | `def _parse_gemfile(filepath)` |
-| `_parse_go_mod` | function | `cli/commands/supply_chain.py:377` | `def _parse_go_mod(filepath)` |
-| `_parse_package_json` | function | `cli/commands/supply_chain.py:307` | `def _parse_package_json(filepath)` |
-| `_parse_pom_xml` | function | `cli/commands/supply_chain.py:397` | `def _parse_pom_xml(filepath)` |
-| `_parse_requirements` | function | `cli/commands/supply_chain.py:282` | `def _parse_requirements(filepath)` |
-| `_pypi_exists` | function | `cli/commands/supply_chain.py:425` | `def _pypi_exists(package_name)` |
-| `do_depconfuse` | method | `cli/commands/supply_chain.py:95` | `def do_depconfuse(self, line)` |
-| `do_depscan` | method | `cli/commands/supply_chain.py:216` | `def do_depscan(self, line)` |
-| `do_package_squat` | method | `cli/commands/supply_chain.py:140` | `def do_package_squat(self, line)` |
-| `is_internal_name` | function | `cli/commands/supply_chain.py:450` | `def is_internal_name(name)` |
-| `SurfaceCommandSet` | class | `cli/commands/surface.py:36` | `class SurfaceCommandSet(LazyOwnCommandSet)` |
-| `do_estorides_intel` | method | `cli/commands/surface.py:86` | `def do_estorides_intel(self, line)` |
-| `do_scandiscovery` | method | `cli/commands/surface.py:43` | `def do_scandiscovery(self, line)` |
-| `UxCommandSet` | class | `cli/commands/ux.py:39` | `class UxCommandSet(LazyOwnCommandSet)` |
-| `_candidate_commands` | method | `cli/commands/ux.py:281` | `def _candidate_commands(self)` |
-| `_find_cheat_section` | method | `cli/commands/ux.py:298` | `def _find_cheat_section(query)` |
-| `do_cheat` | method | `cli/commands/ux.py:140` | `def do_cheat(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

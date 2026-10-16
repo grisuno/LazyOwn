@@ -1,8 +1,159 @@
-# Symbols (page 14 of 40)
+# Symbols (page 14 of 41)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_split_caps` | function | `modules/intel_fusion.py:626` | `def _split_caps(labels, sizes, points, lattice, out)` |
+| `_symbol_list` | function | `modules/intel_fusion.py:413` | `def _symbol_list(node)` |
+| `_unit` | function | `modules/intel_fusion.py:651` | `def _unit(vec)` |
+| `add_edge` | function | `modules/intel_fusion.py:197` | `def add_edge(src, dst, kind, evidence, weight)` |
+| `add_node` | function | `modules/intel_fusion.py:183` | `def add_node(kind, value, label)` |
+| `assign_layout` | function | `modules/intel_fusion.py:800` | `def assign_layout(graph, mode)` |
+| `build_analytics` | function | `modules/intel_fusion.py:585` | `def build_analytics(graph, summary)` |
+| `build_bundle_payload` | function | `modules/intel_fusion.py:659` | `def build_bundle_payload(graph)` |
+| `build_intel_graph` | function | `modules/intel_fusion.py:176` | `def build_intel_graph(sessions_dir, est_cap)` |
+| `bundle_settings` | function | `modules/intel_fusion.py:769` | `def bundle_settings(graph)` |
+| `group_colors` | function | `modules/intel_fusion.py:512` | `def group_colors(graph)` |
+| `node_id` | function | `modules/intel_fusion.py:106` | `def node_id(kind, value)` |
+| `page_settings` | function | `modules/intel_fusion.py:528` | `def page_settings(graph)` |
+| `tag_source` | function | `modules/intel_fusion.py:205` | `def tag_source(nid, source)` |
+| `write_summary` | function | `modules/intel_fusion.py:865` | `def write_summary(graph, sessions_dir)` |
+| `CollectedFact` | class | `modules/intelligence_engine.py:78` | `class CollectedFact` |
+| `CounterIntelFinding` | class | `modules/intelligence_engine.py:108` | `class CounterIntelFinding` |
+| `IntelligenceAssessment` | class | `modules/intelligence_engine.py:93` | `class IntelligenceAssessment` |
+| `IntelligenceConfig` | class | `modules/intelligence_engine.py:57` | `class IntelligenceConfig` |
+| `IntelligenceEngine` | class | `modules/intelligence_engine.py:119` | `class IntelligenceEngine` |
+| `__init__` | method | `modules/intelligence_engine.py:142` | `def __init__(self, config)` |
+| `_correlate_creds_to_hosts` | method | `modules/intelligence_engine.py:565` | `def _correlate_creds_to_hosts(self)` |
+| `_correlate_domains_to_infrastructure` | method | `modules/intelligence_engine.py:588` | `def _correlate_domains_to_infrastructure(self)` |
+| `_correlate_services_to_vulns` | method | `modules/intelligence_engine.py:494` | `def _correlate_services_to_vulns(self)` |
+| `_detect_killchain_gaps` | method | `modules/intelligence_engine.py:644` | `def _detect_killchain_gaps(self)` |
+| `_is_placeholder` | method | `modules/intelligence_engine.py:925` | `def _is_placeholder(value)` |
+| `_map_category_to_mitre` | method | `modules/intelligence_engine.py:700` | `def _map_category_to_mitre(category)` |
+| `_match_known_vulns` | method | `modules/intelligence_engine.py:537` | `def _match_known_vulns(fact)` |
+| `_rank_targets` | method | `modules/intelligence_engine.py:604` | `def _rank_targets(self)` |
+| `analyze` | method | `modules/intelligence_engine.py:477` | `def analyze(self)` |
+| `collect_from_estorides` | method | `modules/intelligence_engine.py:292` | `def collect_from_estorides(self, target)` |
+| `collect_from_factstore` | method | `modules/intelligence_engine.py:415` | `def collect_from_factstore(self)` |
+| `collect_from_nuclei` | method | `modules/intelligence_engine.py:334` | `def collect_from_nuclei(self, target)` |
+| `collect_from_scan` | method | `modules/intelligence_engine.py:153` | `def collect_from_scan(self, target)` |
+| `collect_from_tool` | method | `modules/intelligence_engine.py:255` | `def collect_from_tool(self, output, tool, host)` |
+| `collect_from_yara` | method | `modules/intelligence_engine.py:376` | `def collect_from_yara(self, target_path)` |
+| `disseminate` | method | `modules/intelligence_engine.py:765` | `def disseminate(self)` |
+| `get_intel_report` | method | `modules/intelligence_engine.py:874` | `def get_intel_report(self)` |
+| `get_intelligence_engine` | function | `modules/intelligence_engine.py:931` | `def get_intelligence_engine(config)` |
+| `produce_counter_intelligence` | method | `modules/intelligence_engine.py:715` | `def produce_counter_intelligence(self)` |
+| `produce_intelligence` | method | `modules/intelligence_engine.py:685` | `def produce_intelligence(self)` |
+| `run_full_cycle` | method | `modules/intelligence_engine.py:845` | `def run_full_cycle(self, target)` |
+| `Guard` | class | `modules/intercept.py:255` | `class Guard` |
+| `InterceptAction` | class | `modules/intercept.py:21` | `class InterceptAction(str, Enum)` |
+| `InterceptConfig` | class | `modules/intercept.py:33` | `class InterceptConfig` |
+| `InterceptRule` | class | `modules/intercept.py:50` | `class InterceptRule` |
+| `InterceptVerdict` | class | `modules/intercept.py:92` | `class InterceptVerdict` |
+| `Interceptor` | class | `modules/intercept.py:154` | `class Interceptor` |
+| `PendingApproval` | class | `modules/intercept.py:77` | `class PendingApproval` |
+| `__init__` | method | `modules/intercept.py:157` | `def __init__(self, rules, ask_timeout_sec, timeout_action)` |
+| `__init__` | method | `modules/intercept.py:258` | `def __init__(self, interceptor)` |
+| `__post_init__` | method | `modules/intercept.py:61` | `def __post_init__(self)` |
+| `add_rule` | method | `modules/intercept.py:177` | `def add_rule(self, rule)` |
+| `approval_status` | method | `modules/intercept.py:249` | `def approval_status(self, approval_id)` |
+| `attribution` | method | `modules/intercept.py:301` | `def attribution(self)` |
+| `audit_log` | method | `modules/intercept.py:296` | `def audit_log(self, limit)` |
+| `builtin_rules` | function | `modules/intercept.py:101` | `def builtin_rules()` |
+| `check` | method | `modules/intercept.py:270` | `def check(self, tool, command)` |
+| `decide` | method | `modules/intercept.py:220` | `def decide(self, approval_id, decision)` |
+| `evaluate` | method | `modules/intercept.py:192` | `def evaluate(self, tool, command)` |
+| `interceptor` | method | `modules/intercept.py:266` | `def interceptor(self)` |
+| `matches` | method | `modules/intercept.py:68` | `def matches(self, tool, command)` |
+| `observe` | method | `modules/intercept.py:282` | `def observe(self, output, source)` |
+| `observe_post_tool` | function | `modules/intercept.py:144` | `def observe_post_tool(output)` |
+| `pending_approvals` | method | `modules/intercept.py:234` | `def pending_approvals(self)` |
+| `record_failure` | method | `modules/intercept.py:291` | `def record_failure(self, source)` |
+| `remove_rule` | method | `modules/intercept.py:183` | `def remove_rule(self, pattern)` |
+| `rules` | method | `modules/intercept.py:172` | `def rules(self)` |
+| `scope_blocked` | function | `modules/intercept.py:131` | `def scope_blocked(target)` |
+| `display_usage` | function | `modules/iptables_portforward.sh:29` | `` |
+| `JsonlTail` | class | `modules/jsonl_tail.py:14` | `class JsonlTail` |
+| `__init__` | method | `modules/jsonl_tail.py:17` | `def __init__(self, path)` |
+| `read_new` | method | `modules/jsonl_tail.py:22` | `def read_new(self, limit)` |
+| `K8SAttackEngine` | class | `modules/k8s_attacks.py:77` | `class K8SAttackEngine` |
+| `K8sConfig` | class | `modules/k8s_attacks.py:57` | `class K8sConfig` |
+| `__init__` | method | `modules/k8s_attacks.py:87` | `def __init__(self, config)` |
+| `enumerate_rbac` | method | `modules/k8s_attacks.py:90` | `def enumerate_rbac(self)` |
+| `etcd_access_exploitation` | method | `modules/k8s_attacks.py:222` | `def etcd_access_exploitation(self)` |
+| `helm_tiller_abuse` | method | `modules/k8s_attacks.py:250` | `def helm_tiller_abuse(self)` |
+| `kubelet_anonymous_auth_abuse` | method | `modules/k8s_attacks.py:198` | `def kubelet_anonymous_auth_abuse(self)` |
+| `persistence_techniques` | method | `modules/k8s_attacks.py:278` | `def persistence_techniques(self)` |
+| `privileged_pod_escape` | method | `modules/k8s_attacks.py:118` | `def privileged_pod_escape(self)` |
+| `service_account_token_theft` | method | `modules/k8s_attacks.py:173` | `def service_account_token_theft(self)` |
+| `summary` | method | `modules/k8s_attacks.py:318` | `def summary(self)` |
+| `KerberoastHash` | class | `modules/kerberoasting.py:59` | `class KerberoastHash` |
+| `KerberoastTarget` | class | `modules/kerberoasting.py:38` | `class KerberoastTarget` |
+| `KerberoastingEngine` | class | `modules/kerberoasting.py:79` | `class KerberoastingEngine` |
+| `__init__` | method | `modules/kerberoasting.py:95` | `def __init__(self, domain, dc_ip, username, password, hash)` |
+| `_build_hash_string` | method | `modules/kerberoasting.py:248` | `def _build_hash_string(self, spn, etype)` |
+| `_hashcat_command` | method | `modules/kerberoasting.py:268` | `def _hashcat_command(hash_str, mode)` |
+| `_prioritize_targets` | method | `modules/kerberoasting.py:169` | `def _prioritize_targets(self)` |
+| `asreproast_check` | method | `modules/kerberoasting.py:306` | `def asreproast_check(self, usernames)` |
+| `build_hashcat_batch` | method | `modules/kerberoasting.py:379` | `def build_hashcat_batch(self, output_path)` |
+| `detect_kerberoasting_activity` | method | `modules/kerberoasting.py:336` | `def detect_kerberoasting_activity(self, event_log)` |
+| `enumerate_spns` | method | `modules/kerberoasting.py:112` | `def enumerate_spns(self, ldap_output, bloodhound_data)` |
+| `extract_hashes_from_pcap` | method | `modules/kerberoasting.py:321` | `def extract_hashes_from_pcap(self, pcap_path)` |
+| `priority` | function | `modules/kerberoasting.py:172` | `def priority(target)` |
+| `request_tgs` | method | `modules/kerberoasting.py:219` | `def request_tgs(self, user_spn, etype)` |
+| `request_tgs_aes_only` | method | `modules/kerberoasting.py:187` | `def request_tgs_aes_only(self, user_spn)` |
+| `request_tgs_rc4` | method | `modules/kerberoasting.py:208` | `def request_tgs_rc4(self, user_spn)` |
+| `summary` | method | `modules/kerberoasting.py:401` | `def summary(self)` |
+| `targeted_kerberoast` | method | `modules/kerberoasting.py:271` | `def targeted_kerberoast(self, high_value_only)` |
+| `EncryptedData` | class | `modules/kerberos_core.py:157` | `class EncryptedData` |
+| `KerberosCore` | class | `modules/kerberos_core.py:407` | `class KerberosCore` |
+| `KerberosCrypto` | class | `modules/kerberos_core.py:271` | `class KerberosCrypto` |
+| `KerberosErrorParser` | class | `modules/kerberos_core.py:683` | `class KerberosErrorParser` |
+| `KerberosPrincipal` | class | `modules/kerberos_core.py:139` | `class KerberosPrincipal` |
+| `KerberosTicket` | class | `modules/kerberos_core.py:172` | `class KerberosTicket` |
+| `PACInfo` | class | `modules/kerberos_core.py:228` | `class PACInfo` |
+| `PACSignature` | class | `modules/kerberos_core.py:213` | `class PACSignature` |
+| `TGSRequest` | class | `modules/kerberos_core.py:249` | `class TGSRequest` |
+| `TicketValidator` | class | `modules/kerberos_core.py:702` | `class TicketValidator` |
+| `__init__` | method | `modules/kerberos_core.py:277` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_core.py:421` | `def __init__(self, domain, dc_host, dc_ip)` |
+| `_build_pa_enc_timestamp` | method | `modules/kerberos_core.py:640` | `def _build_pa_enc_timestamp(self, key, etype, timestamp)` |
+| `_parse_kdc_rep` | method | `modules/kerberos_core.py:653` | `def _parse_kdc_rep(self, data, key, etype, rep_type)` |
+| `_parse_pac_buffer` | method | `modules/kerberos_core.py:622` | `def _parse_pac_buffer(pac, buf_type, buf_data)` |
+| `_rc4_decrypt` | method | `modules/kerberos_core.py:676` | `def _rc4_decrypt(key, data, usage)` |
+| `_rc4_encrypt` | method | `modules/kerberos_core.py:667` | `def _rc4_encrypt(key, data, usage)` |
+| `aes_decrypt` | method | `modules/kerberos_core.py:361` | `def aes_decrypt(self, key, ciphertext, usage)` |
+| `aes_encrypt` | method | `modules/kerberos_core.py:329` | `def aes_encrypt(self, key, plaintext, usage)` |
+| `build_as_req` | method | `modules/kerberos_core.py:435` | `def build_as_req(self, username, domain, password, etype)` |
+| `build_tgs_req` | method | `modules/kerberos_core.py:489` | `def build_tgs_req(self, params)` |
+| `compute_checksum` | method | `modules/kerberos_core.py:389` | `def compute_checksum(key, data, etype)` |
+| `decrypt_ticket` | method | `modules/kerberos_core.py:563` | `def decrypt_ticket(self, ticket_data, key, etype)` |
+| `derive_aes_key` | method | `modules/kerberos_core.py:282` | `def derive_aes_key(password, salt, etype)` |
+| `derive_rc4_key` | method | `modules/kerberos_core.py:318` | `def derive_rc4_key(password)` |
+| `get_supported_etypes` | method | `modules/kerberos_core.py:427` | `def get_supported_etypes(self)` |
+| `has_flag` | method | `modules/kerberos_core.py:207` | `def has_flag(self, flag_name)` |
+| `is_expired` | method | `modules/kerberos_core.py:706` | `def is_expired(endtime, grace_period)` |
+| `parse_as_rep` | method | `modules/kerberos_core.py:534` | `def parse_as_rep(self, as_rep_data, key, etype)` |
+| `parse_error` | method | `modules/kerberos_core.py:687` | `def parse_error(error_data)` |
+| `parse_pac` | method | `modules/kerberos_core.py:588` | `def parse_pac(self, pac_data)` |
+| `parse_tgs_rep` | method | `modules/kerberos_core.py:550` | `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` |
+| `to_string` | method | `modules/kerberos_core.py:152` | `def to_string(self)` |
+| `validate_flags` | method | `modules/kerberos_core.py:719` | `def validate_flags(ticket, required_flags)` |
+| `validate_pac_checksums` | method | `modules/kerberos_core.py:735` | `def validate_pac_checksums(pac)` |
+| `DiamondTicketConfig` | class | `modules/kerberos_tickets.py:94` | `class DiamondTicketConfig` |
+| `DiamondTicketForger` | class | `modules/kerberos_tickets.py:397` | `class DiamondTicketForger` |
+| `GoldenTicketConfig` | class | `modules/kerberos_tickets.py:65` | `class GoldenTicketConfig` |
+| `GoldenTicketForger` | class | `modules/kerberos_tickets.py:265` | `class GoldenTicketForger` |
+| `SapphireTicketForger` | class | `modules/kerberos_tickets.py:462` | `class SapphireTicketForger` |
+| `SilverTicketConfig` | class | `modules/kerberos_tickets.py:36` | `class SilverTicketConfig` |
+| `SilverTicketForger` | class | `modules/kerberos_tickets.py:124` | `class SilverTicketForger` |
+| `SkeletonKeyInjector` | class | `modules/kerberos_tickets.py:567` | `class SkeletonKeyInjector` |
+| `__init__` | method | `modules/kerberos_tickets.py:131` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:272` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:405` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
+| `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
+| `_build_diamond_pac` | method | `modules/kerberos_tickets.py:446` | `def _build_diamond_pac(self, config)` |
 | `_build_enc_ticket_part` | method | `modules/kerberos_tickets.py:206` | `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)` |
 | `_build_golden_enc_part` | method | `modules/kerberos_tickets.py:346` | `def _build_golden_enc_part(self, config, start, end, flags, key)` |
 | `_build_golden_pac` | method | `modules/kerberos_tickets.py:339` | `def _build_golden_pac(self, config)` |
@@ -345,156 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `add_constraint` | method | `modules/lazy_loop.py:2706` | `def add_constraint(self, task_id, ctype, text, scope)` |
 | `add_edge` | method | `modules/lazy_loop.py:1099` | `def add_edge(self, src, dst, kind)` |
 | `add_hint` | method | `modules/lazy_loop.py:7740` | `def add_hint(self, task_id, text)` |
-| `add_intent` | method | `modules/lazy_loop.py:7758` | `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)` |
-| `add_member` | method | `modules/lazy_loop.py:6612` | `def add_member(self, name, model, priority)` |
-| `add_node` | method | `modules/lazy_loop.py:1056` | `def add_node(self, kind, text, state, priority, meta)` |
-| `add_rule` | method | `modules/lazy_loop.py:1747` | `def add_rule(self, pattern, action, reason, priority)` |
-| `add_scope` | method | `modules/lazy_loop.py:2725` | `def add_scope(self, task_id, kind, value, reason)` |
-| `admission_check` | method | `modules/lazy_loop.py:9009` | `def admission_check(self, task_id)` |
-| `advance_llm` | method | `modules/lazy_loop.py:2641` | `def advance_llm(self, task_id)` |
-| `anchor` | method | `modules/lazy_loop.py:1112` | `def anchor(self, node_id, asset_id)` |
-| `anchored_nodes` | method | `modules/lazy_loop.py:1127` | `def anchored_nodes(self, asset_id)` |
-| `anchors_for` | method | `modules/lazy_loop.py:1123` | `def anchors_for(self, node_id)` |
-| `apply_drafts` | method | `modules/lazy_loop.py:6054` | `def apply_drafts(self)` |
-| `archive` | method | `modules/lazy_loop.py:1702` | `def archive(self, label)` |
-| `arm_exit_watchdog` | function | `modules/lazy_loop.py:322` | `def arm_exit_watchdog(seconds)` |
-| `as_list` | method | `modules/lazy_loop.py:2502` | `def as_list(self)` |
-| `ask` | method | `modules/lazy_loop.py:7029` | `def ask(self, task_id, question, pool, session)` |
-| `audit` | method | `modules/lazy_loop.py:1841` | `def audit(self, limit, action, source, query)` |
-| `beat` | method | `modules/lazy_loop.py:2262` | `def beat(self, task_id, workers)` |
-| `bind` | method | `modules/lazy_loop.py:1624` | `def bind(self, finding_id, digest, graph, role, note)` |
-| `bind` | method | `modules/lazy_loop.py:7000` | `def bind(self, agent, tool)` |
-| `bind_shell` | method | `modules/lazy_loop.py:7468` | `def bind_shell(self, shell)` |
-| `bindings` | method | `modules/lazy_loop.py:6995` | `def bindings(self, agent)` |
-| `broadcast` | method | `modules/lazy_loop.py:9468` | `def broadcast(self, task_id, kinds, query, order, page, per_page, states)` |
-| `broadcast_events` | method | `modules/lazy_loop.py:7707` | `def broadcast_events(self, task_id, cursor, batch)` |
-| `build_prompt_context` | function | `modules/lazy_loop.py:5792` | `def build_prompt_context(task_id, graph, assets, store, budget, top)` |
-| `by_template` | method | `modules/lazy_loop.py:1619` | `def by_template(self, template, limit)` |
-| `channels` | method | `modules/lazy_loop.py:6247` | `def channels(self)` |
-| `check` | method | `modules/lazy_loop.py:1789` | `def check(self, tool, command, tool_use_id, source, intent_id)` |
-| `check` | method | `modules/lazy_loop.py:2224` | `def check(self, task_id)` |
-| `children` | method | `modules/lazy_loop.py:1140` | `def children(self, node_id, kind)` |
-| `claim_next` | method | `modules/lazy_loop.py:1312` | `def claim_next(self)` |
-| `clear` | method | `modules/lazy_loop.py:1708` | `def clear(self)` |
-| `clear` | method | `modules/lazy_loop.py:7387` | `def clear(self, task_id, session)` |
-| `clear_steer` | method | `modules/lazy_loop.py:2761` | `def clear_steer(self, task_id, intent_id)` |
-| `close` | method | `modules/lazy_loop.py:3450` | `def close(self)` |
-| `cold_index` | method | `modules/lazy_loop.py:5654` | `def cold_index(self)` |
-| `compact` | method | `modules/lazy_loop.py:5503` | `def compact(self, threshold, mode, debounce_sec)` |
-| `compare_and_claim` | method | `modules/lazy_loop.py:1201` | `def compare_and_claim(self, node_id)` |
-| `complete` | method | `modules/lazy_loop.py:2486` | `def complete(self, item_id)` |
-| `complete` | method | `modules/lazy_loop.py:6736` | `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)` |
-| `constraint_block` | function | `modules/lazy_loop.py:5735` | `def constraint_block(constraints, scope)` |
-| `context_budget` | method | `modules/lazy_loop.py:6912` | `def context_budget(self)` |
-| `coverage` | method | `modules/lazy_loop.py:932` | `def coverage(self, scope)` |
-| `coverage_for` | method | `modules/lazy_loop.py:966` | `def coverage_for(self, graph, scope)` |
-| `covered_members` | method | `modules/lazy_loop.py:5450` | `def covered_members(self)` |
-| `create` | method | `modules/lazy_loop.py:2519` | `def create(self, goal, description)` |
-| `create_task` | method | `modules/lazy_loop.py:7527` | `def create_task(self, goal, description)` |
-| `decide` | method | `modules/lazy_loop.py:2422` | `def decide(self, item_id, verdict)` |
-| `decompose_goals` | function | `modules/lazy_loop.py:2878` | `def decompose_goals(goal_text, description)` |
-| `dedupe_key` | method | `modules/lazy_loop.py:877` | `def dedupe_key(self, kind, value, parent_id)` |
-| `delete` | method | `modules/lazy_loop.py:2563` | `def delete(self, task_id)` |
-| `delete_goal` | method | `modules/lazy_loop.py:7812` | `def delete_goal(self, task_id, goal_id)` |
-| `delete_intent` | method | `modules/lazy_loop.py:7846` | `def delete_intent(self, task_id, intent_id, mode, reason)` |
-| `delete_task` | method | `modules/lazy_loop.py:8895` | `def delete_task(self, task_id)` |
-| `dequeue_next` | method | `modules/lazy_loop.py:2592` | `def dequeue_next(self)` |
-| `digest_overview` | method | `modules/lazy_loop.py:5688` | `def digest_overview(self)` |
-| `drain_queue` | method | `modules/lazy_loop.py:9028` | `def drain_queue(self, max_tasks)` |
-| `due` | method | `modules/lazy_loop.py:6464` | `def due(self, task_id, graph, activity, assets, store)` |
-| `edit_goal` | method | `modules/lazy_loop.py:7800` | `def edit_goal(self, task_id, goal_id, text)` |
-| `emit` | method | `modules/lazy_loop.py:1335` | `def emit(self, worker, kind, text, intent_id, tool_use_id)` |
-| `emit` | method | `modules/lazy_loop.py:6353` | `def emit(self, task_id, event, data)` |
-| `enqueue` | method | `modules/lazy_loop.py:2581` | `def enqueue(self, task_id)` |
-| `enrich_asset` | function | `modules/lazy_loop.py:2915` | `def enrich_asset(value)` |
-| `ensure_service_trigger` | method | `modules/lazy_loop.py:6451` | `def ensure_service_trigger(self)` |
-| `ensure_target` | method | `modules/lazy_loop.py:7472` | `def ensure_target(self, task_id, target, reason)` |
-| `evaluate` | method | `modules/lazy_loop.py:2138` | `def evaluate(self, target)` |
-| `evidence` | method | `modules/lazy_loop.py:1672` | `def evidence(self, finding_id, graph)` |
-| `execute` | method | `modules/lazy_loop.py:3514` | `def execute(self, intent, executor, timeout_sec)` |
-| `expand` | method | `modules/lazy_loop.py:5630` | `def expand(self, digest_id, role)` |
-| `expired` | method | `modules/lazy_loop.py:2700` | `def expired(self, task_id)` |
-| `export` | method | `modules/lazy_loop.py:1695` | `def export(self, path, limit)` |
-| `export` | method | `modules/lazy_loop.py:6232` | `def export(self, path)` |
-| `export_evidence` | method | `modules/lazy_loop.py:9231` | `def export_evidence(self, task_id, dest)` |
-| `export_findings_report` | method | `modules/lazy_loop.py:9290` | `def export_findings_report(self, task_id, path, fmt)` |
-| `export_task_traffic` | method | `modules/lazy_loop.py:9202` | `def export_task_traffic(self, task_id)` |
-| `extract_constraint_items` | function | `modules/lazy_loop.py:2812` | `def extract_constraint_items(goal_text, description)` |
-| `extract_scope_items` | function | `modules/lazy_loop.py:2780` | `def extract_scope_items(goal_text, description)` |
-| `finalize` | method | `modules/lazy_loop.py:3264` | `def finalize(self, reason)` |
-| `finding_severity` | function | `modules/lazy_loop.py:5873` | `def finding_severity(text, evidence)` |
-| `finding_signature` | method | `modules/lazy_loop.py:1229` | `def finding_signature(self, text)` |
-| `for_finding` | method | `modules/lazy_loop.py:6191` | `def for_finding(self, finding_id)` |
-| `for_intent` | method | `modules/lazy_loop.py:1374` | `def for_intent(self, intent_id)` |
-| `gc` | method | `modules/lazy_loop.py:6175` | `def gc(self, valid_findings)` |
-| `get` | method | `modules/lazy_loop.py:911` | `def get(self, asset_id)` |
-| `get` | method | `modules/lazy_loop.py:1084` | `def get(self, node_id)` |
-| `get` | method | `modules/lazy_loop.py:1543` | `def get(self, digest)` |
-| `get` | method | `modules/lazy_loop.py:2530` | `def get(self, task_id)` |
-| `get` | method | `modules/lazy_loop.py:7277` | `def get(self, name)` |
-| `get` | method | `modules/lazy_loop.py:7300` | `def get(self, task_id)` |
-| `goal_met` | method | `modules/lazy_loop.py:8087` | `def goal_met(self, task_id, reason)` |
-| `graph_context` | method | `modules/lazy_loop.py:9661` | `def graph_context(self, task_id, top)` |
-| `graph_overview` | method | `modules/lazy_loop.py:9406` | `def graph_overview(self, task_id)` |
-| `graph_state` | function | `modules/lazy_loop.py:4225` | `def graph_state()` |
-| `has_finding` | method | `modules/lazy_loop.py:1235` | `def has_finding(self, text)` |
-| `health` | method | `modules/lazy_loop.py:6901` | `def health(self)` |
-| `heartbeat` | method | `modules/lazy_loop.py:2244` | `def heartbeat(self, task_id)` |
-| `history` | method | `modules/lazy_loop.py:2370` | `def history(self, page, per_page, states, query)` |
-| `history` | method | `modules/lazy_loop.py:7075` | `def history(self, task_id, session, limit)` |
-| `hot_set` | method | `modules/lazy_loop.py:5343` | `def hot_set(self)` |
-| `ingest_proxy_traffic` | method | `modules/lazy_loop.py:9056` | `def ingest_proxy_traffic(self, task_id, limit)` |
-| `insert` | method | `modules/lazy_loop.py:881` | `def insert(self, kind, value, parent_id, meta, task_id)` |
-| `job_output` | function | `modules/lazy_loop.py:4256` | `def job_output(job_id)` |
-| `job_status` | function | `modules/lazy_loop.py:4248` | `def job_status(job_id)` |
-| `judge_command` | function | `modules/lazy_loop.py:766` | `def judge_command(command, background, fail_action)` |
-| `kill` | method | `modules/lazy_loop.py:2745` | `def kill(self, task_id, intent_id)` |
-| `killed` | method | `modules/lazy_loop.py:2774` | `def killed(self, task_id, intent_id)` |
-| `limits` | method | `modules/lazy_loop.py:2160` | `def limits(self, task_id)` |
-| `list` | method | `modules/lazy_loop.py:915` | `def list(self, kind)` |
-| `list` | method | `modules/lazy_loop.py:1131` | `def list(self, kind, state)` |
-| `list` | method | `modules/lazy_loop.py:2134` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:2534` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:6447` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:7113` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:7147` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:7253` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:7304` | `def list(self, category)` |
-| `list_facts` | method | `modules/lazy_loop.py:1261` | `def list_facts(self, query, limit, hot_full)` |
-| `list_tasks` | method | `modules/lazy_loop.py:7606` | `def list_tasks(self)` |
-| `llm_state` | method | `modules/lazy_loop.py:2635` | `def llm_state(self, task_id)` |
-| `load_intel_scores` | function | `modules/lazy_loop.py:2840` | `def load_intel_scores()` |
-| `log` | method | `modules/lazy_loop.py:7362` | `def log(self, task_id, limit, session)` |
-| `lookup` | method | `modules/lazy_loop.py:1869` | `def lookup(self, tool_use_id)` |
-| `loop_exiting` | function | `modules/lazy_loop.py:305` | `def loop_exiting()` |
-| `loop_graph` | method | `modules/lazy_loop.py:9592` | `def loop_graph(self, task_id)` |
-| `mark_tested` | method | `modules/lazy_loop.py:922` | `def mark_tested(self, asset_id)` |
-| `match` | method | `modules/lazy_loop.py:7117` | `def match(self, value)` |
-| `members` | method | `modules/lazy_loop.py:6607` | `def members(self)` |
-| `next_pending` | method | `modules/lazy_loop.py:2495` | `def next_pending(self)` |
-| `noa_archives` | method | `modules/lazy_loop.py:5284` | `def noa_archives(self, limit)` |
-| `node_detail` | method | `modules/lazy_loop.py:1245` | `def node_detail(self, node_id)` |
-| `note_trigger` | method | `modules/lazy_loop.py:2293` | `def note_trigger(self, task_id, trigger_id)` |
-| `on_planner_round` | method | `modules/lazy_loop.py:5462` | `def on_planner_round(self)` |
-| `orchestrate` | method | `modules/lazy_loop.py:7499` | `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` |
-| `overview` | method | `modules/lazy_loop.py:1154` | `def overview(self)` |
-| `parents` | method | `modules/lazy_loop.py:1147` | `def parents(self, node_id, kind)` |
-| `parse_judge_output` | function | `modules/lazy_loop.py:738` | `def parse_judge_output(raw)` |
-| `pause` | method | `modules/lazy_loop.py:2550` | `def pause(self, task_id)` |
-| `pause_intent` | method | `modules/lazy_loop.py:7991` | `def pause_intent(self, task_id, intent_id)` |
-| `pause_task` | method | `modules/lazy_loop.py:7634` | `def pause_task(self, task_id, reason)` |
-| `pending` | method | `modules/lazy_loop.py:1307` | `def pending(self)` |
-| `pending` | method | `modules/lazy_loop.py:2366` | `def pending(self)` |
-| `plan` | method | `modules/lazy_loop.py:2969` | `def plan(self, triggers)` |
-| `plausible_command` | function | `modules/lazy_loop.py:150` | `def plausible_command(command)` |
-| `preview_delete_intent` | method | `modules/lazy_loop.py:7823` | `def preview_delete_intent(self, task_id, intent_id)` |
-| `prove_goal` | method | `modules/lazy_loop.py:8849` | `def prove_goal(self, task_id, goal_id, evidence_id, reason)` |
-| `proxy_env` | method | `modules/lazy_loop.py:8979` | `def proxy_env(self)` |
-| `proxy_start` | method | `modules/lazy_loop.py:8929` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
-| `proxy_status` | method | `modules/lazy_loop.py:8973` | `def proxy_status(self)` |
-| `proxy_stop` | method | `modules/lazy_loop.py:8965` | `def proxy_stop(self)` |
-| `queue` | method | `modules/lazy_loop.py:2576` | `def queue(self)` |
-| `ranked` | method | `modules/lazy_loop.py:6130` | `def ranked(self)` |
-| `raw_entries` | method | `modules/lazy_loop.py:6929` | `def raw_entries(self, limit)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

@@ -1,5 +1,111 @@
-# API (page 11 of 22)
+# API (page 11 of 23)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/estorides_importer.py
+Depends on: `core/logging.py`, `modules/db.py`
+Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
+- `ImportResult.success` (method) `modules/estorides_importer.py:110` `def success(self)`
+- `ImportResult.to_dict` (method) `modules/estorides_importer.py:113` `def to_dict(self)`
+- `SeedResult.new_assets` (method) `modules/estorides_importer.py:139` `def new_assets(self)`
+- `extract_seeds_from_world_model` (function) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
+- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:175` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
+- `extract_seeds_from_db` (function) `modules/estorides_importer.py:203` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
+- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:242` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
+- `run_estorides_discover` (function) `modules/estorides_importer.py:272` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
+- `run_estorides_run` (function) `modules/estorides_importer.py:332` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
+- `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:388` `def __init__(self, db_path)`
+- `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:393` `def available(self)`
+- `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:402` `def list_cases(self, limit)`
+- `EstoridesCaseReader.get_entities` (method) `modules/estorides_importer.py:414` `def get_entities(self, case_id, entity_types, limit)` -- Fetch entities from the case store.
+- `EstoridesCaseReader.get_host_entities` (method) `modules/estorides_importer.py:469` `def get_host_entities(self, case_id)` -- Get entities of host-related types (ipv4, ipv6, domain, url, asn).
+- `EstoridesCaseReader.get_all_entities` (method) `modules/estorides_importer.py:473` `def get_all_entities(self, case_id)`
+- `EstoridesCaseReader.stats` (method) `modules/estorides_importer.py:476` `def stats(self)`
+- `EstoridesCaseReader.close` (method) `modules/estorides_importer.py:489` `def close(self)`
+- `EstoridesStixParser.__init__` (method) `modules/estorides_importer.py:511` `def __init__(self, stix_path)`
+- `EstoridesStixParser.available` (method) `modules/estorides_importer.py:515` `def available(self)`
+- `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:518` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
+- `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:552` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
+- `find_lan_bundle_files` (function) `modules/estorides_importer.py:586` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
+- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:632` `def __init__(self, lan_dir)`
+- `LanBundleReader.available` (method) `modules/estorides_importer.py:636` `def available(self)`
+- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:639` `def read_devices(self)` -- Return raw device dicts from the inventory file.
+- `LanBundleReader.parse` (method) `modules/estorides_importer.py:652` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
+- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:683` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
+- `ensure_directories` (function) `modules/estorides_importer.py:694` `def ensure_directories()` -- Ensure sessions/ directories exist.
+- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:703` `def __init__(self, db_path, config_path)`
+- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:711` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
+- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:834` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
+- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:892` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+- `FeedbackLoop.run` (method) `modules/estorides_importer.py:908` `def run(self, seed_methods)` -- Run the feedback loop.
+- `export_combined_graph` (function) `modules/estorides_importer.py:1027` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
+
+## modules/evasion_engine.py
+Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
+- `EvasionEngine.__init__` (method) `modules/evasion_engine.py:130` `def __init__(self, config)`
+- `EvasionEngine.set_config` (method) `modules/evasion_engine.py:136` `def set_config(self, config)`
+- `EvasionEngine.generate_profile` (method) `modules/evasion_engine.py:244` `def generate_profile(self, os_family)`
+- `EvasionEngine.rotate_profile` (method) `modules/evasion_engine.py:264` `def rotate_profile(self, os_family)`
+- `EvasionEngine.get_active_profile` (method) `modules/evasion_engine.py:269` `def get_active_profile(self)`
+- `EvasionEngine.get_beacon_config` (method) `modules/evasion_engine.py:272` `def get_beacon_config(self)`
+- `EvasionEngine.morph_traffic` (method) `modules/evasion_engine.py:287` `def morph_traffic(self, config)`
+- `EvasionEngine.get_history` (method) `modules/evasion_engine.py:328` `def get_history(self)`
+- `EvasionEngine.profile_to_json` (method) `modules/evasion_engine.py:343` `def profile_to_json(self, profile)`
+
+## modules/evasive_payloads.py
+Imported by: `cli/commands/evasive_payload.py`
+- `EvasivePayloadGenerator.__init__` (method) `modules/evasive_payloads.py:84` `def __init__(self)`
+- `EvasivePayloadGenerator.generate_powershell_obfuscated` (method) `modules/evasive_payloads.py:138` `def generate_powershell_obfuscated(self, payload, obfuscation_level)` -- Generate an obfuscated PowerShell payload.
+- `EvasivePayloadGenerator.generate_javascript_obfuscated` (method) `modules/evasive_payloads.py:178` `def generate_javascript_obfuscated(self, payload)` -- Generate an obfuscated JavaScript payload.
+- `EvasivePayloadGenerator.generate_vba_obfuscated` (method) `modules/evasive_payloads.py:197` `def generate_vba_obfuscated(self, payload)` -- Generate an obfuscated VBA macro payload.
+- `EvasivePayloadGenerator.generate_linux_evasive` (method) `modules/evasive_payloads.py:214` `def generate_linux_evasive(self, rhost, rport, technique)` -- Generate an evasive Linux reverse shell payload.
+- `EvasivePayloadGenerator.generate_shellcode_loader_powershell` (method) `modules/evasive_payloads.py:239` `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` -- Generate a PowerShell shellcode loader with AMSI bypass.
+- `EvasivePayloadGenerator.generate_lolbas_execution` (method) `modules/evasive_payloads.py:284` `def generate_lolbas_execution(self, payload_url, technique)` -- Generate a LOLBAS-based payload execution command.
+- `EvasivePayloadGenerator.generate_polymorphic_command` (method) `modules/evasive_payloads.py:334` `def generate_polymorphic_command(self, base_cmd, iterations)` -- Generate a polymorphic command that mutates at each execution.
+- `EvasivePayloadGenerator.list_techniques` (method) `modules/evasive_payloads.py:374` `def list_techniques(self)` -- Return all available evasion techniques.
+
+## modules/event_bus.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_loop_ai_bridge.py`
+- `LazyEvent.to_dict` (method) `modules/event_bus.py:96` `def to_dict(self)`
+- `LazyEvent.to_json` (method) `modules/event_bus.py:111` `def to_json(self)`
+- `LazyEvent.from_dict` (method) `modules/event_bus.py:115` `def from_dict(cls, d)`
+- `Sink.write` (method) `modules/event_bus.py:137` `def write(self, event)`
+- `Sink.close` (method) `modules/event_bus.py:140` `def close(self)`
+- `JsonlSink.__init__` (method) `modules/event_bus.py:146` `def __init__(self, filepath)`
+- `JsonlSink.write` (method) `modules/event_bus.py:151` `def write(self, event)`
+- `JsonlSink.close` (method) `modules/event_bus.py:159` `def close(self)`
+- `CollabBusSink.__init__` (method) `modules/event_bus.py:166` `def __init__(self)`
+- `CollabBusSink.write` (method) `modules/event_bus.py:181` `def write(self, event)`
+- `CollabBusSink.close` (method) `modules/event_bus.py:198` `def close(self)`
+- `EngagementSink.write` (method) `modules/event_bus.py:205` `def write(self, event)`
+- `EngagementSink.close` (method) `modules/event_bus.py:226` `def close(self)`
+- `UnifiedEventBus.__init__` (method) `modules/event_bus.py:255` `def __init__(self)`
+- `UnifiedEventBus.instance` (method) `modules/event_bus.py:287` `def instance(cls)`
+- `UnifiedEventBus.subscriber_count` (method) `modules/event_bus.py:295` `def subscriber_count(self)` -- Return the number of active subscribers across all registration types.
+- `UnifiedEventBus.subscribe` (method) `modules/event_bus.py:300` `def subscribe(self, subscriber_id, callback)` -- Register a callback for all events.
+- `UnifiedEventBus.subscribe_topic` (method) `modules/event_bus.py:305` `def subscribe_topic(self, subscriber_id, topic, callback)` -- Register a callback for events matching a topic.
+- `UnifiedEventBus.subscribe_async` (method) `modules/event_bus.py:315` `def subscribe_async(self, subscriber_id)` -- Get a Queue for async event consumption (for SSE, WebSocket, etc.).
+- `UnifiedEventBus.unsubscribe` (method) `modules/event_bus.py:327` `def unsubscribe(self, subscriber_id)` -- Remove all subscriptions for a subscriber.
+- `UnifiedEventBus.publish` (method) `modules/event_bus.py:336` `def publish(self, event)` -- Publish an event via the bounded dispatch queue.
+- `UnifiedEventBus.drain` (method) `modules/event_bus.py:354` `def drain(self)` -- Consume and drop all pending events from the dispatch queue.
+- `UnifiedEventBus.shutdown` (method) `modules/event_bus.py:372` `def shutdown(self)` -- Shut down the event bus cleanly.
+- `UnifiedEventBus.history` (method) `modules/event_bus.py:556` `def history(self, n, category)` -- Return recent events, optionally filtered by category.
+- `UnifiedEventBus.history_since` (method) `modules/event_bus.py:564` `def history_since(self, since_ts)` -- Return all events since a given timestamp.
+- `get_event_bus` (function) `modules/event_bus.py:570` `def get_event_bus()` -- Return the singleton UnifiedEventBus instance.
+- `publish_event` (function) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
+
+## modules/event_consumers.py
+Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
+- `PhaseTracker.__init__` (method) `modules/event_consumers.py:156` `def __init__(self)`
+- `PhaseTracker.__call__` (method) `modules/event_consumers.py:159` `def __call__(self, event)`
+- `AutoRecommender.__init__` (method) `modules/event_consumers.py:204` `def __init__(self)`
+- `AutoRecommender.__call__` (method) `modules/event_consumers.py:207` `def __call__(self, event)`
+- `CredentialReactor.__call__` (method) `modules/event_consumers.py:282` `def __call__(self, event)`
+- `SoulSync.__call__` (method) `modules/event_consumers.py:323` `def __call__(self, event)`
+- `DashboardPusher.__call__` (method) `modules/event_consumers.py:361` `def __call__(self, event)`
+- `wire_all_consumers` (function) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
+- `unwire_all_consumers` (function) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
 
 ## modules/event_engine.py
 Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
@@ -350,7 +456,7 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 
 ## modules/intel_fusion.py
 Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
-Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
+Imported by: `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 - `node_id` (function) `modules/intel_fusion.py:106` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
 - `build_intel_graph` (function) `modules/intel_fusion.py:176` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
 - `add_node` (function) `modules/intel_fusion.py:183` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
@@ -381,110 +487,6 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazy
 - `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:845` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
 - `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:874` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
 - `get_intelligence_engine` (function) `modules/intelligence_engine.py:931` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
-
-## modules/intercept.py
-Depends on: `cli/commands/enum.py`
-Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-- `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
-- `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
-- `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
-- `observe_post_tool` (function) `modules/intercept.py:144` `def observe_post_tool(output)` -- Classify post-execution output (LAZY Guard.postToolUse parity).
-- `Interceptor.__init__` (method) `modules/intercept.py:157` `def __init__(self, rules, ask_timeout_sec, timeout_action)` -- Initialize with rules sorted by descending priority.
-- `Interceptor.rules` (method) `modules/intercept.py:172` `def rules(self)` -- Return a copy of the active rule list.
-- `Interceptor.add_rule` (method) `modules/intercept.py:177` `def add_rule(self, rule)` -- Add a rule and keep priority ordering.
-- `Interceptor.remove_rule` (method) `modules/intercept.py:183` `def remove_rule(self, pattern)` -- Remove the first rule matching pattern text.
-- `Interceptor.evaluate` (method) `modules/intercept.py:192` `def evaluate(self, tool, command)` -- Evaluate a tool call and return the verdict.
-- `Interceptor.decide` (method) `modules/intercept.py:220` `def decide(self, approval_id, decision)` -- Resolve a pending approval with approve or deny.
-- `Interceptor.pending_approvals` (method) `modules/intercept.py:234` `def pending_approvals(self)` -- List unresolved approvals, expiring timed-out ones per policy.
-- `Interceptor.approval_status` (method) `modules/intercept.py:249` `def approval_status(self, approval_id)` -- Fetch a single approval record by id.
-- `Guard.__init__` (method) `modules/intercept.py:258` `def __init__(self, interceptor)` -- Initialize audit log with an optional interceptor.
-- `Guard.interceptor` (method) `modules/intercept.py:266` `def interceptor(self)` -- Expose the underlying interceptor.
-- `Guard.check` (method) `modules/intercept.py:270` `def check(self, tool, command)` -- Audit the call then evaluate intercept rules (trace id kept).
-- `Guard.observe` (method) `modules/intercept.py:282` `def observe(self, output, source)` -- Classify output and attribute blocked/error counters.
-- `Guard.record_failure` (method) `modules/intercept.py:291` `def record_failure(self, source)` -- Attribute a post-execution failure to a source.
-- `Guard.audit_log` (method) `modules/intercept.py:296` `def audit_log(self, limit)` -- Return the most recent audit entries.
-- `Guard.attribution` (method) `modules/intercept.py:301` `def attribution(self)` -- Return failure attribution counters.
-
-## modules/iptables_portforward.sh
-- `display_usage` (function) `modules/iptables_portforward.sh:29`
-
-## modules/jsonl_tail.py
-Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-- `JsonlTail.__init__` (method) `modules/jsonl_tail.py:17` `def __init__(self, path)` -- Bind the tail to one file path.
-- `JsonlTail.read_new` (method) `modules/jsonl_tail.py:22` `def read_new(self, limit)` -- Return new complete records since the last call.
-
-## modules/k8s_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `K8SAttackEngine.__init__` (method) `modules/k8s_attacks.py:87` `def __init__(self, config)`
-- `K8SAttackEngine.enumerate_rbac` (method) `modules/k8s_attacks.py:90` `def enumerate_rbac(self)` -- Enumerate RBAC permissions for the current identity.
-- `K8SAttackEngine.privileged_pod_escape` (method) `modules/k8s_attacks.py:118` `def privileged_pod_escape(self)` -- Plan a privileged pod escape.
-- `K8SAttackEngine.service_account_token_theft` (method) `modules/k8s_attacks.py:173` `def service_account_token_theft(self)` -- Steal service account tokens across namespaces for lateral movement.
-- `K8SAttackEngine.kubelet_anonymous_auth_abuse` (method) `modules/k8s_attacks.py:198` `def kubelet_anonymous_auth_abuse(self)` -- Exploit kubelet anonymous authentication.
-- `K8SAttackEngine.etcd_access_exploitation` (method) `modules/k8s_attacks.py:222` `def etcd_access_exploitation(self)` -- Exploit etcd database access for complete cluster compromise.
-- `K8SAttackEngine.helm_tiller_abuse` (method) `modules/k8s_attacks.py:250` `def helm_tiller_abuse(self)` -- Abuse Helm (v2 Tiller or v3 RBAC) for privilege escalation.
-- `K8SAttackEngine.persistence_techniques` (method) `modules/k8s_attacks.py:278` `def persistence_techniques(self)` -- Kubernetes persistence techniques for long-term access.
-- `K8SAttackEngine.summary` (method) `modules/k8s_attacks.py:318` `def summary(self)`
-
-## modules/kerberoasting.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
-- `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
-- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
-- `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
-- `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
-- `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
-- `KerberoastingEngine.targeted_kerberoast` (method) `modules/kerberoasting.py:271` `def targeted_kerberoast(self, high_value_only)` -- Perform targeted Kerberoasting on enumerated SPNs.
-- `KerberoastingEngine.asreproast_check` (method) `modules/kerberoasting.py:306` `def asreproast_check(self, usernames)` -- Check which users do NOT require Kerberos pre-authentication (AS-REP roastable).
-- `KerberoastingEngine.extract_hashes_from_pcap` (method) `modules/kerberoasting.py:321` `def extract_hashes_from_pcap(self, pcap_path)` -- Extract Kerberoast hashes from a PCAP/PCAPNG network capture.
-- `KerberoastingEngine.detect_kerberoasting_activity` (method) `modules/kerberoasting.py:336` `def detect_kerberoasting_activity(self, event_log)` -- Analyze Windows Event Logs for signs of Kerberoasting attacks.
-- `KerberoastingEngine.build_hashcat_batch` (method) `modules/kerberoasting.py:379` `def build_hashcat_batch(self, output_path)` -- Build a batch file with all extracted hashes for Hashcat cracking.
-- `KerberoastingEngine.summary` (method) `modules/kerberoasting.py:401` `def summary(self)` -- Return a summary of kerberoasting operations.
-
-## modules/kerberos_core.py
-Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
-- `KerberosPrincipal.to_string` (method) `modules/kerberos_core.py:152` `def to_string(self)`
-- `KerberosTicket.has_flag` (method) `modules/kerberos_core.py:207` `def has_flag(self, flag_name)`
-- `KerberosCrypto.__init__` (method) `modules/kerberos_core.py:277` `def __init__(self)`
-- `KerberosCrypto.derive_aes_key` (method) `modules/kerberos_core.py:282` `def derive_aes_key(password, salt, etype)` -- Derive an AES Kerberos key from a password using string-to-key.
-- `KerberosCrypto.derive_rc4_key` (method) `modules/kerberos_core.py:318` `def derive_rc4_key(password)` -- Derive RC4-HMAC Kerberos key from password (hash = MD4(UTF16LE(password))).
-- `KerberosCrypto.aes_encrypt` (method) `modules/kerberos_core.py:329` `def aes_encrypt(self, key, plaintext, usage)` -- AES encrypt with Kerberos ciphertext stealing (CTS) mode.
-- `KerberosCrypto.aes_decrypt` (method) `modules/kerberos_core.py:361` `def aes_decrypt(self, key, ciphertext, usage)` -- AES decrypt with Kerberos CTS mode.
-- `KerberosCrypto.compute_checksum` (method) `modules/kerberos_core.py:389` `def compute_checksum(key, data, etype)` -- Compute a Kerberos checksum using HMAC-SHA1-96-AES.
-- `KerberosCore.__init__` (method) `modules/kerberos_core.py:421` `def __init__(self, domain, dc_host, dc_ip)`
-- `KerberosCore.get_supported_etypes` (method) `modules/kerberos_core.py:427` `def get_supported_etypes(self)` -- Return encryption types supported by this implementation.
-- `KerberosCore.build_as_req` (method) `modules/kerberos_core.py:435` `def build_as_req(self, username, domain, password, etype)` -- Build an AS-REQ message for TGT retrieval.
-- `KerberosCore.build_tgs_req` (method) `modules/kerberos_core.py:489` `def build_tgs_req(self, params)` -- Build a TGS-REQ message for service ticket retrieval.
-- `KerberosCore.parse_as_rep` (method) `modules/kerberos_core.py:534` `def parse_as_rep(self, as_rep_data, key, etype)` -- Parse an AS-REP response and extract the TGT and session key.
-- `KerberosCore.parse_tgs_rep` (method) `modules/kerberos_core.py:550` `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` -- Parse a TGS-REP response and extract the service ticket.
-- `KerberosCore.decrypt_ticket` (method) `modules/kerberos_core.py:563` `def decrypt_ticket(self, ticket_data, key, etype)` -- Decrypt the encrypted portion of a Kerberos ticket.
-- `KerberosCore.parse_pac` (method) `modules/kerberos_core.py:588` `def parse_pac(self, pac_data)` -- Parse a Privilege Attribute Certificate (PAC) from decrypted auth data.
-- `KerberosErrorParser.parse_error` (method) `modules/kerberos_core.py:687` `def parse_error(error_data)` -- Extract error code, message, and client/server realm from a KRB-ERROR.
-- `TicketValidator.is_expired` (method) `modules/kerberos_core.py:706` `def is_expired(endtime, grace_period)` -- Check if a ticket has expired.
-- `TicketValidator.validate_flags` (method) `modules/kerberos_core.py:719` `def validate_flags(ticket, required_flags)` -- Check that a ticket has all required flags.
-- `TicketValidator.validate_pac_checksums` (method) `modules/kerberos_core.py:735` `def validate_pac_checksums(pac)` -- Validate PAC server and KDC checksums.
-
-## modules/kerberos_tickets.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `SilverTicketForger.__init__` (method) `modules/kerberos_tickets.py:131` `def __init__(self)`
-- `SilverTicketForger.forge` (method) `modules/kerberos_tickets.py:134` `def forge(self, config)` -- Forge a silver ticket for the specified service.
-- `GoldenTicketForger.__init__` (method) `modules/kerberos_tickets.py:272` `def __init__(self)`
-- `GoldenTicketForger.forge` (method) `modules/kerberos_tickets.py:275` `def forge(self, config)` -- Forge a golden ticket TGT.
-- `DiamondTicketForger.__init__` (method) `modules/kerberos_tickets.py:405` `def __init__(self)`
-- `DiamondTicketForger.forge` (method) `modules/kerberos_tickets.py:408` `def forge(self, config)` -- Forge a diamond ticket with PAC enhancement.
-- `SapphireTicketForger.__init__` (method) `modules/kerberos_tickets.py:469` `def __init__(self, kerberos_core)`
-- `SapphireTicketForger.forge_s4u2self` (method) `modules/kerberos_tickets.py:472` `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` -- Generate a TGS-REQ for S4U2self service ticket.
-- `SapphireTicketForger.forge_rbcd` (method) `modules/kerberos_tickets.py:530` `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` -- Generate exploit instructions for resource-based constrained delegation.
-- `SkeletonKeyInjector.detect_skeleton_key` (method) `modules/kerberos_tickets.py:578` `def detect_skeleton_key(target_host, domain, dc_ip)` -- Check if skeleton key is active on a DC.
-- `SkeletonKeyInjector.inject_command` (method) `modules/kerberos_tickets.py:600` `def inject_command(target_host)` -- Generate mimikatz command for skeleton key injection on a DC.
-- `SkeletonKeyInjector.cleanup_command` (method) `modules/kerberos_tickets.py:612` `def cleanup_command()` -- Generate LSASS restart command to remove skeleton key patch.
-
-## modules/kill_chain_viz.py
-Depends on: `modules/killchain.py`
-Imported by: `lazyc2.py`
-- `generate_html` (function) `modules/kill_chain_viz.py:69` `def generate_html(target, sessions)`
-- `generate_svg` (function) `modules/kill_chain_viz.py:102` `def generate_svg(target, sessions)`
 
 
 Next: [API_p12.md](API_p12.md)

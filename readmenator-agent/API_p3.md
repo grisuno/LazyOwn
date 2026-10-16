@@ -1,32 +1,68 @@
-# API (page 3 of 22)
+# API (page 3 of 23)
 Previous: [API_p2.md](API_p2.md)
 
+## cli/commands/orchestration.py
+Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
+Imported by: `tests/test_improvements_spec.py`
+- `run_with_spinner` (function) `cli/commands/orchestration.py:94` `def run_with_spinner(execute)` -- Run a blocking orchestrator call with a live reasoning spinner.
+- `OrchestrationCommandSet.do_status_bar` (method) `cli/commands/orchestration.py:190` `def do_status_bar(self, args)` -- Inspect, toggle and refresh the prompt status bar.
+- `OrchestrationCommandSet.do_orchestrate` (method) `cli/commands/orchestration.py:216` `def do_orchestrate(self, args)` -- Route a goal through the unified orchestrator and print the result.
+
+## cli/commands/payload_arsenal.py
+Depends on: `cli/commands/_base.py`, `modules/dotnet_payload.py`, `modules/linux_advanced_payloads.py`, `modules/macos_payloads.py`, `modules/polymorphic_engine.py`, `modules/staged_delivery.py`
+- `PayloadArsenalCommandSet.do_dotnet_payload` (method) `cli/commands/payload_arsenal.py:29` `def do_dotnet_payload(self, line)` -- Generate a .NET/C# payload.
+- `PayloadArsenalCommandSet.do_arsenal_show` (method) `cli/commands/payload_arsenal.py:114` `def do_arsenal_show(self, line)` -- Show payload arsenal items.
+- `PayloadArsenalCommandSet.do_staged_delivery` (method) `cli/commands/payload_arsenal.py:172` `def do_staged_delivery(self, line)` -- Generate staged delivery artifacts (HTA, VBA, LNK, ISO, VHD).
+- `PayloadArsenalCommandSet.do_polymorphic` (method) `cli/commands/payload_arsenal.py:261` `def do_polymorphic(self, line)` -- Apply polymorphic mutation to shellcode.
+- `PayloadArsenalCommandSet.do_macos_payload` (method) `cli/commands/payload_arsenal.py:328` `def do_macos_payload(self, line)` -- Generate macOS payloads (.app bundles, persistence, TCC bypass).
+- `PayloadArsenalCommandSet.do_linux_advanced_payload` (method) `cli/commands/payload_arsenal.py:401` `def do_linux_advanced_payload(self, line)` -- Generate advanced Linux payloads (LD_PRELOAD, eBPF, PAM, kernel module).
+
+## cli/commands/payload_generation.py
+Depends on: `cli/commands/_base.py`, `modules/payload_factory.py`, `utils.py`
+- `PayloadCommandSet.do_generate` (method) `cli/commands/payload_generation.py:37` `def do_generate(self, line)` -- Generate a payload.
+
+## cli/commands/persist.py
+Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+- `PersistenceCommandSet.do_createwebshell` (method) `cli/commands/persist.py:33` `def do_createwebshell(self, line)` -- Create web shells (JPG-disguised PHP, p0wny-shell, ASP).
+- `PersistenceCommandSet.do_createrevshell` (method) `cli/commands/persist.py:47` `def do_createrevshell(self, line)` -- Create a bash reverse shell script in sessions/.
+- `PersistenceCommandSet.do_createwinrevshell` (method) `cli/commands/persist.py:61` `def do_createwinrevshell(self, line)` -- Create a Windows reverse shell (PowerShell).
+- `PersistenceCommandSet.do_conptyshell` (method) `cli/commands/persist.py:73` `def do_conptyshell(self, line)` -- Download ConPtyShell and prepare a PowerShell run command.
+- `PersistenceCommandSet.do_pwncatcs` (method) `cli/commands/persist.py:89` `def do_pwncatcs(self, line)` -- Start a pwncat-cs reverse shell listener.
+- `PersistenceCommandSet.do_revwin` (method) `cli/commands/persist.py:99` `def do_revwin(self, line)` -- Create a Windows reverse shell executable.
+- `PersistenceCommandSet.do_wmi_persist` (method) `cli/commands/persist.py:112` `def do_wmi_persist(self, line)` -- Create WMI Event Subscription persistence (fileless, no disk write).
+- `PersistenceCommandSet.do_wmi_lateral` (method) `cli/commands/persist.py:170` `def do_wmi_lateral(self, line)` -- Execute a command on a remote host via WMI.
+- `PersistenceCommandSet.do_wmi_scheduled_task` (method) `cli/commands/persist.py:209` `def do_wmi_scheduled_task(self, line)` -- Create a scheduled task for persistence via WMI.
+
 ## cli/commands/persist_migrated.py
-Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
-- `PersistMigratedCommandSet.do_pwncat` (method) `cli/commands/persist_migrated.py:33` `def do_pwncat(self, line)` -- Runs `pwncat` with the specified port for listening.
-- `PersistMigratedCommandSet.do_ftp` (method) `cli/commands/persist_migrated.py:77` `def do_ftp(self, line)` -- Connects to an ftp host using credentials from a file and a specified port.
-- `PersistMigratedCommandSet.do_rdp` (method) `cli/commands/persist_migrated.py:136` `def do_rdp(self, line)` -- Reads credentials from a file, encrypts the password, and executes the RDP connection command.
-- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:210` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
-- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:256` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
-- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:300` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
-- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:338` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:378` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
-- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:424` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
-- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:470` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
-- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:551` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
-- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:651` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
-- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:725` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
-- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:843` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
-- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:909` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
-- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:972` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
-- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1060` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
-- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1093` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
-- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1161` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
-- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1196` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1263` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
-- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1330` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
-- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1403` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
-- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1426` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
+Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
+Imported by: `tests/test_backdoor_random.py`
+- `PersistMigratedCommandSet.generate_backdoor_username` (method) `cli/commands/persist_migrated.py:37` `def generate_backdoor_username()` -- Generate a random backdoor username (same shape as C2 operators).
+- `PersistMigratedCommandSet.generate_backdoor_password` (method) `cli/commands/persist_migrated.py:43` `def generate_backdoor_password()` -- Generate a random backdoor password safe for assign, chpasswd and CLIs.
+- `PersistMigratedCommandSet.resolve_backdoor_creds` (method) `cli/commands/persist_migrated.py:53` `def resolve_backdoor_creds(params)` -- Return configured creds, or fresh random ones when unset.
+- `PersistMigratedCommandSet.do_pwncat` (method) `cli/commands/persist_migrated.py:91` `def do_pwncat(self, line)` -- Runs `pwncat` with the specified port for listening.
+- `PersistMigratedCommandSet.do_ftp` (method) `cli/commands/persist_migrated.py:135` `def do_ftp(self, line)` -- Connects to an ftp host using credentials from a file and a specified port.
+- `PersistMigratedCommandSet.do_rdp` (method) `cli/commands/persist_migrated.py:194` `def do_rdp(self, line)` -- Reads credentials from a file, encrypts the password, and executes the RDP connection command.
+- `PersistMigratedCommandSet.do_grisun0` (method) `cli/commands/persist_migrated.py:268` `def do_grisun0(self, line)` -- Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch...
+- `PersistMigratedCommandSet.do_grisun0w` (method) `cli/commands/persist_migrated.py:312` `def do_grisun0w(self, line)` -- Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators...
+- `PersistMigratedCommandSet.do_asprevbase64` (method) `cli/commands/persist_migrated.py:354` `def do_asprevbase64(self, line)` -- Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
+- `PersistMigratedCommandSet.do_weevelygen` (method) `cli/commands/persist_migrated.py:392` `def do_weevelygen(self, line)` -- Generate a PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_weevely` (method) `cli/commands/persist_migrated.py:432` `def do_weevely(self, line)` -- Connect to PHP backdoor using Weevely, protected with the given password.
+- `PersistMigratedCommandSet.do_backdoor_factory` (method) `cli/commands/persist_migrated.py:478` `def do_backdoor_factory(self, line)` -- Creates a backdoored executable using `backdoor-factory`.
+- `PersistMigratedCommandSet.do_msfpc` (method) `cli/commands/persist_migrated.py:524` `def do_msfpc(self, line)` -- Generates payloads using MSFvenom Payload Creator (MSFPC).
+- `PersistMigratedCommandSet.do_ivy` (method) `cli/commands/persist_migrated.py:605` `def do_ivy(self, line)` -- Generates payloads using Ivy with various options.
+- `PersistMigratedCommandSet.do_veil` (method) `cli/commands/persist_migrated.py:705` `def do_veil(self, line)` -- Generates payloads using Veil-Evasion with various options.
+- `PersistMigratedCommandSet.do_scarecrow` (method) `cli/commands/persist_migrated.py:779` `def do_scarecrow(self, line)` -- Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode. to create the...
+- `PersistMigratedCommandSet.do_generate_revshell` (method) `cli/commands/persist_migrated.py:897` `def do_generate_revshell(self, line)` -- Generate a reverse shell in various programming languages.
+- `PersistMigratedCommandSet.do_dr0p1t` (method) `cli/commands/persist_migrated.py:963` `def do_dr0p1t(self, line)` -- Execute the Dr0p1t tool to create a stealthy malware dropper.
+- `PersistMigratedCommandSet.do_paranoid_meterpreter` (method) `cli/commands/persist_migrated.py:1026` `def do_paranoid_meterpreter(self, line)` -- Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
+- `PersistMigratedCommandSet.do_setoolKits` (method) `cli/commands/persist_migrated.py:1114` `def do_setoolKits(self, line)` -- Executes the SEToolKit workflow to generate a Meterpreter payload and configure the multi-handler using LHOST and...
+- `PersistMigratedCommandSet.do_darkarmour` (method) `cli/commands/persist_migrated.py:1147` `def do_darkarmour(self, line)` -- Uses the darkarmour tool to generate an undetectable version of a PE executable.
+- `PersistMigratedCommandSet.do_knokknok` (method) `cli/commands/persist_migrated.py:1215` `def do_knokknok(self, line)` -- Send special string to trigger a reverse shell, with the command 'c2 client_name' create a listener shell script to...
+- `PersistMigratedCommandSet.do_listener_go` (method) `cli/commands/persist_migrated.py:1250` `def do_listener_go(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_listener_py` (method) `cli/commands/persist_migrated.py:1317` `def do_listener_py(self, line)` -- Configures and starts a listener for a specified victim.
+- `PersistMigratedCommandSet.do_service` (method) `cli/commands/persist_migrated.py:1384` `def do_service(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+- `PersistMigratedCommandSet.do_toctoc` (method) `cli/commands/persist_migrated.py:1457` `def do_toctoc(self, line)` -- Sends a magic packet to the Chinese malware.
+- `PersistMigratedCommandSet.do_beaconcfg` (method) `cli/commands/persist_migrated.py:1480` `def do_beaconcfg(self, line)` -- Generate a C2 beacon profile with traffic morphing and domain fronting.
 
 ## cli/commands/phishing_wizard.py
 Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
@@ -282,7 +318,7 @@ Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/
 - `SecurityCommandSet.complete_crack_hashes` (method) `cli/commands/security.py:276` `def complete_crack_hashes(self, text, line, begidx, endidx)`
 
 ## cli/commands/session_ops.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
 Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:79` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
 - `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:104` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
@@ -292,31 +328,31 @@ Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/te
 - `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:219` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
 - `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:236` `def do_sitrep(self, line)` -- Print a unified operational situation report.
 - `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:253` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
-- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:306` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
-- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:379` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
-- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:445` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
-- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:521` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
-- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:550` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
-- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:589` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
-- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:640` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
-- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:684` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
-- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:728` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
-- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:809` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
-- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:860` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
-- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:987` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
-- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1078` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
-- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1110` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
-- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1201` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
-- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1223` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
-- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1261` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
-- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1294` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
-- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1325` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
-- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1374` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
-- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1436` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
-- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1484` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
-- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1496` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
-- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1546` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
-- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1592` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:317` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
+- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:390` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
+- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:456` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
+- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:532` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
+- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:561` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
+- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:600` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
+- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:651` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
+- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:695` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:739` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:820` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:871` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:998` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1089` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1121` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1212` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1234` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1272` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1305` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1336` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1385` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1447` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1495` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1507` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1557` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1603` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
@@ -456,27 +492,6 @@ Imported by: `cli/commands/help_ui.py`
 - `render_report` (function) `cli/doctor.py:406` `def render_report(report, console)` -- Render a :class:`DoctorReport` as a rich table with a summary banner.
 - `run` (function) `cli/doctor.py:451` `def run(root, console)` -- Gather and render the preflight report.
 - `fix_report` (function) `cli/doctor.py:468` `def fix_report(report)` -- Interactively offer to fix every failure and warning in the report.
-
-## cli/engagement_hooks.py
-Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
-Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
-- `heal_commands_seen` (function) `cli/engagement_hooks.py:365` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
-- `get_karma_name` (function) `cli/engagement_hooks.py:716` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
-- `render_engagement_hook` (function) `cli/engagement_hooks.py:898` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
-- `get_state_snapshot` (function) `cli/engagement_hooks.py:978` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
-- `reset_session` (function) `cli/engagement_hooks.py:1066` `def reset_session()` -- Reset session counters without clearing cross-session progress.
-
-## cli/exploit_advisor.py
-Depends on: `core/console.py`
-Imported by: `cli/commands/recon.py`
-- `ServiceInfo.search_query` (method) `cli/exploit_advisor.py:122` `def search_query(self)` -- Best query string for searchsploit / NVD.
-- `ServiceInfo.display_name` (method) `cli/exploit_advisor.py:128` `def display_name(self)`
-- `ServiceInfo.next_commands` (method) `cli/exploit_advisor.py:132` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
-- `parse_nmap_xml` (function) `cli/exploit_advisor.py:164` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
-- `find_nmap_xml` (function) `cli/exploit_advisor.py:203` `def find_nmap_xml(rhost, sessions_dir)` -- Return all nmap XML files for a given rhost, newest first.
-- `print_exploit_summary` (function) `cli/exploit_advisor.py:222` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
-- `save_ss_results` (function) `cli/exploit_advisor.py:296` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
-- `inject_exploit_tasks` (function) `cli/exploit_advisor.py:338` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
 
 
 Next: [API_p4.md](API_p4.md)

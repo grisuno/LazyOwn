@@ -107,38 +107,38 @@ Previous: [KB_cli.md](KB_cli.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `EngagementState` (class, line 242) `class EngagementState`
-  - `_load_state` (function, line 260) `def _load_state()`
-  - `_save_state` (function, line 280) `def _save_state(state)`
-  - `_load_index` (function, line 290) `def _load_index()`
-  - `_normalize_command` (function, line 301) `def _normalize_command(cmd)`
-  - `_is_recordable_command` (function, line 306) `def _is_recordable_command(cmd)`
-  - `_sanitize_seen` (function, line 332) `def _sanitize_seen(names, known)`
-  - `heal_commands_seen` (function, line 365) `def heal_commands_seen(known)`
-  - `_next_threshold` (function, line 394) `def _next_threshold(current)`
-  - `_phase_for_cmd` (function, line 400) `def _phase_for_cmd(cmd, index)`
-  - `_commands_in_phase` (function, line 409) `def _commands_in_phase(phase, index)`
-  - `_summary_for_cmd` (function, line 414) `def _summary_for_cmd(cmd, index)`
-  - `_run_curiosity` (function, line 431) `def _run_curiosity(cmd, state, index)`
-  - `_render_streak` (function, line 459) `def _render_streak(ctx)`
-  - `_render_exploration` (function, line 488) `def _render_exploration(ctx)`
-  - `_render_phase_badge` (function, line 506) `def _render_phase_badge(ctx)`
-  - `_render_hidden_feature` (function, line 522) `def _render_hidden_feature(ctx)`
-  - `_render_arsenal_tip` (function, line 536) `def _render_arsenal_tip(ctx)`
-  - `_render_methodology_task` (function, line 544) `def _render_methodology_task(ctx)`
-  - `_render_methodology_objective` (function, line 583) `def _render_methodology_objective(ctx)`
-  - `_render_methodology_note` (function, line 630) `def _render_methodology_note(ctx)`
-  - `_fire_vri_reward` (function, line 672) `def _fire_vri_reward(state, ctx)`
-  - `get_karma_name` (function, line 716) `def get_karma_name(elo)`
-  - `_award_elo` (function, line 734) `def _award_elo(cmd, first_time, new_phase, current_phase)`
-  - `_sync_user_elo` (function, line 760) `def _sync_user_elo(delta)`
-  - `_persist_notification` (function, line 828) `def _persist_notification(html)`
-  - `_check_karma_up` (function, line 864) `def _check_karma_up(state)`
-  - `render_engagement_hook` (function, line 898) `def render_engagement_hook(cmd, phase, enabled)`
-  - `get_state_snapshot` (function, line 978) `def get_state_snapshot()`
-  - `_check_badges` (function, line 1009) `def _check_badges(cmd, first_time)`
-  - `_print_badge` (function, line 1056) `def _print_badge(name, description)`
-  - `reset_session` (function, line 1066) `def reset_session()`
+  - `EngagementState` (class, line 243) `class EngagementState`
+  - `_load_state` (function, line 261) `def _load_state()`
+  - `_save_state` (function, line 281) `def _save_state(state)`
+  - `_load_index` (function, line 291) `def _load_index()`
+  - `_normalize_command` (function, line 302) `def _normalize_command(cmd)`
+  - `_is_recordable_command` (function, line 307) `def _is_recordable_command(cmd)`
+  - `_sanitize_seen` (function, line 333) `def _sanitize_seen(names, known)`
+  - `heal_commands_seen` (function, line 366) `def heal_commands_seen(known)`
+  - `_next_threshold` (function, line 395) `def _next_threshold(current)`
+  - `_phase_for_cmd` (function, line 401) `def _phase_for_cmd(cmd, index)`
+  - `_commands_in_phase` (function, line 410) `def _commands_in_phase(phase, index)`
+  - `_summary_for_cmd` (function, line 415) `def _summary_for_cmd(cmd, index)`
+  - `_run_curiosity` (function, line 432) `def _run_curiosity(cmd, state, index)`
+  - `_render_streak` (function, line 460) `def _render_streak(ctx)`
+  - `_render_exploration` (function, line 489) `def _render_exploration(ctx)`
+  - `_render_phase_badge` (function, line 507) `def _render_phase_badge(ctx)`
+  - `_render_hidden_feature` (function, line 523) `def _render_hidden_feature(ctx)`
+  - `_render_arsenal_tip` (function, line 537) `def _render_arsenal_tip(ctx)`
+  - `_render_methodology_task` (function, line 545) `def _render_methodology_task(ctx)`
+  - `_render_methodology_objective` (function, line 584) `def _render_methodology_objective(ctx)`
+  - `_render_methodology_note` (function, line 631) `def _render_methodology_note(ctx)`
+  - `_fire_vri_reward` (function, line 673) `def _fire_vri_reward(state, ctx)`
+  - `get_karma_name` (function, line 717) `def get_karma_name(elo)`
+  - `_award_elo` (function, line 735) `def _award_elo(cmd, first_time, new_phase, current_phase)`
+  - `_sync_user_elo` (function, line 761) `def _sync_user_elo(delta)`
+  - `_persist_notification` (function, line 829) `def _persist_notification(html)`
+  - `_check_karma_up` (function, line 865) `def _check_karma_up(state)`
+  - `render_engagement_hook` (function, line 899) `def render_engagement_hook(cmd, phase, enabled)`
+  - `get_state_snapshot` (function, line 979) `def get_state_snapshot()`
+  - `_check_badges` (function, line 1010) `def _check_badges(cmd, first_time)`
+  - `_print_badge` (function, line 1057) `def _print_badge(name, description)`
+  - `reset_session` (function, line 1067) `def reset_session()`
 - Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
 

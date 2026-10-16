@@ -1,0 +1,6 @@
+name: apt_rocke
+description: Full APT chain for rocke (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: rocke

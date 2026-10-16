@@ -116,7 +116,7 @@ class FormModal(ModalScreen[dict]):
 
 
 class LazyOrchestratorApp(App[None]):
-    """Admin console: Now / Config / Models / Guard."""
+    """Admin console: Now / Config / Verbs / Chains / Models / Guard."""
 
     CSS = """
     #now-status { height: 6; border: round $accent; padding: 0 1; }
@@ -143,6 +143,7 @@ class LazyOrchestratorApp(App[None]):
         """Bind the console to a payload file and an optional task."""
         super().__init__()
         self._payload_path = Path(payload_path) if payload_path else None
+        self._chains_dir_override: Path | None = None
         self.task_id = task_id
         self._tail: JsonlTail | None = None
         self._tail_task = ""
@@ -168,6 +169,10 @@ class LazyOrchestratorApp(App[None]):
                 yield DataTable(id="stages-table")
             with TabPane("Verbs", id="tab-verbs"):
                 yield DataTable(id="verbs-table")
+            with TabPane("Chains", id="tab-chains"):
+                with Vertical():
+                    yield DataTable(id="chains-table")
+                    yield Static("select a chain to preview its steps", id="chains-detail")
             with TabPane("Models", id="tab-models"):
                 yield DataTable(id="models-table")
             with TabPane("Guard", id="tab-guard"):
@@ -180,6 +185,7 @@ class LazyOrchestratorApp(App[None]):
         self._load_payload_into_form()
         self._refresh_stages()
         self._refresh_verbs()
+        self._refresh_chains()
         self._refresh_models()
         self._refresh_guard()
         self.set_interval(POLL_SEC, self._poll_now)
@@ -224,6 +230,134 @@ class LazyOrchestratorApp(App[None]):
         removed = remove_verb(name)
         self._refresh_verbs()
         return bool(removed)
+
+    def _chains_dir(self):
+        """Chain file root (overrideable for sandboxed tests)."""
+        if self._chains_dir_override is not None:
+            return self._chains_dir_override
+        from modules.chain_registry import CHAINS_DIR
+
+        return CHAINS_DIR
+
+    def chain_rows(self) -> list[dict]:
+        """Return one row per chain file, including disabled ones."""
+        from modules.chain_registry import scan_all
+
+        try:
+            return scan_all(self._chains_dir())
+        except Exception:
+            return []
+
+    def chain_steps_preview(self, name: str, limit: int = 10) -> str:
+        """Return the resolved step lines of a chain for the detail pane."""
+        from modules.chain_registry import get
+
+        try:
+            chain = get(name, self._chains_dir())
+        except Exception:
+            return "chain registry unavailable"
+        if chain is None:
+            return "chain not found or disabled"
+        lines = [f"{i}. {step.run}" for i, step in enumerate(chain.steps[:limit], 1)]
+        if len(chain.steps) > limit:
+            lines.append(f"... +{len(chain.steps) - limit} more")
+        lines.append("")
+        lines.append(f"run: apt_chain {chain.name} <target>")
+        return "\n".join(lines)
+
+    def toggle_chain(self, name: str) -> bool:
+        """Flip a chain's enabled flag in its YAML file."""
+        from modules.chain_registry import scan_all, set_enabled
+
+        current = next((row for row in scan_all(self._chains_dir()) if row["name"] == name), None)
+        if current is None:
+            return False
+        ok = set_enabled(name, not current["enabled"], self._chains_dir())
+        self._refresh_chains()
+        return bool(ok)
+
+    def generate_chain(self, playbook_key: str) -> str:
+        """Generate chains/apt_<slug>.yaml from a playbook engine key."""
+        from modules.apt_playbooks import AptPlaybookEngine
+        from modules.chain_registry import generate_for_playbook
+
+        key = (playbook_key or "").strip()
+        engine = AptPlaybookEngine(playbook_dir="playbooks")
+        playbook = engine.get(key)
+        if playbook is None:
+            return ""
+        path = generate_for_playbook(key, apt_display=playbook.apt_name, chains_dir=self._chains_dir())
+        self._refresh_chains()
+        return str(path)
+
+    def remove_chain(self, name: str) -> bool:
+        """Delete a chain file unless others extend it or it is the base.
+
+        Returns False (refusing loudly) for the base ``apt_chain`` and
+        for any parent with children — edit or disable those instead.
+        """
+        from modules.chain_registry import scan_all
+
+        if name == "apt_chain":
+            return False
+        try:
+            rows = scan_all(self._chains_dir())
+        except Exception:
+            return False
+        if any(row.get("extends") == name for row in rows):
+            return False
+        target = next((row for row in rows if row["name"] == name), None)
+        if target is None:
+            return False
+        try:
+            Path(target["source"]).unlink()
+        except OSError:
+            return False
+        self._refresh_chains()
+        return True
+
+    def _refresh_chains(self) -> None:
+        """Render the chains table with per-file state."""
+        try:
+            table = self.query_one("#chains-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("chain", "enabled", "steps", "playbook", "extends", "description")
+        for row in self.chain_rows():
+            state = "on" if row["enabled"] else "off"
+            if not row.get("valid", True):
+                state = f"off ({row.get('error', 'invalid')[:40]})"
+            table.add_row(
+                row["name"],
+                state,
+                str(row.get("steps", "")),
+                str(row.get("playbook", "")),
+                str(row.get("extends", "")),
+                str(row.get("description", ""))[:60],
+                key=row["name"],
+            )
+        self._update_chains_detail(self._selected_row("chains-table"))
+
+    def _update_chains_detail(self, name: str) -> None:
+        """Show the selected chain's steps in the detail pane."""
+        try:
+            self.query_one("#chains-detail", Static).update(self.chain_steps_preview(name) if name else "")
+        except Exception:
+            pass
+
+    def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None:
+        """Refresh the chains detail pane when the cursor moves."""
+        try:
+            if event.control.id != "chains-table":
+                return
+        except Exception:
+            return
+        try:
+            key = event.row_key
+            self._update_chains_detail(str(key.value or ""))
+        except Exception:
+            pass
 
     def _refresh_stages(self) -> None:
         """Render the pipeline stages with their firing condition."""
@@ -470,6 +604,7 @@ class LazyOrchestratorApp(App[None]):
         """Reload tables and form from disk."""
         self._refresh_stages()
         self._refresh_verbs()
+        self._refresh_chains()
         self._refresh_models()
         self._refresh_guard()
         self._load_payload_into_form()
@@ -484,7 +619,7 @@ class LazyOrchestratorApp(App[None]):
             return ""
 
     def action_toggle_item(self) -> None:
-        """Toggle the selected stage or auto verb."""
+        """Toggle the selected stage, auto verb, or chain."""
         tab = self._active_tab()
         if tab == "tab-pipeline":
             name = self._selected_row("stages-table")
@@ -494,6 +629,10 @@ class LazyOrchestratorApp(App[None]):
             name = self._selected_row("verbs-table")
             if name:
                 self.toggle_verb(name)
+        elif tab == "tab-chains":
+            name = self._selected_row("chains-table")
+            if name:
+                self.toggle_chain(name)
 
     def action_save_config(self) -> None:
         """Save the form values (keyboard shortcut)."""
@@ -572,6 +711,22 @@ class LazyOrchestratorApp(App[None]):
                 ),
                 _done_verb,
             )
+        elif tab == "tab-chains":
+
+            def _done_chain(values: dict | None) -> None:
+                if values and values.get("playbook"):
+                    self.generate_chain(values["playbook"])
+
+            self.push_screen(
+                FormModal(
+                    "Generate chain from playbook",
+                    [
+                        ("playbook", "Playbook engine key (apt_playbook list)", "apt29"),
+                    ],
+                ),
+                _done_chain,
+            )
+
     def action_edit_item(self) -> None:
         """Edit the selected LLM member's priority (models tab only)."""
         if self._active_tab() != "tab-models":
@@ -629,6 +784,10 @@ class LazyOrchestratorApp(App[None]):
             name = self._selected_row("verbs-table")
             if name:
                 self.remove_auto_verb(name)
+        elif tab == "tab-chains":
+            name = self._selected_row("chains-table")
+            if name:
+                self.remove_chain(name)
 
 
 def _coerce(raw) -> object:

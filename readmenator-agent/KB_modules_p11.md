@@ -48,7 +48,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `register` (method, line 450) `def register(self, extractor)`
   - `parse` (method, line 454) `def parse(self, output, host, tool)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/ooficesod0woodo.py
 - Layer: utility

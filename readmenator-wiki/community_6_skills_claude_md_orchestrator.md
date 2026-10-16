@@ -125,6 +125,7 @@ This community groups 37 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Risks
 
+- [taint high] `cli/banner_config.py` -> `skills/claude_md_orchestrator/parser.py` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [dataflow UNCHECKED_ALLOC] `cli/commands/dns_exfil.py:117` `do_dns_exfil_listen` `sock`: Result of allocator stored in `sock` is never checked against NULL.

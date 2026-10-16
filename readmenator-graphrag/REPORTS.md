@@ -149,7 +149,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `utils.py`: 124 symbols, 207 connections (score 0.08).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 4 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 7 paths reach this group via subprocess.
+- Taint: 8 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_improvements_spec.py, file:cli/banner_config.py, file:tests/test_categories.py, file:cli/cli_enhancements.py, sym:cli/commands/_base.py::LazyOwnCommandSet@53, file:cli/commands/_base.py, file:tests/test_cli_command_sets.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 537.
 
@@ -164,7 +164,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_aci_planner.py`: 95 symbols, 85 connections (score 0.06).
 - Dependency cycle: autonomous_daemon.py -> pipeline_engine.py -> autonomous_daemon.py.
 - 43 layer violations, e.g. operations.py (presentation) -> storage.py (data_access).
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Key entities: file:lazyc2.py, file:tests/test_collab_and_onboarding.py, file:core/logging.py, file:modules/pipeline_engine.py, file:modules/lazy_rbac.py, file:skills/lazyown_facts.py, file:tests/test_aci_planner.py, file:tests/test_addon_creator.py
 - Rating 5.9/10 = 7 x PageRank share 0.85 + 3 x risk 0.00. Internal imports: 445.
 
@@ -193,7 +193,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_command_palette.py`: 238 symbols, 220 connections (score 0.15).
 - Hotspot `lazyown.py`: 129 symbols, 201 connections (score 0.09).
 - 1 layer violations, e.g. test_exploration_and_addons.py (testing) -> exploration_view.py (presentation).
-- Taint: 1 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Dataflow: 2 INFERRED issues (first: UNCHECKED_ALLOC in _run_single_search).
 - Key entities: sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, file:tests/test_command_palette.py, sym:core/console.py::print_warn@149, file:lazyown.py, file:cli/dashboard_tui.py, file:tests/test_tips_engine.py, file:cli/status_bar.py
 - Rating 3.9/10 = 7 x PageRank share 0.56 + 3 x risk 0.00. Internal imports: 389.
@@ -247,7 +247,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `core/llm_budget.py`: 45 symbols, 29 connections (score 0.03).
 - Hotspot `tests/test_llm_adapter_parity.py`: 41 symbols, 24 connections (score 0.02).
 - Dependency cycle: llm_factory.py -> ai_model.py -> llm_factory.py.
-- Taint: 5 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Key entities: file:modules/ai_model.py, file:modules/llm_factory.py, file:core/llm_budget.py, file:modules/agent_runner.py, file:tests/test_llm_adapter_parity.py, file:modules/llm_prompts.py, file:telegram_hermes.py, file:contrib/legacy/lazyllmchat.py
 - Rating 1.5/10 = 7 x PageRank share 0.22 + 3 x risk 0.00. Internal imports: 73.
 
@@ -261,6 +261,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `static/js/xterm.js`: 62 symbols, 3665 connections (score 0.31).
 - Hotspot `tests/test_security_sanitizers.py`: 45 symbols, 8 connections (score 0.03).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
+- Taint: 1 paths reach this group via subprocess.
 - Dataflow: 5 INFERRED issues (first: UNCHECKED_ALLOC in do_dns_exfil_listen).
 - Key entities: sym:skills/claude_md_orchestrator/validators.py::group@69, file:tests/test_security_sanitizers.py, file:skills/claude_md_orchestrator/models.py, file:modules/security_sanitizers.py, file:skills/hermes-lazyown/mcp_server.py, file:static/js/xterm.js, file:contrib/legacy/lazygptcli_unified.py, file:skills/claude_md_orchestrator/validators.py
 - Rating 1.1/10 = 7 x PageRank share 0.16 + 3 x risk 0.00. Internal imports: 64.
@@ -274,7 +275,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `cli/assign.py` ranks 3 by PageRank, 127 importers, 1 symbols: ``assign`` business logic.
 - Hotspot `static/js/html2pdf.bundle.min.js`: 738 symbols, 4927 connections (score 0.78).
 - Hotspot `static/js/3d-force-graph-1.73.4.min.js`: 176 symbols, 7838 connections (score 0.70).
-- Taint: 1 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Dataflow: 5 INFERRED issues (first: UNCHECKED_ALLOC in spray_keyring_list_overwrite_purpose).
 - Surprising bridge: __init__.py <-> search.py (9 hops across communities).
 - Key entities: file:static/js/html2pdf.bundle.min.js, file:static/js/3d-force-graph-1.73.4.min.js, file:static/js/vis-network-9.1.2.min.js, file:static/js/vis-network.min.js, file:modules/exp.c, file:static/js/chart.min.js, file:static/js/quill-2.0.3.js, file:tests/test_payload_schema.py

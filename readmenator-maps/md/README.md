@@ -340,8 +340,13 @@ Thank you so much, Vulners! All publicity is good publicity, and we will strive 
 ### Bharat Kayth
 
 We love your post bro :D Thank you so much.
-
 [https://www.linkedin.com/posts/splog_lazyown-is-a-comprehensive-red-team-framework-share-7445191628039974912-viWM/](https://www.linkedin.com/posts/splog_lazyown-is-a-comprehensive-red-team-framework-share-7445191628039974912-viWM/)
+
+### cmd2
+
+Thanks to cmd2 for making this tool possible through their great work, and we love being recommended as a good example of tools made with cmd2, we are honored.
+[https://pypi.org/project/cmd2/](https://pypi.org/project/cmd2/)
+
 
 ## Star History
 
@@ -409,3 +414,10 @@ AI agents: Read `readmenator-wiki/index.md` first for the big picture, then `rea
 Developers: Read `KNOWLEDGE_BASE.md` for full architecture reference, open `readmenator-maps/index.html` for the visual gallery.
 <!-- /readmenator-kb-link -->
 
+<!-- deploynator-footer -->
+
+---
+
+Deployed with [deploynator](https://github.com/grisuno/deploynator)
+
+<!-- /deploynator-footer -->

@@ -1,0 +1,17 @@
+name: infinitycore_timer
+description: CVE-2026-98260 timer LPE by V4bel. POSIX CPU timer UAF in exec.
+  Target Ubuntu 26.04 7.0.0-30-generic. Builds with gcc and stages to
+  sessions/infinitycore_timer. Copy to the lab host and run it there for a root
+  shell. Lab only never on the operator. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore Timer
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_timer timer/CVE-2026-98260-ubuntu.c
+    && chmod +x ../../../sessions/infinitycore_timer && echo "staged at sessions/infinitycore_timer"
+category: 06. Privilege Escalation

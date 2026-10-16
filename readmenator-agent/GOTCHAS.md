@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 133 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 108 total dependents
+- `core/process.py` -- 12 direct, 108 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 106 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 105 total dependents
+- `core/validators.py` -- 12 direct, 104 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 104 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 102 total dependents
 - `cli/banner_config.py` -- 6 direct, 101 total dependents
-- `core/parsers.py` -- 9 direct, 101 total dependents
-- `core/validators.py` -- 12 direct, 99 total dependents
-- `core/dependencies.py` -- 3 direct, 95 total dependents
-- `modules/lazyencoder_decoder.py` -- 5 direct, 95 total dependents
+- `core/crypto.py` -- 10 direct, 100 total dependents
+- `core/parsers.py` -- 9 direct, 98 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 96 total dependents
 
 ## Hotspots (complexity + centrality)
 

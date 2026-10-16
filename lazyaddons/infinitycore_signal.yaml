@@ -1,0 +1,17 @@
+name: infinitycore_signal
+description: CVE-2026-98256 signal LPE by V4bel. sigqueue UAF race in exec.
+  Target Ubuntu 26.04 7.0.0-30-generic. Builds with gcc and stages to
+  sessions/infinitycore_signal. Copy to the lab host and run it there for a
+  root shell. Lab only never on the operator. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore Signal
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_signal signal/CVE-2026-98256-ubuntu.c
+    && chmod +x ../../../sessions/infinitycore_signal && echo "staged at sessions/infinitycore_signal"
+category: 06. Privilege Escalation

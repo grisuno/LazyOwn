@@ -521,6 +521,15 @@ def _has_data(path: Path) -> bool:
 
 
 def _save_payload(data: dict) -> str:
+    """Persist payload.json atomically with an audit trail (mode 0600)."""
+    try:
+        from core.config import save_payload as _canonical_save
+
+        _canonical_save(data, PAYLOAD_FILE)
+        os.chmod(PAYLOAD_FILE, 0o600)
+        return "ok"
+    except Exception:
+        pass
     try:
         with open(PAYLOAD_FILE, "w") as f:
             json.dump(data, f, indent=2)
@@ -870,6 +879,8 @@ def _h_set_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
 
     cfg = _load_payload()
     coerced = coerce_value(key, value)
+    if coerced is None or (isinstance(coerced, str) and not coerced.strip()):
+        return _make_text(tool_name, f"Refused: refusing to null out '{key}' (pass a real value)")
     cfg[key] = coerced
     result = _save_payload(cfg)
     return _make_text(
@@ -4875,6 +4886,160 @@ async def list_tools() -> list[types.Tool]:
                     "include_command": {
                         "type": "boolean",
                         "description": "Include command_preview (first 300 chars) in results.",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_atomic_resolve",
+            description=(
+                "Translate between MITRE ATT&CK IDs and Atomic Red Team tests. "
+                "Accepts a technique ID (T1078, T1059.001), a prefix (T1059), "
+                "or a test GUID, with optional platform filter. Returns concrete "
+                "tests: GUID, name, platforms, MITRE URL, and command preview. "
+                "Offline-first: reads the vendored Atomic repo, falling back to "
+                "parquets/techniques_enriched.parquet. Never executes anything."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "MITRE technique ID, prefix, or Atomic GUID (e.g. 'T1059.001', 'T1059', GUID).",
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Platform filter: linux | windows | macos | containers (default: all).",
+                        "default": "",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max tests to return (default 10, max 30).",
+                        "default": 10,
+                    },
+                    "include_command": {
+                        "type": "boolean",
+                        "description": "Include command_preview (first 300 chars).",
+                        "default": False,
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_ttp_chain",
+            description=(
+                "Build an ordered APT emulation plan from MITRE technique IDs. "
+                "Each technique is resolved to its first platform-compatible "
+                "Atomic Red Team test (GUID + command preview) and enriched "
+                "with TTPScope/parquet context. The plan is staged to "
+                "sessions/ttp_chain_<ts>.json for the autonomous loop. "
+                "Read-only: nothing is executed on any target. "
+                "Example: techniques=['T1003','T1059.001'] platform='windows'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "techniques": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Ordered MITRE technique IDs (max 20).",
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Target platform for every step.",
+                        "default": "linux",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max context hits per technique (default 3, max 10).",
+                        "default": 3,
+                    },
+                },
+                "required": ["techniques"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_apt_chain",
+            description=(
+                "Run a fully YAML-administered APT chain with one call "
+                "(assign, scan unless cached, exploit sweep, C2 deploy, loot, "
+                "playbook validate/run, emulation staging, session shell check). "
+                "Chain first arg names a file in chains/ (per-APT files like "
+                "apt_rocke inherit the base apt_chain and only pin the playbook); "
+                "a bare playbook name falls back to its apt_<name> chain. "
+                "Long-running: prefer a generous timeout_s."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "chain": {
+                        "type": "string",
+                        "description": "Chain file name in chains/ (e.g. 'apt_rocke') or playbook shorthand (e.g. 'rocke').",
+                        "default": "apt_chain",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP. Defaults to rhost from payload.json.",
+                        "default": "",
+                    },
+                    "timeout_s": {
+                        "type": "integer",
+                        "description": "Max seconds for the whole chain (default 900, max 1800).",
+                        "default": 900,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_atomic_shell",
+            description=(
+                "Verify a live multiplexed root shell session on the target. "
+                "Read-only check: reports live/via plus the attach hint. "
+                "Interactive REPL is foreground-terminal only and NEVER runs "
+                "through MCP — attach from the LazyOwn shell with "
+                "atomic_shell --interactive <target>."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP. Defaults to rhost from payload.json.",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_atomic_clean",
+            description=(
+                "Clean up engagement artefacts. Soft mode (default) kills the "
+                "target agent, wipes drop files and test outputs via the live "
+                "session, and clears local staging; loot, reports and logs are "
+                "always kept. Hard mode (--hard, needs confirm=true) also stops "
+                "and removes the lab gym container."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP. Defaults to rhost from payload.json.",
+                        "default": "",
+                    },
+                    "hard": {
+                        "type": "boolean",
+                        "description": "Also destroy the gym container (requires confirm=true).",
+                        "default": False,
+                    },
+                    "confirm": {
+                        "type": "boolean",
+                        "description": "Required true when hard=true.",
                         "default": False,
                     },
                 },
@@ -10648,6 +10813,203 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text("\n".join(lines))
         except Exception as exc:
             return text(f"[atomic_search error] {exc}")
+
+    # ── atomic_resolve (MITRE <-> Atomic translator) ─────────────────────
+    elif name == "lazyown_atomic_resolve":
+        ar_query = arguments.get("query", "").strip()
+        ar_platform = arguments.get("platform", "").strip()
+        ar_limit = max(1, min(int(arguments.get("limit", 10)), 30))
+        ar_incl_cmd = bool(arguments.get("include_command", False))
+        if not ar_query:
+            return text("[atomic_resolve] 'query' is required (TID, prefix, or GUID).")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from atomic_resolver import get_resolver
+
+            resolver = get_resolver()
+            tests = resolver.resolve(ar_query, platform=ar_platform)[:ar_limit]
+            if not tests and resolver.available:
+                return text(
+                    f"[atomic_resolve] No tests for '{ar_query}' "
+                    f"platform='{ar_platform or 'any'}'. Try a prefix (e.g. 'T1059') "
+                    f"or lazyown_atomic_search for broader filters."
+                )
+            if not tests:
+                sys.path.insert(0, str(MODULES_DIR))
+                from atomic_enricher import query_atomic as _qa
+
+                rows = _qa(mitre_id=ar_query, platform=ar_platform, limit=ar_limit,
+                           include_command=ar_incl_cmd)
+                if not rows:
+                    return text(
+                        "[atomic_resolve] Atomic repo unavailable and no parquet "
+                        "match. Run atomic_tests once to clone the repo, or "
+                        "lazyown_atomic_search for keyword alternativas."
+                    )
+                lines = [f"Atomic resolve (parquet fallback): {len(rows)} results\n"]
+                for r in rows:
+                    lines.append(f"{r['mitre_id']:12s}  {r['name']}")
+                    lines.append(f"  id: {r['id']}  platforms: {', '.join(r['platform_list'])}")
+                    if ar_incl_cmd and r.get("command_preview"):
+                        lines.append(f"  command: {r['command_preview'][:150]}")
+                    lines.append("")
+                return text("\n".join(lines))
+            lines = [f"Atomic resolve '{ar_query}' platform='{ar_platform or 'any'}': {len(tests)} test(s)\n"]
+            for t in tests:
+                lines.append(f"[{t.mitre_id}] {t.name}")
+                lines.append(f"  guid: {t.guid}")
+                lines.append(f"  platforms: {', '.join(t.platforms)}")
+                lines.append(f"  mitre_url: {t.mitre_url}")
+                if ar_incl_cmd and t.command:
+                    lines.append(f"  command: {t.command[:150]}")
+                lines.append("")
+            lines.append("Stage one with: atomic_gen <guid>  (or atomic_tests <TID> --non-interactive)")
+            return text("\n".join(lines))
+        except ValueError as exc:
+            return text(f"[atomic_resolve] Invalid input: {exc}")
+        except Exception as exc:
+            return text(f"[atomic_resolve error] {exc}")
+
+    # ── ttp_chain (ordered APT emulation plan, read-only) ────────────────
+    elif name == "lazyown_ttp_chain":
+        tc_techs = arguments.get("techniques", [])
+        tc_platform = (arguments.get("platform", "linux") or "linux").strip().lower()
+        tc_limit = max(1, min(int(arguments.get("limit", 3)), 10))
+        if not isinstance(tc_techs, list) or not tc_techs:
+            return text("[ttp_chain] 'techniques' must be a non-empty array of MITRE IDs.")
+        if len(tc_techs) > 20:
+            return text("[ttp_chain] Max 20 techniques per chain.")
+        if tc_platform not in ("linux", "windows", "macos"):
+            return text("[ttp_chain] platform must be linux | windows | macos.")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from atomic_resolver import get_resolver
+            from ttpscope_bridge import do_chain
+
+            resolver = get_resolver()
+            plan: list[dict[str, Any]] = []
+            for raw in tc_techs:
+                tid = str(raw).strip().upper()
+                step: dict[str, Any] = {"technique_id": tid, "atomic": None, "context_staged": ""}
+                try:
+                    candidates = resolver.list_for_technique(tid, platform=tc_platform)
+                except ValueError:
+                    candidates = []
+                if candidates:
+                    first = candidates[0]
+                    step["atomic"] = {
+                        "guid": first.guid,
+                        "name": first.name,
+                        "command_preview": first.command[:300],
+                        "cleanup_preview": first.cleanup_command[:200],
+                        "mitre_url": first.mitre_url,
+                        "stage_cmd": f"atomic_gen {first.guid}",
+                    }
+                try:
+                    ctx = do_chain(tid, platform=tc_platform, limit=tc_limit)
+                    step["context_staged"] = ctx.get("staged", "")
+                except Exception as exc:
+                    step["context_error"] = str(exc)[:200]
+                plan.append(step)
+            import datetime as _dt
+
+            stamp = _dt.datetime.now(_dt.UTC).strftime("%Y%m%d_%H%M%S")
+            out_path = SESSIONS_DIR / f"ttp_chain_{tc_platform}_{stamp}.json"
+            out_path.write_text(json.dumps(
+                {"platform": tc_platform, "generated_at": stamp, "steps": plan},
+                indent=2, ensure_ascii=False,
+            ), encoding="utf-8")
+            covered = sum(1 for s in plan if s["atomic"] is not None)
+            lines = [f"TTP chain ({tc_platform}): {covered}/{len(plan)} techniques resolved\n"]
+            for i, s in enumerate(plan, 1):
+                if s["atomic"]:
+                    lines.append(f"{i}. [{s['technique_id']}] {s['atomic']['name']}")
+                    lines.append(f"   guid: {s['atomic']['guid']}")
+                    lines.append(f"   stage: {s['atomic']['stage_cmd']}")
+                else:
+                    lines.append(f"{i}. [{s['technique_id']}] NO atomic test on {tc_platform} — skipped")
+            lines.append("")
+            lines.append(f"Plan staged: {out_path}")
+            lines.append("Emulate step-by-step with atomic_gen <guid>, or run the plan via attack_plan.")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[ttp_chain error] {exc}")
+
+    # ── apt_chain (execute a YAML-administered APT chain) ───────────────
+    elif name == "lazyown_apt_chain":
+        ch_chain = (arguments.get("chain", "") or "").strip().lower() or "apt_chain"
+        _cfg = _load_payload()
+        ch_target = (arguments.get("target", "") or "").strip() or str(_cfg.get("rhost", "") or "").strip()
+        ch_timeout = max(60, min(int(arguments.get("timeout_s", 900)), 1800))
+        if not ch_target:
+            return text("[apt_chain] target is required (or set rhost).")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from chain_registry import get as _chain_get
+
+            chain = _chain_get(ch_chain)
+            if chain is None:
+                from chain_registry import load_all as _chain_all
+
+                available = sorted(_chain_all().keys())
+                return text(f"[apt_chain] unknown/disabled chain '{ch_chain}'. Available: {', '.join(available)}")
+        except Exception as exc:
+            return text(f"[apt_chain error] chain registry unavailable: {exc}")
+        cmd = f"apt_chain {ch_chain} {ch_target}".strip()
+        try:
+            output = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _run_lazyown_command(cmd, ch_timeout)
+            )
+        except Exception as exc:
+            return text(f"[apt_chain error] {exc}")
+        return text(f"[apt_chain {ch_chain} {ch_target}]\n{str(output)[-8000:]}")
+
+    # ── atomic_shell (verify-only session check, never interactive) ─────
+    elif name == "lazyown_atomic_shell":
+        _cfg = _load_payload()
+        sh_target = (arguments.get("target", "") or "").strip() or str(_cfg.get("rhost", "") or "").strip()
+        if not sh_target:
+            return text("[atomic_shell] target is required (or set rhost).")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from atomic_exploit_bridge import interactive_shell as _shell_check
+
+            result = _shell_check(sh_target, interactive=False)
+        except Exception as exc:
+            return text(f"[atomic_shell error] {exc}")
+        if result.get("live"):
+            return text(
+                f"[atomic_shell] live session on {sh_target} via {result.get('via')}. "
+                f"Attach from a foreground terminal: atomic_shell --interactive {sh_target}"
+            )
+        return text(f"[atomic_shell] no live session on {sh_target}: {result.get('error', 'unknown')}")
+
+    # ── atomic_clean (soft default, hard needs confirm) ─────────────────
+    elif name == "lazyown_atomic_clean":
+        if bool(arguments.get("hard", False)) and not bool(arguments.get("confirm", False)):
+            return text("[atomic_clean] hard=true destroys the lab gym: re-call with confirm=true.")
+        _cfg = _load_payload()
+        cl_target = (arguments.get("target", "") or "").strip() or str(_cfg.get("rhost", "") or "").strip()
+        if not cl_target:
+            return text("[atomic_clean] target is required (or set rhost).")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from atomic_exploit_bridge import cleanup_target as _cleanup
+
+            report = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _cleanup(cl_target, hard=bool(arguments.get("hard", False)))
+            )
+        except Exception as exc:
+            return text(f"[atomic_clean error] {exc}")
+        lines = [f"[atomic_clean {report.get('mode')}] target={cl_target}"]
+        for step in report.get("remote", []):
+            lines.append(f"  remote/{'ok' if step.get('ok') else 'FAIL'}: {step.get('step')}: {str(step.get('detail', ''))[:120]}")
+        for path in report.get("local", [])[:10]:
+            lines.append(f"  local: removed {path}")
+        if report.get("gym"):
+            lines.append(f"  gym: {'removed' if report['gym'].get('ok') else report['gym'].get('detail', 'failed')}")
+        lines.append("Loot, reports and logs are always kept.")
+        return text("\n".join(lines))
 
     # ── rag_index ─────────────────────────────────────────────────────────────
     elif name == "lazyown_rag_index":

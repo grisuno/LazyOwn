@@ -1,5 +1,5 @@
-# Symbols (page 1 of 40)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md)
+# Symbols (page 1 of 41)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -440,6 +440,16 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_c2_profiles` | method | `cli/commands/c2_profile.py:25` | `def do_c2_profiles(self, line)` |
 | `do_c2_rotate` | method | `cli/commands/c2_profile.py:90` | `def do_c2_rotate(self, line)` |
 | `do_c2_tls` | method | `cli/commands/c2_profile.py:50` | `def do_c2_tls(self, line)` |
+| `C2SessionCommandSet` | class | `cli/commands/c2_session.py:108` | `class C2SessionCommandSet(LazyOwnCommandSet)` |
+| `_fresh_lab_creds` | function | `cli/commands/c2_session.py:54` | `def _fresh_lab_creds()` |
+| `_issue` | function | `cli/commands/c2_session.py:83` | `def _issue(client_id, command, auth, https_port)` |
+| `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
+| `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:251` | `def do_c2_deploy(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:292` | `def do_c2_exec(self, line)` |
+| `do_c2_loot` | method | `cli/commands/c2_session.py:339` | `def do_c2_loot(self, line)` |
+| `do_c2_reboot` | method | `cli/commands/c2_session.py:168` | `def do_c2_reboot(self, line)` |
+| `do_c2_server` | method | `cli/commands/c2_session.py:115` | `def do_c2_server(self, line)` |
 | `CalderaCommandSet` | class | `cli/commands/caldera.py:66` | `class CalderaCommandSet(LazyOwnCommandSet)` |
 | `_resolve_coverage` | function | `cli/commands/caldera.py:53` | `def _resolve_coverage()` |
 | `_resolve_manager` | function | `cli/commands/caldera.py:49` | `def _resolve_manager()` |
@@ -486,15 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_logout` | method | `cli/commands/cli_auth.py:191` | `def do_logout(self, line)` |
 | `do_register` | method | `cli/commands/cli_auth.py:117` | `def do_register(self, line)` |
 | `do_whoami` | method | `cli/commands/cli_auth.py:224` | `def do_whoami(self, line)` |
-| `CloudCommandSet` | class | `cli/commands/cloud.py:30` | `class CloudCommandSet(LazyOwnCommandSet)` |
-| `_get_cloud_scanner` | method | `cli/commands/cloud.py:36` | `def _get_cloud_scanner(self)` |
-| `do_cloud_buckets` | method | `cli/commands/cloud.py:98` | `def do_cloud_buckets(self, line)` |
-| `do_cloud_enum` | method | `cli/commands/cloud.py:239` | `def do_cloud_enum(self, line)` |
-| `do_cloud_iam` | method | `cli/commands/cloud.py:187` | `def do_cloud_iam(self, _line)` |
-| `do_cloud_metadata` | method | `cli/commands/cloud.py:49` | `def do_cloud_metadata(self, _line)` |
-| `do_cloud_scan` | method | `cli/commands/cloud.py:148` | `def do_cloud_scan(self, line)` |
-| `CloudAttackCommandSet` | class | `cli/commands/cloud_attacks.py:17` | `class CloudAttackCommandSet(LazyOwnCommandSet)` |
-| `do_aws_privesc` | method | `cli/commands/cloud_attacks.py:125` | `def do_aws_privesc(self, line)` |
-| `do_cross_cloud` | method | `cli/commands/cloud_attacks.py:387` | `def do_cross_cloud(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

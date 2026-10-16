@@ -52,9 +52,7 @@ ENV_ALLOW_PRIVATE = "LAZY_PROXY_ALLOW_PRIVATE"
 ENV_INSECURE_TLS = "LAZY_PROXY_INSECURE_TLS"
 ENV_TRUST_CA = "LAZY_PROXY_TRUST_CA"
 
-_SAFE_SEGMENT_CHARS = frozenset(
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-"
-)
+_SAFE_SEGMENT_CHARS = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
 
 _EMOJI_RANGES: tuple[tuple[int, int], ...] = (
     (0x1F600, 0x1F64F),
@@ -807,8 +805,10 @@ def unseal_secret(stored: str, *, sessions_dir: str | Path = "sessions") -> str:
             from cryptography.fernet import Fernet
 
             raw = _seal_key(sessions_dir)
-            return Fernet(_b64.urlsafe_b64encode(raw)).decrypt(text[len(SEALED_SECRET_PREFIX) :].encode("ascii")).decode(
-                "utf-8"
+            return (
+                Fernet(_b64.urlsafe_b64encode(raw))
+                .decrypt(text[len(SEALED_SECRET_PREFIX) :].encode("ascii"))
+                .decode("utf-8")
             )
         except Exception:
             return ""
@@ -834,7 +834,7 @@ def redact_text(text: str) -> str:
     """
     cleaned = str(text or "")
 
-    def _mask(match: "re.Match") -> str:
+    def _mask(match: re.Match) -> str:
         groups = match.groups()
         if len(groups) >= 2 and groups[0] and groups[-1] is not None:
             return f"{groups[0]}***{groups[-1] if len(groups) > 2 else ''}"

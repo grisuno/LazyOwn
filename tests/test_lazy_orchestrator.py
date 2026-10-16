@@ -191,3 +191,74 @@ def test_orchestrator_tables_render(payload_store):
     _app, stage_rows, verb_rows = asyncio.run(_drive())
     assert stage_rows == len(config.stages())
     assert verb_rows == len(config.effective_verbs())
+
+
+def test_orchestrator_chains_tab_lists_and_toggles(sandbox, monkeypatch, tmp_path):
+    """Chains tab: rows render, toggle flips YAML, preview shows steps."""
+    import asyncio
+
+    import yaml as _yaml
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    chains_dir = tmp_path / "chains"
+    chains_dir.mkdir()
+    (chains_dir / "apt_chain.yaml").write_text(
+        _yaml.dump(
+            {
+                "name": "apt_chain",
+                "description": "base",
+                "enabled": True,
+                "defaults": {"playbook": "rocke"},
+                "steps": [{"run": "echo {playbook} {target}"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    (chains_dir / "apt_demo.yaml").write_text(
+        _yaml.dump(
+            {
+                "name": "apt_demo",
+                "description": "child",
+                "enabled": True,
+                "extends": "apt_chain",
+                "defaults": {"playbook": "demo"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    probe = LazyOrchestratorApp()
+    probe._chains_dir_override = chains_dir
+    rows = probe.chain_rows()
+    assert {r["name"] for r in rows} == {"apt_chain", "apt_demo"}
+    preview = probe.chain_steps_preview("apt_demo")
+    assert "echo demo" in preview or "echo {playbook}" in preview
+
+    async def _drive() -> None:
+        app = LazyOrchestratorApp()
+        app._chains_dir_override = chains_dir
+        async with app.run_test() as pilot:
+            await pilot.pause(0.4)
+            assert app.toggle_chain("apt_demo") is True
+            assert app.toggle_chain("apt_demo") is True
+            assert app.generate_chain("nope-missing-playbook") == ""
+            assert app.remove_chain("apt_chain") is False
+            assert app.remove_chain("apt_demo") is True
+
+    asyncio.run(_drive())
+    remaining = [r["name"] for r in probe.chain_rows()]
+    assert "apt_demo" not in remaining
+
+
+def test_orchestrator_generate_chain_uses_playbooks(sandbox, monkeypatch, tmp_path):
+    """Generate action pins the playbook engine key, not a guess."""
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    app = LazyOrchestratorApp()
+    app._chains_dir_override = tmp_path / "chains"
+    path = app.generate_chain("rocke")
+    assert path.endswith("apt_rocke.yaml")
+    import yaml as _yaml
+
+    raw = _yaml.safe_load((tmp_path / "chains" / "apt_rocke.yaml").read_text(encoding="utf-8"))
+    assert raw["defaults"] == {"playbook": "rocke"} and raw["extends"] == "apt_chain"

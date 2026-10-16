@@ -279,8 +279,10 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
 
         Tabs: Now (what the orchestrator is executing right now, live
         activity tail and per-worker current command), Config (payload
-        knobs the runner reads), Models (LLM failover chain add/remove),
-        Guard (intercept rules add/remove). Keys: r refresh, s save
+        knobs the runner reads), Verbs, Chains (APT chain YAML
+        administration: preview, enable/disable, generate from playbook,
+        delete), Models (LLM failover chain add/remove), Guard
+        (intercept rules add/remove). Keys: r refresh, s save
         config, a add, d delete, q quit.
 
         Usage:

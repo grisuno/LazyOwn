@@ -4,31 +4,31 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 253.20, imported by 126 files)
-- `utils.py` (score: 212.40, imported by 88 files)
-- `skills/lazyown_mcp.py` (score: 184.20, imported by 8 files)
-- `cli/commands/_base.py` (score: 182.70, imported by 89 files)
+- `core/logging.py` (score: 267.20, imported by 133 files)
+- `utils.py` (score: 216.40, imported by 90 files)
+- `skills/lazyown_mcp.py` (score: 194.20, imported by 8 files)
+- `cli/commands/_base.py` (score: 184.70, imported by 90 files)
 - `modules/lazy_loop.py` (score: 175.60, imported by 44 files)
-- `lazyc2.py` (score: 124.60)
-- `lazyown.py` (score: 116.90, imported by 8 files)
-- `core/console.py` (score: 101.10, imported by 50 files)
-- `core/config.py` (score: 99.70, imported by 47 files)
-- `skills/autonomous_daemon.py` (score: 98.80, imported by 15 files)
+- `lazyc2.py` (score: 126.80)
+- `lazyown.py` (score: 118.90, imported by 9 files)
+- `core/config.py` (score: 103.80, imported by 49 files)
+- `core/console.py` (score: 103.10, imported by 51 files)
+- `skills/autonomous_daemon.py` (score: 101.00, imported by 15 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `modules/cli_auth.py` -- 10 direct, 127 total dependents
-- `core/logging.py` -- 50 direct, 126 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 124 total dependents
-- `core/validators.py` -- 12 direct, 118 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 106 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 104 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 102 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 100 total dependents
-- `cli/banner_config.py` -- 6 direct, 99 total dependents
-- `core/parsers.py` -- 9 direct, 99 total dependents
+- `core/logging.py` -- 50 direct, 133 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 108 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 106 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 104 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 102 total dependents
+- `cli/banner_config.py` -- 6 direct, 101 total dependents
+- `core/parsers.py` -- 9 direct, 101 total dependents
+- `core/validators.py` -- 12 direct, 99 total dependents
+- `core/dependencies.py` -- 3 direct, 95 total dependents
+- `modules/lazyencoder_decoder.py` -- 5 direct, 95 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -47,16 +47,16 @@ Editing these files can break the listed number of dependents. Run their tests a
 
 Circular dependencies. Refactor to break the cycle.
 
-- `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
-- `modules/lazy_loop.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py`
-- `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
-- `skills/lazyown_mcp.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py`
-- `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/lazy_roles.py` -> `modules/lazy_engine.py`
-- `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 
 ## Layer Violations
 
@@ -81,5 +81,5 @@ Circular dependencies. Refactor to break the cycle.
 - `cli/commands/exfiltration.py:1449` `do_exfil_http` [UNCHECKED_ALLOC] `file_hash`: Result of allocator stored in `file_hash` is never checked against NULL.
 - `cli/commands/exfiltration.py:1578` `do_stage` [UNCHECKED_ALLOC] `data`: Result of allocator stored in `data` is never checked against NULL.
 - `cli/commands/misc_migrated.py:333` `do_suggest_next` [UNCHECKED_ALLOC] `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
-- `cli/commands/persist_migrated.py:1186` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
+- `cli/commands/persist_migrated.py:1240` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
 - `cli/commands/postexp_migrated.py:2599` `do_aes_pe` [UNCHECKED_ALLOC] `file`: Result of allocator stored in `file` is never checked against NULL.

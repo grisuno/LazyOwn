@@ -1,8 +1,37 @@
-# Symbols (page 7 of 40)
+# Symbols (page 7 of 41)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate` | function | `contrib/legacy/lazyphishingai.py:155` | `def generate()` |
+| `get_relevant_knowledge` | function | `contrib/legacy/lazyphishingai.py:122` | `def get_relevant_knowledge(prompt)` |
+| `load_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:101` | `def load_knowledge_base(file_path)` |
+| `parse_args` | function | `contrib/legacy/lazyphishingai.py:192` | `def parse_args()` |
+| `process_prompt_local_yaml` | function | `contrib/legacy/lazyphishingai.py:132` | `def process_prompt_local_yaml(prompt, debug, mode, output_file)` |
+| `save_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:110` | `def save_knowledge_base(knowledge_base, file_path)` |
+| `truncate_message` | function | `contrib/legacy/lazyphishingai.py:37` | `def truncate_message(message, max_chars)` |
+| `check_sudo` | function | `contrib/legacy/lazyproxy.py:40` | `def check_sudo()` |
+| `get_ip_from_url` | function | `contrib/legacy/lazyproxy.py:87` | `def get_ip_from_url(url)` |
+| `handle_request` | function | `contrib/legacy/lazyproxy.py:104` | `def handle_request(client_socket, address)` |
+| `hexdump` | function | `contrib/legacy/lazyproxy.py:52` | `def hexdump(src, length)` |
+| `receive_from` | function | `contrib/legacy/lazyproxy.py:63` | `def receive_from(connection)` |
+| `request_handler` | function | `contrib/legacy/lazyproxy.py:77` | `def request_handler(buffer)` |
+| `response_handler` | function | `contrib/legacy/lazyproxy.py:82` | `def response_handler(buffer)` |
+| `signal_handler` | function | `contrib/legacy/lazyproxy.py:47` | `def signal_handler(sig, frame)` |
+| `start_proxy` | function | `contrib/legacy/lazyproxy.py:183` | `def start_proxy()` |
+| `BinaryAttacker` | class | `contrib/legacy/lazypwn.py:70` | `class BinaryAttacker` |
+| `BinaryFinder` | class | `contrib/legacy/lazypwn.py:24` | `class BinaryFinder` |
+| `__init__` | method | `contrib/legacy/lazypwn.py:25` | `def __init__(self)` |
+| `__init__` | method | `contrib/legacy/lazypwn.py:71` | `def __init__(self, binary_path)` |
+| `analyze_with_ltrace` | method | `contrib/legacy/lazypwn.py:76` | `def analyze_with_ltrace(self)` |
+| `exploit_with_pwntools` | method | `contrib/legacy/lazypwn.py:170` | `def exploit_with_pwntools(self)` |
+| `extract_strings` | method | `contrib/legacy/lazypwn.py:83` | `def extract_strings(self)` |
+| `find_capabilities_binaries` | method | `contrib/legacy/lazypwn.py:36` | `def find_capabilities_binaries(self)` |
+| `find_executable_binaries` | method | `contrib/legacy/lazypwn.py:44` | `def find_executable_binaries(self)` |
+| `find_specific_name_binaries` | method | `contrib/legacy/lazypwn.py:52` | `def find_specific_name_binaries(self, names)` |
+| `find_suid_binaries` | method | `contrib/legacy/lazypwn.py:28` | `def find_suid_binaries(self)` |
+| `get_found_binaries` | method | `contrib/legacy/lazypwn.py:67` | `def get_found_binaries(self)` |
+| `main` | function | `contrib/legacy/lazypwn.py:181` | `def main()` |
 | `prepare_attack` | method | `contrib/legacy/lazypwn.py:90` | `def prepare_attack(self)` |
 | `process_output` | method | `contrib/legacy/lazypwn.py:61` | `def process_output(self, output)` |
 | `cleanup_exploit_environment` | function | `contrib/legacy/lazypwnkit.py:31` | `def cleanup_exploit_environment()` |
@@ -109,23 +138,24 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `one_cmd` | method | `core/command_bridge.py:89` | `def one_cmd(self, command)` |
 | `onecmd` | method | `core/command_bridge.py:65` | `def onecmd(self, command)` |
 | `ready` | method | `core/command_bridge.py:25` | `def ready(self)` |
-| `Config` | class | `core/config.py:195` | `class Config` |
-| `__getattr__` | method | `core/config.py:217` | `def __getattr__(self, name)` |
-| `__getitem__` | method | `core/config.py:220` | `def __getitem__(self, key)` |
-| `__init__` | method | `core/config.py:208` | `def __init__(self, config_dict, sessions_dir)` |
+| `Config` | class | `core/config.py:206` | `class Config` |
+| `__getattr__` | method | `core/config.py:228` | `def __getattr__(self, name)` |
+| `__getitem__` | method | `core/config.py:231` | `def __getitem__(self, key)` |
+| `__init__` | method | `core/config.py:219` | `def __init__(self, config_dict, sessions_dir)` |
 | `_apply_env_overrides` | function | `core/config.py:70` | `def _apply_env_overrides(payload)` |
+| `_calling_frame` | function | `core/config.py:168` | `def _calling_frame()` |
 | `_coerce_env_value` | function | `core/config.py:103` | `def _coerce_env_value(raw, existing)` |
-| `_collect_validation_warnings` | function | `core/config.py:171` | `def _collect_validation_warnings(payload)` |
-| `_load_raw_payload` | function | `core/config.py:293` | `def _load_raw_payload(path)` |
+| `_collect_validation_warnings` | function | `core/config.py:182` | `def _collect_validation_warnings(payload)` |
+| `_load_raw_payload` | function | `core/config.py:304` | `def _load_raw_payload(path)` |
 | `_log_config_change` | function | `core/config.py:146` | `def _log_config_change(key, old_value, new_value)` |
 | `_mask_if_sensitive` | function | `core/config.py:128` | `def _mask_if_sensitive(key, value)` |
-| `_migrate_keys` | function | `core/config.py:238` | `def _migrate_keys(config_dict)` |
-| `as_params` | method | `core/config.py:223` | `def as_params(self)` |
-| `load_and_validate` | function | `core/config.py:334` | `def load_and_validate(path)` |
-| `load_payload` | function | `core/config.py:316` | `def load_payload(path)` |
-| `overridden_keys` | method | `core/config.py:233` | `def overridden_keys(self)` |
-| `resolve_aes_key` | function | `core/config.py:250` | `def resolve_aes_key(config_dict)` |
-| `save_payload` | function | `core/config.py:385` | `def save_payload(payload, path)` |
+| `_migrate_keys` | function | `core/config.py:249` | `def _migrate_keys(config_dict)` |
+| `as_params` | method | `core/config.py:234` | `def as_params(self)` |
+| `load_and_validate` | function | `core/config.py:345` | `def load_and_validate(path)` |
+| `load_payload` | function | `core/config.py:327` | `def load_payload(path)` |
+| `overridden_keys` | method | `core/config.py:244` | `def overridden_keys(self)` |
+| `resolve_aes_key` | function | `core/config.py:261` | `def resolve_aes_key(config_dict)` |
+| `save_payload` | function | `core/config.py:396` | `def save_payload(payload, path)` |
 | `_emit` | function | `core/console.py:208` | `def _emit(line)` |
 | `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
 | `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
@@ -217,40 +247,40 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `safe_run` | function | `core/executor.py:96` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:98` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:101` | `def safe_run(command)` |
-| `SecurityViolation` | class | `core/hardening.py:127` | `class SecurityViolation(PermissionError)` |
-| `_is_emoji_codepoint` | function | `core/hardening.py:700` | `def _is_emoji_codepoint(code)` |
+| `SecurityViolation` | class | `core/hardening.py:125` | `class SecurityViolation(PermissionError)` |
+| `_is_emoji_codepoint` | function | `core/hardening.py:698` | `def _is_emoji_codepoint(code)` |
 | `_mask` | function | `core/hardening.py:837` | `def _mask(match)` |
-| `_seal_key` | function | `core/hardening.py:742` | `def _seal_key(sessions_dir)` |
-| `build_sshpass_command` | function | `core/hardening.py:236` | `def build_sshpass_command(password, ssh_args)` |
-| `contains_emoji` | function | `core/hardening.py:708` | `def contains_emoji(text)` |
-| `defused_xml_parse` | function | `core/hardening.py:398` | `def defused_xml_parse(source)` |
-| `escape_html_content` | function | `core/hardening.py:284` | `def escape_html_content(value)` |
-| `escape_powershell_single_quoted` | function | `core/hardening.py:106` | `def escape_powershell_single_quoted(value)` |
-| `is_safe_dir_path` | function | `core/hardening.py:564` | `def is_safe_dir_path(raw)` |
-| `is_safe_path_segment` | function | `core/hardening.py:543` | `def is_safe_path_segment(segment)` |
-| `is_safe_yaml_name` | function | `core/hardening.py:590` | `def is_safe_yaml_name(name)` |
-| `iter_emoji_spans` | function | `core/hardening.py:723` | `def iter_emoji_spans(text)` |
+| `_seal_key` | function | `core/hardening.py:740` | `def _seal_key(sessions_dir)` |
+| `build_sshpass_command` | function | `core/hardening.py:234` | `def build_sshpass_command(password, ssh_args)` |
+| `contains_emoji` | function | `core/hardening.py:706` | `def contains_emoji(text)` |
+| `defused_xml_parse` | function | `core/hardening.py:396` | `def defused_xml_parse(source)` |
+| `escape_html_content` | function | `core/hardening.py:282` | `def escape_html_content(value)` |
+| `escape_powershell_single_quoted` | function | `core/hardening.py:104` | `def escape_powershell_single_quoted(value)` |
+| `is_safe_dir_path` | function | `core/hardening.py:562` | `def is_safe_dir_path(raw)` |
+| `is_safe_path_segment` | function | `core/hardening.py:541` | `def is_safe_path_segment(segment)` |
+| `is_safe_yaml_name` | function | `core/hardening.py:588` | `def is_safe_yaml_name(name)` |
+| `iter_emoji_spans` | function | `core/hardening.py:721` | `def iter_emoji_spans(text)` |
 | `redact_text` | function | `core/hardening.py:826` | `def redact_text(text)` |
-| `reject_option_injection` | function | `core/hardening.py:87` | `def reject_option_injection(argv)` |
-| `require_encryption_key` | function | `core/hardening.py:370` | `def require_encryption_key(env_key, secret_file)` |
-| `safe_clipboard_copy` | function | `core/hardening.py:197` | `def safe_clipboard_copy(content)` |
-| `safe_join_under` | function | `core/hardening.py:609` | `def safe_join_under(base_dir, user_path)` |
-| `safe_open_under` | function | `core/hardening.py:638` | `def safe_open_under(base_dir, user_path, mode)` |
-| `safe_path_join` | function | `core/hardening.py:296` | `def safe_path_join(base_dir, user_path)` |
-| `safe_subprocess_run` | function | `core/hardening.py:152` | `def safe_subprocess_run(argv)` |
-| `sanitize_filename` | function | `core/hardening.py:420` | `def sanitize_filename(filename, max_length)` |
-| `seal_secret` | function | `core/hardening.py:756` | `def seal_secret(plaintext)` |
-| `set_sshpass_env` | function | `core/hardening.py:265` | `def set_sshpass_env(password)` |
-| `store_secret_owner_only` | function | `core/hardening.py:665` | `def store_secret_owner_only(path, text)` |
-| `terminal_env` | function | `core/hardening.py:131` | `def terminal_env(base)` |
-| `tls_lab_fallback_context` | function | `core/hardening.py:492` | `def tls_lab_fallback_context()` |
-| `tls_lab_unverified_allowed` | function | `core/hardening.py:465` | `def tls_lab_unverified_allowed(host)` |
-| `tls_secure_context` | function | `core/hardening.py:440` | `def tls_secure_context(extra_ca)` |
-| `unseal_secret` | function | `core/hardening.py:787` | `def unseal_secret(stored)` |
-| `validate_host` | function | `core/hardening.py:350` | `def validate_host(host)` |
-| `validate_network_cidr` | function | `core/hardening.py:322` | `def validate_network_cidr(cidr)` |
-| `validate_port_spec` | function | `core/hardening.py:334` | `def validate_port_spec(ports)` |
-| `validate_upstream_path` | function | `core/hardening.py:514` | `def validate_upstream_path(path)` |
+| `reject_option_injection` | function | `core/hardening.py:85` | `def reject_option_injection(argv)` |
+| `require_encryption_key` | function | `core/hardening.py:368` | `def require_encryption_key(env_key, secret_file)` |
+| `safe_clipboard_copy` | function | `core/hardening.py:195` | `def safe_clipboard_copy(content)` |
+| `safe_join_under` | function | `core/hardening.py:607` | `def safe_join_under(base_dir, user_path)` |
+| `safe_open_under` | function | `core/hardening.py:636` | `def safe_open_under(base_dir, user_path, mode)` |
+| `safe_path_join` | function | `core/hardening.py:294` | `def safe_path_join(base_dir, user_path)` |
+| `safe_subprocess_run` | function | `core/hardening.py:150` | `def safe_subprocess_run(argv)` |
+| `sanitize_filename` | function | `core/hardening.py:418` | `def sanitize_filename(filename, max_length)` |
+| `seal_secret` | function | `core/hardening.py:754` | `def seal_secret(plaintext)` |
+| `set_sshpass_env` | function | `core/hardening.py:263` | `def set_sshpass_env(password)` |
+| `store_secret_owner_only` | function | `core/hardening.py:663` | `def store_secret_owner_only(path, text)` |
+| `terminal_env` | function | `core/hardening.py:129` | `def terminal_env(base)` |
+| `tls_lab_fallback_context` | function | `core/hardening.py:490` | `def tls_lab_fallback_context()` |
+| `tls_lab_unverified_allowed` | function | `core/hardening.py:463` | `def tls_lab_unverified_allowed(host)` |
+| `tls_secure_context` | function | `core/hardening.py:438` | `def tls_secure_context(extra_ca)` |
+| `unseal_secret` | function | `core/hardening.py:785` | `def unseal_secret(stored)` |
+| `validate_host` | function | `core/hardening.py:348` | `def validate_host(host)` |
+| `validate_network_cidr` | function | `core/hardening.py:320` | `def validate_network_cidr(cidr)` |
+| `validate_port_spec` | function | `core/hardening.py:332` | `def validate_port_spec(ports)` |
+| `validate_upstream_path` | function | `core/hardening.py:512` | `def validate_upstream_path(path)` |
 | `is_valid_cidr` | function | `core/host_policy.py:32` | `def is_valid_cidr(value)` |
 | `is_valid_host` | function | `core/host_policy.py:48` | `def is_valid_host(value)` |
 | `rejects_shell_meta` | function | `core/host_policy.py:20` | `def rejects_shell_meta(value)` |
@@ -350,13 +380,13 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
 | `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
 | `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:1710` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:1552` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:1702` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:1547` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:1684` | `def format_issue(issue)` |
-| `validate_payload` | function | `core/payload_schema.py:1649` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:1575` | `def validate_value(key, value)` |
+| `categories` | function | `core/payload_schema.py:1745` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:1587` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:1737` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:1582` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:1719` | `def format_issue(issue)` |
+| `validate_payload` | function | `core/payload_schema.py:1684` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:1610` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `SecureSessionManager` | class | `discord_c2.py:27` | `class SecureSessionManager` |
 | `__getitem__` | method | `discord_c2.py:92` | `def __getitem__(self, key)` |
 | `__init__` | method | `discord_c2.py:28` | `def __init__(self)` |
-| `__init__` | method | `discord_c2.py:87` | `def __init__(self, config_dict)` |
-| `add_cli` | function | `discord_c2.py:206` | `def add_cli(ctx, new_client_id)` |
-| `addcli` | function | `discord_c2.py:278` | `def addcli(ctx, new_client_id)` |
-| `c2` | function | `discord_c2.py:283` | `def c2(ctx)` |
-| `check_lockout` | method | `discord_c2.py:40` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `discord_c2.py:49` | `def check_rate_limit(self, user_id)` |
-| `clients` | function | `discord_c2.py:273` | `def clients(ctx)` |
-| `create_session` | method | `discord_c2.py:62` | `def create_session(self, user_id, client_id)` |
-| `download_c2` | function | `discord_c2.py:245` | `def download_c2(ctx, client_id, file_name)` |
-| `exce_cmd` | function | `discord_c2.py:130` | `def exce_cmd(ctx)` |
-| `handle_file` | function | `discord_c2.py:216` | `def handle_file(ctx)` |
-| `load_payload` | function | `discord_c2.py:96` | `def load_payload()` |
-| `on_ready` | function | `discord_c2.py:103` | `def on_ready()` |
-| `register_failed_attempt` | method | `discord_c2.py:33` | `def register_failed_attempt(self, user_id)` |
-| `send_connected_clients` | function | `discord_c2.py:256` | `def send_connected_clients(ctx)` |
-| `start` | function | `discord_c2.py:108` | `def start(ctx)` |
-| `validate_session` | method | `discord_c2.py:70` | `def validate_session(self, user_id)` |
-| `ctrl_c` | function | `external/install_external.sh:13` | `` |
-| `download` | function | `external/install_external.sh:18` | `` |
-| `_jq` | function | `fast_run_as_r00t.sh:31` | `` |
-| `check_deps` | function | `fast_run_as_r00t.sh:78` | `` |
-| `check_sudo` | function | `fast_run_as_r00t.sh:87` | `` |
-| `ensure_gum` | function | `fast_run_as_r00t.sh:67` | `` |
-| `err_box` | function | `fast_run_as_r00t.sh:61` | `` |
-| `log` | function | `fast_run_as_r00t.sh:59` | `` |
-| `parse_args` | function | `fast_run_as_r00t.sh:96` | `` |
-| `spin` | function | `fast_run_as_r00t.sh:60` | `` |
-| `start_chown_watcher` | function | `fast_run_as_r00t.sh:145` | `` |
-| `t_lazyown` | function | `fast_run_as_r00t.sh:121` | `` |
-| `t_priv_user` | function | `fast_run_as_r00t.sh:134` | `` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

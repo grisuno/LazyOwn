@@ -271,7 +271,7 @@
   - `test_mcp_module_imports` (function, line 34) `def test_mcp_module_imports()`
   - `test_mcp_wellknown_symbols` (function, line 47) `def test_mcp_wellknown_symbols(mcp)`
   - `test_list_tools_returns_tools` (function, line 61) `def test_list_tools_returns_tools(mcp)`
-  - `main` (function, line 92) `def main()`
+  - `main` (function, line 96) `def main()`
 - Depends on: `skills/lazyown_mcp.py`
 
 ## skills/tests/test_objectives.py

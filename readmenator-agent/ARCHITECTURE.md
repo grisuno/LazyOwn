@@ -71,6 +71,10 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/c2_profile.py` -> `cli/commands/_base.py`
 - `cli/commands/c2_profile.py` -> `modules/c2_profile_engine.py`
 - `cli/commands/c2_profile.py` -> `utils.py`
+- `cli/commands/c2_session.py` -> `cli/commands/_base.py`
+- `cli/commands/c2_session.py` -> `modules/c2_agent.py`
+- `cli/commands/c2_session.py` -> `modules/c2_surfaces.py`
+- `cli/commands/c2_session.py` -> `utils.py`
 - `cli/commands/caldera.py` -> `cli/commands/_base.py`
 - `cli/commands/caldera.py` -> `modules/operation.py`
 - `cli/commands/caldera.py` -> `modules/planner.py`
@@ -115,7 +119,12 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `core/config.py`
 - `cli/commands/command_and_control_migrated.py` -> `core/hardening.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/apt_playbooks.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/atomic_cli.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/atomic_exploit_bridge.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/atomic_resolver.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/listener_manager.py`
 - `cli/commands/command_and_control_migrated.py` -> `utils.py`
 - `cli/commands/containers.py` -> `cli/commands/_base.py`
@@ -324,7 +333,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/persist.py` -> `cli/commands/_base.py`
 - `cli/commands/persist.py` -> `modules/categories.py`
 - `cli/commands/persist.py` -> `utils.py`
+- `cli/commands/persist_migrated.py` -> `cli/assign.py`
 - `cli/commands/persist_migrated.py` -> `cli/commands/_base.py`
+- `cli/commands/persist_migrated.py` -> `core/config.py`
 - `cli/commands/persist_migrated.py` -> `core/hardening.py`
 - `cli/commands/persist_migrated.py` -> `modules/traffic_morpher.py`
 - `cli/commands/persist_migrated.py` -> `utils.py`
@@ -396,6 +407,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `cli/session_resumer.py`
 - `cli/commands/session_ops.py` -> `cli/show.py`
 - `cli/commands/session_ops.py` -> `core/config.py`
+- `cli/commands/session_ops.py` -> `core/payload_schema.py`
 - `cli/commands/session_ops.py` -> `modules/autonomous_exploit_engine.py`
 - `cli/commands/session_ops.py` -> `modules/enrich.py`
 - `cli/commands/session_ops.py` -> `modules/lazy_loop.py`
@@ -469,6 +481,8 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/lazy_monitor.py` -> `modules/loop_progress.py`
 - `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
 - `cli/lazy_orchestrator.py` -> `core/config.py`
+- `cli/lazy_orchestrator.py` -> `modules/apt_playbooks.py`
+- `cli/lazy_orchestrator.py` -> `modules/chain_registry.py`
 - `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
@@ -482,19 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/palette_command.py` -> `cli/palette_graph.py`
 - `cli/palette_command.py` -> `cli/palette_telemetry.py`
 - `cli/palette_command.py` -> `core/text_utils.py`
-- `cli/palette_overlay.py` -> `cli/commands/containers.py`
-- `cli/palette_overlay.py` -> `cli/palette.py`
-- `cli/palette_overlay.py` -> `cli/palette_command.py`
-- `cli/palette_overlay.py` -> `cli/palette_telemetry.py`
-- `cli/palette_overlay.py` -> `cli/themes.py`
-- `cli/palette_overlay.py` -> `core/text_utils.py`
-- `cli/protips.py` -> `cli/noise_verbs.py`
-- `cli/protips.py` -> `core/console.py`
-- `cli/purple_tui.py` -> `cli/commands/containers.py`
-- `cli/reactive_hints.py` -> `cli/graph_advisor.py`
-- `cli/reactive_hints.py` -> `cli/noise_verbs.py`
-- `cli/reactive_hints.py` -> `core/console.py`
-- `cli/reactive_hints.py` -> `core/logging.py`
-- `cli/reactive_hints.py` -> `core/text_utils.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

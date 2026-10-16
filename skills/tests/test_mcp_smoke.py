@@ -82,6 +82,10 @@ def test_list_tools_returns_tools(mcp) -> None:
                 "lazyown_run_command",
                 "lazyown_set_config",
                 "lazyown_campaign_sitrep",
+                "lazyown_auto_loop",
+                "lazyown_apt_chain",
+                "lazyown_atomic_shell",
+                "lazyown_atomic_clean",
             ]
             for en in expected_names:
                 check(f"'{en}' registered", en in tool_names)

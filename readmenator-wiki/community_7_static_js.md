@@ -1,10 +1,10 @@
 # static/js
 
-*Community 7 | 29 files | cohesion 0.48*
+*Community 7 | 28 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 29 file(s) rooted at `static/js` with dominant language js (cohesion 0.48). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 28 file(s) rooted at `static/js` with dominant language js (cohesion 0.45). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -17,6 +17,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 | `static/js/bootstrap-5.3.0.bundle.min.js` | js | infrastructure | 28 | yes |
 | `static/js/chart.min.js` | js | utility | 88 | yes |
 | `static/js/force-graph-1.43.5.min.js` | js | utility | 31 | yes |
+| `static/js/html2pdf.bundle.min.js` | js | utility | 738 | no |
 
 ### `cli` (3 files)
 
@@ -34,20 +35,19 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 | `core/process.py` | py | business_logic | 12 | yes |
 | `core/prompt.py` | py | utility | 8 | yes |
 
-### `tests` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_cli_assign.py` | py | testing | 36 | yes |
-| `tests/test_core_config.py` | py | testing | 19 | yes |
-| `tests/test_payload_schema.py` | py | testing | 53 | yes |
-
 ### `modules` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/exp.c` | c | utility | 58 | yes |
 | `modules/search.py` | py | utility | 0 | yes |
+
+### `tests` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_core_config.py` | py | testing | 19 | yes |
+| `tests/test_payload_schema.py` | py | testing | 53 | yes |
 
 ### `.` (1 files)
 
@@ -73,7 +73,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `lazyown-docker/init.sh` | sh | utility | 0 | no |
 
-*... and 9 more files in this community.*
+*... and 8 more files in this community.*
 
 
 ## Key Symbols
@@ -106,18 +106,18 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - `_coerce_int` (function, `core/payload_schema.py:301`) `def _coerce_int(raw)`
 - `_coerce_bool` (function, `core/payload_schema.py:316`) `def _coerce_bool(raw)`
 - `_spec` (function, `core/payload_schema.py:335`) `def _spec(name, kind, default, description)`
-- `field_for` (function, `core/payload_schema.py:1547`) `def field_for(key)` - Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function, `core/payload_schema.py:1552`) `def coerce_value(key, raw)` - Return ``raw`` coerced to the canonical type declared for ``key``.
+- `field_for` (function, `core/payload_schema.py:1582`) `def field_for(key)` - Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `coerce_value` (function, `core/payload_schema.py:1587`) `def coerce_value(key, raw)` - Return ``raw`` coerced to the canonical type declared for ``key``.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 251
-- Cross-boundary resolved imports (EXTRACTED): 66
+- Internal resolved imports (EXTRACTED): 236
+- Cross-boundary resolved imports (EXTRACTED): 84
 
 ## Connections
 
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 9 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
 
 ## Risks
 
@@ -127,16 +127,12 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.
 - [dataflow DEAD_STORE] `modules/exp.c:340` `set_stable_table_and_set` `set_id`: `set_id` assigned at line 340 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:344` `set_stable_table_and_set` `exprid`: `exprid` assigned at line 344 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:371` `set_stable_table_and_set` `seq`: `seq` assigned at line 371 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:356` `set_stable_table_and_set` `table_seq`: `table_seq` assigned at line 356 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:406` `set_trigger_set_and_overwrite` `exprid`: `exprid` assigned at line 406 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:423` `set_trigger_set_and_overwrite` `seq`: `seq` assigned at line 423 but never read afterwards.
 
 ## Open Questions
 
 - Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazybinenc.py`)? What purpose do they serve?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.48?
+- Should static/js be split, given cohesion 0.45?
 
 ## Sources
 
@@ -160,4 +156,4 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - `static/js/html2pdf.bundle.min.js`
 - `static/js/jquery-3.5.1.slim.min.js`
 - `static/js/particles.js`
-- *... and 9 more*
+- *... and 8 more*

@@ -1,8 +1,37 @@
-# Symbols (page 6 of 40)
+# Symbols (page 6 of 41)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_read_hostsdiscovery` | method | `cli/surface_graph.py:414` | `def _read_hostsdiscovery(self, local_ips)` |
+| `_read_implants` | method | `cli/surface_graph.py:525` | `def _read_implants(self)` |
+| `_read_last_implant_row` | method | `cli/surface_graph.py:542` | `def _read_last_implant_row(self, path)` |
+| `_read_os_hint` | method | `cli/surface_graph.py:399` | `def _read_os_hint(self)` |
+| `_read_scan_csv` | method | `cli/surface_graph.py:442` | `def _read_scan_csv(self, local_ips)` |
+| `_read_scan_discovery` | method | `cli/surface_graph.py:436` | `def _read_scan_discovery(self, local_ips)` |
+| `_read_scan_nmap` | method | `cli/surface_graph.py:467` | `def _read_scan_nmap(self, local_ips)` |
+| `_slug_host` | function | `cli/surface_graph.py:75` | `def _slug_host(ip)` |
+| `_slug_port` | function | `cli/surface_graph.py:80` | `def _slug_port(host_id, port, protocol)` |
+| `build` | method | `cli/surface_graph.py:202` | `def build(self)` |
+| `build_surface_graph` | function | `cli/surface_graph.py:633` | `def build_surface_graph(sessions_dir, payload_path)` |
+| `children_of` | method | `cli/surface_graph.py:153` | `def children_of(self, node_id)` |
+| `get` | method | `cli/surface_graph.py:165` | `def get(self, node_id)` |
+| `iter_descendants` | function | `cli/surface_graph.py:650` | `def iter_descendants(graph, root_id)` |
+| `stats` | method | `cli/surface_graph.py:146` | `def stats(self)` |
+| `to_dict` | method | `cli/surface_graph.py:102` | `def to_dict(self)` |
+| `to_dict` | method | `cli/surface_graph.py:120` | `def to_dict(self)` |
+| `to_dict` | method | `cli/surface_graph.py:135` | `def to_dict(self)` |
+| `SurfaceExplorer` | class | `cli/surface_tui.py:130` | `class SurfaceExplorer(App)` |
+| `TextualNotInstalled` | class | `cli/surface_tui.py:61` | `class TextualNotInstalled(RuntimeError)` |
+| `__init__` | method | `cli/surface_tui.py:148` | `def __init__(self, sessions_dir, payload_path)` |
+| `_add_children` | method | `cli/surface_tui.py:205` | `def _add_children(self, parent_node, graph, parent_id)` |
+| `_attach_children` | function | `cli/surface_tui.py:223` | `def _attach_children(parent, graph, parent_id, seen)` |
+| `_build_rich_tree` | function | `cli/surface_tui.py:214` | `def _build_rich_tree(graph)` |
+| `_reload_graph` | method | `cli/surface_tui.py:185` | `def _reload_graph(self)` |
+| `_render_node_detail` | function | `cli/surface_tui.py:260` | `def _render_node_detail(data)` |
+| `_stats_table` | function | `cli/surface_tui.py:241` | `def _stats_table(graph)` |
+| `_styled_label` | function | `cli/surface_tui.py:232` | `def _styled_label(node)` |
+| `action_collapse_all` | method | `cli/surface_tui.py:172` | `def action_collapse_all(self)` |
 | `action_expand_all` | method | `cli/surface_tui.py:168` | `def action_expand_all(self)` |
 | `action_refresh` | method | `cli/surface_tui.py:164` | `def action_refresh(self)` |
 | `compose` | method | `cli/surface_tui.py:154` | `def compose(self)` |
@@ -272,17 +301,17 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `splitCSV` | method | `contrib/legacy/lazycam.py:77` | `def splitCSV(self, csv)` |
 | `_load_payload_kv` | function | `contrib/legacy/lazydeepseekcli.py:50` | `def _load_payload_kv()` |
 | `_load_report_context` | function | `contrib/legacy/lazydeepseekcli.py:68` | `def _load_report_context()` |
-| `_ollama_stream` | function | `contrib/legacy/lazydeepseekcli.py:223` | `def _ollama_stream(prompt_text, mode)` |
+| `_ollama_stream` | function | `contrib/legacy/lazydeepseekcli.py:223` | `def _ollama_stream(prompt_text, mode, timeout)` |
 | `_prompt_redteam` | function | `contrib/legacy/lazydeepseekcli.py:79` | `def _prompt_redteam(base_prompt, history, knowledge_base)` |
 | `_prompt_report` | function | `contrib/legacy/lazydeepseekcli.py:118` | `def _prompt_report(base_prompt, history, knowledge_base)` |
 | `add_to_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:179` | `def add_to_knowledge_base(prompt, command, file_path)` |
 | `configure_logging` | function | `contrib/legacy/lazydeepseekcli.py:45` | `def configure_logging(debug)` |
-| `generate` | function | `contrib/legacy/lazydeepseekcli.py:231` | `def generate()` |
+| `generate` | function | `contrib/legacy/lazydeepseekcli.py:232` | `def generate()` |
 | `get_relevant_knowledge` | function | `contrib/legacy/lazydeepseekcli.py:185` | `def get_relevant_knowledge(prompt)` |
 | `load_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:167` | `def load_knowledge_base(file_path)` |
-| `parse_args` | function | `contrib/legacy/lazydeepseekcli.py:271` | `def parse_args()` |
-| `process_prompt_local` | function | `contrib/legacy/lazydeepseekcli.py:255` | `def process_prompt_local(prompt, debug, mode)` |
-| `process_prompt_localreport` | function | `contrib/legacy/lazydeepseekcli.py:263` | `def process_prompt_localreport(prompt, debug, mode)` |
+| `parse_args` | function | `contrib/legacy/lazydeepseekcli.py:277` | `def parse_args()` |
+| `process_prompt_local` | function | `contrib/legacy/lazydeepseekcli.py:261` | `def process_prompt_local(prompt, debug, mode)` |
+| `process_prompt_localreport` | function | `contrib/legacy/lazydeepseekcli.py:269` | `def process_prompt_localreport(prompt, debug, mode)` |
 | `save_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:174` | `def save_knowledge_base(knowledge_base, file_path)` |
 | `transform_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:193` | `def transform_knowledge_base(prompt_builder)` |
 | `truncate_message` | function | `contrib/legacy/lazydeepseekcli.py:41` | `def truncate_message(message, max_chars)` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `clean_yaml` | function | `contrib/legacy/lazyphishingai.py:31` | `def clean_yaml(texto)` |
 | `configure_logging` | function | `contrib/legacy/lazyphishingai.py:42` | `def configure_logging(debug)` |
 | `create_complex_prompt` | function | `contrib/legacy/lazyphishingai.py:46` | `def create_complex_prompt(base_prompt, history, knowledge_base)` |
-| `generate` | function | `contrib/legacy/lazyphishingai.py:155` | `def generate()` |
-| `get_relevant_knowledge` | function | `contrib/legacy/lazyphishingai.py:122` | `def get_relevant_knowledge(prompt)` |
-| `load_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:101` | `def load_knowledge_base(file_path)` |
-| `parse_args` | function | `contrib/legacy/lazyphishingai.py:192` | `def parse_args()` |
-| `process_prompt_local_yaml` | function | `contrib/legacy/lazyphishingai.py:132` | `def process_prompt_local_yaml(prompt, debug, mode, output_file)` |
-| `save_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:110` | `def save_knowledge_base(knowledge_base, file_path)` |
-| `truncate_message` | function | `contrib/legacy/lazyphishingai.py:37` | `def truncate_message(message, max_chars)` |
-| `check_sudo` | function | `contrib/legacy/lazyproxy.py:40` | `def check_sudo()` |
-| `get_ip_from_url` | function | `contrib/legacy/lazyproxy.py:87` | `def get_ip_from_url(url)` |
-| `handle_request` | function | `contrib/legacy/lazyproxy.py:104` | `def handle_request(client_socket, address)` |
-| `hexdump` | function | `contrib/legacy/lazyproxy.py:52` | `def hexdump(src, length)` |
-| `receive_from` | function | `contrib/legacy/lazyproxy.py:63` | `def receive_from(connection)` |
-| `request_handler` | function | `contrib/legacy/lazyproxy.py:77` | `def request_handler(buffer)` |
-| `response_handler` | function | `contrib/legacy/lazyproxy.py:82` | `def response_handler(buffer)` |
-| `signal_handler` | function | `contrib/legacy/lazyproxy.py:47` | `def signal_handler(sig, frame)` |
-| `start_proxy` | function | `contrib/legacy/lazyproxy.py:183` | `def start_proxy()` |
-| `BinaryAttacker` | class | `contrib/legacy/lazypwn.py:70` | `class BinaryAttacker` |
-| `BinaryFinder` | class | `contrib/legacy/lazypwn.py:24` | `class BinaryFinder` |
-| `__init__` | method | `contrib/legacy/lazypwn.py:25` | `def __init__(self)` |
-| `__init__` | method | `contrib/legacy/lazypwn.py:71` | `def __init__(self, binary_path)` |
-| `analyze_with_ltrace` | method | `contrib/legacy/lazypwn.py:76` | `def analyze_with_ltrace(self)` |
-| `exploit_with_pwntools` | method | `contrib/legacy/lazypwn.py:170` | `def exploit_with_pwntools(self)` |
-| `extract_strings` | method | `contrib/legacy/lazypwn.py:83` | `def extract_strings(self)` |
-| `find_capabilities_binaries` | method | `contrib/legacy/lazypwn.py:36` | `def find_capabilities_binaries(self)` |
-| `find_executable_binaries` | method | `contrib/legacy/lazypwn.py:44` | `def find_executable_binaries(self)` |
-| `find_specific_name_binaries` | method | `contrib/legacy/lazypwn.py:52` | `def find_specific_name_binaries(self, names)` |
-| `find_suid_binaries` | method | `contrib/legacy/lazypwn.py:28` | `def find_suid_binaries(self)` |
-| `get_found_binaries` | method | `contrib/legacy/lazypwn.py:67` | `def get_found_binaries(self)` |
-| `main` | function | `contrib/legacy/lazypwn.py:181` | `def main()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

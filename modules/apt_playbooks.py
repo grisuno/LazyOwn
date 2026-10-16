@@ -136,31 +136,55 @@ class AptPlaybookEngine:
         return self._playbooks.get(key)
 
     def validate(self, pb: AptPlaybook, atomic_path: str | None = None) -> dict[str, Any]:
-        """Validate that all referenced atomic tests exist locally."""
+        """Validate that all referenced atomic tests exist locally.
+
+        Playbooks store MITRE technique IDs (``T1059.001``) or raw test
+        GUIDs in ``atomic_id``. Technique IDs resolve through
+        :mod:`modules.atomic_resolver`; GUIDs match against the local
+        Atomic index. Unknown formats are reported missing, never crash.
+        """
+        try:
+            from modules.atomic_resolver import get_resolver, is_guid, is_mitre_id
+        except ImportError:  # MCP context: only modules/ is on sys.path
+            from atomic_resolver import get_resolver, is_guid, is_mitre_id  # type: ignore[no-redef]
+
         missing_atomic: list[dict] = []
         found_atomic: list[dict] = []
         if atomic_path and os.path.exists(atomic_path):
             atomic_map = self._build_atomic_index(atomic_path)
         else:
             atomic_map = {}
+        resolver = get_resolver()
 
         for phase in pb.phases:
             for test in phase.atomic_tests:
-                if test.atomic_id in atomic_map:
-                    found_atomic.append(
-                        {
-                            "phase": phase.name,
-                            "atomic_id": test.atomic_id,
-                            "name": atomic_map[test.atomic_id],
-                        }
-                    )
+                ref = (test.atomic_id or "").strip()
+                if is_guid(ref) and ref.lower() in {k.lower() for k in atomic_map}:
+                    name = next(v for k, v in atomic_map.items() if k.lower() == ref.lower())
+                    found_atomic.append({"phase": phase.name, "atomic_id": ref, "name": name})
+                elif is_mitre_id(ref):
+                    candidates = resolver.list_for_technique(ref)
+                    if candidates:
+                        first = candidates[0]
+                        found_atomic.append(
+                            {
+                                "phase": phase.name,
+                                "atomic_id": ref,
+                                "name": first.name,
+                                "resolved_guid": first.guid,
+                                "resolved_tests": len(candidates),
+                            }
+                        )
+                    else:
+                        missing_atomic.append(
+                            {"phase": phase.name, "atomic_id": ref, "name": test.name, "reason": "no test indexed"}
+                        )
+                elif ref.lower() in {k.lower() for k in atomic_map}:
+                    name = next(v for k, v in atomic_map.items() if k.lower() == ref.lower())
+                    found_atomic.append({"phase": phase.name, "atomic_id": ref, "name": name})
                 else:
                     missing_atomic.append(
-                        {
-                            "phase": phase.name,
-                            "atomic_id": test.atomic_id,
-                            "name": test.name,
-                        }
+                        {"phase": phase.name, "atomic_id": ref, "name": test.name, "reason": "unknown reference"}
                     )
 
         return {
@@ -195,6 +219,8 @@ class AptPlaybookEngine:
         plan = {
             "apt_name": pb.apt_name,
             "description": pb.description,
+            "platforms": list(pb.platforms),
+            "platform": pb.platforms[0] if pb.platforms else "",
             "steps": steps,
         }
         with open(output_path, "w") as f:

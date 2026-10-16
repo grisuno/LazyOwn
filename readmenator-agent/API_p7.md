@@ -1,4 +1,4 @@
-# API (page 7 of 22)
+# API (page 7 of 23)
 Previous: [API_p6.md](API_p6.md)
 
 ## fast_run_as_r00t.sh
@@ -81,7 +81,7 @@ Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 - `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:706` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
 
 ## lazyc2.py
-Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `core/reverse_shell_secret.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
+Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `core/reverse_shell_secret.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/c2_surfaces.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
 - `is_insecure_credential` (function) `lazyc2.py:204` `def is_insecure_credential(user, pwd)` -- Check for weak or default credentials
 - `_JsonLogFormatter.format` (method) `lazyc2.py:444` `def format(self, record)`
 - `ensure_sessions_dir` (function) `lazyc2.py:471` `def ensure_sessions_dir()` -- Ensure the sessions directory exists with safe permissions.
@@ -158,183 +158,183 @@ Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `c
 - `get_safe_file_path` (function) `lazyc2.py:2288` `def get_safe_file_path(user_path)` -- Construye de forma segura el path del archivo y verifica que está en el directorio permitido.
 - `analyze_behavioral_data` (function) `lazyc2.py:2358` `def analyze_behavioral_data(behavioral_events)` -- Analyze behavioral events using Groq AI to generate risk scores.
 - `analyze_campaign_progress` (function) `lazyc2.py:2386` `def analyze_campaign_progress(campaign_id, events)` -- Analyze campaign progress and suggest adaptations using Grok AI.
-- `User.__init__` (method) `lazyc2.py:2965` `def __init__(self, user_data)`
-- `load_users` (function) `lazyc2.py:2987` `def load_users()`
-- `save_users` (function) `lazyc2.py:2997` `def save_users(users)`
-- `load_data` (function) `lazyc2.py:3008` `def load_data()`
-- `load_user` (function) `lazyc2.py:3025` `def load_user(user_id)`
-- `tojson_filter` (function) `lazyc2.py:3040` `def tojson_filter(value)` -- Custom tojson filter to handle non-serializable objects.
-- `index` (function) `lazyc2.py:3047` `def index()`
-- `send_command` (function) `lazyc2.py:3197` `def send_command(client_id)`
-- `receive_result` (function) `lazyc2.py:3341` `def receive_result(client_id)`
-- `issue_command` (function) `lazyc2.py:3882` `def issue_command()`
-- `upload` (function) `lazyc2.py:3896` `def upload()`
-- `download_file` (function) `lazyc2.py:3933` `def download_file()`
-- `serve_file` (function) `lazyc2.py:3960` `def serve_file(file_path)` -- Serve a file from ``sessions/temp_uploads`` through :class:`SafeFileService`.
-- `create_route` (function) `lazyc2.py:4062` `def create_route()` -- Register a new operator-supplied dynamic route bound to a template.
-- `dynamic_route` (function) `lazyc2.py:4131` `def dynamic_route(route_path, data)` -- Handle dynamic routes based on stored route-to-template mappings.
-- `sanitize_input` (function) `lazyc2.py:4138` `def sanitize_input(input_str)` -- Sanitize input to prevent XSS attacks.
-- `is_valid_route_path` (function) `lazyc2.py:4148` `def is_valid_route_path(route_path)` -- Validate route path format.
-- `is_valid_data` (function) `lazyc2.py:4155` `def is_valid_data(data)` -- Validate data parameter.
-- `is_valid_template_name` (function) `lazyc2.py:4165` `def is_valid_template_name(template_name)` -- Validate template name.
-- `log` (function) `lazyc2.py:4227` `def log(data)` -- Log request details to JSON file.
-- `favicon` (function) `lazyc2.py:4245` `def favicon()` -- Serve the favicon.ico file.
-- `palette_view` (function) `lazyc2.py:4258` `def palette_view()` -- Render the operator command palette browser.
-- `palette_api` (function) `lazyc2.py:4286` `def palette_api()` -- JSON catalogue feed for the global Cmd+K / Ctrl+K overlay.
-- `api_data` (function) `lazyc2.py:4307` `def api_data()`
-- `create_short_url` (function) `lazyc2.py:4469` `def create_short_url()` -- Create multiple short URLs for a single original URL.
-- `track_interaction` (function) `lazyc2.py:4497` `def track_interaction(short_url)` -- Serve tracking page and log behavioral data.
-- `update_short_url` (function) `lazyc2.py:4522` `def update_short_url(short_url)`
-- `redirect_to_file` (function) `lazyc2.py:4549` `def redirect_to_file(short_url)`
-- `webserver_report` (function) `lazyc2.py:4577` `def webserver_report(filename)` -- Serve nmap HTML report assets from the sessions directory over HTTPS.
-- `download_files` (function) `lazyc2.py:4597` `def download_files(filename)` -- Serve implant stage files by name, enforcing strict containment.
-- `view_yaml` (function) `lazyc2.py:4649` `def view_yaml()`
-- `run_command` (function) `lazyc2.py:4743` `def run_command()` -- Execute one shell command and return a sanitised, JSON-safe result.
-- `get_output` (function) `lazyc2.py:4812` `def get_output()`
-- `run_shellcode` (function) `lazyc2.py:4839` `def run_shellcode()`
-- `get_results` (function) `lazyc2.py:4848` `def get_results()`
-- `send_lcommand` (function) `lazyc2.py:4946` `def send_lcommand(ip, port)`
-- `chatbot` (function) `lazyc2.py:4979` `def chatbot()`
-- `vuln` (function) `lazyc2.py:4995` `def vuln()`
-- `taskbot` (function) `lazyc2.py:5034` `def taskbot()`
-- `search` (function) `lazyc2.py:5050` `def search()`
-- `script` (function) `lazyc2.py:5066` `def script()`
-- `redop` (function) `lazyc2.py:5082` `def redop()`
-- `adversary` (function) `lazyc2.py:5101` `def adversary()`
-- `generalbot` (function) `lazyc2.py:5117` `def generalbot()`
-- `csv_to_html` (function) `lazyc2.py:5133` `def csv_to_html()`
-- `search_results` (function) `lazyc2.py:5184` `def search_results()`
-- `graph` (function) `lazyc2.py:5232` `def graph()`
-- `task` (function) `lazyc2.py:5241` `def task(task_id)`
-- `get_tasks` (function) `lazyc2.py:5256` `def get_tasks()`
-- `tasks` (function) `lazyc2.py:5266` `def tasks()`
-- `edit_task` (function) `lazyc2.py:5276` `def edit_task(task_id)`
-- `cves` (function) `lazyc2.py:5310` `def cves()`
-- `cve` (function) `lazyc2.py:5336` `def cve(cve_id)`
-- `edit_cve` (function) `lazyc2.py:5351` `def edit_cve(cve_id)`
-- `edit_notes` (function) `lazyc2.py:5385` `def edit_notes()`
-- `get_notes` (function) `lazyc2.py:5403` `def get_notes()`
-- `view_note` (function) `lazyc2.py:5413` `def view_note()`
-- `push_notification` (function) `lazyc2.py:5423` `def push_notification()`
-- `edit_event` (function) `lazyc2.py:5450` `def edit_event(event_name)`
-- `get_event_config` (function) `lazyc2.py:5485` `def get_event_config()`
-- `get_event_config_view` (function) `lazyc2.py:5492` `def get_event_config_view()`
-- `aicmd_view` (function) `lazyc2.py:5527` `def aicmd_view()`
-- `get_events` (function) `lazyc2.py:5552` `def get_events()`
-- `list_tools` (function) `lazyc2.py:5584` `def list_tools()`
-- `create_tool` (function) `lazyc2.py:5594` `def create_tool()`
-- `view_tool` (function) `lazyc2.py:5621` `def view_tool(toolname)`
-- `update_tool` (function) `lazyc2.py:5652` `def update_tool(toolname)`
-- `delete_tool` (function) `lazyc2.py:5700` `def delete_tool(toolname)`
-- `register` (function) `lazyc2.py:5735` `def register()`
-- `login` (function) `lazyc2.py:5794` `def login()`
-- `mfa_setup` (function) `lazyc2.py:5841` `def mfa_setup()`
-- `mfa_qr` (function) `lazyc2.py:5915` `def mfa_qr(username)` -- Serve a locally-generated QR code SVG for MFA setup.
-- `mfa_verify` (function) `lazyc2.py:5937` `def mfa_verify()`
-- `admin_users` (function) `lazyc2.py:5985` `def admin_users()`
-- `admin_set_role` (function) `lazyc2.py:6000` `def admin_set_role(user_id)`
-- `admin_reset_mfa` (function) `lazyc2.py:6022` `def admin_reset_mfa(user_id)`
-- `admin_delete_user` (function) `lazyc2.py:6034` `def admin_delete_user(user_id)`
-- `admin_tenants` (function) `lazyc2.py:6052` `def admin_tenants()`
-- `admin_create_tenant` (function) `lazyc2.py:6073` `def admin_create_tenant()`
-- `admin_switch_tenant` (function) `lazyc2.py:6093` `def admin_switch_tenant(tenant_id)`
-- `profile` (function) `lazyc2.py:6108` `def profile()`
-- `logout` (function) `lazyc2.py:6132` `def logout()`
-- `change_password` (function) `lazyc2.py:6147` `def change_password()` -- Force rotation of the initial one-time admin password.
-- `aumentar_elo_route` (function) `lazyc2.py:6213` `def aumentar_elo_route(user_id)`
-- `banners` (function) `lazyc2.py:6229` `def banners()`
-- `mitre` (function) `lazyc2.py:6265` `def mitre()`
-- `get_connected_clients` (function) `lazyc2.py:6310` `def get_connected_clients()`
-- `lazybot` (function) `lazyc2.py:6321` `def lazybot()`
-- `compliance_dashboard` (function) `lazyc2.py:6338` `def compliance_dashboard()`
-- `compliance_report` (function) `lazyc2.py:6360` `def compliance_report()`
-- `compliance_add_evidence` (function) `lazyc2.py:6390` `def compliance_add_evidence()`
-- `compliance_verify_evidence` (function) `lazyc2.py:6426` `def compliance_verify_evidence()`
-- `compliance_export` (function) `lazyc2.py:6440` `def compliance_export(format)`
-- `lazyreport` (function) `lazyc2.py:6470` `def lazyreport()`
-- `teamserver` (function) `lazyc2.py:6489` `def teamserver()`
-- `report` (function) `lazyc2.py:6518` `def report()`
-- `lazyreport_view` (function) `lazyc2.py:6525` `def lazyreport_view()`
-- `killchain_view` (function) `lazyc2.py:6531` `def killchain_view()`
-- `api_killchain` (function) `lazyc2.py:6561` `def api_killchain()` -- Return the unified kill-chain snapshot consumed by every surface.
-- `api_beacon_results` (function) `lazyc2.py:6592` `def api_beacon_results(client_id)` -- Return the full ordered command/result history for one beacon.
-- `connect` (function) `lazyc2.py:6692` `def connect()`
-- `listener` (function) `lazyc2.py:6701` `def listener()`
-- `listener_connect` (function) `lazyc2.py:6710` `def listener_connect()`
-- `listener_disconnect` (function) `lazyc2.py:6721` `def listener_disconnect()`
-- `pty_input` (function) `lazyc2.py:6731` `def pty_input(data)`
-- `resize` (function) `lazyc2.py:6745` `def resize(data)`
-- `pty_connect` (function) `lazyc2.py:6758` `def pty_connect()`
-- `handle_input` (function) `lazyc2.py:6789` `def handle_input(data)`
-- `listener_command` (function) `lazyc2.py:6813` `def listener_command(msg)`
-- `terminal` (function) `lazyc2.py:6827` `def terminal()`
-- `terminal_connect` (function) `lazyc2.py:6836` `def terminal_connect()`
-- `terminal_disconnect` (function) `lazyc2.py:6846` `def terminal_disconnect()`
-- `terminal_input` (function) `lazyc2.py:6856` `def terminal_input(data)`
-- `terminal_command` (function) `lazyc2.py:6869` `def terminal_command(data)`
-- `terminal_resize` (function) `lazyc2.py:6884` `def terminal_resize(data)`
-- `start_reverse_shell` (function) `lazyc2.py:6893` `def start_reverse_shell()`
-- `start_bridge` (function) `lazyc2.py:6940` `def start_bridge()` -- Start a TCP bridge to a specified remote host and port.
-- `page_not_found` (function) `lazyc2.py:6957` `def page_not_found(e)`
-- `internal_server_error` (function) `lazyc2.py:6965` `def internal_server_error(e)`
-- `get_config` (function) `lazyc2.py:6974` `def get_config()` -- Lee el archivo payload.json, lo manipula y lo expone como /config.json.
-- `capture_image` (function) `lazyc2.py:6993` `def capture_image()`
-- `capture_audio` (function) `lazyc2.py:7019` `def capture_audio()`
-- `surface` (function) `lazyc2.py:7037` `def surface()`
-- `surface_live` (function) `lazyc2.py:7043` `def surface_live()` -- Render the live attack-surface graph page.
-- `api_surface_live` (function) `lazyc2.py:7058` `def api_surface_live()` -- Return the live attack-surface graph derived from the world model.
-- `intel_view` (function) `lazyc2.py:7083` `def intel_view()` -- Render the fused sessions intel graph page (ReadMenator engine).
-- `intel_bundle_view` (function) `lazyc2.py:7102` `def intel_bundle_view()` -- Render the circular/spherical bundle view of the intel graph.
-- `attack3d_view` (function) `lazyc2.py:7117` `def attack3d_view()` -- Render the C2-centred attack-surface graph (ReadMenator engine).
-- `attack_bundle_view` (function) `lazyc2.py:7136` `def attack_bundle_view()` -- Render the circular/spherical bundle view of the attack surface.
-- `api_intel_graph` (function) `lazyc2.py:7151` `def api_intel_graph()` -- Return the fused C2-centred intel graph with precomputed layout.
-- `broadcast_view` (function) `lazyc2.py:7207` `def broadcast_view()` -- Render the exploration timeline board for one loop task.
-- `api_loop_broadcast_stream` (function) `lazyc2.py:7221` `def api_loop_broadcast_stream()` -- SSE live tail of one loop task's activity stream.
-- `api_loop_broadcast` (function) `lazyc2.py:7279` `def api_loop_broadcast()` -- Return the paginated exploration timeline for one loop task.
-- `api_guard_audit` (function) `lazyc2.py:7322` `def api_guard_audit()` -- Return guard history with pending approvals kept independent.
-- `api_loop_graph` (function) `lazyc2.py:7368` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
-- `api_lazy_mentions` (function) `lazyc2.py:7399` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
-- `api_intel_bundle` (function) `lazyc2.py:7435` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
-- `api_attack_graph` (function) `lazyc2.py:7468` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
-- `api_attack_bundle` (function) `lazyc2.py:7520` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
-- `get_data` (function) `lazyc2.py:7550` `def get_data()`
-- `upload_zip_file` (function) `lazyc2.py:7559` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
-- `list_campaigns` (function) `lazyc2.py:7617` `def list_campaigns()`
-- `create_campaign` (function) `lazyc2.py:7630` `def create_campaign()`
-- `lazyphishingai` (function) `lazyc2.py:7708` `def lazyphishingai()`
-- `track_pixel` (function) `lazyc2.py:7724` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
-- `campaign_report` (function) `lazyc2.py:7746` `def campaign_report(campaign_id)`
-- `orchestrate_campaign` (function) `lazyc2.py:7828` `def orchestrate_campaign(campaign_id)`
-- `create_multivector_campaign` (function) `lazyc2.py:7875` `def create_multivector_campaign()`
-- `serve_landing_page` (function) `lazyc2.py:8027` `def serve_landing_page(campaign_id, short_url)`
-- `health_check` (function) `lazyc2.py:8052` `def health_check()` -- Basic health and readiness endpoint.
-- `metrics_exposition` (function) `lazyc2.py:8091` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
-- `api_dashboard` (function) `lazyc2.py:8098` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
-- `api_listeners` (function) `lazyc2.py:8168` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
-- `api_listeners_create` (function) `lazyc2.py:8175` `def api_listeners_create()` -- Create a new listener.
-- `api_listeners_start` (function) `lazyc2.py:8191` `def api_listeners_start(listener_id)` -- Start an existing listener.
-- `api_listeners_stop` (function) `lazyc2.py:8199` `def api_listeners_stop(listener_id)` -- Stop a running listener.
-- `api_listeners_delete` (function) `lazyc2.py:8207` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
+- `User.__init__` (method) `lazyc2.py:2974` `def __init__(self, user_data)`
+- `load_users` (function) `lazyc2.py:2996` `def load_users()`
+- `save_users` (function) `lazyc2.py:3006` `def save_users(users)`
+- `load_data` (function) `lazyc2.py:3017` `def load_data()`
+- `load_user` (function) `lazyc2.py:3034` `def load_user(user_id)`
+- `tojson_filter` (function) `lazyc2.py:3049` `def tojson_filter(value)` -- Custom tojson filter to handle non-serializable objects.
+- `index` (function) `lazyc2.py:3056` `def index()`
+- `send_command` (function) `lazyc2.py:3207` `def send_command(client_id)`
+- `receive_result` (function) `lazyc2.py:3352` `def receive_result(client_id)`
+- `issue_command` (function) `lazyc2.py:3893` `def issue_command()`
+- `upload` (function) `lazyc2.py:3907` `def upload()`
+- `download_file` (function) `lazyc2.py:3944` `def download_file()`
+- `serve_file` (function) `lazyc2.py:3971` `def serve_file(file_path)` -- Serve a file from ``sessions/temp_uploads`` through :class:`SafeFileService`.
+- `create_route` (function) `lazyc2.py:4073` `def create_route()` -- Register a new operator-supplied dynamic route bound to a template.
+- `dynamic_route` (function) `lazyc2.py:4142` `def dynamic_route(route_path, data)` -- Handle dynamic routes based on stored route-to-template mappings.
+- `sanitize_input` (function) `lazyc2.py:4149` `def sanitize_input(input_str)` -- Sanitize input to prevent XSS attacks.
+- `is_valid_route_path` (function) `lazyc2.py:4159` `def is_valid_route_path(route_path)` -- Validate route path format.
+- `is_valid_data` (function) `lazyc2.py:4166` `def is_valid_data(data)` -- Validate data parameter.
+- `is_valid_template_name` (function) `lazyc2.py:4176` `def is_valid_template_name(template_name)` -- Validate template name.
+- `log` (function) `lazyc2.py:4238` `def log(data)` -- Log request details to JSON file.
+- `favicon` (function) `lazyc2.py:4256` `def favicon()` -- Serve the favicon.ico file.
+- `palette_view` (function) `lazyc2.py:4269` `def palette_view()` -- Render the operator command palette browser.
+- `palette_api` (function) `lazyc2.py:4297` `def palette_api()` -- JSON catalogue feed for the global Cmd+K / Ctrl+K overlay.
+- `api_data` (function) `lazyc2.py:4318` `def api_data()`
+- `create_short_url` (function) `lazyc2.py:4480` `def create_short_url()` -- Create multiple short URLs for a single original URL.
+- `track_interaction` (function) `lazyc2.py:4508` `def track_interaction(short_url)` -- Serve tracking page and log behavioral data.
+- `update_short_url` (function) `lazyc2.py:4533` `def update_short_url(short_url)`
+- `redirect_to_file` (function) `lazyc2.py:4560` `def redirect_to_file(short_url)`
+- `webserver_report` (function) `lazyc2.py:4588` `def webserver_report(filename)` -- Serve nmap HTML report assets from the sessions directory over HTTPS.
+- `download_files` (function) `lazyc2.py:4608` `def download_files(filename)` -- Serve implant stage files by name, enforcing strict containment.
+- `view_yaml` (function) `lazyc2.py:4660` `def view_yaml()`
+- `run_command` (function) `lazyc2.py:4754` `def run_command()` -- Execute one shell command and return a sanitised, JSON-safe result.
+- `get_output` (function) `lazyc2.py:4823` `def get_output()`
+- `run_shellcode` (function) `lazyc2.py:4850` `def run_shellcode()`
+- `get_results` (function) `lazyc2.py:4859` `def get_results()`
+- `send_lcommand` (function) `lazyc2.py:4957` `def send_lcommand(ip, port)`
+- `chatbot` (function) `lazyc2.py:4990` `def chatbot()`
+- `vuln` (function) `lazyc2.py:5006` `def vuln()`
+- `taskbot` (function) `lazyc2.py:5045` `def taskbot()`
+- `search` (function) `lazyc2.py:5061` `def search()`
+- `script` (function) `lazyc2.py:5077` `def script()`
+- `redop` (function) `lazyc2.py:5093` `def redop()`
+- `adversary` (function) `lazyc2.py:5112` `def adversary()`
+- `generalbot` (function) `lazyc2.py:5128` `def generalbot()`
+- `csv_to_html` (function) `lazyc2.py:5144` `def csv_to_html()`
+- `search_results` (function) `lazyc2.py:5195` `def search_results()`
+- `graph` (function) `lazyc2.py:5243` `def graph()`
+- `task` (function) `lazyc2.py:5252` `def task(task_id)`
+- `get_tasks` (function) `lazyc2.py:5267` `def get_tasks()`
+- `tasks` (function) `lazyc2.py:5277` `def tasks()`
+- `edit_task` (function) `lazyc2.py:5306` `def edit_task(task_id)`
+- `cves` (function) `lazyc2.py:5340` `def cves()`
+- `cve` (function) `lazyc2.py:5366` `def cve(cve_id)`
+- `edit_cve` (function) `lazyc2.py:5381` `def edit_cve(cve_id)`
+- `edit_notes` (function) `lazyc2.py:5415` `def edit_notes()`
+- `get_notes` (function) `lazyc2.py:5433` `def get_notes()`
+- `view_note` (function) `lazyc2.py:5443` `def view_note()`
+- `push_notification` (function) `lazyc2.py:5453` `def push_notification()`
+- `edit_event` (function) `lazyc2.py:5480` `def edit_event(event_name)`
+- `get_event_config` (function) `lazyc2.py:5515` `def get_event_config()`
+- `get_event_config_view` (function) `lazyc2.py:5522` `def get_event_config_view()`
+- `aicmd_view` (function) `lazyc2.py:5557` `def aicmd_view()`
+- `get_events` (function) `lazyc2.py:5582` `def get_events()`
+- `list_tools` (function) `lazyc2.py:5614` `def list_tools()`
+- `create_tool` (function) `lazyc2.py:5624` `def create_tool()`
+- `view_tool` (function) `lazyc2.py:5651` `def view_tool(toolname)`
+- `update_tool` (function) `lazyc2.py:5682` `def update_tool(toolname)`
+- `delete_tool` (function) `lazyc2.py:5730` `def delete_tool(toolname)`
+- `register` (function) `lazyc2.py:5765` `def register()`
+- `login` (function) `lazyc2.py:5824` `def login()`
+- `mfa_setup` (function) `lazyc2.py:5871` `def mfa_setup()`
+- `mfa_qr` (function) `lazyc2.py:5945` `def mfa_qr(username)` -- Serve a locally-generated QR code SVG for MFA setup.
+- `mfa_verify` (function) `lazyc2.py:5967` `def mfa_verify()`
+- `admin_users` (function) `lazyc2.py:6015` `def admin_users()`
+- `admin_set_role` (function) `lazyc2.py:6030` `def admin_set_role(user_id)`
+- `admin_reset_mfa` (function) `lazyc2.py:6052` `def admin_reset_mfa(user_id)`
+- `admin_delete_user` (function) `lazyc2.py:6064` `def admin_delete_user(user_id)`
+- `admin_tenants` (function) `lazyc2.py:6082` `def admin_tenants()`
+- `admin_create_tenant` (function) `lazyc2.py:6103` `def admin_create_tenant()`
+- `admin_switch_tenant` (function) `lazyc2.py:6123` `def admin_switch_tenant(tenant_id)`
+- `profile` (function) `lazyc2.py:6138` `def profile()`
+- `logout` (function) `lazyc2.py:6162` `def logout()`
+- `change_password` (function) `lazyc2.py:6177` `def change_password()` -- Force rotation of the initial one-time admin password.
+- `aumentar_elo_route` (function) `lazyc2.py:6243` `def aumentar_elo_route(user_id)`
+- `banners` (function) `lazyc2.py:6259` `def banners()`
+- `mitre` (function) `lazyc2.py:6295` `def mitre()`
+- `get_connected_clients` (function) `lazyc2.py:6340` `def get_connected_clients()`
+- `lazybot` (function) `lazyc2.py:6351` `def lazybot()`
+- `compliance_dashboard` (function) `lazyc2.py:6368` `def compliance_dashboard()`
+- `compliance_report` (function) `lazyc2.py:6390` `def compliance_report()`
+- `compliance_add_evidence` (function) `lazyc2.py:6420` `def compliance_add_evidence()`
+- `compliance_verify_evidence` (function) `lazyc2.py:6456` `def compliance_verify_evidence()`
+- `compliance_export` (function) `lazyc2.py:6470` `def compliance_export(format)`
+- `lazyreport` (function) `lazyc2.py:6500` `def lazyreport()`
+- `teamserver` (function) `lazyc2.py:6519` `def teamserver()`
+- `report` (function) `lazyc2.py:6548` `def report()`
+- `lazyreport_view` (function) `lazyc2.py:6555` `def lazyreport_view()`
+- `killchain_view` (function) `lazyc2.py:6561` `def killchain_view()`
+- `api_killchain` (function) `lazyc2.py:6591` `def api_killchain()` -- Return the unified kill-chain snapshot consumed by every surface.
+- `api_beacon_results` (function) `lazyc2.py:6622` `def api_beacon_results(client_id)` -- Return the full ordered command/result history for one beacon.
+- `connect` (function) `lazyc2.py:6722` `def connect()`
+- `listener` (function) `lazyc2.py:6731` `def listener()`
+- `listener_connect` (function) `lazyc2.py:6740` `def listener_connect()`
+- `listener_disconnect` (function) `lazyc2.py:6751` `def listener_disconnect()`
+- `pty_input` (function) `lazyc2.py:6761` `def pty_input(data)`
+- `resize` (function) `lazyc2.py:6775` `def resize(data)`
+- `pty_connect` (function) `lazyc2.py:6788` `def pty_connect()`
+- `handle_input` (function) `lazyc2.py:6819` `def handle_input(data)`
+- `listener_command` (function) `lazyc2.py:6843` `def listener_command(msg)`
+- `terminal` (function) `lazyc2.py:6857` `def terminal()`
+- `terminal_connect` (function) `lazyc2.py:6866` `def terminal_connect()`
+- `terminal_disconnect` (function) `lazyc2.py:6876` `def terminal_disconnect()`
+- `terminal_input` (function) `lazyc2.py:6886` `def terminal_input(data)`
+- `terminal_command` (function) `lazyc2.py:6899` `def terminal_command(data)`
+- `terminal_resize` (function) `lazyc2.py:6914` `def terminal_resize(data)`
+- `start_reverse_shell` (function) `lazyc2.py:6923` `def start_reverse_shell()`
+- `start_bridge` (function) `lazyc2.py:6970` `def start_bridge()` -- Start a TCP bridge to a specified remote host and port.
+- `page_not_found` (function) `lazyc2.py:6987` `def page_not_found(e)`
+- `internal_server_error` (function) `lazyc2.py:6995` `def internal_server_error(e)`
+- `get_config` (function) `lazyc2.py:7004` `def get_config()` -- Lee el archivo payload.json, lo manipula y lo expone como /config.json.
+- `capture_image` (function) `lazyc2.py:7023` `def capture_image()`
+- `capture_audio` (function) `lazyc2.py:7049` `def capture_audio()`
+- `surface` (function) `lazyc2.py:7067` `def surface()`
+- `surface_live` (function) `lazyc2.py:7073` `def surface_live()` -- Render the live attack-surface graph page.
+- `api_surface_live` (function) `lazyc2.py:7088` `def api_surface_live()` -- Return the live attack-surface graph derived from the world model.
+- `intel_view` (function) `lazyc2.py:7113` `def intel_view()` -- Render the fused sessions intel graph page (ReadMenator engine).
+- `intel_bundle_view` (function) `lazyc2.py:7132` `def intel_bundle_view()` -- Render the circular/spherical bundle view of the intel graph.
+- `attack3d_view` (function) `lazyc2.py:7147` `def attack3d_view()` -- Render the C2-centred attack-surface graph (ReadMenator engine).
+- `attack_bundle_view` (function) `lazyc2.py:7166` `def attack_bundle_view()` -- Render the circular/spherical bundle view of the attack surface.
+- `api_intel_graph` (function) `lazyc2.py:7181` `def api_intel_graph()` -- Return the fused C2-centred intel graph with precomputed layout.
+- `broadcast_view` (function) `lazyc2.py:7237` `def broadcast_view()` -- Render the exploration timeline board for one loop task.
+- `api_loop_broadcast_stream` (function) `lazyc2.py:7251` `def api_loop_broadcast_stream()` -- SSE live tail of one loop task's activity stream.
+- `api_loop_broadcast` (function) `lazyc2.py:7309` `def api_loop_broadcast()` -- Return the paginated exploration timeline for one loop task.
+- `api_guard_audit` (function) `lazyc2.py:7352` `def api_guard_audit()` -- Return guard history with pending approvals kept independent.
+- `api_loop_graph` (function) `lazyc2.py:7398` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
+- `api_lazy_mentions` (function) `lazyc2.py:7429` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
+- `api_intel_bundle` (function) `lazyc2.py:7465` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
+- `api_attack_graph` (function) `lazyc2.py:7498` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
+- `api_attack_bundle` (function) `lazyc2.py:7550` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
+- `get_data` (function) `lazyc2.py:7580` `def get_data()`
+- `upload_zip_file` (function) `lazyc2.py:7589` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
+- `list_campaigns` (function) `lazyc2.py:7647` `def list_campaigns()`
+- `create_campaign` (function) `lazyc2.py:7660` `def create_campaign()`
+- `lazyphishingai` (function) `lazyc2.py:7738` `def lazyphishingai()`
+- `track_pixel` (function) `lazyc2.py:7754` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
+- `campaign_report` (function) `lazyc2.py:7776` `def campaign_report(campaign_id)`
+- `orchestrate_campaign` (function) `lazyc2.py:7858` `def orchestrate_campaign(campaign_id)`
+- `create_multivector_campaign` (function) `lazyc2.py:7905` `def create_multivector_campaign()`
+- `serve_landing_page` (function) `lazyc2.py:8057` `def serve_landing_page(campaign_id, short_url)`
+- `health_check` (function) `lazyc2.py:8082` `def health_check()` -- Basic health and readiness endpoint.
+- `metrics_exposition` (function) `lazyc2.py:8121` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
+- `api_dashboard` (function) `lazyc2.py:8128` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
+- `api_listeners` (function) `lazyc2.py:8198` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
+- `api_listeners_create` (function) `lazyc2.py:8205` `def api_listeners_create()` -- Create a new listener.
+- `api_listeners_start` (function) `lazyc2.py:8221` `def api_listeners_start(listener_id)` -- Start an existing listener.
+- `api_listeners_stop` (function) `lazyc2.py:8229` `def api_listeners_stop(listener_id)` -- Stop a running listener.
+- `api_listeners_delete` (function) `lazyc2.py:8237` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
 
 ## lazyc2/addon_creator.py
 Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `tests/test_placeholder_coverage.py`
-- `ParamSpec.to_dict` (method) `lazyc2/addon_creator.py:358` `def to_dict(self)` -- Return the param as a schema-ordered mapping.
-- `AddonValidationError.__init__` (method) `lazyc2/addon_creator.py:414` `def __init__(self, issues)`
-- `AddonValidator.__init__` (method) `lazyc2/addon_creator.py:427` `def __init__(self, draft, config)` -- Store the draft and configuration used by every check.
-- `AddonValidator.validate` (method) `lazyc2/addon_creator.py:441` `def validate(self)` -- Run every rule and return the collected issues.
-- `AddonValidator.is_valid` (method) `lazyc2/addon_creator.py:455` `def is_valid(self)` -- Return True when the draft passes every rule.
-- `AddonYamlRenderer.__init__` (method) `lazyc2/addon_creator.py:726` `def __init__(self, config)` -- Store the configuration used for defaults.
-- `AddonYamlRenderer.render` (method) `lazyc2/addon_creator.py:734` `def render(self, draft)` -- Return the YAML document for the draft.
-- `AddonYamlRenderer.to_document` (method) `lazyc2/addon_creator.py:752` `def to_document(self, draft)` -- Build the schema-ordered document mapping for the draft.
-- `AddonStore.__init__` (method) `lazyc2/addon_creator.py:817` `def __init__(self, config, base_dir)` -- Configure the store.
-- `AddonStore.resolve_path` (method) `lazyc2/addon_creator.py:832` `def resolve_path(self, name)` -- Return the safe absolute path for a newly created addon name.
-- `AddonStore.resolve_existing_path` (method) `lazyc2/addon_creator.py:847` `def resolve_existing_path(self, name)` -- Return the safe absolute path for an existing addon file.
-- `AddonStore.exists` (method) `lazyc2/addon_creator.py:891` `def exists(self, name)` -- Return True when an addon file already exists for the name.
-- `AddonStore.save` (method) `lazyc2/addon_creator.py:902` `def save(self, name, yaml_text)` -- Persist the YAML document atomically.
-- `AddonStore.load` (method) `lazyc2/addon_creator.py:956` `def load(self, name)` -- Return the parsed addon document for a name.
-- `AddonStore.delete` (method) `lazyc2/addon_creator.py:979` `def delete(self, name)` -- Delete the addon file for a name.
-- `AddonStore.list_all` (method) `lazyc2/addon_creator.py:995` `def list_all(self)` -- Return summary dicts for every parseable addon.
-- `parse_addon_form` (function) `lazyc2/addon_creator.py:1075` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
+- `ParamSpec.to_dict` (method) `lazyc2/addon_creator.py:363` `def to_dict(self)` -- Return the param as a schema-ordered mapping.
+- `AddonValidationError.__init__` (method) `lazyc2/addon_creator.py:419` `def __init__(self, issues)`
+- `AddonValidator.__init__` (method) `lazyc2/addon_creator.py:432` `def __init__(self, draft, config)` -- Store the draft and configuration used by every check.
+- `AddonValidator.validate` (method) `lazyc2/addon_creator.py:446` `def validate(self)` -- Run every rule and return the collected issues.
+- `AddonValidator.is_valid` (method) `lazyc2/addon_creator.py:460` `def is_valid(self)` -- Return True when the draft passes every rule.
+- `AddonYamlRenderer.__init__` (method) `lazyc2/addon_creator.py:731` `def __init__(self, config)` -- Store the configuration used for defaults.
+- `AddonYamlRenderer.render` (method) `lazyc2/addon_creator.py:739` `def render(self, draft)` -- Return the YAML document for the draft.
+- `AddonYamlRenderer.to_document` (method) `lazyc2/addon_creator.py:757` `def to_document(self, draft)` -- Build the schema-ordered document mapping for the draft.
+- `AddonStore.__init__` (method) `lazyc2/addon_creator.py:822` `def __init__(self, config, base_dir)` -- Configure the store.
+- `AddonStore.resolve_path` (method) `lazyc2/addon_creator.py:837` `def resolve_path(self, name)` -- Return the safe absolute path for a newly created addon name.
+- `AddonStore.resolve_existing_path` (method) `lazyc2/addon_creator.py:852` `def resolve_existing_path(self, name)` -- Return the safe absolute path for an existing addon file.
+- `AddonStore.exists` (method) `lazyc2/addon_creator.py:896` `def exists(self, name)` -- Return True when an addon file already exists for the name.
+- `AddonStore.save` (method) `lazyc2/addon_creator.py:907` `def save(self, name, yaml_text)` -- Persist the YAML document atomically.
+- `AddonStore.load` (method) `lazyc2/addon_creator.py:961` `def load(self, name)` -- Return the parsed addon document for a name.
+- `AddonStore.delete` (method) `lazyc2/addon_creator.py:984` `def delete(self, name)` -- Delete the addon file for a name.
+- `AddonStore.list_all` (method) `lazyc2/addon_creator.py:1000` `def list_all(self)` -- Return summary dicts for every parseable addon.
+- `parse_addon_form` (function) `lazyc2/addon_creator.py:1080` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
 
 ## lazyc2/app_factory.py
 Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`
@@ -374,23 +374,26 @@ Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_api_v1.py`
 - `webhooks_delete` (function) `lazyc2/blueprints/api_v1.py:228` `def webhooks_delete(index)` -- Remove a registered webhook by index.
 
 ## lazyc2/blueprints/auth.py
-Depends on: `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
 Imported by: `lazyc2/blueprints/__init__.py`, `lazygui/services/teamserver_backend.py`, `static/js/socket.io-4.0.0.min.js`, `static/js/socket.io-4.3.2.min.js`
-- `require_role` (function) `lazyc2/blueprints/auth.py:35` `def require_role(role)` -- Return a pass-through decorator when RBAC is unavailable.
-- `register` (function) `lazyc2/blueprints/auth.py:96` `def register()`
-- `login` (function) `lazyc2/blueprints/auth.py:155` `def login()`
-- `mfa_setup` (function) `lazyc2/blueprints/auth.py:200` `def mfa_setup()`
-- `mfa_qr` (function) `lazyc2/blueprints/auth.py:273` `def mfa_qr(username)`
-- `mfa_verify` (function) `lazyc2/blueprints/auth.py:295` `def mfa_verify()`
-- `profile` (function) `lazyc2/blueprints/auth.py:339` `def profile()`
-- `logout` (function) `lazyc2/blueprints/auth.py:364` `def logout()`
-- `admin_users` (function) `lazyc2/blueprints/auth.py:383` `def admin_users()`
-- `admin_set_role` (function) `lazyc2/blueprints/auth.py:400` `def admin_set_role(user_id)`
-- `admin_reset_mfa` (function) `lazyc2/blueprints/auth.py:422` `def admin_reset_mfa(user_id)`
-- `admin_delete_user` (function) `lazyc2/blueprints/auth.py:434` `def admin_delete_user(user_id)`
-- `admin_tenants` (function) `lazyc2/blueprints/auth.py:452` `def admin_tenants()`
-- `admin_create_tenant` (function) `lazyc2/blueprints/auth.py:472` `def admin_create_tenant()`
-- `admin_switch_tenant` (function) `lazyc2/blueprints/auth.py:491` `def admin_switch_tenant(tenant_id)`
+- `Role.valid_roles` (method) `lazyc2/blueprints/auth.py:51` `def valid_roles(cls)` -- Return valid role values.
+- `require_role` (function) `lazyc2/blueprints/auth.py:59` `def require_role(role)` -- Return a deny-by-default decorator when RBAC is unavailable.
+- `decorator` (function) `lazyc2/blueprints/auth.py:69` `def decorator(view)`
+- `wrapper` (function) `lazyc2/blueprints/auth.py:71` `def wrapper()`
+- `register` (function) `lazyc2/blueprints/auth.py:128` `def register()`
+- `login` (function) `lazyc2/blueprints/auth.py:187` `def login()`
+- `mfa_setup` (function) `lazyc2/blueprints/auth.py:232` `def mfa_setup()`
+- `mfa_qr` (function) `lazyc2/blueprints/auth.py:305` `def mfa_qr(username)`
+- `mfa_verify` (function) `lazyc2/blueprints/auth.py:327` `def mfa_verify()`
+- `profile` (function) `lazyc2/blueprints/auth.py:371` `def profile()`
+- `logout` (function) `lazyc2/blueprints/auth.py:396` `def logout()`
+- `admin_users` (function) `lazyc2/blueprints/auth.py:415` `def admin_users()`
+- `admin_set_role` (function) `lazyc2/blueprints/auth.py:432` `def admin_set_role(user_id)`
+- `admin_reset_mfa` (function) `lazyc2/blueprints/auth.py:454` `def admin_reset_mfa(user_id)`
+- `admin_delete_user` (function) `lazyc2/blueprints/auth.py:466` `def admin_delete_user(user_id)`
+- `admin_tenants` (function) `lazyc2/blueprints/auth.py:484` `def admin_tenants()`
+- `admin_create_tenant` (function) `lazyc2/blueprints/auth.py:504` `def admin_create_tenant()`
+- `admin_switch_tenant` (function) `lazyc2/blueprints/auth.py:523` `def admin_switch_tenant(tenant_id)`
 
 ## lazyc2/blueprints/beacon.py
 Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`

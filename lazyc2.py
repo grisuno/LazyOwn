@@ -2552,7 +2552,16 @@ def _handle_exception(error):
 
     Even when ``config.enable_c2_debug`` is on, the response body stays
     generic. Verbose details are still logged server-side for operators.
+    HTTP exceptions (429 rate limits, 404s, ...) keep their real status
+    codes instead of being masked as 500s.
     """
+    try:
+        from werkzeug.exceptions import HTTPException as _HTTPException
+
+        if isinstance(error, _HTTPException):
+            return error
+    except ImportError:
+        pass
     if config.enable_c2_debug:
         logger.exception("[c2] unhandled exception: %s", error)
     return jsonify({"error": "internal server error"}), 500
@@ -3194,6 +3203,7 @@ def index():
 
 @app.route("/command/<client_id>", methods=["GET"])
 @app.route(f"{route_malleable}<client_id>", methods=["GET"])
+@limiter.exempt
 def send_command(client_id):
     _was_new_for_kc = client_id not in connected_clients
     connected_clients.add(client_id)
@@ -3338,6 +3348,7 @@ def _build_privesc_command(platform: str) -> str | None:
 
 @app.route("/command/<client_id>", methods=["POST"])
 @app.route(f"{route_malleable}<client_id>", methods=["POST"])
+@limiter.exempt
 def receive_result(client_id):
     # HMAC validation — mandatory when c2_require_beacon_hmac is enabled
     import hashlib as _hashlib_mod
@@ -4715,7 +4726,7 @@ def view_yaml():
                 if not isinstance(tests, list):
                     continue
                 for test in tests[:_YAML_VIEW_TESTS_PER_FILE]:
-                    if len(yaml_data) >= _MAX_YAML_TESTS:
+                    if len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
                         break
                     if not isinstance(test, dict):
                         continue
@@ -4728,7 +4739,7 @@ def view_yaml():
                             "supported_platforms": test.get("supported_platforms"),
                         }
                     )
-            if seen_files > _MAX_YAML_FILES or len(yaml_data) >= _MAX_YAML_TESTS:
+            if seen_files > _YAML_VIEW_MAX_FILES or len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
                 break
     except OSError:
         return jsonify({"error": "Unable to read directory"}), 500
@@ -5268,7 +5279,26 @@ def tasks():
     if response:
         return response
     tasks = load_tasks()
-    return render_template("tasks.html", tasks=tasks)
+    groups, noise = _group_tasks_for_display(tasks)
+    return render_template("tasks.html", tasks=tasks, task_groups=groups, noise_count=noise)
+
+
+def _normalize_task_title(title: object) -> str:
+    """Collapse a task title to its dedup key (kept for template compat)."""
+    from modules.c2_surfaces import _normalize_task_title as _norm
+
+    return _norm(title)
+
+
+def _group_tasks_for_display(tasks: list) -> tuple[list, int]:
+    """Group tasks for the /tasks page (delegates to c2_surfaces)."""
+    try:
+        from modules.c2_surfaces import group_tasks_for_display as _group
+
+        return _group(tasks)
+    except Exception:
+        items = [t for t in (tasks or []) if isinstance(t, dict)]
+        return [{"task": t, "count": 1} for t in items], 0
 
 
 @app.route("/task/<int:task_id>/edit", methods=["GET", "POST"])

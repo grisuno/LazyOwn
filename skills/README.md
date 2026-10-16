@@ -22,6 +22,9 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 | `lazyown.md` | Claude Code skill / slash-command documentation |
 | `lazyown/` | Hermes Agent skill definition (SKILL.md with frontmatter) |
 | `lazyaddon-creator/` | Skill definition for one-shot `lazyaddons/*.yaml` authoring from a GitHub URL |
+| `apt-emulation/` | Skill definition for end-to-end APT emulation (`/apt-emulation`): research, resolve, plan, stage, emulate, shell, clean |
+| `atomic-exploit/` | Skill definition for YAML-administered exploits (`/atomic-exploit`): one file per exploit, no Python changes |
+| `c2-session/` | Skill definition for live malleable C2 sessions (`/c2-session`): server lifecycle, deploy, exec, loot, key discipline |
 | `loop-llm/` | Skill definition for one-shot loop-mode LLM legs (`/loop-llm`): pool contract, factory prefix, priorities |
 | `marketplace-contributor/` | Skill definition for one-shot marketplace contributions from a GitHub URL: YARA rules (`yara_rules/`), Nuclei wrappers (`lazyaddons/` + `tools/*.tool`), pwntomate tools |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |

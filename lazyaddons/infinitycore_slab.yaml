@@ -1,0 +1,17 @@
+name: infinitycore_slab
+description: CVE-2026-97941 slab PoC by V4bel. SLUB partial list corruption via
+  refill race. Panic-only DoS no LPE chain. Target Arch 7.2.4-arch1-2 4 vCPUs
+  NUMA. Stages to sessions/infinitycore_slab. Expect kernel panic on the lab
+  host. Lab only never on the operator. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore Slab
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_slab slab/CVE-2026-97941-arch.c
+    && chmod +x ../../../sessions/infinitycore_slab && echo "staged at sessions/infinitycore_slab"
+category: 06. Privilege Escalation

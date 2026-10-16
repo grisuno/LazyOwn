@@ -1,10 +1,10 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-  "generated_at": "2026-10-16T00:25:18Z",
+  "generated_at": "2026-10-16T19:46:34Z",
   "project_root": ".",
   "project_name": "LazyOwn",
-  "git_commit": "146a52570ef792d1ec01ec4d3709b0c159990e47",
+  "git_commit": "bb49626e7e46fc85a736c1514cab43bd798f7b33",
   "git_branch": "main",
   "source_fingerprint": "f82a34ec9ccdcf1dcf0b1482ae623f6b6b2af81f3060c43a00e82cd0a3b0c82f",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
@@ -248,7 +248,7 @@
     {
       "path": "GOTCHAS.md",
       "lines": 85,
-      "approx_tokens": 1892
+      "approx_tokens": 1887
     },
     {
       "path": "INDEX.md",

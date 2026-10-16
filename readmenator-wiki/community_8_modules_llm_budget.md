@@ -108,9 +108,6 @@ This community groups 26 file(s) rooted at `modules` with dominant language py (
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`

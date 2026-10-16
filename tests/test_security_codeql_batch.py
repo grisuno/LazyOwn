@@ -199,7 +199,9 @@ class TestReverseShellFallback:
         assert len(value) >= 32
         assert value not in caplog.text
         secret_file = tmp_path / ".reverse_shell_password"
-        assert secret_file.read_text().strip() == value
+        stored = secret_file.read_text().strip()
+        assert stored, "sealed secret file must not be empty"
+        assert stored != value, "secret file must be sealed, not plaintext"
         assert stat.S_IMODE(secret_file.stat().st_mode) == 0o600
         assert lazyc2._resolve_reverse_shell_password() == value
 

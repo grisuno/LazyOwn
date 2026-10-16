@@ -1,8 +1,27 @@
-# Symbols (page 4 of 40)
+# Symbols (page 4 of 41)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_extract_flag` | function | `cli/commands/supply_chain.py:475` | `def _extract_flag(args, flag)` |
+| `_parse_cargo_toml` | function | `cli/commands/supply_chain.py:348` | `def _parse_cargo_toml(filepath)` |
+| `_parse_gemfile` | function | `cli/commands/supply_chain.py:328` | `def _parse_gemfile(filepath)` |
+| `_parse_go_mod` | function | `cli/commands/supply_chain.py:377` | `def _parse_go_mod(filepath)` |
+| `_parse_package_json` | function | `cli/commands/supply_chain.py:307` | `def _parse_package_json(filepath)` |
+| `_parse_pom_xml` | function | `cli/commands/supply_chain.py:397` | `def _parse_pom_xml(filepath)` |
+| `_parse_requirements` | function | `cli/commands/supply_chain.py:282` | `def _parse_requirements(filepath)` |
+| `_pypi_exists` | function | `cli/commands/supply_chain.py:425` | `def _pypi_exists(package_name)` |
+| `do_depconfuse` | method | `cli/commands/supply_chain.py:95` | `def do_depconfuse(self, line)` |
+| `do_depscan` | method | `cli/commands/supply_chain.py:216` | `def do_depscan(self, line)` |
+| `do_package_squat` | method | `cli/commands/supply_chain.py:140` | `def do_package_squat(self, line)` |
+| `is_internal_name` | function | `cli/commands/supply_chain.py:450` | `def is_internal_name(name)` |
+| `SurfaceCommandSet` | class | `cli/commands/surface.py:36` | `class SurfaceCommandSet(LazyOwnCommandSet)` |
+| `do_estorides_intel` | method | `cli/commands/surface.py:86` | `def do_estorides_intel(self, line)` |
+| `do_scandiscovery` | method | `cli/commands/surface.py:43` | `def do_scandiscovery(self, line)` |
+| `UxCommandSet` | class | `cli/commands/ux.py:39` | `class UxCommandSet(LazyOwnCommandSet)` |
+| `_candidate_commands` | method | `cli/commands/ux.py:281` | `def _candidate_commands(self)` |
+| `_find_cheat_section` | method | `cli/commands/ux.py:298` | `def _find_cheat_section(query)` |
+| `do_cheat` | method | `cli/commands/ux.py:140` | `def do_cheat(self, line)` |
 | `do_config_diff` | method | `cli/commands/ux.py:115` | `def do_config_diff(self, line)` |
 | `do_hud` | method | `cli/commands/ux.py:46` | `def do_hud(self, line)` |
 | `do_suggest` | method | `cli/commands/ux.py:261` | `def do_suggest(self, line)` |
@@ -123,38 +142,38 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `render_report` | function | `cli/doctor.py:406` | `def render_report(report, console)` |
 | `run` | function | `cli/doctor.py:451` | `def run(root, console)` |
 | `warnings` | method | `cli/doctor.py:124` | `def warnings(self)` |
-| `EngagementState` | class | `cli/engagement_hooks.py:242` | `class EngagementState` |
-| `_award_elo` | function | `cli/engagement_hooks.py:734` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
-| `_check_badges` | function | `cli/engagement_hooks.py:1009` | `def _check_badges(cmd, first_time)` |
-| `_check_karma_up` | function | `cli/engagement_hooks.py:864` | `def _check_karma_up(state)` |
-| `_commands_in_phase` | function | `cli/engagement_hooks.py:409` | `def _commands_in_phase(phase, index)` |
-| `_fire_vri_reward` | function | `cli/engagement_hooks.py:672` | `def _fire_vri_reward(state, ctx)` |
-| `_is_recordable_command` | function | `cli/engagement_hooks.py:306` | `def _is_recordable_command(cmd)` |
-| `_load_index` | function | `cli/engagement_hooks.py:290` | `def _load_index()` |
-| `_load_state` | function | `cli/engagement_hooks.py:260` | `def _load_state()` |
-| `_next_threshold` | function | `cli/engagement_hooks.py:394` | `def _next_threshold(current)` |
-| `_normalize_command` | function | `cli/engagement_hooks.py:301` | `def _normalize_command(cmd)` |
-| `_persist_notification` | function | `cli/engagement_hooks.py:828` | `def _persist_notification(html)` |
-| `_phase_for_cmd` | function | `cli/engagement_hooks.py:400` | `def _phase_for_cmd(cmd, index)` |
-| `_print_badge` | function | `cli/engagement_hooks.py:1056` | `def _print_badge(name, description)` |
-| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:536` | `def _render_arsenal_tip(ctx)` |
-| `_render_exploration` | function | `cli/engagement_hooks.py:488` | `def _render_exploration(ctx)` |
-| `_render_hidden_feature` | function | `cli/engagement_hooks.py:522` | `def _render_hidden_feature(ctx)` |
-| `_render_methodology_note` | function | `cli/engagement_hooks.py:630` | `def _render_methodology_note(ctx)` |
-| `_render_methodology_objective` | function | `cli/engagement_hooks.py:583` | `def _render_methodology_objective(ctx)` |
-| `_render_methodology_task` | function | `cli/engagement_hooks.py:544` | `def _render_methodology_task(ctx)` |
-| `_render_phase_badge` | function | `cli/engagement_hooks.py:506` | `def _render_phase_badge(ctx)` |
-| `_render_streak` | function | `cli/engagement_hooks.py:459` | `def _render_streak(ctx)` |
-| `_run_curiosity` | function | `cli/engagement_hooks.py:431` | `def _run_curiosity(cmd, state, index)` |
-| `_sanitize_seen` | function | `cli/engagement_hooks.py:332` | `def _sanitize_seen(names, known)` |
-| `_save_state` | function | `cli/engagement_hooks.py:280` | `def _save_state(state)` |
-| `_summary_for_cmd` | function | `cli/engagement_hooks.py:414` | `def _summary_for_cmd(cmd, index)` |
-| `_sync_user_elo` | function | `cli/engagement_hooks.py:760` | `def _sync_user_elo(delta)` |
-| `get_karma_name` | function | `cli/engagement_hooks.py:716` | `def get_karma_name(elo)` |
-| `get_state_snapshot` | function | `cli/engagement_hooks.py:978` | `def get_state_snapshot()` |
-| `heal_commands_seen` | function | `cli/engagement_hooks.py:365` | `def heal_commands_seen(known)` |
-| `render_engagement_hook` | function | `cli/engagement_hooks.py:898` | `def render_engagement_hook(cmd, phase, enabled)` |
-| `reset_session` | function | `cli/engagement_hooks.py:1066` | `def reset_session()` |
+| `EngagementState` | class | `cli/engagement_hooks.py:243` | `class EngagementState` |
+| `_award_elo` | function | `cli/engagement_hooks.py:735` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
+| `_check_badges` | function | `cli/engagement_hooks.py:1010` | `def _check_badges(cmd, first_time)` |
+| `_check_karma_up` | function | `cli/engagement_hooks.py:865` | `def _check_karma_up(state)` |
+| `_commands_in_phase` | function | `cli/engagement_hooks.py:410` | `def _commands_in_phase(phase, index)` |
+| `_fire_vri_reward` | function | `cli/engagement_hooks.py:673` | `def _fire_vri_reward(state, ctx)` |
+| `_is_recordable_command` | function | `cli/engagement_hooks.py:307` | `def _is_recordable_command(cmd)` |
+| `_load_index` | function | `cli/engagement_hooks.py:291` | `def _load_index()` |
+| `_load_state` | function | `cli/engagement_hooks.py:261` | `def _load_state()` |
+| `_next_threshold` | function | `cli/engagement_hooks.py:395` | `def _next_threshold(current)` |
+| `_normalize_command` | function | `cli/engagement_hooks.py:302` | `def _normalize_command(cmd)` |
+| `_persist_notification` | function | `cli/engagement_hooks.py:829` | `def _persist_notification(html)` |
+| `_phase_for_cmd` | function | `cli/engagement_hooks.py:401` | `def _phase_for_cmd(cmd, index)` |
+| `_print_badge` | function | `cli/engagement_hooks.py:1057` | `def _print_badge(name, description)` |
+| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:537` | `def _render_arsenal_tip(ctx)` |
+| `_render_exploration` | function | `cli/engagement_hooks.py:489` | `def _render_exploration(ctx)` |
+| `_render_hidden_feature` | function | `cli/engagement_hooks.py:523` | `def _render_hidden_feature(ctx)` |
+| `_render_methodology_note` | function | `cli/engagement_hooks.py:631` | `def _render_methodology_note(ctx)` |
+| `_render_methodology_objective` | function | `cli/engagement_hooks.py:584` | `def _render_methodology_objective(ctx)` |
+| `_render_methodology_task` | function | `cli/engagement_hooks.py:545` | `def _render_methodology_task(ctx)` |
+| `_render_phase_badge` | function | `cli/engagement_hooks.py:507` | `def _render_phase_badge(ctx)` |
+| `_render_streak` | function | `cli/engagement_hooks.py:460` | `def _render_streak(ctx)` |
+| `_run_curiosity` | function | `cli/engagement_hooks.py:432` | `def _run_curiosity(cmd, state, index)` |
+| `_sanitize_seen` | function | `cli/engagement_hooks.py:333` | `def _sanitize_seen(names, known)` |
+| `_save_state` | function | `cli/engagement_hooks.py:281` | `def _save_state(state)` |
+| `_summary_for_cmd` | function | `cli/engagement_hooks.py:415` | `def _summary_for_cmd(cmd, index)` |
+| `_sync_user_elo` | function | `cli/engagement_hooks.py:761` | `def _sync_user_elo(delta)` |
+| `get_karma_name` | function | `cli/engagement_hooks.py:717` | `def get_karma_name(elo)` |
+| `get_state_snapshot` | function | `cli/engagement_hooks.py:979` | `def get_state_snapshot()` |
+| `heal_commands_seen` | function | `cli/engagement_hooks.py:366` | `def heal_commands_seen(known)` |
+| `render_engagement_hook` | function | `cli/engagement_hooks.py:899` | `def render_engagement_hook(cmd, phase, enabled)` |
+| `reset_session` | function | `cli/engagement_hooks.py:1067` | `def reset_session()` |
 | `ExploitHit` | class | `cli/exploit_advisor.py:144` | `class ExploitHit` |
 | `ServiceInfo` | class | `cli/exploit_advisor.py:111` | `class ServiceInfo` |
 | `ServiceResult` | class | `cli/exploit_advisor.py:153` | `class ServiceResult` |
@@ -403,44 +422,54 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:118` | `class LazyOrchestratorApp` |
 | `__init__` | method | `cli/lazy_orchestrator.py:86` | `def __init__(self, title, fields)` |
 | `__init__` | method | `cli/lazy_orchestrator.py:142` | `def __init__(self, payload_path, task_id)` |
-| `_active_tab` | method | `cli/lazy_orchestrator.py:508` | `def _active_tab(self)` |
-| `_coerce` | function | `cli/lazy_orchestrator.py:634` | `def _coerce(raw)` |
-| `_done` | function | `cli/lazy_orchestrator.py:520` | `def _done(values)` |
-| `_done` | function | `cli/lazy_orchestrator.py:588` | `def _done(values)` |
-| `_done_rule` | function | `cli/lazy_orchestrator.py:537` | `def _done_rule(values)` |
-| `_done_verb` | function | `cli/lazy_orchestrator.py:554` | `def _done_verb(values)` |
-| `_load_payload` | method | `cli/lazy_orchestrator.py:268` | `def _load_payload(self)` |
-| `_load_payload_into_form` | method | `cli/lazy_orchestrator.py:278` | `def _load_payload_into_form(self)` |
-| `_poll_now` | method | `cli/lazy_orchestrator.py:416` | `def _poll_now(self)` |
-| `_refresh_guard` | method | `cli/lazy_orchestrator.py:376` | `def _refresh_guard(self)` |
-| `_refresh_models` | method | `cli/lazy_orchestrator.py:355` | `def _refresh_models(self)` |
-| `_refresh_stages` | method | `cli/lazy_orchestrator.py:228` | `def _refresh_stages(self)` |
-| `_refresh_verbs` | method | `cli/lazy_orchestrator.py:244` | `def _refresh_verbs(self)` |
-| `_resolve_task` | method | `cli/lazy_orchestrator.py:398` | `def _resolve_task(self)` |
-| `_selected_row` | method | `cli/lazy_orchestrator.py:477` | `def _selected_row(self, table_id)` |
-| `action_add_item` | method | `cli/lazy_orchestrator.py:515` | `def action_add_item(self)` |
-| `action_delete_item` | method | `cli/lazy_orchestrator.py:609` | `def action_delete_item(self)` |
-| `action_edit_item` | method | `cli/lazy_orchestrator.py:575` | `def action_edit_item(self)` |
-| `action_refresh` | method | `cli/lazy_orchestrator.py:469` | `def action_refresh(self)` |
-| `action_save_config` | method | `cli/lazy_orchestrator.py:498` | `def action_save_config(self)` |
-| `action_toggle_item` | method | `cli/lazy_orchestrator.py:486` | `def action_toggle_item(self)` |
-| `add_auto_verb` | method | `cli/lazy_orchestrator.py:205` | `def add_auto_verb(self, name, keywords, needs_target, description)` |
-| `add_guard_rule` | method | `cli/lazy_orchestrator.py:339` | `def add_guard_rule(self, pattern, action, reason)` |
-| `add_model_member` | method | `cli/lazy_orchestrator.py:311` | `def add_model_member(self, name, model, priority)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:647` | `def _active_tab(self)` |
+| `_chains_dir` | method | `cli/lazy_orchestrator.py:234` | `def _chains_dir(self)` |
+| `_coerce` | function | `cli/lazy_orchestrator.py:793` | `def _coerce(raw)` |
+| `_done` | function | `cli/lazy_orchestrator.py:659` | `def _done(values)` |
+| `_done` | function | `cli/lazy_orchestrator.py:743` | `def _done(values)` |
+| `_done_chain` | function | `cli/lazy_orchestrator.py:716` | `def _done_chain(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:676` | `def _done_rule(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:693` | `def _done_verb(values)` |
+| `_load_payload` | method | `cli/lazy_orchestrator.py:402` | `def _load_payload(self)` |
+| `_load_payload_into_form` | method | `cli/lazy_orchestrator.py:412` | `def _load_payload_into_form(self)` |
+| `_poll_now` | method | `cli/lazy_orchestrator.py:550` | `def _poll_now(self)` |
+| `_refresh_chains` | method | `cli/lazy_orchestrator.py:319` | `def _refresh_chains(self)` |
+| `_refresh_guard` | method | `cli/lazy_orchestrator.py:510` | `def _refresh_guard(self)` |
+| `_refresh_models` | method | `cli/lazy_orchestrator.py:489` | `def _refresh_models(self)` |
+| `_refresh_stages` | method | `cli/lazy_orchestrator.py:362` | `def _refresh_stages(self)` |
+| `_refresh_verbs` | method | `cli/lazy_orchestrator.py:378` | `def _refresh_verbs(self)` |
+| `_resolve_task` | method | `cli/lazy_orchestrator.py:532` | `def _resolve_task(self)` |
+| `_selected_row` | method | `cli/lazy_orchestrator.py:612` | `def _selected_row(self, table_id)` |
+| `_update_chains_detail` | method | `cli/lazy_orchestrator.py:342` | `def _update_chains_detail(self, name)` |
+| `action_add_item` | method | `cli/lazy_orchestrator.py:654` | `def action_add_item(self)` |
+| `action_delete_item` | method | `cli/lazy_orchestrator.py:764` | `def action_delete_item(self)` |
+| `action_edit_item` | method | `cli/lazy_orchestrator.py:730` | `def action_edit_item(self)` |
+| `action_refresh` | method | `cli/lazy_orchestrator.py:603` | `def action_refresh(self)` |
+| `action_save_config` | method | `cli/lazy_orchestrator.py:637` | `def action_save_config(self)` |
+| `action_toggle_item` | method | `cli/lazy_orchestrator.py:621` | `def action_toggle_item(self)` |
+| `add_auto_verb` | method | `cli/lazy_orchestrator.py:211` | `def add_auto_verb(self, name, keywords, needs_target, description)` |
+| `add_guard_rule` | method | `cli/lazy_orchestrator.py:473` | `def add_guard_rule(self, pattern, action, reason)` |
+| `add_model_member` | method | `cli/lazy_orchestrator.py:445` | `def add_model_member(self, name, model, priority)` |
+| `chain_rows` | method | `cli/lazy_orchestrator.py:242` | `def chain_rows(self)` |
+| `chain_steps_preview` | method | `cli/lazy_orchestrator.py:251` | `def chain_steps_preview(self, name, limit)` |
 | `compose` | method | `cli/lazy_orchestrator.py:92` | `def compose(self)` |
-| `compose` | method | `cli/lazy_orchestrator.py:152` | `def compose(self)` |
+| `compose` | method | `cli/lazy_orchestrator.py:153` | `def compose(self)` |
+| `generate_chain` | method | `cli/lazy_orchestrator.py:279` | `def generate_chain(self, playbook_key)` |
 | `on_button_pressed` | method | `cli/lazy_orchestrator.py:101` | `def on_button_pressed(self, event)` |
-| `on_button_pressed` | method | `cli/lazy_orchestrator.py:451` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:585` | `def on_button_pressed(self, event)` |
+| `on_data_table_row_highlighted` | method | `cli/lazy_orchestrator.py:349` | `def on_data_table_row_highlighted(self, event)` |
 | `on_input_submitted` | method | `cli/lazy_orchestrator.py:110` | `def on_input_submitted(self, event)` |
-| `on_mount` | method | `cli/lazy_orchestrator.py:177` | `def on_mount(self)` |
-| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:220` | `def remove_auto_verb(self, name)` |
-| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:347` | `def remove_guard_rule(self, pattern)` |
-| `remove_model_member` | method | `cli/lazy_orchestrator.py:319` | `def remove_model_member(self, name)` |
-| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:651` | `def run_orchestrator_console(task_id)` |
-| `save_config` | method | `cli/lazy_orchestrator.py:289` | `def save_config(self, values)` |
-| `set_model_priority` | method | `cli/lazy_orchestrator.py:327` | `def set_model_priority(self, name, priority)` |
-| `toggle_stage` | method | `cli/lazy_orchestrator.py:187` | `def toggle_stage(self, name)` |
-| `toggle_verb` | method | `cli/lazy_orchestrator.py:196` | `def toggle_verb(self, name)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:182` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:226` | `def remove_auto_verb(self, name)` |
+| `remove_chain` | method | `cli/lazy_orchestrator.py:293` | `def remove_chain(self, name)` |
+| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:481` | `def remove_guard_rule(self, pattern)` |
+| `remove_model_member` | method | `cli/lazy_orchestrator.py:453` | `def remove_model_member(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:810` | `def run_orchestrator_console(task_id)` |
+| `save_config` | method | `cli/lazy_orchestrator.py:423` | `def save_config(self, values)` |
+| `set_model_priority` | method | `cli/lazy_orchestrator.py:461` | `def set_model_priority(self, name, priority)` |
+| `toggle_chain` | method | `cli/lazy_orchestrator.py:268` | `def toggle_chain(self, name)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:193` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:202` | `def toggle_verb(self, name)` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
 | `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_draw_header` | method | `cli/marketplace_config.py:618` | `def _draw_header(self, stdscr, top, left, width)` |
 | `_draw_preview` | method | `cli/marketplace_config.py:692` | `def _draw_preview(self, stdscr, top, left, width, addon)` |
 | `_draw_row` | method | `cli/marketplace_config.py:669` | `def _draw_row(self, stdscr, row_y, left, width, addon, selected)` |
-| `_draw_summary` | method | `cli/marketplace_config.py:720` | `def _draw_summary(self, stdscr, row_y, left, width, rows)` |
-| `_draw_tabs` | method | `cli/marketplace_config.py:641` | `def _draw_tabs(self, stdscr, row_y, left, width)` |
-| `_edit_addon` | method | `cli/marketplace_config.py:470` | `def _edit_addon(self, addon)` |
-| `_init_colors` | method | `cli/marketplace_config.py:537` | `def _init_colors(self)` |
-| `_loop` | method | `cli/marketplace_config.py:414` | `def _loop(self, stdscr)` |
-| `_nuclei_dir` | method | `cli/marketplace_config.py:223` | `def _nuclei_dir(self)` |
-| `_parse_nuclei_info` | method | `cli/marketplace_config.py:319` | `def _parse_nuclei_info(path)` |
-| `_parse_yara_meta` | method | `cli/marketplace_config.py:307` | `def _parse_yara_meta(path)` |
-| `_render` | method | `cli/marketplace_config.py:564` | `def _render(self, stdscr, rows, cursor, offset)` |
-| `_rows_for_tab` | method | `cli/marketplace_config.py:411` | `def _rows_for_tab(self, tab)` |
-| `_scan_nuclei` | method | `cli/marketplace_config.py:278` | `def _scan_nuclei(self)` |
-| `_scan_yara` | method | `cli/marketplace_config.py:259` | `def _scan_yara(self)` |
-| `_tty_available` | method | `cli/marketplace_config.py:408` | `def _tty_available()` |
-| `configure_marketplace_interactive` | function | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
-| `disable_all` | method | `cli/marketplace_config.py:372` | `def disable_all(self, addons)` |
-| `enable_all` | method | `cli/marketplace_config.py:367` | `def enable_all(self, addons)` |
-| `from_yaml` | method | `cli/marketplace_config.py:144` | `def from_yaml(cls, path)` |
-| `is_enabled` | method | `cli/marketplace_config.py:354` | `def is_enabled(self, kind, name)` |
-| `marketplace_summary` | function | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
-| `rescan` | method | `cli/marketplace_config.py:334` | `def rescan(self, tab)` |
-| `run` | method | `cli/marketplace_config.py:395` | `def run(self, start_tab)` |
-| `save_yaml` | method | `cli/marketplace_config.py:185` | `def save_yaml(self, data)` |
-| `scan` | method | `cli/marketplace_config.py:235` | `def scan(self, tab)` |
-| `set_enabled` | method | `cli/marketplace_config.py:168` | `def set_enabled(self, enabled)` |
-| `tab_count` | method | `cli/marketplace_config.py:344` | `def tab_count(self, tab)` |
-| `tab_label` | method | `cli/marketplace_config.py:341` | `def tab_label(self, tab)` |
-| `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
-| `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
-| `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

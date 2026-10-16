@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 16)
+# Subsystem: tests (page 2 of 17)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_asset_gate.py
@@ -23,6 +23,89 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_digest_overview_expandable` (function, line 174) `def test_digest_overview_expandable(gate_env)`
   - `test_hot_facts_never_truncated` (function, line 194) `def test_hot_facts_never_truncated(gate_env)`
 - Depends on: `cli/commands/lazyops.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`
+
+## tests/test_atomic_exploit_bridge.py
+- Doc: Atomic exploit catalogue: one YAML per exploit, engine administered by files.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 27) `def _write(path, data)`
+  - `_valid_doc` (function, line 32) `def _valid_doc()`
+  - `test_validate_accepts_good_document` (function, line 54) `def test_validate_accepts_good_document()`
+  - `test_validate_rejects_bad_documents` (function, line 59) `def test_validate_rejects_bad_documents()`
+  - `test_load_all_skips_invalid_and_disabled` (function, line 81) `def test_load_all_skips_invalid_and_disabled(tmp_path)`
+  - `test_match_is_exact_or_all` (function, line 90) `def test_match_is_exact_or_all()`
+  - `test_build_commands_tokens` (function, line 101) `def test_build_commands_tokens(tmp_path)`
+  - `test_rank_orders_severity_then_confidence` (function, line 110) `def test_rank_orders_severity_then_confidence(tmp_path)`
+  - `test_run_spec_detects_shell_without_network` (function, line 121) `def test_run_spec_detects_shell_without_network()`
+  - `test_auto_sweep_from_scan_xml` (function, line 140) `def test_auto_sweep_from_scan_xml(tmp_path, monkeypatch)`
+  - `test_engine_prefers_yaml_over_hardcode` (function, line 166) `def test_engine_prefers_yaml_over_hardcode(tmp_path, monkeypatch)`
+  - `test_addon_schema` (function, line 182) `def test_addon_schema()`
+  - `test_addon_paths_match_cwd` (function, line 192) `def test_addon_paths_match_cwd()`
+  - `_fake_shell_peer` (function, line 211) `def _fake_shell_peer(sock, reply)`
+  - `test_session_multiplexes_commands` (function, line 239) `def test_session_multiplexes_commands()`
+  - `_demo_spec` (function, line 258) `def _demo_spec()`
+  - `_patch_connect` (function, line 276) `def _patch_connect(monkeypatch, failures_before_success)`
+  - `test_open_shell_retries_racy_trigger` (function, line 297) `def test_open_shell_retries_racy_trigger(monkeypatch)`
+  - `test_open_shell_gives_up` (function, line 322) `def test_open_shell_gives_up(monkeypatch)`
+  - `test_ensure_session_adopts_orphan` (function, line 334) `def test_ensure_session_adopts_orphan(monkeypatch)`
+  - `_FakeCleanupSession` (class, line 356) `class _FakeCleanupSession`
+  - `test_cleanup_soft_removes_but_keeps_loot` (function, line 367) `def test_cleanup_soft_removes_but_keeps_loot(tmp_path, monkeypatch)`
+  - `test_cleanup_no_session_reports_honestly` (function, line 394) `def test_cleanup_no_session_reports_honestly(monkeypatch)`
+  - `test_destroy_gym_validates_and_handles_missing_docker` (function, line 403) `def test_destroy_gym_validates_and_handles_missing_docker(monkeypatch)`
+  - `test_interactive_shell_verify_only_without_tty` (function, line 427) `def test_interactive_shell_verify_only_without_tty(monkeypatch, capsys)`
+  - `test_interactive_shell_repl_until_exit` (function, line 437) `def test_interactive_shell_repl_until_exit(monkeypatch, capsys)`
+  - `test_interactive_shell_no_spec_reports_error` (function, line 465) `def test_interactive_shell_no_spec_reports_error(monkeypatch)`
+  - `_serve` (function, line 216) `def _serve()`
+  - `_fake` (function, line 284) `def _fake(target_port, timeout)`
+  - `_flaky_trigger` (function, line 306) `def _flaky_trigger()`
+  - `_counting_trigger` (function, line 342) `def _counting_trigger()`
+  - `__init__` (method, line 359) `def __init__(self)`
+  - `run` (method, line 362) `def run(self, command, timeout)`
+  - `_missing` (function, line 412) `def _missing()`
+  - `_Done` (class, line 418) `class _Done`
+  - `_fake_input` (function, line 450) `def _fake_input(prompt)`
+- Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`
+
+## tests/test_atomic_loop.py
+- Doc: Atomic emulation inside the autonomous loop (registry + playbooks).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fixture_atomics` (function, line 20) `def _fixture_atomics(root)`
+  - `test_steps_for_explicit_atomic_intent` (function, line 44) `def test_steps_for_explicit_atomic_intent()`
+  - `test_steps_for_keyword_atomic_intent` (function, line 54) `def test_steps_for_keyword_atomic_intent()`
+  - `test_atomic_lines_are_always_non_interactive` (function, line 62) `def test_atomic_lines_are_always_non_interactive()`
+  - `test_planner_discovers_atomic_verbs` (function, line 73) `def test_planner_discovers_atomic_verbs()`
+  - `test_steps_for_explicit_playbook_intent` (function, line 79) `def test_steps_for_explicit_playbook_intent()`
+  - `test_steps_for_keyword_playbook_intent` (function, line 85) `def test_steps_for_keyword_playbook_intent()`
+  - `test_rocke_playbook_resolves_linux_chain` (function, line 94) `def test_rocke_playbook_resolves_linux_chain()`
+  - `test_planner_discovers_playbook_verb` (function, line 106) `def test_planner_discovers_playbook_verb()`
+  - `test_loop_reaches_apt_chain_end_to_end` (function, line 112) `def test_loop_reaches_apt_chain_end_to_end()`
+  - `test_apt_chain_binds_playbook_and_target` (function, line 135) `def test_apt_chain_binds_playbook_and_target()`
+  - `test_apt_chain_keyword_never_invents_playbook` (function, line 145) `def test_apt_chain_keyword_never_invents_playbook()`
+  - `test_apt_chain_line_routes_via_shell` (function, line 156) `def test_apt_chain_line_routes_via_shell()`
+  - `test_planner_discovers_apt_chain_verb` (function, line 168) `def test_planner_discovers_apt_chain_verb()`
+  - `test_validate_resolves_technique_ids` (function, line 174) `def test_validate_resolves_technique_ids(tmp_path, monkeypatch)`
+  - `test_atomic_shell_never_interactive_from_loop` (function, line 202) `def test_atomic_shell_never_interactive_from_loop()`
+  - `test_atomic_clean_routes_and_never_autofires` (function, line 212) `def test_atomic_clean_routes_and_never_autofires()`
+- Depends on: `modules/apt_playbooks.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`
+
+## tests/test_atomic_resolver.py
+- Doc: MITRE ATT&CK <-> Atomic Red Team translator contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_fixture_atomics` (function, line 30) `def _write_fixture_atomics(root)`
+  - `test_normalize_mitre_accepts_variants` (function, line 64) `def test_normalize_mitre_accepts_variants()`
+  - `test_normalize_mitre_rejects_injection` (function, line 71) `def test_normalize_mitre_rejects_injection()`
+  - `test_guid_validation_roundtrip` (function, line 79) `def test_guid_validation_roundtrip()`
+  - `test_platform_allowlist` (function, line 87) `def test_platform_allowlist()`
+  - `test_resolver_lists_and_filters` (function, line 94) `def test_resolver_lists_and_filters(tmp_path)`
+  - `test_resolver_prefix_and_unknown` (function, line 105) `def test_resolver_prefix_and_unknown(tmp_path)`
+  - `test_chain_skips_invalid` (function, line 114) `def test_chain_skips_invalid(tmp_path)`
+  - `test_variables_and_render` (function, line 121) `def test_variables_and_render()`
+- Depends on: `modules/atomic_resolver.py`
 
 ## tests/test_attack_surface3d.py
 - Doc: Attack-surface 3D module: surface+intel fusion + embedded pages.
@@ -274,6 +357,18 @@ Previous: [KB_tests.md](KB_tests.md)
   - `suggest` (method, line 346) `def suggest(self, context)`
 - Depends on: `cli/autosuggest.py`
 
+## tests/test_backdoor_random.py
+- Doc: Backdoor credentials: random like C2 operators, persisted via assign.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_username_shape_and_uniqueness` (function, line 17) `def test_username_shape_and_uniqueness()`
+  - `test_password_assign_and_shell_safe` (function, line 25) `def test_password_assign_and_shell_safe()`
+  - `test_resolve_keeps_configured` (function, line 33) `def test_resolve_keeps_configured()`
+  - `test_resolve_generates_on_placeholders` (function, line 39) `def test_resolve_generates_on_placeholders()`
+  - `test_ensure_persists_once_then_reuses` (function, line 50) `def test_ensure_persists_once_then_reuses(monkeypatch)`
+- Depends on: `cli/commands/persist_migrated.py`
+
 ## tests/test_banner_config.py
 - Doc: Tests for cli/banner_config.py — registry, settings, renderer, wizard.
 - Layer: testing
@@ -377,72 +472,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
   - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
 - Depends on: `modules/beacon_history.py`
-
-## tests/test_blacksandbeacon_addon.py
-- Doc: tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load` (function, line 26) `def _load(path)`
-  - `beacon` (function, line 32) `def beacon()`
-  - `bof` (function, line 37) `def bof()`
-  - `TestBeaconYamlExists` (class, line 41) `class TestBeaconYamlExists`
-  - `TestBeaconRequiredFields` (class, line 55) `class TestBeaconRequiredFields`
-  - `TestBeaconToolSection` (class, line 67) `class TestBeaconToolSection`
-  - `TestBeaconPathSafety` (class, line 97) `class TestBeaconPathSafety`
-  - `TestBeaconCategory` (class, line 111) `class TestBeaconCategory`
-  - `TestBeaconEnabled` (class, line 119) `class TestBeaconEnabled`
-  - `TestBeaconParams` (class, line 127) `class TestBeaconParams`
-  - `TestBeaconCommandTemplates` (class, line 157) `class TestBeaconCommandTemplates`
-  - `TestBeaconDescriptionQuality` (class, line 192) `class TestBeaconDescriptionQuality`
-  - `TestBeaconNoHardcodedSecrets` (class, line 217) `class TestBeaconNoHardcodedSecrets`
-  - `test_beacon_yaml_present` (method, line 42) `def test_beacon_yaml_present(self)`
-  - `test_bof_yaml_present` (method, line 45) `def test_bof_yaml_present(self)`
-  - `test_beacon_yaml_parses` (method, line 48) `def test_beacon_yaml_parses(self, beacon)`
-  - `test_bof_yaml_parses` (method, line 51) `def test_bof_yaml_parses(self, bof)`
-  - `test_beacon_has_field` (method, line 59) `def test_beacon_has_field(self, beacon, field)`
-  - `test_bof_has_field` (method, line 63) `def test_bof_has_field(self, bof, field)`
-  - `test_beacon_tool_has_key` (method, line 71) `def test_beacon_tool_has_key(self, beacon, key)`
-  - `test_bof_tool_has_key` (method, line 75) `def test_bof_tool_has_key(self, bof, key)`
-  - `test_beacon_repo_url` (method, line 78) `def test_beacon_repo_url(self, beacon)`
-  - `test_bof_repo_url` (method, line 81) `def test_bof_repo_url(self, bof)`
-  - `test_beacon_install_path` (method, line 84) `def test_beacon_install_path(self, beacon)`
-  - `test_bof_install_path` (method, line 87) `def test_bof_install_path(self, bof)`
-  - `test_beacon_install_command_is_make` (method, line 90) `def test_beacon_install_command_is_make(self, beacon)`
-  - `test_bof_install_command_is_make` (method, line 93) `def test_bof_install_command_is_make(self, bof)`
-  - `test_beacon_install_path_no_traversal` (method, line 100) `def test_beacon_install_path_no_traversal(self, beacon)`
-  - `test_bof_install_path_no_traversal` (method, line 105) `def test_bof_install_path_no_traversal(self, bof)`
-  - `test_beacon_category` (method, line 112) `def test_beacon_category(self, beacon)`
-  - `test_bof_category` (method, line 115) `def test_bof_category(self, bof)`
-  - `test_beacon_enabled` (method, line 120) `def test_beacon_enabled(self, beacon)`
-  - `test_bof_enabled` (method, line 123) `def test_bof_enabled(self, bof)`
-  - `_param_names` (method, line 130) `def _param_names(self, addon)`
-  - `test_beacon_has_lhost_param` (method, line 133) `def test_beacon_has_lhost_param(self, beacon)`
-  - `test_beacon_has_lport_param` (method, line 136) `def test_beacon_has_lport_param(self, beacon)`
-  - `test_beacon_has_c2_port_param` (method, line 139) `def test_beacon_has_c2_port_param(self, beacon)`
-  - `test_bof_has_lhost_param` (method, line 142) `def test_bof_has_lhost_param(self, bof)`
-  - `test_bof_has_lport_param` (method, line 145) `def test_bof_has_lport_param(self, bof)`
-  - `test_beacon_lhost_required` (method, line 148) `def test_beacon_lhost_required(self, beacon)`
-  - `test_bof_lhost_required` (method, line 152) `def test_bof_lhost_required(self, bof)`
-  - `test_beacon_lazycommand_has_lhost` (method, line 160) `def test_beacon_lazycommand_has_lhost(self, beacon)`
-  - `test_beacon_lazycommand_has_c2_port` (method, line 164) `def test_beacon_lazycommand_has_c2_port(self, beacon)`
-  - `test_bof_lazycommand_has_lhost` (method, line 168) `def test_bof_lazycommand_has_lhost(self, bof)`
-  - `test_bof_lazycommand_has_lport` (method, line 172) `def test_bof_lazycommand_has_lport(self, bof)`
-  - `test_beacon_execute_stages_to_sessions` (method, line 176) `def test_beacon_execute_stages_to_sessions(self, beacon)`
-  - `test_bof_execute_stages_to_sessions` (method, line 180) `def test_bof_execute_stages_to_sessions(self, bof)`
-  - `test_beacon_execute_resets_before_pull` (method, line 183) `def test_beacon_execute_resets_before_pull(self, beacon)`
-  - `test_bof_execute_resets_before_pull` (method, line 187) `def test_bof_execute_resets_before_pull(self, bof)`
-  - `test_beacon_description_mentions_bof` (method, line 195) `def test_beacon_description_mentions_bof(self, beacon)`
-  - `test_beacon_description_mentions_linux` (method, line 199) `def test_beacon_description_mentions_linux(self, beacon)`
-  - `test_bof_description_mentions_linux_bof` (method, line 202) `def test_bof_description_mentions_linux_bof(self, bof)`
-  - `test_bof_description_mentions_elf` (method, line 206) `def test_bof_description_mentions_elf(self, bof)`
-  - `test_beacon_name_is_correct` (method, line 210) `def test_beacon_name_is_correct(self, beacon)`
-  - `test_bof_name_is_correct` (method, line 213) `def test_bof_name_is_correct(self, bof)`
-  - `_yaml_text` (method, line 220) `def _yaml_text(self, path)`
-  - `test_beacon_no_hardcoded_ip` (method, line 223) `def test_beacon_no_hardcoded_ip(self)`
-  - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
-  - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
-  - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

@@ -104,6 +104,7 @@ ELO_HIGH_VALUE_CMDS: dict[str, int] = {
     "sitrep": 5,
     "ctx": 3,
     "auto_pwn": 30,
+    "atomic_exploit": 30,
     "chain": 20,
     "hunt": 25,
     "nuclei": 18,

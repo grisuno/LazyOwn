@@ -1,8 +1,38 @@
-# Symbols (page 8 of 40)
+# Symbols (page 8 of 41)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `discord_c2.py:87` | `def __init__(self, config_dict)` |
+| `add_cli` | function | `discord_c2.py:206` | `def add_cli(ctx, new_client_id)` |
+| `addcli` | function | `discord_c2.py:278` | `def addcli(ctx, new_client_id)` |
+| `c2` | function | `discord_c2.py:283` | `def c2(ctx)` |
+| `check_lockout` | method | `discord_c2.py:40` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `discord_c2.py:49` | `def check_rate_limit(self, user_id)` |
+| `clients` | function | `discord_c2.py:273` | `def clients(ctx)` |
+| `create_session` | method | `discord_c2.py:62` | `def create_session(self, user_id, client_id)` |
+| `download_c2` | function | `discord_c2.py:245` | `def download_c2(ctx, client_id, file_name)` |
+| `exce_cmd` | function | `discord_c2.py:130` | `def exce_cmd(ctx)` |
+| `handle_file` | function | `discord_c2.py:216` | `def handle_file(ctx)` |
+| `load_payload` | function | `discord_c2.py:96` | `def load_payload()` |
+| `on_ready` | function | `discord_c2.py:103` | `def on_ready()` |
+| `register_failed_attempt` | method | `discord_c2.py:33` | `def register_failed_attempt(self, user_id)` |
+| `send_connected_clients` | function | `discord_c2.py:256` | `def send_connected_clients(ctx)` |
+| `start` | function | `discord_c2.py:108` | `def start(ctx)` |
+| `validate_session` | method | `discord_c2.py:70` | `def validate_session(self, user_id)` |
+| `ctrl_c` | function | `external/install_external.sh:13` | `` |
+| `download` | function | `external/install_external.sh:18` | `` |
+| `_jq` | function | `fast_run_as_r00t.sh:31` | `` |
+| `check_deps` | function | `fast_run_as_r00t.sh:78` | `` |
+| `check_sudo` | function | `fast_run_as_r00t.sh:87` | `` |
+| `ensure_gum` | function | `fast_run_as_r00t.sh:67` | `` |
+| `err_box` | function | `fast_run_as_r00t.sh:61` | `` |
+| `log` | function | `fast_run_as_r00t.sh:59` | `` |
+| `parse_args` | function | `fast_run_as_r00t.sh:96` | `` |
+| `spin` | function | `fast_run_as_r00t.sh:60` | `` |
+| `start_chown_watcher` | function | `fast_run_as_r00t.sh:145` | `` |
+| `t_lazyown` | function | `fast_run_as_r00t.sh:121` | `` |
+| `t_priv_user` | function | `fast_run_as_r00t.sh:134` | `` |
 | `t_send` | function | `fast_run_as_r00t.sh:114` | `` |
 | `download_file` | function | `install.sh:251` | `` |
 | `ensure_gum` | function | `install.sh:128` | `` |
@@ -70,193 +100,195 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `to_dict` | method | `lazy_sentinel4.py:280` | `def to_dict(self)` |
 | `CustomDNSResolver` | class | `lazyc2.py:1728` | `class CustomDNSResolver(BaseResolver)` |
 | `Handler` | class | `lazyc2.py:728` | `class Handler(FileSystemEventHandler)` |
-| `User` | class | `lazyc2.py:2964` | `class User(UserMixin)` |
+| `User` | class | `lazyc2.py:2973` | `class User(UserMixin)` |
 | `_JsonLogFormatter` | class | `lazyc2.py:441` | `class _JsonLogFormatter(Formatter)` |
-| `_LazyShellProxy` | class | `lazyc2.py:2621` | `class _LazyShellProxy` |
-| `__getattr__` | function | `lazyc2.py:2601` | `def __getattr__(name)` |
-| `__getattr__` | method | `lazyc2.py:2633` | `def __getattr__(self, name)` |
-| `__init__` | method | `lazyc2.py:2965` | `def __init__(self, user_data)` |
-| `__setattr__` | method | `lazyc2.py:2637` | `def __setattr__(self, name, value)` |
+| `_LazyShellProxy` | class | `lazyc2.py:2630` | `class _LazyShellProxy` |
+| `__getattr__` | function | `lazyc2.py:2610` | `def __getattr__(name)` |
+| `__getattr__` | method | `lazyc2.py:2642` | `def __getattr__(self, name)` |
+| `__init__` | method | `lazyc2.py:2974` | `def __init__(self, user_data)` |
+| `__setattr__` | method | `lazyc2.py:2646` | `def __setattr__(self, name, value)` |
 | `_add_security_headers` | function | `lazyc2.py:2473` | `def _add_security_headers(response)` |
-| `_api_data_inner` | function | `lazyc2.py:4330` | `def _api_data_inner()` |
+| `_api_data_inner` | function | `lazyc2.py:4341` | `def _api_data_inner()` |
 | `_append_beacon_record` | function | `lazyc2.py:1260` | `def _append_beacon_record(record)` |
 | `_beacon_records_path` | function | `lazyc2.py:1253` | `def _beacon_records_path(client_id)` |
-| `_bg_cred_reuse` | function | `lazyc2.py:3713` | `def _bg_cred_reuse(_ip)` |
-| `_bootstrap_initial_admin` | function | `lazyc2.py:2688` | `def _bootstrap_initial_admin()` |
-| `_build_privesc_command` | function | `lazyc2.py:3310` | `def _build_privesc_command(platform)` |
+| `_bg_cred_reuse` | function | `lazyc2.py:3724` | `def _bg_cred_reuse(_ip)` |
+| `_bootstrap_initial_admin` | function | `lazyc2.py:2697` | `def _bootstrap_initial_admin()` |
+| `_build_privesc_command` | function | `lazyc2.py:3320` | `def _build_privesc_command(platform)` |
 | `_enforce_https_redirect` | function | `lazyc2.py:2430` | `def _enforce_https_redirect()` |
 | `_enforce_password_rotation` | function | `lazyc2.py:2450` | `def _enforce_password_rotation()` |
-| `_engage_publish` | function | `lazyc2.py:3497` | `def _engage_publish(_cid, _ip, _host, _user, _platform)` |
+| `_engage_publish` | function | `lazyc2.py:3508` | `def _engage_publish(_cid, _ip, _host, _user, _platform)` |
 | `_env_tag` | function | `lazyc2.py:192` | `def _env_tag()` |
-| `_events` | function | `lazyc2.py:7254` | `def _events()` |
-| `_extract_first_ip` | function | `lazyc2.py:3553` | `def _extract_first_ip(raw)` |
-| `_get_rbac_user_obj` | function | `lazyc2.py:2977` | `def _get_rbac_user_obj(flask_user)` |
+| `_events` | function | `lazyc2.py:7284` | `def _events()` |
+| `_extract_first_ip` | function | `lazyc2.py:3564` | `def _extract_first_ip(raw)` |
+| `_get_rbac_user_obj` | function | `lazyc2.py:2986` | `def _get_rbac_user_obj(flask_user)` |
+| `_group_tasks_for_display` | function | `lazyc2.py:5293` | `def _group_tasks_for_display(tasks)` |
 | `_handle_404` | function | `lazyc2.py:2540` | `def _handle_404(_error)` |
 | `_handle_405` | function | `lazyc2.py:2545` | `def _handle_405(_error)` |
 | `_handle_exception` | function | `lazyc2.py:2550` | `def _handle_exception(error)` |
-| `_ingest_beacon` | function | `lazyc2.py:3746` | `def _ingest_beacon(_ips, _host, _cmd, _out, _user)` |
-| `_init_shell` | function | `lazyc2.py:2574` | `def _init_shell()` |
+| `_ingest_beacon` | function | `lazyc2.py:3757` | `def _ingest_beacon(_ips, _host, _cmd, _out, _user)` |
+| `_init_shell` | function | `lazyc2.py:2583` | `def _init_shell()` |
 | `_is_unspecified_bind_literal` | function | `lazyc2.py:279` | `def _is_unspecified_bind_literal(address)` |
-| `_is_valid_credential` | function | `lazyc2.py:3566` | `def _is_valid_credential(value)` |
+| `_is_valid_credential` | function | `lazyc2.py:3577` | `def _is_valid_credential(value)` |
 | `_listen_address` | function | `lazyc2.py:252` | `def _listen_address()` |
 | `_load_or_create_secret_key` | function | `lazyc2.py:2493` | `def _load_or_create_secret_key()` |
-| `_load_reverse_shell_password` | function | `lazyc2.py:4869` | `def _load_reverse_shell_password(secret_path)` |
+| `_load_reverse_shell_password` | function | `lazyc2.py:4880` | `def _load_reverse_shell_password(secret_path)` |
 | `_log_dns_bind_failure` | function | `lazyc2.py:1794` | `def _log_dns_bind_failure(address, error_number)` |
 | `_metrics_before_request` | function | `lazyc2.py:2424` | `def _metrics_before_request()` |
-| `_normalise_platform` | function | `lazyc2.py:3595` | `def _normalise_platform(raw_platform)` |
-| `_persist_bootstrap_password` | function | `lazyc2.py:2668` | `def _persist_bootstrap_password(prefix, password)` |
+| `_normalise_platform` | function | `lazyc2.py:3606` | `def _normalise_platform(raw_platform)` |
+| `_normalize_task_title` | function | `lazyc2.py:5286` | `def _normalize_task_title(title)` |
+| `_persist_bootstrap_password` | function | `lazyc2.py:2677` | `def _persist_bootstrap_password(prefix, password)` |
 | `_probe_bind` | function | `lazyc2.py:331` | `def _probe_bind(address, port, sock_type)` |
-| `_queue_beacon_cmd` | function | `lazyc2.py:3606` | `def _queue_beacon_cmd(action, ctx)` |
+| `_queue_beacon_cmd` | function | `lazyc2.py:3617` | `def _queue_beacon_cmd(action, ctx)` |
 | `_read_beacon_records` | function | `lazyc2.py:1290` | `def _read_beacon_records(client_id)` |
-| `_render_enhanced_report` | function | `lazyc2.py:6607` | `def _render_enhanced_report()` |
-| `_render_legacy_report` | function | `lazyc2.py:6627` | `def _render_legacy_report()` |
+| `_render_enhanced_report` | function | `lazyc2.py:6637` | `def _render_enhanced_report()` |
+| `_render_legacy_report` | function | `lazyc2.py:6657` | `def _render_legacy_report()` |
 | `_resolve_bind_address` | function | `lazyc2.py:376` | `def _resolve_bind_address(preferred, port, sock_type)` |
-| `_resolve_reverse_shell_password` | function | `lazyc2.py:4883` | `def _resolve_reverse_shell_password()` |
-| `_resolve_secure_template_path` | function | `lazyc2.py:3995` | `def _resolve_secure_template_path(template_name)` |
+| `_resolve_reverse_shell_password` | function | `lazyc2.py:4894` | `def _resolve_reverse_shell_password()` |
+| `_resolve_secure_template_path` | function | `lazyc2.py:4006` | `def _resolve_secure_template_path(template_name)` |
 | `_resolve_within` | function | `lazyc2.py:629` | `def _resolve_within(allowed_base, name)` |
 | `_sanitize_command_output` | function | `lazyc2.py:559` | `def _sanitize_command_output(value)` |
 | `_sanitize_csv_field` | function | `lazyc2.py:1210` | `def _sanitize_csv_field(value, maxlen)` |
 | `_sanitize_html` | function | `lazyc2.py:1173` | `def _sanitize_html(raw_html)` |
-| `_seal_reverse_shell_password` | function | `lazyc2.py:4855` | `def _seal_reverse_shell_password(plaintext)` |
+| `_seal_reverse_shell_password` | function | `lazyc2.py:4866` | `def _seal_reverse_shell_password(plaintext)` |
 | `_secure_command_queue_path` | function | `lazyc2.py:1223` | `def _secure_command_queue_path(client_id)` |
 | `_select_specific_bind_address` | function | `lazyc2.py:298` | `def _select_specific_bind_address(candidate)` |
-| `_target` | method | `lazyc2.py:2629` | `def _target(self)` |
-| `_try_copy_privesc_tool` | function | `lazyc2.py:3290` | `def _try_copy_privesc_tool(platform)` |
+| `_target` | method | `lazyc2.py:2638` | `def _target(self)` |
+| `_try_copy_privesc_tool` | function | `lazyc2.py:3300` | `def _try_copy_privesc_tool(platform)` |
 | `add_dynamic_data` | function | `lazyc2.py:2104` | `def add_dynamic_data(data)` |
-| `admin_create_tenant` | function | `lazyc2.py:6073` | `def admin_create_tenant()` |
-| `admin_delete_user` | function | `lazyc2.py:6034` | `def admin_delete_user(user_id)` |
-| `admin_reset_mfa` | function | `lazyc2.py:6022` | `def admin_reset_mfa(user_id)` |
-| `admin_set_role` | function | `lazyc2.py:6000` | `def admin_set_role(user_id)` |
-| `admin_switch_tenant` | function | `lazyc2.py:6093` | `def admin_switch_tenant(tenant_id)` |
-| `admin_tenants` | function | `lazyc2.py:6052` | `def admin_tenants()` |
-| `admin_users` | function | `lazyc2.py:5985` | `def admin_users()` |
-| `adversary` | function | `lazyc2.py:5101` | `def adversary()` |
+| `admin_create_tenant` | function | `lazyc2.py:6103` | `def admin_create_tenant()` |
+| `admin_delete_user` | function | `lazyc2.py:6064` | `def admin_delete_user(user_id)` |
+| `admin_reset_mfa` | function | `lazyc2.py:6052` | `def admin_reset_mfa(user_id)` |
+| `admin_set_role` | function | `lazyc2.py:6030` | `def admin_set_role(user_id)` |
+| `admin_switch_tenant` | function | `lazyc2.py:6123` | `def admin_switch_tenant(tenant_id)` |
+| `admin_tenants` | function | `lazyc2.py:6082` | `def admin_tenants()` |
+| `admin_users` | function | `lazyc2.py:6015` | `def admin_users()` |
+| `adversary` | function | `lazyc2.py:5112` | `def adversary()` |
 | `aicmd` | function | `lazyc2.py:1539` | `def aicmd(cmd)` |
 | `aicmd_deepseek` | function | `lazyc2.py:1425` | `def aicmd_deepseek(cmd)` |
-| `aicmd_view` | function | `lazyc2.py:5527` | `def aicmd_view()` |
+| `aicmd_view` | function | `lazyc2.py:5557` | `def aicmd_view()` |
 | `analyze_behavioral_data` | function | `lazyc2.py:2358` | `def analyze_behavioral_data(behavioral_events)` |
 | `analyze_campaign_progress` | function | `lazyc2.py:2386` | `def analyze_campaign_progress(campaign_id, events)` |
-| `api_attack_bundle` | function | `lazyc2.py:7520` | `def api_attack_bundle()` |
-| `api_attack_graph` | function | `lazyc2.py:7468` | `def api_attack_graph()` |
-| `api_beacon_results` | function | `lazyc2.py:6592` | `def api_beacon_results(client_id)` |
-| `api_dashboard` | function | `lazyc2.py:8098` | `def api_dashboard()` |
-| `api_data` | function | `lazyc2.py:4307` | `def api_data()` |
-| `api_guard_audit` | function | `lazyc2.py:7322` | `def api_guard_audit()` |
-| `api_intel_bundle` | function | `lazyc2.py:7435` | `def api_intel_bundle()` |
-| `api_intel_graph` | function | `lazyc2.py:7151` | `def api_intel_graph()` |
-| `api_killchain` | function | `lazyc2.py:6561` | `def api_killchain()` |
-| `api_lazy_mentions` | function | `lazyc2.py:7399` | `def api_lazy_mentions()` |
-| `api_listeners` | function | `lazyc2.py:8168` | `def api_listeners()` |
-| `api_listeners_create` | function | `lazyc2.py:8175` | `def api_listeners_create()` |
-| `api_listeners_delete` | function | `lazyc2.py:8207` | `def api_listeners_delete(listener_id)` |
-| `api_listeners_start` | function | `lazyc2.py:8191` | `def api_listeners_start(listener_id)` |
-| `api_listeners_stop` | function | `lazyc2.py:8199` | `def api_listeners_stop(listener_id)` |
-| `api_loop_broadcast` | function | `lazyc2.py:7279` | `def api_loop_broadcast()` |
-| `api_loop_broadcast_stream` | function | `lazyc2.py:7221` | `def api_loop_broadcast_stream()` |
-| `api_loop_graph` | function | `lazyc2.py:7368` | `def api_loop_graph()` |
-| `api_surface_live` | function | `lazyc2.py:7058` | `def api_surface_live()` |
-| `attack3d_view` | function | `lazyc2.py:7117` | `def attack3d_view()` |
-| `attack_bundle_view` | function | `lazyc2.py:7136` | `def attack_bundle_view()` |
+| `api_attack_bundle` | function | `lazyc2.py:7550` | `def api_attack_bundle()` |
+| `api_attack_graph` | function | `lazyc2.py:7498` | `def api_attack_graph()` |
+| `api_beacon_results` | function | `lazyc2.py:6622` | `def api_beacon_results(client_id)` |
+| `api_dashboard` | function | `lazyc2.py:8128` | `def api_dashboard()` |
+| `api_data` | function | `lazyc2.py:4318` | `def api_data()` |
+| `api_guard_audit` | function | `lazyc2.py:7352` | `def api_guard_audit()` |
+| `api_intel_bundle` | function | `lazyc2.py:7465` | `def api_intel_bundle()` |
+| `api_intel_graph` | function | `lazyc2.py:7181` | `def api_intel_graph()` |
+| `api_killchain` | function | `lazyc2.py:6591` | `def api_killchain()` |
+| `api_lazy_mentions` | function | `lazyc2.py:7429` | `def api_lazy_mentions()` |
+| `api_listeners` | function | `lazyc2.py:8198` | `def api_listeners()` |
+| `api_listeners_create` | function | `lazyc2.py:8205` | `def api_listeners_create()` |
+| `api_listeners_delete` | function | `lazyc2.py:8237` | `def api_listeners_delete(listener_id)` |
+| `api_listeners_start` | function | `lazyc2.py:8221` | `def api_listeners_start(listener_id)` |
+| `api_listeners_stop` | function | `lazyc2.py:8229` | `def api_listeners_stop(listener_id)` |
+| `api_loop_broadcast` | function | `lazyc2.py:7309` | `def api_loop_broadcast()` |
+| `api_loop_broadcast_stream` | function | `lazyc2.py:7251` | `def api_loop_broadcast_stream()` |
+| `api_loop_graph` | function | `lazyc2.py:7398` | `def api_loop_graph()` |
+| `api_surface_live` | function | `lazyc2.py:7088` | `def api_surface_live()` |
+| `attack3d_view` | function | `lazyc2.py:7147` | `def attack3d_view()` |
+| `attack_bundle_view` | function | `lazyc2.py:7166` | `def attack_bundle_view()` |
 | `aumentar_elo` | function | `lazyc2.py:1112` | `def aumentar_elo(user_id, cantidad)` |
-| `aumentar_elo_route` | function | `lazyc2.py:6213` | `def aumentar_elo_route(user_id)` |
+| `aumentar_elo_route` | function | `lazyc2.py:6243` | `def aumentar_elo_route(user_id)` |
 | `authenticate` | function | `lazyc2.py:1363` | `def authenticate()` |
-| `banners` | function | `lazyc2.py:6229` | `def banners()` |
-| `broadcast_view` | function | `lazyc2.py:7207` | `def broadcast_view()` |
-| `campaign_report` | function | `lazyc2.py:7746` | `def campaign_report(campaign_id)` |
-| `capture_audio` | function | `lazyc2.py:7019` | `def capture_audio()` |
-| `capture_image` | function | `lazyc2.py:6993` | `def capture_image()` |
-| `change_password` | function | `lazyc2.py:6147` | `def change_password()` |
-| `chatbot` | function | `lazyc2.py:4979` | `def chatbot()` |
+| `banners` | function | `lazyc2.py:6259` | `def banners()` |
+| `broadcast_view` | function | `lazyc2.py:7237` | `def broadcast_view()` |
+| `campaign_report` | function | `lazyc2.py:7776` | `def campaign_report(campaign_id)` |
+| `capture_audio` | function | `lazyc2.py:7049` | `def capture_audio()` |
+| `capture_image` | function | `lazyc2.py:7023` | `def capture_image()` |
+| `change_password` | function | `lazyc2.py:6177` | `def change_password()` |
+| `chatbot` | function | `lazyc2.py:4990` | `def chatbot()` |
 | `check_auth` | function | `lazyc2.py:1348` | `def check_auth(username, password)` |
 | `clean_expired_tokens` | function | `lazyc2.py:610` | `def clean_expired_tokens()` |
 | `clean_json` | function | `lazyc2.py:618` | `def clean_json(text)` |
-| `compliance_add_evidence` | function | `lazyc2.py:6390` | `def compliance_add_evidence()` |
-| `compliance_dashboard` | function | `lazyc2.py:6338` | `def compliance_dashboard()` |
-| `compliance_export` | function | `lazyc2.py:6440` | `def compliance_export(format)` |
-| `compliance_report` | function | `lazyc2.py:6360` | `def compliance_report()` |
-| `compliance_verify_evidence` | function | `lazyc2.py:6426` | `def compliance_verify_evidence()` |
-| `connect` | function | `lazyc2.py:6692` | `def connect()` |
-| `create_campaign` | function | `lazyc2.py:7630` | `def create_campaign()` |
+| `compliance_add_evidence` | function | `lazyc2.py:6420` | `def compliance_add_evidence()` |
+| `compliance_dashboard` | function | `lazyc2.py:6368` | `def compliance_dashboard()` |
+| `compliance_export` | function | `lazyc2.py:6470` | `def compliance_export(format)` |
+| `compliance_report` | function | `lazyc2.py:6390` | `def compliance_report()` |
+| `compliance_verify_evidence` | function | `lazyc2.py:6456` | `def compliance_verify_evidence()` |
+| `connect` | function | `lazyc2.py:6722` | `def connect()` |
+| `create_campaign` | function | `lazyc2.py:7660` | `def create_campaign()` |
 | `create_cves` | function | `lazyc2.py:1064` | `def create_cves()` |
-| `create_multivector_campaign` | function | `lazyc2.py:7875` | `def create_multivector_campaign()` |
+| `create_multivector_campaign` | function | `lazyc2.py:7905` | `def create_multivector_campaign()` |
 | `create_report` | function | `lazyc2.py:1083` | `def create_report()` |
-| `create_route` | function | `lazyc2.py:4062` | `def create_route()` |
-| `create_short_url` | function | `lazyc2.py:4469` | `def create_short_url()` |
-| `create_tool` | function | `lazyc2.py:5594` | `def create_tool()` |
+| `create_route` | function | `lazyc2.py:4073` | `def create_route()` |
+| `create_short_url` | function | `lazyc2.py:4480` | `def create_short_url()` |
+| `create_tool` | function | `lazyc2.py:5624` | `def create_tool()` |
 | `csrf_protect` | function | `lazyc2.py:1404` | `def csrf_protect(view)` |
-| `csv_to_html` | function | `lazyc2.py:5133` | `def csv_to_html()` |
-| `cve` | function | `lazyc2.py:5336` | `def cve(cve_id)` |
-| `cves` | function | `lazyc2.py:5310` | `def cves()` |
+| `csv_to_html` | function | `lazyc2.py:5144` | `def csv_to_html()` |
+| `cve` | function | `lazyc2.py:5366` | `def cve(cve_id)` |
+| `cves` | function | `lazyc2.py:5340` | `def cves()` |
 | `datetime_now_iso` | function | `lazyc2.py:1218` | `def datetime_now_iso()` |
 | `decorated` | function | `lazyc2.py:1382` | `def decorated()` |
 | `decorated` | function | `lazyc2.py:1395` | `def decorated()` |
 | `decoy` | function | `lazyc2.py:1916` | `def decoy()` |
 | `decrypt_data` | function | `lazyc2.py:1963` | `def decrypt_data(encrypted_data, is_file)` |
-| `delete_tool` | function | `lazyc2.py:5700` | `def delete_tool(toolname)` |
-| `download_file` | function | `lazyc2.py:3933` | `def download_file()` |
-| `download_files` | function | `lazyc2.py:4597` | `def download_files(filename)` |
-| `dynamic_route` | function | `lazyc2.py:4131` | `def dynamic_route(route_path, data)` |
-| `edit_cve` | function | `lazyc2.py:5351` | `def edit_cve(cve_id)` |
-| `edit_event` | function | `lazyc2.py:5450` | `def edit_event(event_name)` |
-| `edit_notes` | function | `lazyc2.py:5385` | `def edit_notes()` |
-| `edit_task` | function | `lazyc2.py:5276` | `def edit_task(task_id)` |
+| `delete_tool` | function | `lazyc2.py:5730` | `def delete_tool(toolname)` |
+| `download_file` | function | `lazyc2.py:3944` | `def download_file()` |
+| `download_files` | function | `lazyc2.py:4608` | `def download_files(filename)` |
+| `dynamic_route` | function | `lazyc2.py:4142` | `def dynamic_route(route_path, data)` |
+| `edit_cve` | function | `lazyc2.py:5381` | `def edit_cve(cve_id)` |
+| `edit_event` | function | `lazyc2.py:5480` | `def edit_event(event_name)` |
+| `edit_notes` | function | `lazyc2.py:5415` | `def edit_notes()` |
+| `edit_task` | function | `lazyc2.py:5306` | `def edit_task(task_id)` |
 | `encrypt_data` | function | `lazyc2.py:1954` | `def encrypt_data(data)` |
 | `ensure_sessions_dir` | function | `lazyc2.py:471` | `def ensure_sessions_dir()` |
 | `escape_js` | function | `lazyc2.py:1148` | `def escape_js(s)` |
 | `escape_js_string` | function | `lazyc2.py:1336` | `def escape_js_string(value)` |
 | `execute_command` | function | `lazyc2.py:1699` | `def execute_command(command)` |
 | `extract_attack_vectors` | function | `lazyc2.py:855` | `def extract_attack_vectors(nodes, edges)` |
-| `favicon` | function | `lazyc2.py:4245` | `def favicon()` |
+| `favicon` | function | `lazyc2.py:4256` | `def favicon()` |
 | `format` | method | `lazyc2.py:444` | `def format(self, record)` |
 | `fromjson` | function | `lazyc2.py:772` | `def fromjson(value)` |
-| `generalbot` | function | `lazyc2.py:5117` | `def generalbot()` |
+| `generalbot` | function | `lazyc2.py:5128` | `def generalbot()` |
 | `get_client_ip` | function | `lazyc2.py:2126` | `def get_client_ip()` |
-| `get_config` | function | `lazyc2.py:6974` | `def get_config()` |
-| `get_connected_clients` | function | `lazyc2.py:6310` | `def get_connected_clients()` |
-| `get_data` | function | `lazyc2.py:7550` | `def get_data()` |
+| `get_config` | function | `lazyc2.py:7004` | `def get_config()` |
+| `get_connected_clients` | function | `lazyc2.py:6340` | `def get_connected_clients()` |
+| `get_data` | function | `lazyc2.py:7580` | `def get_data()` |
 | `get_discovered_hosts` | function | `lazyc2.py:1999` | `def get_discovered_hosts()` |
-| `get_event_config` | function | `lazyc2.py:5485` | `def get_event_config()` |
-| `get_event_config_view` | function | `lazyc2.py:5492` | `def get_event_config_view()` |
-| `get_events` | function | `lazyc2.py:5552` | `def get_events()` |
+| `get_event_config` | function | `lazyc2.py:5515` | `def get_event_config()` |
+| `get_event_config_view` | function | `lazyc2.py:5522` | `def get_event_config_view()` |
+| `get_events` | function | `lazyc2.py:5582` | `def get_events()` |
 | `get_karma_name` | function | `lazyc2.py:755` | `def get_karma_name(elo)` |
 | `get_local_ip_addresses` | function | `lazyc2.py:2049` | `def get_local_ip_addresses()` |
-| `get_notes` | function | `lazyc2.py:5403` | `def get_notes()` |
-| `get_output` | function | `lazyc2.py:4812` | `def get_output()` |
+| `get_notes` | function | `lazyc2.py:5433` | `def get_notes()` |
+| `get_output` | function | `lazyc2.py:4823` | `def get_output()` |
 | `get_request_details` | function | `lazyc2.py:2135` | `def get_request_details()` |
-| `get_results` | function | `lazyc2.py:4848` | `def get_results()` |
+| `get_results` | function | `lazyc2.py:4859` | `def get_results()` |
 | `get_safe_file_path` | function | `lazyc2.py:2288` | `def get_safe_file_path(user_path)` |
-| `get_tasks` | function | `lazyc2.py:5256` | `def get_tasks()` |
-| `graph` | function | `lazyc2.py:5232` | `def graph()` |
+| `get_tasks` | function | `lazyc2.py:5267` | `def get_tasks()` |
+| `graph` | function | `lazyc2.py:5243` | `def graph()` |
 | `handle_client` | function | `lazyc2.py:1897` | `def handle_client(client_socket, remote_host, remote_port)` |
-| `handle_input` | function | `lazyc2.py:6789` | `def handle_input(data)` |
-| `health_check` | function | `lazyc2.py:8052` | `def health_check()` |
+| `handle_input` | function | `lazyc2.py:6819` | `def handle_input(data)` |
+| `health_check` | function | `lazyc2.py:8082` | `def health_check()` |
 | `implants_check` | function | `lazyc2.py:838` | `def implants_check()` |
-| `index` | function | `lazyc2.py:3047` | `def index()` |
-| `intel_bundle_view` | function | `lazyc2.py:7102` | `def intel_bundle_view()` |
-| `intel_view` | function | `lazyc2.py:7083` | `def intel_view()` |
-| `internal_server_error` | function | `lazyc2.py:6965` | `def internal_server_error(e)` |
+| `index` | function | `lazyc2.py:3056` | `def index()` |
+| `intel_bundle_view` | function | `lazyc2.py:7132` | `def intel_bundle_view()` |
+| `intel_view` | function | `lazyc2.py:7113` | `def intel_view()` |
+| `internal_server_error` | function | `lazyc2.py:6995` | `def internal_server_error(e)` |
 | `is_binary` | function | `lazyc2.py:569` | `def is_binary(safe_filename)` |
 | `is_insecure_credential` | function | `lazyc2.py:204` | `def is_insecure_credential(user, pwd)` |
 | `is_safe_template_path` | function | `lazyc2.py:529` | `def is_safe_template_path(template_path, template_name)` |
-| `is_valid_data` | function | `lazyc2.py:4155` | `def is_valid_data(data)` |
-| `is_valid_route_path` | function | `lazyc2.py:4148` | `def is_valid_route_path(route_path)` |
-| `is_valid_template_name` | function | `lazyc2.py:4165` | `def is_valid_template_name(template_name)` |
+| `is_valid_data` | function | `lazyc2.py:4166` | `def is_valid_data(data)` |
+| `is_valid_route_path` | function | `lazyc2.py:4159` | `def is_valid_route_path(route_path)` |
+| `is_valid_template_name` | function | `lazyc2.py:4176` | `def is_valid_template_name(template_name)` |
 | `is_valid_url` | function | `lazyc2.py:2280` | `def is_valid_url(url)` |
-| `issue_command` | function | `lazyc2.py:3882` | `def issue_command()` |
-| `killchain_view` | function | `lazyc2.py:6531` | `def killchain_view()` |
-| `lazybot` | function | `lazyc2.py:6321` | `def lazybot()` |
-| `lazyphishingai` | function | `lazyc2.py:7708` | `def lazyphishingai()` |
-| `lazyreport` | function | `lazyc2.py:6470` | `def lazyreport()` |
-| `lazyreport_view` | function | `lazyc2.py:6525` | `def lazyreport_view()` |
-| `list_campaigns` | function | `lazyc2.py:7617` | `def list_campaigns()` |
-| `list_tools` | function | `lazyc2.py:5584` | `def list_tools()` |
-| `listener` | function | `lazyc2.py:6701` | `def listener()` |
-| `listener_command` | function | `lazyc2.py:6813` | `def listener_command(msg)` |
-| `listener_connect` | function | `lazyc2.py:6710` | `def listener_connect()` |
-| `listener_disconnect` | function | `lazyc2.py:6721` | `def listener_disconnect()` |
+| `issue_command` | function | `lazyc2.py:3893` | `def issue_command()` |
+| `killchain_view` | function | `lazyc2.py:6561` | `def killchain_view()` |
+| `lazybot` | function | `lazyc2.py:6351` | `def lazybot()` |
+| `lazyphishingai` | function | `lazyc2.py:7738` | `def lazyphishingai()` |
+| `lazyreport` | function | `lazyc2.py:6500` | `def lazyreport()` |
+| `lazyreport_view` | function | `lazyc2.py:6555` | `def lazyreport_view()` |
+| `list_campaigns` | function | `lazyc2.py:7647` | `def list_campaigns()` |
+| `list_tools` | function | `lazyc2.py:5614` | `def list_tools()` |
+| `listener` | function | `lazyc2.py:6731` | `def listener()` |
+| `listener_command` | function | `lazyc2.py:6843` | `def listener_command(msg)` |
+| `listener_connect` | function | `lazyc2.py:6740` | `def listener_connect()` |
+| `listener_disconnect` | function | `lazyc2.py:6751` | `def listener_disconnect()` |
 | `load_banners` | function | `lazyc2.py:786` | `def load_banners()` |
 | `load_cves` | function | `lazyc2.py:1070` | `def load_cves()` |
-| `load_data` | function | `lazyc2.py:3008` | `def load_data()` |
+| `load_data` | function | `lazyc2.py:3017` | `def load_data()` |
 | `load_event_config` | function | `lazyc2.py:812` | `def load_event_config()` |
 | `load_implant_config` | function | `lazyc2.py:2240` | `def load_implant_config(implante)` |
 | `load_mitre_data` | function | `lazyc2.py:806` | `def load_mitre_data()` |
@@ -265,45 +297,45 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `load_routes` | function | `lazyc2.py:482` | `def load_routes()` |
 | `load_short_urls` | function | `lazyc2.py:2250` | `def load_short_urls()` |
 | `load_tasks` | function | `lazyc2.py:1056` | `def load_tasks()` |
-| `load_user` | function | `lazyc2.py:3025` | `def load_user(user_id)` |
-| `load_users` | function | `lazyc2.py:2987` | `def load_users()` |
+| `load_user` | function | `lazyc2.py:3034` | `def load_user(user_id)` |
+| `load_users` | function | `lazyc2.py:2996` | `def load_users()` |
 | `load_yaml_safely` | function | `lazyc2.py:646` | `def load_yaml_safely(file_path)` |
-| `log` | function | `lazyc2.py:4227` | `def log(data)` |
-| `login` | function | `lazyc2.py:5794` | `def login()` |
-| `logout` | function | `lazyc2.py:6132` | `def logout()` |
+| `log` | function | `lazyc2.py:4238` | `def log(data)` |
+| `login` | function | `lazyc2.py:5824` | `def login()` |
+| `logout` | function | `lazyc2.py:6162` | `def logout()` |
 | `make_serializable` | function | `lazyc2.py:1200` | `def make_serializable(data)` |
 | `markdown_to_html` | function | `lazyc2.py:1185` | `def markdown_to_html(text)` |
-| `metrics_exposition` | function | `lazyc2.py:8091` | `def metrics_exposition()` |
-| `mfa_qr` | function | `lazyc2.py:5915` | `def mfa_qr(username)` |
-| `mfa_setup` | function | `lazyc2.py:5841` | `def mfa_setup()` |
-| `mfa_verify` | function | `lazyc2.py:5937` | `def mfa_verify()` |
-| `mitre` | function | `lazyc2.py:6265` | `def mitre()` |
+| `metrics_exposition` | function | `lazyc2.py:8121` | `def metrics_exposition()` |
+| `mfa_qr` | function | `lazyc2.py:5945` | `def mfa_qr(username)` |
+| `mfa_setup` | function | `lazyc2.py:5871` | `def mfa_setup()` |
+| `mfa_verify` | function | `lazyc2.py:5967` | `def mfa_verify()` |
+| `mitre` | function | `lazyc2.py:6295` | `def mitre()` |
 | `on_any_event` | method | `lazyc2.py:730` | `def on_any_event(event)` |
-| `orchestrate_campaign` | function | `lazyc2.py:7828` | `def orchestrate_campaign(campaign_id)` |
-| `page_not_found` | function | `lazyc2.py:6957` | `def page_not_found(e)` |
-| `palette_api` | function | `lazyc2.py:4286` | `def palette_api()` |
-| `palette_view` | function | `lazyc2.py:4258` | `def palette_view()` |
+| `orchestrate_campaign` | function | `lazyc2.py:7858` | `def orchestrate_campaign(campaign_id)` |
+| `page_not_found` | function | `lazyc2.py:6987` | `def page_not_found(e)` |
+| `palette_api` | function | `lazyc2.py:4297` | `def palette_api()` |
+| `palette_view` | function | `lazyc2.py:4269` | `def palette_view()` |
 | `parse_access_log_for_short_url` | function | `lazyc2.py:2192` | `def parse_access_log_for_short_url(short_url)` |
 | `parse_execution_log` | function | `lazyc2.py:2214` | `def parse_execution_log(implante)` |
 | `process_bloodhound_zip` | function | `lazyc2.py:942` | `def process_bloodhound_zip(zip_filepath)` |
-| `profile` | function | `lazyc2.py:6108` | `def profile()` |
-| `pty_connect` | function | `lazyc2.py:6758` | `def pty_connect()` |
-| `pty_input` | function | `lazyc2.py:6731` | `def pty_input(data)` |
-| `push_notification` | function | `lazyc2.py:5423` | `def push_notification()` |
+| `profile` | function | `lazyc2.py:6138` | `def profile()` |
+| `pty_connect` | function | `lazyc2.py:6788` | `def pty_connect()` |
+| `pty_input` | function | `lazyc2.py:6761` | `def pty_input(data)` |
+| `push_notification` | function | `lazyc2.py:5453` | `def push_notification()` |
 | `read_and_forward_pty_output` | function | `lazyc2.py:1982` | `def read_and_forward_pty_output()` |
-| `receive_result` | function | `lazyc2.py:3341` | `def receive_result(client_id)` |
-| `redirect_to_file` | function | `lazyc2.py:4549` | `def redirect_to_file(short_url)` |
-| `redop` | function | `lazyc2.py:5082` | `def redop()` |
-| `register` | function | `lazyc2.py:5735` | `def register()` |
-| `report` | function | `lazyc2.py:6518` | `def report()` |
+| `receive_result` | function | `lazyc2.py:3352` | `def receive_result(client_id)` |
+| `redirect_to_file` | function | `lazyc2.py:4560` | `def redirect_to_file(short_url)` |
+| `redop` | function | `lazyc2.py:5093` | `def redop()` |
+| `register` | function | `lazyc2.py:5765` | `def register()` |
+| `report` | function | `lazyc2.py:6548` | `def report()` |
 | `requires_auth` | function | `lazyc2.py:1393` | `def requires_auth(f)` |
 | `requires_auth_or_session` | function | `lazyc2.py:1372` | `def requires_auth_or_session(f)` |
-| `resize` | function | `lazyc2.py:6745` | `def resize(data)` |
+| `resize` | function | `lazyc2.py:6775` | `def resize(data)` |
 | `resolve` | method | `lazyc2.py:1729` | `def resolve(self, request, handler)` |
-| `run_command` | function | `lazyc2.py:4743` | `def run_command()` |
+| `run_command` | function | `lazyc2.py:4754` | `def run_command()` |
 | `run_shell` | function | `lazyc2.py:776` | `def run_shell()` |
-| `run_shellcode` | function | `lazyc2.py:4839` | `def run_shellcode()` |
-| `sanitize_input` | function | `lazyc2.py:4138` | `def sanitize_input(input_str)` |
+| `run_shellcode` | function | `lazyc2.py:4850` | `def run_shellcode()` |
+| `sanitize_input` | function | `lazyc2.py:4149` | `def sanitize_input(input_str)` |
 | `sanitize_json` | function | `lazyc2.py:2074` | `def sanitize_json(data)` |
 | `save_cves` | function | `lazyc2.py:1078` | `def save_cves(cves)` |
 | `save_note` | function | `lazyc2.py:1142` | `def save_note(content)` |
@@ -311,87 +343,87 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `save_short_urls` | function | `lazyc2.py:2270` | `def save_short_urls(data)` |
 | `save_tasks` | function | `lazyc2.py:1089` | `def save_tasks(tasks)` |
 | `save_to_log` | function | `lazyc2.py:2170` | `def save_to_log(data)` |
-| `save_users` | function | `lazyc2.py:2997` | `def save_users(users)` |
-| `script` | function | `lazyc2.py:5066` | `def script()` |
-| `search` | function | `lazyc2.py:5050` | `def search()` |
+| `save_users` | function | `lazyc2.py:3006` | `def save_users(users)` |
+| `script` | function | `lazyc2.py:5077` | `def script()` |
+| `search` | function | `lazyc2.py:5061` | `def search()` |
 | `search_database` | function | `lazyc2.py:1644` | `def search_database(term, data_path)` |
-| `search_results` | function | `lazyc2.py:5184` | `def search_results()` |
-| `send_command` | function | `lazyc2.py:3197` | `def send_command(client_id)` |
-| `send_lcommand` | function | `lazyc2.py:4946` | `def send_lcommand(ip, port)` |
-| `serve_file` | function | `lazyc2.py:3960` | `def serve_file(file_path)` |
-| `serve_landing_page` | function | `lazyc2.py:8027` | `def serve_landing_page(campaign_id, short_url)` |
+| `search_results` | function | `lazyc2.py:5195` | `def search_results()` |
+| `send_command` | function | `lazyc2.py:3207` | `def send_command(client_id)` |
+| `send_lcommand` | function | `lazyc2.py:4957` | `def send_lcommand(ip, port)` |
+| `serve_file` | function | `lazyc2.py:3971` | `def serve_file(file_path)` |
+| `serve_landing_page` | function | `lazyc2.py:8057` | `def serve_landing_page(campaign_id, short_url)` |
 | `set_winsize` | function | `lazyc2.py:1976` | `def set_winsize(fd, row, col, xpix, ypix)` |
-| `start_bridge` | function | `lazyc2.py:6940` | `def start_bridge()` |
+| `start_bridge` | function | `lazyc2.py:6970` | `def start_bridge()` |
 | `start_dns_server` | function | `lazyc2.py:1833` | `def start_dns_server()` |
-| `start_reverse_shell` | function | `lazyc2.py:6893` | `def start_reverse_shell()` |
+| `start_reverse_shell` | function | `lazyc2.py:6923` | `def start_reverse_shell()` |
 | `start_watching` | function | `lazyc2.py:1040` | `def start_watching()` |
-| `surface` | function | `lazyc2.py:7037` | `def surface()` |
-| `surface_live` | function | `lazyc2.py:7043` | `def surface_live()` |
-| `task` | function | `lazyc2.py:5241` | `def task(task_id)` |
-| `taskbot` | function | `lazyc2.py:5034` | `def taskbot()` |
-| `tasks` | function | `lazyc2.py:5266` | `def tasks()` |
+| `surface` | function | `lazyc2.py:7067` | `def surface()` |
+| `surface_live` | function | `lazyc2.py:7073` | `def surface_live()` |
+| `task` | function | `lazyc2.py:5252` | `def task(task_id)` |
+| `taskbot` | function | `lazyc2.py:5045` | `def taskbot()` |
+| `tasks` | function | `lazyc2.py:5277` | `def tasks()` |
 | `tcp_bridge` | function | `lazyc2.py:1873` | `def tcp_bridge(local_port, remote_host, remote_port)` |
-| `teamserver` | function | `lazyc2.py:6489` | `def teamserver()` |
-| `terminal` | function | `lazyc2.py:6827` | `def terminal()` |
-| `terminal_command` | function | `lazyc2.py:6869` | `def terminal_command(data)` |
-| `terminal_connect` | function | `lazyc2.py:6836` | `def terminal_connect()` |
-| `terminal_disconnect` | function | `lazyc2.py:6846` | `def terminal_disconnect()` |
-| `terminal_input` | function | `lazyc2.py:6856` | `def terminal_input(data)` |
-| `terminal_resize` | function | `lazyc2.py:6884` | `def terminal_resize(data)` |
+| `teamserver` | function | `lazyc2.py:6519` | `def teamserver()` |
+| `terminal` | function | `lazyc2.py:6857` | `def terminal()` |
+| `terminal_command` | function | `lazyc2.py:6899` | `def terminal_command(data)` |
+| `terminal_connect` | function | `lazyc2.py:6866` | `def terminal_connect()` |
+| `terminal_disconnect` | function | `lazyc2.py:6876` | `def terminal_disconnect()` |
+| `terminal_input` | function | `lazyc2.py:6886` | `def terminal_input(data)` |
+| `terminal_resize` | function | `lazyc2.py:6914` | `def terminal_resize(data)` |
 | `to_serializable` | function | `lazyc2.py:1193` | `def to_serializable(obj)` |
-| `tojson_filter` | function | `lazyc2.py:3040` | `def tojson_filter(value)` |
-| `track_interaction` | function | `lazyc2.py:4497` | `def track_interaction(short_url)` |
-| `track_pixel` | function | `lazyc2.py:7724` | `def track_pixel(campaign_id, email)` |
-| `update_short_url` | function | `lazyc2.py:4522` | `def update_short_url(short_url)` |
-| `update_tool` | function | `lazyc2.py:5652` | `def update_tool(toolname)` |
-| `upload` | function | `lazyc2.py:3896` | `def upload()` |
-| `upload_zip_file` | function | `lazyc2.py:7559` | `def upload_zip_file()` |
+| `tojson_filter` | function | `lazyc2.py:3049` | `def tojson_filter(value)` |
+| `track_interaction` | function | `lazyc2.py:4508` | `def track_interaction(short_url)` |
+| `track_pixel` | function | `lazyc2.py:7754` | `def track_pixel(campaign_id, email)` |
+| `update_short_url` | function | `lazyc2.py:4533` | `def update_short_url(short_url)` |
+| `update_tool` | function | `lazyc2.py:5682` | `def update_tool(toolname)` |
+| `upload` | function | `lazyc2.py:3907` | `def upload()` |
+| `upload_zip_file` | function | `lazyc2.py:7589` | `def upload_zip_file()` |
 | `validate_route_path` | function | `lazyc2.py:506` | `def validate_route_path(route_path)` |
 | `validate_template_name` | function | `lazyc2.py:519` | `def validate_template_name(template_name)` |
-| `view_note` | function | `lazyc2.py:5413` | `def view_note()` |
-| `view_tool` | function | `lazyc2.py:5621` | `def view_tool(toolname)` |
-| `view_yaml` | function | `lazyc2.py:4649` | `def view_yaml()` |
-| `vuln` | function | `lazyc2.py:4995` | `def vuln()` |
-| `webserver_report` | function | `lazyc2.py:4577` | `def webserver_report(filename)` |
+| `view_note` | function | `lazyc2.py:5443` | `def view_note()` |
+| `view_tool` | function | `lazyc2.py:5651` | `def view_tool(toolname)` |
+| `view_yaml` | function | `lazyc2.py:4660` | `def view_yaml()` |
+| `vuln` | function | `lazyc2.py:5006` | `def vuln()` |
+| `webserver_report` | function | `lazyc2.py:4588` | `def webserver_report(filename)` |
 | `wrapper` | function | `lazyc2.py:1414` | `def wrapper()` |
 | `AddonCreatorConfig` | class | `lazyc2/addon_creator.py:71` | `class AddonCreatorConfig` |
-| `AddonDraft` | class | `lazyc2/addon_creator.py:373` | `class AddonDraft` |
-| `AddonStore` | class | `lazyc2/addon_creator.py:808` | `class AddonStore` |
-| `AddonValidationError` | class | `lazyc2/addon_creator.py:407` | `class AddonValidationError(ValueError)` |
-| `AddonValidator` | class | `lazyc2/addon_creator.py:420` | `class AddonValidator` |
-| `AddonYamlRenderer` | class | `lazyc2/addon_creator.py:723` | `class AddonYamlRenderer` |
-| `ParamSpec` | class | `lazyc2/addon_creator.py:340` | `class ParamSpec` |
-| `ValidationIssue` | class | `lazyc2/addon_creator.py:400` | `class ValidationIssue` |
-| `__init__` | method | `lazyc2/addon_creator.py:414` | `def __init__(self, issues)` |
-| `__init__` | method | `lazyc2/addon_creator.py:427` | `def __init__(self, draft, config)` |
-| `__init__` | method | `lazyc2/addon_creator.py:726` | `def __init__(self, config)` |
-| `__init__` | method | `lazyc2/addon_creator.py:817` | `def __init__(self, config, base_dir)` |
-| `_atomic_write` | method | `lazyc2/addon_creator.py:926` | `def _atomic_write(self, target, text)` |
-| `_check_identity` | method | `lazyc2/addon_creator.py:459` | `def _check_identity(self)` |
-| `_check_params` | method | `lazyc2/addon_creator.py:601` | `def _check_params(self)` |
-| `_check_placeholders` | method | `lazyc2/addon_creator.py:674` | `def _check_placeholders(self, text, field)` |
-| `_check_targeting` | method | `lazyc2/addon_creator.py:503` | `def _check_targeting(self)` |
-| `_check_tool` | method | `lazyc2/addon_creator.py:550` | `def _check_tool(self)` |
-| `_first_value` | function | `lazyc2/addon_creator.py:1051` | `def _first_value(form, key)` |
-| `_is_valid_repo_url` | method | `lazyc2/addon_creator.py:714` | `def _is_valid_repo_url(value)` |
-| `_multi_values` | function | `lazyc2/addon_creator.py:1030` | `def _multi_values(form, key)` |
-| `_parse_bool` | function | `lazyc2/addon_creator.py:1062` | `def _parse_bool(value)` |
-| `_parse_param_rows` | function | `lazyc2/addon_creator.py:1114` | `def _parse_param_rows(form)` |
-| `_render_tool` | method | `lazyc2/addon_creator.py:782` | `def _render_tool(self, draft)` |
-| `_resolve_target` | method | `lazyc2/addon_creator.py:869` | `def _resolve_target(self, name, pattern)` |
-| `delete` | method | `lazyc2/addon_creator.py:979` | `def delete(self, name)` |
-| `exists` | method | `lazyc2/addon_creator.py:891` | `def exists(self, name)` |
-| `is_valid` | method | `lazyc2/addon_creator.py:455` | `def is_valid(self)` |
-| `list_all` | method | `lazyc2/addon_creator.py:995` | `def list_all(self)` |
-| `load` | method | `lazyc2/addon_creator.py:956` | `def load(self, name)` |
-| `parse_addon_form` | function | `lazyc2/addon_creator.py:1075` | `def parse_addon_form(form)` |
-| `render` | method | `lazyc2/addon_creator.py:734` | `def render(self, draft)` |
-| `resolve_existing_path` | method | `lazyc2/addon_creator.py:847` | `def resolve_existing_path(self, name)` |
-| `resolve_path` | method | `lazyc2/addon_creator.py:832` | `def resolve_path(self, name)` |
-| `save` | method | `lazyc2/addon_creator.py:902` | `def save(self, name, yaml_text)` |
-| `to_dict` | method | `lazyc2/addon_creator.py:358` | `def to_dict(self)` |
-| `to_document` | method | `lazyc2/addon_creator.py:752` | `def to_document(self, draft)` |
-| `validate` | method | `lazyc2/addon_creator.py:441` | `def validate(self)` |
+| `AddonDraft` | class | `lazyc2/addon_creator.py:378` | `class AddonDraft` |
+| `AddonStore` | class | `lazyc2/addon_creator.py:813` | `class AddonStore` |
+| `AddonValidationError` | class | `lazyc2/addon_creator.py:412` | `class AddonValidationError(ValueError)` |
+| `AddonValidator` | class | `lazyc2/addon_creator.py:425` | `class AddonValidator` |
+| `AddonYamlRenderer` | class | `lazyc2/addon_creator.py:728` | `class AddonYamlRenderer` |
+| `ParamSpec` | class | `lazyc2/addon_creator.py:345` | `class ParamSpec` |
+| `ValidationIssue` | class | `lazyc2/addon_creator.py:405` | `class ValidationIssue` |
+| `__init__` | method | `lazyc2/addon_creator.py:419` | `def __init__(self, issues)` |
+| `__init__` | method | `lazyc2/addon_creator.py:432` | `def __init__(self, draft, config)` |
+| `__init__` | method | `lazyc2/addon_creator.py:731` | `def __init__(self, config)` |
+| `__init__` | method | `lazyc2/addon_creator.py:822` | `def __init__(self, config, base_dir)` |
+| `_atomic_write` | method | `lazyc2/addon_creator.py:931` | `def _atomic_write(self, target, text)` |
+| `_check_identity` | method | `lazyc2/addon_creator.py:464` | `def _check_identity(self)` |
+| `_check_params` | method | `lazyc2/addon_creator.py:606` | `def _check_params(self)` |
+| `_check_placeholders` | method | `lazyc2/addon_creator.py:679` | `def _check_placeholders(self, text, field)` |
+| `_check_targeting` | method | `lazyc2/addon_creator.py:508` | `def _check_targeting(self)` |
+| `_check_tool` | method | `lazyc2/addon_creator.py:555` | `def _check_tool(self)` |
+| `_first_value` | function | `lazyc2/addon_creator.py:1056` | `def _first_value(form, key)` |
+| `_is_valid_repo_url` | method | `lazyc2/addon_creator.py:719` | `def _is_valid_repo_url(value)` |
+| `_multi_values` | function | `lazyc2/addon_creator.py:1035` | `def _multi_values(form, key)` |
+| `_parse_bool` | function | `lazyc2/addon_creator.py:1067` | `def _parse_bool(value)` |
+| `_parse_param_rows` | function | `lazyc2/addon_creator.py:1119` | `def _parse_param_rows(form)` |
+| `_render_tool` | method | `lazyc2/addon_creator.py:787` | `def _render_tool(self, draft)` |
+| `_resolve_target` | method | `lazyc2/addon_creator.py:874` | `def _resolve_target(self, name, pattern)` |
+| `delete` | method | `lazyc2/addon_creator.py:984` | `def delete(self, name)` |
+| `exists` | method | `lazyc2/addon_creator.py:896` | `def exists(self, name)` |
+| `is_valid` | method | `lazyc2/addon_creator.py:460` | `def is_valid(self)` |
+| `list_all` | method | `lazyc2/addon_creator.py:1000` | `def list_all(self)` |
+| `load` | method | `lazyc2/addon_creator.py:961` | `def load(self, name)` |
+| `parse_addon_form` | function | `lazyc2/addon_creator.py:1080` | `def parse_addon_form(form)` |
+| `render` | method | `lazyc2/addon_creator.py:739` | `def render(self, draft)` |
+| `resolve_existing_path` | method | `lazyc2/addon_creator.py:852` | `def resolve_existing_path(self, name)` |
+| `resolve_path` | method | `lazyc2/addon_creator.py:837` | `def resolve_path(self, name)` |
+| `save` | method | `lazyc2/addon_creator.py:907` | `def save(self, name, yaml_text)` |
+| `to_dict` | method | `lazyc2/addon_creator.py:363` | `def to_dict(self)` |
+| `to_document` | method | `lazyc2/addon_creator.py:757` | `def to_document(self, draft)` |
+| `validate` | method | `lazyc2/addon_creator.py:446` | `def validate(self)` |
 | `_add_security_headers` | function | `lazyc2/app_factory.py:167` | `def _add_security_headers(response)` |
 | `_build_api_key_store` | function | `lazyc2/app_factory.py:42` | `def _build_api_key_store(payload)` |
 | `_handle_404` | function | `lazyc2/app_factory.py:152` | `def _handle_404(_error)` |
@@ -437,64 +469,32 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `webhooks_delete` | function | `lazyc2/blueprints/api_v1.py:228` | `def webhooks_delete(index)` |
 | `webhooks_list` | function | `lazyc2/blueprints/api_v1.py:180` | `def webhooks_list()` |
 | `webhooks_register` | function | `lazyc2/blueprints/api_v1.py:191` | `def webhooks_register()` |
-| `_get_rbac_store` | function | `lazyc2/blueprints/auth.py:60` | `def _get_rbac_store()` |
-| `_get_rbac_user_obj` | function | `lazyc2/blueprints/auth.py:72` | `def _get_rbac_user_obj(flask_user)` |
-| `_get_tenant_manager` | function | `lazyc2/blueprints/auth.py:82` | `def _get_tenant_manager()` |
-| `_rbac_available` | function | `lazyc2/blueprints/auth.py:55` | `def _rbac_available()` |
-| `admin_create_tenant` | function | `lazyc2/blueprints/auth.py:472` | `def admin_create_tenant()` |
-| `admin_delete_user` | function | `lazyc2/blueprints/auth.py:434` | `def admin_delete_user(user_id)` |
-| `admin_reset_mfa` | function | `lazyc2/blueprints/auth.py:422` | `def admin_reset_mfa(user_id)` |
-| `admin_set_role` | function | `lazyc2/blueprints/auth.py:400` | `def admin_set_role(user_id)` |
-| `admin_switch_tenant` | function | `lazyc2/blueprints/auth.py:491` | `def admin_switch_tenant(tenant_id)` |
-| `admin_tenants` | function | `lazyc2/blueprints/auth.py:452` | `def admin_tenants()` |
-| `admin_users` | function | `lazyc2/blueprints/auth.py:383` | `def admin_users()` |
-| `login` | function | `lazyc2/blueprints/auth.py:155` | `def login()` |
-| `logout` | function | `lazyc2/blueprints/auth.py:364` | `def logout()` |
-| `mfa_qr` | function | `lazyc2/blueprints/auth.py:273` | `def mfa_qr(username)` |
-| `mfa_setup` | function | `lazyc2/blueprints/auth.py:200` | `def mfa_setup()` |
-| `mfa_verify` | function | `lazyc2/blueprints/auth.py:295` | `def mfa_verify()` |
-| `profile` | function | `lazyc2/blueprints/auth.py:339` | `def profile()` |
-| `register` | function | `lazyc2/blueprints/auth.py:96` | `def register()` |
-| `require_role` | function | `lazyc2/blueprints/auth.py:35` | `def require_role(role)` |
+| `Role` | class | `lazyc2/blueprints/auth.py:38` | `class Role(Enum)` |
+| `_get_rbac_store` | function | `lazyc2/blueprints/auth.py:92` | `def _get_rbac_store()` |
+| `_get_rbac_user_obj` | function | `lazyc2/blueprints/auth.py:104` | `def _get_rbac_user_obj(flask_user)` |
+| `_get_tenant_manager` | function | `lazyc2/blueprints/auth.py:114` | `def _get_tenant_manager()` |
+| `_rbac_available` | function | `lazyc2/blueprints/auth.py:87` | `def _rbac_available()` |
+| `admin_create_tenant` | function | `lazyc2/blueprints/auth.py:504` | `def admin_create_tenant()` |
+| `admin_delete_user` | function | `lazyc2/blueprints/auth.py:466` | `def admin_delete_user(user_id)` |
+| `admin_reset_mfa` | function | `lazyc2/blueprints/auth.py:454` | `def admin_reset_mfa(user_id)` |
+| `admin_set_role` | function | `lazyc2/blueprints/auth.py:432` | `def admin_set_role(user_id)` |
+| `admin_switch_tenant` | function | `lazyc2/blueprints/auth.py:523` | `def admin_switch_tenant(tenant_id)` |
+| `admin_tenants` | function | `lazyc2/blueprints/auth.py:484` | `def admin_tenants()` |
+| `admin_users` | function | `lazyc2/blueprints/auth.py:415` | `def admin_users()` |
+| `decorator` | function | `lazyc2/blueprints/auth.py:69` | `def decorator(view)` |
+| `login` | function | `lazyc2/blueprints/auth.py:187` | `def login()` |
+| `logout` | function | `lazyc2/blueprints/auth.py:396` | `def logout()` |
+| `mfa_qr` | function | `lazyc2/blueprints/auth.py:305` | `def mfa_qr(username)` |
+| `mfa_setup` | function | `lazyc2/blueprints/auth.py:232` | `def mfa_setup()` |
+| `mfa_verify` | function | `lazyc2/blueprints/auth.py:327` | `def mfa_verify()` |
+| `profile` | function | `lazyc2/blueprints/auth.py:371` | `def profile()` |
+| `register` | function | `lazyc2/blueprints/auth.py:128` | `def register()` |
+| `require_role` | function | `lazyc2/blueprints/auth.py:59` | `def require_role(role)` |
+| `valid_roles` | method | `lazyc2/blueprints/auth.py:51` | `def valid_roles(cls)` |
+| `wrapper` | function | `lazyc2/blueprints/auth.py:71` | `def wrapper()` |
 | `_fire_hooks` | function | `lazyc2/blueprints/beacon.py:72` | `def _fire_hooks(event, context)` |
 | `_run` | function | `lazyc2/blueprints/beacon.py:97` | `def _run()` |
 | `_trigger_cred_reuse` | function | `lazyc2/blueprints/beacon.py:91` | `def _trigger_cred_reuse(context)` |
 | `init_beacon_bp` | function | `lazyc2/blueprints/beacon.py:35` | `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...` |
-| `issue_command` | function | `lazyc2/blueprints/beacon.py:245` | `def issue_command()` |
-| `receive_result` | function | `lazyc2/blueprints/beacon.py:131` | `def receive_result(client_id)` |
-| `send_command` | function | `lazyc2/blueprints/beacon.py:111` | `def send_command(client_id)` |
-| `cve_detail` | function | `lazyc2/blueprints/operations.py:117` | `def cve_detail(cve_id)` |
-| `cves` | function | `lazyc2/blueprints/operations.py:92` | `def cves()` |
-| `edit_cve` | function | `lazyc2/blueprints/operations.py:132` | `def edit_cve(cve_id)` |
-| `edit_notes` | function | `lazyc2/blueprints/operations.py:158` | `def edit_notes()` |
-| `edit_task` | function | `lazyc2/blueprints/operations.py:66` | `def edit_task(task_id)` |
-| `event_config` | function | `lazyc2/blueprints/operations.py:192` | `def event_config()` |
-| `event_config_view` | function | `lazyc2/blueprints/operations.py:198` | `def event_config_view()` |
-| `events` | function | `lazyc2/blueprints/operations.py:218` | `def events()` |
-| `get_notes` | function | `lazyc2/blueprints/operations.py:173` | `def get_notes()` |
-| `get_tasks` | function | `lazyc2/blueprints/operations.py:48` | `def get_tasks()` |
-| `task_detail` | function | `lazyc2/blueprints/operations.py:33` | `def task_detail(task_id)` |
-| `tasks` | function | `lazyc2/blueprints/operations.py:57` | `def tasks()` |
-| `view_note` | function | `lazyc2/blueprints/operations.py:182` | `def view_note()` |
-| `_get_config` | function | `lazyc2/blueprints/phishing.py:43` | `def _get_config(key, default)` |
-| `create_short_url` | function | `lazyc2/blueprints/phishing.py:49` | `def create_short_url()` |
-| `download_files` | function | `lazyc2/blueprints/phishing.py:192` | `def download_files(filename)` |
-| `redirect_to_file` | function | `lazyc2/blueprints/phishing.py:151` | `def redirect_to_file(short_url)` |
-| `track_interaction` | function | `lazyc2/blueprints/phishing.py:89` | `def track_interaction(short_url)` |
-| `update_short_url` | function | `lazyc2/blueprints/phishing.py:125` | `def update_short_url(short_url)` |
-| `webserver_report` | function | `lazyc2/blueprints/phishing.py:174` | `def webserver_report(filename)` |
-| `_guard` | function | `lazyc2/blueprints/session_auth.py:36` | `def _guard()` |
-| `require_operator_session` | function | `lazyc2/blueprints/session_auth.py:20` | `def require_operator_session(blueprint, login_endpoint)` |
-| `decoy_response` | function | `lazyc2/extensions/decoy.py:12` | `def decoy_response()` |
-| `_get_safe_file_path` | function | `lazyc2/extensions/short_urls.py:74` | `def _get_safe_file_path(user_path)` |
-| `configure` | function | `lazyc2/extensions/short_urls.py:21` | `def configure(sessions_phishing_dir)` |
-| `is_valid_url` | function | `lazyc2/extensions/short_urls.py:104` | `def is_valid_url(url)` |
-| `load_short_urls` | function | `lazyc2/extensions/short_urls.py:33` | `def load_short_urls()` |
-| `save_short_urls` | function | `lazyc2/extensions/short_urls.py:59` | `def save_short_urls(data)` |
-| `configure` | function | `lazyc2/extensions/storage.py:18` | `def configure(sessions_dir)` |
-| `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
-| `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
-| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
-| `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

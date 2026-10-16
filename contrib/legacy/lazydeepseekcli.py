@@ -220,12 +220,13 @@ def transform_knowledge_base(prompt_builder) -> None:
     print(f"[+] Base mejorada guardada en {KB_IMPROVED_FILE}")
 
 
-def _ollama_stream(prompt_text: str, mode: str) -> Response:
+def _ollama_stream(prompt_text: str, mode: str, timeout: int = 180) -> Response:
     try:
         resp = requests.post(
             OLLAMA_URL,
             json={"model": MODEL, "prompt": prompt_text, "stream": True},
             stream=True,
+            timeout=timeout,
         )
         if resp.status_code == 200:
             def generate():
@@ -247,9 +248,14 @@ def _ollama_stream(prompt_text: str, mode: str) -> Response:
                 stream_with_context(generate()),
                 mimetype="text/event-stream" if mode == "web" else "text/plain",
             )
-        return jsonify({"error": f"Error: {resp.status_code}"}), 500
-    except Exception:
-        return jsonify({"error": ""}), 500
+        return jsonify({"error": f"Ollama returned HTTP {resp.status_code} for model {MODEL}"}), 502
+    except requests.ConnectionError:
+        return jsonify({"error": f"Ollama unreachable at {OLLAMA_URL} — is ollama serving model {MODEL}?"}), 503
+    except requests.Timeout:
+        return jsonify({"error": f"Ollama timed out after {timeout}s (model {MODEL} still loading?)"}), 504
+    except Exception as exc:
+        logging.error(f"lazyreport failed: {exc}")
+        return jsonify({"error": f"Report generation failed: {exc}"}), 500
 
 
 def process_prompt_local(prompt: str, debug: bool = False, mode: str = "console") -> Response:

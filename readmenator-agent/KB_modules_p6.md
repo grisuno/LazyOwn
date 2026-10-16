@@ -1,6 +1,144 @@
 # Subsystem: modules (page 6 of 14)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
+## modules/intelligence_engine.py
+- Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `IntelligenceConfig` (class, line 57) `class IntelligenceConfig`
+  - `CollectedFact` (class, line 78) `class CollectedFact`
+  - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
+  - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
+  - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
+  - `get_intelligence_engine` (function, line 931) `def get_intelligence_engine(config)`
+  - `__init__` (method, line 142) `def __init__(self, config)`
+  - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
+  - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
+  - `collect_from_estorides` (method, line 292) `def collect_from_estorides(self, target)`
+  - `collect_from_nuclei` (method, line 334) `def collect_from_nuclei(self, target)`
+  - `collect_from_yara` (method, line 376) `def collect_from_yara(self, target_path)`
+  - `collect_from_factstore` (method, line 415) `def collect_from_factstore(self)`
+  - `analyze` (method, line 477) `def analyze(self)`
+  - `_correlate_services_to_vulns` (method, line 494) `def _correlate_services_to_vulns(self)`
+  - `_match_known_vulns` (method, line 537) `def _match_known_vulns(fact)`
+  - `_correlate_creds_to_hosts` (method, line 565) `def _correlate_creds_to_hosts(self)`
+  - `_correlate_domains_to_infrastructure` (method, line 588) `def _correlate_domains_to_infrastructure(self)`
+  - `_rank_targets` (method, line 604) `def _rank_targets(self)`
+  - `_detect_killchain_gaps` (method, line 644) `def _detect_killchain_gaps(self)`
+  - `produce_intelligence` (method, line 685) `def produce_intelligence(self)`
+  - `_map_category_to_mitre` (method, line 700) `def _map_category_to_mitre(category)`
+  - `produce_counter_intelligence` (method, line 715) `def produce_counter_intelligence(self)`
+  - `disseminate` (method, line 765) `def disseminate(self)`
+  - `run_full_cycle` (method, line 845) `def run_full_cycle(self, target)`
+  - `get_intel_report` (method, line 874) `def get_intel_report(self)`
+  - `_is_placeholder` (method, line 925) `def _is_placeholder(value)`
+- Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
+
+## modules/intercept.py
+- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
+  - `InterceptConfig` (class, line 33) `class InterceptConfig`
+  - `InterceptRule` (class, line 50) `class InterceptRule`
+  - `PendingApproval` (class, line 77) `class PendingApproval`
+  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
+  - `Interceptor` (class, line 154) `class Interceptor`
+  - `Guard` (class, line 255) `class Guard`
+  - `__post_init__` (method, line 61) `def __post_init__(self)`
+  - `matches` (method, line 68) `def matches(self, tool, command)`
+  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
+  - `rules` (method, line 172) `def rules(self)`
+  - `add_rule` (method, line 177) `def add_rule(self, rule)`
+  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
+  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
+  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
+  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
+  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
+  - `__init__` (method, line 258) `def __init__(self, interceptor)`
+  - `interceptor` (method, line 266) `def interceptor(self)`
+  - `check` (method, line 270) `def check(self, tool, command)`
+  - `observe` (method, line 282) `def observe(self, output, source)`
+  - `record_failure` (method, line 291) `def record_failure(self, source)`
+  - `audit_log` (method, line 296) `def audit_log(self, limit)`
+  - `attribution` (method, line 301) `def attribution(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/internal_discover.sh
+- Layer: utility
+- Language: sh
+
+## modules/iptables_portforward.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `display_usage` (function, line 29)
+
+## modules/jsonl_tail.py
+- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `JsonlTail` (class, line 14) `class JsonlTail`
+  - `__init__` (method, line 17) `def __init__(self, path)`
+  - `read_new` (method, line 22) `def read_new(self, limit)`
+- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
+
+## modules/jwtexploit.py
+- Layer: utility
+- Language: py
+
+## modules/k8s_attacks.py
+- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `K8sConfig` (class, line 57) `class K8sConfig`
+  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
+  - `__init__` (method, line 87) `def __init__(self, config)`
+  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
+  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
+  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
+  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
+  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
+  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
+  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
+  - `summary` (method, line 318) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/kerberoasting.py
+- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
+  - `KerberoastHash` (class, line 59) `class KerberoastHash`
+  - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
+  - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
+  - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
+  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
+  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
+  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
+  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
+  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
+  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
+  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
+  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
+  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
+  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
+  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
+  - `summary` (method, line 401) `def summary(self)`
+  - `priority` (function, line 172) `def priority(target)`
+- Depends on: `modules/kerberos_core.py`
+- Imported by: `cli/commands/active_directory.py`
+
 ## modules/kerberos_core.py
 - Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
 - Layer: utility
@@ -125,7 +263,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `phase_index` (method, line 395) `def phase_index(phase)`
   - `snapshot` (method, line 400) `def snapshot(world_model_path)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/atomic_exploit_bridge.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -266,7 +404,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `fuse_routing_decisions` (function, line 285) `def fuse_routing_decisions(task_id)`
   - `export_spans` (function, line 324) `def export_spans(task_id, out)`
 - Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `tests/test_loop_supervision.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `tests/test_loop_supervision.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

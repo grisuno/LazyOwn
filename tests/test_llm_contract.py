@@ -17,7 +17,7 @@ import importlib
 
 import pytest
 
-CANONICAL_BACKENDS = ("groq", "ollama", "openai", "anthropic", "deepseek", "auto")
+CANONICAL_BACKENDS = ("groq", "ollama", "openai", "anthropic", "deepseek", "llamacpp", "auto")
 
 LLM_FACTORY_PUBLIC = (
     "get_llm_backend",

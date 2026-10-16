@@ -1,40 +1,40 @@
 # modules: lazyc2
 
-*Community 1 | 123 files | cohesion 0.49*
+*Community 1 | 128 files | cohesion 0.52*
 
 ## Definition
 
-This community groups 123 file(s) rooted at `modules` with dominant language py (cohesion 0.49). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIModel`, `AIResult`. Core file: `lazyc2.py` (286 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
+This community groups 128 file(s) rooted at `modules` with dominant language py (cohesion 0.52). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIResult`, `AccessFact`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `modules` (44 files)
+### `modules` (37 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/agent_runner.py` | py | utility | 38 | yes |
 | `modules/ai_fallback.py` | py | utility | 8 | yes |
+| `modules/beacon_history.py` | py | utility | 7 | yes |
 
-### `tests` (26 files)
+### `tests` (33 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_aci_planner.py` | py | testing | 95 | yes |
-| `tests/test_ai_commands_llm.py` | py | testing | 18 | yes |
+| `tests/test_addon_creator.py` | py | testing | 86 | yes |
 
-### `contrib/legacy` (12 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazyaddon_creator.py` | py | utility | 14 | yes |
-| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
-
-### `lazyc2/security` (8 files)
+### `lazyc2/security` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
-| `lazyc2/security/constants.py` | py | utility | 0 | yes |
+| `lazyc2/security/command_allowlist.py` | py | utility | 8 | yes |
+
+### `lazyc2/blueprints` (9 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
+| `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
 ### `skills` (8 files)
 
@@ -43,48 +43,54 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 | `skills/aci_planner.py` | py | utility | 42 | yes |
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
-### `.` (7 files)
+### `core` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `discord_c2.py` | py | utility | 21 | no |
-| `lazy_sentinel4.py` | py | utility | 47 | no |
+| `core/api_authz.py` | py | presentation | 31 | yes |
+| `core/executor.py` | py | utility | 6 | yes |
 
-### `core` (7 files)
+### `lazyc2/extensions` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `core/command_bridge.py` | py | utility | 9 | yes |
+| `lazyc2/extensions/__init__.py` | py | infrastructure | 0 | yes |
+
+### `modules/integrations` (5 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/integrations/__init__.py` | py | utility | 0 | yes |
+
+### `contrib/legacy` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazyhoneypot.py` | py | utility | 15 | yes |
+
+### `lazyc2` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/__init__.py` | py | utility | 0 | no |
 
 ### `cli/commands` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/ai.py` | py | utility | 8 | yes |
+| `cli/commands/automation.py` | py | utility | 13 | yes |
 
-### `cli` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/auto_crypto.py` | py | utility | 13 | yes |
-
-### `lazyc2/blueprints` (2 files)
+### `.` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2/blueprints/beacon.py` | py | presentation | 7 | yes |
+| `lazy_sentinel4.py` | py | utility | 47 | no |
 
-### `lazyc2/extensions` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2/extensions/short_urls.py` | py | infrastructure | 5 | yes |
-
-### `scripts/devtools` (1 files)
+### `static/js` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `scripts/devtools/command_audit.py` | py | utility | 4 | yes |
+| `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
 
 ### `skills/tests` (1 files)
 
@@ -92,38 +98,11 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/tests/test_facts.py` | py | testing | 37 | yes |
 
-### `static/js` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `static/js/xterm.js` | js | utility | 62 | no |
-
-*... and 103 more files in this community.*
+*... and 108 more files in this community.*
 
 
 ## Key Symbols
 
-- `AutoCryptoConfig` (class, `cli/auto_crypto.py:48`) `class AutoCryptoConfig` - Centralised configuration for automatic session encryption.
-- `AutoCryptoEngine` (class, `cli/auto_crypto.py:77`) `class AutoCryptoEngine` - Encrypt and decrypt sensitive session files with a derived key.
-- `__init__` (method, `cli/auto_crypto.py:85`) `def __init__(self, config)`
-- `enabled` (method, `cli/auto_crypto.py:90`) `def enabled(self)` - Whether the engine performs any I/O.
-- `is_encrypted` (method, `cli/auto_crypto.py:95`) `def is_encrypted(self)` - Check whether session data appears encrypted.
-- `encrypt_session` (method, `cli/auto_crypto.py:124`) `def encrypt_session(self)` - Encrypt all protected session files.
-- `decrypt_session` (method, `cli/auto_crypto.py:174`) `def decrypt_session(self)` - Decrypt all protected session files.
-- `has_password` (method, `cli/auto_crypto.py:239`) `def has_password(self)` - Return True when the configured provider yields a password now.
-- `_get_password` (method, `cli/auto_crypto.py:251`) `def _get_password(self)`
-- `_load_or_create_salt` (method, `cli/auto_crypto.py:260`) `def _load_or_create_salt(self)`
-- `_derive_key` (method, `cli/auto_crypto.py:291`) `def _derive_key(password, salt)`
-- `build_password_provider_from_cli_login` (function, `cli/auto_crypto.py:297`) `def build_password_provider_from_cli_login()` - Return a password provider that reads the CLI login session.
-- `_provider` (function, `cli/auto_crypto.py:310`) `def _provider()`
-- `AiCommandSet` (class, `cli/commands/ai.py:71`) `class AiCommandSet(LazyOwnCommandSet)` - Pending phase module for the Artificial Intelligence commands.
-- `do_ask` (method, `cli/commands/ai.py:78`) `def do_ask(self, line)` - Ask the AI a question with current session context pre-loaded.
-- `do_groq` (method, `cli/commands/ai.py:166`) `def do_groq(self, line)` - Generate a single-line command through the Groq backend.
-- `do_poolcheck` (method, `cli/commands/ai.py:197`) `def do_poolcheck(self, line)` - Prove the LLM failover pool order with one live prompt.
-- `_serve` (function, `cli/commands/ai.py:220`) `def _serve(member_id, backend_name, text)`
-- `do_ai_playbook` (method, `cli/commands/ai.py:254`) `def do_ai_playbook(self, line)` - Generate an offensive playbook from Nmap CSV + KB + Ollama.
-- `do_ai_toggle` (method, `cli/commands/ai.py:361`) `def do_ai_toggle(self, _arg)` - Toggle the in-process AI assistant on or off.
-- `do_llm_budget` (method, `cli/commands/ai.py:378`) `def do_llm_budget(self, line)` - Show the LLM daily cost budget, per call token cap, and current spend.
 - `AutomationCommandSet` (class, `cli/commands/automation.py:17`) `class AutomationCommandSet(LazyOwnCommandSet)` - Automation & operator workflow commands.
 - `do_cred_reuse` (method, `cli/commands/automation.py:24`) `def do_cred_reuse(self, line)` - Analyze captured credentials and suggest spray targets.
 - `do_cred_mark_failed` (method, `cli/commands/automation.py:57`) `def do_cred_mark_failed(self, line)` - Mark a credential as failed against a host.
@@ -133,65 +112,85 @@ This community groups 123 file(s) rooted at `modules` with dominant language py 
 - `do_hooks_remove` (method, `cli/commands/automation.py:150`) `def do_hooks_remove(self, line)` - Remove a hook rule by name.
 - `do_hooks_fire` (method, `cli/commands/automation.py:172`) `def do_hooks_fire(self, line)` - Manually fire a hook event for testing.
 - `do_operators` (method, `cli/commands/automation.py:202`) `def do_operators(self, line)` - List all operator profiles.
+- `do_operator_create` (method, `cli/commands/automation.py:229`) `def do_operator_create(self, line)` - Create a new operator profile.
+- `do_operator_load` (method, `cli/commands/automation.py:264`) `def do_operator_load(self, line)` - Load effective config for an operator (team baseline + overrides).
+- `do_operator_delete` (method, `cli/commands/automation.py:292`) `def do_operator_delete(self, line)` - Delete an operator profile.
+- `do_hooks` (method, `cli/commands/automation.py:314`) `def do_hooks(self, line)` - Conditional hooks management — list, enable, disable, add, remove rules.
+- `CollaborationCommandSet` (class, `cli/commands/collaboration.py:20`) `class CollaborationCommandSet(LazyOwnCommandSet)` - Multi-operator collaboration commands for the CLI.
+- `_get_collab` (method, `cli/commands/collaboration.py:26`) `def _get_collab(self)` - Lazy-load collaboration singletons from modules.collab_bp.
+- `_resolve_target` (method, `cli/commands/collaboration.py:38`) `def _resolve_target(self, target)` - Resolve a target argument: explicit IP or rhost from payload.
+- `do_lock_target` (method, `cli/commands/collaboration.py:48`) `def do_lock_target(self, line)` - Acquire an advisory lock on a target to prevent tool collisions.
+- `do_unlock_target` (method, `cli/commands/collaboration.py:89`) `def do_unlock_target(self, line)` - Release an advisory lock on a target.
+- `do_team_status` (method, `cli/commands/collaboration.py:114`) `def do_team_status(self, line)` - Show active operators and target locks.
+- `do_team_chat` (method, `cli/commands/collaboration.py:169`) `def do_team_chat(self, line)` - Send a message to all connected operators.
+- `do_share_finding` (method, `cli/commands/collaboration.py:199`) `def do_share_finding(self, line)` - Share a finding or credential discovery with the team.
+- `_yellow` (function, `cli/commands/estorides.py:43`) `def _yellow(text)`
+- `_green` (function, `cli/commands/estorides.py:47`) `def _green(text)`
+- `EstoridesCommandSet` (class, `cli/commands/estorides.py:51`) `class EstoridesCommandSet(LazyOwnCommandSet)` - Bidirectional Estorides <-> LazyOwn integration commands.
+- `_check_estorides` (method, `cli/commands/estorides.py:57`) `def _check_estorides(self)` - Check that estorides is cloned and available.
+- `do_estorides_seed` (method, `cli/commands/estorides.py:73`) `def do_estorides_seed(self, line)` - Feed LazyOwn hosts/domains into Estorides for passive OSINT discovery.
+- `do_estorides_import` (method, `cli/commands/estorides.py:189`) `def do_estorides_import(self, line)` - Import Estorides-discovered entities into LazyOwn database and scope.
+- `_preview_entities` (method, `cli/commands/estorides.py:319`) `def _preview_entities(self, entities)` - Show a preview of entities grouped by type.
+- `do_estorides_loop` (method, `cli/commands/estorides.py:337`) `def do_estorides_loop(self, line)` - Run the bidirectional Estorides <-> LazyOwn feedback loop.
+- `do_estorides_surface` (method, `cli/commands/estorides.py:441`) `def do_estorides_surface(self, line)` - Show the combined active + passive attack surface.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 450
-- Cross-boundary resolved imports (EXTRACTED): 344
+- Internal resolved imports (EXTRACTED): 445
+- Cross-boundary resolved imports (EXTRACTED): 322
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports modules/cli_auth.py.
-- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
-- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 10 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
+- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 11 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
-- [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
-- [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
-- [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
-- [cycle] `modules/llm_factory.py` -> `modules/ai_model.py` -> `modules/llm_factory.py`
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [cycle] `skills/autonomous_daemon.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
+- [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
+- [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 
 ## Open Questions
 
-- Why do 13 file(s) lack file-level docs (e.g. `contrib/legacy/lazyllmchat.py`)? What purpose do they serve?
-- Can the cycle `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` be broken with an interface?
+- Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazyssh.py`)? What purpose do they serve?
+- Can the cycle `skills/autonomous_daemon.py` -> `modules/pipeline_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.49?
+- Should modules: lazyc2 be split, given cohesion 0.52?
 
 ## Sources
 
-- `cli/auto_crypto.py`
-- `cli/commands/ai.py`
 - `cli/commands/automation.py`
 - `cli/commands/collaboration.py`
-- `cli/headless.py`
-- `contrib/legacy/lazyaddon_creator.py`
-- `contrib/legacy/lazydeepseekcli.py`
-- `contrib/legacy/lazygptcli.py`
-- `contrib/legacy/lazygptcli_unified.py`
+- `cli/commands/estorides.py`
 - `contrib/legacy/lazyhoneypot.py`
-- `contrib/legacy/lazyllmchat.py`
 - `contrib/legacy/lazyopenssh77enum2.py`
-- `contrib/legacy/lazyphishingai.py`
-- `contrib/legacy/lazyproxy.py`
 - `contrib/legacy/lazysearch_bot.py`
-- `contrib/legacy/lazyseo.py`
 - `contrib/legacy/lazyssh.py`
-- `core/command_bridge.py`
+- `core/api_authz.py`
 - `core/executor.py`
-- `core/llm_budget.py`
-- *... and 103 more*
+- `core/logging.py`
+- `core/scheduler.py`
+- `core/security.py`
+- `lazy_sentinel4.py`
+- `lazyc2.py`
+- `lazyc2/__init__.py`
+- `lazyc2/addon_creator.py`
+- `lazyc2/app_factory.py`
+- `lazyc2/blueprints/__init__.py`
+- `lazyc2/blueprints/addons.py`
+- `lazyc2/blueprints/api.py`
+- *... and 108 more*

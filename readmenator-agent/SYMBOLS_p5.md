@@ -1,8 +1,37 @@
-# Symbols (page 5 of 40)
+# Symbols (page 5 of 41)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_draw_summary` | method | `cli/marketplace_config.py:720` | `def _draw_summary(self, stdscr, row_y, left, width, rows)` |
+| `_draw_tabs` | method | `cli/marketplace_config.py:641` | `def _draw_tabs(self, stdscr, row_y, left, width)` |
+| `_edit_addon` | method | `cli/marketplace_config.py:470` | `def _edit_addon(self, addon)` |
+| `_init_colors` | method | `cli/marketplace_config.py:537` | `def _init_colors(self)` |
+| `_loop` | method | `cli/marketplace_config.py:414` | `def _loop(self, stdscr)` |
+| `_nuclei_dir` | method | `cli/marketplace_config.py:223` | `def _nuclei_dir(self)` |
+| `_parse_nuclei_info` | method | `cli/marketplace_config.py:319` | `def _parse_nuclei_info(path)` |
+| `_parse_yara_meta` | method | `cli/marketplace_config.py:307` | `def _parse_yara_meta(path)` |
+| `_render` | method | `cli/marketplace_config.py:564` | `def _render(self, stdscr, rows, cursor, offset)` |
+| `_rows_for_tab` | method | `cli/marketplace_config.py:411` | `def _rows_for_tab(self, tab)` |
+| `_scan_nuclei` | method | `cli/marketplace_config.py:278` | `def _scan_nuclei(self)` |
+| `_scan_yara` | method | `cli/marketplace_config.py:259` | `def _scan_yara(self)` |
+| `_tty_available` | method | `cli/marketplace_config.py:408` | `def _tty_available()` |
+| `configure_marketplace_interactive` | function | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
+| `disable_all` | method | `cli/marketplace_config.py:372` | `def disable_all(self, addons)` |
+| `enable_all` | method | `cli/marketplace_config.py:367` | `def enable_all(self, addons)` |
+| `from_yaml` | method | `cli/marketplace_config.py:144` | `def from_yaml(cls, path)` |
+| `is_enabled` | method | `cli/marketplace_config.py:354` | `def is_enabled(self, kind, name)` |
+| `marketplace_summary` | function | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
+| `rescan` | method | `cli/marketplace_config.py:334` | `def rescan(self, tab)` |
+| `run` | method | `cli/marketplace_config.py:395` | `def run(self, start_tab)` |
+| `save_yaml` | method | `cli/marketplace_config.py:185` | `def save_yaml(self, data)` |
+| `scan` | method | `cli/marketplace_config.py:235` | `def scan(self, tab)` |
+| `set_enabled` | method | `cli/marketplace_config.py:168` | `def set_enabled(self, enabled)` |
+| `tab_count` | method | `cli/marketplace_config.py:344` | `def tab_count(self, tab)` |
+| `tab_label` | method | `cli/marketplace_config.py:341` | `def tab_label(self, tab)` |
+| `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
+| `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
+| `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
 | `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
 | `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_load_payload` | method | `cli/surface_graph.py:386` | `def _load_payload(self)` |
 | `_parse_implant_row` | method | `cli/surface_graph.py:559` | `def _parse_implant_row(self, row)` |
 | `_parse_port_scan` | method | `cli/surface_graph.py:580` | `def _parse_port_scan(self, raw)` |
-| `_read_hostsdiscovery` | method | `cli/surface_graph.py:414` | `def _read_hostsdiscovery(self, local_ips)` |
-| `_read_implants` | method | `cli/surface_graph.py:525` | `def _read_implants(self)` |
-| `_read_last_implant_row` | method | `cli/surface_graph.py:542` | `def _read_last_implant_row(self, path)` |
-| `_read_os_hint` | method | `cli/surface_graph.py:399` | `def _read_os_hint(self)` |
-| `_read_scan_csv` | method | `cli/surface_graph.py:442` | `def _read_scan_csv(self, local_ips)` |
-| `_read_scan_discovery` | method | `cli/surface_graph.py:436` | `def _read_scan_discovery(self, local_ips)` |
-| `_read_scan_nmap` | method | `cli/surface_graph.py:467` | `def _read_scan_nmap(self, local_ips)` |
-| `_slug_host` | function | `cli/surface_graph.py:75` | `def _slug_host(ip)` |
-| `_slug_port` | function | `cli/surface_graph.py:80` | `def _slug_port(host_id, port, protocol)` |
-| `build` | method | `cli/surface_graph.py:202` | `def build(self)` |
-| `build_surface_graph` | function | `cli/surface_graph.py:633` | `def build_surface_graph(sessions_dir, payload_path)` |
-| `children_of` | method | `cli/surface_graph.py:153` | `def children_of(self, node_id)` |
-| `get` | method | `cli/surface_graph.py:165` | `def get(self, node_id)` |
-| `iter_descendants` | function | `cli/surface_graph.py:650` | `def iter_descendants(graph, root_id)` |
-| `stats` | method | `cli/surface_graph.py:146` | `def stats(self)` |
-| `to_dict` | method | `cli/surface_graph.py:102` | `def to_dict(self)` |
-| `to_dict` | method | `cli/surface_graph.py:120` | `def to_dict(self)` |
-| `to_dict` | method | `cli/surface_graph.py:135` | `def to_dict(self)` |
-| `SurfaceExplorer` | class | `cli/surface_tui.py:130` | `class SurfaceExplorer(App)` |
-| `TextualNotInstalled` | class | `cli/surface_tui.py:61` | `class TextualNotInstalled(RuntimeError)` |
-| `__init__` | method | `cli/surface_tui.py:148` | `def __init__(self, sessions_dir, payload_path)` |
-| `_add_children` | method | `cli/surface_tui.py:205` | `def _add_children(self, parent_node, graph, parent_id)` |
-| `_attach_children` | function | `cli/surface_tui.py:223` | `def _attach_children(parent, graph, parent_id, seen)` |
-| `_build_rich_tree` | function | `cli/surface_tui.py:214` | `def _build_rich_tree(graph)` |
-| `_reload_graph` | method | `cli/surface_tui.py:185` | `def _reload_graph(self)` |
-| `_render_node_detail` | function | `cli/surface_tui.py:260` | `def _render_node_detail(data)` |
-| `_stats_table` | function | `cli/surface_tui.py:241` | `def _stats_table(graph)` |
-| `_styled_label` | function | `cli/surface_tui.py:232` | `def _styled_label(node)` |
-| `action_collapse_all` | method | `cli/surface_tui.py:172` | `def action_collapse_all(self)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

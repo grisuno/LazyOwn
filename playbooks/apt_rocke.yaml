@@ -1,0 +1,152 @@
+apt_name: Rocke
+aliases:
+- Rocke Group
+- Iron Cybercrime Group
+- Iron Tiger Adjacent
+source_urls:
+- https://blog.talosintelligence.com/rocke-champion-of-monero-miners/
+- https://www.anomali.com/blog/rocke-group-monero-mining
+description: 'Rocke is a China-nexus cryptojacking group active since 2016, documented
+  by Cisco Talos and Anomali.
+
+  Initial access via public-facing web application exploits (Oracle WebLogic
+  CVE-2017-10271, Apache Struts2 CVE-2017-5638, JBoss/Tomcat manager brute-force
+  followed by WAR deployment). Payloads are base64-obfuscated shell downloaders,
+  persistence via cron, and Monero mining (XMRig) as the objective.
+
+  This playbook adapts Rocke TTPs to a vintage Linux lab (Metasploitable2):
+  Tomcat manager deploy stands in for the web-exploit vector and Samba
+  usermap_script (CVE-2007-2447) is provided as an alternate LAN initial-access
+  vector so the autonomous loop can score two options.
+
+  '
+platforms:
+- linux
+phases:
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: Rocke exploits web consoles (Tomcat manager WAR deploy, CVE-2017-12617).
+  atomic_tests:
+  - atomic_id: T1190
+    name: Tomcat Manager WAR Deploy
+    manual: true
+  detection_hints:
+  - WAR uploads to /manager/html/upload from external IPs
+  - Tomcat manager logins outside change windows
+- name: initial_access
+  technique_id: T1110.001
+  technique_name: Password Guessing
+  description: Brute-force of default Tomcat manager credentials (tomcat:tomcat).
+  atomic_tests:
+  - atomic_id: T1110.001
+    name: Credential Brute Force
+    manual: false
+  detection_hints:
+  - Bursts of 401 responses on /manager/html
+  - Top-username password spraying patterns
+- name: initial_access
+  technique_id: T1210
+  technique_name: Exploitation of Remote Services
+  description: Alternate LAN vector for the gym — Samba username map script RCE (CVE-2007-2447).
+  atomic_tests:
+  - atomic_id: T1210
+    name: Samba Usermap Script RCE
+    manual: true
+  detection_hints:
+  - SMB session setups with shell metacharacters in usernames
+  - smbd spawning unexpected child processes
+- name: execution
+  technique_id: T1059.004
+  technique_name: Unix Shell
+  description: Base downloader and miner launch via Unix shell one-liners.
+  atomic_tests:
+  - atomic_id: T1059.004
+    name: Unix Shell Execution
+    manual: false
+  detection_hints:
+  - curl|wget piped directly into sh
+  - One-liners with mkfifo + /dev/tcp exfil patterns
+- name: defense_evasion
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  description: Base64-encoded downloader stages decoded at runtime.
+  atomic_tests:
+  - atomic_id: T1027
+    name: Base64 Decode Into Script
+    manual: false
+  detection_hints:
+  - Long base64 blobs passed to base64 -d in process trees
+  - Recently decoded scripts executed from /tmp or /dev/shm
+- name: persistence
+  technique_id: T1053.003
+  technique_name: Scheduled Task/Job - Cron
+  description: Miner re-entry via crontab on reboot and intervals.
+  atomic_tests:
+  - atomic_id: T1053.003
+    name: Cron Persistence
+    manual: false
+  detection_hints:
+  - New crontabs referencing /tmp, /dev/shm or hidden dotfiles
+  - Cron-launched network connections to mining pools
+- name: discovery
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  description: LAN sweep for lateral targets after foothold.
+  atomic_tests:
+  - atomic_id: T1018
+    name: ARP Remote Discovery
+    manual: false
+  detection_hints:
+  - ARP storms from a single newly compromised host
+- name: discovery
+  technique_id: T1083
+  technique_name: File and Directory Discovery
+  description: Locate configs, keys and wallets on disk.
+  atomic_tests:
+  - atomic_id: T1083
+    name: Filesystem Enumeration
+    manual: false
+  detection_hints:
+  - Broad find / sweeps over /etc, /home and /root
+- name: discovery
+  technique_id: T1057
+  technique_name: Process Discovery
+  description: Detect competing miners and defenses before deploying XMRig.
+  atomic_tests:
+  - atomic_id: T1057
+    name: Process Listing
+    manual: false
+  detection_hints:
+  - ps sweeps followed by kill of known miner process names
+- name: collection
+  technique_id: T1003.008
+  technique_name: OS Credential Dumping - /etc/shadow
+  description: Post-root credential harvest for lateral reuse.
+  atomic_tests:
+  - atomic_id: T1003.008
+    name: Read /etc/shadow
+    manual: false
+  detection_hints:
+  - Non-root shells opening /etc/shadow or /etc/gshadow
+- name: collection
+  technique_id: T1005
+  technique_name: Data from Local System
+  description: Harvest local databases and lootable files.
+  atomic_tests:
+  - atomic_id: T1005
+    name: Local File Collection
+    manual: false
+  detection_hints:
+  - Bulk reads of sqlite/db files outside application behavior
+- name: command_and_control
+  technique_id: T1071.001
+  technique_name: Application Layer Protocol - Web Protocols
+  description: C2 and pool traffic over HTTP with crafted user-agents.
+  atomic_tests:
+  - atomic_id: T1071.001
+    name: Web C2 Beacon
+    manual: false
+  detection_hints:
+  - Periodic HTTP with miner or tooling user-agent strings
+  - Long-lived connections to high ports on external hosts

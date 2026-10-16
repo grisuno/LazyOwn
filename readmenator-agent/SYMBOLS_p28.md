@@ -1,8 +1,197 @@
-# Symbols (page 28 of 40)
+# Symbols (page 28 of 41)
 Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:2761` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6040` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6046` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6139` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6144` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:8013` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:8019` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:8038` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:8044` | `` |
+| `set_jsPDF` | function | `static/js/html2pdf.bundle.min.js:8870` | `` |
+| `set_opt` | function | `static/js/html2pdf.bundle.min.js:8877` | `` |
+| `set_prop` | function | `static/js/html2pdf.bundle.min.js:8862` | `` |
+| `size` | function | `static/js/html2pdf.bundle.min.js:1570` | `` |
+| `slice` | function | `static/js/html2pdf.bundle.min.js:3758` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:244` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:1779` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:3197` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:5048` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:5503` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:6161` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:6494` | `` |
+| `sliceIterator` | function | `static/js/html2pdf.bundle.min.js:7071` | `` |
+| `sortByZIndex` | function | `static/js/html2pdf.bundle.min.js:5808` | `` |
+| `sortByZIndex` | function | `static/js/html2pdf.bundle.min.js:5808` | `` |
+| `splitDescendants` | function | `static/js/html2pdf.bundle.min.js:5764` | `` |
+| `splitDescendants` | function | `static/js/html2pdf.bundle.min.js:5764` | `` |
+| `splitStackingContexts` | function | `static/js/html2pdf.bundle.min.js:5780` | `` |
+| `splitStackingContexts` | function | `static/js/html2pdf.bundle.min.js:5780` | `` |
+| `src` | function | `static/js/html2pdf.bundle.min.js:6781` | `` |
+| `stack` | function | `static/js/html2pdf.bundle.min.js:7154` | `` |
+| `stepSize` | function | `static/js/html2pdf.bundle.min.js:5165` | `` |
+| `subdivide` | function | `static/js/html2pdf.bundle.min.js:1083` | `` |
+| `subscribe` | method | `static/js/html2pdf.bundle.min.js:7675` | `` |
+| `subscribe` | function | `static/js/html2pdf.bundle.min.js:7741` | `` |
+| `subscribe` | method | `static/js/html2pdf.bundle.min.js:7944` | `` |
+| `svg` | function | `static/js/html2pdf.bundle.min.js:2807` | `` |
+| `testBase64` | function | `static/js/html2pdf.bundle.min.js:2735` | `` |
+| `testBase64` | function | `static/js/html2pdf.bundle.min.js:2735` | `` |
+| `testCORS` | function | `static/js/html2pdf.bundle.min.js:2768` | `` |
+| `testCORS` | function | `static/js/html2pdf.bundle.min.js:2768` | `` |
+| `testForeignObject` | function | `static/js/html2pdf.bundle.min.js:2795` | `` |
+| `testForeignObject` | function | `static/js/html2pdf.bundle.min.js:2795` | `` |
+| `testRangeBounds` | function | `static/js/html2pdf.bundle.min.js:2710` | `` |
+| `testRangeBounds` | function | `static/js/html2pdf.bundle.min.js:2710` | `` |
+| `testResponseType` | function | `static/js/html2pdf.bundle.min.js:2772` | `` |
+| `testResponseType` | function | `static/js/html2pdf.bundle.min.js:2772` | `` |
+| `testSVG` | function | `static/js/html2pdf.bundle.min.js:2776` | `` |
+| `testSVG` | function | `static/js/html2pdf.bundle.min.js:2776` | `` |
+| `that` | function | `static/js/html2pdf.bundle.min.js:8148` | `` |
+| `then` | function | `static/js/html2pdf.bundle.min.js:7537` | `` |
+| `then` | method | `static/js/html2pdf.bundle.min.js:8402` | `` |
+| `then` | function | `static/js/html2pdf.bundle.min.js:8962` | `` |
+| `thenCore` | function | `static/js/html2pdf.bundle.min.js:8979` | `` |
+| `thenExternal` | function | `static/js/html2pdf.bundle.min.js:9001` | `` |
+| `thenList` | function | `static/js/html2pdf.bundle.min.js:9006` | `` |
+| `then_main` | function | `static/js/html2pdf.bundle.min.js:8966` | `` |
+| `then_pre` | function | `static/js/html2pdf.bundle.min.js:8969` | `` |
+| `to` | function | `static/js/html2pdf.bundle.min.js:8645` | `` |
+| `toCanvas` | function | `static/js/html2pdf.bundle.min.js:8695` | `` |
+| `toCodePoints` | function | `static/js/html2pdf.bundle.min.js:2889` | `` |
+| `toContainer` | function | `static/js/html2pdf.bundle.min.js:8661` | `` |
+| `toContainer` | function | `static/js/html2pdf.bundle.min.js:9182` | `` |
+| `toContainer` | function | `static/js/html2pdf.bundle.min.js:9287` | `` |
+| `toFloat` | function | `static/js/html2pdf.bundle.min.js:2490` | `` |
+| `toFloat` | function | `static/js/html2pdf.bundle.min.js:2490` | `` |
+| `toImg` | function | `static/js/html2pdf.bundle.min.js:8718` | `` |
+| `toPdf` | function | `static/js/html2pdf.bundle.min.js:8732` | `` |
+| `toPdf` | function | `static/js/html2pdf.bundle.min.js:9317` | `` |
+| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
+| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
+| `toString` | function | `static/js/html2pdf.bundle.min.js:319` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:814` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
+| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
+| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
+| `transformWebkitRadialGradientArgs` | function | `static/js/html2pdf.bundle.min.js:5392` | `` |
+| `tryCatch` | function | `static/js/html2pdf.bundle.min.js:7783` | `` |
+| `tryThen` | function | `static/js/html2pdf.bundle.min.js:7632` | `` |
+| `u` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
+| `unitConvert` | function | `static/js/html2pdf.bundle.min.js:7363` | `` |
+| `unitConvert` | function | `static/js/html2pdf.bundle.min.js:7363` | `` |
+| `unwrapExports` | function | `static/js/html2pdf.bundle.min.js:18` | `` |
+| `updateProgress` | function | `static/js/html2pdf.bundle.min.js:8955` | `` |
+| `useMessageChannel` | function | `static/js/html2pdf.bundle.min.js:7481` | `` |
+| `useMutationObserver` | function | `static/js/html2pdf.bundle.min.js:7469` | `` |
+| `useNextTick` | function | `static/js/html2pdf.bundle.min.js:7450` | `` |
+| `useSetTimeout` | function | `static/js/html2pdf.bundle.min.js:7489` | `` |
+| `useVertxTimer` | function | `static/js/html2pdf.bundle.min.js:7459` | `` |
+| `v` | function | `static/js/html2pdf.bundle.min.js:94` | `` |
+| `validationError` | function | `static/js/html2pdf.bundle.min.js:7856` | `` |
+| `value` | function | `static/js/html2pdf.bundle.min.js:2848` | `` |
+| `w` | function | `static/js/html2pdf.bundle.min.js:217` | `` |
+| `with` | function | `static/js/html2pdf.bundle.min.js:8147` | `` |
+| `xhrImage` | function | `static/js/html2pdf.bundle.min.js:5969` | `` |
+| `y` | function | `static/js/html2pdf.bundle.min.js:217` | `` |
+| `X` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `ae` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `e` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `h` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `i` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `p` | function | `static/js/jquery-3.5.1.slim.min.js:2` | `` |
+| `clamp` | function | `static/js/particles.js:1464` | `` |
+| `d` | function | `static/js/particles.js:513` | `` |
+| `draw` | function | `static/js/particles.js:463` | `` |
+| `hexToRgb` | function | `static/js/particles.js:1449` | `` |
+| `init` | function | `static/js/particles.js:799` | `` |
+| `interiorAngleDegrees` | function | `static/js/particles.js:1248` | `` |
+| `isInArray` | function | `static/js/particles.js:1468` | `` |
+| `pJS` | function | `static/js/particles.js:10` | `` |
+| `process` | function | `static/js/particles.js:881` | `` |
+| `process` | function | `static/js/particles.js:972` | `` |
+| `setTimeout` | method | `static/js/particles.js:1148` | `` |
+| `r` | function | `static/js/popper-2.5.4.min.js:5` | `` |
+| `V` | function | `static/js/purify-3.0.9.min.js:2` | `` |
+| `Z` | function | `static/js/purify-3.0.9.min.js:2` | `` |
+| `A` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `C` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `Ct` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `F` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `G` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `I` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `J` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `L` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `M` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `N` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `N` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `Ot` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `Q` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `R` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `R` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `S` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `S` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `St` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `T` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `X` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `Y` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `Z` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `a` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `b` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `c` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `c` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `d` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `d` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `e` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `et` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `extends` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `f` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `f` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `g` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `h` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `h` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `h` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `h` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `h` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `i` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `j` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `jt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `k` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `k` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `l` | function | `static/js/quill-2.0.3.js:2` | `` |
 | `l` | function | `static/js/quill-2.0.3.js:2` | `` |
 | `l` | function | `static/js/quill-2.0.3.js:2` | `` |
 | `l` | function | `static/js/quill-2.0.3.js:2` | `` |
@@ -307,194 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `g` | function | `static/js/vis-network.min.js:33` | `` |
 | `g` | function | `static/js/vis-network.min.js:33` | `` |
 | `g` | function | `static/js/vis-network.min.js:48` | `` |
-| `g` | function | `static/js/vis-network.min.js:48` | `` |
-| `gE` | function | `static/js/vis-network.min.js:33` | `` |
-| `gp` | function | `static/js/vis-network.min.js:33` | `` |
-| `h` | function | `static/js/vis-network.min.js:33` | `` |
-| `has` | function | `static/js/vis-network.min.js:48` | `` |
-| `i` | function | `static/js/vis-network.min.js:33` | `` |
-| `ik` | function | `static/js/vis-network.min.js:33` | `` |
-| `in` | function | `static/js/vis-network.min.js:33` | `` |
-| `kk` | function | `static/js/vis-network.min.js:33` | `` |
-| `ku` | function | `static/js/vis-network.min.js:33` | `` |
-| `kw` | function | `static/js/vis-network.min.js:33` | `` |
-| `l` | function | `static/js/vis-network.min.js:33` | `` |
-| `l` | function | `static/js/vis-network.min.js:48` | `` |
-| `lE` | function | `static/js/vis-network.min.js:33` | `` |
-| `lO` | function | `static/js/vis-network.min.js:48` | `` |
-| `lk` | function | `static/js/vis-network.min.js:33` | `` |
-| `mw` | function | `static/js/vis-network.min.js:33` | `` |
-| `nE` | function | `static/js/vis-network.min.js:33` | `` |
-| `nc` | function | `static/js/vis-network.min.js:26` | `` |
-| `nk` | function | `static/js/vis-network.min.js:33` | `` |
-| `np` | function | `static/js/vis-network.min.js:33` | `` |
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `or` | function | `static/js/vis-network.min.js:33` | `` |
-| `ov` | function | `static/js/vis-network.min.js:33` | `` |
-| `qw` | function | `static/js/vis-network.min.js:33` | `` |
-| `qx` | function | `static/js/vis-network.min.js:33` | `` |
-| `rO` | function | `static/js/vis-network.min.js:48` | `` |
-| `s` | function | `static/js/vis-network.min.js:33` | `` |
-| `s` | function | `static/js/vis-network.min.js:33` | `` |
-| `sk` | function | `static/js/vis-network.min.js:33` | `` |
-| `su` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:26` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:48` | `` |
-| `u` | function | `static/js/vis-network.min.js:48` | `` |
-| `uE` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:48` | `` |
-| `vE` | function | `static/js/vis-network.min.js:33` | `` |
-| `vp` | function | `static/js/vis-network.min.js:33` | `` |
-| `yk` | function | `static/js/vis-network.min.js:33` | `` |
-| `zo` | function | `static/js/vis-network.min.js:26` | `` |
-| `a` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `r` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `P` | class | `static/js/xterm.js:1` | `` |
-| `S` | class | `static/js/xterm.js:1` | `` |
-| `a` | class | `static/js/xterm.js:1` | `` |
-| `a` | class | `static/js/xterm.js:1` | `` |
-| `a` | class | `static/js/xterm.js:1` | `` |
-| `c` | class | `static/js/xterm.js:1` | `` |
-| `c` | class | `static/js/xterm.js:1` | `` |
-| `c` | class | `static/js/xterm.js:1` | `` |
-| `c` | class | `static/js/xterm.js:1` | `` |
-| `d` | class | `static/js/xterm.js:1` | `` |
-| `d` | class | `static/js/xterm.js:1` | `` |
-| `e` | function | `static/js/xterm.js:1` | `` |
-| `e` | function | `static/js/xterm.js:1` | `` |
-| `e` | function | `static/js/xterm.js:1` | `` |
-| `e` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `extends` | class | `static/js/xterm.js:1` | `` |
-| `h` | class | `static/js/xterm.js:1` | `` |
-| `i` | function | `static/js/xterm.js:1` | `` |
-| `i` | function | `static/js/xterm.js:1` | `` |
-| `i` | function | `static/js/xterm.js:1` | `` |
-| `i` | function | `static/js/xterm.js:1` | `` |
-| `i` | function | `static/js/xterm.js:1` | `` |
-| `i` | class | `static/js/xterm.js:1` | `` |
-| `i` | class | `static/js/xterm.js:1` | `` |
-| `i` | class | `static/js/xterm.js:1` | `` |
-| `k` | class | `static/js/xterm.js:1` | `` |
-| `l` | class | `static/js/xterm.js:1` | `` |
-| `l` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `n` | class | `static/js/xterm.js:1` | `` |
-| `o` | class | `static/js/xterm.js:1` | `` |
-| `o` | class | `static/js/xterm.js:1` | `` |
-| `o` | class | `static/js/xterm.js:1` | `` |
-| `o` | class | `static/js/xterm.js:1` | `` |
-| `r` | function | `static/js/xterm.js:1` | `` |
-| `r` | function | `static/js/xterm.js:1` | `` |
-| `r` | class | `static/js/xterm.js:1` | `` |
-| `r` | class | `static/js/xterm.js:1` | `` |
-| `s` | function | `static/js/xterm.js:1` | `` |
-| `s` | function | `static/js/xterm.js:1` | `` |
-| `s` | class | `static/js/xterm.js:1` | `` |
-| `s` | class | `static/js/xterm.js:1` | `` |
-| `t` | function | `static/js/xterm.js:1` | `` |
-| `t` | function | `static/js/xterm.js:1` | `` |
-| `Config` | class | `telegram_c2.py:77` | `class Config` |
-| `SecureSessionManager` | class | `telegram_c2.py:18` | `class SecureSessionManager` |
-| `__getitem__` | method | `telegram_c2.py:83` | `def __getitem__(self, key)` |
-| `__init__` | method | `telegram_c2.py:19` | `def __init__(self)` |
-| `__init__` | method | `telegram_c2.py:78` | `def __init__(self, config_dict)` |
-| `add_cli` | function | `telegram_c2.py:191` | `def add_cli(update, context)` |
-| `check_lockout` | method | `telegram_c2.py:31` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `telegram_c2.py:40` | `def check_rate_limit(self, user_id)` |
-| `create_session` | method | `telegram_c2.py:53` | `def create_session(self, user_id, client_id)` |
-| `download_c2` | function | `telegram_c2.py:230` | `def download_c2(update, context)` |
-| `exce_cmd` | function | `telegram_c2.py:116` | `def exce_cmd(update, context)` |
-| `handle_file` | function | `telegram_c2.py:203` | `def handle_file(update, context)` |
-| `load_payload` | function | `telegram_c2.py:87` | `def load_payload()` |
-| `main` | function | `telegram_c2.py:286` | `def main()` |
-| `register_failed_attempt` | method | `telegram_c2.py:24` | `def register_failed_attempt(self, user_id)` |
-| `send_connected_clients` | function | `telegram_c2.py:271` | `def send_connected_clients(update, context)` |
-| `start` | function | `telegram_c2.py:93` | `def start(update, context)` |
-| `validate_session` | method | `telegram_c2.py:61` | `def validate_session(self, user_id)` |
-| `SecureSessionManager` | class | `telegram_hermes.py:186` | `class SecureSessionManager` |
-| `__init__` | method | `telegram_hermes.py:187` | `def __init__(self)` |
-| `add_cli` | function | `telegram_hermes.py:422` | `def add_cli(update, context)` |
-| `c2_command` | function | `telegram_hermes.py:464` | `def c2_command(update, context)` |
-| `c2_request` | function | `telegram_hermes.py:145` | `def c2_request(path, method, body)` |
-| `check_lockout` | method | `telegram_hermes.py:199` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `telegram_hermes.py:208` | `def check_rate_limit(self, user_id)` |
-| `config_cmd` | function | `telegram_hermes.py:373` | `def config_cmd(update, context)` |
-| `create_session` | method | `telegram_hermes.py:221` | `def create_session(self, user_id, client_id)` |
-| `cron_schedule_cmd` | function | `telegram_hermes.py:564` | `def cron_schedule_cmd(update, context)` |
-| `delegate_task_cmd` | function | `telegram_hermes.py:533` | `def delegate_task_cmd(update, context)` |
-| `download_file_cmd` | function | `telegram_hermes.py:647` | `def download_file_cmd(update, context)` |
-| `execute_command` | function | `telegram_hermes.py:306` | `def execute_command(update, context)` |
-| `get_client_id` | method | `telegram_hermes.py:241` | `def get_client_id(self, user_id)` |
-| `handle_file_upload` | function | `telegram_hermes.py:675` | `def handle_file_upload(update, context)` |
-| `help_cmd` | function | `telegram_hermes.py:278` | `def help_cmd(update, context)` |
-| `list_clients` | function | `telegram_hermes.py:437` | `def list_clients(update, context)` |
-| `load_payload` | function | `telegram_hermes.py:177` | `def load_payload()` |
-| `main` | function | `telegram_hermes.py:772` | `def main()` |
-| `register_failed_attempt` | method | `telegram_hermes.py:192` | `def register_failed_attempt(self, user_id)` |
-| `run_agent` | function | `telegram_hermes.py:504` | `def run_agent(update, context)` |
-| `run_lazyown_command` | function | `telegram_hermes.py:61` | `def run_lazyown_command(command, timeout)` |
-| `set_client_id` | method | `telegram_hermes.py:245` | `def set_client_id(self, user_id, client_id)` |
-| `sitrep` | function | `telegram_hermes.py:337` | `def sitrep(update, context)` |
-| `start` | function | `telegram_hermes.py:255` | `def start(update, context)` |
-| `status_cmd` | function | `telegram_hermes.py:597` | `def status_cmd(update, context)` |
-| `stop_daemon_cmd` | function | `telegram_hermes.py:630` | `def stop_daemon_cmd(update, context)` |
-| `text_command` | function | `telegram_hermes.py:712` | `def text_command(update, context)` |
-| `validate_session` | method | `telegram_hermes.py:229` | `def validate_session(self, user_id)` |
-| `decrypt_data` | function | `test/config.py:33` | `def decrypt_data(b64_data)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

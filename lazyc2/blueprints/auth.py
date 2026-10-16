@@ -30,18 +30,50 @@ from lazyc2.extensions.decoy import decoy_response
 try:
     from modules.lazy_rbac import Role, require_role
 except ImportError:
-    Role = None
+    import enum
+    from functools import wraps
+
+    from flask import abort
+
+    class Role(enum.Enum):
+        """Minimal role fallback when RBAC module is unavailable.
+
+        Mirrors production role values so import-time decorators resolve.
+        Runtime routes still deny via _rbac_available checks.
+        """
+
+        ADMIN = "admin"
+        OPERATOR = "operator"
+        VIEWER = "viewer"
+        AUDITOR = "auditor"
+
+        @classmethod
+        def valid_roles(cls) -> set[str]:
+            """Return valid role values.
+
+            Returns:
+                Set of role value strings.
+            """
+            return {item.value for item in cls}
 
     def require_role(role: object) -> object:
-        """Return a pass-through decorator when RBAC is unavailable.
+        """Return a deny-by-default decorator when RBAC is unavailable.
 
         Args:
-            role: The required role name, ignored in the fallback.
+            role: Required role name, recorded for audit clarity.
 
         Returns:
-            A decorator that returns the wrapped view unchanged.
+            Decorator that aborts with 403 to fail closed.
         """
-        return lambda view: view
+
+        def decorator(view: object) -> object:
+            @wraps(view)  # type: ignore[arg-type]
+            def wrapper(*args: object, **kwargs: object) -> object:
+                abort(403)
+
+            return wrapper
+
+        return decorator
 
 
 auth_bp = Blueprint("auth", __name__)

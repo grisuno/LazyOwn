@@ -133,10 +133,10 @@
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
     "cli/commands/lazyloop.py": "a5c27e0c34d467070f24c7d10eaf11d2136dbbed1dd8867d925c5da504ab8405",
-    "cli/commands/lazyops.py": "6af7d598afe5f672115aba29cc693bcd62874754fcbb18b784feb75523793c5a",
+    "cli/commands/lazyops.py": "34adefcdb40b7f183294db530e1fbef1701625031539461626e2a218eceb697c",
     "cli/commands/marketplace.py": "c2ad4fc967beafbf2db30a45f0ad654d59edebfe7a4122496ce5a8945cd4151c",
     "cli/commands/mcp_bridge.py": "9029bffb74e812823654a42ba02089cbca6db7f8561c3af4a8bfbd4fcad1cd1e",
-    "cli/commands/misc_migrated.py": "bd0e2935ba8a2ddbac344f8f19715573e1b19d22590ecc7a0d64c6df98cfd94a",
+    "cli/commands/misc_migrated.py": "af46cb9c05dd52a910ff121088196ed05f491ab50222ff5268157432f84ba02a",
     "cli/commands/mobile_macos.py": "4a1705515212bed4c8bae93694a2279e4ab20ac3b9dc63589a218180976a7379",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
     "cli/commands/nethelpers.py": "efc1d3058f62230dfa06d91e2ead8ba8f3ef445a41697d2f3ca4dcb5055d931b",
@@ -162,9 +162,9 @@
     "cli/commands/reporting.py": "eff4961ab39d81f96903d172649c91e24a26fc489234abdc16c50935f6c5ec0d",
     "cli/commands/resource_scripting.py": "d5ae946b5a429043c6fe4e781fd6f14eed3b7d3bf8bb650595e8bb1c40a44bba",
     "cli/commands/scan.py": "1b747af884eaa9dfa950bc8625517667448456dce9bc2b901ea2b8476e50a0d9",
-    "cli/commands/scan_migrated.py": "b8ab5d468935065951b422c1b1ea4b9fa1018ad5d7aab322410ed1e9f19b3811",
+    "cli/commands/scan_migrated.py": "027a03c6b424558a091095f4ef5d38378d9e7aafb9f6edad693c5e32d99ec385",
     "cli/commands/security.py": "fb826ad35144239925b7a1b98da04b4e9ee6505e48dbd0401f3ecfb0a75540a8",
-    "cli/commands/session_ops.py": "b88ea1b5103043f9972b418a72468bd2717d6609ae54c7a57481cc84c4302669",
+    "cli/commands/session_ops.py": "90df712554e2cee372a8c088f7fc2f42fc356f6431ef5cac33a7264fa61c0811",
     "cli/commands/shellsys.py": "fa04b637d13f3b5a6a7010d616b3da8336aca11a8e65fd89da84ca27d6e0c6a5",
     "cli/commands/sleep_obfuscation.py": "5f2a212857eb38a2e9143f8498d54d7b35f7d8f92ad0a0cf40830b2151adedde",
     "cli/commands/socks_proxy.py": "e99a7a2b9659faa77c93932118fcd4798ca09fbacc85a69c4e01046cc098dc1f",
@@ -173,8 +173,8 @@
     "cli/commands/ux.py": "3707156f3afd8e03ebb896e9118818088401db76b6ca5f63679c6e4af137bacf"
   },
   "totals": {
-    "method_definitions": 819,
-    "unique_commands": 819,
+    "method_definitions": 824,
+    "unique_commands": 824,
     "duplicates": 0,
     "phases": 14,
     "categories": 17
@@ -271,6 +271,7 @@
       "do_lazy_company",
       "do_lazy_constraint",
       "do_lazy_context",
+      "do_lazy_dispatch",
       "do_lazy_enrich",
       "do_lazy_evidence",
       "do_lazy_fact",
@@ -281,6 +282,7 @@
       "do_lazy_graph",
       "do_lazy_guard",
       "do_lazy_hint",
+      "do_lazy_install",
       "do_lazy_intent",
       "do_lazy_intent_delete",
       "do_lazy_kill",
@@ -296,10 +298,12 @@
       "do_lazy_resume",
       "do_lazy_retest",
       "do_lazy_runtime",
+      "do_lazy_sandbox",
       "do_lazy_scheduler",
       "do_lazy_scope",
       "do_lazy_selfupdate",
       "do_lazy_skill",
+      "do_lazy_stage",
       "do_lazy_status",
       "do_lazy_steer",
       "do_lazy_task",
@@ -309,6 +313,7 @@
       "do_lazy_trace",
       "do_lazy_traffic",
       "do_lazy_trigger",
+      "do_lazy_verb",
       "do_lazy_worker",
       "do_lazy_workspace",
       "do_linux_advanced_payload",
@@ -5805,8 +5810,19 @@
       "duplicate_of": null
     },
     {
-      "name": "do_lazy_task",
+      "name": "do_lazy_dispatch",
       "line": 88,
+      "summary": "Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N] [--run-budget S] [--timeout S] <task...>. Usage: lazy_…",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_task",
+      "line": 147,
       "summary": "Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks. Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--tas…",
       "category": null,
       "phase": "uncategorized",
@@ -5817,7 +5833,7 @@
     },
     {
       "name": "do_lazy_graph",
-      "line": 210,
+      "line": 269,
       "summary": "Show planner-facing graph overview. Usage: lazy_graph [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5828,7 +5844,7 @@
     },
     {
       "name": "do_lazy_context",
-      "line": 239,
+      "line": 298,
       "summary": "Render the bounded prompt context the planner/worker LLMs receive. Usage: lazy_context [--task T] [--budget N]",
       "category": null,
       "phase": "uncategorized",
@@ -5839,8 +5855,8 @@
     },
     {
       "name": "do_lazy_skill",
-      "line": 260,
-      "summary": "Skills: list|show <name>|preview|inject <name...>|clear|auto on|off. Usage: lazy_skill ... [--task T]",
+      "line": 319,
+      "summary": "Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes. Usage: lazy_skill ... [--task T]",
       "category": null,
       "phase": "uncategorized",
       "source_file": "cli/commands/lazyops.py",
@@ -5850,7 +5866,7 @@
     },
     {
       "name": "do_lazy_workspace",
-      "line": 315,
+      "line": 403,
       "summary": "Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path. Usage: lazy_workspace ...",
       "category": null,
       "phase": "uncategorized",
@@ -5861,7 +5877,7 @@
     },
     {
       "name": "do_lazy_selfupdate",
-      "line": 368,
+      "line": 456,
       "summary": "Self-update: check [--branch B]|apply [--yes] [--branch B]. Usage: lazy_selfupdate ...",
       "category": null,
       "phase": "uncategorized",
@@ -5872,7 +5888,7 @@
     },
     {
       "name": "do_lazy_planner",
-      "line": 396,
+      "line": 484,
       "summary": "Run one planner wakeup (emits 0..N intents). Usage: lazy_planner [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5883,7 +5899,7 @@
     },
     {
       "name": "do_lazy_frontier",
-      "line": 415,
+      "line": 503,
       "summary": "Show pending intent queue. Usage: lazy_frontier [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5894,7 +5910,7 @@
     },
     {
       "name": "do_lazy_worker",
-      "line": 427,
+      "line": 515,
       "summary": "Claim ONE intent and execute it with real tools. Usage: lazy_worker [--task T] [--intent N]",
       "category": null,
       "phase": "uncategorized",
@@ -5905,7 +5921,7 @@
     },
     {
       "name": "do_lazy_trace",
-      "line": 467,
+      "line": 555,
       "summary": "Worker trace exchange. Usage: lazy_trace list|search <q>|search-all <q>|get <intent>|steps <intent> [--q Q]|step <intent> <n> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5916,7 +5932,7 @@
     },
     {
       "name": "do_lazy_broadcast",
-      "line": 520,
+      "line": 608,
       "summary": "Exploration timeline. Usage: lazy_broadcast [--task T] [--kind K] [--q Q] [--asc] [--page N] [--limit N]",
       "category": null,
       "phase": "uncategorized",
@@ -5927,7 +5943,7 @@
     },
     {
       "name": "do_lazy_hint",
-      "line": 555,
+      "line": 643,
       "summary": "Inject steering hint. Usage: lazy_hint <text> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5938,7 +5954,7 @@
     },
     {
       "name": "do_lazy_intent",
-      "line": 567,
+      "line": 655,
       "summary": "Inject high-priority intent. Usage: lazy_intent <summary> [--task T] [--priority N]",
       "category": null,
       "phase": "uncategorized",
@@ -5949,7 +5965,7 @@
     },
     {
       "name": "do_lazy_intent_delete",
-      "line": 592,
+      "line": 680,
       "summary": "Delete an intent. Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]",
       "category": null,
       "phase": "uncategorized",
@@ -5960,7 +5976,7 @@
     },
     {
       "name": "do_lazy_goal",
-      "line": 635,
+      "line": 723,
       "summary": "Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>. Usage: lazy_goal ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5971,7 +5987,7 @@
     },
     {
       "name": "do_lazy_constraint",
-      "line": 674,
+      "line": 762,
       "summary": "Constraints: add <allow|deny> <text> | list. Usage: lazy_constraint ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5982,7 +5998,7 @@
     },
     {
       "name": "do_lazy_scope",
-      "line": 692,
+      "line": 780,
       "summary": "Scope: add <kind> <value> [reason] | list. Usage: lazy_scope ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -5993,7 +6009,7 @@
     },
     {
       "name": "do_lazy_todo",
-      "line": 710,
+      "line": 798,
       "summary": "Serial chain todos: add <text> | done <id> | list. Usage: lazy_todo ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6004,7 +6020,7 @@
     },
     {
       "name": "do_lazy_asset",
-      "line": 732,
+      "line": 820,
       "summary": "Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested. Usage: lazy_asset ...",
       "category": null,
       "phase": "uncategorized",
@@ -6015,7 +6031,7 @@
     },
     {
       "name": "do_lazy_enrich",
-      "line": 773,
+      "line": 861,
       "summary": "Enrich asset with DNS/HTTP. Usage: lazy_enrich <host-or-url>",
       "category": null,
       "phase": "uncategorized",
@@ -6026,7 +6042,7 @@
     },
     {
       "name": "do_lazy_traffic",
-      "line": 785,
+      "line": 873,
       "summary": "Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp] [--offset N] [--length N]|search-body <q>|tem…",
       "category": null,
       "phase": "uncategorized",
@@ -6037,7 +6053,7 @@
     },
     {
       "name": "do_lazy_guard",
-      "line": 1006,
+      "line": 1094,
       "summary": "Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail allow|deny] | judge fail <allow|deny> | judge | au…",
       "category": null,
       "phase": "uncategorized",
@@ -6048,7 +6064,7 @@
     },
     {
       "name": "do_lazy_finding",
-      "line": 1107,
+      "line": 1195,
       "summary": "Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>. Usage: lazy_finding ... [--task T] [--severity…",
       "category": null,
       "phase": "uncategorized",
@@ -6059,7 +6075,7 @@
     },
     {
       "name": "do_lazy_retest",
-      "line": 1172,
+      "line": 1260,
       "summary": "Retest finding to reproduced/fixed/inconclusive. Usage: lazy_retest <finding_id> [--task T] [--note TEXT]",
       "category": null,
       "phase": "uncategorized",
@@ -6070,7 +6086,7 @@
     },
     {
       "name": "do_lazy_steer",
-      "line": 1191,
+      "line": 1279,
       "summary": "Mid-run correction. Usage: lazy_steer <intent> <message> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6081,7 +6097,7 @@
     },
     {
       "name": "do_lazy_kill",
-      "line": 1203,
+      "line": 1291,
       "summary": "Terminate running intent. Usage: lazy_kill <intent> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6092,7 +6108,7 @@
     },
     {
       "name": "do_lazy_pause",
-      "line": 1215,
+      "line": 1303,
       "summary": "Pause task loops. Usage: lazy_pause [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6103,7 +6119,7 @@
     },
     {
       "name": "do_lazy_resume",
-      "line": 1225,
+      "line": 1313,
       "summary": "Resume paused task. Usage: lazy_resume [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6114,7 +6130,7 @@
     },
     {
       "name": "do_lazy_report",
-      "line": 1235,
+      "line": 1323,
       "summary": "Export severity-ranked report. Usage: lazy_report [--task T] [--format md|json|csv] [--out PATH]",
       "category": null,
       "phase": "uncategorized",
@@ -6125,7 +6141,7 @@
     },
     {
       "name": "do_lazy_runtime",
-      "line": 1252,
+      "line": 1340,
       "summary": "Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text. Usage: lazy_runtime show [--task T] | lazy_runtime budget <max_toolcalls> <m…",
       "category": null,
       "phase": "uncategorized",
@@ -6136,7 +6152,7 @@
     },
     {
       "name": "do_lazy_payload_keys",
-      "line": 1299,
+      "line": 1387,
       "summary": "Show worker tool defaults injected into every probe. Usage: lazy_payload_keys [tool]",
       "category": null,
       "phase": "uncategorized",
@@ -6147,7 +6163,7 @@
     },
     {
       "name": "do_lazy_fact",
-      "line": 1311,
+      "line": 1399,
       "summary": "Facts: list [query] [--hot|--cold]|add <text>. Usage: lazy_fact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6158,7 +6174,7 @@
     },
     {
       "name": "do_lazy_node",
-      "line": 1339,
+      "line": 1427,
       "summary": "Full node detail. Usage: lazy_node <id> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6169,7 +6185,7 @@
     },
     {
       "name": "do_lazy_evidence",
-      "line": 1359,
+      "line": 1447,
       "summary": "Evidence vault and frozen package.",
       "category": null,
       "phase": "uncategorized",
@@ -6180,7 +6196,7 @@
     },
     {
       "name": "do_lazy_ask",
-      "line": 1426,
+      "line": 1514,
       "summary": "Bounded side question over task context. Usage: lazy_ask <question> [--task T] [--session S] | lazy_ask history [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6191,7 +6207,7 @@
     },
     {
       "name": "do_lazy_agent",
-      "line": 1580,
+      "line": 1668,
       "summary": "Main agent with full tool calling (native backend or opencode). Usage: lazy_agent new [--title T]|list|show <sid>|say <prompt...> [--session S] [--continue] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -6202,7 +6218,7 @@
     },
     {
       "name": "do_lazy_company",
-      "line": 1681,
+      "line": 1769,
       "summary": "Company scope: add <name> [scope]|list|match <value>. Usage: lazy_company ...",
       "category": null,
       "phase": "uncategorized",
@@ -6213,7 +6229,7 @@
     },
     {
       "name": "do_lazy_tool",
-      "line": 1703,
+      "line": 1791,
       "summary": "Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D] [--method M] [--body B] [--timeout S] [--trig…",
       "category": null,
       "phase": "uncategorized",
@@ -6223,8 +6239,30 @@
       "duplicate_of": null
     },
     {
+      "name": "do_lazy_verb",
+      "line": 1863,
+      "summary": "Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target] [--desc D]|remove <verb>|full-cli [on|off]. U…",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_stage",
+      "line": 1961,
+      "summary": "Loop stage admin: list|enable|disable <stage>|reset. Usage: lazy_stage ...",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_lazy_addon",
-      "line": 1775,
+      "line": 1989,
       "summary": "Addon trigger runner: list [service]|run <name> [--target T]. Usage: lazy_addon ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6235,7 +6273,7 @@
     },
     {
       "name": "do_lazy_notify",
-      "line": 1857,
+      "line": 2071,
       "summary": "Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Us…",
       "category": null,
       "phase": "uncategorized",
@@ -6246,7 +6284,7 @@
     },
     {
       "name": "do_lazy_trigger",
-      "line": 1905,
+      "line": 2119,
       "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6257,8 +6295,8 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 1964,
-      "summary": "LLM chain: list|add <name> [model] [--priority N]|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|bind <member...> --task T|chain --task…",
+      "line": 2178,
+      "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
       "source_file": "cli/commands/lazyops.py",
@@ -6268,7 +6306,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2079,
+      "line": 2315,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6279,7 +6317,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2151,
+      "line": 2387,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6290,7 +6328,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2175,
+      "line": 2411,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6301,7 +6339,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2180,
+      "line": 2416,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6312,7 +6350,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2211,
+      "line": 2447,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6323,7 +6361,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2242,
+      "line": 2478,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -6334,7 +6372,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2263,
+      "line": 2499,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6345,7 +6383,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2296,
+      "line": 2532,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6356,7 +6394,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2323,
+      "line": 2559,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -6367,8 +6405,30 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2368,
+      "line": 2604,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [-…",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_sandbox",
+      "line": 2624,
+      "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_install",
+      "line": 2687,
+      "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
       "category": null,
       "phase": "uncategorized",
       "source_file": "cli/commands/lazyops.py",
@@ -6697,7 +6757,7 @@
     },
     {
       "name": "do_banner",
-      "line": 738,
+      "line": 744,
       "summary": "Show the banner",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6708,7 +6768,7 @@
     },
     {
       "name": "do_config_banner",
-      "line": 748,
+      "line": 754,
       "summary": "Open a Powerlevel10k-style wizard to toggle prompt segments.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6719,7 +6779,7 @@
     },
     {
       "name": "do_aliass",
-      "line": 792,
+      "line": 798,
       "summary": "Prints all configured aliases and their associated commands.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6730,7 +6790,7 @@
     },
     {
       "name": "do_graph",
-      "line": 820,
+      "line": 826,
       "summary": "Generates a graph from JSON payload files containing URL, RHOST, and RPORT.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6741,7 +6801,7 @@
     },
     {
       "name": "do_h",
-      "line": 880,
+      "line": 886,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6752,7 +6812,7 @@
     },
     {
       "name": "do_v",
-      "line": 926,
+      "line": 932,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6763,7 +6823,7 @@
     },
     {
       "name": "do_links",
-      "line": 972,
+      "line": 978,
       "summary": "Displays a list of useful links and allows the user to select and copy a link to the clipboard.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6774,7 +6834,7 @@
     },
     {
       "name": "do_news",
-      "line": 1035,
+      "line": 1041,
       "summary": "Show the Hacker News in the terminal.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6785,7 +6845,7 @@
     },
     {
       "name": "do_check_update",
-      "line": 1048,
+      "line": 1054,
       "summary": "Checks for updates by comparing the local version with the remote version.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6796,7 +6856,7 @@
     },
     {
       "name": "do_addalias",
-      "line": 1093,
+      "line": 1099,
       "summary": "Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6807,7 +6867,7 @@
     },
     {
       "name": "do_listaliases",
-      "line": 1145,
+      "line": 1151,
       "summary": "List all available aliases.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -9458,7 +9518,7 @@
     },
     {
       "name": "do_cme",
-      "line": 34,
+      "line": 37,
       "summary": "Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9469,7 +9529,7 @@
     },
     {
       "name": "do_ldapdomaindump",
-      "line": 173,
+      "line": 176,
       "summary": "Dumps LDAP information using `ldapdomaindump` with credentials from a file.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9480,7 +9540,7 @@
     },
     {
       "name": "do_bloodhound",
-      "line": 215,
+      "line": 218,
       "summary": "Perform LDAP enumeration using bloodhound-python with credentials from a file.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9491,7 +9551,7 @@
     },
     {
       "name": "do_swaks",
-      "line": 264,
+      "line": 267,
       "summary": "Sends an email using `swaks` (Swiss Army Knife for SMTP).",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9502,7 +9562,7 @@
     },
     {
       "name": "do_samrdump",
-      "line": 303,
+      "line": 306,
       "summary": "Run `impacket-samrdump` to dump SAM data from specified ports.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9513,7 +9573,7 @@
     },
     {
       "name": "do_lynis",
-      "line": 358,
+      "line": 361,
       "summary": "Performs a Lynis audit on the specified remote system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9524,7 +9584,7 @@
     },
     {
       "name": "do_snmpcheck",
-      "line": 387,
+      "line": 390,
       "summary": "Performs an SNMP check on the specified target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9535,7 +9595,7 @@
     },
     {
       "name": "do_snmpwalk",
-      "line": 414,
+      "line": 417,
       "summary": "Performs an SNMP check on the specified target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9546,7 +9606,7 @@
     },
     {
       "name": "do_smtpuserenum",
-      "line": 441,
+      "line": 444,
       "summary": "Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9557,7 +9617,7 @@
     },
     {
       "name": "do_sessionssh",
-      "line": 480,
+      "line": 483,
       "summary": "Execute a command to list active SSH connections.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9568,7 +9628,7 @@
     },
     {
       "name": "do_smbattack",
-      "line": 504,
+      "line": 507,
       "summary": "Scans for hosts with SMB service open on port 445 in the specified target network.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9579,7 +9639,7 @@
     },
     {
       "name": "do_parsero",
-      "line": 640,
+      "line": 667,
       "summary": "Executes a parsero scan on a specified target URL or host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9590,7 +9650,7 @@
     },
     {
       "name": "do_changeme",
-      "line": 672,
+      "line": 699,
       "summary": "Executes a changeme scan on a specified target URL or host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9601,7 +9661,7 @@
     },
     {
       "name": "do_enum4linux_ng",
-      "line": 703,
+      "line": 730,
       "summary": "Performs enumeration of information from a target system using `enum4linux-ng`.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9612,7 +9672,7 @@
     },
     {
       "name": "do_fuzz",
-      "line": 743,
+      "line": 770,
       "summary": "Executes a web server fuzzing script with user-provided parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9623,7 +9683,7 @@
     },
     {
       "name": "do_kerbrute",
-      "line": 788,
+      "line": 815,
       "summary": "Executes the Kerbrute tool to enumerate user accounts against a specified target self.params['domain'] controller.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9634,7 +9694,7 @@
     },
     {
       "name": "do_davtest",
-      "line": 874,
+      "line": 901,
       "summary": "Tests WebDAV server configurations using `davtest`.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9645,7 +9705,7 @@
     },
     {
       "name": "do_evil_ssdp",
-      "line": 915,
+      "line": 942,
       "summary": "Runs evil-ssdp with various options and user-selected templates.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9656,7 +9716,7 @@
     },
     {
       "name": "do_netexec",
-      "line": 961,
+      "line": 988,
       "summary": "Executes netexec with various options for network protocol operations.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9667,7 +9727,7 @@
     },
     {
       "name": "do_allin",
-      "line": 1214,
+      "line": 1241,
       "summary": "Execute the AlliN.py tool with various scan modes and parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9678,7 +9738,7 @@
     },
     {
       "name": "do_windapsearch",
-      "line": 1285,
+      "line": 1312,
       "summary": "Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9689,7 +9749,7 @@
     },
     {
       "name": "do_ldapsearch",
-      "line": 1413,
+      "line": 1440,
       "summary": "Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9700,7 +9760,7 @@
     },
     {
       "name": "do_arjun",
-      "line": 1474,
+      "line": 1501,
       "summary": "Executes an Arjun scan on the specified URL for parameter discovery.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9711,7 +9771,7 @@
     },
     {
       "name": "do_finger_user_enum",
-      "line": 1542,
+      "line": 1569,
       "summary": "Executes the `finger-user-enum` tool for enumerating users on the target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9722,7 +9782,7 @@
     },
     {
       "name": "do_wpscan",
-      "line": 1588,
+      "line": 1615,
       "summary": "Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9733,7 +9793,7 @@
     },
     {
       "name": "do_loxs",
-      "line": 1651,
+      "line": 1678,
       "summary": "Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9744,7 +9804,7 @@
     },
     {
       "name": "do_blazy",
-      "line": 1695,
+      "line": 1722,
       "summary": "Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9755,7 +9815,7 @@
     },
     {
       "name": "do_parth",
-      "line": 1744,
+      "line": 1771,
       "summary": "Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9766,7 +9826,7 @@
     },
     {
       "name": "do_breacher",
-      "line": 1813,
+      "line": 1840,
       "summary": "Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9777,7 +9837,7 @@
     },
     {
       "name": "do_openredirex",
-      "line": 1875,
+      "line": 1902,
       "summary": "Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9788,7 +9848,7 @@
     },
     {
       "name": "do_odat",
-      "line": 1943,
+      "line": 1970,
       "summary": "Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9799,7 +9859,7 @@
     },
     {
       "name": "do_rpcmap_py",
-      "line": 2061,
+      "line": 2088,
       "summary": "Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9810,7 +9870,7 @@
     },
     {
       "name": "do_pykerbrute",
-      "line": 2104,
+      "line": 2131,
       "summary": "Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory accounts using Kerberos pre-authentication.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9821,7 +9881,7 @@
     },
     {
       "name": "do_netview",
-      "line": 2174,
+      "line": 2201,
       "summary": "Executes the Impacket netview tool to list network shares on a specified target.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9832,7 +9892,7 @@
     },
     {
       "name": "do_rdp_check_py",
-      "line": 2238,
+      "line": 2265,
       "summary": "Executes the RDP check tool to verify credentials or hash-based authentication on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9843,7 +9903,7 @@
     },
     {
       "name": "do_mqtt_check_py",
-      "line": 2303,
+      "line": 2330,
       "summary": "Executes the MQTT check tool to verify credentials on a target system with optional SSL.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9854,7 +9914,7 @@
     },
     {
       "name": "do_lookupsid_py",
-      "line": 2358,
+      "line": 2385,
       "summary": "Executes the LookupSID tool to perform SID enumeration on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9865,7 +9925,7 @@
     },
     {
       "name": "do_lookupsid",
-      "line": 2431,
+      "line": 2458,
       "summary": "Executes the Impacket lookupsid tool to enumerate SIDs on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9876,7 +9936,7 @@
     },
     {
       "name": "do_certipy_ad",
-      "line": 2493,
+      "line": 2520,
       "summary": "Run certipy-ad against Active Directory Certificate Services.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9887,7 +9947,7 @@
     },
     {
       "name": "do_certipy",
-      "line": 2557,
+      "line": 2584,
       "summary": "Executes the Certipy tool to interact with Active Directory Certificate Services.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9898,7 +9958,7 @@
     },
     {
       "name": "do_sawks",
-      "line": 2651,
+      "line": 2678,
       "summary": "Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9909,7 +9969,7 @@
     },
     {
       "name": "do_ad_ldap_enum",
-      "line": 2688,
+      "line": 2715,
       "summary": "Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers)",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9920,7 +9980,7 @@
     },
     {
       "name": "do_net_rpc_addmem",
-      "line": 2742,
+      "line": 2769,
       "summary": "Executes the net rpc group addmem command to add a user to a specified group in Active Directory.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9931,7 +9991,7 @@
     },
     {
       "name": "do_pre2k",
-      "line": 2788,
+      "line": 2815,
       "summary": "Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list of hostnames to test authentication.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9942,7 +10002,7 @@
     },
     {
       "name": "do_hound",
-      "line": 2881,
+      "line": 2908,
       "summary": "Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -10316,7 +10376,7 @@
     },
     {
       "name": "do_clock",
-      "line": 1430,
+      "line": 1436,
       "summary": "Displays the current date and time, and runs a custom shell script.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10327,7 +10387,7 @@
     },
     {
       "name": "do_gencert",
-      "line": 1478,
+      "line": 1484,
       "summary": "Generates a certificate authority (CA), client certificate, and client key.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10338,7 +10398,7 @@
     },
     {
       "name": "do_load_session",
-      "line": 1490,
+      "line": 1496,
       "summary": "Load the session from the sessionLazyOwn.json file and display the status of various parameters.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10349,7 +10409,7 @@
     },
     {
       "name": "do_clone_site",
-      "line": 1540,
+      "line": 1546,
       "summary": "Clone a website and serve the files in sessions/{url_cloned}.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10360,7 +10420,7 @@
     },
     {
       "name": "do_msfshellcoder",
-      "line": 1586,
+      "line": 1592,
       "summary": "Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.",
       "category": "12. Miscellaneous",
       "phase": "misc",

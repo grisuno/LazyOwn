@@ -1,0 +1,20 @@
+name: stego_video
+description: 'Hides a ZIP archive inside a video file (encode) and extracts it back (decode).
+
+  Inspired by https://github.com/grisuno/LazyOwnInfiniteStorage. A carrier video is
+  generated with ffmpeg and the ZIP is appended after the video payload with an
+  8-byte size trailer. Priority for the input path: user argument ->
+  payload.json file -> interactive prompt. All messages in English.
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+params: []
+os: any
+trigger: []
+category: 12. Miscellaneous
+tool:
+  name: stego_video
+  execute_command: python3 modules/stego_video.py

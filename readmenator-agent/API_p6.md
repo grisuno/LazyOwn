@@ -1,6 +1,70 @@
 # API (page 6 of 23)
 Previous: [API_p5.md](API_p5.md)
 
+## contrib/legacy/lazynetbios.py
+- `check_sudo` (function) `contrib/legacy/lazynetbios.py:30` `def check_sudo()`
+- `signal_handler` (function) `contrib/legacy/lazynetbios.py:38` `def signal_handler(sig, frame)`
+- `scan_netbios` (function) `contrib/legacy/lazynetbios.py:45` `def scan_netbios(ip_range)`
+- `check_arp` (function) `contrib/legacy/lazynetbios.py:58` `def check_arp(ip)`
+- `check_netbios` (function) `contrib/legacy/lazynetbios.py:71` `def check_netbios(ip)`
+- `send_nbns_spoof` (function) `contrib/legacy/lazynetbios.py:90` `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)`
+- `generate_ip_range` (function) `contrib/legacy/lazynetbios.py:115` `def generate_ip_range(start_ip, end_ip)`
+
+## contrib/legacy/lazyntlrelayx.py
+- `parse_hash_file` (function) `contrib/legacy/lazyntlrelayx.py:5` `def parse_hash_file(file_path)`
+- `ntlm_relay` (function) `contrib/legacy/lazyntlrelayx.py:52` `def ntlm_relay(target_ip, credentials)`
+
+## contrib/legacy/lazyopenssh77enum2.py
+Depends on: `core/logging.py`
+- `add_boolean` (function) `contrib/legacy/lazyopenssh77enum2.py:19` `def add_boolean()`
+- `service_accept` (function) `contrib/legacy/lazyopenssh77enum2.py:30` `def service_accept()`
+- `invalid_username` (function) `contrib/legacy/lazyopenssh77enum2.py:36` `def invalid_username()`
+- `check_user` (function) `contrib/legacy/lazyopenssh77enum2.py:50` `def check_user(username)`
+
+## contrib/legacy/lazyphishingai.py
+Depends on: `core/logging.py`
+Imported by: `modules/llm_adapter.py`
+- `clean_think` (function) `contrib/legacy/lazyphishingai.py:28` `def clean_think(texto)`
+- `clean_yaml` (function) `contrib/legacy/lazyphishingai.py:31` `def clean_yaml(texto)`
+- `truncate_message` (function) `contrib/legacy/lazyphishingai.py:37` `def truncate_message(message, max_chars)`
+- `configure_logging` (function) `contrib/legacy/lazyphishingai.py:42` `def configure_logging(debug)`
+- `create_complex_prompt` (function) `contrib/legacy/lazyphishingai.py:46` `def create_complex_prompt(base_prompt, history, knowledge_base)`
+- `load_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:101` `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:110` `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:117` `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function) `contrib/legacy/lazyphishingai.py:122` `def get_relevant_knowledge(prompt)`
+- `process_prompt_local_yaml` (function) `contrib/legacy/lazyphishingai.py:132` `def process_prompt_local_yaml(prompt, debug, mode, output_file)`
+- `generate` (function) `contrib/legacy/lazyphishingai.py:155` `def generate()`
+- `parse_args` (function) `contrib/legacy/lazyphishingai.py:192` `def parse_args()`
+
+## contrib/legacy/lazyproxy.py
+Depends on: `modules/colors.py`
+- `check_sudo` (function) `contrib/legacy/lazyproxy.py:40` `def check_sudo()`
+- `signal_handler` (function) `contrib/legacy/lazyproxy.py:47` `def signal_handler(sig, frame)`
+- `hexdump` (function) `contrib/legacy/lazyproxy.py:52` `def hexdump(src, length)`
+- `receive_from` (function) `contrib/legacy/lazyproxy.py:63` `def receive_from(connection)`
+- `request_handler` (function) `contrib/legacy/lazyproxy.py:77` `def request_handler(buffer)`
+- `response_handler` (function) `contrib/legacy/lazyproxy.py:82` `def response_handler(buffer)`
+- `get_ip_from_url` (function) `contrib/legacy/lazyproxy.py:87` `def get_ip_from_url(url)`
+- `handle_request` (function) `contrib/legacy/lazyproxy.py:104` `def handle_request(client_socket, address)`
+- `start_proxy` (function) `contrib/legacy/lazyproxy.py:183` `def start_proxy()`
+
+## contrib/legacy/lazypwn.py
+Depends on: `cli/commands/pwn.py`
+- `BinaryFinder.__init__` (method) `contrib/legacy/lazypwn.py:25` `def __init__(self)`
+- `BinaryFinder.find_suid_binaries` (method) `contrib/legacy/lazypwn.py:28` `def find_suid_binaries(self)`
+- `BinaryFinder.find_capabilities_binaries` (method) `contrib/legacy/lazypwn.py:36` `def find_capabilities_binaries(self)`
+- `BinaryFinder.find_executable_binaries` (method) `contrib/legacy/lazypwn.py:44` `def find_executable_binaries(self)`
+- `BinaryFinder.find_specific_name_binaries` (method) `contrib/legacy/lazypwn.py:52` `def find_specific_name_binaries(self, names)`
+- `BinaryFinder.process_output` (method) `contrib/legacy/lazypwn.py:61` `def process_output(self, output)`
+- `BinaryFinder.get_found_binaries` (method) `contrib/legacy/lazypwn.py:67` `def get_found_binaries(self)`
+- `BinaryAttacker.__init__` (method) `contrib/legacy/lazypwn.py:71` `def __init__(self, binary_path)`
+- `BinaryAttacker.analyze_with_ltrace` (method) `contrib/legacy/lazypwn.py:76` `def analyze_with_ltrace(self)`
+- `BinaryAttacker.extract_strings` (method) `contrib/legacy/lazypwn.py:83` `def extract_strings(self)`
+- `BinaryAttacker.prepare_attack` (method) `contrib/legacy/lazypwn.py:90` `def prepare_attack(self)`
+- `BinaryAttacker.exploit_with_pwntools` (method) `contrib/legacy/lazypwn.py:170` `def exploit_with_pwntools(self)`
+- `main` (function) `contrib/legacy/lazypwn.py:181` `def main()`
+
 ## contrib/legacy/lazypwnkit.py
 - `rmrf` (function) `contrib/legacy/lazypwnkit.py:8` `def rmrf(path)` -- Elimina recursivamente un directorio y su contenido.
 - `create_exploit_environment` (function) `contrib/legacy/lazypwnkit.py:13` `def create_exploit_environment()` -- Crea el entorno necesario para el exploit.
@@ -127,7 +191,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `skills/lazyown_mcp.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:219` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:234` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:244` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -304,7 +368,7 @@ Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/lazyown_mcp
 - `wrap_backend_with_budget` (function) `core/llm_budget.py:657` `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` -- Wrap a concrete backend with a budgeted proxy.
 
 ## core/logging.py
-Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`
+Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/addon_updater.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/emulation_runner.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/gym_registry.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metasploitable_gym.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vulnbot.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`
 - `_JsonLineFormatter.__init__` (method) `core/logging.py:74` `def __init__(self, redacted_fields)`
 - `_JsonLineFormatter.format` (method) `core/logging.py:78` `def format(self, record)`
 - `_ConsoleFormatter.format` (method) `core/logging.py:132` `def format(self, record)`
@@ -400,7 +464,7 @@ Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, 
 
 ## core/safe_exec.py
 Depends on: `core/logging.py`
-Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 - `needs_shell` (function) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
 - `safe_system` (function) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
 - `safe_run_argv` (function) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
@@ -425,74 +489,6 @@ Imported by: `core/process.py`, `tests/test_safe_subprocess.py`, `tests/test_saf
 - `SafeRunner.__init__` (method) `core/safe_subprocess.py:70` `def __init__(self, audit_log_path)`
 - `SafeRunner.run` (method) `core/safe_subprocess.py:73` `def run(self, argv)` -- Execute ``argv`` without invoking a shell.
 - `SafeRunner.run_shell` (method) `core/safe_subprocess.py:105` `def run_shell(self, command)` -- Execute ``command`` through the system shell, gated by policy.
-
-## core/scheduler.py
-Depends on: `core/logging.py`
-- `TaskScheduler.__init__` (method) `core/scheduler.py:61` `def __init__(self)`
-- `TaskScheduler.instance` (method) `core/scheduler.py:73` `def instance(cls)` -- Return the singleton ``TaskScheduler`` instance.
-- `TaskScheduler.start` (method) `core/scheduler.py:81` `def start(self)` -- Start the scheduler background thread.
-- `TaskScheduler.stop` (method) `core/scheduler.py:100` `def stop(self)` -- Stop the scheduler and cancel all pending tasks.
-- `TaskScheduler.schedule_task` (method) `core/scheduler.py:123` `def schedule_task(self, name, interval_seconds, func)` -- Register a recurring task to run every ``interval_seconds``.
-- `TaskScheduler.schedule_once` (method) `core/scheduler.py:157` `def schedule_once(self, name, delay_seconds, func)` -- Register a one-shot task to run after ``delay_seconds``.
-- `TaskScheduler.cancel_task` (method) `core/scheduler.py:192` `def cancel_task(self, name)` -- Cancel a scheduled task by name.
-- `TaskScheduler.list_tasks` (method) `core/scheduler.py:205` `def list_tasks(self)` -- Return metadata for all registered tasks.
-- `get_scheduler` (function) `core/scheduler.py:285` `def get_scheduler()` -- Return the singleton ``TaskScheduler`` instance.
-
-## core/security.py
-Depends on: `core/logging.py`
-- `anti_debug` (function) `core/security.py:18` `def anti_debug()` -- Check for debugger attachment and exit if found.
-- `generate_certificates` (function) `core/security.py:58` `def generate_certificates(output_dir)` -- Generate a self-signed CA certificate and key pair.
-
-## core/terminal_guard.py
-Imported by: `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
-- `emit_restore_sequences` (function) `core/terminal_guard.py:41` `def emit_restore_sequences()` -- Write the mode-reset sequences to the controlling terminal.
-- `apply_stty_sane` (function) `core/terminal_guard.py:62` `def apply_stty_sane()` -- Best-effort ``stty sane`` fallback when termios restore fails.
-- `TerminalGuard.__init__` (method) `core/terminal_guard.py:85` `def __init__(self)` -- Prepare an empty guard; the snapshot happens on ``__enter__``.
-- `TerminalGuard.restore` (method) `core/terminal_guard.py:108` `def restore(self)` -- Restore saved termios, then reset extra terminal modes once.
-
-## core/text_utils.py
-Imported by: `cli/autosuggest.py`, `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/tips_engine.py`, `cli/toast_bus.py`
-- `truncate_text` (function) `core/text_utils.py:10` `def truncate_text(value, max_len, marker)` -- Truncate value to max_len using marker.
-
-## core/validators.py
-Depends on: `core/console.py`, `core/host_policy.py`
-Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
-- `check_rhost` (function) `core/validators.py:26` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
-- `check_lhost` (function) `core/validators.py:40` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
-- `check_lport` (function) `core/validators.py:54` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
-- `check_port` (function) `core/validators.py:64` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
-- `require_rhost` (function) `core/validators.py:77` `def require_rhost(params)` -- Gate a command on a valid ``rhost`` looked up from ``params``.
-- `require_lhost` (function) `core/validators.py:94` `def require_lhost(params)` -- Gate a command on a valid ``lhost`` looked up from ``params``.
-- `require_lport` (function) `core/validators.py:107` `def require_lport(params)` -- Gate a command on a valid ``lport`` looked up from ``params``.
-- `require_rport` (function) `core/validators.py:120` `def require_rport(params)` -- Gate a command on a valid ``rport`` looked up from ``params``.
-
-## deploy/range/ad-mini/traffic-gen.py
-- `main` (function) `deploy/range/ad-mini/traffic-gen.py:35` `def main()` -- Loop forever emitting fake background traffic.
-
-## discord_c2.py
-Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
-- `SecureSessionManager.__init__` (method) `discord_c2.py:28` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `discord_c2.py:33` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `discord_c2.py:40` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `discord_c2.py:49` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `discord_c2.py:62` `def create_session(self, user_id, client_id)`
-- `SecureSessionManager.validate_session` (method) `discord_c2.py:70` `def validate_session(self, user_id)`
-- `Config.__init__` (method) `discord_c2.py:87` `def __init__(self, config_dict)`
-- `load_payload` (function) `discord_c2.py:96` `def load_payload()`
-- `on_ready` (function) `discord_c2.py:103` `def on_ready()`
-- `start` (function) `discord_c2.py:108` `def start(ctx)`
-- `exce_cmd` (function) `discord_c2.py:130` `def exce_cmd(ctx)`
-- `add_cli` (function) `discord_c2.py:206` `def add_cli(ctx, new_client_id)`
-- `handle_file` (function) `discord_c2.py:216` `def handle_file(ctx)`
-- `download_c2` (function) `discord_c2.py:245` `def download_c2(ctx, client_id, file_name)`
-- `send_connected_clients` (function) `discord_c2.py:256` `def send_connected_clients(ctx)`
-- `clients` (function) `discord_c2.py:273` `def clients(ctx)`
-- `addcli` (function) `discord_c2.py:278` `def addcli(ctx, new_client_id)`
-- `c2` (function) `discord_c2.py:283` `def c2(ctx)`
-
-## external/install_external.sh
-- `ctrl_c` (function) `external/install_external.sh:13`
-- `download` (function) `external/install_external.sh:18`
 
 
 Next: [API_p7.md](API_p7.md)

@@ -544,27 +544,38 @@ class PlaybookEngine:
         result = PlaybookResult(playbook=playbook, total_steps=len(playbook.steps))
         parser = self._obs_parser()
         wm = self._world_model()
+        runnable = [step for step in playbook.steps if step.command.strip()]
+        if not runnable:
+            return result
+        from modules.emulation_runner import EmulationRunner, EmulationStep
 
-        for step in playbook.steps:
-            if not step.command.strip():
-                log.debug("Skipping step %s — no command", step.technique_id)
-                continue
-
-            log.info("Executing step [%s] %s on %s", step.technique_id, step.name, playbook.target)
-
+        steps = [
+            EmulationStep(
+                technique_id=step.technique_id,
+                name=step.name,
+                command=step.command,
+                description=step.description,
+                guid=step.atomic_id,
+            )
+            for step in runnable
+        ]
+        runner = EmulationRunner(sessions_dir=_SESSIONS_DIR)
+        report = runner.run_steps(
+            steps,
+            playbook.target,
+            lambda command: executor(command, playbook.target),
+            platform=playbook.phase or "linux",
+            dry_run=dry_run,
+            source="playbook_engine",
+        )
+        for step, row in zip(runnable, report.results, strict=False):
             if dry_run:
-                print(f"[DRY-RUN] [{step.technique_id}] {step.name}")
-                print(f"  command: {step.command[:200]}")
-                step_result = StepResult(step=step, output="[dry-run]", success=True)
+                output = "[dry-run]"
+                success = True
+                findings = []
             else:
-                try:
-                    output = executor(step.command, playbook.target)
-                    success = bool(output and len(output.strip()) > 5)
-                except Exception as exc:
-                    output = f"[executor error] {exc}"
-                    success = False
-
-                # Parse observations and feed back to world model
+                output = row.output or (f"[{row.status}] {row.note}" if row.note else "")
+                success = row.status == "executed" and bool(output.strip())
                 findings = []
                 if parser is not None:
                     try:
@@ -575,11 +586,9 @@ class PlaybookEngine:
                             wm.update_from_findings(findings)
                     except Exception as exc:
                         log.debug("ObsParser error: %s", exc)
-
-                step_result = StepResult(step=step, output=output, success=success, findings=findings)
-                if success:
-                    result.successful_steps += 1
-
+            step_result = StepResult(step=step, output=output, success=success, findings=findings)
+            if success:
+                result.successful_steps += 1
             result.results.append(step_result)
 
         log.info("Playbook complete: %d/%d steps succeeded", result.successful_steps, result.total_steps)

@@ -11,6 +11,7 @@ description: >
 author: LazyOwn Team
 version: 1.0.0
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

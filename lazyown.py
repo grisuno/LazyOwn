@@ -29,6 +29,7 @@ from cmd2 import with_category
 from cmd2.plugin import PostcommandData as _PostcommandData
 
 from cli.aliases import REQUIRED_PLACEHOLDERS as _REQUIRED_ALIAS_PLACEHOLDERS
+from cli.aliases import alias_with_trailing_args as _alias_with_trailing_args
 from cli.aliases import empty_placeholders as _empty_alias_placeholders
 from cli.aliases import load_aliases as _load_aliases
 from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
@@ -1481,6 +1482,7 @@ class LazyOwnShell(cmd2.Cmd):
                     raw_command,
                     DictPayloadProvider(context),
                 )
+                expanded_command = _alias_with_trailing_args(expanded_command, raw_input)
             except Exception as e:
                 self.perror(f"[!] Error expanding alias '{cmd_name}': {e}")
                 return True

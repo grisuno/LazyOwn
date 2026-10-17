@@ -6,6 +6,7 @@ description: >
 author: LazyOwn Team
 version: '0.1.0'
 enabled: true
+update: true
 params:
   - name: lhost
     type: string

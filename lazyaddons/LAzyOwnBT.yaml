@@ -6,6 +6,7 @@ description: 'LAzyOwn BlueTeam Framework, Detecta y reacciona a ataques, hareden
 author: LazyOwn BlueTeam
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

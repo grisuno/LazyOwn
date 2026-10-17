@@ -9,6 +9,7 @@ description: >
 author: peass-ng
 version: "1.0"
 enabled: true
+update: true
 os: containers
 trigger: []
 category: "18. Container & Kubernetes"

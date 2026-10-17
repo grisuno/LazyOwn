@@ -1,0 +1,27 @@
+id: first_blood_smb
+name: First Blood - SMB
+description: Enumerate SMB shares on Metasploitable2, find a writable share, and upload
+  a reverse shell.
+scenario: metasploitable
+chain: gym_metasploitable_samba_usermap
+objective: List all SMB shares, find writable one, upload a payload.
+difficulty: easy
+phases:
+- enum
+- exploit
+required_techniques:
+- smb_enum
+- payload_upload
+bonus_techniques:
+- reverse_shell
+- persistence
+max_points: 1000
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+- smbclient -L //RHOST
+- Check for 'tmp' or 'opt' share
+- Use smbmap or enum4linux
+success_check: writable share found and payload uploaded
+elo_bonus: 150

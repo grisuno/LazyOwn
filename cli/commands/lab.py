@@ -115,6 +115,66 @@ class LabCommandSet(LazyOwnCommandSet):
         """Return the container name for a given scenario."""
         return f"{REGISTRY_PREFIX}{scenario}"
 
+    def _container_ip(self, container_name: str) -> str:
+        """Resolve a lab container IP on its Docker network."""
+        try:
+            result = subprocess.run(
+                [
+                    "docker",
+                    "inspect",
+                    "--format",
+                    "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}",
+                    container_name,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
+                check=False,
+            )
+        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+            return ""
+        if result.returncode != 0:
+            return ""
+        return result.stdout.strip()
+
+    def _lab_ensure_web(self, scenario: str, container_name: str) -> None:
+        """Bring the lab web stack up when the image booted without it."""
+        if scenario != "metasploitable":
+            return
+        try:
+            subprocess.run(
+                ["docker", "exec", container_name, "sh", "-c", "service apache2 start >/dev/null 2>&1 || true"],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+            return
+
+    def _print_lab_target(self, scenario: str, container_name: str, ports: dict) -> None:
+        """Print the target IP and the host-mapped ports for one lab."""
+        ip = self._container_ip(container_name)
+        if ip:
+            print_msg(f"[*] Container IP: {ip}")
+            print_msg(f"[*] Assign target: assign rhost {ip}")
+        else:
+            print_warn(
+                f"Container IP unavailable for {container_name}; inspect with: docker inspect {container_name}"
+            )
+        if ports:
+            print_msg("[*] Host-mapped ports:")
+            for container_port, host_port in ports.items():
+                print_msg(f"    {host_port} -> {container_port}")
+        if ip:
+            print_msg("[*] Prefer the container IP for native ports in apt_chain/gym chains.")
+            print_msg("[*] Use 127.0.0.1 with the mapped ports only when the tool needs a host port.")
+        if scenario == "metasploitable":
+            print_msg("[*] Quick start: assign rhost <container-ip> && lazynmap")
+        elif scenario in ("wordpress", "juice-shop", "tomcat", "struts"):
+            port = list(ports.values())[0] if ports else ""
+            print_msg(f"[*] Quick start: ww && gobuster  (url http://127.0.0.1:{port})")
+
     @cmd2.with_category(miscellaneous_category)
     def do_lab(self, line):
         """Manage local CTF practice labs.
@@ -201,6 +261,8 @@ class LabCommandSet(LazyOwnCommandSet):
         running = self._running_containers()
         if container_name in running:
             print_warn(f"Lab '{scenario}' is already running.")
+            self._lab_ensure_web(scenario, container_name)
+            self._print_lab_target(scenario, container_name, ports)
             return
 
         print_msg(f"Pulling image {image} ...")
@@ -217,17 +279,8 @@ class LabCommandSet(LazyOwnCommandSet):
         if result.returncode == 0:
             container_id = result.stdout.strip()[:12]
             print_msg(f"Lab '{scenario}' started. Container: {container_id}")
-            print_msg("Ports:")
-            for container_port, host_port in ports.items():
-                print_msg(f"  {host_port} -> {container_port}")
-
-            if scenario == "metasploitable":
-                print_msg("\n[*] Assign target: assign rhost 127.0.0.1")
-                print_msg("[*] Quick start: assign rhost 127.0.0.1 && lazynmap")
-            elif scenario in ("wordpress", "juice-shop", "tomcat", "struts"):
-                port = list(ports.values())[0]
-                print_msg(f"\n[*] Assign target: assign rhost 127.0.0.1 && assign url http://127.0.0.1:{port}")
-                print_msg("[*] Quick start: ww && gobuster")
+            self._lab_ensure_web(scenario, container_name)
+            self._print_lab_target(scenario, container_name, ports)
         else:
             print_error(f"Failed to start lab '{scenario}': {result.stderr}")
 
@@ -572,7 +625,11 @@ class LabCommandSet(LazyOwnCommandSet):
             )
             status = result.stdout.strip() if result.returncode == 0 else "unknown"
 
+            ip = self._container_ip(container_name)
             print_msg(f"  {scenario:<20} [{status}] {info.get('description', '')}")
+            print_msg(f"  {'':20}  ip: {ip or 'unavailable'}")
+            if ip:
+                print_msg(f"  {'':20}  assign rhost {ip}")
             if ports:
                 for container_port, host_port in ports.items():
                     print_msg(f"  {'':20}  {host_port} -> {container_port}")

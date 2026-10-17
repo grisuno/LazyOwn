@@ -6,6 +6,7 @@ description: Review ARTEX v0.3.12 operation approvals, agents and reports in Eng
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 params:
   - name: url
     type: string

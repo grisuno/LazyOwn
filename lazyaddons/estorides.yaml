@@ -3,6 +3,7 @@ description: 'Passive OSINT aggregator and LAN device inventory. 99+ sources, kn
 author: LazyOwn RedTeam
 version: '3.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

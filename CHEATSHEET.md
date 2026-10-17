@@ -1,6 +1,6 @@
 # LazyOwn Cheatsheet — Frequent Commands by Goal
 
-This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 819-command catalog, see `COMMANDS.md`.
+This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 834-command catalog, see `COMMANDS.md`.
 
 ---
 
@@ -193,10 +193,17 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | SSH into ws01 | `ssh -p 2222 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no msfadmin@127.0.0.1` (password `msfadmin`) |
 | vsftpd backdoor to root shell | `USER backdoor:)` / `PASS x` on `127.0.0.1:2121`, shell on `127.0.0.1:6200` |
 | List gym challenges | `gym list` |
+| Active gyms and run ids | `gym status` |
+| Leaderboard | `gym top` |
+| Start a gym with a target | `gym start first_implant --target 172.20.0.20` |
+| Inspect one gym run | `gym status gym0001` |
+| Stop one gym by id or name | `gym stop first_implant` |
+| Stop every active gym | `gym stop` |
 | Deploy-implant challenge | `gym start first_implant` |
 | Lateral-movement challenge | `gym start lateral_ad` |
 | Exfiltration challenge | `gym start vault_exfil` |
 | Submit challenge | `gym submit --techniques implant_deploy,beacon_callback` |
+| Remove a stale world-model host | `rm_wm_host 127.0.0.1` |
 
 ---
 
@@ -274,6 +281,6 @@ The framework reads `rhost`, `wordlist`, `lhost`, `lport`, `domain`, `start_user
 | 1 | `ESSENTIALS.md` | ~120 | You are new or need the golden path |
 | 2 | `CHEATSHEET.md` | ~300 | You know the basics, need the next layer |
 | 3 | `QUICKSTART.md` | ~200 | Setting up for the first time |
-| 4 | `COMMANDS.md` | ~1600 | You need the complete 749-command reference |
+| 4 | `COMMANDS.md` | ~1600 | You need the complete 834-command reference |
 | 5 | `skills/lazyown.md` | ~1600 | You are an AI operator using MCP tools |
 | 6 | `CLAUDE.md` | ~540 | You are developing or extending the framework |

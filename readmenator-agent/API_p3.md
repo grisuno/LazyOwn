@@ -222,8 +222,10 @@ Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/sur
 - `ReconMigratedCommandSet.do_ipinfo` (method) `cli/commands/recon_migrated.py:1369` `def do_ipinfo(self, line)` -- Retrieves detailed information about an IP address using the ARIN API.
 
 ## cli/commands/redteam_gym.py
-Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
-- `RedTeamGymCommandSet.do_gym` (method) `cli/commands/redteam_gym.py:39` `def do_gym(self, line)` -- Red Team Gym — gamified pentest training with ELO scoring.
+Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
+- `RedTeamGymCommandSet.do_gym` (method) `cli/commands/redteam_gym.py:40` `def do_gym(self, line)` -- Red Team Gym — gamified pentest training with ELO scoring.
+- `RedTeamGymCommandSet.do_gym_ms2` (method) `cli/commands/redteam_gym.py:93` `def do_gym_ms2(self, line)` -- Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.
 
 ## cli/commands/resource_scripting.py
 Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`

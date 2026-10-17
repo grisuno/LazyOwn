@@ -1,5 +1,118 @@
-# Subsystem: modules (page 5 of 14)
+# Subsystem: modules (page 5 of 15)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
+
+## modules/event_bus.py
+- Doc: UnifiedEventBus — central nervous system connecting all LazyOwn components.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
+  - `EventSeverity` (class, line 73) `class EventSeverity(str, Enum)`
+  - `LazyEvent` (class, line 82) `class LazyEvent`
+  - `Sink` (class, line 133) `class Sink(ABC)`
+  - `JsonlSink` (class, line 143) `class JsonlSink(Sink)`
+  - `CollabBusSink` (class, line 163) `class CollabBusSink(Sink)`
+  - `EngagementSink` (class, line 202) `class EngagementSink(Sink)`
+  - `UnifiedEventBus` (class, line 230) `class UnifiedEventBus`
+  - `get_event_bus` (function, line 570) `def get_event_bus()`
+  - `publish_event` (function, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
+  - `to_dict` (method, line 96) `def to_dict(self)`
+  - `to_json` (method, line 111) `def to_json(self)`
+  - `from_dict` (method, line 115) `def from_dict(cls, d)`
+  - `write` (method, line 137) `def write(self, event)`
+  - `close` (method, line 140) `def close(self)`
+  - `__init__` (method, line 146) `def __init__(self, filepath)`
+  - `write` (method, line 151) `def write(self, event)`
+  - `close` (method, line 159) `def close(self)`
+  - `__init__` (method, line 166) `def __init__(self)`
+  - `_bus` (method, line 170) `def _bus(self)`
+  - `write` (method, line 181) `def write(self, event)`
+  - `close` (method, line 198) `def close(self)`
+  - `write` (method, line 205) `def write(self, event)`
+  - `close` (method, line 226) `def close(self)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `_init_sinks` (method, line 273) `def _init_sinks(self)`
+  - `instance` (method, line 287) `def instance(cls)`
+  - `subscriber_count` (method, line 295) `def subscriber_count(self)`
+  - `subscribe` (method, line 300) `def subscribe(self, subscriber_id, callback)`
+  - `subscribe_topic` (method, line 305) `def subscribe_topic(self, subscriber_id, topic, callback)`
+  - `subscribe_async` (method, line 315) `def subscribe_async(self, subscriber_id)`
+  - `unsubscribe` (method, line 327) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 336) `def publish(self, event)`
+  - `drain` (method, line 354) `def drain(self)`
+  - `shutdown` (method, line 372) `def shutdown(self)`
+  - `_dispatch_loop` (method, line 416) `def _dispatch_loop(self)`
+  - `_dispatch_event` (method, line 441) `def _dispatch_event(self, event)`
+  - `_notify_shutdown` (method, line 479) `def _notify_shutdown(self)`
+  - `_match_topic` (method, line 517) `def _match_topic(self, topic, event)`
+  - `history` (method, line 556) `def history(self, n, category)`
+  - `history_since` (method, line 564) `def history_since(self, since_ts)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/sinks/event_bus.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `tests/test_loop_ai_bridge.py`
+
+## modules/event_consumers.py
+- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_load_payload` (function, line 43) `def _load_payload()`
+  - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
+  - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
+  - `_update_soul` (function, line 110) `def _update_soul(phase, credentials, access)`
+  - `PhaseTracker` (class, line 146) `class PhaseTracker`
+  - `AutoRecommender` (class, line 201) `class AutoRecommender`
+  - `CredentialReactor` (class, line 272) `class CredentialReactor`
+  - `SoulSync` (class, line 320) `class SoulSync`
+  - `DashboardPusher` (class, line 358) `class DashboardPusher`
+  - `wire_all_consumers` (function, line 380) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (function, line 409) `def unwire_all_consumers(bus)`
+  - `__init__` (method, line 156) `def __init__(self)`
+  - `__call__` (method, line 159) `def __call__(self, event)`
+  - `__init__` (method, line 204) `def __init__(self)`
+  - `__call__` (method, line 207) `def __call__(self, event)`
+  - `__call__` (method, line 282) `def __call__(self, event)`
+  - `__call__` (method, line 323) `def __call__(self, event)`
+  - `__call__` (method, line 361) `def __call__(self, event)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
+
+## modules/event_engine.py
+- Doc: LazyOwn Event Engine
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `load_rules` (function, line 99) `def load_rules()`
+  - `save_rules` (function, line 110) `def save_rules(rules)`
+  - `add_rule` (function, line 114) `def add_rule(rule)`
+  - `_read_watermark` (function, line 130) `def _read_watermark()`
+  - `_write_watermark` (function, line 137) `def _write_watermark(offset)`
+  - `_row_matches` (function, line 144) `def _row_matches(row, trigger)`
+  - `_append_event` (function, line 173) `def _append_event(event)`
+  - `process_new_rows` (function, line 181) `def process_new_rows()`
+  - `read_events` (function, line 250) `def read_events(limit, status)`
+  - `ack_event` (function, line 270) `def ack_event(event_id)`
+- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
+
+## modules/evidence.py
+- Doc: Content-addressed evidence vault independent of disposable traffic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
+  - `hash_bytes` (function, line 37) `def hash_bytes(data)`
+  - `_validate_hash` (function, line 42) `def _validate_hash(value)`
+  - `EvidenceStore` (class, line 54) `class EvidenceStore`
+  - `__init__` (method, line 57) `def __init__(self, base_dir)`
+  - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
+  - `put` (method, line 70) `def put(self, data)`
+  - `get` (method, line 90) `def get(self, content_hash)`
+  - `exists` (method, line 98) `def exists(self, content_hash)`
+  - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
+- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/evilhttprev.sh
+- Layer: utility
+- Language: sh
 
 ## modules/exp.c
 - Doc: gcc exp.c -o exp -l mnl -l nftnl -w
@@ -90,6 +203,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
   - `generate_report` (method, line 531) `def generate_report(self)`
   - `save_report` (method, line 566) `def save_report(self, path)`
+- Depends on: `modules/outcome_bus.py`
 - Imported by: `cli/commands/exploit_migrated.py`
 
 ## modules/exploit_recommender.py
@@ -316,6 +430,42 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `try_ssh_askpass` (function, line 33)
   - `try_kdialog` (function, line 40)
 
+## modules/gym_registry.py
+- Doc: Gym definitions and persistent run state.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_yaml_module` (function, line 85) `def _yaml_module()`
+  - `slugify` (function, line 92) `def slugify(value)`
+  - `validate_definition` (function, line 110) `def validate_definition(data, filename)`
+  - `definition_path` (function, line 155) `def definition_path(gym_id, directory)`
+  - `_read_yaml` (function, line 178) `def _read_yaml(path)`
+  - `_normalize_definition` (function, line 188) `def _normalize_definition(data)`
+  - `load_definitions` (function, line 207) `def load_definitions(directory)`
+  - `scan_definitions` (function, line 239) `def scan_definitions(directory)`
+  - `_write_yaml` (function, line 282) `def _write_yaml(path, data)`
+  - `create_definition` (function, line 300) `def create_definition(gym_id)`
+  - `update_definition_yaml` (function, line 369) `def update_definition_yaml(gym_id, text, directory)`
+  - `delete_definition` (function, line 402) `def delete_definition(gym_id, directory)`
+  - `_empty_state` (function, line 442) `def _empty_state()`
+  - `_world_model` (function, line 447) `def _world_model()`
+  - `_sanitize_state` (function, line 454) `def _sanitize_state(raw)`
+  - `normalize_operator` (function, line 495) `def normalize_operator(value)`
+  - `read_state` (function, line 501) `def read_state()`
+  - `write_state` (function, line 520) `def write_state(state)`
+  - `_merge_legacy` (function, line 532) `def _merge_legacy(state)`
+  - `_next_run_id` (function, line 569) `def _next_run_id(state)`
+  - `start_run` (function, line 579) `def start_run(challenge_id, definitions)`
+  - `_matches` (function, line 625) `def _matches(run, selector)`
+  - `get_active_runs` (function, line 637) `def get_active_runs(selector, operator)`
+  - `select_run` (function, line 663) `def select_run(selector)`
+  - `stop_runs` (function, line 695) `def stop_runs(selector)`
+  - `pop_run` (function, line 724) `def pop_run(selector)`
+  - `state_summary` (function, line 751) `def state_summary()`
+  - `new_run_token` (function, line 761) `def new_run_token()`
+- Depends on: `core/logging.py`, `modules/world_model.py`
+- Imported by: `cli/lazy_orchestrator.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+
 ## modules/hash_cracker.py
 - Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
 - Layer: utility
@@ -340,135 +490,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `_parse_john_show` (method, line 686) `def _parse_john_show(show_output, original)`
 - Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
 - Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
-
-## modules/hive_invoke.py
-- Doc: modules/hive_invoke.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
-  - `_find_claude` (function, line 115) `def _find_claude()`
-  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
-  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
-  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
-  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
-  - `main` (function, line 255) `def main(argv)`
-- Depends on: `modules/toposwarm_bridge.py`
-
-## modules/hostdiscover.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `extract_ips_from_arp` (function, line 21)
-  - `extract_listening_ips_from_netstat` (function, line 26)
-
-## modules/ia_code_analysis.py
-- Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
-  - `analyze_with_deepseek` (function, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
-  - `save_results_to_json` (function, line 123) `def save_results_to_json(results, file_path)`
-  - `start_analysis` (function, line 169) `def start_analysis(code_dir, mode)`
-  - `parse_args` (function, line 178) `def parse_args()`
-  - `__init__` (method, line 33) `def __init__(self, mode)`
-  - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
-  - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/ia_logs_analysis.py
-- Doc: Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: GPL v3...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
-  - `analyze_with_deepseek` (function, line 94) `def analyze_with_deepseek(log_content, mode)`
-  - `start_monitoring` (function, line 147) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (function, line 168) `def parse_args()`
-  - `__init__` (method, line 59) `def __init__(self, mode)`
-  - `on_modified` (method, line 64) `def on_modified(self, event)`
-  - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/ia_network_analysis.py
-- Doc: Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: GPL v3  Descripción: Bot de monitoreo de...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
-  - `packet_callback` (function, line 91) `def packet_callback(packet, mode)`
-  - `start_monitoring` (function, line 130) `def start_monitoring(interface, timeout, mode)`
-  - `parse_args` (function, line 154) `def parse_args()`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/icmp_client.py
-- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `encrypt_data` (function, line 18) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 34) `def decrypt_data(data, key)`
-  - `check_sudo` (function, line 57) `def check_sudo()`
-  - `checksum` (function, line 64) `def checksum(source_string)`
-  - `send_icmp_packet` (function, line 82) `def send_icmp_packet(dest_addr, data, key)`
-  - `receive_icmp_reply` (function, line 117) `def receive_icmp_reply(sock)`
-  - `main` (function, line 130) `def main()`
-
-## modules/icmp_server.py
-- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `check_sudo` (function, line 44) `def check_sudo()`
-  - `encrypt_data` (function, line 55) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 71) `def decrypt_data(data, key)`
-  - `execute_command` (function, line 93) `def execute_command(command)`
-  - `send_icmp_reply` (function, line 112) `def send_icmp_reply(sock, addr, data, key)`
-  - `checksum` (function, line 132) `def checksum(source_string)`
-  - `handle_packet` (function, line 150) `def handle_packet(packet, addr, key, sock)`
-  - `listen_for_icmp` (function, line 175) `def listen_for_icmp(interface, key)`
-  - `main` (function, line 202) `def main()`
-- Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
-
-## modules/img2bin.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `imagen_a_binario` (function, line 7) `def imagen_a_binario(imagen_input, binario_output, block_size)`
-  - `main` (function, line 43) `def main()`
-
-## modules/intel_fusion.py
-- Doc: Sessions attack-intel fusion: data -> information -> intelligence.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_family_color` (function, line 95) `def _family_color(name)`
-  - `node_id` (function, line 106) `def node_id(kind, value)`
-  - `_load_json` (function, line 112) `def _load_json(path, default)`
-  - `_read_lines` (function, line 122) `def _read_lines(path, limit)`
-  - `_host_mentions` (function, line 139) `def _host_mentions(text)`
-  - `_file_pagerank` (function, line 146) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
-  - `build_intel_graph` (function, line 176) `def build_intel_graph(sessions_dir, est_cap)`
-  - `_node_doc` (function, line 390) `def _node_doc(node)`
-  - `_symbol_list` (function, line 413) `def _symbol_list(node)`
-  - `_enrich_readmenator_fields` (function, line 428) `def _enrich_readmenator_fields(nodes, edges)`
-  - `group_colors` (function, line 512) `def group_colors(graph)`
-  - `page_settings` (function, line 528) `def page_settings(graph)`
-  - `build_analytics` (function, line 585) `def build_analytics(graph, summary)`
-  - `_fibonacci_sphere` (function, line 610) `def _fibonacci_sphere(count)`
-  - `_split_caps` (function, line 626) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `_unit` (function, line 651) `def _unit(vec)`
-  - `build_bundle_payload` (function, line 659) `def build_bundle_payload(graph)`
-  - `bundle_settings` (function, line 769) `def bundle_settings(graph)`
-  - `assign_layout` (function, line 800) `def assign_layout(graph, mode)`
-  - `write_summary` (function, line 865) `def write_summary(graph, sessions_dir)`
-  - `add_node` (function, line 183) `def add_node(kind, value, label)`
-  - `add_edge` (function, line 197) `def add_edge(src, dst, kind, evidence, weight)`
-  - `tag_source` (function, line 205) `def tag_source(nid, source)`
-- Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
-- Imported by: `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

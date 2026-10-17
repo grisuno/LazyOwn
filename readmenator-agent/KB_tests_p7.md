@@ -1,6 +1,68 @@
 # Subsystem: tests (page 7 of 17)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
+## tests/test_db.py
+- Doc: Tests for modules.db — LazyOwnDB SQLite layer.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `fresh_db` (function, line 20) `def fresh_db()`
+  - `TestLazyOwnDB` (class, line 28) `class TestLazyOwnDB`
+  - `test_initial_schema` (method, line 29) `def test_initial_schema(self, fresh_db)`
+  - `test_workspace_create_and_list` (method, line 46) `def test_workspace_create_and_list(self, fresh_db)`
+  - `test_duplicate_workspace_returns_negative_one` (method, line 54) `def test_duplicate_workspace_returns_negative_one(self, fresh_db)`
+  - `test_host_crud` (method, line 60) `def test_host_crud(self, fresh_db)`
+  - `test_host_upsert_updates_existing` (method, line 73) `def test_host_upsert_updates_existing(self, fresh_db)`
+  - `test_service_crud` (method, line 82) `def test_service_crud(self, fresh_db)`
+  - `test_credential_storage` (method, line 94) `def test_credential_storage(self, fresh_db)`
+  - `test_csv_export` (method, line 105) `def test_csv_export(self, fresh_db)`
+  - `test_nmap_xml_import` (method, line 114) `def test_nmap_xml_import(self, fresh_db, tmp_path)`
+  - `test_workspace_delete` (method, line 144) `def test_workspace_delete(self, fresh_db)`
+  - `test_loot_and_notes` (method, line 151) `def test_loot_and_notes(self, fresh_db)`
+- Depends on: `modules/db.py`
+
+## tests/test_dependencies.py
+- Doc: Tests for ``core.dependencies`` graceful optional-import handling.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_run_in_subprocess` (function, line 59) `def _run_in_subprocess(snippet)`
+  - `TestMissingDependencyError` (class, line 82) `class TestMissingDependencyError`
+  - `TestOptionalImportPresent` (class, line 102) `class TestOptionalImportPresent`
+  - `TestOptionalImportAbsent` (class, line 113) `class TestOptionalImportAbsent`
+  - `TestOptionalAttr` (class, line 146) `class TestOptionalAttr`
+  - `TestRegistry` (class, line 170) `class TestRegistry`
+  - `TestProbe` (class, line 204) `class TestProbe`
+  - `TestReport` (class, line 220) `class TestReport`
+  - `TestUtilsIntegration` (class, line 255) `class TestUtilsIntegration`
+  - `test_message_contains_pip_command` (method, line 85) `def test_message_contains_pip_command(self)`
+  - `test_attributes_are_exposed` (method, line 92) `def test_attributes_are_exposed(self)`
+  - `test_is_import_error_subclass` (method, line 98) `def test_is_import_error_subclass(self)`
+  - `test_returns_real_module` (method, line 105) `def test_returns_real_module(self)`
+  - `test_truthy_when_present` (method, line 109) `def test_truthy_when_present(self)`
+  - `test_returns_falsy_proxy` (method, line 116) `def test_returns_falsy_proxy(self)`
+  - `test_attribute_access_raises` (method, line 120) `def test_attribute_access_raises(self)`
+  - `test_call_raises` (method, line 125) `def test_call_raises(self)`
+  - `test_subscription_raises` (method, line 130) `def test_subscription_raises(self)`
+  - `test_iteration_raises` (method, line 135) `def test_iteration_raises(self)`
+  - `test_len_raises` (method, line 140) `def test_len_raises(self)`
+  - `test_returns_real_attribute` (method, line 149) `def test_returns_real_attribute(self)`
+  - `test_submodule_fallback` (method, line 153) `def test_submodule_fallback(self)`
+  - `test_missing_module_returns_proxy` (method, line 157) `def test_missing_module_returns_proxy(self)`
+  - `test_missing_attribute_returns_proxy` (method, line 163) `def test_missing_attribute_returns_proxy(self)`
+  - `test_every_spec_is_fully_populated` (method, line 173) `def test_every_spec_is_fully_populated(self)`
+  - `test_lazily_bound_dependency_is_registered` (method, line 200) `def test_lazily_bound_dependency_is_registered(self, import_name)`
+  - `test_present_dependency` (method, line 207) `def test_present_dependency(self)`
+  - `test_absent_dependency` (method, line 213) `def test_absent_dependency(self)`
+  - `test_collect_returns_report` (method, line 223) `def test_collect_returns_report(self)`
+  - `test_missing_and_ok_consistency` (method, line 228) `def test_missing_and_ok_consistency(self)`
+  - `test_ok_report_has_no_missing` (method, line 235) `def test_ok_report_has_no_missing(self)`
+  - `test_format_report_renders_markers` (method, line 241) `def test_format_report_renders_markers(self)`
+  - `test_main_returns_exit_code` (method, line 250) `def test_main_returns_exit_code(self)`
+  - `test_symbol_is_exported` (method, line 259) `def test_symbol_is_exported(self, name)`
+  - `test_is_binary_present_uses_path_lookup` (method, line 265) `def test_is_binary_present_uses_path_lookup(self)`
+- Depends on: `core/dependencies.py`
+
 ## tests/test_detection_feed.py
 - Doc: Tests for modules/detection_feed.py.
 - Layer: testing
@@ -84,6 +146,35 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_run_returns_report_without_raising` (method, line 194) `def test_run_returns_report_without_raising(self, tmp_path)`
   - `boom` (function, line 90) `def boom(name)`
 - Depends on: `cli/__init__.py`, `cli/wizard.py`
+
+## tests/test_emulation_runner.py
+- Doc: Emulation runner BDD contract: resolve, execute, normalize, publish.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `FakeTest` (class, line 19) `class FakeTest`
+  - `FakeResolver` (class, line 30) `class FakeResolver`
+  - `test_runner_executes_normalizes_and_publishes` (function, line 40) `def test_runner_executes_normalizes_and_publishes(tmp_path)`
+  - `test_runner_dry_run_never_calls_executor` (function, line 64) `def test_runner_dry_run_never_calls_executor(tmp_path)`
+  - `test_runner_skips_manual_tests_by_default` (function, line 79) `def test_runner_skips_manual_tests_by_default(tmp_path)`
+  - `test_runner_resolves_playbook_techniques` (function, line 94) `def test_runner_resolves_playbook_techniques(tmp_path)`
+  - `test_runner_requires_techniques` (function, line 112) `def test_runner_requires_techniques(tmp_path)`
+  - `test_run_steps_handles_dry_run_and_failures` (function, line 119) `def test_run_steps_handles_dry_run_and_failures()`
+  - `test_bridge_emulate_delegates_to_runner` (function, line 138) `def test_bridge_emulate_delegates_to_runner(monkeypatch, tmp_path)`
+  - `test_engine_prefers_yaml_command_chain` (function, line 160) `def test_engine_prefers_yaml_command_chain(monkeypatch)`
+  - `test_run_steps_dry_run_never_publishes` (function, line 185) `def test_run_steps_dry_run_never_publishes()`
+  - `test_outcome_metadata_uses_scan_dir` (function, line 195) `def test_outcome_metadata_uses_scan_dir(tmp_path)`
+  - `test_resolver_errors_are_reported_not_hidden` (function, line 208) `def test_resolver_errors_are_reported_not_hidden(tmp_path)`
+  - `__init__` (method, line 33) `def __init__(self, tests)`
+  - `list_for_technique` (method, line 36) `def list_for_technique(self, technique, platform)`
+  - `executor` (function, line 45) `def executor(command)`
+  - `executor` (function, line 128) `def executor(command)`
+  - `_Runner` (class, line 144) `class _Runner`
+  - `Broken` (class, line 210) `class Broken(FakeResolver)`
+  - `__init__` (method, line 145) `def __init__(self)`
+  - `run` (method, line 148) `def run(self, target)`
+  - `list_for_technique` (method, line 211) `def list_for_technique(self, technique, platform)`
+- Depends on: `modules/apt_playbooks.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/emulation_runner.py`
 
 ## tests/test_encoding_command_set.py
 - Doc: Encoding command set extraction tests.
@@ -377,104 +468,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_write_world_model_hosts` (function, line 146) `def test_write_world_model_hosts(tmp_path)`
   - `test_surface_readers_cover_sessions_formats` (function, line 158) `def test_surface_readers_cover_sessions_formats(tmp_path)`
 - Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`
-
-## tests/test_evidence_hints.py
-- Doc: Tests for evidence-backed inline hints.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_rec` (function, line 33) `def _rec(action, score, reasons, sources, command_preview)`
-  - `_FakeEngine` (class, line 50) `class _FakeEngine`
-  - `TestConfidenceFromScore` (class, line 62) `class TestConfidenceFromScore`
-  - `TestBuildEvidenceHints` (class, line 86) `class TestBuildEvidenceHints`
-  - `TestRenderEvidenceHints` (class, line 131) `class TestRenderEvidenceHints`
-  - `TestRecommendWithEvidence` (class, line 144) `class TestRecommendWithEvidence`
-  - `tmp_sessions_with_csv` (function, line 162) `def tmp_sessions_with_csv()`
-  - `_engine_with_stub` (function, line 170) `def _engine_with_stub(sessions, recs, evidence)`
-  - `TestTipsEngineEvidenceWiring` (class, line 178) `class TestTipsEngineEvidenceWiring`
-  - `__init__` (method, line 53) `def __init__(self, recs)`
-  - `recommend` (method, line 57) `def recommend(self, ctx)`
-  - `test_zero_score_is_zero_confidence` (method, line 63) `def test_zero_score_is_zero_confidence(self)`
-  - `test_negative_score_floored_to_zero` (method, line 66) `def test_negative_score_floored_to_zero(self)`
-  - `test_half_score_constant_yields_fifty` (method, line 69) `def test_half_score_constant_yields_fifty(self)`
-  - `test_monotonic_non_decreasing` (method, line 72) `def test_monotonic_non_decreasing(self)`
-  - `test_never_reaches_or_exceeds_hundred` (method, line 76) `def test_never_reaches_or_exceeds_hundred(self)`
-  - `test_bounded_in_unit_range_scaled` (method, line 80) `def test_bounded_in_unit_range_scaled(self)`
-  - `test_maps_core_fields` (method, line 87) `def test_maps_core_fields(self)`
-  - `test_strips_source_tag_from_reason` (method, line 100) `def test_strips_source_tag_from_reason(self)`
-  - `test_prefers_command_preview_over_action` (method, line 104) `def test_prefers_command_preview_over_action(self)`
-  - `test_skips_recommendation_without_verb` (method, line 111) `def test_skips_recommendation_without_verb(self)`
-  - `test_skips_recommendation_without_reason` (method, line 115) `def test_skips_recommendation_without_reason(self)`
-  - `test_respects_limit` (method, line 119) `def test_respects_limit(self)`
-  - `test_truncates_long_reason` (method, line 125) `def test_truncates_long_reason(self)`
-  - `test_prints_verb_confidence_and_reason` (method, line 132) `def test_prints_verb_confidence_and_reason(self, capsys)`
-  - `test_empty_list_prints_nothing` (method, line 139) `def test_empty_list_prints_nothing(self, capsys)`
-  - `test_returns_engine_output` (method, line 145) `def test_returns_engine_output(self)`
-  - `test_phase_override_reaches_engine_context` (method, line 150) `def test_phase_override_reaches_engine_context(self)`
-  - `test_target_falls_back_to_rhost` (method, line 155) `def test_target_falls_back_to_rhost(self)`
-  - `test_disabled_flag_returns_empty` (method, line 179) `def test_disabled_flag_returns_empty(self, tmp_sessions_with_csv)`
-  - `test_missing_engine_returns_empty` (method, line 183) `def test_missing_engine_returns_empty(self, tmp_sessions_with_csv)`
-  - `test_returns_evidence_hints` (method, line 190) `def test_returns_evidence_hints(self, tmp_sessions_with_csv)`
-  - `test_filters_already_run_commands` (method, line 196) `def test_filters_already_run_commands(self, tmp_sessions_with_csv)`
-  - `test_render_prefers_evidence_over_bare_names` (method, line 208) `def test_render_prefers_evidence_over_bare_names(self, tmp_sessions_with_csv)`
-  - `test_render_falls_back_to_bare_names` (method, line 214) `def test_render_falls_back_to_bare_names(self, tmp_sessions_with_csv)`
-- Depends on: `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`
-
-## tests/test_executor_kernel.py
-- Doc: Single execution kernel shared by every command runner.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_executor` (function, line 29) `def _executor()`
-  - `TestColorsPreserved` (class, line 33) `class TestColorsPreserved`
-  - `TestExitCodes` (class, line 62) `class TestExitCodes`
-  - `TestShellPolicy` (class, line 87) `class TestShellPolicy`
-  - `TestSingleSpawnPath` (class, line 113) `class TestSingleSpawnPath`
-  - `test_writer_receives_raw_ansi_bytes` (method, line 34) `def test_writer_receives_raw_ansi_bytes(self)`
-  - `test_log_file_is_byte_identical_to_writer` (method, line 42) `def test_log_file_is_byte_identical_to_writer(self, tmp_path)`
-  - `test_stderr_merged_into_stream` (method, line 52) `def test_stderr_merged_into_stream(self)`
-  - `test_shell_path_exit_code` (method, line 63) `def test_shell_path_exit_code(self)`
-  - `test_argv_path_exit_code` (method, line 70) `def test_argv_path_exit_code(self)`
-  - `test_passthrough_returns_exit_code` (method, line 76) `def test_passthrough_returns_exit_code(self)`
-  - `test_matches_shared_policy` (method, line 101) `def test_matches_shared_policy(self)`
-  - `test_timeout_kills_and_raises` (method, line 106) `def test_timeout_kills_and_raises(self)`
-  - `test_cmd_delegates_spawning_to_kernel` (method, line 114) `def test_cmd_delegates_spawning_to_kernel(self)`
-  - `test_cmd_keeps_telemetry` (method, line 142) `def test_cmd_keeps_telemetry(self)`
-- Depends on: `core/safe_exec.py`, `modules/command_executor.py`
-
-## tests/test_exploitgym_gym.py
-- Doc: Tests for the ExploitGym integration module.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 18) `def _add_repo_root_to_syspath()`
-  - `fake_repo` (function, line 24) `def fake_repo(tmp_path)`
-  - `_params` (function, line 39) `def _params(root)`
-  - `test_detect_domain_userspace` (function, line 51) `def test_detect_domain_userspace(fake_repo)`
-  - `test_list_tasks_filters_by_domain` (function, line 60) `def test_list_tasks_filters_by_domain(fake_repo)`
-  - `test_list_tasks_empty_without_repo` (function, line 77) `def test_list_tasks_empty_without_repo(tmp_path)`
-  - `test_check_readiness_ready` (function, line 84) `def test_check_readiness_ready(fake_repo, monkeypatch)`
-  - `test_check_readiness_missing_docker` (function, line 99) `def test_check_readiness_missing_docker(fake_repo, monkeypatch)`
-  - `test_check_readiness_missing_keys` (function, line 115) `def test_check_readiness_missing_keys(fake_repo, monkeypatch)`
-  - `test_extract_flag` (function, line 129) `def test_extract_flag()`
-  - `test_run_task_writes_log_and_records` (function, line 137) `def test_run_task_writes_log_and_records(fake_repo, tmp_path, monkeypatch)`
-  - `test_run_task_reports_missing_repo` (function, line 166) `def test_run_task_reports_missing_repo(tmp_path)`
-  - `test_pull_task_success` (function, line 174) `def test_pull_task_success(fake_repo, monkeypatch)`
-  - `test_score_task_reuses_redteam_pipeline` (function, line 192) `def test_score_task_reuses_redteam_pipeline(fake_repo, monkeypatch)`
-  - `test_setup_harness_reports_missing_repo` (function, line 212) `def test_setup_harness_reports_missing_repo(tmp_path, monkeypatch)`
-  - `test_setup_harness_runs_requested_steps` (function, line 221) `def test_setup_harness_runs_requested_steps(fake_repo, monkeypatch)`
-  - `test_command_set_declares_exploitgym` (function, line 241) `def test_command_set_declares_exploitgym()`
-  - `test_bridge_catalog_has_exploitgym` (function, line 248) `def test_bridge_catalog_has_exploitgym()`
-  - `fake_which` (function, line 87) `def fake_which(name)`
-  - `fake_which` (function, line 102) `def fake_which(name)`
-  - `fake_which` (function, line 118) `def fake_which(name)`
-  - `FakeProc` (class, line 143) `class FakeProc`
-  - `fake_run` (function, line 148) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
-  - `FakeProc` (class, line 177) `class FakeProc`
-  - `fake_run` (function, line 182) `def fake_run(cmd, cwd, capture_output, text, timeout, env)`
-  - `fake_record` (function, line 195) `def fake_record(challenge_id, success, elo_bonus, techniques)`
-  - `fake_run_streaming` (function, line 226) `def fake_run_streaming(cmd, cwd, timeout)`
-- Depends on: `cli/commands/exploitgym.py`, `modules/exploitgym_gym.py`, `modules/lazyown_bridge.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

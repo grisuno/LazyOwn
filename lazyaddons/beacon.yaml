@@ -9,6 +9,7 @@ description: 'beacon is a next-generation, automated framework for generating, o
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

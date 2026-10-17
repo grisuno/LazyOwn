@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_postgres_default
+version: 2
+description: 'Metasploitable 2: PostgreSQL default postgres credentials (T1078).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- postgresql
+platforms:
+- linux
+defaults:
+  exploit: ms2_postgres_default
+  vuln: ms2_postgres_default
+  port: '5432'

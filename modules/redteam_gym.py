@@ -10,6 +10,10 @@ avoid EDR triggers), and a technique-diversity bonus.
 
 Completion awards bonus ELO that is added via the existing
 ``aumentar_elo`` / ``_award_elo`` pipeline.
+
+Definitions are YAML files under ``gyms/`` (see :mod:`modules.gym_registry`).
+Active runs are persisted in the world model, so status and stop work
+across sessions and are addressable by stable run ids.
 """
 
 from __future__ import annotations
@@ -20,6 +24,18 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from modules.gym_registry import (
+    create_definition,
+    delete_definition,
+    get_active_runs,
+    load_definitions,
+    pop_run,
+    scan_definitions,
+    start_run,
+    stop_runs,
+    update_definition_yaml,
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
 GYM_DIR = SESSIONS_DIR / "gym"
@@ -27,7 +43,7 @@ GYM_LEADERBOARD = GYM_DIR / "leaderboard.json"
 GYM_CHALLENGES = GYM_DIR / "challenges.json"
 
 
-GYM_CHALLENGE_DEFINITIONS: dict[str, dict[str, Any]] = {
+GYM_DEFAULT_DEFINITIONS: dict[str, dict[str, Any]] = {
     "first_blood_web": {
         "id": "first_blood_web",
         "name": "First Blood — Web",
@@ -55,6 +71,7 @@ GYM_CHALLENGE_DEFINITIONS: dict[str, dict[str, Any]] = {
         "name": "First Blood — SMB",
         "description": "Enumerate SMB shares on Metasploitable2, find a writable share, and upload a reverse shell.",
         "scenario": "metasploitable",
+        "chain": "gym_metasploitable_samba_usermap",
         "objective": "List all SMB shares, find writable one, upload a payload.",
         "difficulty": "easy",
         "phases": ["enum", "exploit"],
@@ -145,6 +162,7 @@ GYM_CHALLENGE_DEFINITIONS: dict[str, dict[str, Any]] = {
         "name": "Tomcat Manager RCE",
         "description": "Bruteforce Tomcat Manager credentials, deploy a WAR reverse shell, and get command execution.",
         "scenario": "tomcat",
+        "chain": "gym_metasploitable_ms2_tomcat_manager",
         "objective": "Deploy a malicious WAR file via Tomcat Manager and get a reverse shell.",
         "difficulty": "medium",
         "phases": ["enum", "exploit"],
@@ -278,6 +296,24 @@ GYM_CHALLENGE_DEFINITIONS: dict[str, dict[str, Any]] = {
 }
 
 
+def reload_challenge_definitions(directory: Path | str | None = None) -> dict[str, dict[str, Any]]:
+    """Reload YAML definitions, falling back to the embedded catalogue.
+
+    Args:
+        directory: Override for tests; defaults to ``gyms/``.
+
+    Returns:
+        The active definition mapping.
+    """
+    global GYM_CHALLENGE_DEFINITIONS
+    loaded = load_definitions(directory)
+    GYM_CHALLENGE_DEFINITIONS = loaded or GYM_DEFAULT_DEFINITIONS
+    return GYM_CHALLENGE_DEFINITIONS
+
+
+GYM_CHALLENGE_DEFINITIONS = load_definitions() or GYM_DEFAULT_DEFINITIONS
+
+
 @dataclass
 class GymAttempt:
     """A single challenge attempt with scoring."""
@@ -354,20 +390,82 @@ def _get_username() -> str:
     return "anonymous"
 
 
+def definition_rows() -> list[dict[str, Any]]:
+    """Return one row per gym YAML file, including invalid files."""
+    return scan_definitions()
+
+
+def create_gym(
+    gym_id: str,
+    *,
+    name: str = "",
+    scenario: str = "metasploitable",
+    objective: str = "",
+    description: str = "",
+    difficulty: str = "easy",
+    chain: str = "",
+    phases: list[str] | None = None,
+    hints: list[str] | None = None,
+    max_points: int = 1000,
+    elo_bonus: int = 100,
+    overwrite: bool = False,
+) -> dict[str, Any]:
+    """Create a gym definition YAML and reload the catalogue."""
+    try:
+        path = create_definition(
+            gym_id,
+            name=name,
+            scenario=scenario,
+            objective=objective,
+            description=description,
+            difficulty=difficulty,
+            chain=chain,
+            phases=phases,
+            hints=hints,
+            max_points=max_points,
+            elo_bonus=elo_bonus,
+            overwrite=overwrite,
+        )
+    except (FileExistsError, ValueError, OSError) as exc:
+        return {"success": False, "error": str(exc)}
+    reload_challenge_definitions()
+    return {"success": True, "path": str(path)}
+
+
+def save_gym_yaml(gym_id: str, text: str) -> dict[str, Any]:
+    """Validate and persist raw YAML for one gym definition."""
+    try:
+        path = update_definition_yaml(gym_id, text)
+    except (FileNotFoundError, ValueError, OSError) as exc:
+        return {"success": False, "error": str(exc)}
+    reload_challenge_definitions()
+    return {"success": True, "path": str(path)}
+
+
+def delete_gym(gym_id: str, *, allow_active: bool = False) -> dict[str, Any]:
+    """Delete one gym definition unless it has active runs."""
+    result = delete_definition(gym_id, allow_active=allow_active)
+    if result.get("success"):
+        reload_challenge_definitions()
+    return result
+
+
 def list_challenges() -> dict[str, dict[str, Any]]:
     """Return all defined gym challenges with metadata.
 
     Returns:
         Dict mapping challenge ID to definition.
     """
+    definitions = reload_challenge_definitions()
     result: dict[str, dict[str, Any]] = {}
-    for cid, chal in GYM_CHALLENGE_DEFINITIONS.items():
+    for cid, chal in definitions.items():
         result[cid] = {
             "id": chal["id"],
             "name": chal["name"],
             "description": chal["description"],
             "difficulty": chal["difficulty"],
             "scenario": chal["scenario"],
+            "chain": chal.get("chain", ""),
             "phases": chal["phases"],
             "max_points": chal["max_points"],
             "elo_bonus": chal["elo_bonus"],
@@ -375,41 +473,53 @@ def list_challenges() -> dict[str, dict[str, Any]]:
     return result
 
 
-def start_challenge(challenge_id: str) -> dict[str, Any]:
-    """Begin a gym challenge and track start time.
+def _resolve_active_run(selector: str = "", operator: str = "") -> tuple[dict[str, Any] | None, str]:
+    """Resolve one run, falling back to the only global run when needed."""
+    definitions = reload_challenge_definitions()
+    runs = get_active_runs(selector=selector, operator=operator)
+    if not runs and not selector:
+        runs = get_active_runs(selector="", operator="")
+    if not runs:
+        return None, "No active gym. Start one with 'gym start <challenge_id>'."
+    if len(runs) > 1:
+        ids = ", ".join(str(run.get("run_id", "")) for run in runs)
+        return None, f"Multiple active gyms ({ids}); pass a run id."
+    run = runs[0]
+    definition = definitions.get(str(run.get("challenge_id", "")))
+    if definition:
+        run["definition"] = definition
+    return run, ""
+
+
+def start_challenge(challenge_id: str, target: str = "") -> dict[str, Any]:
+    """Begin a gym challenge and persist the run in the world model.
 
     Args:
-        challenge_id: ID from GYM_CHALLENGE_DEFINITIONS.
+        challenge_id: ID from the YAML catalogue.
+        target: Optional engagement target stored with the run.
 
     Returns:
-        Dict with challenge info and started status.
+        Dict with the run id, challenge info and next steps.
     """
-    if challenge_id not in GYM_CHALLENGE_DEFINITIONS:
+    definitions = reload_challenge_definitions()
+    chal = definitions.get(str(challenge_id or "").strip())
+    if chal is None:
         return {"success": False, "error": f"Unknown challenge: {challenge_id}"}
-
-    chal = GYM_CHALLENGE_DEFINITIONS[challenge_id]
-    username = _get_username()
-
-    attempt = GymAttempt(
-        challenge_id=challenge_id,
-        username=username,
-        started_at=time.time(),
+    started = start_run(
+        challenge_id,
+        definitions,
+        target=target,
+        operator=_get_username(),
     )
-
-    _ensure_gym_dir()
-    active_path = GYM_DIR / f"active_{username}.json"
-    with open(active_path, "w") as f:
-        json.dump(
-            {
-                "challenge_id": challenge_id,
-                "username": username,
-                "started_at": attempt.started_at,
-            },
-            f,
-        )
-
+    if not started.get("success"):
+        return started
+    run = dict(started.get("run", {}))
+    active = get_active_runs()
     result = {
         "success": True,
+        "run_id": str(run.get("run_id", "")),
+        "already_active": bool(started.get("already_active")),
+        "active_count": len(active),
         "challenge": {
             "id": chal["id"],
             "name": chal["name"],
@@ -417,11 +527,13 @@ def start_challenge(challenge_id: str) -> dict[str, Any]:
             "objective": chal["objective"],
             "difficulty": chal["difficulty"],
             "scenario": chal["scenario"],
+            "chain": chal.get("chain", ""),
             "max_points": chal["max_points"],
             "phases": chal["phases"],
             "hints": chal.get("hints", []),
         },
-        "started_at": attempt.started_at,
+        "started_at": run.get("started_at", 0.0),
+        "target": run.get("target", ""),
         "message": (
             f"Challenge '{chal['name']}' started. Run 'lab range start ad-mini' to spin up the range."
             if chal["scenario"] == "ad-mini"
@@ -439,43 +551,44 @@ def start_challenge(challenge_id: str) -> dict[str, Any]:
                 "assign rhost 127.0.0.1",
                 "lazynmap",
             ]
+            + ([f"apt_chain {chal['chain']} <target>"] if chal.get("chain") else [])
         ),
     }
-
     return result
 
 
 def submit_challenge(
     techniques_used: list[str] | None = None,
     success: bool = True,
+    run_id: str = "",
 ) -> dict[str, Any]:
     """Submit a completed challenge for scoring.
 
     Args:
         techniques_used: List of technique identifiers used.
         success: Whether the challenge was completed successfully.
+        run_id: Optional run id, challenge id or gym name. Required when
+            more than one gym is active.
 
     Returns:
         Dict with score breakdown and leaderboard position.
     """
-    username = _get_username()
-    active_path = GYM_DIR / f"active_{username}.json"
-
-    if not active_path.exists():
-        return {"success": False, "error": "No active challenge. Start one with 'gym start <challenge_id>'."}
-
-    with open(active_path) as f:
-        active = json.load(f)
-
-    challenge_id = active.get("challenge_id", "")
-    started_at = active.get("started_at", 0.0)
-
-    if challenge_id not in GYM_CHALLENGE_DEFINITIONS:
-        return {"success": False, "error": "Active challenge definition not found."}
-
-    chal = GYM_CHALLENGE_DEFINITIONS[challenge_id]
-    elapsed = time.time() - started_at
-
+    definitions = reload_challenge_definitions()
+    run, error = _resolve_active_run(run_id, _get_username())
+    if run is None:
+        return {"success": False, "error": error}
+    challenge_id = str(run.get("challenge_id", ""))
+    chal = definitions.get(challenge_id)
+    if chal is None:
+        stop_runs(str(run.get("run_id", "")))
+        return {"success": False, "error": f"Challenge definition not found: {challenge_id}"}
+    removed, remove_error = pop_run(str(run.get("run_id", "")), definitions=definitions)
+    if removed is None:
+        return {"success": False, "error": remove_error}
+    run = removed
+    username = str(run.get("operator", "")) or _get_username()
+    started_at = float(run.get("started_at", 0.0) or 0.0)
+    elapsed = max(0.0, time.time() - started_at)
     techniques = techniques_used or []
 
     if success:
@@ -508,10 +621,10 @@ def submit_challenge(
     _update_leaderboard(attempt)
     _award_gym_elo(username, elo_bonus)
 
-    active_path.unlink()
-
     result = {
         "success": True,
+        "run_id": str(run.get("run_id", "")),
+        "challenge_id": challenge_id,
         "challenge": chal["name"],
         "completed": success,
         "elapsed_seconds": int(elapsed),
@@ -526,8 +639,135 @@ def submit_challenge(
         "techniques_used": techniques,
         "rank": _get_rank(username),
     }
+    try:
+        from modules.outcome_bus import record_event
+
+        record_event(
+            kind="report",
+            target=str(run.get("target", "") or ""),
+            title=f"gym {challenge_id}",
+            description=f"{chal['name']}: {'completed' if success else 'failed'} score={total}",
+            severity="high" if success else "low",
+            success=success,
+            source="redteam_gym",
+            artifacts=[str(GYM_LEADERBOARD)],
+            sinks=["event_bus", "c2_surfaces"],
+            metadata={
+                "challenge": challenge_id,
+                "run_id": str(run.get("run_id", "")),
+                "score": total,
+                "techniques": techniques,
+            },
+        )
+    except Exception:
+        pass
 
     return result
+
+
+def stop_challenges(selector: str = "") -> dict[str, Any]:
+    """Stop one gym by id/name/run id, or every gym when selector is empty."""
+    return stop_runs(selector)
+
+
+def _same_engagement(ip: str, target: str) -> bool:
+    """Return True when a host belongs to the current engagement target.
+
+    Exact target wins. Private targets also accept their /24 so a lab
+    network with several hosts stays visible, while loopback addresses
+    never leak into a non-loopback engagement.
+    """
+    candidate = str(ip or "").strip()
+    wanted = str(target or "").strip()
+    if not wanted:
+        return True
+    if candidate == wanted:
+        return True
+    try:
+        import ipaddress
+
+        host = ipaddress.ip_address(candidate)
+        goal = ipaddress.ip_address(wanted)
+        if goal.is_loopback:
+            return host.is_loopback
+        if host.is_loopback or host.version != goal.version:
+            return False
+        return host in ipaddress.ip_network(f"{wanted}/24", strict=False)
+    except ValueError:
+        return candidate.lower() == wanted.lower()
+
+
+def engagement_context(target: str = "") -> dict[str, Any]:
+    """Return in-scope phase, compromised hosts and live shells.
+
+    Gym runs are explicit; this context explains when the operator has a
+    shell or a compromised host but no gym is tracking it. Hosts outside
+    the current target (for example stale loopback fixtures) are counted
+    separately and never shown as engagement state.
+
+    Args:
+        target: Current engagement target; falls back to payload ``rhost``.
+
+    Returns:
+        Dict with ``phase``, ``hosts``, ``host_states``, ``live_shells``
+        and ``ignored_hosts``.
+    """
+    wanted = str(target or "").strip()
+    if not wanted:
+        try:
+            from core.config import load_payload
+
+            wanted = str((load_payload() or {}).get("rhost", "") or "").strip()
+        except Exception:
+            wanted = ""
+    context: dict[str, Any] = {
+        "phase": "",
+        "target": wanted,
+        "hosts": [],
+        "host_states": {},
+        "live_shells": [],
+        "ignored_hosts": [],
+    }
+    compromised: list[tuple[str, str]] = []
+    try:
+        from modules.world_model import get_world_model
+
+        snapshot = get_world_model().snapshot()
+        context["phase"] = str(snapshot.get("phase", "") or "")
+        for ip, host in (snapshot.get("hosts") or {}).items():
+            state = str(host.get("state", "")).lower()
+            if state in ("exploited", "owned"):
+                compromised.append((str(ip), state))
+    except Exception:
+        pass
+    live_targets = set()
+    try:
+        from modules.atomic_exploit_bridge import live_sessions
+
+        context["live_shells"] = live_sessions()
+        live_targets = {str(row.get("target", "")) for row in context["live_shells"]}
+    except Exception:
+        pass
+    for ip, state in sorted(compromised):
+        if _same_engagement(ip, wanted) or ip in live_targets:
+            context["hosts"].append(ip)
+            context["host_states"][ip] = state
+        else:
+            context["ignored_hosts"].append(ip)
+    return context
+
+
+def get_active_challenges() -> list[dict[str, Any]]:
+    """Return every active gym run across operators."""
+    definitions = reload_challenge_definitions()
+    rows: list[dict[str, Any]] = []
+    for run in get_active_runs():
+        row = dict(run)
+        definition = definitions.get(str(row.get("challenge_id", "")))
+        if definition:
+            row["definition"] = definition
+        rows.append(row)
+    return rows
 
 
 def _calc_speed_score(elapsed_seconds: float, max_bonus: int) -> int:
@@ -703,34 +943,35 @@ def show_leaderboard(top_n: int = 15) -> list[dict[str, Any]]:
     return result
 
 
-def get_active_challenge() -> dict[str, Any] | None:
-    """Return the currently active challenge for this operator, if any.
+def get_active_challenge(run_id: str = "") -> dict[str, Any] | None:
+    """Return one active challenge, preferring the current operator.
+
+    Args:
+        run_id: Optional run id, challenge id or gym name.
 
     Returns:
-        Active challenge dict or None.
+        Active challenge dict or None. When no selector is given and only
+        one gym is active globally, that run is returned even if the
+        operator label changed between sessions.
     """
-    username = _get_username()
-    active_path = GYM_DIR / f"active_{username}.json"
-    if not active_path.exists():
+    definitions = reload_challenge_definitions()
+    run, _error = _resolve_active_run(run_id, _get_username())
+    if run is None:
         return None
-    try:
-        with open(active_path) as f:
-            active = json.load(f)
-        challenge_id = active.get("challenge_id", "")
-        chal = GYM_CHALLENGE_DEFINITIONS.get(challenge_id)
-        if not chal:
-            return None
-        return {
-            "active": True,
-            "challenge_id": challenge_id,
-            "name": chal["name"],
-            "objective": chal["objective"],
-            "started_at": active.get("started_at", 0),
-            "elapsed_seconds": int(time.time() - active.get("started_at", time.time())),
-            "hint": chal.get("hints", [None])[0],
-        }
-    except Exception:
-        return None
+    challenge_id = str(run.get("challenge_id", ""))
+    chal = definitions.get(challenge_id) or run.get("definition") or {}
+    return {
+        "active": True,
+        "run_id": str(run.get("run_id", "")),
+        "challenge_id": challenge_id,
+        "name": chal.get("name", run.get("name", challenge_id)),
+        "objective": chal.get("objective", ""),
+        "operator": str(run.get("operator", "")),
+        "target": str(run.get("target", "")),
+        "started_at": float(run.get("started_at", 0.0) or 0.0),
+        "elapsed_seconds": int(run.get("elapsed_seconds", 0) or 0),
+        "hint": (chal.get("hints") or [None])[0],
+    }
 
 
 def record_external_attempt(
@@ -794,7 +1035,7 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         challenges = list_challenges()
         for _cid, chal in sorted(challenges.items()):
-            print(f"  {chal['name']} [{chal['difficulty']}] — {chal['description']}")
+            print(f"  {chal['name']} [{chal['difficulty']}] - {chal['description']}")
     else:
         board = show_leaderboard()
         if not board:
@@ -809,11 +1050,19 @@ if __name__ == "__main__":
 
 
 __all__ = [
-    "list_challenges",
-    "start_challenge",
-    "submit_challenge",
-    "show_leaderboard",
-    "get_active_challenge",
-    "record_external_attempt",
     "GYM_CHALLENGE_DEFINITIONS",
+    "GYM_DEFAULT_DEFINITIONS",
+    "create_gym",
+    "definition_rows",
+    "delete_gym",
+    "get_active_challenge",
+    "get_active_challenges",
+    "list_challenges",
+    "record_external_attempt",
+    "reload_challenge_definitions",
+    "save_gym_yaml",
+    "show_leaderboard",
+    "start_challenge",
+    "stop_challenges",
+    "submit_challenge",
 ]

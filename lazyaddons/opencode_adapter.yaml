@@ -18,6 +18,7 @@ description: "LazyOwn OpenCode Adapter — OpenAI-compatible function calling br
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

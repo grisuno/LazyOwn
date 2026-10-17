@@ -6,6 +6,7 @@ description: 'Standalone man-in-the-middle attack framework used for phishing lo
 author: kgretzky
 version: 3.3.0
 enabled: true
+update: true
 os: any
 trigger: [http, https, http-proxy]
 tool:

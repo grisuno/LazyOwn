@@ -17,7 +17,9 @@ Markers registered in `pyproject.toml`: `unit`, `integration`, `bdd`,
 
 ## SDD
 
-Specifications live as contract tests before implementation. Example:
+Repository design specifications live in `specs/` (orchestrator YAML,
+chain v2, outcome bus, emulation runner, lazyaddon updates, Metasploitable
+gym, gym registry). They precede the contract tests. Example:
 `tests/contract/test_suite_homologation.py` pins suite naming, markers,
 deploy gate, mutation runners, and documentation. `tests/test_boyscout_contracts.py`
 and `tests/test_contract_manifest.py` pin product surfaces.

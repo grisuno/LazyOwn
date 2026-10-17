@@ -262,3 +262,149 @@ def test_orchestrator_generate_chain_uses_playbooks(sandbox, monkeypatch, tmp_pa
 
     raw = _yaml.safe_load((tmp_path / "chains" / "apt_rocke.yaml").read_text(encoding="utf-8"))
     assert raw["defaults"] == {"playbook": "rocke"} and raw["extends"] == "apt_chain"
+
+
+def test_orchestrator_playbooks_crud(tmp_path):
+    """Playbooks tab methods create, preview, update and delete YAML."""
+    import yaml as _yaml
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    app = LazyOrchestratorApp()
+    app._playbooks_dir_override = tmp_path
+    created = app.create_playbook_file("demo", "Demo APT", "demo plan", "linux, windows")
+    assert created.endswith("demo.yaml")
+
+    rows = app.playbook_rows()
+    assert len(rows) == 1
+    assert rows[0]["file"] == "demo.yaml"
+    assert rows[0]["kind"] == "apt"
+    assert "apt_name: Demo APT" in app.playbook_preview("demo.yaml")
+
+    updated = _yaml.safe_dump(
+        {
+            "apt_name": "Demo APT",
+            "description": "updated",
+            "platforms": ["linux"],
+            "phases": [
+                {"name": "execution", "technique_id": "T1059", "atomic_tests": [{"atomic_id": "T1059"}]}
+            ],
+        },
+        sort_keys=False,
+    )
+    assert app.save_playbook_text("demo.yaml", updated) is True
+    assert app.playbook_rows()[0]["steps"] == 1
+
+    assert app.save_playbook_text("demo.yaml", "not: [valid") is False
+    assert app.delete_playbook_file("demo.yaml") is True
+    assert app.playbook_rows() == []
+
+
+def test_orchestrator_verb_candidates_cover_commands_and_verbs():
+    """The verb picker sees built-in verbs plus real shell commands."""
+    from cli.lazy_orchestrator import command_descriptions, discover_shell_commands, verb_candidates
+
+    commands = discover_shell_commands()
+    assert "lazynmap" in commands
+    assert "auto_loop" in commands
+    pairs = dict(verb_candidates())
+    assert "auto_pwn" in pairs
+    assert "lazynmap" in pairs
+    assert command_descriptions().get("lazynmap")
+
+
+def test_search_select_filter_ranks_prefix_first():
+    """Searchable select ranks prefixes, then substrings, then descriptions."""
+    from cli.tui_forms import filter_candidates
+
+    options = [("nmap", "scanner"), ("lazynmap", "wrapper"), ("pwn", "exploit nmap")]
+    assert [value for value, _ in filter_candidates("nmap", options)] == ["nmap", "lazynmap", "pwn"]
+    assert filter_candidates("zzz", options) == []
+
+
+def test_orchestrator_playbooks_tab_renders(tmp_path):
+    """The Playbooks tab shows one row per file and a YAML preview."""
+    import asyncio
+
+    import yaml as _yaml
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    (tmp_path / "apt_demo.yaml").write_text(
+        _yaml.safe_dump({"apt_name": "Demo", "description": "demo", "phases": []}), encoding="utf-8"
+    )
+
+    async def _drive():
+        app = LazyOrchestratorApp()
+        app._playbooks_dir_override = tmp_path
+        async with app.run_test() as pilot:
+            await pilot.pause(0.3)
+            app.query_one("#tabs").active = "tab-playbooks"
+            await pilot.pause(0.2)
+            return app.query_one("#playbooks-table").row_count, str(app.query_one("#playbooks-detail").content)
+
+    rows, detail = asyncio.run(_drive())
+    assert rows == 1
+    assert "apt_name: Demo" in detail or "Demo" in detail
+
+
+def test_verb_add_opens_searchable_picker(payload_store):
+    """Pressing add on Verbs opens the search picker with a prefilled form."""
+    import asyncio
+
+    from textual.widgets import Input
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    async def _drive():
+        app = LazyOrchestratorApp()
+        async with app.run_test() as pilot:
+            await pilot.pause(0.3)
+            app.query_one("#tabs").active = "tab-verbs"
+            await pilot.pause(0.2)
+            await pilot.press("a")
+            await pilot.pause(0.2)
+            search = app.screen.query_one("#select-search", Input)
+            search.value = "lazynmap"
+            await pilot.pause(0.2)
+            await pilot.press("enter")
+            await pilot.pause(0.2)
+            return app.screen.query_one("#verb", Input).value
+
+    assert asyncio.run(_drive()) == "lazynmap"
+
+
+def test_orchestrator_gyms_tab_starts_and_stops(tmp_path, monkeypatch):
+    """The Gyms tab reads YAML definitions and toggles persistent runs."""
+    import shutil
+
+    import modules.gym_registry as registry
+    import modules.outcome_bus as outcome_bus
+    import modules.redteam_gym as gym
+    import modules.world_model as world_model
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    shutil.copytree(registry.GYMS_DIR, tmp_path / "gyms")
+    monkeypatch.setattr(world_model, "_DEFAULT_PATH", tmp_path / "world_model.json")
+    monkeypatch.setattr(world_model, "_default_wm", None)
+    monkeypatch.setattr(registry, "GYMS_DIR", tmp_path / "gyms")
+    monkeypatch.setattr(registry, "GYM_DIR", tmp_path / "sessions" / "gym")
+    monkeypatch.setattr(gym, "GYM_DIR", tmp_path / "sessions" / "gym")
+    monkeypatch.setattr(gym, "GYM_LEADERBOARD", tmp_path / "sessions" / "gym" / "leaderboard.json")
+    monkeypatch.setattr(gym, "SESSIONS_DIR", tmp_path / "sessions")
+    monkeypatch.setattr(outcome_bus, "record_event", lambda **kwargs: {})
+
+    app = LazyOrchestratorApp()
+    rows = {row["id"]: row for row in app.gym_rows()}
+    assert "first_blood_web" in rows
+    assert rows["first_blood_web"]["active"] == 0
+    assert "apt_name" not in app.gym_preview("first_blood_web").lower()
+
+    started = app.start_gym("first_blood_web", target="172.17.0.2")
+    assert started["success"] is True
+    assert app.gym_rows()  # table refresh does not raise outside a running app
+    assert next(row for row in app.gym_rows() if row["id"] == "first_blood_web")["active"] == 1
+
+    stopped = app.stop_gym("first_blood_web")
+    assert stopped["count"] == 1
+    assert next(row for row in app.gym_rows() if row["id"] == "first_blood_web")["active"] == 0

@@ -6,6 +6,7 @@ description: Check ARTEX v0.3.12 LLM wiring in English (profiles, pool, models).
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 params:
   - name: url
     type: string

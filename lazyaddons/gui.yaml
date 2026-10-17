@@ -8,6 +8,7 @@ description: 'Start the PySide6 Operator Console for LazyOwn. Boots the modular
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

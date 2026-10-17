@@ -1,37 +1,94 @@
-# Symbols (page 5 of 41)
+# Symbols (page 5 of 42)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_draw_summary` | method | `cli/marketplace_config.py:720` | `def _draw_summary(self, stdscr, row_y, left, width, rows)` |
-| `_draw_tabs` | method | `cli/marketplace_config.py:641` | `def _draw_tabs(self, stdscr, row_y, left, width)` |
-| `_edit_addon` | method | `cli/marketplace_config.py:470` | `def _edit_addon(self, addon)` |
-| `_init_colors` | method | `cli/marketplace_config.py:537` | `def _init_colors(self)` |
-| `_loop` | method | `cli/marketplace_config.py:414` | `def _loop(self, stdscr)` |
-| `_nuclei_dir` | method | `cli/marketplace_config.py:223` | `def _nuclei_dir(self)` |
-| `_parse_nuclei_info` | method | `cli/marketplace_config.py:319` | `def _parse_nuclei_info(path)` |
-| `_parse_yara_meta` | method | `cli/marketplace_config.py:307` | `def _parse_yara_meta(path)` |
-| `_render` | method | `cli/marketplace_config.py:564` | `def _render(self, stdscr, rows, cursor, offset)` |
-| `_rows_for_tab` | method | `cli/marketplace_config.py:411` | `def _rows_for_tab(self, tab)` |
-| `_scan_nuclei` | method | `cli/marketplace_config.py:278` | `def _scan_nuclei(self)` |
-| `_scan_yara` | method | `cli/marketplace_config.py:259` | `def _scan_yara(self)` |
-| `_tty_available` | method | `cli/marketplace_config.py:408` | `def _tty_available()` |
-| `configure_marketplace_interactive` | function | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
-| `disable_all` | method | `cli/marketplace_config.py:372` | `def disable_all(self, addons)` |
-| `enable_all` | method | `cli/marketplace_config.py:367` | `def enable_all(self, addons)` |
-| `from_yaml` | method | `cli/marketplace_config.py:144` | `def from_yaml(cls, path)` |
-| `is_enabled` | method | `cli/marketplace_config.py:354` | `def is_enabled(self, kind, name)` |
-| `marketplace_summary` | function | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
-| `rescan` | method | `cli/marketplace_config.py:334` | `def rescan(self, tab)` |
-| `run` | method | `cli/marketplace_config.py:395` | `def run(self, start_tab)` |
-| `save_yaml` | method | `cli/marketplace_config.py:185` | `def save_yaml(self, data)` |
-| `scan` | method | `cli/marketplace_config.py:235` | `def scan(self, tab)` |
-| `set_enabled` | method | `cli/marketplace_config.py:168` | `def set_enabled(self, enabled)` |
-| `tab_count` | method | `cli/marketplace_config.py:344` | `def tab_count(self, tab)` |
-| `tab_label` | method | `cli/marketplace_config.py:341` | `def tab_label(self, tab)` |
-| `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
-| `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
-| `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:1456` | `def run_orchestrator_console(task_id)` |
+| `save_config` | method | `cli/lazy_orchestrator.py:917` | `def save_config(self, values)` |
+| `save_playbook_text` | method | `cli/lazy_orchestrator.py:378` | `def save_playbook_text(self, filename, text)` |
+| `set_model_priority` | method | `cli/lazy_orchestrator.py:955` | `def set_model_priority(self, name, priority)` |
+| `start_gym` | method | `cli/lazy_orchestrator.py:586` | `def start_gym(self, gym_id, target)` |
+| `stop_gym` | method | `cli/lazy_orchestrator.py:594` | `def stop_gym(self, selector)` |
+| `toggle_chain` | method | `cli/lazy_orchestrator.py:755` | `def toggle_chain(self, name)` |
+| `toggle_gym` | method | `cli/lazy_orchestrator.py:602` | `def toggle_gym(self, gym_id)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:267` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:276` | `def toggle_verb(self, name)` |
+| `verb_candidates` | function | `cli/lazy_orchestrator.py:139` | `def verb_candidates()` |
+| `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
+| `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
+| `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
+| `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
+| `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
+| `_enabled` | function | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
+| `_safe_log` | function | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
+| `_update_world_model_phase` | function | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
+| `run_post_scan` | function | `cli/lazynmap_post.py:94` | `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` |
+| `AddonInfo` | class | `cli/marketplace_config.py:134` | `class AddonInfo` |
+| `AddonRegistry` | class | `cli/marketplace_config.py:314` | `class AddonRegistry` |
+| `MarketplaceConfig` | class | `cli/marketplace_config.py:78` | `class MarketplaceConfig` |
+| `MarketplaceConfigApp` | class | `cli/marketplace_config.py:546` | `class MarketplaceConfigApp` |
+| `MarketplaceSettings` | class | `cli/marketplace_config.py:508` | `class MarketplaceSettings` |
+| `__init__` | method | `cli/marketplace_config.py:331` | `def __init__(self)` |
+| `__init__` | method | `cli/marketplace_config.py:578` | `def __init__(self, config, registry, initial, start_tab)` |
+| `_active_tab` | method | `cli/marketplace_config.py:614` | `def _active_tab(self)` |
+| `_build_initial_settings` | function | `cli/marketplace_config.py:896` | `def _build_initial_settings(registry)` |
+| `_confirmed` | function | `cli/marketplace_config.py:849` | `def _confirmed(answer)` |
+| `_created` | function | `cli/marketplace_config.py:793` | `def _created(values)` |
+| `_from_json` | method | `cli/marketplace_config.py:184` | `def _from_json(cls, path, kind)` |
+| `_from_read_only` | method | `cli/marketplace_config.py:206` | `def _from_read_only(cls, path, kind)` |
+| `_from_yaml` | method | `cli/marketplace_config.py:160` | `def _from_yaml(cls, path, kind)` |
+| `_nuclei_dir` | method | `cli/marketplace_config.py:335` | `def _nuclei_dir(self)` |
+| `_parse_nuclei_severity` | method | `cli/marketplace_config.py:415` | `def _parse_nuclei_severity(path)` |
+| `_parse_yara_meta` | method | `cli/marketplace_config.py:403` | `def _parse_yara_meta(path)` |
+| `_refresh_all` | method | `cli/marketplace_config.py:637` | `def _refresh_all(self)` |
+| `_refresh_tab_labels` | method | `cli/marketplace_config.py:643` | `def _refresh_tab_labels(self, tab)` |
+| `_refresh_table` | method | `cli/marketplace_config.py:651` | `def _refresh_table(self, tab)` |
+| `_rows` | method | `cli/marketplace_config.py:622` | `def _rows(self, tab)` |
+| `_saved` | function | `cli/marketplace_config.py:825` | `def _saved(raw)` |
+| `_scan_files` | method | `cli/marketplace_config.py:357` | `def _scan_files(self, tab)` |
+| `_scan_nuclei` | method | `cli/marketplace_config.py:382` | `def _scan_nuclei(self)` |
+| `_scan_yara` | method | `cli/marketplace_config.py:370` | `def _scan_yara(self)` |
+| `_selected_addon` | method | `cli/marketplace_config.py:674` | `def _selected_addon(self, tab)` |
+| `_selected_row` | method | `cli/marketplace_config.py:681` | `def _selected_row(self, tab)` |
+| `_update_detail` | method | `cli/marketplace_config.py:690` | `def _update_detail(self, row_key, tab)` |
+| `action_cancel` | method | `cli/marketplace_config.py:867` | `def action_cancel(self)` |
+| `action_create` | method | `cli/marketplace_config.py:786` | `def action_create(self)` |
+| `action_delete` | method | `cli/marketplace_config.py:839` | `def action_delete(self)` |
+| `action_disable_all` | method | `cli/marketplace_config.py:779` | `def action_disable_all(self)` |
+| `action_edit` | method | `cli/marketplace_config.py:811` | `def action_edit(self)` |
+| `action_enable_all` | method | `cli/marketplace_config.py:772` | `def action_enable_all(self)` |
+| `action_focus_filter` | method | `cli/marketplace_config.py:747` | `def action_focus_filter(self)` |
+| `action_rescan` | method | `cli/marketplace_config.py:754` | `def action_rescan(self)` |
+| `action_save` | method | `cli/marketplace_config.py:863` | `def action_save(self)` |
+| `action_toggle` | method | `cli/marketplace_config.py:761` | `def action_toggle(self)` |
+| `compose` | method | `cli/marketplace_config.py:593` | `def compose(self)` |
+| `configure_marketplace_interactive` | function | `cli/marketplace_config.py:872` | `def configure_marketplace_interactive(config, start_tab)` |
+| `create_addon` | method | `cli/marketplace_config.py:447` | `def create_addon(self, tab, name)` |
+| `delete_addon` | method | `cli/marketplace_config.py:491` | `def delete_addon(self, addon)` |
+| `disable_all` | method | `cli/marketplace_config.py:537` | `def disable_all(self, addons)` |
+| `enable_all` | method | `cli/marketplace_config.py:529` | `def enable_all(self, addons)` |
+| `from_path` | method | `cli/marketplace_config.py:151` | `def from_path(cls, path, kind)` |
+| `is_enabled` | method | `cli/marketplace_config.py:513` | `def is_enabled(self, kind, name)` |
+| `marketplace_summary` | function | `cli/marketplace_config.py:907` | `def marketplace_summary(registry)` |
+| `on_data_table_row_highlighted` | method | `cli/marketplace_config.py:722` | `def on_data_table_row_highlighted(self, event)` |
+| `on_input_changed` | method | `cli/marketplace_config.py:732` | `def on_input_changed(self, event)` |
+| `on_mount` | method | `cli/marketplace_config.py:604` | `def on_mount(self)` |
+| `on_tabbed_content_tab_activated` | method | `cli/marketplace_config.py:738` | `def on_tabbed_content_tab_activated(self, event)` |
+| `read_data` | method | `cli/marketplace_config.py:229` | `def read_data(self)` |
+| `read_text` | method | `cli/marketplace_config.py:225` | `def read_text(self)` |
+| `rescan` | method | `cli/marketplace_config.py:426` | `def rescan(self, tab)` |
+| `save_text` | method | `cli/marketplace_config.py:260` | `def save_text(self, text)` |
+| `save_yaml` | method | `cli/marketplace_config.py:303` | `def save_yaml(self, data)` |
+| `scan` | method | `cli/marketplace_config.py:342` | `def scan(self, tab)` |
+| `set_enabled` | method | `cli/marketplace_config.py:278` | `def set_enabled(self, enabled)` |
+| `tab_count` | method | `cli/marketplace_config.py:439` | `def tab_count(self, tab)` |
+| `tab_is_read_only` | method | `cli/marketplace_config.py:443` | `def tab_is_read_only(self, tab)` |
+| `tab_label` | method | `cli/marketplace_config.py:435` | `def tab_label(self, tab)` |
+| `tab_order` | method | `cli/marketplace_config.py:431` | `def tab_order(self)` |
+| `toggle` | method | `cli/marketplace_config.py:517` | `def toggle(self, addon)` |
+| `toggle_enabled` | method | `cli/marketplace_config.py:299` | `def toggle_enabled(self)` |
+| `toggleable` | method | `cli/marketplace_config.py:221` | `def toggleable(self)` |
+| `validate_text` | method | `cli/marketplace_config.py:238` | `def validate_text(self, text)` |
 | `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
 | `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
@@ -439,62 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_extract_entries` | method | `cli/status_bar.py:636` | `def _extract_entries(payload)` |
 | `_extract_vuln_items` | method | `cli/status_bar.py:396` | `def _extract_vuln_items(self, payload)` |
 | `_fallback_for` | method | `cli/status_bar.py:938` | `def _fallback_for(self, key)` |
-| `_has_traversal` | method | `cli/status_bar.py:261` | `def _has_traversal(value)` |
-| `_hook` | function | `cli/status_bar.py:915` | `def _hook(data)` |
-| `_is_active` | method | `cli/status_bar.py:646` | `def _is_active(entry, threshold)` |
-| `_is_within_root` | method | `cli/status_bar.py:253` | `def _is_within_root(self, candidate)` |
-| `_last_line` | method | `cli/status_bar.py:376` | `def _last_line(self, path)` |
-| `_latest_command` | method | `cli/status_bar.py:476` | `def _latest_command(self)` |
-| `_latest_credential` | method | `cli/status_bar.py:335` | `def _latest_credential(self)` |
-| `_latest_note` | method | `cli/status_bar.py:358` | `def _latest_note(self)` |
-| `_latest_vuln` | method | `cli/status_bar.py:345` | `def _latest_vuln(self)` |
-| `_operator_presence_enabled` | function | `cli/status_bar.py:948` | `def _operator_presence_enabled(payload, config)` |
-| `_recent_commands` | method | `cli/status_bar.py:551` | `def _recent_commands(self)` |
-| `_resolve_theme_colors` | method | `cli/status_bar.py:823` | `def _resolve_theme_colors(self)` |
-| `_safe_collect` | method | `cli/status_bar.py:929` | `def _safe_collect(self, key)` |
-| `_safe_path` | method | `cli/status_bar.py:247` | `def _safe_path(self, relative)` |
-| `_sanitise` | method | `cli/status_bar.py:724` | `def _sanitise(self, value, max_chars)` |
-| `_suggestion_label` | method | `cli/status_bar.py:579` | `def _suggestion_label(entry)` |
-| `_summarise_credential` | method | `cli/status_bar.py:389` | `def _summarise_credential(self, filename, line)` |
-| `build_default_manager` | function | `cli/status_bar.py:969` | `def build_default_manager(payload, sessions_dir, advisor_factory, config)` |
-| `collect` | method | `cli/status_bar.py:146` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:283` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:306` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:327` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:451` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:530` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:622` | `def collect(self)` |
-| `collect_context` | method | `cli/status_bar.py:798` | `def collect_context(self)` |
-| `enabled` | method | `cli/status_bar.py:783` | `def enabled(self)` |
-| `from_payload` | method | `cli/status_bar.py:99` | `def from_payload(cls, payload)` |
-| `glob_latest` | method | `cli/status_bar.py:222` | `def glob_latest(self, pattern)` |
-| `install` | method | `cli/status_bar.py:857` | `def install(self, shell, base_prompt_attribute, prompt_attribute)` |
-| `read_json` | method | `cli/status_bar.py:204` | `def read_json(self, relative)` |
-| `read_text` | method | `cli/status_bar.py:183` | `def read_text(self, relative)` |
-| `render_plain` | method | `cli/status_bar.py:664` | `def render_plain(self, ctx)` |
-| `render_plain_line` | method | `cli/status_bar.py:833` | `def render_plain_line(self, ctx)` |
-| `render_prompt` | method | `cli/status_bar.py:687` | `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` |
-| `render_prompt` | method | `cli/status_bar.py:811` | `def render_prompt(self, base_prompt, readline_safe)` |
-| `root` | method | `cli/status_bar.py:179` | `def root(self)` |
-| `set_enabled` | method | `cli/status_bar.py:847` | `def set_enabled(self, enabled)` |
-| `active_tokens` | function | `cli/style.py:68` | `def active_tokens(payload)` |
-| `paint` | function | `cli/style.py:84` | `def paint(text, token, payload)` |
-| `render_prompt` | function | `cli/style.py:98` | `def render_prompt(console, segments, payload)` |
-| `style` | function | `cli/style.py:49` | `def style(token, theme)` |
-| `SurfaceEdge` | class | `cli/surface_graph.py:113` | `class SurfaceEdge` |
-| `SurfaceGraph` | class | `cli/surface_graph.py:126` | `class SurfaceGraph` |
-| `SurfaceGraphBuilder` | class | `cli/surface_graph.py:196` | `class SurfaceGraphBuilder` |
-| `SurfaceGraphConfig` | class | `cli/surface_graph.py:174` | `class SurfaceGraphConfig` |
-| `SurfaceNode` | class | `cli/surface_graph.py:87` | `class SurfaceNode` |
-| `__init__` | method | `cli/surface_graph.py:199` | `def __init__(self, config)` |
-| `_build_c2_node` | method | `cli/surface_graph.py:341` | `def _build_c2_node(self, local_ips, payload)` |
-| `_client_label` | method | `cli/surface_graph.py:622` | `def _client_label(client_id, meta)` |
-| `_discover_local_ips` | method | `cli/surface_graph.py:359` | `def _discover_local_ips(self)` |
-| `_fallback_local_ips` | method | `cli/surface_graph.py:380` | `def _fallback_local_ips()` |
-| `_is_ipv4` | method | `cli/surface_graph.py:616` | `def _is_ipv4(value)` |
-| `_kind_order` | method | `cli/surface_graph.py:331` | `def _kind_order(kind)` |
-| `_load_payload` | method | `cli/surface_graph.py:386` | `def _load_payload(self)` |
-| `_parse_implant_row` | method | `cli/surface_graph.py:559` | `def _parse_implant_row(self, row)` |
-| `_parse_port_scan` | method | `cli/surface_graph.py:580` | `def _parse_port_scan(self, raw)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

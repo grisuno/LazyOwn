@@ -1,6 +1,74 @@
 # API (page 7 of 23)
 Previous: [API_p6.md](API_p6.md)
 
+## core/scheduler.py
+Depends on: `core/logging.py`
+- `TaskScheduler.__init__` (method) `core/scheduler.py:61` `def __init__(self)`
+- `TaskScheduler.instance` (method) `core/scheduler.py:73` `def instance(cls)` -- Return the singleton ``TaskScheduler`` instance.
+- `TaskScheduler.start` (method) `core/scheduler.py:81` `def start(self)` -- Start the scheduler background thread.
+- `TaskScheduler.stop` (method) `core/scheduler.py:100` `def stop(self)` -- Stop the scheduler and cancel all pending tasks.
+- `TaskScheduler.schedule_task` (method) `core/scheduler.py:123` `def schedule_task(self, name, interval_seconds, func)` -- Register a recurring task to run every ``interval_seconds``.
+- `TaskScheduler.schedule_once` (method) `core/scheduler.py:157` `def schedule_once(self, name, delay_seconds, func)` -- Register a one-shot task to run after ``delay_seconds``.
+- `TaskScheduler.cancel_task` (method) `core/scheduler.py:192` `def cancel_task(self, name)` -- Cancel a scheduled task by name.
+- `TaskScheduler.list_tasks` (method) `core/scheduler.py:205` `def list_tasks(self)` -- Return metadata for all registered tasks.
+- `get_scheduler` (function) `core/scheduler.py:285` `def get_scheduler()` -- Return the singleton ``TaskScheduler`` instance.
+
+## core/security.py
+Depends on: `core/logging.py`
+- `anti_debug` (function) `core/security.py:18` `def anti_debug()` -- Check for debugger attachment and exit if found.
+- `generate_certificates` (function) `core/security.py:58` `def generate_certificates(output_dir)` -- Generate a self-signed CA certificate and key pair.
+
+## core/terminal_guard.py
+Imported by: `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
+- `emit_restore_sequences` (function) `core/terminal_guard.py:41` `def emit_restore_sequences()` -- Write the mode-reset sequences to the controlling terminal.
+- `apply_stty_sane` (function) `core/terminal_guard.py:62` `def apply_stty_sane()` -- Best-effort ``stty sane`` fallback when termios restore fails.
+- `TerminalGuard.__init__` (method) `core/terminal_guard.py:85` `def __init__(self)` -- Prepare an empty guard; the snapshot happens on ``__enter__``.
+- `TerminalGuard.restore` (method) `core/terminal_guard.py:108` `def restore(self)` -- Restore saved termios, then reset extra terminal modes once.
+
+## core/text_utils.py
+Imported by: `cli/autosuggest.py`, `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/tips_engine.py`, `cli/toast_bus.py`
+- `truncate_text` (function) `core/text_utils.py:10` `def truncate_text(value, max_len, marker)` -- Truncate value to max_len using marker.
+
+## core/validators.py
+Depends on: `core/console.py`, `core/host_policy.py`
+Imported by: `cli/commands/_base.py`, `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `tests/test_core.py`, `tests/test_host_policy.py`, `tests/test_input_fuzz.py`, `tests/test_require_guards.py`, `utils.py`
+- `check_rhost` (function) `core/validators.py:26` `def check_rhost(rhost)` -- Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``.
+- `check_lhost` (function) `core/validators.py:40` `def check_lhost(lhost)` -- Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``.
+- `check_lport` (function) `core/validators.py:54` `def check_lport(lport)` -- Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``.
+- `check_port` (function) `core/validators.py:64` `def check_port(port, name)` -- Return ``True`` if ``port`` is a valid TCP/UDP port (1-65535).
+- `require_rhost` (function) `core/validators.py:77` `def require_rhost(params)` -- Gate a command on a valid ``rhost`` looked up from ``params``.
+- `require_lhost` (function) `core/validators.py:94` `def require_lhost(params)` -- Gate a command on a valid ``lhost`` looked up from ``params``.
+- `require_lport` (function) `core/validators.py:107` `def require_lport(params)` -- Gate a command on a valid ``lport`` looked up from ``params``.
+- `require_rport` (function) `core/validators.py:120` `def require_rport(params)` -- Gate a command on a valid ``rport`` looked up from ``params``.
+
+## deploy/range/ad-mini/traffic-gen.py
+- `main` (function) `deploy/range/ad-mini/traffic-gen.py:35` `def main()` -- Loop forever emitting fake background traffic.
+
+## discord_c2.py
+Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
+- `SecureSessionManager.__init__` (method) `discord_c2.py:28` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `discord_c2.py:33` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `discord_c2.py:40` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `discord_c2.py:49` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `discord_c2.py:62` `def create_session(self, user_id, client_id)`
+- `SecureSessionManager.validate_session` (method) `discord_c2.py:70` `def validate_session(self, user_id)`
+- `Config.__init__` (method) `discord_c2.py:87` `def __init__(self, config_dict)`
+- `load_payload` (function) `discord_c2.py:96` `def load_payload()`
+- `on_ready` (function) `discord_c2.py:103` `def on_ready()`
+- `start` (function) `discord_c2.py:108` `def start(ctx)`
+- `exce_cmd` (function) `discord_c2.py:130` `def exce_cmd(ctx)`
+- `add_cli` (function) `discord_c2.py:206` `def add_cli(ctx, new_client_id)`
+- `handle_file` (function) `discord_c2.py:216` `def handle_file(ctx)`
+- `download_c2` (function) `discord_c2.py:245` `def download_c2(ctx, client_id, file_name)`
+- `send_connected_clients` (function) `discord_c2.py:256` `def send_connected_clients(ctx)`
+- `clients` (function) `discord_c2.py:273` `def clients(ctx)`
+- `addcli` (function) `discord_c2.py:278` `def addcli(ctx, new_client_id)`
+- `c2` (function) `discord_c2.py:283` `def c2(ctx)`
+
+## external/install_external.sh
+- `ctrl_c` (function) `external/install_external.sh:13`
+- `download` (function) `external/install_external.sh:18`
+
 ## fast_run_as_r00t.sh
 - `log` (function) `fast_run_as_r00t.sh:59` -- ── Pretty-print helpers ──────────────────────────────────────────────────────
 - `spin` (function) `fast_run_as_r00t.sh:60`
@@ -419,75 +487,6 @@ Imported by: `lazyc2/blueprints/__init__.py`
 - `event_config` (function) `lazyc2/blueprints/operations.py:192` `def event_config()` -- Return event configuration as JSON.
 - `event_config_view` (function) `lazyc2/blueprints/operations.py:198` `def event_config_view()` -- View or update event configuration.
 - `events` (function) `lazyc2/blueprints/operations.py:218` `def events()` -- Render the events page.
-
-## lazyc2/blueprints/phishing.py
-Depends on: `core/logging.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/security/validators.py`, `modules/security_sanitizers.py`, `utils.py`
-Imported by: `lazyc2/blueprints/__init__.py`
-- `create_short_url` (function) `lazyc2/blueprints/phishing.py:49` `def create_short_url()` -- Create one or more short URLs for a single original URL.
-- `track_interaction` (function) `lazyc2/blueprints/phishing.py:89` `def track_interaction(short_url)` -- Serve a tracking page and log behavioural data.
-- `update_short_url` (function) `lazyc2/blueprints/phishing.py:125` `def update_short_url(short_url)` -- Update an existing short URL's target or active status.
-- `redirect_to_file` (function) `lazyc2/blueprints/phishing.py:151` `def redirect_to_file(short_url)` -- Resolve a short URL and redirect (or serve a local file).
-- `webserver_report` (function) `lazyc2/blueprints/phishing.py:174` `def webserver_report(filename)` -- Serve nmap HTML report assets from the sessions directory.
-- `download_files` (function) `lazyc2/blueprints/phishing.py:192` `def download_files(filename)` -- Serve a session file by name with path-traversal protection.
-
-## lazyc2/blueprints/session_auth.py
-Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/operations.py`
-- `require_operator_session` (function) `lazyc2/blueprints/session_auth.py:20` `def require_operator_session(blueprint, login_endpoint)` -- Register a ``before_request`` guard on a blueprint.
-
-## lazyc2/extensions/decoy.py
-Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/operations.py`
-- `decoy_response` (function) `lazyc2/extensions/decoy.py:12` `def decoy_response()` -- Return a decoy page when the client IP is not the operator host.
-
-## lazyc2/extensions/short_urls.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2/blueprints/phishing.py`
-- `configure` (function) `lazyc2/extensions/short_urls.py:21` `def configure(sessions_phishing_dir)` -- Set the phishing directory where short_urls.json lives.
-- `load_short_urls` (function) `lazyc2/extensions/short_urls.py:33` `def load_short_urls()` -- Load short URLs from JSON file, creating it if it doesn't exist.
-- `save_short_urls` (function) `lazyc2/extensions/short_urls.py:59` `def save_short_urls(data)` -- Save short URLs to JSON file.
-- `is_valid_url` (function) `lazyc2/extensions/short_urls.py:104` `def is_valid_url(url)` -- Validate if the input is a valid URL or existing local file path.
-
-## lazyc2/extensions/storage.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2/blueprints/operations.py`
-- `configure` (function) `lazyc2/extensions/storage.py:18` `def configure(sessions_dir)` -- Set the session directory path.
-- `load_tasks` (function) `lazyc2/extensions/storage.py:31` `def load_tasks()` -- Load tasks from ``sessions/tasks.json``.
-- `save_tasks` (function) `lazyc2/extensions/storage.py:45` `def save_tasks(tasks)` -- Persist tasks to ``sessions/tasks.json``.
-- `load_cves` (function) `lazyc2/extensions/storage.py:59` `def load_cves()` -- Load CVEs from ``sessions/cves.json``.
-- `save_cves` (function) `lazyc2/extensions/storage.py:73` `def save_cves(cves)` -- Persist CVEs to ``sessions/cves.json``.
-- `load_note` (function) `lazyc2/extensions/storage.py:87` `def load_note()` -- Load the operator note from ``sessions/notes.txt``.
-- `save_note` (function) `lazyc2/extensions/storage.py:107` `def save_note(content)` -- Persist the operator note to ``sessions/notes.txt``.
-- `load_event_config` (function) `lazyc2/extensions/storage.py:121` `def load_event_config()` -- Load event configuration from ``event_config.json``.
-- `load_notifications` (function) `lazyc2/extensions/storage.py:137` `def load_notifications()` -- Load notifications from ``sessions/notifications.json``.
-- `load_banners` (function) `lazyc2/extensions/storage.py:154` `def load_banners()` -- Load banners from ``sessions/banners.json``.
-- `load_routes` (function) `lazyc2/extensions/storage.py:179` `def load_routes()` -- Load dynamic routes from ``sessions/routes_to_templates.json``.
-- `save_routes` (function) `lazyc2/extensions/storage.py:194` `def save_routes(routes)` -- Persist dynamic routes with atomic write and safe permissions.
-
-## lazyc2/extensions/users.py
-Depends on: `lazyc2/__init__.py`, `modules/lazy_rbac.py`
-Imported by: `lazyc2.py`, `lazyc2/blueprints/auth.py`
-- `configure` (function) `lazyc2/extensions/users.py:16` `def configure(users_path)` -- Set the path for the legacy JSON user file.
-- `load_users` (function) `lazyc2/extensions/users.py:26` `def load_users()` -- Load users from the JSON store or RBAC store.
-- `save_users` (function) `lazyc2/extensions/users.py:48` `def save_users(users)` -- Persist users to the JSON store or RBAC store.
-
-## lazyc2/models.py
-Depends on: `modules/lazy_rbac.py`
-- `User.__init__` (method) `lazyc2/models.py:17` `def __init__(self, user_data)`
-
-## lazyc2/security/command_allowlist.py
-Depends on: `cli/commands/enum.py`
-Imported by: `lazyc2.py`, `tests/test_command_allowlist.py`, `tests/test_command_allowlist_behavior.py`
-- `CommandDecision.to_dict` (method) `lazyc2/security/command_allowlist.py:61` `def to_dict(self)` -- Return a JSON-serializable dict for the audit log.
-- `CommandAllowlist.__init__` (method) `lazyc2/security/command_allowlist.py:82` `def __init__(self, allowed, audit_log_path)`
-- `CommandAllowlist.allowed` (method) `lazyc2/security/command_allowlist.py:94` `def allowed(self)` -- Return the immutable set of allowed first tokens (lowercased).
-- `CommandAllowlist.check` (method) `lazyc2/security/command_allowlist.py:98` `def check(self, command)` -- Return the :class:`CommandDecision` for ``command``.
-
-## lazyc2/security/cors.py
-Imported by: `lazyc2.py`, `tests/test_cors_behavior.py`, `tests/test_cors_policy.py`, `tests/test_cors_socketio_regression.py`
-- `CorsPolicy.__init__` (method) `lazyc2/security/cors.py:70` `def __init__(self, env, lhost, allowed_origins, c2_port, extra_socketio_ports)`
-- `CorsPolicy.env` (method) `lazyc2/security/cors.py:85` `def env(self)` -- Return the normalized environment tag (``"PROD"`` or ``"DEV"``).
-- `CorsPolicy.resolve_origins` (method) `lazyc2/security/cors.py:89` `def resolve_origins(self)` -- Return the validated allowlist of origins for the current env.
-- `CorsPolicy.origins_for_socketio` (method) `lazyc2/security/cors.py:110` `def origins_for_socketio(self)` -- Return the allowlist to feed ``flask_socketio.SocketIO``.
-- `CorsPolicy.is_allowed` (method) `lazyc2/security/cors.py:136` `def is_allowed(self, origin)` -- Return ``True`` if ``origin`` matches any allowed entry.
 
 
 Next: [API_p8.md](API_p8.md)

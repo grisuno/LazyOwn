@@ -28,6 +28,7 @@ description: |
 author: morluto
 version: '4.0.1'
 enabled: true
+update: true
 params:
 - name: target
   type: string

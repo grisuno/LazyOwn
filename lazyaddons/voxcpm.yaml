@@ -4,6 +4,7 @@ description: |
 author: OpenBMB
 version: "2.0"
 enabled: true
+update: true
 params:
   - name: prompt
     type: string

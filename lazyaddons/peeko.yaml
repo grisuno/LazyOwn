@@ -11,6 +11,7 @@ description: "Browser-based XSS C2 tool that turns compromised browsers into int
 author: b3rito @ mes3hacklab
 version: v1.1
 enabled: true
+update: true
 params:
 - name: url
   type: string

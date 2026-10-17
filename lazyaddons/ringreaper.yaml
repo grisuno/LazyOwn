@@ -9,6 +9,7 @@ description: |
 author: MatheuZSecurity
 version: "2.0"
 enabled: true
+update: true
 params:
   - name: lhost
     type: string

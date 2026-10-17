@@ -6,6 +6,7 @@ description: 'Bypassing Kerberoast Detections with Modified KDC Options and Encr
 author: TrustedSec
 version: '0.1'
 enabled: true
+update: true
 os: windows
 trigger: []
 tool:

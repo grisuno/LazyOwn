@@ -292,11 +292,11 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_ntpdate` (method, line 2558) `def do_ntpdate(self, line)`
   - `do_adcs_check` (method, line 2582) `def do_adcs_check(self, line)`
   - `do_chain` (method, line 2641) `def do_chain(self, line)`
-  - `do_exploit_recommend` (method, line 2738) `def do_exploit_recommend(self, line)`
+  - `do_exploit_recommend` (method, line 2771) `def do_exploit_recommend(self, line)`
   - `setup_handler` (function, line 513) `def setup_handler(config_file, lhost, lport)`
   - `cacti_exploit` (function, line 536) `def cacti_exploit(config_file, host)`
-- Depends on: `cli/commands/_base.py`, `core/autonomous.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `tests/test_lazy_runner.py`
+- Depends on: `cli/commands/_base.py`, `core/autonomous.py`, `modules/adcs_attacks.py`, `modules/chain_registry.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
+- Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 
 ## cli/commands/exploitgym.py
 - Doc: ExploitGym CLI command set — real-world exploit benchmark harness.
@@ -375,25 +375,28 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_docker_available` (method, line 87) `def _docker_available(self)`
   - `_running_containers` (method, line 100) `def _running_containers(self)`
   - `_container_name` (method, line 114) `def _container_name(self, scenario)`
-  - `do_lab` (method, line 119) `def do_lab(self, line)`
-  - `_lab_list` (method, line 171) `def _lab_list(self)`
-  - `_lab_start` (method, line 185) `def _lab_start(self, scenario)`
-  - `_lab_stop` (method, line 234) `def _lab_stop(self, scenario)`
-  - `_range_dispatch` (method, line 252) `def _range_dispatch(self, args)`
-  - `_range_list` (method, line 284) `def _range_list(self)`
-  - `_range_compose` (method, line 293) `def _range_compose(self, profile)`
-  - `_range_start` (method, line 312) `def _range_start(self, profile)`
-  - `_range_container_state` (method, line 351) `def _range_container_state(self, container)`
-  - `_range_wait_healthy` (method, line 374) `def _range_wait_healthy(self, compose, timeout)`
-  - `_range_verify` (method, line 406) `def _range_verify(self, profile)`
-  - `_tcp_reachable` (method, line 442) `def _tcp_reachable(host, port, timeout)`
-  - `_ensure_range_secret` (method, line 459) `def _ensure_range_secret(self, profile_dir)`
-  - `_range_container_ip` (method, line 489) `def _range_container_ip(self, container)`
-  - `_range_stop` (method, line 518) `def _range_stop(self, profile)`
-  - `_range_status` (method, line 536) `def _range_status(self)`
-  - `_lab_status` (method, line 548) `def _lab_status(self)`
+  - `_container_ip` (method, line 118) `def _container_ip(self, container_name)`
+  - `_lab_ensure_web` (method, line 140) `def _lab_ensure_web(self, scenario, container_name)`
+  - `_print_lab_target` (method, line 155) `def _print_lab_target(self, scenario, container_name, ports)`
+  - `do_lab` (method, line 179) `def do_lab(self, line)`
+  - `_lab_list` (method, line 231) `def _lab_list(self)`
+  - `_lab_start` (method, line 245) `def _lab_start(self, scenario)`
+  - `_lab_stop` (method, line 287) `def _lab_stop(self, scenario)`
+  - `_range_dispatch` (method, line 305) `def _range_dispatch(self, args)`
+  - `_range_list` (method, line 337) `def _range_list(self)`
+  - `_range_compose` (method, line 346) `def _range_compose(self, profile)`
+  - `_range_start` (method, line 365) `def _range_start(self, profile)`
+  - `_range_container_state` (method, line 404) `def _range_container_state(self, container)`
+  - `_range_wait_healthy` (method, line 427) `def _range_wait_healthy(self, compose, timeout)`
+  - `_range_verify` (method, line 459) `def _range_verify(self, profile)`
+  - `_tcp_reachable` (method, line 495) `def _tcp_reachable(host, port, timeout)`
+  - `_ensure_range_secret` (method, line 512) `def _ensure_range_secret(self, profile_dir)`
+  - `_range_container_ip` (method, line 542) `def _range_container_ip(self, container)`
+  - `_range_stop` (method, line 571) `def _range_stop(self, profile)`
+  - `_range_status` (method, line 589) `def _range_status(self)`
+  - `_lab_status` (method, line 601) `def _lab_status(self)`
 - Depends on: `cli/commands/_base.py`, `utils.py`
-- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 
 ## cli/commands/lateral.py
 - Doc: Lateral Movement command set (pending).
@@ -457,7 +460,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
   - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
   - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
-  - `do_lazy_view` (method, line 301) `def do_lazy_view(self, line)`
+  - `do_lazy_view` (method, line 305) `def do_lazy_view(self, line)`
 - Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
 - Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 

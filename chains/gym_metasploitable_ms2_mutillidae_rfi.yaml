@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_mutillidae_rfi
+version: 2
+description: 'Metasploitable 2: Mutillidae remote file inclusion (T1190).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_mutillidae_rfi
+  vuln: ms2_mutillidae_rfi
+  port: '80'

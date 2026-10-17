@@ -1,0 +1,455 @@
+name: gym_metasploitable
+version: 1
+target: Metasploitable 2
+description: One exploit, one chain and one index entry per Metasploitable 2 vector.
+vulnerabilities:
+- id: vsftpd_backdoor
+  name: vsftpd 2.3.4 backdoor
+  cve: CVE-2011-2523
+  mitre: T1190
+  port: '21'
+  service: ftp
+  severity: critical
+  confidence: 0.9
+  exploit: vsftpd_backdoor
+  chain: gym_metasploitable_vsftpd_backdoor
+- id: samba_usermap
+  name: Samba username map script RCE
+  cve: CVE-2007-2447
+  mitre: T1210
+  port: '445'
+  service: smb
+  severity: critical
+  confidence: 0.55
+  exploit: samba_usermap
+  chain: gym_metasploitable_samba_usermap
+- id: ms2_ssh_default_creds
+  name: OpenSSH default msfadmin credentials
+  cve: ''
+  mitre: T1110.001
+  port: '22'
+  service: ssh
+  severity: high
+  confidence: 0.7
+  exploit: ms2_ssh_default_creds
+  chain: gym_metasploitable_ms2_ssh_default_creds
+- id: ms2_telnet_default_creds
+  name: Telnet default msfadmin credentials
+  cve: ''
+  mitre: T1078
+  port: '23'
+  service: telnet
+  severity: high
+  confidence: 0.6
+  exploit: ms2_telnet_default_creds
+  chain: gym_metasploitable_ms2_telnet_default_creds
+- id: ms2_smtp_user_enum
+  name: Postfix VRFY user enumeration
+  cve: ''
+  mitre: T1087
+  port: '25'
+  service: smtp
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_smtp_user_enum
+  chain: gym_metasploitable_ms2_smtp_user_enum
+- id: ms2_dns_recursion
+  name: BIND open recursion
+  cve: ''
+  mitre: T1590.002
+  port: '53'
+  service: domain
+  severity: medium
+  confidence: 0.4
+  exploit: ms2_dns_recursion
+  chain: gym_metasploitable_ms2_dns_recursion
+- id: ms2_phpmyadmin_default
+  name: phpMyAdmin default root login
+  cve: ''
+  mitre: T1078
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_phpmyadmin_default
+  chain: gym_metasploitable_ms2_phpmyadmin_default
+- id: ms2_dvwa_command_injection
+  name: DVWA command injection
+  cve: ''
+  mitre: T1059.004
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_dvwa_command_injection
+  chain: gym_metasploitable_ms2_dvwa_command_injection
+- id: ms2_mutillidae_sqli
+  name: Mutillidae SQL injection
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.4
+  exploit: ms2_mutillidae_sqli
+  chain: gym_metasploitable_ms2_mutillidae_sqli
+- id: ms2_nfs_exports
+  name: NFS world-readable export
+  cve: ''
+  mitre: T1083
+  port: '2049'
+  service: nfs
+  severity: high
+  confidence: 0.5
+  exploit: ms2_nfs_exports
+  chain: gym_metasploitable_ms2_nfs_exports
+- id: ms2_rlogin_trust
+  name: rlogin trusted host access
+  cve: ''
+  mitre: T1078
+  port: '513'
+  service: login
+  severity: high
+  confidence: 0.4
+  exploit: ms2_rlogin_trust
+  chain: gym_metasploitable_ms2_rlogin_trust
+- id: ms2_java_rmi
+  name: Java RMI server RCE
+  cve: CVE-2011-3556
+  mitre: T1210
+  port: '1099'
+  service: java-rmi
+  severity: critical
+  confidence: 0.5
+  exploit: ms2_java_rmi
+  chain: gym_metasploitable_ms2_java_rmi
+- id: ms2_ingreslock
+  name: Ingreslock bind shell
+  cve: ''
+  mitre: T1021
+  port: '1524'
+  service: ingreslock
+  severity: critical
+  confidence: 0.9
+  exploit: ms2_ingreslock
+  chain: gym_metasploitable_ms2_ingreslock
+- id: ms2_mysql_root
+  name: MySQL root without password
+  cve: ''
+  mitre: T1078
+  port: '3306'
+  service: mysql
+  severity: critical
+  confidence: 0.7
+  exploit: ms2_mysql_root
+  chain: gym_metasploitable_ms2_mysql_root
+- id: ms2_postgres_default
+  name: PostgreSQL default postgres credentials
+  cve: ''
+  mitre: T1078
+  port: '5432'
+  service: postgresql
+  severity: high
+  confidence: 0.6
+  exploit: ms2_postgres_default
+  chain: gym_metasploitable_ms2_postgres_default
+- id: ms2_vnc_password
+  name: VNC weak password
+  cve: ''
+  mitre: T1110.001
+  port: '5900'
+  service: vnc
+  severity: high
+  confidence: 0.5
+  exploit: ms2_vnc_password
+  chain: gym_metasploitable_ms2_vnc_password
+- id: ms2_x11_open
+  name: Open X11 display
+  cve: ''
+  mitre: T1021
+  port: '6000'
+  service: x11
+  severity: medium
+  confidence: 0.6
+  exploit: ms2_x11_open
+  chain: gym_metasploitable_ms2_x11_open
+- id: ms2_unrealircd_backdoor
+  name: UnrealIRCd 3.2.8.1 backdoor
+  cve: CVE-2010-2075
+  mitre: T1190
+  port: '6667'
+  service: irc
+  severity: critical
+  confidence: 0.6
+  exploit: ms2_unrealircd_backdoor
+  chain: gym_metasploitable_ms2_unrealircd_backdoor
+- id: ms2_tomcat_manager
+  name: Tomcat Manager default credentials
+  cve: ''
+  mitre: T1078
+  port: '8180'
+  service: http
+  severity: critical
+  confidence: 0.5
+  exploit: ms2_tomcat_manager
+  chain: gym_metasploitable_ms2_tomcat_manager
+- id: ms2_distcc_exec
+  name: DistCC daemon command execution
+  cve: CVE-2004-2687
+  mitre: T1210
+  port: '3632'
+  service: distcc
+  severity: critical
+  confidence: 0.6
+  exploit: ms2_distcc_exec
+  chain: gym_metasploitable_ms2_distcc_exec
+- id: ms2_proftpd_anon
+  name: ProFTPD anonymous access
+  cve: ''
+  mitre: T1078
+  port: '2121'
+  service: ftp
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_proftpd_anon
+  chain: gym_metasploitable_ms2_proftpd_anon
+- id: ms2_webdav
+  name: Apache WebDAV enabled
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.4
+  exploit: ms2_webdav
+  chain: gym_metasploitable_ms2_webdav
+- id: ms2_shellshock
+  name: Bash Shellshock via CGI
+  cve: CVE-2014-6271
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: critical
+  confidence: 0.4
+  exploit: ms2_shellshock
+  chain: gym_metasploitable_ms2_shellshock
+- id: ms2_dvwa_sqli
+  name: DVWA SQL injection
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_dvwa_sqli
+  chain: gym_metasploitable_ms2_dvwa_sqli
+- id: ms2_dvwa_sqli_blind
+  name: DVWA blind SQL injection
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.4
+  exploit: ms2_dvwa_sqli_blind
+  chain: gym_metasploitable_ms2_dvwa_sqli_blind
+- id: ms2_dvwa_xss_reflected
+  name: DVWA reflected XSS
+  cve: ''
+  mitre: T1059.007
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.6
+  exploit: ms2_dvwa_xss_reflected
+  chain: gym_metasploitable_ms2_dvwa_xss_reflected
+- id: ms2_dvwa_xss_stored
+  name: DVWA stored XSS
+  cve: ''
+  mitre: T1059.007
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.6
+  exploit: ms2_dvwa_xss_stored
+  chain: gym_metasploitable_ms2_dvwa_xss_stored
+- id: ms2_dvwa_xss_dom
+  name: DVWA DOM XSS
+  cve: ''
+  mitre: T1059.007
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_dvwa_xss_dom
+  chain: gym_metasploitable_ms2_dvwa_xss_dom
+- id: ms2_dvwa_csrf
+  name: DVWA CSRF password change
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_dvwa_csrf
+  chain: gym_metasploitable_ms2_dvwa_csrf
+- id: ms2_dvwa_lfi
+  name: DVWA local file inclusion
+  cve: ''
+  mitre: T1005
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.6
+  exploit: ms2_dvwa_lfi
+  chain: gym_metasploitable_ms2_dvwa_lfi
+- id: ms2_dvwa_file_upload
+  name: DVWA unrestricted file upload
+  cve: ''
+  mitre: T1105
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_dvwa_file_upload
+  chain: gym_metasploitable_ms2_dvwa_file_upload
+- id: ms2_dvwa_brute_force
+  name: DVWA login brute force
+  cve: ''
+  mitre: T1110.001
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_dvwa_brute_force
+  chain: gym_metasploitable_ms2_dvwa_brute_force
+- id: ms2_mutillidae_xss
+  name: Mutillidae reflected XSS
+  cve: ''
+  mitre: T1059.007
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.5
+  exploit: ms2_mutillidae_xss
+  chain: gym_metasploitable_ms2_mutillidae_xss
+- id: ms2_mutillidae_lfi
+  name: Mutillidae local file inclusion
+  cve: ''
+  mitre: T1005
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_mutillidae_lfi
+  chain: gym_metasploitable_ms2_mutillidae_lfi
+- id: ms2_mutillidae_rfi
+  name: Mutillidae remote file inclusion
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.3
+  exploit: ms2_mutillidae_rfi
+  chain: gym_metasploitable_ms2_mutillidae_rfi
+- id: ms2_mutillidae_command_injection
+  name: Mutillidae command injection
+  cve: ''
+  mitre: T1059.004
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.5
+  exploit: ms2_mutillidae_command_injection
+  chain: gym_metasploitable_ms2_mutillidae_command_injection
+- id: ms2_mutillidae_csrf
+  name: Mutillidae CSRF blog entry
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.3
+  exploit: ms2_mutillidae_csrf
+  chain: gym_metasploitable_ms2_mutillidae_csrf
+- id: ms2_php_cgi_arg_injection
+  name: PHP-CGI argument injection
+  cve: CVE-2012-1823
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: critical
+  confidence: 0.4
+  exploit: ms2_php_cgi_arg_injection
+  chain: gym_metasploitable_ms2_php_cgi_arg_injection
+- id: ms2_twiki_xss
+  name: TWiki reflected XSS
+  cve: ''
+  mitre: T1059.007
+  port: '80'
+  service: http
+  severity: medium
+  confidence: 0.3
+  exploit: ms2_twiki_xss
+  chain: gym_metasploitable_ms2_twiki_xss
+- id: ms2_webdav_put
+  name: Apache WebDAV PUT
+  cve: ''
+  mitre: T1105
+  port: '80'
+  service: http
+  severity: high
+  confidence: 0.4
+  exploit: ms2_webdav_put
+  chain: gym_metasploitable_ms2_webdav_put
+- id: ms2_apache_trace
+  name: Apache TRACE enabled
+  cve: ''
+  mitre: T1190
+  port: '80'
+  service: http
+  severity: low
+  confidence: 0.5
+  exploit: ms2_apache_trace
+  chain: gym_metasploitable_ms2_apache_trace
+- id: ms2_smtp_open_relay
+  name: Postfix open relay
+  cve: ''
+  mitre: T1071.003
+  port: '25'
+  service: smtp
+  severity: medium
+  confidence: 0.3
+  exploit: ms2_smtp_open_relay
+  chain: gym_metasploitable_ms2_smtp_open_relay
+- id: ms2_mysql_file_read
+  name: MySQL root file read
+  cve: ''
+  mitre: T1005
+  port: '3306'
+  service: mysql
+  severity: high
+  confidence: 0.6
+  exploit: ms2_mysql_file_read
+  chain: gym_metasploitable_ms2_mysql_file_read
+- id: ms2_rsh_trust
+  name: rsh trusted host access
+  cve: ''
+  mitre: T1021
+  port: '514'
+  service: shell
+  severity: high
+  confidence: 0.3
+  exploit: ms2_rsh_trust
+  chain: gym_metasploitable_ms2_rsh_trust
+- id: ms2_vnc_info
+  name: VNC authentication exposure
+  cve: ''
+  mitre: T1021.005
+  port: '5900'
+  service: vnc
+  severity: medium
+  confidence: 0.4
+  exploit: ms2_vnc_info
+  chain: gym_metasploitable_ms2_vnc_info

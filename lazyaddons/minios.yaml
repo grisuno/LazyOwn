@@ -7,6 +7,7 @@ description: |
 author: grisuno
 version: "1.0"
 enabled: true
+update: true
 os: any
 trigger: []
 category: 12. Miscellaneous

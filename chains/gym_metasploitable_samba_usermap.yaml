@@ -1,0 +1,15 @@
+name: gym_metasploitable_samba_usermap
+version: 2
+description: 'Metasploitable 2: Samba username map script RCE (CVE-2007-2447).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- smb
+platforms:
+- linux
+defaults:
+  exploit: samba_usermap
+  vuln: samba_usermap
+  port: '445'

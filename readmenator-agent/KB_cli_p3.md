@@ -6,61 +6,90 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ConfigField` (class, line 59) `class ConfigField`
-  - `FormModal` (class, line 81) `class FormModal`
-  - `LazyOrchestratorApp` (class, line 118) `class LazyOrchestratorApp`
-  - `_coerce` (function, line 793) `def _coerce(raw)`
-  - `run_orchestrator_console` (function, line 810) `def run_orchestrator_console(task_id)`
-  - `__init__` (method, line 86) `def __init__(self, title, fields)`
-  - `compose` (method, line 92) `def compose(self)`
-  - `on_button_pressed` (method, line 101) `def on_button_pressed(self, event)`
-  - `on_input_submitted` (method, line 110) `def on_input_submitted(self, event)`
-  - `__init__` (method, line 142) `def __init__(self, payload_path, task_id)`
-  - `compose` (method, line 153) `def compose(self)`
-  - `on_mount` (method, line 182) `def on_mount(self)`
-  - `toggle_stage` (method, line 193) `def toggle_stage(self, name)`
-  - `toggle_verb` (method, line 202) `def toggle_verb(self, name)`
-  - `add_auto_verb` (method, line 211) `def add_auto_verb(self, name, keywords, needs_target, description)`
-  - `remove_auto_verb` (method, line 226) `def remove_auto_verb(self, name)`
-  - `_chains_dir` (method, line 234) `def _chains_dir(self)`
-  - `chain_rows` (method, line 242) `def chain_rows(self)`
-  - `chain_steps_preview` (method, line 251) `def chain_steps_preview(self, name, limit)`
-  - `toggle_chain` (method, line 268) `def toggle_chain(self, name)`
-  - `generate_chain` (method, line 279) `def generate_chain(self, playbook_key)`
-  - `remove_chain` (method, line 293) `def remove_chain(self, name)`
-  - `_refresh_chains` (method, line 319) `def _refresh_chains(self)`
-  - `_update_chains_detail` (method, line 342) `def _update_chains_detail(self, name)`
-  - `on_data_table_row_highlighted` (method, line 349) `def on_data_table_row_highlighted(self, event)`
-  - `_refresh_stages` (method, line 362) `def _refresh_stages(self)`
-  - `_refresh_verbs` (method, line 378) `def _refresh_verbs(self)`
-  - `_load_payload` (method, line 402) `def _load_payload(self)`
-  - `_load_payload_into_form` (method, line 412) `def _load_payload_into_form(self)`
-  - `save_config` (method, line 423) `def save_config(self, values)`
-  - `add_model_member` (method, line 445) `def add_model_member(self, name, model, priority)`
-  - `remove_model_member` (method, line 453) `def remove_model_member(self, name)`
-  - `set_model_priority` (method, line 461) `def set_model_priority(self, name, priority)`
-  - `add_guard_rule` (method, line 473) `def add_guard_rule(self, pattern, action, reason)`
-  - `remove_guard_rule` (method, line 481) `def remove_guard_rule(self, pattern)`
-  - `_refresh_models` (method, line 489) `def _refresh_models(self)`
-  - `_refresh_guard` (method, line 510) `def _refresh_guard(self)`
-  - `_resolve_task` (method, line 532) `def _resolve_task(self)`
-  - `_poll_now` (method, line 550) `def _poll_now(self)`
-  - `on_button_pressed` (method, line 585) `def on_button_pressed(self, event)`
-  - `action_refresh` (method, line 603) `def action_refresh(self)`
-  - `_selected_row` (method, line 612) `def _selected_row(self, table_id)`
-  - `action_toggle_item` (method, line 621) `def action_toggle_item(self)`
-  - `action_save_config` (method, line 637) `def action_save_config(self)`
-  - `_active_tab` (method, line 647) `def _active_tab(self)`
-  - `action_add_item` (method, line 654) `def action_add_item(self)`
-  - `action_edit_item` (method, line 730) `def action_edit_item(self)`
-  - `action_delete_item` (method, line 764) `def action_delete_item(self)`
-  - `_done` (function, line 743) `def _done(values)`
-  - `_done` (function, line 659) `def _done(values)`
-  - `_done_rule` (function, line 676) `def _done_rule(values)`
-  - `_done_verb` (function, line 693) `def _done_verb(values)`
-  - `_done_chain` (function, line 716) `def _done_chain(values)`
-- Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`
+  - `ConfigField` (class, line 70) `class ConfigField`
+  - `discover_shell_commands` (function, line 92) `def discover_shell_commands()`
+  - `command_descriptions` (function, line 125) `def command_descriptions()`
+  - `verb_candidates` (function, line 139) `def verb_candidates()`
+  - `LazyOrchestratorApp` (class, line 170) `class LazyOrchestratorApp`
+  - `_coerce` (function, line 1439) `def _coerce(raw)`
+  - `run_orchestrator_console` (function, line 1456) `def run_orchestrator_console(task_id)`
+  - `__init__` (method, line 200) `def __init__(self, payload_path, task_id)`
+  - `compose` (method, line 212) `def compose(self)`
+  - `on_mount` (method, line 253) `def on_mount(self)`
+  - `toggle_stage` (method, line 267) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 276) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 285) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
+  - `remove_auto_verb` (method, line 308) `def remove_auto_verb(self, name)`
+  - `_playbooks_dir` (method, line 316) `def _playbooks_dir(self)`
+  - `playbook_rows` (method, line 324) `def playbook_rows(self)`
+  - `playbook_preview` (method, line 348) `def playbook_preview(self, filename, limit)`
+  - `create_playbook_file` (method, line 357) `def create_playbook_file(self, filename, name, description, platforms)`
+  - `save_playbook_text` (method, line 378) `def save_playbook_text(self, filename, text)`
+  - `delete_playbook_file` (method, line 390) `def delete_playbook_file(self, filename)`
+  - `playbook_candidates` (method, line 398) `def playbook_candidates(self)`
+  - `_refresh_playbooks` (method, line 416) `def _refresh_playbooks(self)`
+  - `_update_playbooks_detail` (method, line 438) `def _update_playbooks_detail(self, filename)`
+  - `_edit_playbook` (method, line 451) `def _edit_playbook(self, filename)`
+  - `gym_rows` (method, line 481) `def gym_rows(self)`
+  - `gym_preview` (method, line 518) `def gym_preview(self, gym_id, limit)`
+  - `_refresh_gyms` (method, line 532) `def _refresh_gyms(self)`
+  - `_update_gyms_detail` (method, line 554) `def _update_gyms_detail(self, gym_id)`
+  - `start_gym` (method, line 586) `def start_gym(self, gym_id, target)`
+  - `stop_gym` (method, line 594) `def stop_gym(self, selector)`
+  - `toggle_gym` (method, line 602) `def toggle_gym(self, gym_id)`
+  - `_edit_gym` (method, line 610) `def _edit_gym(self, gym_id)`
+  - `profile_rows` (method, line 644) `def profile_rows(self)`
+  - `activate_profile` (method, line 669) `def activate_profile(self, name)`
+  - `_refresh_profiles` (method, line 680) `def _refresh_profiles(self)`
+  - `_update_profile_detail` (method, line 701) `def _update_profile_detail(self, name)`
+  - `_chains_dir` (method, line 721) `def _chains_dir(self)`
+  - `chain_rows` (method, line 729) `def chain_rows(self)`
+  - `chain_steps_preview` (method, line 738) `def chain_steps_preview(self, name, limit)`
+  - `toggle_chain` (method, line 755) `def toggle_chain(self, name)`
+  - `generate_chain` (method, line 766) `def generate_chain(self, playbook_key)`
+  - `remove_chain` (method, line 780) `def remove_chain(self, name)`
+  - `_refresh_chains` (method, line 806) `def _refresh_chains(self)`
+  - `_update_chains_detail` (method, line 829) `def _update_chains_detail(self, name)`
+  - `on_data_table_row_highlighted` (method, line 836) `def on_data_table_row_highlighted(self, event)`
+  - `_refresh_stages` (method, line 856) `def _refresh_stages(self)`
+  - `_refresh_verbs` (method, line 872) `def _refresh_verbs(self)`
+  - `_load_payload` (method, line 896) `def _load_payload(self)`
+  - `_load_payload_into_form` (method, line 906) `def _load_payload_into_form(self)`
+  - `save_config` (method, line 917) `def save_config(self, values)`
+  - `add_model_member` (method, line 939) `def add_model_member(self, name, model, priority)`
+  - `remove_model_member` (method, line 947) `def remove_model_member(self, name)`
+  - `set_model_priority` (method, line 955) `def set_model_priority(self, name, priority)`
+  - `add_guard_rule` (method, line 967) `def add_guard_rule(self, pattern, action, reason)`
+  - `remove_guard_rule` (method, line 975) `def remove_guard_rule(self, pattern)`
+  - `_refresh_models` (method, line 983) `def _refresh_models(self)`
+  - `_refresh_guard` (method, line 1004) `def _refresh_guard(self)`
+  - `_resolve_task` (method, line 1026) `def _resolve_task(self)`
+  - `_poll_now` (method, line 1044) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 1079) `def on_button_pressed(self, event)`
+  - `action_refresh` (method, line 1097) `def action_refresh(self)`
+  - `_selected_row` (method, line 1109) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 1118) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 1142) `def action_save_config(self)`
+  - `_active_tab` (method, line 1152) `def _active_tab(self)`
+  - `action_add_item` (method, line 1159) `def action_add_item(self)`
+  - `action_edit_item` (method, line 1332) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 1377) `def action_delete_item(self)`
+  - `_validate` (function, line 464) `def _validate(raw)`
+  - `_saved` (function, line 475) `def _saved(raw)`
+  - `_validate` (function, line 620) `def _validate(raw)`
+  - `_saved` (function, line 631) `def _saved(raw)`
+  - `_done` (function, line 1356) `def _done(values)`
+  - `_done` (function, line 1164) `def _done(values)`
+  - `_done_rule` (function, line 1181) `def _done_rule(values)`
+  - `_picked` (function, line 1198) `def _picked(value)`
+  - `_done_verb` (function, line 1202) `def _done_verb(values)`
+  - `_done_new` (function, line 1244) `def _done_new(values)`
+  - `_confirmed` (function, line 1405) `def _confirmed(answer)`
+  - `_done_new_gym` (function, line 1272) `def _done_new_gym(values)`
+  - `_confirmed_gym` (function, line 1418) `def _confirmed_gym(answer)`
+  - `_done_chain` (function, line 1319) `def _done_chain(playbook)`
+- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`
+- Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_yaml.py`
 
 ## cli/lazynmap_post.py
 - Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.
@@ -84,52 +113,73 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `MarketplaceConfig` (class, line 56) `class MarketplaceConfig`
-  - `AddonInfo` (class, line 131) `class AddonInfo`
-  - `AddonRegistry` (class, line 197) `class AddonRegistry`
-  - `MarketplaceSettings` (class, line 349) `class MarketplaceSettings`
-  - `MarketplaceConfigurator` (class, line 378) `class MarketplaceConfigurator`
-  - `configure_marketplace_interactive` (function, line 751) `def configure_marketplace_interactive(config, start_tab)`
-  - `_build_initial_settings` (function, line 774) `def _build_initial_settings(registry)`
-  - `marketplace_summary` (function, line 784) `def marketplace_summary(registry)`
-  - `from_yaml` (method, line 144) `def from_yaml(cls, path)`
-  - `toggle_enabled` (method, line 164) `def toggle_enabled(self)`
-  - `set_enabled` (method, line 168) `def set_enabled(self, enabled)`
-  - `save_yaml` (method, line 185) `def save_yaml(self, data)`
-  - `__init__` (method, line 220) `def __init__(self)`
-  - `_nuclei_dir` (method, line 223) `def _nuclei_dir(self)`
-  - `scan` (method, line 235) `def scan(self, tab)`
-  - `_scan_yara` (method, line 259) `def _scan_yara(self)`
-  - `_scan_nuclei` (method, line 278) `def _scan_nuclei(self)`
-  - `_parse_yara_meta` (method, line 307) `def _parse_yara_meta(path)`
-  - `_parse_nuclei_info` (method, line 319) `def _parse_nuclei_info(path)`
-  - `rescan` (method, line 334) `def rescan(self, tab)`
-  - `tab_order` (method, line 338) `def tab_order(self)`
-  - `tab_label` (method, line 341) `def tab_label(self, tab)`
-  - `tab_count` (method, line 344) `def tab_count(self, tab)`
-  - `is_enabled` (method, line 354) `def is_enabled(self, kind, name)`
-  - `toggle` (method, line 357) `def toggle(self, addon)`
-  - `enable_all` (method, line 367) `def enable_all(self, addons)`
-  - `disable_all` (method, line 372) `def disable_all(self, addons)`
-  - `__init__` (method, line 381) `def __init__(self, config, registry, initial)`
-  - `run` (method, line 395) `def run(self, start_tab)`
-  - `_tty_available` (method, line 408) `def _tty_available()`
-  - `_rows_for_tab` (method, line 411) `def _rows_for_tab(self, tab)`
-  - `_loop` (method, line 414) `def _loop(self, stdscr)`
-  - `_cycle_tab` (method, line 465) `def _cycle_tab(self, direction)`
-  - `_edit_addon` (method, line 470) `def _edit_addon(self, addon)`
-  - `_create_addon` (method, line 480) `def _create_addon(self, stdscr)`
-  - `_init_colors` (method, line 537) `def _init_colors(self)`
-  - `_render` (method, line 564) `def _render(self, stdscr, rows, cursor, offset)`
-  - `_draw_frame` (method, line 604) `def _draw_frame(self, stdscr, top, left, height, width)`
-  - `_draw_header` (method, line 618) `def _draw_header(self, stdscr, top, left, width)`
-  - `_draw_tabs` (method, line 641) `def _draw_tabs(self, stdscr, row_y, left, width)`
-  - `_draw_column_headers` (method, line 659) `def _draw_column_headers(self, stdscr, row_y, left, width, rows)`
-  - `_draw_row` (method, line 669) `def _draw_row(self, stdscr, row_y, left, width, addon, selected)`
-  - `_draw_preview` (method, line 692) `def _draw_preview(self, stdscr, top, left, width, addon)`
-  - `_draw_summary` (method, line 720) `def _draw_summary(self, stdscr, row_y, left, width, rows)`
-  - `_draw_footer` (method, line 732) `def _draw_footer(self, stdscr, row_y, left, width)`
-  - `_color` (method, line 742) `def _color(self, pair)`
+  - `MarketplaceConfig` (class, line 78) `class MarketplaceConfig`
+  - `AddonInfo` (class, line 134) `class AddonInfo`
+  - `AddonRegistry` (class, line 314) `class AddonRegistry`
+  - `MarketplaceSettings` (class, line 508) `class MarketplaceSettings`
+  - `MarketplaceConfigApp` (class, line 546) `class MarketplaceConfigApp`
+  - `configure_marketplace_interactive` (function, line 872) `def configure_marketplace_interactive(config, start_tab)`
+  - `_build_initial_settings` (function, line 896) `def _build_initial_settings(registry)`
+  - `marketplace_summary` (function, line 907) `def marketplace_summary(registry)`
+  - `from_path` (method, line 151) `def from_path(cls, path, kind)`
+  - `_from_yaml` (method, line 160) `def _from_yaml(cls, path, kind)`
+  - `_from_json` (method, line 184) `def _from_json(cls, path, kind)`
+  - `_from_read_only` (method, line 206) `def _from_read_only(cls, path, kind)`
+  - `toggleable` (method, line 221) `def toggleable(self)`
+  - `read_text` (method, line 225) `def read_text(self)`
+  - `read_data` (method, line 229) `def read_data(self)`
+  - `validate_text` (method, line 238) `def validate_text(self, text)`
+  - `save_text` (method, line 260) `def save_text(self, text)`
+  - `set_enabled` (method, line 278) `def set_enabled(self, enabled)`
+  - `toggle_enabled` (method, line 299) `def toggle_enabled(self)`
+  - `save_yaml` (method, line 303) `def save_yaml(self, data)`
+  - `__init__` (method, line 331) `def __init__(self)`
+  - `_nuclei_dir` (method, line 335) `def _nuclei_dir(self)`
+  - `scan` (method, line 342) `def scan(self, tab)`
+  - `_scan_files` (method, line 357) `def _scan_files(self, tab)`
+  - `_scan_yara` (method, line 370) `def _scan_yara(self)`
+  - `_scan_nuclei` (method, line 382) `def _scan_nuclei(self)`
+  - `_parse_yara_meta` (method, line 403) `def _parse_yara_meta(path)`
+  - `_parse_nuclei_severity` (method, line 415) `def _parse_nuclei_severity(path)`
+  - `rescan` (method, line 426) `def rescan(self, tab)`
+  - `tab_order` (method, line 431) `def tab_order(self)`
+  - `tab_label` (method, line 435) `def tab_label(self, tab)`
+  - `tab_count` (method, line 439) `def tab_count(self, tab)`
+  - `tab_is_read_only` (method, line 443) `def tab_is_read_only(self, tab)`
+  - `create_addon` (method, line 447) `def create_addon(self, tab, name)`
+  - `delete_addon` (method, line 491) `def delete_addon(self, addon)`
+  - `is_enabled` (method, line 513) `def is_enabled(self, kind, name)`
+  - `toggle` (method, line 517) `def toggle(self, addon)`
+  - `enable_all` (method, line 529) `def enable_all(self, addons)`
+  - `disable_all` (method, line 537) `def disable_all(self, addons)`
+  - `__init__` (method, line 578) `def __init__(self, config, registry, initial, start_tab)`
+  - `compose` (method, line 593) `def compose(self)`
+  - `on_mount` (method, line 604) `def on_mount(self)`
+  - `_active_tab` (method, line 614) `def _active_tab(self)`
+  - `_rows` (method, line 622) `def _rows(self, tab)`
+  - `_refresh_all` (method, line 637) `def _refresh_all(self)`
+  - `_refresh_tab_labels` (method, line 643) `def _refresh_tab_labels(self, tab)`
+  - `_refresh_table` (method, line 651) `def _refresh_table(self, tab)`
+  - `_selected_addon` (method, line 674) `def _selected_addon(self, tab)`
+  - `_selected_row` (method, line 681) `def _selected_row(self, tab)`
+  - `_update_detail` (method, line 690) `def _update_detail(self, row_key, tab)`
+  - `on_data_table_row_highlighted` (method, line 722) `def on_data_table_row_highlighted(self, event)`
+  - `on_input_changed` (method, line 732) `def on_input_changed(self, event)`
+  - `on_tabbed_content_tab_activated` (method, line 738) `def on_tabbed_content_tab_activated(self, event)`
+  - `action_focus_filter` (method, line 747) `def action_focus_filter(self)`
+  - `action_rescan` (method, line 754) `def action_rescan(self)`
+  - `action_toggle` (method, line 761) `def action_toggle(self)`
+  - `action_enable_all` (method, line 772) `def action_enable_all(self)`
+  - `action_disable_all` (method, line 779) `def action_disable_all(self)`
+  - `action_create` (method, line 786) `def action_create(self)`
+  - `action_edit` (method, line 811) `def action_edit(self)`
+  - `action_delete` (method, line 839) `def action_delete(self)`
+  - `action_save` (method, line 863) `def action_save(self)`
+  - `action_cancel` (method, line 867) `def action_cancel(self)`
+  - `_created` (function, line 793) `def _created(values)`
+  - `_saved` (function, line 825) `def _saved(raw)`
+  - `_confirmed` (function, line 849) `def _confirmed(answer)`
+- Depends on: `cli/tui_forms.py`
 - Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
 
 ## cli/noise_verbs.py
@@ -228,7 +278,7 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `get` (function, line 114) `def get(name)`
   - `duplicates` (function, line 125) `def duplicates()`
   - `totals` (function, line 130) `def totals()`
-- Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+- Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
 
 ## cli/palette_command.py
 - Doc: Pure logic for the operator-facing ``palette`` command.
@@ -428,47 +478,6 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `_render_stats` (method, line 205) `def _render_stats(self, score, ds)`
 - Depends on: `cli/commands/containers.py`
 - Imported by: `cli/commands/purple_team.py`
-
-## cli/reactive_hints.py
-- Doc: Non-blocking inline hint renderer for the LazyOwn cmd2 shell.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `render_inline_hints` (function, line 220) `def render_inline_hints(advisor, last_command, limit, enabled)`
-  - `_first_token` (function, line 262) `def _first_token(raw)`
-  - `_extract_labels` (function, line 267) `def _extract_labels(suggestions, limit)`
-  - `_truncate` (function, line 278) `def _truncate(value, max_len)`
-  - `_render` (function, line 284) `def _render(labels)`
-  - `EvidenceHint` (class, line 299) `class EvidenceHint`
-  - `confidence_from_score` (function, line 321) `def confidence_from_score(score)`
-  - `_clean_reason` (function, line 343) `def _clean_reason(reasons)`
-  - `build_evidence_hints` (function, line 362) `def build_evidence_hints(recommendations, limit)`
-  - `render_evidence_hints` (function, line 400) `def render_evidence_hints(hints)`
-  - `build_evidence_hint_lines` (function, line 416) `def build_evidence_hint_lines(hints)`
-  - `read_run_commands` (function, line 443) `def read_run_commands(sessions_dir)`
-  - `_collect_command_hints` (function, line 476) `def _collect_command_hints(cmd, phase, already_run, limit)`
-  - `render_command_hints` (function, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
-  - `command_hints` (function, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
-- Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
-- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
-
-## cli/reasoning_stream.py
-- Doc: Operator-facing view over the autonomous daemon decision log.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReasoningEntry` (class, line 66) `class ReasoningEntry`
-  - `read_raw_events` (function, line 91) `def read_raw_events(path, limit)`
-  - `_format_time` (function, line 127) `def _format_time(ts)`
-  - `_format_size` (function, line 134) `def _format_size(num_bytes)`
-  - `_truncate` (function, line 141) `def _truncate(text, limit)`
-  - `_summarize` (function, line 148) `def _summarize(kind, payload)`
-  - `_extract_reward` (function, line 175) `def _extract_reward(payload)`
-  - `event_to_entry` (function, line 183) `def event_to_entry(event)`
-  - `latest_reasoning` (function, line 216) `def latest_reasoning(path, limit)`
-  - `latest_hint` (function, line 229) `def latest_hint(events_path)`
-- Depends on: `core/text_utils.py`
-- Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
 
 
 Next: [KB_cli_p4.md](KB_cli_p4.md)

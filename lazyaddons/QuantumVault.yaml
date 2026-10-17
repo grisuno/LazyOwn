@@ -6,6 +6,7 @@ description: 'LazyOwn RedTeam released QuantumVault as free software so that jou
 author: QuantumVault
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

@@ -3,6 +3,11 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/lazyown_parquet_tool.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 4 | 0 |
+| `modules/lazyownclient.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
+| `modules/lazyownerweb.py` | - | modules | 3 | 0 |
+| `modules/lazyownserver.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
+| `modules/lazypsexec.sh` | execute_psexec: Función para ejecutar psexec y verificar la salida | modules | 1 | 0 |
 | `modules/lazyreverse_shell.sh` | Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico... | modules | 2 | 0 |
 | `modules/lazyrtpflood.sh` | - | modules | 0 | 0 |
 | `modules/lazyvpnshield.sh` | Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0 | modules | 7 | 0 |
@@ -28,6 +33,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 2 |
 | `modules/memory_cleaner.py` | Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear. | modules | 7 | 1 |
 | `modules/memory_store.py` | — Episodic memory for the LazyOwn auto_loop. | modules | 33 | 2 |
+| `modules/metasploitable_gym.py` | Metasploitable 2 gym catalogue loader and matrix validator. | modules | 9 | 2 |
 | `modules/metrics.py` | LazyOwn metrics surface. | modules | 24 | 6 |
 | `modules/mfa_bypass.py` | MFA Bypass Toolkit — techniques for circumventing multi-factor authentication. | modules | 10 | 1 |
 | `modules/mkcloudflaretunnel.sh` | Download cloudflared and create a tunnel to localhost on a specified port. | modules | 0 | 0 |
@@ -44,12 +50,14 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 4 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: pipeline stages and auto verbs. | modules | 13 | 6 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 30 | 8 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
+| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 20 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 6 |
 | `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 5 |
 | `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 8 |
+| `modules/playbook_admin.py` | Safe CRUD for the YAML playbooks under ``playbooks/``. | modules | 18 | 2 |
 | `modules/playbook_engine.py` | modules/playbook_engine.py | modules | 31 | 6 |
 | `modules/playbook_executor.py` | Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine. | modules | 25 | 0 |
 | `modules/polymorphic_engine.py` | Polymorphic code generation engine — shellcode mutation and obfuscation. | modules | 19 | 1 |
@@ -58,7 +66,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 7 |
 | `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
-| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 18 | 3 |
+| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 28 | 7 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
 | `modules/reverse-shell.c` | reverse_shell_init: call_usermodehelper function is used to create user mode processes from... | modules | 2 | 0 |
@@ -81,6 +89,16 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/session_reader.py` | modules/session_reader.py | modules | 29 | 3 |
 | `modules/session_state.py` | LazyOwn Session State | modules | 9 | 4 |
 | `modules/sidequestion.py` | Isolated side-question answering against immutable snapshots. | modules | 9 | 2 |
+| `modules/sinks/__init__.py` | Outcome sink adapters. | sinks | 0 | 0 |
+| `modules/sinks/attack_graph.py` | Attack-graph sink: rebuild the attack surface after meaningful outcomes. | sinks | 1 | 1 |
+| `modules/sinks/c2_surfaces.py` | C2 dashboard sink: banners, CVEs and operator notes. | sinks | 1 | 1 |
+| `modules/sinks/campaign_db.py` | Campaign database sink: opt-in host and vulnerability mirror. | sinks | 1 | 0 |
+| `modules/sinks/event_bus.py` | Unified event-bus sink: publish every outcome once. | sinks | 1 | 0 |
+| `modules/sinks/intel_graph.py` | Intel-graph sink: rebuild the fused graph after meaningful outcomes. | sinks | 1 | 1 |
+| `modules/sinks/killchain.py` | Kill-chain sink: advance the unified phase from proven outcomes. | sinks | 1 | 1 |
+| `modules/sinks/objectives.py` | Objectives sink: turn proven outcomes into follow-up work. | sinks | 1 | 1 |
+| `modules/sinks/routing.py` | Routing-prior sink: learn from terminal outcomes. | sinks | 1 | 1 |
+| `modules/sinks/world_model.py` | World-model sink: hosts, services, vulnerabilities and credentials. | sinks | 1 | 0 |
 | `modules/sleep_obfuscation.py` | Sleep obfuscation engine for beacon memory evasion. | modules | 28 | 3 |
 | `modules/smbver.sh` | Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen... | modules | 0 | 0 |
 | `modules/socks_proxy.py` | SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons. | modules | 31 | 3 |
@@ -100,7 +118,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/toolset.py` | Typed tool sets per agent role with shell allowlists. | modules | 5 | 1 |
 | `modules/toposwarm_bridge.py` | modules/toposwarm_bridge.py | modules | 22 | 6 |
 | `modules/traffic_morpher.py` | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | modules | 11 | 1 |
-| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 11 |
+| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 12 |
 | `modules/ttp_coverage.py` | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | modules | 13 | 1 |
 | `modules/ttpscope_bridge.py` | Secure bridge for the TTPScope MITRE ATT&CK research client. | modules | 33 | 1 |
 | `modules/unified_bridge.py` | UnifiedBridge — single API over all LazyOwn bridges and routing engines. | modules | 29 | 1 |
@@ -117,7 +135,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 61 | 32 |
+| `modules/world_model.py` | modules/world_model.py | modules | 64 | 35 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -286,26 +304,33 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/contract/test_suite_homologation.py` | SDD suite homologation contract for LazyOwn tests. | contract | 20 | 0 |
 | `tests/integration_autonomous_flow.py` | test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module... | tests | 1 | 0 |
 | `tests/run_mutation_addon_creator.py` | Manual mutation testing runner for the LazyAddon creator contract. | tests | 4 | 0 |
+| `tests/run_mutation_addon_updater.py` | Mutation runner for the lazyaddon update contract. | tests | 4 | 0 |
 | `tests/run_mutation_api_authz.py` | Mutation testing runner for core.api_authz and core.logging. | tests | 3 | 0 |
 | `tests/run_mutation_autonomous_ops.py` | Manual mutation runner for the LAZY port contracts. | tests | 4 | 0 |
 | `tests/run_mutation_c2_route_auth.py` | Mutation gate for C2 route-level auth boundaries. | tests | 2 | 0 |
+| `tests/run_mutation_chain_v2.py` | Mutation runner for the chain v2 contract. | tests | 4 | 0 |
 | `tests/run_mutation_contract_manifest.py` | Mutation gate for the contract manifest drift checker. | tests | 2 | 0 |
+| `tests/run_mutation_emulation_runner.py` | Mutation runner for the emulation-runner contract. | tests | 4 | 0 |
 | `tests/run_mutation_infra_report.py` | Mutation runner for the disposable infra and reporting contracts. | tests | 4 | 0 |
 | `tests/run_mutation_killchain.py` | Manual mutation testing runner for the unified kill-chain contract. | tests | 4 | 0 |
 | `tests/run_mutation_llm.py` | Mutation runner for the LLM subsystem contract. | tests | 4 | 0 |
 | `tests/run_mutation_no_shell.py` | Mutation gate for the no-shell execution contract. | tests | 2 | 0 |
 | `tests/run_mutation_opsec.py` | Mutation runner for the consolidated OPSEC scorer contract. | tests | 4 | 0 |
+| `tests/run_mutation_orchestrator_yaml.py` | Mutation runner for the orchestrator YAML contract. | tests | 4 | 0 |
+| `tests/run_mutation_outcome_bus.py` | Mutation runner for the outcome-bus contract. | tests | 4 | 0 |
 | `tests/run_mutation_phase1.py` | Mutation testing runner for Phase 1 data-gap closure. | tests | 4 | 0 |
 | `tests/run_mutation_shell_semantics.py` | Mutation gate for shell semantics and colored output. | tests | 2 | 0 |
 | `tests/run_mutation_tests.py` | Manual mutation testing runner for LazyOwn connectivity improvements. | tests | 4 | 0 |
 | `tests/run_mutation_ux_usability.py` | Mutation testing runner for the UX usability contracts. | tests | 4 | 0 |
 | `tests/test_aci_planner.py` | tests/test_aci_planner.py | tests | 95 | 0 |
 | `tests/test_addon_creator.py` | Tests for the LazyAddon creator contract and C2 blueprint. | tests | 86 | 0 |
+| `tests/test_addon_updater.py` | Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware. | tests | 13 | 0 |
 | `tests/test_aes_key_propagation.py` | TDD tests for the AES key resolution contract. | tests | 12 | 0 |
 | `tests/test_ai_commands_llm.py` | Behavioural tests for the resurrected ``ask``/``groq`` commands. | tests | 18 | 0 |
 | `tests/test_api_authz.py` | Tests for ``core.api_authz`` — tenant-bound API authorization. | tests | 48 | 0 |
 | `tests/test_api_key_resolution.py` | API-key resolution contract tests. | tests | 9 | 0 |
 | `tests/test_api_v1.py` | Integration tests for the versioned C2 REST API (``/api/v1``). | tests | 13 | 0 |
+| `tests/test_apt_chain_integration.py` | BDD integration: apt_chain runs real cmd2 verbs, raw commands and shell. | tests | 6 | 0 |
 | `tests/test_asset_gate.py` | Asset gate + un-nerfed outputs + IntelGraph CSP regression tests. | tests | 16 | 0 |
 | `tests/test_atomic_exploit_bridge.py` | Atomic exploit catalogue: one YAML per exploit, engine administered by files. | tests | 36 | 0 |
 | `tests/test_atomic_loop.py` | Atomic emulation inside the autonomous loop (registry + playbooks). | tests | 17 | 0 |
@@ -334,14 +359,16 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_c2_surfaces.py` | C2 dashboard surfaces fed by the autonomous loop and APT chains. | tests | 12 | 0 |
 | `tests/test_campaign_import_safety.py` | Campaign import trust boundaries hold against hostile packages. | tests | 14 | 0 |
 | `tests/test_categories.py` | Tests for modules/categories.py — category constants and look-up tables. | tests | 47 | 0 |
+| `tests/test_chain_list_command.py` | BDD: chain list exposes the YAML chain registry. | tests | 2 | 0 |
 | `tests/test_chain_mode.py` | Tests for cli/chain_mode.py. | tests | 28 | 0 |
 | `tests/test_chain_registry.py` | Chain registry: orchestration from chains/*.yaml, never hardcoded steps. | tests | 9 | 0 |
+| `tests/test_chain_runner.py` | Chain v2 BDD contract: safe conditions, retries, capture and error policy. | tests | 39 | 0 |
 | `tests/test_ci_strict.py` | Contract tests for the strict CI workflow. | tests | 10 | 0 |
 | `tests/test_claudemd_consistency.py` | Guard against drift between CLAUDE.md numeric claims and reality. | tests | 3 | 0 |
 | `tests/test_claudemd_size.py` | Enforce a hard cap on ``CLAUDE.md`` size. | tests | 1 | 0 |
 | `tests/test_cli_assign.py` | ``do_assign`` / ``do_show`` behaviour and shell wiring tests. | tests | 39 | 0 |
 | `tests/test_cli_auth_remember.py` | Remember-me token comparison must be timing-safe. | tests | 7 | 0 |
-| `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 56 | 0 |
+| `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 61 | 0 |
 | `tests/test_cli_enhancements.py` | Tests for cli/cli_enhancements.py and the audit CommandSet. | tests | 50 | 0 |
 | `tests/test_collab_and_onboarding.py` | tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE... | tests | 91 | 0 |
 | `tests/test_command_allowlist.py` | TDD tests for the command allowlist contract. | tests | 14 | 0 |
@@ -377,6 +404,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
 | `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
 | `tests/test_doctor.py` | tests/test_doctor.py  Tests for the preflight environment health check in ``cli.doctor``. | tests | 34 | 0 |
+| `tests/test_emulation_runner.py` | Emulation runner BDD contract: resolve, execute, normalize, publish. | tests | 22 | 0 |
 | `tests/test_encoding_command_set.py` | Encoding command set extraction tests. | tests | 9 | 0 |
 | `tests/test_engage_gates.py` | BDD tests for gates and transcripts in the live engage path. | tests | 28 | 0 |
 | `tests/test_engage_orchestrator.py` | tests/test_engage_orchestrator.py  Coverage for the engage feature added in... | tests | 77 | 0 |
@@ -394,6 +422,9 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
 | `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
 | `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
+| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
+| `tests/test_gym_ms2_cli.py` | - | tests | 1 | 0 |
+| `tests/test_gym_registry.py` | Gym YAML catalogue and persistent world-model run state. | tests | 9 | 0 |
 | `tests/test_hash_cracker.py` | Tests for modules/hash_cracker.py | tests | 22 | 0 |
 | `tests/test_help_ui_command_set.py` | Help/UI command set extraction tests. | tests | 9 | 0 |
 | `tests/test_host_policy.py` | Single host-validation policy shared by CLI gates and hardening. | tests | 9 | 0 |
@@ -410,12 +441,14 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_killchain_gap_signal.py` | Tests for :class:`cli.recommendation_signals.KillchainGapSignal`. | tests | 20 | 0 |
 | `tests/test_killchain_snapshot.py` | BDD-style tests for the unified kill-chain snapshot contract. | tests | 12 | 0 |
 | `tests/test_killchain_unified.py` | Tests for unified killchain phase: read_phase, write_phase, phase mapping helpers. | tests | 9 | 0 |
-| `tests/test_killchain_unified_v2.py` | Comprehensive tests for modules.killchain — the unified single source of truth. | tests | 42 | 0 |
+| `tests/test_killchain_unified_v2.py` | Comprehensive tests for modules.killchain — the unified single source of truth. | tests | 43 | 0 |
+| `tests/test_lab_target_visibility.py` | Lab target visibility: start/status always show the container IP. | tests | 2 | 0 |
 | `tests/test_lazy_agent.py` | Agentic tool-calling: worker agent path, resume and main sessions. | tests | 18 | 0 |
-| `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 11 | 0 |
+| `tests/test_lazy_bridge_traffic.py` | Incremental LAZY traffic mirroring (stall regression). | tests | 7 | 0 |
+| `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 13 | 0 |
 | `tests/test_lazy_evidence.py` | Traffic recorder trigram search and frozen evidence package export. | tests | 3 | 0 |
 | `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 36 | 0 |
-| `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 18 | 0 |
+| `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 26 | 0 |
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
 | `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
@@ -445,56 +478,23 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 18 | 0 |
 | `tests/test_loop_mentions.py` | Lazy mentions multi-type search and scroll pagination. | tests | 2 | 0 |
+| `tests/test_loop_nmap_guard.py` | Loop guardrails: command repair and bounded scanning retests. | tests | 8 | 0 |
 | `tests/test_loop_progress.py` | Loop milestone panel: inferred stage states stay honest. | tests | 11 | 0 |
 | `tests/test_loop_scope_traffic_evidence.py` | Scope ownership, port-aware traffic search, role-based evidences (lazy parity). | tests | 7 | 0 |
 | `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
 | `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
+| `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
 | `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 10 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
 | `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
+| `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
 | `tests/test_metrics.py` | Tests for ``modules/metrics.py``. | tests | 14 | 0 |
 | `tests/test_metrics_aware_selector.py` | Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``. | tests | 24 | 0 |
 | `tests/test_migrate_lazyown_generator.py` | Regression guard for the ``cli/commands`` migration generator. | tests | 6 | 0 |
 | `tests/test_module_registry.py` | Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary. | tests | 29 | 0 |
 | `tests/test_moe_rl_swan.py` | tests/test_moe_rl_swan.py | tests | 59 | 0 |
-| `tests/test_moe_router_check_regression.py` | Regression coverage for ``modules.moe_router.ExpertAvailabilityChecker._check``. | tests | 6 | 0 |
-| `tests/test_mutation_verification.py` | Mutation verification contracts. | tests | 5 | 0 |
-| `tests/test_nethelpers_command_set.py` | Network helpers command set extraction tests. | tests | 9 | 0 |
-| `tests/test_no_shell_execution.py` | Contract tests: no os.system and no manual sys.stdout reassignment. | tests | 8 | 0 |
-| `tests/test_nuclei_parser.py` | Tests for modules/integrations/nuclei_parser.py | tests | 21 | 0 |
-| `tests/test_ops_loot_phase.py` | Tests for unified loot, cred-graph view, and quantitative phase progress. | tests | 22 | 0 |
-| `tests/test_opsec_scorer.py` | Tests for modules/opsec_scorer.py | tests | 13 | 0 |
-| `tests/test_opsec_scorer_consolidated.py` | Consolidated OPSEC scorer contract tests (SDD/TDD/BDD). | tests | 22 | 0 |
-| `tests/test_packaging.py` | Packaging and project-foundation tests. | tests | 67 | 0 |
-| `tests/test_palette_overlay.py` | Tests for cli/palette_overlay.py. | tests | 10 | 0 |
-| `tests/test_payload_factory.py` | Tests for modules.payload_factory — PayloadFactory, PayloadTemplate, format conversion. | tests | 32 | 0 |
-| `tests/test_payload_schema.py` | Tests for the ``core.payload_schema`` validation layer. | tests | 53 | 0 |
-| `tests/test_phase1_data_gaps.py` | Phase 1 data-gap closure: SDD + TDD + BDD tests. | tests | 55 | 0 |
-| `tests/test_phase_labels.py` | Tests for cli.phase_labels — canonical phase display labels contract. | tests | 5 | 0 |
-| `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
-| `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
-| `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
-| `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
-| `tests/test_plugin_tiers.py` | Tests for marketplace plugin tiers and operator ratings. | tests | 12 | 0 |
-| `tests/test_profiles.py` | Tests for runtime install profiles (``core.profiles``). | tests | 11 | 0 |
-| `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
-| `tests/test_prompt_refresh.py` | Contract tests for live prompt refresh after a payload change. | tests | 9 | 0 |
-| `tests/test_pwntomate_tools.py` | Regression guard for pwntomate tool templates (tools/*.tool). | tests | 8 | 0 |
-| `tests/test_rea_mcp.py` | Tests for the lazyown_rea MCP tool (REA reverse-engineering skill). | tests | 24 | 0 |
-| `tests/test_reactive_engine_semantic.py` | Tests for the semantic context advisor in ``modules/reactive_engine.py``. | tests | 13 | 0 |
-| `tests/test_reactive_hints.py` | Tests for cli/reactive_hints.py. | tests | 31 | 0 |
-| `tests/test_reactive_hints_expanded.py` | Tests for cli.reactive_hints — expanded kill-chain tables. | tests | 27 | 0 |
-| `tests/test_reactive_lateral_data.py` | Tests for new reactive engine matchers. | tests | 26 | 0 |
-| `tests/test_reasoning_stream.py` | Tests for cli/reasoning_stream.py. | tests | 13 | 0 |
-| `tests/test_recommendation.py` | Behaviour tests for the unified recommendation engine and its signals. | tests | 36 | 0 |
-| `tests/test_recon_plan.py` | Spec coverage for :mod:`cli.recon_plan`. | tests | 34 | 0 |
-| `tests/test_report_banners_endpoints.py` | Tests for /report and /banners endpoints error handling. | tests | 32 | 0 |
-| `tests/test_require_guards.py` | Single-call requirement guards for CommandSet methods. | tests | 5 | 0 |
-| `tests/test_resource_script.py` | Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine. | tests | 32 | 0 |
-| `tests/test_safe_console.py` | Terminal-safe console: colors and glyphs degrade, never leak. | tests | 4 | 0 |
-| `tests/test_safe_subprocess.py` | TDD tests for the safe subprocess runner contract. | tests | 11 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

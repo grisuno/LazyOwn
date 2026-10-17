@@ -6,6 +6,7 @@ description: >
 author: LazyOwn RedTeam
 version: '2.0'
 enabled: true
+update: true
 params: []
 os: any
 trigger: []

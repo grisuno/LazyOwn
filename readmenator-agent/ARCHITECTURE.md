@@ -125,7 +125,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_runner.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/listener_manager.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/outcome_bus.py`
 - `cli/commands/command_and_control_migrated.py` -> `utils.py`
 - `cli/commands/containers.py` -> `cli/commands/_base.py`
 - `cli/commands/containers.py` -> `modules/lazyk8s.py`
@@ -190,6 +192,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploit_migrated.py` -> `cli/commands/_base.py`
 - `cli/commands/exploit_migrated.py` -> `core/autonomous.py`
 - `cli/commands/exploit_migrated.py` -> `modules/adcs_attacks.py`
+- `cli/commands/exploit_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_chain.py`
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_recommender.py`
 - `cli/commands/exploit_migrated.py` -> `modules/world_model.py`
@@ -236,6 +239,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyops.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyops.py` -> `core/process.py`
 - `cli/commands/lazyops.py` -> `modules/__init__.py`
+- `cli/commands/lazyops.py` -> `modules/addon_updater.py`
 - `cli/commands/lazyops.py` -> `modules/auto_registry.py`
 - `cli/commands/lazyops.py` -> `modules/custom_tools.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_agent.py`
@@ -255,6 +259,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/marketplace.py` -> `cli/commands/_base.py`
 - `cli/commands/marketplace.py` -> `cli/marketplace_config.py`
 - `cli/commands/marketplace.py` -> `cli/plugin_tiers.py`
+- `cli/commands/marketplace.py` -> `modules/addon_updater.py`
 - `cli/commands/marketplace.py` -> `modules/module_registry.py`
 - `cli/commands/marketplace.py` -> `utils.py`
 - `cli/commands/mcp_bridge.py` -> `cli/aliases.py`
@@ -382,6 +387,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/recon_migrated.py` -> `core/config.py`
 - `cli/commands/recon_migrated.py` -> `utils.py`
 - `cli/commands/redteam_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
 - `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
 - `cli/commands/redteam_gym.py` -> `utils.py`
 - `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
@@ -480,21 +486,15 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/lazy_monitor.py` -> `modules/lazy_runner.py`
 - `cli/lazy_monitor.py` -> `modules/loop_progress.py`
 - `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
+- `cli/lazy_orchestrator.py` -> `cli/palette.py`
+- `cli/lazy_orchestrator.py` -> `cli/tui_forms.py`
 - `cli/lazy_orchestrator.py` -> `core/config.py`
+- `cli/lazy_orchestrator.py` -> `modules/__init__.py`
 - `cli/lazy_orchestrator.py` -> `modules/apt_playbooks.py`
 - `cli/lazy_orchestrator.py` -> `modules/chain_registry.py`
+- `cli/lazy_orchestrator.py` -> `modules/gym_registry.py`
 - `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
-- `cli/lazy_orchestrator.py` -> `modules/orchestrator_config.py`
-- `cli/lazynmap_post.py` -> `cli/exploration.py`
-- `cli/lazynmap_post.py` -> `cli/recon_plan.py`
-- `cli/ops_commands.py` -> `core/safe_console.py`
-- `cli/ops_commands.py` -> `modules/killchain.py`
-- `cli/ops_commands.py` -> `modules/world_model.py`
-- `cli/palette_command.py` -> `cli/commands/enum.py`
-- `cli/palette_command.py` -> `cli/palette_graph.py`
-- `cli/palette_command.py` -> `cli/palette_telemetry.py`
-- `cli/palette_command.py` -> `core/text_utils.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

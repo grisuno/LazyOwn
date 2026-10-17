@@ -3,6 +3,7 @@ description: "Januscape is a use-after-free vulnerability in the shadow MMU emul
 author: V4bel
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

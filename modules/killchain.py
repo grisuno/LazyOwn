@@ -251,16 +251,23 @@ class KillChain:
     def advance_phase(
         new_phase: str,
         world_model_path: Path | None = None,
+        host: str | None = None,
     ) -> bool:
-        """Advance the kill-chain phase for all connected surfaces.
+        """Advance the kill-chain phase for connected surfaces.
 
         Persists ``current_phase``, ``phase``, and ``completed_phases``
-        in the raw ``world_model.json`` AND advances every host in the
-        ``WorldModel`` to the corresponding ``HostState``.
+        in the raw ``world_model.json`` AND advances the host that proved
+        the phase. When ``host`` is empty (manual operator phase changes
+        and legacy callers) every tracked host is advanced for backward
+        compatibility; outcome-driven callers must pass the event host so
+        unrelated or stale hosts are never marked ``exploited``/``owned``.
+        An empty string advances no host (used by report-only outcomes).
 
         Args:
             new_phase: A valid canonical phase key.
             world_model_path: Optional override path for the world model file.
+            host: Host that produced the outcome; ``None`` advances all
+                hosts and ``""`` advances none.
 
         Returns:
             True when the write succeeded, False otherwise.
@@ -304,7 +311,13 @@ class KillChain:
 
                 wm = get_world_model(path=wm_path)
                 wm.reload()
-                for ip in wm.get_hosts_summary():
+                if host is None:
+                    targets = list(wm.get_hosts_summary())
+                elif str(host).strip():
+                    targets = [str(host).strip()]
+                else:
+                    targets = []
+                for ip in targets:
                     wm.advance_host(ip, HostState(target_state))
             except Exception as exc:
                 _log.warning("WorldModel host advance failed: %s", exc)

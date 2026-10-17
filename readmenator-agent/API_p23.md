@@ -213,6 +213,12 @@ Depends on: `core/parsers.py`
 ## tests/run_mutation_c2_route_auth.py
 - `main` (function) `tests/run_mutation_c2_route_auth.py:40` `def main()`
 
+## tests/run_mutation_outcome_bus.py
+- `backup_files` (function) `tests/run_mutation_outcome_bus.py:47` `def backup_files(mutations, base_dir)` -- Snapshot original file contents.
+- `restore_files` (function) `tests/run_mutation_outcome_bus.py:57` `def restore_files(backups, base_dir, mutations)` -- Restore original file contents.
+- `run_tests` (function) `tests/run_mutation_outcome_bus.py:64` `def run_tests()` -- Run the scoped suite and return True on success.
+- `main` (function) `tests/run_mutation_outcome_bus.py:76` `def main()` -- Execute baseline, every mutant and restore the source.
+
 ## tools/contract_check.py
 - `check_file` (function) `tools/contract_check.py:19` `def check_file(path)` -- Validate one module and return human readable violations.
 - `main` (function) `tools/contract_check.py:46` `def main(argv)` -- Check each file argument and report violations.
@@ -232,6 +238,18 @@ Imported by: `tools/gen_demo_gifs_extra.py`
 ## tools/gen_demo_gifs_extra.py
 Depends on: `tools/gen_demo_gifs.py`
 - `main` (function) `tools/gen_demo_gifs_extra.py:49` `def main()` -- Render the four extended GIFs.
+
+## tools/generate_metasploitable_gym.py
+- `exploit_document` (function) `tools/generate_metasploitable_gym.py:919` `def exploit_document(item)` -- Build one exploit YAML document.
+- `chain_document` (function) `tools/generate_metasploitable_gym.py:942` `def chain_document(item)` -- Build one per-vulnerability chain.
+- `base_chain_document` (function) `tools/generate_metasploitable_gym.py:961` `def base_chain_document()` -- Build the shared gym chain with scrape, exploit and sync stages.
+- `index_document` (function) `tools/generate_metasploitable_gym.py:1034` `def index_document()` -- Build the gym index consumed by the loader and the operator.
+- `write` (function) `tools/generate_metasploitable_gym.py:1074` `def write()` -- Write every generated YAML file.
+
+## tools/set_lazyaddon_updates.py
+- `set_flag` (function) `tools/set_lazyaddon_updates.py:22` `def set_flag(path, value)` -- Set the root update flag, returning True when the file changed.
+- `read_flag` (function) `tools/set_lazyaddon_updates.py:45` `def read_flag(path)` -- Return the root update flag, or None when absent.
+- `main` (function) `tools/set_lazyaddon_updates.py:55` `def main()`
 
 ## utils.py
 Depends on: `cli/banner_config.py`, `core/config.py`, `core/console.py`, `core/crypto.py`, `core/dependencies.py`, `core/parsers.py`, `core/process.py`, `core/safe_subprocess.py`, `core/validators.py`, `modules/backdoor/server.c`, `modules/lazyencoder_decoder.py`, `skills/claude_md_orchestrator/parser.py`

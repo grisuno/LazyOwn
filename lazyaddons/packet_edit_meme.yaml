@@ -4,6 +4,7 @@ description: 'net/sched act_pedit partial-COW page-cache corruption (culprit 899
 author: sgkdev
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

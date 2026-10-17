@@ -17,6 +17,7 @@ lazyaddons/
 ```yaml
 name: "shortname"  # CLI command (do_shortname)
 enabled: true
+update: true        # opt in to git fast-forward updates
 description: "Tool description for help system"
 
 tool:
@@ -39,7 +40,9 @@ params:
 ```
 Features
 Auto-Installation
-Tools clone from Git when missing:
+Tools clone from Git when missing, and opted-in addons update with
+`git pull --ff-only` when the install path is an existing worktree
+inside this repository:
 
 ```bash
 git clone <repo_url> <install_path>
@@ -88,7 +91,26 @@ Execute registered commands:
 (Cmd) help your_command
 (Cmd) your_command -args
 ```
-🚨 Troubleshooting
+## Updates
+
+Every shipped addon declares `update: true`. Update one addon, a named
+list, or the full catalogue:
+
+```bash
+lazy_addon update phantom2
+lazy_addon update --all
+lazy_addon update --all --dry-run
+marketplace update-addons --dry-run
+```
+
+The updater never runs a shell, never follows `..` or absolute install
+paths, refuses a dirty worktree, skips addons without `repo_url`, skips
+paths that are not separate git worktrees and never pulls the LazyOwn
+repository itself. Decisions land in `sessions/addon_updates.jsonl`.
+Addons that are vendored, installed by a custom command or missing from
+disk stay `update: true` and are reported as skipped with a reason.
+
+## Troubleshooting
 Missing parameters: Verify required fields in YAML
 
 Install failures: Check network/git access

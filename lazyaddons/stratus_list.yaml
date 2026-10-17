@@ -5,6 +5,7 @@ description: '☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud
 author: DataDog
 version: '1.0'
 enabled: true
+update: true
 os: iaas
 trigger: []
 tool:

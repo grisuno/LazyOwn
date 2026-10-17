@@ -6,6 +6,7 @@ description: 'This repository my public tools that I use in CTF''s and real worl
 author: juliourena
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: domain
   type: string

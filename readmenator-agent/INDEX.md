@@ -8,8 +8,8 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `__init__.py` | - | root | 0 | 0 |
 | `banner.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | root | 3 | 0 |
 | `bootstrap.sh` | LazyOwn bootstrap installer (one-liner entry point). | root | 16 | 0 |
-| `cli/__init__.py` | LazyOwn CLI infrastructure. | cli | 0 | 8 |
-| `cli/aliases.py` | Declarative cmd2 alias loader. | cli | 7 | 10 |
+| `cli/__init__.py` | LazyOwn CLI infrastructure. | cli | 0 | 9 |
+| `cli/aliases.py` | Declarative cmd2 alias loader. | cli | 8 | 10 |
 | `cli/assign.py` | ``assign`` business logic. | cli | 1 | 16 |
 | `cli/auto_crypto.py` | Automatic encryption of sensitive session data on app open/close. | cli | 13 | 3 |
 | `cli/autosuggest.py` | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | cli | 27 | 5 |
@@ -41,8 +41,8 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/cloud_attacks.py` | Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS. | commands | 7 | 0 |
 | `cli/commands/collaboration.py` | Collaboration CLI commands — multi-operator teamwork from the shell. | commands | 8 | 0 |
 | `cli/commands/command_and_control.py` | Command & Control command set. | commands | 7 | 0 |
-| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 31 | 0 |
-| `cli/commands/containers.py` | Container and Kubernetes attack command set. | commands | 7 | 11 |
+| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 31 | 2 |
+| `cli/commands/containers.py` | Container and Kubernetes attack command set. | commands | 7 | 12 |
 | `cli/commands/cred.py` | Credential Access command set (pending). | commands | 10 | 0 |
 | `cli/commands/cred_migrated.py` | cred commands migrated from lazyown.py. | commands | 33 | 1 |
 | `cli/commands/crystal_ball.py` | Crystal Ball CLI command set — privilege escalation vector prediction. | commands | 5 | 0 |
@@ -60,16 +60,16 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/evasive_payload.py` | Auto-Adaptive Payload command set. | commands | 13 | 0 |
 | `cli/commands/exfiltration.py` | Data Exfiltration command set. | commands | 37 | 0 |
 | `cli/commands/exploit.py` | Exploitation command set (pending activation). | commands | 11 | 0 |
-| `cli/commands/exploit_migrated.py` | exploit commands migrated from lazyown.py. | commands | 52 | 1 |
+| `cli/commands/exploit_migrated.py` | exploit commands migrated from lazyown.py. | commands | 52 | 2 |
 | `cli/commands/exploitgym.py` | ExploitGym CLI command set — real-world exploit benchmark harness. | commands | 10 | 1 |
 | `cli/commands/help_ui.py` | Help, tutorial and phase guidance extracted from the miscellaneous cluster. | commands | 16 | 1 |
 | `cli/commands/infra.py` | Disposable infrastructure commands -- redirectors, C2, cloud IaC. | commands | 18 | 2 |
-| `cli/commands/lab.py` | Lab environment commands -- spin up vulnerable practice targets. | commands | 21 | 2 |
+| `cli/commands/lab.py` | Lab environment commands -- spin up vulnerable practice targets. | commands | 24 | 3 |
 | `cli/commands/lateral.py` | Lateral Movement command set (pending). | commands | 9 | 0 |
 | `cli/commands/lateral_migrated.py` | lateral commands migrated from lazyown.py. | commands | 23 | 0 |
 | `cli/commands/lazyloop.py` | Lazy queue and misc command set. | commands | 12 | 2 |
 | `cli/commands/lazyops.py` | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | commands | 71 | 4 |
-| `cli/commands/marketplace.py` | Plugin/addon marketplace commands. | commands | 18 | 0 |
+| `cli/commands/marketplace.py` | Plugin/addon marketplace commands. | commands | 19 | 0 |
 | `cli/commands/mcp_bridge.py` | MCP verb bridge — one command language for operators and agents. | commands | 20 | 2 |
 | `cli/commands/misc_migrated.py` | misc commands migrated from lazyown.py. | commands | 32 | 7 |
 | `cli/commands/mobile_macos.py` | Mobile & macOS exploitation command set. | commands | 10 | 0 |
@@ -90,7 +90,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/pwn.py` | Autonomous exploitation and LOLBAS command set. | commands | 8 | 4 |
 | `cli/commands/recon.py` | Reconnaissance command set. | commands | 14 | 0 |
 | `cli/commands/recon_migrated.py` | recon commands migrated from lazyown.py. | commands | 30 | 0 |
-| `cli/commands/redteam_gym.py` | Red Team Gym CLI command set — gamified pentest training. | commands | 8 | 0 |
+| `cli/commands/redteam_gym.py` | Red Team Gym CLI command set - gamified pentest training. | commands | 11 | 2 |
 | `cli/commands/resource_scripting.py` | Resource script commands — run .ls scripts, record macros, spool output. | commands | 8 | 0 |
 | `cli/commands/scan.py` | Scanning command set. | commands | 17 | 0 |
 | `cli/commands/scan_migrated.py` | scan commands migrated from lazyown.py. | commands | 52 | 0 |
@@ -120,13 +120,13 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/headless.py` | Headless / non-interactive runner for automated pipelines. | cli | 6 | 1 |
 | `cli/killchain.py` | Self-populating kill-chain progress derived from the daemon event stream. | cli | 4 | 2 |
 | `cli/lazy_monitor.py` | Live worker-visibility monitor for the autonomous loop. | cli | 46 | 3 |
-| `cli/lazy_orchestrator.py` | Orchestrator admin console for the autonomous loop. | cli | 53 | 2 |
+| `cli/lazy_orchestrator.py` | Orchestrator admin console for the autonomous loop. | cli | 82 | 3 |
 | `cli/lazynmap_post.py` | Post-scan side effects executed at the tail of ``do_lazynmap``. | cli | 9 | 3 |
-| `cli/marketplace_config.py` | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | cli | 46 | 2 |
+| `cli/marketplace_config.py` | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | cli | 66 | 2 |
 | `cli/noise_verbs.py` | Canonical non-actionable verb registry for post-command surfaces. | cli | 0 | 4 |
 | `cli/ops_commands.py` | Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans. | cli | 53 | 8 |
 | `cli/output_mode.py` | Structured output modes and dry-run rendering for CLI commands. | cli | 6 | 2 |
-| `cli/palette.py` | Read-only loader for ``cli/command_index.json``. | cli | 11 | 11 |
+| `cli/palette.py` | Read-only loader for ``cli/command_index.json``. | cli | 11 | 12 |
 | `cli/palette_command.py` | Pure logic for the operator-facing ``palette`` command. | cli | 51 | 6 |
 | `cli/palette_graph.py` | Graph-aware neighbour lookups for the operator command palette. | cli | 13 | 2 |
 | `cli/palette_overlay.py` | Textual Cmd-K palette overlay for the LazyOwn shell. | cli | 24 | 2 |
@@ -155,6 +155,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/timeline_browser.py` | Textual scrubber over ``sessions/LazyOwn_session_report.csv``. | cli | 25 | 2 |
 | `cli/tips_engine.py` | Unified post-command tips engine: single coordination point for all suggestion surfaces. | cli | 59 | 5 |
 | `cli/toast_bus.py` | Non-blocking toast notification subsystem for the LazyOwn shell. | cli | 49 | 6 |
+| `cli/tui_forms.py` | Reusable Textual modals shared by the LazyOwn operator consoles. | cli | 31 | 3 |
 | `cli/tui_theme.py` | Operator-facing ``tui_theme`` command logic. | cli | 4 | 1 |
 | `cli/tutorial.py` | Interactive post-install tutorial for the LazyOwn framework. | cli | 7 | 1 |
 | `cli/wizard.py` | Guided first-run setup wizard for the LazyOwn framework. | cli | 45 | 5 |
@@ -207,7 +208,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/api_authz.py` | Tenant-bound API authorization for the LazyOwn C2 dashboard. | core | 31 | 4 |
 | `core/autonomous.py` | Autonomous-run mode for the loop engine. | core | 3 | 5 |
 | `core/command_bridge.py` | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | core | 9 | 1 |
-| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 49 |
+| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 51 |
 | `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 51 |
 | `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 4 |
 | `core/crypto.py` | Symmetric primitives used by the framework. | core | 7 | 10 |
@@ -220,7 +221,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
-| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 133 |
+| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 139 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
 | `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
 | `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 12 |
@@ -230,7 +231,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/protocols.py` | Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration. | core | 12 | 1 |
 | `core/reverse_shell_secret.py` | Reverse-shell fallback secret — sealed persistence contract. | core | 4 | 2 |
 | `core/safe_console.py` | Terminal-safe Rich console factory. | core | 5 | 5 |
-| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 20 |
+| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 21 |
 | `core/safe_import.py` | Fail-closed import of attacker-supplied campaign packages. | core | 4 | 2 |
 | `core/safe_subprocess.py` | Safe subprocess runner for the LazyOwn framework. | core | 7 | 6 |
 | `core/scheduler.py` | Centralized task scheduler for the LazyOwn framework. | core | 17 | 0 |
@@ -338,25 +339,26 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
 | `modules/LazyOwnExplorer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 23 | 0 |
-| `modules/__init__.py` | - | modules | 0 | 18 |
+| `modules/__init__.py` | - | modules | 0 | 25 |
 | `modules/adcs_attacks.py` | Active Directory Certificate Services (AD CS) attack module. | modules | 14 | 1 |
-| `modules/agent_runner.py` | LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación... | modules | 38 | 3 |
+| `modules/addon_updater.py` | Git update contract for lazyaddons. | modules | 10 | 3 |
+| `modules/agent_runner.py` | LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument... | modules | 38 | 3 |
 | `modules/ai_exploit_chain.py` | AI-Driven Exploit Chaining Engine. | modules | 11 | 2 |
 | `modules/ai_fallback.py` | LazyOwn AI Fallback Chain | modules | 8 | 2 |
 | `modules/ai_model.py` | Concrete language model backends for LazyOwn. | modules | 39 | 6 |
 | `modules/amsi.c` | ¡Gracias a Saad! | modules | 10 | 0 |
 | `modules/amt_auth_bypass.py` | - | modules | 3 | 0 |
-| `modules/apt_playbooks.py` | APT Playbook Engine — map public APT reports to executable Atomic Red Team chains. | modules | 15 | 6 |
+| `modules/apt_playbooks.py` | APT Playbook Engine — map public APT reports to executable Atomic Red Team chains. | modules | 15 | 7 |
 | `modules/asset_graph.py` | Global asset truth store joined to per-task exploration chains. | modules | 17 | 2 |
 | `modules/atomic_cli.py` | Non-interactive, agent-safe implementation for atomic_tests / atomic_gen. | modules | 11 | 1 |
 | `modules/atomic_enricher.py` | — Enrich techniques.parquet with structured derived columns. | modules | 9 | 4 |
-| `modules/atomic_exploit_bridge.py` | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | modules | 32 | 6 |
+| `modules/atomic_exploit_bridge.py` | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | modules | 34 | 13 |
 | `modules/atomic_resolver.py` | Central MITRE ATT&CK <-> Atomic Red Team translator. | modules | 27 | 8 |
-| `modules/attack_surface3d.py` | Attack-surface 3D intel module: C2-centred campaign graph. | modules | 11 | 3 |
+| `modules/attack_surface3d.py` | Attack-surface 3D intel module: C2-centred campaign graph. | modules | 11 | 4 |
 | `modules/auto_pivot.py` | Auto-Pivoting Engine for LazyOwn. | modules | 23 | 2 |
 | `modules/auto_purple.py` | Purple Team Closed-Loop — honest measurement of offensive detection. | modules | 40 | 1 |
 | `modules/auto_registry.py` | Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such... | modules | 41 | 15 |
-| `modules/autonomous_exploit_engine.py` | Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer. | modules | 46 | 6 |
+| `modules/autonomous_exploit_engine.py` | Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer. | modules | 46 | 7 |
 | `modules/aws_attacks.py` | AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining. | modules | 11 | 1 |
 | `modules/backdoor/backdoor.c` | - | backdoor | 5 | 0 |
 | `modules/backdoor/keylogger.h` | - | backdoor | 1 | 1 |
@@ -371,12 +373,13 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/c2_messaging_base.py` | SecureSessionManager: Unified session manager for C2 messaging bots. | modules | 13 | 0 |
 | `modules/c2_profile.py` | modules/c2_profile.py | modules | 32 | 0 |
 | `modules/c2_profile_engine.py` | Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports. | modules | 47 | 3 |
-| `modules/c2_surfaces.py` | C2 dashboard surfaces fed by the autonomous loop and APT chains. | modules | 11 | 4 |
+| `modules/c2_surfaces.py` | C2 dashboard surfaces fed by the autonomous loop and APT chains. | modules | 11 | 5 |
 | `modules/cal.sh` | Función para calcular si un año es bisiesto | modules | 3 | 0 |
 | `modules/categories.py` | modules/categories.py | modules | 0 | 7 |
 | `modules/cgi-bin/lazywebshell.py` | - | cgi-bin | 0 | 0 |
 | `modules/cgi-bin/lazywebshell.sh` | - | cgi-bin | 0 | 0 |
-| `modules/chain_registry.py` | Chain registry — ordered orchestration chains from ``chains/*.yaml``. | modules | 10 | 4 |
+| `modules/chain_registry.py` | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | modules | 16 | 10 |
+| `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 16 | 2 |
 | `modules/cicd_enumerator.py` | CI/CD Pipeline Enumeration Module. | modules | 12 | 1 |
 | `modules/cli_auth.py` | CLI authentication module — login against users.json with remember-me. | modules | 18 | 10 |
 | `modules/cloud_enum.py` | Native cloud enumeration modules for AWS, Azure, and GCP. | modules | 17 | 1 |
@@ -393,7 +396,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/dacl_abuse.py` | DACL/SACL abuse module — ACL manipulation for AD privilege escalation. | modules | 15 | 1 |
 | `modules/dashboard_bp.py` | modules/dashboard_bp.py | modules | 13 | 3 |
 | `modules/dashboard_engine.py` | Live Network Map Dashboard for LazyOwn. | modules | 16 | 4 |
-| `modules/db.py` | SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes. | modules | 37 | 19 |
+| `modules/db.py` | SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes. | modules | 37 | 20 |
 | `modules/delegation_attacks.py` | Active Directory delegation enumeration and abuse. | modules | 12 | 1 |
 | `modules/detailed_search.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 1 | 0 |
 | `modules/detection_feed.py` | Dynamic detection feed for the Detection Oracle. | modules | 13 | 2 |
@@ -405,6 +408,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/duckdns.sh` | Solicita el TOKEN y el DOMAIN al usuario | modules | 0 | 0 |
 | `modules/edr_detector.py` | EDR/AV Detection and Evasion Profiling Engine. | modules | 12 | 1 |
 | `modules/eegg.sh` | Definición de colores | modules | 4 | 0 |
+| `modules/emulation_runner.py` | Single execution contract for Atomic emulation. | modules | 21 | 3 |
 | `modules/engage_summary.py` | Rich per-step engagement summaries from evidence and sessions artefacts. | modules | 8 | 2 |
 | `modules/engagement_hooks.py` | modules/engagement_hooks.py — Engagement narration and notification fabric | modules | 42 | 2 |
 | `modules/enrich.py` | Async target enrichment with scan dedup (LAZY enrich parity). | modules | 11 | 5 |
@@ -430,6 +434,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/goals.py` | Goal decomposition round-0 with constraints and proof. | modules | 13 | 4 |
 | `modules/gpo_abuse.py` | GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation. | modules | 16 | 1 |
 | `modules/gui_askpass.sh` | — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this... | modules | 5 | 0 |
+| `modules/gym_registry.py` | Gym definitions and persistent run state. | modules | 28 | 4 |
 | `modules/hash_cracker.py` | Hash cracking pipeline — John the Ripper and Hashcat integration. | modules | 17 | 2 |
 | `modules/hive_invoke.py` | modules/hive_invoke.py | modules | 7 | 0 |
 | `modules/hostdiscover.sh` | - | modules | 2 | 0 |
@@ -459,18 +464,18 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 18 |
 | `modules/kivi.py` | - | modules | 3 | 0 |
 | `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
-| `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 19 | 5 |
+| `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 5 |
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 13 | 4 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 30 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 4 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 456 | 44 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 460 | 46 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 3 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 9 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 31 | 5 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 33 | 7 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
@@ -491,10 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/lazyown_bprfuzzer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 15 | 0 |
 | `modules/lazyown_bridge.py` | modules/lazyown_bridge.py | modules | 43 | 6 |
 | `modules/lazyown_metaextract0r.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 9 | 0 |
-| `modules/lazyown_parquet_tool.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 4 | 0 |
-| `modules/lazyownclient.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
-| `modules/lazyownerweb.py` | - | modules | 3 | 0 |
-| `modules/lazyownserver.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
-| `modules/lazypsexec.sh` | execute_psexec: Función para ejecutar psexec y verificar la salida | modules | 1 | 0 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

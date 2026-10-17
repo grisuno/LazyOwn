@@ -1,8 +1,130 @@
-# Symbols (page 12 of 41)
+# Symbols (page 12 of 42)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate_ci_attack_matrix` | method | `modules/cicd_enumerator.py:322` | `def generate_ci_attack_matrix(self)` |
+| `scan` | method | `modules/cicd_enumerator.py:60` | `def scan(self)` |
+| `scan_build_log` | method | `modules/cicd_enumerator.py:297` | `def scan_build_log(self, log_content, source)` |
+| `_clear_cli_session` | function | `modules/cli_auth.py:478` | `def _clear_cli_session()` |
+| `_load_payload` | function | `modules/cli_auth.py:85` | `def _load_payload()` |
+| `_load_users` | function | `modules/cli_auth.py:34` | `def _load_users()` |
+| `_read_cli_session` | function | `modules/cli_auth.py:429` | `def _read_cli_session()` |
+| `_save_payload` | function | `modules/cli_auth.py:100` | `def _save_payload(payload)` |
+| `_save_users` | function | `modules/cli_auth.py:52` | `def _save_users(users)` |
+| `_write_cli_session` | function | `modules/cli_auth.py:444` | `def _write_cli_session(username, elo, role)` |
+| `_write_cli_session_raw` | function | `modules/cli_auth.py:462` | `def _write_cli_session_raw(data)` |
+| `get_current_operator` | function | `modules/cli_auth.py:396` | `def get_current_operator()` |
+| `login` | function | `modules/cli_auth.py:240` | `def login(username, password, remember)` |
+| `logout` | function | `modules/cli_auth.py:293` | `def logout()` |
+| `needs_login` | function | `modules/cli_auth.py:487` | `def needs_login()` |
+| `register` | function | `modules/cli_auth.py:145` | `def register(username, password)` |
+| `sync_elo_from_session` | function | `modules/cli_auth.py:408` | `def sync_elo_from_session(elo)` |
+| `try_auto_login` | function | `modules/cli_auth.py:328` | `def try_auto_login()` |
+| `user_exists` | function | `modules/cli_auth.py:122` | `def user_exists(username)` |
+| `verify_password` | function | `modules/cli_auth.py:214` | `def verify_password(username, password)` |
+| `whoami` | function | `modules/cli_auth.py:366` | `def whoami()` |
+| `CloudEnumerator` | class | `modules/cloud_enum.py:23` | `class CloudEnumerator` |
+| `__init__` | method | `modules/cloud_enum.py:34` | `def __init__(self, provider, session, timeout)` |
+| `_check_aws_privesc` | method | `modules/cloud_enum.py:526` | `def _check_aws_privesc(data)` |
+| `_enumerate_aws_iam` | method | `modules/cloud_enum.py:390` | `def _enumerate_aws_iam(self)` |
+| `_enumerate_aws_metadata` | method | `modules/cloud_enum.py:96` | `def _enumerate_aws_metadata(self)` |
+| `_enumerate_azure_iam` | method | `modules/cloud_enum.py:421` | `def _enumerate_azure_iam(self)` |
+| `_enumerate_azure_metadata` | method | `modules/cloud_enum.py:146` | `def _enumerate_azure_metadata(self)` |
+| `_enumerate_azure_storage` | method | `modules/cloud_enum.py:316` | `def _enumerate_azure_storage(self, target_bucket)` |
+| `_enumerate_gcp_iam` | method | `modules/cloud_enum.py:477` | `def _enumerate_gcp_iam(self)` |
+| `_enumerate_gcp_metadata` | method | `modules/cloud_enum.py:193` | `def _enumerate_gcp_metadata(self)` |
+| `_enumerate_gcs` | method | `modules/cloud_enum.py:350` | `def _enumerate_gcs(self, target_bucket)` |
+| `_enumerate_s3` | method | `modules/cloud_enum.py:274` | `def _enumerate_s3(self, target_bucket)` |
+| `detect_provider` | method | `modules/cloud_enum.py:47` | `def detect_provider(self)` |
+| `enumerate_iam` | method | `modules/cloud_enum.py:372` | `def enumerate_iam(self)` |
+| `enumerate_metadata` | method | `modules/cloud_enum.py:75` | `def enumerate_metadata(self)` |
+| `enumerate_storage` | method | `modules/cloud_enum.py:251` | `def enumerate_storage(self, target_bucket)` |
+| `full_enumeration` | method | `modules/cloud_enum.py:576` | `def full_enumeration(self)` |
+| `ColabEvent` | class | `modules/collab_bp.py:163` | `class ColabEvent` |
+| `EventBus` | class | `modules/collab_bp.py:188` | `class EventBus` |
+| `LockManager` | class | `modules/collab_bp.py:257` | `class LockManager` |
+| `OperatorInfo` | class | `modules/collab_bp.py:176` | `class OperatorInfo` |
+| `OperatorRegistry` | class | `modules/collab_bp.py:314` | `class OperatorRegistry` |
+| `TargetLock` | class | `modules/collab_bp.py:250` | `class TargetLock` |
+| `__init__` | method | `modules/collab_bp.py:198` | `def __init__(self)` |
+| `__init__` | method | `modules/collab_bp.py:263` | `def __init__(self)` |
+| `__init__` | method | `modules/collab_bp.py:319` | `def __init__(self)` |
+| `_authenticated_operator` | function | `modules/collab_bp.py:90` | `def _authenticated_operator()` |
+| `_check_collab_permission` | function | `modules/collab_bp.py:100` | `def _check_collab_permission(perm_name)` |
+| `_collab_login_required` | function | `modules/collab_bp.py:120` | `def _collab_login_required(f)` |
+| `_collab_permission_required` | function | `modules/collab_bp.py:136` | `def _collab_permission_required(perm_name)` |
+| `_expire` | method | `modules/collab_bp.py:297` | `def _expire(self)` |
+| `_expire` | method | `modules/collab_bp.py:350` | `def _expire(self)` |
+| `acquire` | method | `modules/collab_bp.py:267` | `def acquire(self, target, operator, ttl_secs)` |
+| `active_operators` | method | `modules/collab_bp.py:345` | `def active_operators(self)` |
+| `all_locks` | method | `modules/collab_bp.py:292` | `def all_locks(self)` |
+| `collab_ui` | function | `modules/collab_bp.py:396` | `def collab_ui()` |
+| `decorated` | function | `modules/collab_bp.py:84` | `def decorated()` |
+| `decorated` | function | `modules/collab_bp.py:124` | `def decorated()` |
+| `decorated` | function | `modules/collab_bp.py:141` | `def decorated()` |
+| `decorator` | function | `modules/collab_bp.py:139` | `def decorator(f)` |
+| `generate` | function | `modules/collab_bp.py:424` | `def generate()` |
+| `get_event_bus` | function | `modules/collab_bp.py:370` | `def get_event_bus()` |
+| `get_lock_manager` | function | `modules/collab_bp.py:374` | `def get_lock_manager()` |
+| `get_operator_registry` | function | `modules/collab_bp.py:378` | `def get_operator_registry()` |
+| `heartbeat` | method | `modules/collab_bp.py:334` | `def heartbeat(self, name)` |
+| `history` | function | `modules/collab_bp.py:537` | `def history()` |
+| `join` | method | `modules/collab_bp.py:323` | `def join(self, name)` |
+| `leave` | method | `modules/collab_bp.py:340` | `def leave(self, name)` |
+| `lock` | function | `modules/collab_bp.py:483` | `def lock()` |
+| `locks` | function | `modules/collab_bp.py:522` | `def locks()` |
+| `login_required` | function | `modules/collab_bp.py:80` | `def login_required(f)` |
+| `operators` | function | `modules/collab_bp.py:458` | `def operators()` |
+| `publish` | method | `modules/collab_bp.py:219` | `def publish(self, event)` |
+| `publish` | function | `modules/collab_bp.py:470` | `def publish()` |
+| `publish_event` | function | `modules/collab_bp.py:382` | `def publish_event(type, payload, operator)` |
+| `recent` | method | `modules/collab_bp.py:234` | `def recent(self, n)` |
+| `release` | method | `modules/collab_bp.py:279` | `def release(self, target, operator)` |
+| `reset` | method | `modules/collab_bp.py:238` | `def reset(self)` |
+| `reset` | method | `modules/collab_bp.py:304` | `def reset(self)` |
+| `reset` | method | `modules/collab_bp.py:356` | `def reset(self)` |
+| `status` | method | `modules/collab_bp.py:287` | `def status(self, target)` |
+| `stream` | function | `modules/collab_bp.py:411` | `def stream()` |
+| `subscribe` | method | `modules/collab_bp.py:203` | `def subscribe(self, subscriber_id)` |
+| `to_sse` | method | `modules/collab_bp.py:170` | `def to_sse(self)` |
+| `unlock` | function | `modules/collab_bp.py:504` | `def unlock()` |
+| `unsubscribe` | method | `modules/collab_bp.py:215` | `def unsubscribe(self, subscriber_id)` |
+| `delete_lines` | function | `modules/colors.py:68` | `def delete_lines(content, to_delete)` |
+| `no_html` | function | `modules/colors.py:74` | `def no_html(content)` |
+| `retModel` | function | `modules/colors.py:40` | `def retModel()` |
+| `CommandExecutor` | class | `modules/command_executor.py:106` | `class CommandExecutor` |
+| `ExecutionResult` | class | `modules/command_executor.py:97` | `class ExecutionResult` |
+| `__init__` | method | `modules/command_executor.py:118` | `def __init__(self)` |
+| `_argv` | method | `modules/command_executor.py:173` | `def _argv(self, command)` |
+| `_default_writer` | method | `modules/command_executor.py:291` | `def _default_writer(line)` |
+| `_fire_hooks` | method | `modules/command_executor.py:394` | `def _fire_hooks(self, result)` |
+| `_kill_process_group` | function | `modules/command_executor.py:77` | `def _kill_process_group(proc)` |
+| `_needs_shell` | method | `modules/command_executor.py:165` | `def _needs_shell(self, command)` |
+| `_publish_event` | method | `modules/command_executor.py:401` | `def _publish_event(self, result)` |
+| `_run_capture` | method | `modules/command_executor.py:296` | `def _run_capture(self, command, timeout)` |
+| `_run_stream` | method | `modules/command_executor.py:321` | `def _run_stream(self, command, timeout)` |
+| `add_hook` | method | `modules/command_executor.py:127` | `def add_hook(self, hook)` |
+| `clear_thread_stdin_devnull` | function | `modules/command_executor.py:64` | `def clear_thread_stdin_devnull()` |
+| `clear_thread_timeout` | function | `modules/command_executor.py:46` | `def clear_thread_timeout()` |
+| `get_executor` | function | `modules/command_executor.py:426` | `def get_executor()` |
+| `instance` | method | `modules/command_executor.py:122` | `def instance(cls)` |
+| `run` | method | `modules/command_executor.py:131` | `def run(self, command, timeout, stream)` |
+| `run_passthrough` | method | `modules/command_executor.py:179` | `def run_passthrough(self, command, env)` |
+| `run_tee` | method | `modules/command_executor.py:194` | `def run_tee(self, command)` |
+| `run_with_tee` | method | `modules/command_executor.py:358` | `def run_with_tee(self, command, output_path, timeout)` |
+| `set_thread_stdin_devnull` | function | `modules/command_executor.py:59` | `def set_thread_stdin_devnull(enabled)` |
+| `set_thread_timeout` | function | `modules/command_executor.py:41` | `def set_thread_timeout(seconds)` |
+| `thread_stdin_devnull` | function | `modules/command_executor.py:72` | `def thread_stdin_devnull()` |
+| `thread_timeout` | function | `modules/command_executor.py:54` | `def thread_timeout()` |
+| `ComplianceEngine` | class | `modules/compliance.py:632` | `class ComplianceEngine` |
+| `ComplianceFinding` | class | `modules/compliance.py:620` | `class ComplianceFinding` |
+| `EvidenceChain` | class | `modules/compliance.py:349` | `class EvidenceChain` |
+| `EvidenceEntry` | class | `modules/compliance.py:340` | `class EvidenceEntry` |
+| `__init__` | method | `modules/compliance.py:357` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/compliance.py:635` | `def __init__(self, sessions_dir)` |
+| `_append_to_file` | method | `modules/compliance.py:403` | `def _append_to_file(self, entry)` |
+| `_count_by_category` | method | `modules/compliance.py:772` | `def _count_by_category(self, findings)` |
 | `_count_by_severity` | method | `modules/compliance.py:765` | `def _count_by_severity(self, findings)` |
 | `_format_compliance_report_md` | method | `modules/compliance.py:835` | `def _format_compliance_report_md(self, report)` |
 | `_hash_entry` | method | `modules/compliance.py:379` | `def _hash_entry(self, entry)` |
@@ -325,6 +447,27 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
 | `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
 | `show_board` | function | `modules/eegg.sh:40` | `` |
+| `EmulationReport` | class | `modules/emulation_runner.py:69` | `class EmulationReport` |
+| `EmulationResult` | class | `modules/emulation_runner.py:40` | `class EmulationResult` |
+| `EmulationRunner` | class | `modules/emulation_runner.py:105` | `class EmulationRunner` |
+| `EmulationStep` | class | `modules/emulation_runner.py:28` | `class EmulationStep` |
+| `__init__` | method | `modules/emulation_runner.py:108` | `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` |
+| `_detect` | method | `modules/emulation_runner.py:159` | `def _detect(self, spec, output)` |
+| `_exec` | method | `modules/emulation_runner.py:151` | `def _exec(self, spec, target, command, lhost)` |
+| `_open_shell` | method | `modules/emulation_runner.py:143` | `def _open_shell(self, target, services, lhost, exploits_dir)` |
+| `_playbook` | method | `modules/emulation_runner.py:135` | `def _playbook(self, name)` |
+| `_publish` | method | `modules/emulation_runner.py:450` | `def _publish(self, result, target, source, dry_run, sessions)` |
+| `_record` | method | `modules/emulation_runner.py:170` | `def _record(self)` |
+| `_resolver_obj` | method | `modules/emulation_runner.py:127` | `def _resolver_obj(self)` |
+| `_run_test` | method | `modules/emulation_runner.py:399` | `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)` |
+| `_stage` | method | `modules/emulation_runner.py:482` | `def _stage(self, report, sessions)` |
+| `executed` | method | `modules/emulation_runner.py:81` | `def executed(self)` |
+| `run` | method | `modules/emulation_runner.py:202` | `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` |
+| `run_steps` | method | `modules/emulation_runner.py:321` | `def run_steps(self, steps, target, executor, platform, dry_run, source)` |
+| `shell` | method | `modules/emulation_runner.py:86` | `def shell(self)` |
+| `techniques_for_playbook` | method | `modules/emulation_runner.py:182` | `def techniques_for_playbook(self, playbook, platform)` |
+| `to_dict` | method | `modules/emulation_runner.py:53` | `def to_dict(self)` |
+| `to_dict` | method | `modules/emulation_runner.py:90` | `def to_dict(self)` |
 | `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
 | `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
 | `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
@@ -353,148 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
 | `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
 | `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
-| `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
-| `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
-| `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
-| `deliver` | method | `modules/engagement_hooks.py:159` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:181` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
-| `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
-| `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
-| `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
-| `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
-| `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
-| `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
-| `publish_shell_obtained` | function | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
-| `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
-| `resolve_approval` | function | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
-| `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
-| `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
-| `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
-| `_run` | method | `modules/enrich.py:121` | `def _run(self, target)` |
-| `fetch_http` | function | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
-| `resolve_dns` | function | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
-| `scan_files_for` | function | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
-| `shared_engine` | function | `modules/enrich.py:137` | `def shared_engine()` |
-| `should_rescan` | function | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
-| `shutdown` | method | `modules/enrich.py:128` | `def shutdown(self, wait)` |
-| `submit` | method | `modules/enrich.py:108` | `def submit(self, target)` |
-| `EntraIDAttackEngine` | class | `modules/entra_id_attacks.py:81` | `class EntraIDAttackEngine` |
-| `EntraIDConfig` | class | `modules/entra_id_attacks.py:57` | `class EntraIDConfig` |
-| `__init__` | method | `modules/entra_id_attacks.py:92` | `def __init__(self, config)` |
-| `conditional_access_bypass` | method | `modules/entra_id_attacks.py:307` | `def conditional_access_bypass(self)` |
-| `device_code_phish` | method | `modules/entra_id_attacks.py:96` | `def device_code_phish(self, scope)` |
-| `entra_connect_sync_abuse` | method | `modules/entra_id_attacks.py:266` | `def entra_connect_sync_abuse(self)` |
-| `enumerate_tenant` | method | `modules/entra_id_attacks.py:345` | `def enumerate_tenant(self)` |
-| `managed_identity_abuse` | method | `modules/entra_id_attacks.py:235` | `def managed_identity_abuse(self, resource)` |
-| `oauth_consent_grant` | method | `modules/entra_id_attacks.py:166` | `def oauth_consent_grant(self, redirect_uri)` |
-| `poll_device_code` | method | `modules/entra_id_attacks.py:129` | `def poll_device_code(self, device_code, interval, timeout)` |
-| `service_principal_credential_theft` | method | `modules/entra_id_attacks.py:203` | `def service_principal_credential_theft(self)` |
-| `summary` | method | `modules/entra_id_attacks.py:368` | `def summary(self)` |
-| `_from_raw` | function | `modules/estorides_fusion.py:142` | `def _from_raw(document)` |
-| `_norm` | function | `modules/estorides_fusion.py:123` | `def _norm(value)` |
-| `community_for` | function | `modules/estorides_fusion.py:180` | `def community_for(kind, value)` |
-| `estorides_checkout` | function | `modules/estorides_fusion.py:48` | `def estorides_checkout()` |
-| `find_export` | function | `modules/estorides_fusion.py:68` | `def find_export(sessions_dir)` |
-| `find_lan_bundle` | function | `modules/estorides_fusion.py:268` | `def find_lan_bundle(sessions_dir)` |
-| `load_export` | function | `modules/estorides_fusion.py:128` | `def load_export(path)` |
-| `load_lan_bundle` | function | `modules/estorides_fusion.py:288` | `def load_lan_bundle(path)` |
-| `merge_estorides` | function | `modules/estorides_fusion.py:187` | `def merge_estorides(nodes, edges, est, cap)` |
-| `run_export` | function | `modules/estorides_fusion.py:84` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
-| `split_lan_targets` | function | `modules/estorides_fusion.py:323` | `def split_lan_targets(est)` |
-| `EstoridesCaseReader` | class | `modules/estorides_importer.py:385` | `class EstoridesCaseReader` |
-| `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
-| `EstoridesStixParser` | class | `modules/estorides_importer.py:495` | `class EstoridesStixParser` |
-| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:700` | `class EstoridesToLazyOwnBridge` |
-| `FeedbackLoop` | class | `modules/estorides_importer.py:881` | `class FeedbackLoop` |
-| `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
-| `LanBundleReader` | class | `modules/estorides_importer.py:622` | `class LanBundleReader` |
-| `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
-| `__init__` | method | `modules/estorides_importer.py:388` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/estorides_importer.py:511` | `def __init__(self, stix_path)` |
-| `__init__` | method | `modules/estorides_importer.py:632` | `def __init__(self, lan_dir)` |
-| `__init__` | method | `modules/estorides_importer.py:703` | `def __init__(self, db_path, config_path)` |
-| `__init__` | method | `modules/estorides_importer.py:892` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
-| `_ensure_conn` | method | `modules/estorides_importer.py:396` | `def _ensure_conn(self)` |
-| `_extract_value` | method | `modules/estorides_importer.py:563` | `def _extract_value(obj, stix_type)` |
-| `_gather_seeds` | method | `modules/estorides_importer.py:1001` | `def _gather_seeds(self, methods, seen)` |
-| `_import_to_db` | method | `modules/estorides_importer.py:755` | `def _import_to_db(self, imports, result)` |
-| `_import_to_scope` | method | `modules/estorides_importer.py:801` | `def _import_to_scope(self, imports, result)` |
-| `attack_targets` | method | `modules/estorides_importer.py:683` | `def attack_targets(self)` |
-| `available` | method | `modules/estorides_importer.py:393` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:515` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:636` | `def available(self)` |
-| `close` | method | `modules/estorides_importer.py:489` | `def close(self)` |
-| `ensure_directories` | function | `modules/estorides_importer.py:694` | `def ensure_directories()` |
-| `export_combined_graph` | function | `modules/estorides_importer.py:1027` | `def export_combined_graph(output_path)` |
-| `extract_seeds_from_db` | function | `modules/estorides_importer.py:203` | `def extract_seeds_from_db(db_path)` |
-| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:175` | `def extract_seeds_from_hosts_file(path)` |
-| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:242` | `def extract_seeds_from_scope(scope_entries)` |
-| `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
-| `find_lan_bundle_files` | function | `modules/estorides_importer.py:586` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
-| `get_all_entities` | method | `modules/estorides_importer.py:473` | `def get_all_entities(self, case_id)` |
-| `get_combined_surface` | method | `modules/estorides_importer.py:834` | `def get_combined_surface(self)` |
-| `get_entities` | method | `modules/estorides_importer.py:414` | `def get_entities(self, case_id, entity_types, limit)` |
-| `get_host_entities` | method | `modules/estorides_importer.py:469` | `def get_host_entities(self, case_id)` |
-| `import_entities` | method | `modules/estorides_importer.py:711` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
-| `list_cases` | method | `modules/estorides_importer.py:402` | `def list_cases(self, limit)` |
-| `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
-| `parse` | method | `modules/estorides_importer.py:518` | `def parse(self)` |
-| `parse` | method | `modules/estorides_importer.py:652` | `def parse(self)` |
-| `parse_by_type` | method | `modules/estorides_importer.py:552` | `def parse_by_type(self, entity_types)` |
-| `read_devices` | method | `modules/estorides_importer.py:639` | `def read_devices(self)` |
-| `run` | method | `modules/estorides_importer.py:908` | `def run(self, seed_methods)` |
-| `run_estorides_discover` | function | `modules/estorides_importer.py:272` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
-| `run_estorides_run` | function | `modules/estorides_importer.py:332` | `def run_estorides_run(query, out_json, timeout)` |
-| `stats` | method | `modules/estorides_importer.py:476` | `def stats(self)` |
-| `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
-| `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
-| `EvasionEngine` | class | `modules/evasion_engine.py:52` | `class EvasionEngine` |
-| `MalleableProfile` | class | `modules/evasion_engine.py:37` | `class MalleableProfile` |
-| `TrafficMorphConfig` | class | `modules/evasion_engine.py:25` | `class TrafficMorphConfig` |
-| `__init__` | method | `modules/evasion_engine.py:130` | `def __init__(self, config)` |
-| `_compute_jitter` | method | `modules/evasion_engine.py:220` | `def _compute_jitter(self)` |
-| `_compute_sleep` | method | `modules/evasion_engine.py:224` | `def _compute_sleep(self)` |
-| `_generate_cert_fingerprint` | method | `modules/evasion_engine.py:217` | `def _generate_cert_fingerprint(self)` |
-| `_generate_headers` | method | `modules/evasion_engine.py:180` | `def _generate_headers(self, user_agent)` |
-| `_generate_ja4_hash` | method | `modules/evasion_engine.py:148` | `def _generate_ja4_hash(self)` |
-| `_generate_user_agent` | method | `modules/evasion_engine.py:162` | `def _generate_user_agent(self, os_family)` |
-| `_get_domain_front` | method | `modules/evasion_engine.py:232` | `def _get_domain_front(self)` |
-| `_persist_profile` | method | `modules/evasion_engine.py:311` | `def _persist_profile(self, profile)` |
-| `_pick_uri_pool` | method | `modules/evasion_engine.py:209` | `def _pick_uri_pool(self)` |
-| `_random_chrome_version` | method | `modules/evasion_engine.py:139` | `def _random_chrome_version(self)` |
-| `_random_firefox_version` | method | `modules/evasion_engine.py:142` | `def _random_firefox_version(self)` |
-| `_random_safari_version` | method | `modules/evasion_engine.py:145` | `def _random_safari_version(self)` |
-| `generate_profile` | method | `modules/evasion_engine.py:244` | `def generate_profile(self, os_family)` |
-| `get_active_profile` | method | `modules/evasion_engine.py:269` | `def get_active_profile(self)` |
-| `get_beacon_config` | method | `modules/evasion_engine.py:272` | `def get_beacon_config(self)` |
-| `get_history` | method | `modules/evasion_engine.py:328` | `def get_history(self)` |
-| `morph_traffic` | method | `modules/evasion_engine.py:287` | `def morph_traffic(self, config)` |
-| `profile_to_json` | method | `modules/evasion_engine.py:343` | `def profile_to_json(self, profile)` |
-| `rotate_profile` | method | `modules/evasion_engine.py:264` | `def rotate_profile(self, os_family)` |
-| `set_config` | method | `modules/evasion_engine.py:136` | `def set_config(self, config)` |
-| `EvasivePayloadGenerator` | class | `modules/evasive_payloads.py:18` | `class EvasivePayloadGenerator` |
-| `__init__` | method | `modules/evasive_payloads.py:84` | `def __init__(self)` |
-| `_apply_encoding_chain` | method | `modules/evasive_payloads.py:118` | `def _apply_encoding_chain(self, data, chain)` |
-| `_gzip_compress` | method | `modules/evasive_payloads.py:114` | `def _gzip_compress(self, data)` |
-| `_random_string` | method | `modules/evasive_payloads.py:93` | `def _random_string(self, length)` |
-| `_random_var` | method | `modules/evasive_payloads.py:87` | `def _random_var(self, length)` |
-| `_rot13` | method | `modules/evasive_payloads.py:102` | `def _rot13(self, data)` |
-| `_xor_encode` | method | `modules/evasive_payloads.py:97` | `def _xor_encode(self, data, key)` |
-| `generate_javascript_obfuscated` | method | `modules/evasive_payloads.py:178` | `def generate_javascript_obfuscated(self, payload)` |
-| `generate_linux_evasive` | method | `modules/evasive_payloads.py:214` | `def generate_linux_evasive(self, rhost, rport, technique)` |
-| `generate_lolbas_execution` | method | `modules/evasive_payloads.py:284` | `def generate_lolbas_execution(self, payload_url, technique)` |
-| `generate_polymorphic_command` | method | `modules/evasive_payloads.py:334` | `def generate_polymorphic_command(self, base_cmd, iterations)` |
-| `generate_powershell_obfuscated` | method | `modules/evasive_payloads.py:138` | `def generate_powershell_obfuscated(self, payload, obfuscation_level)` |
-| `generate_shellcode_loader_powershell` | method | `modules/evasive_payloads.py:239` | `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` |
-| `generate_vba_obfuscated` | method | `modules/evasive_payloads.py:197` | `def generate_vba_obfuscated(self, payload)` |
-| `list_techniques` | method | `modules/evasive_payloads.py:374` | `def list_techniques(self)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

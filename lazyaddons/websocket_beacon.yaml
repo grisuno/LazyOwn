@@ -9,6 +9,7 @@ os: any
 trigger:
 - https
 enabled: true
+update: true
 params:
 - name: server_url
   description: WebSocket server URL (ws:// or wss://)

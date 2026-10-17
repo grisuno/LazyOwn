@@ -4,6 +4,7 @@ description: 'curlfree provides a minimal HTTP/1.1 client implementation that su
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: domain
   type: string

@@ -356,23 +356,24 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_atomic_tests` (method, line 1222) `def do_atomic_tests(self, line)`
   - `do_atomic_gen` (method, line 1243) `def do_atomic_gen(self, line)`
   - `do_atomic_shell` (method, line 1259) `def do_atomic_shell(self, line)`
-  - `do_atomic_clean` (method, line 1289) `def do_atomic_clean(self, line)`
-  - `do_atomic_emulate` (method, line 1326) `def do_atomic_emulate(self, line)`
-  - `do_atomic_agent` (method, line 1379) `def do_atomic_agent(self, line)`
-  - `do_attack_plan` (method, line 1482) `def do_attack_plan(self, line)`
-  - `do_apt_chain` (method, line 1641) `def do_apt_chain(self, line)`
-  - `do_apt_playbook` (method, line 1729) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 1849) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 1952) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2131) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2188) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2237) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2329) `def do_caldera_export(self, line)`
+  - `do_atomic_clean` (method, line 1291) `def do_atomic_clean(self, line)`
+  - `do_atomic_emulate` (method, line 1328) `def do_atomic_emulate(self, line)`
+  - `do_atomic_agent` (method, line 1385) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1488) `def do_attack_plan(self, line)`
+  - `do_apt_chain` (method, line 1647) `def do_apt_chain(self, line)`
+  - `do_apt_playbook` (method, line 1781) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 1901) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2004) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2183) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2240) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2289) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2381) `def do_caldera_export(self, line)`
   - `_api` (function, line 543) `def _api(method, endpoint, payload)`
-  - `_chain_file_exists` (function, line 1661) `def _chain_file_exists(name)`
-  - `_load_ability` (function, line 2261) `def _load_ability(ability_file)`
-  - `_ability_to_step` (function, line 2268) `def _ability_to_step(ability)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/listener_manager.py`, `utils.py`
+  - `_chain_file_exists` (function, line 1667) `def _chain_file_exists(name)`
+  - `_load_ability` (function, line 2313) `def _load_ability(ability_file)`
+  - `_ability_to_step` (function, line 2320) `def _ability_to_step(ability)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
+- Imported by: `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
 
 ## cli/commands/containers.py
 - Doc: Container and Kubernetes attack command set.
@@ -387,7 +388,7 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_k8s_secrets` (method, line 283) `def do_k8s_secrets(self, line)`
   - `do_container_detect` (method, line 334) `def do_container_detect(self, _line)`
 - Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`
-- Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `poc_tui/app.py`
+- Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `cli/tui_forms.py`, `poc_tui/app.py`
 
 ## cli/commands/cred.py
 - Doc: Credential Access command set (pending).

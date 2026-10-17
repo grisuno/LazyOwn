@@ -29,6 +29,14 @@ major version bump in `pyproject.toml`.
 | World model | `modules.world_model` | Host state machine, credentials, vulnerabilities, context |
 | Hardening primitives | `core.hardening` | Path, host, port, filename validation and safe process calls |
 | Safe execution | `core.safe_exec` | Injection-resistant command, URL, and file helpers |
+| Orchestrator config | `modules.orchestrator_config` | Profiles, stages, limits and sink toggles from YAML |
+| Chain registry | `modules.chain_registry` | Validate and resolve `chains/*.yaml` |
+| Chain runner | `modules.chain_runner` | Execute one chain with policy and structured results |
+| Outcome bus | `modules.outcome_bus` | Fan one outcome out to every shared surface |
+| Emulation runner | `modules.emulation_runner` | Resolve, execute and normalize Atomic tests |
+| Metasploitable gym | `modules.metasploitable_gym` | Index and validate the MS2 exploit/chain matrix |
+| Gym registry | `modules.gym_registry` | YAML gym catalogue and world-model run state |
+| Addon updater | `modules.addon_updater` | Path-safe git fast-forward for opted-in addons |
 
 ## Install
 
@@ -70,6 +78,32 @@ print(cfg.rhost)
 Outside the process, use the same import. Cross-process state travels through
 `payload.json` and the `sessions/` directory, never through new ad hoc JSON
 files.
+
+## Autonomous contracts
+
+The loop and chain surface is public through the modules in the table.
+`config/orchestrator.yaml` is the default source for profiles, stages,
+limits, budgets, chain/playbook defaults and sink toggles; the payload
+`orchestrator` section overrides it. `OutcomeEvent` is the one event
+shape accepted by `modules.outcome_bus.record`; sinks are best-effort and
+ordered. `EmulationRunner` is the only resolve-render-run-normalize path
+for Atomic tests. Chain files use schema version 2; version 1 files stay
+valid. The Metasploitable 2 index is a playbook, not an execution path:
+`gym_ms2 validate` proves every entry has a loadable exploit and chain.
+
+```python
+from modules.outcome_bus import OutcomeEvent, record
+
+record(OutcomeEvent(
+    kind="finding",
+    target="10.10.11.5",
+    title="Weak SSH credentials",
+    severity="high",
+    cve="",
+    success=True,
+    source="my_tool",
+))
+```
 
 ## LLM backends
 

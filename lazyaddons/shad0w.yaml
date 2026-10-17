@@ -4,6 +4,7 @@ description: 'read shadow without trace
 author: LazyOwn
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

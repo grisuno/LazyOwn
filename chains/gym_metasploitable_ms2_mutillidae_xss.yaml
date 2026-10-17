@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_mutillidae_xss
+version: 2
+description: 'Metasploitable 2: Mutillidae reflected XSS (T1059.007).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_mutillidae_xss
+  vuln: ms2_mutillidae_xss
+  port: '80'

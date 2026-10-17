@@ -1,10 +1,10 @@
 # static/js
 
-*Community 7 | 28 files | cohesion 0.45*
+*Community 7 | 25 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 28 file(s) rooted at `static/js` with dominant language js (cohesion 0.45). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 25 file(s) rooted at `static/js` with dominant language js (cohesion 0.49). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -18,6 +18,9 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 | `static/js/chart.min.js` | js | utility | 88 | yes |
 | `static/js/force-graph-1.43.5.min.js` | js | utility | 31 | yes |
 | `static/js/html2pdf.bundle.min.js` | js | utility | 738 | no |
+| `static/js/jquery-3.5.1.slim.min.js` | js | utility | 6 | yes |
+| `static/js/particles.js` | js | utility | 11 | yes |
+| `static/js/popper-2.5.4.min.js` | js | utility | 1 | no |
 
 ### `cli` (3 files)
 
@@ -27,11 +30,10 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 | `cli/show.py` | py | utility | 1 | yes |
 | `cli/style.py` | py | utility | 4 | yes |
 
-### `core` (3 files)
+### `core` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `core/payload_schema.py` | py | utility | 27 | yes |
 | `core/process.py` | py | business_logic | 12 | yes |
 | `core/prompt.py` | py | utility | 8 | yes |
 
@@ -41,13 +43,6 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `modules/exp.c` | c | utility | 58 | yes |
 | `modules/search.py` | py | utility | 0 | yes |
-
-### `tests` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_core_config.py` | py | testing | 19 | yes |
-| `tests/test_payload_schema.py` | py | testing | 53 | yes |
 
 ### `.` (1 files)
 
@@ -73,7 +68,7 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `lazyown-docker/init.sh` | sh | utility | 0 | no |
 
-*... and 8 more files in this community.*
+*... and 5 more files in this community.*
 
 
 ## Key Symbols
@@ -86,43 +81,43 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 - `render_prompt` (function, `cli/style.py:98`) `def render_prompt(console, segments, payload)` - Print a themed prompt line composed of ``(text, token)`` pairs.
 - `generate_key_iv` (function, `contrib/legacy/lazybinenc.py:12`) `def generate_key_iv(sessions_path)`
 - `main` (function, `contrib/legacy/lazybinenc.py:54`) `def main()`
-- `FieldKind` (class, `core/payload_schema.py:73`) `class FieldKind(StrEnum)` - Categorical type of a payload field used by validators and the wizard.
-- `Severity` (class, `core/payload_schema.py:91`) `class Severity(StrEnum)` - Severity of a :class:`ValidationIssue`.
-- `FieldSpec` (class, `core/payload_schema.py:100`) `class FieldSpec` - Declarative description of a payload field.
-- `ValidationIssue` (class, `core/payload_schema.py:142`) `class ValidationIssue` - Structured outcome of a single validation check.
-- `_validate_string` (function, `core/payload_schema.py:165`) `def _validate_string(value)`
-- `_validate_int` (function, `core/payload_schema.py:171`) `def _validate_int(value)`
-- `_validate_port` (function, `core/payload_schema.py:185`) `def _validate_port(value)`
-- `_validate_bool` (function, `core/payload_schema.py:195`) `def _validate_bool(value)`
-- `_validate_ip` (function, `core/payload_schema.py:212`) `def _validate_ip(value)`
-- `_validate_hostname` (function, `core/payload_schema.py:220`) `def _validate_hostname(value)`
-- `_validate_url` (function, `core/payload_schema.py:232`) `def _validate_url(value)`
-- `_validate_path` (function, `core/payload_schema.py:240`) `def _validate_path(value)`
-- `_validate_interface` (function, `core/payload_schema.py:246`) `def _validate_interface(value)`
-- `_validate_hex` (function, `core/payload_schema.py:254`) `def _validate_hex(value)`
-- `_validate_os_id` (function, `core/payload_schema.py:262`) `def _validate_os_id(value)`
-- `_validate_json_blob` (function, `core/payload_schema.py:268`) `def _validate_json_blob(value)`
-- `_validate_opaque` (function, `core/payload_schema.py:280`) `def _validate_opaque(_value)`
-- `_coerce_int` (function, `core/payload_schema.py:301`) `def _coerce_int(raw)`
-- `_coerce_bool` (function, `core/payload_schema.py:316`) `def _coerce_bool(raw)`
-- `_spec` (function, `core/payload_schema.py:335`) `def _spec(name, kind, default, description)`
-- `field_for` (function, `core/payload_schema.py:1582`) `def field_for(key)` - Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function, `core/payload_schema.py:1587`) `def coerce_value(key, raw)` - Return ``raw`` coerced to the canonical type declared for ``key``.
+- `check_go_tool_installed` (function, `core/process.py:34`) `def check_go_tool_installed(tool_name)` - Check if a Go tool binary is installed and runnable.
+- `is_binary_present` (function, `core/process.py:54`) `def is_binary_present(binary_name)` - Check whether binary is on ``PATH``.
+- `handle_multiple_rhosts` (function, `core/process.py:68`) `def handle_multiple_rhosts(func)` - Decorator that iterates over a list of remote hosts.
+- `wrapper` (function, `core/process.py:82`) `def wrapper(self)`
+- `check_sudo` (function, `core/process.py:97`) `def check_sudo()` - Re-launch the script with ``sudo`` if not already root.
+- `run` (function, `core/process.py:108`) `def run(command)` - Execute a shell command via ``SafeRunner``.
+- `is_package_installed` (function, `core/process.py:143`) `def is_package_installed(package_name)` - Check whether a Python package is importable.
+- `_print_run_command_status` (function, `core/process.py:159`) `def _print_run_command_status(command, elapsed, exit_code)` - Print a dim completion line (elapsed time + exit code) after a run.
+- `run_command` (function, `core/process.py:183`) `def run_command(command, timeout)` - Run a command, streaming output in real time.
+- `_drain_stderr` (function, `core/process.py:220`) `def _drain_stderr()`
+- `ensure_tmux_session` (function, `core/process.py:253`) `def ensure_tmux_session(session_name)` - Create a tmux session if it does not already exist.
+- `activate_server` (function, `core/process.py:271`) `def activate_server(httpd, url, lhost)` - Start an HTTP server and print the serving URL.
+- `_load_prompt_payload` (function, `core/prompt.py:17`) `def _load_prompt_payload()` - Load ``payload.json`` and return a dict with default values.
+- `get_git_info` (function, `core/prompt.py:35`) `def get_git_info()` - Return current git branch and dirty-status for the prompt.
+- `get_venv_info` (function, `core/prompt.py:60`) `def get_venv_info()` - Return the active virtualenv name, or empty string if none.
+- `get_kernel` (function, `core/prompt.py:68`) `def get_kernel()` - Return the running kernel version (short form).
+- `get_terminal_size` (function, `core/prompt.py:78`) `def get_terminal_size()` - Return ``(width, height)`` of the terminal, defaulting to 80x24.
+- `get_local_ips` (function, `core/prompt.py:87`) `def get_local_ips()` - Return a comma-separated string of non-loopback IPv4 addresses.
+- `copy2clip` (function, `core/prompt.py:109`) `def copy2clip(text)` - Copy ``text`` to the system clipboard via xclip.
+- `getprompt` (function, `core/prompt.py:127`) `def getprompt()` - Build the coloured status line for the CLI header and C2 dashboard.
+- `main` (function, `key.py:10`) `def main()`
+- `_GNU_SOURCE` (macro, `modules/exp.c:2`) `#define _GNU_SOURCE`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 236
-- Cross-boundary resolved imports (EXTRACTED): 84
+- Internal resolved imports (EXTRACTED): 226
+- Cross-boundary resolved imports (EXTRACTED): 62
 
 ## Connections
 
-- [EXTRACTED] depends_on community 9 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 7 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
+- [EXTRACTED] depends_on community 2 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/misc_migrated.py imports cli/assign.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `core/process.py` via `subprocess` (5 hops)
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
 - [dataflow DEAD_STORE] `modules/exp.c:274` `awake_partial_keys` `keylen`: `keylen` assigned at line 274 but never read afterwards.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.
@@ -133,7 +128,7 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 
 - Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazybinenc.py`)? What purpose do they serve?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.45?
+- Should static/js be split, given cohesion 0.49?
 
 ## Sources
 
@@ -141,7 +136,6 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 - `cli/show.py`
 - `cli/style.py`
 - `contrib/legacy/lazybinenc.py`
-- `core/payload_schema.py`
 - `core/process.py`
 - `core/prompt.py`
 - `key.py`
@@ -157,4 +151,5 @@ This community groups 28 file(s) rooted at `static/js` with dominant language js
 - `static/js/html2pdf.bundle.min.js`
 - `static/js/jquery-3.5.1.slim.min.js`
 - `static/js/particles.js`
-- *... and 8 more*
+- `static/js/popper-2.5.4.min.js`
+- *... and 5 more*

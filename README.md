@@ -9,7 +9,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **819 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
+> **834 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 
@@ -80,9 +80,18 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v0.2.161
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 819 CLI commands, 129 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 834 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
 **New in v0.2.161:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
+
+**Autonomous contracts update:** the loop is now administered by
+`config/orchestrator.yaml` profiles (`default`, `stealth`, `lab`, `gym`),
+chains support conditions, timeouts, retries, capture and sink tags, and
+every exploit, emulation step, chain result and finding fans out through
+one outcome bus. Metasploitable 2 ships with 45 indexed vectors, one
+exploit and one chain each, including SQLi, XSS, CSRF, LFI/RFI, upload and
+command injection. Lazyaddons opt in to git fast-forward updates with
+`update: true`; every shipped addon is opted in.
 
 I also integrated autonomous-operation contracts into the existing
 flows (safety gate and planner frontier inside the daemon loop,
@@ -126,6 +135,29 @@ cd lazyown-docker
 ./mkdocker.sh run --vpn 1
 ```
 
+### Autonomous loop and chains
+
+The loop reads `config/orchestrator.yaml`; explicit flags still win.
+
+```bash
+lazy_loop --profile gym --target 172.17.0.2 "root the gym"
+apt_chain gym_metasploitable_ms2_distcc_exec 172.17.0.2
+apt_chain gym_metasploitable_ms2_distcc_exec 172.17.0.2 --dry-run
+gym_ms2 list
+gym_ms2 validate
+lazy_addon update --all --dry-run
+```
+
+`lab start metasploitable` prints the container IP and the `assign rhost`
+line, and starts Apache when the image boots without it.
+
+The outcome bus updates the world model, kill-chain, intel graph, attack
+graph, C2 banners/CVEs/notes, objectives and session report from one
+event. Contracts: [`docs/autonomous-loop.md`](docs/autonomous-loop.md),
+[`docs/outcome-bus.md`](docs/outcome-bus.md),
+[`docs/emulation-runner.md`](docs/emulation-runner.md),
+[`docs/metasploitable-gym.md`](docs/metasploitable-gym.md).
+
 Then, inside the `(LazyOwn) >` shell:
 
 ```text
@@ -150,13 +182,18 @@ step persisted and auditable under `sessions/lazy/`.
 auto_loop --target 10.10.10.5 --rounds 6 --workers 2 "gain initial access"
 lazy_loop --view            # resume/observe with the live worker monitor
 lazy_view t0001             # attach the monitor from another terminal
-lazy_orchestrator           # admin console: pipeline stages, auto verbs, config, LLM chain, guard rules
+lazy_orchestrator           # admin console: stages, verbs, playbooks, gyms, chains, profiles, LLM chain, guard
 ```
 
 Highlights:
 
 - configurable pipeline: enable/disable each stage and manage the auto
-  verb registry (`lazy_orchestrator` Pipeline and Verbs tabs);
+  verb registry (`lazy_orchestrator` Pipeline and Verbs tabs, with a
+  searchable command picker when adding verbs);
+- playbook administration: list, preview, create, edit and delete
+  `playbooks/*.yaml` from the `lazy_orchestrator` Playbooks tab;
+- gym administration: YAML definitions under `gyms/`, persistent runs in
+  the world model, and a `lazy_orchestrator` Gyms tab to start/stop them;
 - transparent execution: every step is narrated live, with heartbeats, a
   stall watchdog and thread-stack dumps when nothing moves;
 - safe teardown: `Ctrl+C`, `qa`, `exit`, EOF and `atexit` kill children,
@@ -172,7 +209,7 @@ LazyOwn is built around a modular, command-driven architecture that provides fle
 # LazyOwn Skills — MCP Integration
 
 Connect AI agents to the framework via the Model Context Protocol (MCP). The MCP server
-(`skills/lazyown_mcp.py`) exposes 154 tools covering the full engagement lifecycle.
+(`skills/lazyown_mcp.py`) exposes 173 tools covering the full engagement lifecycle.
 
 ```bash
 bash scripts/setup_hermes_mcp.sh   # register the MCP server
@@ -183,7 +220,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Key Features
 
-1. **819 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **834 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
 3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
 4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
@@ -250,7 +287,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Command Capabilities
 
-LazyOwn provides 819 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
+LazyOwn provides 834 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
 | Phase | Highlight Commands |
 |-------|-------------------|
@@ -270,7 +307,7 @@ LazyOwn provides 819 commands across 13 kill-chain phases, available from both C
 
 Core management: `assign`, `show`, `doctor`, `wizard`, `scope`, `collab_join`, `config_banner`, `palette`, `fz`.
 
-See [`COMMANDS.md`](COMMANDS.md) for the full 819-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
+See [`COMMANDS.md`](COMMANDS.md) for the full 834-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
 
 ## Go deeper
 
@@ -291,7 +328,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 819-command reference and [`ESSENT
 
 ## Full references (auto-generated, standalone)
 
-- [`COMMANDS.md`](COMMANDS.md) — full 819-command reference
+- [`COMMANDS.md`](COMMANDS.md) — full 834-command reference
 - [`UTILS.md`](UTILS.md) — helper-function reference for `utils.py`
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 

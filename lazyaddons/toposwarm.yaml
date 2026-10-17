@@ -22,6 +22,7 @@ description: "TopoSwarm Autonomous Red Team Agent — drives LazyOwn through a f
 author: LazyOwn RedTeam / grisuno
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

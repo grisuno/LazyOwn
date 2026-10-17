@@ -1,6 +1,110 @@
 # Subsystem: tests (page 2 of 17)
 Previous: [KB_tests.md](KB_tests.md)
 
+## tests/test_api_authz.py
+- Doc: Tests for ``core.api_authz`` — tenant-bound API authorization.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestApiAuthzConfig` (class, line 21) `class TestApiAuthzConfig`
+  - `TestApiKey` (class, line 45) `class TestApiKey`
+  - `TestApiKeyStore` (class, line 102) `class TestApiKeyStore`
+  - `TestRequireApiAuth` (class, line 288) `class TestRequireApiAuth`
+  - `TestCreateApiToken` (class, line 377) `class TestCreateApiToken`
+  - `TestEdgeCases` (class, line 423) `class TestEdgeCases`
+  - `test_defaults_are_secure_by_default` (method, line 24) `def test_defaults_are_secure_by_default(self)`
+  - `test_custom_overrides_preserve_typed_semantics` (method, line 32) `def test_custom_overrides_preserve_typed_semantics(self)`
+  - `test_serialization_roundtrip_preserves_all_fields` (method, line 48) `def test_serialization_roundtrip_preserves_all_fields(self)`
+  - `test_detects_expiration_correctly` (method, line 65) `def test_detects_expiration_correctly(self)`
+  - `test_checks_permissions_with_set_operations` (method, line 87) `def test_checks_permissions_with_set_operations(self)`
+  - `_make_store` (method, line 105) `def _make_store(self, tmp_path)`
+  - `test_creates_and_lists_keys_scoped_by_tenant` (method, line 114) `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)`
+  - `test_validates_a_known_key_and_returns_record` (method, line 125) `def test_validates_a_known_key_and_returns_record(self, tmp_path)`
+  - `test_rejects_unknown_key_returning_none` (method, line 133) `def test_rejects_unknown_key_returning_none(self, tmp_path)`
+  - `test_rejects_empty_plaintext_key` (method, line 137) `def test_rejects_empty_plaintext_key(self, tmp_path)`
+  - `test_rejects_expired_key` (method, line 141) `def test_rejects_expired_key(self, tmp_path)`
+  - `test_updates_last_used_on_successful_validation` (method, line 162) `def test_updates_last_used_on_successful_validation(self, tmp_path)`
+  - `test_revokes_key_preventing_future_validation` (method, line 173) `def test_revokes_key_preventing_future_validation(self, tmp_path)`
+  - `test_revocation_is_idempotent` (method, line 179) `def test_revocation_is_idempotent(self, tmp_path)`
+  - `test_enforces_max_keys_per_tenant_raises_value_error` (method, line 183) `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)`
+  - `test_rotates_key_preserving_tenant_label_and_permissions` (method, line 196) `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)`
+  - `test_rotation_copies_permissions_from_the_rotated_key` (method, line 206) `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)`
+  - `test_old_key_stays_valid_during_rotation_grace` (method, line 217) `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)`
+  - `test_old_key_rejected_after_rotation_grace_expires` (method, line 225) `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)`
+  - `test_retired_keys_are_pruned_after_grace_expires` (method, line 240) `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)`
+  - `test_rotation_does_not_grow_active_key_count` (method, line 258) `def test_rotation_does_not_grow_active_key_count(self, tmp_path)`
+  - `test_never_stores_plaintext_token_on_disk` (method, line 275) `def test_never_stores_plaintext_token_on_disk(self, tmp_path)`
+  - `_make_app` (method, line 291) `def _make_app(self, tmp_path)`
+  - `_build_client` (method, line 301) `def _build_client(self, tmp_path, store)`
+  - `test_allows_valid_key_in_bearer_header` (method, line 333) `def test_allows_valid_key_in_bearer_header(self, tmp_path)`
+  - `test_allows_valid_key_in_x_api_key_header` (method, line 340) `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)`
+  - `test_allows_valid_key_in_query_param` (method, line 346) `def test_allows_valid_key_in_query_param(self, tmp_path)`
+  - `test_rejects_missing_key_with_401` (method, line 352) `def test_rejects_missing_key_with_401(self, tmp_path)`
+  - `test_rejects_invalid_key_with_401` (method, line 357) `def test_rejects_invalid_key_with_401(self, tmp_path)`
+  - `test_rejects_key_with_insufficient_permissions_with_403` (method, line 362) `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)`
+  - `test_sets_g_variables_with_api_key_context_on_success` (method, line 368) `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)`
+  - `_make_store` (method, line 380) `def _make_store(self, tmp_path)`
+  - `test_returns_a_validatable_token` (method, line 389) `def test_returns_a_validatable_token(self, tmp_path)`
+  - `test_stores_permissions_on_the_key_record` (method, line 397) `def test_stores_permissions_on_the_key_record(self, tmp_path)`
+  - `test_sets_expiration_when_days_are_provided` (method, line 412) `def test_sets_expiration_when_days_are_provided(self, tmp_path)`
+  - `_make_store` (method, line 426) `def _make_store(self, tmp_path)`
+  - `test_constant_time_comparison_rejects_wrong_secrets` (method, line 435) `def test_constant_time_comparison_rejects_wrong_secrets(self)`
+  - `test_generates_50_unique_tokens_without_collision` (method, line 444) `def test_generates_50_unique_tokens_without_collision(self)`
+  - `test_atomic_write_leaves_no_tmp_files` (method, line 450) `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)`
+  - `secure` (function, line 313) `def secure()`
+  - `g_check` (function, line 318) `def g_check()`
+  - `admin_only` (function, line 328) `def admin_only()`
+- Depends on: `core/api_authz.py`
+
+## tests/test_api_key_resolution.py
+- Doc: API-key resolution contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestApiKeyWiredIntoParams` (class, line 21) `class TestApiKeyWiredIntoParams`
+  - `TestReplaceCommandPlaceholders` (class, line 39) `class TestReplaceCommandPlaceholders`
+  - `test_params_api_key_is_not_hardcoded_none` (method, line 22) `def test_params_api_key_is_not_hardcoded_none(self)`
+  - `test_params_api_key_binds_config_attr` (method, line 28) `def test_params_api_key_binds_config_attr(self)`
+  - `test_class_attribute_api_key_reads_payload` (method, line 34) `def test_class_attribute_api_key_reads_payload(self)`
+  - `test_double_brace_substitution` (method, line 40) `def test_double_brace_substitution(self)`
+  - `test_single_brace_substitution` (method, line 47) `def test_single_brace_substitution(self)`
+  - `test_mixed_braces_in_one_command` (method, line 56) `def test_mixed_braces_in_one_command(self)`
+  - `test_missing_key_left_intact` (method, line 63) `def test_missing_key_left_intact(self)`
+- Depends on: `utils.py`
+
+## tests/test_api_v1.py
+- Doc: Integration tests for the versioned C2 REST API (``/api/v1``).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `api_client` (function, line 23) `def api_client(tmp_path)`
+  - `_auth` (function, line 40) `def _auth(token)`
+  - `test_health_is_public` (function, line 44) `def test_health_is_public(api_client)`
+  - `test_targets_requires_auth` (function, line 51) `def test_targets_requires_auth(api_client)`
+  - `test_targets_empty_workspace` (function, line 56) `def test_targets_empty_workspace(api_client)`
+  - `test_targets_lists_hosts_with_services` (function, line 64) `def test_targets_lists_hosts_with_services(api_client)`
+  - `test_results_empty` (function, line 76) `def test_results_empty(api_client)`
+  - `test_results_per_client` (function, line 82) `def test_results_per_client(api_client)`
+  - `test_campaigns_empty_state` (function, line 95) `def test_campaigns_empty_state(api_client)`
+  - `test_campaigns_reads_state_files` (function, line 101) `def test_campaigns_reads_state_files(api_client)`
+  - `test_webhook_crud` (function, line 109) `def test_webhook_crud(api_client)`
+  - `test_webhook_rejects_bad_url` (function, line 126) `def test_webhook_rejects_bad_url(api_client)`
+  - `test_mutating_endpoints_require_auth` (function, line 134) `def test_mutating_endpoints_require_auth(api_client)`
+- Depends on: `core/api_authz.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_history.py`, `modules/db.py`
+
+## tests/test_apt_chain_integration.py
+- Doc: BDD integration: apt_chain runs real cmd2 verbs, raw commands and shell.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Set` (class, line 19) `class _Set(CommandAndControlMigratedCommandSet)`
+  - `_Shell` (class, line 28) `class _Shell(Cmd)`
+  - `test_apt_chain_prints_raw_output_and_opens_shell_on_main_thread` (function, line 42) `def test_apt_chain_prints_raw_output_and_opens_shell_on_main_thread(tmp_path, monkeypatch, capsys)`
+  - `do_atomic_shell` (method, line 22) `def do_atomic_shell(self, line)`
+  - `__init__` (method, line 31) `def __init__(self)`
+  - `do_assign` (method, line 37) `def do_assign(self, line)`
+- Depends on: `cli/commands/command_and_control_migrated.py`, `modules/chain_registry.py`
+
 ## tests/test_asset_gate.py
 - Doc: Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 - Layer: testing
@@ -368,110 +472,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_resolve_generates_on_placeholders` (function, line 39) `def test_resolve_generates_on_placeholders()`
   - `test_ensure_persists_once_then_reuses` (function, line 50) `def test_ensure_persists_once_then_reuses(monkeypatch)`
 - Depends on: `cli/commands/persist_migrated.py`
-
-## tests/test_banner_config.py
-- Doc: Tests for cli/banner_config.py — registry, settings, renderer, wizard.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `registry` (function, line 37) `def registry()`
-  - `color_registry` (function, line 42) `def color_registry()`
-  - `glyph_registry` (function, line 47) `def glyph_registry()`
-  - `neutral_palette` (function, line 52) `def neutral_palette()`
-  - `test_registry_lists_every_canonical_segment` (function, line 68) `def test_registry_lists_every_canonical_segment(registry)`
-  - `test_registry_group_partition` (function, line 88) `def test_registry_group_partition(registry)`
-  - `test_registry_lookup_returns_none_for_unknown` (function, line 96) `def test_registry_lookup_returns_none_for_unknown(registry)`
-  - `test_settings_defaults_match_registry_defaults` (function, line 103) `def test_settings_defaults_match_registry_defaults(registry)`
-  - `test_settings_round_trip_through_payload_block` (function, line 113) `def test_settings_round_trip_through_payload_block(registry)`
-  - `test_settings_from_payload_falls_back_to_defaults_when_missing` (function, line 120) `def test_settings_from_payload_falls_back_to_defaults_when_missing(registry)`
-  - `test_settings_from_payload_ignores_unknown_ids` (function, line 125) `def test_settings_from_payload_ignores_unknown_ids(registry)`
-  - `test_settings_toggle_adds_then_removes` (function, line 131) `def test_settings_toggle_adds_then_removes()`
-  - `test_settings_enable_all_then_disable_all` (function, line 139) `def test_settings_enable_all_then_disable_all(registry)`
-  - `_make_ctx` (function, line 150) `def _make_ctx(palette)`
-  - `test_renderer_emits_three_lines_with_box_corners` (function, line 176) `def test_renderer_emits_three_lines_with_box_corners(registry, neutral_palette)`
-  - `test_renderer_omits_disabled_segments` (function, line 187) `def test_renderer_omits_disabled_segments(registry, neutral_palette)`
-  - `test_renderer_includes_kernel_and_version_when_enabled` (function, line 198) `def test_renderer_includes_kernel_and_version_when_enabled(registry, neutral_palette)`
-  - `test_renderer_drops_empty_value_segments` (function, line 206) `def test_renderer_drops_empty_value_segments(registry, neutral_palette)`
-  - `test_renderer_marks_dirty_git_with_dirty_glyph` (function, line 214) `def test_renderer_marks_dirty_git_with_dirty_glyph(registry, neutral_palette)`
-  - `test_render_prompt_uses_payload_banner_block` (function, line 228) `def test_render_prompt_uses_payload_banner_block()`
-  - `test_render_prompt_with_no_payload_uses_defaults` (function, line 239) `def test_render_prompt_with_no_payload_uses_defaults()`
-  - `test_banner_summary_lists_enabled_ids_sorted` (function, line 248) `def test_banner_summary_lists_enabled_ids_sorted()`
-  - `test_banner_summary_handles_empty` (function, line 254) `def test_banner_summary_handles_empty()`
-  - `test_context_resolver_uses_payload_rhost_and_lhost` (function, line 261) `def test_context_resolver_uses_payload_rhost_and_lhost(neutral_palette)`
-  - `test_context_resolver_public_ip_caches_within_ttl` (function, line 275) `def test_context_resolver_public_ip_caches_within_ttl(neutral_palette)`
-  - `test_configurator_returns_none_in_non_tty_environment` (function, line 303) `def test_configurator_returns_none_in_non_tty_environment(monkeypatch, registry, neutral_palette, color_registry...`
-  - `test_color_registry_exposes_named_palette` (function, line 320) `def test_color_registry_exposes_named_palette(color_registry)`
-  - `test_color_registry_cycle_wraps_around` (function, line 327) `def test_color_registry_cycle_wraps_around(color_registry)`
-  - `test_color_registry_resolve_unknown_falls_back` (function, line 335) `def test_color_registry_resolve_unknown_falls_back(color_registry)`
-  - `test_glyph_registry_exposes_canonical_slots` (function, line 344) `def test_glyph_registry_exposes_canonical_slots(glyph_registry)`
-  - `test_glyph_registry_cycle_returns_known_choice` (function, line 350) `def test_glyph_registry_cycle_returns_known_choice(glyph_registry)`
-  - `test_glyph_registry_cycle_preserves_unknown_value` (function, line 357) `def test_glyph_registry_cycle_preserves_unknown_value(glyph_registry)`
-  - `test_settings_round_trip_carries_colors_and_glyphs` (function, line 364) `def test_settings_round_trip_carries_colors_and_glyphs(registry, color_registry, glyph_registry)`
-  - `test_settings_from_payload_ignores_unknown_color_names` (function, line 379) `def test_settings_from_payload_ignores_unknown_color_names(registry, color_registry, glyph_registry)`
-  - `test_settings_from_payload_ignores_unknown_glyph_chars` (function, line 385) `def test_settings_from_payload_ignores_unknown_glyph_chars(registry, color_registry, glyph_registry)`
-  - `test_settings_cycle_color_uses_registry_order` (function, line 391) `def test_settings_cycle_color_uses_registry_order(registry, color_registry)`
-  - `test_settings_cycle_glyph_uses_registry_order` (function, line 398) `def test_settings_cycle_glyph_uses_registry_order(registry, color_registry, glyph_registry)`
-  - `test_settings_reset_color_and_glyph_for_specific_id` (function, line 405) `def test_settings_reset_color_and_glyph_for_specific_id(registry, color_registry, glyph_registry)`
-  - `test_renderer_emits_chosen_color_for_each_segment` (function, line 418) `def test_renderer_emits_chosen_color_for_each_segment(registry, color_registry, glyph_registry, neutral_palette)`
-  - `test_renderer_uses_glyph_overrides_in_box` (function, line 438) `def test_renderer_uses_glyph_overrides_in_box(registry, color_registry, glyph_registry, neutral_palette)`
-  - `test_render_prompt_honours_payload_colors_and_glyphs` (function, line 458) `def test_render_prompt_honours_payload_colors_and_glyphs()`
-  - `_FakeResp` (class, line 281) `class _FakeResp`
-  - `__enter__` (method, line 282) `def __enter__(self)`
-  - `__exit__` (method, line 285) `def __exit__(self)`
-  - `read` (method, line 288) `def read(self)`
-- Depends on: `cli/banner_config.py`
-
-## tests/test_bdd_infra_range_report.py
-- Doc: BDD scenarios for disposable infra, range, and executive reporting.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_bdd_redirector_spawn_registers_urls` (function, line 15) `def test_bdd_redirector_spawn_registers_urls()`
-  - `test_bdd_beacon_build_injects_fallback_urls` (function, line 51) `def test_bdd_beacon_build_injects_fallback_urls()`
-  - `test_bdd_range_compose_topology` (function, line 65) `def test_bdd_range_compose_topology()`
-  - `test_bdd_report_executive_summary_without_ai` (function, line 83) `def test_bdd_report_executive_summary_without_ai()`
-  - `Completed` (class, line 28) `class Completed`
-- Depends on: `cli/commands/infra.py`, `cli/commands/lab.py`, `modules/c2_builder.py`, `modules/professional_report.py`
-
-## tests/test_beacon_config_builder.py
-- Doc: Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBeaconConfig` (class, line 22) `class TestBeaconConfig`
-  - `TestBeaconConfigBuilder` (class, line 141) `class TestBeaconConfigBuilder`
-  - `TestGenerateBofExecutionCommand` (class, line 205) `class TestGenerateBofExecutionCommand`
-  - `test_default_construction` (method, line 23) `def test_default_construction(self)`
-  - `test_to_gen_beacon_args` (method, line 36) `def test_to_gen_beacon_args(self)`
-  - `test_to_go_implant_vars` (method, line 59) `def test_to_go_implant_vars(self)`
-  - `test_to_config_json` (method, line 85) `def test_to_config_json(self)`
-  - `test_to_dict_serialization` (method, line 113) `def test_to_dict_serialization(self)`
-  - `test_build_minimal` (method, line 142) `def test_build_minimal(self)`
-  - `test_build_with_malleable_route` (method, line 157) `def test_build_with_malleable_route(self)`
-  - `test_build_injects_tls_from_payload` (method, line 170) `def test_build_injects_tls_from_payload(self)`
-  - `test_build_injects_dns_from_payload` (method, line 183) `def test_build_injects_dns_from_payload(self)`
-  - `test_build_falls_back_on_missing_engines` (method, line 197) `def test_build_falls_back_on_missing_engines(self)`
-  - `test_basic_bof_command` (method, line 206) `def test_basic_bof_command(self)`
-  - `test_bof_with_args` (method, line 214) `def test_bof_with_args(self)`
-  - `test_custom_bofs_dir` (method, line 224) `def test_custom_bofs_dir(self)`
-- Depends on: `modules/beacon_config_builder.py`
-
-## tests/test_beacon_history.py
-- Doc: BDD-style tests for persistent beacon command/result history storage.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_config` (function, line 19) `def _config(tmp_path)`
-  - `TestSanitization` (class, line 23) `class TestSanitization`
-  - `TestAppendRead` (class, line 38) `class TestAppendRead`
-  - `test_sanitize_client_id_strips_unsafe_chars` (method, line 24) `def test_sanitize_client_id_strips_unsafe_chars(self)`
-  - `test_records_path_is_bounded_inside_sessions` (method, line 29) `def test_records_path_is_bounded_inside_sessions(self, tmp_path)`
-  - `test_append_then_read_round_trips` (method, line 39) `def test_append_then_read_round_trips(self, tmp_path)`
-  - `test_multiple_beacons_do_not_interleave` (method, line 50) `def test_multiple_beacons_do_not_interleave(self, tmp_path)`
-  - `test_skips_malformed_lines` (method, line 59) `def test_skips_malformed_lines(self, tmp_path)`
-  - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
-  - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
-- Depends on: `modules/beacon_history.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

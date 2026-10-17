@@ -106,13 +106,14 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
 
         Usage:
             marketplace list [--tier official|community|experimental]
-            marketplace search <name>  — search for available plugins
-            marketplace install <name> — install a plugin by name
-            marketplace update         — refresh community plugin index
-            marketplace info <name>    — show details about a plugin
-            marketplace rate <name> <1-5> — rate a plugin (operator-local)
-            marketplace ratings [name] — show recorded ratings
-            marketplace config         — interactive enable/disable wizard
+            marketplace search <name>  - search for available plugins
+            marketplace install <name> - install a plugin by name
+            marketplace update         - refresh community plugin index
+            marketplace update-addons [name|--all] [--dry-run] - git update lazyaddons
+            marketplace info <name>    - show details about a plugin
+            marketplace rate <name> <1-5> - rate a plugin (operator-local)
+            marketplace ratings [name] - show recorded ratings
+            marketplace config         - interactive enable/disable wizard
 
         Examples:
             marketplace list
@@ -155,6 +156,8 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             self._mp_install(name)
         elif action == "update":
             self._mp_update()
+        elif action in ("update-addons", "update_addons"):
+            self._mp_update_addons(args[1:])
         elif action == "info":
             if not name:
                 print_error("Specify a plugin name. Try: marketplace list")
@@ -330,6 +333,24 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         print_msg("Use: marketplace list  (to see what's installed)")
         print_msg("Use: marketplace search <term>")
 
+    def _mp_update_addons(self, args: list[str]):
+        """Git update opted-in lazyaddons through the shared updater."""
+        from modules.addon_updater import update_all
+
+        names = [token for token in args if not token.startswith("--")]
+        summary = update_all(names=names or None, dry_run="--dry-run" in args)
+        counts = summary.get("counts", {})
+        print_msg(
+            f"addons checked={summary.get('total', 0)} updated={counts.get('updated', 0)} "
+            f"skipped={counts.get('skipped', 0)} failed={counts.get('failed', 0)} "
+            f"dry-run={counts.get('dry-run', 0)}"
+        )
+        for row in summary.get("results", []):
+            if row.get("status") == "failed":
+                print_error(f"  [{row.get('status')}] {row.get('name')}: {row.get('reason', '')}")
+            elif row.get("status") in ("updated", "dry-run"):
+                print_msg(f"  [{row.get('status')}] {row.get('name')}: {row.get('reason', '')}")
+
     def _mp_info(self, name: str):
         """Show detailed information about a plugin."""
         installed = self._installed_plugins()
@@ -389,7 +410,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         except ValueError as exc:
             print_error(str(exc))
             return
-        print_msg(f"Rated '{name}' {stars}/5 — now {format_rating(average, count)}.")
+        print_msg(f"Rated '{name}' {stars}/5 - now {format_rating(average, count)}.")
 
     def _mp_ratings(self, name: str):
         """Show recorded operator ratings, optionally for one plugin."""
@@ -424,21 +445,22 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(miscellaneous_category)
     def do_marketplace_config(self, line):
-        """Interactive marketplace manager (curses TUI).
+        """Interactive marketplace manager (Textual TUI).
 
-        Opens a Powerlevel10k-style wizard to browse, enable/disable,
-        edit (``e``), and create (``c``) lazyaddons, plugins, and tools.
+        Opens the same style of console as ``lazy_orchestrator``:
+        searchable tabs for lazyaddons, plugins, tools, YARA rules and
+        Nuclei templates, with a preview pane.
 
         Usage:
-            marketplace_config            — open the interactive wizard
-            marketplace_config show       — print a text summary
-            marketplace_config enable <n> — enable a plugin by name
-            marketplace_config disable <n> — disable a plugin by name
+            marketplace_config            - open the interactive console
+            marketplace_config show       - print a text summary
+            marketplace_config enable <n> - enable a plugin by name
+            marketplace_config disable <n> - disable a plugin by name
 
-        The wizard mirrors ``config_banner``: Arrow keys move, Space
-        toggles, ``a``/``n`` enable/disable all, ``e`` edits in $EDITOR,
-        ``c`` creates a new lazyaddon from template, Enter saves, Escape
-        cancels.
+        Keys: ``/`` filter, Space toggles (YAML ``enabled`` or tool
+        ``active``), ``a``/``n`` enable/disable all, ``e`` edits the raw
+        file, ``c`` creates from the tab template, ``d`` deletes after
+        confirmation, ``r`` rescans, Enter saves, Escape cancels.
         """
         args = (line or "").strip().split()
         action = args[0].lower() if args else ""

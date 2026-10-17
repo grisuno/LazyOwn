@@ -5,6 +5,7 @@ description: 'gosearch is a Search anyone''s digital footprint across 300+ websi
 author: ibnaleem
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

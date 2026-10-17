@@ -4,6 +4,7 @@ description: 'FatFs is a portable, royalty-free FAT/exFAT filesystem library wri
 author: runZeroInc
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

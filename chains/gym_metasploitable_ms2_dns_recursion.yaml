@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_dns_recursion
+version: 2
+description: 'Metasploitable 2: BIND open recursion (T1590.002).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- domain
+platforms:
+- linux
+defaults:
+  exploit: ms2_dns_recursion
+  vuln: ms2_dns_recursion
+  port: '53'

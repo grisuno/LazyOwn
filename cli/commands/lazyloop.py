@@ -279,11 +279,15 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
 
         Tabs: Now (what the orchestrator is executing right now, live
         activity tail and per-worker current command), Config (payload
-        knobs the runner reads), Verbs, Chains (APT chain YAML
-        administration: preview, enable/disable, generate from playbook,
-        delete), Models (LLM failover chain add/remove), Guard
-        (intercept rules add/remove). Keys: r refresh, s save
-        config, a add, d delete, q quit.
+        knobs the runner reads), Verbs (searchable command picker when
+        adding a verb), Playbooks (full CRUD over playbooks/*.yaml with
+        preview and raw YAML editing), Gyms (YAML catalogue plus
+        persistent active runs; space starts or stops the selected gym),
+        Chains (APT chain YAML administration: preview, enable/disable,
+        generate from playbook, delete), Profiles (activate orchestration
+        profiles), Models (LLM failover chain add/remove), Guard
+        (intercept rules add/remove). Keys: r refresh, s save config,
+        a add, e edit, d delete, space toggle, q quit.
 
         Usage:
             lazy_orchestrator [task_id]

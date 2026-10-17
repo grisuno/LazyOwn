@@ -6,6 +6,7 @@ description: 'The Social-Engineer Toolkit (SET) repository from TrustedSec - All
 author: trustedsec
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: [http, https]
 tool:

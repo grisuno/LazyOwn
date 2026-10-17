@@ -6,6 +6,7 @@ description: 'A fast, multi-threaded cPanel detection tool written in Go. It sca
 author: K3ysTr0K3R
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

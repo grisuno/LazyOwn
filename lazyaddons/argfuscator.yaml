@@ -7,6 +7,7 @@ description: 'ArgFuscator is an open-source, stand-alone web application that he
 author: wietze
 version: '1.0'
 enabled: true
+update: true
 os: windows
 trigger: []
 tool:

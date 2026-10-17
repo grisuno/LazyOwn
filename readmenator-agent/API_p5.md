@@ -1,6 +1,46 @@
 # API (page 5 of 23)
 Previous: [API_p4.md](API_p4.md)
 
+## cli/session_hud.py
+Depends on: `cli/engagement_hooks.py`
+Imported by: `cli/commands/ux.py`
+- `count_lines_in_globs` (function) `cli/session_hud.py:62` `def count_lines_in_globs(root, patterns)` -- Count non-empty lines across every file matching the patterns.
+- `count_csv_rows` (function) `cli/session_hud.py:83` `def count_csv_rows(path)` -- Count data rows in a CSV file without loading it fully.
+- `format_elapsed` (function) `cli/session_hud.py:100` `def format_elapsed(seconds)` -- Format a duration as HH:MM:SS.
+- `phase_bar` (function) `cli/session_hud.py:115` `def phase_bar(phase, width)` -- Render kill-chain progress as filled and empty blocks.
+- `build_snapshot` (function) `cli/session_hud.py:155` `def build_snapshot(params, config)` -- Build a snapshot from live params, engagement state and session files.
+- `render_snapshot` (function) `cli/session_hud.py:180` `def render_snapshot(snapshot, config)` -- Render the session counters as two plain lines.
+
+## cli/session_resumer.py
+Depends on: `core/console.py`, `core/logging.py`
+Imported by: `cli/commands/session_ops.py`
+- `SessionResumer.__init__` (method) `cli/session_resumer.py:58` `def __init__(self, config)`
+- `SessionResumer.render_startup_panel` (method) `cli/session_resumer.py:129` `def render_startup_panel(self)` -- Render the resume panel and return the selected target IP, or None.
+
+## cli/sessions_browser.py
+Depends on: `cli/commands/containers.py`, `cli/themes.py`
+Imported by: `cli/commands/misc_migrated.py`, `tests/test_sessions_browser.py`
+- `SessionsIndex.__init__` (method) `cli/sessions_browser.py:88` `def __init__(self, config, root)` -- Bind to config and resolve the sessions root.
+- `SessionsIndex.root` (method) `cli/sessions_browser.py:100` `def root(self)` -- Return the resolved sessions root.
+- `SessionsIndex.categories` (method) `cli/sessions_browser.py:104` `def categories(self)` -- Return a mapping ``category_identifier -> [SessionEntry, ...]``.
+- `SessionPreview.__init__` (method) `cli/sessions_browser.py:188` `def __init__(self, config, root)` -- Bind to config and the sessions root.
+- `SessionPreview.read` (method) `cli/sessions_browser.py:193` `def read(self, relative)` -- Return ``relative`` as text, capped at ``max_preview_bytes``.
+- `SessionsBrowserState.grouped_entries` (method) `cli/sessions_browser.py:233` `def grouped_entries(self)` -- Return classified entries, optionally filtered by :attr:`filter_query`.
+- `SessionsBrowserState.category_label` (method) `cli/sessions_browser.py:248` `def category_label(self, identifier)` -- Return the human-readable label for ``identifier``.
+- `build_state` (function) `cli/sessions_browser.py:258` `def build_state(payload, sessions_dir, config)` -- Wire the canonical state used by :func:`launch_browser`.
+- `launch_browser` (function) `cli/sessions_browser.py:281` `def launch_browser(payload, state, runner)` -- Open the Textual browser and return the last-viewed relative path.
+- `_SessionsBrowserApp.__init__` (method) `cli/sessions_browser.py:340` `def __init__(self)`
+- `_SessionsBrowserApp.compose` (method) `cli/sessions_browser.py:346` `def compose(self)`
+- `_SessionsBrowserApp.on_mount` (method) `cli/sessions_browser.py:356` `def on_mount(self)`
+- `_SessionsBrowserApp.on_input_changed` (method) `cli/sessions_browser.py:359` `def on_input_changed(self, event)`
+- `_SessionsBrowserApp.on_tree_node_selected` (method) `cli/sessions_browser.py:363` `def on_tree_node_selected(self, event)`
+- `_SessionsBrowserApp.action_refresh` (method) `cli/sessions_browser.py:370` `def action_refresh(self)`
+- `_SessionsBrowserApp.action_close` (method) `cli/sessions_browser.py:373` `def action_close(self)`
+
+## cli/show.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
+- `format_payload` (function) `cli/show.py:14` `def format_payload(params)` -- Render ``params`` as a sorted, aligned ``key = value`` block.
+
 ## cli/splash.py
 Depends on: `cli/style.py`, `core/console.py`
 Imported by: `lazyown.py`, `tests/test_tui_splash.py`
@@ -148,6 +188,30 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboa
 - `emit_toast` (function) `cli/toast_bus.py:801` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
 - `read_recent_toasts` (function) `cli/toast_bus.py:846` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
 - `build_toast_renderable` (function) `cli/toast_bus.py:890` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
+
+## cli/tui_forms.py
+Depends on: `cli/commands/containers.py`
+Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `tests/test_lazy_orchestrator.py`
+- `filter_candidates` (function) `cli/tui_forms.py:27` `def filter_candidates(query, options, limit)` -- Filter ``(value, description)`` pairs by a case-insensitive query.
+- `FormModal.__init__` (method) `cli/tui_forms.py:68` `def __init__(self, title, fields, defaults, save_label)` -- Store the title, ``(id, label, placeholder)`` fields and defaults.
+- `FormModal.compose` (method) `cli/tui_forms.py:82` `def compose(self)` -- One labeled input per field plus the save button.
+- `FormModal.on_button_pressed` (method) `cli/tui_forms.py:102` `def on_button_pressed(self, event)` -- Save closes the modal with every field value.
+- `FormModal.on_input_submitted` (method) `cli/tui_forms.py:107` `def on_input_submitted(self, event)` -- Enter commits the form like the save button.
+- `SearchSelectModal.__init__` (method) `cli/tui_forms.py:122` `def __init__(self, title, options, placeholder, allow_custom)` -- Store the title, candidate pairs and placeholder.
+- `SearchSelectModal.compose` (method) `cli/tui_forms.py:136` `def compose(self)` -- Search box, filtered option list and action buttons.
+- `SearchSelectModal.on_mount` (method) `cli/tui_forms.py:147` `def on_mount(self)` -- Render the first page and focus the search box.
+- `SearchSelectModal.on_input_changed` (method) `cli/tui_forms.py:201` `def on_input_changed(self, event)` -- Filter as the operator types.
+- `SearchSelectModal.on_input_submitted` (method) `cli/tui_forms.py:206` `def on_input_submitted(self, event)` -- Enter accepts the highlighted row or the typed custom value.
+- `SearchSelectModal.on_option_list_option_selected` (method) `cli/tui_forms.py:211` `def on_option_list_option_selected(self, event)` -- Clicking or pressing Enter on a row selects it.
+- `SearchSelectModal.on_key` (method) `cli/tui_forms.py:220` `def on_key(self, event)` -- Move focus into the list with the arrow keys.
+- `SearchSelectModal.on_button_pressed` (method) `cli/tui_forms.py:239` `def on_button_pressed(self, event)` -- Select and cancel buttons.
+- `ConfirmModal.__init__` (method) `cli/tui_forms.py:256` `def __init__(self, title, body)` -- Store the prompt.
+- `ConfirmModal.compose` (method) `cli/tui_forms.py:262` `def compose(self)` -- Prompt plus yes/no buttons.
+- `ConfirmModal.action_answer` (method) `cli/tui_forms.py:272` `def action_answer(self, answer)` -- Dismiss with the operator's answer.
+- `ConfirmModal.on_button_pressed` (method) `cli/tui_forms.py:276` `def on_button_pressed(self, event)` -- Wire the two buttons to the same answer action.
+- `TextEditorModal.__init__` (method) `cli/tui_forms.py:298` `def __init__(self, title, text, validator, language, save_label)` -- Store the title, initial document, validator and language.
+- `TextEditorModal.compose` (method) `cli/tui_forms.py:314` `def compose(self)` -- Editor plus save/cancel buttons and an error line.
+- `TextEditorModal.on_button_pressed` (method) `cli/tui_forms.py:338` `def on_button_pressed(self, event)` -- Save and cancel buttons.
 
 ## cli/tui_theme.py
 Depends on: `cli/themes.py`
@@ -428,70 +492,6 @@ Depends on: `modules/lazyencoder_decoder.py`
 - `start_services` (function) `contrib/legacy/lazymitmap.py:254` `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)` -- Start necessary services based on user input.
 - `cleanup` (function) `contrib/legacy/lazymitmap.py:315` `def cleanup()` -- Cleanup actions to restore system state.
 - `signal_handler` (function) `contrib/legacy/lazymitmap.py:324` `def signal_handler(sig, frame)`
-
-## contrib/legacy/lazynetbios.py
-- `check_sudo` (function) `contrib/legacy/lazynetbios.py:30` `def check_sudo()`
-- `signal_handler` (function) `contrib/legacy/lazynetbios.py:38` `def signal_handler(sig, frame)`
-- `scan_netbios` (function) `contrib/legacy/lazynetbios.py:45` `def scan_netbios(ip_range)`
-- `check_arp` (function) `contrib/legacy/lazynetbios.py:58` `def check_arp(ip)`
-- `check_netbios` (function) `contrib/legacy/lazynetbios.py:71` `def check_netbios(ip)`
-- `send_nbns_spoof` (function) `contrib/legacy/lazynetbios.py:90` `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)`
-- `generate_ip_range` (function) `contrib/legacy/lazynetbios.py:115` `def generate_ip_range(start_ip, end_ip)`
-
-## contrib/legacy/lazyntlrelayx.py
-- `parse_hash_file` (function) `contrib/legacy/lazyntlrelayx.py:5` `def parse_hash_file(file_path)`
-- `ntlm_relay` (function) `contrib/legacy/lazyntlrelayx.py:52` `def ntlm_relay(target_ip, credentials)`
-
-## contrib/legacy/lazyopenssh77enum2.py
-Depends on: `core/logging.py`
-- `add_boolean` (function) `contrib/legacy/lazyopenssh77enum2.py:19` `def add_boolean()`
-- `service_accept` (function) `contrib/legacy/lazyopenssh77enum2.py:30` `def service_accept()`
-- `invalid_username` (function) `contrib/legacy/lazyopenssh77enum2.py:36` `def invalid_username()`
-- `check_user` (function) `contrib/legacy/lazyopenssh77enum2.py:50` `def check_user(username)`
-
-## contrib/legacy/lazyphishingai.py
-Depends on: `core/logging.py`
-Imported by: `modules/llm_adapter.py`
-- `clean_think` (function) `contrib/legacy/lazyphishingai.py:28` `def clean_think(texto)`
-- `clean_yaml` (function) `contrib/legacy/lazyphishingai.py:31` `def clean_yaml(texto)`
-- `truncate_message` (function) `contrib/legacy/lazyphishingai.py:37` `def truncate_message(message, max_chars)`
-- `configure_logging` (function) `contrib/legacy/lazyphishingai.py:42` `def configure_logging(debug)`
-- `create_complex_prompt` (function) `contrib/legacy/lazyphishingai.py:46` `def create_complex_prompt(base_prompt, history, knowledge_base)`
-- `load_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:101` `def load_knowledge_base(file_path)`
-- `save_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:110` `def save_knowledge_base(knowledge_base, file_path)`
-- `add_to_knowledge_base` (function) `contrib/legacy/lazyphishingai.py:117` `def add_to_knowledge_base(prompt, command, file_path)`
-- `get_relevant_knowledge` (function) `contrib/legacy/lazyphishingai.py:122` `def get_relevant_knowledge(prompt)`
-- `process_prompt_local_yaml` (function) `contrib/legacy/lazyphishingai.py:132` `def process_prompt_local_yaml(prompt, debug, mode, output_file)`
-- `generate` (function) `contrib/legacy/lazyphishingai.py:155` `def generate()`
-- `parse_args` (function) `contrib/legacy/lazyphishingai.py:192` `def parse_args()`
-
-## contrib/legacy/lazyproxy.py
-Depends on: `modules/colors.py`
-- `check_sudo` (function) `contrib/legacy/lazyproxy.py:40` `def check_sudo()`
-- `signal_handler` (function) `contrib/legacy/lazyproxy.py:47` `def signal_handler(sig, frame)`
-- `hexdump` (function) `contrib/legacy/lazyproxy.py:52` `def hexdump(src, length)`
-- `receive_from` (function) `contrib/legacy/lazyproxy.py:63` `def receive_from(connection)`
-- `request_handler` (function) `contrib/legacy/lazyproxy.py:77` `def request_handler(buffer)`
-- `response_handler` (function) `contrib/legacy/lazyproxy.py:82` `def response_handler(buffer)`
-- `get_ip_from_url` (function) `contrib/legacy/lazyproxy.py:87` `def get_ip_from_url(url)`
-- `handle_request` (function) `contrib/legacy/lazyproxy.py:104` `def handle_request(client_socket, address)`
-- `start_proxy` (function) `contrib/legacy/lazyproxy.py:183` `def start_proxy()`
-
-## contrib/legacy/lazypwn.py
-Depends on: `cli/commands/pwn.py`
-- `BinaryFinder.__init__` (method) `contrib/legacy/lazypwn.py:25` `def __init__(self)`
-- `BinaryFinder.find_suid_binaries` (method) `contrib/legacy/lazypwn.py:28` `def find_suid_binaries(self)`
-- `BinaryFinder.find_capabilities_binaries` (method) `contrib/legacy/lazypwn.py:36` `def find_capabilities_binaries(self)`
-- `BinaryFinder.find_executable_binaries` (method) `contrib/legacy/lazypwn.py:44` `def find_executable_binaries(self)`
-- `BinaryFinder.find_specific_name_binaries` (method) `contrib/legacy/lazypwn.py:52` `def find_specific_name_binaries(self, names)`
-- `BinaryFinder.process_output` (method) `contrib/legacy/lazypwn.py:61` `def process_output(self, output)`
-- `BinaryFinder.get_found_binaries` (method) `contrib/legacy/lazypwn.py:67` `def get_found_binaries(self)`
-- `BinaryAttacker.__init__` (method) `contrib/legacy/lazypwn.py:71` `def __init__(self, binary_path)`
-- `BinaryAttacker.analyze_with_ltrace` (method) `contrib/legacy/lazypwn.py:76` `def analyze_with_ltrace(self)`
-- `BinaryAttacker.extract_strings` (method) `contrib/legacy/lazypwn.py:83` `def extract_strings(self)`
-- `BinaryAttacker.prepare_attack` (method) `contrib/legacy/lazypwn.py:90` `def prepare_attack(self)`
-- `BinaryAttacker.exploit_with_pwntools` (method) `contrib/legacy/lazypwn.py:170` `def exploit_with_pwntools(self)`
-- `main` (function) `contrib/legacy/lazypwn.py:181` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

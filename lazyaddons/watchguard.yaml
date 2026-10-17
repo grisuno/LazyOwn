@@ -6,6 +6,7 @@ description: 'Client Implementation for the WatchGuard SSO Agent Protocol used f
 author: RedTeamPentesting
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: domain
   type: string

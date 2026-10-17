@@ -104,3 +104,19 @@ class TestGetPhaseAfterStateChanges:
 
     def test_phase_recon_when_no_hosts(self, world_model):
         assert world_model.get_phase().value == "recon"
+
+
+
+def test_remove_host(tmp_path, monkeypatch):
+    """Removing a host drops it from the model and the persisted file."""
+    import modules.world_model as wm_mod
+
+    monkeypatch.setattr(wm_mod, "_DEFAULT_PATH", tmp_path / "world_model.json")
+    monkeypatch.setattr(wm_mod, "_default_wm", None)
+    world = wm_mod.get_world_model()
+    world.add_host("127.0.0.1")
+    world.add_host("172.17.0.2")
+    assert world.remove_host("127.0.0.1") is True
+    assert world.remove_host("127.0.0.1") is False
+    assert "127.0.0.1" not in world.snapshot()["hosts"]
+    assert "172.17.0.2" in world.snapshot()["hosts"]

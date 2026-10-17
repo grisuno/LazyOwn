@@ -5,6 +5,7 @@ description: Read ARTEX v0.3.12 asset graph coverage in English. Needs artex up 
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 params:
   - name: url
     type: string

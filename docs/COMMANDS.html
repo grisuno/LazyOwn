@@ -201,12 +201,12 @@ commands)</li>
 <li><a href="#09-data-exfiltration">09. Data Exfiltration</a> (35
 commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
-(29 commands)</li>
+(33 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
-<li><a href="#12-miscellaneous">12. Miscellaneous</a> (189
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (190
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (193 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (203 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -1975,6 +1975,10 @@ with sshpass.</p>
 <p>Upload a file from <code>sessions/</code> to Gofile via its HTTP
 API.</p>
 <h2 id="command-control">10. Command &amp; Control</h2>
+<h3 id="apt_chain"><code>apt_chain</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Run a fully YAML-administered APT chain with one command.</p>
 <h3 id="apt_playbook"><code>apt_playbook</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
@@ -1984,21 +1988,30 @@ reports.</p>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
 <p>Generates and synchronizes atomic agent scripts.</p>
+<h3 id="atomic_clean"><code>atomic_clean</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Clean up engagement artefacts (soft) or tear down the gym (hard).</p>
+<h3 id="atomic_emulate"><code>atomic_emulate</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Execute emulation tests on the target through a working shell.</p>
 <h3 id="atomic_gen"><code>atomic_gen</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
-<p>Generates test and cleanup scripts for a given Atomic Red Team
-technique ID.</p>
+<p>Generate test + cleanup scripts for a MITRE ID or GUID.</p>
+<h3 id="atomic_shell"><code>atomic_shell</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Open an interactive root shell on the target when possible.</p>
 <h3 id="atomic_tests"><code>atomic_tests</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
-<p>Executes Atomic Red Team tests based on user-selected platform and
-test.</p>
+<p>Stage an Atomic Red Team test by MITRE technique ID or GUID.</p>
 <h3 id="attack_plan"><code>attack_plan</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
-<p>Executes a multi-step APT simulation plan based on Atomic Red Team
-test IDs.</p>
+<p>Execute a multi-step APT simulation plan.</p>
 <h3 id="automsf"><code>automsf</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
@@ -2536,6 +2549,11 @@ RPORT.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/redteam_gym.py</code></p>
 <p>Red Team Gym — gamified pentest training with ELO scoring.</p>
+<h3 id="gym_ms2"><code>gym_ms2</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/redteam_gym.py</code></p>
+<p>Metasploitable 2 gym catalogue: list|chains|validate|info
+<vuln>|chain <vuln>.</p>
 <h3 id="h"><code>h</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
@@ -2692,7 +2710,7 @@ plugins.</p>
 <h3 id="marketplace_config"><code>marketplace_config</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/marketplace.py</code></p>
-<p>Interactive marketplace manager (curses TUI).</p>
+<p>Interactive marketplace manager (Textual TUI).</p>
 <h3 id="mkrc"><code>mkrc</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/resource_scripting.py</code></p>
@@ -3161,18 +3179,40 @@ lazy_loop).</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/bof_registry.py</code></p>
 <p>Uninstall a BOF and remove its staged file.</p>
+<h3 id="c2_deploy"><code>c2_deploy</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_session.py</code></p>
+<p>Deploy the malleable agent to a lab target (needs root shell
+primitive).</p>
 <h3 id="c2_dns"><code>c2_dns</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/c2_profile.py</code></p>
 <p>Configure or display the DNS beacon profile.</p>
+<h3 id="c2_exec"><code>c2_exec</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_session.py</code></p>
+<p>Run one command on a live C2 session and print its answer.</p>
+<h3 id="c2_loot"><code>c2_loot</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_session.py</code></p>
+<p>Exfiltrate a remote file through a live C2 session into
+sessions/loot/.</p>
 <h3 id="c2_profiles"><code>c2_profiles</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/c2_profile.py</code></p>
 <p>List all available C2 transport profiles.</p>
+<h3 id="c2_reboot"><code>c2_reboot</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_session.py</code></p>
+<p>Restart the headless C2 server with ROTATED operator credentials.</p>
 <h3 id="c2_rotate"><code>c2_rotate</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/c2_profile.py</code></p>
 <p>Rotate to the next C2 transport profile in the rotation queue.</p>
+<h3 id="c2_server"><code>c2_server</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_session.py</code></p>
+<p>Manage the headless C2 server (lab use).</p>
 <h3 id="c2_tls"><code>c2_tls</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/c2_profile.py</code></p>
@@ -3373,8 +3413,8 @@ persistence.</p>
 <h3 id="lazy_addon"><code>lazy_addon</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
-<p>Addon trigger runner: list [service]|run <name> [–target T]. Usage:
-lazy_addon … [–task T]</p>
+<p>Addon trigger runner: list [service]|run <name> [–target T]|update
+[name|–all] [–dry-run].</p>
 <h3 id="lazy_agent"><code>lazy_agent</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3431,6 +3471,12 @@ lazy_constraint … [–task T]</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Render the bounded prompt context the planner/worker LLMs receive.
 Usage: lazy_context [–task T] [–budget N]</p>
+<h3 id="lazy_dispatch"><code>lazy_dispatch</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Dispatch one detached task to an external agent: opencode|hermes [–in
+DIR] [–resume S] [–max-turns N] [–run-budget S] [–timeout S]
+&lt;task…&gt;. Usage: lazy_dispatch …</p>
 <h3 id="lazy_enrich"><code>lazy_enrich</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3485,6 +3531,11 @@ deny <id>. Usage: lazy_guard …</div>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
 <p>Inject steering hint. Usage: lazy_hint <text> [–task T]</p>
+<h3 id="lazy_install"><code>lazy_install</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Capability installer: <tool> [–dry-run]|on|off|list. Usage:
+lazy_install …</p>
 <h3 id="lazy_intent"><code>lazy_intent</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3563,6 +3614,11 @@ md|json|csv] [–out PATH]</p>
 settlement text. Usage: lazy_runtime show [–task T] | lazy_runtime
 budget <max_toolcalls> <max_findings> <timeout_s> [–task T] |
 lazy_runtime settle <agent> <reason> [–task T]</p>
+<h3 id="lazy_sandbox"><code>lazy_sandbox</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Per-task Docker sandbox: status [–task T]|up –task T [–image I]|down
+–task T|build|exec –task T &lt;verb…&gt;. Usage: lazy_sandbox …</p>
 <h3 id="lazy_scheduler"><code>lazy_scheduler</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3582,6 +3638,11 @@ lazy_selfupdate …</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Skills: list|show <name>|preview|inject &lt;name…&gt;|clear|auto
 on|off|mirror [name]|register-hermes. Usage: lazy_skill … [–task T]</p>
+<h3 id="lazy_stage"><code>lazy_stage</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Loop stage admin: list|enable|disable <stage>|reset. Usage:
+lazy_stage …</p>
 <h3 id="lazy_status"><code>lazy_status</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3637,6 +3698,12 @@ lazy_traffic … [–task T] [–limit N]</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Scheduler triggers: list|add <kind> [every_sec]|remove
 <id>|addons|sync. Usage: lazy_trigger … [–task T]</p>
+<h3 id="lazy_verb"><code>lazy_verb</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Loop verb admin: list [–phase P] [–q Q]|enable|disable <verb>|add
+<verb> –keywords K [–phase P] [–no-target] [–desc D]|remove
+<verb>|full-cli [on|off]. Usage: lazy_verb …</p>
 <h3 id="lazy_worker"><code>lazy_worker</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>

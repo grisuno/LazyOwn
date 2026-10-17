@@ -10,6 +10,7 @@ description: |
 author: Cisco-Talos
 version: "0.1.0"
 enabled: true
+update: true
 params: []
 os: any
 trigger: []

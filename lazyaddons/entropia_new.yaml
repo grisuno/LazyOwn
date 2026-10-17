@@ -8,6 +8,7 @@ description: |
 author: EntropyKit
 version: "1.0"
 enabled: true
+update: true
 os: any
 trigger: []
 params:

@@ -1,8 +1,96 @@
-# Symbols (page 7 of 41)
+# Symbols (page 7 of 42)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_lfi_success` | function | `contrib/legacy/lazylfi2rce.py:35` | `def check_lfi_success(response_text)` |
+| `check_rfi_success` | function | `contrib/legacy/lazylfi2rce.py:39` | `def check_rfi_success(response_text)` |
+| `main` | function | `contrib/legacy/lazylfi2rce.py:43` | `def main()` |
+| `signal_handler` | function | `contrib/legacy/lazylfi2rce.py:29` | `def signal_handler(sig, frame)` |
+| `LLMEngine` | class | `contrib/legacy/lazyllmchat.py:163` | `class LLMEngine` |
+| `LazyOwnLLMChat` | class | `contrib/legacy/lazyllmchat.py:234` | `class LazyOwnLLMChat` |
+| `LazyOwnPromptRenderer` | class | `contrib/legacy/lazyllmchat.py:198` | `class LazyOwnPromptRenderer` |
+| `LazyOwnShellBridge` | class | `contrib/legacy/lazyllmchat.py:22` | `class LazyOwnShellBridge` |
+| `PromptBuilder` | class | `contrib/legacy/lazyllmchat.py:123` | `class PromptBuilder` |
+| `SessionContextProvider` | class | `contrib/legacy/lazyllmchat.py:104` | `class SessionContextProvider` |
+| `__init__` | method | `contrib/legacy/lazyllmchat.py:25` | `def __init__(self, script_path)` |
+| `__init__` | method | `contrib/legacy/lazyllmchat.py:105` | `def __init__(self, session_path)` |
+| `__init__` | method | `contrib/legacy/lazyllmchat.py:164` | `def __init__(self)` |
+| `__init__` | method | `contrib/legacy/lazyllmchat.py:235` | `def __init__(self)` |
+| `_analyze` | method | `contrib/legacy/lazyllmchat.py:263` | `def _analyze(self, command, output)` |
+| `_direct_query` | method | `contrib/legacy/lazyllmchat.py:273` | `def _direct_query(self, query)` |
+| `_get_context` | method | `contrib/legacy/lazyllmchat.py:242` | `def _get_context(self)` |
+| `_load_model` | method | `contrib/legacy/lazyllmchat.py:170` | `def _load_model(self)` |
+| `_load_shell` | method | `contrib/legacy/lazyllmchat.py:31` | `def _load_shell(self)` |
+| `_run_shell_command` | method | `contrib/legacy/lazyllmchat.py:245` | `def _run_shell_command(self, command)` |
+| `_run_system_command` | method | `contrib/legacy/lazyllmchat.py:251` | `def _run_system_command(self, command)` |
+| `ask` | method | `contrib/legacy/lazyllmchat.py:182` | `def ask(self, prompt)` |
+| `banner` | method | `contrib/legacy/lazyllmchat.py:223` | `def banner(self)` |
+| `execute` | method | `contrib/legacy/lazyllmchat.py:65` | `def execute(self, command)` |
+| `for_command_analysis` | method | `contrib/legacy/lazyllmchat.py:133` | `def for_command_analysis(command, output, context, history)` |
+| `for_direct_query` | method | `contrib/legacy/lazyllmchat.py:149` | `def for_direct_query(query, context, history)` |
+| `get_history_text` | method | `contrib/legacy/lazyllmchat.py:194` | `def get_history_text(self)` |
+| `get_last_lines` | method | `contrib/legacy/lazyllmchat.py:108` | `def get_last_lines(self, count)` |
+| `is_ready` | method | `contrib/legacy/lazyllmchat.py:179` | `def is_ready(self)` |
+| `main` | function | `contrib/legacy/lazyllmchat.py:309` | `def main()` |
+| `no_history_init` | function | `contrib/legacy/lazyllmchat.py:38` | `def no_history_init(self_)` |
+| `render` | method | `contrib/legacy/lazyllmchat.py:208` | `def render(self)` |
+| `run` | method | `contrib/legacy/lazyllmchat.py:280` | `def run(self, initial_query)` |
+| `target` | function | `contrib/legacy/lazyllmchat.py:70` | `def target()` |
+| `ensure_http_prefix` | function | `contrib/legacy/lazylogpoisoning.py:39` | `def ensure_http_prefix(url)` |
+| `main` | function | `contrib/legacy/lazylogpoisoning.py:53` | `def main()` |
+| `signal_handler` | function | `contrib/legacy/lazylogpoisoning.py:45` | `def signal_handler(sig, frame)` |
+| `errmsg` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:63` | `def errmsg(str)` |
+| `info` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:59` | `def info(str)` |
+| `shutdown` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:67` | `def shutdown(code)` |
+| `get_mac` | function | `contrib/legacy/lazymidm.py:12` | `def get_mac(ip)` |
+| `main` | function | `contrib/legacy/lazymidm.py:68` | `def main()` |
+| `mitm` | function | `contrib/legacy/lazymidm.py:37` | `def mitm(target_ip, gateway_ip)` |
+| `restore` | function | `contrib/legacy/lazymidm.py:27` | `def restore(target_ip, spoof_ip)` |
+| `setup_monitor_mode` | function | `contrib/legacy/lazymidm.py:58` | `def setup_monitor_mode(interface)` |
+| `spoof` | function | `contrib/legacy/lazymidm.py:18` | `def spoof(target_ip, spoof_ip)` |
+| `start_sslstrip` | function | `contrib/legacy/lazymidm.py:50` | `def start_sslstrip(port)` |
+| `start_tcpdump` | function | `contrib/legacy/lazymidm.py:54` | `def start_tcpdump(interface, output_file)` |
+| `_sudo_run` | function | `contrib/legacy/lazymitmap.py:14` | `def _sudo_run()` |
+| `_validate_iface` | function | `contrib/legacy/lazymitmap.py:19` | `def _validate_iface(value, name)` |
+| `append_file` | function | `contrib/legacy/lazymitmap.py:67` | `def append_file(path, s)` |
+| `backup_file` | function | `contrib/legacy/lazymitmap.py:121` | `def backup_file(filepath)` |
+| `cleanup` | function | `contrib/legacy/lazymitmap.py:315` | `def cleanup()` |
+| `configure_dnsmasq` | function | `contrib/legacy/lazymitmap.py:163` | `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)` |
+| `configure_hostapd` | function | `contrib/legacy/lazymitmap.py:195` | `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)` |
+| `create_dir` | function | `contrib/legacy/lazymitmap.py:72` | `def create_dir(directory)` |
+| `flush_iptables` | function | `contrib/legacy/lazymitmap.py:145` | `def flush_iptables()` |
+| `install_dependencies` | function | `contrib/legacy/lazymitmap.py:84` | `def install_dependencies()` |
+| `print_header` | function | `contrib/legacy/lazymitmap.py:45` | `def print_header()` |
+| `restart_service` | function | `contrib/legacy/lazymitmap.py:138` | `def restart_service(service)` |
+| `restore_file` | function | `contrib/legacy/lazymitmap.py:128` | `def restore_file(filepath)` |
+| `run_cmd_write` | function | `contrib/legacy/lazymitmap.py:49` | `def run_cmd_write(cmd_args, s)` |
+| `set_permissions` | function | `contrib/legacy/lazymitmap.py:77` | `def set_permissions(directory, permissions)` |
+| `set_speed_limit` | function | `contrib/legacy/lazymitmap.py:248` | `def set_speed_limit(ap_iface, speed_up, speed_down)` |
+| `setup_iptables` | function | `contrib/legacy/lazymitmap.py:228` | `def setup_iptables(ap_iface, ap_ip, net_iface)` |
+| `setup_network_manager` | function | `contrib/legacy/lazymitmap.py:153` | `def setup_network_manager(ap_iface)` |
+| `signal_handler` | function | `contrib/legacy/lazymitmap.py:324` | `def signal_handler(sig, frame)` |
+| `start_services` | function | `contrib/legacy/lazymitmap.py:254` | `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)` |
+| `write_file` | function | `contrib/legacy/lazymitmap.py:63` | `def write_file(path, s)` |
+| `check_arp` | function | `contrib/legacy/lazynetbios.py:58` | `def check_arp(ip)` |
+| `check_netbios` | function | `contrib/legacy/lazynetbios.py:71` | `def check_netbios(ip)` |
+| `check_sudo` | function | `contrib/legacy/lazynetbios.py:30` | `def check_sudo()` |
+| `generate_ip_range` | function | `contrib/legacy/lazynetbios.py:115` | `def generate_ip_range(start_ip, end_ip)` |
+| `scan_netbios` | function | `contrib/legacy/lazynetbios.py:45` | `def scan_netbios(ip_range)` |
+| `send_nbns_spoof` | function | `contrib/legacy/lazynetbios.py:90` | `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)` |
+| `signal_handler` | function | `contrib/legacy/lazynetbios.py:38` | `def signal_handler(sig, frame)` |
+| `ntlm_relay` | function | `contrib/legacy/lazyntlrelayx.py:52` | `def ntlm_relay(target_ip, credentials)` |
+| `parse_hash_file` | function | `contrib/legacy/lazyntlrelayx.py:5` | `def parse_hash_file(file_path)` |
+| `InvalidUsername` | class | `contrib/legacy/lazyopenssh77enum2.py:14` | `class InvalidUsername(Exception)` |
+| `add_boolean` | function | `contrib/legacy/lazyopenssh77enum2.py:19` | `def add_boolean()` |
+| `check_user` | function | `contrib/legacy/lazyopenssh77enum2.py:50` | `def check_user(username)` |
+| `invalid_username` | function | `contrib/legacy/lazyopenssh77enum2.py:36` | `def invalid_username()` |
+| `service_accept` | function | `contrib/legacy/lazyopenssh77enum2.py:30` | `def service_accept()` |
+| `add_to_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:117` | `def add_to_knowledge_base(prompt, command, file_path)` |
+| `clean_think` | function | `contrib/legacy/lazyphishingai.py:28` | `def clean_think(texto)` |
+| `clean_yaml` | function | `contrib/legacy/lazyphishingai.py:31` | `def clean_yaml(texto)` |
+| `configure_logging` | function | `contrib/legacy/lazyphishingai.py:42` | `def configure_logging(debug)` |
+| `create_complex_prompt` | function | `contrib/legacy/lazyphishingai.py:46` | `def create_complex_prompt(base_prompt, history, knowledge_base)` |
 | `generate` | function | `contrib/legacy/lazyphishingai.py:155` | `def generate()` |
 | `get_relevant_knowledge` | function | `contrib/legacy/lazyphishingai.py:122` | `def get_relevant_knowledge(prompt)` |
 | `load_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:101` | `def load_knowledge_base(file_path)` |
@@ -408,93 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `get_kernel` | function | `core/prompt.py:68` | `def get_kernel()` |
 | `get_local_ips` | function | `core/prompt.py:87` | `def get_local_ips()` |
 | `get_terminal_size` | function | `core/prompt.py:78` | `def get_terminal_size()` |
-| `get_venv_info` | function | `core/prompt.py:60` | `def get_venv_info()` |
-| `getprompt` | function | `core/prompt.py:127` | `def getprompt()` |
-| `BridgeCatalog` | class | `core/protocols.py:62` | `class BridgeCatalog(Protocol)` |
-| `LLMBackend` | class | `core/protocols.py:37` | `class LLMBackend(Protocol)` |
-| `MemoryStore` | class | `core/protocols.py:51` | `class MemoryStore(Protocol)` |
-| `OutcomeEvaluator` | class | `core/protocols.py:70` | `class OutcomeEvaluator(Protocol)` |
-| `Selector` | class | `core/protocols.py:17` | `class Selector(Protocol)` |
-| `complete` | method | `core/protocols.py:40` | `def complete(self, system, user, max_tokens, temperature)` |
-| `evaluate` | method | `core/protocols.py:73` | `def evaluate(self, command, output, target, phase)` |
-| `filter` | method | `core/protocols.py:65` | `def filter(self, phase, os_id)` |
-| `get` | method | `core/protocols.py:56` | `def get(self, key, default)` |
-| `put` | method | `core/protocols.py:54` | `def put(self, key, value)` |
-| `search` | method | `core/protocols.py:58` | `def search(self, query, k)` |
-| `suggest` | method | `core/protocols.py:27` | `def suggest(self, target, phase, context)` |
-| `generate_reverse_shell_password` | function | `core/reverse_shell_secret.py:65` | `def generate_reverse_shell_password()` |
-| `is_configured_password_valid` | function | `core/reverse_shell_secret.py:74` | `def is_configured_password_valid(candidate, minimum_length)` |
-| `load_reverse_shell_password` | function | `core/reverse_shell_secret.py:41` | `def load_reverse_shell_password(secret_path)` |
-| `seal_reverse_shell_password` | function | `core/reverse_shell_secret.py:24` | `def seal_reverse_shell_password(plaintext)` |
-| `get_console` | function | `core/safe_console.py:42` | `def get_console()` |
-| `milestone_glyph` | function | `core/safe_console.py:57` | `def milestone_glyph(state)` |
-| `panel_box` | function | `core/safe_console.py:52` | `def panel_box()` |
-| `progress_bar` | function | `core/safe_console.py:67` | `def progress_bar(ratio, width)` |
-| `supports_unicode` | function | `core/safe_console.py:33` | `def supports_unicode()` |
-| `CommandInjectionError` | class | `core/safe_exec.py:44` | `class CommandInjectionError(PermissionError)` |
-| `UrlValidationError` | class | `core/safe_exec.py:48` | `class UrlValidationError(PermissionError)` |
-| `needs_shell` | function | `core/safe_exec.py:52` | `def needs_shell(command)` |
-| `safe_clear_screen` | function | `core/safe_exec.py:192` | `def safe_clear_screen()` |
-| `safe_file_read` | function | `core/safe_exec.py:321` | `def safe_file_read(path)` |
-| `safe_find_tool` | function | `core/safe_exec.py:305` | `def safe_find_tool(name)` |
-| `safe_git_clone` | function | `core/safe_exec.py:234` | `def safe_git_clone(repo_url, target_dir)` |
-| `safe_ip_show` | function | `core/safe_exec.py:268` | `def safe_ip_show(interface)` |
-| `safe_run_argv` | function | `core/safe_exec.py:106` | `def safe_run_argv(argv)` |
-| `safe_run_shell` | function | `core/safe_exec.py:146` | `def safe_run_shell(command)` |
-| `safe_system` | function | `core/safe_exec.py:69` | `def safe_system(command)` |
-| `validate_url` | function | `core/safe_exec.py:207` | `def validate_url(url)` |
-| `filter_columns` | function | `core/safe_import.py:32` | `def filter_columns(src_columns, dest_columns)` |
-| `is_safe_identifier` | function | `core/safe_import.py:20` | `def is_safe_identifier(name)` |
-| `safe_copy_tree` | function | `core/safe_import.py:93` | `def safe_copy_tree(src, dest)` |
-| `safe_extract_zip` | function | `core/safe_import.py:51` | `def safe_extract_zip(archive, dest)` |
-| `SafeRunResult` | class | `core/safe_subprocess.py:44` | `class SafeRunResult` |
-| `SafeRunner` | class | `core/safe_subprocess.py:60` | `class SafeRunner` |
-| `ShellNotAllowedError` | class | `core/safe_subprocess.py:39` | `class ShellNotAllowedError(PermissionError)` |
-| `__init__` | method | `core/safe_subprocess.py:70` | `def __init__(self, audit_log_path)` |
-| `_audit` | method | `core/safe_subprocess.py:176` | `def _audit(self, record)` |
-| `run` | method | `core/safe_subprocess.py:73` | `def run(self, argv)` |
-| `run_shell` | method | `core/safe_subprocess.py:105` | `def run_shell(self, command)` |
-| `TaskScheduler` | class | `core/scheduler.py:50` | `class TaskScheduler` |
-| `_TaskInfo` | class | `core/scheduler.py:41` | `class _TaskInfo` |
-| `__init__` | method | `core/scheduler.py:61` | `def __init__(self)` |
-| `_cancel_internal` | method | `core/scheduler.py:224` | `def _cancel_internal(self, name)` |
-| `_run_once_wrapper` | method | `core/scheduler.py:254` | `def _run_once_wrapper(self, name, func)` |
-| `_run_stdlib_loop` | method | `core/scheduler.py:268` | `def _run_stdlib_loop(self)` |
-| `_schedule_recurring_stdlib` | method | `core/scheduler.py:238` | `def _schedule_recurring_stdlib(self, info)` |
-| `_wrapper` | function | `core/scheduler.py:241` | `def _wrapper()` |
-| `_wrapper` | function | `core/scheduler.py:257` | `def _wrapper()` |
-| `cancel_task` | method | `core/scheduler.py:192` | `def cancel_task(self, name)` |
-| `get_scheduler` | function | `core/scheduler.py:285` | `def get_scheduler()` |
-| `instance` | method | `core/scheduler.py:73` | `def instance(cls)` |
-| `list_tasks` | method | `core/scheduler.py:205` | `def list_tasks(self)` |
-| `schedule_once` | method | `core/scheduler.py:157` | `def schedule_once(self, name, delay_seconds, func)` |
-| `schedule_task` | method | `core/scheduler.py:123` | `def schedule_task(self, name, interval_seconds, func)` |
-| `start` | method | `core/scheduler.py:81` | `def start(self)` |
-| `stop` | method | `core/scheduler.py:100` | `def stop(self)` |
-| `anti_debug` | function | `core/security.py:18` | `def anti_debug()` |
-| `generate_certificates` | function | `core/security.py:58` | `def generate_certificates(output_dir)` |
-| `TerminalGuard` | class | `core/terminal_guard.py:73` | `class TerminalGuard` |
-| `__enter__` | method | `core/terminal_guard.py:91` | `def __enter__(self)` |
-| `__exit__` | method | `core/terminal_guard.py:104` | `def __exit__(self)` |
-| `__init__` | method | `core/terminal_guard.py:85` | `def __init__(self)` |
-| `_tty_fd` | function | `core/terminal_guard.py:30` | `def _tty_fd()` |
-| `apply_stty_sane` | function | `core/terminal_guard.py:62` | `def apply_stty_sane()` |
-| `emit_restore_sequences` | function | `core/terminal_guard.py:41` | `def emit_restore_sequences()` |
-| `restore` | method | `core/terminal_guard.py:108` | `def restore(self)` |
-| `truncate_text` | function | `core/text_utils.py:10` | `def truncate_text(value, max_len, marker)` |
-| `check_lhost` | function | `core/validators.py:40` | `def check_lhost(lhost)` |
-| `check_lport` | function | `core/validators.py:54` | `def check_lport(lport)` |
-| `check_port` | function | `core/validators.py:64` | `def check_port(port, name)` |
-| `check_rhost` | function | `core/validators.py:26` | `def check_rhost(rhost)` |
-| `require_lhost` | function | `core/validators.py:94` | `def require_lhost(params)` |
-| `require_lport` | function | `core/validators.py:107` | `def require_lport(params)` |
-| `require_rhost` | function | `core/validators.py:77` | `def require_rhost(params)` |
-| `require_rport` | function | `core/validators.py:120` | `def require_rport(params)` |
-| `_probe` | function | `deploy/range/ad-mini/traffic-gen.py:21` | `def _probe(host, port)` |
-| `main` | function | `deploy/range/ad-mini/traffic-gen.py:35` | `def main()` |
-| `Config` | class | `discord_c2.py:86` | `class Config` |
-| `SecureSessionManager` | class | `discord_c2.py:27` | `class SecureSessionManager` |
-| `__getitem__` | method | `discord_c2.py:92` | `def __getitem__(self, key)` |
-| `__init__` | method | `discord_c2.py:28` | `def __init__(self)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

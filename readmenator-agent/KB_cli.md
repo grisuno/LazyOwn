@@ -6,7 +6,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Depends on: `cli/aliases.py`, `cli/registry.py`
-- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
+- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_marketplace_config.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
 
 ## cli/aliases.py
 - Doc: Declarative cmd2 alias loader.
@@ -17,7 +17,8 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `_substitute` (function, line 42) `def _substitute(template, payload)`
   - `template_placeholders` (function, line 56) `def template_placeholders(template)`
   - `empty_placeholders` (function, line 72) `def empty_placeholders(template, context)`
-  - `load_aliases` (function, line 77) `def load_aliases(payload, path, lazy)`
+  - `alias_with_trailing_args` (function, line 77) `def alias_with_trailing_args(expanded, original)`
+  - `load_aliases` (function, line 100) `def load_aliases(payload, path, lazy)`
   - `__missing__` (method, line 32) `def __missing__(self, key)`
   - `__getitem__` (method, line 35) `def __getitem__(self, key)`
 - Depends on: `core/config.py`

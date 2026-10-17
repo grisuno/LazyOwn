@@ -12,6 +12,7 @@ description: "Genera automáticamente un addon YAML de LazyOwn a partir de una U
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

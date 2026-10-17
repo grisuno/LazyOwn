@@ -5,6 +5,7 @@ description: 'Detecta y explota vulnerabilidades de inyección de comandos.
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

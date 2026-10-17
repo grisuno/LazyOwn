@@ -1,5 +1,5 @@
-# Subsystem: modules (page 1 of 14)
-Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md), [KB_modules_p13.md](KB_modules_p13.md), [KB_modules_p14.md](KB_modules_p14.md)
+# Subsystem: modules (page 1 of 15)
+Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md), [KB_modules_p13.md](KB_modules_p13.md), [KB_modules_p14.md](KB_modules_p14.md), [KB_modules_p15.md](KB_modules_p15.md)
 
 ## modules/49803.py
 - Doc: Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit...
@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/outcome_bus.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -75,8 +75,26 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `assess_vulnerability` (method, line 411) `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)`
 - Imported by: `cli/commands/exploit_migrated.py`
 
+## modules/addon_updater.py
+- Doc: Git update contract for lazyaddons.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AddonUpdateResult` (class, line 33) `class AddonUpdateResult`
+  - `_read_addon` (function, line 61) `def _read_addon(path)`
+  - `load_addons` (function, line 73) `def load_addons(lazyaddons_dir)`
+  - `_safe_target` (function, line 107) `def _safe_target(install_path, root)`
+  - `_git` (function, line 135) `def _git(path)`
+  - `_worktree_root` (function, line 150) `def _worktree_root(path, repository_root)`
+  - `update_addon` (function, line 166) `def update_addon(name, lazyaddons_dir, root, dry_run)`
+  - `update_all` (function, line 260) `def update_all(names, lazyaddons_dir, root, dry_run, audit_path)`
+  - `_audit` (function, line 315) `def _audit(summary, path)`
+  - `to_dict` (method, line 46) `def to_dict(self)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `tests/test_addon_updater.py`
+
 ## modules/agent_runner.py
-- Doc: LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación...
+- Doc: LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument...
 - Layer: utility
 - Language: py
 - Symbols:
@@ -248,7 +266,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `generate_attack_plan` (method, line 213) `def generate_attack_plan(self, pb, output_path)`
   - `report_json` (method, line 230) `def report_json(self, pb, output_path)`
 - Depends on: `core/console.py`, `modules/atomic_resolver.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `cli/recommendation_signals.py`, `modules/atomic_exploit_bridge.py`, `modules/operation.py`, `tests/test_atomic_loop.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`
 
 ## modules/asset_graph.py
 - Doc: Global asset truth store joined to per-task exploration chains.
@@ -315,40 +333,42 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitCommand` (class, line 69) `class ExploitCommand`
-  - `ExploitSpec` (class, line 77) `class ExploitSpec`
-  - `_string_list` (function, line 127) `def _string_list(value)`
-  - `validate_spec` (function, line 135) `def validate_spec(data, filename)`
-  - `load_all` (function, line 211) `def load_all(exploits_dir)`
-  - `match_score` (function, line 266) `def match_score(spec, service, product, version)`
-  - `parse_scan_xml` (function, line 285) `def parse_scan_xml(xml_path)`
-  - `auto` (function, line 322) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
-  - `rank` (function, line 406) `def rank(services, exploits_dir)`
-  - `build_commands` (function, line 437) `def build_commands(spec, rhost, lhost, lport, port)`
-  - `detect_shell` (function, line 455) `def detect_shell(spec, output)`
-  - `run_spec` (function, line 464) `def run_spec(spec, rhost, lhost, lport, port)`
-  - `open_shell` (function, line 520) `def open_shell(target, services, lhost, exploits_dir, attempts)`
-  - `_ShellSession` (class, line 555) `class _ShellSession`
-  - `close_sessions` (function, line 648) `def close_sessions(target)`
-  - `cleanup_target` (function, line 683) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
-  - `_destroy_gym` (function, line 741) `def _destroy_gym(container)`
-  - `ensure_session` (function, line 759) `def ensure_session(spec, target, lhost)`
-  - `_adopt_live_shell` (function, line 810) `def _adopt_live_shell(spec, target, port)`
-  - `_wait_port_closed` (function, line 826) `def _wait_port_closed(target, port, timeout)`
-  - `remote_exec` (function, line 841) `def remote_exec(spec, target, command, lhost)`
-  - `interactive_shell` (function, line 859) `def interactive_shell(target, lhost, interactive, exploits_dir)`
-  - `emulate` (function, line 911) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir)`
-  - `record_outcome` (function, line 999) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir)`
-  - `main` (function, line 1097) `def main()`
-  - `severity_rank` (method, line 102) `def severity_rank(self)`
-  - `to_dict` (method, line 106) `def to_dict(self)`
-  - `__init__` (method, line 563) `def __init__(self, target, port, sock)`
-  - `alive` (method, line 572) `def alive(self, timeout)`
-  - `run` (method, line 579) `def run(self, command, timeout)`
-  - `_read_until` (method, line 593) `def _read_until(self, marker, timeout)`
-  - `close` (method, line 621) `def close(self)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/apt_playbooks.py`, `modules/atomic_resolver.py`, `modules/c2_surfaces.py`, `modules/intel_fusion.py`, `modules/killchain.py`, `modules/lazy_intel.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`
+  - `ExploitCommand` (class, line 70) `class ExploitCommand`
+  - `ExploitSpec` (class, line 78) `class ExploitSpec`
+  - `_string_list` (function, line 128) `def _string_list(value)`
+  - `validate_spec` (function, line 136) `def validate_spec(data, filename)`
+  - `load_all` (function, line 212) `def load_all(exploits_dir)`
+  - `match_score` (function, line 267) `def match_score(spec, service, product, version)`
+  - `parse_scan_xml` (function, line 286) `def parse_scan_xml(xml_path)`
+  - `auto` (function, line 323) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
+  - `rank` (function, line 421) `def rank(services, exploits_dir)`
+  - `build_commands` (function, line 452) `def build_commands(spec, rhost, lhost, lport, port)`
+  - `detect_shell` (function, line 470) `def detect_shell(spec, output)`
+  - `run_spec` (function, line 479) `def run_spec(spec, rhost, lhost, lport, port)`
+  - `open_shell` (function, line 550) `def open_shell(target, services, lhost, exploits_dir, attempts)`
+  - `_ShellSession` (class, line 585) `class _ShellSession`
+  - `record_shell_outcome` (function, line 678) `def record_shell_outcome(target, via)`
+  - `live_sessions` (function, line 707) `def live_sessions()`
+  - `close_sessions` (function, line 718) `def close_sessions(target)`
+  - `cleanup_target` (function, line 753) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
+  - `_destroy_gym` (function, line 811) `def _destroy_gym(container)`
+  - `ensure_session` (function, line 829) `def ensure_session(spec, target, lhost)`
+  - `_adopt_live_shell` (function, line 880) `def _adopt_live_shell(spec, target, port)`
+  - `_wait_port_closed` (function, line 896) `def _wait_port_closed(target, port, timeout)`
+  - `remote_exec` (function, line 911) `def remote_exec(spec, target, command, lhost)`
+  - `interactive_shell` (function, line 929) `def interactive_shell(target, lhost, interactive, exploits_dir)`
+  - `emulate` (function, line 981) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
+  - `record_outcome` (function, line 1015) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
+  - `main` (function, line 1103) `def main()`
+  - `severity_rank` (method, line 103) `def severity_rank(self)`
+  - `to_dict` (method, line 107) `def to_dict(self)`
+  - `__init__` (method, line 593) `def __init__(self, target, port, sock)`
+  - `alive` (method, line 602) `def alive(self, timeout)`
+  - `run` (method, line 609) `def run(self, command, timeout)`
+  - `_read_until` (method, line 623) `def _read_until(self, marker, timeout)`
+  - `close` (method, line 651) `def close(self)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 
 ## modules/atomic_resolver.py
 - Doc: Central MITRE ATT&CK <-> Atomic Red Team translator.
@@ -383,7 +403,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `chain` (method, line 380) `def chain(self, techniques, platform, first_match_only)`
   - `stats` (method, line 415) `def stats(self)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/ttpscope_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/emulation_runner.py`, `modules/ttpscope_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
 
 ## modules/attack_surface3d.py
 - Doc: Attack-surface 3D intel module: C2-centred campaign graph.
@@ -402,7 +422,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `add_edge` (function, line 155) `def add_edge(src, dst, kind, evidence, weight)`
   - `tag` (function, line 166) `def tag(nid, source)`
 - Depends on: `cli/surface_graph.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
-- Imported by: `cli/commands/surface.py`, `lazyc2.py`, `tests/test_attack_surface3d.py`
+- Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph.py`, `tests/test_attack_surface3d.py`
 
 ## modules/auto_pivot.py
 - Doc: Auto-Pivoting Engine for LazyOwn.
@@ -433,54 +453,6 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_load_state` (method, line 314) `def _load_state(self)`
   - `suggest_next_pivot` (method, line 352) `def suggest_next_pivot(self)`
 - Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
-
-## modules/auto_purple.py
-- Doc: Purple Team Closed-Loop — honest measurement of offensive detection.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DetectionMethod` (class, line 72) `class DetectionMethod`
-  - `PurpleResult` (class, line 132) `class PurpleResult`
-  - `PurpleScore` (class, line 165) `class PurpleScore`
-  - `IPurpleLoop` (class, line 181) `class IPurpleLoop(ABC)`
-  - `IPurpleEvaluator` (class, line 210) `class IPurpleEvaluator(ABC)`
-  - `_run_bt_command` (function, line 225) `def _run_bt_command(bt_path, command, timeout)`
-  - `_parse_ai_test` (function, line 329) `def _parse_ai_test(output, command, args)`
-  - `_parse_keyword_match` (function, line 342) `def _parse_keyword_match(output, command, args)`
-  - `_parse_alert_check` (function, line 374) `def _parse_alert_check(output, command, args)`
-  - `_parse_fim_check` (function, line 388) `def _parse_fim_check(output, command, args)`
-  - `PurpleTeamLoop` (class, line 407) `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)`
-  - `get_loop` (function, line 772) `def get_loop(bt_path, detection_delay, methods, auto_feedback)`
-  - `load_config_from_payload` (function, line 790) `def load_config_from_payload(params)`
-  - `to_csv_row` (method, line 146) `def to_csv_row(self)`
-  - `to_dict` (method, line 160) `def to_dict(self)`
-  - `execute_and_measure` (method, line 185) `def execute_and_measure(self, command, args, category)`
-  - `measure_only` (method, line 193) `def measure_only(self, command, args, category)`
-  - `engagement_score` (method, line 201) `def engagement_score(self)`
-  - `export_dataset` (method, line 204) `def export_dataset(self)`
-  - `export_report` (method, line 207) `def export_report(self)`
-  - `last_results` (method, line 214) `def last_results(self, n)`
-  - `category_accuracy` (method, line 217) `def category_accuracy(self, category)`
-  - `__init__` (method, line 414) `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)`
-  - `_init_dataset` (method, line 433) `def _init_dataset(self)`
-  - `execute_and_measure` (method, line 443) `def execute_and_measure(self, command, args, category)`
-  - `measure_only` (method, line 493) `def measure_only(self, command, args, category)`
-  - `engagement_score` (method, line 529) `def engagement_score(self)`
-  - `export_dataset` (method, line 567) `def export_dataset(self)`
-  - `export_report` (method, line 571) `def export_report(self)`
-  - `last_results` (method, line 596) `def last_results(self, n)`
-  - `category_accuracy` (method, line 599) `def category_accuracy(self, category)`
-  - `_execute_red` (method, line 614) `def _execute_red(self, command, args)`
-  - `_query_blue` (method, line 635) `def _query_blue(self, command, args)`
-  - `_hash_output` (method, line 687) `def _hash_output(self, output)`
-  - `_write_audit` (method, line 693) `def _write_audit(self, result)`
-  - `_append_dataset` (method, line 698) `def _append_dataset(self, result)`
-  - `_write_feedback` (method, line 704) `def _write_feedback(self, result)`
-  - `_load_audit` (method, line 724) `def _load_audit(self)`
-  - `_compute_oracle_accuracy` (method, line 739) `def _compute_oracle_accuracy(self)`
-  - `_get_detection_methods` (method, line 759) `def _get_detection_methods(self)`
-- Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
-- Imported by: `cli/commands/purple_team.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

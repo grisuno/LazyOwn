@@ -1,0 +1,27 @@
+id: tomcat_rce
+name: Tomcat Manager RCE
+description: Bruteforce Tomcat Manager credentials, deploy a WAR reverse shell, and
+  get command execution.
+scenario: tomcat
+chain: gym_metasploitable_ms2_tomcat_manager
+objective: Deploy a malicious WAR file via Tomcat Manager and get a reverse shell.
+difficulty: medium
+phases:
+- enum
+- exploit
+required_techniques:
+- cred_bruteforce
+- war_deploy
+bonus_techniques:
+- reverse_shell
+- jsp_shell
+max_points: 1200
+speed_bonus_max: 350
+stealth_bonus_max: 250
+technique_diversity_bonus: 300
+hints:
+- 'Default creds: tomcat:s3cret or admin:admin'
+- Use msfvenom to create a WAR payload
+- Deploy via /manager/html or /manager/text
+success_check: reverse shell obtained from deployed WAR
+elo_bonus: 200

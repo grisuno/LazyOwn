@@ -59,6 +59,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AddonInfo`](modules/cli.marketplace_config.py.md#addoninfo) class in `cli.marketplace_config`
 - [`AddonRegistry`](modules/cli.marketplace_config.py.md#addonregistry) class in `cli.marketplace_config`
 - [`AddonStore`](modules/lazyc2.addon_creator.py.md#addonstore) class in `lazyc2.addon_creator`
+- [`AddonUpdateResult`](modules/modules.addon_updater.py.md#addonupdateresult) class in `modules.addon_updater`
 - [`AddonValidationError`](modules/lazyc2.addon_creator.py.md#addonvalidationerror) exception in `lazyc2.addon_creator`(ValueError)
 - [`AddonValidator`](modules/lazyc2.addon_creator.py.md#addonvalidator) class in `lazyc2.addon_creator`
 - [`AddonYamlRenderer`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer) class in `lazyc2.addon_creator`
@@ -87,6 +88,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`LazyOwnDashboard`](modules/cli.dashboard_tui.py.md#lazyowndashboard) class in `cli.dashboard_tui`
   - [`LazyMonitorApp`](modules/cli.lazy_monitor.py.md#lazymonitorapp) class in `cli.lazy_monitor`
   - [`LazyOrchestratorApp`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp) class in `cli.lazy_orchestrator`
+  - [`MarketplaceConfigApp`](modules/cli.marketplace_config.py.md#marketplaceconfigapp) class in `cli.marketplace_config`
   - [`PurpleDashboard`](modules/cli.purple_tui.py.md#purpledashboard) class in `cli.purple_tui`
   - [`ReverseShellApp`](modules/modules.kivi.py.md#reverseshellapp) class in `modules.kivi`
   - [`LazyOwnTUI`](modules/poc_tui.app.py.md#lazyowntui) class in `poc_tui.app`
@@ -194,6 +196,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`ChainOutcome`](modules/cli.chain_mode.py.md#chainoutcome) class in `cli.chain_mode`
 - [`ChainPromptEngine`](modules/cli.chain_mode.py.md#chainpromptengine) class in `cli.chain_mode`
 - [`ChainResult`](modules/modules.exploit_chain.py.md#chainresult) class in `modules.exploit_chain`
+- [`ChainRunner`](modules/modules.chain_runner.py.md#chainrunner) class in `modules.chain_runner`
+- [`ChainRunResult`](modules/modules.chain_runner.py.md#chainrunresult) class in `modules.chain_runner`
 - [`ChainStep`](modules/modules.chain_registry.py.md#chainstep) class in `modules.chain_registry`
 - [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
 - [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
@@ -278,6 +282,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ConfigKeys`](modules/skills.hermes-lazyown.constants.py.md#configkeys) class in `skills.hermes-lazyown.constants`
 - [`ConfigStatus`](modules/cli.config_status.py.md#configstatus) class in `cli.config_status`
 - [`ConfigStatusConfig`](modules/cli.config_status.py.md#configstatusconfig) class in `cli.config_status`
+- [`ConfirmModal`](modules/cli.tui_forms.py.md#confirmmodal) class in `cli.tui_forms`(ModalScreen[bool])
 - [`ConnectDialog`](modules/lazygui.windows.connect_dialog.py.md#connectdialog) class in `lazygui.windows.connect_dialog`(QDialog)
 - [`ConnectionRequest`](modules/lazygui.windows.connect_dialog.py.md#connectionrequest) class in `lazygui.windows.connect_dialog`
 - [`ConsensusProtocol`](modules/skills.hive_mind.py.md#consensusprotocol) class in `skills.hive_mind`
@@ -374,6 +379,10 @@ Project types nested under the project types they derive from. External bases ar
 - [`EDRFinding`](modules/modules.edr_detector.py.md#edrfinding) class in `modules.edr_detector`
 - [`EDRProfile`](modules/modules.edr_detector.py.md#edrprofile) class in `modules.edr_detector`
 - [`EmailEntry`](modules/modules.world_model.py.md#emailentry) class in `modules.world_model`
+- [`EmulationReport`](modules/modules.emulation_runner.py.md#emulationreport) class in `modules.emulation_runner`
+- [`EmulationResult`](modules/modules.emulation_runner.py.md#emulationresult) class in `modules.emulation_runner`
+- [`EmulationRunner`](modules/modules.emulation_runner.py.md#emulationrunner) class in `modules.emulation_runner`
+- [`EmulationStep`](modules/modules.emulation_runner.py.md#emulationstep) class in `modules.emulation_runner`
 - [`EncryptedData`](modules/modules.kerberos_core.py.md#encrypteddata) class in `modules.kerberos_core`
 - [`EngagementEvent`](modules/modules.engagement_hooks.py.md#engagementevent) class in `modules.engagement_hooks`
 - [`EngagementNarrator`](modules/modules.engagement_hooks.py.md#engagementnarrator) class in `modules.engagement_hooks`
@@ -501,7 +510,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ForensicCleanerConfig`](modules/modules.forensic_cleaner.py.md#forensiccleanerconfig) class in `modules.forensic_cleaner`
 - [`FormField`](modules/cli.cli_enhancements.py.md#formfield) class in `cli.cli_enhancements`
 - [`FormField`](modules/cli.command_form.py.md#formfield) class in `cli.command_form`
-- [`FormModal`](modules/cli.lazy_orchestrator.py.md#formmodal) class in `cli.lazy_orchestrator`(ModalScreen[dict])
+- [`FormModal`](modules/cli.tui_forms.py.md#formmodal) class in `cli.tui_forms`(ModalScreen[dict])
 - [`FormSpec`](modules/cli.cli_enhancements.py.md#formspec) class in `cli.cli_enhancements`
 - [`Frontier`](modules/modules.lazy_loop.py.md#frontier) class in `modules.lazy_loop`
 - [`Frontier`](modules/modules.planner.py.md#frontier) class in `modules.planner`
@@ -877,7 +886,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`MalleableProfile`](modules/modules.evasion_engine.py.md#malleableprofile) class in `modules.evasion_engine`
 - [`ManifestConfig`](modules/scripts.check_contract_manifest.py.md#manifestconfig) class in `scripts.check_contract_manifest`
 - [`MarketplaceConfig`](modules/cli.marketplace_config.py.md#marketplaceconfig) class in `cli.marketplace_config`
-- [`MarketplaceConfigurator`](modules/cli.marketplace_config.py.md#marketplaceconfigurator) class in `cli.marketplace_config`
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
 - [`MemoryCleaner`](modules/modules.memory_cleaner.py.md#memorycleaner) class in `modules.memory_cleaner`
@@ -973,8 +981,10 @@ Project types nested under the project types they derive from. External bases ar
 - [`original_dirent`](modules/modules.rootkit.mrhyde3.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde3.c`
 - [`OsPlatform`](modules/modules.sleep_obfuscation.py.md#osplatform) enum in `modules.sleep_obfuscation`(str, Enum)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, F)
+- [`OutcomeBus`](modules/modules.outcome_bus.py.md#outcomebus) class in `modules.outcome_bus`
 - [`OutcomeEvaluator`](modules/core.protocols.py.md#outcomeevaluator) protocol in `core.protocols`(Protocol)
 - [`OutcomeEvaluator`](modules/skills.swan_agent.py.md#outcomeevaluator) class in `skills.swan_agent`
+- [`OutcomeEvent`](modules/modules.outcome_bus.py.md#outcomeevent) class in `modules.outcome_bus`
 - [`OutcomeRecorder`](modules/modules.llm_evaluator.py.md#outcomerecorder) class in `modules.llm_evaluator`(ABC)
   - [`JSONLRecorder`](modules/modules.llm_evaluator.py.md#jsonlrecorder) class in `modules.llm_evaluator`
 - [`OutcomeType`](modules/skills.lazyown_policy.py.md#outcometype) enum in `skills.lazyown_policy`(StrEnum)
@@ -1070,6 +1080,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Playbook`](modules/modules.playbook_engine.py.md#playbook) class in `modules.playbook_engine`
 - [`PlaybookEngine`](modules/modules.playbook_engine.py.md#playbookengine) class in `modules.playbook_engine`
 - [`PlaybookEngine`](modules/modules.playbook_executor.py.md#playbookengine) class in `modules.playbook_executor`
+- [`PlaybookEntry`](modules/modules.playbook_admin.py.md#playbookentry) class in `modules.playbook_admin`
 - [`PlaybookLoader`](modules/modules.playbook_executor.py.md#playbookloader) class in `modules.playbook_executor`
 - [`PlaybookResult`](modules/modules.playbook_engine.py.md#playbookresult) class in `modules.playbook_engine`
 - [`PlaybookRunResult`](modules/modules.playbook_executor.py.md#playbookrunresult) class in `modules.playbook_executor`
@@ -1205,6 +1216,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ScriptContext`](modules/modules.resource_script.py.md#scriptcontext) class in `modules.resource_script`
 - [`ScriptError`](modules/modules.resource_script.py.md#scripterror) exception in `modules.resource_script`(RuntimeError)
 - [`SddResult`](modules/skills.claude_md_orchestrator.sdd_agent.py.md#sddresult) class in `skills.claude_md_orchestrator.sdd_agent`
+- [`SearchSelectModal`](modules/cli.tui_forms.py.md#searchselectmodal) class in `cli.tui_forms`(ModalScreen[str \| None])
 - [`SearchsploitClient`](modules/modules.integrations.searchsploit.py.md#searchsploitclient) class in `modules.integrations.searchsploit`
 - [`SecretKeyManager`](modules/lazyc2.security.services.py.md#secretkeymanager) class in `lazyc2.security.services`
 - [`SectionHeader`](modules/modules.reflective_dll.py.md#sectionheader) class in `modules.reflective_dll`
@@ -1316,6 +1328,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`StatusContext`](modules/cli.status_bar.py.md#statuscontext) class in `cli.status_bar`
 - [`StatusUpdate`](modules/cli.cli_enhancements.py.md#statusupdate) class in `cli.cli_enhancements`
 - [`StepDerivers`](modules/modules.pipeline_engine.py.md#stepderivers) class in `modules.pipeline_engine`
+- [`StepOutcome`](modules/modules.chain_runner.py.md#stepoutcome) class in `modules.chain_runner`
 - [`StepRecord`](modules/skills.lazyown_policy.py.md#steprecord) class in `skills.lazyown_policy`
 - [`StepResult`](modules/modules.pipeline_engine.py.md#stepresult) class in `modules.pipeline_engine`
 - [`StepResult`](modules/modules.playbook_engine.py.md#stepresult) class in `modules.playbook_engine`
@@ -1369,6 +1382,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TerminalIO`](modules/cli.cli_enhancements.py.md#terminalio) protocol in `cli.cli_enhancements`(Protocol)
 - [`TerminalView`](modules/lazygui.widgets.terminal_view.py.md#terminalview) class in `lazygui.widgets.terminal_view`(QPlainTextEdit)
 - [`TestSuite`](modules/skills.claude_md_orchestrator.models.py.md#testsuite) class in `skills.claude_md_orchestrator.models`
+- [`TextEditorModal`](modules/cli.tui_forms.py.md#texteditormodal) class in `cli.tui_forms`(ModalScreen[str \| None])
 - [`TextualNotInstalled`](modules/cli.surface_tui.py.md#textualnotinstalled) exception in `cli.surface_tui`(RuntimeError)
 - [`TGSRequest`](modules/modules.kerberos_core.py.md#tgsrequest) class in `modules.kerberos_core`
 - [`Theme`](modules/cli.themes.py.md#theme) class in `cli.themes`

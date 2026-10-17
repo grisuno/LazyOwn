@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_smtp_open_relay
+version: 2
+description: 'Metasploitable 2: Postfix open relay (T1071.003).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- smtp
+platforms:
+- linux
+defaults:
+  exploit: ms2_smtp_open_relay
+  vuln: ms2_smtp_open_relay
+  port: '25'

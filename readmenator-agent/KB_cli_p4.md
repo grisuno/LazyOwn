@@ -1,6 +1,47 @@
 # Subsystem: cli (page 4 of 5)
 Previous: [KB_cli_p3.md](KB_cli_p3.md)
 
+## cli/reactive_hints.py
+- Doc: Non-blocking inline hint renderer for the LazyOwn cmd2 shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `render_inline_hints` (function, line 220) `def render_inline_hints(advisor, last_command, limit, enabled)`
+  - `_first_token` (function, line 262) `def _first_token(raw)`
+  - `_extract_labels` (function, line 267) `def _extract_labels(suggestions, limit)`
+  - `_truncate` (function, line 278) `def _truncate(value, max_len)`
+  - `_render` (function, line 284) `def _render(labels)`
+  - `EvidenceHint` (class, line 299) `class EvidenceHint`
+  - `confidence_from_score` (function, line 321) `def confidence_from_score(score)`
+  - `_clean_reason` (function, line 343) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (function, line 362) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (function, line 400) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (function, line 416) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (function, line 443) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (function, line 476) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (function, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (function, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
+- Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
+- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
+
+## cli/reasoning_stream.py
+- Doc: Operator-facing view over the autonomous daemon decision log.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReasoningEntry` (class, line 66) `class ReasoningEntry`
+  - `read_raw_events` (function, line 91) `def read_raw_events(path, limit)`
+  - `_format_time` (function, line 127) `def _format_time(ts)`
+  - `_format_size` (function, line 134) `def _format_size(num_bytes)`
+  - `_truncate` (function, line 141) `def _truncate(text, limit)`
+  - `_summarize` (function, line 148) `def _summarize(kind, payload)`
+  - `_extract_reward` (function, line 175) `def _extract_reward(payload)`
+  - `event_to_entry` (function, line 183) `def event_to_entry(event)`
+  - `latest_reasoning` (function, line 216) `def latest_reasoning(path, limit)`
+  - `latest_hint` (function, line 229) `def latest_hint(events_path)`
+- Depends on: `core/text_utils.py`
+- Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
+
 ## cli/recommendation.py
 - Doc: Unified next-best-action engine: the single source of truth for "what next".
 - Layer: utility
@@ -419,73 +460,6 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_refresh_detail` (method, line 278) `def _refresh_detail(self, row_index)`
 - Depends on: `cli/commands/containers.py`, `cli/themes.py`
 - Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
-
-## cli/tips_engine.py
-- Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_noop` (function, line 132) `def _noop()`
-  - `TipsConfig` (class, line 137) `class TipsConfig`
-  - `TipsEngine` (class, line 186) `class TipsEngine`
-  - `_render_streak` (function, line 1103) `def _render_streak(ctx, state, config)`
-  - `_render_exploration` (function, line 1124) `def _render_exploration(ctx, state, config)`
-  - `_render_phase_badge` (function, line 1142) `def _render_phase_badge(ctx, state, config)`
-  - `_render_hidden_feature` (function, line 1160) `def _render_hidden_feature(ctx, state, config)`
-  - `_render_arsenal_tip` (function, line 1180) `def _render_arsenal_tip(ctx, state, config)`
-  - `build_default_tips_config` (function, line 1240) `def build_default_tips_config()`
-  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
-  - `enabled` (method, line 221) `def enabled(self)`
-  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
-  - `render` (method, line 229) `def render(self, cmd, phase)`
-  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
-  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
-  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
-  - `_get_hints_level` (method, line 344) `def _get_hints_level(self)`
-  - `_resolve_phase` (method, line 355) `def _resolve_phase(self, cmd, fallback)`
-  - `_read_world_model_phase` (method, line 378) `def _read_world_model_phase(self)`
-  - `_read_os_id_from_session` (method, line 388) `def _read_os_id_from_session(self)`
-  - `render_session_start` (method, line 408) `def render_session_start(self, phase, os_id)`
-  - `get_state_snapshot` (method, line 440) `def get_state_snapshot(self)`
-  - `reset_session` (method, line 455) `def reset_session(self)`
-  - `heal_commands_seen` (method, line 460) `def heal_commands_seen(self, known)`
-  - `_render_kill_chain_hints` (method, line 475) `def _render_kill_chain_hints(self, cmd, phase)`
-  - `_load_payload` (method, line 492) `def _load_payload(self)`
-  - `_get_rec_engine` (method, line 505) `def _get_rec_engine(self)`
-  - `_compute_evidence_hints` (method, line 529) `def _compute_evidence_hints(self, cmd, phase)`
-  - `_collect_killchain_progress` (method, line 575) `def _collect_killchain_progress(self, current_phase)`
-  - `_maybe_show_full_killchain` (method, line 605) `def _maybe_show_full_killchain(self, cmd)`
-  - `_compute_command_hints` (method, line 616) `def _compute_command_hints(self, cmd, phase)`
-  - `_render_contextual_tip` (method, line 633) `def _render_contextual_tip(self, cmd, phase)`
-  - `_safe_tip_trigger` (method, line 672) `def _safe_tip_trigger(tip, ctx)`
-  - `_run_curiosity_reveal` (method, line 683) `def _run_curiosity_reveal(self, cmd, phase)`
-  - `_commands_in_exploration_phase` (method, line 707) `def _commands_in_exploration_phase(self, phase)`
-  - `_summary_for_exploration_cmd` (method, line 713) `def _summary_for_exploration_cmd(self, cmd)`
-  - `_refresh_autosuggest` (method, line 726) `def _refresh_autosuggest(self, cmd, phase)`
-  - `_render_autosuggest_hint` (method, line 750) `def _render_autosuggest_hint(self, engine)`
-  - `_update_engagement_state` (method, line 767) `def _update_engagement_state(self, cmd, phase)`
-  - `_award_elo` (method, line 808) `def _award_elo(self, cmd, first_time, new_phase, phase)`
-  - `_check_karma_up` (method, line 819) `def _check_karma_up(self)`
-  - `_print_separator` (method, line 836) `def _print_separator(self, width)`
-  - `_check_badges` (method, line 840) `def _check_badges(self, cmd, first_time)`
-  - `_print_badge` (method, line 867) `def _print_badge(self, name, description)`
-  - `_fire_vri_reward` (method, line 877) `def _fire_vri_reward(self, ctx)`
-  - `_pick_weighted` (method, line 907) `def _pick_weighted(rewards, weights)`
-  - `_ensure_state_and_index` (method, line 926) `def _ensure_state_and_index(self)`
-  - `_load_state` (method, line 932) `def _load_state(self)`
-  - `_save_state` (method, line 952) `def _save_state(self)`
-  - `_load_command_index` (method, line 977) `def _load_command_index(self)`
-  - `_is_recordable_command` (method, line 987) `def _is_recordable_command(self, cmd)`
-  - `_sanitize_seen` (method, line 991) `def _sanitize_seen(self, names, known)`
-  - `_read_run_commands` (method, line 1005) `def _read_run_commands(self)`
-  - `_read_recent_commands_for_autosuggest` (method, line 1010) `def _read_recent_commands_for_autosuggest(self, limit)`
-  - `_phase_for_cmd` (method, line 1028) `def _phase_for_cmd(self, cmd)`
-  - `_truncate` (method, line 1039) `def _truncate(value, max_len)`
-  - `_get_karma_name` (method, line 1045) `def _get_karma_name(elo)`
-  - `_next_threshold` (method, line 1051) `def _next_threshold(self, current)`
-  - `_sync_user_elo` (method, line 1055) `def _sync_user_elo(self, delta)`
-- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
-- Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
 
 
 Next: [KB_cli_p5.md](KB_cli_p5.md)

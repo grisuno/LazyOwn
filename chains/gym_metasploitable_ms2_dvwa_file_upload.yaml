@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_dvwa_file_upload
+version: 2
+description: 'Metasploitable 2: DVWA unrestricted file upload (T1105).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_dvwa_file_upload
+  vuln: ms2_dvwa_file_upload
+  port: '80'

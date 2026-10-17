@@ -1,5 +1,72 @@
-# Subsystem: modules (page 3 of 14)
+# Subsystem: modules (page 3 of 15)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/chain_registry.py
+- Doc: Chain registry - ordered orchestration chains from ``chains/*.yaml``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ChainStep` (class, line 47) `class ChainStep`
+  - `Chain` (class, line 73) `class Chain`
+  - `_render` (function, line 136) `def _render(template, variables)`
+  - `_when_tree` (function, line 165) `def _when_tree(expression)`
+  - `evaluate_when` (function, line 192) `def evaluate_when(expression, variables)`
+  - `validate_chain` (function, line 257) `def validate_chain(data, filename, chains_dir)`
+  - `load_all` (function, line 334) `def load_all(chains_dir)`
+  - `_materialize` (function, line 368) `def _materialize(name, raw, stack)`
+  - `_step_from_raw` (function, line 412) `def _step_from_raw(item)`
+  - `get` (function, line 434) `def get(name, chains_dir)`
+  - `scan_all` (function, line 439) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 498) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 521) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `identifier` (method, line 67) `def identifier(self)`
+  - `resolve` (method, line 88) `def resolve(self, tokens)`
+  - `_eval` (function, line 214) `def _eval(node)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/lazy_orchestrator.py`, `modules/chain_runner.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_metasploitable_gym.py`
+
+## modules/chain_runner.py
+- Doc: Single execution engine for YAML orchestration chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StepOutcome` (class, line 34) `class StepOutcome`
+  - `ChainRunResult` (class, line 72) `class ChainRunResult`
+  - `render_text` (function, line 103) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 111) `class ChainRunner`
+  - `ok` (method, line 50) `def ok(self)`
+  - `to_dict` (method, line 54) `def to_dict(self)`
+  - `to_dict` (method, line 86) `def to_dict(self)`
+  - `__init__` (method, line 114) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff)`
+  - `run` (method, line 135) `def run(self)`
+  - `_render_command` (method, line 169) `def _render_command(self, template, variables, captured_keys)`
+  - `_run_step` (method, line 184) `def _run_step(self, step, variables, captured_keys)`
+  - `_execute` (method, line 251) `def _execute(self, command, timeout)`
+  - `_is_verb` (method, line 265) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 276) `def _run_shell_verb(self, command)`
+  - `_run_raw` (method, line 294) `def _run_raw(self, command, timeout)`
+  - `_call` (method, line 310) `def _call(callback, timeout)`
+- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_runner.py`
+
+## modules/cicd_enumerator.py
+- Doc: CI/CD Pipeline Enumeration Module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDFinding` (class, line 33) `class CICDFinding`
+  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
+  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
+  - `scan` (method, line 60) `def scan(self)`
+  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
+- Imported by: `cli/commands/cicd.py`
 
 ## modules/cli_auth.py
 - Doc: CLI authentication module — login against users.json with remember-me.
@@ -421,79 +488,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `status` (method, line 775) `def status(self, workspace_id)`
   - `close` (method, line 804) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
-
-## modules/delegation_attacks.py
-- Doc: Active Directory delegation enumeration and abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DelegationTarget` (class, line 32) `class DelegationTarget`
-  - `DelegationAttackPath` (class, line 63) `class DelegationAttackPath`
-  - `DelegationEnumerator` (class, line 85) `class DelegationEnumerator`
-  - `__init__` (method, line 98) `def __init__(self, domain, raw_ldap_output)`
-  - `enumerate_from_uac_flags` (method, line 104) `def enumerate_from_uac_flags(self, accounts)`
-  - `parse_bloodhound_output` (method, line 151) `def parse_bloodhound_output(self, bloodhound_json)`
-  - `find_unconstrained_targets` (method, line 181) `def find_unconstrained_targets(self)`
-  - `find_constrained_targets` (method, line 189) `def find_constrained_targets(self)`
-  - `find_rbcd_targets` (method, line 197) `def find_rbcd_targets(self)`
-  - `find_dc_targets` (method, line 205) `def find_dc_targets(self)`
-  - `compute_attack_paths` (method, line 215) `def compute_attack_paths(self)`
-  - `summary` (method, line 296) `def summary(self)`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/detailed_search.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `obtener_informacion` (function, line 40) `def obtener_informacion(url)`
-
-## modules/detection_feed.py
-- Doc: Dynamic detection feed for the Detection Oracle.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `FeedResult` (class, line 64) `class FeedResult`
-  - `DetectionFeed` (class, line 73) `class DetectionFeed`
-  - `get_feed` (function, line 326) `def get_feed()`
-  - `__init__` (method, line 83) `def __init__(self, cache_dir, sources)`
-  - `update_rules` (method, line 92) `def update_rules(self, source)`
-  - `_parse_sigma_feed` (method, line 125) `def _parse_sigma_feed(self, text)`
-  - `_extract_log_source` (method, line 172) `def _extract_log_source(self, doc)`
-  - `_extract_mitre` (method, line 180) `def _extract_mitre(self, doc)`
-  - `_extract_keywords` (method, line 189) `def _extract_keywords(self, doc)`
-  - `_extract_categories` (method, line 206) `def _extract_categories(self, doc)`
-  - `_cache_rules` (method, line 219) `def _cache_rules(self, rules, source)`
-  - `load_cached_rules` (method, line 246) `def load_cached_rules(self, source)`
-  - `adjust_from_feedback` (method, line 270) `def adjust_from_feedback(self, feedback_file)`
-- Depends on: `core/logging.py`, `modules/detection_oracle.py`
-- Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
-
-## modules/detection_oracle.py
-- Doc: modules/detection_oracle.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SigmaRule` (class, line 50) `class SigmaRule`
-  - `DetectionAssessment` (class, line 63) `class DetectionAssessment`
-  - `IDetectionOracle` (class, line 90) `class IDetectionOracle(ABC)`
-  - `DetectionOracle` (class, line 317) `class DetectionOracle(IDetectionOracle)`
-  - `get_oracle` (function, line 478) `def get_oracle()`
-  - `is_high_risk` (method, line 75) `def is_high_risk(self)`
-  - `is_critical_risk` (method, line 80) `def is_critical_risk(self)`
-  - `assess` (method, line 94) `def assess(self, command, args, action_category)`
-  - `probability` (method, line 103) `def probability(self, command, args, action_category)`
-  - `__init__` (method, line 332) `def __init__(self, rules, feed)`
-  - `refresh` (method, line 336) `def refresh(self)`
-  - `assess` (method, line 371) `def assess(self, command, args, action_category)`
-  - `probability` (method, line 392) `def probability(self, command, args, action_category)`
-  - `_match_rules` (method, line 397) `def _match_rules(self, text, action_category)`
-  - `_effective_probability` (method, line 417) `def _effective_probability(rule, action_category)`
-  - `_aggregate_probability` (method, line 427) `def _aggregate_probability(self, matched, action_category)`
-  - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
-- Depends on: `core/logging.py`, `modules/detection_feed.py`
-- Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

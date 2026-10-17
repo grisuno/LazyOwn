@@ -2,7 +2,7 @@
 
 > Source: [modules/agent_runner.py:1](../../modules/agent_runner.py#L1) | language `py` | coverage 30.8% | [API index](../index.md)
 
-LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación de Argumentos y Anti-Loop.
+LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument validation and anti-loop.
 
 ## Contents
 
@@ -91,7 +91,7 @@ flowchart LR
 class AgentTool
 ```
 
-Herramienta ejecutable con validación y truncado
+Executable tool with validation and truncation.
 
 **Members**
 
@@ -99,7 +99,7 @@ Herramienta ejecutable con validación y truncado
 |---|---|---|
 | [`__init__`](#agenttool-__init__) | constructor |  |
 | [`to_api_format`](#agenttool-to_api_format) | method |  |
-| [`execute`](#agenttool-execute) | method | Ejecuta con validación de argumentos y formato claro |
+| [`execute`](#agenttool-execute) | method | Execute with argument validation and clear formatting. |
 
 <a id="agenttool-__init__"></a>
 
@@ -145,7 +145,7 @@ def to_api_format(self) -> dict[str, Any]
 def execute(self, **kwargs) -> str
 ```
 
-Ejecuta con validación de argumentos y formato claro
+Execute with argument validation and clear formatting.
 
 **Parameters**
 
@@ -190,7 +190,7 @@ class CommandMetadata
 class ASTToolExtractor
 ```
 
-Extractor inteligente usando AST
+Intelligent extractor using AST.
 
 **Members**
 
@@ -235,7 +235,7 @@ class AgentRunner
 
 Subclasses: [`ObservableAgentRunner`](modules.lazy_agent.py.md#observableagentrunner)
 
-Motor del agente con Límite de Uso por Herramienta (Anti-Spam)
+Agent engine with per-tool usage limit (anti-spam).
 
 **Members**
 
@@ -367,14 +367,14 @@ def run(self, user_input: str) -> str
 class LazyOwnShellWrapper
 ```
 
-Wrapper que ejecuta comandos en hilos seguros
+Wrapper that executes commands in safe threads.
 
 **Members**
 
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#lazyownshellwrapper-__init__) | constructor |  |
-| [`execute_command`](#lazyownshellwrapper-execute_command) | method | Ejecuta comando con timeout usando threading |
+| [`execute_command`](#lazyownshellwrapper-execute_command) | method | Execute a command with a timeout using threading. |
 | [`get_commands_summary`](#lazyownshellwrapper-get_commands_summary) | method |  |
 
 <a id="lazyownshellwrapper-__init__"></a>
@@ -405,7 +405,7 @@ def __init__(self, script_path: str)
 def execute_command(self, command: str) -> str
 ```
 
-Ejecuta comando con timeout usando threading
+Execute a command with a timeout using threading.
 
 **Parameters**
 

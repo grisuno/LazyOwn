@@ -4,7 +4,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (133 connections)
+### Q: What does logging.py depend on, and what depends on it? (139 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 157 files in 'cli/commands' related to each other?
+### Q: How are the 159 files in 'cli/commands' related to each other?
 
 - Status: unanswered
 

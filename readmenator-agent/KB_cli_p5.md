@@ -1,6 +1,73 @@
 # Subsystem: cli (page 5 of 5)
 Previous: [KB_cli_p4.md](KB_cli_p4.md)
 
+## cli/tips_engine.py
+- Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_noop` (function, line 132) `def _noop()`
+  - `TipsConfig` (class, line 137) `class TipsConfig`
+  - `TipsEngine` (class, line 186) `class TipsEngine`
+  - `_render_streak` (function, line 1103) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (function, line 1124) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (function, line 1142) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (function, line 1160) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (function, line 1180) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (function, line 1240) `def build_default_tips_config()`
+  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 221) `def enabled(self)`
+  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
+  - `render` (method, line 229) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 344) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 355) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 378) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 388) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 408) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 440) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 455) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 460) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 475) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 492) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 505) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 529) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 575) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 605) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 616) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 633) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 672) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 683) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 707) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 713) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 726) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 750) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 767) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 808) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 819) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 836) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 840) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 867) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 877) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 907) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 926) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 932) `def _load_state(self)`
+  - `_save_state` (method, line 952) `def _save_state(self)`
+  - `_load_command_index` (method, line 977) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 987) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 991) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1005) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1010) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1028) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1039) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1045) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1051) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1055) `def _sync_user_elo(self, delta)`
+- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+- Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
+
 ## cli/toast_bus.py
 - Doc: Non-blocking toast notification subsystem for the LazyOwn shell.
 - Layer: infrastructure
@@ -57,6 +124,45 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
   - `_erase_lines` (method, line 630) `def _erase_lines(stream, rows)`
 - Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
+
+## cli/tui_forms.py
+- Doc: Reusable Textual modals shared by the LazyOwn operator consoles.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `filter_candidates` (function, line 27) `def filter_candidates(query, options, limit)`
+  - `FormModal` (class, line 63) `class FormModal`
+  - `SearchSelectModal` (class, line 112) `class SearchSelectModal`
+  - `ConfirmModal` (class, line 247) `class ConfirmModal`
+  - `TextEditorModal` (class, line 284) `class TextEditorModal`
+  - `__init__` (method, line 68) `def __init__(self, title, fields, defaults, save_label)`
+  - `compose` (method, line 82) `def compose(self)`
+  - `_values` (method, line 95) `def _values(self)`
+  - `on_button_pressed` (method, line 102) `def on_button_pressed(self, event)`
+  - `on_input_submitted` (method, line 107) `def on_input_submitted(self, event)`
+  - `__init__` (method, line 122) `def __init__(self, title, options, placeholder, allow_custom)`
+  - `compose` (method, line 136) `def compose(self)`
+  - `on_mount` (method, line 147) `def on_mount(self)`
+  - `_render_options` (method, line 155) `def _render_options(self, query)`
+  - `_hint` (method, line 172) `def _hint(self, text)`
+  - `_selected_value` (method, line 179) `def _selected_value(self)`
+  - `_accept` (method, line 191) `def _accept(self)`
+  - `on_input_changed` (method, line 201) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 206) `def on_input_submitted(self, event)`
+  - `on_option_list_option_selected` (method, line 211) `def on_option_list_option_selected(self, event)`
+  - `on_key` (method, line 220) `def on_key(self, event)`
+  - `on_button_pressed` (method, line 239) `def on_button_pressed(self, event)`
+  - `__init__` (method, line 256) `def __init__(self, title, body)`
+  - `compose` (method, line 262) `def compose(self)`
+  - `action_answer` (method, line 272) `def action_answer(self, answer)`
+  - `on_button_pressed` (method, line 276) `def on_button_pressed(self, event)`
+  - `__init__` (method, line 298) `def __init__(self, title, text, validator, language, save_label)`
+  - `compose` (method, line 314) `def compose(self)`
+  - `_current_text` (method, line 323) `def _current_text(self)`
+  - `_save` (method, line 327) `def _save(self)`
+  - `on_button_pressed` (method, line 338) `def on_button_pressed(self, event)`
+- Depends on: `cli/commands/containers.py`
+- Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `tests/test_lazy_orchestrator.py`
 
 ## cli/tui_theme.py
 - Doc: Operator-facing ``tui_theme`` command logic.

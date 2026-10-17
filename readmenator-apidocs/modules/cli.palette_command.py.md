@@ -239,7 +239,7 @@ by surface-specific consumers; pass a fresh instance to override.
 
 | Member | Kind | Summary |
 |---|---|---|
-| [`truncate_summary`](#paletterenderconfig-truncate_summary) | method | Trim ``summary`` to [`summary_max_chars`](#paletterenderconfig-summary_max_chars) with marker suffix. |
+| [`truncate_summary`](#paletterenderconfig-truncate_summary) | method | Trim `[`summary`](modules.metasploitable_gym.py.md#summary)` to [`summary_max_chars`](#paletterenderconfig-summary_max_chars) with marker suffix. |
 
 <a id="paletterenderconfig-truncate_summary"></a>
 
@@ -251,7 +251,7 @@ by surface-specific consumers; pass a fresh instance to override.
 def truncate_summary(self, summary: str | None) -> str
 ```
 
-Trim ``summary`` to [`summary_max_chars`](#paletterenderconfig-summary_max_chars) with marker suffix.
+Trim `[`summary`](modules.metasploitable_gym.py.md#summary)` to [`summary_max_chars`](#paletterenderconfig-summary_max_chars) with marker suffix.
 
 **Parameters**
 
@@ -259,7 +259,7 @@ Trim ``summary`` to [`summary_max_chars`](#paletterenderconfig-summary_max_chars
 |---|---|---|---|
 | `summary` | `str \| None` |  | The raw summary string from the command index. |
 
-**Returns:** `str` - A safe single-line representation; empty string when ``summary``
+**Returns:** `str` - A safe single-line representation; empty string when `[`summary`](modules.metasploitable_gym.py.md#summary)`
 is falsy.
 
 *Calls:* [`truncate_text`](core.text_utils.py.md#truncate_text)
@@ -394,7 +394,7 @@ document — so consumers can safely sort or extend the results.
 | [`phases`](#paletteindexquery-phases) | property | Return the sorted list of phase identifiers in the index. |
 | [`phase_counts`](#paletteindexquery-phase_counts) | property | Return ``{phase: command_count}`` for every phase in the index. |
 | [`in_phase`](#paletteindexquery-in_phase) | method | Return commands whose `[`phase`](#paletteargs-phase)` matches `[`phase`](#paletteargs-phase)` (case-insensitive). |
-| [`search`](#paletteindexquery-search) | method | Substring search over ``name`` and ``summary`` (case-insensitive). |
+| [`search`](#paletteindexquery-search) | method | Substring search over ``name`` and `[`summary`](modules.metasploitable_gym.py.md#summary)` (case-insensitive). |
 | [`detail`](#paletteindexquery-detail) | method | Return the canonical entry for `[`target`](#palettejsonresult-target)` or ``None``. |
 | [`next_phase`](#paletteindexquery-next_phase) | method | Return the phase that comes after `[`current`](cli.autosuggest.py.md#autosuggestengine-current)` in ``ordering``. |
 
@@ -496,7 +496,7 @@ Return commands whose `[`phase`](#paletteargs-phase)` matches `[`phase`](#palett
 def search(self, query: str, *, limit: int) -> list[dict[str, Any]]
 ```
 
-Substring search over ``name`` and ``summary`` (case-insensitive).
+Substring search over ``name`` and `[`summary`](modules.metasploitable_gym.py.md#summary)` (case-insensitive).
 
 **Parameters**
 

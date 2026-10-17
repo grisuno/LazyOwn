@@ -92,7 +92,7 @@ Fuse all session artefacts into one C2-centred intel graph.
 
 *Calls:* [`node_id`](#node_id), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge)
 
-*Called by:* [`build_attack_graph`](modules.attack_surface3d.py.md#build_attack_graph)
+*Called by:* [`build_attack_graph`](modules.attack_surface3d.py.md#build_attack_graph), [`apply`](modules.sinks.intel_graph.py.md#apply)
 
 ---
 
@@ -268,7 +268,7 @@ Score host exposure and suggest intents for the autonomous planner.
 
 **Returns:** `dict`
 
-*Called by:* [`refresh_summary`](modules.attack_surface3d.py.md#refresh_summary)
+*Called by:* [`refresh_summary`](modules.attack_surface3d.py.md#refresh_summary), [`apply`](modules.sinks.intel_graph.py.md#apply)
 
 ---
 

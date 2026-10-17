@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_mysql_file_read
+version: 2
+description: 'Metasploitable 2: MySQL root file read (T1005).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- mysql
+platforms:
+- linux
+defaults:
+  exploit: ms2_mysql_file_read
+  vuln: ms2_mysql_file_read
+  port: '3306'

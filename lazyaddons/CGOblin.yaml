@@ -5,6 +5,7 @@ description: 'cgoblin shellcode in windows and windows from an url
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

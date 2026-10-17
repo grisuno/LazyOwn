@@ -6,6 +6,7 @@ description: 'Zapscape is a use-after-free vulnerability in the shadow MMU emula
 author: V4bel
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

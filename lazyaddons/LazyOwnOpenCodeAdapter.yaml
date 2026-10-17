@@ -4,6 +4,7 @@ description: 'From the creators of LazyOwn Redteam Framework comes a free and op
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

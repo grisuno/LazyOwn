@@ -57,18 +57,56 @@ The loop can propose and execute the `auto_*` family (`auto_pwn`,
 `payload.json` -> `orchestrator.auto_verbs`.
 
 A custom verb is any shell command; declare its keywords so the planner
-can propose `auto <verb> <target>` when the goal or findings match:
+can propose `auto <verb> <target>` when the goal or findings match. The
+Verbs tab opens a searchable picker over every auto verb and every shell
+command, so the verb name is selected instead of typed:
 
 ```
-lazy_orchestrator        # Verbs tab -> a -> verb=myscan, keywords=myscan, needs_target=true
+lazy_orchestrator        # Verbs tab -> a -> search command/verb -> configure keywords
 ```
+
+## Playbooks tab
+
+`lazy_orchestrator` owns the YAML playbooks under `playbooks/`:
+
+- the table lists every `*.yaml`/`*.yml` file with its shape (`apt` or
+  `plan`), step count, phases and validation state;
+- the detail pane previews the YAML;
+- `a` creates a new APT playbook from a template, `e` edits the raw YAML
+  in-place with validation before saving, `d` deletes after confirmation;
+- `r` reloads the table after editing files outside the TUI.
+
+All writes are validated and atomic; the table never hides an invalid
+file, it flags it instead.
 
 Execution binds the payload `rhost` to the intent target for the
 duration of the verb (under a lock), restores it afterwards, and runs
 loop-side children with stdin detached so sudo prompts can never hijack
 the terminal.
 
+## Loop guardrails
+
+The worker normalizes every model-proposed command before execution:
+
+- absolute paths to shell verbs are reduced to the verb
+  (`/usr/bin/lazynmap` -> `lazynmap`);
+- invalid nmap port slots are repaired (`nmap -sV -p <target>` ->
+  `nmap -sV <target>`) and a missing target is restored;
+- duplicate steps for the same intent are dropped.
+
+Kill-chain phase changes advance only the host that produced the
+outcome (`advance_phase(..., host=...)`); unrelated or stale world-model
+hosts are never marked `exploited`/`owned` by a global phase change.
+
+Open ports from a scan are assets, not findings. The retester never
+replays long-running scanners (`nmap`, `masscan`, `gobuster`, `ffuf`,
+`nikto`, `nuclei`, ...): such findings become terminal `inconclusive`
+instead of triggering another full scan every round. The stall watchdog
+derives its warning/dump thresholds from the configured verb timeout, so
+a long but bounded scan is not reported as a dead loop.
+
 ## Observability
+
 
 Every step is narrated live on the terminal and persisted:
 
@@ -84,13 +122,49 @@ Every step is narrated live on the terminal and persisted:
 
 ## Configuration
 
-`lazy_orchestrator` Config tab edits the payload knobs the runner reads
-(heartbeat seconds, verb timeout, agentic flags, NOA archiving, proxy
-settings, agent backend). The same values can be set directly in
-`payload.json`. Additional per-run flags: `--rounds`, `--workers`,
-`--timeout`, `--step-delay`, `--no-bootstrap`, `--view`, `--plain`.
+`config/orchestrator.yaml` is the default source for profiles, pipeline
+stages, numeric limits, budgets, the default chain/playbook and outcome
+sink toggles. `payload.json` keeps runtime overrides under
+`orchestrator`; an override always wins. The shipped profiles are
+`default`, `stealth`, `lab` and `gym`.
+
+```bash
+lazy_loop --profile gym --target 172.17.0.2 "root the gym"
+auto_loop --profile stealth "map the perimeter"
+```
+
+`lazy_orchestrator` exposes the Profiles tab: Enter or Space activates
+one profile, and the Config tab keeps editing the payload knobs the
+runner reads (heartbeat seconds, verb timeout, agentic flags, NOA
+archiving, proxy settings, agent backend). Additional per-run flags:
+`--profile`, `--rounds`, `--workers`, `--timeout`, `--step-delay`,
+`--no-bootstrap`, `--view`, `--plain`.
+
+Explicit `--rounds` and `--workers` win over the profile. Without them,
+the active profile supplies both values.
+
+## Gym administration
+
+The Gyms tab manages the YAML gym catalogue under `gyms/` and the active
+runs persisted in the world model. Space starts the selected gym when it
+is idle and stops its active runs when it is running; `a`, `e` and `d`
+create, edit and delete definitions. Runs keep stable ids (`gym0001`), so
+`gym status <run_id>` and `gym stop <run_id>` work from any session.
+A shell opened with `atomic_shell` is engagement context, not a gym run;
+scoring starts only with `gym start`.
+
+```bash
+gym status                 # every active gym with run ids
+gym stop                   # stop all active gyms
+gym stop gym0001           # stop one run
+gym stop first_implant     # stop every run of one gym
+```
+
+See [`metasploitable-gym.md`](metasploitable-gym.md) and
+[`../specs/gym_registry.md`](../specs/gym_registry.md).
 
 ## Artifacts and audit trail
+
 
 Everything lands under `sessions/lazy/`:
 

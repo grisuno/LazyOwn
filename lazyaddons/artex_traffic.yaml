@@ -5,6 +5,7 @@ description: Inspect ARTEX v0.3.12 traffic-recording proxy (default 127.0.0.1:87
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 params:
   - name: url
     type: string

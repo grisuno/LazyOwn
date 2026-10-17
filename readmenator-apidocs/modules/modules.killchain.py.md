@@ -251,7 +251,7 @@ keys in ``world_model.json`` provide operator overrides.
 | [`engagement_phase_to_cli`](#killchain-engagement_phase_to_cli) | staticmethod | Map a ``WorldModel.EngagementPhase`` value to the CLI phase key. |
 | [`cli_phase_to_host_state`](#killchain-cli_phase_to_host_state) | staticmethod | Map a CLI phase to a ``WorldModel.HostState`` value. |
 | [`current_phase`](#killchain-current_phase) | staticmethod | Derive the current kill-chain phase. |
-| [`advance_phase`](#killchain-advance_phase) | staticmethod | Advance the kill-chain phase for all connected surfaces. |
+| [`advance_phase`](#killchain-advance_phase) | staticmethod | Advance the kill-chain phase for connected surfaces. |
 | [`get_progress`](#killchain-get_progress) | staticmethod | Return the current kill-chain progress as a list of status objects. |
 | [`compact_progress`](#killchain-compact_progress) | staticmethod | Return a compact single-line progress indicator ``[R>E>X>P>L]``. |
 | [`phases_for_display`](#killchain-phases_for_display) | staticmethod | Return an ordered ``(key, label, hex_color)`` triple for every phase. |
@@ -430,14 +430,18 @@ Resolution order:
 Decorators: `@staticmethod`
 
 ```python
-def advance_phase(new_phase: str, world_model_path: Path | None = None) -> bool
+def advance_phase(new_phase: str, world_model_path: Path | None = None, host: str | None = None) -> bool
 ```
 
-Advance the kill-chain phase for all connected surfaces.
+Advance the kill-chain phase for connected surfaces.
 
 Persists `[`current_phase`](#killchain-current_phase)`, ``phase``, and ``completed_phases``
-in the raw ``world_model.json`` AND advances every host in the
-`[`WorldModel`](modules.world_model.py.md#worldmodel)` to the corresponding `[`HostState`](modules.world_model.py.md#hoststate)`.
+in the raw ``world_model.json`` AND advances the host that proved
+the phase. When ``host`` is empty (manual operator phase changes
+and legacy callers) every tracked host is advanced for backward
+compatibility; outcome-driven callers must pass the event host so
+unrelated or stale hosts are never marked ``exploited``/``owned``.
+An empty string advances no host (used by report-only outcomes).
 
 **Parameters**
 
@@ -445,18 +449,19 @@ in the raw ``world_model.json`` AND advances every host in the
 |---|---|---|---|
 | `new_phase` | `str` |  | A valid canonical phase key. |
 | `world_model_path` | `Path \| None` | `None` | Optional override path for the world model file. |
+| `host` | `str \| None` | `None` | Host that produced the outcome; ``None`` advances all hosts and ``""`` advances none. |
 
 **Returns:** `bool` - True when the write succeeded, False otherwise.
 
 *Calls:* [`KillChain.cli_phase_to_host_state`](#killchain-cli_phase_to_host_state), [`HostState`](modules.world_model.py.md#hoststate), [`get_world_model`](modules.world_model.py.md#get_world_model), [`read_state_dict`](modules.world_model.py.md#read_state_dict), [`write_state_dict`](modules.world_model.py.md#write_state_dict)
 
-*Called by:* [`record_outcome`](modules.atomic_exploit_bridge.py.md#record_outcome)
+*Called by:* [`apply`](modules.sinks.killchain.py.md#apply)
 
 <a id="killchain-get_progress"></a>
 
 #### `KillChain.get_progress`
 
-`staticmethod` | [modules/killchain.py:315](../../modules/killchain.py#L315)
+`staticmethod` | [modules/killchain.py:328](../../modules/killchain.py#L328)
 
 Decorators: `@staticmethod`
 
@@ -485,7 +490,7 @@ Suitable for rendering in any UI (CLI, web, GUI, TUI).
 
 #### `KillChain.compact_progress`
 
-`staticmethod` | [modules/killchain.py:364](../../modules/killchain.py#L364)
+`staticmethod` | [modules/killchain.py:377](../../modules/killchain.py#L377)
 
 Decorators: `@staticmethod`
 
@@ -510,7 +515,7 @@ Return a compact single-line progress indicator ``[R>E>X>P>L]``.
 
 #### `KillChain.phases_for_display`
 
-`staticmethod` | [modules/killchain.py:384](../../modules/killchain.py#L384)
+`staticmethod` | [modules/killchain.py:397](../../modules/killchain.py#L397)
 
 Decorators: `@staticmethod`
 
@@ -528,7 +533,7 @@ Convenience for UI builders that need to render every phase.
 
 #### `KillChain.phase_index`
 
-`staticmethod` | [modules/killchain.py:395](../../modules/killchain.py#L395)
+`staticmethod` | [modules/killchain.py:408](../../modules/killchain.py#L408)
 
 Decorators: `@staticmethod`
 
@@ -550,7 +555,7 @@ Return the zero-based index of a canonical phase.
 
 #### `KillChain.snapshot`
 
-`staticmethod` | [modules/killchain.py:400](../../modules/killchain.py#L400)
+`staticmethod` | [modules/killchain.py:413](../../modules/killchain.py#L413)
 
 Decorators: `@staticmethod`
 
@@ -587,7 +592,7 @@ a compact progress glyph so surfaces cannot diverge.
 
 ### `get_killchain`
 
-`function` | [modules/killchain.py:440](../../modules/killchain.py#L440)
+`function` | [modules/killchain.py:453](../../modules/killchain.py#L453)
 
 ```python
 def get_killchain() -> type[KillChain]

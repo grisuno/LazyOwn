@@ -3232,8 +3232,8 @@ def send_command(client_id):
             _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
             from modules.killchain import KillChain as _KC
 
-            _KC.advance_phase("exploit")
-            _KC.advance_phase("privesc")
+            _KC.advance_phase("exploit", host=_primary_ip)
+            _KC.advance_phase("privesc", host=_primary_ip)
             logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
             _privesc_cmd = _build_privesc_command(_platform)
             if _privesc_cmd:
@@ -3661,10 +3661,10 @@ def receive_result(client_id):
                     logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
                     from modules.killchain import KillChain as _KC
 
-                    _KC.advance_phase("exploit")
+                    _KC.advance_phase("exploit", host=_primary_ip)
                     logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
                     if _was_new:
-                        _KC.advance_phase("privesc")
+                        _KC.advance_phase("privesc", host=_primary_ip)
                         logging.info("[killchain] Phase advanced to privesc via beacon %s", sanitized_client_id)
                 except Exception as _wme:
                     logging.debug("[world_model] advance failed: %s", _wme)

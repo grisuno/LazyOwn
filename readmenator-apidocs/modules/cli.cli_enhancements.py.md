@@ -295,7 +295,7 @@ the partial token under the cursor and returns suggestions drawn from:
 
 - ``rhost`` and ``targets[*].ip`` for ``set rhost``, ``set domain`` etc.
 - Wordlist files on disk for ``gobuster``, `[`ffuf`](contrib.legacy.lazyseo.py.md#ffuf)`, ``hashcat``.
-- Available addons and Lua plugins for ``run`` / ``reload``.
+- Available addons and Lua plugins for ``run`` / `[`reload`](modules.orchestrator_config.py.md#reload)`.
 - Stored credentials for ``evil``, ``cme``, ``secretsdump``.
 
 The shell's existing ``complete_*`` per-command hooks remain authoritative

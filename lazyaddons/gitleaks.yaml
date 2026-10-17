@@ -8,6 +8,7 @@ description: 'An open source tool to aid in command line driven generation of bu
 author: gitleaks
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

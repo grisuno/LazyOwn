@@ -1,0 +1,198 @@
+version: 1
+default_profile: default
+stages:
+  enrich:
+    enabled: true
+    label: Asset enrichment (DNS/HTTP)
+    fires_when: every round, first untested scoped assets, cooldown per asset
+    params:
+      limit: 2
+      cooldown_sec: 300
+  scheduler:
+    enabled: true
+    label: TriggerStore / scheduler due()
+    fires_when: every round, interval, service, task_create and timeout events
+  planner:
+    enabled: true
+    label: Planner wake (heuristics + LLM)
+    fires_when: every round unless paused, expired or over budget
+    params:
+      max_intents: 4
+  workers:
+    enabled: true
+    label: Frontier claim + worker execution
+    fires_when: every round while open intents exist
+  traffic_ingest:
+    enabled: true
+    label: Recorder proxy ingest
+    fires_when: every round while the recorder proxy is enabled
+  retest:
+    enabled: true
+    label: Auto retest pending findings
+    fires_when: every round, up to the retest limit
+    params:
+      limit: 3
+  reporter:
+    enabled: true
+    label: Apply background reporter drafts
+    fires_when: every round when a finished draft is ready
+  compact:
+    enabled: true
+    label: Cold-graph compaction round stamps
+    fires_when: every planner round, threshold and cooldown gated
+    params:
+      threshold: 50
+      debounce_sec: 300
+  intel_sync:
+    enabled: true
+    label: Fuse into world model and objectives
+    fires_when: throttled every round and forced on terminal status
+    params:
+      interval_sec: 15
+  wrapup:
+    enabled: true
+    label: Final planner round and settlement summary
+    fires_when: on exhausted or timeout status
+  archive:
+    enabled: true
+    label: Task and traffic archive snapshot
+    fires_when: on terminal status
+  report:
+    enabled: true
+    label: Findings report export
+    fires_when: on terminal status when findings exist
+  notify:
+    enabled: true
+    label: Channel notifications
+    fires_when: on finding creation and terminal status
+  ai_bus:
+    enabled: true
+    label: Publish loop events to the unified event bus and Hive Mind
+    fires_when: every activity line except raw stream kinds
+  detection_oracle:
+    enabled: true
+    label: Annotate commands with detection probability
+    fires_when: before every executed command
+  rl_feedback:
+    enabled: true
+    label: MoE router and RL trainer outcome learning
+    fires_when: after each LLM reply, each executed command and at terminal
+  swan_ensemble:
+    enabled: false
+    label: SWAN ensemble planning
+    fires_when: planner LLM step when enabled and SWAN experts are available
+  llm_stream:
+    enabled: true
+    label: Stream model deltas into the activity log
+    fires_when: every pool and agent LLM call while streaming is supported
+profiles:
+  default:
+    description: Balanced autonomous engagement.
+    limits:
+      rounds: 10
+      workers: 3
+      worker_parallel_cap: 5
+      heartbeat_sec: 600
+      wake_debounce_sec: 0.8
+      intel_sync_sec: 15
+      enrich_limit: 2
+      enrich_cooldown_sec: 300
+      retest_limit: 3
+      max_intents_per_round: 4
+      max_worker_steps: 6
+      verb_timeout_sec: 300
+      step_delay_sec: 0.5
+    budget:
+      max_rounds: 10
+      max_toolcalls: 200
+      max_findings: 50
+    chain: apt_chain
+    playbook: rocke
+    sinks:
+      world_model: true
+      killchain: true
+      intel_graph: true
+      attack_graph: true
+      c2_surfaces: true
+      campaign_db: true
+      objectives: true
+      event_bus: true
+      report: true
+  stealth:
+    description: Low-noise engagement with slower cadence and fewer probes.
+    extends: default
+    stages:
+      enrich:
+        params:
+          limit: 1
+          cooldown_sec: 600
+      planner:
+        params:
+          max_intents: 2
+      retest:
+        params:
+          limit: 1
+      swan_ensemble:
+        enabled: false
+      llm_stream:
+        enabled: false
+    limits:
+      rounds: 6
+      workers: 2
+      worker_parallel_cap: 2
+      heartbeat_sec: 900
+      wake_debounce_sec: 1.5
+      intel_sync_sec: 30
+      enrich_limit: 1
+      enrich_cooldown_sec: 600
+      retest_limit: 1
+      max_intents_per_round: 2
+      max_worker_steps: 4
+      verb_timeout_sec: 300
+      step_delay_sec: 2.0
+    budget:
+      max_rounds: 6
+      max_toolcalls: 120
+      max_findings: 30
+  lab:
+    description: Aggressive lab and range engagement with wider parallelism.
+    extends: default
+    limits:
+      rounds: 20
+      workers: 5
+      worker_parallel_cap: 5
+      heartbeat_sec: 300
+      wake_debounce_sec: 0.5
+      intel_sync_sec: 10
+      enrich_limit: 4
+      enrich_cooldown_sec: 120
+      retest_limit: 5
+      max_intents_per_round: 6
+      max_worker_steps: 8
+      verb_timeout_sec: 300
+      step_delay_sec: 0.1
+    budget:
+      max_rounds: 20
+      max_toolcalls: 400
+      max_findings: 100
+  gym:
+    description: Metasploitable gym profile with full reporting and sink fan-out.
+    extends: default
+    limits:
+      rounds: 15
+      workers: 4
+      worker_parallel_cap: 4
+      heartbeat_sec: 300
+      wake_debounce_sec: 0.5
+      intel_sync_sec: 10
+      enrich_limit: 3
+      enrich_cooldown_sec: 120
+      retest_limit: 4
+      max_intents_per_round: 6
+      max_worker_steps: 8
+      verb_timeout_sec: 300
+      step_delay_sec: 0.2
+    budget:
+      max_rounds: 15
+      max_toolcalls: 300
+      max_findings: 80

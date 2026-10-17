@@ -2,19 +2,23 @@
 
 > Source: [modules/chain_registry.py:1](../../modules/chain_registry.py#L1) | language `py` | coverage 100.0% | [API index](../index.md)
 
-Chain registry — ordered orchestration chains from ``chains/*.yaml``.
+Chain registry - ordered orchestration chains from ``chains/*.yaml``.
 
 One file per chain, same philosophy as ``lazyaddons/`` and ``exploits/``.
 The ``apt_chain`` shell command interprets these files instead of
 hardcoding its steps, so operators extend the orchestration by editing
 YAML. Every step must be a routable shell command; resolution (tokens,
-skip conditions, newest-file globs) happens here, execution stays in
-the shell where output and timeouts belong.
+conditions, skip rules, newest-file globs) happens here, execution stays
+in [`modules.chain_runner`](modules.chain_runner.py.md) where timeouts and outcomes belong.
+
+Schema version 2 adds `[`when`](#chainstep-when)` conditions, per-step timeouts, retries,
+error policy, output capture, artefacts and sink tags. Version 1 files
+remain valid with the same defaults.
 
 ## Contents
 
 - **Classes:** [`ChainStep`](#chainstep), [`Chain`](#chain)
-- **Functions:** [`validate_chain`](#validate_chain), [`load_all`](#load_all), [`get`](#get), [`scan_all`](#scan_all), [`set_enabled`](#set_enabled), [`generate_for_playbook`](#generate_for_playbook)
+- **Functions:** [`evaluate_when`](#evaluate_when), [`validate_chain`](#validate_chain), [`load_all`](#load_all), [`get`](#get), [`scan_all`](#scan_all), [`set_enabled`](#set_enabled), [`generate_for_playbook`](#generate_for_playbook)
 - **Constants:** [`CHAINS_DIR`](#chains_dir)
 
 ## Type Diagram
@@ -24,13 +28,29 @@ classDiagram
     direction LR
     class ChainStep
     ChainStep : str run
+    ChainStep : str id
+    ChainStep : str phase
+    ChainStep : str description
+    ChainStep : str when
     ChainStep : str skip_if_exists
     ChainStep : str resolve_newest_glob
     ChainStep : str resolve_newest_as
+    ChainStep : int timeout
+    ChainStep : int retries
+    ChainStep : bool continue_on_error
+    ChainStep : str capture
+    ChainStep : str expect
+    ChainStep : list[str] artifacts
+    ChainStep : list[str] sinks
+    ChainStep : identifier()
     class Chain
     Chain : str name
     Chain : str description
+    Chain : int version
+    Chain : list[str] tags
+    Chain : list[str] platforms
     Chain : dict[str, str] defaults
+    Chain : dict[str, str] vars
     Chain : list[ChainStep] steps
     Chain : str source
     Chain : bool enabled
@@ -44,10 +64,13 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_modules_chain_registry_py__Chain_resolve(["Chain.resolve"])
+    n_modules_chain_registry_py__evaluate_when(["evaluate_when"])
     n_modules_chain_registry_py__load_all(["load_all"])
     n_modules_chain_registry_py__validate_chain(["validate_chain"])
     n_modules_chain_registry_py__get(["get"])
     n_modules_chain_registry_py__scan_all(["scan_all"])
+    n_modules_chain_registry_py__Chain_resolve --> n_modules_chain_registry_py__evaluate_when
     n_modules_chain_registry_py__load_all --> n_modules_chain_registry_py__validate_chain
     n_modules_chain_registry_py__get --> n_modules_chain_registry_py__load_all
     n_modules_chain_registry_py__scan_all --> n_modules_chain_registry_py__validate_chain
@@ -59,7 +82,7 @@ flowchart LR
 
 ### `ChainStep`
 
-`class` `dataclass` | [modules/chain_registry.py:36](../../modules/chain_registry.py#L36)
+`class` `dataclass` | [modules/chain_registry.py:47](../../modules/chain_registry.py#L47)
 
 Decorators: `@dataclass`
 
@@ -67,16 +90,49 @@ Decorators: `@dataclass`
 class ChainStep
 ```
 
-One ordered step: shell line plus optional guards.
+One ordered step: shell line plus optional guards and outcome policy.
 
 **Attributes**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
 | [`run`](#chainstep-run) | `str` | `''` |  |
+| [`id`](#chainstep-id) | `str` | `''` |  |
+| [`phase`](#chainstep-phase) | `str` | `''` |  |
+| [`description`](#chainstep-description) | `str` | `''` |  |
+| [`when`](#chainstep-when) | `str` | `''` |  |
 | [`skip_if_exists`](#chainstep-skip_if_exists) | `str` | `''` |  |
 | [`resolve_newest_glob`](#chainstep-resolve_newest_glob) | `str` | `''` |  |
 | [`resolve_newest_as`](#chainstep-resolve_newest_as) | `str` | `''` |  |
+| [`timeout`](#chainstep-timeout) | `int` | `0` |  |
+| [`retries`](#chainstep-retries) | `int` | `0` |  |
+| [`continue_on_error`](#chainstep-continue_on_error) | `bool` | `False` |  |
+| [`capture`](#chainstep-capture) | `str` | `''` |  |
+| [`expect`](#chainstep-expect) | `str` | `''` |  |
+| [`artifacts`](#chainstep-artifacts) | `list[str]` | `field(default_factory=list)` |  |
+| [`sinks`](#chainstep-sinks) | `list[str]` | `field(default_factory=list)` |  |
+
+**Members**
+
+| Member | Kind | Summary |
+|---|---|---|
+| [`identifier`](#chainstep-identifier) | property | Return the declared id or a stable generated one. |
+
+<a id="chainstep-identifier"></a>
+
+#### `ChainStep.identifier`
+
+`property` | [modules/chain_registry.py:67](../../modules/chain_registry.py#L67)
+
+Decorators: `@property`
+
+```python
+def identifier(self) -> str
+```
+
+Return the declared id or a stable generated one.
+
+**Returns:** `str`
 
 ---
 
@@ -84,7 +140,7 @@ One ordered step: shell line plus optional guards.
 
 ### `Chain`
 
-`class` `dataclass` | [modules/chain_registry.py:46](../../modules/chain_registry.py#L46)
+`class` `dataclass` | [modules/chain_registry.py:73](../../modules/chain_registry.py#L73)
 
 Decorators: `@dataclass`
 
@@ -92,7 +148,7 @@ Decorators: `@dataclass`
 class Chain
 ```
 
-A validated chain with defaults and ordered steps.
+A validated chain with defaults, variables and ordered steps.
 
 **Attributes**
 
@@ -100,7 +156,11 @@ A validated chain with defaults and ordered steps.
 |---|---|---|---|
 | [`name`](#chain-name) | `str` | `''` |  |
 | [`description`](#chain-description) | `str` | `''` |  |
+| [`version`](#chain-version) | `int` | `1` |  |
+| [`tags`](#chain-tags) | `list[str]` | `field(default_factory=list)` |  |
+| [`platforms`](#chain-platforms) | `list[str]` | `field(default_factory=list)` |  |
 | [`defaults`](#chain-defaults) | `dict[str, str]` | `field(default_factory=dict)` |  |
+| [`vars`](#chain-vars) | `dict[str, str]` | `field(default_factory=dict)` |  |
 | [`steps`](#chain-steps) | `list[ChainStep]` | `field(default_factory=list)` |  |
 | [`source`](#chain-source) | `str` | `''` |  |
 | [`enabled`](#chain-enabled) | `bool` | `True` |  |
@@ -110,22 +170,23 @@ A validated chain with defaults and ordered steps.
 
 | Member | Kind | Summary |
 |---|---|---|
-| [`resolve`](#chain-resolve) | method | Substitute tokens and evaluate guards. |
+| [`resolve`](#chain-resolve) | method | Substitute tokens, evaluate conditions and guards. |
 
 <a id="chain-resolve"></a>
 
 #### `Chain.resolve`
 
-`method` | [modules/chain_registry.py:57](../../modules/chain_registry.py#L57)
+`method` | [modules/chain_registry.py:88](../../modules/chain_registry.py#L88)
 
 ```python
 def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]
 ```
 
-Substitute tokens and evaluate guards.
+Substitute tokens, evaluate conditions and guards.
 
-Returns [{run, skipped, reason}...] in order. ``resolve_newest``
-globs run at resolve time against the caller's cwd.
+Returns one mapping per step with ``run``, ``skipped`` and
+``reason`` plus the v2 policy fields. The runner repeats this
+resolution after every capture so later steps see earlier output.
 
 **Parameters**
 
@@ -135,15 +196,46 @@ globs run at resolve time against the caller's cwd.
 
 **Returns:** `list[dict[str, Any]]`
 
+*Calls:* [`evaluate_when`](#evaluate_when)
+
 ---
 
 ## Functions
+
+<a id="evaluate_when"></a>
+
+### `evaluate_when`
+
+`function` | [modules/chain_registry.py:192](../../modules/chain_registry.py#L192)
+
+```python
+def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
+```
+
+Evaluate a safe `[`when`](#chainstep-when)` expression against string variables.
+
+The grammar accepts names, string/boolean constants, ``and``, ``or``,
+``not``, ``==``, ``!=``, ``in`` and ``not in``. Calls, attributes and
+arithmetic are rejected. Undefined names resolve to an empty string.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `expression` | `str` |  | Condition text; empty means true. |
+| `variables` | `dict[str, str] \| None` | `None` | Name-to-string mapping. |
+
+**Returns:** `bool` - Boolean result; malformed expressions evaluate to False.
+
+*Called by:* [`Chain.resolve`](#chain-resolve)
+
+---
 
 <a id="validate_chain"></a>
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:93](../../modules/chain_registry.py#L93)
+`function` | [modules/chain_registry.py:257](../../modules/chain_registry.py#L257)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -169,17 +261,13 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:134](../../modules/chain_registry.py#L134)
+`function` | [modules/chain_registry.py:334](../../modules/chain_registry.py#L334)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
 ```
 
 Load every valid, enabled chain file (skips the rest loudly).
-
-Chains with ``extends: <parent>`` inherit the parent's steps (one
-level is flattened here; deeper nesting resolves recursively) and
-merge `[`defaults`](#chain-defaults)` over the parent's. Disabled chains never load.
 
 **Parameters**
 
@@ -195,7 +283,7 @@ merge `[`defaults`](#chain-defaults)` over the parent's. Disabled chains never l
 
 *Calls:* [`validate_chain`](#validate_chain)
 
-*Called by:* [`get`](#get)
+*Called by:* [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`get`](#get)
 
 ---
 
@@ -203,7 +291,7 @@ merge `[`defaults`](#chain-defaults)` over the parent's. Disabled chains never l
 
 ### `get`
 
-`function` | [modules/chain_registry.py:215](../../modules/chain_registry.py#L215)
+`function` | [modules/chain_registry.py:434](../../modules/chain_registry.py#L434)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -228,18 +316,13 @@ Return one chain by name, or None.
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:220](../../modules/chain_registry.py#L220)
+`function` | [modules/chain_registry.py:439](../../modules/chain_registry.py#L439)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
 ```
 
 List every chain file including disabled ones (for administration).
-
-Returns [{name, enabled, extends, steps, playbook, description,
-source}...] sorted by name. Unreadable or invalid files appear with
-``valid: False`` and an ``error`` note instead of being silently
-skipped — the admin surface must show what needs fixing.
 
 **Parameters**
 
@@ -255,7 +338,7 @@ skipped — the admin surface must show what needs fixing.
 
 *Calls:* [`validate_chain`](#validate_chain)
 
-*Called by:* [`LazyOrchestratorApp.chain_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows), [`LazyOrchestratorApp.remove_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
+*Called by:* [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`LazyOrchestratorApp.chain_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows), [`LazyOrchestratorApp.remove_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
 
 ---
 
@@ -263,16 +346,13 @@ skipped — the admin surface must show what needs fixing.
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:264](../../modules/chain_registry.py#L264)
+`function` | [modules/chain_registry.py:498](../../modules/chain_registry.py#L498)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
 ```
 
 Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
-
-Returns False when the file is missing or unreadable. Other keys
-keep their values; key order is preserved on write.
 
 **Parameters**
 
@@ -296,18 +376,13 @@ keep their values; key order is preserved on write.
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:291](../../modules/chain_registry.py#L291)
+`function` | [modules/chain_registry.py:521](../../modules/chain_registry.py#L521)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path
 ```
 
 Write a per-APT chain file inheriting the base APT chain.
-
-``engine_key`` is the exact `[`AptPlaybookEngine`](modules.apt_playbooks.py.md#aptplaybookengine)` lookup key
-(e.g. ``rocke``, ``apt29``) pinned as the playbook default; the
-chain file name is a sanitized ``apt_<slug>.yaml``. Steps live in
-the parent and stay in one place. Returns the written path.
 
 **Parameters**
 
@@ -337,7 +412,7 @@ the parent and stay in one place. Returns the written path.
 
 ### `CHAINS_DIR`
 
-`constant` | [modules/chain_registry.py:29](../../modules/chain_registry.py#L29)
+`constant` | [modules/chain_registry.py:35](../../modules/chain_registry.py#L35)
 
 ```python
 CHAINS_DIR = _BASE_DIR / 'chains'

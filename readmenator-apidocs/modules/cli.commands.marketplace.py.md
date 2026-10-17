@@ -72,7 +72,7 @@ Browse and install community plugins, addons, and tool integrations.
 | Member | Kind | Summary |
 |---|---|---|
 | [`do_marketplace`](#marketplacecommandset-do_marketplace) | method | Discover and install community plugins, addons, and tools. |
-| [`do_marketplace_config`](#marketplacecommandset-do_marketplace_config) | method | Interactive marketplace manager (curses TUI). |
+| [`do_marketplace_config`](#marketplacecommandset-do_marketplace_config) | method | Interactive marketplace manager (Textual TUI). |
 
 <a id="marketplacecommandset-do_marketplace"></a>
 
@@ -90,13 +90,14 @@ Discover and install community plugins, addons, and tools.
 
 Usage:
     marketplace list [--tier official|community|experimental]
-    marketplace search <name>  — search for available plugins
-    marketplace install <name> — install a plugin by name
-    marketplace update         — refresh community plugin index
-    marketplace info <name>    — show details about a plugin
-    marketplace rate <name> <1-5> — rate a plugin (operator-local)
-    marketplace ratings [name] — show recorded ratings
-    marketplace config         — interactive enable/disable wizard
+    marketplace search <name>  - search for available plugins
+    marketplace install <name> - install a plugin by name
+    marketplace update         - refresh community plugin index
+    marketplace update-addons [name|--all] [--dry-run] - git update lazyaddons
+    marketplace info <name>    - show details about a plugin
+    marketplace rate <name> <1-5> - rate a plugin (operator-local)
+    marketplace ratings [name] - show recorded ratings
+    marketplace config         - interactive enable/disable wizard
 
 **Parameters**
 
@@ -121,7 +122,7 @@ marketplace config
 
 #### `MarketplaceCommandSet.do_marketplace_config`
 
-`method` | [cli/commands/marketplace.py:426](../../cli/commands/marketplace.py#L426)
+`method` | [cli/commands/marketplace.py:447](../../cli/commands/marketplace.py#L447)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -129,21 +130,22 @@ Decorators: `@cmd2.with_category(miscellaneous_category)`
 def do_marketplace_config(self, line)
 ```
 
-Interactive marketplace manager (curses TUI).
+Interactive marketplace manager (Textual TUI).
 
-Opens a Powerlevel10k-style wizard to browse, enable/disable,
-edit (`[`e`](static.js.tippy-6.js.md#e)`), and create (``c``) lazyaddons, plugins, and tools.
+Opens the same style of console as ``lazy_orchestrator``:
+searchable tabs for lazyaddons, plugins, tools, YARA rules and
+Nuclei templates, with a preview pane.
 
 Usage:
-    marketplace_config            — open the interactive wizard
-    marketplace_config show       — print a text summary
-    marketplace_config enable <n> — enable a plugin by name
-    marketplace_config disable <n> — disable a plugin by name
+    marketplace_config            - open the interactive console
+    marketplace_config show       - print a text summary
+    marketplace_config enable <n> - enable a plugin by name
+    marketplace_config disable <n> - disable a plugin by name
 
-The wizard mirrors ``config_banner``: Arrow keys move, Space
-toggles, `[`a`](static.js.xterm-addon-web-links-0.5.0.js.md#a)`/``n`` enable/disable all, `[`e`](static.js.tippy-6.js.md#e)` edits in $EDITOR,
-``c`` creates a new lazyaddon from template, Enter saves, Escape
-cancels.
+Keys: ``/`` filter, Space toggles (YAML ``enabled`` or tool
+``active``), `[`a`](static.js.xterm-addon-web-links-0.5.0.js.md#a)`/``n`` enable/disable all, `[`e`](static.js.tippy-6.js.md#e)` edits the raw
+file, ``c`` creates from the tab template, `[`d`](static.js.particles.js.md#d)` deletes after
+confirmation, ``r`` rescans, Enter saves, Escape cancels.
 
 **Parameters**
 

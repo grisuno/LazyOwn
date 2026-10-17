@@ -588,7 +588,7 @@ Return the module-level resolver singleton.
 
 *Calls:* [`AtomicResolver.__init__`](#atomicresolver-__init__)
 
-*Called by:* [`AptPlaybookEngine.validate`](modules.apt_playbooks.py.md#aptplaybookengine-validate), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate), [`resolve_chain`](#resolve_chain), [`resolve_technique`](#resolve_technique), [`do_chain`](modules.ttpscope_bridge.py.md#do_chain)
+*Called by:* [`AptPlaybookEngine.validate`](modules.apt_playbooks.py.md#aptplaybookengine-validate), [`resolve_chain`](#resolve_chain), [`resolve_technique`](#resolve_technique), [`do_chain`](modules.ttpscope_bridge.py.md#do_chain)
 
 ---
 
@@ -672,7 +672,7 @@ autonomous execution never blocks on interactive input.
 
 **Returns:** `dict[str, str]`
 
-*Called by:* [`run_atomic_gen`](modules.atomic_cli.py.md#run_atomic_gen), [`run_atomic_tests`](modules.atomic_cli.py.md#run_atomic_tests), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
+*Called by:* [`run_atomic_gen`](modules.atomic_cli.py.md#run_atomic_gen), [`run_atomic_tests`](modules.atomic_cli.py.md#run_atomic_tests)
 
 ---
 
@@ -697,7 +697,7 @@ Substitute #{variables} without shell interpretation.
 
 **Returns:** `str`
 
-*Called by:* [`run_atomic_gen`](modules.atomic_cli.py.md#run_atomic_gen), [`run_atomic_tests`](modules.atomic_cli.py.md#run_atomic_tests), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
+*Called by:* [`run_atomic_gen`](modules.atomic_cli.py.md#run_atomic_gen), [`run_atomic_tests`](modules.atomic_cli.py.md#run_atomic_tests)
 
 ---
 

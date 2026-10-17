@@ -171,39 +171,51 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tool
 - `run_monitor_session` (function) `cli/lazy_monitor.py:589` `def run_monitor_session(engine, config, params)` -- Run the loop inside the monitor (``lazy_loop --view``).
 
 ## cli/lazy_orchestrator.py
-Depends on: `cli/commands/containers.py`, `core/config.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`
-- `FormModal.__init__` (method) `cli/lazy_orchestrator.py:86` `def __init__(self, title, fields)` -- Store the title and (id, label, placeholder) field specs.
-- `FormModal.compose` (method) `cli/lazy_orchestrator.py:92` `def compose(self)` -- One labeled input per field plus a save button.
-- `FormModal.on_button_pressed` (method) `cli/lazy_orchestrator.py:101` `def on_button_pressed(self, event)` -- Collect the values and close the modal.
-- `FormModal.on_input_submitted` (method) `cli/lazy_orchestrator.py:110` `def on_input_submitted(self, event)` -- Enter commits the form like the save button.
-- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:142` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
-- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:153` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:182` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:193` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:202` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:211` `def add_auto_verb(self, name, keywords, needs_target, description)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:226` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.chain_rows` (method) `cli/lazy_orchestrator.py:242` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
-- `LazyOrchestratorApp.chain_steps_preview` (method) `cli/lazy_orchestrator.py:251` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
-- `LazyOrchestratorApp.toggle_chain` (method) `cli/lazy_orchestrator.py:268` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
-- `LazyOrchestratorApp.generate_chain` (method) `cli/lazy_orchestrator.py:279` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
-- `LazyOrchestratorApp.remove_chain` (method) `cli/lazy_orchestrator.py:293` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
-- `LazyOrchestratorApp.on_data_table_row_highlighted` (method) `cli/lazy_orchestrator.py:349` `def on_data_table_row_highlighted(self, event)` -- Refresh the chains detail pane when the cursor moves.
-- `LazyOrchestratorApp.save_config` (method) `cli/lazy_orchestrator.py:423` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
-- `LazyOrchestratorApp.add_model_member` (method) `cli/lazy_orchestrator.py:445` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
-- `LazyOrchestratorApp.remove_model_member` (method) `cli/lazy_orchestrator.py:453` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
-- `LazyOrchestratorApp.set_model_priority` (method) `cli/lazy_orchestrator.py:461` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `LazyOrchestratorApp.add_guard_rule` (method) `cli/lazy_orchestrator.py:473` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `LazyOrchestratorApp.remove_guard_rule` (method) `cli/lazy_orchestrator.py:481` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:585` `def on_button_pressed(self, event)` -- Handle the config save button.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:603` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:621` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:637` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:654` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:730` `def action_edit_item(self)` -- Edit the selected LLM member's priority (models tab only).
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:764` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:810` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
+Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`
+Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_yaml.py`
+- `discover_shell_commands` (function) `cli/lazy_orchestrator.py:92` `def discover_shell_commands()` -- Return every routable shell command name.
+- `command_descriptions` (function) `cli/lazy_orchestrator.py:125` `def command_descriptions()` -- Return ``{command: summary}`` from the palette index when available.
+- `verb_candidates` (function) `cli/lazy_orchestrator.py:139` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
+- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:200` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
+- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:212` `def compose(self)` -- Build the four panes.
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:253` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:267` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:276` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:285` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:308` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.playbook_rows` (method) `cli/lazy_orchestrator.py:324` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
+- `LazyOrchestratorApp.playbook_preview` (method) `cli/lazy_orchestrator.py:348` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
+- `LazyOrchestratorApp.create_playbook_file` (method) `cli/lazy_orchestrator.py:357` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
+- `LazyOrchestratorApp.save_playbook_text` (method) `cli/lazy_orchestrator.py:378` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
+- `LazyOrchestratorApp.delete_playbook_file` (method) `cli/lazy_orchestrator.py:390` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
+- `LazyOrchestratorApp.playbook_candidates` (method) `cli/lazy_orchestrator.py:398` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
+- `LazyOrchestratorApp.gym_rows` (method) `cli/lazy_orchestrator.py:481` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
+- `LazyOrchestratorApp.gym_preview` (method) `cli/lazy_orchestrator.py:518` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
+- `LazyOrchestratorApp.start_gym` (method) `cli/lazy_orchestrator.py:586` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
+- `LazyOrchestratorApp.stop_gym` (method) `cli/lazy_orchestrator.py:594` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
+- `LazyOrchestratorApp.toggle_gym` (method) `cli/lazy_orchestrator.py:602` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
+- `LazyOrchestratorApp.profile_rows` (method) `cli/lazy_orchestrator.py:644` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
+- `LazyOrchestratorApp.activate_profile` (method) `cli/lazy_orchestrator.py:669` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
+- `LazyOrchestratorApp.chain_rows` (method) `cli/lazy_orchestrator.py:729` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
+- `LazyOrchestratorApp.chain_steps_preview` (method) `cli/lazy_orchestrator.py:738` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
+- `LazyOrchestratorApp.toggle_chain` (method) `cli/lazy_orchestrator.py:755` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
+- `LazyOrchestratorApp.generate_chain` (method) `cli/lazy_orchestrator.py:766` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
+- `LazyOrchestratorApp.remove_chain` (method) `cli/lazy_orchestrator.py:780` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
+- `LazyOrchestratorApp.on_data_table_row_highlighted` (method) `cli/lazy_orchestrator.py:836` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
+- `LazyOrchestratorApp.save_config` (method) `cli/lazy_orchestrator.py:917` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
+- `LazyOrchestratorApp.add_model_member` (method) `cli/lazy_orchestrator.py:939` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
+- `LazyOrchestratorApp.remove_model_member` (method) `cli/lazy_orchestrator.py:947` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
+- `LazyOrchestratorApp.set_model_priority` (method) `cli/lazy_orchestrator.py:955` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
+- `LazyOrchestratorApp.add_guard_rule` (method) `cli/lazy_orchestrator.py:967` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `LazyOrchestratorApp.remove_guard_rule` (method) `cli/lazy_orchestrator.py:975` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:1079` `def on_button_pressed(self, event)` -- Handle the config save button.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:1097` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:1118` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:1142` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:1159` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:1332` `def action_edit_item(self)` -- Edit the selected playbook YAML or LLM member priority.
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:1377` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:1456` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`
@@ -211,25 +223,48 @@ Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py
 - `run_post_scan` (function) `cli/lazynmap_post.py:94` `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` -- Generate the plan, bump the world model and emit an event.
 
 ## cli/marketplace_config.py
+Depends on: `cli/tui_forms.py`
 Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
-- `AddonInfo.from_yaml` (method) `cli/marketplace_config.py:144` `def from_yaml(cls, path)`
-- `AddonInfo.toggle_enabled` (method) `cli/marketplace_config.py:164` `def toggle_enabled(self)` -- Flip the enabled state on disk.
-- `AddonInfo.set_enabled` (method) `cli/marketplace_config.py:168` `def set_enabled(self, enabled)` -- Set the enabled state and persist to disk.
-- `AddonInfo.save_yaml` (method) `cli/marketplace_config.py:185` `def save_yaml(self, data)` -- Rewrite the YAML file with the given data dictionary.
-- `AddonRegistry.__init__` (method) `cli/marketplace_config.py:220` `def __init__(self)`
-- `AddonRegistry.scan` (method) `cli/marketplace_config.py:235` `def scan(self, tab)`
-- `AddonRegistry.rescan` (method) `cli/marketplace_config.py:334` `def rescan(self, tab)`
-- `AddonRegistry.tab_order` (method) `cli/marketplace_config.py:338` `def tab_order(self)`
-- `AddonRegistry.tab_label` (method) `cli/marketplace_config.py:341` `def tab_label(self, tab)`
-- `AddonRegistry.tab_count` (method) `cli/marketplace_config.py:344` `def tab_count(self, tab)`
-- `MarketplaceSettings.is_enabled` (method) `cli/marketplace_config.py:354` `def is_enabled(self, kind, name)`
-- `MarketplaceSettings.toggle` (method) `cli/marketplace_config.py:357` `def toggle(self, addon)`
-- `MarketplaceSettings.enable_all` (method) `cli/marketplace_config.py:367` `def enable_all(self, addons)`
-- `MarketplaceSettings.disable_all` (method) `cli/marketplace_config.py:372` `def disable_all(self, addons)`
-- `MarketplaceConfigurator.__init__` (method) `cli/marketplace_config.py:381` `def __init__(self, config, registry, initial)`
-- `MarketplaceConfigurator.run` (method) `cli/marketplace_config.py:395` `def run(self, start_tab)`
-- `configure_marketplace_interactive` (function) `cli/marketplace_config.py:751` `def configure_marketplace_interactive(config, start_tab)` -- Open the multi-tab curses wizard for marketplace management.
-- `marketplace_summary` (function) `cli/marketplace_config.py:784` `def marketplace_summary(registry)` -- Return a text summary of enabled/disabled addons across all tabs.
+- `AddonInfo.from_path` (method) `cli/marketplace_config.py:151` `def from_path(cls, path, kind)` -- Build one entry from its file, tolerating malformed content.
+- `AddonInfo.toggleable` (method) `cli/marketplace_config.py:221` `def toggleable(self)` -- Return whether this entry has a persisted enable/disable flag.
+- `AddonInfo.read_text` (method) `cli/marketplace_config.py:225` `def read_text(self)` -- Return the raw file text, capped for the in-app editor.
+- `AddonInfo.read_data` (method) `cli/marketplace_config.py:229` `def read_data(self)` -- Return the parsed mapping for the entry's format.
+- `AddonInfo.validate_text` (method) `cli/marketplace_config.py:238` `def validate_text(self, text)` -- Raise ``ValueError`` when the edited document is not usable.
+- `AddonInfo.save_text` (method) `cli/marketplace_config.py:260` `def save_text(self, text)` -- Validate and atomically rewrite the raw entry.
+- `AddonInfo.set_enabled` (method) `cli/marketplace_config.py:278` `def set_enabled(self, enabled)` -- Persist the enable/disable flag in the entry's native format.
+- `AddonInfo.toggle_enabled` (method) `cli/marketplace_config.py:299` `def toggle_enabled(self)` -- Flip the enabled state on disk.
+- `AddonInfo.save_yaml` (method) `cli/marketplace_config.py:303` `def save_yaml(self, data)` -- Rewrite a YAML entry with the given mapping (compatibility helper).
+- `AddonRegistry.__init__` (method) `cli/marketplace_config.py:331` `def __init__(self)` -- Start with an empty per-tab cache.
+- `AddonRegistry.scan` (method) `cli/marketplace_config.py:342` `def scan(self, tab)` -- Return the cached (or freshly scanned) rows for one tab.
+- `AddonRegistry.rescan` (method) `cli/marketplace_config.py:426` `def rescan(self, tab)` -- Drop one tab cache and scan again.
+- `AddonRegistry.tab_order` (method) `cli/marketplace_config.py:431` `def tab_order(self)` -- Return the tab order used by the console.
+- `AddonRegistry.tab_label` (method) `cli/marketplace_config.py:435` `def tab_label(self, tab)` -- Return the human label for one tab.
+- `AddonRegistry.tab_count` (method) `cli/marketplace_config.py:439` `def tab_count(self, tab)` -- Return how many entries one tab holds.
+- `AddonRegistry.tab_is_read_only` (method) `cli/marketplace_config.py:443` `def tab_is_read_only(self, tab)` -- Return whether toggles are meaningless for the tab.
+- `AddonRegistry.create_addon` (method) `cli/marketplace_config.py:447` `def create_addon(self, tab, name)` -- Create one entry from the tab template.
+- `AddonRegistry.delete_addon` (method) `cli/marketplace_config.py:491` `def delete_addon(self, addon)` -- Delete one writable entry confined to its source directory.
+- `MarketplaceSettings.is_enabled` (method) `cli/marketplace_config.py:513` `def is_enabled(self, kind, name)` -- Return whether one entry is enabled.
+- `MarketplaceSettings.toggle` (method) `cli/marketplace_config.py:517` `def toggle(self, addon)` -- Flip one entry, updating the in-memory view only on success.
+- `MarketplaceSettings.enable_all` (method) `cli/marketplace_config.py:529` `def enable_all(self, addons)` -- Enable every toggleable entry; return how many changed.
+- `MarketplaceSettings.disable_all` (method) `cli/marketplace_config.py:537` `def disable_all(self, addons)` -- Disable every toggleable entry; return how many changed.
+- `MarketplaceConfigApp.__init__` (method) `cli/marketplace_config.py:578` `def __init__(self, config, registry, initial, start_tab)` -- Bind the console to a config, registry and initial state.
+- `MarketplaceConfigApp.compose` (method) `cli/marketplace_config.py:593` `def compose(self)` -- Header, filter box, one table per tab and the detail pane.
+- `MarketplaceConfigApp.on_mount` (method) `cli/marketplace_config.py:604` `def on_mount(self)` -- Render every table and focus the filter box.
+- `MarketplaceConfigApp.on_data_table_row_highlighted` (method) `cli/marketplace_config.py:722` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
+- `MarketplaceConfigApp.on_input_changed` (method) `cli/marketplace_config.py:732` `def on_input_changed(self, event)` -- Filter the active table as the operator types.
+- `MarketplaceConfigApp.on_tabbed_content_tab_activated` (method) `cli/marketplace_config.py:738` `def on_tabbed_content_tab_activated(self, event)` -- Repaint the table that just became visible.
+- `MarketplaceConfigApp.action_focus_filter` (method) `cli/marketplace_config.py:747` `def action_focus_filter(self)` -- Move focus to the filter box.
+- `MarketplaceConfigApp.action_rescan` (method) `cli/marketplace_config.py:754` `def action_rescan(self)` -- Rescan the active tab and repaint.
+- `MarketplaceConfigApp.action_toggle` (method) `cli/marketplace_config.py:761` `def action_toggle(self)` -- Toggle the selected entry when the tab supports it.
+- `MarketplaceConfigApp.action_enable_all` (method) `cli/marketplace_config.py:772` `def action_enable_all(self)` -- Enable every toggleable entry in the active tab.
+- `MarketplaceConfigApp.action_disable_all` (method) `cli/marketplace_config.py:779` `def action_disable_all(self)` -- Disable every toggleable entry in the active tab.
+- `MarketplaceConfigApp.action_create` (method) `cli/marketplace_config.py:786` `def action_create(self)` -- Create one entry in the active tab from its template.
+- `MarketplaceConfigApp.action_edit` (method) `cli/marketplace_config.py:811` `def action_edit(self)` -- Open the raw file editor for the selected entry.
+- `MarketplaceConfigApp.action_delete` (method) `cli/marketplace_config.py:839` `def action_delete(self)` -- Delete the selected entry after confirmation.
+- `MarketplaceConfigApp.action_save` (method) `cli/marketplace_config.py:863` `def action_save(self)` -- Close the console and return the final settings.
+- `MarketplaceConfigApp.action_cancel` (method) `cli/marketplace_config.py:867` `def action_cancel(self)` -- Close the console without returning settings.
+- `configure_marketplace_interactive` (function) `cli/marketplace_config.py:872` `def configure_marketplace_interactive(config, start_tab)` -- Open the Textual marketplace console.
+- `marketplace_summary` (function) `cli/marketplace_config.py:907` `def marketplace_summary(registry)` -- Return a text summary of enabled/disabled addons across all tabs.
 
 ## cli/ops_commands.py
 Depends on: `core/safe_console.py`, `modules/killchain.py`, `modules/world_model.py`
@@ -267,7 +302,7 @@ Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
 - `dry_run_line` (function) `cli/output_mode.py:98` `def dry_run_line(command)` -- Render the exact shell line that would run without running it.
 
 ## cli/palette.py
-Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
 - `load_index` (function) `cli/palette.py:30` `def load_index(path)` -- Return the parsed catalogue as a dict.
 - `all_commands` (function) `cli/palette.py:55` `def all_commands()` -- Return every command entry, sorted by name.
 - `all_phases` (function) `cli/palette.py:72` `def all_phases()` -- Return the sorted list of phase identifiers present in the index.
@@ -453,46 +488,6 @@ Imported by: `lazyown.py`, `tests/test_scope_guard.py`
 - `target_in_scope` (function) `cli/scope_guard.py:218` `def target_in_scope(target, entries)` -- Return whether *target* falls within any of the scope *entries*.
 - `ScopeGuard.__init__` (method) `cli/scope_guard.py:263` `def __init__(self, scope_entries, mode, is_offensive)` -- Initialise the guard.
 - `ScopeGuard.evaluate` (method) `cli/scope_guard.py:283` `def evaluate(self, command, target)` -- Evaluate a single command against the active target.
-
-## cli/session_hud.py
-Depends on: `cli/engagement_hooks.py`
-Imported by: `cli/commands/ux.py`
-- `count_lines_in_globs` (function) `cli/session_hud.py:62` `def count_lines_in_globs(root, patterns)` -- Count non-empty lines across every file matching the patterns.
-- `count_csv_rows` (function) `cli/session_hud.py:83` `def count_csv_rows(path)` -- Count data rows in a CSV file without loading it fully.
-- `format_elapsed` (function) `cli/session_hud.py:100` `def format_elapsed(seconds)` -- Format a duration as HH:MM:SS.
-- `phase_bar` (function) `cli/session_hud.py:115` `def phase_bar(phase, width)` -- Render kill-chain progress as filled and empty blocks.
-- `build_snapshot` (function) `cli/session_hud.py:155` `def build_snapshot(params, config)` -- Build a snapshot from live params, engagement state and session files.
-- `render_snapshot` (function) `cli/session_hud.py:180` `def render_snapshot(snapshot, config)` -- Render the session counters as two plain lines.
-
-## cli/session_resumer.py
-Depends on: `core/console.py`, `core/logging.py`
-Imported by: `cli/commands/session_ops.py`
-- `SessionResumer.__init__` (method) `cli/session_resumer.py:58` `def __init__(self, config)`
-- `SessionResumer.render_startup_panel` (method) `cli/session_resumer.py:129` `def render_startup_panel(self)` -- Render the resume panel and return the selected target IP, or None.
-
-## cli/sessions_browser.py
-Depends on: `cli/commands/containers.py`, `cli/themes.py`
-Imported by: `cli/commands/misc_migrated.py`, `tests/test_sessions_browser.py`
-- `SessionsIndex.__init__` (method) `cli/sessions_browser.py:88` `def __init__(self, config, root)` -- Bind to config and resolve the sessions root.
-- `SessionsIndex.root` (method) `cli/sessions_browser.py:100` `def root(self)` -- Return the resolved sessions root.
-- `SessionsIndex.categories` (method) `cli/sessions_browser.py:104` `def categories(self)` -- Return a mapping ``category_identifier -> [SessionEntry, ...]``.
-- `SessionPreview.__init__` (method) `cli/sessions_browser.py:188` `def __init__(self, config, root)` -- Bind to config and the sessions root.
-- `SessionPreview.read` (method) `cli/sessions_browser.py:193` `def read(self, relative)` -- Return ``relative`` as text, capped at ``max_preview_bytes``.
-- `SessionsBrowserState.grouped_entries` (method) `cli/sessions_browser.py:233` `def grouped_entries(self)` -- Return classified entries, optionally filtered by :attr:`filter_query`.
-- `SessionsBrowserState.category_label` (method) `cli/sessions_browser.py:248` `def category_label(self, identifier)` -- Return the human-readable label for ``identifier``.
-- `build_state` (function) `cli/sessions_browser.py:258` `def build_state(payload, sessions_dir, config)` -- Wire the canonical state used by :func:`launch_browser`.
-- `launch_browser` (function) `cli/sessions_browser.py:281` `def launch_browser(payload, state, runner)` -- Open the Textual browser and return the last-viewed relative path.
-- `_SessionsBrowserApp.__init__` (method) `cli/sessions_browser.py:340` `def __init__(self)`
-- `_SessionsBrowserApp.compose` (method) `cli/sessions_browser.py:346` `def compose(self)`
-- `_SessionsBrowserApp.on_mount` (method) `cli/sessions_browser.py:356` `def on_mount(self)`
-- `_SessionsBrowserApp.on_input_changed` (method) `cli/sessions_browser.py:359` `def on_input_changed(self, event)`
-- `_SessionsBrowserApp.on_tree_node_selected` (method) `cli/sessions_browser.py:363` `def on_tree_node_selected(self, event)`
-- `_SessionsBrowserApp.action_refresh` (method) `cli/sessions_browser.py:370` `def action_refresh(self)`
-- `_SessionsBrowserApp.action_close` (method) `cli/sessions_browser.py:373` `def action_close(self)`
-
-## cli/show.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
-- `format_payload` (function) `cli/show.py:14` `def format_payload(params)` -- Render ``params`` as a sorted, aligned ``key = value`` block.
 
 
 Next: [API_p5.md](API_p5.md)

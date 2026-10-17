@@ -8,6 +8,7 @@ description: ARTEX v0.3.12 (commit 0ec51e3) AI autonomous pentest platform, Go b
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 os: any
 trigger: []
 category: 16. Artificial Intelligence

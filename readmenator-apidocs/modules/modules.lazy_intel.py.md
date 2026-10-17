@@ -169,7 +169,7 @@ Record the terminal outcome of one executed command.
 
 *Calls:* [`describe_command`](#describe_command)
 
-*Called by:* [`record_outcome`](modules.atomic_exploit_bridge.py.md#record_outcome)
+*Called by:* [`apply`](modules.sinks.routing.py.md#apply)
 
 ---
 
@@ -297,7 +297,7 @@ Export activity records as trace spans for observability.
 
 Maps the existing trace fields onto span semantics: `[`task`](lazyc2.py.md#task)` is the
 trace id, ``tool_use_id`` (or a synthetic ``kind:index`` id) is the
-span id, ``intent_id`` is the parent, and ``tool``/``result`` pairs
+span id, `[`intent_id`](modules.outcome_bus.py.md#outcomeevent-intent_id)` is the parent, and ``tool``/``result`` pairs
 sharing a ``tool_use_id`` join into one span with duration. Point
 records without a pair become single-event spans.
 

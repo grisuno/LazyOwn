@@ -4,6 +4,7 @@ description: 'Microsoft has failed to properly patch ShieldBreak CVE-2026-69414,
 author: Nightmare_Eclipse
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

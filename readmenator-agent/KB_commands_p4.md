@@ -97,19 +97,23 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/surface_tui.py`, `core/config.py`, `utils.py`
 
 ## cli/commands/redteam_gym.py
-- Doc: Red Team Gym CLI command set — gamified pentest training.
+- Doc: Red Team Gym CLI command set - gamified pentest training.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `RedTeamGymCommandSet` (class, line 32) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
-  - `do_gym` (method, line 39) `def do_gym(self, line)`
-  - `_gym_list` (method, line 83) `def _gym_list(self)`
-  - `_gym_start` (method, line 117) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 154) `def _gym_submit(self, args)`
-  - `_gym_status` (method, line 198) `def _gym_status(self)`
-  - `_gym_leaderboard` (method, line 223) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 257) `def _gym_hint(self)`
-- Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
+  - `RedTeamGymCommandSet` (class, line 33) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
+  - `do_gym` (method, line 40) `def do_gym(self, line)`
+  - `do_gym_ms2` (method, line 93) `def do_gym_ms2(self, line)`
+  - `_gym_list` (method, line 141) `def _gym_list(self)`
+  - `_gym_start` (method, line 175) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 224) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 272) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 277) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 345) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 365) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 399) `def _gym_hint(self, args)`
+- Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+- Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 
 ## cli/commands/resource_scripting.py
 - Doc: Resource script commands — run .ls scripts, record macros, spool output.

@@ -102,6 +102,9 @@ class LoopRunConfig:
     progress: bool = True
     view: bool = False
     verb_timeout: float = DEFAULT_VERB_TIMEOUT_SEC
+    profile: str = ""
+    rounds_set: bool = True
+    workers_set: bool = True
     extra: dict = field(default_factory=dict)
 
     def clamped(self) -> LoopRunConfig:
@@ -114,7 +117,7 @@ class LoopRunConfig:
         return self
 
 
-FLAG_VALUES = ("--target", "--task", "--rounds", "--max-steps", "--workers", "--timeout", "--step-delay")
+FLAG_VALUES = ("--target", "--task", "--profile", "--rounds", "--max-steps", "--workers", "--timeout", "--step-delay")
 FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress")
 
 
@@ -155,8 +158,11 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     parts = shlex.split(raw)
     target = ""
     task_id = ""
+    profile = ""
     rounds = DEFAULT_ROUNDS
     workers = DEFAULT_WORKERS
+    rounds_set = False
+    workers_set = False
     timeout = 0.0
     step_delay = 0.0
     sandbox = ""
@@ -184,10 +190,14 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 target = value
             elif token == "--task":
                 task_id = value
+            elif token == "--profile":
+                profile = value
             elif token in ("--rounds", "--max-steps"):
                 rounds = _to_int(value, DEFAULT_ROUNDS)
+                rounds_set = True
             elif token == "--workers":
                 workers = _to_int(value, DEFAULT_WORKERS)
+                workers_set = True
             elif token == "--timeout":
                 timeout = _to_float(value, 0.0)
             elif token == "--step-delay":
@@ -211,8 +221,11 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         goal=" ".join(goal_parts),
         task_id=task_id,
         target=target,
+        profile=profile,
         rounds=rounds,
         workers=workers,
+        rounds_set=rounds_set,
+        workers_set=workers_set,
         timeout=timeout,
         step_delay=step_delay,
         sandbox=sandbox,
@@ -220,6 +233,42 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         progress=progress,
         view=view,
     )
+
+
+def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig:
+    """Fill unset rounds and workers from the selected orchestrator profile.
+
+    Args:
+        config: Parsed invocation; explicit flags stay untouched.
+
+    Returns:
+        The same configuration with profile defaults applied.
+    """
+    from modules import orchestrator_config
+
+    name = config.profile or orchestrator_config.active_profile()
+    try:
+        profile = orchestrator_config.profile_config(name)
+    except Exception:
+        profile = orchestrator_config.profile_config()
+        name = orchestrator_config.active_profile()
+    limits = dict(profile.get("limits") or {})
+    config.profile = name
+    if not config.rounds_set:
+        try:
+            config.rounds = int(limits.get("rounds", config.rounds) or config.rounds)
+        except (TypeError, ValueError):
+            pass
+    if not config.workers_set:
+        try:
+            config.workers = int(limits.get("workers", config.workers) or config.workers)
+        except (TypeError, ValueError):
+            pass
+    try:
+        config.verb_timeout = float(limits.get("verb_timeout_sec", config.verb_timeout) or config.verb_timeout)
+    except (TypeError, ValueError):
+        pass
+    return config
 
 
 def build_executor(
@@ -536,6 +585,20 @@ def _dump_thread_stacks() -> None:
         pass
 
 
+def _stall_thresholds(verb_timeout: float) -> tuple[float, float]:
+    """Return warning and dump thresholds for a command timeout.
+
+    A legitimate nmap run can exceed the fixed 45s/120s defaults. Tie the
+    thresholds to the configured verb timeout so a long-but-bounded tool
+    run never looks like a dead loop; the executor still kills the child
+    at ``verb_timeout``.
+    """
+    timeout = max(30.0, float(verb_timeout or 300.0))
+    warn_after = max(STALL_WARN_SEC, min(180.0, timeout * 0.5))
+    dump_after = max(STALL_DUMP_SEC, timeout + 30.0)
+    return warn_after, dump_after
+
+
 def _poll_progress(engine, config: LoopRunConfig, progress, transcript, worker: threading.Thread) -> None:
     """Drain live output into the panel until the orchestrator finishes.
 
@@ -559,6 +622,7 @@ def _poll_progress(engine, config: LoopRunConfig, progress, transcript, worker: 
     last_stall_warn = 0.0
     last_line = ""
     pending_line = ""
+    warn_after, dump_after = _stall_thresholds(float(getattr(config, "verb_timeout", 300.0) or 300.0))
     while worker.is_alive():
         for _ in range(TRANSCRIPT_DRAIN_CAP):
             try:
@@ -599,13 +663,13 @@ def _poll_progress(engine, config: LoopRunConfig, progress, transcript, worker: 
         snap.results = results
         progress.refresh(snap)
         idle = now - last_event
-        if idle >= STALL_WARN_SEC and now - last_stall_warn >= STALL_WARN_SEC:
+        if idle >= warn_after and now - last_stall_warn >= warn_after:
             last_stall_warn = now
             progress.emit(
                 f"[stall] no loop activity for {int(idle)}s; last step: "
                 f"{last_line[:160] or 'none'} (Ctrl+C cancels and saves state)"
             )
-        if idle >= STALL_DUMP_SEC and now - last_stall_dump >= STALL_DUMP_SEC:
+        if idle >= dump_after and now - last_stall_dump >= dump_after:
             last_stall_dump = now
             progress.emit(f"[stall] still idle after {int(idle)}s; dumping all thread stacks to stderr")
             _dump_thread_stacks()
@@ -699,6 +763,7 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
     Returns:
         Orchestrator summary with ``cancelled``/``error`` keys added.
     """
+    resolve_loop_defaults(config)
     config.clamped()
     raw_verb_timeout = (params or {}).get("verb_timeout", 0)
     try:
@@ -715,6 +780,10 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
         return {"task_id": config.task_id, "error": str(exc)}
 
     engine = LazyEngine()
+    try:
+        engine.apply_profile(config.profile)
+    except Exception:
+        pass
     _prepare_engine(engine, shell, config, params)
     _start_proxy(engine, params)
     print_msg(f"[*] orchestrator chain: {'/'.join(engine.ORCHESTRATOR_CHAIN)}")
@@ -783,4 +852,11 @@ def _tty_available() -> bool:
     return False
 
 
-__all__ = ["LoopRunConfig", "build_executor", "parse_loop_line", "report_result", "run_loop"]
+__all__ = [
+    "LoopRunConfig",
+    "build_executor",
+    "parse_loop_line",
+    "report_result",
+    "resolve_loop_defaults",
+    "run_loop",
+]

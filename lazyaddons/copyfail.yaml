@@ -5,6 +5,7 @@ description: 'copy-fail-CVE-2026-31431 is a next-generation dirty pipe.
 author: theori-io
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

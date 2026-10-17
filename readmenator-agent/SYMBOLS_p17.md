@@ -1,8 +1,187 @@
-# Symbols (page 17 of 41)
+# Symbols (page 17 of 42)
 Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
+| `__init__` | method | `modules/llm_evaluator.py:76` | `def __init__(self, path)` |
+| `__init__` | method | `modules/llm_evaluator.py:162` | `def __init__(self, recorder)` |
+| `_cli` | function | `modules/llm_evaluator.py:322` | `def _cli()` |
+| `_new_id` | function | `modules/llm_evaluator.py:35` | `def _new_id()` |
+| `_record_from_dict` | function | `modules/llm_evaluator.py:39` | `def _record_from_dict(d)` |
+| `_safe_mean` | function | `modules/llm_evaluator.py:150` | `def _safe_mean(values)` |
+| `_tactic_success_rates` | function | `modules/llm_evaluator.py:154` | `def _tactic_success_rates(records)` |
+| `compute_metrics` | method | `modules/llm_evaluator.py:200` | `def compute_metrics(self, session_id)` |
+| `export_finetuning_dataset` | method | `modules/llm_evaluator.py:256` | `def export_finetuning_dataset(self, path)` |
+| `get_evaluator` | function | `modules/llm_evaluator.py:293` | `def get_evaluator()` |
+| `load_all` | method | `modules/llm_evaluator.py:69` | `def load_all(self)` |
+| `load_all` | method | `modules/llm_evaluator.py:120` | `def load_all(self)` |
+| `load_by_session` | method | `modules/llm_evaluator.py:72` | `def load_by_session(self, session_id)` |
+| `load_by_session` | method | `modules/llm_evaluator.py:135` | `def load_by_session(self, session_id)` |
+| `quality_report` | method | `modules/llm_evaluator.py:241` | `def quality_report(self, session_id)` |
+| `record` | method | `modules/llm_evaluator.py:57` | `def record(self, decision)` |
+| `record` | method | `modules/llm_evaluator.py:81` | `def record(self, decision)` |
+| `record_decision` | method | `modules/llm_evaluator.py:165` | `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_decision` | function | `modules/llm_evaluator.py:302` | `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_outcome` | method | `modules/llm_evaluator.py:191` | `def record_outcome(self, decision_id, actual_outcome, findings_count, success)` |
+| `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:194` | `class LLMBackendNotSupportedError(ValueError)` |
+| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:190` | `class LLMBackendUnavailableError(RuntimeError)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:482` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:643` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:504` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:410` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:446` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:432` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:460` | `def _build_openai(config)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:387` | `def _normalize_backend(backend)` |
+| `_pi_complete` | function | `modules/llm_factory.py:737` | `def _pi_complete(model, prompt, max_tokens)` |
+| `_pi_timeout` | function | `modules/llm_factory.py:725` | `def _pi_timeout()` |
+| `_resolve_api_key` | function | `modules/llm_factory.py:333` | `def _resolve_api_key(config)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:356` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:526` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:553` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | function | `modules/llm_factory.py:266` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | function | `modules/llm_factory.py:291` | `def backend_requires_api_key(backend)` |
+| `complete` | function | `modules/llm_factory.py:849` | `def complete(model, prompt, max_tokens)` |
+| `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:591` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:679` | `def get_llm_backend_raw(config, backend)` |
+| `groq_model_chain` | function | `modules/llm_factory.py:141` | `def groq_model_chain(config)` |
+| `is_model_missing_error` | function | `modules/llm_factory.py:121` | `def is_model_missing_error(message)` |
+| `load_payload` | function | `modules/llm_factory.py:309` | `def load_payload(payload_path)` |
+| `model_config_key` | function | `modules/llm_factory.py:245` | `def model_config_key(backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:778` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:701` | `def try_get_llm_backend(config, backend)` |
+| `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
+| `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
+| `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
+| `PoolExhausted` | class | `modules/llm_pool.py:42` | `class PoolExhausted(RuntimeError)` |
+| `PoolMember` | class | `modules/llm_pool.py:64` | `class PoolMember` |
+| `__init__` | method | `modules/llm_pool.py:83` | `def __init__(self, config)` |
+| `__init__` | method | `modules/llm_pool.py:179` | `def __init__(self, members, health, config)` |
+| `_backoff_for` | method | `modules/llm_pool.py:155` | `def _backoff_for(self, failures)` |
+| `_health_path` | function | `modules/llm_pool.py:20` | `def _health_path()` |
+| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
+| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
+| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
+| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
+| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
+| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
+| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
+| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
+| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
+| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
+| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
+| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
+| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
+| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
+| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
+| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
+| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
+| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
+| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
+| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
+| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
+| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
+| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
+| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
+| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
+| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
+| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
+| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
+| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
+| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
+| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
+| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
+| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
+| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
+| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
+| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
+| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
+| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
+| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
+| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
+| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
+| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
+| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
+| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
+| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
+| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
+| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
+| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
+| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
+| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
+| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
+| `ResilientRotatingFileHandler` | class | `modules/logging_config.py:103` | `class ResilientRotatingFileHandler(RotatingFileHandler)` |
+| `_ensure_log_dir_writable` | function | `modules/logging_config.py:156` | `def _ensure_log_dir_writable(log_dir)` |
+| `_use_json_format` | function | `modules/logging_config.py:235` | `def _use_json_format()` |
+| `clear_correlation_id` | function | `modules/logging_config.py:144` | `def clear_correlation_id()` |
+| `configure` | function | `modules/logging_config.py:244` | `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` |
+| `emit` | method | `modules/logging_config.py:116` | `def emit(self, record)` |
+| `filter` | method | `modules/logging_config.py:94` | `def filter(self, record)` |
+| `format` | method | `modules/logging_config.py:39` | `def format(self, record)` |
+| `format` | method | `modules/logging_config.py:72` | `def format(self, record)` |
+| `get_correlation_id` | function | `modules/logging_config.py:139` | `def get_correlation_id()` |
+| `get_logger` | function | `modules/logging_config.py:328` | `def get_logger(name, level)` |
+| `handleError` | method | `modules/logging_config.py:122` | `def handleError(self, record)` |
+| `reset` | function | `modules/logging_config.py:388` | `def reset()` |
+| `set_correlation_id` | function | `modules/logging_config.py:134` | `def set_correlation_id(cid)` |
+| `set_level` | function | `modules/logging_config.py:357` | `def set_level(name, level)` |
+| `set_quiet` | function | `modules/logging_config.py:367` | `def set_quiet()` |
+| `set_verbose` | function | `modules/logging_config.py:373` | `def set_verbose()` |
+| `silence_module` | function | `modules/logging_config.py:379` | `def silence_module(name)` |
+| `_hive_store` | function | `modules/loop_ai_bridge.py:101` | `def _hive_store(task_id, worker, kind, text)` |
+| `_open` | function | `modules/loop_ai_bridge.py:104` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:130` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:152` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:171` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:192` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:214` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:235` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:269` | `def _open()` |
+| `_singleton` | function | `modules/loop_ai_bridge.py:50` | `def _singleton(key, factory)` |
+| `_stage` | function | `modules/loop_ai_bridge.py:64` | `def _stage(name, default)` |
+| `ai_snapshot` | function | `modules/loop_ai_bridge.py:314` | `def ai_snapshot()` |
+| `annotate_detection` | function | `modules/loop_ai_bridge.py:125` | `def annotate_detection(command, action_category)` |
+| `moe_record_outcome` | function | `modules/loop_ai_bridge.py:166` | `def moe_record_outcome(expert_id, task_type, reward, detection_prob)` |
+| `moe_route` | function | `modules/loop_ai_bridge.py:149` | `def moe_route(task_type, goal)` |
+| `publish_loop_event` | function | `modules/loop_ai_bridge.py:74` | `def publish_loop_event(task_id, worker, kind, text, severity)` |
+| `record_step` | function | `modules/loop_ai_bridge.py:249` | `def record_step(task_id, worker, command, output, detection_prob)` |
+| `rl_save` | function | `modules/loop_ai_bridge.py:230` | `def rl_save()` |
+| `rl_select` | function | `modules/loop_ai_bridge.py:185` | `def rl_select(task_type, phase, candidates, deterministic)` |
+| `rl_update` | function | `modules/loop_ai_bridge.py:207` | `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` |
+| `stream_enabled` | function | `modules/loop_ai_bridge.py:304` | `def stream_enabled()` |
+| `swan_available` | function | `modules/loop_ai_bridge.py:264` | `def swan_available()` |
+| `swan_consult` | function | `modules/loop_ai_bridge.py:277` | `def swan_consult(prompt, task_type, phase, timeout)` |
+| `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
+| `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
+| `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
+| `_footer` | method | `modules/loop_progress.py:306` | `def _footer(self, snapshot, elapsed)` |
+| `_header` | method | `modules/loop_progress.py:282` | `def _header(self)` |
+| `_milestone_line` | method | `modules/loop_progress.py:289` | `def _milestone_line(self, snapshot, states, current)` |
+| `_render` | method | `modules/loop_progress.py:324` | `def _render(self, snapshot)` |
+| `emit` | method | `modules/loop_progress.py:268` | `def emit(self, line)` |
+| `live_mode` | method | `modules/loop_progress.py:195` | `def live_mode(self)` |
+| `refresh` | method | `modules/loop_progress.py:246` | `def refresh(self, snapshot)` |
+| `sanitize_line` | function | `modules/loop_progress.py:151` | `def sanitize_line(line, keep_ansi)` |
+| `snap_to_states` | function | `modules/loop_progress.py:123` | `def snap_to_states(snapshot)` |
+| `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
+| `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
+| `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
+| `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
+| `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
+| `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
+| `_adho_codesign` | method | `modules/macos_payloads.py:192` | `def _adho_codesign(self, app_dir)` |
+| `_obfuscate_shell` | method | `modules/macos_payloads.py:116` | `def _obfuscate_shell(self, code)` |
+| `_reverse_shell_command` | method | `modules/macos_payloads.py:122` | `def _reverse_shell_command(self)` |
+| `generate_all` | method | `modules/macos_payloads.py:470` | `def generate_all(self)` |
+| `generate_app_bundle` | method | `modules/macos_payloads.py:137` | `def generate_app_bundle(self)` |
+| `generate_launchd_persistence` | method | `modules/macos_payloads.py:212` | `def generate_launchd_persistence(self)` |
+| `generate_osascript_dropper` | method | `modules/macos_payloads.py:314` | `def generate_osascript_dropper(self)` |
+| `generate_persistence_scripts` | method | `modules/macos_payloads.py:398` | `def generate_persistence_scripts(self)` |
 | `generate_phishing_dialog` | method | `modules/macos_payloads.py:447` | `def generate_phishing_dialog(self)` |
 | `generate_swift_stager` | method | `modules/macos_payloads.py:335` | `def generate_swift_stager(self)` |
 | `generate_tcc_bypass` | method | `modules/macos_payloads.py:268` | `def generate_tcc_bypass(self)` |
@@ -70,6 +249,15 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `search` | method | `modules/memory_store.py:177` | `def search(self, query, top_k)` |
 | `stats` | method | `modules/memory_store.py:276` | `def stats(self)` |
 | `stats_raw` | method | `modules/memory_store.py:222` | `def stats_raw(self)` |
+| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
+| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
+| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
+| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
+| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
 | `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
 | `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
 | `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
@@ -308,193 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
 | `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
 | `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
-| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
-| `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
-| `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
-| `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
-| `register` | method | `modules/obs_parser.py:109` | `def register(self, extractor)` |
-| `register` | method | `modules/obs_parser.py:450` | `def register(self, extractor)` |
-| `run_all` | method | `modules/obs_parser.py:112` | `def run_all(self, text, host)` |
-| `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
-| `Operation` | class | `modules/operation.py:79` | `class Operation` |
-| `OperationManager` | class | `modules/operation.py:180` | `class OperationManager` |
-| `OperationStatus` | class | `modules/operation.py:42` | `class OperationStatus(StrEnum)` |
-| `OperationStep` | class | `modules/operation.py:63` | `class OperationStep` |
-| `__init__` | method | `modules/operation.py:183` | `def __init__(self)` |
-| `create` | method | `modules/operation.py:206` | `def create(self, name, target, apt_name, description)` |
-| `from_dict` | method | `modules/operation.py:116` | `def from_dict(cls, d)` |
-| `get` | method | `modules/operation.py:199` | `def get(self, op_id)` |
-| `get_manager` | function | `modules/operation.py:471` | `def get_manager()` |
-| `list` | method | `modules/operation.py:187` | `def list(self)` |
-| `log_event` | method | `modules/operation.py:143` | `def log_event(self, step_index, step_name, status, summary, findings_count, error)` |
-| `pause` | method | `modules/operation.py:369` | `def pause(self, op_id)` |
-| `plan_from_apt` | method | `modules/operation.py:225` | `def plan_from_apt(self, op, playbook_yaml_path)` |
-| `record_facts` | method | `modules/operation.py:164` | `def record_facts(self, findings)` |
-| `report` | method | `modules/operation.py:431` | `def report(self, op_id)` |
-| `resume` | method | `modules/operation.py:378` | `def resume(self, op_id, executor)` |
-| `save` | method | `modules/operation.py:134` | `def save(self)` |
-| `start` | method | `modules/operation.py:287` | `def start(self, op_id, executor)` |
-| `status` | method | `modules/operation.py:396` | `def status(self, op_id)` |
-| `stop` | method | `modules/operation.py:386` | `def stop(self, op_id)` |
-| `timeline` | method | `modules/operation.py:425` | `def timeline(self, op_id)` |
-| `to_dict` | method | `modules/operation.py:98` | `def to_dict(self)` |
-| `OperatorProfile` | class | `modules/operator_profiles.py:38` | `class OperatorProfile` |
-| `OperatorProfileManager` | class | `modules/operator_profiles.py:77` | `class OperatorProfileManager` |
-| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
-| `_ensure_team_ca` | method | `modules/operator_profiles.py:93` | `def _ensure_team_ca(self)` |
-| `_generate_operator_cert` | method | `modules/operator_profiles.py:130` | `def _generate_operator_cert(self, username)` |
-| `_profile_dir` | method | `modules/operator_profiles.py:124` | `def _profile_dir(self, username)` |
-| `_profile_path` | method | `modules/operator_profiles.py:127` | `def _profile_path(self, username)` |
-| `_save_profile` | method | `modules/operator_profiles.py:255` | `def _save_profile(self, profile)` |
-| `create_profile` | method | `modules/operator_profiles.py:192` | `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` |
-| `delete_profile` | method | `modules/operator_profiles.py:289` | `def delete_profile(self, username)` |
-| `effective_config` | method | `modules/operator_profiles.py:360` | `def effective_config(self, username)` |
-| `get_attribute` | method | `modules/operator_profiles.py:328` | `def get_attribute(self, username, key, default)` |
-| `get_operator_profile_manager` | function | `modules/operator_profiles.py:398` | `def get_operator_profile_manager()` |
-| `list_profiles` | method | `modules/operator_profiles.py:300` | `def list_profiles(self)` |
-| `load_profile` | method | `modules/operator_profiles.py:260` | `def load_profile(self, username)` |
-| `log_action` | method | `modules/operator_profiles.py:335` | `def log_action(self, username, action, details)` |
-| `set_attribute` | method | `modules/operator_profiles.py:319` | `def set_attribute(self, username, key, value)` |
-| `to_dict` | method | `modules/operator_profiles.py:57` | `def to_dict(self)` |
-| `touch_activity` | method | `modules/operator_profiles.py:312` | `def touch_activity(self, username)` |
-| `update_profile` | method | `modules/operator_profiles.py:276` | `def update_profile(self, username)` |
-| `GateAction` | class | `modules/opsec_scorer.py:180` | `class GateAction(IntEnum)` |
-| `GatedOpsecScore` | class | `modules/opsec_scorer.py:303` | `class GatedOpsecScore` |
-| `OpsecContext` | class | `modules/opsec_scorer.py:232` | `class OpsecContext` |
-| `OpsecScore` | class | `modules/opsec_scorer.py:265` | `class OpsecScore` |
-| `OpsecScorer` | class | `modules/opsec_scorer.py:331` | `class OpsecScorer` |
-| `OpsecScorerV2` | class | `modules/opsec_scorer.py:559` | `class OpsecScorerV2` |
-| `RiskLevel` | class | `modules/opsec_scorer.py:170` | `class RiskLevel(IntEnum)` |
-| `__init__` | method | `modules/opsec_scorer.py:343` | `def __init__(self, payload, world_model)` |
-| `__init__` | method | `modules/opsec_scorer.py:617` | `def __init__(self, context)` |
-| `_build_explanation` | method | `modules/opsec_scorer.py:796` | `def _build_explanation(cmd, noise, detects, gate)` |
-| `_build_recommendation` | method | `modules/opsec_scorer.py:544` | `def _build_recommendation(risk_level, mitigations)` |
-| `_detection_risk_label` | method | `modules/opsec_scorer.py:532` | `def _detection_risk_label(detectable, noise)` |
-| `_estimate_noise` | method | `modules/opsec_scorer.py:426` | `def _estimate_noise(self, command)` |
-| `_evasion_reduction` | method | `modules/opsec_scorer.py:498` | `def _evasion_reduction(self, detectable)` |
-| `_find_alternatives` | method | `modules/opsec_scorer.py:777` | `def _find_alternatives(cmd)` |
-| `_gather_mitigations` | method | `modules/opsec_scorer.py:510` | `def _gather_mitigations(self, detectable, noise)` |
-| `_generate_mitigations` | method | `modules/opsec_scorer.py:753` | `def _generate_mitigations(noise, detects)` |
-| `_get_host_purpose` | method | `modules/opsec_scorer.py:479` | `def _get_host_purpose(self, rhost)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:527` | `def _noise_to_risk(noise)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:739` | `def _noise_to_risk(noise)` |
-| `_phase_mismatch_penalty` | method | `modules/opsec_scorer.py:448` | `def _phase_mismatch_penalty(self, tool_phase, override)` |
-| `_risk_bucket` | function | `modules/opsec_scorer.py:189` | `def _risk_bucket(noise)` |
-| `_risk_label` | function | `modules/opsec_scorer.py:207` | `def _risk_label(noise)` |
-| `_risk_level` | function | `modules/opsec_scorer.py:219` | `def _risk_level(noise)` |
-| `_risk_to_gate` | method | `modules/opsec_scorer.py:743` | `def _risk_to_gate(self, risk)` |
-| `_target_sensitivity_bonus` | method | `modules/opsec_scorer.py:470` | `def _target_sensitivity_bonus(self, rhost)` |
-| `assess` | method | `modules/opsec_scorer.py:622` | `def assess(self, command, extra_context)` |
-| `evasion_active` | method | `modules/opsec_scorer.py:352` | `def evasion_active(self)` |
-| `get_trend` | method | `modules/opsec_scorer.py:709` | `def get_trend(self)` |
-| `score` | method | `modules/opsec_scorer.py:365` | `def score(self, command, rhost, phase_override)` |
-| `score_batch` | method | `modules/opsec_scorer.py:413` | `def score_batch(self, commands, rhost)` |
-| `score_command` | function | `modules/opsec_scorer.py:811` | `def score_command(command, payload, rhost)` |
-| `should_allow` | method | `modules/opsec_scorer.py:696` | `def should_allow(self, command)` |
-| `suggest_mitigations` | method | `modules/opsec_scorer.py:417` | `def suggest_mitigations(self, command, detectable_by)` |
-| `to_dict` | method | `modules/opsec_scorer.py:288` | `def to_dict(self)` |
-| `traffic_morphing_active` | method | `modules/opsec_scorer.py:357` | `def traffic_morphing_active(self)` |
-| `_invalidate` | function | `modules/orchestrator_config.py:74` | `def _invalidate()` |
-| `_payload` | function | `modules/orchestrator_config.py:82` | `def _payload()` |
-| `_save` | function | `modules/orchestrator_config.py:97` | `def _save(payload)` |
-| `_section` | function | `modules/orchestrator_config.py:92` | `def _section(payload)` |
-| `effective_verbs` | function | `modules/orchestrator_config.py:161` | `def effective_verbs()` |
-| `remove_verb` | function | `modules/orchestrator_config.py:290` | `def remove_verb(name)` |
-| `reset` | function | `modules/orchestrator_config.py:315` | `def reset()` |
-| `set_stage` | function | `modules/orchestrator_config.py:136` | `def set_stage(name, enabled)` |
-| `stage_enabled` | function | `modules/orchestrator_config.py:130` | `def stage_enabled(name)` |
-| `stages` | function | `modules/orchestrator_config.py:105` | `def stages()` |
-| `upsert_verb` | function | `modules/orchestrator_config.py:233` | `def upsert_verb(name)` |
-| `verb_config` | function | `modules/orchestrator_config.py:218` | `def verb_config(name)` |
-| `verb_enabled` | function | `modules/orchestrator_config.py:227` | `def verb_enabled(name)` |
-| `_cache_load` | function | `modules/osint_enrich.py:52` | `def _cache_load(sessions_dir)` |
-| `_cache_path` | function | `modules/osint_enrich.py:47` | `def _cache_path(sessions_dir)` |
-| `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
-| `_cached` | function | `modules/osint_enrich.py:69` | `def _cached(sessions_dir, key, ttl)` |
-| `_get_json` | function | `modules/osint_enrich.py:84` | `def _get_json(url, params)` |
-| `_get_text` | function | `modules/osint_enrich.py:110` | `def _get_text(url, params)` |
-| `_post_json` | function | `modules/osint_enrich.py:96` | `def _post_json(url, payload)` |
-| `_store` | function | `modules/osint_enrich.py:77` | `def _store(sessions_dir, key, data)` |
-| `cve_lookup` | function | `modules/osint_enrich.py:122` | `def cve_lookup(cve_id, sessions_dir)` |
-| `domain_exposure` | function | `modules/osint_enrich.py:198` | `def domain_exposure(domain, sessions_dir)` |
-| `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
-| `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
-| `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
-| `DynamicShellcodePayload` | class | `modules/payload_factory.py:409` | `class DynamicShellcodePayload(PayloadTemplate)` |
-| `MsfvenomPayload` | class | `modules/payload_factory.py:322` | `class MsfvenomPayload(PayloadTemplate)` |
-| `PayloadFactory` | class | `modules/payload_factory.py:457` | `class PayloadFactory` |
-| `PayloadTemplate` | class | `modules/payload_factory.py:216` | `class PayloadTemplate(ABC)` |
-| `ReverseShellPayload` | class | `modules/payload_factory.py:251` | `class ReverseShellPayload(PayloadTemplate)` |
-| `ShellcodePayload` | class | `modules/payload_factory.py:363` | `class ShellcodePayload(PayloadTemplate)` |
-| `WindowsReverseShellPayload` | class | `modules/payload_factory.py:290` | `class WindowsReverseShellPayload(PayloadTemplate)` |
-| `__init__` | method | `modules/payload_factory.py:222` | `def __init__(self, name, platform, arch, description, options)` |
-| `__init__` | method | `modules/payload_factory.py:254` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:293` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:325` | `def __init__(self, name, platform, arch)` |
-| `__init__` | method | `modules/payload_factory.py:374` | `def __init__(self, name, platform, arch, description, escaped_hex, patcher)` |
-| `__init__` | method | `modules/payload_factory.py:416` | `def __init__(self, name, platform, arch, description, builder)` |
-| `__init__` | method | `modules/payload_factory.py:464` | `def __init__(self)` |
-| `_apply_format` | method | `modules/payload_factory.py:575` | `def _apply_format(data, fmt)` |
-| `_build_linux_x64_reverse_tcp` | function | `modules/payload_factory.py:118` | `def _build_linux_x64_reverse_tcp(lhost, lport)` |
-| `_parse_escaped_hex` | function | `modules/payload_factory.py:442` | `def _parse_escaped_hex(escaped)` |
-| `_patch_shellcode_x64` | function | `modules/payload_factory.py:190` | `def _patch_shellcode_x64(raw, lhost, lport)` |
-| `_register_builtins` | method | `modules/payload_factory.py:468` | `def _register_builtins(self)` |
-| `format_payload_table` | function | `modules/payload_factory.py:672` | `def format_payload_table(payloads)` |
-| `generate` | method | `modules/payload_factory.py:237` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:272` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:305` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:337` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:397` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:436` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:529` | `def generate(self, name, format, output)` |
-| `get` | method | `modules/payload_factory.py:525` | `def get(self, name)` |
-| `list` | method | `modules/payload_factory.py:516` | `def list(self, platform)` |
-| `list_formats` | method | `modules/payload_factory.py:664` | `def list_formats()` |
-| `register` | method | `modules/payload_factory.py:512` | `def register(self, template)` |
-| `to_dict` | method | `modules/payload_factory.py:241` | `def to_dict(self)` |
-| `CampaignResult` | class | `modules/phishing_orchestrator.py:167` | `class CampaignResult` |
-| `CampaignTarget` | class | `modules/phishing_orchestrator.py:139` | `class CampaignTarget` |
-| `PhishingOrchestrator` | class | `modules/phishing_orchestrator.py:180` | `class PhishingOrchestrator` |
-| `PhishingTemplate` | class | `modules/phishing_orchestrator.py:154` | `class PhishingTemplate` |
-| `__init__` | method | `modules/phishing_orchestrator.py:316` | `def __init__(self)` |
-| `_decrypt_credential` | function | `modules/phishing_orchestrator.py:100` | `def _decrypt_credential(encrypted_b64)` |
-| `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
-| `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
-| `_generate_landing_page` | method | `modules/phishing_orchestrator.py:683` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
-| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
-| `_inject_harvester` | method | `modules/phishing_orchestrator.py:769` | `def _inject_harvester(self, html, page_id)` |
-| `_load_config` | method | `modules/phishing_orchestrator.py:808` | `def _load_config(self)` |
-| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:644` | `def _load_targets_from_file(self, filepath)` |
-| `_send_email` | method | `modules/phishing_orchestrator.py:735` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
-| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:723` | `def _setup_harvesting_endpoint(self, campaign_id)` |
-| `clone_landing_page` | method | `modules/phishing_orchestrator.py:533` | `def clone_landing_page(self, url)` |
-| `generate_template` | method | `modules/phishing_orchestrator.py:486` | `def generate_template(self, name, target_domain, context)` |
-| `get_instance` | method | `modules/phishing_orchestrator.py:321` | `def get_instance(cls)` |
-| `get_results` | method | `modules/phishing_orchestrator.py:560` | `def get_results(self, campaign_id)` |
-| `launch` | method | `modules/phishing_orchestrator.py:332` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
-| `profile_targets` | method | `modules/phishing_orchestrator.py:441` | `def profile_targets(self, domain)` |
-| `record_click` | method | `modules/phishing_orchestrator.py:584` | `def record_click(self, campaign_id, email)` |
-| `record_credentials` | method | `modules/phishing_orchestrator.py:605` | `def record_credentials(self, campaign_id, email, password)` |
-| `ConditionEvaluator` | class | `modules/pipeline_engine.py:326` | `class ConditionEvaluator` |
-| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:868` | `class EngagementNarratorAdapter(INarratorAdapter)` |
-| `INarratorAdapter` | class | `modules/pipeline_engine.py:848` | `class INarratorAdapter(ABC)` |
-| `IStepRunner` | class | `modules/pipeline_engine.py:509` | `class IStepRunner(ABC)` |
-| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:523` | `class LazyOwnStepRunner(IStepRunner)` |
-| `PipelineCycleError` | class | `modules/pipeline_engine.py:101` | `class PipelineCycleError(PipelineError)` |
-| `PipelineEngine` | class | `modules/pipeline_engine.py:908` | `class PipelineEngine` |
-| `PipelineError` | class | `modules/pipeline_engine.py:89` | `class PipelineError(Exception)` |
-| `PipelineLoader` | class | `modules/pipeline_engine.py:626` | `class PipelineLoader` |
-| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:97` | `class PipelineNotFoundError(PipelineError)` |
-| `PipelineRun` | class | `modules/pipeline_engine.py:199` | `class PipelineRun` |
-| `PipelineSchemaError` | class | `modules/pipeline_engine.py:93` | `class PipelineSchemaError(PipelineError)` |
-| `PipelineSpec` | class | `modules/pipeline_engine.py:152` | `class PipelineSpec` |
-| `PipelineStep` | class | `modules/pipeline_engine.py:111` | `class PipelineStep` |
-| `RunArtifactStore` | class | `modules/pipeline_engine.py:769` | `class RunArtifactStore` |
-| `StepDerivers` | class | `modules/pipeline_engine.py:375` | `class StepDerivers` |
-| `StepResult` | class | `modules/pipeline_engine.py:163` | `class StepResult` |
-| `StepValidator` | class | `modules/pipeline_engine.py:341` | `class StepValidator` |
-| `TemplateResolver` | class | `modules/pipeline_engine.py:260` | `class TemplateResolver` |
-| `_SilentNarrator` | class | `modules/pipeline_engine.py:863` | `class _SilentNarrator(INarratorAdapter)` |
-| `__init__` | method | `modules/pipeline_engine.py:275` | `def __init__(self, context)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

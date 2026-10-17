@@ -74,6 +74,29 @@ def empty_placeholders(template: str, context: dict[str, Any]) -> list[str]:
     return sorted(name for name in template_placeholders(template) if not str(context.get(name) or "").strip())
 
 
+def alias_with_trailing_args(expanded: str, original: str) -> str:
+    """Append the operator's trailing arguments to an expanded alias.
+
+    cmd2 aliases are prefix shortcuts: ``alias arg1 arg2`` must become
+    ``<expanded value> arg1 arg2``. LazyOwn's custom dynamic expander
+    replaced the whole line with the template, which silently dropped
+    parameters such as ``rm_wm_host 127.0.0.1``.
+
+    Args:
+        expanded: Fully rendered alias value.
+        original: Raw line the operator typed.
+
+    Returns:
+        The expanded value plus the original trailing arguments, if any.
+    """
+    parts = str(original or "").strip().split(maxsplit=1)
+    trailing = parts[1].strip() if len(parts) > 1 else ""
+    base = str(expanded or "").strip()
+    if not trailing:
+        return base
+    return f"{base} {trailing}".strip()
+
+
 def load_aliases(
     payload: dict[str, Any] | None = None,
     path: Path = ALIASES_PATH,
@@ -125,6 +148,7 @@ def load_aliases(
 
 __all__ = [
     "ALIASES_PATH",
+    "alias_with_trailing_args",
     "REQUIRED_PLACEHOLDERS",
     "empty_placeholders",
     "load_aliases",

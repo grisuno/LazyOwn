@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 28 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
+static/js groups 25 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -12,8 +12,6 @@ graph LR
     modules["modules"]
     root["root"]
     static["static"]
-    tests["tests"]
-    cli -- "calls into" --> core
     contrib -- "depends on" --> core
     root -- "depends on" --> core
     static -- "depends on" --> cli
@@ -21,8 +19,6 @@ graph LR
     static -- "depends on" --> lazyc2
     static -- "depends on" --> lazyown_docker
     static -- "depends on" --> modules
-    tests -- "calls into" --> cli
-    tests -- "calls into" --> core
 ```
 
 ## cli (8.1)
@@ -35,7 +31,7 @@ contrib groups 1 files (py) around generate_key_iv, main.
 
 ## core (8.3)
 
-core groups 3 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Declarative schema and validation for ``payload.json``.
+core groups 2 files (py) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. Process and subprocess utilities for the LazyOwn framework.
 
 ## lazyc2 (8.4)
 
@@ -57,17 +53,12 @@ root groups 1 files (py) around main.
 
 static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
-## tests (8.9)
-
-tests groups 2 files (py) around TestLoadPayload, test_returns_dict_with_expected_keys, test_roundtrips_values_correctly, test_handles_malformed_json, test_copies_from_example_when_payload_missing. Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
-
 **Files**:
 
 - cli/assign.py
 - cli/show.py
 - cli/style.py
 - contrib/legacy/lazybinenc.py
-- core/payload_schema.py
 - core/process.py
 - core/prompt.py
 - key.py
@@ -89,5 +80,3 @@ tests groups 2 files (py) around TestLoadPayload, test_returns_dict_with_expecte
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
-- tests/test_core_config.py
-- tests/test_payload_schema.py

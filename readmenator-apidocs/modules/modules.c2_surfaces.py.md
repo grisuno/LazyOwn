@@ -53,6 +53,8 @@ Extra, Service). Returns True when stored (or already present).
 
 **Returns:** `bool`
 
+*Called by:* [`apply`](modules.sinks.c2_surfaces.py.md#apply)
+
 ---
 
 <a id="publish_cve"></a>
@@ -83,6 +85,8 @@ already present.
 
 **Returns:** `bool`
 
+*Called by:* [`apply`](modules.sinks.c2_surfaces.py.md#apply)
+
 ---
 
 <a id="append_note"></a>
@@ -108,6 +112,8 @@ preserves operator notes while surfacing loop/loot events.
 | `sessions_dir` | `Path \| str` | `_SESSIONS_DIR` |  |
 
 **Returns:** `bool`
+
+*Called by:* [`apply`](modules.sinks.c2_surfaces.py.md#apply)
 
 ---
 
@@ -184,6 +190,8 @@ Map exploit severity words to /cves risk levels.
 | `severity` | `str` |  |  |
 
 **Returns:** `str`
+
+*Called by:* [`apply`](modules.sinks.c2_surfaces.py.md#apply)
 
 ---
 

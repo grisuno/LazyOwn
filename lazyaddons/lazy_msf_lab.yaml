@@ -11,6 +11,7 @@ description: >
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
   - name: msf_lab_target
     type: string

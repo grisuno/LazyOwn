@@ -9,6 +9,7 @@ description: |
 author: Oritera
 version: "1.0"
 enabled: true
+update: true
 params:
   - name: target
     type: string

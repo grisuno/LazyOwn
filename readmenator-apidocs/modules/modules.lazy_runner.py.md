@@ -14,7 +14,7 @@ summary.
 ## Contents
 
 - **Classes:** [`LoopRunConfig`](#looprunconfig)
-- **Functions:** [`parse_loop_line`](#parse_loop_line), [`build_executor`](#build_executor), [`report_result`](#report_result), [`run_loop`](#run_loop)
+- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`run_loop`](#run_loop)
 
 ## Call Graph
 
@@ -27,6 +27,8 @@ flowchart LR
     n_modules_lazy_runner_py__run_loop(["run_loop"])
     n_modules_lazy_runner_py__LoopRunConfig_clamped(["LoopRunConfig.clamped"])
     n_modules_lazy_runner_py__report_result(["report_result"])
+    n_modules_lazy_runner_py__resolve_loop_defaults(["resolve_loop_defaults"])
+    n_modules_orchestrator_config_py__profile_config["orchestrator_config.profile_config"]
     n_modules_lazy_runner_py__build_executor(["build_executor"])
     n_modules_auto_registry_py__execute_shell_verb["auto_registry.execute_shell_verb"]
     n_modules_auto_registry_py__execute_streaming["auto_registry.execute_streaming"]
@@ -42,10 +44,13 @@ flowchart LR
     n_core_autonomous_py__autonomous_mode["autonomous.autonomous_mode"]
     n_core_terminal_guard_py__TerminalGuard___init__["terminal_guard.TerminalGuard.__init__"]
     n_modules_lazy_engine_py__LazyEngine["lazy_engine.LazyEngine"]
+    n_modules_lazy_loop_py__LazyLoopEngine_apply_profile["lazy_loop.LazyLoopEngine.apply_profile"]
     n_modules_lazy_loop_py__LazyLoopEngine_create_task["lazy_loop.LazyLoopEngine.create_task"]
     n_modules_lazy_runner_py__parse_loop_line --> n_modules_lazy_runner_py__LoopRunConfig
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__LoopRunConfig_clamped
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__report_result
+    n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__resolve_loop_defaults
+    n_modules_lazy_runner_py__resolve_loop_defaults -.-> n_modules_orchestrator_config_py__profile_config
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__execute_shell_verb
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__execute_streaming
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__is_routable_command
@@ -63,6 +68,7 @@ flowchart LR
     n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_warn
     n_modules_lazy_runner_py__run_loop -.-> n_core_terminal_guard_py__TerminalGuard___init__
     n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_engine_py__LazyEngine
+    n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_loop_py__LazyLoopEngine_apply_profile
     n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_loop_py__LazyLoopEngine_create_task
 ```
 
@@ -98,6 +104,9 @@ Everything one loop invocation needs, parsed by the command sets.
 | [`progress`](#looprunconfig-progress) | `bool` | `True` |  |
 | [`view`](#looprunconfig-view) | `bool` | `False` |  |
 | [`verb_timeout`](#looprunconfig-verb_timeout) | `float` | `DEFAULT_VERB_TIMEOUT_SEC` |  |
+| [`profile`](#looprunconfig-profile) | `str` | `''` |  |
+| [`rounds_set`](#looprunconfig-rounds_set) | `bool` | `True` |  |
+| [`workers_set`](#looprunconfig-workers_set) | `bool` | `True` |  |
 | [`extra`](#looprunconfig-extra) | `dict` | `field(default_factory=dict)` |  |
 
 **Members**
@@ -110,7 +119,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:107](../../modules/lazy_runner.py#L107)
+`method` | [modules/lazy_runner.py:110](../../modules/lazy_runner.py#L110)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -130,7 +139,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:137](../../modules/lazy_runner.py#L137)
+`function` | [modules/lazy_runner.py:140](../../modules/lazy_runner.py#L140)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -159,11 +168,37 @@ same flags and defaults.
 
 ---
 
+<a id="resolve_loop_defaults"></a>
+
+### `resolve_loop_defaults`
+
+`function` | [modules/lazy_runner.py:238](../../modules/lazy_runner.py#L238)
+
+```python
+def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig
+```
+
+Fill unset rounds and workers from the selected orchestrator profile.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `config` | `LoopRunConfig` |  | Parsed invocation; explicit flags stay untouched. |
+
+**Returns:** `LoopRunConfig` - The same configuration with profile defaults applied.
+
+*Calls:* [`profile_config`](modules.orchestrator_config.py.md#profile_config)
+
+*Called by:* [`run_loop`](#run_loop)
+
+---
+
 <a id="build_executor"></a>
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:225](../../modules/lazy_runner.py#L225)
+`function` | [modules/lazy_runner.py:274](../../modules/lazy_runner.py#L274)
 
 ```python
 def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '') -> Callable[[str], str]
@@ -202,7 +237,7 @@ operator host; custom tools and raw bash stay local.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:356](../../modules/lazy_runner.py#L356)
+`function` | [modules/lazy_runner.py:405](../../modules/lazy_runner.py#L405)
 
 ```python
 def report_result(result: dict) -> None
@@ -226,7 +261,7 @@ Print the final outcome of one loop run.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:691](../../modules/lazy_runner.py#L691)
+`function` | [modules/lazy_runner.py:755](../../modules/lazy_runner.py#L755)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict
@@ -244,7 +279,7 @@ Execute one complete loop run and return its summary.
 
 **Returns:** `dict` - Orchestrator summary with ``cancelled``/``error`` keys added.
 
-*Calls:* [`run_monitor_session`](cli.lazy_monitor.py.md#run_monitor_session), [`autonomous_mode`](core.autonomous.py.md#autonomous_mode), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`TerminalGuard.__init__`](core.terminal_guard.py.md#terminalguard-__init__), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`LazyLoopEngine.create_task`](modules.lazy_loop.py.md#lazyloopengine-create_task), [`LoopRunConfig.clamped`](#looprunconfig-clamped), [`report_result`](#report_result)
+*Calls:* [`run_monitor_session`](cli.lazy_monitor.py.md#run_monitor_session), [`autonomous_mode`](core.autonomous.py.md#autonomous_mode), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`TerminalGuard.__init__`](core.terminal_guard.py.md#terminalguard-__init__), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`LazyLoopEngine.apply_profile`](modules.lazy_loop.py.md#lazyloopengine-apply_profile), [`LazyLoopEngine.create_task`](modules.lazy_loop.py.md#lazyloopengine-create_task), [`LoopRunConfig.clamped`](#looprunconfig-clamped), [`report_result`](#report_result), [`resolve_loop_defaults`](#resolve_loop_defaults)
 
 *Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`run`](modules.tools.loop_smoke.py.md#run)
 

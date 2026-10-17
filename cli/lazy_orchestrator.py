@@ -6,15 +6,21 @@ A Textual TUI in the spirit of the marketplace configurator:
   tail, per-worker current command);
 - Config: every payload knob the runner reads (rounds, workers,
   heartbeat, verb timeout, agentic flags, NOA, proxy);
+- Verbs: auto-verb registry with a searchable command picker;
+- Playbooks: full CRUD over the YAML playbooks under ``playbooks/``;
+- Gyms: YAML gym catalogue with persistent runs from the world model;
+- Chains: APT chain YAML administration;
 - Models: the LLM failover chain (add/remove members);
 - Guard: the intercept rules (add/remove).
 
 Edits persist straight to ``payload.json`` (or a sandbox path in tests)
-through ``core.config``; nothing else mutates global state.
+through ``core.config``; playbook changes are confined to the playbooks
+directory and written atomically.
 """
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,7 +28,6 @@ from rich.text import Text
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical, VerticalScroll
-from textual.screen import ModalScreen
 from textual.widgets import (
     Button,
     DataTable,
@@ -35,6 +40,12 @@ from textual.widgets import (
     TabPane,
 )
 
+from cli.tui_forms import (
+    ConfirmModal,
+    FormModal,
+    SearchSelectModal,
+    YamlEditorModal,
+)
 from modules.jsonl_tail import JsonlTail
 
 POLL_SEC = 0.5
@@ -78,41 +89,82 @@ CONFIG_FIELDS = (
 )
 
 
-class FormModal(ModalScreen[dict]):
-    """Generic key/value modal used for models and guard rules."""
+def discover_shell_commands() -> list[str]:
+    """Return every routable shell command name.
 
-    BINDINGS = [("escape", "dismiss(None)", "cancel")]
+    The pre-built ``cli/command_index.json`` catalogue is authoritative
+    when present. When it is stale or missing the source tree is scanned
+    with the same ``do_*`` method convention cmd2 uses.
 
-    def __init__(self, title: str, fields: list[tuple[str, str, str]]) -> None:
-        """Store the title and (id, label, placeholder) field specs."""
-        super().__init__()
-        self._title = title
-        self._fields = fields
+    Returns:
+        Sorted unique command names without the ``do_`` prefix.
+    """
+    names: set[str] = set()
+    try:
+        from cli.palette import all_commands
 
-    def compose(self) -> ComposeResult:
-        """One labeled input per field plus a save button."""
-        with Vertical(classes="modal-box"):
-            yield Static(self._title, classes="modal-title")
-            for field_id, label, placeholder in self._fields:
-                yield Static(label, classes="modal-label")
-                yield Input(placeholder=placeholder, id=field_id)
-            yield Button("Save", id="modal-save", variant="primary")
+        for row in all_commands():
+            name = str(row.get("name", ""))
+            if name.startswith("do_") and len(name) > 3:
+                names.add(name[3:])
+    except Exception:
+        names.clear()
+    if not names:
+        root = Path(__file__).resolve().parent.parent
+        sources = [root / "lazyown.py", *(root / "cli" / "commands").glob("*.py")]
+        pattern = re.compile(r"^\s*def do_([A-Za-z][A-Za-z0-9_]*)\s*\(", re.MULTILINE)
+        for source in sources:
+            try:
+                text = source.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            names.update(pattern.findall(text))
+    return sorted(names)
 
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Collect the values and close the modal."""
-        if event.button.id != "modal-save":
-            return
-        values = {
-            field_id: str(self.query_one(f"#{field_id}", Input).value).strip() for field_id, _label, _p in self._fields
+
+def command_descriptions() -> dict[str, str]:
+    """Return ``{command: summary}`` from the palette index when available."""
+    try:
+        from cli.palette import all_commands
+
+        return {
+            str(row["name"])[3:]: str(row.get("summary") or "")
+            for row in all_commands()
+            if str(row.get("name", "")).startswith("do_") and len(str(row["name"])) > 3
         }
-        self.dismiss(values)
+    except Exception:
+        return {}
 
-    def on_input_submitted(self, event: Input.Submitted) -> None:
-        """Enter commits the form like the save button."""
-        values = {
-            field_id: str(self.query_one(f"#{field_id}", Input).value).strip() for field_id, _label, _p in self._fields
-        }
-        self.dismiss(values)
+
+def verb_candidates() -> list[tuple[str, str]]:
+    """Return searchable ``(verb, description)`` pairs for the picker.
+
+    Built-in and operator-defined auto verbs come first because they are
+    the primary loop surface; every remaining shell command follows.
+    """
+    from modules.orchestrator_config import effective_verbs
+
+    descriptions = command_descriptions()
+    pairs: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    try:
+        entries = effective_verbs()
+    except Exception:
+        entries = []
+    for entry in entries:
+        name = str(entry.get("name", "")).strip()
+        if not name or name in seen:
+            continue
+        source = "custom verb" if entry.get("source") == "custom" else "auto verb"
+        detail = str(entry.get("description") or "").strip() or descriptions.get(name, "")
+        pairs.append((name, f"[{source}] {detail}".strip()))
+        seen.add(name)
+    for name in discover_shell_commands():
+        if name in seen:
+            continue
+        pairs.append((name, descriptions.get(name, "shell command")))
+        seen.add(name)
+    return pairs
 
 
 class LazyOrchestratorApp(App[None]):
@@ -122,11 +174,17 @@ class LazyOrchestratorApp(App[None]):
     #now-status { height: 6; border: round $accent; padding: 0 1; }
     #now-log { height: 1fr; border: round $primary; }
     #config-status { height: 3; color: $text-muted; }
+    #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail { height: 10;
+        border: round $secondary; padding: 0 1; }
     DataTable { height: 1fr; }
     .modal-box { width: 70; height: auto; padding: 1 2; background: $surface;
                  border: round $accent; }
+    .modal-box-wide { width: 100; height: 38; padding: 1 2; background: $surface;
+                      border: round $accent; }
     .modal-title { text-style: bold; padding-bottom: 1; }
     .modal-label { padding-top: 1; }
+    .modal-hint { color: $text-muted; padding-top: 1; }
+    .modal-error { color: $error; padding-top: 1; }
     """
 
     BINDINGS = [
@@ -135,7 +193,7 @@ class LazyOrchestratorApp(App[None]):
         Binding("s", "save_config", "Save config"),
         Binding("space", "toggle_item", "Toggle"),
         Binding("a", "add_item", "Add"),
-        Binding("e", "edit_item", "Edit priority"),
+        Binding("e", "edit_item", "Edit"),
         Binding("d", "delete_item", "Delete"),
     ]
 
@@ -144,6 +202,7 @@ class LazyOrchestratorApp(App[None]):
         super().__init__()
         self._payload_path = Path(payload_path) if payload_path else None
         self._chains_dir_override: Path | None = None
+        self._playbooks_dir_override: Path | None = None
         self.task_id = task_id
         self._tail: JsonlTail | None = None
         self._tail_task = ""
@@ -169,10 +228,22 @@ class LazyOrchestratorApp(App[None]):
                 yield DataTable(id="stages-table")
             with TabPane("Verbs", id="tab-verbs"):
                 yield DataTable(id="verbs-table")
+            with TabPane("Playbooks", id="tab-playbooks"):
+                with Vertical():
+                    yield DataTable(id="playbooks-table")
+                    yield Static("select a playbook to preview it", id="playbooks-detail")
+            with TabPane("Gyms", id="tab-gyms"):
+                with Vertical():
+                    yield DataTable(id="gyms-table")
+                    yield Static("select a gym to preview its state", id="gyms-detail")
             with TabPane("Chains", id="tab-chains"):
                 with Vertical():
                     yield DataTable(id="chains-table")
                     yield Static("select a chain to preview its steps", id="chains-detail")
+            with TabPane("Profiles", id="tab-profiles"):
+                with Vertical():
+                    yield DataTable(id="profiles-table")
+                    yield Static("select a profile to activate it", id="profiles-detail")
             with TabPane("Models", id="tab-models"):
                 yield DataTable(id="models-table")
             with TabPane("Guard", id="tab-guard"):
@@ -185,7 +256,10 @@ class LazyOrchestratorApp(App[None]):
         self._load_payload_into_form()
         self._refresh_stages()
         self._refresh_verbs()
+        self._refresh_playbooks()
+        self._refresh_gyms()
         self._refresh_chains()
+        self._refresh_profiles()
         self._refresh_models()
         self._refresh_guard()
         self.set_interval(POLL_SEC, self._poll_now)
@@ -208,7 +282,14 @@ class LazyOrchestratorApp(App[None]):
         self._refresh_verbs()
         return enabled
 
-    def add_auto_verb(self, name: str, keywords: str = "", needs_target: str = "true", description: str = "") -> dict:
+    def add_auto_verb(
+        self,
+        name: str,
+        keywords: str = "",
+        needs_target: str = "true",
+        description: str = "",
+        phases: str = "",
+    ) -> dict:
         """Register a new operator-defined auto verb."""
         from modules.orchestrator_config import upsert_verb
 
@@ -216,6 +297,7 @@ class LazyOrchestratorApp(App[None]):
             name,
             enabled=True,
             keywords=[word.strip() for word in str(keywords).split(",") if word.strip()],
+            phases=[phase.strip() for phase in str(phases).split(",") if phase.strip()],
             needs_target=str(needs_target).strip().lower() not in ("false", "no", "0", "off"),
             description=description or f"operator-defined verb {name}",
             custom=True,
@@ -230,6 +312,411 @@ class LazyOrchestratorApp(App[None]):
         removed = remove_verb(name)
         self._refresh_verbs()
         return bool(removed)
+
+    def _playbooks_dir(self) -> Path:
+        """Playbook file root (overrideable for sandboxed tests)."""
+        if self._playbooks_dir_override is not None:
+            return self._playbooks_dir_override
+        from modules.playbook_admin import PLAYBOOKS_DIR
+
+        return PLAYBOOKS_DIR
+
+    def playbook_rows(self) -> list[dict]:
+        """Return one row per playbook file, including invalid ones."""
+        from modules.playbook_admin import scan_playbooks
+
+        try:
+            entries = scan_playbooks(self._playbooks_dir())
+        except Exception:
+            return []
+        return [
+            {
+                "file": entry.file,
+                "path": entry.path,
+                "name": entry.name,
+                "kind": entry.kind,
+                "steps": entry.steps,
+                "phases": entry.phases,
+                "platforms": ",".join(entry.platforms),
+                "description": entry.description,
+                "valid": entry.valid,
+                "error": entry.error,
+            }
+            for entry in entries
+        ]
+
+    def playbook_preview(self, filename: str, limit: int = 18) -> str:
+        """Return a bounded YAML preview for one playbook file."""
+        from modules.playbook_admin import preview_playbook
+
+        row = next((item for item in self.playbook_rows() if item["file"] == filename), None)
+        if row is None:
+            return "playbook not found"
+        return preview_playbook(row["path"], limit=limit)
+
+    def create_playbook_file(
+        self,
+        filename: str,
+        name: str = "",
+        description: str = "",
+        platforms: str = "linux",
+    ) -> str:
+        """Create one playbook YAML and repaint the table."""
+        from modules.playbook_admin import create_playbook
+
+        platform_list = [part.strip() for part in str(platforms).split(",") if part.strip()]
+        path = create_playbook(
+            filename,
+            name=name,
+            description=description,
+            platforms=platform_list or ["linux"],
+            directory=self._playbooks_dir(),
+        )
+        self._refresh_playbooks()
+        return str(path)
+
+    def save_playbook_text(self, filename: str, text: str) -> bool:
+        """Validate and persist raw YAML edited by the operator."""
+        from modules.playbook_admin import save_playbook_yaml
+
+        try:
+            save_playbook_yaml(filename, text, directory=self._playbooks_dir())
+        except (OSError, ValueError) as exc:
+            self.notify(f"playbook not saved: {exc}", severity="error")
+            return False
+        self._refresh_playbooks()
+        return True
+
+    def delete_playbook_file(self, filename: str) -> bool:
+        """Delete one playbook YAML after the operator confirms."""
+        from modules.playbook_admin import delete_playbook
+
+        removed = delete_playbook(filename, directory=self._playbooks_dir())
+        self._refresh_playbooks()
+        return bool(removed)
+
+    def playbook_candidates(self) -> list[tuple[str, str]]:
+        """Return ``(engine_key, summary)`` pairs for chain generation."""
+        from modules.apt_playbooks import AptPlaybookEngine
+
+        try:
+            engine = AptPlaybookEngine(playbook_dir=str(self._playbooks_dir()))
+            entries = engine.list_playbooks()
+        except Exception:
+            return []
+        return [
+            (
+                str(entry.get("apt_name", "")).lower().replace(" ", "_"),
+                f"{entry.get('phases', 0)} phases, {entry.get('atomic_tests', 0)} tests",
+            )
+            for entry in entries
+            if entry.get("apt_name")
+        ]
+
+    def _refresh_playbooks(self) -> None:
+        """Render the playbook table with per-file state."""
+        try:
+            table = self.query_one("#playbooks-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("file", "name", "kind", "steps", "phases", "platforms", "status")
+        for row in self.playbook_rows():
+            state = "ok" if row["valid"] else f"invalid ({row['error'][:40]})"
+            table.add_row(
+                row["file"],
+                row["name"],
+                row["kind"],
+                str(row["steps"]),
+                str(row["phases"]),
+                row["platforms"],
+                state,
+                key=row["file"],
+            )
+        self._update_playbooks_detail(self._selected_row("playbooks-table"))
+
+    def _update_playbooks_detail(self, filename: str) -> None:
+        """Show the selected playbook YAML in the detail pane."""
+        try:
+            panel = self.query_one("#playbooks-detail", Static)
+        except Exception:
+            return
+        if not filename:
+            panel.update("select a playbook to preview it")
+            return
+        row = next((item for item in self.playbook_rows() if item["file"] == filename), None)
+        header = f"{filename}  [{row['kind']}]  {row['steps']} step(s)" if row else filename
+        panel.update(Text(f"{header}\n{self.playbook_preview(filename)}"))
+
+    def _edit_playbook(self, filename: str) -> None:
+        """Open the raw YAML editor for one playbook file."""
+        from modules.playbook_admin import validate_playbook
+
+        row = next((item for item in self.playbook_rows() if item["file"] == filename), None)
+        if row is None:
+            return
+        try:
+            text = Path(row["path"]).read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            self.notify(f"playbook unreadable: {exc}", severity="error")
+            return
+
+        def _validate(raw: str) -> None:
+            import yaml as _yaml
+
+            try:
+                data = _yaml.safe_load(raw)
+            except Exception as exc:
+                raise ValueError(f"invalid YAML: {exc}") from exc
+            errors = validate_playbook(data)
+            if errors:
+                raise ValueError("; ".join(errors))
+
+        def _saved(raw: str | None) -> None:
+            if raw is not None:
+                self.save_playbook_text(filename, raw)
+
+        self.push_screen(YamlEditorModal(f"Edit {filename}", text, validator=_validate), _saved)
+
+    def gym_rows(self) -> list[dict]:
+        """Return one row per gym definition with its active-run count."""
+        from modules.gym_registry import scan_definitions
+        from modules.redteam_gym import get_active_challenges
+
+        try:
+            definitions = scan_definitions()
+            active = get_active_challenges()
+        except Exception:
+            return []
+        by_gym: dict[str, list[dict]] = {}
+        for run in active:
+            by_gym.setdefault(str(run.get("challenge_id", "")), []).append(run)
+        rows: list[dict] = []
+        for entry in definitions:
+            gym_id = str(entry.get("id", ""))
+            runs = by_gym.get(gym_id, [])
+            rows.append(
+                {
+                    "id": gym_id,
+                    "file": entry.get("file", ""),
+                    "path": entry.get("path", ""),
+                    "name": entry.get("name", gym_id),
+                    "difficulty": entry.get("difficulty", ""),
+                    "scenario": entry.get("scenario", ""),
+                    "chain": entry.get("chain", ""),
+                    "max_points": entry.get("max_points", 0),
+                    "phases": entry.get("phases", []),
+                    "objective": entry.get("objective", ""),
+                    "valid": entry.get("valid", True),
+                    "error": entry.get("error", ""),
+                    "runs": runs,
+                    "active": len(runs),
+                }
+            )
+        return rows
+
+    def gym_preview(self, gym_id: str, limit: int = 16) -> str:
+        """Return a bounded YAML preview for one gym definition."""
+        from modules.gym_registry import definition_path
+
+        try:
+            path = definition_path(gym_id)
+            lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+        except (OSError, ValueError) as exc:
+            return f"unreadable: {exc}"
+        shown = lines[: max(0, limit)]
+        if len(lines) > len(shown):
+            shown.append(f"... +{len(lines) - len(shown)} more line(s)")
+        return "\n".join(shown)
+
+    def _refresh_gyms(self) -> None:
+        """Render the gym catalogue and its persistent active runs."""
+        try:
+            table = self.query_one("#gyms-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("gym", "name", "difficulty", "scenario", "active", "max points", "status")
+        for row in self.gym_rows():
+            state = "ok" if row["valid"] else f"invalid ({row['error'][:36]})"
+            table.add_row(
+                row["id"],
+                row["name"],
+                row["difficulty"],
+                row["scenario"],
+                str(row["active"]),
+                str(row["max_points"]),
+                state,
+                key=row["id"],
+            )
+        self._update_gyms_detail(self._selected_row("gyms-table"))
+
+    def _update_gyms_detail(self, gym_id: str) -> None:
+        """Show definition metadata and every active run for one gym."""
+        try:
+            panel = self.query_one("#gyms-detail", Static)
+        except Exception:
+            return
+        if not gym_id:
+            panel.update("select a gym to preview its state")
+            return
+        row = next((item for item in self.gym_rows() if item["id"] == gym_id), None)
+        if row is None:
+            panel.update("gym not found")
+            return
+        lines = [
+            f"{row['id']}  [{row['difficulty']}]  scenario={row['scenario']}  max={row['max_points']}",
+            f"objective: {row['objective']}",
+            f"phases: {', '.join(row['phases'])}  chain: {row['chain'] or '-'}",
+        ]
+        if row["active"]:
+            lines.append(f"active runs ({row['active']}):")
+            for run in row["runs"]:
+                lines.append(
+                    f"  {run.get('run_id', '')}  operator={run.get('operator', '')}  "
+                    f"elapsed={run.get('elapsed_seconds', 0)}s  target={run.get('target', '') or '-'}"
+                )
+        else:
+            lines.append("active runs: none (space starts this gym)")
+        if not row["valid"]:
+            lines.append(f"invalid: {row['error']}")
+        lines.extend(["---", self.gym_preview(gym_id)])
+        panel.update("\n".join(lines))
+
+    def start_gym(self, gym_id: str, target: str = "") -> dict:
+        """Start one gym and repaint the table."""
+        from modules.redteam_gym import start_challenge
+
+        result = start_challenge(gym_id, target=target)
+        self._refresh_gyms()
+        return result
+
+    def stop_gym(self, selector: str = "") -> dict:
+        """Stop one gym (or every gym when selector is empty) and repaint."""
+        from modules.redteam_gym import stop_challenges
+
+        result = stop_challenges(selector)
+        self._refresh_gyms()
+        return result
+
+    def toggle_gym(self, gym_id: str) -> dict:
+        """Start the selected gym, or stop its active runs when already active."""
+        runs = [run for run in self.gym_rows() if run["id"] == gym_id]
+        if runs and runs[0]["active"]:
+            return self.stop_gym(gym_id)
+        target = str(self._load_payload().get("rhost", "") or "")
+        return self.start_gym(gym_id, target=target)
+
+    def _edit_gym(self, gym_id: str) -> None:
+        """Open the raw YAML editor for one gym definition."""
+        from modules.gym_registry import definition_path, validate_definition
+
+        try:
+            text = definition_path(gym_id).read_text(encoding="utf-8", errors="replace")
+        except (OSError, ValueError) as exc:
+            self.notify(f"gym unreadable: {exc}", severity="error")
+            return
+
+        def _validate(raw: str) -> None:
+            import yaml as _yaml
+
+            try:
+                data = _yaml.safe_load(raw)
+            except Exception as exc:
+                raise ValueError(f"invalid YAML: {exc}") from exc
+            errors = validate_definition(data, filename=gym_id)
+            if errors:
+                raise ValueError("; ".join(errors))
+
+        def _saved(raw: str | None) -> None:
+            if raw is None:
+                return
+            from modules.redteam_gym import save_gym_yaml
+
+            result = save_gym_yaml(gym_id, raw)
+            if not result.get("success"):
+                self.notify(f"gym not saved: {result.get('error', '')}", severity="error")
+                return
+            self._refresh_gyms()
+
+        self.push_screen(YamlEditorModal(f"Edit {gym_id}.yaml", text, validator=_validate), _saved)
+
+    def profile_rows(self) -> list[dict]:
+        """Return one row per orchestrator profile with the active marker."""
+        from modules import orchestrator_config as config
+
+        try:
+            available = config.profiles()
+            active = config.active_profile()
+        except Exception:
+            return []
+        rows: list[dict] = []
+        for name, data in available.items():
+            limits = dict(data.get("limits") or {})
+            rows.append(
+                {
+                    "name": name,
+                    "active": name == active,
+                    "chain": str(data.get("chain", "")),
+                    "playbook": str(data.get("playbook", "")),
+                    "rounds": limits.get("rounds", ""),
+                    "workers": limits.get("workers", ""),
+                    "description": str(data.get("description", "")),
+                }
+            )
+        return sorted(rows, key=lambda row: (not row["active"], row["name"]))
+
+    def activate_profile(self, name: str) -> bool:
+        """Persist one profile as active and repaint the profile table."""
+        from modules import orchestrator_config as config
+
+        try:
+            config.set_profile(name)
+        except KeyError:
+            return False
+        self._refresh_profiles()
+        return True
+
+    def _refresh_profiles(self) -> None:
+        """Render every profile and highlight the active one."""
+        try:
+            table = self.query_one("#profiles-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("profile", "active", "chain", "playbook", "rounds", "workers", "description")
+        for row in self.profile_rows():
+            table.add_row(
+                row["name"],
+                "yes" if row["active"] else "",
+                row["chain"],
+                row["playbook"],
+                str(row["rounds"]),
+                str(row["workers"]),
+                row["description"][:60],
+                key=row["name"],
+            )
+        self._update_profile_detail(self._selected_row("profiles-table"))
+
+    def _update_profile_detail(self, name: str) -> None:
+        """Show limits and budgets for the selected profile."""
+        try:
+            panel = self.query_one("#profiles-detail", Static)
+        except Exception:
+            return
+        if not name:
+            panel.update("select a profile to activate it")
+            return
+        from modules import orchestrator_config as config
+
+        try:
+            profile = config.profile_config(name)
+        except Exception:
+            panel.update("profile unavailable")
+            return
+        limits = ", ".join(f"{key}={value}" for key, value in sorted((profile.get("limits") or {}).items()))
+        budget = ", ".join(f"{key}={value}" for key, value in sorted((profile.get("budget") or {}).items()))
+        panel.update(Text(f"{name}\nlimits: {limits}\nbudget: {budget}"))
 
     def _chains_dir(self):
         """Chain file root (overrideable for sandboxed tests)."""
@@ -282,7 +769,7 @@ class LazyOrchestratorApp(App[None]):
         from modules.chain_registry import generate_for_playbook
 
         key = (playbook_key or "").strip()
-        engine = AptPlaybookEngine(playbook_dir="playbooks")
+        engine = AptPlaybookEngine(playbook_dir=str(self._playbooks_dir()))
         playbook = engine.get(key)
         if playbook is None:
             return ""
@@ -347,17 +834,24 @@ class LazyOrchestratorApp(App[None]):
             pass
 
     def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None:
-        """Refresh the chains detail pane when the cursor moves."""
+        """Refresh the detail pane when the cursor moves."""
         try:
-            if event.control.id != "chains-table":
-                return
+            control_id = event.control.id
         except Exception:
             return
         try:
             key = event.row_key
-            self._update_chains_detail(str(key.value or ""))
+            value = str(key.value or "")
         except Exception:
-            pass
+            return
+        if control_id == "chains-table":
+            self._update_chains_detail(value)
+        elif control_id == "profiles-table":
+            self._update_profile_detail(value)
+        elif control_id == "playbooks-table":
+            self._update_playbooks_detail(value)
+        elif control_id == "gyms-table":
+            self._update_gyms_detail(value)
 
     def _refresh_stages(self) -> None:
         """Render the pipeline stages with their firing condition."""
@@ -604,7 +1098,10 @@ class LazyOrchestratorApp(App[None]):
         """Reload tables and form from disk."""
         self._refresh_stages()
         self._refresh_verbs()
+        self._refresh_playbooks()
+        self._refresh_gyms()
         self._refresh_chains()
+        self._refresh_profiles()
         self._refresh_models()
         self._refresh_guard()
         self._load_payload_into_form()
@@ -633,6 +1130,14 @@ class LazyOrchestratorApp(App[None]):
             name = self._selected_row("chains-table")
             if name:
                 self.toggle_chain(name)
+        elif tab == "tab-gyms":
+            name = self._selected_row("gyms-table")
+            if name:
+                self.toggle_gym(name)
+        elif tab == "tab-profiles":
+            name = self._selected_row("profiles-table")
+            if name:
+                self.activate_profile(name)
 
     def action_save_config(self) -> None:
         """Save the form values (keyboard shortcut)."""
@@ -690,46 +1195,154 @@ class LazyOrchestratorApp(App[None]):
             )
         elif tab == "tab-verbs":
 
-            def _done_verb(values: dict | None) -> None:
-                if values and values.get("verb"):
-                    self.add_auto_verb(
-                        values["verb"],
-                        values.get("keywords", ""),
-                        values.get("needs_target", "true"),
+            def _picked(value: str | None) -> None:
+                if not value:
+                    return
+
+                def _done_verb(values: dict | None) -> None:
+                    if values and values.get("verb"):
+                        self.add_auto_verb(
+                            values["verb"],
+                            values.get("keywords", ""),
+                            values.get("needs_target", "true"),
+                            values.get("description", ""),
+                            values.get("phases", ""),
+                        )
+
+                defaults = {
+                    "verb": value,
+                    "keywords": value.replace("_", " "),
+                    "needs_target": "true",
+                    "phases": "",
+                    "description": "",
+                }
+                self.push_screen(
+                    FormModal(
+                        f"Configure verb {value}",
+                        [
+                            ("verb", "Shell command name", "myscan"),
+                            ("keywords", "Comma-separated keywords", "myscan, custom scan"),
+                            ("phases", "Comma-separated kill-chain phases", "recon, exploit"),
+                            ("needs_target", "Carries target (true|false)", "true"),
+                            ("description", "Description", "operator-defined verb"),
+                        ],
+                        defaults=defaults,
+                    ),
+                    _done_verb,
+                )
+
+            self.push_screen(
+                SearchSelectModal(
+                    "Add auto verb - choose a command or verb",
+                    verb_candidates(),
+                    placeholder="search command or auto verb",
+                ),
+                _picked,
+            )
+        elif tab == "tab-playbooks":
+
+            def _done_new(values: dict | None) -> None:
+                if not (values and values.get("filename")):
+                    return
+                try:
+                    self.create_playbook_file(
+                        values["filename"],
+                        values.get("name", ""),
                         values.get("description", ""),
+                        values.get("platforms", "linux"),
                     )
+                except (FileExistsError, ValueError) as exc:
+                    self.notify(f"playbook not created: {exc}", severity="error")
 
             self.push_screen(
                 FormModal(
-                    "Add auto verb",
+                    "New playbook",
                     [
-                        ("verb", "Shell command name", "myscan"),
-                        ("keywords", "Comma-separated keywords", "myscan, custom scan"),
-                        ("needs_target", "Carries target (true|false)", "true"),
-                        ("description", "Description", "operator-defined verb"),
+                        ("filename", "File name (e.g. apt_demo)", "apt_demo"),
+                        ("name", "APT name", "Demo APT"),
+                        ("description", "Description", "adversary emulation plan"),
+                        ("platforms", "Comma-separated platforms", "linux, windows"),
                     ],
+                    defaults={"platforms": "linux"},
                 ),
-                _done_verb,
+                _done_new,
+            )
+        elif tab == "tab-gyms":
+
+            def _done_new_gym(values: dict | None) -> None:
+                if not (values and values.get("id")):
+                    return
+                from modules.redteam_gym import create_gym
+
+                phases = [part.strip() for part in str(values.get("phases", "")).split(",") if part.strip()]
+                try:
+                    result = create_gym(
+                        values["id"],
+                        name=values.get("name", ""),
+                        scenario=values.get("scenario", "metasploitable"),
+                        objective=values.get("objective", ""),
+                        description=values.get("description", ""),
+                        difficulty=values.get("difficulty", "easy"),
+                        chain=values.get("chain", ""),
+                        phases=phases or None,
+                        max_points=int(values.get("max_points", "1000") or 1000),
+                        elo_bonus=int(values.get("elo_bonus", "100") or 100),
+                    )
+                except ValueError as exc:
+                    self.notify(f"gym not created: {exc}", severity="error")
+                    return
+                if not result.get("success"):
+                    self.notify(f"gym not created: {result.get('error', '')}", severity="error")
+                    return
+                self._refresh_gyms()
+
+            self.push_screen(
+                FormModal(
+                    "New gym definition",
+                    [
+                        ("id", "Gym ID (file stem)", "my_gym"),
+                        ("name", "Display name", "My Gym"),
+                        ("scenario", "Lab scenario or range", "metasploitable"),
+                        ("objective", "Objective", "Root the target"),
+                        ("difficulty", "Difficulty (easy|medium|hard)", "easy"),
+                        ("chain", "Optional APT chain", ""),
+                        ("phases", "Comma-separated phases", "enum, exploit"),
+                        ("max_points", "Max points", "1000"),
+                        ("elo_bonus", "ELO bonus", "100"),
+                    ],
+                    defaults={"difficulty": "easy", "phases": "enum, exploit"},
+                ),
+                _done_new_gym,
             )
         elif tab == "tab-chains":
 
-            def _done_chain(values: dict | None) -> None:
-                if values and values.get("playbook"):
-                    self.generate_chain(values["playbook"])
+            def _done_chain(playbook: str | None) -> None:
+                if playbook:
+                    self.generate_chain(playbook)
 
             self.push_screen(
-                FormModal(
+                SearchSelectModal(
                     "Generate chain from playbook",
-                    [
-                        ("playbook", "Playbook engine key (apt_playbook list)", "apt29"),
-                    ],
+                    self.playbook_candidates(),
+                    placeholder="search playbook engine key",
                 ),
                 _done_chain,
             )
 
     def action_edit_item(self) -> None:
-        """Edit the selected LLM member's priority (models tab only)."""
-        if self._active_tab() != "tab-models":
+        """Edit the selected playbook YAML or LLM member priority."""
+        tab = self._active_tab()
+        if tab == "tab-playbooks":
+            filename = self._selected_row("playbooks-table")
+            if filename:
+                self._edit_playbook(filename)
+            return
+        if tab == "tab-gyms":
+            gym_id = self._selected_row("gyms-table")
+            if gym_id:
+                self._edit_gym(gym_id)
+            return
+        if tab != "tab-models":
             return
         try:
             table = self.query_one("#models-table", DataTable)
@@ -784,6 +1397,39 @@ class LazyOrchestratorApp(App[None]):
             name = self._selected_row("verbs-table")
             if name:
                 self.remove_auto_verb(name)
+        elif tab == "tab-playbooks":
+            filename = self._selected_row("playbooks-table")
+            if not filename:
+                return
+
+            def _confirmed(answer: bool | None) -> None:
+                if answer:
+                    self.delete_playbook_file(filename)
+
+            self.push_screen(
+                ConfirmModal(f"Delete {filename}?", "The YAML file is removed from playbooks/."),
+                _confirmed,
+            )
+        elif tab == "tab-gyms":
+            gym_id = self._selected_row("gyms-table")
+            if not gym_id:
+                return
+
+            def _confirmed_gym(answer: bool | None) -> None:
+                if not answer:
+                    return
+                from modules.redteam_gym import delete_gym
+
+                result = delete_gym(gym_id)
+                if not result.get("success"):
+                    self.notify(f"gym not deleted: {result.get('error', '')}", severity="error")
+                    return
+                self._refresh_gyms()
+
+            self.push_screen(
+                ConfirmModal(f"Delete gym {gym_id}?", "The YAML definition is removed from gyms/."),
+                _confirmed_gym,
+            )
         elif tab == "tab-chains":
             name = self._selected_row("chains-table")
             if name:

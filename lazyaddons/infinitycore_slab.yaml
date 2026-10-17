@@ -6,6 +6,7 @@ description: CVE-2026-97941 slab PoC by V4bel. SLUB partial list corruption via
 author: V4bel
 version: "1.0"
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

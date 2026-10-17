@@ -10,6 +10,7 @@ description: |
 author: ProjectDiscovery
 version: "1.0"
 enabled: true
+update: true
 params:
   - name: target
     type: string

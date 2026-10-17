@@ -758,7 +758,7 @@ class App(cmd2.Cmd)
 
 Bases: `cmd2.Cmd`
 
-Subclasses: [`LazyOwnDashboard`](cli.dashboard_tui.py.md#lazyowndashboard), [`LazyMonitorApp`](cli.lazy_monitor.py.md#lazymonitorapp), [`LazyOrchestratorApp`](cli.lazy_orchestrator.py.md#lazyorchestratorapp), [`PurpleDashboard`](cli.purple_tui.py.md#purpledashboard), [`ReverseShellApp`](modules.kivi.py.md#reverseshellapp), [`LazyOwnTUI`](poc_tui.app.py.md#lazyowntui)
+Subclasses: [`LazyOwnDashboard`](cli.dashboard_tui.py.md#lazyowndashboard), [`LazyMonitorApp`](cli.lazy_monitor.py.md#lazymonitorapp), [`LazyOrchestratorApp`](cli.lazy_orchestrator.py.md#lazyorchestratorapp), [`MarketplaceConfigApp`](cli.marketplace_config.py.md#marketplaceconfigapp), [`PurpleDashboard`](cli.purple_tui.py.md#purpledashboard), [`ReverseShellApp`](modules.kivi.py.md#reverseshellapp), [`LazyOwnTUI`](poc_tui.app.py.md#lazyowntui)
 
 **Members**
 

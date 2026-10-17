@@ -12,6 +12,7 @@ description: |
 author: EntropyKit
 version: "1.0"
 enabled: true
+update: true
 os: windows
 trigger: []
 params:

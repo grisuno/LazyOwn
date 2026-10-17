@@ -1,10 +1,10 @@
 # orphans
 
-*Community 22 | 226 files | cohesion 0.00*
+*Community 22 | 234 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 226 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 234 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
@@ -14,7 +14,7 @@ This community groups 226 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/49803.py` | py | utility | 3 | yes |
 
-### `tests` (44 files)
+### `tests` (49 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -68,6 +68,12 @@ This community groups 226 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `static/js/purify-3.0.9.min.js` | js | utility | 2 | yes |
 
+### `tools` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tools/contract_check.py` | py | utility | 2 | yes |
+
 ### `lazyown-docker` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -91,12 +97,6 @@ This community groups 226 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/contract/__init__.py` | py | testing | 0 | no |
-
-### `tools` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tools/contract_check.py` | py | utility | 2 | yes |
 
 ### `.claude/skills/run-lazyown` (1 files)
 
@@ -128,7 +128,7 @@ This community groups 226 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/scripts/clean_history.sh.sh` | sh | utility | 0 | no |
 
-*... and 206 more files in this community.*
+*... and 214 more files in this community.*
 
 
 ## Key Symbols
@@ -212,4 +212,4 @@ This community groups 226 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazymitmap.py`
 - `contrib/legacy/lazynetbios.py`
 - `contrib/legacy/lazyntlrelayx.py`
-- *... and 206 more*
+- *... and 214 more*

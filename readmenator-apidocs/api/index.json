@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 746,
-  "entities": 14284,
+  "modules": 766,
+  "entities": 14584,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 635,
+   "py": 655,
    "sh": 59
   },
   "kinds": {
-   "attribute": 4037,
-   "class": 1346,
+   "attribute": 4112,
+   "class": 1360,
    "classmethod": 81,
-   "constant": 1210,
-   "constructor": 504,
+   "constant": 1236,
+   "constructor": 510,
    "enum": 38,
    "exception": 36,
-   "function": 2469,
+   "function": 2558,
    "macro": 113,
-   "method": 3388,
-   "module": 746,
-   "property": 177,
+   "method": 3452,
+   "module": 766,
+   "property": 183,
    "protocol": 14,
    "staticmethod": 89,
    "struct": 20,
@@ -36,30 +36,30 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 291,
+  "skipped_files": 312,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6599,
-   "total": 9025,
-   "percent": 73.1
+   "documented": 6810,
+   "total": 9224,
+   "percent": 73.8
   },
   "by_kind": {
    "class": {
-    "documented": 1158,
-    "total": 1346,
-    "percent": 86.0
+    "documented": 1172,
+    "total": 1360,
+    "percent": 86.2
    },
    "classmethod": {
-    "documented": 54,
+    "documented": 55,
     "total": 81,
-    "percent": 66.7
+    "percent": 67.9
    },
    "constructor": {
-    "documented": 185,
-    "total": 504,
-    "percent": 36.7
+    "documented": 193,
+    "total": 510,
+    "percent": 37.8
    },
    "enum": {
     "documented": 29,
@@ -72,9 +72,9 @@
     "percent": 94.4
    },
    "function": {
-    "documented": 1581,
-    "total": 2469,
-    "percent": 64.0
+    "documented": 1669,
+    "total": 2558,
+    "percent": 65.2
    },
    "macro": {
     "documented": 3,
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2703,
-    "total": 3388,
-    "percent": 79.8
+    "documented": 2777,
+    "total": 3452,
+    "percent": 80.4
    },
    "module": {
-    "documented": 624,
-    "total": 746,
-    "percent": 83.6
+    "documented": 644,
+    "total": 766,
+    "percent": 84.1
    },
    "property": {
-    "documented": 133,
-    "total": 177,
-    "percent": 75.1
+    "documented": 139,
+    "total": 183,
+    "percent": 76.0
    },
    "protocol": {
     "documented": 14,
@@ -149,8 +149,8 @@
     "percent": 100.0
    },
    "cli/aliases.py": {
-    "documented": 4,
-    "total": 4,
+    "documented": 5,
+    "total": 5,
     "percent": 100.0
    },
    "cli/assign.py": {
@@ -554,8 +554,8 @@
     "percent": 96.7
    },
    "cli/commands/redteam_gym.py": {
-    "documented": 3,
-    "total": 3,
+    "documented": 4,
+    "total": 4,
     "percent": 100.0
    },
    "cli/commands/resource_scripting.py": {
@@ -704,8 +704,8 @@
     "percent": 100.0
    },
    "cli/lazy_orchestrator.py": {
-    "documented": 34,
-    "total": 34,
+    "documented": 42,
+    "total": 42,
     "percent": 100.0
    },
    "cli/lazynmap_post.py": {
@@ -714,9 +714,9 @@
     "percent": 100.0
    },
    "cli/marketplace_config.py": {
-    "documented": 11,
-    "total": 24,
-    "percent": 45.8
+    "documented": 46,
+    "total": 46,
+    "percent": 100.0
    },
    "cli/noise_verbs.py": {
     "documented": 1,
@@ -876,6 +876,11 @@
    "cli/toast_bus.py": {
     "documented": 37,
     "total": 37,
+    "percent": 100.0
+   },
+   "cli/tui_forms.py": {
+    "documented": 25,
+    "total": 25,
     "percent": 100.0
    },
    "cli/tui_theme.py": {
@@ -1798,6 +1803,11 @@
     "total": 11,
     "percent": 100.0
    },
+   "modules/addon_updater.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
    "modules/agent_runner.py": {
     "documented": 8,
     "total": 26,
@@ -1849,8 +1859,8 @@
     "percent": 100.0
    },
    "modules/atomic_exploit_bridge.py": {
-    "documented": 23,
-    "total": 23,
+    "documented": 25,
+    "total": 25,
     "percent": 100.0
    },
    "modules/atomic_resolver.py": {
@@ -1979,6 +1989,11 @@
     "percent": 0.0
    },
    "modules/chain_registry.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
+   },
+   "modules/chain_runner.py": {
     "documented": 10,
     "total": 10,
     "percent": 100.0
@@ -2123,6 +2138,11 @@
     "total": 5,
     "percent": 80.0
    },
+   "modules/emulation_runner.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
    "modules/engage_summary.py": {
     "documented": 9,
     "total": 9,
@@ -2247,6 +2267,11 @@
     "documented": 2,
     "total": 6,
     "percent": 33.3
+   },
+   "modules/gym_registry.py": {
+    "documented": 19,
+    "total": 19,
+    "percent": 100.0
    },
    "modules/hash_cracker.py": {
     "documented": 8,
@@ -2419,8 +2444,8 @@
     "percent": 100.0
    },
    "modules/lazy_loop.py": {
-    "documented": 291,
-    "total": 291,
+    "documented": 292,
+    "total": 292,
     "percent": 100.0
    },
    "modules/lazy_mentions.py": {
@@ -2449,8 +2474,8 @@
     "percent": 100.0
    },
    "modules/lazy_runner.py": {
-    "documented": 7,
-    "total": 7,
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/lazy_sandbox.py": {
@@ -2703,6 +2728,11 @@
     "total": 29,
     "percent": 3.4
    },
+   "modules/metasploitable_gym.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
    "modules/metrics.py": {
     "documented": 22,
     "total": 22,
@@ -2784,13 +2814,18 @@
     "percent": 80.0
    },
    "modules/orchestrator_config.py": {
-    "documented": 10,
-    "total": 10,
+    "documented": 21,
+    "total": 21,
     "percent": 100.0
    },
    "modules/osint_enrich.py": {
     "documented": 6,
     "total": 6,
+    "percent": 100.0
+   },
+   "modules/outcome_bus.py": {
+    "documented": 15,
+    "total": 15,
     "percent": 100.0
    },
    "modules/payload_factory.py": {
@@ -2812,6 +2847,11 @@
     "documented": 20,
     "total": 22,
     "percent": 90.9
+   },
+   "modules/playbook_admin.py": {
+    "documented": 15,
+    "total": 15,
+    "percent": 100.0
    },
    "modules/playbook_engine.py": {
     "documented": 9,
@@ -2854,8 +2894,8 @@
     "percent": 100.0
    },
    "modules/redteam_gym.py": {
-    "documented": 7,
-    "total": 7,
+    "documented": 14,
+    "total": 14,
     "percent": 100.0
    },
    "modules/reflective_dll.py": {
@@ -2966,6 +3006,56 @@
    "modules/sidequestion.py": {
     "documented": 10,
     "total": 10,
+    "percent": 100.0
+   },
+   "modules/sinks/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/sinks/attack_graph.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/c2_surfaces.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/campaign_db.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/event_bus.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/intel_graph.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/killchain.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/objectives.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/routing.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/world_model.py": {
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "modules/sleep_obfuscation.py": {
@@ -3144,9 +3234,9 @@
     "percent": 100.0
    },
    "modules/world_model.py": {
-    "documented": 31,
-    "total": 56,
-    "percent": 55.4
+    "documented": 34,
+    "total": 59,
+    "percent": 57.6
    },
    "modules/yaml_generator.py": {
     "documented": 5,
@@ -3838,6 +3928,16 @@
     "total": 2,
     "percent": 100.0
    },
+   "tools/generate_metasploitable_gym.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "tools/set_lazyaddon_updates.py": {
+    "documented": 3,
+    "total": 4,
+    "percent": 75.0
+   },
    "user_split.sh": {
     "documented": 0,
     "total": 1,
@@ -3884,7 +3984,7 @@
   {
    "uid": "cli/aliases.py",
    "path": "modules/cli.aliases.py.jsonl",
-   "entities": 6
+   "entities": 7
   },
   {
    "uid": "cli/assign.py",
@@ -4289,7 +4389,7 @@
   {
    "uid": "cli/commands/redteam_gym.py",
    "path": "modules/cli.commands.redteam_gym.py.jsonl",
-   "entities": 5
+   "entities": 6
   },
   {
    "uid": "cli/commands/resource_scripting.py",
@@ -4439,7 +4539,7 @@
   {
    "uid": "cli/lazy_orchestrator.py",
    "path": "modules/cli.lazy_orchestrator.py.jsonl",
-   "entities": 37
+   "entities": 44
   },
   {
    "uid": "cli/lazynmap_post.py",
@@ -4449,7 +4549,7 @@
   {
    "uid": "cli/marketplace_config.py",
    "path": "modules/cli.marketplace_config.py.jsonl",
-   "entities": 84
+   "entities": 69
   },
   {
    "uid": "cli/noise_verbs.py",
@@ -4610,6 +4710,11 @@
    "uid": "cli/toast_bus.py",
    "path": "modules/cli.toast_bus.py.jsonl",
    "entities": 71
+  },
+  {
+   "uid": "cli/tui_forms.py",
+   "path": "modules/cli.tui_forms.py.jsonl",
+   "entities": 29
   },
   {
    "uid": "cli/tui_theme.py",
@@ -5532,6 +5637,11 @@
    "entities": 27
   },
   {
+   "uid": "modules/addon_updater.py",
+   "path": "modules/modules.addon_updater.py.jsonl",
+   "entities": 18
+  },
+  {
    "uid": "modules/agent_runner.py",
    "path": "modules/modules.agent_runner.py.jsonl",
    "entities": 34
@@ -5584,7 +5694,7 @@
   {
    "uid": "modules/atomic_exploit_bridge.py",
    "path": "modules/modules.atomic_exploit_bridge.py.jsonl",
-   "entities": 47
+   "entities": 49
   },
   {
    "uid": "modules/atomic_resolver.py",
@@ -5714,7 +5824,12 @@
   {
    "uid": "modules/chain_registry.py",
    "path": "modules/modules.chain_registry.py.jsonl",
-   "entities": 22
+   "entities": 39
+  },
+  {
+   "uid": "modules/chain_runner.py",
+   "path": "modules/modules.chain_runner.py.jsonl",
+   "entities": 31
   },
   {
    "uid": "modules/cicd_enumerator.py",
@@ -5857,6 +5972,11 @@
    "entities": 5
   },
   {
+   "uid": "modules/emulation_runner.py",
+   "path": "modules/modules.emulation_runner.py.jsonl",
+   "entities": 35
+  },
+  {
    "uid": "modules/engage_summary.py",
    "path": "modules/modules.engage_summary.py.jsonl",
    "entities": 9
@@ -5980,6 +6100,11 @@
    "uid": "modules/gui_askpass.sh",
    "path": "modules/modules.gui_askpass.sh.jsonl",
    "entities": 6
+  },
+  {
+   "uid": "modules/gym_registry.py",
+   "path": "modules/modules.gym_registry.py.jsonl",
+   "entities": 22
   },
   {
    "uid": "modules/hash_cracker.py",
@@ -6154,7 +6279,7 @@
   {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 296
+   "entities": 297
   },
   {
    "uid": "modules/lazy_mentions.py",
@@ -6184,7 +6309,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 20
+   "entities": 24
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -6437,6 +6562,11 @@
    "entities": 39
   },
   {
+   "uid": "modules/metasploitable_gym.py",
+   "path": "modules/modules.metasploitable_gym.py.jsonl",
+   "entities": 9
+  },
+  {
    "uid": "modules/metrics.py",
    "path": "modules/modules.metrics.py.jsonl",
    "entities": 37
@@ -6519,12 +6649,17 @@
   {
    "uid": "modules/orchestrator_config.py",
    "path": "modules/modules.orchestrator_config.py.jsonl",
-   "entities": 12
+   "entities": 28
   },
   {
    "uid": "modules/osint_enrich.py",
    "path": "modules/modules.osint_enrich.py.jsonl",
    "entities": 7
+  },
+  {
+   "uid": "modules/outcome_bus.py",
+   "path": "modules/modules.outcome_bus.py.jsonl",
+   "entities": 41
   },
   {
    "uid": "modules/payload_factory.py",
@@ -6545,6 +6680,11 @@
    "uid": "modules/planner.py",
    "path": "modules/modules.planner.py.jsonl",
    "entities": 39
+  },
+  {
+   "uid": "modules/playbook_admin.py",
+   "path": "modules/modules.playbook_admin.py.jsonl",
+   "entities": 27
   },
   {
    "uid": "modules/playbook_engine.py",
@@ -6589,7 +6729,7 @@
   {
    "uid": "modules/redteam_gym.py",
    "path": "modules/modules.redteam_gym.py.jsonl",
-   "entities": 8
+   "entities": 16
   },
   {
    "uid": "modules/reflective_dll.py",
@@ -6700,6 +6840,56 @@
    "uid": "modules/sidequestion.py",
    "path": "modules/modules.sidequestion.py.jsonl",
    "entities": 24
+  },
+  {
+   "uid": "modules/sinks/__init__.py",
+   "path": "modules/modules.sinks.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/sinks/attack_graph.py",
+   "path": "modules/modules.sinks.attack_graph.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/c2_surfaces.py",
+   "path": "modules/modules.sinks.c2_surfaces.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/campaign_db.py",
+   "path": "modules/modules.sinks.campaign_db.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/event_bus.py",
+   "path": "modules/modules.sinks.event_bus.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/intel_graph.py",
+   "path": "modules/modules.sinks.intel_graph.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/killchain.py",
+   "path": "modules/modules.sinks.killchain.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/objectives.py",
+   "path": "modules/modules.sinks.objectives.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/routing.py",
+   "path": "modules/modules.sinks.routing.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/world_model.py",
+   "path": "modules/modules.sinks.world_model.py.jsonl",
+   "entities": 2
   },
   {
    "uid": "modules/sleep_obfuscation.py",
@@ -6879,7 +7069,7 @@
   {
    "uid": "modules/world_model.py",
    "path": "modules/modules.world_model.py.jsonl",
-   "entities": 105
+   "entities": 109
   },
   {
    "uid": "modules/yaml_generator.py",
@@ -7572,6 +7762,16 @@
    "entities": 3
   },
   {
+   "uid": "tools/generate_metasploitable_gym.py",
+   "path": "modules/tools.generate_metasploitable_gym.py.jsonl",
+   "entities": 15
+  },
+  {
+   "uid": "tools/set_lazyaddon_updates.py",
+   "path": "modules/tools.set_lazyaddon_updates.py.jsonl",
+   "entities": 8
+  },
+  {
    "uid": "user_split.sh",
    "path": "modules/user_split.sh.jsonl",
    "entities": 1
@@ -7584,7 +7784,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2256
+  "total": 2247
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

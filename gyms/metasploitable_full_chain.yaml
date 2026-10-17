@@ -1,0 +1,35 @@
+id: metasploitable_full_chain
+name: 'Full Kill-Chain: Metasploitable'
+description: 'Complete the full kill-chain against Metasploitable2: recon, enum, exploit,
+  post-exploit, privesc, and exfil.'
+scenario: metasploitable
+chain: ''
+objective: Gain root on Metasploitable2 and exfiltrate /etc/shadow.
+difficulty: hard
+phases:
+- recon
+- enum
+- exploit
+- postexp
+- privesc
+- exfil
+required_techniques:
+- service_enum
+- exploit
+- privesc_linux
+- data_exfil
+bonus_techniques:
+- persistence
+- pivoting
+- log_cleanup
+max_points: 3000
+speed_bonus_max: 600
+stealth_bonus_max: 500
+technique_diversity_bonus: 900
+hints:
+- Nmap shows many vulnerable services
+- vsftpd 2.3.4 has a well-known backdoor
+- Distccd and UnrealIRCd are also vulnerable
+- 'After shell: try ''uname -a'' and check kernel exploits'
+success_check: root shell and /etc/shadow contents obtained
+elo_bonus: 500

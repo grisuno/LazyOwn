@@ -10,6 +10,7 @@ description: >
 author: Aqua Security
 version: 0.52.0
 enabled: true
+update: true
 os: any
 trigger: []
 params:

@@ -1,0 +1,26 @@
+id: first_blood_web
+name: First Blood - Web
+description: Exploit the DVWA SQL Injection page without using sqlmap. Dump the users
+  table manually.
+scenario: wordpress
+chain: ''
+objective: Extract all rows from the 'users' table via manual SQL injection.
+difficulty: easy
+phases:
+- enum
+- exploit
+required_techniques:
+- sqli_manual
+bonus_techniques:
+- csrf_bypass
+- waf_bypass
+max_points: 1000
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+- 'Try: '' OR ''1''=''1'
+- Use UNION SELECT to enumerate columns
+- Check information_schema.tables
+success_check: SELECT user,password FROM users
+elo_bonus: 150

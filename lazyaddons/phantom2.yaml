@@ -6,6 +6,7 @@ description: 'Phantom2 is a stealthy implant written in C that utilizes io_uring
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

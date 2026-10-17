@@ -19,6 +19,16 @@ def _stub_executor(command: str) -> str:
     return "ok"
 
 
+@pytest.fixture(autouse=True)
+def _no_llm(monkeypatch):
+    """Keep these engine tests on the deterministic heuristic path."""
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [])
+    monkeypatch.setattr(loop, "COLD_BACKGROUND_ENABLED", False)
+    monkeypatch.setattr(loop, "REPORTER_BACKGROUND_ENABLED", False)
+
+
 @pytest.fixture()
 def engine(tmp_path, monkeypatch):
     import modules.lazy_loop as loop
@@ -62,6 +72,16 @@ def test_worker_aggregates_single_fact(engine):
     summary = engine.create_task("gain initial access on 127.0.0.1")
     out = engine.run(summary["task_id"], max_rounds=1, workers=1, executor=_stub_executor)
     assert out["overview"].get("facts", 0) >= 1
+
+
+def test_new_run_clears_previous_shutdown(engine):
+    """A fresh run must start after an earlier shutdown set the exit flag."""
+    import modules.lazy_loop as loop
+
+    loop.shutdown_loop_runtime("test")
+    summary = engine.create_task("gain initial access on 127.0.0.1")
+    out = engine.run(summary["task_id"], max_rounds=1, workers=1, executor=_stub_executor)
+    assert out["overview"].get("intents") or out["overview"].get("facts")
 
 
 def test_pause_resume(engine):

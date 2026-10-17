@@ -113,6 +113,9 @@ flowchart LR
     n_modules_playbook_engine_py__PlaybookEngine_load(["PlaybookEngine.load"])
     n_modules_playbook_engine_py__get_engine(["get_engine"])
     n_modules_playbook_engine_py__PlaybookEngine___init__(["PlaybookEngine.__init__"])
+    n_modules_emulation_runner_py__EmulationRunner___init__["emulation_runner.EmulationRunner.__init__"]
+    n_modules_emulation_runner_py__EmulationRunner_run_steps["emulation_runner.EmulationRunner.run_steps"]
+    n_modules_emulation_runner_py__EmulationStep["emulation_runner.EmulationStep"]
     n_modules_playbook_engine_py__Playbook_from_dict --> n_modules_playbook_engine_py__PlaybookStep_from_dict
     n_modules_playbook_engine_py__PlaybookEngine_derive --> n_modules_playbook_engine_py__Playbook
     n_modules_playbook_engine_py__PlaybookEngine_derive --> n_modules_playbook_engine_py__PlaybookStep
@@ -123,6 +126,9 @@ flowchart LR
     n_modules_playbook_engine_py__PlaybookEngine_load --> n_modules_playbook_engine_py__PlaybookStep
     n_modules_playbook_engine_py__PlaybookEngine_load --> n_modules_playbook_engine_py__PlaybookStep_from_dict
     n_modules_playbook_engine_py__get_engine --> n_modules_playbook_engine_py__PlaybookEngine___init__
+    n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationRunner___init__
+    n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationRunner_run_steps
+    n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationStep
 ```
 
 ## Classes
@@ -416,7 +422,7 @@ Execute a Playbook step by step.
 
 **Returns:** `PlaybookResult`
 
-*Calls:* [`PlaybookResult`](#playbookresult), [`StepResult`](#stepresult)
+*Calls:* [`EmulationRunner.__init__`](modules.emulation_runner.py.md#emulationrunner-__init__), [`EmulationRunner.run_steps`](modules.emulation_runner.py.md#emulationrunner-run_steps), [`EmulationStep`](modules.emulation_runner.py.md#emulationstep), [`PlaybookResult`](#playbookresult), [`StepResult`](#stepresult)
 
 *Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run)
 
@@ -424,7 +430,7 @@ Execute a Playbook step by step.
 
 #### `PlaybookEngine.save`
 
-`method` | [modules/playbook_engine.py:590](../../modules/playbook_engine.py#L590)
+`method` | [modules/playbook_engine.py:599](../../modules/playbook_engine.py#L599)
 
 ```python
 def save(self, playbook: Playbook, path: str | Path | None = None) -> Path
@@ -447,7 +453,7 @@ Persist playbook to YAML (compatible with existing playbooks/ format).
 
 #### `PlaybookEngine.load`
 
-`method` | [modules/playbook_engine.py:602](../../modules/playbook_engine.py#L602)
+`method` | [modules/playbook_engine.py:611](../../modules/playbook_engine.py#L611)
 
 ```python
 def load(self, path: str | Path) -> Playbook
@@ -473,7 +479,7 @@ Supports both new extended format and legacy format.
 
 #### `PlaybookEngine.result_summary`
 
-`method` | [modules/playbook_engine.py:631](../../modules/playbook_engine.py#L631)
+`method` | [modules/playbook_engine.py:640](../../modules/playbook_engine.py#L640)
 
 ```python
 def result_summary(self, result: PlaybookResult) -> str
@@ -499,7 +505,7 @@ Return a human-readable / LLM-readable summary of a PlaybookResult.
 
 ### `get_engine`
 
-`function` | [modules/playbook_engine.py:660](../../modules/playbook_engine.py#L660)
+`function` | [modules/playbook_engine.py:669](../../modules/playbook_engine.py#L669)
 
 ```python
 def get_engine(api_key: str = '') -> PlaybookEngine

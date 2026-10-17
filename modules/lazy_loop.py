@@ -28,6 +28,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import socket
 import threading
 import time
@@ -250,6 +251,102 @@ def _is_ip_literal(value: str) -> bool:
         return False
 
 
+_NMAP_PORT_SPEC_RE = re.compile(r"^[0-9A-Za-z_,:\-]+$")
+
+
+def _valid_nmap_port_spec(value: str) -> bool:
+    """Return True when a value is a plausible nmap ``-p`` specification.
+
+    Service names, ranges, comma lists and the ``-`` full-scan shorthand
+    pass. An IP or hostname in the value position is the hallucination
+    that produced ``nmap -sV -p 172.17.0.2`` and must be rejected.
+    """
+    text = str(value or "").strip()
+    if not text:
+        return False
+    if _host_from_token(text):
+        return False
+    return bool(_NMAP_PORT_SPEC_RE.fullmatch(text))
+
+
+def repair_worker_command(command: str, target: str) -> tuple[str, str]:
+    """Normalize one LLM-proposed worker command.
+
+    Repairs three recurring planner mistakes: absolute paths to shell
+    verbs (``/usr/bin/lazynmap``), invalid nmap port arguments that put
+    the target in the ``-p`` slot, and commands that lost their target.
+
+    Args:
+        command: Raw command proposed by the model.
+        target: Authorized intent target.
+
+    Returns:
+        Tuple of the repaired command and a short reason (empty when the
+        command was already valid).
+    """
+    if not (command or "").strip() or not target:
+        return command, ""
+    try:
+        tokens = shlex.split(command)
+    except ValueError:
+        return command, ""
+    if not tokens:
+        return command, ""
+    reason = ""
+    original_head = tokens[0]
+    head = os.path.basename(original_head)
+    if head != original_head:
+        tokens[0] = head
+        reason = f"stripped binary path from {original_head}"
+    if head not in NETWORK_TOOL_HEADS:
+        return (" ".join(tokens), reason) if reason else (command, "")
+    kept: list[str] = [tokens[0]]
+    drop_next = False
+    skip_next = False
+    for index, token in enumerate(tokens[1:], start=1):
+        if drop_next:
+            drop_next = False
+            continue
+        if skip_next:
+            kept.append(token)
+            skip_next = False
+            continue
+        if token.startswith("-"):
+            if head in ("nmap", "masscan") and token in NMAP_VALUE_FLAGS:
+                value = tokens[index + 1] if index + 1 < len(tokens) else ""
+                if token in ("-p", "--port") and (not value or not _valid_nmap_port_spec(value)):
+                    reason = f"dropped invalid port spec {value!r}"
+                    drop_next = bool(value)
+                    continue
+                kept.append(token)
+                skip_next = True
+                continue
+            if token.startswith("--port="):
+                value = token.split("=", 1)[1]
+                if value and not _valid_nmap_port_spec(value):
+                    reason = f"dropped invalid port spec {value!r}"
+                    continue
+            kept.append(token)
+            continue
+        host = _host_from_token(token)
+        if host and host != target:
+            if _is_ip_literal(host):
+                kept.append(token)
+                continue
+            kept.append(token.replace(host, target))
+            reason = f"retargeted {host} to {target}"
+            continue
+        if host == target:
+            kept.append(token)
+            continue
+        if head in ("nmap", "masscan"):
+            continue
+        kept.append(token)
+    if not any(_host_from_token(token) == target for token in kept[1:]):
+        kept.append(target)
+    return " ".join(kept), reason
+
+
 def _host_from_token(token: str) -> str:
     """Extract the host part of a command token, or empty when none.
 
@@ -369,7 +466,7 @@ def scrub_secrets(text: str) -> str:
     """
     cleaned = str(text or "")
 
-    def _mask_key(match: "re.Match") -> str:
+    def _mask_key(match: re.Match) -> str:
         groups = match.groups()
         if len(groups) >= 2 and groups[0] and groups[-1] is not None:
             return f"{groups[0]}***{groups[-1] if len(groups) > 2 else ''}"
@@ -4613,6 +4710,7 @@ class Worker:
         except Exception:
             return []
         out: list[str] = []
+        seen: set[str] = set()
         sudo_skipped = 0
         for raw in reply.splitlines():
             command = re.sub(r"^[\d\-\*\.\)\s]+", "", raw.strip()).strip("`").strip()
@@ -4628,8 +4726,13 @@ class Worker:
             if self._missing_tool(command) or self._denied(command):
                 continue
             command = self._sanitize_step(intent, command)
+            if not command or command in seen:
+                continue
+            if self._missing_tool(command) or self._denied(command):
+                continue
             if not self._command_in_scope(command):
                 continue
+            seen.add(command)
             out.append(command)
             if len(out) >= 3:
                 break
@@ -4771,58 +4874,17 @@ class Worker:
         return out
 
     def _sanitize_step(self, intent: ExplorationNode, command: str) -> str:
-        """Retarget foreign hosts and repair target-less network commands.
-
-        The planner LLM sometimes proposes commands that mention its
-        training data (``nmap.org``) or forget the target entirely
-        (``nmap -p 75``). Both are wrong against a real engagement: the
-        step is rewritten to hit the intent target, or reduced to the
-        target alone when nothing usable remains.
-        """
+        """Repair one LLM step and report any normalization in the activity log."""
         target = self._target_for(intent)
-        tokens = (command or "").split()
-        if not tokens or not target:
-            return command
-        head = os.path.basename(tokens[0])
-        if head not in NETWORK_TOOL_HEADS:
-            return command
-        kept: list[str] = [tokens[0]]
-        replaced = 0
-        skip_next = False
-        for token in tokens[1:]:
-            if skip_next:
-                kept.append(token)
-                skip_next = False
-                continue
-            if token.startswith("-"):
-                kept.append(token)
-                if head in ("nmap", "masscan") and token in NMAP_VALUE_FLAGS:
-                    skip_next = True
-                continue
-            host = _host_from_token(token)
-            if host and host != target:
-                if _is_ip_literal(host):
-                    kept.append(token)
-                    continue
-                kept.append(token.replace(host, target))
-                replaced += 1
-                continue
-            if host == target:
-                kept.append(token)
-                continue
-            if head in ("nmap", "masscan"):
-                continue
-            kept.append(token)
-        if not any(_host_from_token(token) == target for token in kept[1:]):
-            kept.append(target)
-        if replaced:
+        repaired, reason = repair_worker_command(command, target)
+        if reason:
             self.activity.emit(
                 self.name,
                 "sanitize",
-                f"retargeted foreign host(s) to {target}: {command[:140]}",
+                f"{reason}: {command[:140]}",
                 intent_id=intent.node_id,
             )
-        return " ".join(kept)
+        return repaired
 
     def _command_in_scope(self, command: str) -> bool:
         """Return True when every host a command mentions is in scope."""
@@ -5018,8 +5080,6 @@ class Worker:
             "unauthorized",
             "login:",
             "password:",
-            "open tcp",
-            "/tcp open",
         )
         if allow_finding and any(mark in lowered for mark in finding_marks):
             poc = f"{best_cmd}\n{best_out[:800]}"
@@ -5070,6 +5130,34 @@ class Worker:
         return wrote
 
 
+_RETEST_SCAN_HEADS = frozenset(
+    {
+        "nmap",
+        "masscan",
+        "gobuster",
+        "ffuf",
+        "feroxbuster",
+        "dirb",
+        "nikto",
+        "nuclei",
+        "sqlmap",
+        "wpscan",
+        "whatweb",
+        "enum4linux",
+        "enum4linux-ng",
+    }
+)
+
+
+def _is_scan_command(command: str) -> bool:
+    """Return True when a command is a long-running scanner, not a replay."""
+    try:
+        head = shlex.split(command or "")[0]
+    except (ValueError, IndexError):
+        return False
+    return os.path.basename(head).lower() in _RETEST_SCAN_HEADS
+
+
 class Retester:
     """Replay finding evidence to a verdict like the Lazy retester agent."""
 
@@ -5107,30 +5195,34 @@ class Retester:
             "401",
             "captcha",
         )
-        for _ in range(RETEST_MAX_ATTEMPTS):
-            attempts += 1
-            command = (poc.splitlines() or [""])[0][:300] or f"curl -sS -m 20 -I {finding.text[:120]}"
-            try:
-                if executor is not None:
-                    evidence = str(executor(command) or "")
-                else:
-                    from core.process import run_command as _run_command
+        command = (poc.splitlines() or [""])[0][:300] or f"curl -sS -m 20 -I {finding.text[:120]}"
+        if _is_scan_command(command):
+            verdict = "inconclusive"
+            evidence = "[skipped] scan commands are not replayed during retest"
+        else:
+            for _ in range(RETEST_MAX_ATTEMPTS):
+                attempts += 1
+                try:
+                    if executor is not None:
+                        evidence = str(executor(command) or "")
+                    else:
+                        from core.process import run_command as _run_command
 
-                    evidence = str(_run_command(command) or "")
-            except Exception as exc:
-                evidence = f"retest failed: {exc}"
-            self.traffic.record("bash", command, evidence, {"retest": finding_id})
-            lowered = evidence.lower()
-            if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
-                verdict = "reproduced"
-                break
-            if any(mark in lowered for mark in ("404", "no longer", "patched", "remediated")):
-                verdict = "fixed"
-                break
-            if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
-                verdict = "inconclusive"
-                evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
-                break
+                        evidence = str(_run_command(command) or "")
+                except Exception as exc:
+                    evidence = f"retest failed: {exc}"
+                self.traffic.record("bash", command, evidence, {"retest": finding_id})
+                lowered = evidence.lower()
+                if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
+                    verdict = "reproduced"
+                    break
+                if any(mark in lowered for mark in ("404", "no longer", "patched", "remediated")):
+                    verdict = "fixed"
+                    break
+                if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
+                    verdict = "inconclusive"
+                    evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
+                    break
         finding.meta["retest"] = {
             "verdict": verdict,
             "attempts": attempts,
@@ -5143,7 +5235,9 @@ class Retester:
             finding.state = "done"
             finding.meta["status"] = "fixed"
         else:
-            finding.state = "pending"
+            finding.state = "done"
+            finding.meta["status"] = "inconclusive"
+            finding.meta["retest_terminal"] = True
         finding.updated = _now()
         self.graph._persist()
         self.activity.emit("retester", "verdict", f"finding #{finding_id}: {verdict} ({attempts} attempts)")
@@ -5943,6 +6037,34 @@ class FindingService:
         self.activity.emit(
             "reporter", "finding", f"finding #{node.node_id} [{sev}] {name[:120]}", intent_id=int(intent_id)
         )
+        try:
+            from modules.outcome_bus import record_event
+
+            target = resolve_target(self.task_id, self.store, self.graph) if self.store is not None else ""
+            cve_match = re.search(r"CVE-\d{4}-\d{4,7}", text, re.IGNORECASE)
+            record_event(
+                kind="finding",
+                target=target,
+                host=target,
+                task_id=self.task_id,
+                intent_id=int(intent_id or 0),
+                title=name[:200],
+                description=(summary or poc)[:2000],
+                severity=sev,
+                cve=cve_match.group(0).upper() if cve_match else "",
+                confidence=1.0,
+                success=True,
+                source="lazy_loop",
+                command=poc[:500],
+                artifacts=list(traffic_refs or []),
+                metadata={
+                    "finding_id": node.node_id,
+                    "vulnclass": vulnclass,
+                    "refresh_report": False,
+                },
+            )
+        except Exception:
+            pass
         try:
             from modules.orchestrator_config import stage_enabled as _stage_enabled
 
@@ -7452,18 +7574,60 @@ class LazyLoopEngine:
         self.max_concurrent = 0
         self.heartbeat_sec = PLAN_HEARTBEAT_SEC
         self._last_intel_sync = 0.0
+        self.profile_name = ""
+        self.limits: dict = {}
+        self.retest_limit = 3
+        self.enrich_limit = 2
+        self.enrich_cooldown_sec = 300.0
+        self.worker_cap = 5
+        self.intel_sync_interval = INTEL_SYNC_INTERVAL_SEC
+        self.wake_debounce_sec = WAKE_DEBOUNCE_SEC
+        self.apply_profile("")
         try:
             from core.config import load_payload
 
             configured = float(
-                (load_payload() or {}).get("plan_heartbeat_seconds", PLAN_HEARTBEAT_SEC) or PLAN_HEARTBEAT_SEC
+                (load_payload() or {}).get("plan_heartbeat_seconds", self.heartbeat_sec) or self.heartbeat_sec
             )
-            self.heartbeat_sec = max(60.0, configured)
+            self.heartbeat_sec = max(0.05, configured)
         except Exception:
             pass
         self._run_defaults: dict = {}
         self._in_drain = False
         self.selfupdate_interval_sec = 24 * 3600.0
+
+    def apply_profile(self, name: str = "") -> dict:
+        """Apply one orchestrator profile to this engine.
+
+        Args:
+            name: Profile name; empty selects the active profile.
+
+        Returns:
+            The resolved profile mapping.
+        """
+        try:
+            from modules import orchestrator_config
+
+            profile = orchestrator_config.profile_config(name)
+            self.profile_name = name or orchestrator_config.active_profile()
+        except Exception:
+            profile = {}
+            self.profile_name = name or "default"
+        resolved = dict(profile.get("limits") or {})
+        self.limits = resolved
+        self.debounce_sec = float(resolved.get("step_delay_sec", DEFAULT_DEBOUNCE_SEC) or DEFAULT_DEBOUNCE_SEC)
+        self.heartbeat_sec = float(resolved.get("heartbeat_sec", PLAN_HEARTBEAT_SEC) or PLAN_HEARTBEAT_SEC)
+        self.wake_debounce_sec = float(resolved.get("wake_debounce_sec", WAKE_DEBOUNCE_SEC) or WAKE_DEBOUNCE_SEC)
+        self.intel_sync_interval = float(
+            resolved.get("intel_sync_sec", INTEL_SYNC_INTERVAL_SEC) or INTEL_SYNC_INTERVAL_SEC
+        )
+        self.retest_limit = max(0, int(resolved.get("retest_limit", 3) or 0))
+        self.enrich_limit = max(0, int(resolved.get("enrich_limit", 2) or 0))
+        self.enrich_cooldown_sec = max(
+            0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
+        )
+        self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
+        return profile
 
     def bind_shell(self, shell) -> None:
         """Attach the live shell so workers route auto/addon verbs via it."""
@@ -8136,7 +8300,9 @@ class LazyLoopEngine:
         elif verdict == "reproduced":
             finding.state = "done"
         else:
-            finding.state = "pending"
+            finding.state = "done"
+            finding.meta["status"] = "inconclusive"
+            finding.meta["retest_terminal"] = True
         finding.updated = _now()
         graph._persist()
         ActivityLog(task_id).emit("human", "verdict", f"finding #{finding_id}: {verdict} {note[:120]}")
@@ -8152,13 +8318,15 @@ class LazyLoopEngine:
         re-mirror every round; forced at terminal status.
         """
         now = _now()
-        if not force and self._last_intel_sync and now - float(self._last_intel_sync) < INTEL_SYNC_INTERVAL_SEC:
+        if not force and self._last_intel_sync and now - float(self._last_intel_sync) < self.intel_sync_interval:
             return {}
         self._last_intel_sync = now
         try:
             from modules.lazy_bridge import sync_all
 
-            summary = sync_all()
+            summary = sync_all(
+                progress=lambda text: activity.emit("intel", "sync-progress", text, intent_id=0)
+            )
         except Exception as exc:
             activity.emit("intel", "sync-fail", str(exc)[:200], intent_id=0)
             return {}
@@ -8252,7 +8420,9 @@ class LazyLoopEngine:
         block = constraint_block(constraints)
         if block:
             activity.emit("planner", "constraints", block[:500])
-        enriched = self._auto_enrich(task_id, graph, activity, limit=2) if stage_enabled("enrich") else 0
+        enriched = (
+            self._auto_enrich(task_id, graph, activity, limit=self.enrich_limit) if stage_enabled("enrich") else 0
+        )
         trigger_store = TriggerStore(task_id)
         scheduler_hits: list[dict] = []
         if stage_enabled("scheduler"):
@@ -8283,7 +8453,7 @@ class LazyLoopEngine:
         if claimed:
             import concurrent.futures as _futures
 
-            budget = max(1, min(5, int(workers)))
+            budget = max(1, min(self.worker_cap, int(workers)))
             persistent = getattr(self, "_active_worker_pool", None)
             owns_pool = pool is None and persistent is None
             if pool is None:
@@ -8356,7 +8526,7 @@ class LazyLoopEngine:
         else:
             time.sleep(self.debounce_sec)
         retested = (
-            self._auto_retest(task_id, graph, activity, traffic, executor=executor, limit=3)
+            self._auto_retest(task_id, graph, activity, traffic, executor=executor, limit=self.retest_limit)
             if stage_enabled("retest")
             else 0
         )
@@ -8495,7 +8665,7 @@ class LazyLoopEngine:
         except Exception:
             cooldown = {}
         now = _now()
-        fresh = {k: v for k, v in cooldown.items() if now - float(v or 0) < 300.0}
+        fresh = {k: v for k, v in cooldown.items() if now - float(v or 0) < self.enrich_cooldown_sec}
         done = 0
         for asset in self.assets.untested_for(graph, scope, limit=limit):
             if str(asset.asset_id) in fresh:
@@ -8672,6 +8842,7 @@ class LazyLoopEngine:
         timeout_sec: float = 0.0,
     ) -> dict:
         """Drive rounds until goals met, frontier drains, or budget exhausts."""
+        _LOOP_EXIT.clear()
         self._run_defaults = {
             "max_rounds": max_rounds,
             "workers": workers,
@@ -8737,7 +8908,7 @@ class LazyLoopEngine:
                     continue
                 if wake.wait(timeout=heartbeat):
                     wake.clear()
-                    time.sleep(WAKE_DEBOUNCE_SEC)
+                    time.sleep(self.wake_debounce_sec)
                     activity.emit("engine", "wake", f"new activity after round {round_index}; debounced planning")
                 else:
                     activity.emit("engine", "heartbeat", f"{int(heartbeat)}s without activity; heartbeat re-plan")
@@ -9381,6 +9552,25 @@ class LazyLoopEngine:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(body, encoding="utf-8")
         activity.emit("reporter", "report-export", f"{fmt} -> {target}")
+        try:
+            from modules.outcome_bus import record_event
+
+            report_target = resolve_target(task_id, self.store, graph)
+            record_event(
+                kind="report",
+                target=report_target,
+                host=report_target,
+                task_id=task_id,
+                title=f"findings report {task_id}",
+                description=f"{len(ranked)} finding(s) exported as {fmt}",
+                success=True,
+                source="lazy_loop",
+                artifacts=[str(target)],
+                sinks=["event_bus"],
+                metadata={"sessions_dir": str(BASE_DIR / "sessions")},
+            )
+        except Exception:
+            pass
         return {"path": str(target), "findings": len(ranked), "format": fmt}
 
     def status(self, task_id: str) -> dict:

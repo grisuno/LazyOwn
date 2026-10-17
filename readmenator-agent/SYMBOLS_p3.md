@@ -1,8 +1,12 @@
-# Symbols (page 3 of 41)
+# Symbols (page 3 of 42)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2147` | `def do_lazy_trigger(self, line)` |
+| `do_lazy_verb` | method | `cli/commands/lazyops.py:1863` | `def do_lazy_verb(self, line)` |
+| `do_lazy_worker` | method | `cli/commands/lazyops.py:515` | `def do_lazy_worker(self, line)` |
+| `do_lazy_workspace` | method | `cli/commands/lazyops.py:403` | `def do_lazy_workspace(self, line)` |
 | `list_tasks` | function | `cli/commands/lazyops.py:1567` | `def list_tasks()` |
 | `run_command` | function | `cli/commands/lazyops.py:1545` | `def run_command(command)` |
 | `steer_intent` | function | `cli/commands/lazyops.py:1599` | `def steer_intent(intent, message)` |
@@ -10,22 +14,23 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `task_graph` | function | `cli/commands/lazyops.py:1571` | `def task_graph(task)` |
 | `MarketplaceCommandSet` | class | `cli/commands/marketplace.py:62` | `class MarketplaceCommandSet(LazyOwnCommandSet)` |
 | `_installed_plugins` | method | `cli/commands/marketplace.py:86` | `def _installed_plugins(self)` |
-| `_mp_info` | method | `cli/commands/marketplace.py:333` | `def _mp_info(self, name)` |
-| `_mp_install` | method | `cli/commands/marketplace.py:241` | `def _mp_install(self, name)` |
-| `_mp_interactive_config` | method | `cli/commands/marketplace.py:414` | `def _mp_interactive_config(self)` |
-| `_mp_list` | method | `cli/commands/marketplace.py:175` | `def _mp_list(self, tier_filter)` |
-| `_mp_rate` | method | `cli/commands/marketplace.py:380` | `def _mp_rate(self, name, raw_stars)` |
-| `_mp_ratings` | method | `cli/commands/marketplace.py:394` | `def _mp_ratings(self, name)` |
-| `_mp_search` | method | `cli/commands/marketplace.py:203` | `def _mp_search(self, query)` |
-| `_mp_toggle_addon` | method | `cli/commands/marketplace.py:468` | `def _mp_toggle_addon(self, name, enable_state)` |
-| `_mp_update` | method | `cli/commands/marketplace.py:300` | `def _mp_update(self)` |
+| `_mp_info` | method | `cli/commands/marketplace.py:354` | `def _mp_info(self, name)` |
+| `_mp_install` | method | `cli/commands/marketplace.py:244` | `def _mp_install(self, name)` |
+| `_mp_interactive_config` | method | `cli/commands/marketplace.py:435` | `def _mp_interactive_config(self)` |
+| `_mp_list` | method | `cli/commands/marketplace.py:178` | `def _mp_list(self, tier_filter)` |
+| `_mp_rate` | method | `cli/commands/marketplace.py:401` | `def _mp_rate(self, name, raw_stars)` |
+| `_mp_ratings` | method | `cli/commands/marketplace.py:415` | `def _mp_ratings(self, name)` |
+| `_mp_search` | method | `cli/commands/marketplace.py:206` | `def _mp_search(self, query)` |
+| `_mp_toggle_addon` | method | `cli/commands/marketplace.py:490` | `def _mp_toggle_addon(self, name, enable_state)` |
+| `_mp_update` | method | `cli/commands/marketplace.py:303` | `def _mp_update(self)` |
+| `_mp_update_addons` | method | `cli/commands/marketplace.py:336` | `def _mp_update_addons(self, args)` |
 | `_ratings_path` | method | `cli/commands/marketplace.py:78` | `def _ratings_path(self)` |
 | `_registry` | method | `cli/commands/marketplace.py:68` | `def _registry(self)` |
 | `_safe_git_clone` | function | `cli/commands/marketplace.py:47` | `def _safe_git_clone(repo_url, dest, depth)` |
 | `_tier_label` | method | `cli/commands/marketplace.py:82` | `def _tier_label(self, name, tiers)` |
 | `_tiers` | method | `cli/commands/marketplace.py:74` | `def _tiers(self)` |
 | `do_marketplace` | method | `cli/commands/marketplace.py:104` | `def do_marketplace(self, line)` |
-| `do_marketplace_config` | method | `cli/commands/marketplace.py:426` | `def do_marketplace_config(self, line)` |
+| `do_marketplace_config` | method | `cli/commands/marketplace.py:447` | `def do_marketplace_config(self, line)` |
 | `McpBridgeCommandSet` | class | `cli/commands/mcp_bridge.py:143` | `class McpBridgeCommandSet(LazyOwnCommandSet)` |
 | `_build_auto_populate_parser` | function | `cli/commands/mcp_bridge.py:55` | `def _build_auto_populate_parser()` |
 | `_build_facts_show_parser` | function | `cli/commands/mcp_bridge.py:72` | `def _build_facts_show_parser()` |
@@ -346,14 +351,17 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:32` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:257` | `def _gym_hint(self)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:223` | `def _gym_leaderboard(self, args)` |
-| `_gym_list` | method | `cli/commands/redteam_gym.py:83` | `def _gym_list(self)` |
-| `_gym_start` | method | `cli/commands/redteam_gym.py:117` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:198` | `def _gym_status(self)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:154` | `def _gym_submit(self, args)` |
-| `do_gym` | method | `cli/commands/redteam_gym.py:39` | `def do_gym(self, line)` |
+| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:272` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:399` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:365` | `def _gym_leaderboard(self, args)` |
+| `_gym_list` | method | `cli/commands/redteam_gym.py:141` | `def _gym_list(self)` |
+| `_gym_start` | method | `cli/commands/redteam_gym.py:175` | `def _gym_start(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:277` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:345` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:224` | `def _gym_submit(self, args)` |
+| `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
+| `do_gym_ms2` | method | `cli/commands/redteam_gym.py:93` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
 | `_make_context` | method | `cli/commands/resource_scripting.py:31` | `def _make_context(self)` |
 | `do_makerc` | method | `cli/commands/resource_scripting.py:88` | `def do_makerc(self, line)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_tab` | method | `cli/commands/shellsys.py:406` | `def do_tab(self, line)` |
 | `lazyrun_command` | function | `cli/commands/shellsys.py:205` | `def lazyrun_command()` |
 | `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
-| `do_sleep_configure` | method | `cli/commands/sleep_obfuscation.py:82` | `def do_sleep_configure(self, line)` |
-| `do_sleep_info` | method | `cli/commands/sleep_obfuscation.py:50` | `def do_sleep_info(self, line)` |
-| `do_sleep_list` | method | `cli/commands/sleep_obfuscation.py:23` | `def do_sleep_list(self, line)` |
-| `SocksProxyCommandSet` | class | `cli/commands/socks_proxy.py:18` | `class SocksProxyCommandSet(LazyOwnCommandSet)` |
-| `do_socks_config` | method | `cli/commands/socks_proxy.py:25` | `def do_socks_config(self, line)` |
-| `do_socks_export` | method | `cli/commands/socks_proxy.py:94` | `def do_socks_export(self, line)` |
-| `do_socks_sessions` | method | `cli/commands/socks_proxy.py:75` | `def do_socks_sessions(self, line)` |
-| `SupplyChainCommandSet` | class | `cli/commands/supply_chain.py:88` | `class SupplyChainCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

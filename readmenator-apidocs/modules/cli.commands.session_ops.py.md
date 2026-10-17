@@ -172,7 +172,7 @@ Notes land in sessions/notes.jsonl with timestamp, self.params['rhost'], and pha
 so they survive session restarts and show up in reports.
 
 Usage:
-    ``note``                    — list recent notes for current self.params['rhost']
+    `[`note`](modules.emulation_runner.py.md#emulationresult-note)`                    — list recent notes for current self.params['rhost']
     ``note <text>``             — save a note for current self.params['rhost']/phase
     ``note -a``                 — list all notes (all targets)
     ``note Found admin creds in /etc/shadow``

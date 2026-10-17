@@ -1,8 +1,65 @@
-# Symbols (page 6 of 41)
+# Symbols (page 6 of 42)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_has_traversal` | method | `cli/status_bar.py:261` | `def _has_traversal(value)` |
+| `_hook` | function | `cli/status_bar.py:915` | `def _hook(data)` |
+| `_is_active` | method | `cli/status_bar.py:646` | `def _is_active(entry, threshold)` |
+| `_is_within_root` | method | `cli/status_bar.py:253` | `def _is_within_root(self, candidate)` |
+| `_last_line` | method | `cli/status_bar.py:376` | `def _last_line(self, path)` |
+| `_latest_command` | method | `cli/status_bar.py:476` | `def _latest_command(self)` |
+| `_latest_credential` | method | `cli/status_bar.py:335` | `def _latest_credential(self)` |
+| `_latest_note` | method | `cli/status_bar.py:358` | `def _latest_note(self)` |
+| `_latest_vuln` | method | `cli/status_bar.py:345` | `def _latest_vuln(self)` |
+| `_operator_presence_enabled` | function | `cli/status_bar.py:948` | `def _operator_presence_enabled(payload, config)` |
+| `_recent_commands` | method | `cli/status_bar.py:551` | `def _recent_commands(self)` |
+| `_resolve_theme_colors` | method | `cli/status_bar.py:823` | `def _resolve_theme_colors(self)` |
+| `_safe_collect` | method | `cli/status_bar.py:929` | `def _safe_collect(self, key)` |
+| `_safe_path` | method | `cli/status_bar.py:247` | `def _safe_path(self, relative)` |
+| `_sanitise` | method | `cli/status_bar.py:724` | `def _sanitise(self, value, max_chars)` |
+| `_suggestion_label` | method | `cli/status_bar.py:579` | `def _suggestion_label(entry)` |
+| `_summarise_credential` | method | `cli/status_bar.py:389` | `def _summarise_credential(self, filename, line)` |
+| `build_default_manager` | function | `cli/status_bar.py:969` | `def build_default_manager(payload, sessions_dir, advisor_factory, config)` |
+| `collect` | method | `cli/status_bar.py:146` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:283` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:306` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:327` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:451` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:530` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:622` | `def collect(self)` |
+| `collect_context` | method | `cli/status_bar.py:798` | `def collect_context(self)` |
+| `enabled` | method | `cli/status_bar.py:783` | `def enabled(self)` |
+| `from_payload` | method | `cli/status_bar.py:99` | `def from_payload(cls, payload)` |
+| `glob_latest` | method | `cli/status_bar.py:222` | `def glob_latest(self, pattern)` |
+| `install` | method | `cli/status_bar.py:857` | `def install(self, shell, base_prompt_attribute, prompt_attribute)` |
+| `read_json` | method | `cli/status_bar.py:204` | `def read_json(self, relative)` |
+| `read_text` | method | `cli/status_bar.py:183` | `def read_text(self, relative)` |
+| `render_plain` | method | `cli/status_bar.py:664` | `def render_plain(self, ctx)` |
+| `render_plain_line` | method | `cli/status_bar.py:833` | `def render_plain_line(self, ctx)` |
+| `render_prompt` | method | `cli/status_bar.py:687` | `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` |
+| `render_prompt` | method | `cli/status_bar.py:811` | `def render_prompt(self, base_prompt, readline_safe)` |
+| `root` | method | `cli/status_bar.py:179` | `def root(self)` |
+| `set_enabled` | method | `cli/status_bar.py:847` | `def set_enabled(self, enabled)` |
+| `active_tokens` | function | `cli/style.py:68` | `def active_tokens(payload)` |
+| `paint` | function | `cli/style.py:84` | `def paint(text, token, payload)` |
+| `render_prompt` | function | `cli/style.py:98` | `def render_prompt(console, segments, payload)` |
+| `style` | function | `cli/style.py:49` | `def style(token, theme)` |
+| `SurfaceEdge` | class | `cli/surface_graph.py:113` | `class SurfaceEdge` |
+| `SurfaceGraph` | class | `cli/surface_graph.py:126` | `class SurfaceGraph` |
+| `SurfaceGraphBuilder` | class | `cli/surface_graph.py:196` | `class SurfaceGraphBuilder` |
+| `SurfaceGraphConfig` | class | `cli/surface_graph.py:174` | `class SurfaceGraphConfig` |
+| `SurfaceNode` | class | `cli/surface_graph.py:87` | `class SurfaceNode` |
+| `__init__` | method | `cli/surface_graph.py:199` | `def __init__(self, config)` |
+| `_build_c2_node` | method | `cli/surface_graph.py:341` | `def _build_c2_node(self, local_ips, payload)` |
+| `_client_label` | method | `cli/surface_graph.py:622` | `def _client_label(client_id, meta)` |
+| `_discover_local_ips` | method | `cli/surface_graph.py:359` | `def _discover_local_ips(self)` |
+| `_fallback_local_ips` | method | `cli/surface_graph.py:380` | `def _fallback_local_ips()` |
+| `_is_ipv4` | method | `cli/surface_graph.py:616` | `def _is_ipv4(value)` |
+| `_kind_order` | method | `cli/surface_graph.py:331` | `def _kind_order(kind)` |
+| `_load_payload` | method | `cli/surface_graph.py:386` | `def _load_payload(self)` |
+| `_parse_implant_row` | method | `cli/surface_graph.py:559` | `def _parse_implant_row(self, row)` |
+| `_parse_port_scan` | method | `cli/surface_graph.py:580` | `def _parse_port_scan(self, raw)` |
 | `_read_hostsdiscovery` | method | `cli/surface_graph.py:414` | `def _read_hostsdiscovery(self, local_ips)` |
 | `_read_implants` | method | `cli/surface_graph.py:525` | `def _read_implants(self)` |
 | `_read_last_implant_row` | method | `cli/surface_graph.py:542` | `def _read_last_implant_row(self, path)` |
@@ -176,6 +233,37 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `root` | method | `cli/toast_bus.py:217` | `def root(self)` |
 | `set` | method | `cli/toast_bus.py:153` | `def set(self, name, offset)` |
 | `toasts_enabled` | function | `cli/toast_bus.py:679` | `def toasts_enabled(payload, config)` |
+| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
+| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
+| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
+| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
+| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
+| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
+| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
+| `_hint` | method | `cli/tui_forms.py:172` | `def _hint(self, text)` |
+| `_render_options` | method | `cli/tui_forms.py:155` | `def _render_options(self, query)` |
+| `_save` | method | `cli/tui_forms.py:327` | `def _save(self)` |
+| `_selected_value` | method | `cli/tui_forms.py:179` | `def _selected_value(self)` |
+| `_values` | method | `cli/tui_forms.py:95` | `def _values(self)` |
+| `action_answer` | method | `cli/tui_forms.py:272` | `def action_answer(self, answer)` |
+| `compose` | method | `cli/tui_forms.py:82` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:136` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:262` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:314` | `def compose(self)` |
+| `filter_candidates` | function | `cli/tui_forms.py:27` | `def filter_candidates(query, options, limit)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:102` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:239` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:276` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:338` | `def on_button_pressed(self, event)` |
+| `on_input_changed` | method | `cli/tui_forms.py:201` | `def on_input_changed(self, event)` |
+| `on_input_submitted` | method | `cli/tui_forms.py:107` | `def on_input_submitted(self, event)` |
+| `on_input_submitted` | method | `cli/tui_forms.py:206` | `def on_input_submitted(self, event)` |
+| `on_key` | method | `cli/tui_forms.py:220` | `def on_key(self, event)` |
+| `on_mount` | method | `cli/tui_forms.py:147` | `def on_mount(self)` |
+| `on_option_list_option_selected` | method | `cli/tui_forms.py:211` | `def on_option_list_option_selected(self, event)` |
 | `_cycle` | function | `cli/tui_theme.py:65` | `def _cycle(payload, direction)` |
 | `_format_listing` | function | `cli/tui_theme.py:45` | `def _format_listing(current)` |
 | `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
@@ -408,93 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `generate_key` | function | `contrib/legacy/lazykeygen.py:23` | `def generate_key(length)` |
 | `main` | function | `contrib/legacy/lazykeygen.py:26` | `def main()` |
 | `pad` | function | `contrib/legacy/lazykeygen.py:8` | `def pad(s)` |
-| `check_lfi_success` | function | `contrib/legacy/lazylfi2rce.py:35` | `def check_lfi_success(response_text)` |
-| `check_rfi_success` | function | `contrib/legacy/lazylfi2rce.py:39` | `def check_rfi_success(response_text)` |
-| `main` | function | `contrib/legacy/lazylfi2rce.py:43` | `def main()` |
-| `signal_handler` | function | `contrib/legacy/lazylfi2rce.py:29` | `def signal_handler(sig, frame)` |
-| `LLMEngine` | class | `contrib/legacy/lazyllmchat.py:163` | `class LLMEngine` |
-| `LazyOwnLLMChat` | class | `contrib/legacy/lazyllmchat.py:234` | `class LazyOwnLLMChat` |
-| `LazyOwnPromptRenderer` | class | `contrib/legacy/lazyllmchat.py:198` | `class LazyOwnPromptRenderer` |
-| `LazyOwnShellBridge` | class | `contrib/legacy/lazyllmchat.py:22` | `class LazyOwnShellBridge` |
-| `PromptBuilder` | class | `contrib/legacy/lazyllmchat.py:123` | `class PromptBuilder` |
-| `SessionContextProvider` | class | `contrib/legacy/lazyllmchat.py:104` | `class SessionContextProvider` |
-| `__init__` | method | `contrib/legacy/lazyllmchat.py:25` | `def __init__(self, script_path)` |
-| `__init__` | method | `contrib/legacy/lazyllmchat.py:105` | `def __init__(self, session_path)` |
-| `__init__` | method | `contrib/legacy/lazyllmchat.py:164` | `def __init__(self)` |
-| `__init__` | method | `contrib/legacy/lazyllmchat.py:235` | `def __init__(self)` |
-| `_analyze` | method | `contrib/legacy/lazyllmchat.py:263` | `def _analyze(self, command, output)` |
-| `_direct_query` | method | `contrib/legacy/lazyllmchat.py:273` | `def _direct_query(self, query)` |
-| `_get_context` | method | `contrib/legacy/lazyllmchat.py:242` | `def _get_context(self)` |
-| `_load_model` | method | `contrib/legacy/lazyllmchat.py:170` | `def _load_model(self)` |
-| `_load_shell` | method | `contrib/legacy/lazyllmchat.py:31` | `def _load_shell(self)` |
-| `_run_shell_command` | method | `contrib/legacy/lazyllmchat.py:245` | `def _run_shell_command(self, command)` |
-| `_run_system_command` | method | `contrib/legacy/lazyllmchat.py:251` | `def _run_system_command(self, command)` |
-| `ask` | method | `contrib/legacy/lazyllmchat.py:182` | `def ask(self, prompt)` |
-| `banner` | method | `contrib/legacy/lazyllmchat.py:223` | `def banner(self)` |
-| `execute` | method | `contrib/legacy/lazyllmchat.py:65` | `def execute(self, command)` |
-| `for_command_analysis` | method | `contrib/legacy/lazyllmchat.py:133` | `def for_command_analysis(command, output, context, history)` |
-| `for_direct_query` | method | `contrib/legacy/lazyllmchat.py:149` | `def for_direct_query(query, context, history)` |
-| `get_history_text` | method | `contrib/legacy/lazyllmchat.py:194` | `def get_history_text(self)` |
-| `get_last_lines` | method | `contrib/legacy/lazyllmchat.py:108` | `def get_last_lines(self, count)` |
-| `is_ready` | method | `contrib/legacy/lazyllmchat.py:179` | `def is_ready(self)` |
-| `main` | function | `contrib/legacy/lazyllmchat.py:309` | `def main()` |
-| `no_history_init` | function | `contrib/legacy/lazyllmchat.py:38` | `def no_history_init(self_)` |
-| `render` | method | `contrib/legacy/lazyllmchat.py:208` | `def render(self)` |
-| `run` | method | `contrib/legacy/lazyllmchat.py:280` | `def run(self, initial_query)` |
-| `target` | function | `contrib/legacy/lazyllmchat.py:70` | `def target()` |
-| `ensure_http_prefix` | function | `contrib/legacy/lazylogpoisoning.py:39` | `def ensure_http_prefix(url)` |
-| `main` | function | `contrib/legacy/lazylogpoisoning.py:53` | `def main()` |
-| `signal_handler` | function | `contrib/legacy/lazylogpoisoning.py:45` | `def signal_handler(sig, frame)` |
-| `errmsg` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:63` | `def errmsg(str)` |
-| `info` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:59` | `def info(str)` |
-| `shutdown` | function | `contrib/legacy/lazymariadb_rce_cve_2016-662.py:67` | `def shutdown(code)` |
-| `get_mac` | function | `contrib/legacy/lazymidm.py:12` | `def get_mac(ip)` |
-| `main` | function | `contrib/legacy/lazymidm.py:68` | `def main()` |
-| `mitm` | function | `contrib/legacy/lazymidm.py:37` | `def mitm(target_ip, gateway_ip)` |
-| `restore` | function | `contrib/legacy/lazymidm.py:27` | `def restore(target_ip, spoof_ip)` |
-| `setup_monitor_mode` | function | `contrib/legacy/lazymidm.py:58` | `def setup_monitor_mode(interface)` |
-| `spoof` | function | `contrib/legacy/lazymidm.py:18` | `def spoof(target_ip, spoof_ip)` |
-| `start_sslstrip` | function | `contrib/legacy/lazymidm.py:50` | `def start_sslstrip(port)` |
-| `start_tcpdump` | function | `contrib/legacy/lazymidm.py:54` | `def start_tcpdump(interface, output_file)` |
-| `_sudo_run` | function | `contrib/legacy/lazymitmap.py:14` | `def _sudo_run()` |
-| `_validate_iface` | function | `contrib/legacy/lazymitmap.py:19` | `def _validate_iface(value, name)` |
-| `append_file` | function | `contrib/legacy/lazymitmap.py:67` | `def append_file(path, s)` |
-| `backup_file` | function | `contrib/legacy/lazymitmap.py:121` | `def backup_file(filepath)` |
-| `cleanup` | function | `contrib/legacy/lazymitmap.py:315` | `def cleanup()` |
-| `configure_dnsmasq` | function | `contrib/legacy/lazymitmap.py:163` | `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)` |
-| `configure_hostapd` | function | `contrib/legacy/lazymitmap.py:195` | `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)` |
-| `create_dir` | function | `contrib/legacy/lazymitmap.py:72` | `def create_dir(directory)` |
-| `flush_iptables` | function | `contrib/legacy/lazymitmap.py:145` | `def flush_iptables()` |
-| `install_dependencies` | function | `contrib/legacy/lazymitmap.py:84` | `def install_dependencies()` |
-| `print_header` | function | `contrib/legacy/lazymitmap.py:45` | `def print_header()` |
-| `restart_service` | function | `contrib/legacy/lazymitmap.py:138` | `def restart_service(service)` |
-| `restore_file` | function | `contrib/legacy/lazymitmap.py:128` | `def restore_file(filepath)` |
-| `run_cmd_write` | function | `contrib/legacy/lazymitmap.py:49` | `def run_cmd_write(cmd_args, s)` |
-| `set_permissions` | function | `contrib/legacy/lazymitmap.py:77` | `def set_permissions(directory, permissions)` |
-| `set_speed_limit` | function | `contrib/legacy/lazymitmap.py:248` | `def set_speed_limit(ap_iface, speed_up, speed_down)` |
-| `setup_iptables` | function | `contrib/legacy/lazymitmap.py:228` | `def setup_iptables(ap_iface, ap_ip, net_iface)` |
-| `setup_network_manager` | function | `contrib/legacy/lazymitmap.py:153` | `def setup_network_manager(ap_iface)` |
-| `signal_handler` | function | `contrib/legacy/lazymitmap.py:324` | `def signal_handler(sig, frame)` |
-| `start_services` | function | `contrib/legacy/lazymitmap.py:254` | `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)` |
-| `write_file` | function | `contrib/legacy/lazymitmap.py:63` | `def write_file(path, s)` |
-| `check_arp` | function | `contrib/legacy/lazynetbios.py:58` | `def check_arp(ip)` |
-| `check_netbios` | function | `contrib/legacy/lazynetbios.py:71` | `def check_netbios(ip)` |
-| `check_sudo` | function | `contrib/legacy/lazynetbios.py:30` | `def check_sudo()` |
-| `generate_ip_range` | function | `contrib/legacy/lazynetbios.py:115` | `def generate_ip_range(start_ip, end_ip)` |
-| `scan_netbios` | function | `contrib/legacy/lazynetbios.py:45` | `def scan_netbios(ip_range)` |
-| `send_nbns_spoof` | function | `contrib/legacy/lazynetbios.py:90` | `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)` |
-| `signal_handler` | function | `contrib/legacy/lazynetbios.py:38` | `def signal_handler(sig, frame)` |
-| `ntlm_relay` | function | `contrib/legacy/lazyntlrelayx.py:52` | `def ntlm_relay(target_ip, credentials)` |
-| `parse_hash_file` | function | `contrib/legacy/lazyntlrelayx.py:5` | `def parse_hash_file(file_path)` |
-| `InvalidUsername` | class | `contrib/legacy/lazyopenssh77enum2.py:14` | `class InvalidUsername(Exception)` |
-| `add_boolean` | function | `contrib/legacy/lazyopenssh77enum2.py:19` | `def add_boolean()` |
-| `check_user` | function | `contrib/legacy/lazyopenssh77enum2.py:50` | `def check_user(username)` |
-| `invalid_username` | function | `contrib/legacy/lazyopenssh77enum2.py:36` | `def invalid_username()` |
-| `service_accept` | function | `contrib/legacy/lazyopenssh77enum2.py:30` | `def service_accept()` |
-| `add_to_knowledge_base` | function | `contrib/legacy/lazyphishingai.py:117` | `def add_to_knowledge_base(prompt, command, file_path)` |
-| `clean_think` | function | `contrib/legacy/lazyphishingai.py:28` | `def clean_think(texto)` |
-| `clean_yaml` | function | `contrib/legacy/lazyphishingai.py:31` | `def clean_yaml(texto)` |
-| `configure_logging` | function | `contrib/legacy/lazyphishingai.py:42` | `def configure_logging(debug)` |
-| `create_complex_prompt` | function | `contrib/legacy/lazyphishingai.py:46` | `def create_complex_prompt(base_prompt, history, knowledge_base)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

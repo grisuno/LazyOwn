@@ -6,6 +6,7 @@ description: CVE-2026-98256 signal LPE by V4bel. sigqueue UAF race in exec.
 author: V4bel
 version: "1.0"
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

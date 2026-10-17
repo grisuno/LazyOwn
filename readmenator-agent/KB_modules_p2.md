@@ -1,5 +1,53 @@
-# Subsystem: modules (page 2 of 14)
+# Subsystem: modules (page 2 of 15)
 Previous: [KB_modules.md](KB_modules.md)
+
+## modules/auto_purple.py
+- Doc: Purple Team Closed-Loop — honest measurement of offensive detection.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DetectionMethod` (class, line 72) `class DetectionMethod`
+  - `PurpleResult` (class, line 132) `class PurpleResult`
+  - `PurpleScore` (class, line 165) `class PurpleScore`
+  - `IPurpleLoop` (class, line 181) `class IPurpleLoop(ABC)`
+  - `IPurpleEvaluator` (class, line 210) `class IPurpleEvaluator(ABC)`
+  - `_run_bt_command` (function, line 225) `def _run_bt_command(bt_path, command, timeout)`
+  - `_parse_ai_test` (function, line 329) `def _parse_ai_test(output, command, args)`
+  - `_parse_keyword_match` (function, line 342) `def _parse_keyword_match(output, command, args)`
+  - `_parse_alert_check` (function, line 374) `def _parse_alert_check(output, command, args)`
+  - `_parse_fim_check` (function, line 388) `def _parse_fim_check(output, command, args)`
+  - `PurpleTeamLoop` (class, line 407) `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)`
+  - `get_loop` (function, line 772) `def get_loop(bt_path, detection_delay, methods, auto_feedback)`
+  - `load_config_from_payload` (function, line 790) `def load_config_from_payload(params)`
+  - `to_csv_row` (method, line 146) `def to_csv_row(self)`
+  - `to_dict` (method, line 160) `def to_dict(self)`
+  - `execute_and_measure` (method, line 185) `def execute_and_measure(self, command, args, category)`
+  - `measure_only` (method, line 193) `def measure_only(self, command, args, category)`
+  - `engagement_score` (method, line 201) `def engagement_score(self)`
+  - `export_dataset` (method, line 204) `def export_dataset(self)`
+  - `export_report` (method, line 207) `def export_report(self)`
+  - `last_results` (method, line 214) `def last_results(self, n)`
+  - `category_accuracy` (method, line 217) `def category_accuracy(self, category)`
+  - `__init__` (method, line 414) `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)`
+  - `_init_dataset` (method, line 433) `def _init_dataset(self)`
+  - `execute_and_measure` (method, line 443) `def execute_and_measure(self, command, args, category)`
+  - `measure_only` (method, line 493) `def measure_only(self, command, args, category)`
+  - `engagement_score` (method, line 529) `def engagement_score(self)`
+  - `export_dataset` (method, line 567) `def export_dataset(self)`
+  - `export_report` (method, line 571) `def export_report(self)`
+  - `last_results` (method, line 596) `def last_results(self, n)`
+  - `category_accuracy` (method, line 599) `def category_accuracy(self, category)`
+  - `_execute_red` (method, line 614) `def _execute_red(self, command, args)`
+  - `_query_blue` (method, line 635) `def _query_blue(self, command, args)`
+  - `_hash_output` (method, line 687) `def _hash_output(self, output)`
+  - `_write_audit` (method, line 693) `def _write_audit(self, result)`
+  - `_append_dataset` (method, line 698) `def _append_dataset(self, result)`
+  - `_write_feedback` (method, line 704) `def _write_feedback(self, result)`
+  - `_load_audit` (method, line 724) `def _load_audit(self)`
+  - `_compute_oracle_accuracy` (method, line 739) `def _compute_oracle_accuracy(self)`
+  - `_get_detection_methods` (method, line 759) `def _get_detection_methods(self)`
+- Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
+- Imported by: `cli/commands/purple_team.py`
 
 ## modules/auto_registry.py
 - Doc: Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such...
@@ -68,41 +116,41 @@ Previous: [KB_modules.md](KB_modules.md)
   - `profile` (method, line 328) `def profile(self, target)`
   - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
   - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
-  - `_match_exploit_db` (method, line 454) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 492) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 996) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1053) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1093) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1122) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1139) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1290) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1383) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1411) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1441) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1469) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1480) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1577) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1595) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1674) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1690) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1701) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1727) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1762) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1810) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1990) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 2016) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 2044) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2113) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2156) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2346) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2446) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2511) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2572) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2617) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2636) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_match_exploit_db` (method, line 474) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 512) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 1016) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1073) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1113) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1159) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1176) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1328) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1421) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1449) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1479) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1507) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1518) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1615) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1633) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1712) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1728) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1739) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1765) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1800) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1848) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 2028) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2054) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2082) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2151) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2194) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2384) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2484) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2549) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2610) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2655) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2674) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
-- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_phase1_data_gaps.py`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
 - Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
@@ -429,7 +477,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_normalize_task_title` (function, line 256) `def _normalize_task_title(title)`
   - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
 - Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
-- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`
+- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
 
 ## modules/cal.sh
 - Doc: Función para calcular si un año es bisiesto
@@ -445,43 +493,6 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
-
-## modules/chain_registry.py
-- Doc: Chain registry — ordered orchestration chains from ``chains/*.yaml``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ChainStep` (class, line 36) `class ChainStep`
-  - `Chain` (class, line 46) `class Chain`
-  - `validate_chain` (function, line 93) `def validate_chain(data, filename, chains_dir)`
-  - `load_all` (function, line 134) `def load_all(chains_dir)`
-  - `_materialize` (function, line 173) `def _materialize(name, raw, stack)`
-  - `get` (function, line 215) `def get(name, chains_dir)`
-  - `scan_all` (function, line 220) `def scan_all(chains_dir)`
-  - `set_enabled` (function, line 264) `def set_enabled(name, enabled, chains_dir)`
-  - `generate_for_playbook` (function, line 291) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
-  - `resolve` (method, line 57) `def resolve(self, tokens)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/lazy_orchestrator.py`, `skills/lazyown_mcp.py`, `tests/test_chain_registry.py`
-
-## modules/cicd_enumerator.py
-- Doc: CI/CD Pipeline Enumeration Module.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CICDFinding` (class, line 33) `class CICDFinding`
-  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
-  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
-  - `scan` (method, line 60) `def scan(self)`
-  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
-  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
-  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
-  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
-  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
-  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
-  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
-  - `export_findings` (method, line 387) `def export_findings(self)`
-- Imported by: `cli/commands/cicd.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

@@ -6,6 +6,7 @@ description: 'Google Calendar RAT is a PoC of Command&Control over Google Calend
 author: MrSaighnal
 version: 0.4.6
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

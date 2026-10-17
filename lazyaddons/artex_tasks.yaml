@@ -6,6 +6,7 @@ description: List ARTEX v0.3.12 pentest tasks via API in English. Needs server u
 author: Hinln (fork of Autumn-27)
 version: 0.3.12
 enabled: true
+update: true
 params:
   - name: url
     type: string

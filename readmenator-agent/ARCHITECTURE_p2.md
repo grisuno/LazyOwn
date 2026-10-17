@@ -2,6 +2,19 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/lazy_orchestrator.py` -> `modules/orchestrator_config.py`
+- `cli/lazy_orchestrator.py` -> `modules/playbook_admin.py`
+- `cli/lazy_orchestrator.py` -> `modules/redteam_gym.py`
+- `cli/lazynmap_post.py` -> `cli/exploration.py`
+- `cli/lazynmap_post.py` -> `cli/recon_plan.py`
+- `cli/marketplace_config.py` -> `cli/tui_forms.py`
+- `cli/ops_commands.py` -> `core/safe_console.py`
+- `cli/ops_commands.py` -> `modules/killchain.py`
+- `cli/ops_commands.py` -> `modules/world_model.py`
+- `cli/palette_command.py` -> `cli/commands/enum.py`
+- `cli/palette_command.py` -> `cli/palette_graph.py`
+- `cli/palette_command.py` -> `cli/palette_telemetry.py`
+- `cli/palette_command.py` -> `core/text_utils.py`
 - `cli/palette_overlay.py` -> `cli/commands/containers.py`
 - `cli/palette_overlay.py` -> `cli/palette.py`
 - `cli/palette_overlay.py` -> `cli/palette_command.py`
@@ -63,6 +76,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/toast_bus.py` -> `cli/themes.py`
 - `cli/toast_bus.py` -> `core/console.py`
 - `cli/toast_bus.py` -> `core/text_utils.py`
+- `cli/tui_forms.py` -> `cli/commands/containers.py`
 - `cli/tui_theme.py` -> `cli/themes.py`
 - `cli/tutorial.py` -> `core/console.py`
 - `cli/wizard.py` -> `cli/marketplace_config.py`
@@ -480,21 +494,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyown.py` -> `modules/unified_bridge.py`
 - `lazyown.py` -> `skills/unified_orchestrator.py`
 - `lazyown.py` -> `utils.py`
+- `modules/addon_updater.py` -> `core/logging.py`
 - `modules/agent_runner.py` -> `core/logging.py`
-- `modules/agent_runner.py` -> `modules/ai_model.py`
-- `modules/agent_runner.py` -> `modules/llm_factory.py`
-- `modules/agent_runner.py` -> `modules/logging_config.py`
-- `modules/ai_exploit_chain.py` -> `modules/autonomous_exploit_engine.py`
-- `modules/ai_fallback.py` -> `modules/llm_factory.py`
-- `modules/ai_fallback.py` -> `modules/toposwarm_bridge.py`
-- `modules/ai_model.py` -> `core/logging.py`
-- `modules/ai_model.py` -> `modules/llm_factory.py`
-- `modules/apt_playbooks.py` -> `core/console.py`
-- `modules/apt_playbooks.py` -> `modules/atomic_resolver.py`
-- `modules/atomic_cli.py` -> `core/console.py`
-- `modules/atomic_cli.py` -> `core/hardening.py`
-- `modules/atomic_cli.py` -> `core/logging.py`
-- `modules/atomic_cli.py` -> `modules/atomic_resolver.py`
-- `modules/atomic_cli.py` -> `utils.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

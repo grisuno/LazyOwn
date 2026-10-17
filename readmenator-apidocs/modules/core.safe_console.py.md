@@ -64,7 +64,7 @@ def get_console(**overrides) -> Console
 
 Build a Rich console with safe color/box defaults.
 
-Callers may pass Rich ``Console`` options (`[`width`](cli.timeline_browser.py.md#timelinecolumn-width)`, ``file``);
+Callers may pass Rich ``Console`` options (`[`width`](cli.timeline_browser.py.md#timelinecolumn-width)`, `[`file`](modules.playbook_admin.py.md#playbookentry-file)`);
 ``color_system``/``force_terminal`` are left on auto so piped or
 crippled sinks never receive raw escape codes.
 

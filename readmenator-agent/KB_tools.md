@@ -35,3 +35,24 @@
 - Symbols:
   - `main` (function, line 49) `def main()`
 - Depends on: `tools/gen_demo_gifs.py`
+
+## tools/generate_metasploitable_gym.py
+- Doc: Generate the Metasploitable 2 gym catalogue.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `exploit_document` (function, line 919) `def exploit_document(item)`
+  - `chain_document` (function, line 942) `def chain_document(item)`
+  - `base_chain_document` (function, line 961) `def base_chain_document()`
+  - `index_document` (function, line 1034) `def index_document()`
+  - `_normalize_dvwa` (function, line 1061) `def _normalize_dvwa()`
+  - `write` (function, line 1074) `def write()`
+
+## tools/set_lazyaddon_updates.py
+- Doc: Set or check the ``update`` flag on every lazyaddon YAML.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `set_flag` (function, line 22) `def set_flag(path, value)`
+  - `read_flag` (function, line 45) `def read_flag(path)`
+  - `main` (function, line 55) `def main()`

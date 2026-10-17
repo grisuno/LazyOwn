@@ -9,6 +9,7 @@ description: 'Start the next-generation PySide6 Operator Console for LazyOwn. Bo
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

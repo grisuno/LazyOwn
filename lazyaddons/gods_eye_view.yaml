@@ -9,6 +9,7 @@ description: |
 author: Bilawal Sidhu
 version: "0.2.1"
 enabled: true
+update: true
 params: []
 os: any
 trigger: []

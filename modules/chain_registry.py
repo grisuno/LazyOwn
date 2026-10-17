@@ -1,16 +1,22 @@
-"""Chain registry — ordered orchestration chains from ``chains/*.yaml``.
+"""Chain registry - ordered orchestration chains from ``chains/*.yaml``.
 
 One file per chain, same philosophy as ``lazyaddons/`` and ``exploits/``.
 The ``apt_chain`` shell command interprets these files instead of
 hardcoding its steps, so operators extend the orchestration by editing
 YAML. Every step must be a routable shell command; resolution (tokens,
-skip conditions, newest-file globs) happens here, execution stays in
-the shell where output and timeouts belong.
+conditions, skip rules, newest-file globs) happens here, execution stays
+in :mod:`modules.chain_runner` where timeouts and outcomes belong.
+
+Schema version 2 adds ``when`` conditions, per-step timeouts, retries,
+error policy, output capture, artefacts and sink tags. Version 1 files
+remain valid with the same defaults.
 """
 
 from __future__ import annotations
 
+import ast
 import glob
+import hashlib
 import logging
 import os
 import re
@@ -29,65 +35,223 @@ _BASE_DIR = Path(__file__).resolve().parent.parent
 CHAINS_DIR = _BASE_DIR / "chains"
 
 _NAME_RE = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
+_CAPTURE_RE = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
+_TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 _MAX_YAML_BYTES = 100_000
+_MAX_WHEN_CHARS = 500
+_MAX_STEP_TIMEOUT = 3600
+_MAX_RETRIES = 5
 
 
 @dataclass
 class ChainStep:
-    """One ordered step: shell line plus optional guards."""
+    """One ordered step: shell line plus optional guards and outcome policy."""
 
     run: str = ""
+    id: str = ""
+    phase: str = ""
+    description: str = ""
+    when: str = ""
     skip_if_exists: str = ""
     resolve_newest_glob: str = ""
     resolve_newest_as: str = ""
+    timeout: int = 0
+    retries: int = 0
+    continue_on_error: bool = False
+    capture: str = ""
+    expect: str = ""
+    artifacts: list[str] = field(default_factory=list)
+    sinks: list[str] = field(default_factory=list)
+
+    @property
+    def identifier(self) -> str:
+        """Return the declared id or a stable generated one."""
+        return self.id or f"step_{hashlib.sha1(self.run.encode('utf-8')).hexdigest()[:8]}"
 
 
 @dataclass
 class Chain:
-    """A validated chain with defaults and ordered steps."""
+    """A validated chain with defaults, variables and ordered steps."""
 
     name: str = ""
     description: str = ""
+    version: int = 1
+    tags: list[str] = field(default_factory=list)
+    platforms: list[str] = field(default_factory=list)
     defaults: dict[str, str] = field(default_factory=dict)
+    vars: dict[str, str] = field(default_factory=dict)
     steps: list[ChainStep] = field(default_factory=list)
     source: str = ""
     enabled: bool = True
     extends: str = ""
 
     def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]:
-        """Substitute tokens and evaluate guards.
+        """Substitute tokens, evaluate conditions and guards.
 
-        Returns [{run, skipped, reason}...] in order. ``resolve_newest``
-        globs run at resolve time against the caller's cwd.
+        Returns one mapping per step with ``run``, ``skipped`` and
+        ``reason`` plus the v2 policy fields. The runner repeats this
+        resolution after every capture so later steps see earlier output.
         """
-        merged = {str(k): str(v) for k, v in {**self.defaults, **tokens}.items()}
+        merged = {str(k): str(v) for k, v in {**self.defaults, **self.vars, **tokens}.items()}
         resolved: list[dict[str, Any]] = []
         for step in self.steps:
-            rendered = step.run
-            for key, value in merged.items():
-                rendered = rendered.replace(f"{{{key}}}", value)
-            skip_path = ""
-            if step.skip_if_exists:
-                skip_path = step.skip_if_exists
-                for key, value in merged.items():
-                    skip_path = skip_path.replace(f"{{{key}}}", value)
-                if skip_path and os.path.exists(skip_path):
-                    resolved.append({"run": rendered, "skipped": True, "reason": f"exists: {skip_path}"})
-                    continue
-            if step.resolve_newest_glob and step.resolve_newest_as:
-                matches = sorted(glob.glob(step.resolve_newest_glob), key=os.path.getmtime)
-                if not matches:
-                    resolved.append({"run": rendered, "skipped": True, "reason": "no newest match"})
-                    continue
-                merged[step.resolve_newest_as] = matches[-1]
-                rendered = step.run
-                for key, value in merged.items():
-                    rendered = rendered.replace(f"{{{key}}}", value)
-            if re.search(r"\{[A-Za-z_]+\}", rendered):
-                resolved.append({"run": rendered, "skipped": True, "reason": "unresolved token"})
+            rendered = _render(step.run, merged)
+            base = {
+                "id": step.identifier,
+                "phase": step.phase,
+                "description": step.description,
+                "timeout": step.timeout,
+                "retries": step.retries,
+                "continue_on_error": step.continue_on_error,
+                "capture": step.capture,
+                "expect": step.expect,
+                "artifacts": list(step.artifacts),
+                "sinks": list(step.sinks),
+                "step": step,
+            }
+            if step.when and not evaluate_when(step.when, merged):
+                resolved.append({**base, "run": rendered, "skipped": True, "reason": "when false"})
                 continue
-            resolved.append({"run": rendered, "skipped": False, "reason": ""})
+            skip_path = _render(step.skip_if_exists, merged) if step.skip_if_exists else ""
+            if skip_path and os.path.exists(skip_path):
+                resolved.append({**base, "run": rendered, "skipped": True, "reason": f"exists: {skip_path}"})
+                continue
+            if step.resolve_newest_glob and step.resolve_newest_as:
+                matches = sorted(glob.glob(_render(step.resolve_newest_glob, merged)), key=os.path.getmtime)
+                if not matches:
+                    resolved.append({**base, "run": rendered, "skipped": True, "reason": "no newest match"})
+                    continue
+                merged[step.resolve_newest_as] = os.path.abspath(matches[-1])
+                rendered = _render(step.run, merged)
+            unresolved = _TOKEN_RE.search(rendered)
+            if unresolved:
+                resolved.append(
+                    {**base, "run": rendered, "skipped": True, "reason": f"unresolved token: {unresolved.group(0)}"}
+                )
+                continue
+            resolved.append({**base, "run": rendered, "skipped": False, "reason": ""})
         return resolved
+
+
+def _render(template: str, variables: dict[str, str]) -> str:
+    """Substitute single-brace tokens in one pass."""
+    text = str(template or "")
+    for key, value in variables.items():
+        text = text.replace("{" + key + "}", str(value))
+    return text
+
+
+_ALLOWED_WHEN = (
+    ast.Expression,
+    ast.BoolOp,
+    ast.And,
+    ast.Or,
+    ast.UnaryOp,
+    ast.Not,
+    ast.Compare,
+    ast.Eq,
+    ast.NotEq,
+    ast.In,
+    ast.NotIn,
+    ast.Constant,
+    ast.Name,
+    ast.Load,
+    ast.List,
+    ast.Tuple,
+    ast.Set,
+)
+
+
+def _when_tree(expression: str) -> tuple[ast.Expression | None, str]:
+    """Parse and sandbox one ``when`` expression.
+
+    Args:
+        expression: Condition text.
+
+    Returns:
+        Tuple of parsed tree (or None) and an error string. Empty input
+        returns ``(None, "")`` and means true.
+    """
+    text = str(expression or "").strip()
+    if not text:
+        return None, ""
+    if len(text) > _MAX_WHEN_CHARS:
+        return None, f"when exceeds {_MAX_WHEN_CHARS} chars"
+    try:
+        tree = ast.parse(text, mode="eval")
+    except SyntaxError as exc:
+        return None, f"invalid when expression: {exc.msg}"
+    for node in ast.walk(tree):
+        if not isinstance(node, _ALLOWED_WHEN):
+            return None, f"unsupported when element: {type(node).__name__}"
+        if isinstance(node, ast.Name) and node.id in ("__import__", "eval", "exec", "open"):
+            return None, f"forbidden name in when: {node.id}"
+    return tree, ""
+
+
+def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool:
+    """Evaluate a safe ``when`` expression against string variables.
+
+    The grammar accepts names, string/boolean constants, ``and``, ``or``,
+    ``not``, ``==``, ``!=``, ``in`` and ``not in``. Calls, attributes and
+    arithmetic are rejected. Undefined names resolve to an empty string.
+
+    Args:
+        expression: Condition text; empty means true.
+        variables: Name-to-string mapping.
+
+    Returns:
+        Boolean result; malformed expressions evaluate to False.
+    """
+    text = str(expression or "").strip()
+    if not text:
+        return True
+    tree, _error = _when_tree(text)
+    if tree is None:
+        return False
+    values = {str(key): str(value) for key, value in (variables or {}).items()}
+
+    def _eval(node: ast.AST) -> Any:
+        if isinstance(node, ast.Expression):
+            return _eval(node.body)
+        if isinstance(node, ast.Constant):
+            return node.value
+        if isinstance(node, ast.Name):
+            lowered = node.id.lower()
+            if lowered in ("true", "false", "none"):
+                return {"true": True, "false": False, "none": None}[lowered]
+            return values.get(node.id, "")
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            return not bool(_eval(node.operand))
+        if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+            return [_eval(element) for element in node.elts]
+        if isinstance(node, ast.BoolOp):
+            results = [_eval(value) for value in node.values]
+            return all(results) if isinstance(node.op, ast.And) else any(results)
+        if isinstance(node, ast.Compare):
+            left = _eval(node.left)
+            for operator, comparator in zip(node.ops, node.comparators, strict=False):
+                right = _eval(comparator)
+                if isinstance(operator, ast.Eq):
+                    ok = left == right
+                elif isinstance(operator, ast.NotEq):
+                    ok = left != right
+                elif isinstance(operator, ast.In):
+                    ok = left in right
+                elif isinstance(operator, ast.NotIn):
+                    ok = left not in right
+                else:
+                    return False
+                if not ok:
+                    return False
+                left = right
+            return True
+        return False
+
+    try:
+        return bool(_eval(tree))
+    except Exception:
+        return False
 
 
 def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None = None) -> list[str]:
@@ -100,9 +264,17 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         errors.append(f"invalid name: {name!r}")
     if filename and name != filename:
         errors.append(f"name {name!r} does not match filename {filename!r}")
-    defaults = data.get("defaults", {})
-    if defaults is not None and not isinstance(defaults, dict):
-        errors.append("defaults must be a mapping")
+    version = data.get("version", 1)
+    if isinstance(version, bool) or version not in (1, 2):
+        errors.append(f"unsupported version: {version!r}")
+    for key in ("defaults", "vars"):
+        value = data.get(key, {})
+        if value is not None and not isinstance(value, dict):
+            errors.append(f"{key} must be a mapping")
+    for key in ("tags", "platforms"):
+        value = data.get(key, [])
+        if value is not None and not isinstance(value, list):
+            errors.append(f"{key} must be a list")
     extends = str(data.get("extends", "") or "")
     if extends and not _NAME_RE.match(extends):
         errors.append(f"invalid extends: {extends!r}")
@@ -119,11 +291,39 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         errors.append("steps must be a list when present")
     elif not extends and (not isinstance(steps, list) or not steps):
         errors.append("steps must be a non-empty list")
-    elif isinstance(steps, list):
+    if isinstance(steps, list):
+        seen_ids: set[str] = set()
         for step in steps:
             if not isinstance(step, dict) or not str(step.get("run", "")).strip():
                 errors.append("every step needs a non-empty run string")
                 continue
+            step_id = str(step.get("id", "") or "")
+            if step_id:
+                if not _NAME_RE.match(step_id):
+                    errors.append(f"invalid step id: {step_id!r}")
+                elif step_id in seen_ids:
+                    errors.append(f"duplicate step id: {step_id!r}")
+                seen_ids.add(step_id)
+            when = str(step.get("when", "") or "")
+            if when:
+                _tree, when_error = _when_tree(when)
+                if when_error:
+                    errors.append(f"step {step_id or step.get('run')!r}: {when_error}")
+            timeout = step.get("timeout", 0)
+            if isinstance(timeout, bool) or not isinstance(timeout, int) or not 0 <= timeout <= _MAX_STEP_TIMEOUT:
+                errors.append(f"step {step_id or step.get('run')!r}: timeout must be 0-{_MAX_STEP_TIMEOUT}")
+            retries = step.get("retries", 0)
+            if isinstance(retries, bool) or not isinstance(retries, int) or not 0 <= retries <= _MAX_RETRIES:
+                errors.append(f"step {step_id or step.get('run')!r}: retries must be 0-{_MAX_RETRIES}")
+            if "continue_on_error" in step and not isinstance(step["continue_on_error"], bool):
+                errors.append(f"step {step_id or step.get('run')!r}: continue_on_error must be boolean")
+            capture = str(step.get("capture", "") or "")
+            if capture and not _CAPTURE_RE.match(capture):
+                errors.append(f"step {step_id or step.get('run')!r}: invalid capture name {capture!r}")
+            for key in ("artifacts", "sinks"):
+                value = step.get(key, [])
+                if value is not None and not isinstance(value, list):
+                    errors.append(f"step {step_id or step.get('run')!r}: {key} must be a list")
             resolver = step.get("resolve_newest")
             if resolver is not None:
                 if not isinstance(resolver, dict) or not resolver.get("glob") or not resolver.get("as"):
@@ -132,12 +332,7 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
 
 
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]:
-    """Load every valid, enabled chain file (skips the rest loudly).
-
-    Chains with ``extends: <parent>`` inherit the parent's steps (one
-    level is flattened here; deeper nesting resolves recursively) and
-    merge ``defaults`` over the parent's. Disabled chains never load.
-    """
+    """Load every valid, enabled chain file (skips the rest loudly)."""
     if yaml is None:
         raise RuntimeError("PyYAML is required: pip install pyyaml")
     directory = Path(chains_dir)
@@ -171,7 +366,7 @@ def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]:
 
 
 def _materialize(name: str, raw: dict[str, dict[str, Any]], stack: tuple[str, ...]) -> Chain:
-    """Resolve one chain, flattening a single extends hop (cycle-safe)."""
+    """Resolve one chain, flattening an ``extends`` hop (cycle-safe)."""
     if name in stack:
         raise ValueError(f"extends cycle: {' -> '.join((*stack, name))}")
     entry = raw[name]
@@ -179,36 +374,60 @@ def _materialize(name: str, raw: dict[str, dict[str, Any]], stack: tuple[str, ..
     parent_name = str(data.get("extends", "") or "")
     parent_steps: list[ChainStep] = []
     parent_defaults: dict[str, str] = {}
+    parent_vars: dict[str, str] = {}
+    parent_tags: list[str] = []
+    parent_platforms: list[str] = []
     if parent_name:
         if parent_name not in raw:
             raise ValueError(f"unknown parent chain: {parent_name!r}")
         parent = _materialize(parent_name, raw, (*stack, name))
         parent_steps = list(parent.steps)
         parent_defaults = dict(parent.defaults)
+        parent_vars = dict(parent.vars)
+        parent_tags = list(parent.tags)
+        parent_platforms = list(parent.platforms)
     steps = parent_steps
     own_raw = data.get("steps") or []
     if own_raw:
-        steps = []
-        for item in own_raw:
-            resolver = item.get("resolve_newest") or {}
-            steps.append(
-                ChainStep(
-                    run=str(item["run"]),
-                    skip_if_exists=str(item.get("skip_if_exists", "") or ""),
-                    resolve_newest_glob=str(resolver.get("glob", "") or ""),
-                    resolve_newest_as=str(resolver.get("as", "") or ""),
-                )
-            )
+        steps = [_step_from_raw(item) for item in own_raw]
     if not steps:
         raise ValueError("chain has no steps after inheritance")
+    tags = list(dict.fromkeys(parent_tags + [str(tag) for tag in (data.get("tags") or [])]))
+    platforms = list(dict.fromkeys(parent_platforms + [str(item) for item in (data.get("platforms") or [])]))
     return Chain(
         name=str(data["name"]),
         description=str(data.get("description", "") or ""),
+        version=int(data.get("version", 1) or 1),
+        tags=tags,
+        platforms=platforms,
         defaults={**parent_defaults, **{str(k): str(v) for k, v in (data.get("defaults") or {}).items()}},
+        vars={**parent_vars, **{str(k): str(v) for k, v in (data.get("vars") or {}).items()}},
         steps=steps,
         source=entry["source"],
         enabled=True,
         extends=parent_name,
+    )
+
+
+def _step_from_raw(item: dict[str, Any]) -> ChainStep:
+    """Build one validated step from YAML data."""
+    resolver = item.get("resolve_newest") or {}
+    return ChainStep(
+        run=str(item["run"]),
+        id=str(item.get("id", "") or ""),
+        phase=str(item.get("phase", "") or ""),
+        description=str(item.get("description", "") or ""),
+        when=str(item.get("when", "") or ""),
+        skip_if_exists=str(item.get("skip_if_exists", "") or ""),
+        resolve_newest_glob=str(resolver.get("glob", "") or ""),
+        resolve_newest_as=str(resolver.get("as", "") or ""),
+        timeout=int(item.get("timeout", 0) or 0),
+        retries=int(item.get("retries", 0) or 0),
+        continue_on_error=bool(item.get("continue_on_error", False)),
+        capture=str(item.get("capture", "") or ""),
+        expect=str(item.get("expect", "") or ""),
+        artifacts=[str(value) for value in (item.get("artifacts") or []) if str(value).strip()],
+        sinks=[str(value) for value in (item.get("sinks") or []) if str(value).strip()],
     )
 
 
@@ -218,13 +437,7 @@ def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None:
 
 
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
-    """List every chain file including disabled ones (for administration).
-
-    Returns [{name, enabled, extends, steps, playbook, description,
-    source}...] sorted by name. Unreadable or invalid files appear with
-    ``valid: False`` and an ``error`` note instead of being silently
-    skipped — the admin surface must show what needs fixing.
-    """
+    """List every chain file including disabled ones (for administration)."""
     if yaml is None:
         raise RuntimeError("PyYAML is required: pip install pyyaml")
     directory = Path(chains_dir)
@@ -234,24 +447,45 @@ def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
     for path in sorted(directory.glob("*.yaml")):
         try:
             if path.stat().st_size > _MAX_YAML_BYTES:
-                rows.append({"name": path.stem, "enabled": False, "valid": False,
-                             "error": "oversized file", "source": str(path)})
+                rows.append(
+                    {
+                        "name": path.stem,
+                        "enabled": False,
+                        "valid": False,
+                        "error": "oversized file",
+                        "source": str(path),
+                    }
+                )
                 continue
             with path.open("r", encoding="utf-8", errors="replace") as fh:
                 data = yaml.safe_load(fh)
         except Exception as exc:
-            rows.append({"name": path.stem, "enabled": False, "valid": False,
-                         "error": f"unreadable: {exc}", "source": str(path)})
+            rows.append(
+                {
+                    "name": path.stem,
+                    "enabled": False,
+                    "valid": False,
+                    "error": f"unreadable: {exc}",
+                    "source": str(path),
+                }
+            )
             continue
-        errors = validate_chain(data, filename=path.stem, chains_dir=directory) if isinstance(data, dict) else ["not a mapping"]
+        errors = (
+            validate_chain(data, filename=path.stem, chains_dir=directory)
+            if isinstance(data, dict)
+            else ["not a mapping"]
+        )
         steps = data.get("steps") or [] if isinstance(data, dict) else []
         rows.append(
             {
                 "name": str(data.get("name", path.stem)) if isinstance(data, dict) else path.stem,
                 "enabled": bool(data.get("enabled", True)) if isinstance(data, dict) else False,
+                "version": int(data.get("version", 1) or 1) if isinstance(data, dict) else 1,
                 "extends": str(data.get("extends", "") or "") if isinstance(data, dict) else "",
                 "steps": len(steps) if isinstance(steps, list) else 0,
                 "playbook": str((data.get("defaults", {}) or {}).get("playbook", "")) if isinstance(data, dict) else "",
+                "tags": list(data.get("tags") or []) if isinstance(data, dict) else [],
+                "platforms": list(data.get("platforms") or []) if isinstance(data, dict) else [],
                 "description": str(data.get("description", "") or "") if isinstance(data, dict) else "",
                 "valid": not errors,
                 "error": "; ".join(errors),
@@ -262,11 +496,7 @@ def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
 
 
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool:
-    """Flip a chain's ``enabled`` flag in its YAML file (round-trip).
-
-    Returns False when the file is missing or unreadable. Other keys
-    keep their values; key order is preserved on write.
-    """
+    """Flip a chain's ``enabled`` flag in its YAML file (round-trip)."""
     if yaml is None:
         raise RuntimeError("PyYAML is required: pip install pyyaml")
     wanted = (name or "").strip().lower()
@@ -295,13 +525,7 @@ def generate_for_playbook(
     chains_dir: Path | str = CHAINS_DIR,
     overwrite: bool = False,
 ) -> Path:
-    """Write a per-APT chain file inheriting the base APT chain.
-
-    ``engine_key`` is the exact ``AptPlaybookEngine`` lookup key
-    (e.g. ``rocke``, ``apt29``) pinned as the playbook default; the
-    chain file name is a sanitized ``apt_<slug>.yaml``. Steps live in
-    the parent and stay in one place. Returns the written path.
-    """
+    """Write a per-APT chain file inheriting the base APT chain."""
     if yaml is None:
         raise RuntimeError("PyYAML is required: pip install pyyaml")
     key = (engine_key or "").strip()
@@ -317,6 +541,7 @@ def generate_for_playbook(
         raise FileExistsError(f"Chain file already exists: {path}")
     doc = {
         "name": f"apt_{slug}",
+        "version": 2,
         "description": description or f"Full APT chain for {apt_display or key} (extends apt_chain).",
         "enabled": True,
         "extends": "apt_chain",
@@ -325,3 +550,17 @@ def generate_for_playbook(
     with path.open("w", encoding="utf-8") as fh:
         yaml.dump(doc, fh, default_flow_style=False, sort_keys=False, allow_unicode=True)
     return path
+
+
+__all__ = [
+    "CHAINS_DIR",
+    "Chain",
+    "ChainStep",
+    "evaluate_when",
+    "generate_for_playbook",
+    "get",
+    "load_all",
+    "scan_all",
+    "set_enabled",
+    "validate_chain",
+]

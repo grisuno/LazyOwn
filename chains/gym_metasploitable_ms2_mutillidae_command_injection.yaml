@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_mutillidae_command_injection
+version: 2
+description: 'Metasploitable 2: Mutillidae command injection (T1059.004).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_mutillidae_command_injection
+  vuln: ms2_mutillidae_command_injection
+  port: '80'

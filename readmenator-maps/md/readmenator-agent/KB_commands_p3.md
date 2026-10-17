@@ -55,21 +55,21 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_verb` (method, line 1863) `def do_lazy_verb(self, line)`
   - `do_lazy_stage` (method, line 1961) `def do_lazy_stage(self, line)`
   - `do_lazy_addon` (method, line 1989) `def do_lazy_addon(self, line)`
-  - `do_lazy_notify` (method, line 2071) `def do_lazy_notify(self, line)`
-  - `do_lazy_trigger` (method, line 2119) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2178) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2315) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2387) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2411) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2416) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2447) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2478) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2499) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2532) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2559) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2604) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2624) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2687) `def do_lazy_install(self, line)`
+  - `do_lazy_notify` (method, line 2099) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 2147) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 2206) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2343) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2415) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2439) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2444) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2475) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2506) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2527) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2560) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2587) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2632) `def do_lazy_loop(self, line)`
+  - `do_lazy_sandbox` (method, line 2652) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2715) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`
@@ -77,7 +77,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `campaign_sitrep` (function, line 1579) `def campaign_sitrep()`
   - `add_hint` (function, line 1592) `def add_hint(text)`
   - `steer_intent` (function, line 1599) `def steer_intent(intent, message)`
-- Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
 - Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
 
 ## cli/commands/marketplace.py
@@ -93,17 +93,18 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `_tier_label` (method, line 82) `def _tier_label(self, name, tiers)`
   - `_installed_plugins` (method, line 86) `def _installed_plugins(self)`
   - `do_marketplace` (method, line 104) `def do_marketplace(self, line)`
-  - `_mp_list` (method, line 175) `def _mp_list(self, tier_filter)`
-  - `_mp_search` (method, line 203) `def _mp_search(self, query)`
-  - `_mp_install` (method, line 241) `def _mp_install(self, name)`
-  - `_mp_update` (method, line 300) `def _mp_update(self)`
-  - `_mp_info` (method, line 333) `def _mp_info(self, name)`
-  - `_mp_rate` (method, line 380) `def _mp_rate(self, name, raw_stars)`
-  - `_mp_ratings` (method, line 394) `def _mp_ratings(self, name)`
-  - `_mp_interactive_config` (method, line 414) `def _mp_interactive_config(self)`
-  - `do_marketplace_config` (method, line 426) `def do_marketplace_config(self, line)`
-  - `_mp_toggle_addon` (method, line 468) `def _mp_toggle_addon(self, name, enable_state)`
-- Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/module_registry.py`, `utils.py`
+  - `_mp_list` (method, line 178) `def _mp_list(self, tier_filter)`
+  - `_mp_search` (method, line 206) `def _mp_search(self, query)`
+  - `_mp_install` (method, line 244) `def _mp_install(self, name)`
+  - `_mp_update` (method, line 303) `def _mp_update(self)`
+  - `_mp_update_addons` (method, line 336) `def _mp_update_addons(self, args)`
+  - `_mp_info` (method, line 354) `def _mp_info(self, name)`
+  - `_mp_rate` (method, line 401) `def _mp_rate(self, name, raw_stars)`
+  - `_mp_ratings` (method, line 415) `def _mp_ratings(self, name)`
+  - `_mp_interactive_config` (method, line 435) `def _mp_interactive_config(self)`
+  - `do_marketplace_config` (method, line 447) `def do_marketplace_config(self, line)`
+  - `_mp_toggle_addon` (method, line 490) `def _mp_toggle_addon(self, name, enable_state)`
+- Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/addon_updater.py`, `modules/module_registry.py`, `utils.py`
 
 ## cli/commands/mcp_bridge.py
 - Doc: MCP verb bridge — one command language for operators and agents.

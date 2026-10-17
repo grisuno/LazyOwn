@@ -36,6 +36,7 @@ Usage
 from __future__ import annotations
 
 import base64
+import copy
 import json
 import logging
 import os
@@ -53,6 +54,14 @@ _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
 ENCRYPTED_SUFFIX: str = ".encrypted"
 _SALT_RELATIVE: str = ".auto_crypto_salt"
+
+PASSTHROUGH_KEYS: tuple[str, ...] = (
+    "completed_phases",
+    "phase",
+    "current_phase",
+    "notes",
+    "gyms",
+)
 
 
 def _derive_crypto_key(password: str, salt: bytes) -> bytes:
@@ -580,6 +589,22 @@ class WorldModel:
             self._hosts[ip] = HostEntry(ip=ip)
             self._save()
 
+    def remove_host(self, ip: str) -> bool:
+        """Remove one host from the model and persist the change.
+
+        Args:
+            ip: Host address to remove.
+
+        Returns:
+            True when the host existed and was removed.
+        """
+        with self._lock:
+            if ip not in self._hosts:
+                return False
+            self._hosts.pop(ip, None)
+            self._save()
+            return True
+
     def advance_host(self, ip: str, new_state: HostState) -> bool:
         with self._lock:
             host = self._hosts.get(ip) or self.add_host(ip)
@@ -1059,7 +1084,7 @@ class WorldModel:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
 
             self._passthrough = {}
-            for key in ("completed_phases", "phase", "current_phase", "notes"):
+            for key in PASSTHROUGH_KEYS:
                 if key in data:
                     self._passthrough[key] = data[key]
             log.info(
@@ -1113,7 +1138,47 @@ class WorldModel:
                 "emails": [vars(e) for e in self._emails],
                 "domains": [vars(d) for d in self._domains],
                 "pivot_candidates": self._graph.pivot_candidates(top_k=5),
+                "sections": {key: copy.deepcopy(value) for key, value in self._passthrough.items()},
             }
+
+    # ── Generic allowlisted sections ─────────────────────────────────────────
+
+    def read_section(self, key: str) -> Any:
+        """Return one allowlisted passthrough section.
+
+        Args:
+            key: Section name from :data:`PASSTHROUGH_KEYS`.
+
+        Returns:
+            A deep copy of the stored value, or ``None``.
+
+        Raises:
+            KeyError: The section is not allowlisted.
+        """
+        if key not in PASSTHROUGH_KEYS:
+            raise KeyError(f"section not allowed: {key!r}")
+        with self._lock:
+            return copy.deepcopy(self._passthrough.get(key))
+
+    def write_section(self, key: str, value: Any) -> bool:
+        """Persist one allowlisted passthrough section atomically.
+
+        Args:
+            key: Section name from :data:`PASSTHROUGH_KEYS`.
+            value: JSON-serializable value.
+
+        Returns:
+            True when the state was written.
+
+        Raises:
+            KeyError: The section is not allowlisted.
+        """
+        if key not in PASSTHROUGH_KEYS:
+            raise KeyError(f"section not allowed: {key!r}")
+        with self._lock:
+            self._passthrough[key] = copy.deepcopy(value)
+            self._save()
+            return True
 
 
 # ---------------------------------------------------------------------------
@@ -1154,6 +1219,10 @@ if __name__ == "__main__":
     add_p = sub.add_parser("add-host", help="Add a host")
     add_p.add_argument("ip")
     add_p.add_argument("--state", default="scanned")
+    reset_host_p = sub.add_parser("reset-host", help="Reset one host to UNSCANNED")
+    reset_host_p.add_argument("ip")
+    remove_p = sub.add_parser("remove-host", help="Remove one host from the model")
+    remove_p.add_argument("ip")
 
     args = p.parse_args()
     wm = WorldModel()
@@ -1168,3 +1237,9 @@ if __name__ == "__main__":
         wm.add_host(args.ip)
         wm.advance_host(args.ip, HostState(args.state))
         print(wm.to_context_string())
+    elif args.cmd == "reset-host":
+        wm.reset_host(args.ip)
+        print(f"Host {args.ip} reset to unscanned.")
+    elif args.cmd == "remove-host":
+        removed = wm.remove_host(args.ip)
+        print(f"Host {args.ip} removed." if removed else f"Host {args.ip} not found.")

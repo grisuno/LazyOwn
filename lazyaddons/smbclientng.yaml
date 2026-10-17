@@ -21,6 +21,7 @@ description: |
 author: p0dalirius
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

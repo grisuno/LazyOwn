@@ -72,7 +72,7 @@ Manage local CTF lab environments via Docker.
 
 #### `LabCommandSet.do_lab`
 
-`method` | [cli/commands/lab.py:119](../../cli/commands/lab.py#L119)
+`method` | [cli/commands/lab.py:179](../../cli/commands/lab.py#L179)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

@@ -76,7 +76,7 @@ Fuse surface scans with campaign intel into one C2-centred graph.
 
 *Calls:* [`SurfaceGraphBuilder.__init__`](cli.surface_graph.py.md#surfacegraphbuilder-__init__), [`SurfaceGraphBuilder.build`](cli.surface_graph.py.md#surfacegraphbuilder-build), [`SurfaceGraphConfig`](cli.surface_graph.py.md#surfacegraphconfig), [`build_intel_graph`](modules.intel_fusion.py.md#build_intel_graph), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge)
 
-*Called by:* [`SurfaceCommandSet.do_estorides_intel`](cli.commands.surface.py.md#surfacecommandset-do_estorides_intel)
+*Called by:* [`SurfaceCommandSet.do_estorides_intel`](cli.commands.surface.py.md#surfacecommandset-do_estorides_intel), [`apply`](modules.sinks.attack_graph.py.md#apply)
 
 ---
 
@@ -103,7 +103,7 @@ Score exposure into intel_summary.json for the autonomous loop.
 
 *Calls:* [`write_summary`](modules.intel_fusion.py.md#write_summary)
 
-*Called by:* [`SurfaceCommandSet.do_estorides_intel`](cli.commands.surface.py.md#surfacecommandset-do_estorides_intel)
+*Called by:* [`SurfaceCommandSet.do_estorides_intel`](cli.commands.surface.py.md#surfacecommandset-do_estorides_intel), [`apply`](modules.sinks.attack_graph.py.md#apply)
 
 ---
 

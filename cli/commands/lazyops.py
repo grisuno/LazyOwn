@@ -1987,10 +1987,38 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_addon(self, line):
-        """Addon trigger runner: list [service]|run <name> [--target T]. Usage: lazy_addon ... [--task T]"""
+        """Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run]."""
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_addon list [service] | lazy_addon run <name> [--target T]")
+            print_error(
+                "Usage: lazy_addon list [service] | lazy_addon run <name> [--target T] | "
+                "lazy_addon update [name|--all] [--dry-run]"
+            )
+            return
+        if args[0] == "update":
+            from modules.addon_updater import update_all
+
+            names = [
+                token
+                for token in args[1:]
+                if not token.startswith("--") and token != "--all"
+            ]
+            summary = update_all(names=names or None, dry_run="--dry-run" in args)
+            counts = summary.get("counts", {})
+            print_msg(
+                f"[*] addons: {summary.get('total', 0)} checked "
+                f"(updated={counts.get('updated', 0)} skipped={counts.get('skipped', 0)} "
+                f"failed={counts.get('failed', 0)} dry-run={counts.get('dry-run', 0)})"
+            )
+            for row in summary.get("results", []):
+                status = row.get("status", "")
+                line = f"  [{status}] {row.get('name')}: {row.get('reason', '')}"
+                if status in ("failed",):
+                    print_error(line)
+                elif status in ("updated", "dry-run"):
+                    print_msg(line)
+                else:
+                    print_warn(line)
             return
         from modules.auto_registry import addon_hits_for, iter_addon_triggers
 

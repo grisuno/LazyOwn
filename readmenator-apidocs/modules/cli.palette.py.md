@@ -234,7 +234,7 @@ Return command entries with the given cmd2 category label.
 def search(query: str, *, limit: int | None = None) -> list[dict[str, Any]]
 ```
 
-Substring search over ``name`` and ``summary`` (case-insensitive).
+Substring search over ``name`` and `[`summary`](modules.metasploitable_gym.py.md#summary)` (case-insensitive).
 
 **Parameters**
 
@@ -270,6 +270,8 @@ Return the canonical entry for ``name`` or ``None`` if unknown.
 **Returns:** `dict[str, Any] | None`
 
 *Calls:* [`all_commands`](#all_commands)
+
+*Called by:* [`LazyOrchestratorApp.chain_steps_preview`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_steps_preview)
 
 ---
 

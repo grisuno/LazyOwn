@@ -1,8 +1,96 @@
-# Symbols (page 9 of 41)
+# Symbols (page 9 of 42)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_parse_param_rows` | function | `lazyc2/addon_creator.py:1119` | `def _parse_param_rows(form)` |
+| `_render_tool` | method | `lazyc2/addon_creator.py:787` | `def _render_tool(self, draft)` |
+| `_resolve_target` | method | `lazyc2/addon_creator.py:874` | `def _resolve_target(self, name, pattern)` |
+| `delete` | method | `lazyc2/addon_creator.py:984` | `def delete(self, name)` |
+| `exists` | method | `lazyc2/addon_creator.py:896` | `def exists(self, name)` |
+| `is_valid` | method | `lazyc2/addon_creator.py:460` | `def is_valid(self)` |
+| `list_all` | method | `lazyc2/addon_creator.py:1000` | `def list_all(self)` |
+| `load` | method | `lazyc2/addon_creator.py:961` | `def load(self, name)` |
+| `parse_addon_form` | function | `lazyc2/addon_creator.py:1080` | `def parse_addon_form(form)` |
+| `render` | method | `lazyc2/addon_creator.py:739` | `def render(self, draft)` |
+| `resolve_existing_path` | method | `lazyc2/addon_creator.py:852` | `def resolve_existing_path(self, name)` |
+| `resolve_path` | method | `lazyc2/addon_creator.py:837` | `def resolve_path(self, name)` |
+| `save` | method | `lazyc2/addon_creator.py:907` | `def save(self, name, yaml_text)` |
+| `to_dict` | method | `lazyc2/addon_creator.py:363` | `def to_dict(self)` |
+| `to_document` | method | `lazyc2/addon_creator.py:757` | `def to_document(self, draft)` |
+| `validate` | method | `lazyc2/addon_creator.py:446` | `def validate(self)` |
+| `_add_security_headers` | function | `lazyc2/app_factory.py:167` | `def _add_security_headers(response)` |
+| `_build_api_key_store` | function | `lazyc2/app_factory.py:42` | `def _build_api_key_store(payload)` |
+| `_handle_404` | function | `lazyc2/app_factory.py:152` | `def _handle_404(_error)` |
+| `_handle_405` | function | `lazyc2/app_factory.py:156` | `def _handle_405(_error)` |
+| `_handle_exception` | function | `lazyc2/app_factory.py:160` | `def _handle_exception(error)` |
+| `_load_or_create_secret_key` | function | `lazyc2/app_factory.py:61` | `def _load_or_create_secret_key(sessions_dir)` |
+| `_load_payload_config` | function | `lazyc2/app_factory.py:33` | `def _load_payload_config()` |
+| `_make_security_config` | function | `lazyc2/app_factory.py:75` | `def _make_security_config(payload)` |
+| `create_app` | function | `lazyc2/app_factory.py:89` | `def create_app()` |
+| `_csrf_policy` | function | `lazyc2/blueprints/addons.py:87` | `def _csrf_policy()` |
+| `_draft_from_document` | function | `lazyc2/blueprints/addons.py:216` | `def _draft_from_document(document)` |
+| `_form_context` | function | `lazyc2/blueprints/addons.py:164` | `def _form_context(draft, issues)` |
+| `_issue_csrf` | function | `lazyc2/blueprints/addons.py:120` | `def _issue_csrf(response, policy)` |
+| `_issue_map` | function | `lazyc2/blueprints/addons.py:149` | `def _issue_map(issues)` |
+| `_render_create` | function | `lazyc2/blueprints/addons.py:193` | `def _render_create(draft, issues)` |
+| `_store` | function | `lazyc2/blueprints/addons.py:81` | `def _store()` |
+| `create_addon` | function | `lazyc2/blueprints/addons.py:277` | `def create_addon()` |
+| `csrf_protect` | function | `lazyc2/blueprints/addons.py:96` | `def csrf_protect(view)` |
+| `delete_addon` | function | `lazyc2/blueprints/addons.py:345` | `def delete_addon(name)` |
+| `init_addons_bp` | function | `lazyc2/blueprints/addons.py:69` | `def init_addons_bp(base_dir)` |
+| `list_addons` | function | `lazyc2/blueprints/addons.py:263` | `def list_addons()` |
+| `view_addon` | function | `lazyc2/blueprints/addons.py:321` | `def view_addon(name)` |
+| `wrapper` | function | `lazyc2/blueprints/addons.py:110` | `def wrapper()` |
+| `HealthConfig` | class | `lazyc2/blueprints/api.py:25` | `class HealthConfig` |
+| `_health_status` | function | `lazyc2/blueprints/api.py:36` | `def _health_status(config)` |
+| `_listener_alive` | function | `lazyc2/blueprints/api.py:99` | `def _listener_alive(listener)` |
+| `get_defaults` | function | `lazyc2/blueprints/api.py:182` | `def get_defaults()` |
+| `guarded` | function | `lazyc2/blueprints/api.py:146` | `def guarded()` |
+| `health` | function | `lazyc2/blueprints/api.py:108` | `def health()` |
+| `health_tenant` | function | `lazyc2/blueprints/api.py:157` | `def health_tenant()` |
+| `ping` | function | `lazyc2/blueprints/api.py:120` | `def ping()` |
+| `require_api_auth_with_store` | function | `lazyc2/blueprints/api.py:129` | `def require_api_auth_with_store(view)` |
+| `set_default` | function | `lazyc2/blueprints/api.py:211` | `def set_default()` |
+| `_db` | function | `lazyc2/blueprints/api_v1.py:43` | `def _db()` |
+| `_error` | function | `lazyc2/blueprints/api_v1.py:60` | `def _error(message, status)` |
+| `_read_webhooks` | function | `lazyc2/blueprints/api_v1.py:170` | `def _read_webhooks()` |
+| `_sessions_dir` | function | `lazyc2/blueprints/api_v1.py:38` | `def _sessions_dir()` |
+| `_webhooks_path` | function | `lazyc2/blueprints/api_v1.py:166` | `def _webhooks_path()` |
+| `campaigns` | function | `lazyc2/blueprints/api_v1.py:141` | `def campaigns()` |
+| `health` | function | `lazyc2/blueprints/api_v1.py:65` | `def health()` |
+| `results` | function | `lazyc2/blueprints/api_v1.py:108` | `def results()` |
+| `targets` | function | `lazyc2/blueprints/api_v1.py:76` | `def targets()` |
+| `webhooks_delete` | function | `lazyc2/blueprints/api_v1.py:228` | `def webhooks_delete(index)` |
+| `webhooks_list` | function | `lazyc2/blueprints/api_v1.py:180` | `def webhooks_list()` |
+| `webhooks_register` | function | `lazyc2/blueprints/api_v1.py:191` | `def webhooks_register()` |
+| `Role` | class | `lazyc2/blueprints/auth.py:38` | `class Role(Enum)` |
+| `_get_rbac_store` | function | `lazyc2/blueprints/auth.py:92` | `def _get_rbac_store()` |
+| `_get_rbac_user_obj` | function | `lazyc2/blueprints/auth.py:104` | `def _get_rbac_user_obj(flask_user)` |
+| `_get_tenant_manager` | function | `lazyc2/blueprints/auth.py:114` | `def _get_tenant_manager()` |
+| `_rbac_available` | function | `lazyc2/blueprints/auth.py:87` | `def _rbac_available()` |
+| `admin_create_tenant` | function | `lazyc2/blueprints/auth.py:504` | `def admin_create_tenant()` |
+| `admin_delete_user` | function | `lazyc2/blueprints/auth.py:466` | `def admin_delete_user(user_id)` |
+| `admin_reset_mfa` | function | `lazyc2/blueprints/auth.py:454` | `def admin_reset_mfa(user_id)` |
+| `admin_set_role` | function | `lazyc2/blueprints/auth.py:432` | `def admin_set_role(user_id)` |
+| `admin_switch_tenant` | function | `lazyc2/blueprints/auth.py:523` | `def admin_switch_tenant(tenant_id)` |
+| `admin_tenants` | function | `lazyc2/blueprints/auth.py:484` | `def admin_tenants()` |
+| `admin_users` | function | `lazyc2/blueprints/auth.py:415` | `def admin_users()` |
+| `decorator` | function | `lazyc2/blueprints/auth.py:69` | `def decorator(view)` |
+| `login` | function | `lazyc2/blueprints/auth.py:187` | `def login()` |
+| `logout` | function | `lazyc2/blueprints/auth.py:396` | `def logout()` |
+| `mfa_qr` | function | `lazyc2/blueprints/auth.py:305` | `def mfa_qr(username)` |
+| `mfa_setup` | function | `lazyc2/blueprints/auth.py:232` | `def mfa_setup()` |
+| `mfa_verify` | function | `lazyc2/blueprints/auth.py:327` | `def mfa_verify()` |
+| `profile` | function | `lazyc2/blueprints/auth.py:371` | `def profile()` |
+| `register` | function | `lazyc2/blueprints/auth.py:128` | `def register()` |
+| `require_role` | function | `lazyc2/blueprints/auth.py:59` | `def require_role(role)` |
+| `valid_roles` | method | `lazyc2/blueprints/auth.py:51` | `def valid_roles(cls)` |
+| `wrapper` | function | `lazyc2/blueprints/auth.py:71` | `def wrapper()` |
+| `_fire_hooks` | function | `lazyc2/blueprints/beacon.py:72` | `def _fire_hooks(event, context)` |
+| `_run` | function | `lazyc2/blueprints/beacon.py:97` | `def _run()` |
+| `_trigger_cred_reuse` | function | `lazyc2/blueprints/beacon.py:91` | `def _trigger_cred_reuse(context)` |
+| `init_beacon_bp` | function | `lazyc2/blueprints/beacon.py:35` | `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...` |
 | `issue_command` | function | `lazyc2/blueprints/beacon.py:245` | `def issue_command()` |
 | `receive_result` | function | `lazyc2/blueprints/beacon.py:131` | `def receive_result(client_id)` |
 | `send_command` | function | `lazyc2/blueprints/beacon.py:111` | `def send_command(client_id)` |
@@ -408,93 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `_on_sessions_changed` | method | `lazygui/widgets/beacon_command_modal.py:168` | `def _on_sessions_changed(self, sessions)` |
 | `_on_target_changed` | method | `lazygui/widgets/beacon_command_modal.py:127` | `def _on_target_changed(self, _text)` |
 | `_reload_history` | method | `lazygui/widgets/beacon_command_modal.py:131` | `def _reload_history(self)` |
-| `_selected_target` | method | `lazygui/widgets/beacon_command_modal.py:122` | `def _selected_target(self)` |
-| `_send_command` | method | `lazygui/widgets/beacon_command_modal.py:182` | `def _send_command(self)` |
-| `focus_input` | method | `lazygui/widgets/beacon_command_modal.py:227` | `def focus_input(self)` |
-| `open` | method | `lazygui/widgets/beacon_command_modal.py:216` | `def open(self)` |
-| `CommandPaletteAction` | class | `lazygui/widgets/command_palette_list.py:16` | `class CommandPaletteAction` |
-| `CommandPaletteList` | class | `lazygui/widgets/command_palette_list.py:28` | `class CommandPaletteList(QListView)` |
-| `__init__` | method | `lazygui/widgets/command_palette_list.py:33` | `def __init__(self, constants, actions, parent)` |
-| `_fuzzy_score` | function | `lazygui/widgets/command_palette_list.py:99` | `def _fuzzy_score(query, title, subtitle)` |
-| `_on_activated` | method | `lazygui/widgets/command_palette_list.py:85` | `def _on_activated(self, _index)` |
-| `_populate` | method | `lazygui/widgets/command_palette_list.py:89` | `def _populate(self, actions)` |
-| `_token_order_score` | function | `lazygui/widgets/command_palette_list.py:114` | `def _token_order_score(query, haystack, base_offset)` |
-| `apply_filter` | method | `lazygui/widgets/command_palette_list.py:58` | `def apply_filter(self, query)` |
-| `invoke_current` | method | `lazygui/widgets/command_palette_list.py:76` | `def invoke_current(self)` |
-| `set_actions` | method | `lazygui/widgets/command_palette_list.py:53` | `def set_actions(self, actions)` |
-| `EventLogView` | class | `lazygui/widgets/event_log_view.py:20` | `class EventLogView(QTreeWidget)` |
-| `__init__` | method | `lazygui/widgets/event_log_view.py:23` | `def __init__(self, constants, event_log, parent)` |
-| `_append_record` | method | `lazygui/widgets/event_log_view.py:71` | `def _append_record(self, record)` |
-| `_on_record_appended` | method | `lazygui/widgets/event_log_view.py:65` | `def _on_record_appended(self, record)` |
-| `minimum_level` | method | `lazygui/widgets/event_log_view.py:61` | `def minimum_level(self)` |
-| `set_minimum_level` | method | `lazygui/widgets/event_log_view.py:51` | `def set_minimum_level(self, level)` |
-| `FilterBar` | class | `lazygui/widgets/filter_bar.py:11` | `class FilterBar(QWidget)` |
-| `__init__` | method | `lazygui/widgets/filter_bar.py:16` | `def __init__(self, constants, placeholder_text, label_text, parent)` |
-| `_emit_filter_changed` | method | `lazygui/widgets/filter_bar.py:54` | `def _emit_filter_changed(self)` |
-| `_on_text_changed` | method | `lazygui/widgets/filter_bar.py:50` | `def _on_text_changed(self, _value)` |
-| `clear` | method | `lazygui/widgets/filter_bar.py:46` | `def clear(self)` |
-| `text` | method | `lazygui/widgets/filter_bar.py:42` | `def text(self)` |
-| `GraphEdgeItem` | class | `lazygui/widgets/graph_view.py:285` | `class GraphEdgeItem(QGraphicsLineItem)` |
-| `GraphNodeItem` | class | `lazygui/widgets/graph_view.py:140` | `class GraphNodeItem(QGraphicsEllipseItem)` |
-| `GraphNodeState` | class | `lazygui/widgets/graph_view.py:132` | `class GraphNodeState` |
-| `GraphScene` | class | `lazygui/widgets/graph_view.py:334` | `class GraphScene(QGraphicsScene)` |
-| `GraphView` | class | `lazygui/widgets/graph_view.py:499` | `class GraphView(QGraphicsView)` |
-| `__init__` | method | `lazygui/widgets/graph_view.py:143` | `def __init__(self, node, radius, color, pixmap, on_selected, on_context_menu, label_visible, parent)` |
-| `__init__` | method | `lazygui/widgets/graph_view.py:288` | `def __init__(self, edge, source_item, target_item, parent)` |
-| `__init__` | method | `lazygui/widgets/graph_view.py:340` | `def __init__(self, constants, parent)` |
-| `__init__` | method | `lazygui/widgets/graph_view.py:509` | `def __init__(self, constants, parent)` |
-| `_add_edge` | method | `lazygui/widgets/graph_view.py:393` | `def _add_edge(self, edge)` |
-| `_add_node` | method | `lazygui/widgets/graph_view.py:369` | `def _add_node(self, node)` |
-| `_apply_force_layout` | method | `lazygui/widgets/graph_view.py:402` | `def _apply_force_layout(self)` |
-| `_create_label` | method | `lazygui/widgets/graph_view.py:173` | `def _create_label(self)` |
-| `_icon_for_node` | function | `lazygui/widgets/graph_view.py:81` | `def _icon_for_node(node)` |
-| `_install_physics_timer` | method | `lazygui/widgets/graph_view.py:540` | `def _install_physics_timer(self)` |
-| `_load_icon` | function | `lazygui/widgets/graph_view.py:63` | `def _load_icon(name)` |
-| `_on_context_menu` | function | `lazygui/widgets/graph_view.py:377` | `def _on_context_menu(nid, pos)` |
-| `_on_selected` | function | `lazygui/widgets/graph_view.py:374` | `def _on_selected(nid)` |
-| `_resolve_icon_dir` | function | `lazygui/widgets/graph_view.py:47` | `def _resolve_icon_dir()` |
-| `_resolve_node_color` | function | `lazygui/widgets/graph_view.py:575` | `def _resolve_node_color(node)` |
-| `_resolve_node_radius` | function | `lazygui/widgets/graph_view.py:584` | `def _resolve_node_radius(node)` |
-| `_tick_physics` | method | `lazygui/widgets/graph_view.py:548` | `def _tick_physics(self)` |
-| `_update_position` | method | `lazygui/widgets/graph_view.py:313` | `def _update_position(self)` |
-| `edge_data` | method | `lazygui/widgets/graph_view.py:329` | `def edge_data(self)` |
-| `fit_to_content` | method | `lazygui/widgets/graph_view.py:565` | `def fit_to_content(self)` |
-| `hoverEnterEvent` | method | `lazygui/widgets/graph_view.py:266` | `def hoverEnterEvent(self, event)` |
-| `hoverLeaveEvent` | method | `lazygui/widgets/graph_view.py:273` | `def hoverLeaveEvent(self, event)` |
-| `itemChange` | method | `lazygui/widgets/graph_view.py:279` | `def itemChange(self, change, value)` |
-| `mousePressEvent` | method | `lazygui/widgets/graph_view.py:248` | `def mousePressEvent(self, event)` |
-| `mouseReleaseEvent` | method | `lazygui/widgets/graph_view.py:259` | `def mouseReleaseEvent(self, event)` |
-| `node_data` | method | `lazygui/widgets/graph_view.py:186` | `def node_data(self)` |
-| `paint` | method | `lazygui/widgets/graph_view.py:190` | `def paint(self, painter, option, widget)` |
-| `scene_handle` | method | `lazygui/widgets/graph_view.py:570` | `def scene_handle(self)` |
-| `selected_node_id` | method | `lazygui/widgets/graph_view.py:491` | `def selected_node_id(self)` |
-| `selected_node_id` | method | `lazygui/widgets/graph_view.py:561` | `def selected_node_id(self)` |
-| `set_theme_colors` | method | `lazygui/widgets/graph_view.py:527` | `def set_theme_colors(self, bg_color, edge_color)` |
-| `set_topology` | method | `lazygui/widgets/graph_view.py:349` | `def set_topology(self, topology)` |
-| `set_topology` | method | `lazygui/widgets/graph_view.py:535` | `def set_topology(self, topology)` |
-| `step_physics` | method | `lazygui/widgets/graph_view.py:419` | `def step_physics(self)` |
-| `update_position` | method | `lazygui/widgets/graph_view.py:324` | `def update_position(self)` |
-| `wheelEvent` | method | `lazygui/widgets/graph_view.py:551` | `def wheelEvent(self, event)` |
-| `StatusBadge` | class | `lazygui/widgets/status_badge.py:18` | `class StatusBadge(QLabel)` |
-| `__init__` | method | `lazygui/widgets/status_badge.py:21` | `def __init__(self, parent)` |
-| `set_status` | method | `lazygui/widgets/status_badge.py:27` | `def set_status(self, status)` |
-| `TerminalView` | class | `lazygui/widgets/terminal_view.py:33` | `class TerminalView(QPlainTextEdit)` |
-| `__init__` | method | `lazygui/widgets/terminal_view.py:38` | `def __init__(self, constants, parent)` |
-| `_sanitize` | method | `lazygui/widgets/terminal_view.py:66` | `def _sanitize(raw)` |
-| `_translate_key_event` | method | `lazygui/widgets/terminal_view.py:85` | `def _translate_key_event(event)` |
-| `append_output` | method | `lazygui/widgets/terminal_view.py:54` | `def append_output(self, text)` |
-| `keyPressEvent` | method | `lazygui/widgets/terminal_view.py:75` | `def keyPressEvent(self, event)` |
-| `CommandPaletteWindow` | class | `lazygui/windows/command_palette_window.py:15` | `class CommandPaletteWindow(QWidget)` |
-| `__init__` | method | `lazygui/windows/command_palette_window.py:18` | `def __init__(self, constants, actions, parent)` |
-| `_on_action_invoked` | method | `lazygui/windows/command_palette_window.py:77` | `def _on_action_invoked(self, action)` |
-| `keyPressEvent` | method | `lazygui/windows/command_palette_window.py:48` | `def keyPressEvent(self, event)` |
-| `set_actions` | method | `lazygui/windows/command_palette_window.py:43` | `def set_actions(self, actions)` |
-| `showEvent` | method | `lazygui/windows/command_palette_window.py:71` | `def showEvent(self, event)` |
-| `ConnectDialog` | class | `lazygui/windows/connect_dialog.py:50` | `class ConnectDialog(QDialog)` |
-| `ConnectionRequest` | class | `lazygui/windows/connect_dialog.py:39` | `class ConnectionRequest` |
-| `__init__` | method | `lazygui/windows/connect_dialog.py:53` | `def __init__(self, constants, settings, paths, parent)` |
-| `_build_local_page` | method | `lazygui/windows/connect_dialog.py:135` | `def _build_local_page(self)` |
-| `_build_teamserver_page` | method | `lazygui/windows/connect_dialog.py:150` | `def _build_teamserver_page(self)` |
-| `_on_kind_changed` | method | `lazygui/windows/connect_dialog.py:186` | `def _on_kind_changed(self, index)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

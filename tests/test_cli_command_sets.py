@@ -131,6 +131,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "qq",
         "randomuser",
         "report",
+        "rm_wm_host",
         "rt",
         "rtpflood",
         "rustrevmakerlin",
@@ -189,7 +190,7 @@ class TestAliasYamlIntegrity:
         assert extra == set(), f"YAML introduced unknown aliases: {sorted(extra)}"
 
     def test_yaml_count_is_125(self):
-        assert len(_load_yaml()) == 129
+        assert len(_load_yaml()) == 130
 
     def test_all_values_are_strings(self):
         for name, value in _load_yaml().items():
@@ -282,7 +283,7 @@ class TestAliasLoaderSubstitution:
         from core.config import load_payload
 
         aliases = load_aliases(load_payload(), lazy=False)
-        assert len(aliases) == 129
+        assert len(aliases) == 130
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
 
@@ -458,3 +459,37 @@ class TestPrivateHelperForwarding:
         shell.register_command_set(probe)
         with pytest.raises(AttributeError):
             probe._name_absent_everywhere
+
+
+
+def test_rm_wm_host_alias_appends_the_ip_parameter():
+    """The declarative alias forwards the address to the world-model CLI."""
+    import cmd2
+
+    from cli.aliases import load_aliases
+
+    class Shell(cmd2.Cmd):
+        def __init__(self) -> None:
+            super().__init__()
+            self.aliases.update(load_aliases({}, lazy=False))
+            self.seen = ""
+
+        def do_sh(self, line: str) -> None:
+            self.seen = line
+
+    shell = Shell()
+    shell.onecmd_plus_hooks("rm_wm_host 127.0.0.1")
+    assert shell.seen == "python3 -m modules.world_model remove-host 127.0.0.1"
+
+
+
+def test_alias_with_trailing_args_keeps_operator_parameters():
+    """The dynamic expander must append parameters after the alias template."""
+    from cli.aliases import alias_with_trailing_args
+
+    expanded = "sh python3 -m modules.world_model remove-host"
+    assert alias_with_trailing_args(expanded, "rm_wm_host 127.0.0.1") == (
+        "sh python3 -m modules.world_model remove-host 127.0.0.1"
+    )
+    assert alias_with_trailing_args(expanded, "rm_wm_host") == expanded
+    assert alias_with_trailing_args(expanded, "rm_wm_host --force 10.0.0.5") == f"{expanded} --force 10.0.0.5"

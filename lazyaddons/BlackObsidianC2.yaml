@@ -6,6 +6,7 @@ description: 'Black Obsidian is a next-generation C2 (Command & Control) server 
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

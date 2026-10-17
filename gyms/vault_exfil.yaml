@@ -1,0 +1,29 @@
+id: vault_exfil
+name: Vault Exfil - Range
+description: Use QuantumVault tradecraft from the range implant to stage and exfiltrate
+  a loot bundle.
+scenario: ad-mini
+chain: ''
+objective: Stage /etc/shadow equivalent loot on ws01 and exfiltrate it through the
+  beacon.
+difficulty: medium
+phases:
+- exfil
+- c2
+required_techniques:
+- data_staging
+- data_exfil
+bonus_techniques:
+- compression
+- encryption
+- log_cleanup
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 400
+hints:
+- Stage loot under /tmp on ws01 first
+- Use the beacon upload/exfil path, not scp
+- Clean logs after exfil for the stealth bonus
+success_check: loot bundle received in sessions/uploads
+elo_bonus: 300

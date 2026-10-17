@@ -1,8 +1,179 @@
-# Symbols (page 14 of 41)
+# Symbols (page 14 of 42)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
+| `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
+| `crack_secretsdump_output` | function | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
+| `identify` | method | `modules/hash_cracker.py:186` | `def identify(self, line)` |
+| `identify_file` | method | `modules/hash_cracker.py:273` | `def identify_file(self, filepath)` |
+| `import_to_db` | method | `modules/hash_cracker.py:405` | `def import_to_db(self, results, rhost, workspace_name)` |
+| `_find_claude` | function | `modules/hive_invoke.py:115` | `def _find_claude()` |
+| `_get_toposwarm` | function | `modules/hive_invoke.py:50` | `def _get_toposwarm()` |
+| `_parse_argv` | function | `modules/hive_invoke.py:120` | `def _parse_argv(argv)` |
+| `_run_interactive_mode` | function | `modules/hive_invoke.py:172` | `def _run_interactive_mode(prompt, effort, claude_bin)` |
+| `_run_print_mode` | function | `modules/hive_invoke.py:150` | `def _run_print_mode(prompt, effort, claude_bin)` |
+| `_run_toposwarm_mode` | function | `modules/hive_invoke.py:205` | `def _run_toposwarm_mode(prompt, effort, bridge)` |
+| `main` | function | `modules/hive_invoke.py:255` | `def main(argv)` |
+| `extract_ips_from_arp` | function | `modules/hostdiscover.sh:21` | `` |
+| `extract_listening_ips_from_netstat` | function | `modules/hostdiscover.sh:26` | `` |
+| `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
+| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
+| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
+| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
+| `analyze_with_deepseek` | function | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
+| `parse_args` | function | `modules/ia_code_analysis.py:178` | `def parse_args()` |
+| `save_results_to_json` | function | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
+| `start_analysis` | function | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
+| `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
+| `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
+| `analyze_with_deepseek` | function | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
+| `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
+| `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
+| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
+| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
+| `check_sudo` | function | `modules/icmp_client.py:57` | `def check_sudo()` |
+| `checksum` | function | `modules/icmp_client.py:64` | `def checksum(source_string)` |
+| `decrypt_data` | function | `modules/icmp_client.py:34` | `def decrypt_data(data, key)` |
+| `encrypt_data` | function | `modules/icmp_client.py:18` | `def encrypt_data(data, key)` |
+| `main` | function | `modules/icmp_client.py:130` | `def main()` |
+| `receive_icmp_reply` | function | `modules/icmp_client.py:117` | `def receive_icmp_reply(sock)` |
+| `send_icmp_packet` | function | `modules/icmp_client.py:82` | `def send_icmp_packet(dest_addr, data, key)` |
+| `check_sudo` | function | `modules/icmp_server.py:44` | `def check_sudo()` |
+| `checksum` | function | `modules/icmp_server.py:132` | `def checksum(source_string)` |
+| `decrypt_data` | function | `modules/icmp_server.py:71` | `def decrypt_data(data, key)` |
+| `encrypt_data` | function | `modules/icmp_server.py:55` | `def encrypt_data(data, key)` |
+| `execute_command` | function | `modules/icmp_server.py:93` | `def execute_command(command)` |
+| `handle_packet` | function | `modules/icmp_server.py:150` | `def handle_packet(packet, addr, key, sock)` |
+| `listen_for_icmp` | function | `modules/icmp_server.py:175` | `def listen_for_icmp(interface, key)` |
+| `main` | function | `modules/icmp_server.py:202` | `def main()` |
+| `send_icmp_reply` | function | `modules/icmp_server.py:112` | `def send_icmp_reply(sock, addr, data, key)` |
+| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
+| `main` | function | `modules/img2bin.py:43` | `def main()` |
+| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
+| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
+| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
+| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
+| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
+| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
+| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
+| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
+| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
+| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
+| `_DictFinding` | class | `modules/integrations/misp_export.py:451` | `class _DictFinding` |
+| `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
+| `__init__` | method | `modules/integrations/misp_export.py:454` | `def __init__(self, data)` |
+| `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
+| `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
+| `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
+| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
+| `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
+| `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
+| `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
+| `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
+| `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
+| `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
+| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
+| `_main` | function | `modules/integrations/misp_export.py:482` | `def _main()` |
+| `_map_finding` | method | `modules/integrations/misp_export.py:443` | `def _map_finding(self, finding)` |
+| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
+| `get_exporter` | function | `modules/integrations/misp_export.py:469` | `def get_exporter()` |
+| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
+| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
+| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
+| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
+| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
+| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
+| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
+| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
+| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
+| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
+| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
+| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
+| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
+| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
+| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
+| `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
+| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
+| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
+| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
+| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
+| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
+| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
+| `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
+| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
+| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
+| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
+| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
+| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
+| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
+| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
+| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
+| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
+| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
+| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
+| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
+| `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
+| `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
+| `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
+| `import_to_db` | method | `modules/integrations/nuclei_parser.py:196` | `def import_to_db(self, findings, rhost, workspace_name)` |
+| `mitre_tactic` | method | `modules/integrations/nuclei_parser.py:87` | `def mitre_tactic(self)` |
+| `parse_file` | method | `modules/integrations/nuclei_parser.py:177` | `def parse_file(self, filepath)` |
+| `parse_json` | method | `modules/integrations/nuclei_parser.py:134` | `def parse_json(self, json_text)` |
+| `parse_text` | method | `modules/integrations/nuclei_parser.py:115` | `def parse_text(self, text)` |
+| `scan_and_import` | method | `modules/integrations/nuclei_parser.py:328` | `def scan_and_import(self, target, templates, services, cves, workspace_name)` |
+| `ExploitDBAPI` | class | `modules/integrations/searchsploit.py:193` | `class ExploitDBAPI(ExploitSource)` |
+| `ExploitEntry` | class | `modules/integrations/searchsploit.py:60` | `class ExploitEntry` |
+| `ExploitSource` | class | `modules/integrations/searchsploit.py:76` | `class ExploitSource(ABC)` |
+| `SearchsploitCLI` | class | `modules/integrations/searchsploit.py:93` | `class SearchsploitCLI(ExploitSource)` |
+| `SearchsploitClient` | class | `modules/integrations/searchsploit.py:271` | `class SearchsploitClient` |
+| `__init__` | method | `modules/integrations/searchsploit.py:102` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/searchsploit.py:201` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/searchsploit.py:278` | `def __init__(self, primary, fallback)` |
+| `_extract_cve` | method | `modules/integrations/searchsploit.py:183` | `def _extract_cve(text)` |
+| `_main` | function | `modules/integrations/searchsploit.py:356` | `def _main()` |
+| `_parse` | method | `modules/integrations/searchsploit.py:133` | `def _parse(self, raw)` |
+| `_query` | method | `modules/integrations/searchsploit.py:218` | `def _query(self, cve_id)` |
+| `_rate_limit` | method | `modules/integrations/searchsploit.py:258` | `def _rate_limit()` |
+| `_row_to_entry` | method | `modules/integrations/searchsploit.py:162` | `def _row_to_entry(self, row)` |
+| `_run` | method | `modules/integrations/searchsploit.py:118` | `def _run(self, query)` |
+| `enrich_findings` | method | `modules/integrations/searchsploit.py:300` | `def enrich_findings(self, findings)` |
+| `get_client` | function | `modules/integrations/searchsploit.py:333` | `def get_client()` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:80` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:109` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:207` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:286` | `def search_cve(self, cve_id)` |
+| `search_cve` | function | `modules/integrations/searchsploit.py:341` | `def search_cve(cve_id)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:84` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:112` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:210` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:293` | `def search_service(self, name, version)` |
+| `search_service` | function | `modules/integrations/searchsploit.py:346` | `def search_service(name, version)` |
+| `_enrich_readmenator_fields` | function | `modules/intel_fusion.py:428` | `def _enrich_readmenator_fields(nodes, edges)` |
+| `_family_color` | function | `modules/intel_fusion.py:95` | `def _family_color(name)` |
+| `_fibonacci_sphere` | function | `modules/intel_fusion.py:610` | `def _fibonacci_sphere(count)` |
+| `_file_pagerank` | function | `modules/intel_fusion.py:146` | `def _file_pagerank(ids, pairs, alpha, max_iter, tol)` |
+| `_host_mentions` | function | `modules/intel_fusion.py:139` | `def _host_mentions(text)` |
+| `_load_json` | function | `modules/intel_fusion.py:112` | `def _load_json(path, default)` |
+| `_node_doc` | function | `modules/intel_fusion.py:390` | `def _node_doc(node)` |
+| `_read_lines` | function | `modules/intel_fusion.py:122` | `def _read_lines(path, limit)` |
 | `_split_caps` | function | `modules/intel_fusion.py:626` | `def _split_caps(labels, sizes, points, lattice, out)` |
 | `_symbol_list` | function | `modules/intel_fusion.py:413` | `def _symbol_list(node)` |
 | `_unit` | function | `modules/intel_fusion.py:651` | `def _unit(vec)` |
@@ -182,23 +353,23 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
 | `KillChainConfig` | class | `modules/killchain.py:38` | `class KillChainConfig` |
 | `PhaseStatus` | class | `modules/killchain.py:136` | `class PhaseStatus` |
-| `advance_phase` | method | `modules/killchain.py:251` | `def advance_phase(new_phase, world_model_path)` |
+| `advance_phase` | method | `modules/killchain.py:251` | `def advance_phase(new_phase, world_model_path, host)` |
 | `cli_phase_to_host_state` | method | `modules/killchain.py:191` | `def cli_phase_to_host_state(phase)` |
-| `compact_progress` | method | `modules/killchain.py:364` | `def compact_progress(current_phase, phases_entered)` |
+| `compact_progress` | method | `modules/killchain.py:377` | `def compact_progress(current_phase, phases_entered)` |
 | `config` | method | `modules/killchain.py:154` | `def config()` |
 | `current_phase` | method | `modules/killchain.py:204` | `def current_phase(world_model_path)` |
 | `engagement_phase_to_cli` | method | `modules/killchain.py:179` | `def engagement_phase_to_cli(engagement_value)` |
-| `get_killchain` | function | `modules/killchain.py:440` | `def get_killchain()` |
-| `get_progress` | method | `modules/killchain.py:315` | `def get_progress(world_model_path)` |
+| `get_killchain` | function | `modules/killchain.py:453` | `def get_killchain()` |
+| `get_progress` | method | `modules/killchain.py:328` | `def get_progress(world_model_path)` |
 | `is_valid_phase` | method | `modules/killchain.py:127` | `def is_valid_phase(self, phase)` |
 | `phase_colors` | method | `modules/killchain.py:169` | `def phase_colors()` |
 | `phase_index` | method | `modules/killchain.py:120` | `def phase_index(self, phase)` |
-| `phase_index` | method | `modules/killchain.py:395` | `def phase_index(phase)` |
+| `phase_index` | method | `modules/killchain.py:408` | `def phase_index(phase)` |
 | `phase_labels` | method | `modules/killchain.py:164` | `def phase_labels()` |
 | `phase_rich_colors` | method | `modules/killchain.py:174` | `def phase_rich_colors()` |
 | `phases` | method | `modules/killchain.py:159` | `def phases()` |
-| `phases_for_display` | method | `modules/killchain.py:384` | `def phases_for_display()` |
-| `snapshot` | method | `modules/killchain.py:400` | `def snapshot(world_model_path)` |
+| `phases_for_display` | method | `modules/killchain.py:397` | `def phases_for_display()` |
+| `snapshot` | method | `modules/killchain.py:413` | `def snapshot(world_model_path)` |
 | `world_model_path` | method | `modules/killchain.py:116` | `def world_model_path(self)` |
 | `ReverseShellApp` | class | `modules/kivi.py:11` | `class ReverseShellApp(App)` |
 | `build` | method | `modules/kivi.py:12` | `def build(self)` |
@@ -237,9 +408,11 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `tool_calling_enabled` | function | `modules/lazy_agent.py:57` | `def tool_calling_enabled()` |
 | `_data_dir` | function | `modules/lazy_bridge.py:35` | `def _data_dir()` |
 | `_extract_hosts_from_graph` | function | `modules/lazy_bridge.py:180` | `def _extract_hosts_from_graph(graph)` |
+| `_notify` | function | `modules/lazy_bridge.py:351` | `def _notify(progress, text)` |
 | `_read_json` | function | `modules/lazy_bridge.py:47` | `def _read_json(path, default)` |
 | `_read_jsonl` | function | `modules/lazy_bridge.py:64` | `def _read_jsonl(path)` |
-| `_record_sync` | function | `modules/lazy_bridge.py:449` | `def _record_sync(action, summary)` |
+| `_read_new_traffic` | function | `modules/lazy_bridge.py:314` | `def _read_new_traffic(path, offset)` |
+| `_record_sync` | function | `modules/lazy_bridge.py:545` | `def _record_sync(action, summary)` |
 | `bridge_status` | function | `modules/lazy_bridge.py:159` | `def bridge_status()` |
 | `lazy_activity` | function | `modules/lazy_bridge.py:123` | `def lazy_activity(task_id)` |
 | `lazy_assets` | function | `modules/lazy_bridge.py:99` | `def lazy_assets()` |
@@ -250,10 +423,10 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `pull_findings_to_lifecycle` | function | `modules/lazy_bridge.py:286` | `def pull_findings_to_lifecycle()` |
 | `pull_to_objectives` | function | `modules/lazy_bridge.py:251` | `def pull_to_objectives()` |
 | `pull_to_world_model` | function | `modules/lazy_bridge.py:206` | `def pull_to_world_model()` |
-| `pull_traffic_to_recorder` | function | `modules/lazy_bridge.py:314` | `def pull_traffic_to_recorder()` |
-| `push_objective_to_lazy` | function | `modules/lazy_bridge.py:344` | `def push_objective_to_lazy(goal, scope)` |
-| `push_tasks_to_c2` | function | `modules/lazy_bridge.py:369` | `def push_tasks_to_c2(only)` |
-| `sync_all` | function | `modules/lazy_bridge.py:434` | `def sync_all()` |
+| `pull_traffic_to_recorder` | function | `modules/lazy_bridge.py:361` | `def pull_traffic_to_recorder(progress)` |
+| `push_objective_to_lazy` | function | `modules/lazy_bridge.py:429` | `def push_objective_to_lazy(goal, scope)` |
+| `push_tasks_to_c2` | function | `modules/lazy_bridge.py:454` | `def push_tasks_to_c2(only)` |
+| `sync_all` | function | `modules/lazy_bridge.py:519` | `def sync_all(progress)` |
 | `_discover` | function | `modules/lazy_cli_bridge.py:93` | `def _discover()` |
 | `_source_files` | function | `modules/lazy_cli_bridge.py:74` | `def _source_files()` |
 | `_source_mtimes` | function | `modules/lazy_cli_bridge.py:82` | `def _source_mtimes()` |
@@ -288,213 +461,40 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `record_routing_decision` | function | `modules/lazy_intel.py:120` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
 | `record_routing_outcome` | function | `modules/lazy_intel.py:160` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
 | `stack_signature` | function | `modules/lazy_intel.py:254` | `def stack_signature(assets)` |
-| `ActivityLog` | class | `modules/lazy_loop.py:1327` | `class ActivityLog` |
-| `AssetGate` | class | `modules/lazy_loop.py:2059` | `class AssetGate` |
-| `AssetGraph` | class | `modules/lazy_loop.py:856` | `class AssetGraph` |
-| `AssetNode` | class | `modules/lazy_loop.py:831` | `class AssetNode` |
-| `Budget` | class | `modules/lazy_loop.py:2153` | `class Budget` |
-| `ColdCompactor` | class | `modules/lazy_loop.py:5166` | `class ColdCompactor` |
-| `CompanyScope` | class | `modules/lazy_loop.py:7093` | `class CompanyScope` |
-| `EvidenceStore` | class | `modules/lazy_loop.py:6137` | `class EvidenceStore` |
-| `ExplorationEdge` | class | `modules/lazy_loop.py:822` | `class ExplorationEdge` |
-| `ExplorationGraph` | class | `modules/lazy_loop.py:1019` | `class ExplorationGraph` |
-| `ExplorationNode` | class | `modules/lazy_loop.py:808` | `class ExplorationNode` |
-| `FindingService` | class | `modules/lazy_loop.py:5887` | `class FindingService` |
-| `Frontier` | class | `modules/lazy_loop.py:1299` | `class Frontier` |
-| `Guard` | class | `modules/lazy_loop.py:1718` | `class Guard` |
-| `InterceptQueue` | class | `modules/lazy_loop.py:2305` | `class InterceptQueue` |
-| `LazyLoopEngine` | class | `modules/lazy_loop.py:7417` | `class LazyLoopEngine` |
-| `LazyTask` | class | `modules/lazy_loop.py:845` | `class LazyTask` |
-| `LlmPool` | class | `modules/lazy_loop.py:6555` | `class LlmPool` |
-| `Notifier` | class | `modules/lazy_loop.py:6240` | `class Notifier` |
-| `Planner` | class | `modules/lazy_loop.py:2938` | `class Planner` |
-| `Retester` | class | `modules/lazy_loop.py:5073` | `class Retester` |
-| `RuntimeTracker` | class | `modules/lazy_loop.py:2237` | `class RuntimeTracker` |
-| `SideQuestions` | class | `modules/lazy_loop.py:7019` | `class SideQuestions` |
-| `TaskArchive` | class | `modules/lazy_loop.py:7123` | `class TaskArchive` |
-| `TaskCategory` | class | `modules/lazy_loop.py:7285` | `class TaskCategory` |
-| `TaskChat` | class | `modules/lazy_loop.py:7312` | `class TaskChat` |
-| `TaskStore` | class | `modules/lazy_loop.py:2507` | `class TaskStore` |
-| `TaskTemplate` | class | `modules/lazy_loop.py:7242` | `class TaskTemplate` |
-| `TodoStore` | class | `modules/lazy_loop.py:2465` | `class TodoStore` |
-| `ToolCatalog` | class | `modules/lazy_loop.py:6975` | `class ToolCatalog` |
-| `TrafficLog` | class | `modules/lazy_loop.py:1460` | `class TrafficLog` |
-| `TriggerStore` | class | `modules/lazy_loop.py:6406` | `class TriggerStore` |
-| `Worker` | class | `modules/lazy_loop.py:3378` | `class Worker` |
-| `__init__` | method | `modules/lazy_loop.py:859` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:1022` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:1302` | `def __init__(self, graph)` |
-| `__init__` | method | `modules/lazy_loop.py:1330` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:1463` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:1721` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:2068` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:2156` | `def __init__(self, store)` |
-| `__init__` | method | `modules/lazy_loop.py:2240` | `def __init__(self, store)` |
-| `__init__` | method | `modules/lazy_loop.py:2334` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:2468` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:2510` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:2941` | `def __init__(self, task_id, assets, graph, activity, store)` |
-| `__init__` | method | `modules/lazy_loop.py:3381` | `def __init__(self, name, task_id, assets, graph, activity, traffic, guard, store, shell, ephemeral)` |
-| `__init__` | method | `modules/lazy_loop.py:5076` | `def __init__(self, graph, activity, traffic)` |
-| `__init__` | method | `modules/lazy_loop.py:5174` | `def __init__(self, graph, activity)` |
-| `__init__` | method | `modules/lazy_loop.py:5890` | `def __init__(self, task_id, graph, activity, store)` |
-| `__init__` | method | `modules/lazy_loop.py:6140` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:6243` | `def __init__(self, store)` |
-| `__init__` | method | `modules/lazy_loop.py:6409` | `def __init__(self, task_id)` |
-| `__init__` | method | `modules/lazy_loop.py:6572` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:6978` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:7096` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:7245` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:7288` | `def __init__(self, store)` |
-| `__init__` | method | `modules/lazy_loop.py:7442` | `def __init__(self, shell)` |
-| `_agent_checkpoint` | method | `modules/lazy_loop.py:3967` | `def _agent_checkpoint(self, intent)` |
-| `_agent_preflight` | method | `modules/lazy_loop.py:3993` | `def _agent_preflight(self, intent, command)` |
-| `_agent_system_prompt` | method | `modules/lazy_loop.py:4337` | `def _agent_system_prompt(self, intent)` |
-| `_agent_tools` | method | `modules/lazy_loop.py:4156` | `def _agent_tools(self, intent, executor, transcripts, budget, intercept, retry_state)` |
-| `_agentic_try` | method | `modules/lazy_loop.py:4369` | `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state)` |
-| `_apply_stored_bodies` | method | `modules/lazy_loop.py:5309` | `def _apply_stored_bodies(self, bodies)` |
-| `_asset_candidates` | function | `modules/lazy_loop.py:2003` | `def _asset_candidates(target)` |
-| `_auto_approve` | method | `modules/lazy_loop.py:4478` | `def _auto_approve(self, command)` |
-| `_auto_bind_body_hits` | method | `modules/lazy_loop.py:4836` | `def _auto_bind_body_hits(self, finding, seed)` |
-| `_auto_enrich` | method | `modules/lazy_loop.py:8487` | `def _auto_enrich(self, task_id, graph, activity, limit)` |
-| `_auto_retest` | method | `modules/lazy_loop.py:8523` | `def _auto_retest(self, task_id, graph, activity, traffic, executor, limit)` |
-| `_block_signature` | method | `modules/lazy_loop.py:5377` | `def _block_signature(self, members, anchors, versions)` |
-| `_bodies_path` | method | `modules/lazy_loop.py:5191` | `def _bodies_path(self)` |
-| `_broadcast_row` | method | `modules/lazy_loop.py:9543` | `def _broadcast_row(self, graph, node)` |
-| `_candidates` | method | `modules/lazy_loop.py:3130` | `def _candidates(self)` |
-| `_channel_encryption_key` | function | `modules/lazy_loop.py:395` | `def _channel_encryption_key()` |
-| `_check_goals` | method | `modules/lazy_loop.py:8882` | `def _check_goals(self, task_id, graph, activity)` |
-| `_close_shell_session` | method | `modules/lazy_loop.py:4129` | `def _close_shell_session(self)` |
-| `_cold_path` | method | `modules/lazy_loop.py:5179` | `def _cold_path(self)` |
-| `_command_in_scope` | method | `modules/lazy_loop.py:4827` | `def _command_in_scope(self, command)` |
-| `_constraints` | method | `modules/lazy_loop.py:2952` | `def _constraints(self)` |
-| `_content_versions` | method | `modules/lazy_loop.py:5369` | `def _content_versions(self)` |
-| `_decrypt_channel_secret` | function | `modules/lazy_loop.py:449` | `def _decrypt_channel_secret(stored)` |
-| `_delta_sink` | method | `modules/lazy_loop.py:3280` | `def _delta_sink(self)` |
-| `_delta_sink` | method | `modules/lazy_loop.py:4685` | `def _delta_sink(self, intent_id)` |
-| `_denied` | method | `modules/lazy_loop.py:2961` | `def _denied(self, text)` |
-| `_denied` | method | `modules/lazy_loop.py:4467` | `def _denied(self, command)` |
-| `_draft_report` | method | `modules/lazy_loop.py:5965` | `def _draft_report(self, node)` |
-| `_drafts_ready_path` | method | `modules/lazy_loop.py:5961` | `def _drafts_ready_path(self)` |
-| `_drain_steer` | method | `modules/lazy_loop.py:3982` | `def _drain_steer(self, intent)` |
-| `_drain_triggers` | method | `modules/lazy_loop.py:8438` | `def _drain_triggers(self, task_id, graph)` |
-| `_drop_event` | method | `modules/lazy_loop.py:2329` | `def _drop_event(cls, path, item_id)` |
-| `_drop_wake_event` | function | `modules/lazy_loop.py:491` | `def _drop_wake_event(task_id)` |
-| `_encrypt_channel_secret` | function | `modules/lazy_loop.py:411` | `def _encrypt_channel_secret(plaintext)` |
-| `_evaluate_goal` | method | `modules/lazy_loop.py:8578` | `def _evaluate_goal(self, task_id)` |
-| `_event_for` | method | `modules/lazy_loop.py:2312` | `def _event_for(cls, path, item_id)` |
-| `_find` | function | `modules/lazy_loop.py:5398` | `def _find(value)` |
-| `_finding_list` | method | `modules/lazy_loop.py:9439` | `def _finding_list(self, graph)` |
-| `_finish` | method | `modules/lazy_loop.py:3712` | `def _finish(self, intent, outcome, transcripts, worker_tools, skipped_tools)` |
-| `_foldable` | method | `modules/lazy_loop.py:5337` | `def _foldable(self, node)` |
-| `_goals_met` | method | `modules/lazy_loop.py:8889` | `def _goals_met(self, task_id)` |
-| `_group` | method | `modules/lazy_loop.py:5386` | `def _group(self, eligible)` |
-| `_guard_step` | method | `modules/lazy_loop.py:3785` | `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)` |
-| `_host_from_token` | function | `modules/lazy_loop.py:253` | `def _host_from_token(token)` |
-| `_intent_subtree` | method | `modules/lazy_loop.py:7955` | `def _intent_subtree(self, graph, intent_id)` |
-| `_is_ip_literal` | function | `modules/lazy_loop.py:242` | `def _is_ip_literal(value)` |
-| `_is_live_intent` | method | `modules/lazy_loop.py:5333` | `def _is_live_intent(self, node)` |
-| `_kill` | function | `modules/lazy_loop.py:332` | `def _kill()` |
-| `_llm_candidates` | method | `modules/lazy_loop.py:3294` | `def _llm_candidates(self, existing)` |
-| `_llm_error_reply` | function | `modules/lazy_loop.py:699` | `def _llm_error_reply(text)` |
-| `_llm_quota_reply` | function | `modules/lazy_loop.py:707` | `def _llm_quota_reply(text)` |
-| `_llm_steps` | method | `modules/lazy_loop.py:4567` | `def _llm_steps(self, intent, prior_text)` |
-| `_load` | method | `modules/lazy_loop.py:2340` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:6145` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:6414` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:6982` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:7100` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:7249` | `def _load(self)` |
-| `_load_bodies` | method | `modules/lazy_loop.py:5195` | `def _load_bodies(self)` |
-| `_load_cold` | method | `modules/lazy_loop.py:5183` | `def _load_cold(self)` |
-| `_load_global` | method | `modules/lazy_loop.py:2075` | `def _load_global(self)` |
-| `_load_json` | function | `modules/lazy_loop.py:659` | `def _load_json(path, default)` |
-| `_load_task` | method | `modules/lazy_loop.py:2079` | `def _load_task(self)` |
-| `_mask_key` | function | `modules/lazy_loop.py:372` | `def _mask_key(match)` |
-| `_mask_prompt_context` | function | `modules/lazy_loop.py:5863` | `def _mask_prompt_context(text)` |
-| `_match_gate_rule` | function | `modules/lazy_loop.py:2024` | `def _match_gate_rule(rule, target)` |
-| `_maybe_import_inbox` | method | `modules/lazy_loop.py:9162` | `def _maybe_import_inbox(self)` |
-| `_maybe_proxy_gc` | method | `modules/lazy_loop.py:9136` | `def _maybe_proxy_gc(self)` |
-| `_maybe_selfupdate_check` | method | `modules/lazy_loop.py:9182` | `def _maybe_selfupdate_check(self)` |
-| `_missing_tool` | method | `modules/lazy_loop.py:4490` | `def _missing_tool(self, command)` |
-| `_noa_archive` | method | `modules/lazy_loop.py:5252` | `def _noa_archive(self, signature, members, anchors)` |
-| `_noa_enabled` | function | `modules/lazy_loop.py:599` | `def _noa_enabled()` |
-| `_normalize_refs` | method | `modules/lazy_loop.py:1655` | `def _normalize_refs(raw)` |
-| `_now` | function | `modules/lazy_loop.py:641` | `def _now()` |
-| `_open_shell_session` | method | `modules/lazy_loop.py:4058` | `def _open_shell_session(self, intent)` |
-| `_origin_fact` | method | `modules/lazy_loop.py:3121` | `def _origin_fact(self)` |
-| `_parts` | method | `modules/lazy_loop.py:7522` | `def _parts(self, task_id)` |
-| `_persist` | method | `modules/lazy_loop.py:873` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1044` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1740` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2475` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2515` | `def _persist(self)` |
-| `_prior_steps` | method | `modules/lazy_loop.py:3490` | `def _prior_steps(self, intent)` |
-| `_reader` | function | `modules/lazy_loop.py:4080` | `def _reader()` |
-| `_record` | method | `modules/lazy_loop.py:6648` | `def _record(self, member, ok, text)` |
-| `_record_ai_outcome` | method | `modules/lazy_loop.py:6723` | `def _record_ai_outcome(self, member, ok, live_log)` |
-| `_record_raw` | method | `modules/lazy_loop.py:6943` | `def _record_raw(self, member, prompt, reply, ok)` |
-| `_refresh` | method | `modules/lazy_loop.py:2603` | `def _refresh(self)` |
-| `_register_loop_executor` | function | `modules/lazy_loop.py:310` | `def _register_loop_executor(executor)` |
-| `_reorder_with_ai` | method | `modules/lazy_loop.py:6683` | `def _reorder_with_ai(self, chain, live_log)` |
-| `_reporter_reply` | method | `modules/lazy_loop.py:6020` | `def _reporter_reply(self, pool, chain, entry)` |
-| `_request_bodies` | method | `modules/lazy_loop.py:5203` | `def _request_bodies(self, blocks, cold)` |
-| `_resolved_command` | method | `modules/lazy_loop.py:4709` | `def _resolved_command(self, command)` |
-| `_restrict_file` | function | `modules/lazy_loop.py:387` | `def _restrict_file(path)` |
-| `_rotated_chain` | method | `modules/lazy_loop.py:6654` | `def _rotated_chain(self, chain)` |
-| `_run` | method | `modules/lazy_loop.py:4506` | `def _run(self, command, executor)` |
-| `_run_one` | function | `modules/lazy_loop.py:8293` | `def _run_one(index_node)` |
-| `_sanitize_step` | method | `modules/lazy_loop.py:4773` | `def _sanitize_step(self, intent, command)` |
-| `_save` | method | `modules/lazy_loop.py:2344` | `def _save(self, payload)` |
-| `_save_bodies` | method | `modules/lazy_loop.py:5199` | `def _save_bodies(self, payload)` |
-| `_save_cold` | method | `modules/lazy_loop.py:5187` | `def _save_cold(self, payload)` |
-| `_save_global` | method | `modules/lazy_loop.py:2086` | `def _save_global(self, block)` |
-| `_save_json` | function | `modules/lazy_loop.py:669` | `def _save_json(path, payload)` |
-| `_save_task` | method | `modules/lazy_loop.py:2090` | `def _save_task(self, payload)` |
-| `_scope_allows_target` | method | `modules/lazy_loop.py:3461` | `def _scope_allows_target(self, target)` |
-| `_scope_covers` | function | `modules/lazy_loop.py:1936` | `def _scope_covers(scope_kind, scope_value, asset)` |
-| `_scope_host` | function | `modules/lazy_loop.py:1926` | `def _scope_host(value)` |
-| `_seed_defaults` | method | `modules/lazy_loop.py:6583` | `def _seed_defaults(self)` |
-| `_send_email` | method | `modules/lazy_loop.py:6315` | `def _send_email(channel, line, event)` |
-| `_send_shell` | method | `modules/lazy_loop.py:4093` | `def _send_shell(self, command, intent, timeout_sec)` |
-| `_settle_partial` | method | `modules/lazy_loop.py:4649` | `def _settle_partial(self, intent, transcripts, reason)` |
-| `_signature` | function | `modules/lazy_loop.py:3062` | `def _signature(text)` |
-| `_slug` | function | `modules/lazy_loop.py:684` | `def _slug(value)` |
-| `_split_exclusive` | method | `modules/lazy_loop.py:7970` | `def _split_exclusive(self, graph, reachable)` |
-| `_stage_enabled` | function | `modules/lazy_loop.py:8754` | `def _stage_enabled(_name)` |
-| `_stall_intent` | method | `modules/lazy_loop.py:3352` | `def _stall_intent(self, existing)` |
-| `_start_background_job` | method | `modules/lazy_loop.py:4026` | `def _start_background_job(self, command, intent, transcripts)` |
-| `_steps_for` | method | `modules/lazy_loop.py:4888` | `def _steps_for(self, intent)` |
-| `_store_path` | function | `modules/lazy_loop.py:646` | `def _store_path(name)` |
-| `_sudo_guard` | method | `modules/lazy_loop.py:4723` | `def _sudo_guard(self, intent, command)` |
-| `_sudo_unavailable` | function | `modules/lazy_loop.py:236` | `def _sudo_unavailable(output)` |
-| `_sync_c2_board` | method | `modules/lazy_loop.py:9000` | `def _sync_c2_board(self, task_ids)` |
-| `_sync_intel` | method | `modules/lazy_loop.py:8145` | `def _sync_intel(self, task_id, activity, force)` |
-| `_target_as_asset` | function | `modules/lazy_loop.py:1986` | `def _target_as_asset(value)` |
-| `_target_for` | method | `modules/lazy_loop.py:3777` | `def _target_for(self, intent)` |
-| `_task_executed_commands` | method | `modules/lazy_loop.py:4750` | `def _task_executed_commands(self)` |
-| `_traffic_template` | function | `modules/lazy_loop.py:689` | `def _traffic_template(command)` |
-| `_union` | function | `modules/lazy_loop.py:5404` | `def _union(left, right)` |
-| `_unregister_loop_executor` | function | `modules/lazy_loop.py:316` | `def _unregister_loop_executor(executor)` |
-| `_wake_event` | function | `modules/lazy_loop.py:481` | `def _wake_event(task_id)` |
-| `_with_llm_steps` | method | `modules/lazy_loop.py:4556` | `def _with_llm_steps(self, intent, steps, prior_text)` |
-| `_work` | function | `modules/lazy_loop.py:4038` | `def _work()` |
-| `_work` | function | `modules/lazy_loop.py:5999` | `def _work()` |
-| `_worker` | function | `modules/lazy_loop.py:5224` | `def _worker(work)` |
-| `_wrapup_summary` | method | `modules/lazy_loop.py:8543` | `def _wrapup_summary(self, task_id, reason)` |
-| `_write_draft` | method | `modules/lazy_loop.py:6036` | `def _write_draft(self, finding_id, report, evidence_version)` |
-| `_writeback` | method | `modules/lazy_loop.py:4948` | `def _writeback(self, intent, transcripts, allow_finding)` |
-| `abort` | method | `modules/lazy_loop.py:2277` | `def abort(self, task_id, cause, detail)` |
-| `active_count` | method | `modules/lazy_loop.py:2572` | `def active_count(self, exclude)` |
-| `add` | method | `modules/lazy_loop.py:2095` | `def add(self, kind, pattern, note, action)` |
-| `add` | method | `modules/lazy_loop.py:2479` | `def add(self, text)` |
-| `add` | method | `modules/lazy_loop.py:6149` | `def add(self, finding_id, kind, body)` |
-| `add` | method | `modules/lazy_loop.py:6418` | `def add(self, kind, arg, every_sec)` |
-| `add` | method | `modules/lazy_loop.py:7104` | `def add(self, name, scope)` |
-| `add` | method | `modules/lazy_loop.py:7257` | `def add(self, name, goal)` |
-| `add_channel` | method | `modules/lazy_loop.py:6255` | `def add_channel(self, kind, target, min_severity, extra)` |
-| `add_constraint` | method | `modules/lazy_loop.py:2706` | `def add_constraint(self, task_id, ctype, text, scope)` |
-| `add_edge` | method | `modules/lazy_loop.py:1099` | `def add_edge(self, src, dst, kind)` |
-| `add_hint` | method | `modules/lazy_loop.py:7740` | `def add_hint(self, task_id, text)` |
+| `ActivityLog` | class | `modules/lazy_loop.py:1424` | `class ActivityLog` |
+| `AssetGate` | class | `modules/lazy_loop.py:2156` | `class AssetGate` |
+| `AssetGraph` | class | `modules/lazy_loop.py:953` | `class AssetGraph` |
+| `AssetNode` | class | `modules/lazy_loop.py:928` | `class AssetNode` |
+| `Budget` | class | `modules/lazy_loop.py:2250` | `class Budget` |
+| `ColdCompactor` | class | `modules/lazy_loop.py:5260` | `class ColdCompactor` |
+| `CompanyScope` | class | `modules/lazy_loop.py:7215` | `class CompanyScope` |
+| `EvidenceStore` | class | `modules/lazy_loop.py:6259` | `class EvidenceStore` |
+| `ExplorationEdge` | class | `modules/lazy_loop.py:919` | `class ExplorationEdge` |
+| `ExplorationGraph` | class | `modules/lazy_loop.py:1116` | `class ExplorationGraph` |
+| `ExplorationNode` | class | `modules/lazy_loop.py:905` | `class ExplorationNode` |
+| `FindingService` | class | `modules/lazy_loop.py:5981` | `class FindingService` |
+| `Frontier` | class | `modules/lazy_loop.py:1396` | `class Frontier` |
+| `Guard` | class | `modules/lazy_loop.py:1815` | `class Guard` |
+| `InterceptQueue` | class | `modules/lazy_loop.py:2402` | `class InterceptQueue` |
+| `LazyLoopEngine` | class | `modules/lazy_loop.py:7539` | `class LazyLoopEngine` |
+| `LazyTask` | class | `modules/lazy_loop.py:942` | `class LazyTask` |
+| `LlmPool` | class | `modules/lazy_loop.py:6677` | `class LlmPool` |
+| `Notifier` | class | `modules/lazy_loop.py:6362` | `class Notifier` |
+| `Planner` | class | `modules/lazy_loop.py:3035` | `class Planner` |
+| `Retester` | class | `modules/lazy_loop.py:5161` | `class Retester` |
+| `RuntimeTracker` | class | `modules/lazy_loop.py:2334` | `class RuntimeTracker` |
+| `SideQuestions` | class | `modules/lazy_loop.py:7141` | `class SideQuestions` |
+| `TaskArchive` | class | `modules/lazy_loop.py:7245` | `class TaskArchive` |
+| `TaskCategory` | class | `modules/lazy_loop.py:7407` | `class TaskCategory` |
+| `TaskChat` | class | `modules/lazy_loop.py:7434` | `class TaskChat` |
+| `TaskStore` | class | `modules/lazy_loop.py:2604` | `class TaskStore` |
+| `TaskTemplate` | class | `modules/lazy_loop.py:7364` | `class TaskTemplate` |
+| `TodoStore` | class | `modules/lazy_loop.py:2562` | `class TodoStore` |
+| `ToolCatalog` | class | `modules/lazy_loop.py:7097` | `class ToolCatalog` |
+| `TrafficLog` | class | `modules/lazy_loop.py:1557` | `class TrafficLog` |
+| `TriggerStore` | class | `modules/lazy_loop.py:6528` | `class TriggerStore` |
+| `Worker` | class | `modules/lazy_loop.py:3475` | `class Worker` |
+| `__init__` | method | `modules/lazy_loop.py:956` | `def __init__(self)` |
+| `__init__` | method | `modules/lazy_loop.py:1119` | `def __init__(self, task_id)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

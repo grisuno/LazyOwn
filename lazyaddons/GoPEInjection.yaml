@@ -5,6 +5,7 @@ description: 'Golang PE injection on windows
 author: malware-unicorn
 version: 0.0.1
 enabled: true
+update: true
 os: windows
 trigger: []
 tool:

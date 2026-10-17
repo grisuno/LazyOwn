@@ -856,7 +856,7 @@ Convenience function to build and publish an event in one call.
 
 *Calls:* [`EventCategory`](#eventcategory), [`EventSeverity`](#eventseverity), [`LazyEvent`](#lazyevent), [`get_event_bus`](#get_event_bus)
 
-*Called by:* [`publish_loop_event`](modules.loop_ai_bridge.py.md#publish_loop_event)
+*Called by:* [`publish_loop_event`](modules.loop_ai_bridge.py.md#publish_loop_event), [`apply`](modules.sinks.event_bus.py.md#apply)
 
 ---
 

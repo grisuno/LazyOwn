@@ -1021,7 +1021,7 @@ Initialise the decorator.
 | `metrics_source` | `Any` | `None` | Object exposing ``summarize(window_seconds)``. Defaults to [`modules.metrics.get_recorder`](modules.metrics.py.md#get_recorder) resolved lazily on first use so the module remains importable without the metrics package present. |
 | `min_success_rate` | `float` | `METRICS_BIAS_MIN_SUCCESS` | Inclusive lower bound on `[`success_rate`](modules.llm_evaluator.py.md#qualitymetrics-success_rate)`; values strictly below this are considered failing. |
 | `min_attempts` | `int` | `METRICS_BIAS_MIN_ATTEMPTS` | Minimum number of recorded attempts before a command can be filtered. Avoids over-reacting to a single failure. |
-| `window_seconds` | `int` | `METRICS_BIAS_WINDOW_S` | Aggregation window forwarded to `[`summarize`](modules.llm_client.py.md#summarize)`. Set to ``0`` or a negative value to aggregate the whole log. |
+| `window_seconds` | `int` | `METRICS_BIAS_WINDOW_S` | Aggregation window forwarded to ``summarize``. Set to ``0`` or a negative value to aggregate the whole log. |
 | `cache_ttl_s` | `float` | `METRICS_BIAS_CACHE_TTL_S` | Time-to-live for the in-memory summary cache. Repeated calls within the TTL reuse the cached aggregate to avoid re-reading the JSONL log every step. |
 | `clock` | `Any \| None` | `None` | Callable returning the current monotonic time. Injected in tests; defaults to `time.monotonic`. |
 

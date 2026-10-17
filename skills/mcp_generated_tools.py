@@ -367,7 +367,7 @@ _COMMAND_MAP: dict[str, str] = {
     "lazyown_makerc": "Record session commands to a resource script",
     "lazyown_malwarebazar": "Search Malware Bazaar for malware samples",
     "lazyown_marketplace": "Discover and install community plugins, addons, and tools",
-    "lazyown_marketplace_config": "Interactive marketplace manager (curses TUI)",
+    "lazyown_marketplace_config": "Interactive marketplace manager (Textual TUI)",
     "lazyown_medusa": "Run Medusa for online password attacks",
     "lazyown_metabigor": "Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments",
     "lazyown_mfa_bypass": "Enumerate and test MFA bypass techniques",

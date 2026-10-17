@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_dvwa_sqli_blind
+version: 2
+description: 'Metasploitable 2: DVWA blind SQL injection (T1190).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_dvwa_sqli_blind
+  vuln: ms2_dvwa_sqli_blind
+  port: '80'

@@ -6,6 +6,7 @@ description: CVE-2026-80775 futex LPE by V4bel. Private hash UAF in prctl
 author: V4bel
 version: "1.0"
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

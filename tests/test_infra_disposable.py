@@ -341,18 +341,17 @@ def test_range_verify_unknown_profile(capsys) -> None:
     assert "No verifier" in capsys.readouterr().out
 
 
-def test_gym_range_next_steps() -> None:
+def test_gym_range_next_steps(tmp_path, monkeypatch) -> None:
     """Range challenges point at range commands, others stay classic."""
+    import modules.world_model as world_model
+    from modules.redteam_gym import start_challenge, stop_challenges
 
-    from modules.redteam_gym import GYM_DIR, start_challenge
-
+    monkeypatch.setattr(world_model, "_DEFAULT_PATH", tmp_path / "world_model.json")
+    monkeypatch.setattr(world_model, "_default_wm", None)
     assert start_challenge("first_implant")["next_steps"][0] == "lab range start ad-mini"
     assert start_challenge("first_blood_web")["next_steps"][0] == "lab start wordpress"
-    for leftover in GYM_DIR.glob("active_*.json"):
-        try:
-            leftover.unlink()
-        except OSError:
-            pass
+    stop_challenges()
+    monkeypatch.setattr(world_model, "_default_wm", None)
 
 
 def test_find_cloudflared_pids() -> None:

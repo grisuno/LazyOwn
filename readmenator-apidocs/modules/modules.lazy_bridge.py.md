@@ -46,7 +46,6 @@ flowchart LR
     n_modules_lazy_bridge_py__pull_findings_to_lifecycle --> n_modules_lazy_bridge_py__lazy_graph
     n_modules_lazy_bridge_py__pull_findings_to_lifecycle --> n_modules_lazy_bridge_py__lazy_tasks
     n_modules_lazy_bridge_py__pull_traffic_to_recorder --> n_modules_lazy_bridge_py__lazy_tasks
-    n_modules_lazy_bridge_py__pull_traffic_to_recorder --> n_modules_lazy_bridge_py__lazy_traffic
     n_modules_lazy_bridge_py__push_tasks_to_c2 --> n_modules_lazy_bridge_py__lazy_tasks
     n_modules_lazy_bridge_py__sync_all --> n_modules_lazy_bridge_py__pull_findings_to_lifecycle
     n_modules_lazy_bridge_py__sync_all --> n_modules_lazy_bridge_py__pull_to_objectives
@@ -161,7 +160,7 @@ Load traffic log for a task.
 
 **Returns:** `list[dict]` - Traffic row list.
 
-*Called by:* [`bridge_status`](#bridge_status), [`pull_traffic_to_recorder`](#pull_traffic_to_recorder)
+*Called by:* [`bridge_status`](#bridge_status)
 
 ---
 
@@ -271,17 +270,27 @@ Confirm LAZY finding nodes in LazyOwn finding lifecycle.
 
 ### `pull_traffic_to_recorder`
 
-`function` | [modules/lazy_bridge.py:314](../../modules/lazy_bridge.py#L314)
+`function` | [modules/lazy_bridge.py:361](../../modules/lazy_bridge.py#L361)
 
 ```python
-def pull_traffic_to_recorder() -> dict
+def pull_traffic_to_recorder(progress=None) -> dict
 ```
 
-Mirror LAZY traffic logs into LazyOwn traffic recorder index.
+Mirror new LAZY traffic rows into the LazyOwn recorder index.
 
-**Returns:** `dict` - Summary with mirrored count.
+The byte offset per task is persisted in ``lazy_bridge_sync.json`` so
+repeated syncs stay proportional to new activity instead of replaying
+the whole transcript (which used to stall the loop watchdog).
 
-*Calls:* [`lazy_tasks`](#lazy_tasks), [`lazy_traffic`](#lazy_traffic)
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `progress` |  | `None` | Optional callback receiving short progress strings. |
+
+**Returns:** `dict` - Summary with mirrored count and byte offsets committed.
+
+*Calls:* [`lazy_tasks`](#lazy_tasks)
 
 *Called by:* [`sync_all`](#sync_all)
 
@@ -291,7 +300,7 @@ Mirror LAZY traffic logs into LazyOwn traffic recorder index.
 
 ### `push_objective_to_lazy`
 
-`function` | [modules/lazy_bridge.py:344](../../modules/lazy_bridge.py#L344)
+`function` | [modules/lazy_bridge.py:429](../../modules/lazy_bridge.py#L429)
 
 ```python
 def push_objective_to_lazy(goal: str, scope: list[str] | None = None) -> dict
@@ -314,7 +323,7 @@ Export a LazyOwn objective as an LAZY-compatible task draft.
 
 ### `push_tasks_to_c2`
 
-`function` | [modules/lazy_bridge.py:369](../../modules/lazy_bridge.py#L369)
+`function` | [modules/lazy_bridge.py:454](../../modules/lazy_bridge.py#L454)
 
 ```python
 def push_tasks_to_c2(only: list[str] | None = None) -> dict
@@ -344,13 +353,19 @@ follow the C2 vocabulary (New/Started/Blocked/Review/Done).
 
 ### `sync_all`
 
-`function` | [modules/lazy_bridge.py:434](../../modules/lazy_bridge.py#L434)
+`function` | [modules/lazy_bridge.py:519](../../modules/lazy_bridge.py#L519)
 
 ```python
-def sync_all() -> dict
+def sync_all(progress=None) -> dict
 ```
 
 Run full bidirectional pull plus lifecycle, traffic and board mirror.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `progress` |  | `None` | Optional callback receiving one short string before each stage and during traffic mirroring so the loop watchdog sees progress on large stores. |
 
 **Returns:** `dict` - Combined sync summary.
 

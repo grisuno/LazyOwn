@@ -10,6 +10,17 @@ The wiki is a separate git repository (https://github.com/grisuno/LazyOwn.wiki.g
 
 - **Functions:** [`log`](#log), [`fail`](#fail), [`write_home`](#write_home), [`write_installation`](#write_installation), [`write_c2_api`](#write_c2_api), [`write_plugins`](#write_plugins), [`write_sidebar`](#write_sidebar), [`write_footer`](#write_footer)
 
+## Call Graph
+
+Solid arrows stay in this module, dashed arrows leave it.
+
+```mermaid
+flowchart LR
+    n_scripts_publish_wiki_sh__write_c2_api(["write_c2_api"])
+    n_modules_outcome_bus_py__OutcomeEvent_key["outcome_bus.OutcomeEvent.key"]
+    n_scripts_publish_wiki_sh__write_c2_api -.-> n_modules_outcome_bus_py__OutcomeEvent_key
+```
+
 ## Functions
 
 <a id="log"></a>
@@ -69,6 +80,8 @@ write_installation()
 ```bash
 write_c2_api()
 ```
+
+*Calls:* [`OutcomeEvent.key`](modules.outcome_bus.py.md#outcomeevent-key)
 
 ---
 

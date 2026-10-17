@@ -18,7 +18,7 @@ Usage::
 
 ## Contents
 
-- **Functions:** [`template_placeholders`](#template_placeholders), [`empty_placeholders`](#empty_placeholders), [`load_aliases`](#load_aliases)
+- **Functions:** [`template_placeholders`](#template_placeholders), [`empty_placeholders`](#empty_placeholders), [`alias_with_trailing_args`](#alias_with_trailing_args), [`load_aliases`](#load_aliases)
 - **Constants:** [`ALIASES_PATH`](#aliases_path), [`REQUIRED_PLACEHOLDERS`](#required_placeholders)
 
 ## Call Graph
@@ -89,11 +89,39 @@ Return placeholders whose rendered value against ``context`` is empty.
 
 ---
 
+<a id="alias_with_trailing_args"></a>
+
+### `alias_with_trailing_args`
+
+`function` | [cli/aliases.py:77](../../cli/aliases.py#L77)
+
+```python
+def alias_with_trailing_args(expanded: str, original: str) -> str
+```
+
+Append the operator's trailing arguments to an expanded alias.
+
+cmd2 aliases are prefix shortcuts: ``alias arg1 arg2`` must become
+``<expanded value> arg1 arg2``. LazyOwn's custom dynamic expander
+replaced the whole line with the template, which silently dropped
+parameters such as ``rm_wm_host 127.0.0.1``.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `expanded` | `str` |  | Fully rendered alias value. |
+| `original` | `str` |  | Raw line the operator typed. |
+
+**Returns:** `str` - The expanded value plus the original trailing arguments, if any.
+
+---
+
 <a id="load_aliases"></a>
 
 ### `load_aliases`
 
-`function` | [cli/aliases.py:77](../../cli/aliases.py#L77)
+`function` | [cli/aliases.py:100](../../cli/aliases.py#L100)
 
 ```python
 def load_aliases(payload: dict[str, Any] | None = None, path: Path = ALIASES_PATH, lazy: bool = True) -> dict[str, str]

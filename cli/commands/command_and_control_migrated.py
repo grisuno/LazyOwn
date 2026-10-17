@@ -1267,7 +1267,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         With ``--interactive`` in a foreground terminal it drops the
         operator into a live ``target#`` REPL until exit.
         """
-        from modules.atomic_exploit_bridge import interactive_shell
+        from modules.atomic_exploit_bridge import interactive_shell, record_shell_outcome
 
         parts = (line or "").strip().split()
         interactive = "--interactive" in parts
@@ -1277,6 +1277,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Usage: atomic_shell [target] [--interactive]")
             return
         result = interactive_shell(target, interactive=interactive)
+        if result.get("live"):
+            record_shell_outcome(target, via=str(result.get("via", "") or ""))
         if result.get("repl"):
             print_msg(f"Session on {target} closed.")
         elif result.get("live"):
@@ -1329,6 +1331,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         Usage:
             atomic_emulate --target 172.17.0.2 --playbook rocke [--platform linux]
             atomic_emulate --target 172.17.0.2 --techniques T1018,T1057
+            atomic_emulate --target 172.17.0.2 --playbook rocke --dry-run
+            atomic_emulate --target 172.17.0.2 --playbook rocke --manual
 
         Opens a one-shot remote shell (exec-capable exploits/*.yaml in
         rank order), runs each technique's first platform-compatible
@@ -1364,12 +1368,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 playbook=args["playbook"],
                 platform=args["platform"],
                 lhost=args["lhost"] or self.params.get("lhost", "127.0.0.1"),
+                include_manual="--manual" in parts,
+                dry_run="--dry-run" in parts,
             )
         except (ValueError, RuntimeError) as exc:
             print_warn(f"Emulation failed: {exc}")
             return
         for row in report["results"]:
-            status = "EXEC" if row.get("guid") else "SKIP"
+            status = str(row.get("status", "")).upper() or ("EXEC" if row.get("guid") else "SKIP")
             print_msg(f"[{status}] {row['technique']} {(row.get('name') or row.get('note', ''))[:70]}")
         print_msg(f"Executed {report['executed']}/{len(report['results'])} via {report['via']}")
         print_msg(f"Report: {report['staged']}")
@@ -1642,7 +1648,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         """Run a fully YAML-administered APT chain with one command.
 
         Usage:
-            apt_chain [chain] [target]
+            apt_chain [chain] [target] [--dry-run]
             apt_chain apt_rocke 172.17.0.2
             apt_chain rocke 172.17.0.2   (playbook shorthand)
 
@@ -1651,7 +1657,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         pin the playbook default). A bare playbook name falls back to
         its ``apt_<name>`` chain; anything else runs the base chain with
         that playbook. Target defaults to ``rhost``. Manage chains from
-        the orchestrator Chains tab or by editing the YAML directly —
+        the orchestrator Chains tab or by editing the YAML directly -
         this method only interprets.
         """
         from modules.auto_registry import _looks_like_target as _is_target
@@ -1708,22 +1714,68 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         except Exception:
             shell = self
 
+        from modules.chain_runner import ChainRunner
+
         tokens_map = {"target": target}
+        lhost = str(self.params.get("lhost", "") or "")
+        lport = str(self.params.get("lport", "") or "")
+        if lhost:
+            tokens_map["lhost"] = lhost
+        if lport:
+            tokens_map["lport"] = lport
         if playbook_override:
             tokens_map["playbook"] = playbook_override
         print_msg(f"[apt_chain] chain={chain_name} target={target}")
-        for step in chain.resolve(tokens_map):
-            if step["skipped"]:
-                print_msg(f"[apt_chain] skip: {step['run']} ({step['reason']})")
-                continue
-            print_msg(f"[apt_chain] > {step['run']}")
+        runner = ChainRunner(
+            chain,
+            tokens=tokens_map,
+            shell=shell,
+            dry_run="--dry-run" in (line or ""),
+        )
+        result = runner.run()
+        for outcome in result.steps:
+            if outcome.status == "skipped":
+                print_msg(f"[apt_chain] skip: {outcome.run} ({outcome.reason})")
+            elif outcome.status == "dry-run":
+                print_msg(f"[apt_chain] dry-run: {outcome.run}")
+            elif outcome.ok:
+                print_msg(f"[apt_chain] ok: {outcome.run}")
+                if outcome.output:
+                    for line in outcome.output.splitlines()[:24]:
+                        print_msg(f"    {line[:220]}")
+            else:
+                print_warn(f"[apt_chain] {outcome.status}: {outcome.run} ({outcome.reason})")
+        if result.aborted:
+            print_warn(f"[apt_chain] aborted: {result.reason}")
+        if not runner.dry_run:
             try:
-                shell.onecmd(step["run"])
-            except Exception as exc:
-                print_warn(f"[apt_chain] step failed, aborting: {step['run']} ({exc})")
-                return
-        print_msg("[apt_chain] chain finished — review each step's output above; "
-                  "a green run line means the step was issued, not that the target fell.")
+                from modules.outcome_bus import record_event
+
+                record_event(
+                    kind="chain",
+                    target=target,
+                    host=target,
+                    task_id=str(self.params.get("task_id", "") or ""),
+                    title=f"chain {chain_name}",
+                    description=result.reason or f"{len(result.steps)} step(s) executed",
+                    severity="medium",
+                    success=result.ok,
+                    shell=False,
+                    source=chain_name,
+                    artifacts=list(result.artifacts),
+                    metadata={
+                        "steps": [step.to_dict() for step in result.steps],
+                        "refresh_report": True,
+                    },
+                )
+            except Exception:
+                pass
+        if result.aborted:
+            return
+        print_msg(
+            f"[apt_chain] chain finished: {sum(1 for step in result.steps if step.ok)}/{len(result.steps)} "
+            "step(s) ok - a green run line means the step was issued, not that the target fell."
+        )
 
     @cmd2.with_category("10. Command & Control")
     def do_apt_playbook(self, line):
@@ -1783,7 +1835,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_msg("")
             for idx, phase in enumerate(pb.phases, 1):
                 print_msg(f"  Phase {idx}: {phase.name}")
-                print_msg(f"    Technique: {phase.technique_id} — {phase.technique_name}")
+                print_msg(f"    Technique: {phase.technique_id} - {phase.technique_name}")
                 print_msg(f"    Description: {phase.description}")
                 if phase.atomic_tests:
                     print_msg("    Atomic Tests:")
@@ -2382,7 +2434,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
             ability = {
                 "id": f"{prefix}-{playbook_name}-{idx}",
-                "name": f"{data['apt_name']} — {phase.get('technique_name', 'Step')} ({idx})",
+                "name": f"{data['apt_name']} - {phase.get('technique_name', 'Step')} ({idx})",
                 "description": phase.get("description", ""),
                 "tactic": tactic,
                 "technique_id": phase.get("technique_id", "TXXXX"),

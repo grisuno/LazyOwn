@@ -15,9 +15,9 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 819 commands and 129 aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 834 commands and 130 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
-- **MCP** (`skills/lazyown_mcp.py`): 154 tools exposing the framework to AI agents.
+- **MCP** (`skills/lazyown_mcp.py`): 173 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
 - **Module Registry** (`modules/module_registry.py`): Catalog of 120+ modules from lazyaddons, plugins, tools, playbooks — search, use, run workflow.
 - **Payload Factory** (`modules/payload_factory.py`): Native payload generation (reverse shells, PowerShell, shellcode) with format conversion.
@@ -39,7 +39,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 - `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2.
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
 
@@ -155,7 +155,7 @@ bash scripts/setup_hermes_mcp.sh
 | `lazyown_facts_show` | After auto_populate — displays discovered ports, services, versions |
 | `lazyown_recommend_next` | When unsure what to do — Groq ranks 3-5 next commands |
 
-For the full 154-tool reference see `skills/lazyown.md`.
+For the full 173-tool reference see `skills/lazyown.md`.
 
 ---
 
@@ -208,8 +208,8 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `CHEATSHEET.md` | ~300 | ~40 frequent commands by user goal |
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
-| `skills/lazyown.md` | ~1600 | Complete 154-tool MCP playbook |
-| `COMMANDS.md` | ~5000 | Full 819-command reference (auto-generated) |
+| `skills/lazyown.md` | ~1600 | Complete 173-tool MCP playbook |
+| `COMMANDS.md` | ~1600 | Full 834-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
 
 ---

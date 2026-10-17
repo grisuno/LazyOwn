@@ -1,6 +1,97 @@
 # Subsystem: tests (page 5 of 17)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
+## tests/test_command_allowlist.py
+- Doc: TDD tests for the command allowlist contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestBasicAllow` (class, line 29) `class TestBasicAllow`
+  - `TestShellMetachars` (class, line 45) `class TestShellMetachars`
+  - `TestEmptyInput` (class, line 70) `class TestEmptyInput`
+  - `TestCaseInsensitive` (class, line 92) `class TestCaseInsensitive`
+  - `TestAuditLog` (class, line 101) `class TestAuditLog`
+  - `test_known_command_is_allowed` (method, line 32) `def test_known_command_is_allowed(self)`
+  - `test_unknown_command_is_denied` (method, line 38) `def test_unknown_command_is_denied(self)`
+  - `test_metachar_rejected` (method, line 60) `def test_metachar_rejected(self, payload)`
+  - `test_empty_string_rejected` (method, line 73) `def test_empty_string_rejected(self)`
+  - `test_whitespace_only_rejected` (method, line 79) `def test_whitespace_only_rejected(self)`
+  - `test_non_string_rejected` (method, line 85) `def test_non_string_rejected(self)`
+  - `test_uppercase_token_matches` (method, line 95) `def test_uppercase_token_matches(self)`
+  - `test_audit_log_appends_jsonl` (method, line 104) `def test_audit_log_appends_jsonl(self, tmp_path)`
+  - `test_audit_log_disabled_is_noop` (method, line 116) `def test_audit_log_disabled_is_noop(self, tmp_path)`
+- Depends on: `lazyc2/security/command_allowlist.py`
+
+## tests/test_command_allowlist_behavior.py
+- Doc: BDD behavior scenarios for the command allowlist contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_given_allowlisted_ping_when_checked_then_allowed` (function, line 11) `def test_given_allowlisted_ping_when_checked_then_allowed()`
+  - `test_given_rm_when_checked_then_denied` (function, line 18) `def test_given_rm_when_checked_then_denied()`
+  - `test_given_injection_when_checked_then_denied` (function, line 26) `def test_given_injection_when_checked_then_denied(tmp_path)`
+- Depends on: `lazyc2/security/command_allowlist.py`
+
+## tests/test_command_chain.py
+- Doc: Tests for cli/command_chain.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_svc` (function, line 39) `def _svc(service, port, host, proto)`
+  - `_FakeEngine` (class, line 43) `class _FakeEngine`
+  - `test_normalise_strips_do_prefix_and_extra_tokens` (function, line 71) `def test_normalise_strips_do_prefix_and_extra_tokens()`
+  - `test_prerequisites_known_and_unknown` (function, line 78) `def test_prerequisites_known_and_unknown()`
+  - `test_missing_prerequisites_skips_already_run` (function, line 86) `def test_missing_prerequisites_skips_already_run()`
+  - `test_static_next_registry_uses_killchain_table` (function, line 93) `def test_static_next_registry_uses_killchain_table()`
+  - `test_static_next_registry_phase_priority_fallback` (function, line 101) `def test_static_next_registry_phase_priority_fallback()`
+  - `test_service_next_resolver_maps_known_services_only` (function, line 108) `def test_service_next_resolver_maps_known_services_only()`
+  - `test_service_next_resolver_dedupes_repeated_services` (function, line 118) `def test_service_next_resolver_dedupes_repeated_services()`
+  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 125) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
+  - `test_dynamic_next_resolver_filters_history` (function, line 136) `def test_dynamic_next_resolver_filters_history()`
+  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 143) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
+  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 152) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
+  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 181) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
+  - `test_dynamic_next_resolver_respects_limit` (function, line 189) `def test_dynamic_next_resolver_respects_limit()`
+  - `test_chain_facade_returns_serialisable_view` (function, line 196) `def test_chain_facade_returns_serialisable_view()`
+  - `test_chain_missing_prerequisites_when_history_empty` (function, line 207) `def test_chain_missing_prerequisites_when_history_empty()`
+  - `test_next_step_to_dict_round_trip` (function, line 213) `def test_next_step_to_dict_round_trip()`
+  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 218) `def test_chain_config_defaults_are_isolated_per_instance()`
+  - `__init__` (method, line 46) `def __init__(self, services, addons, tools, history)`
+  - `services` (method, line 58) `def services(self, target)`
+  - `unexplored_addons` (method, line 61) `def unexplored_addons(self, target)`
+  - `unexplored_tools` (method, line 64) `def unexplored_tools(self, target)`
+  - `history` (method, line 67) `def history(self)`
+- Depends on: `cli/command_chain.py`, `cli/exploration.py`
+
+## tests/test_command_form.py
+- Doc: Tests for cli/command_form.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_index` (function, line 23) `def _index()`
+  - `test_fields_default_set_when_command_unknown` (function, line 32) `def test_fields_default_set_when_command_unknown()`
+  - `test_fields_specific_set_for_known_command` (function, line 44) `def test_fields_specific_set_for_known_command()`
+  - `test_initial_values_come_from_payload` (function, line 57) `def test_initial_values_come_from_payload()`
+  - `test_overrides_lists_diverging_field_payload_pairs` (function, line 70) `def test_overrides_lists_diverging_field_payload_pairs()`
+  - `test_overrides_empty_when_values_match_payload` (function, line 84) `def test_overrides_empty_when_values_match_payload()`
+  - `test_verb_line_returns_just_verb_without_extras` (function, line 96) `def test_verb_line_returns_just_verb_without_extras()`
+  - `test_build_command_preview_renders_annotations_and_verb` (function, line 109) `def test_build_command_preview_renders_annotations_and_verb()`
+  - `test_is_valid_true_when_command_known` (function, line 124) `def test_is_valid_true_when_command_known()`
+  - `test_is_valid_false_for_unknown_command` (function, line 136) `def test_is_valid_false_for_unknown_command()`
+  - `test_launch_form_runner_returns_state` (function, line 147) `def test_launch_form_runner_returns_state()`
+  - `test_build_state_loads_from_default_index` (function, line 162) `def test_build_state_loads_from_default_index(monkeypatch)`
+  - `runner` (function, line 151) `def runner(context)`
+- Depends on: `cli/command_form.py`
+
+## tests/test_command_namespace_uniqueness.py
+- Doc: Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_is_command_set` (function, line 19) `def _is_command_set(node)`
+  - `_command_definitions` (function, line 28) `def _command_definitions()`
+  - `test_no_command_defined_by_two_command_sets` (function, line 42) `def test_no_command_defined_by_two_command_sets()`
+
 ## tests/test_command_palette.py
 - Doc: Command palette test suite.
 - Layer: testing
@@ -404,80 +495,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `Bogus` (class, line 262) `class Bogus`
   - `suggest` (method, line 253) `def suggest(self, target, phase, context)`
 - Depends on: `core/config.py`, `core/console.py`, `core/crypto.py`, `core/protocols.py`, `core/validators.py`
-
-## tests/test_core_command_bridge.py
-- Doc: Tests for core.command_bridge — CommandBridge lazy shell facade.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_reset_bridge_singleton` (function, line 16) `def _reset_bridge_singleton()`
-  - `TestCommandBridgeInitialization` (class, line 25) `class TestCommandBridgeInitialization`
-  - `TestCommandBridgeOnecmd` (class, line 51) `class TestCommandBridgeOnecmd`
-  - `TestCommandBridgeOneCmdAlias` (class, line 96) `class TestCommandBridgeOneCmdAlias`
-  - `test_ready_is_false_initially` (method, line 28) `def test_ready_is_false_initially(self)`
-  - `test_error_is_none_initially` (method, line 35) `def test_error_is_none_initially(self)`
-  - `test_get_bridge_returns_same_singleton` (method, line 42) `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)`
-  - `test_empty_command_returns_empty_string` (method, line 54) `def test_empty_command_returns_empty_string(self)`
-  - `test_nonexistent_command_returns_error_string` (method, line 62) `def test_nonexistent_command_returns_error_string(self)`
-  - `test_thread_safety_multiple_threads` (method, line 74) `def test_thread_safety_multiple_threads(self)`
-  - `test_empty_command_returns_empty` (method, line 99) `def test_empty_command_returns_empty(self)`
-  - `test_execute_alias_returns_string` (method, line 107) `def test_execute_alias_returns_string(self)`
-  - `test_nonexistent_lazy_loaded_cmd_returns_error` (method, line 116) `def test_nonexistent_lazy_loaded_cmd_returns_error(self)`
-  - `call_onecmd` (function, line 81) `def call_onecmd()`
-- Depends on: `core/command_bridge.py`
-
-## tests/test_core_config.py
-- Doc: Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestLoadPayload` (class, line 15) `class TestLoadPayload`
-  - `TestSavePayload` (class, line 76) `class TestSavePayload`
-  - `TestConfig` (class, line 99) `class TestConfig`
-  - `TestLoadAndValidate` (class, line 149) `class TestLoadAndValidate`
-  - `test_returns_dict_with_expected_keys` (method, line 18) `def test_returns_dict_with_expected_keys(self, tmp_path)`
-  - `test_roundtrips_values_correctly` (method, line 29) `def test_roundtrips_values_correctly(self, tmp_path)`
-  - `test_handles_malformed_json` (method, line 45) `def test_handles_malformed_json(self, tmp_path)`
-  - `test_copies_from_example_when_payload_missing` (method, line 54) `def test_copies_from_example_when_payload_missing(self, tmp_path)`
-  - `test_raises_when_both_payload_and_example_missing` (method, line 67) `def test_raises_when_both_payload_and_example_missing(self, tmp_path)`
-  - `test_atomic_write_no_leftover_tmp` (method, line 79) `def test_atomic_write_no_leftover_tmp(self, tmp_path)`
-  - `test_creates_parent_directories` (method, line 90) `def test_creates_parent_directories(self, tmp_path)`
-  - `test_attribute_access_for_known_keys` (method, line 102) `def test_attribute_access_for_known_keys(self)`
-  - `test_item_access_for_known_keys` (method, line 111) `def test_item_access_for_known_keys(self)`
-  - `test_unknown_key_returns_none` (method, line 118) `def test_unknown_key_returns_none(self)`
-  - `test_as_params_returns_shallow_copy` (method, line 126) `def test_as_params_returns_shallow_copy(self)`
-  - `test_aes_key_is_resolved_and_hex` (method, line 137) `def test_aes_key_is_resolved_and_hex(self)`
-  - `test_returns_validation_results_dict` (method, line 152) `def test_returns_validation_results_dict(self, tmp_path)`
-  - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
-  - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
-- Depends on: `core/config.py`, `core/payload_schema.py`
-
-## tests/test_core_defaults.py
-- Doc: Build-time defaults are data, not literals.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
-  - `TestLoader` (class, line 28) `class TestLoader`
-  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
-  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
-  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
-  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
-  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
-  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
-  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
-  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
-  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
-  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
-  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
-  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
-  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
-  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
-  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
-  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
-  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
-  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
-- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

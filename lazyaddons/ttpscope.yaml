@@ -34,6 +34,7 @@ description: >
 author: bl4ckr0ss3
 version: 0.1.0
 enabled: true
+update: true
 os: any
 trigger: []
 params:

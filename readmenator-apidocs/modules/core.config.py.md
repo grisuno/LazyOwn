@@ -215,7 +215,7 @@ Validation never raises: problems are collected in the `[`warnings`](cli.doctor.
 
 **Returns:** `dict[str, Any]` - A dict with keys:
 - ``payload`` (``dict``): the loaded configuration dictionary.
-- ``valid`` (``bool``): ``True`` when no errors were found.
+- `[`valid`](modules.playbook_admin.py.md#playbookentry-valid)` (``bool``): ``True`` when no errors were found.
 - `[`warnings`](cli.doctor.py.md#doctorreport-warnings)` (``list[str]``): advisory issues (schema warnings,
   unresolved placeholders, default-looking values).
 - ``errors`` (``list[str]``): blocking issues from schema

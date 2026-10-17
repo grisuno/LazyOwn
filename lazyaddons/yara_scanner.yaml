@@ -8,6 +8,7 @@ module_type: auxiliary
 os: any
 trigger: []
 enabled: true
+update: true
 params:
 - name: rules_dir
   description: Directory containing YARA rule files

@@ -6,6 +6,7 @@ description: CVE-2026-89754 mm LPE by V4bel. OOB write in page table walk via
 author: V4bel
 version: "1.0"
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

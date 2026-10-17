@@ -28,7 +28,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Language: py
 - Symbols:
   - `test_autonomous_flow_integration` (function, line 15) `def test_autonomous_flow_integration()`
-- Depends on: `modules/moe_router.py`, `modules/obs_parser.py`, `modules/session_rag.py`, `modules/world_model.py`
+- Depends on: `modules/moe_router.py`, `modules/obs_parser.py`, `modules/session_rag.py`
 
 ## tests/run_mutation_addon_creator.py
 - Doc: Manual mutation testing runner for the LazyAddon creator contract.
@@ -39,6 +39,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 112) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 125) `def run_tests()`
   - `main` (function, line 140) `def main()`
+
+## tests/run_mutation_addon_updater.py
+- Doc: Mutation runner for the lazyaddon update contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 47) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 57) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 64) `def run_tests()`
+  - `main` (function, line 76) `def main()`
 
 ## tests/run_mutation_api_authz.py
 - Doc: Mutation testing runner for core.api_authz and core.logging.
@@ -67,6 +77,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_run_tests` (function, line 29) `def _run_tests()`
   - `main` (function, line 40) `def main()`
 
+## tests/run_mutation_chain_v2.py
+- Doc: Mutation runner for the chain v2 contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 82) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 92) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 99) `def run_tests()`
+  - `main` (function, line 111) `def main()`
+
 ## tests/run_mutation_contract_manifest.py
 - Doc: Mutation gate for the contract manifest drift checker.
 - Layer: testing
@@ -74,6 +94,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Symbols:
   - `_run_tests` (function, line 35) `def _run_tests()`
   - `main` (function, line 47) `def main()`
+
+## tests/run_mutation_emulation_runner.py
+- Doc: Mutation runner for the emulation-runner contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 54) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 64) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 71) `def run_tests()`
+  - `main` (function, line 83) `def main()`
 
 ## tests/run_mutation_infra_report.py
 - Doc: Mutation runner for the disposable infra and reporting contracts.
@@ -122,6 +152,26 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 68) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 73) `def run_tests()`
   - `main` (function, line 83) `def main()`
+
+## tests/run_mutation_orchestrator_yaml.py
+- Doc: Mutation runner for the orchestrator YAML contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 54) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 64) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 71) `def run_tests()`
+  - `main` (function, line 83) `def main()`
+
+## tests/run_mutation_outcome_bus.py
+- Doc: Mutation runner for the outcome-bus contract.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 47) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 57) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 64) `def run_tests()`
+  - `main` (function, line 76) `def main()`
 
 ## tests/run_mutation_phase1.py
 - Doc: Mutation testing runner for Phase 1 data-gap closure.
@@ -356,6 +406,26 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_tools_creator_template_has_no_broken_js` (method, line 821) `def test_tools_creator_template_has_no_broken_js(self)`
 - Depends on: `lazyc2/addon_creator.py`, `lazyc2/blueprints/addons.py`
 
+## tests/test_addon_updater.py
+- Doc: Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_git` (function, line 17) `def _git(cwd)`
+  - `_repo_with_remote` (function, line 29) `def _repo_with_remote(tmp_path)`
+  - `_addon` (function, line 46) `def _addon(path)`
+  - `test_every_shipped_addon_opts_in` (function, line 62) `def test_every_shipped_addon_opts_in()`
+  - `test_update_disabled_is_skipped` (function, line 69) `def test_update_disabled_is_skipped(tmp_path)`
+  - `test_missing_repo_url_is_skipped` (function, line 77) `def test_missing_repo_url_is_skipped(tmp_path)`
+  - `test_path_traversal_is_rejected` (function, line 85) `def test_path_traversal_is_rejected(tmp_path)`
+  - `test_repository_root_is_rejected` (function, line 93) `def test_repository_root_is_rejected(tmp_path)`
+  - `test_not_installed_is_skipped` (function, line 101) `def test_not_installed_is_skipped(tmp_path)`
+  - `test_fast_forward_update` (function, line 109) `def test_fast_forward_update(tmp_path)`
+  - `test_dirty_worktree_is_skipped` (function, line 124) `def test_dirty_worktree_is_skipped(tmp_path)`
+  - `test_update_all_audits_summary` (function, line 134) `def test_update_all_audits_summary(tmp_path)`
+  - `test_unknown_addon_fails` (function, line 146) `def test_unknown_addon_fails(tmp_path)`
+- Depends on: `modules/addon_updater.py`
+
 ## tests/test_aes_key_propagation.py
 - Doc: TDD tests for the AES key resolution contract.
 - Layer: testing
@@ -399,97 +469,6 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `complete` (method, line 94) `def complete(self, system, user)`
   - `complete` (method, line 107) `def complete(self, system, user)`
 - Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
-
-## tests/test_api_authz.py
-- Doc: Tests for ``core.api_authz`` — tenant-bound API authorization.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestApiAuthzConfig` (class, line 21) `class TestApiAuthzConfig`
-  - `TestApiKey` (class, line 45) `class TestApiKey`
-  - `TestApiKeyStore` (class, line 102) `class TestApiKeyStore`
-  - `TestRequireApiAuth` (class, line 288) `class TestRequireApiAuth`
-  - `TestCreateApiToken` (class, line 377) `class TestCreateApiToken`
-  - `TestEdgeCases` (class, line 423) `class TestEdgeCases`
-  - `test_defaults_are_secure_by_default` (method, line 24) `def test_defaults_are_secure_by_default(self)`
-  - `test_custom_overrides_preserve_typed_semantics` (method, line 32) `def test_custom_overrides_preserve_typed_semantics(self)`
-  - `test_serialization_roundtrip_preserves_all_fields` (method, line 48) `def test_serialization_roundtrip_preserves_all_fields(self)`
-  - `test_detects_expiration_correctly` (method, line 65) `def test_detects_expiration_correctly(self)`
-  - `test_checks_permissions_with_set_operations` (method, line 87) `def test_checks_permissions_with_set_operations(self)`
-  - `_make_store` (method, line 105) `def _make_store(self, tmp_path)`
-  - `test_creates_and_lists_keys_scoped_by_tenant` (method, line 114) `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)`
-  - `test_validates_a_known_key_and_returns_record` (method, line 125) `def test_validates_a_known_key_and_returns_record(self, tmp_path)`
-  - `test_rejects_unknown_key_returning_none` (method, line 133) `def test_rejects_unknown_key_returning_none(self, tmp_path)`
-  - `test_rejects_empty_plaintext_key` (method, line 137) `def test_rejects_empty_plaintext_key(self, tmp_path)`
-  - `test_rejects_expired_key` (method, line 141) `def test_rejects_expired_key(self, tmp_path)`
-  - `test_updates_last_used_on_successful_validation` (method, line 162) `def test_updates_last_used_on_successful_validation(self, tmp_path)`
-  - `test_revokes_key_preventing_future_validation` (method, line 173) `def test_revokes_key_preventing_future_validation(self, tmp_path)`
-  - `test_revocation_is_idempotent` (method, line 179) `def test_revocation_is_idempotent(self, tmp_path)`
-  - `test_enforces_max_keys_per_tenant_raises_value_error` (method, line 183) `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)`
-  - `test_rotates_key_preserving_tenant_label_and_permissions` (method, line 196) `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)`
-  - `test_rotation_copies_permissions_from_the_rotated_key` (method, line 206) `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)`
-  - `test_old_key_stays_valid_during_rotation_grace` (method, line 217) `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)`
-  - `test_old_key_rejected_after_rotation_grace_expires` (method, line 225) `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)`
-  - `test_retired_keys_are_pruned_after_grace_expires` (method, line 240) `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)`
-  - `test_rotation_does_not_grow_active_key_count` (method, line 258) `def test_rotation_does_not_grow_active_key_count(self, tmp_path)`
-  - `test_never_stores_plaintext_token_on_disk` (method, line 275) `def test_never_stores_plaintext_token_on_disk(self, tmp_path)`
-  - `_make_app` (method, line 291) `def _make_app(self, tmp_path)`
-  - `_build_client` (method, line 301) `def _build_client(self, tmp_path, store)`
-  - `test_allows_valid_key_in_bearer_header` (method, line 333) `def test_allows_valid_key_in_bearer_header(self, tmp_path)`
-  - `test_allows_valid_key_in_x_api_key_header` (method, line 340) `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)`
-  - `test_allows_valid_key_in_query_param` (method, line 346) `def test_allows_valid_key_in_query_param(self, tmp_path)`
-  - `test_rejects_missing_key_with_401` (method, line 352) `def test_rejects_missing_key_with_401(self, tmp_path)`
-  - `test_rejects_invalid_key_with_401` (method, line 357) `def test_rejects_invalid_key_with_401(self, tmp_path)`
-  - `test_rejects_key_with_insufficient_permissions_with_403` (method, line 362) `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)`
-  - `test_sets_g_variables_with_api_key_context_on_success` (method, line 368) `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)`
-  - `_make_store` (method, line 380) `def _make_store(self, tmp_path)`
-  - `test_returns_a_validatable_token` (method, line 389) `def test_returns_a_validatable_token(self, tmp_path)`
-  - `test_stores_permissions_on_the_key_record` (method, line 397) `def test_stores_permissions_on_the_key_record(self, tmp_path)`
-  - `test_sets_expiration_when_days_are_provided` (method, line 412) `def test_sets_expiration_when_days_are_provided(self, tmp_path)`
-  - `_make_store` (method, line 426) `def _make_store(self, tmp_path)`
-  - `test_constant_time_comparison_rejects_wrong_secrets` (method, line 435) `def test_constant_time_comparison_rejects_wrong_secrets(self)`
-  - `test_generates_50_unique_tokens_without_collision` (method, line 444) `def test_generates_50_unique_tokens_without_collision(self)`
-  - `test_atomic_write_leaves_no_tmp_files` (method, line 450) `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)`
-  - `secure` (function, line 313) `def secure()`
-  - `g_check` (function, line 318) `def g_check()`
-  - `admin_only` (function, line 328) `def admin_only()`
-- Depends on: `core/api_authz.py`
-
-## tests/test_api_key_resolution.py
-- Doc: API-key resolution contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestApiKeyWiredIntoParams` (class, line 21) `class TestApiKeyWiredIntoParams`
-  - `TestReplaceCommandPlaceholders` (class, line 39) `class TestReplaceCommandPlaceholders`
-  - `test_params_api_key_is_not_hardcoded_none` (method, line 22) `def test_params_api_key_is_not_hardcoded_none(self)`
-  - `test_params_api_key_binds_config_attr` (method, line 28) `def test_params_api_key_binds_config_attr(self)`
-  - `test_class_attribute_api_key_reads_payload` (method, line 34) `def test_class_attribute_api_key_reads_payload(self)`
-  - `test_double_brace_substitution` (method, line 40) `def test_double_brace_substitution(self)`
-  - `test_single_brace_substitution` (method, line 47) `def test_single_brace_substitution(self)`
-  - `test_mixed_braces_in_one_command` (method, line 56) `def test_mixed_braces_in_one_command(self)`
-  - `test_missing_key_left_intact` (method, line 63) `def test_missing_key_left_intact(self)`
-- Depends on: `utils.py`
-
-## tests/test_api_v1.py
-- Doc: Integration tests for the versioned C2 REST API (``/api/v1``).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `api_client` (function, line 23) `def api_client(tmp_path)`
-  - `_auth` (function, line 40) `def _auth(token)`
-  - `test_health_is_public` (function, line 44) `def test_health_is_public(api_client)`
-  - `test_targets_requires_auth` (function, line 51) `def test_targets_requires_auth(api_client)`
-  - `test_targets_empty_workspace` (function, line 56) `def test_targets_empty_workspace(api_client)`
-  - `test_targets_lists_hosts_with_services` (function, line 64) `def test_targets_lists_hosts_with_services(api_client)`
-  - `test_results_empty` (function, line 76) `def test_results_empty(api_client)`
-  - `test_results_per_client` (function, line 82) `def test_results_per_client(api_client)`
-  - `test_campaigns_empty_state` (function, line 95) `def test_campaigns_empty_state(api_client)`
-  - `test_campaigns_reads_state_files` (function, line 101) `def test_campaigns_reads_state_files(api_client)`
-  - `test_webhook_crud` (function, line 109) `def test_webhook_crud(api_client)`
-  - `test_webhook_rejects_bad_url` (function, line 126) `def test_webhook_rejects_bad_url(api_client)`
-  - `test_mutating_endpoints_require_auth` (function, line 134) `def test_mutating_endpoints_require_auth(api_client)`
-- Depends on: `core/api_authz.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_history.py`, `modules/db.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

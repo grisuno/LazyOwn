@@ -19,6 +19,7 @@ description: >
 author: Prowler Cloud / Toni de la Fuente
 version: 4.0.0
 enabled: true
+update: true
 os: iaas
 trigger: []
 params:

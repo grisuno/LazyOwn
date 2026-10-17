@@ -1,5 +1,77 @@
-# Subsystem: modules (page 4 of 14)
+# Subsystem: modules (page 4 of 15)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/delegation_attacks.py
+- Doc: Active Directory delegation enumeration and abuse.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DelegationTarget` (class, line 32) `class DelegationTarget`
+  - `DelegationAttackPath` (class, line 63) `class DelegationAttackPath`
+  - `DelegationEnumerator` (class, line 85) `class DelegationEnumerator`
+  - `__init__` (method, line 98) `def __init__(self, domain, raw_ldap_output)`
+  - `enumerate_from_uac_flags` (method, line 104) `def enumerate_from_uac_flags(self, accounts)`
+  - `parse_bloodhound_output` (method, line 151) `def parse_bloodhound_output(self, bloodhound_json)`
+  - `find_unconstrained_targets` (method, line 181) `def find_unconstrained_targets(self)`
+  - `find_constrained_targets` (method, line 189) `def find_constrained_targets(self)`
+  - `find_rbcd_targets` (method, line 197) `def find_rbcd_targets(self)`
+  - `find_dc_targets` (method, line 205) `def find_dc_targets(self)`
+  - `compute_attack_paths` (method, line 215) `def compute_attack_paths(self)`
+  - `summary` (method, line 296) `def summary(self)`
+- Imported by: `cli/commands/active_directory.py`
+
+## modules/detailed_search.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `obtener_informacion` (function, line 40) `def obtener_informacion(url)`
+
+## modules/detection_feed.py
+- Doc: Dynamic detection feed for the Detection Oracle.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FeedResult` (class, line 64) `class FeedResult`
+  - `DetectionFeed` (class, line 73) `class DetectionFeed`
+  - `get_feed` (function, line 326) `def get_feed()`
+  - `__init__` (method, line 83) `def __init__(self, cache_dir, sources)`
+  - `update_rules` (method, line 92) `def update_rules(self, source)`
+  - `_parse_sigma_feed` (method, line 125) `def _parse_sigma_feed(self, text)`
+  - `_extract_log_source` (method, line 172) `def _extract_log_source(self, doc)`
+  - `_extract_mitre` (method, line 180) `def _extract_mitre(self, doc)`
+  - `_extract_keywords` (method, line 189) `def _extract_keywords(self, doc)`
+  - `_extract_categories` (method, line 206) `def _extract_categories(self, doc)`
+  - `_cache_rules` (method, line 219) `def _cache_rules(self, rules, source)`
+  - `load_cached_rules` (method, line 246) `def load_cached_rules(self, source)`
+  - `adjust_from_feedback` (method, line 270) `def adjust_from_feedback(self, feedback_file)`
+- Depends on: `core/logging.py`, `modules/detection_oracle.py`
+- Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
+
+## modules/detection_oracle.py
+- Doc: modules/detection_oracle.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SigmaRule` (class, line 50) `class SigmaRule`
+  - `DetectionAssessment` (class, line 63) `class DetectionAssessment`
+  - `IDetectionOracle` (class, line 90) `class IDetectionOracle(ABC)`
+  - `DetectionOracle` (class, line 317) `class DetectionOracle(IDetectionOracle)`
+  - `get_oracle` (function, line 478) `def get_oracle()`
+  - `is_high_risk` (method, line 75) `def is_high_risk(self)`
+  - `is_critical_risk` (method, line 80) `def is_critical_risk(self)`
+  - `assess` (method, line 94) `def assess(self, command, args, action_category)`
+  - `probability` (method, line 103) `def probability(self, command, args, action_category)`
+  - `__init__` (method, line 332) `def __init__(self, rules, feed)`
+  - `refresh` (method, line 336) `def refresh(self)`
+  - `assess` (method, line 371) `def assess(self, command, args, action_category)`
+  - `probability` (method, line 392) `def probability(self, command, args, action_category)`
+  - `_match_rules` (method, line 397) `def _match_rules(self, text, action_category)`
+  - `_effective_probability` (method, line 417) `def _effective_probability(rule, action_category)`
+  - `_aggregate_probability` (method, line 427) `def _aggregate_probability(self, matched, action_category)`
+  - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
+- Depends on: `core/logging.py`, `modules/detection_feed.py`
+- Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
 
 ## modules/dns_beacon.py
 - Doc: DNS Beacon — covert C2 channel via DNS tunneling.
@@ -146,6 +218,35 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `show_board` (function, line 40)
   - `move_white_pawns` (function, line 61)
   - `move_black_pawns` (function, line 78)
+
+## modules/emulation_runner.py
+- Doc: Single execution contract for Atomic emulation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EmulationStep` (class, line 28) `class EmulationStep`
+  - `EmulationResult` (class, line 40) `class EmulationResult`
+  - `EmulationReport` (class, line 69) `class EmulationReport`
+  - `EmulationRunner` (class, line 105) `class EmulationRunner`
+  - `to_dict` (method, line 53) `def to_dict(self)`
+  - `executed` (method, line 81) `def executed(self)`
+  - `shell` (method, line 86) `def shell(self)`
+  - `to_dict` (method, line 90) `def to_dict(self)`
+  - `__init__` (method, line 108) `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...`
+  - `_resolver_obj` (method, line 127) `def _resolver_obj(self)`
+  - `_playbook` (method, line 135) `def _playbook(self, name)`
+  - `_open_shell` (method, line 143) `def _open_shell(self, target, services, lhost, exploits_dir)`
+  - `_exec` (method, line 151) `def _exec(self, spec, target, command, lhost)`
+  - `_detect` (method, line 159) `def _detect(self, spec, output)`
+  - `_record` (method, line 170) `def _record(self)`
+  - `techniques_for_playbook` (method, line 182) `def techniques_for_playbook(self, playbook, platform)`
+  - `run` (method, line 202) `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...`
+  - `run_steps` (method, line 321) `def run_steps(self, steps, target, executor, platform, dry_run, source)`
+  - `_run_test` (method, line 399) `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)`
+  - `_publish` (method, line 450) `def _publish(self, result, target, source, dry_run, sessions)`
+  - `_stage` (method, line 482) `def _stage(self, report, sessions)`
+- Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/outcome_bus.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/playbook_engine.py`, `tests/test_emulation_runner.py`
 
 ## modules/engage_summary.py
 - Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
@@ -376,119 +477,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `generate_polymorphic_command` (method, line 334) `def generate_polymorphic_command(self, base_cmd, iterations)`
   - `list_techniques` (method, line 374) `def list_techniques(self)`
 - Imported by: `cli/commands/evasive_payload.py`
-
-## modules/event_bus.py
-- Doc: UnifiedEventBus — central nervous system connecting all LazyOwn components.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
-  - `EventSeverity` (class, line 73) `class EventSeverity(str, Enum)`
-  - `LazyEvent` (class, line 82) `class LazyEvent`
-  - `Sink` (class, line 133) `class Sink(ABC)`
-  - `JsonlSink` (class, line 143) `class JsonlSink(Sink)`
-  - `CollabBusSink` (class, line 163) `class CollabBusSink(Sink)`
-  - `EngagementSink` (class, line 202) `class EngagementSink(Sink)`
-  - `UnifiedEventBus` (class, line 230) `class UnifiedEventBus`
-  - `get_event_bus` (function, line 570) `def get_event_bus()`
-  - `publish_event` (function, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
-  - `to_dict` (method, line 96) `def to_dict(self)`
-  - `to_json` (method, line 111) `def to_json(self)`
-  - `from_dict` (method, line 115) `def from_dict(cls, d)`
-  - `write` (method, line 137) `def write(self, event)`
-  - `close` (method, line 140) `def close(self)`
-  - `__init__` (method, line 146) `def __init__(self, filepath)`
-  - `write` (method, line 151) `def write(self, event)`
-  - `close` (method, line 159) `def close(self)`
-  - `__init__` (method, line 166) `def __init__(self)`
-  - `_bus` (method, line 170) `def _bus(self)`
-  - `write` (method, line 181) `def write(self, event)`
-  - `close` (method, line 198) `def close(self)`
-  - `write` (method, line 205) `def write(self, event)`
-  - `close` (method, line 226) `def close(self)`
-  - `__init__` (method, line 255) `def __init__(self)`
-  - `_init_sinks` (method, line 273) `def _init_sinks(self)`
-  - `instance` (method, line 287) `def instance(cls)`
-  - `subscriber_count` (method, line 295) `def subscriber_count(self)`
-  - `subscribe` (method, line 300) `def subscribe(self, subscriber_id, callback)`
-  - `subscribe_topic` (method, line 305) `def subscribe_topic(self, subscriber_id, topic, callback)`
-  - `subscribe_async` (method, line 315) `def subscribe_async(self, subscriber_id)`
-  - `unsubscribe` (method, line 327) `def unsubscribe(self, subscriber_id)`
-  - `publish` (method, line 336) `def publish(self, event)`
-  - `drain` (method, line 354) `def drain(self)`
-  - `shutdown` (method, line 372) `def shutdown(self)`
-  - `_dispatch_loop` (method, line 416) `def _dispatch_loop(self)`
-  - `_dispatch_event` (method, line 441) `def _dispatch_event(self, event)`
-  - `_notify_shutdown` (method, line 479) `def _notify_shutdown(self)`
-  - `_match_topic` (method, line 517) `def _match_topic(self, topic, event)`
-  - `history` (method, line 556) `def history(self, n, category)`
-  - `history_since` (method, line 564) `def history_since(self, since_ts)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_loop_ai_bridge.py`
-
-## modules/event_consumers.py
-- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `_load_payload` (function, line 43) `def _load_payload()`
-  - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
-  - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
-  - `_update_soul` (function, line 110) `def _update_soul(phase, credentials, access)`
-  - `PhaseTracker` (class, line 146) `class PhaseTracker`
-  - `AutoRecommender` (class, line 201) `class AutoRecommender`
-  - `CredentialReactor` (class, line 272) `class CredentialReactor`
-  - `SoulSync` (class, line 320) `class SoulSync`
-  - `DashboardPusher` (class, line 358) `class DashboardPusher`
-  - `wire_all_consumers` (function, line 380) `def wire_all_consumers(bus)`
-  - `unwire_all_consumers` (function, line 409) `def unwire_all_consumers(bus)`
-  - `__init__` (method, line 156) `def __init__(self)`
-  - `__call__` (method, line 159) `def __call__(self, event)`
-  - `__init__` (method, line 204) `def __init__(self)`
-  - `__call__` (method, line 207) `def __call__(self, event)`
-  - `__call__` (method, line 282) `def __call__(self, event)`
-  - `__call__` (method, line 323) `def __call__(self, event)`
-  - `__call__` (method, line 361) `def __call__(self, event)`
-- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
-
-## modules/event_engine.py
-- Doc: LazyOwn Event Engine
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `load_rules` (function, line 99) `def load_rules()`
-  - `save_rules` (function, line 110) `def save_rules(rules)`
-  - `add_rule` (function, line 114) `def add_rule(rule)`
-  - `_read_watermark` (function, line 130) `def _read_watermark()`
-  - `_write_watermark` (function, line 137) `def _write_watermark(offset)`
-  - `_row_matches` (function, line 144) `def _row_matches(row, trigger)`
-  - `_append_event` (function, line 173) `def _append_event(event)`
-  - `process_new_rows` (function, line 181) `def process_new_rows()`
-  - `read_events` (function, line 250) `def read_events(limit, status)`
-  - `ack_event` (function, line 270) `def ack_event(event_id)`
-- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
-
-## modules/evidence.py
-- Doc: Content-addressed evidence vault independent of disposable traffic.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
-  - `hash_bytes` (function, line 37) `def hash_bytes(data)`
-  - `_validate_hash` (function, line 42) `def _validate_hash(value)`
-  - `EvidenceStore` (class, line 54) `class EvidenceStore`
-  - `__init__` (method, line 57) `def __init__(self, base_dir)`
-  - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
-  - `put` (method, line 70) `def put(self, data)`
-  - `get` (method, line 90) `def get(self, content_hash)`
-  - `exists` (method, line 98) `def exists(self, content_hash)`
-  - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
-- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/evilhttprev.sh
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

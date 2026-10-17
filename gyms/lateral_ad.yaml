@@ -1,0 +1,30 @@
+id: lateral_ad
+name: Lateral Move - Range AD
+description: From the ws01 implant, enumerate the range DC and move laterally with
+  SMB/WinRM techniques.
+scenario: ad-mini
+chain: ''
+objective: Enumerate shares/users on 172.20.0.10 and achieve lateral execution to
+  the DC.
+difficulty: medium
+phases:
+- enum
+- lateral
+- cred
+required_techniques:
+- smb_enum
+- lateral_movement
+bonus_techniques:
+- kerberoast
+- pth
+- bloodhound_enum
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 400
+hints:
+- Use the beacon portscan + smbclient against 172.20.0.10
+- Look for weakRangeAdmin credentials in shares
+- wmiexec/psexec style lateral techniques apply here
+success_check: command execution on the range DC
+elo_bonus: 300

@@ -19,6 +19,7 @@ description: >
 author: NCC Group
 version: 5.14.0
 enabled: true
+update: true
 os: iaas
 trigger: []
 params:

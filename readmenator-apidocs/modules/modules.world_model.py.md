@@ -1,6 +1,6 @@
 # `modules.world_model`
 
-> Source: [modules/world_model.py:1](../../modules/world_model.py#L1) | language `py` | coverage 55.4% | [API index](../index.md)
+> Source: [modules/world_model.py:1](../../modules/world_model.py#L1) | language `py` | coverage 57.6% | [API index](../index.md)
 
 modules/world_model.py ======================= Unified engagement world model for LazyOwn autonomous operations.
 
@@ -37,7 +37,7 @@ Usage
 - **Classes:** [`ServiceInfo`](#serviceinfo), [`CredentialEntry`](#credentialentry), [`VulnerabilityEntry`](#vulnerabilityentry), [`EmailEntry`](#emailentry), [`DomainEntry`](#domainentry), [`NetworkRelation`](#networkrelation), [`NetworkGraph`](#networkgraph), [`HostEntry`](#hostentry), [`WorldModel`](#worldmodel)
 - **Enums:** [`HostState`](#hoststate), [`EngagementPhase`](#engagementphase)
 - **Functions:** [`read_state_dict`](#read_state_dict), [`write_state_dict`](#write_state_dict), [`get_world_model`](#get_world_model)
-- **Constants:** [`ENCRYPTED_SUFFIX`](#encrypted_suffix), [`PHASE_TO_MITRE_TACTICS`](#phase_to_mitre_tactics), [`PHASE_TO_TOOLS`](#phase_to_tools)
+- **Constants:** [`ENCRYPTED_SUFFIX`](#encrypted_suffix), [`PASSTHROUGH_KEYS`](#passthrough_keys), [`PHASE_TO_MITRE_TACTICS`](#phase_to_mitre_tactics), [`PHASE_TO_TOOLS`](#phase_to_tools)
 
 ## Type Diagram
 
@@ -121,6 +121,7 @@ classDiagram
     WorldModel : __init__()
     WorldModel : add_host()
     WorldModel : reset_host()
+    WorldModel : remove_host()
     WorldModel : advance_host()
     WorldModel : add_service()
     WorldModel : add_note()
@@ -141,7 +142,6 @@ classDiagram
     WorldModel : get_phase()
     WorldModel : get_suggested_tools()
     WorldModel : to_context_string()
-    WorldModel : reload()
 ```
 
 ## Call Graph
@@ -207,7 +207,7 @@ flowchart LR
 
 ### `ServiceInfo`
 
-`class` `dataclass` | [modules/world_model.py:179](../../modules/world_model.py#L179)
+`class` `dataclass` | [modules/world_model.py:188](../../modules/world_model.py#L188)
 
 Decorators: `@dataclass`
 
@@ -231,7 +231,7 @@ class ServiceInfo
 
 ### `CredentialEntry`
 
-`class` `dataclass` | [modules/world_model.py:188](../../modules/world_model.py#L188)
+`class` `dataclass` | [modules/world_model.py:197](../../modules/world_model.py#L197)
 
 Decorators: `@dataclass`
 
@@ -255,7 +255,7 @@ class CredentialEntry
 
 ### `VulnerabilityEntry`
 
-`class` `dataclass` | [modules/world_model.py:197](../../modules/world_model.py#L197)
+`class` `dataclass` | [modules/world_model.py:206](../../modules/world_model.py#L206)
 
 Decorators: `@dataclass`
 
@@ -279,7 +279,7 @@ class VulnerabilityEntry
 
 ### `EmailEntry`
 
-`class` `dataclass` | [modules/world_model.py:206](../../modules/world_model.py#L206)
+`class` `dataclass` | [modules/world_model.py:215](../../modules/world_model.py#L215)
 
 Decorators: `@dataclass`
 
@@ -302,7 +302,7 @@ class EmailEntry
 
 ### `DomainEntry`
 
-`class` `dataclass` | [modules/world_model.py:214](../../modules/world_model.py#L214)
+`class` `dataclass` | [modules/world_model.py:223](../../modules/world_model.py#L223)
 
 Decorators: `@dataclass`
 
@@ -325,7 +325,7 @@ class DomainEntry
 
 ### `NetworkRelation`
 
-`class` `dataclass` | [modules/world_model.py:222](../../modules/world_model.py#L222)
+`class` `dataclass` | [modules/world_model.py:231](../../modules/world_model.py#L231)
 
 Decorators: `@dataclass`
 
@@ -357,7 +357,7 @@ Node naming convention:
 
 ### `NetworkGraph`
 
-`class` | [modules/world_model.py:244](../../modules/world_model.py#L244)
+`class` | [modules/world_model.py:253](../../modules/world_model.py#L253)
 
 ```python
 class NetworkGraph
@@ -401,7 +401,7 @@ an ideal pivot candidate for lateral movement.
 
 #### `NetworkGraph.__init__`
 
-`constructor` | [modules/world_model.py:267](../../modules/world_model.py#L267)
+`constructor` | [modules/world_model.py:276](../../modules/world_model.py#L276)
 
 ```python
 def __init__(self) -> None
@@ -413,7 +413,7 @@ def __init__(self) -> None
 
 #### `NetworkGraph.add_relation`
 
-`method` | [modules/world_model.py:274](../../modules/world_model.py#L274)
+`method` | [modules/world_model.py:283](../../modules/world_model.py#L283)
 
 ```python
 def add_relation(self, relation: NetworkRelation) -> None
@@ -435,7 +435,7 @@ Duplicate edges accumulate (multi-graph).
 
 #### `NetworkGraph.neighbors`
 
-`method` | [modules/world_model.py:282](../../modules/world_model.py#L282)
+`method` | [modules/world_model.py:291](../../modules/world_model.py#L291)
 
 ```python
 def neighbors(self, node: str) -> list[str]
@@ -457,7 +457,7 @@ Return nodes reachable from *node* in one outbound hop.
 
 #### `NetworkGraph.in_degree`
 
-`method` | [modules/world_model.py:286](../../modules/world_model.py#L286)
+`method` | [modules/world_model.py:295](../../modules/world_model.py#L295)
 
 ```python
 def in_degree(self, node: str) -> int
@@ -479,7 +479,7 @@ Count edges pointing INTO *node*.
 
 #### `NetworkGraph.out_degree`
 
-`method` | [modules/world_model.py:290](../../modules/world_model.py#L290)
+`method` | [modules/world_model.py:299](../../modules/world_model.py#L299)
 
 ```python
 def out_degree(self, node: str) -> int
@@ -501,7 +501,7 @@ Count edges leaving *node*.
 
 #### `NetworkGraph.degree_centrality`
 
-`method` | [modules/world_model.py:294](../../modules/world_model.py#L294)
+`method` | [modules/world_model.py:303](../../modules/world_model.py#L303)
 
 ```python
 def degree_centrality(self) -> list[tuple]
@@ -521,7 +521,7 @@ Score is normalized to [0.0, 1.0] over all discovered nodes.
 
 #### `NetworkGraph.pivot_candidates`
 
-`method` | [modules/world_model.py:309](../../modules/world_model.py#L309)
+`method` | [modules/world_model.py:318](../../modules/world_model.py#L318)
 
 ```python
 def pivot_candidates(self, top_k: int = 5) -> list[dict]
@@ -547,7 +547,7 @@ The returned list is suitable for injection into an LLM prompt as strategic netw
 
 #### `NetworkGraph.to_dict`
 
-`method` | [modules/world_model.py:331](../../modules/world_model.py#L331)
+`method` | [modules/world_model.py:340](../../modules/world_model.py#L340)
 
 ```python
 def to_dict(self) -> dict
@@ -561,7 +561,7 @@ def to_dict(self) -> dict
 
 #### `NetworkGraph.from_dict`
 
-`classmethod` | [modules/world_model.py:348](../../modules/world_model.py#L348)
+`classmethod` | [modules/world_model.py:357](../../modules/world_model.py#L357)
 
 Decorators: `@classmethod`
 
@@ -587,7 +587,7 @@ def from_dict(cls, data: dict) -> NetworkGraph
 
 ### `HostEntry`
 
-`class` `dataclass` | [modules/world_model.py:364](../../modules/world_model.py#L364)
+`class` `dataclass` | [modules/world_model.py:373](../../modules/world_model.py#L373)
 
 Decorators: `@dataclass`
 
@@ -620,7 +620,7 @@ class HostEntry
 
 #### `HostEntry.add_service`
 
-`method` | [modules/world_model.py:373](../../modules/world_model.py#L373)
+`method` | [modules/world_model.py:382](../../modules/world_model.py#L382)
 
 ```python
 def add_service(self, svc: ServiceInfo) -> None
@@ -636,7 +636,7 @@ def add_service(self, svc: ServiceInfo) -> None
 
 #### `HostEntry.advance`
 
-`method` | [modules/world_model.py:377](../../modules/world_model.py#L377)
+`method` | [modules/world_model.py:386](../../modules/world_model.py#L386)
 
 ```python
 def advance(self, new_state: HostState) -> bool
@@ -660,7 +660,7 @@ Returns True if changed.
 
 #### `HostEntry.to_dict`
 
-`method` | [modules/world_model.py:385](../../modules/world_model.py#L385)
+`method` | [modules/world_model.py:394](../../modules/world_model.py#L394)
 
 ```python
 def to_dict(self) -> dict
@@ -672,7 +672,7 @@ def to_dict(self) -> dict
 
 #### `HostEntry.from_dict`
 
-`classmethod` | [modules/world_model.py:397](../../modules/world_model.py#L397)
+`classmethod` | [modules/world_model.py:406](../../modules/world_model.py#L406)
 
 Decorators: `@classmethod`
 
@@ -696,7 +696,7 @@ def from_dict(cls, d: dict) -> HostEntry
 
 ### `WorldModel`
 
-`class` | [modules/world_model.py:541](../../modules/world_model.py#L541)
+`class` | [modules/world_model.py:550](../../modules/world_model.py#L550)
 
 ```python
 class WorldModel
@@ -714,6 +714,7 @@ Persists state to sessions/world_model.json on every mutation.
 | [`__init__`](#worldmodel-__init__) | constructor |  |
 | [`add_host`](#worldmodel-add_host) | method |  |
 | [`reset_host`](#worldmodel-reset_host) | method | Clear a single host's state back to UNSCANNED for a fresh scan. |
+| [`remove_host`](#worldmodel-remove_host) | method | Remove one host from the model and persist the change. |
 | [`advance_host`](#worldmodel-advance_host) | method |  |
 | [`add_service`](#worldmodel-add_service) | method |  |
 | [`add_note`](#worldmodel-add_note) | method |  |
@@ -737,12 +738,14 @@ Persists state to sessions/world_model.json on every mutation.
 | [`reload`](#worldmodel-reload) | method | Discard in-memory state and re-read from the persisted file. |
 | [`reset`](#worldmodel-reset) | method | Clear all state and delete the persisted file. |
 | [`snapshot`](#worldmodel-snapshot) | method | Return a plain-dict snapshot (for JSON serialisation). |
+| [`read_section`](#worldmodel-read_section) | method | Return one allowlisted passthrough section. |
+| [`write_section`](#worldmodel-write_section) | method | Persist one allowlisted passthrough section atomically. |
 
 <a id="worldmodel-__init__"></a>
 
 #### `WorldModel.__init__`
 
-`constructor` | [modules/world_model.py:549](../../modules/world_model.py#L549)
+`constructor` | [modules/world_model.py:558](../../modules/world_model.py#L558)
 
 ```python
 def __init__(self, path: str | Path = _DEFAULT_PATH) -> None
@@ -762,7 +765,7 @@ def __init__(self, path: str | Path = _DEFAULT_PATH) -> None
 
 #### `WorldModel.add_host`
 
-`method` | [modules/world_model.py:565](../../modules/world_model.py#L565)
+`method` | [modules/world_model.py:574](../../modules/world_model.py#L574)
 
 ```python
 def add_host(self, ip: str) -> HostEntry
@@ -784,7 +787,7 @@ def add_host(self, ip: str) -> HostEntry
 
 #### `WorldModel.reset_host`
 
-`method` | [modules/world_model.py:573](../../modules/world_model.py#L573)
+`method` | [modules/world_model.py:582](../../modules/world_model.py#L582)
 
 ```python
 def reset_host(self, ip: str) -> None
@@ -802,11 +805,31 @@ Retains other hosts.
 
 *Calls:* [`HostEntry`](#hostentry)
 
+<a id="worldmodel-remove_host"></a>
+
+#### `WorldModel.remove_host`
+
+`method` | [modules/world_model.py:592](../../modules/world_model.py#L592)
+
+```python
+def remove_host(self, ip: str) -> bool
+```
+
+Remove one host from the model and persist the change.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `ip` | `str` |  | Host address to remove. |
+
+**Returns:** `bool` - True when the host existed and was removed.
+
 <a id="worldmodel-advance_host"></a>
 
 #### `WorldModel.advance_host`
 
-`method` | [modules/world_model.py:583](../../modules/world_model.py#L583)
+`method` | [modules/world_model.py:608](../../modules/world_model.py#L608)
 
 ```python
 def advance_host(self, ip: str, new_state: HostState) -> bool
@@ -827,7 +850,7 @@ def advance_host(self, ip: str, new_state: HostState) -> bool
 
 #### `WorldModel.add_service`
 
-`method` | [modules/world_model.py:592](../../modules/world_model.py#L592)
+`method` | [modules/world_model.py:617](../../modules/world_model.py#L617)
 
 ```python
 def add_service(self, ip: str, port: int, name: str = '', version: str = '', protocol: str = 'tcp') -> None
@@ -851,7 +874,7 @@ def add_service(self, ip: str, port: int, name: str = '', version: str = '', pro
 
 #### `WorldModel.add_note`
 
-`method` | [modules/world_model.py:609](../../modules/world_model.py#L609)
+`method` | [modules/world_model.py:634](../../modules/world_model.py#L634)
 
 ```python
 def add_note(self, ip: str, note: str) -> None
@@ -872,7 +895,7 @@ def add_note(self, ip: str, note: str) -> None
 
 #### `WorldModel.set_os_hint`
 
-`method` | [modules/world_model.py:616](../../modules/world_model.py#L616)
+`method` | [modules/world_model.py:641](../../modules/world_model.py#L641)
 
 ```python
 def set_os_hint(self, ip: str, os_hint: str) -> None
@@ -895,7 +918,7 @@ Set the operating system hint for a host.
 
 #### `WorldModel.get_host`
 
-`method` | [modules/world_model.py:630](../../modules/world_model.py#L630)
+`method` | [modules/world_model.py:655](../../modules/world_model.py#L655)
 
 ```python
 def get_host(self, ip: str) -> HostEntry | None
@@ -915,7 +938,7 @@ Return a host entry by IP, or None if not found.
 
 #### `WorldModel.get_hosts_summary`
 
-`method` | [modules/world_model.py:642](../../modules/world_model.py#L642)
+`method` | [modules/world_model.py:667](../../modules/world_model.py#L667)
 
 ```python
 def get_hosts_summary(self) -> dict[str, str]
@@ -929,7 +952,7 @@ Return a mapping of IP -> state for all tracked hosts.
 
 #### `WorldModel.add_credential`
 
-`method` | [modules/world_model.py:653](../../modules/world_model.py#L653)
+`method` | [modules/world_model.py:678](../../modules/world_model.py#L678)
 
 ```python
 def add_credential(self, value: str, host: str = '', service: str = '') -> None
@@ -951,7 +974,7 @@ def add_credential(self, value: str, host: str = '', service: str = '') -> None
 
 #### `WorldModel.link_credential_to_success`
 
-`method` | [modules/world_model.py:685](../../modules/world_model.py#L685)
+`method` | [modules/world_model.py:710](../../modules/world_model.py#L710)
 
 ```python
 def link_credential_to_success(self, value: str, host: str) -> None
@@ -972,7 +995,7 @@ Mark a credential as working for a specific host in the graph.
 
 #### `WorldModel.link_credential_to_failure`
 
-`method` | [modules/world_model.py:706](../../modules/world_model.py#L706)
+`method` | [modules/world_model.py:731](../../modules/world_model.py#L731)
 
 ```python
 def link_credential_to_failure(self, value: str, host: str) -> None
@@ -999,7 +1022,7 @@ proven not to work against a host.
 
 #### `WorldModel.add_vulnerability`
 
-`method` | [modules/world_model.py:736](../../modules/world_model.py#L736)
+`method` | [modules/world_model.py:761](../../modules/world_model.py#L761)
 
 ```python
 def add_vulnerability(self, description: str, host: str = '', cve: str = '', severity: str = 'UNKNOWN') -> None
@@ -1022,7 +1045,7 @@ def add_vulnerability(self, description: str, host: str = '', cve: str = '', sev
 
 #### `WorldModel.add_email`
 
-`method` | [modules/world_model.py:742](../../modules/world_model.py#L742)
+`method` | [modules/world_model.py:767](../../modules/world_model.py#L767)
 
 ```python
 def add_email(self, address: str, host: str = '', context: str = '') -> None
@@ -1044,7 +1067,7 @@ def add_email(self, address: str, host: str = '', context: str = '') -> None
 
 #### `WorldModel.add_domain`
 
-`method` | [modules/world_model.py:748](../../modules/world_model.py#L748)
+`method` | [modules/world_model.py:773](../../modules/world_model.py#L773)
 
 ```python
 def add_domain(self, domain: str, host: str = '', context: str = '') -> None
@@ -1066,7 +1089,7 @@ def add_domain(self, domain: str, host: str = '', context: str = '') -> None
 
 #### `WorldModel.update_from_findings`
 
-`method` | [modules/world_model.py:762](../../modules/world_model.py#L762)
+`method` | [modules/world_model.py:787](../../modules/world_model.py#L787)
 
 ```python
 def update_from_findings(self, findings: list) -> None
@@ -1088,7 +1111,7 @@ Each finding updates the relevant part of the world model.
 
 #### `WorldModel.consume_policy_facts`
 
-`method` | [modules/world_model.py:835](../../modules/world_model.py#L835)
+`method` | [modules/world_model.py:860](../../modules/world_model.py#L860)
 
 ```python
 def consume_policy_facts(self, facts_path: str | Path | None = None) -> int
@@ -1114,7 +1137,7 @@ total number of new facts ingested.
 
 #### `WorldModel.add_relation`
 
-`method` | [modules/world_model.py:927](../../modules/world_model.py#L927)
+`method` | [modules/world_model.py:952](../../modules/world_model.py#L952)
 
 ```python
 def add_relation(self, source: str, target: str, relation: str, weight: float = 1.0, **attributes: str) -> None
@@ -1138,7 +1161,7 @@ Add an arbitrary directed relationship to the network graph.
 
 #### `WorldModel.pivot_candidates`
 
-`method` | [modules/world_model.py:948](../../modules/world_model.py#L948)
+`method` | [modules/world_model.py:973](../../modules/world_model.py#L973)
 
 ```python
 def pivot_candidates(self, top_k: int = 5) -> list[dict]
@@ -1162,7 +1185,7 @@ Uses normalized degree centrality over the full network graph.
 
 #### `WorldModel.graph_snapshot`
 
-`method` | [modules/world_model.py:956](../../modules/world_model.py#L956)
+`method` | [modules/world_model.py:981](../../modules/world_model.py#L981)
 
 ```python
 def graph_snapshot(self) -> dict
@@ -1178,7 +1201,7 @@ Return the full network graph as a serialisable dict.
 
 #### `WorldModel.get_phase`
 
-`method` | [modules/world_model.py:963](../../modules/world_model.py#L963)
+`method` | [modules/world_model.py:988](../../modules/world_model.py#L988)
 
 ```python
 def get_phase(self) -> EngagementPhase
@@ -1192,7 +1215,7 @@ def get_phase(self) -> EngagementPhase
 
 #### `WorldModel.get_suggested_tools`
 
-`method` | [modules/world_model.py:967](../../modules/world_model.py#L967)
+`method` | [modules/world_model.py:992](../../modules/world_model.py#L992)
 
 ```python
 def get_suggested_tools(self) -> list[str]
@@ -1208,7 +1231,7 @@ def get_suggested_tools(self) -> list[str]
 
 #### `WorldModel.to_context_string`
 
-`method` | [modules/world_model.py:970](../../modules/world_model.py#L970)
+`method` | [modules/world_model.py:995](../../modules/world_model.py#L995)
 
 ```python
 def to_context_string(self) -> str
@@ -1226,7 +1249,7 @@ Designed to fit in a prompt without consuming excessive tokens.
 
 #### `WorldModel.reload`
 
-`method` | [modules/world_model.py:1078](../../modules/world_model.py#L1078)
+`method` | [modules/world_model.py:1103](../../modules/world_model.py#L1103)
 
 ```python
 def reload(self) -> None
@@ -1243,7 +1266,7 @@ load to guarantee a consistent snapshot.
 
 #### `WorldModel.reset`
 
-`method` | [modules/world_model.py:1094](../../modules/world_model.py#L1094)
+`method` | [modules/world_model.py:1119](../../modules/world_model.py#L1119)
 
 ```python
 def reset(self) -> None
@@ -1255,7 +1278,7 @@ Clear all state and delete the persisted file.
 
 #### `WorldModel.snapshot`
 
-`method` | [modules/world_model.py:1105](../../modules/world_model.py#L1105)
+`method` | [modules/world_model.py:1130](../../modules/world_model.py#L1130)
 
 ```python
 def snapshot(self) -> dict
@@ -1267,6 +1290,55 @@ Return a plain-dict snapshot (for JSON serialisation).
 
 *Calls:* [`NetworkGraph.pivot_candidates`](#networkgraph-pivot_candidates), [`WorldModel.get_phase`](#worldmodel-get_phase)
 
+<a id="worldmodel-read_section"></a>
+
+#### `WorldModel.read_section`
+
+`method` | [modules/world_model.py:1146](../../modules/world_model.py#L1146)
+
+```python
+def read_section(self, key: str) -> Any
+```
+
+Return one allowlisted passthrough section.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `key` | `str` |  | Section name from [`PASSTHROUGH_KEYS`](#passthrough_keys). |
+
+**Returns:** `Any` - A deep copy of the stored value, or ``None``.
+
+**Raises**
+
+- `KeyError`: The section is not allowlisted.
+
+<a id="worldmodel-write_section"></a>
+
+#### `WorldModel.write_section`
+
+`method` | [modules/world_model.py:1163](../../modules/world_model.py#L1163)
+
+```python
+def write_section(self, key: str, value: Any) -> bool
+```
+
+Persist one allowlisted passthrough section atomically.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `key` | `str` |  | Section name from [`PASSTHROUGH_KEYS`](#passthrough_keys). |
+| `value` | `Any` |  | JSON-serializable value. |
+
+**Returns:** `bool` - True when the state was written.
+
+**Raises**
+
+- `KeyError`: The section is not allowlisted.
+
 ---
 
 ## Enums
@@ -1275,7 +1347,7 @@ Return a plain-dict snapshot (for JSON serialisation).
 
 ### `HostState`
 
-`enum` | [modules/world_model.py:151](../../modules/world_model.py#L151)
+`enum` | [modules/world_model.py:160](../../modules/world_model.py#L160)
 
 ```python
 class HostState(StrEnum)
@@ -1306,7 +1378,7 @@ Ordered engagement states for a single host.
 
 #### `HostState.rank`
 
-`method` | [modules/world_model.py:160](../../modules/world_model.py#L160)
+`method` | [modules/world_model.py:169](../../modules/world_model.py#L169)
 
 ```python
 def rank(self) -> int
@@ -1320,7 +1392,7 @@ def rank(self) -> int
 
 #### `HostState.can_advance_to`
 
-`method` | [modules/world_model.py:163](../../modules/world_model.py#L163)
+`method` | [modules/world_model.py:172](../../modules/world_model.py#L172)
 
 ```python
 def can_advance_to(self, next_state: HostState) -> bool
@@ -1342,7 +1414,7 @@ def can_advance_to(self, next_state: HostState) -> bool
 
 ### `EngagementPhase`
 
-`enum` | [modules/world_model.py:167](../../modules/world_model.py#L167)
+`enum` | [modules/world_model.py:176](../../modules/world_model.py#L176)
 
 ```python
 class EngagementPhase(StrEnum)
@@ -1371,7 +1443,7 @@ Derived from the aggregate host state across all targets.
 
 ### `read_state_dict`
 
-`function` | [modules/world_model.py:72](../../modules/world_model.py#L72)
+`function` | [modules/world_model.py:81](../../modules/world_model.py#L81)
 
 ```python
 def read_state_dict(path: str | Path) -> dict
@@ -1402,7 +1474,7 @@ Returns an empty dict when no readable state exists.
 
 ### `write_state_dict`
 
-`function` | [modules/world_model.py:118](../../modules/world_model.py#L118)
+`function` | [modules/world_model.py:127](../../modules/world_model.py#L127)
 
 ```python
 def write_state_dict(path: str | Path, data: dict) -> bool
@@ -1431,7 +1503,7 @@ at-rest encryption is applied on application close by
 
 ### `get_world_model`
 
-`function` | [modules/world_model.py:1126](../../modules/world_model.py#L1126)
+`function` | [modules/world_model.py:1191](../../modules/world_model.py#L1191)
 
 ```python
 def get_world_model(path: str | Path | None = None) -> WorldModel
@@ -1453,7 +1525,7 @@ that reassign ``_DEFAULT_PATH`` to redirect state get the redirect.
 
 *Calls:* [`WorldModel.__init__`](#worldmodel-__init__)
 
-*Called by:* [`HelpUiCommandSet.do_killchain`](cli.commands.help_ui.py.md#helpuicommandset-do_killchain), [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`loot_mark`](cli.ops_commands.py.md#loot_mark), [`record_outcome`](modules.atomic_exploit_bridge.py.md#record_outcome), [`IntelligenceEngine.disseminate`](modules.intelligence_engine.py.md#intelligenceengine-disseminate), [`KillChain.advance_phase`](modules.killchain.py.md#killchain-advance_phase), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`fuse_routing_decisions`](modules.lazy_intel.py.md#fuse_routing_decisions), [`OperationManager.start`](modules.operation.py.md#operationmanager-start)
+*Called by:* [`HelpUiCommandSet.do_killchain`](cli.commands.help_ui.py.md#helpuicommandset-do_killchain), [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`loot_mark`](cli.ops_commands.py.md#loot_mark), [`record_shell_outcome`](modules.atomic_exploit_bridge.py.md#record_shell_outcome), [`IntelligenceEngine.disseminate`](modules.intelligence_engine.py.md#intelligenceengine-disseminate), [`KillChain.advance_phase`](modules.killchain.py.md#killchain-advance_phase), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`fuse_routing_decisions`](modules.lazy_intel.py.md#fuse_routing_decisions), [`OperationManager.start`](modules.operation.py.md#operationmanager-start), [`apply`](modules.sinks.world_model.py.md#apply)
 
 ---
 
@@ -1463,10 +1535,22 @@ that reassign ``_DEFAULT_PATH`` to redirect state get the redirect.
 
 ### `ENCRYPTED_SUFFIX`
 
-`constant` | [modules/world_model.py:54](../../modules/world_model.py#L54)
+`constant` | [modules/world_model.py:55](../../modules/world_model.py#L55)
 
 ```python
 ENCRYPTED_SUFFIX: str = '.encrypted'
+```
+
+---
+
+<a id="passthrough_keys"></a>
+
+### `PASSTHROUGH_KEYS`
+
+`constant` | [modules/world_model.py:58](../../modules/world_model.py#L58)
+
+```python
+PASSTHROUGH_KEYS: tuple[str, ...] = ('completed_phases', 'phase', 'current_phase', 'notes', 'gyms')
 ```
 
 ---
@@ -1475,7 +1559,7 @@ ENCRYPTED_SUFFIX: str = '.encrypted'
 
 ### `PHASE_TO_MITRE_TACTICS`
 
-`constant` | [modules/world_model.py:443](../../modules/world_model.py#L443)
+`constant` | [modules/world_model.py:452](../../modules/world_model.py#L452)
 
 ```python
 PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]]
@@ -1487,7 +1571,7 @@ PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]]
 
 ### `PHASE_TO_TOOLS`
 
-`constant` | [modules/world_model.py:458](../../modules/world_model.py#L458)
+`constant` | [modules/world_model.py:467](../../modules/world_model.py#L467)
 
 ```python
 PHASE_TO_TOOLS: dict[EngagementPhase, list[str]]

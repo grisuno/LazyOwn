@@ -735,7 +735,7 @@ This is a convenience factory. The caller is responsible for calling
 
 *Calls:* [`LazyOwnDB.__init__`](#lazyowndb-__init__)
 
-*Called by:* [`check_calls`](scripts.devtools.core_smoke.py.md#check_calls)
+*Called by:* [`apply`](modules.sinks.campaign_db.py.md#apply), [`check_calls`](scripts.devtools.core_smoke.py.md#check_calls)
 
 ---
 

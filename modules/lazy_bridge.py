@@ -311,11 +311,65 @@ def pull_findings_to_lifecycle() -> dict:
     return summary
 
 
-def pull_traffic_to_recorder() -> dict:
-    """Mirror LAZY traffic logs into LazyOwn traffic recorder index.
+def _read_new_traffic(path: Path, offset: int) -> tuple[list[tuple[dict, int]], int]:
+    """Read complete JSONL rows starting at a byte offset.
+
+    Args:
+        path: Traffic log file.
+        offset: Last committed byte offset.
 
     Returns:
-        Summary with mirrored count.
+        Tuple of ``[(row, end_offset), ...]`` and the offset of the last
+        complete line consumed. A partial trailing line is left for the
+        next sync so a crashed writer cannot lose data.
+    """
+    try:
+        if not path.is_file() or path.stat().st_size <= offset:
+            return [], offset
+        with path.open("rb") as handle:
+            handle.seek(max(0, offset))
+            chunk = handle.read()
+    except OSError:
+        return [], offset
+    rows: list[tuple[dict, int]] = []
+    line_start = max(0, offset)
+    for line in chunk.splitlines(keepends=True):
+        end = line_start + len(line)
+        if not line.endswith(b"\n"):
+            break
+        try:
+            raw = json.loads(line)
+        except ValueError:
+            line_start = end
+            continue
+        if isinstance(raw, dict):
+            rows.append((raw, end))
+        line_start = end
+    return rows, line_start
+
+
+def _notify(progress, text: str) -> None:
+    """Call an optional progress callback without letting it break the sync."""
+    if progress is None:
+        return
+    try:
+        progress(text)
+    except Exception:
+        pass
+
+
+def pull_traffic_to_recorder(progress=None) -> dict:
+    """Mirror new LAZY traffic rows into the LazyOwn recorder index.
+
+    The byte offset per task is persisted in ``lazy_bridge_sync.json`` so
+    repeated syncs stay proportional to new activity instead of replaying
+    the whole transcript (which used to stall the loop watchdog).
+
+    Args:
+        progress: Optional callback receiving short progress strings.
+
+    Returns:
+        Summary with mirrored count and byte offsets committed.
     """
     from modules.traffic_recorder import TrafficRecorder as _Recorder
 
@@ -323,21 +377,52 @@ def pull_traffic_to_recorder() -> dict:
         recorder = _Recorder(SESSIONS_DIR / "traffic")
     except Exception:
         return {"mirrored": 0, "error": "recorder unavailable"}
-    mirrored = 0
-    for task_id in lazy_tasks():
-        for row in lazy_traffic(task_id):
-            command = str(row.get("command", ""))
-            output = str(row.get("output", ""))
-            if not command:
-                continue
+    state = _read_json(SESSIONS_DIR / SYNC_FILENAME, {})
+    cursor = state.get("pull_traffic_offsets", {}) if isinstance(state, dict) else {}
+    raw_offsets = cursor.get("summary", {}) if isinstance(cursor, dict) else {}
+    offsets: dict[str, int] = {}
+    if isinstance(raw_offsets, dict):
+        for task_id, value in raw_offsets.items():
             try:
-                recorder.record("GET", f"lazy://{task_id}/{mirrored}",
-                                200, command.encode()[:1000], output.encode()[:4000])
-                mirrored += 1
-            except Exception:
+                offsets[str(task_id)] = max(0, int(value))
+            except (TypeError, ValueError):
                 continue
+    tasks = lazy_tasks()
+    mirrored = 0
+    for task_id in tasks:
+        path = _data_dir() / f"traffic_{task_id}.jsonl"
+        start = offsets.get(task_id, 0)
+        rows, next_offset = _read_new_traffic(path, start)
+        if not rows:
+            offsets[task_id] = next_offset
+            continue
+        _notify(progress, f"traffic {task_id}: {len(rows)} new row(s)")
+        committed = start
+        for row, end_offset in rows:
+            command = str(row.get("command", ""))
+            if not command:
+                committed = end_offset
+                continue
+            output = str(row.get("output", ""))
+            try:
+                recorder.record(
+                    "GET",
+                    f"lazy://{task_id}/{mirrored}",
+                    200,
+                    command.encode()[:1000],
+                    output.encode()[:4000],
+                    task=task_id,
+                )
+            except Exception:
+                break
+            mirrored += 1
+            committed = end_offset
+            if mirrored % 50 == 0:
+                _notify(progress, f"traffic mirrored={mirrored}")
+        offsets[task_id] = committed
     summary = {"mirrored": mirrored}
     _record_sync("pull_traffic", summary)
+    _record_sync("pull_traffic_offsets", offsets)
     return summary
 
 
@@ -431,17 +516,28 @@ def push_tasks_to_c2(only: list[str] | None = None) -> dict:
     return {"created": created, "updated": updated}
 
 
-def sync_all() -> dict:
+def sync_all(progress=None) -> dict:
     """Run full bidirectional pull plus lifecycle, traffic and board mirror.
+
+    Args:
+        progress: Optional callback receiving one short string before each
+            stage and during traffic mirroring so the loop watchdog sees
+            progress on large stores.
 
     Returns:
         Combined sync summary.
     """
+    _notify(progress, "sync: world model")
     world = pull_to_world_model()
+    _notify(progress, "sync: objectives")
     objectives = pull_to_objectives()
+    _notify(progress, "sync: findings")
     findings = pull_findings_to_lifecycle()
-    traffic = pull_traffic_to_recorder()
+    _notify(progress, "sync: traffic")
+    traffic = pull_traffic_to_recorder(progress=progress)
+    _notify(progress, "sync: c2 board")
     c2_tasks = push_tasks_to_c2()
+    _notify(progress, "sync: done")
     return {"world": world, "objectives": objectives,
             "findings": findings, "traffic": traffic, "c2_tasks": c2_tasks}
 

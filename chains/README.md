@@ -3,8 +3,9 @@
 One YAML per orchestration chain — the same philosophy as `lazyaddons/`
 (one file per tool) and `exploits/` (one file per exploit). A chain is
 an ordered step list the loop and operators run with a single command
-(`apt_chain apt_rocke 172.17.0.2`). Editing the chain means editing the
-file, never Python: reorder, skip, or add steps declaratively.
+(`apt_chain apt_rocke 172.17.0.2`). `chain list [filter]` prints every
+chain with state, resolved steps and playbook. Editing the chain means
+editing the file, never Python: reorder, skip, or add steps declaratively.
 
 Per-APT chains (`apt_rocke.yaml`, `apt_apt29.yaml`, ...) inherit the
 base `apt_chain.yaml` through `extends:` and only pin the playbook
@@ -25,32 +26,69 @@ python3 -c "from modules.chain_registry import load_all; print(load_all())"
 
 ```yaml
 name: apt_chain              # ^[a-z][a-z0-9_]{0,63}$; MUST equal filename
+version: 2                   # 1 or 2; omitted means 1
 description: What the chain does.
+tags: [apt, linux]           # operator filters
+platforms: [linux]           # victim platforms
 defaults:                    # token defaults; CLI args override
   playbook: rocke
-steps:                       # executed in order through the shell
-  - run: assign target {target}
-  - run: lazynmap {target}
+vars:                        # chain-local variables
+  sleep: "2"
+steps:                       # executed in order through the runner
+  - id: scope                # stable id for audit and capture
+    phase: recon
+    description: Bind the target.
+    run: assign target {target}
+  - id: scan
+    phase: recon
+    run: lazynmap {target}
     skip_if_exists: sessions/scan_{target}.nmap.xml
-  - run: atomic_exploit
-  - run: apt_playbook validate {playbook}
-  - run: apt_playbook run {playbook}
-  - run: attack_plan {plan_file}
-    resolve_newest:          # glob newest match into a token before running
+    timeout: 900
+    retries: 0
+  - id: sweep
+    phase: exploit
+    run: atomic_exploit
+    when: playbook != ""     # safe expression over names
+    continue_on_error: false
+    capture: sweep_output
+    expect: "SHELL"
+    artifacts: [sessions/atomic_exploit_{target}_*.json]
+    sinks: [world_model, intel_graph, c2_surfaces]
+  - id: plan
+    phase: exploit
+    run: attack_plan {plan_file}
+    resolve_newest:
       glob: playbooks/attack_plan_*.yaml
       as: plan_file
 ```
 
-Tokens: `{playbook}`, `{target}`, plus any token a `resolve_newest`
-step defines. `skip_if_exists` (tokens allowed) skips the step when the
-file already exists — how expensive steps like full scans stay
-idempotent. Steps run through the shell so every entry must be a
-routable command (`is_routable_command`); unknown verbs abort the
-chain loudly instead of running halfway.
+Tokens: `{playbook}`, `{target}`, plus any token an earlier `capture`
+or `resolve_newest` step defines. `when` accepts names, strings,
+`and`, `or`, `not`, `==`, `!=`, `in`, `not in`; it never evaluates
+Python calls or attributes. `skip_if_exists` (tokens allowed) skips the
+step when the file already exists. `timeout` is seconds (0 uses the
+runner default), `retries` is 0-5, and `continue_on_error` keeps the
+chain moving after a failure. `capture` stores stripped output (up to
+2000 chars) for later steps. `expect` fails the step when the text is
+missing. `artifacts` and `sinks` travel in the result for reporting and
+the outcome bus.
+
+Steps run through `modules/chain_runner.py`. A first token that matches
+a live shell verb (for example `assign`, `lazynmap`, `lazy_sync`) goes
+through cmd2; any other command, including
+`python3 modules/atomic_exploit_bridge.py ...`, runs through the shared
+safe subprocess primitive so output can be captured for `expect` and
+`capture`. cmd2 verbs stay on the calling thread, which is required for
+interactive verbs such as `atomic_shell --interactive`; raw commands run
+with a timeout and a non-zero exit aborts the step. The loop can still
+inject its own executor.
+Use `apt_chain <chain> <target> --dry-run` to validate resolution and
+conditions without executing anything.
 
 - `extends: <parent>` inherits the parent's steps; own `steps` replace
-  them wholesale when present, `defaults` merge over the parent's.
-  Cycles and unknown parents fail validation and never load.
+  them wholesale when present, `defaults`, `vars`, `tags` and
+  `platforms` merge over the parent's. Cycles and unknown parents fail
+  validation and never load.
 - `enabled: false` unregisters the file without deleting it; the
   orchestrator Chains tab flips this flag, and `scan_all` still lists
   disabled files so they can be re-enabled.

@@ -18,6 +18,7 @@ description: >
 author: Aqua Security
 version: 1.0.0
 enabled: true
+update: true
 os: iaas
 trigger: []
 params:

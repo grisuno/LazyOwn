@@ -1,5 +1,134 @@
-# Subsystem: modules (page 6 of 14)
+# Subsystem: modules (page 6 of 15)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
+
+## modules/hive_invoke.py
+- Doc: modules/hive_invoke.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
+  - `_find_claude` (function, line 115) `def _find_claude()`
+  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
+  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
+  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
+  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
+  - `main` (function, line 255) `def main(argv)`
+- Depends on: `modules/toposwarm_bridge.py`
+
+## modules/hostdiscover.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `extract_ips_from_arp` (function, line 21)
+  - `extract_listening_ips_from_netstat` (function, line 26)
+
+## modules/ia_code_analysis.py
+- Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
+  - `analyze_with_deepseek` (function, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
+  - `save_results_to_json` (function, line 123) `def save_results_to_json(results, file_path)`
+  - `start_analysis` (function, line 169) `def start_analysis(code_dir, mode)`
+  - `parse_args` (function, line 178) `def parse_args()`
+  - `__init__` (method, line 33) `def __init__(self, mode)`
+  - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
+  - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+## modules/ia_logs_analysis.py
+- Doc: Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: GPL v3...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
+  - `analyze_with_deepseek` (function, line 94) `def analyze_with_deepseek(log_content, mode)`
+  - `start_monitoring` (function, line 147) `def start_monitoring(log_dir, mode)`
+  - `parse_args` (function, line 168) `def parse_args()`
+  - `__init__` (method, line 59) `def __init__(self, mode)`
+  - `on_modified` (method, line 64) `def on_modified(self, event)`
+  - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+## modules/ia_network_analysis.py
+- Doc: Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: GPL v3  Descripción: Bot de monitoreo de...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
+  - `packet_callback` (function, line 91) `def packet_callback(packet, mode)`
+  - `start_monitoring` (function, line 130) `def start_monitoring(interface, timeout, mode)`
+  - `parse_args` (function, line 154) `def parse_args()`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+## modules/icmp_client.py
+- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `encrypt_data` (function, line 18) `def encrypt_data(data, key)`
+  - `decrypt_data` (function, line 34) `def decrypt_data(data, key)`
+  - `check_sudo` (function, line 57) `def check_sudo()`
+  - `checksum` (function, line 64) `def checksum(source_string)`
+  - `send_icmp_packet` (function, line 82) `def send_icmp_packet(dest_addr, data, key)`
+  - `receive_icmp_reply` (function, line 117) `def receive_icmp_reply(sock)`
+  - `main` (function, line 130) `def main()`
+
+## modules/icmp_server.py
+- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 44) `def check_sudo()`
+  - `encrypt_data` (function, line 55) `def encrypt_data(data, key)`
+  - `decrypt_data` (function, line 71) `def decrypt_data(data, key)`
+  - `execute_command` (function, line 93) `def execute_command(command)`
+  - `send_icmp_reply` (function, line 112) `def send_icmp_reply(sock, addr, data, key)`
+  - `checksum` (function, line 132) `def checksum(source_string)`
+  - `handle_packet` (function, line 150) `def handle_packet(packet, addr, key, sock)`
+  - `listen_for_icmp` (function, line 175) `def listen_for_icmp(interface, key)`
+  - `main` (function, line 202) `def main()`
+- Depends on: `core/logging.py`, `modules/logging_config.py`
+- Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+
+## modules/img2bin.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `imagen_a_binario` (function, line 7) `def imagen_a_binario(imagen_input, binario_output, block_size)`
+  - `main` (function, line 43) `def main()`
+
+## modules/intel_fusion.py
+- Doc: Sessions attack-intel fusion: data -> information -> intelligence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_family_color` (function, line 95) `def _family_color(name)`
+  - `node_id` (function, line 106) `def node_id(kind, value)`
+  - `_load_json` (function, line 112) `def _load_json(path, default)`
+  - `_read_lines` (function, line 122) `def _read_lines(path, limit)`
+  - `_host_mentions` (function, line 139) `def _host_mentions(text)`
+  - `_file_pagerank` (function, line 146) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
+  - `build_intel_graph` (function, line 176) `def build_intel_graph(sessions_dir, est_cap)`
+  - `_node_doc` (function, line 390) `def _node_doc(node)`
+  - `_symbol_list` (function, line 413) `def _symbol_list(node)`
+  - `_enrich_readmenator_fields` (function, line 428) `def _enrich_readmenator_fields(nodes, edges)`
+  - `group_colors` (function, line 512) `def group_colors(graph)`
+  - `page_settings` (function, line 528) `def page_settings(graph)`
+  - `build_analytics` (function, line 585) `def build_analytics(graph, summary)`
+  - `_fibonacci_sphere` (function, line 610) `def _fibonacci_sphere(count)`
+  - `_split_caps` (function, line 626) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `_unit` (function, line 651) `def _unit(vec)`
+  - `build_bundle_payload` (function, line 659) `def build_bundle_payload(graph)`
+  - `bundle_settings` (function, line 769) `def bundle_settings(graph)`
+  - `assign_layout` (function, line 800) `def assign_layout(graph, mode)`
+  - `write_summary` (function, line 865) `def write_summary(graph, sessions_dir)`
+  - `add_node` (function, line 183) `def add_node(kind, value, label)`
+  - `add_edge` (function, line 197) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag_source` (function, line 205) `def tag_source(nid, source)`
+- Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
+- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 
 ## modules/intelligence_engine.py
 - Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
@@ -244,7 +373,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `KillChainConfig` (class, line 38) `class KillChainConfig`
   - `PhaseStatus` (class, line 136) `class PhaseStatus`
   - `KillChain` (class, line 145) `class KillChain`
-  - `get_killchain` (function, line 440) `def get_killchain()`
+  - `get_killchain` (function, line 453) `def get_killchain()`
   - `world_model_path` (method, line 116) `def world_model_path(self)`
   - `phase_index` (method, line 120) `def phase_index(self, phase)`
   - `is_valid_phase` (method, line 127) `def is_valid_phase(self, phase)`
@@ -256,14 +385,14 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `engagement_phase_to_cli` (method, line 179) `def engagement_phase_to_cli(engagement_value)`
   - `cli_phase_to_host_state` (method, line 191) `def cli_phase_to_host_state(phase)`
   - `current_phase` (method, line 204) `def current_phase(world_model_path)`
-  - `advance_phase` (method, line 251) `def advance_phase(new_phase, world_model_path)`
-  - `get_progress` (method, line 315) `def get_progress(world_model_path)`
-  - `compact_progress` (method, line 364) `def compact_progress(current_phase, phases_entered)`
-  - `phases_for_display` (method, line 384) `def phases_for_display()`
-  - `phase_index` (method, line 395) `def phase_index(phase)`
-  - `snapshot` (method, line 400) `def snapshot(world_model_path)`
+  - `advance_phase` (method, line 251) `def advance_phase(new_phase, world_model_path, host)`
+  - `get_progress` (method, line 328) `def get_progress(world_model_path)`
+  - `compact_progress` (method, line 377) `def compact_progress(current_phase, phases_entered)`
+  - `phases_for_display` (method, line 397) `def phases_for_display()`
+  - `phase_index` (method, line 408) `def phase_index(phase)`
+  - `snapshot` (method, line 413) `def snapshot(world_model_path)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/atomic_exploit_bridge.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -332,11 +461,13 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `pull_to_world_model` (function, line 206) `def pull_to_world_model()`
   - `pull_to_objectives` (function, line 251) `def pull_to_objectives()`
   - `pull_findings_to_lifecycle` (function, line 286) `def pull_findings_to_lifecycle()`
-  - `pull_traffic_to_recorder` (function, line 314) `def pull_traffic_to_recorder()`
-  - `push_objective_to_lazy` (function, line 344) `def push_objective_to_lazy(goal, scope)`
-  - `push_tasks_to_c2` (function, line 369) `def push_tasks_to_c2(only)`
-  - `sync_all` (function, line 434) `def sync_all()`
-  - `_record_sync` (function, line 449) `def _record_sync(action, summary)`
+  - `_read_new_traffic` (function, line 314) `def _read_new_traffic(path, offset)`
+  - `_notify` (function, line 351) `def _notify(progress, text)`
+  - `pull_traffic_to_recorder` (function, line 361) `def pull_traffic_to_recorder(progress)`
+  - `push_objective_to_lazy` (function, line 429) `def push_objective_to_lazy(goal, scope)`
+  - `push_tasks_to_c2` (function, line 454) `def push_tasks_to_c2(only)`
+  - `sync_all` (function, line 519) `def sync_all(progress)`
+  - `_record_sync` (function, line 545) `def _record_sync(action, summary)`
 - Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
 - Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_lazy_loop.py`
 
@@ -360,51 +491,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `set_full_cli` (function, line 242) `def set_full_cli(enabled)`
 - Depends on: `core/config.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_intel.py`, `modules/lazy_orchestrator_feedback.py`
-
-## modules/lazy_engine.py
-- Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyEngine` (class, line 55) `class LazyEngine(LazyLoopEngine)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`
-
-## modules/lazy_installer.py
-- Doc: Capability installer for the Lazy autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `installer_enabled` (function, line 41) `def installer_enabled()`
-  - `set_installer_enabled` (function, line 58) `def set_installer_enabled(enabled)`
-  - `install_command_for` (function, line 70) `def install_command_for(tool)`
-  - `intent_for` (function, line 75) `def intent_for(tool)`
-  - `tool_from_intent` (function, line 80) `def tool_from_intent(text)`
-  - `steps_for_install` (function, line 88) `def steps_for_install(text)`
-- Depends on: `core/config.py`, `modules/auto_registry.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`
-
-## modules/lazy_intel.py
-- Doc: Intel feed from the Lazy autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_now` (function, line 30) `def _now()`
-  - `_log_path` (function, line 35) `def _log_path()`
-  - `_mask` (function, line 41) `def _mask(text)`
-  - `_append` (function, line 70) `def _append(record)`
-  - `infer_source` (function, line 79) `def infer_source(command, intent_text)`
-  - `describe_command` (function, line 105) `def describe_command(command)`
-  - `record_routing_decision` (function, line 120) `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)`
-  - `record_routing_outcome` (function, line 160) `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)`
-  - `read_decisions` (function, line 202) `def read_decisions(task_id, limit)`
-  - `mask_configured` (function, line 228) `def mask_configured(text)`
-  - `stack_signature` (function, line 254) `def stack_signature(assets)`
-  - `_is_ip_literal` (function, line 274) `def _is_ip_literal(value)`
-  - `fuse_routing_decisions` (function, line 285) `def fuse_routing_decisions(task_id)`
-  - `export_spans` (function, line 324) `def export_spans(task_id, out)`
-- Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `tests/test_loop_supervision.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

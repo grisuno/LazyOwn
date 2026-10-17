@@ -257,6 +257,22 @@ class TestKillChainAdvancePhase:
             assert host is not None
             assert host.state == HostState.SCANNED
 
+    def test_advance_with_host_does_not_touch_unrelated_hosts(self):
+        import modules.world_model as wm_mod
+
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "world_model.json"
+            wm_mod._DEFAULT_PATH = path
+            from modules.world_model import HostState, get_world_model
+
+            wm = get_world_model(path=path)
+            wm.add_host("172.17.0.2")
+            wm.add_host("127.0.0.1")
+            result = KillChain.advance_phase("privesc", world_model_path=path, host="172.17.0.2")
+            assert result is True
+            assert wm.get_host("172.17.0.2").state == HostState.OWNED
+            assert wm.get_host("127.0.0.1").state == HostState.UNSCANNED
+
     def test_advance_does_not_downgrade_cached_world_model_state(self):
         import modules.world_model as wm_mod
 

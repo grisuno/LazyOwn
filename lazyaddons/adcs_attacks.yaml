@@ -10,6 +10,7 @@ trigger:
 - ldap
 - microsoft-ds
 enabled: true
+update: true
 params:
 - name: username
   description: Domain username for authentication

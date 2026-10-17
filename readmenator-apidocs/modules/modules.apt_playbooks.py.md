@@ -273,7 +273,7 @@ def __init__(self, playbook_dir: str = 'playbooks')
 |---|---|---|---|
 | `playbook_dir` | `str` | `'playbooks'` |  |
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain), [`LazyOrchestratorApp.playbook_candidates`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_candidates)
 
 <a id="aptplaybookengine-list_playbooks"></a>
 
@@ -287,7 +287,7 @@ def list_playbooks(self) -> list[dict[str, Any]]
 
 **Returns:** `list[dict[str, Any]]`
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.playbook_candidates`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_candidates)
 
 <a id="aptplaybookengine-get"></a>
 
@@ -307,7 +307,7 @@ def get(self, name: str) -> AptPlaybook | None
 
 **Returns:** `AptPlaybook | None`
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.chain_steps_preview`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_steps_preview), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain), [`emulate`](modules.atomic_exploit_bridge.py.md#emulate)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain)
 
 <a id="aptplaybookengine-validate"></a>
 

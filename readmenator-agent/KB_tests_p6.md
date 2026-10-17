@@ -1,6 +1,80 @@
 # Subsystem: tests (page 6 of 17)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_core_command_bridge.py
+- Doc: Tests for core.command_bridge — CommandBridge lazy shell facade.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_reset_bridge_singleton` (function, line 16) `def _reset_bridge_singleton()`
+  - `TestCommandBridgeInitialization` (class, line 25) `class TestCommandBridgeInitialization`
+  - `TestCommandBridgeOnecmd` (class, line 51) `class TestCommandBridgeOnecmd`
+  - `TestCommandBridgeOneCmdAlias` (class, line 96) `class TestCommandBridgeOneCmdAlias`
+  - `test_ready_is_false_initially` (method, line 28) `def test_ready_is_false_initially(self)`
+  - `test_error_is_none_initially` (method, line 35) `def test_error_is_none_initially(self)`
+  - `test_get_bridge_returns_same_singleton` (method, line 42) `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)`
+  - `test_empty_command_returns_empty_string` (method, line 54) `def test_empty_command_returns_empty_string(self)`
+  - `test_nonexistent_command_returns_error_string` (method, line 62) `def test_nonexistent_command_returns_error_string(self)`
+  - `test_thread_safety_multiple_threads` (method, line 74) `def test_thread_safety_multiple_threads(self)`
+  - `test_empty_command_returns_empty` (method, line 99) `def test_empty_command_returns_empty(self)`
+  - `test_execute_alias_returns_string` (method, line 107) `def test_execute_alias_returns_string(self)`
+  - `test_nonexistent_lazy_loaded_cmd_returns_error` (method, line 116) `def test_nonexistent_lazy_loaded_cmd_returns_error(self)`
+  - `call_onecmd` (function, line 81) `def call_onecmd()`
+- Depends on: `core/command_bridge.py`
+
+## tests/test_core_config.py
+- Doc: Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLoadPayload` (class, line 15) `class TestLoadPayload`
+  - `TestSavePayload` (class, line 76) `class TestSavePayload`
+  - `TestConfig` (class, line 99) `class TestConfig`
+  - `TestLoadAndValidate` (class, line 149) `class TestLoadAndValidate`
+  - `test_returns_dict_with_expected_keys` (method, line 18) `def test_returns_dict_with_expected_keys(self, tmp_path)`
+  - `test_roundtrips_values_correctly` (method, line 29) `def test_roundtrips_values_correctly(self, tmp_path)`
+  - `test_handles_malformed_json` (method, line 45) `def test_handles_malformed_json(self, tmp_path)`
+  - `test_copies_from_example_when_payload_missing` (method, line 54) `def test_copies_from_example_when_payload_missing(self, tmp_path)`
+  - `test_raises_when_both_payload_and_example_missing` (method, line 67) `def test_raises_when_both_payload_and_example_missing(self, tmp_path)`
+  - `test_atomic_write_no_leftover_tmp` (method, line 79) `def test_atomic_write_no_leftover_tmp(self, tmp_path)`
+  - `test_creates_parent_directories` (method, line 90) `def test_creates_parent_directories(self, tmp_path)`
+  - `test_attribute_access_for_known_keys` (method, line 102) `def test_attribute_access_for_known_keys(self)`
+  - `test_item_access_for_known_keys` (method, line 111) `def test_item_access_for_known_keys(self)`
+  - `test_unknown_key_returns_none` (method, line 118) `def test_unknown_key_returns_none(self)`
+  - `test_as_params_returns_shallow_copy` (method, line 126) `def test_as_params_returns_shallow_copy(self)`
+  - `test_aes_key_is_resolved_and_hex` (method, line 137) `def test_aes_key_is_resolved_and_hex(self)`
+  - `test_returns_validation_results_dict` (method, line 152) `def test_returns_validation_results_dict(self, tmp_path)`
+  - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
+  - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
+- Depends on: `core/config.py`, `core/payload_schema.py`
+
+## tests/test_core_defaults.py
+- Doc: Build-time defaults are data, not literals.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
+  - `TestLoader` (class, line 28) `class TestLoader`
+  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
+  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
+  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
+  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
+  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
+  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
+  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
+  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
+  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
+  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
+  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
+  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
+  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
+  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
+  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
+  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
+  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
+  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
+- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
+
 ## tests/test_core_executor.py
 - Doc: Tests for core.executor — safe_run and run_shell subprocess wrappers.
 - Layer: testing
@@ -122,7 +196,7 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `_User` (class, line 295) `class _User(UserMixin)`
   - `load_user` (function, line 305) `def load_user(user_id)`
   - `__init__` (method, line 296) `def __init__(self, uid)`
-- Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/config_store.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_parquet_db.py`
+- Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/config_store.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_parquet_db.py`
 
 ## tests/test_cors_behavior.py
 - Doc: BDD behavior scenarios for the CORS policy contract.
@@ -411,68 +485,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
   - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
 - Depends on: `cli/dashboard_tui.py`
-
-## tests/test_db.py
-- Doc: Tests for modules.db — LazyOwnDB SQLite layer.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `fresh_db` (function, line 20) `def fresh_db()`
-  - `TestLazyOwnDB` (class, line 28) `class TestLazyOwnDB`
-  - `test_initial_schema` (method, line 29) `def test_initial_schema(self, fresh_db)`
-  - `test_workspace_create_and_list` (method, line 46) `def test_workspace_create_and_list(self, fresh_db)`
-  - `test_duplicate_workspace_returns_negative_one` (method, line 54) `def test_duplicate_workspace_returns_negative_one(self, fresh_db)`
-  - `test_host_crud` (method, line 60) `def test_host_crud(self, fresh_db)`
-  - `test_host_upsert_updates_existing` (method, line 73) `def test_host_upsert_updates_existing(self, fresh_db)`
-  - `test_service_crud` (method, line 82) `def test_service_crud(self, fresh_db)`
-  - `test_credential_storage` (method, line 94) `def test_credential_storage(self, fresh_db)`
-  - `test_csv_export` (method, line 105) `def test_csv_export(self, fresh_db)`
-  - `test_nmap_xml_import` (method, line 114) `def test_nmap_xml_import(self, fresh_db, tmp_path)`
-  - `test_workspace_delete` (method, line 144) `def test_workspace_delete(self, fresh_db)`
-  - `test_loot_and_notes` (method, line 151) `def test_loot_and_notes(self, fresh_db)`
-- Depends on: `modules/db.py`
-
-## tests/test_dependencies.py
-- Doc: Tests for ``core.dependencies`` graceful optional-import handling.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_run_in_subprocess` (function, line 59) `def _run_in_subprocess(snippet)`
-  - `TestMissingDependencyError` (class, line 82) `class TestMissingDependencyError`
-  - `TestOptionalImportPresent` (class, line 102) `class TestOptionalImportPresent`
-  - `TestOptionalImportAbsent` (class, line 113) `class TestOptionalImportAbsent`
-  - `TestOptionalAttr` (class, line 146) `class TestOptionalAttr`
-  - `TestRegistry` (class, line 170) `class TestRegistry`
-  - `TestProbe` (class, line 204) `class TestProbe`
-  - `TestReport` (class, line 220) `class TestReport`
-  - `TestUtilsIntegration` (class, line 255) `class TestUtilsIntegration`
-  - `test_message_contains_pip_command` (method, line 85) `def test_message_contains_pip_command(self)`
-  - `test_attributes_are_exposed` (method, line 92) `def test_attributes_are_exposed(self)`
-  - `test_is_import_error_subclass` (method, line 98) `def test_is_import_error_subclass(self)`
-  - `test_returns_real_module` (method, line 105) `def test_returns_real_module(self)`
-  - `test_truthy_when_present` (method, line 109) `def test_truthy_when_present(self)`
-  - `test_returns_falsy_proxy` (method, line 116) `def test_returns_falsy_proxy(self)`
-  - `test_attribute_access_raises` (method, line 120) `def test_attribute_access_raises(self)`
-  - `test_call_raises` (method, line 125) `def test_call_raises(self)`
-  - `test_subscription_raises` (method, line 130) `def test_subscription_raises(self)`
-  - `test_iteration_raises` (method, line 135) `def test_iteration_raises(self)`
-  - `test_len_raises` (method, line 140) `def test_len_raises(self)`
-  - `test_returns_real_attribute` (method, line 149) `def test_returns_real_attribute(self)`
-  - `test_submodule_fallback` (method, line 153) `def test_submodule_fallback(self)`
-  - `test_missing_module_returns_proxy` (method, line 157) `def test_missing_module_returns_proxy(self)`
-  - `test_missing_attribute_returns_proxy` (method, line 163) `def test_missing_attribute_returns_proxy(self)`
-  - `test_every_spec_is_fully_populated` (method, line 173) `def test_every_spec_is_fully_populated(self)`
-  - `test_lazily_bound_dependency_is_registered` (method, line 200) `def test_lazily_bound_dependency_is_registered(self, import_name)`
-  - `test_present_dependency` (method, line 207) `def test_present_dependency(self)`
-  - `test_absent_dependency` (method, line 213) `def test_absent_dependency(self)`
-  - `test_collect_returns_report` (method, line 223) `def test_collect_returns_report(self)`
-  - `test_missing_and_ok_consistency` (method, line 228) `def test_missing_and_ok_consistency(self)`
-  - `test_ok_report_has_no_missing` (method, line 235) `def test_ok_report_has_no_missing(self)`
-  - `test_format_report_renders_markers` (method, line 241) `def test_format_report_renders_markers(self)`
-  - `test_main_returns_exit_code` (method, line 250) `def test_main_returns_exit_code(self)`
-  - `test_symbol_is_exported` (method, line 259) `def test_symbol_is_exported(self, name)`
-  - `test_is_binary_present_uses_path_lookup` (method, line 265) `def test_is_binary_present_uses_path_lookup(self)`
-- Depends on: `core/dependencies.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

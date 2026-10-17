@@ -69,7 +69,7 @@ Bounded, thread-safe-ish ring buffer of events with Qt signalling.
 |---|---|---|
 | [`__init__`](#eventlog-__init__) | constructor | Initialise the buffer using ``constants.event_log.max_records``. |
 | [`capacity`](#eventlog-capacity) | property | Maximum number of records retained before the oldest is dropped. |
-| [`append`](#eventlog-append) | method | Append `[`record`](modules.finding_lifecycle.py.md#record)` and emit `[`record_appended`](#eventlog-record_appended)`. |
+| [`append`](#eventlog-append) | method | Append ``record`` and emit `[`record_appended`](#eventlog-record_appended)`. |
 | [`extend`](#eventlog-extend) | method | Append every entry in ``records`` in iteration order. |
 | [`clear`](#eventlog-clear) | method | Drop all stored records and emit `[`cleared`](#eventlog-cleared)`. |
 | [`snapshot`](#eventlog-snapshot) | method | Return a defensive tuple, optionally filtered by `[`minimum_level`](lazygui.widgets.event_log_view.py.md#eventlogview-minimum_level)`. |
@@ -121,7 +121,7 @@ Maximum number of records retained before the oldest is dropped.
 def append(self, record: EventRecord) -> None
 ```
 
-Append `[`record`](modules.finding_lifecycle.py.md#record)` and emit `[`record_appended`](#eventlog-record_appended)`.
+Append ``record`` and emit `[`record_appended`](#eventlog-record_appended)`.
 
 **Parameters**
 

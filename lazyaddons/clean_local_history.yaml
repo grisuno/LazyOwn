@@ -4,6 +4,7 @@ description: 'Clean all history files a cross the shells Bash, Zsh, Tcsh, Fish, 
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: file
   type: string

@@ -10,6 +10,7 @@ description: >
 author: peass-ng
 version: "1.0"
 enabled: true
+update: true
 os: iaas
 trigger: []
 category: "17. Cloud Attacks"

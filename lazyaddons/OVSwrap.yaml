@@ -5,6 +5,7 @@ description: ' OVSwrap (CVE-2026-64531) is a non-universal (but broad) Linux LPE
 author: manizada
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

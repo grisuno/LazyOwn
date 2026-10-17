@@ -129,7 +129,7 @@ every command a phase, category, and summary.
 | `index_data` | `dict[str, Any]` |  | The parsed command_index.json content. |
 
 **Returns:** `dict[str, dict[str, Any]]` - Dict mapping ``do_<name>`` to a metadata dict with keys:
-``phase``, ``summary``, ``source_file``.
+``phase``, `[`summary`](modules.metasploitable_gym.py.md#summary)`, ``source_file``.
 
 *Called by:* [`main`](#main)
 

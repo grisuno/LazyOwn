@@ -153,7 +153,7 @@ One actionable suggestion in a [`ReconPlan`](#reconplan).
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| [`kind`](#reconplanitem-kind) | `str` |  | One of ``addon``, ``tool``, ``command``, ``note``. |
+| [`kind`](#reconplanitem-kind) | `str` |  | One of ``addon``, ``tool``, ``command``, `[`note`](modules.emulation_runner.py.md#emulationresult-note)`. |
 | [`name`](#reconplanitem-name) | `str` |  | Identifier of the addon, tool or CLI verb. |
 | [`service`](#reconplanitem-service) | `str` |  | ``service:port/proto`` label that triggered the item, or an empty string for phase-priority command suggestions. |
 | [`trigger_match`](#reconplanitem-trigger_match) | `str` |  | Comma-separated trigger keywords that matched. |

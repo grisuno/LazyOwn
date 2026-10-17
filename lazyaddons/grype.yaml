@@ -8,6 +8,7 @@ description: >
 author: Anchore
 version: 0.78.0
 enabled: true
+update: true
 os: any
 trigger: []
 params:

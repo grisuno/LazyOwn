@@ -9,6 +9,7 @@ description: >
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params: []
 os: linux
 trigger: []

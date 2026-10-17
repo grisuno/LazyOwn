@@ -6,6 +6,7 @@ description: CVE-2026-98385 scheduler LPE by V4bel. mm_struct UAF in scheduler
 author: V4bel
 version: "1.0"
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

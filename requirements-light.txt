@@ -153,7 +153,7 @@ pdf2image==1.17.0
 persistent==6.5
 pexpect==4.9.0
 pillow==12.3.0
-pip-api==0.0.34
+pip-api==0.0.35
 pip-requirements-parser==32.0.1
 platformdirs==4.11.4
 pluggy==1.6.0

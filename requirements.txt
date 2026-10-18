@@ -260,7 +260,7 @@ ZConfig==4.3
 zdaemon==5.2.1
 ZEO==6.2
 ZODB3==3.11.0
-ZODB==6.3
+ZODB==6.4
 zodbpickle==4.3
 zodburi==2.6.0
 zope.deferredimport==6.1.1

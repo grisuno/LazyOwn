@@ -118,7 +118,7 @@ matplotlib-inline==0.2.2
 matplotlib==3.10.9
 mdit-py-plugins==0.6.0
 mdurl==0.1.2
-mcp==2.1.1
+mcp==2.3.0
 mcp-types==2.1.1
 minidump==0.0.24
 minikerberos==0.4.9

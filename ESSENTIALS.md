@@ -129,6 +129,24 @@ instead of failing silently.
 | `dashboard` | TUI with target, phase, commands, hints |
 | `collab_join alice` | Team dashboard URL |
 
+### I want to practice — the Metasploitable 2 gym
+
+| Command | What it does |
+|---------|-------------|
+| `lab start metasploitable` | Spin up the lab container and apply the gym migrations automatically (core daemons, open X display, anonymous FTP, vulnerable CGI, mutillidae database, DVWA DOM page) |
+| `assign rhost <container-ip>` | Point the framework at the lab |
+| `gym_ms2 chains` | List the 45 shipped vectors with their exploit and chain ids |
+| `apt_chain gym_metasploitable_ms2_dvwa_sqli --target <ip> --json` | Run one vector end to end; outcome lands in `sessions/outcomes.jsonl` |
+| `gym start metasploitable_full_chain` | Start the scored gym run (ELO) |
+| `gym status` / `gym top` | Track active runs / leaderboard |
+
+42 of the 45 vectors yield a shell on the lab; `ms2_dns_recursion`,
+`ms2_nfs_exports` and `ms2_rlogin_trust` are blocked by Docker itself.
+Three vectors (`ms2_dvwa_xss_dom`, `ms2_twiki_xss`,
+`ms2_mutillidae_csrf`) drive a real headless Chromium session — they
+need `sudo apt install -y chromium chromium-driver python3-selenium`.
+Full setup guide: `docs/gym-setup.md`.
+
 ---
 
 ## The Three Rules

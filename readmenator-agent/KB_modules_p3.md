@@ -6,48 +6,104 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ChainStep` (class, line 47) `class ChainStep`
-  - `Chain` (class, line 73) `class Chain`
-  - `_render` (function, line 136) `def _render(template, variables)`
-  - `_when_tree` (function, line 165) `def _when_tree(expression)`
-  - `evaluate_when` (function, line 192) `def evaluate_when(expression, variables)`
-  - `validate_chain` (function, line 257) `def validate_chain(data, filename, chains_dir)`
-  - `load_all` (function, line 334) `def load_all(chains_dir)`
-  - `_materialize` (function, line 368) `def _materialize(name, raw, stack)`
-  - `_step_from_raw` (function, line 412) `def _step_from_raw(item)`
-  - `get` (function, line 434) `def get(name, chains_dir)`
-  - `scan_all` (function, line 439) `def scan_all(chains_dir)`
-  - `set_enabled` (function, line 498) `def set_enabled(name, enabled, chains_dir)`
-  - `generate_for_playbook` (function, line 521) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
-  - `identifier` (method, line 67) `def identifier(self)`
-  - `resolve` (method, line 88) `def resolve(self, tokens)`
-  - `_eval` (function, line 214) `def _eval(node)`
+  - `ChainStep` (class, line 55) `class ChainStep`
+  - `Chain` (class, line 88) `class Chain`
+  - `_render` (function, line 159) `def _render(template, variables)`
+  - `_when_tree` (function, line 188) `def _when_tree(expression)`
+  - `evaluate_when` (function, line 215) `def evaluate_when(expression, variables)`
+  - `validate_chain` (function, line 280) `def validate_chain(data, filename, chains_dir)`
+  - `render_text_token_braces` (function, line 403) `def render_text_token_braces(text)`
+  - `load_all` (function, line 408) `def load_all(chains_dir)`
+  - `_materialize` (function, line 442) `def _materialize(name, raw, stack)`
+  - `_step_from_raw` (function, line 487) `def _step_from_raw(item)`
+  - `get` (function, line 520) `def get(name, chains_dir)`
+  - `scan_all` (function, line 525) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 584) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 607) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `identifier` (method, line 82) `def identifier(self)`
+  - `resolve` (method, line 104) `def resolve(self, tokens)`
+  - `_eval` (function, line 237) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/lazy_orchestrator.py`, `modules/chain_runner.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_metasploitable_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/lazy_orchestrator.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `StepOutcome` (class, line 34) `class StepOutcome`
-  - `ChainRunResult` (class, line 72) `class ChainRunResult`
-  - `render_text` (function, line 103) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 111) `class ChainRunner`
-  - `ok` (method, line 50) `def ok(self)`
-  - `to_dict` (method, line 54) `def to_dict(self)`
-  - `to_dict` (method, line 86) `def to_dict(self)`
-  - `__init__` (method, line 114) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff)`
-  - `run` (method, line 135) `def run(self)`
-  - `_render_command` (method, line 169) `def _render_command(self, template, variables, captured_keys)`
-  - `_run_step` (method, line 184) `def _run_step(self, step, variables, captured_keys)`
-  - `_execute` (method, line 251) `def _execute(self, command, timeout)`
-  - `_is_verb` (method, line 265) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 276) `def _run_shell_verb(self, command)`
-  - `_run_raw` (method, line 294) `def _run_raw(self, command, timeout)`
-  - `_call` (method, line 310) `def _call(callback, timeout)`
-- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_runner.py`
+  - `StepOutcome` (class, line 43) `class StepOutcome`
+  - `ChainRunResult` (class, line 83) `class ChainRunResult`
+  - `ReplanContext` (class, line 121) `class ReplanContext`
+  - `render_text` (function, line 168) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 176) `class ChainRunner`
+  - `ok` (method, line 60) `def ok(self)`
+  - `to_dict` (method, line 64) `def to_dict(self)`
+  - `to_dict` (method, line 100) `def to_dict(self)`
+  - `set_var` (method, line 138) `def set_var(self, name, value)`
+  - `insert_step` (method, line 143) `def insert_step(self, step)`
+  - `skip_rest` (method, line 148) `def skip_rest(self)`
+  - `applied_vars` (method, line 153) `def applied_vars(self)`
+  - `inserted` (method, line 158) `def inserted(self)`
+  - `skip_rest_flag` (method, line 163) `def skip_rest_flag(self)`
+  - `__init__` (method, line 179) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `run` (method, line 215) `def run(self)`
+  - `_skip_remaining` (method, line 335) `def _skip_remaining(self, steps, start, reason)`
+  - `_notify` (method, line 350) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 359) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_save_checkpoint` (method, line 408) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)`
+  - `_run_step` (method, line 443) `def _run_step(self, step, variables, captured_keys)`
+  - `_ask_approval` (method, line 529) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 538) `def _verify_timeout(self, step)`
+  - `_store_capture` (method, line 544) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 596) `def _first_json(output)`
+  - `_render_command` (method, line 610) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 625) `def _execute(self, command, timeout, expect_exits)`
+  - `_is_verb` (method, line 649) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 660) `def _run_shell_verb(self, command)`
+  - `_run_raw` (method, line 678) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 695) `def _call(callback, timeout)`
+- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`
+
+## modules/chain_state.py
+- Doc: Durable chain checkpoints for pause, resume and audit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `checkpoint_dir` (function, line 26) `def checkpoint_dir(base_dir)`
+  - `new_run_id` (function, line 33) `def new_run_id(chain_name)`
+  - `write_checkpoint` (function, line 39) `def write_checkpoint(directory, state)`
+  - `load_checkpoint` (function, line 65) `def load_checkpoint(directory, run_id)`
+  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit)`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/chain_runner.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`
+
+## modules/chain_synth.py
+- Doc: Runtime chain synthesis from fact-store evidence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 29) `def _slug(name)`
+  - `_wordlist` (function, line 33) `def _wordlist(param, fallback)`
+  - `_service_steps` (function, line 42) `def _service_steps(host, services)`
+  - `synth_chain_data` (function, line 89) `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)`
+  - `facts_for_target` (function, line 224) `def facts_for_target(target)`
+  - `write_generated_chain` (function, line 253) `def write_generated_chain(data, chains_dir)`
+- Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/apt_chain_support.py`, `tests/test_chain_synth.py`
+
+## modules/chain_tokens.py
+- Doc: Engagement-state tokens for YAML chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `token_keys` (function, line 24) `def token_keys()`
+  - `build_tokens` (function, line 29) `def build_tokens(target, params)`
+  - `_load_host_facts` (function, line 77) `def _load_host_facts(host)`
+  - `_newest_creds_file` (function, line 93) `def _newest_creds_file(host)`
+  - `_candidate_files` (function, line 120) `def _candidate_files()`
+  - `_mentions` (function, line 130) `def _mentions(path, needle)`
+- Depends on: `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
 
 ## modules/cicd_enumerator.py
 - Doc: CI/CD Pipeline Enumeration Module.
@@ -92,7 +148,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
   - `needs_login` (function, line 487) `def needs_login()`
 - Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## modules/cloud_enum.py
 - Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
@@ -421,74 +477,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_read_timeline` (function, line 934) `def _read_timeline()`
   - `dashboard_timeline` (function, line 1017) `def dashboard_timeline()`
 - Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
-
-## modules/dashboard_engine.py
-- Doc: Live Network Map Dashboard for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_parse_nmap_xml_services` (function, line 39) `def _parse_nmap_xml_services(sessions_dir)`
-  - `DashboardNode` (class, line 99) `class DashboardNode`
-  - `DashboardEdge` (class, line 111) `class DashboardEdge`
-  - `DashboardEngine` (class, line 118) `class DashboardEngine`
-  - `__init__` (method, line 139) `def __init__(self, world_model)`
-  - `set_world_model` (method, line 148) `def set_world_model(self, model)`
-  - `set_exploit_recommender` (method, line 151) `def set_exploit_recommender(self, recommender)`
-  - `set_auto_pivot` (method, line 154) `def set_auto_pivot(self, pivot)`
-  - `set_evasion_engine` (method, line 157) `def set_evasion_engine(self, evasion)`
-  - `build_snapshot` (method, line 160) `def build_snapshot(self)`
-  - `render_text_map` (method, line 276) `def render_text_map(self, snapshot)`
-  - `render_ascii_topology` (method, line 358) `def render_ascii_topology(self, snapshot)`
-  - `_phase_icon` (method, line 398) `def _phase_icon(phase)`
-  - `export_json` (method, line 408) `def export_json(self, snapshot)`
-  - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
-  - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
-- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
-
-## modules/db.py
-- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
-  - `get_db` (function, line 821) `def get_db(db_path)`
-  - `__init__` (method, line 159) `def __init__(self, db_path)`
-  - `_get_conn` (method, line 171) `def _get_conn(self)`
-  - `db_path` (method, line 182) `def db_path(self)`
-  - `_init_schema` (method, line 186) `def _init_schema(self)`
-  - `_current_version` (method, line 192) `def _current_version(self)`
-  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
-  - `migration_status` (method, line 222) `def migration_status(self)`
-  - `_cursor` (method, line 235) `def _cursor(self)`
-  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
-  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
-  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
-  - `workspace_list` (method, line 307) `def workspace_list(self)`
-  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
-  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
-  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
-  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
-  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
-  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
-  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
-  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
-  - `service_list` (method, line 447) `def service_list(self, host_id)`
-  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
-  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
-  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
-  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
-  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
-  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
-  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
-  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
-  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
-  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
-  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
-  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
-  - `status` (method, line 775) `def status(self, workspace_id)`
-  - `close` (method, line 804) `def close(self)`
-- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

@@ -1,8 +1,87 @@
-# Symbols (page 12 of 42)
+# Symbols (page 12 of 43)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
+| `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
+| `days_in_month` | function | `modules/cal.sh:14` | `` |
+| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
+| `is_leap_year` | function | `modules/cal.sh:4` | `` |
+| `Chain` | class | `modules/chain_registry.py:88` | `class Chain` |
+| `ChainStep` | class | `modules/chain_registry.py:55` | `class ChainStep` |
+| `_eval` | function | `modules/chain_registry.py:237` | `def _eval(node)` |
+| `_materialize` | function | `modules/chain_registry.py:442` | `def _materialize(name, raw, stack)` |
+| `_render` | function | `modules/chain_registry.py:159` | `def _render(template, variables)` |
+| `_step_from_raw` | function | `modules/chain_registry.py:487` | `def _step_from_raw(item)` |
+| `_when_tree` | function | `modules/chain_registry.py:188` | `def _when_tree(expression)` |
+| `evaluate_when` | function | `modules/chain_registry.py:215` | `def evaluate_when(expression, variables)` |
+| `generate_for_playbook` | function | `modules/chain_registry.py:607` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
+| `get` | function | `modules/chain_registry.py:520` | `def get(name, chains_dir)` |
+| `identifier` | method | `modules/chain_registry.py:82` | `def identifier(self)` |
+| `load_all` | function | `modules/chain_registry.py:408` | `def load_all(chains_dir)` |
+| `render_text_token_braces` | function | `modules/chain_registry.py:403` | `def render_text_token_braces(text)` |
+| `resolve` | method | `modules/chain_registry.py:104` | `def resolve(self, tokens)` |
+| `scan_all` | function | `modules/chain_registry.py:525` | `def scan_all(chains_dir)` |
+| `set_enabled` | function | `modules/chain_registry.py:584` | `def set_enabled(name, enabled, chains_dir)` |
+| `validate_chain` | function | `modules/chain_registry.py:280` | `def validate_chain(data, filename, chains_dir)` |
+| `ChainRunResult` | class | `modules/chain_runner.py:83` | `class ChainRunResult` |
+| `ChainRunner` | class | `modules/chain_runner.py:176` | `class ChainRunner` |
+| `ReplanContext` | class | `modules/chain_runner.py:121` | `class ReplanContext` |
+| `StepOutcome` | class | `modules/chain_runner.py:43` | `class StepOutcome` |
+| `__init__` | method | `modules/chain_runner.py:179` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
+| `_apply_replanner` | method | `modules/chain_runner.py:359` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
+| `_ask_approval` | method | `modules/chain_runner.py:529` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:695` | `def _call(callback, timeout)` |
+| `_execute` | method | `modules/chain_runner.py:625` | `def _execute(self, command, timeout, expect_exits)` |
+| `_first_json` | method | `modules/chain_runner.py:596` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:649` | `def _is_verb(self, command)` |
+| `_notify` | method | `modules/chain_runner.py:350` | `def _notify(self, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:610` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_raw` | method | `modules/chain_runner.py:678` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:660` | `def _run_shell_verb(self, command)` |
+| `_run_step` | method | `modules/chain_runner.py:443` | `def _run_step(self, step, variables, captured_keys)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:408` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:335` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:544` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:538` | `def _verify_timeout(self, step)` |
+| `applied_vars` | method | `modules/chain_runner.py:153` | `def applied_vars(self)` |
+| `insert_step` | method | `modules/chain_runner.py:143` | `def insert_step(self, step)` |
+| `inserted` | method | `modules/chain_runner.py:158` | `def inserted(self)` |
+| `ok` | method | `modules/chain_runner.py:60` | `def ok(self)` |
+| `render_text` | function | `modules/chain_runner.py:168` | `def render_text(template, variables)` |
+| `run` | method | `modules/chain_runner.py:215` | `def run(self)` |
+| `set_var` | method | `modules/chain_runner.py:138` | `def set_var(self, name, value)` |
+| `skip_rest` | method | `modules/chain_runner.py:148` | `def skip_rest(self)` |
+| `skip_rest_flag` | method | `modules/chain_runner.py:163` | `def skip_rest_flag(self)` |
+| `to_dict` | method | `modules/chain_runner.py:64` | `def to_dict(self)` |
+| `to_dict` | method | `modules/chain_runner.py:100` | `def to_dict(self)` |
+| `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
+| `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit)` |
+| `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
+| `new_run_id` | function | `modules/chain_state.py:33` | `def new_run_id(chain_name)` |
+| `write_checkpoint` | function | `modules/chain_state.py:39` | `def write_checkpoint(directory, state)` |
+| `_service_steps` | function | `modules/chain_synth.py:42` | `def _service_steps(host, services)` |
+| `_slug` | function | `modules/chain_synth.py:29` | `def _slug(name)` |
+| `_wordlist` | function | `modules/chain_synth.py:33` | `def _wordlist(param, fallback)` |
+| `facts_for_target` | function | `modules/chain_synth.py:224` | `def facts_for_target(target)` |
+| `synth_chain_data` | function | `modules/chain_synth.py:89` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)` |
+| `write_generated_chain` | function | `modules/chain_synth.py:253` | `def write_generated_chain(data, chains_dir)` |
+| `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
+| `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
+| `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
+| `_newest_creds_file` | function | `modules/chain_tokens.py:93` | `def _newest_creds_file(host)` |
+| `build_tokens` | function | `modules/chain_tokens.py:29` | `def build_tokens(target, params)` |
+| `token_keys` | function | `modules/chain_tokens.py:24` | `def token_keys()` |
+| `CICDEnumerator` | class | `modules/cicd_enumerator.py:43` | `class CICDEnumerator` |
+| `CICDFinding` | class | `modules/cicd_enumerator.py:33` | `class CICDFinding` |
+| `__init__` | method | `modules/cicd_enumerator.py:54` | `def __init__(self, target_url, sessions_dir)` |
+| `_check_azure_devops` | method | `modules/cicd_enumerator.py:230` | `def _check_azure_devops(self)` |
+| `_check_bitbucket` | method | `modules/cicd_enumerator.py:266` | `def _check_bitbucket(self)` |
+| `_check_github_actions` | method | `modules/cicd_enumerator.py:189` | `def _check_github_actions(self)` |
+| `_check_gitlab` | method | `modules/cicd_enumerator.py:120` | `def _check_gitlab(self)` |
+| `_check_jenkins` | method | `modules/cicd_enumerator.py:73` | `def _check_jenkins(self)` |
+| `export_findings` | method | `modules/cicd_enumerator.py:387` | `def export_findings(self)` |
 | `generate_ci_attack_matrix` | method | `modules/cicd_enumerator.py:322` | `def generate_ci_attack_matrix(self)` |
 | `scan` | method | `modules/cicd_enumerator.py:60` | `def scan(self)` |
 | `scan_build_log` | method | `modules/cicd_enumerator.py:297` | `def scan_build_log(self, log_content, source)` |
@@ -349,6 +428,9 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `probability` | method | `modules/detection_oracle.py:103` | `def probability(self, command, args, action_category)` |
 | `probability` | method | `modules/detection_oracle.py:392` | `def probability(self, command, args, action_category)` |
 | `refresh` | method | `modules/detection_oracle.py:336` | `def refresh(self)` |
+| `build_engine_digest` | function | `modules/digest.py:20` | `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` |
+| `worker_results_digest` | function | `modules/digest.py:82` | `def worker_results_digest(rows)` |
+| `write_digest` | function | `modules/digest.py:71` | `def write_digest(task_id, body, root)` |
 | `DNSBeacon` | class | `modules/dns_beacon.py:23` | `class DNSBeacon` |
 | `DNSC2Server` | class | `modules/dns_beacon.py:199` | `class DNSC2Server` |
 | `__init__` | method | `modules/dns_beacon.py:38` | `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)` |
@@ -414,87 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
 | `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
 | `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
-| `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
-| `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
-| `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
-| `_crack_cookies` | method | `modules/dpapi_harvester.py:320` | `def _crack_cookies(self, cookies_path, key, source)` |
-| `_crack_login_data` | method | `modules/dpapi_harvester.py:286` | `def _crack_login_data(self, login_db_path, key, source)` |
-| `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
-| `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
-| `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
-| `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
-| `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
-| `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
-| `_harvest_rdp` | method | `modules/dpapi_harvester.py:250` | `def _harvest_rdp(self)` |
-| `_harvest_wifi` | method | `modules/dpapi_harvester.py:210` | `def _harvest_wifi(self)` |
-| `_harvest_windows_vault` | method | `modules/dpapi_harvester.py:262` | `def _harvest_windows_vault(self)` |
-| `export_credentials` | method | `modules/dpapi_harvester.py:367` | `def export_credentials(self)` |
-| `harvest_all` | method | `modules/dpapi_harvester.py:90` | `def harvest_all(self)` |
-| `masterkey_report` | method | `modules/dpapi_harvester.py:386` | `def masterkey_report(self)` |
-| `EDRDetector` | class | `modules/edr_detector.py:191` | `class EDRDetector` |
-| `EDRFinding` | class | `modules/edr_detector.py:174` | `class EDRFinding` |
-| `EDRProfile` | class | `modules/edr_detector.py:182` | `class EDRProfile` |
-| `_generate_recommendations` | method | `modules/edr_detector.py:370` | `def _generate_recommendations(profile)` |
-| `_local_drivers` | method | `modules/edr_detector.py:322` | `def _local_drivers()` |
-| `_local_processes` | method | `modules/edr_detector.py:292` | `def _local_processes()` |
-| `_local_services` | method | `modules/edr_detector.py:305` | `def _local_services()` |
-| `_match_signatures` | method | `modules/edr_detector.py:335` | `def _match_signatures(profile)` |
-| `_severity` | method | `modules/edr_detector.py:428` | `def _severity(profile)` |
-| `detect_local` | method | `modules/edr_detector.py:202` | `def detect_local()` |
-| `detect_remote_commands` | method | `modules/edr_detector.py:221` | `def detect_remote_commands(remote_type)` |
-| `generate_edr_check_script` | method | `modules/edr_detector.py:440` | `def generate_edr_check_script(remote_type)` |
-| `init_board` | function | `modules/eegg.sh:26` | `` |
-| `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
-| `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
-| `show_board` | function | `modules/eegg.sh:40` | `` |
-| `EmulationReport` | class | `modules/emulation_runner.py:69` | `class EmulationReport` |
-| `EmulationResult` | class | `modules/emulation_runner.py:40` | `class EmulationResult` |
-| `EmulationRunner` | class | `modules/emulation_runner.py:105` | `class EmulationRunner` |
-| `EmulationStep` | class | `modules/emulation_runner.py:28` | `class EmulationStep` |
-| `__init__` | method | `modules/emulation_runner.py:108` | `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` |
-| `_detect` | method | `modules/emulation_runner.py:159` | `def _detect(self, spec, output)` |
-| `_exec` | method | `modules/emulation_runner.py:151` | `def _exec(self, spec, target, command, lhost)` |
-| `_open_shell` | method | `modules/emulation_runner.py:143` | `def _open_shell(self, target, services, lhost, exploits_dir)` |
-| `_playbook` | method | `modules/emulation_runner.py:135` | `def _playbook(self, name)` |
-| `_publish` | method | `modules/emulation_runner.py:450` | `def _publish(self, result, target, source, dry_run, sessions)` |
-| `_record` | method | `modules/emulation_runner.py:170` | `def _record(self)` |
-| `_resolver_obj` | method | `modules/emulation_runner.py:127` | `def _resolver_obj(self)` |
-| `_run_test` | method | `modules/emulation_runner.py:399` | `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)` |
-| `_stage` | method | `modules/emulation_runner.py:482` | `def _stage(self, report, sessions)` |
-| `executed` | method | `modules/emulation_runner.py:81` | `def executed(self)` |
-| `run` | method | `modules/emulation_runner.py:202` | `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` |
-| `run_steps` | method | `modules/emulation_runner.py:321` | `def run_steps(self, steps, target, executor, platform, dry_run, source)` |
-| `shell` | method | `modules/emulation_runner.py:86` | `def shell(self)` |
-| `techniques_for_playbook` | method | `modules/emulation_runner.py:182` | `def techniques_for_playbook(self, playbook, platform)` |
-| `to_dict` | method | `modules/emulation_runner.py:53` | `def to_dict(self)` |
-| `to_dict` | method | `modules/emulation_runner.py:90` | `def to_dict(self)` |
-| `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
-| `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
-| `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
-| `marker_lines` | function | `modules/engage_summary.py:35` | `def marker_lines(text, limit)` |
-| `next_actions` | function | `modules/engage_summary.py:150` | `def next_actions(target, sessions_dir, limit)` |
-| `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
-| `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
-| `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
-| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
-| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
-| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
-| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
-| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
-| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
-| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
-| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
-| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
-| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
-| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
-| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
-| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
-| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
-| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
-| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
-| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
-| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

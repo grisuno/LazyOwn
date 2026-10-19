@@ -461,7 +461,6 @@ class TestPrivateHelperForwarding:
             probe._name_absent_everywhere
 
 
-
 def test_rm_wm_host_alias_appends_the_ip_parameter():
     """The declarative alias forwards the address to the world-model CLI."""
     import cmd2
@@ -480,7 +479,6 @@ def test_rm_wm_host_alias_appends_the_ip_parameter():
     shell = Shell()
     shell.onecmd_plus_hooks("rm_wm_host 127.0.0.1")
     assert shell.seen == "python3 -m modules.world_model remove-host 127.0.0.1"
-
 
 
 def test_alias_with_trailing_args_keeps_operator_parameters():

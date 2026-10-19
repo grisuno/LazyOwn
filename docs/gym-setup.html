@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Gym Setup LazyOwn Framework Pentesting t00lz</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Gym Setup LazyOwn Framework Pentesting t00lz</h1>
+</header>
+<h1 id="metasploitable-2-gym-system-setup">Metasploitable 2 Gym — System
+Setup</h1>
+<p>How to configure a machine so the Metasploitable 2 practice gym works
+out of the box: prerequisites, the automatic lab migrations, the
+headless browser vectors, the state-at-rest password and the verified
+vector matrix.</p>
+<p>Target audience: an operator who just cloned the repository and wants
+the gym running. For the catalogue internals (index, chains, adding
+vectors) read <code>docs/metasploitable-gym.md</code>.</p>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 34%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Install</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker</td>
+<td><code>sudo apt install docker.io &amp;&amp; sudo systemctl start docker</code></td>
+<td>The gym runs in a container</td>
+</tr>
+<tr>
+<td>Chromium + driver</td>
+<td><code>sudo apt install -y chromium chromium-driver</code></td>
+<td>The browser-backed exploit specs drive a real browser</td>
+</tr>
+<tr>
+<td>Selenium (system Python)</td>
+<td><code>sudo apt install -y python3-selenium</code></td>
+<td>The browser specs are plain <code>python3 -c</code> scripts using
+selenium</td>
+</tr>
+<tr>
+<td><code>sshpass</code></td>
+<td><code>sudo apt install -y sshpass</code></td>
+<td>Specs verify shells over SSH with <code>sshpass -e</code></td>
+</tr>
+<tr>
+<td><code>hydra</code>, <code>mysql</code>, <code>nmap</code>,
+<code>msfconsole</code></td>
+<td>ship with Kali/Parrot; on Debian install
+<code>hydra mysql-client nmap metasploit-framework</code></td>
+<td>Used by the corresponding specs</td>
+</tr>
+</tbody>
+</table>
+<p>Install them once:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> docker.io chromium chromium-driver python3-selenium sshpass</span></code></pre></div>
+<p>No user-specific absolute paths are required; everything reads
+<code>payload.json</code> and the repo layout.</p>
+<hr />
+<h2 id="spin-up-the-gym">Spin up the gym</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> lab <span class="ex">start</span> metasploitable</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> assign <span class="ex">rhost</span> <span class="op">&lt;</span>container-ip<span class="op">&gt;</span></span></code></pre></div>
+<p><code>lab start metasploitable</code> pulls the image, starts the
+container, starts Apache and then applies the gym migrations
+automatically. The console prints one line per migration step:</p>
+<pre><code>[*] Applying gym migrations...
+    [ ok ] core-services
+    [skip] rservices-access: already applied
+    ...</code></pre>
+<p>The migrations are idempotent: on every subsequent
+<code>lab start</code> they detect the fixes and skip. Running
+<code>atomic_clean --hard</code> destroys the container; recreating it
+re-applies everything.</p>
+<hr />
+<h2 id="what-the-migrations-install">What the migrations install</h2>
+<p><code>modules/metasploitable_migrations.py</code> ships an ordered
+list of idempotent fixes for the stock
+<code>tleemcjr/metasploitable2</code> image, which boots only a subset
+of the services the matrix needs:</p>
+<table>
+<colgroup>
+<col style="width: 68%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr>
+<th>Migration</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core-services</code></td>
+<td>Starts apache2, xinetd, proftpd, postfix, mysql, portmap, samba,
+postgresql, tomcat and distccd</td>
+</tr>
+<tr>
+<td><code>rservices-access</code></td>
+<td>Adds telnet/rlogin/rsh/exec entries for the docker subnet to
+<code>/etc/hosts.allow</code>, adds <code>pts/0-5</code> to
+<code>/etc/securetty</code></td>
+</tr>
+<tr>
+<td><code>proftpd-anonymous</code></td>
+<td>Adds the <code>&lt;Anonymous ~ftp&gt;</code> block so anonymous FTP
+answers</td>
+</tr>
+<tr>
+<td><code>xvnc-open</code></td>
+<td>Restarts Xtightvnc with an open display (<code>-ac</code>) and a
+valid font path</td>
+</tr>
+<tr>
+<td><code>shellshock-cgi</code></td>
+<td>Installs the deliberately vulnerable
+<code>/usr/lib/cgi-bin/status</code> bash CGI</td>
+</tr>
+<tr>
+<td><code>mutillidae-rfi-payload</code></td>
+<td>Installs <code>/var/www/ms2_rfi.txt</code>, the remote-include
+payload</td>
+</tr>
+<tr>
+<td><code>php-allow-url-include</code></td>
+<td>Sets <code>allow_url_include = On</code> in both php.ini files and
+restarts Apache</td>
+</tr>
+<tr>
+<td><code>mutillidae-database</code></td>
+<td>Runs the mutillidae setup page (populates <code>owasp10</code>) and
+mirrors it into <code>metasploit</code>, the schema the app reads</td>
+</tr>
+<tr>
+<td><code>dvwa-dom-page</code></td>
+<td>Installs the canonical DVWA DOM XSS page; the image’s DVWA build
+predates <code>xss_d</code></td>
+</tr>
+</tbody>
+</table>
+<p>The subnet prefix defaults to <code>172.17.0.</code> (the default
+docker bridge). Change it in code when the lab network differs:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> modules.metasploitable_migrations <span class="im">import</span> apply_migrations</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>apply_migrations(<span class="st">&quot;lazyown-lab-metasploitable&quot;</span>, subnet<span class="op">=</span><span class="st">&quot;192.168.7.&quot;</span>)</span></code></pre></div>
+<hr />
+<h2 id="run-the-vectors">Run the vectors</h2>
+<p>Each vector has one exploit YAML and one chain. The chain binds the
+target, scans once (reusing
+<code>sessions/scan_&lt;rhost&gt;.nmap.xml</code>), runs the exploit
+with <code>--feed</code> and refreshes every surface:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> apt_chain <span class="ex">gym_metasploitable_ms2_dvwa_sqli</span> <span class="at">--target</span> <span class="op">&lt;</span>ip<span class="op">&gt;</span> --json</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> apt_chain <span class="ex">gym_metasploitable_ms2_samba_usermap</span> <span class="at">--target</span> <span class="op">&lt;</span>ip<span class="op">&gt;</span> --json</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> apt_chain <span class="ex">gym_metasploitable_ms2_tomcat_manager</span> <span class="at">--target</span> <span class="op">&lt;</span>ip<span class="op">&gt;</span> --json</span></code></pre></div>
+<p>Outcomes land in <code>sessions/outcomes.jsonl</code> (one event per
+attempt) and the world model advances the host to <code>owned</code>.
+Inspect the per-vector state:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> facts_show</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">LazyOwn</span><span class="kw">)</span> <span class="op">&gt;</span> gym <span class="ex">status</span></span></code></pre></div>
+<h3 id="headless-browser-vectors">Headless browser vectors</h3>
+<p>Three vectors execute their payload in a real browser session; the
+capture listener binds on the attacker host, so the default
+<code>lhost 127.0.0.1</code> from the chain works without any routing
+setup:</p>
+<ul>
+<li><code>ms2_dvwa_xss_dom</code> — DVWA DOM XSS page with an attribute
+breakout payload (<code>'&gt;&lt;/select&gt;&lt;script&gt;...</code>);
+the beacon image request proves the JavaScript executed.</li>
+<li><code>ms2_twiki_xss</code> — the TWiki <code>bin/oops</code>
+endpoint reflects <code>param1</code> unescaped; the headless browser
+executes the beacon.</li>
+<li><code>ms2_mutillidae_csrf</code> — the listener serves an attacker
+page whose form auto-submits a blog entry; a mysql check then verifies
+the entry persisted.</li>
+</ul>
+<p>These specs call the system interpreter explicitly
+(<code>env PATH=/usr/bin:/bin:/usr/sbin:/sbin python3</code>) so they
+work even when the project virtualenv lacks selenium.</p>
+<hr />
+<h2 id="state-at-rest-password">State-at-rest password</h2>
+<p>Session state (<code>sessions/world_model.json</code>) encrypts at
+rest on shell close (PBKDF2HMAC + Fernet, see
+<code>cli/auto_crypto.py</code>). On startup the shell decrypts it
+transparently. The password resolution order:</p>
+<ol type="1">
+<li><code>LAZYOWN_MASTER_PASSWORD</code> environment variable (export it
+in the session or in a wrapper script when you want an explicit
+password);</li>
+<li>the authenticated CLI operator, derived as
+<code>lazyown:&lt;operator&gt;</code> — the same key material the login
+session uses, so MCP subprocesses and background loops read the
+encrypted state without extra setup.</li>
+</ol>
+<p>Nothing else to configure: when you log in as an operator the state
+decrypts automatically; external tools reading
+<code>sessions/world_model.json</code> get the plaintext view through
+the same fallback.</p>
+<hr />
+<h2 id="verified-matrix">Verified matrix</h2>
+<p>With the migrations applied, 42 of the 45 shipped vectors yield a
+shell (verified per-vector via <code>apt_chain</code> and the outcome
+bus). The three remaining failures are Docker limitations, not framework
+gaps:</p>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>Vector</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ms2_dns_recursion</code></td>
+<td>bind9 cannot start inside the container (capset blocked by the
+container runtime)</td>
+</tr>
+<tr>
+<td><code>ms2_nfs_exports</code></td>
+<td>nfsd needs a kernel module the container lacks</td>
+</tr>
+<tr>
+<td><code>ms2_rlogin_trust</code></td>
+<td>rlogin requires a privileged source port (below 1024)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><strong><code>No module named 'telnetlib'</code> inside
+specs</strong> — the project virtualenv runs Python 3.13+, where
+telnetlib was removed from the standard library. The shipped telnet spec
+uses plain sockets, so this only affects custom specs that still import
+telnetlib; rewrite them with <code>socket</code> like
+<code>exploits/ms2_telnet_default_creds.yaml</code>.</p>
+<p><strong>Playwright raises
+<code>Connection closed while reading from the driver</code></strong> —
+the Debian <code>python3-playwright</code> package lacks its node
+driver. The browser specs use selenium +
+<code>/usr/bin/chromedriver</code> instead, which is why
+<code>chromium-driver</code> is in the prerequisite list.</p>
+<p><strong>bind9 refuses to start (<code>capset failed</code>)</strong>
+— expected inside Docker; <code>ms2_dns_recursion</code> stays an honest
+failure.</p>
+<p><strong>Empty sweep reports</strong> — make sure
+<code>payload.json</code> has <code>rhost</code> set and
+<code>lab start metasploitable</code> ran at least once so the
+migrations seeded the services.</p>
+<p><strong>MCP tools not appearing</strong> — restart the MCP client;
+register the server with
+<code>bash scripts/setup_hermes_mcp.sh</code>.</p>
+</body>
+</html>

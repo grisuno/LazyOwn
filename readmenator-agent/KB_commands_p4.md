@@ -103,15 +103,15 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Symbols:
   - `RedTeamGymCommandSet` (class, line 33) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
   - `do_gym` (method, line 40) `def do_gym(self, line)`
-  - `do_gym_ms2` (method, line 93) `def do_gym_ms2(self, line)`
-  - `_gym_list` (method, line 141) `def _gym_list(self)`
-  - `_gym_start` (method, line 175) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 224) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 272) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 277) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 345) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 365) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 399) `def _gym_hint(self, args)`
+  - `do_gym_ms2` (method, line 92) `def do_gym_ms2(self, line)`
+  - `_gym_list` (method, line 137) `def _gym_list(self)`
+  - `_gym_start` (method, line 171) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 220) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 268) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 273) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 341) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 361) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 395) `def _gym_hint(self, args)`
 - Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 

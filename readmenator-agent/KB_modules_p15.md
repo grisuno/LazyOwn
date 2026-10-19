@@ -1,6 +1,75 @@
 # Subsystem: modules (page 15 of 15)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/traffic_morpher.py
+- Doc: C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TrafficMorpher` (class, line 18) `class TrafficMorpher`
+  - `__init__` (method, line 77) `def __init__(self)`
+  - `get_random_http_headers` (method, line 81) `def get_random_http_headers(self)`
+  - `get_cdn_fronting_hosts` (method, line 91) `def get_cdn_fronting_hosts(self, provider, count)`
+  - `generate_traffic_padding` (method, line 108) `def generate_traffic_padding(self, min_bytes, max_bytes)`
+  - `generate_jitter` (method, line 125) `def generate_jitter(self, base_delay, jitter_pct)`
+  - `generate_dns_tunnel_payload` (method, line 138) `def generate_dns_tunnel_payload(self, data, domain)`
+  - `generate_icmp_exfil_payload` (method, line 164) `def generate_icmp_exfil_payload(self, data, chunk_size)`
+  - `generate_websocket_masking` (method, line 190) `def generate_websocket_masking(self, data)`
+  - `generate_cloudflare_worker_proxy_config` (method, line 205) `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)`
+  - `generate_beacon_profile` (method, line 270) `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)`
+- Imported by: `cli/commands/persist_migrated.py`
+
+## modules/traffic_recorder.py
+- Doc: HTTP traffic recorder with file-tree storage and SQLite index.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RecorderConfig` (class, line 24) `class RecorderConfig`
+  - `url_template` (function, line 69) `def url_template(url)`
+  - `Exchange` (class, line 80) `class Exchange`
+  - `TrafficRecorder` (class, line 91) `class TrafficRecorder`
+  - `__init__` (method, line 94) `def __init__(self, base_dir)`
+  - `_migrate_fts` (method, line 115) `def _migrate_fts(self, conn)`
+  - `_connect` (method, line 132) `def _connect(self)`
+  - `record` (method, line 138) `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...`
+  - `since` (method, line 230) `def since(self, rowid, limit)`
+  - `latest_rowid` (method, line 247) `def latest_rowid(self)`
+  - `query` (method, line 253) `def query(self, host, status, limit, offset, task)`
+  - `get_body` (method, line 275) `def get_body(self, exchange_id)`
+  - `read_body` (method, line 284) `def read_body(self, exchange_id, part, offset, length)`
+  - `count` (method, line 317) `def count(self)`
+  - `_index_fts` (method, line 323) `def _index_fts(self, exchange_id, req, resp)`
+  - `backfill_fts` (method, line 343) `def backfill_fts(self, batch)`
+  - `_fts_query` (method, line 375) `def _fts_query(query)`
+  - `search_body` (method, line 382) `def search_body(self, query, limit)`
+  - `_scan_bodies` (method, line 422) `def _scan_bodies(self, needle, limit)`
+  - `export_archive` (method, line 451) `def export_archive(self, path, limit, task)`
+  - `import_archive` (method, line 493) `def import_archive(self, path)`
+  - `import_inbox` (method, line 554) `def import_inbox(self, inbox_dir)`
+  - `gc` (method, line 587) `def gc(self, older_than_sec)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
+
+## modules/ttp_coverage.py
+- Doc: TTP coverage matrix — real-time MITRE ATT&CK technique tracking.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TTPRow` (class, line 55) `class TTPRow`
+  - `TTPCoverage` (class, line 65) `class TTPCoverage`
+  - `get_coverage` (function, line 260) `def get_coverage()`
+  - `__init__` (method, line 68) `def __init__(self)`
+  - `rebuild_from_operations` (method, line 76) `def rebuild_from_operations(self)`
+  - `add` (method, line 125) `def add(self, technique_id, name, tactic, status, operation_id)`
+  - `compute_ready` (method, line 149) `def compute_ready(self, available_facts)`
+  - `_blocking_facts` (method, line 168) `def _blocking_facts(self, tactic)`
+  - `matrix` (method, line 190) `def matrix(self)`
+  - `status_by_id` (method, line 231) `def status_by_id(self, technique_id)`
+  - `to_dict` (method, line 234) `def to_dict(self)`
+  - `_save_state` (method, line 241) `def _save_state(self)`
+  - `_load_state` (method, line 248) `def _load_state(self)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/caldera.py`
+
 ## modules/ttpscope_bridge.py
 - Doc: Secure bridge for the TTPScope MITRE ATT&CK research client.
 - Layer: utility
@@ -236,70 +305,70 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
 - Symbols:
   - `_derive_crypto_key` (function, line 67) `def _derive_crypto_key(password, salt)`
   - `_master_password` (function, line 76) `def _master_password()`
-  - `read_state_dict` (function, line 81) `def read_state_dict(path)`
-  - `write_state_dict` (function, line 127) `def write_state_dict(path, data)`
-  - `HostState` (class, line 160) `class HostState(StrEnum)`
-  - `EngagementPhase` (class, line 176) `class EngagementPhase(StrEnum)`
-  - `ServiceInfo` (class, line 188) `class ServiceInfo`
-  - `CredentialEntry` (class, line 197) `class CredentialEntry`
-  - `VulnerabilityEntry` (class, line 206) `class VulnerabilityEntry`
-  - `EmailEntry` (class, line 215) `class EmailEntry`
-  - `DomainEntry` (class, line 223) `class DomainEntry`
-  - `NetworkRelation` (class, line 231) `class NetworkRelation`
-  - `NetworkGraph` (class, line 253) `class NetworkGraph`
-  - `HostEntry` (class, line 373) `class HostEntry`
-  - `_PhaseDeriver` (class, line 425) `class _PhaseDeriver`
-  - `WorldModel` (class, line 550) `class WorldModel`
-  - `get_world_model` (function, line 1191) `def get_world_model(path)`
-  - `rank` (method, line 169) `def rank(self)`
-  - `can_advance_to` (method, line 172) `def can_advance_to(self, next_state)`
-  - `__init__` (method, line 276) `def __init__(self)`
-  - `add_relation` (method, line 283) `def add_relation(self, relation)`
-  - `neighbors` (method, line 291) `def neighbors(self, node)`
-  - `in_degree` (method, line 295) `def in_degree(self, node)`
-  - `out_degree` (method, line 299) `def out_degree(self, node)`
-  - `degree_centrality` (method, line 303) `def degree_centrality(self)`
-  - `pivot_candidates` (method, line 318) `def pivot_candidates(self, top_k)`
-  - `to_dict` (method, line 340) `def to_dict(self)`
-  - `from_dict` (method, line 357) `def from_dict(cls, data)`
-  - `add_service` (method, line 382) `def add_service(self, svc)`
-  - `advance` (method, line 386) `def advance(self, new_state)`
-  - `to_dict` (method, line 394) `def to_dict(self)`
-  - `from_dict` (method, line 406) `def from_dict(cls, d)`
-  - `derive` (method, line 439) `def derive(self, hosts)`
-  - `__init__` (method, line 558) `def __init__(self, path)`
-  - `add_host` (method, line 574) `def add_host(self, ip)`
-  - `reset_host` (method, line 582) `def reset_host(self, ip)`
-  - `remove_host` (method, line 592) `def remove_host(self, ip)`
-  - `advance_host` (method, line 608) `def advance_host(self, ip, new_state)`
-  - `add_service` (method, line 617) `def add_service(self, ip, port, name, version, protocol)`
-  - `add_note` (method, line 634) `def add_note(self, ip, note)`
-  - `set_os_hint` (method, line 641) `def set_os_hint(self, ip, os_hint)`
-  - `get_host` (method, line 655) `def get_host(self, ip)`
-  - `get_hosts_summary` (method, line 667) `def get_hosts_summary(self)`
-  - `add_credential` (method, line 678) `def add_credential(self, value, host, service)`
-  - `link_credential_to_success` (method, line 710) `def link_credential_to_success(self, value, host)`
-  - `link_credential_to_failure` (method, line 731) `def link_credential_to_failure(self, value, host)`
-  - `add_vulnerability` (method, line 761) `def add_vulnerability(self, description, host, cve, severity)`
-  - `add_email` (method, line 767) `def add_email(self, address, host, context)`
-  - `add_domain` (method, line 773) `def add_domain(self, domain, host, context)`
-  - `update_from_findings` (method, line 787) `def update_from_findings(self, findings)`
-  - `consume_policy_facts` (method, line 860) `def consume_policy_facts(self, facts_path)`
-  - `add_relation` (method, line 952) `def add_relation(self, source, target, relation, weight)`
-  - `pivot_candidates` (method, line 973) `def pivot_candidates(self, top_k)`
-  - `graph_snapshot` (method, line 981) `def graph_snapshot(self)`
-  - `get_phase` (method, line 988) `def get_phase(self)`
-  - `get_suggested_tools` (method, line 992) `def get_suggested_tools(self)`
-  - `to_context_string` (method, line 995) `def to_context_string(self)`
-  - `_save` (method, line 1054) `def _save(self)`
-  - `_load` (method, line 1073) `def _load(self)`
-  - `reload` (method, line 1103) `def reload(self)`
-  - `reset` (method, line 1119) `def reset(self)`
-  - `snapshot` (method, line 1130) `def snapshot(self)`
-  - `read_section` (method, line 1146) `def read_section(self, key)`
-  - `write_section` (method, line 1163) `def write_section(self, key, value)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+  - `read_state_dict` (function, line 101) `def read_state_dict(path)`
+  - `write_state_dict` (function, line 147) `def write_state_dict(path, data)`
+  - `HostState` (class, line 180) `class HostState(StrEnum)`
+  - `EngagementPhase` (class, line 196) `class EngagementPhase(StrEnum)`
+  - `ServiceInfo` (class, line 208) `class ServiceInfo`
+  - `CredentialEntry` (class, line 217) `class CredentialEntry`
+  - `VulnerabilityEntry` (class, line 226) `class VulnerabilityEntry`
+  - `EmailEntry` (class, line 235) `class EmailEntry`
+  - `DomainEntry` (class, line 243) `class DomainEntry`
+  - `NetworkRelation` (class, line 251) `class NetworkRelation`
+  - `NetworkGraph` (class, line 273) `class NetworkGraph`
+  - `HostEntry` (class, line 393) `class HostEntry`
+  - `_PhaseDeriver` (class, line 445) `class _PhaseDeriver`
+  - `WorldModel` (class, line 570) `class WorldModel`
+  - `get_world_model` (function, line 1211) `def get_world_model(path)`
+  - `rank` (method, line 189) `def rank(self)`
+  - `can_advance_to` (method, line 192) `def can_advance_to(self, next_state)`
+  - `__init__` (method, line 296) `def __init__(self)`
+  - `add_relation` (method, line 303) `def add_relation(self, relation)`
+  - `neighbors` (method, line 311) `def neighbors(self, node)`
+  - `in_degree` (method, line 315) `def in_degree(self, node)`
+  - `out_degree` (method, line 319) `def out_degree(self, node)`
+  - `degree_centrality` (method, line 323) `def degree_centrality(self)`
+  - `pivot_candidates` (method, line 338) `def pivot_candidates(self, top_k)`
+  - `to_dict` (method, line 360) `def to_dict(self)`
+  - `from_dict` (method, line 377) `def from_dict(cls, data)`
+  - `add_service` (method, line 402) `def add_service(self, svc)`
+  - `advance` (method, line 406) `def advance(self, new_state)`
+  - `to_dict` (method, line 414) `def to_dict(self)`
+  - `from_dict` (method, line 426) `def from_dict(cls, d)`
+  - `derive` (method, line 459) `def derive(self, hosts)`
+  - `__init__` (method, line 578) `def __init__(self, path)`
+  - `add_host` (method, line 594) `def add_host(self, ip)`
+  - `reset_host` (method, line 602) `def reset_host(self, ip)`
+  - `remove_host` (method, line 612) `def remove_host(self, ip)`
+  - `advance_host` (method, line 628) `def advance_host(self, ip, new_state)`
+  - `add_service` (method, line 637) `def add_service(self, ip, port, name, version, protocol)`
+  - `add_note` (method, line 654) `def add_note(self, ip, note)`
+  - `set_os_hint` (method, line 661) `def set_os_hint(self, ip, os_hint)`
+  - `get_host` (method, line 675) `def get_host(self, ip)`
+  - `get_hosts_summary` (method, line 687) `def get_hosts_summary(self)`
+  - `add_credential` (method, line 698) `def add_credential(self, value, host, service)`
+  - `link_credential_to_success` (method, line 730) `def link_credential_to_success(self, value, host)`
+  - `link_credential_to_failure` (method, line 751) `def link_credential_to_failure(self, value, host)`
+  - `add_vulnerability` (method, line 781) `def add_vulnerability(self, description, host, cve, severity)`
+  - `add_email` (method, line 787) `def add_email(self, address, host, context)`
+  - `add_domain` (method, line 793) `def add_domain(self, domain, host, context)`
+  - `update_from_findings` (method, line 807) `def update_from_findings(self, findings)`
+  - `consume_policy_facts` (method, line 880) `def consume_policy_facts(self, facts_path)`
+  - `add_relation` (method, line 972) `def add_relation(self, source, target, relation, weight)`
+  - `pivot_candidates` (method, line 993) `def pivot_candidates(self, top_k)`
+  - `graph_snapshot` (method, line 1001) `def graph_snapshot(self)`
+  - `get_phase` (method, line 1008) `def get_phase(self)`
+  - `get_suggested_tools` (method, line 1012) `def get_suggested_tools(self)`
+  - `to_context_string` (method, line 1015) `def to_context_string(self)`
+  - `_save` (method, line 1074) `def _save(self)`
+  - `_load` (method, line 1093) `def _load(self)`
+  - `reload` (method, line 1123) `def reload(self)`
+  - `reset` (method, line 1139) `def reset(self)`
+  - `snapshot` (method, line 1150) `def snapshot(self)`
+  - `read_section` (method, line 1166) `def read_section(self, key)`
+  - `write_section` (method, line 1183) `def write_section(self, key, value)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

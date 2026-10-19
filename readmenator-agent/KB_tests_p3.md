@@ -1,6 +1,66 @@
 # Subsystem: tests (page 3 of 17)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
+## tests/test_autosuggest.py
+- Doc: Unit tests for cli.autosuggest.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_StaticProvider` (class, line 42) `class _StaticProvider`
+  - `_RaisingProvider` (class, line 52) `class _RaisingProvider`
+  - `test_engine_refresh_stores_suggestion` (function, line 59) `def test_engine_refresh_stores_suggestion()`
+  - `test_engine_accept_returns_command_and_clears` (function, line 69) `def test_engine_accept_returns_command_and_clears()`
+  - `test_engine_disabled_clears_state_and_returns_none` (function, line 81) `def test_engine_disabled_clears_state_and_returns_none()`
+  - `test_engine_skip_commands_do_not_refresh` (function, line 93) `def test_engine_skip_commands_do_not_refresh()`
+  - `test_engine_display_text_empty_without_suggestion` (function, line 102) `def test_engine_display_text_empty_without_suggestion()`
+  - `test_engine_display_text_renders_active_suggestion` (function, line 108) `def test_engine_display_text_renders_active_suggestion()`
+  - `test_engine_display_text_truncates_long_command` (function, line 119) `def test_engine_display_text_truncates_long_command()`
+  - `test_composite_picks_highest_score` (function, line 133) `def test_composite_picks_highest_score()`
+  - `test_composite_skips_raising_provider` (function, line 143) `def test_composite_skips_raising_provider()`
+  - `test_composite_returns_none_when_no_provider_responds` (function, line 152) `def test_composite_returns_none_when_no_provider_responds()`
+  - `test_killchain_provider_uses_adjacency` (function, line 158) `def test_killchain_provider_uses_adjacency()`
+  - `test_killchain_provider_skips_already_executed` (function, line 169) `def test_killchain_provider_skips_already_executed()`
+  - `test_killchain_provider_falls_back_to_phase_priority` (function, line 184) `def test_killchain_provider_falls_back_to_phase_priority()`
+  - `test_killchain_provider_returns_none_with_nothing_to_offer` (function, line 197) `def test_killchain_provider_returns_none_with_nothing_to_offer()`
+  - `_FakeAdvisor` (class, line 203) `class _FakeAdvisor`
+  - `test_graph_provider_returns_top_result` (function, line 215) `def test_graph_provider_returns_top_result()`
+  - `test_graph_provider_returns_none_when_advisor_empty` (function, line 232) `def test_graph_provider_returns_none_when_advisor_empty()`
+  - `test_graph_provider_skips_when_last_command_blank` (function, line 239) `def test_graph_provider_skips_when_last_command_blank()`
+  - `test_build_default_engine_includes_killchain_only_when_no_advisor` (function, line 246) `def test_build_default_engine_includes_killchain_only_when_no_advisor()`
+  - `test_format_hint_line_includes_accept_key_and_reason` (function, line 261) `def test_format_hint_line_includes_accept_key_and_reason()`
+  - `test_format_hint_line_truncates_long_command` (function, line 275) `def test_format_hint_line_truncates_long_command()`
+  - `test_format_hint_line_omits_reason_when_blank` (function, line 287) `def test_format_hint_line_omits_reason_when_blank()`
+  - `_CapturingConsole` (class, line 295) `class _CapturingConsole`
+  - `test_render_hint_line_emits_to_console` (function, line 303) `def test_render_hint_line_emits_to_console()`
+  - `test_render_hint_line_is_noop_without_suggestion` (function, line 315) `def test_render_hint_line_is_noop_without_suggestion()`
+  - `test_render_hint_line_is_noop_when_disabled` (function, line 325) `def test_render_hint_line_is_noop_when_disabled()`
+  - `_SequenceProvider` (class, line 339) `class _SequenceProvider`
+  - `test_engine_advances_suggestion_after_accept_refresh` (function, line 354) `def test_engine_advances_suggestion_after_accept_refresh()`
+  - `test_build_default_engine_with_unavailable_advisor` (function, line 372) `def test_build_default_engine_with_unavailable_advisor()`
+  - `__init__` (method, line 45) `def __init__(self, suggestion)`
+  - `suggest` (method, line 48) `def suggest(self, context)`
+  - `suggest` (method, line 55) `def suggest(self, context)`
+  - `__init__` (method, line 204) `def __init__(self, results, available)`
+  - `is_available` (method, line 208) `def is_available(self)`
+  - `suggest_next` (method, line 211) `def suggest_next(self, recent_commands, limit)`
+  - `__init__` (method, line 296) `def __init__(self)`
+  - `print` (method, line 299) `def print(self, value)`
+  - `__init__` (method, line 342) `def __init__(self, suggestions)`
+  - `suggest` (method, line 346) `def suggest(self, context)`
+- Depends on: `cli/autosuggest.py`
+
+## tests/test_backdoor_random.py
+- Doc: Backdoor credentials: random like C2 operators, persisted via assign.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_username_shape_and_uniqueness` (function, line 17) `def test_username_shape_and_uniqueness()`
+  - `test_password_assign_and_shell_safe` (function, line 25) `def test_password_assign_and_shell_safe()`
+  - `test_resolve_keeps_configured` (function, line 33) `def test_resolve_keeps_configured()`
+  - `test_resolve_generates_on_placeholders` (function, line 39) `def test_resolve_generates_on_placeholders()`
+  - `test_ensure_persists_once_then_reuses` (function, line 50) `def test_ensure_persists_once_then_reuses(monkeypatch)`
+- Depends on: `cli/commands/persist_migrated.py`
+
 ## tests/test_banner_config.py
 - Doc: Tests for cli/banner_config.py — registry, settings, renderer, wizard.
 - Layer: testing
@@ -425,46 +485,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_shell_output_attribute` (method, line 118) `def test_shell_output_attribute(self)`
   - `__init__` (method, line 41) `def __init__(self)`
   - `one_cmd` (method, line 45) `def one_cmd(self, command)`
-
-## tests/test_c2_surfaces.py
-- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 23) `def _sandbox(tmp_path)`
-  - `test_publish_banner_dedupes` (function, line 30) `def test_publish_banner_dedupes(tmp_path)`
-  - `test_publish_cve_validates_and_dedupes` (function, line 42) `def test_publish_cve_validates_and_dedupes(tmp_path)`
-  - `test_append_note_never_clobbers` (function, line 56) `def test_append_note_never_clobbers(tmp_path)`
-  - `test_register_loot_event_dedupes_and_rejects_traversal` (function, line 66) `def test_register_loot_event_dedupes_and_rejects_traversal(tmp_path)`
-  - `test_group_tasks_unique_hits` (function, line 77) `def test_group_tasks_unique_hits(tmp_path)`
-  - `test_record_outcome_feeds_c2_surfaces` (function, line 95) `def test_record_outcome_feeds_c2_surfaces(tmp_path, monkeypatch)`
-  - `test_lazyreport_errors_are_actionable` (function, line 122) `def test_lazyreport_errors_are_actionable(monkeypatch)`
-  - `_StubWM` (class, line 103) `class _StubWM`
-  - `_refused` (function, line 132) `def _refused()`
-  - `_slow` (function, line 141) `def _slow()`
-  - `update_from_findings` (method, line 104) `def update_from_findings(self, findings)`
-- Depends on: `contrib/legacy/lazydeepseekcli.py`, `modules/atomic_exploit_bridge.py`, `modules/c2_surfaces.py`
-
-## tests/test_campaign_import_safety.py
-- Doc: Campaign import trust boundaries hold against hostile packages.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_evil_zip` (function, line 27) `def _make_evil_zip(path)`
-  - `TestZipSlip` (class, line 35) `class TestZipSlip`
-  - `TestColumnFiltering` (class, line 55) `class TestColumnFiltering`
-  - `TestCopyTree` (class, line 80) `class TestCopyTree`
-  - `TestCampaignRoutesThroughHelpers` (class, line 96) `class TestCampaignRoutesThroughHelpers`
-  - `test_evil_members_skipped` (method, line 36) `def test_evil_members_skipped(self, tmp_path)`
-  - `test_legit_tree_extracted` (method, line 46) `def test_legit_tree_extracted(self, tmp_path)`
-  - `test_identifier_policy` (method, line 56) `def test_identifier_policy(self)`
-  - `test_unknown_and_hostile_dropped` (method, line 62) `def test_unknown_and_hostile_dropped(self)`
-  - `test_order_preserved` (method, line 67) `def test_order_preserved(self)`
-  - `test_filtered_insert_roundtrip` (method, line 70) `def test_filtered_insert_roundtrip(self, tmp_path)`
-  - `test_symlinks_not_followed` (method, line 81) `def test_symlinks_not_followed(self, tmp_path)`
-  - `test_no_raw_extractall_on_import` (method, line 97) `def test_no_raw_extractall_on_import(self)`
-  - `test_uses_safe_helpers` (method, line 108) `def test_uses_safe_helpers(self)`
-- Depends on: `core/safe_import.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

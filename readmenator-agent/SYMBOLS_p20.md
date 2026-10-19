@@ -1,8 +1,122 @@
-# Symbols (page 20 of 42)
+# Symbols (page 20 of 43)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
+| `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
+| `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
+| `ImplantCSVReader` | class | `modules/session_reader.py:137` | `class ImplantCSVReader(AbstractReader)` |
+| `ImplantRecord` | class | `modules/session_reader.py:39` | `class ImplantRecord` |
+| `SessionAggregator` | class | `modules/session_reader.py:313` | `class SessionAggregator` |
+| `SessionSummary` | class | `modules/session_reader.py:85` | `class SessionSummary` |
+| `TaskReader` | class | `modules/session_reader.py:232` | `class TaskReader(AbstractReader)` |
+| `TaskWriter` | class | `modules/session_reader.py:257` | `class TaskWriter` |
+| `__init__` | method | `modules/session_reader.py:260` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/session_reader.py:319` | `def __init__(self, implant_reader, output_reader, host_reader, task_reader)` |
+| `active_client_ids` | method | `modules/session_reader.py:94` | `def active_client_ids(self)` |
+| `aggregate` | method | `modules/session_reader.py:331` | `def aggregate(self, sessions_dir)` |
+| `append` | method | `modules/session_reader.py:263` | `def append(self, title, description, operator, status)` |
+| `get_aggregator` | function | `modules/session_reader.py:347` | `def get_aggregator()` |
+| `ip_list` | method | `modules/session_reader.py:69` | `def ip_list(self)` |
+| `is_privileged` | method | `modules/session_reader.py:55` | `def is_privileged(self)` |
+| `latest_for` | method | `modules/session_reader.py:114` | `def latest_for(self, client_id)` |
+| `platform` | method | `modules/session_reader.py:60` | `def platform(self)` |
+| `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
+| `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
+| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
+| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
+| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
+| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
+| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
+| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
+| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
+| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
+| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
+| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
+| `load` | function | `modules/session_state.py:251` | `def load()` |
+| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
+| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
+| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
+| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
+| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
+| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
+| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
+| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
+| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
+| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
+| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
+| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
+| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
+| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
+| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
+| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
+| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
+| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
+| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
+| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
+| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
+| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
+| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
+| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
+| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
+| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
+| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
+| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
+| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
+| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
+| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
+| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
+| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
+| `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
+| `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
+| `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
+| `SocksValidator` | class | `modules/socks_proxy.py:244` | `class SocksValidator` |
+| `__init__` | method | `modules/socks_proxy.py:381` | `def __init__(self, config)` |
+| `_check_access_control` | method | `modules/socks_proxy.py:340` | `def _check_access_control(host, port, config)` |
+| `_find_oldest_session` | method | `modules/socks_proxy.py:515` | `def _find_oldest_session(self)` |
+| `add_bytes` | method | `modules/socks_proxy.py:486` | `def add_bytes(self, session_id, sent, received)` |
+| `build_spec` | method | `modules/socks_proxy.py:413` | `def build_spec(self)` |
+| `cleanup_expired` | method | `modules/socks_proxy.py:497` | `def cleanup_expired(self)` |
+| `config` | method | `modules/socks_proxy.py:387` | `def config(self)` |
+| `create_session` | method | `modules/socks_proxy.py:436` | `def create_session(self, session_id, target_host, target_port, beacon_client_id)` |
+| `elapsed_seconds` | method | `modules/socks_proxy.py:144` | `def elapsed_seconds(self)` |
+| `from_dict` | method | `modules/socks_proxy.py:218` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/socks_proxy.py:522` | `def from_dict(cls, raw)` |
+| `from_payload` | method | `modules/socks_proxy.py:528` | `def from_payload(cls, payload)` |
+| `get_session` | method | `modules/socks_proxy.py:482` | `def get_session(self, session_id)` |
+| `list_sessions` | method | `modules/socks_proxy.py:511` | `def list_sessions(self)` |
+| `message` | method | `modules/socks_proxy.py:103` | `def message(self)` |
+| `remove_session` | method | `modules/socks_proxy.py:475` | `def remove_session(self, session_id)` |
+| `session_count` | method | `modules/socks_proxy.py:397` | `def session_count(self)` |
+| `sessions` | method | `modules/socks_proxy.py:392` | `def sessions(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:150` | `def to_dict(self)` |
+| `to_dict` | method | `modules/socks_proxy.py:199` | `def to_dict(self)` |
+| `validate` | method | `modules/socks_proxy.py:401` | `def validate(self, config)` |
+| `validate_config` | method | `modules/socks_proxy.py:253` | `def validate_config(config)` |
+| `validate_request` | method | `modules/socks_proxy.py:300` | `def validate_request(command, address_type, host, port, config)` |
 | `StageDeliveryConfig` | class | `modules/staged_delivery.py:25` | `class StageDeliveryConfig` |
 | `StagedDeliveryFactory` | class | `modules/staged_delivery.py:51` | `class StagedDeliveryFactory` |
 | `__init__` | method | `modules/staged_delivery.py:83` | `def __init__(self, config, output_dir)` |
@@ -62,6 +176,16 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `set_payload` | method | `modules/state_manager.py:165` | `def set_payload(self, payload)` |
 | `status` | method | `modules/state_manager.py:550` | `def status(self)` |
 | `workspace_id` | method | `modules/state_manager.py:146` | `def workspace_id(self)` |
+| `decode` | function | `modules/stego_video.py:93` | `def decode(stego_video, output_zip)` |
+| `default_output` | function | `modules/stego_video.py:113` | `def default_output(zip_path)` |
+| `encode` | function | `modules/stego_video.py:75` | `def encode(zip_path, output_video)` |
+| `generate_carrier` | function | `modules/stego_video.py:61` | `def generate_carrier(output)` |
+| `is_video` | function | `modules/stego_video.py:40` | `def is_video(path)` |
+| `is_zip` | function | `modules/stego_video.py:36` | `def is_zip(path)` |
+| `load_payload_file` | function | `modules/stego_video.py:26` | `def load_payload_file()` |
+| `main` | function | `modules/stego_video.py:118` | `def main(argv)` |
+| `prompt_path` | function | `modules/stego_video.py:44` | `def prompt_path(message)` |
+| `resolve_path` | function | `modules/stego_video.py:52` | `def resolve_path(arg_path, payload_file, validator, kind)` |
 | `get_controlling_tty` | function | `modules/sudo_tiocsti.py:52` | `def get_controlling_tty()` |
 | `get_sudo_pids_on_tty` | function | `modules/sudo_tiocsti.py:102` | `def get_sudo_pids_on_tty(tty_path)` |
 | `inject_byte` | function | `modules/sudo_tiocsti.py:64` | `def inject_byte(fd, byte_char)` |
@@ -372,129 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
 | `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
 | `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
-| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
-| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
-| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
-| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
-| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
-| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
-| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
-| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
-| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
-| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
-| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
-| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
-| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
-| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
-| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
-| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
-| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
-| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
-| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
-| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
-| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
-| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
-| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:382` | `void ensure_pid_file_exists()` |
-| `freePIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:162` | `void freePIDArray(PIDArray *array)` |
-| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:166` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
-| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:475` | `BOOL giveGift()` |
-| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:526` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `initPIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:146` | `void initPIDArray(PIDArray *array)` |
-| `main` | function | `modules/win_rootkit/win_ring3_rootkit.c:865` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:755` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:94` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:32` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:33` | `#define HIDDEN_FILE` |
-| `HIDE_USER` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:34` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:35` | `#define MAX_HIDE_PIDS` |
-| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:42` | `char* get_username_from_pid(DWORD pid)` |
-| `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
-| `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
-| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
-| `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
-| `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
-| `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
-| `remove` | function | `modules/workspace.py:90` | `def remove(rel)` |
-| `resolve` | function | `modules/workspace.py:27` | `def resolve(rel)` |
-| `root` | function | `modules/workspace.py:21` | `def root()` |
-| `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
-| `CredentialEntry` | class | `modules/world_model.py:197` | `class CredentialEntry` |
-| `DomainEntry` | class | `modules/world_model.py:223` | `class DomainEntry` |
-| `EmailEntry` | class | `modules/world_model.py:215` | `class EmailEntry` |
-| `EngagementPhase` | class | `modules/world_model.py:176` | `class EngagementPhase(StrEnum)` |
-| `HostEntry` | class | `modules/world_model.py:373` | `class HostEntry` |
-| `HostState` | class | `modules/world_model.py:160` | `class HostState(StrEnum)` |
-| `NetworkGraph` | class | `modules/world_model.py:253` | `class NetworkGraph` |
-| `NetworkRelation` | class | `modules/world_model.py:231` | `class NetworkRelation` |
-| `ServiceInfo` | class | `modules/world_model.py:188` | `class ServiceInfo` |
-| `VulnerabilityEntry` | class | `modules/world_model.py:206` | `class VulnerabilityEntry` |
-| `WorldModel` | class | `modules/world_model.py:550` | `class WorldModel` |
-| `_PhaseDeriver` | class | `modules/world_model.py:425` | `class _PhaseDeriver` |
-| `__init__` | method | `modules/world_model.py:276` | `def __init__(self)` |
-| `__init__` | method | `modules/world_model.py:558` | `def __init__(self, path)` |
-| `_derive_crypto_key` | function | `modules/world_model.py:67` | `def _derive_crypto_key(password, salt)` |
-| `_load` | method | `modules/world_model.py:1073` | `def _load(self)` |
-| `_master_password` | function | `modules/world_model.py:76` | `def _master_password()` |
-| `_save` | method | `modules/world_model.py:1054` | `def _save(self)` |
-| `add_credential` | method | `modules/world_model.py:678` | `def add_credential(self, value, host, service)` |
-| `add_domain` | method | `modules/world_model.py:773` | `def add_domain(self, domain, host, context)` |
-| `add_email` | method | `modules/world_model.py:767` | `def add_email(self, address, host, context)` |
-| `add_host` | method | `modules/world_model.py:574` | `def add_host(self, ip)` |
-| `add_note` | method | `modules/world_model.py:634` | `def add_note(self, ip, note)` |
-| `add_relation` | method | `modules/world_model.py:283` | `def add_relation(self, relation)` |
-| `add_relation` | method | `modules/world_model.py:952` | `def add_relation(self, source, target, relation, weight)` |
-| `add_service` | method | `modules/world_model.py:382` | `def add_service(self, svc)` |
-| `add_service` | method | `modules/world_model.py:617` | `def add_service(self, ip, port, name, version, protocol)` |
-| `add_vulnerability` | method | `modules/world_model.py:761` | `def add_vulnerability(self, description, host, cve, severity)` |
-| `advance` | method | `modules/world_model.py:386` | `def advance(self, new_state)` |
-| `advance_host` | method | `modules/world_model.py:608` | `def advance_host(self, ip, new_state)` |
-| `can_advance_to` | method | `modules/world_model.py:172` | `def can_advance_to(self, next_state)` |
-| `consume_policy_facts` | method | `modules/world_model.py:860` | `def consume_policy_facts(self, facts_path)` |
-| `degree_centrality` | method | `modules/world_model.py:303` | `def degree_centrality(self)` |
-| `derive` | method | `modules/world_model.py:439` | `def derive(self, hosts)` |
-| `from_dict` | method | `modules/world_model.py:357` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/world_model.py:406` | `def from_dict(cls, d)` |
-| `get_host` | method | `modules/world_model.py:655` | `def get_host(self, ip)` |
-| `get_hosts_summary` | method | `modules/world_model.py:667` | `def get_hosts_summary(self)` |
-| `get_phase` | method | `modules/world_model.py:988` | `def get_phase(self)` |
-| `get_suggested_tools` | method | `modules/world_model.py:992` | `def get_suggested_tools(self)` |
-| `get_world_model` | function | `modules/world_model.py:1191` | `def get_world_model(path)` |
-| `graph_snapshot` | method | `modules/world_model.py:981` | `def graph_snapshot(self)` |
-| `in_degree` | method | `modules/world_model.py:295` | `def in_degree(self, node)` |
-| `link_credential_to_failure` | method | `modules/world_model.py:731` | `def link_credential_to_failure(self, value, host)` |
-| `link_credential_to_success` | method | `modules/world_model.py:710` | `def link_credential_to_success(self, value, host)` |
-| `neighbors` | method | `modules/world_model.py:291` | `def neighbors(self, node)` |
-| `out_degree` | method | `modules/world_model.py:299` | `def out_degree(self, node)` |
-| `pivot_candidates` | method | `modules/world_model.py:318` | `def pivot_candidates(self, top_k)` |
-| `pivot_candidates` | method | `modules/world_model.py:973` | `def pivot_candidates(self, top_k)` |
-| `rank` | method | `modules/world_model.py:169` | `def rank(self)` |
-| `read_section` | method | `modules/world_model.py:1146` | `def read_section(self, key)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

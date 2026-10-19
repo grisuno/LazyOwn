@@ -1,13 +1,47 @@
 # API (page 16 of 23)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/privesc_predictor.py
+Depends on: `core/console.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/crystal_ball.py`
+- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
+- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
+- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
+- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
+- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
+- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
+- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
+- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
+- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
+- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
+- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
+
+## modules/professional_report.py
+Depends on: `modules/llm_factory.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
+- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:217` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:244` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:841` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:865` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:911` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
 ## modules/r.sh
 Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
 - `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
 
+## modules/reaction_bridge.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
+- `ReactionPick.__init__` (method) `modules/reaction_bridge.py:69` `def __init__(self, command, reason, priority, mitre)`
+- `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
+- `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
+- `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
+
 ## modules/reactive_engine.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 - `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
 - `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
 - `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
@@ -261,6 +295,10 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 - `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
 - `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
 
+## modules/selector_manager.py
+Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
+- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
+
 ## modules/selfupdate.py
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
 - `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
@@ -437,59 +475,6 @@ Imported by: `cli/commands/payload_arsenal.py`
 - `StagedDeliveryFactory.generate_vhd` (method) `modules/staged_delivery.py:370` `def generate_vhd(self, inner_files)` -- Generate a VHD (Virtual Hard Disk) image with embedded payloads.
 - `StagedDeliveryFactory.generate_all` (method) `modules/staged_delivery.py:420` `def generate_all(self)` -- Generate all delivery formats for the current configuration.
 - `StagedDeliveryFactory.generate_phishing_page` (method) `modules/staged_delivery.py:460` `def generate_phishing_page(self, template)` -- Generate a credential harvesting HTML page.
-
-## modules/state_manager.py
-Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`
-- `StateManager.__init__` (method) `modules/state_manager.py:107` `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
-- `StateManager.instance` (method) `modules/state_manager.py:129` `def instance(cls)`
-- `StateManager.db` (method) `modules/state_manager.py:137` `def db(self)`
-- `StateManager.workspace_id` (method) `modules/state_manager.py:146` `def workspace_id(self)`
-- `StateManager.set_payload` (method) `modules/state_manager.py:165` `def set_payload(self, payload)`
-- `StateManager.close` (method) `modules/state_manager.py:202` `def close(self)`
-- `StateManager.add_host` (method) `modules/state_manager.py:213` `def add_host(self, address, mac, hostname, os, state)`
-- `StateManager.get_host` (method) `modules/state_manager.py:236` `def get_host(self, address)`
-- `StateManager.list_hosts` (method) `modules/state_manager.py:245` `def list_hosts(self)`
-- `StateManager.advance_host` (method) `modules/state_manager.py:249` `def advance_host(self, address, new_state)`
-- `StateManager.delete_host` (method) `modules/state_manager.py:275` `def delete_host(self, address)`
-- `StateManager.add_service` (method) `modules/state_manager.py:287` `def add_service(self, host_address, port, protocol, name, product, version, state)`
-- `StateManager.list_services` (method) `modules/state_manager.py:319` `def list_services(self, host_address)`
-- `StateManager.add_credential` (method) `modules/state_manager.py:328` `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
-- `StateManager.list_credentials` (method) `modules/state_manager.py:362` `def list_credentials(self, host_address)`
-- `StateManager.add_vulnerability` (method) `modules/state_manager.py:373` `def add_vulnerability(self, host_address, name, severity, description, refs)`
-- `StateManager.list_vulnerabilities` (method) `modules/state_manager.py:398` `def list_vulnerabilities(self, host_address, severity)`
-- `StateManager.add_loot` (method) `modules/state_manager.py:411` `def add_loot(self, name, loot_type, path, notes, host_address)`
-- `StateManager.list_loot` (method) `modules/state_manager.py:444` `def list_loot(self)`
-- `StateManager.add_note` (method) `modules/state_manager.py:450` `def add_note(self, data, note_type, host_address)`
-- `StateManager.list_notes` (method) `modules/state_manager.py:473` `def list_notes(self)`
-- `StateManager.import_nmap_xml` (method) `modules/state_manager.py:479` `def import_nmap_xml(self, xml_path)`
-- `StateManager.import_nmap_from_facts` (method) `modules/state_manager.py:495` `def import_nmap_from_facts(self, facts)` -- Import hosts and services from a FactStore-style facts dict into DB.
-- `StateManager.status` (method) `modules/state_manager.py:550` `def status(self)`
-- `StateManager.get_world_model_cache` (method) `modules/state_manager.py:606` `def get_world_model_cache(self)`
-- `StateManager.load_world_model` (method) `modules/state_manager.py:612` `def load_world_model(self)` -- Return a WorldModel instance populated from DB state.
-- `StateManager.session_snapshot` (method) `modules/state_manager.py:653` `def session_snapshot(self)`
-- `StateManager.export_csv` (method) `modules/state_manager.py:757` `def export_csv(self, table)`
-- `StateManager.export_summary` (method) `modules/state_manager.py:761` `def export_summary(self)`
-- `get_state_manager` (function) `modules/state_manager.py:776` `def get_state_manager()`
-
-## modules/sudo_tiocsti.py
-Depends on: `core/logging.py`
-- `get_controlling_tty` (function) `modules/sudo_tiocsti.py:52` `def get_controlling_tty()` -- Return (file_descriptor, tty_path) for the controlling terminal.
-- `inject_byte` (function) `modules/sudo_tiocsti.py:64` `def inject_byte(fd, byte_char)` -- Inject a single byte via TIOCSTI; return success status.
-- `inject_payload` (function) `modules/sudo_tiocsti.py:79` `def inject_payload(fd, payload, char_delay)` -- Inject a multi‑character payload.
-- `get_sudo_pids_on_tty` (function) `modules/sudo_tiocsti.py:102` `def get_sudo_pids_on_tty(tty_path)` -- Return a list of PIDs that are running 'sudo' and have the same controlling terminal as the given tty_path.
-- `sudo_cache_valid` (function) `modules/sudo_tiocsti.py:139` `def sudo_cache_valid()` -- Return True if sudo credentials are cached (i.e., sudo -n succeeds).
-- `mode_poll` (function) `modules/sudo_tiocsti.py:149` `def mode_poll(fd, tty_path)` -- Poll for sudo processes; inject payload when sudo exits.
-- `mode_prefill` (function) `modules/sudo_tiocsti.py:175` `def mode_prefill(fd)` -- Inject payload repeatedly, regardless of sudo state.
-- `mode_cache` (function) `modules/sudo_tiocsti.py:185` `def mode_cache(fd)` -- Check sudo cache; if valid, inject sudo -i once.
-- `main` (function) `modules/sudo_tiocsti.py:198` `def main()`
-
-## modules/surface_ops.py
-Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
-- `is_ipv4` (function) `modules/surface_ops.py:18` `def is_ipv4(value)` -- Return True for dotted-quad IPv4 literals with 0-255 octets.
-- `parse_confirm` (function) `modules/surface_ops.py:26` `def parse_confirm(answer)` -- Return True for an affirmative scan confirmation answer.
-- `discovery_targets` (function) `modules/surface_ops.py:31` `def discovery_targets(sessions_dir)` -- List every discovery IP across the sessions discovery files.
-- `write_world_model_hosts` (function) `modules/surface_ops.py:50` `def write_world_model_hosts(document, sessions)` -- Append unknown estorides host IPs to world_model.json hosts.
 
 
 Next: [API_p17.md](API_p17.md)

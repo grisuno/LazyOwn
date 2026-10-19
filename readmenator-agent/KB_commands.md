@@ -192,7 +192,7 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `C2SessionCommandSet` (class, line 108) `class C2SessionCommandSet(LazyOwnCommandSet)`
   - `do_c2_server` (method, line 115) `def do_c2_server(self, line)`
   - `do_c2_reboot` (method, line 168) `def do_c2_reboot(self, line)`
-  - `do_c2_deploy` (method, line 251) `def do_c2_deploy(self, line)`
+  - `do_c2_deploy` (method, line 249) `def do_c2_deploy(self, line)`
   - `do_c2_exec` (method, line 292) `def do_c2_exec(self, line)`
   - `do_c2_loot` (method, line 339) `def do_c2_loot(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/c2_agent.py`, `modules/c2_surfaces.py`, `utils.py`
@@ -355,25 +355,26 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_emp3r0r` (method, line 1158) `def do_emp3r0r(self, line)`
   - `do_atomic_tests` (method, line 1222) `def do_atomic_tests(self, line)`
   - `do_atomic_gen` (method, line 1243) `def do_atomic_gen(self, line)`
-  - `do_atomic_shell` (method, line 1259) `def do_atomic_shell(self, line)`
-  - `do_atomic_clean` (method, line 1291) `def do_atomic_clean(self, line)`
-  - `do_atomic_emulate` (method, line 1328) `def do_atomic_emulate(self, line)`
-  - `do_atomic_agent` (method, line 1385) `def do_atomic_agent(self, line)`
-  - `do_attack_plan` (method, line 1488) `def do_attack_plan(self, line)`
-  - `do_apt_chain` (method, line 1647) `def do_apt_chain(self, line)`
-  - `do_apt_playbook` (method, line 1781) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 1901) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 2004) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2183) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2240) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2289) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2381) `def do_caldera_export(self, line)`
+  - `_latest_sweep_evidence` (method, line 1258) `def _latest_sweep_evidence(self, target)`
+  - `do_atomic_shell` (method, line 1287) `def do_atomic_shell(self, line)`
+  - `do_atomic_clean` (method, line 1326) `def do_atomic_clean(self, line)`
+  - `do_atomic_emulate` (method, line 1363) `def do_atomic_emulate(self, line)`
+  - `do_atomic_agent` (method, line 1420) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1523) `def do_attack_plan(self, line)`
+  - `do_apt_chain` (method, line 1682) `def do_apt_chain(self, line)`
+  - `do_apt_playbook` (method, line 1946) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 2066) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2169) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2348) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2405) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2454) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2546) `def do_caldera_export(self, line)`
   - `_api` (function, line 543) `def _api(method, endpoint, payload)`
-  - `_chain_file_exists` (function, line 1667) `def _chain_file_exists(name)`
-  - `_load_ability` (function, line 2313) `def _load_ability(ability_file)`
-  - `_ability_to_step` (function, line 2320) `def _ability_to_step(ability)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
-- Imported by: `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
+  - `chain_file_exists` (function, line 1720) `def chain_file_exists(name)`
+  - `_load_ability` (function, line 2478) `def _load_ability(ability_file)`
+  - `_ability_to_step` (function, line 2485) `def _ability_to_step(ability)`
+- Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
+- Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
 
 ## cli/commands/containers.py
 - Doc: Container and Kubernetes attack command set.

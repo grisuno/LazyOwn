@@ -12,11 +12,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does lazyown_mcp.py depend on, and what depends on it? (90 connections)
+### Q: What does lazyown_mcp.py depend on, and what depends on it? (93 connections)
 
 - Status: unanswered
 
-### Q: How are the 159 files in 'cli/commands' related to each other?
+### Q: How are the 162 files in 'cli/commands' related to each other?
 
 - Status: unanswered
 

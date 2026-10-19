@@ -7,7 +7,7 @@ disassembler.py
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Date: 14/04/2025
-Licencia: GPL v3
+Licencia: AGPL v3
 
 Description: This file contain a rudimentary disassembler with no warranty
 
@@ -61,7 +61,7 @@ A disassembler class for x86-64 architecture.
 This class provides methods to disassemble raw binary data into human-readable assembly instructions.
 It supports parsing ELF headers, decoding ModR/M and SIB bytes, and handling various instruction formats.
 
-License: GPL v3
+License: AGPL v3
 
 **Members**
 
@@ -107,7 +107,7 @@ It checks for 64-bit ELF files and extracts the program headers to find the
 first executable segment. Returns the offset, virtual address, size and entry point
 of the TEXT segment if found.
 
-Licencia: GPL v3
+Licencia: AGPL v3
 
 **Parameters**
 
@@ -134,7 +134,7 @@ Parses the ModR/M byte and extracts mod, reg, and rm fields.
 This function decodes the ModR/M byte used in x86/x64 instructions to determine
 how operands are addressed. It also applies REX prefix extensions if present.
 
-License: GPL v3
+License: AGPL v3
 
 **Parameters**
 
@@ -163,7 +163,7 @@ This function decodes the Scale/Index/Base (SIB) byte used in x86/x64 addressing
 to determine how memory operands are addressed. It also applies REX prefix extensions
 if present.
 
-License: GPL v3
+License: AGPL v3
 
 **Parameters**
 
@@ -192,7 +192,7 @@ This function decodes the addressing mode specified by the `mod` and `rm` fields
 in x86/x64 instructions. It handles different cases such as RIP-relative, SIB,
 and direct register addressing, applying REX prefix extensions if present.
 
-License: GPL v3
+License: AGPL v3
 
 **Parameters**
 
@@ -227,7 +227,7 @@ This function disassembles raw machine code into human-readable assembly instruc
 It handles various instruction types, including XOR, PUSH/POP, MOV, immediate loads,
 and system calls. Additionally, it processes REX prefixes and supports RIP-relative addressing.
 
-License: GPL v3
+License: AGPL v3
 
 **Parameters**
 

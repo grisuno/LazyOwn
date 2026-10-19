@@ -1,21 +1,145 @@
-# Symbols (page 21 of 42)
+# Symbols (page 21 of 43)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `read_state_dict` | function | `modules/world_model.py:81` | `def read_state_dict(path)` |
-| `reload` | method | `modules/world_model.py:1103` | `def reload(self)` |
-| `remove_host` | method | `modules/world_model.py:592` | `def remove_host(self, ip)` |
-| `reset` | method | `modules/world_model.py:1119` | `def reset(self)` |
-| `reset_host` | method | `modules/world_model.py:582` | `def reset_host(self, ip)` |
-| `set_os_hint` | method | `modules/world_model.py:641` | `def set_os_hint(self, ip, os_hint)` |
-| `snapshot` | method | `modules/world_model.py:1130` | `def snapshot(self)` |
-| `to_context_string` | method | `modules/world_model.py:995` | `def to_context_string(self)` |
-| `to_dict` | method | `modules/world_model.py:340` | `def to_dict(self)` |
-| `to_dict` | method | `modules/world_model.py:394` | `def to_dict(self)` |
-| `update_from_findings` | method | `modules/world_model.py:787` | `def update_from_findings(self, findings)` |
-| `write_section` | method | `modules/world_model.py:1163` | `def write_section(self, key, value)` |
-| `write_state_dict` | function | `modules/world_model.py:127` | `def write_state_dict(path, data)` |
+| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
+| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
+| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
+| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
+| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
+| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
+| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
+| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
+| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
+| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
+| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
+| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
+| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
+| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
+| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
+| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
+| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
+| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
+| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
+| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
+| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
+| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
+| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
+| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
+| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
+| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
+| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
+| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
+| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
+| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
+| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
+| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:382` | `void ensure_pid_file_exists()` |
+| `freePIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:162` | `void freePIDArray(PIDArray *array)` |
+| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:166` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
+| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:475` | `BOOL giveGift()` |
+| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:526` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `initPIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:146` | `void initPIDArray(PIDArray *array)` |
+| `main` | function | `modules/win_rootkit/win_ring3_rootkit.c:865` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:755` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:94` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:32` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:33` | `#define HIDDEN_FILE` |
+| `HIDE_USER` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:34` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:35` | `#define MAX_HIDE_PIDS` |
+| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:42` | `char* get_username_from_pid(DWORD pid)` |
+| `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
+| `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
+| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
+| `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
+| `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
+| `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
+| `remove` | function | `modules/workspace.py:90` | `def remove(rel)` |
+| `resolve` | function | `modules/workspace.py:27` | `def resolve(rel)` |
+| `root` | function | `modules/workspace.py:21` | `def root()` |
+| `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
+| `CredentialEntry` | class | `modules/world_model.py:217` | `class CredentialEntry` |
+| `DomainEntry` | class | `modules/world_model.py:243` | `class DomainEntry` |
+| `EmailEntry` | class | `modules/world_model.py:235` | `class EmailEntry` |
+| `EngagementPhase` | class | `modules/world_model.py:196` | `class EngagementPhase(StrEnum)` |
+| `HostEntry` | class | `modules/world_model.py:393` | `class HostEntry` |
+| `HostState` | class | `modules/world_model.py:180` | `class HostState(StrEnum)` |
+| `NetworkGraph` | class | `modules/world_model.py:273` | `class NetworkGraph` |
+| `NetworkRelation` | class | `modules/world_model.py:251` | `class NetworkRelation` |
+| `ServiceInfo` | class | `modules/world_model.py:208` | `class ServiceInfo` |
+| `VulnerabilityEntry` | class | `modules/world_model.py:226` | `class VulnerabilityEntry` |
+| `WorldModel` | class | `modules/world_model.py:570` | `class WorldModel` |
+| `_PhaseDeriver` | class | `modules/world_model.py:445` | `class _PhaseDeriver` |
+| `__init__` | method | `modules/world_model.py:296` | `def __init__(self)` |
+| `__init__` | method | `modules/world_model.py:578` | `def __init__(self, path)` |
+| `_derive_crypto_key` | function | `modules/world_model.py:67` | `def _derive_crypto_key(password, salt)` |
+| `_load` | method | `modules/world_model.py:1093` | `def _load(self)` |
+| `_master_password` | function | `modules/world_model.py:76` | `def _master_password()` |
+| `_save` | method | `modules/world_model.py:1074` | `def _save(self)` |
+| `add_credential` | method | `modules/world_model.py:698` | `def add_credential(self, value, host, service)` |
+| `add_domain` | method | `modules/world_model.py:793` | `def add_domain(self, domain, host, context)` |
+| `add_email` | method | `modules/world_model.py:787` | `def add_email(self, address, host, context)` |
+| `add_host` | method | `modules/world_model.py:594` | `def add_host(self, ip)` |
+| `add_note` | method | `modules/world_model.py:654` | `def add_note(self, ip, note)` |
+| `add_relation` | method | `modules/world_model.py:303` | `def add_relation(self, relation)` |
+| `add_relation` | method | `modules/world_model.py:972` | `def add_relation(self, source, target, relation, weight)` |
+| `add_service` | method | `modules/world_model.py:402` | `def add_service(self, svc)` |
+| `add_service` | method | `modules/world_model.py:637` | `def add_service(self, ip, port, name, version, protocol)` |
+| `add_vulnerability` | method | `modules/world_model.py:781` | `def add_vulnerability(self, description, host, cve, severity)` |
+| `advance` | method | `modules/world_model.py:406` | `def advance(self, new_state)` |
+| `advance_host` | method | `modules/world_model.py:628` | `def advance_host(self, ip, new_state)` |
+| `can_advance_to` | method | `modules/world_model.py:192` | `def can_advance_to(self, next_state)` |
+| `consume_policy_facts` | method | `modules/world_model.py:880` | `def consume_policy_facts(self, facts_path)` |
+| `degree_centrality` | method | `modules/world_model.py:323` | `def degree_centrality(self)` |
+| `derive` | method | `modules/world_model.py:459` | `def derive(self, hosts)` |
+| `from_dict` | method | `modules/world_model.py:377` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/world_model.py:426` | `def from_dict(cls, d)` |
+| `get_host` | method | `modules/world_model.py:675` | `def get_host(self, ip)` |
+| `get_hosts_summary` | method | `modules/world_model.py:687` | `def get_hosts_summary(self)` |
+| `get_phase` | method | `modules/world_model.py:1008` | `def get_phase(self)` |
+| `get_suggested_tools` | method | `modules/world_model.py:1012` | `def get_suggested_tools(self)` |
+| `get_world_model` | function | `modules/world_model.py:1211` | `def get_world_model(path)` |
+| `graph_snapshot` | method | `modules/world_model.py:1001` | `def graph_snapshot(self)` |
+| `in_degree` | method | `modules/world_model.py:315` | `def in_degree(self, node)` |
+| `link_credential_to_failure` | method | `modules/world_model.py:751` | `def link_credential_to_failure(self, value, host)` |
+| `link_credential_to_success` | method | `modules/world_model.py:730` | `def link_credential_to_success(self, value, host)` |
+| `neighbors` | method | `modules/world_model.py:311` | `def neighbors(self, node)` |
+| `out_degree` | method | `modules/world_model.py:319` | `def out_degree(self, node)` |
+| `pivot_candidates` | method | `modules/world_model.py:338` | `def pivot_candidates(self, top_k)` |
+| `pivot_candidates` | method | `modules/world_model.py:993` | `def pivot_candidates(self, top_k)` |
+| `rank` | method | `modules/world_model.py:189` | `def rank(self)` |
+| `read_section` | method | `modules/world_model.py:1166` | `def read_section(self, key)` |
+| `read_state_dict` | function | `modules/world_model.py:101` | `def read_state_dict(path)` |
+| `reload` | method | `modules/world_model.py:1123` | `def reload(self)` |
+| `remove_host` | method | `modules/world_model.py:612` | `def remove_host(self, ip)` |
+| `reset` | method | `modules/world_model.py:1139` | `def reset(self)` |
+| `reset_host` | method | `modules/world_model.py:602` | `def reset_host(self, ip)` |
+| `set_os_hint` | method | `modules/world_model.py:661` | `def set_os_hint(self, ip, os_hint)` |
+| `snapshot` | method | `modules/world_model.py:1150` | `def snapshot(self)` |
+| `to_context_string` | method | `modules/world_model.py:1015` | `def to_context_string(self)` |
+| `to_dict` | method | `modules/world_model.py:360` | `def to_dict(self)` |
+| `to_dict` | method | `modules/world_model.py:414` | `def to_dict(self)` |
+| `update_from_findings` | method | `modules/world_model.py:807` | `def update_from_findings(self, findings)` |
+| `write_section` | method | `modules/world_model.py:1183` | `def write_section(self, key, value)` |
+| `write_state_dict` | function | `modules/world_model.py:147` | `def write_state_dict(path, data)` |
 | `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
 | `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
 | `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
@@ -298,6 +422,15 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
 | `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
 | `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
+| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
+| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
+| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
+| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
+| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
+| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
+| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
+| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
+| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
 | `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
 | `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
 | `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
@@ -363,138 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `__init__` | method | `skills/aci_planner.py:797` | `def __init__(self, lessons_file)` |
 | `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
 | `_build_parser` | function | `skills/aci_planner.py:978` | `def _build_parser()` |
-| `_build_phases_from_llm` | method | `skills/aci_planner.py:509` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
-| `_build_phases_static` | method | `skills/aci_planner.py:534` | `def _build_phases_static(self, goal, phase_filter)` |
-| `_count_blocked` | method | `skills/aci_planner.py:773` | `def _count_blocked(self, plan)` |
-| `_count_objectives_by_status` | function | `skills/aci_planner.py:285` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
-| `_inject_all_objectives` | method | `skills/aci_planner.py:562` | `def _inject_all_objectives(self, plan)` |
-| `_llm_decompose` | function | `skills/aci_planner.py:335` | `def _llm_decompose(goal, api_key)` |
-| `_llm_replan` | function | `skills/aci_planner.py:400` | `def _llm_replan(plan, reason, api_key)` |
-| `_load_payload` | function | `skills/aci_planner.py:267` | `def _load_payload()` |
-| `_load_plan` | function | `skills/aci_planner.py:245` | `def _load_plan(plan_file)` |
-| `_load_world_model` | function | `skills/aci_planner.py:276` | `def _load_world_model()` |
-| `_now_iso` | function | `skills/aci_planner.py:231` | `def _now_iso()` |
-| `_persist_lessons` | method | `skills/aci_planner.py:852` | `def _persist_lessons(self, lessons)` |
-| `_save_plan` | function | `skills/aci_planner.py:235` | `def _save_plan(plan, plan_file)` |
-| `_sync_phase_statuses` | method | `skills/aci_planner.py:754` | `def _sync_phase_statuses(self, plan)` |
-| `_write_objective` | method | `skills/aci_planner.py:571` | `def _write_objective(self, text, phase, target)` |
-| `active_phase` | method | `skills/aci_planner.py:199` | `def active_phase(self)` |
-| `complete` | method | `skills/aci_planner.py:741` | `def complete(self)` |
-| `completion_pct` | method | `skills/aci_planner.py:207` | `def completion_pct(self)` |
-| `from_dict` | method | `skills/aci_planner.py:176` | `def from_dict(cls, d)` |
-| `from_dict` | method | `skills/aci_planner.py:221` | `def from_dict(cls, d)` |
-| `main` | function | `skills/aci_planner.py:1003` | `def main(argv)` |
-| `mcp_aci_plan` | function | `skills/aci_planner.py:865` | `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` |
-| `mcp_aci_replan` | function | `skills/aci_planner.py:940` | `def mcp_aci_replan(reason)` |
-| `mcp_aci_status` | function | `skills/aci_planner.py:923` | `def mcp_aci_status()` |
-| `plan` | method | `skills/aci_planner.py:471` | `def plan(self, goal, phase_filter)` |
-| `reflect` | method | `skills/aci_planner.py:800` | `def reflect(self, plan)` |
-| `replan` | method | `skills/aci_planner.py:671` | `def replan(self, reason)` |
-| `should_replan` | method | `skills/aci_planner.py:658` | `def should_replan(self, plan)` |
-| `status` | method | `skills/aci_planner.py:618` | `def status(self)` |
-| `to_dict` | method | `skills/aci_planner.py:171` | `def to_dict(self)` |
-| `to_dict` | method | `skills/aci_planner.py:214` | `def to_dict(self)` |
-| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3159` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
-| `BridgeSelector` | class | `skills/autonomous_daemon.py:790` | `class BridgeSelector(ICommandSelector)` |
-| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1337` | `class CascadeStrategy` |
-| `CommandDecision` | class | `skills/autonomous_daemon.py:674` | `class CommandDecision` |
-| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:583` | `class CommandRunnerChain(ICommandRunner)` |
-| `CredentialSpraySelector` | class | `skills/autonomous_daemon.py:1281` | `class CredentialSpraySelector(ICommandSelector)` |
-| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2805` | `class DroneCoordinator` |
-| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3298` | `class EngageOrchestrator` |
-| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3108` | `class EnginePhaseResult` |
-| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3091` | `class EnginePhaseStep` |
-| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1467` | `class ExecutionEngine(IObjectiveHandler)` |
-| `FallbackSelector` | class | `skills/autonomous_daemon.py:1027` | `class FallbackSelector(ICommandSelector)` |
-| `ICommandRunner` | class | `skills/autonomous_daemon.py:422` | `class ICommandRunner(ABC)` |
-| `ICommandSelector` | class | `skills/autonomous_daemon.py:685` | `class ICommandSelector(ABC)` |
-| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1453` | `class IObjectiveHandler(ABC)` |
-| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3125` | `class IToolFallbackResolver(ABC)` |
-| `LLMSelector` | class | `skills/autonomous_daemon.py:859` | `class LLMSelector(ICommandSelector)` |
-| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:475` | `class MCPCommandRunner(ICommandRunner)` |
-| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:1050` | `class MetricsAwareSelector(ICommandSelector)` |
-| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:494` | `class PTYCommandRunner(ICommandRunner)` |
-| `ParquetSelector` | class | `skills/autonomous_daemon.py:744` | `class ParquetSelector(ICommandSelector)` |
-| `ReactiveSelector` | class | `skills/autonomous_daemon.py:698` | `class ReactiveSelector(ICommandSelector)` |
-| `SWANSelector` | class | `skills/autonomous_daemon.py:957` | `class SWANSelector(ICommandSelector)` |
-| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3138` | `class StaticFallbackResolver(IToolFallbackResolver)` |
-| `StepResult` | class | `skills/autonomous_daemon.py:1441` | `class StepResult` |
-| `StrategyEngine` | class | `skills/autonomous_daemon.py:1368` | `class StrategyEngine` |
-| `_ShellDetector` | class | `skills/autonomous_daemon.py:3207` | `class _ShellDetector` |
-| `__init__` | method | `skills/autonomous_daemon.py:592` | `def __init__(self, runners)` |
-| `__init__` | method | `skills/autonomous_daemon.py:704` | `def __init__(self, reactive_engine)` |
-| `__init__` | method | `skills/autonomous_daemon.py:750` | `def __init__(self, pdb, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:796` | `def __init__(self, dispatcher, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1071` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1304` | `def __init__(self, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1344` | `def __init__(self, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1382` | `def __init__(self, runner, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1479` | `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)` |
-| `__init__` | method | `skills/autonomous_daemon.py:2814` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3168` | `def __init__(self, dispatcher)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3220` | `def __init__(self, narrator)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3312` | `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...` |
-| `_ask_via` | function | `skills/autonomous_daemon.py:926` | `def _ask_via(_backend, _goal, _key)` |
-| `_bridge_candidate` | method | `skills/autonomous_daemon.py:811` | `def _bridge_candidate(self, phase, services, tag, os_hint)` |
-| `_build_default_runner` | function | `skills/autonomous_daemon.py:613` | `def _build_default_runner()` |
-| `_candidates` | method | `skills/autonomous_daemon.py:3173` | `def _candidates(self, primary, phase)` |
-| `_clear_pid` | function | `skills/autonomous_daemon.py:4641` | `def _clear_pid()` |
-| `_compute_step_reward` | function | `skills/autonomous_daemon.py:1646` | `def _compute_step_reward(output, command, phase, success, findings, prev_cmds)` |
-| `_consult_gate` | method | `skills/autonomous_daemon.py:3883` | `def _consult_gate(self, step)` |
-| `_credential_worth_task` | function | `skills/autonomous_daemon.py:206` | `def _credential_worth_task(cred)` |
-| `_current_bridge_phase` | function | `skills/autonomous_daemon.py:3017` | `def _current_bridge_phase()` |
-| `_current_summary` | method | `skills/autonomous_daemon.py:1149` | `def _current_summary(self)` |
-| `_daemon_tool` | function | `skills/autonomous_daemon.py:457` | `def _daemon_tool(command)` |
-| `_detect_target_os` | function | `skills/autonomous_daemon.py:1719` | `def _detect_target_os(target, loop)` |
-| `_dispatch_pipeline` | function | `skills/autonomous_daemon.py:4916` | `def _dispatch_pipeline(args)` |
-| `_emit` | function | `skills/autonomous_daemon.py:290` | `def _emit(event_type, payload, severity)` |
-| `_engage_run_sync` | function | `skills/autonomous_daemon.py:3962` | `def _engage_run_sync(target, max_switches_per_step, auto)` |
-| `_execute` | method | `skills/autonomous_daemon.py:3898` | `def _execute(self, command, timeout_s)` |
-| `_get_campaign_blacklist` | function | `skills/autonomous_daemon.py:1636` | `def _get_campaign_blacklist()` |
-| `_get_phase_command_catalog` | function | `skills/autonomous_daemon.py:840` | `def _get_phase_command_catalog(phase)` |
-| `_inject_to_tasks_json` | function | `skills/autonomous_daemon.py:247` | `def _inject_to_tasks_json(title, description, operator, status)` |
-| `_is_running` | function | `skills/autonomous_daemon.py:4653` | `def _is_running()` |
-| `_ledger_path` | function | `skills/autonomous_daemon.py:3054` | `def _ledger_path()` |
-| `_ledger_write` | function | `skills/autonomous_daemon.py:3064` | `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)` |
-| `_llm_candidate` | method | `skills/autonomous_daemon.py:872` | `def _llm_candidate(self, target, phase, context)` |
-| `_load_campaign_blacklist` | function | `skills/autonomous_daemon.py:1606` | `def _load_campaign_blacklist()` |
-| `_load_payload` | function | `skills/autonomous_daemon.py:1577` | `def _load_payload()` |
-| `_main_async` | function | `skills/autonomous_daemon.py:4585` | `def _main_async(max_steps)` |
-| `_maybe_generate_report` | function | `skills/autonomous_daemon.py:3936` | `def _maybe_generate_report()` |
-| `_notify_finding` | function | `skills/autonomous_daemon.py:328` | `def _notify_finding(title, body, severity)` |
-| `_objective_proven` | function | `skills/autonomous_daemon.py:353` | `def _objective_proven(objective_text, world_model, target, credential_found)` |
-| `_parquet_candidate` | method | `skills/autonomous_daemon.py:767` | `def _parquet_candidate(self, category, target)` |
-| `_planner_fallback_verb` | method | `skills/autonomous_daemon.py:3639` | `def _planner_fallback_verb(self, tried)` |
-| `_read_pid` | function | `skills/autonomous_daemon.py:4646` | `def _read_pid()` |
-| `_read_recent_csv_commands` | function | `skills/autonomous_daemon.py:1585` | `def _read_recent_csv_commands(limit)` |
-| `_record_intent` | function | `skills/autonomous_daemon.py:313` | `def _record_intent(objective_id, step_n, command, state, reason)` |
-| `_resolve_source` | method | `skills/autonomous_daemon.py:1122` | `def _resolve_source(self)` |
-| `_run` | function | `skills/autonomous_daemon.py:4784` | `def _run()` |
-| `_run_lazyown` | function | `skills/autonomous_daemon.py:622` | `def _run_lazyown(command, timeout)` |
-| `_run_objective` | function | `skills/autonomous_daemon.py:1766` | `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...` |
-| `_run_planner_intents` | method | `skills/autonomous_daemon.py:3520` | `def _run_planner_intents(self, results, fp_before, max_intents, planner)` |
-| `_run_step` | method | `skills/autonomous_daemon.py:3663` | `def _run_step(self, step)` |
-| `_run_sync` | method | `skills/autonomous_daemon.py:1525` | `def _run_sync(self, objective_id, objective_text, target)` |
-| `_settle_state` | function | `skills/autonomous_daemon.py:3078` | `def _settle_state(result)` |
-| `_should_skip` | method | `skills/autonomous_daemon.py:1179` | `def _should_skip(self, command)` |
-| `_step_succeeded` | method | `skills/autonomous_daemon.py:3904` | `def _step_succeeded(command, output)` |
-| `_strip_between_markers` | function | `skills/autonomous_daemon.py:444` | `def _strip_between_markers(output, marker)` |
-| `_swan_candidate` | method | `skills/autonomous_daemon.py:994` | `def _swan_candidate(self, target, phase, context)` |
-| `_tactic_phase` | function | `skills/autonomous_daemon.py:3049` | `def _tactic_phase(tactic)` |
-| `_target_services` | function | `skills/autonomous_daemon.py:3030` | `def _target_services(target)` |
-| `_task_title_open` | function | `skills/autonomous_daemon.py:228` | `def _task_title_open(title)` |
-| `_try_import` | function | `skills/autonomous_daemon.py:126` | `def _try_import(module, attr)` |
-| `_update_task_status` | function | `skills/autonomous_daemon.py:185` | `def _update_task_status(title, new_status)` |
-| `_with_markers` | function | `skills/autonomous_daemon.py:435` | `def _with_markers(command, marker)` |
-| `_worker` | function | `skills/autonomous_daemon.py:4059` | `def _worker()` |
-| `_world_fingerprint` | function | `skills/autonomous_daemon.py:3008` | `def _world_fingerprint()` |
-| `_wrap_chain_with_metrics_bias` | function | `skills/autonomous_daemon.py:1243` | `def _wrap_chain_with_metrics_bias(selectors, enabled)` |
-| `_write_pid` | function | `skills/autonomous_daemon.py:4636` | `def _write_pid()` |
-| `_write_status` | function | `skills/autonomous_daemon.py:4192` | `def _write_status()` |
-| `cmd_engage` | function | `skills/autonomous_daemon.py:4164` | `def cmd_engage(target, max_switches_per_step, detach)` |
-| `cmd_inject` | function | `skills/autonomous_daemon.py:4736` | `def cmd_inject(text, priority)` |
-| `cmd_run` | function | `skills/autonomous_daemon.py:4664` | `def cmd_run(max_steps)` |
-| `cmd_start` | function | `skills/autonomous_daemon.py:4673` | `def cmd_start(max_steps)` |
-| `cmd_status` | function | `skills/autonomous_daemon.py:4720` | `def cmd_status()` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

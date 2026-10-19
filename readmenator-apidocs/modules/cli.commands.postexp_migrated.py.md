@@ -1057,7 +1057,7 @@ Convert a binary path to x64 little-endian hex code for shellcode injection.
 Generates an 8-byte aligned hex string padded with '/' for direct use in
 x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
 
-License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+License: AGPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
 
 Technical Process:
     1. Null-terminate input
@@ -1096,7 +1096,7 @@ Transforms a continuous hex string (e.g., msfvenom output) into a properly forma
 assembly data section with line-wrapped db directives. Handles byte alignment and
 validation.
 
-License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+License: AGPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
 
 Technical Process:
     1. Validate hex format and remove non-hex characters

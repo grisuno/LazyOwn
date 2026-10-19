@@ -1,8 +1,25 @@
-# Symbols (page 8 of 42)
+# Symbols (page 8 of 43)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_sudo` | function | `core/process.py:97` | `def check_sudo()` |
+| `ensure_tmux_session` | function | `core/process.py:253` | `def ensure_tmux_session(session_name)` |
+| `handle_multiple_rhosts` | function | `core/process.py:68` | `def handle_multiple_rhosts(func)` |
+| `is_binary_present` | function | `core/process.py:54` | `def is_binary_present(binary_name)` |
+| `is_package_installed` | function | `core/process.py:143` | `def is_package_installed(package_name)` |
+| `run` | function | `core/process.py:108` | `def run(command)` |
+| `run_command` | function | `core/process.py:183` | `def run_command(command, timeout)` |
+| `wrapper` | function | `core/process.py:82` | `def wrapper(self)` |
+| `active_profile` | function | `core/profiles.py:40` | `def active_profile()` |
+| `is_light` | function | `core/profiles.py:59` | `def is_light()` |
+| `specs_for_profile` | function | `core/profiles.py:64` | `def specs_for_profile(specs)` |
+| `_load_prompt_payload` | function | `core/prompt.py:17` | `def _load_prompt_payload()` |
+| `copy2clip` | function | `core/prompt.py:109` | `def copy2clip(text)` |
+| `get_git_info` | function | `core/prompt.py:35` | `def get_git_info()` |
+| `get_kernel` | function | `core/prompt.py:68` | `def get_kernel()` |
+| `get_local_ips` | function | `core/prompt.py:87` | `def get_local_ips()` |
+| `get_terminal_size` | function | `core/prompt.py:78` | `def get_terminal_size()` |
 | `get_venv_info` | function | `core/prompt.py:60` | `def get_venv_info()` |
 | `getprompt` | function | `core/prompt.py:127` | `def getprompt()` |
 | `BridgeCatalog` | class | `core/protocols.py:62` | `class BridgeCatalog(Protocol)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `AddonStore` | class | `lazyc2/addon_creator.py:813` | `class AddonStore` |
 | `AddonValidationError` | class | `lazyc2/addon_creator.py:412` | `class AddonValidationError(ValueError)` |
 | `AddonValidator` | class | `lazyc2/addon_creator.py:425` | `class AddonValidator` |
-| `AddonYamlRenderer` | class | `lazyc2/addon_creator.py:728` | `class AddonYamlRenderer` |
-| `ParamSpec` | class | `lazyc2/addon_creator.py:345` | `class ParamSpec` |
-| `ValidationIssue` | class | `lazyc2/addon_creator.py:405` | `class ValidationIssue` |
-| `__init__` | method | `lazyc2/addon_creator.py:419` | `def __init__(self, issues)` |
-| `__init__` | method | `lazyc2/addon_creator.py:432` | `def __init__(self, draft, config)` |
-| `__init__` | method | `lazyc2/addon_creator.py:731` | `def __init__(self, config)` |
-| `__init__` | method | `lazyc2/addon_creator.py:822` | `def __init__(self, config, base_dir)` |
-| `_atomic_write` | method | `lazyc2/addon_creator.py:931` | `def _atomic_write(self, target, text)` |
-| `_check_identity` | method | `lazyc2/addon_creator.py:464` | `def _check_identity(self)` |
-| `_check_params` | method | `lazyc2/addon_creator.py:606` | `def _check_params(self)` |
-| `_check_placeholders` | method | `lazyc2/addon_creator.py:679` | `def _check_placeholders(self, text, field)` |
-| `_check_targeting` | method | `lazyc2/addon_creator.py:508` | `def _check_targeting(self)` |
-| `_check_tool` | method | `lazyc2/addon_creator.py:555` | `def _check_tool(self)` |
-| `_first_value` | function | `lazyc2/addon_creator.py:1056` | `def _first_value(form, key)` |
-| `_is_valid_repo_url` | method | `lazyc2/addon_creator.py:719` | `def _is_valid_repo_url(value)` |
-| `_multi_values` | function | `lazyc2/addon_creator.py:1035` | `def _multi_values(form, key)` |
-| `_parse_bool` | function | `lazyc2/addon_creator.py:1067` | `def _parse_bool(value)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

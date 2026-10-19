@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 25 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
+static/js groups 31 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -13,6 +13,7 @@ graph LR
     root["root"]
     static["static"]
     contrib -- "depends on" --> core
+    contrib -- "depends on" --> modules
     root -- "depends on" --> core
     static -- "depends on" --> cli
     static -- "depends on" --> core
@@ -27,7 +28,7 @@ cli groups 3 files (py) around apply_assign, format_payload, style, active_token
 
 ## contrib (8.2)
 
-contrib groups 1 files (py) around generate_key_iv, main.
+contrib groups 5 files (py) around _ret_model, truncate_message, _configure_logging, _load_knowledge_base, _save_knowledge_base. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ## core (8.3)
 
@@ -43,7 +44,7 @@ lazyown-docker groups 1 files (sh).
 
 ## modules (8.6)
 
-modules groups 2 files (c, py) around _GNU_SOURCE, MQUEUE_NUM, INBOUND, OUTBOUND, DESC_MAX. gcc exp.c -o exp -l mnl -l nftnl -w
+modules groups 3 files (c, py) around retModel, delete_lines, no_html, _GNU_SOURCE, MQUEUE_NUM. retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile...
 
 ## root (8.7)
 
@@ -51,7 +52,7 @@ root groups 1 files (py) around main.
 
 ## static (8.8)
 
-static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
+static groups 15 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
 **Files**:
 
@@ -59,11 +60,16 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 - cli/show.py
 - cli/style.py
 - contrib/legacy/lazybinenc.py
+- contrib/legacy/lazygptcli.py
+- contrib/legacy/lazygptcli_unified.py
+- contrib/legacy/lazyproxy.py
+- contrib/legacy/lazyseo.py
 - core/process.py
 - core/prompt.py
 - key.py
 - lazyc2/state.py
 - lazyown-docker/init.sh
+- modules/colors.py
 - modules/exp.c
 - modules/search.py
 - static/js/3d-force-graph-1.73.4.min.js
@@ -80,3 +86,4 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
+- static/js/xterm.js

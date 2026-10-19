@@ -1,14 +1,14 @@
 # static/js
 
-*Community 7 | 25 files | cohesion 0.49*
+*Community 7 | 31 files | cohesion 0.51*
 
 ## Definition
 
-This community groups 25 file(s) rooted at `static/js` with dominant language js (cohesion 0.49). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 31 file(s) rooted at `static/js` with dominant language js (cohesion 0.51). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
-### `static/js` (14 files)
+### `static/js` (15 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,10 +17,15 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 | `static/js/bootstrap-5.3.0.bundle.min.js` | js | infrastructure | 28 | yes |
 | `static/js/chart.min.js` | js | utility | 88 | yes |
 | `static/js/force-graph-1.43.5.min.js` | js | utility | 31 | yes |
-| `static/js/html2pdf.bundle.min.js` | js | utility | 738 | no |
-| `static/js/jquery-3.5.1.slim.min.js` | js | utility | 6 | yes |
-| `static/js/particles.js` | js | utility | 11 | yes |
-| `static/js/popper-2.5.4.min.js` | js | utility | 1 | no |
+
+### `contrib/legacy` (5 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazybinenc.py` | py | utility | 2 | no |
+| `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
+| `contrib/legacy/lazygptcli_unified.py` | py | utility | 29 | yes |
+| `contrib/legacy/lazyproxy.py` | py | utility | 9 | no |
 
 ### `cli` (3 files)
 
@@ -30,6 +35,14 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 | `cli/show.py` | py | utility | 1 | yes |
 | `cli/style.py` | py | utility | 4 | yes |
 
+### `modules` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/colors.py` | py | utility | 3 | no |
+| `modules/exp.c` | c | utility | 58 | yes |
+| `modules/search.py` | py | utility | 0 | yes |
+
 ### `core` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -37,24 +50,11 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 | `core/process.py` | py | business_logic | 12 | yes |
 | `core/prompt.py` | py | utility | 8 | yes |
 
-### `modules` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/exp.c` | c | utility | 58 | yes |
-| `modules/search.py` | py | utility | 0 | yes |
-
 ### `.` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `key.py` | py | utility | 1 | no |
-
-### `contrib/legacy` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazybinenc.py` | py | utility | 2 | no |
 
 ### `lazyc2` (1 files)
 
@@ -68,7 +68,7 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `lazyown-docker/init.sh` | sh | utility | 0 | no |
 
-*... and 5 more files in this community.*
+*... and 11 more files in this community.*
 
 
 ## Key Symbols
@@ -81,43 +81,44 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 - `render_prompt` (function, `cli/style.py:98`) `def render_prompt(console, segments, payload)` - Print a themed prompt line composed of ``(text, token)`` pairs.
 - `generate_key_iv` (function, `contrib/legacy/lazybinenc.py:12`) `def generate_key_iv(sessions_path)`
 - `main` (function, `contrib/legacy/lazybinenc.py:54`) `def main()`
-- `check_go_tool_installed` (function, `core/process.py:34`) `def check_go_tool_installed(tool_name)` - Check if a Go tool binary is installed and runnable.
-- `is_binary_present` (function, `core/process.py:54`) `def is_binary_present(binary_name)` - Check whether binary is on ``PATH``.
-- `handle_multiple_rhosts` (function, `core/process.py:68`) `def handle_multiple_rhosts(func)` - Decorator that iterates over a list of remote hosts.
-- `wrapper` (function, `core/process.py:82`) `def wrapper(self)`
-- `check_sudo` (function, `core/process.py:97`) `def check_sudo()` - Re-launch the script with ``sudo`` if not already root.
-- `run` (function, `core/process.py:108`) `def run(command)` - Execute a shell command via ``SafeRunner``.
-- `is_package_installed` (function, `core/process.py:143`) `def is_package_installed(package_name)` - Check whether a Python package is importable.
-- `_print_run_command_status` (function, `core/process.py:159`) `def _print_run_command_status(command, elapsed, exit_code)` - Print a dim completion line (elapsed time + exit code) after a run.
-- `run_command` (function, `core/process.py:183`) `def run_command(command, timeout)` - Run a command, streaming output in real time.
-- `_drain_stderr` (function, `core/process.py:220`) `def _drain_stderr()`
-- `ensure_tmux_session` (function, `core/process.py:253`) `def ensure_tmux_session(session_name)` - Create a tmux session if it does not already exist.
-- `activate_server` (function, `core/process.py:271`) `def activate_server(httpd, url, lhost)` - Start an HTTP server and print the serving URL.
-- `_load_prompt_payload` (function, `core/prompt.py:17`) `def _load_prompt_payload()` - Load ``payload.json`` and return a dict with default values.
-- `get_git_info` (function, `core/prompt.py:35`) `def get_git_info()` - Return current git branch and dirty-status for the prompt.
-- `get_venv_info` (function, `core/prompt.py:60`) `def get_venv_info()` - Return the active virtualenv name, or empty string if none.
-- `get_kernel` (function, `core/prompt.py:68`) `def get_kernel()` - Return the running kernel version (short form).
-- `get_terminal_size` (function, `core/prompt.py:78`) `def get_terminal_size()` - Return ``(width, height)`` of the terminal, defaulting to 80x24.
-- `get_local_ips` (function, `core/prompt.py:87`) `def get_local_ips()` - Return a comma-separated string of non-loopback IPv4 addresses.
-- `copy2clip` (function, `core/prompt.py:109`) `def copy2clip(text)` - Copy ``text`` to the system clipboard via xclip.
-- `getprompt` (function, `core/prompt.py:127`) `def getprompt()` - Build the coloured status line for the CLI header and C2 dashboard.
-- `main` (function, `key.py:10`) `def main()`
-- `_GNU_SOURCE` (macro, `modules/exp.c:2`) `#define _GNU_SOURCE`
+- `signal_handler` (function, `contrib/legacy/lazygptcli.py:66`) `def signal_handler(sig, frame)`
+- `show_help` (function, `contrib/legacy/lazygptcli.py:73`) `def show_help(message)`
+- `check_api_key` (function, `contrib/legacy/lazygptcli.py:77`) `def check_api_key()`
+- `configure_logging` (function, `contrib/legacy/lazygptcli.py:83`) `def configure_logging(debug)`
+- `parse_args` (function, `contrib/legacy/lazygptcli.py:87`) `def parse_args()`
+- `create_complex_prompt` (function, `contrib/legacy/lazygptcli.py:94`) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+- `execute_command` (function, `contrib/legacy/lazygptcli.py:108`) `def execute_command(command)`
+- `load_knowledge_base` (function, `contrib/legacy/lazygptcli.py:118`) `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function, `contrib/legacy/lazygptcli.py:124`) `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function, `contrib/legacy/lazygptcli.py:128`) `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function, `contrib/legacy/lazygptcli.py:133`) `def get_relevant_knowledge(prompt)`
+- `transform_knowledge_base` (function, `contrib/legacy/lazygptcli.py:141`) `def transform_knowledge_base(client)`
+- `cleanup_temp_files` (function, `contrib/legacy/lazygptcli.py:164`) `def cleanup_temp_files()`
+- `main` (function, `contrib/legacy/lazygptcli.py:177`) `def main()`
+- `_ret_model` (function, `contrib/legacy/lazygptcli_unified.py:45`) `def _ret_model()`
+- `truncate_message` (function, `contrib/legacy/lazygptcli_unified.py:53`) `def truncate_message(message, max_chars)`
+- `_configure_logging` (function, `contrib/legacy/lazygptcli_unified.py:57`) `def _configure_logging(debug)`
+- `_load_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:62`) `def _load_knowledge_base(file_path)`
+- `_save_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:70`) `def _save_knowledge_base(knowledge_base, file_path)`
+- `_add_to_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:76`) `def _add_to_knowledge_base(prompt, response, file_path)`
+- `_get_relevant_knowledge` (function, `contrib/legacy/lazygptcli_unified.py:82`) `def _get_relevant_knowledge(prompt, file_path)`
+- `_transform_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:95`) `def _transform_knowledge_base(client, kb_file, improved_file)`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 226
-- Cross-boundary resolved imports (EXTRACTED): 62
+- Internal resolved imports (EXTRACTED): 236
+- Cross-boundary resolved imports (EXTRACTED): 64
 
 ## Connections
 
 - [EXTRACTED] depends_on community 7 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
-- [EXTRACTED] depends_on community 2 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/misc_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 9 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 
 ## Risks
 
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyproxy.py:153` `handle_request` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyproxy.py:184` `start_proxy` `proxy_socket`: Result of allocator stored in `proxy_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyseo.py:50` `results` `content`: Result of allocator stored in `content` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
 - [dataflow DEAD_STORE] `modules/exp.c:274` `awake_partial_keys` `keylen`: `keylen` assigned at line 274 but never read afterwards.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.
@@ -126,9 +127,9 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 
 ## Open Questions
 
-- Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazybinenc.py`)? What purpose do they serve?
+- Why do 12 file(s) lack file-level docs (e.g. `contrib/legacy/lazybinenc.py`)? What purpose do they serve?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.49?
+- Should static/js be split, given cohesion 0.51?
 
 ## Sources
 
@@ -136,20 +137,20 @@ This community groups 25 file(s) rooted at `static/js` with dominant language js
 - `cli/show.py`
 - `cli/style.py`
 - `contrib/legacy/lazybinenc.py`
+- `contrib/legacy/lazygptcli.py`
+- `contrib/legacy/lazygptcli_unified.py`
+- `contrib/legacy/lazyproxy.py`
+- `contrib/legacy/lazyseo.py`
 - `core/process.py`
 - `core/prompt.py`
 - `key.py`
 - `lazyc2/state.py`
 - `lazyown-docker/init.sh`
+- `modules/colors.py`
 - `modules/exp.c`
 - `modules/search.py`
 - `static/js/3d-force-graph-1.73.4.min.js`
 - `static/js/bootstrap-4.5.2.min.js`
 - `static/js/bootstrap-5.3.0.bundle.min.js`
 - `static/js/chart.min.js`
-- `static/js/force-graph-1.43.5.min.js`
-- `static/js/html2pdf.bundle.min.js`
-- `static/js/jquery-3.5.1.slim.min.js`
-- `static/js/particles.js`
-- `static/js/popper-2.5.4.min.js`
-- *... and 5 more*
+- *... and 11 more*

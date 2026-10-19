@@ -55,19 +55,19 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_verb` (method, line 1863) `def do_lazy_verb(self, line)`
   - `do_lazy_stage` (method, line 1961) `def do_lazy_stage(self, line)`
   - `do_lazy_addon` (method, line 1989) `def do_lazy_addon(self, line)`
-  - `do_lazy_notify` (method, line 2099) `def do_lazy_notify(self, line)`
-  - `do_lazy_trigger` (method, line 2147) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2206) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2343) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2415) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2439) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2444) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2475) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2506) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2527) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2560) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2587) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2632) `def do_lazy_loop(self, line)`
+  - `do_lazy_notify` (method, line 2095) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 2143) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 2202) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2339) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2411) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2435) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2440) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2471) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2502) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2523) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2556) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2583) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2628) `def do_lazy_loop(self, line)`
   - `do_lazy_sandbox` (method, line 2652) `def do_lazy_sandbox(self, line)`
   - `do_lazy_install` (method, line 2715) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
@@ -125,11 +125,11 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_threat_model` (method, line 378) `def do_threat_model(self, args)`
   - `do_playbook_run` (method, line 431) `def do_playbook_run(self, args)`
   - `do_auto_loop` (method, line 489) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 523) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 528) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 533) `def do_timeline(self, line)`
-  - `_delegate` (method, line 537) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 545) `def _refresh_aliases(self)`
+  - `do_session_state` (method, line 529) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 534) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 539) `def do_timeline(self, line)`
+  - `_delegate` (method, line 543) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 551) `def _refresh_aliases(self)`
   - `_executor` (function, line 475) `def _executor(command, host)`
 - Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 - Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`

@@ -136,7 +136,7 @@ gym leaderboard 10
 
 #### `RedTeamGymCommandSet.do_gym_ms2`
 
-`method` | [cli/commands/redteam_gym.py:93](../../cli/commands/redteam_gym.py#L93)
+`method` | [cli/commands/redteam_gym.py:92](../../cli/commands/redteam_gym.py#L92)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

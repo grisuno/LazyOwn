@@ -6,7 +6,7 @@ log_monitor_bot_v2_monolithic.py
 Author: Your Name
 Email: youremail@example.com
 Creation Date: 14/04/2025
-License: GPL v3
+License: AGPL v3
 
 Description: Real-time log monitoring bot for Linux systems (Monolithic Test Version).
              Monitors logs, performs basic parsing, uses DeepSeek for analysis per line,

@@ -49,6 +49,13 @@ for _p in [str(_mcp_lazyown / "modules"), str(_mcp_root)]:
 
 from mcp_lazy import ensure_optional as _ensure_optional
 
+_CREDENTIAL_FLAGS: dict[str, tuple[str | None, str | None]] = {
+    "gobuster": ("-U", "-P"),
+    "hydra": ("-l", "-p"),
+    "medusa": ("-u", "-p"),
+    "ncrack": ("-u", "-P"),
+}
+_MEM_SNIPPET_LIMIT = 2000
 _ENGINE_AVAILABLE = None
 _BRIDGE_AVAILABLE = None
 _STATE_AVAILABLE = None
@@ -4990,6 +4997,51 @@ async def list_tools() -> list[types.Tool]:
                         "description": "Max seconds for the whole chain (default 900, max 1800).",
                         "default": 900,
                     },
+                    "playbook": {
+                        "type": "string",
+                        "description": "Override the playbook token for the chain (e.g. 'rocke').",
+                        "default": "",
+                    },
+                    "steps": {
+                        "type": "string",
+                        "description": "Comma-separated step ids to run (e.g. 'recon,exploit'); others are skipped.",
+                        "default": "",
+                    },
+                    "vars": {
+                        "type": "object",
+                        "description": "Token overrides as key=value pairs injected into chain steps.",
+                        "default": {},
+                    },
+                    "dry_run": {
+                        "type": "boolean",
+                        "description": "Resolve every step without executing.",
+                        "default": False,
+                    },
+                    "json": {
+                        "type": "boolean",
+                        "description": "Emit machine-readable result with per-step outcomes, variables and run_id.",
+                        "default": False,
+                    },
+                    "replan": {
+                        "type": "boolean",
+                        "description": "Let the reactive engine insert extra steps after each executed step (capped at 3 inserts).",
+                        "default": False,
+                    },
+                    "continue_all": {
+                        "type": "boolean",
+                        "description": "Do not abort on the first failed step; keep executing as long as possible.",
+                        "default": False,
+                    },
+                    "resume": {
+                        "type": "string",
+                        "description": "Run id of an interrupted checkpoint; resumes it (apt_chain checkpoints lists them).",
+                        "default": "",
+                    },
+                    "no_checkpoint": {
+                        "type": "boolean",
+                        "description": "Do not persist a resumable checkpoint for this run.",
+                        "default": False,
+                    },
                 },
                 "required": [],
             },
@@ -8866,12 +8918,76 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             pass
 
         execution_log: list[dict] = []
-        # Track commands that failed this session per (target, category)
-        _fail_counts: dict[str, int] = {}
+        # Durable failure counters + blocked bases (survive loop restarts)
+        _fail_mem = None
+        _decision_store = None
+        try:
+            from auto_loop_memory import DecisionPersistence, FailureMemory
+
+            _fail_mem = FailureMemory(SESSIONS_DIR / "auto_loop" / "failure_memory.json")
+            _decision_store = DecisionPersistence(SESSIONS_DIR / "auto_loop" / "pending_decisions.json")
+        except Exception:
+            _fail_mem = None
+            _decision_store = None
+
+        _import_ok = False
+        try:
+            from selector_manager import Proposal, select as _raw_selector
+
+            _Proposal = Proposal
+            _select_proposal = _raw_selector
+            _import_ok = True
+        except Exception:
+            _import_ok = False
+
+        if not _import_ok:
+
+            class _Proposal:
+                """Fallback proposal object when selector_manager is unavailable."""
+
+                def __init__(self, command: str, args: str = "", source: str = "unknown", reason: str = "", priority: int = 100):
+                    self.command = command
+                    self.args = args
+                    self.source = source
+                    self.reason = reason
+                    self.priority = priority
+
+            def _select_proposal(proposals, is_blocked=None):
+                """Fallback first-valid-choice selection with rejection trace."""
+                rejected: list[str] = []
+                for proposal in proposals:
+                    base = proposal.command.strip().split()[0] if proposal.command.strip() else ""
+                    if not base:
+                        rejected.append(f"{proposal.source}: empty command")
+                        continue
+                    if is_blocked is not None and is_blocked(base):
+                        rejected.append(f"{proposal.source}: '{base}' blocked")
+                        continue
+                    return type(
+                        "Selection",
+                        (),
+                        {
+                            "command": proposal.command.strip(),
+                            "args": proposal.args,
+                            "source": proposal.source,
+                            "reason": proposal.reason,
+                            "rejected": rejected,
+                        },
+                    )()
+                return None
+
         # Commands blocked by stuck-loop recovery (matched by base name)
-        _blocked_cmds: set[str] = set()
+        _blocked_cmds: set[str] = set(_fail_mem.blocked_bases(target) if _fail_mem else set())
         # Reactive engine — carries the highest-priority decision across steps
         _reactive_state: dict[str, str] = {}  # keys: "cmd", "args", "reason", "mitre"
+        if _decision_store is not None:
+            try:
+                _parked = _decision_store.pop()
+                if _parked:
+                    _reactive_state["cmd"] = _parked.command
+                    _reactive_state["reason"] = _parked.reason
+            except Exception:
+                pass
         # Bootstrap log — records the deterministic pre-flight steps
         _bootstrap_log: list[dict] = []
 
@@ -9250,6 +9366,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             """
             Pop the highest-priority 'New' task from sessions/tasks.json,
             mark it 'Started', and return it.  Returns None if none pending.
+            Cards mirrored from the lazy_loop engine carry the lazy_loop
+            operator tag; they are display-only and never consumed here.
             """
             tasks_path = SESSIONS_DIR / "tasks.json"
             if not tasks_path.exists():
@@ -9258,7 +9376,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 tasks = json.loads(tasks_path.read_text())
                 if not isinstance(tasks, list):
                     return None
-                pending = [t for t in tasks if t.get("status") == "New"]
+                pending = [
+                    t
+                    for t in tasks
+                    if t.get("status") == "New"
+                    and str(t.get("command", "") or "").strip()
+                    and str(t.get("operator", "") or "") != "lazy_loop"
+                ]
                 if not pending:
                     return None
                 # Sort by priority (1 = highest), then by index
@@ -9438,10 +9562,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             password = ctx.get("password", "")
             if port:
                 parts.append(f"-p {port}")
-            if username:
-                parts.append(f"-u {username}")
-            if password:
-                parts.append(f"-p '{password}'")
+            if username or password:
+                use_name, pass_name = _CREDENTIAL_FLAGS.get(resolved_cmd.split("/")[-1], (None, None))
+                if use_name and username:
+                    parts.append(f"{use_name} {shlex.quote(username)}")
+                if pass_name and password:
+                    parts.append(f"{pass_name} {shlex.quote(password)}")
             return resolved_cmd, " ".join(parts)
 
         # Tracks the task currently being executed by the loop so outcome can be recorded.
@@ -9449,6 +9575,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         def _execute_step() -> dict:
             nonlocal _active_task
+
+            def _blocked(base: str) -> bool:
+                """Session veto set plus durable failure counters."""
+                if base and base in _blocked_cmds:
+                    return True
+                return _fail_mem is not None and base != "" and _fail_mem.is_blocked(target, base)
 
             # ── Task-board priority: consume tasks.json before policy ─────────
             pending_task = _next_pending_task()
@@ -9506,9 +9638,25 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
                 step_rec = _policy.on_command_complete(target, t_cmd, t_args, output, None)
                 _mark_task_done(pending_task.get("id", ""), step_rec.outcome)
-                fail_key = f"{target}:{step_rec.category}:{t_cmd}"
-                if step_rec.outcome != "success":
-                    _fail_counts[fail_key] = _fail_counts.get(fail_key, 0) + 1
+                try:
+                    from memory_store import remember as _mem_remember_t
+
+                    _mem_remember_t(
+                        session_id=f"loop-{target}",
+                        host=target,
+                        tool=t_cmd,
+                        command=f"{t_cmd} {t_args}".strip(),
+                        output=str(output or "")[:_MEM_SNIPPET_LIMIT],
+                        findings={"category": step_rec.category, "outcome": step_rec.outcome},
+                        success=step_rec.outcome == "success",
+                    )
+                except Exception:
+                    pass
+                if step_rec.outcome != "success" and _fail_mem is not None:
+                    try:
+                        _fail_mem.record_failure(target, step_rec.category, t_cmd)
+                    except Exception:
+                        pass
 
                 if output and output.strip():
                     try:
@@ -9643,90 +9791,115 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             except Exception:
                 pass
 
-            # ── Adaptive command selection ────────────────────────────────────
+            # ── Adaptive command selection through the selector manager ──────
             # Priority: reactive > parquet > bridge catalog > LLM recommender > cat_map
-            resolved_cmd = ""
-            resolved_args = ""
+            # Every source contributes a Proposal; the manager picks the first
+            # valid one and records why each other source lost.
+            proposals: list[_Proposal] = []
 
             # 0. Reactive engine: consume the top decision injected by the previous step
             if _reactive_state.get("cmd"):
-                _r_parts = _reactive_state["cmd"].split(None, 1)
-                resolved_cmd = _r_parts[0]
-                resolved_args = _r_parts[1] if len(_r_parts) > 1 else _reactive_state.get("args", "")
+                _r_cmd = str(_reactive_state["cmd"])
+                _r_parts = _r_cmd.split(None, 1)
+                proposals.append(
+                    _Proposal(
+                        command=_r_cmd,
+                        args=_r_parts[1] if len(_r_parts) > 1 else _reactive_state.get("args", ""),
+                        source="reactive",
+                        reason=_reactive_state.get("reason", ""),
+                        priority=10,
+                    )
+                )
                 _reactive_state.clear()
 
             # 1. Parquet: commands proven to work for this category+target
             hist_candidates = _parquet_candidates(category, target)
             for cand in hist_candidates:
                 cand_base = cand.strip().split()[0] if cand.strip() else cand
-                fail_key = f"{target}:{category}:{cand}"
-                if _fail_counts.get(fail_key, 0) >= 2:
-                    continue  # blocked: failed twice this session
-                if cand_base in _blocked_cmds:
-                    continue  # blocked: stuck-loop recovery
-                resolved_cmd = cand
+                if _blocked(cand_base):
+                    continue
+                proposals.append(
+                    _Proposal(command=cand, source="parquet", reason=f"known-good for {category}", priority=20)
+                )
                 break
 
             # 1.5. Bridge catalog: phase-aware, service-matched recommendation
-            if not resolved_cmd:
-                try:
-                    from lazyown_bridge import get_dispatcher as _get_bridge
+            try:
+                from lazyown_bridge import get_dispatcher as _get_bridge
 
-                    _bridge = _get_bridge()
-                    # Use policy-recommended category for bridge lookup.
-                    # WorldModel phase lags behind (stays at 'scanning' until
-                    # findings update it), so always prefer the policy category.
-                    _phase_val = category
-                    _services: list[str] = []
-                    _has_creds_wm = False
-                    _wm_snap = None
-                    if _wm is not None:
-                        _wm_snap = _wm.snapshot()
-                        _host_info = _wm_snap.get("hosts", {}).get(target, {})
-                        _svcs = _host_info.get("services", {})
-                        _services = [f"{v.get('name', '')}" for v in _svcs.values() if isinstance(v, dict)]
-                        _has_creds_wm = bool(_wm_snap.get("credentials"))
-                    _excl_set = {
-                        k.split(":")[-1] for k, v in _fail_counts.items() if k.startswith(f"{target}:") and v >= 2
-                    }
-                    _bridge_result = _bridge.suggest(
-                        phase=_phase_val,
-                        target=target,
-                        services=_services,
-                        has_creds=_has_creds_wm,
-                        excluded=_excl_set,
-                        world_snapshot=_wm_snap,
+                _bridge = _get_bridge()
+                # Use policy-recommended category for bridge lookup.
+                # WorldModel phase lags behind (stays at 'scanning' until
+                # findings update it), so always prefer the policy category.
+                _phase_val = category
+                _services: list[str] = []
+                _has_creds_wm = False
+                _wm_snap = None
+                if _wm is not None:
+                    _wm_snap = _wm.snapshot()
+                    _host_info = _wm_snap.get("hosts", {}).get(target, {})
+                    _svcs = _host_info.get("services", {})
+                    _services = [f"{v.get('name', '')}" for v in _svcs.values() if isinstance(v, dict)]
+                    _has_creds_wm = bool(_wm_snap.get("credentials"))
+                _excl_set = {_cmd for _cmd in (_fail_mem.blocked_bases(target) if _fail_mem else _blocked_cmds)}
+                _bridge_result = _bridge.suggest(
+                    phase=_phase_val,
+                    target=target,
+                    services=_services,
+                    has_creds=_has_creds_wm,
+                    excluded=_excl_set,
+                    world_snapshot=_wm_snap,
+                )
+                if _bridge_result is not None:
+                    _bridge_cmd, _bridge_entry = _bridge_result
+                    proposals.append(
+                        _Proposal(command=_bridge_cmd, source="bridge", reason=f"catalog match for {category}", priority=30)
                     )
-                    if _bridge_result is not None:
-                        _bridge_cmd, _bridge_entry = _bridge_result
-                        _bridge_parts = _bridge_cmd.split(None, 1)
-                        _bridge_base = _bridge_parts[0]
-                        if _bridge_base not in _blocked_cmds:
-                            resolved_cmd = _bridge_base
-                            resolved_args = _bridge_parts[1] if len(_bridge_parts) > 1 else ""
-                except Exception:
-                    pass
+            except Exception:
+                pass
 
-            # 2. LLM recommender as fallback
-            if not resolved_cmd and _RECOMMENDER_AVAILABLE:
+            # 2. LLM recommender as fallback (up to three candidates)
+            if _RECOMMENDER_AVAILABLE:
                 api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
                 try:
                     llm_recs = _recommend(api_key)
+                    _llm_added = 0
                     for lr in llm_recs or []:
-                        cmd_cand = lr.get("command", "")
-                        fail_key = f"{target}:{category}:{cmd_cand}"
-                        if cmd_cand not in ("_error", "_unavailable") and _fail_counts.get(fail_key, 0) < 2:
-                            resolved_cmd = cmd_cand
-                            resolved_args = lr.get("args", "")
+                        cmd_cand = str(lr.get("command", ""))
+                        if cmd_cand in ("", "_error", "_unavailable"):
+                            continue
+                        proposals.append(
+                            _Proposal(
+                                command=cmd_cand,
+                                args=str(lr.get("args", "")),
+                                source="llm",
+                                reason="groq recommender",
+                                priority=40 + _llm_added,
+                            )
+                        )
+                        _llm_added += 1
+                        if _llm_added >= 3:
                             break
                 except Exception:
                     pass
 
             # 3. Static category map as last resort
-            if not resolved_cmd:
-                fallback = cat_map.get(category, "list")
-                fail_key = f"{target}:{category}:{fallback}"
-                resolved_cmd = fallback if _fail_counts.get(fail_key, 0) < 2 else "list"
+            proposals.append(
+                _Proposal(
+                    command=cat_map.get(category, "list"),
+                    source="cat_map",
+                    reason=f"static default for {category}",
+                    priority=50,
+                )
+            )
+            proposals.append(_Proposal(command="list", source="cat_map", reason="safe fallback", priority=60))
+
+            selection = _select_proposal(proposals, is_blocked=_blocked)
+            winner = selection or _select_proposal([_Proposal(command="list", source="cat_map")])
+            resolved_cmd = winner.command.split(None, 1)[0]
+            resolved_args = winner.command.split(None, 1)[1] if len(winner.command.split(None, 1)) > 1 else winner.args
+            selection_source = winner.source
+            selection_rejections = list(selection.rejected) if selection else []
 
             # Enrich args with FactStore context when no explicit args were given
             resolved_cmd, resolved_args = _build_command_from_facts(category, resolved_cmd, resolved_args, target)
@@ -9989,7 +10162,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     if (
                         top_d.priority <= 2
                         and not _reactive_state.get("cmd")
-                        and _top_base not in _blocked_cmds
+                        and not _blocked(_top_base)
                         and _top_base != resolved_cmd
                     ):  # don't re-inject what just ran
                         _reactive_state["cmd"] = top_d.command
@@ -10002,6 +10175,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             # Record outcome in policy engine
             step = _policy.on_command_complete(target, resolved_cmd, resolved_args, output, None)
+            try:
+                from memory_store import remember as _mem_remember
+
+                _mem_remember(
+                    session_id=f"loop-{target}",
+                    host=target,
+                    tool=resolved_cmd,
+                    command=f"{resolved_cmd} {resolved_args}".strip(),
+                    output=str(output or "")[:_MEM_SNIPPET_LIMIT],
+                    findings={"category": step.category, "outcome": step.outcome, "confidence": step.confidence},
+                    success=step.outcome == "success",
+                )
+            except Exception:
+                pass
 
             # Annotate parquet knowledge base with the real outcome (rich version)
             if _pdb is not None:
@@ -10030,10 +10217,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 except Exception:
                     pass  # parquet annotation must never affect the loop
 
-            # Track failures for adaptive selection
-            fail_key = f"{target}:{step.category}:{resolved_cmd}"
-            if step.outcome != "success":
-                _fail_counts[fail_key] = _fail_counts.get(fail_key, 0) + 1
+            # Track failures for adaptive selection (durable across restarts)
+            if step.outcome != "success" and _fail_mem is not None:
+                try:
+                    _fail_mem.record_failure(target, step.category, f"{resolved_cmd} {resolved_args}".strip())
+                except Exception:
+                    pass
 
             # Update soul.md phase on high-value success
             if step.outcome == "success" and step.category in high_value_cats:
@@ -10061,7 +10250,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 "via": via,
                 "policy_rec": top_rec["reason"],
                 "source": top_rec["source"],
+                "selector_source": selection_source,
             }
+            if selection_rejections:
+                step_dict["selector_rejections"] = selection_rejections
             if _thought:
                 step_dict["thought"] = _thought
             if _mitre_tactic:
@@ -10134,6 +10326,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 _stuck_threshold = 2 if s["outcome"] != "success" else 3
                 if _loop_consecutive >= _stuck_threshold:
                     _blocked_cmds.add(_cmd_base)
+                    if _fail_mem is not None:
+                        try:
+                            _fail_mem.veto_base(target, _cmd_base)
+                        except Exception:
+                            pass
                     print(
                         f"[auto_loop] AAAA stuck on '{_cmd_base}' ({s['outcome']}) — blocked + phase advance",
                         flush=True,
@@ -10148,10 +10345,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     h = _loop_history
                     if h[-6] == h[-4] == h[-2] and h[-5] == h[-3] == h[-1] and h[-6] != h[-5]:
                         _osc_a, _osc_b = h[-6], h[-5]
-                        if s["outcome"] != "success":
-                            _blocked_cmds.add(_cmd_base)
-                        else:
-                            _blocked_cmds.add(_osc_a if _osc_a != _cmd_base else _osc_b)
+                        _veto_base = _cmd_base if s["outcome"] != "success" else (_osc_a if _osc_a != _cmd_base else _osc_b)
+                        _blocked_cmds.add(_veto_base)
+                        if _fail_mem is not None:
+                            try:
+                                _fail_mem.veto_base(target, _veto_base)
+                            except Exception:
+                                pass
                         print(
                             f"[auto_loop] ABABAB oscillation ('{_osc_a}'↔'{_osc_b}') — blocked + phase advance",
                             flush=True,
@@ -10165,6 +10365,44 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 break
             if i < max_steps - 1:
                 await asyncio.sleep(step_delay)
+
+        if _reactive_state.get("cmd") and _decision_store is not None:
+            try:
+                _decision_store.push(_reactive_state["cmd"], _reactive_state.get("reason", ""))
+                _reactive_state.clear()
+            except Exception:
+                pass
+
+        try:
+            from modules.digest import build_engine_digest as _digest_build
+            from modules.digest import worker_results_digest as _digest_rows
+            from modules.digest import write_digest as _digest_write
+
+            _prompt_rows = [
+                {
+                    "intent_id": s.get("policy_rec", ""),
+                    "worker": s.get("selector_source", s.get("source", "?")),
+                    "state": s.get("outcome", "?"),
+                }
+                for s in execution_log
+            ]
+            _shown_rows, _blocked_rows = _digest_rows(_prompt_rows)
+            _digest_findings = [s.get("command", "") for s in execution_log if s.get("outcome") == "success"]
+            _digest_write(
+                target,
+                _digest_build(
+                    target,
+                    "loop_complete",
+                    len(execution_log),
+                    _digest_findings[:12],
+                    [],
+                    _blocked_rows,
+                    [str(p) for p in (_decision_store.peek().reason if _decision_store else "")],
+                ),
+                SESSIONS_DIR,
+            )
+        except Exception:
+            pass
 
         # Format report
         total_reward = sum(s["reward"] for s in execution_log)
@@ -10955,7 +11193,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return text(f"[apt_chain] unknown/disabled chain '{ch_chain}'. Available: {', '.join(available)}")
         except Exception as exc:
             return text(f"[apt_chain error] chain registry unavailable: {exc}")
-        cmd = f"apt_chain {ch_chain} {ch_target}".strip()
+        cmd_parts = ["apt_chain", ch_chain, ch_target]
+        ch_vars = arguments.get("vars") or {}
+        if isinstance(ch_vars, dict) and ch_vars:
+            for var_name, var_value in list(ch_vars.items())[:16]:
+                if str(var_name).isidentifier():
+                    cmd_parts.append(
+                        f"--var {str(var_name)}={shlex.quote(str(var_value))}"
+                    )
+        if arguments.get("dry_run"):
+            cmd_parts.append("--dry-run")
+        if arguments.get("json"):
+            cmd_parts.append("--json")
+        if arguments.get("replan"):
+            cmd_parts.append("--replan")
+        if arguments.get("continue_all"):
+            cmd_parts.append("--continue")
+        ch_resume = str(arguments.get("resume", "") or "").strip()
+        if ch_resume:
+            cmd_parts.append(f"--resume {shlex.quote(ch_resume)}")
+        ch_steps = str(arguments.get("steps", "") or "").strip()
+        if ch_steps:
+            cmd_parts.append(f"--step {shlex.quote(ch_steps)}")
+        ch_playbook = str(arguments.get("playbook", "") or "").strip()
+        if ch_playbook:
+            cmd_parts.append(f"--playbook {shlex.quote(ch_playbook)}")
+        if arguments.get("no_checkpoint"):
+            cmd_parts.append("--no-checkpoint")
+        cmd = " ".join(cmd_parts)
         try:
             output = await asyncio.get_event_loop().run_in_executor(
                 None, lambda: _run_lazyown_command(cmd, ch_timeout)

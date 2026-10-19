@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,18 +8,18 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1172 | 1360 | 86.2% |
+| class | 1182 | 1370 | 86.3% |
 | classmethod | 55 | 81 | 67.9% |
-| constructor | 193 | 510 | 37.8% |
+| constructor | 193 | 513 | 37.6% |
 | enum | 29 | 38 | 76.3% |
-| exception | 34 | 36 | 94.4% |
-| function | 1669 | 2558 | 65.2% |
+| exception | 35 | 37 | 94.6% |
+| function | 1704 | 2599 | 65.6% |
 | macro | 3 | 113 | 2.7% |
-| method | 2777 | 3452 | 80.4% |
-| module | 644 | 766 | 84.1% |
-| property | 139 | 183 | 76.0% |
+| method | 2793 | 3472 | 80.4% |
+| module | 656 | 778 | 84.3% |
+| property | 143 | 187 | 76.5% |
 | protocol | 14 | 14 | 100.0% |
-| staticmethod | 77 | 89 | 86.5% |
+| staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
 
@@ -115,7 +115,6 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules/exp.c`](modules/modules.exp.c.md) | 1 | 55 | 1.8% |
 | [`modules/rootkit/mrhyde.c`](modules/modules.rootkit.mrhyde.c.md) | 1 | 39 | 2.6% |
 | [`modules/rootkit/mrhyde2.c`](modules/modules.rootkit.mrhyde2.c.md) | 1 | 36 | 2.8% |
-| [`modules.memory_store`](modules/modules.memory_store.py.md) | 1 | 29 | 3.4% |
 | [`modules.llm_evaluator`](modules/modules.llm_evaluator.py.md) | 1 | 24 | 4.2% |
 | [`modules.LazyOwnExplorer`](modules/modules.LazyOwnExplorer.py.md) | 1 | 21 | 4.8% |
 | [`telegram_c2`](modules/telegram_c2.py.md) | 1 | 18 | 5.6% |
@@ -131,6 +130,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`lazy_sentinel4`](modules/lazy_sentinel4.py.md) | 4 | 48 | 8.3% |
 | [`modules.vulnbot`](modules/modules.vulnbot.py.md) | 1 | 12 | 8.3% |
 | [`static/js/particles.js`](modules/static.js.particles.js.md) | 1 | 12 | 8.3% |
+| [`modules.memory_store`](modules/modules.memory_store.py.md) | 3 | 34 | 8.8% |
 | [`contrib.legacy.lazydeepseekcli`](modules/contrib.legacy.lazydeepseekcli.py.md) | 1 | 11 | 9.1% |
 | [`scripts.top_tier_check`](modules/scripts.top_tier_check.py.md) | 1 | 11 | 9.1% |
 | [`modules.auto_pivot`](modules/modules.auto_pivot.py.md) | 2 | 21 | 9.5% |
@@ -226,6 +226,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules.dashboard_engine`](modules/modules.dashboard_engine.py.md) | 8 | 15 | 53.3% |
 | [`modules.event_consumers`](modules/modules.event_consumers.py.md) | 8 | 15 | 53.3% |
 | [`lazygui.config.settings`](modules/lazygui.config.settings.py.md) | 7 | 13 | 53.8% |
+| [`modules.stego_video`](modules/modules.stego_video.py.md) | 6 | 11 | 54.5% |
 | [`modules.ttp_coverage`](modules/modules.ttp_coverage.py.md) | 6 | 11 | 54.5% |
 | [`cli.cli_enhancements`](modules/cli.cli_enhancements.py.md) | 29 | 53 | 54.7% |
 | [`core.errors`](modules/core.errors.py.md) | 13 | 23 | 56.5% |
@@ -297,6 +298,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`core.llm_budget`](modules/core.llm_budget.py.md) | 28 | 34 | 82.4% |
 | [`modules.integrations.nuclei_bridge`](modules/modules.integrations.nuclei_bridge.py.md) | 14 | 17 | 82.4% |
 | [`modules.linux_advanced_payloads`](modules/modules.linux_advanced_payloads.py.md) | 14 | 17 | 82.4% |
+| [`modules.auto_loop_memory`](modules/modules.auto_loop_memory.py.md) | 19 | 23 | 82.6% |
 | [`modules.ai_model`](modules/modules.ai_model.py.md) | 24 | 29 | 82.8% |
 | [`modules.aws_attacks`](modules/modules.aws_attacks.py.md) | 10 | 12 | 83.3% |
 | [`modules.credential_reuse`](modules/modules.credential_reuse.py.md) | 10 | 12 | 83.3% |
@@ -305,6 +307,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules.k8s_attacks`](modules/modules.k8s_attacks.py.md) | 10 | 12 | 83.3% |
 | [`modules.network_opsec`](modules/modules.network_opsec.py.md) | 10 | 12 | 83.3% |
 | [`modules.playbook_executor`](modules/modules.playbook_executor.py.md) | 20 | 24 | 83.3% |
+| [`modules.reaction_bridge`](modules/modules.reaction_bridge.py.md) | 5 | 6 | 83.3% |
 | [`plugins/generate_msfvenom_loader.lua`](modules/plugins.generate_msfvenom_loader.lua.md) | 5 | 6 | 83.3% |
 | [`skills.daemon_health`](modules/skills.daemon_health.py.md) | 10 | 12 | 83.3% |
 | [`fast_run_as_r00t.sh`](modules/fast_run_as_r00t.sh.md) | 11 | 13 | 84.6% |
@@ -393,6 +396,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`.claude/skills/run-lazyown/driver.sh`](modules/claude.skills.run-lazyown.driver.sh.md) | 1 | 1 | 100.0% |
 | [`cli`](modules/cli.__init__.py.md) | 1 | 1 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | 5 | 5 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | 8 | 8 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | 2 | 2 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | 10 | 10 | 100.0% |
 | [`cli.chain_mode`](modules/cli.chain_mode.py.md) | 15 | 15 | 100.0% |
@@ -640,13 +644,17 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
-| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 10 | 10 | 100.0% |
+| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 17 | 17 | 100.0% |
+| [`modules.chain_state`](modules/modules.chain_state.py.md) | 6 | 6 | 100.0% |
+| [`modules.chain_synth`](modules/modules.chain_synth.py.md) | 4 | 4 | 100.0% |
+| [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | 3 | 3 | 100.0% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | 11 | 11 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | 8 | 8 | 100.0% |
 | [`modules.config_store`](modules/modules.config_store.py.md) | 7 | 7 | 100.0% |
 | [`modules.custom_tools`](modules/modules.custom_tools.py.md) | 7 | 7 | 100.0% |
 | [`modules.dashboard_bp`](modules/modules.dashboard_bp.py.md) | 5 | 5 | 100.0% |
 | [`modules.db`](modules/modules.db.py.md) | 31 | 31 | 100.0% |
+| [`modules.digest`](modules/modules.digest.py.md) | 4 | 4 | 100.0% |
 | [`modules.dns_beacon`](modules/modules.dns_beacon.py.md) | 13 | 13 | 100.0% |
 | [`modules/duckdns.sh`](modules/modules.duckdns.sh.md) | 1 | 1 | 100.0% |
 | [`modules.emulation_runner`](modules/modules.emulation_runner.py.md) | 13 | 13 | 100.0% |
@@ -698,7 +706,9 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | 20 | 20 | 100.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
+| [`modules.memory_embeddings`](modules/modules.memory_embeddings.py.md) | 6 | 6 | 100.0% |
 | [`modules.metasploitable_gym`](modules/modules.metasploitable_gym.py.md) | 8 | 8 | 100.0% |
+| [`modules.metasploitable_migrations`](modules/modules.metasploitable_migrations.py.md) | 4 | 4 | 100.0% |
 | [`modules.metrics`](modules/modules.metrics.py.md) | 22 | 22 | 100.0% |
 | [`modules/mkcloudflaretunnel.sh`](modules/modules.mkcloudflaretunnel.sh.md) | 1 | 1 | 100.0% |
 | [`modules.morse`](modules/modules.morse.py.md) | 8 | 8 | 100.0% |
@@ -715,6 +725,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`modules.rich_tui`](modules/modules.rich_tui.py.md) | 5 | 5 | 100.0% |
 | [`modules.search`](modules/modules.search.py.md) | 1 | 1 | 100.0% |
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | 22 | 22 | 100.0% |
+| [`modules.selector_manager`](modules/modules.selector_manager.py.md) | 4 | 4 | 100.0% |
 | [`modules.selfupdate`](modules/modules.selfupdate.py.md) | 11 | 11 | 100.0% |
 | [`modules.session_cleanup`](modules/modules.session_cleanup.py.md) | 4 | 4 | 100.0% |
 | [`modules.session_state`](modules/modules.session_state.py.md) | 4 | 4 | 100.0% |
@@ -757,6 +768,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 | [`scripts/lazy_hermes_ask.sh`](modules/scripts.lazy_hermes_ask.sh.md) | 1 | 1 | 100.0% |
 | [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | 1 | 1 | 100.0% |
 | [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | 3 | 3 | 100.0% |
+| [`scripts.mcp_call`](modules/scripts.mcp_call.py.md) | 2 | 2 | 100.0% |
 | [`scripts.mutation_gate`](modules/scripts.mutation_gate.py.md) | 4 | 4 | 100.0% |
 | [`scripts.patch_playbook_atomic_ids`](modules/scripts.patch_playbook_atomic_ids.py.md) | 1 | 1 | 100.0% |
 | [`scripts/pi_qwen_setup.sh`](modules/scripts.pi_qwen_setup.sh.md) | 1 | 1 | 100.0% |
@@ -798,7 +810,7 @@ Overall: **73.8%** (6810 of 9224 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2136, DOC002: 8, DOC003: 21, DOC004: 40, DOC005: 42
+DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1300,4 +1312,4 @@ DOC001: 2136, DOC002: 8, DOC003: 21, DOC004: 40, DOC005: 42
 - DOC001 `install.sh:128` function ensure_gum is not documented
 - DOC001 `install.sh:139` function install_system_packages is not documented
 - DOC001 `install.sh:150` function install_external_tools is not documented
-- ... 1747 more in `api/warnings.jsonl`
+- ... 1759 more in `api/warnings.jsonl`

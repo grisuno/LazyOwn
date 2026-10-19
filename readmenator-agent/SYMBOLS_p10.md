@@ -1,8 +1,25 @@
-# Symbols (page 10 of 42)
+# Symbols (page 10 of 43)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `available` | method | `lazygui/theme/manager.py:68` | `def available(self)` |
+| `cycle` | method | `lazygui/theme/manager.py:93` | `def cycle(self)` |
+| `builtin_palettes` | function | `lazygui/theme/palettes/__init__.py:23` | `def builtin_palettes()` |
+| `QssBuilder` | class | `lazygui/theme/qss_builder.py:16` | `class QssBuilder` |
+| `_font_stack` | method | `lazygui/theme/qss_builder.py:39` | `def _font_stack(stack)` |
+| `build` | method | `lazygui/theme/qss_builder.py:21` | `def build(self, tokens)` |
+| `ThemeTokens` | class | `lazygui/theme/tokens.py:14` | `class ThemeTokens` |
+| `BeaconCommandModal` | class | `lazygui/widgets/beacon_command_modal.py:44` | `class BeaconCommandModal(QDialog)` |
+| `_HistoryEntry` | class | `lazygui/widgets/beacon_command_modal.py:35` | `class _HistoryEntry` |
+| `__init__` | method | `lazygui/widgets/beacon_command_modal.py:53` | `def __init__(self, backend, parent)` |
+| `_build_ui` | method | `lazygui/widgets/beacon_command_modal.py:75` | `def _build_ui(self)` |
+| `_last_entry` | method | `lazygui/widgets/beacon_command_modal.py:201` | `def _last_entry(self, index)` |
+| `_on_beacon_result` | method | `lazygui/widgets/beacon_command_modal.py:209` | `def _on_beacon_result(self, result)` |
+| `_on_history_clicked` | method | `lazygui/widgets/beacon_command_modal.py:196` | `def _on_history_clicked(self, item)` |
+| `_on_sessions_changed` | method | `lazygui/widgets/beacon_command_modal.py:168` | `def _on_sessions_changed(self, sessions)` |
+| `_on_target_changed` | method | `lazygui/widgets/beacon_command_modal.py:127` | `def _on_target_changed(self, _text)` |
+| `_reload_history` | method | `lazygui/widgets/beacon_command_modal.py:131` | `def _reload_history(self)` |
 | `_selected_target` | method | `lazygui/widgets/beacon_command_modal.py:122` | `def _selected_target(self)` |
 | `_send_command` | method | `lazygui/widgets/beacon_command_modal.py:182` | `def _send_command(self)` |
 | `focus_input` | method | `lazygui/widgets/beacon_command_modal.py:227` | `def focus_input(self)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
 | `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:70` | `class ExploitCommand` |
 | `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:78` | `class ExploitSpec` |
-| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:585` | `class _ShellSession` |
-| `__init__` | method | `modules/atomic_exploit_bridge.py:593` | `def __init__(self, target, port, sock)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:880` | `def _adopt_live_shell(spec, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:811` | `def _destroy_gym(container)` |
-| `_read_until` | method | `modules/atomic_exploit_bridge.py:623` | `def _read_until(self, marker, timeout)` |
-| `_string_list` | function | `modules/atomic_exploit_bridge.py:128` | `def _string_list(value)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:896` | `def _wait_port_closed(target, port, timeout)` |
-| `alive` | method | `modules/atomic_exploit_bridge.py:602` | `def alive(self, timeout)` |
-| `auto` | function | `modules/atomic_exploit_bridge.py:323` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
-| `build_commands` | function | `modules/atomic_exploit_bridge.py:452` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:753` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
-| `close` | method | `modules/atomic_exploit_bridge.py:651` | `def close(self)` |
-| `close_sessions` | function | `modules/atomic_exploit_bridge.py:718` | `def close_sessions(target)` |
-| `detect_shell` | function | `modules/atomic_exploit_bridge.py:470` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:981` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:829` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:929` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

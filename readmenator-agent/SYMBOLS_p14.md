@@ -1,8 +1,90 @@
-# Symbols (page 14 of 42)
+# Symbols (page 14 of 43)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
+| `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
+| `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
+| `enumerate_iam_policy` | method | `modules/gcp_attacks.py:93` | `def enumerate_iam_policy(self, resource)` |
+| `gcs_enumeration` | method | `modules/gcp_attacks.py:194` | `def gcs_enumeration(self)` |
+| `organization_escalation` | method | `modules/gcp_attacks.py:261` | `def organization_escalation(self)` |
+| `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
+| `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
+| `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
+| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
+| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
+| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
+| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
+| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
+| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
+| `constraint_block_text` | function | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
+| `decompose_rule_based` | function | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
+| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
+| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
+| `load_constraints` | function | `modules/goals.py:83` | `def load_constraints(payload)` |
+| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
+| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
+| `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
+| `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
+| `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
+| `__init__` | method | `modules/gpo_abuse.py:118` | `def __init__(self, domain, dc_ip)` |
+| `detect_risky_gpos` | method | `modules/gpo_abuse.py:406` | `def detect_risky_gpos(self)` |
+| `generate_all_plans` | method | `modules/gpo_abuse.py:382` | `def generate_all_plans(self, command, username)` |
+| `parse_bloodhound_gpos` | method | `modules/gpo_abuse.py:160` | `def parse_bloodhound_gpos(self, bloodhound_nodes)` |
+| `parse_gpo_list` | method | `modules/gpo_abuse.py:124` | `def parse_gpo_list(self, raw_gpo_output)` |
+| `plan_local_admin_addition` | method | `modules/gpo_abuse.py:266` | `def plan_local_admin_addition(self, gpo, username, group)` |
+| `plan_logon_script` | method | `modules/gpo_abuse.py:238` | `def plan_logon_script(self, gpo, command)` |
+| `plan_registry_preference` | method | `modules/gpo_abuse.py:322` | `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` |
+| `plan_scheduled_task` | method | `modules/gpo_abuse.py:182` | `def plan_scheduled_task(self, gpo, command, task_name)` |
+| `plan_service_installation` | method | `modules/gpo_abuse.py:356` | `def plan_service_installation(self, gpo, service_name, binary_path)` |
+| `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
+| `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
+| `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
+| `has` | function | `modules/gui_askpass.sh:22` | `` |
+| `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
+| `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
+| `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
+| `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
+| `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
+| `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
+| `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
+| `_next_run_id` | function | `modules/gym_registry.py:569` | `def _next_run_id(state)` |
+| `_normalize_definition` | function | `modules/gym_registry.py:188` | `def _normalize_definition(data)` |
+| `_read_yaml` | function | `modules/gym_registry.py:178` | `def _read_yaml(path)` |
+| `_sanitize_state` | function | `modules/gym_registry.py:454` | `def _sanitize_state(raw)` |
+| `_world_model` | function | `modules/gym_registry.py:447` | `def _world_model()` |
+| `_write_yaml` | function | `modules/gym_registry.py:282` | `def _write_yaml(path, data)` |
+| `_yaml_module` | function | `modules/gym_registry.py:85` | `def _yaml_module()` |
+| `create_definition` | function | `modules/gym_registry.py:300` | `def create_definition(gym_id)` |
+| `definition_path` | function | `modules/gym_registry.py:155` | `def definition_path(gym_id, directory)` |
+| `delete_definition` | function | `modules/gym_registry.py:402` | `def delete_definition(gym_id, directory)` |
+| `get_active_runs` | function | `modules/gym_registry.py:637` | `def get_active_runs(selector, operator)` |
+| `load_definitions` | function | `modules/gym_registry.py:207` | `def load_definitions(directory)` |
+| `new_run_token` | function | `modules/gym_registry.py:761` | `def new_run_token()` |
+| `normalize_operator` | function | `modules/gym_registry.py:495` | `def normalize_operator(value)` |
+| `pop_run` | function | `modules/gym_registry.py:724` | `def pop_run(selector)` |
+| `read_state` | function | `modules/gym_registry.py:501` | `def read_state()` |
+| `scan_definitions` | function | `modules/gym_registry.py:239` | `def scan_definitions(directory)` |
+| `select_run` | function | `modules/gym_registry.py:663` | `def select_run(selector)` |
+| `slugify` | function | `modules/gym_registry.py:92` | `def slugify(value)` |
+| `start_run` | function | `modules/gym_registry.py:579` | `def start_run(challenge_id, definitions)` |
+| `state_summary` | function | `modules/gym_registry.py:751` | `def state_summary()` |
+| `stop_runs` | function | `modules/gym_registry.py:695` | `def stop_runs(selector)` |
+| `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
+| `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
+| `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
+| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
+| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
+| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
+| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
+| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
+| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
+| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
+| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
+| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
 | `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
 | `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
 | `crack_secretsdump_output` | function | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
@@ -414,87 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_read_new_traffic` | function | `modules/lazy_bridge.py:314` | `def _read_new_traffic(path, offset)` |
 | `_record_sync` | function | `modules/lazy_bridge.py:545` | `def _record_sync(action, summary)` |
 | `bridge_status` | function | `modules/lazy_bridge.py:159` | `def bridge_status()` |
-| `lazy_activity` | function | `modules/lazy_bridge.py:123` | `def lazy_activity(task_id)` |
-| `lazy_assets` | function | `modules/lazy_bridge.py:99` | `def lazy_assets()` |
-| `lazy_graph` | function | `modules/lazy_bridge.py:110` | `def lazy_graph(task_id)` |
-| `lazy_guard_audit` | function | `modules/lazy_bridge.py:147` | `def lazy_guard_audit(task_id)` |
-| `lazy_tasks` | function | `modules/lazy_bridge.py:88` | `def lazy_tasks()` |
-| `lazy_traffic` | function | `modules/lazy_bridge.py:135` | `def lazy_traffic(task_id)` |
-| `pull_findings_to_lifecycle` | function | `modules/lazy_bridge.py:286` | `def pull_findings_to_lifecycle()` |
-| `pull_to_objectives` | function | `modules/lazy_bridge.py:251` | `def pull_to_objectives()` |
-| `pull_to_world_model` | function | `modules/lazy_bridge.py:206` | `def pull_to_world_model()` |
-| `pull_traffic_to_recorder` | function | `modules/lazy_bridge.py:361` | `def pull_traffic_to_recorder(progress)` |
-| `push_objective_to_lazy` | function | `modules/lazy_bridge.py:429` | `def push_objective_to_lazy(goal, scope)` |
-| `push_tasks_to_c2` | function | `modules/lazy_bridge.py:454` | `def push_tasks_to_c2(only)` |
-| `sync_all` | function | `modules/lazy_bridge.py:519` | `def sync_all(progress)` |
-| `_discover` | function | `modules/lazy_cli_bridge.py:93` | `def _discover()` |
-| `_source_files` | function | `modules/lazy_cli_bridge.py:74` | `def _source_files()` |
-| `_source_mtimes` | function | `modules/lazy_cli_bridge.py:82` | `def _source_mtimes()` |
-| `build_cli_command` | function | `modules/lazy_cli_bridge.py:158` | `def build_cli_command(verb, target)` |
-| `cli_catalog_for_phase` | function | `modules/lazy_cli_bridge.py:211` | `def cli_catalog_for_phase(phase, limit)` |
-| `cli_verbs` | function | `modules/lazy_cli_bridge.py:106` | `def cli_verbs()` |
-| `full_cli_enabled` | function | `modules/lazy_cli_bridge.py:219` | `def full_cli_enabled()` |
-| `is_cli_verb` | function | `modules/lazy_cli_bridge.py:125` | `def is_cli_verb(name)` |
-| `needs_target_for` | function | `modules/lazy_cli_bridge.py:150` | `def needs_target_for(verb)` |
-| `phase_for` | function | `modules/lazy_cli_bridge.py:131` | `def phase_for(verb)` |
-| `risk_for` | function | `modules/lazy_cli_bridge.py:140` | `def risk_for(verb)` |
-| `search_cli_verbs` | function | `modules/lazy_cli_bridge.py:185` | `def search_cli_verbs(query, phase, limit)` |
-| `set_full_cli` | function | `modules/lazy_cli_bridge.py:242` | `def set_full_cli(enabled)` |
-| `LazyEngine` | class | `modules/lazy_engine.py:55` | `class LazyEngine(LazyLoopEngine)` |
-| `install_command_for` | function | `modules/lazy_installer.py:70` | `def install_command_for(tool)` |
-| `installer_enabled` | function | `modules/lazy_installer.py:41` | `def installer_enabled()` |
-| `intent_for` | function | `modules/lazy_installer.py:75` | `def intent_for(tool)` |
-| `set_installer_enabled` | function | `modules/lazy_installer.py:58` | `def set_installer_enabled(enabled)` |
-| `steps_for_install` | function | `modules/lazy_installer.py:88` | `def steps_for_install(text)` |
-| `tool_from_intent` | function | `modules/lazy_installer.py:80` | `def tool_from_intent(text)` |
-| `_append` | function | `modules/lazy_intel.py:70` | `def _append(record)` |
-| `_is_ip_literal` | function | `modules/lazy_intel.py:274` | `def _is_ip_literal(value)` |
-| `_log_path` | function | `modules/lazy_intel.py:35` | `def _log_path()` |
-| `_mask` | function | `modules/lazy_intel.py:41` | `def _mask(text)` |
-| `_now` | function | `modules/lazy_intel.py:30` | `def _now()` |
-| `describe_command` | function | `modules/lazy_intel.py:105` | `def describe_command(command)` |
-| `export_spans` | function | `modules/lazy_intel.py:324` | `def export_spans(task_id, out)` |
-| `fuse_routing_decisions` | function | `modules/lazy_intel.py:285` | `def fuse_routing_decisions(task_id)` |
-| `infer_source` | function | `modules/lazy_intel.py:79` | `def infer_source(command, intent_text)` |
-| `mask_configured` | function | `modules/lazy_intel.py:228` | `def mask_configured(text)` |
-| `read_decisions` | function | `modules/lazy_intel.py:202` | `def read_decisions(task_id, limit)` |
-| `record_routing_decision` | function | `modules/lazy_intel.py:120` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
-| `record_routing_outcome` | function | `modules/lazy_intel.py:160` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
-| `stack_signature` | function | `modules/lazy_intel.py:254` | `def stack_signature(assets)` |
-| `ActivityLog` | class | `modules/lazy_loop.py:1424` | `class ActivityLog` |
-| `AssetGate` | class | `modules/lazy_loop.py:2156` | `class AssetGate` |
-| `AssetGraph` | class | `modules/lazy_loop.py:953` | `class AssetGraph` |
-| `AssetNode` | class | `modules/lazy_loop.py:928` | `class AssetNode` |
-| `Budget` | class | `modules/lazy_loop.py:2250` | `class Budget` |
-| `ColdCompactor` | class | `modules/lazy_loop.py:5260` | `class ColdCompactor` |
-| `CompanyScope` | class | `modules/lazy_loop.py:7215` | `class CompanyScope` |
-| `EvidenceStore` | class | `modules/lazy_loop.py:6259` | `class EvidenceStore` |
-| `ExplorationEdge` | class | `modules/lazy_loop.py:919` | `class ExplorationEdge` |
-| `ExplorationGraph` | class | `modules/lazy_loop.py:1116` | `class ExplorationGraph` |
-| `ExplorationNode` | class | `modules/lazy_loop.py:905` | `class ExplorationNode` |
-| `FindingService` | class | `modules/lazy_loop.py:5981` | `class FindingService` |
-| `Frontier` | class | `modules/lazy_loop.py:1396` | `class Frontier` |
-| `Guard` | class | `modules/lazy_loop.py:1815` | `class Guard` |
-| `InterceptQueue` | class | `modules/lazy_loop.py:2402` | `class InterceptQueue` |
-| `LazyLoopEngine` | class | `modules/lazy_loop.py:7539` | `class LazyLoopEngine` |
-| `LazyTask` | class | `modules/lazy_loop.py:942` | `class LazyTask` |
-| `LlmPool` | class | `modules/lazy_loop.py:6677` | `class LlmPool` |
-| `Notifier` | class | `modules/lazy_loop.py:6362` | `class Notifier` |
-| `Planner` | class | `modules/lazy_loop.py:3035` | `class Planner` |
-| `Retester` | class | `modules/lazy_loop.py:5161` | `class Retester` |
-| `RuntimeTracker` | class | `modules/lazy_loop.py:2334` | `class RuntimeTracker` |
-| `SideQuestions` | class | `modules/lazy_loop.py:7141` | `class SideQuestions` |
-| `TaskArchive` | class | `modules/lazy_loop.py:7245` | `class TaskArchive` |
-| `TaskCategory` | class | `modules/lazy_loop.py:7407` | `class TaskCategory` |
-| `TaskChat` | class | `modules/lazy_loop.py:7434` | `class TaskChat` |
-| `TaskStore` | class | `modules/lazy_loop.py:2604` | `class TaskStore` |
-| `TaskTemplate` | class | `modules/lazy_loop.py:7364` | `class TaskTemplate` |
-| `TodoStore` | class | `modules/lazy_loop.py:2562` | `class TodoStore` |
-| `ToolCatalog` | class | `modules/lazy_loop.py:7097` | `class ToolCatalog` |
-| `TrafficLog` | class | `modules/lazy_loop.py:1557` | `class TrafficLog` |
-| `TriggerStore` | class | `modules/lazy_loop.py:6528` | `class TriggerStore` |
-| `Worker` | class | `modules/lazy_loop.py:3475` | `class Worker` |
-| `__init__` | method | `modules/lazy_loop.py:956` | `def __init__(self)` |
-| `__init__` | method | `modules/lazy_loop.py:1119` | `def __init__(self, task_id)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

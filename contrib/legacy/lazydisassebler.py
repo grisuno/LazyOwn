@@ -4,7 +4,7 @@ disassembler.py
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Date: 14/04/2025
-Licencia: GPL v3
+Licencia: AGPL v3
 
 Description: This file contain a rudimentary disassembler with no warranty
 
@@ -28,7 +28,7 @@ class X64Disassembler:
     This class provides methods to disassemble raw binary data into human-readable assembly instructions.
     It supports parsing ELF headers, decoding ModR/M and SIB bytes, and handling various instruction formats.
 
-    License: GPL v3
+    License: AGPL v3
     """
 
     def __init__(self):
@@ -91,7 +91,7 @@ class X64Disassembler:
         Returns:
             tuple: (offset, virtual_address, size, entry_point) or (None, None, None, None) if not found
 
-        Licencia: GPL v3
+        Licencia: AGPL v3
         """
 
         # Leer la cabecera ELF y verificar que sea un archivo válido
@@ -146,7 +146,7 @@ class X64Disassembler:
         Returns:
             tuple: A tuple containing the decoded `mod`, `reg`, and `rm` fields.
 
-        License: GPL v3
+        License: AGPL v3
         """
 
         # Extraer el campo 'mod' (bits 7-6)
@@ -185,7 +185,7 @@ class X64Disassembler:
         Returns:
             tuple: A tuple containing the decoded `scale`, `index`, and `base` fields.
 
-        License: GPL v3
+        License: AGPL v3
         """
 
         # Extraer el campo 'scale' (bits 7-6)
@@ -228,7 +228,7 @@ class X64Disassembler:
             tuple: A tuple containing the operand string representation and the number
                 of additional bytes consumed during parsing.
 
-        License: GPL v3
+        License: AGPL v3
         """
 
         disp = 0
@@ -317,7 +317,7 @@ class X64Disassembler:
             size (int): Size of the code section in bytes.
             entry_point (int): Entry point of the program.
 
-        License: GPL v3
+        License: AGPL v3
         """
 
         offset = 0

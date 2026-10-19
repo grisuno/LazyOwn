@@ -605,7 +605,7 @@ Implementation lives in [`modules.atomic_cli`](modules.atomic_cli.py.md).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_shell`
 
-`method` | [cli/commands/command_and_control_migrated.py:1259](../../cli/commands/command_and_control_migrated.py#L1259)
+`method` | [cli/commands/command_and_control_migrated.py:1287](../../cli/commands/command_and_control_migrated.py#L1287)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -635,7 +635,7 @@ operator into a live ``target#`` REPL until exit.
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_clean`
 
-`method` | [cli/commands/command_and_control_migrated.py:1291](../../cli/commands/command_and_control_migrated.py#L1291)
+`method` | [cli/commands/command_and_control_migrated.py:1326](../../cli/commands/command_and_control_migrated.py#L1326)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -666,7 +666,7 @@ the lab container (default lazyown-lab-metasploitable).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_emulate`
 
-`method` | [cli/commands/command_and_control_migrated.py:1328](../../cli/commands/command_and_control_migrated.py#L1328)
+`method` | [cli/commands/command_and_control_migrated.py:1363](../../cli/commands/command_and_control_migrated.py#L1363)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -699,7 +699,7 @@ with per-test outputs. Lab and in-scope targets only.
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_agent`
 
-`method` | [cli/commands/command_and_control_migrated.py:1385](../../cli/commands/command_and_control_migrated.py#L1385)
+`method` | [cli/commands/command_and_control_migrated.py:1420](../../cli/commands/command_and_control_migrated.py#L1420)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -725,7 +725,7 @@ None
 
 #### `CommandAndControlMigratedCommandSet.do_attack_plan`
 
-`method` | [cli/commands/command_and_control_migrated.py:1488](../../cli/commands/command_and_control_migrated.py#L1488)
+`method` | [cli/commands/command_and_control_migrated.py:1523](../../cli/commands/command_and_control_migrated.py#L1523)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -757,7 +757,7 @@ only use it when the target IS this host.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_chain`
 
-`method` | [cli/commands/command_and_control_migrated.py:1647](../../cli/commands/command_and_control_migrated.py#L1647)
+`method` | [cli/commands/command_and_control_migrated.py:1682](../../cli/commands/command_and_control_migrated.py#L1682)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -768,17 +768,36 @@ def do_apt_chain(self, line)
 Run a fully YAML-administered APT chain with one command.
 
 Usage:
-    apt_chain [chain] [target] [--dry-run]
-    apt_chain apt_rocke 172.17.0.2
-    apt_chain rocke 172.17.0.2   (playbook shorthand)
+    apt_chain [chain] [target] [options]
+    apt_chain list                      - every chain (valid, enabled)
+    apt_chain show <chain>              - steps, defaults, extends
+    apt_chain validate <chain>          - schema errors, step preview
+    apt_chain enable <chain> | disable <chain>
+    apt_chain checkpoints               - resumable runs
+    apt_chain resume <run_id> [target]  - continue a checkpointed run
+
+Run options:
+    --dry-run                resolve without executing
+    --json                   machine-readable result + variables
+    --var key=value          override a chain token (repeatable)
+    --target HOST            target override (else rhost)
+    --playbook NAME          playbook override
+    --timeout SECONDS        chain wall clock (else chain YAML)
+    --continue               keep going after any failure
+    --step a,b               run only named steps
+    --from-step id           run from id to the end
+    --to-step id             run up to id (inclusive)
+    --replan                 let the reactive engine insert steps
+    --no-checkpoint          do not persist a resumable checkpoint
 
 The first token names a file in ``chains/`` (per-APT files like
 ``apt_rocke.yaml`` inherit the base ``apt_chain.yaml`` and only
 pin the playbook default). A bare playbook name falls back to
 its ``apt_<name>`` chain; anything else runs the base chain with
-that playbook. Target defaults to ``rhost``. Manage chains from
-the orchestrator Chains tab or by editing the YAML directly -
-this method only interprets.
+that playbook. Target defaults to ``rhost``. Unknown flags fail
+loudly instead of being swallowed. Engagement facts discovered
+earlier (ports, services, creds) are injected as ``{...}`` tokens
+automatically when the fact store knows the target.
 
 **Parameters**
 
@@ -786,13 +805,13 @@ this method only interprets.
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`ChainRunner.__init__`](modules.chain_runner.py.md#chainrunner-__init__), [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run), [`record_event`](modules.outcome_bus.py.md#record_event)
+*Calls:* [`build_cli_approver`](cli.apt_chain_support.py.md#build_cli_approver), [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner), [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args), [`render_result`](cli.apt_chain_support.py.md#render_result), [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`select_step_ids`](cli.apt_chain_support.py.md#select_step_ids), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`print_warn`](core.console.py.md#print_warn), [`ChainRunner.__init__`](modules.chain_runner.py.md#chainrunner-__init__), [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run) and 3 more
 
 <a id="commandandcontrolmigratedcommandset-do_apt_playbook"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:1781](../../cli/commands/command_and_control_migrated.py#L1781)
+`method` | [cli/commands/command_and_control_migrated.py:1946](../../cli/commands/command_and_control_migrated.py#L1946)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -829,7 +848,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:1901](../../cli/commands/command_and_control_migrated.py#L1901)
+`method` | [cli/commands/command_and_control_migrated.py:2066](../../cli/commands/command_and_control_migrated.py#L2066)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -860,7 +879,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2004](../../cli/commands/command_and_control_migrated.py#L2004)
+`method` | [cli/commands/command_and_control_migrated.py:2169](../../cli/commands/command_and_control_migrated.py#L2169)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -909,7 +928,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2183](../../cli/commands/command_and_control_migrated.py#L2183)
+`method` | [cli/commands/command_and_control_migrated.py:2348](../../cli/commands/command_and_control_migrated.py#L2348)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -933,7 +952,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2240](../../cli/commands/command_and_control_migrated.py#L2240)
+`method` | [cli/commands/command_and_control_migrated.py:2405](../../cli/commands/command_and_control_migrated.py#L2405)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -968,7 +987,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2289](../../cli/commands/command_and_control_migrated.py#L2289)
+`method` | [cli/commands/command_and_control_migrated.py:2454](../../cli/commands/command_and_control_migrated.py#L2454)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1001,7 +1020,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2381](../../cli/commands/command_and_control_migrated.py#L2381)
+`method` | [cli/commands/command_and_control_migrated.py:2546](../../cli/commands/command_and_control_migrated.py#L2546)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

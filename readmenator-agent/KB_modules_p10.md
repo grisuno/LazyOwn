@@ -190,7 +190,7 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
 
 ## modules/lilsplunky.py
-- Doc: Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: GPL v3...
+- Doc: Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: AGPL v3...
 - Layer: utility
 - Language: py
 - Symbols:

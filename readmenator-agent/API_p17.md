@@ -1,6 +1,71 @@
 # API (page 17 of 23)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/state_manager.py
+Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`
+- `StateManager.__init__` (method) `modules/state_manager.py:107` `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
+- `StateManager.instance` (method) `modules/state_manager.py:129` `def instance(cls)`
+- `StateManager.db` (method) `modules/state_manager.py:137` `def db(self)`
+- `StateManager.workspace_id` (method) `modules/state_manager.py:146` `def workspace_id(self)`
+- `StateManager.set_payload` (method) `modules/state_manager.py:165` `def set_payload(self, payload)`
+- `StateManager.close` (method) `modules/state_manager.py:202` `def close(self)`
+- `StateManager.add_host` (method) `modules/state_manager.py:213` `def add_host(self, address, mac, hostname, os, state)`
+- `StateManager.get_host` (method) `modules/state_manager.py:236` `def get_host(self, address)`
+- `StateManager.list_hosts` (method) `modules/state_manager.py:245` `def list_hosts(self)`
+- `StateManager.advance_host` (method) `modules/state_manager.py:249` `def advance_host(self, address, new_state)`
+- `StateManager.delete_host` (method) `modules/state_manager.py:275` `def delete_host(self, address)`
+- `StateManager.add_service` (method) `modules/state_manager.py:287` `def add_service(self, host_address, port, protocol, name, product, version, state)`
+- `StateManager.list_services` (method) `modules/state_manager.py:319` `def list_services(self, host_address)`
+- `StateManager.add_credential` (method) `modules/state_manager.py:328` `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
+- `StateManager.list_credentials` (method) `modules/state_manager.py:362` `def list_credentials(self, host_address)`
+- `StateManager.add_vulnerability` (method) `modules/state_manager.py:373` `def add_vulnerability(self, host_address, name, severity, description, refs)`
+- `StateManager.list_vulnerabilities` (method) `modules/state_manager.py:398` `def list_vulnerabilities(self, host_address, severity)`
+- `StateManager.add_loot` (method) `modules/state_manager.py:411` `def add_loot(self, name, loot_type, path, notes, host_address)`
+- `StateManager.list_loot` (method) `modules/state_manager.py:444` `def list_loot(self)`
+- `StateManager.add_note` (method) `modules/state_manager.py:450` `def add_note(self, data, note_type, host_address)`
+- `StateManager.list_notes` (method) `modules/state_manager.py:473` `def list_notes(self)`
+- `StateManager.import_nmap_xml` (method) `modules/state_manager.py:479` `def import_nmap_xml(self, xml_path)`
+- `StateManager.import_nmap_from_facts` (method) `modules/state_manager.py:495` `def import_nmap_from_facts(self, facts)` -- Import hosts and services from a FactStore-style facts dict into DB.
+- `StateManager.status` (method) `modules/state_manager.py:550` `def status(self)`
+- `StateManager.get_world_model_cache` (method) `modules/state_manager.py:606` `def get_world_model_cache(self)`
+- `StateManager.load_world_model` (method) `modules/state_manager.py:612` `def load_world_model(self)` -- Return a WorldModel instance populated from DB state.
+- `StateManager.session_snapshot` (method) `modules/state_manager.py:653` `def session_snapshot(self)`
+- `StateManager.export_csv` (method) `modules/state_manager.py:757` `def export_csv(self, table)`
+- `StateManager.export_summary` (method) `modules/state_manager.py:761` `def export_summary(self)`
+- `get_state_manager` (function) `modules/state_manager.py:776` `def get_state_manager()`
+
+## modules/stego_video.py
+- `load_payload_file` (function) `modules/stego_video.py:26` `def load_payload_file()` -- Return the ``file`` value from payload.json, or None.
+- `is_zip` (function) `modules/stego_video.py:36` `def is_zip(path)`
+- `is_video` (function) `modules/stego_video.py:40` `def is_video(path)`
+- `prompt_path` (function) `modules/stego_video.py:44` `def prompt_path(message)`
+- `resolve_path` (function) `modules/stego_video.py:52` `def resolve_path(arg_path, payload_file, validator, kind)` -- Resolve the target path using argument -> payload.json -> interactive prompt.
+- `generate_carrier` (function) `modules/stego_video.py:61` `def generate_carrier(output)` -- Generate a silent carrier video with ffmpeg.
+- `encode` (function) `modules/stego_video.py:75` `def encode(zip_path, output_video)` -- Hide zip_path inside output_video.
+- `decode` (function) `modules/stego_video.py:93` `def decode(stego_video, output_zip)` -- Extract the hidden zip from stego_video into output_zip.
+- `default_output` (function) `modules/stego_video.py:113` `def default_output(zip_path)`
+- `main` (function) `modules/stego_video.py:118` `def main(argv)`
+
+## modules/sudo_tiocsti.py
+Depends on: `core/logging.py`
+- `get_controlling_tty` (function) `modules/sudo_tiocsti.py:52` `def get_controlling_tty()` -- Return (file_descriptor, tty_path) for the controlling terminal.
+- `inject_byte` (function) `modules/sudo_tiocsti.py:64` `def inject_byte(fd, byte_char)` -- Inject a single byte via TIOCSTI; return success status.
+- `inject_payload` (function) `modules/sudo_tiocsti.py:79` `def inject_payload(fd, payload, char_delay)` -- Inject a multi‑character payload.
+- `get_sudo_pids_on_tty` (function) `modules/sudo_tiocsti.py:102` `def get_sudo_pids_on_tty(tty_path)` -- Return a list of PIDs that are running 'sudo' and have the same controlling terminal as the given tty_path.
+- `sudo_cache_valid` (function) `modules/sudo_tiocsti.py:139` `def sudo_cache_valid()` -- Return True if sudo credentials are cached (i.e., sudo -n succeeds).
+- `mode_poll` (function) `modules/sudo_tiocsti.py:149` `def mode_poll(fd, tty_path)` -- Poll for sudo processes; inject payload when sudo exits.
+- `mode_prefill` (function) `modules/sudo_tiocsti.py:175` `def mode_prefill(fd)` -- Inject payload repeatedly, regardless of sudo state.
+- `mode_cache` (function) `modules/sudo_tiocsti.py:185` `def mode_cache(fd)` -- Check sudo cache; if valid, inject sudo -i once.
+- `main` (function) `modules/sudo_tiocsti.py:198` `def main()`
+
+## modules/surface_ops.py
+Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
+- `is_ipv4` (function) `modules/surface_ops.py:18` `def is_ipv4(value)` -- Return True for dotted-quad IPv4 literals with 0-255 octets.
+- `parse_confirm` (function) `modules/surface_ops.py:26` `def parse_confirm(answer)` -- Return True for an affirmative scan confirmation answer.
+- `discovery_targets` (function) `modules/surface_ops.py:31` `def discovery_targets(sessions_dir)` -- List every discovery IP across the sessions discovery files.
+- `write_world_model_hosts` (function) `modules/surface_ops.py:50` `def write_world_model_hosts(document, sessions)` -- Append unknown estorides host IPs to world_model.json hosts.
+
 ## modules/tel.py
 - `get_machine_id` (function) `modules/tel.py:10` `def get_machine_id()`
 - `get_version` (function) `modules/tel.py:24` `def get_version()`
@@ -309,56 +374,56 @@ Imported by: `tests/test_lazy_loop.py`
 - `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
 
 ## modules/world_model.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
-- `read_state_dict` (function) `modules/world_model.py:81` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
-- `write_state_dict` (function) `modules/world_model.py:127` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
-- `HostState.rank` (method) `modules/world_model.py:169` `def rank(self)`
-- `HostState.can_advance_to` (method) `modules/world_model.py:172` `def can_advance_to(self, next_state)`
-- `NetworkGraph.__init__` (method) `modules/world_model.py:276` `def __init__(self)`
-- `NetworkGraph.add_relation` (method) `modules/world_model.py:283` `def add_relation(self, relation)` -- Add a directed edge.
-- `NetworkGraph.neighbors` (method) `modules/world_model.py:291` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
-- `NetworkGraph.in_degree` (method) `modules/world_model.py:295` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
-- `NetworkGraph.out_degree` (method) `modules/world_model.py:299` `def out_degree(self, node)` -- Count edges leaving *node*.
-- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:303` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
-- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:318` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
-- `NetworkGraph.to_dict` (method) `modules/world_model.py:340` `def to_dict(self)`
-- `NetworkGraph.from_dict` (method) `modules/world_model.py:357` `def from_dict(cls, data)`
-- `HostEntry.add_service` (method) `modules/world_model.py:382` `def add_service(self, svc)`
-- `HostEntry.advance` (method) `modules/world_model.py:386` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
-- `HostEntry.to_dict` (method) `modules/world_model.py:394` `def to_dict(self)`
-- `HostEntry.from_dict` (method) `modules/world_model.py:406` `def from_dict(cls, d)`
-- `_PhaseDeriver.derive` (method) `modules/world_model.py:439` `def derive(self, hosts)`
-- `WorldModel.__init__` (method) `modules/world_model.py:558` `def __init__(self, path)`
-- `WorldModel.add_host` (method) `modules/world_model.py:574` `def add_host(self, ip)`
-- `WorldModel.reset_host` (method) `modules/world_model.py:582` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
-- `WorldModel.remove_host` (method) `modules/world_model.py:592` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
-- `WorldModel.advance_host` (method) `modules/world_model.py:608` `def advance_host(self, ip, new_state)`
-- `WorldModel.add_service` (method) `modules/world_model.py:617` `def add_service(self, ip, port, name, version, protocol)`
-- `WorldModel.add_note` (method) `modules/world_model.py:634` `def add_note(self, ip, note)`
-- `WorldModel.set_os_hint` (method) `modules/world_model.py:641` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
-- `WorldModel.get_host` (method) `modules/world_model.py:655` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
-- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:667` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
-- `WorldModel.add_credential` (method) `modules/world_model.py:678` `def add_credential(self, value, host, service)`
-- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:710` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
-- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:731` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
-- `WorldModel.add_vulnerability` (method) `modules/world_model.py:761` `def add_vulnerability(self, description, host, cve, severity)`
-- `WorldModel.add_email` (method) `modules/world_model.py:767` `def add_email(self, address, host, context)`
-- `WorldModel.add_domain` (method) `modules/world_model.py:773` `def add_domain(self, domain, host, context)`
-- `WorldModel.update_from_findings` (method) `modules/world_model.py:787` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
-- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:860` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
-- `WorldModel.add_relation` (method) `modules/world_model.py:952` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
-- `WorldModel.pivot_candidates` (method) `modules/world_model.py:973` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
-- `WorldModel.graph_snapshot` (method) `modules/world_model.py:981` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
-- `WorldModel.get_phase` (method) `modules/world_model.py:988` `def get_phase(self)`
-- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:992` `def get_suggested_tools(self)`
-- `WorldModel.to_context_string` (method) `modules/world_model.py:995` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
-- `WorldModel.reload` (method) `modules/world_model.py:1103` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
-- `WorldModel.reset` (method) `modules/world_model.py:1119` `def reset(self)` -- Clear all state and delete the persisted file.
-- `WorldModel.snapshot` (method) `modules/world_model.py:1130` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
-- `WorldModel.read_section` (method) `modules/world_model.py:1146` `def read_section(self, key)` -- Return one allowlisted passthrough section.
-- `WorldModel.write_section` (method) `modules/world_model.py:1163` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
-- `get_world_model` (function) `modules/world_model.py:1191` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+- `read_state_dict` (function) `modules/world_model.py:101` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
+- `write_state_dict` (function) `modules/world_model.py:147` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
+- `HostState.rank` (method) `modules/world_model.py:189` `def rank(self)`
+- `HostState.can_advance_to` (method) `modules/world_model.py:192` `def can_advance_to(self, next_state)`
+- `NetworkGraph.__init__` (method) `modules/world_model.py:296` `def __init__(self)`
+- `NetworkGraph.add_relation` (method) `modules/world_model.py:303` `def add_relation(self, relation)` -- Add a directed edge.
+- `NetworkGraph.neighbors` (method) `modules/world_model.py:311` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
+- `NetworkGraph.in_degree` (method) `modules/world_model.py:315` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
+- `NetworkGraph.out_degree` (method) `modules/world_model.py:319` `def out_degree(self, node)` -- Count edges leaving *node*.
+- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:323` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
+- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:338` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
+- `NetworkGraph.to_dict` (method) `modules/world_model.py:360` `def to_dict(self)`
+- `NetworkGraph.from_dict` (method) `modules/world_model.py:377` `def from_dict(cls, data)`
+- `HostEntry.add_service` (method) `modules/world_model.py:402` `def add_service(self, svc)`
+- `HostEntry.advance` (method) `modules/world_model.py:406` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
+- `HostEntry.to_dict` (method) `modules/world_model.py:414` `def to_dict(self)`
+- `HostEntry.from_dict` (method) `modules/world_model.py:426` `def from_dict(cls, d)`
+- `_PhaseDeriver.derive` (method) `modules/world_model.py:459` `def derive(self, hosts)`
+- `WorldModel.__init__` (method) `modules/world_model.py:578` `def __init__(self, path)`
+- `WorldModel.add_host` (method) `modules/world_model.py:594` `def add_host(self, ip)`
+- `WorldModel.reset_host` (method) `modules/world_model.py:602` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
+- `WorldModel.remove_host` (method) `modules/world_model.py:612` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
+- `WorldModel.advance_host` (method) `modules/world_model.py:628` `def advance_host(self, ip, new_state)`
+- `WorldModel.add_service` (method) `modules/world_model.py:637` `def add_service(self, ip, port, name, version, protocol)`
+- `WorldModel.add_note` (method) `modules/world_model.py:654` `def add_note(self, ip, note)`
+- `WorldModel.set_os_hint` (method) `modules/world_model.py:661` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
+- `WorldModel.get_host` (method) `modules/world_model.py:675` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
+- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:687` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
+- `WorldModel.add_credential` (method) `modules/world_model.py:698` `def add_credential(self, value, host, service)`
+- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:730` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
+- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:751` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
+- `WorldModel.add_vulnerability` (method) `modules/world_model.py:781` `def add_vulnerability(self, description, host, cve, severity)`
+- `WorldModel.add_email` (method) `modules/world_model.py:787` `def add_email(self, address, host, context)`
+- `WorldModel.add_domain` (method) `modules/world_model.py:793` `def add_domain(self, domain, host, context)`
+- `WorldModel.update_from_findings` (method) `modules/world_model.py:807` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
+- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:880` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
+- `WorldModel.add_relation` (method) `modules/world_model.py:972` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
+- `WorldModel.pivot_candidates` (method) `modules/world_model.py:993` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
+- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1001` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
+- `WorldModel.get_phase` (method) `modules/world_model.py:1008` `def get_phase(self)`
+- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1012` `def get_suggested_tools(self)`
+- `WorldModel.to_context_string` (method) `modules/world_model.py:1015` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
+- `WorldModel.reload` (method) `modules/world_model.py:1123` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
+- `WorldModel.reset` (method) `modules/world_model.py:1139` `def reset(self)` -- Clear all state and delete the persisted file.
+- `WorldModel.snapshot` (method) `modules/world_model.py:1150` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
+- `WorldModel.read_section` (method) `modules/world_model.py:1166` `def read_section(self, key)` -- Return one allowlisted passthrough section.
+- `WorldModel.write_section` (method) `modules/world_model.py:1183` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
+- `get_world_model` (function) `modules/world_model.py:1211` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
 
 ## modules/yaml_generator.py
 Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
@@ -430,47 +495,6 @@ Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py
 - `xor_data` (function) `plugins/generate_stub.lua:21`
 - `xor_string` (function) `plugins/generate_stub.lua:30`
 - `generate_stub_ps1` (function) `plugins/generate_stub.lua:43`
-
-## plugins/init_plugins.lua
-- `load_plugin` (function) `plugins/init_plugins.lua:6`
-
-## plugins/kerberos_harvest.lua
-- `kerberos_harvest` (function) `plugins/kerberos_harvest.lua:1`
-
-## plugins/lolbas_certutil_download_exec.lua
-- `write_file` (function) `plugins/lolbas_certutil_download_exec.lua:5`
-- `read_file` (function) `plugins/lolbas_certutil_download_exec.lua:13`
-- `xor_data` (function) `plugins/lolbas_certutil_download_exec.lua:21`
-
-## plugins/lolbas_certutil_exe.lua
-- `run_msfvenom` (function) `plugins/lolbas_certutil_exe.lua:2`
-
-## plugins/lolbas_wmic_xsl_execution.lua
-- `write_file` (function) `plugins/lolbas_wmic_xsl_execution.lua:4`
-
-## plugins/parse_nmap_with_xmlstarlet.lua
-- `parse_nmap_with_xmlstarlet` (function) `plugins/parse_nmap_with_xmlstarlet.lua:1`
-
-## plugins/run_nuclei_on_nmap_files.lua
-- `run_nuclei_on_nmap_files` (function) `plugins/run_nuclei_on_nmap_files.lua:1`
-
-## plugins/run_python_rev_c2.lua
-- `run_python_rev_c2` (function) `plugins/run_python_rev_c2.lua:2`
-
-## plugins/rundll32_sct_from_url.lua
-- `write_file` (function) `plugins/rundll32_sct_from_url.lua:4`
-- `read_file` (function) `plugins/rundll32_sct_from_url.lua:12`
-- `base64_encode` (function) `plugins/rundll32_sct_from_url.lua:22`
-- `generate_sct` (function) `plugins/rundll32_sct_from_url.lua:58`
-
-## plugins/validate_shellcode.lua
-- `hex_to_bytes` (function) `plugins/validate_shellcode.lua:2`
-- `esc_hex_to_bytes` (function) `plugins/validate_shellcode.lua:21`
-- `hex_list_to_byte_values` (function) `plugins/validate_shellcode.lua:65`
-- `validate_shellcode` (function) `plugins/validate_shellcode.lua:81`
-
-## plugins/visualize_network.lua
-- `visualize_network` (function) `plugins/visualize_network.lua:1`
 
 
 Next: [API_p18.md](API_p18.md)

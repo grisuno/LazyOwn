@@ -41,6 +41,14 @@ _MAX_YAML_BYTES = 100_000
 _MAX_WHEN_CHARS = 500
 _MAX_STEP_TIMEOUT = 3600
 _MAX_RETRIES = 5
+_MAX_TOTAL_TIMEOUT = 86_400
+_MAX_VERIFY_CHARS = 500
+_MAX_CAPTURE_REGEX_CHARS = 256
+_MAX_JSON_KEYS = 8
+_MAX_EXPECT_EXITS = 8
+_EXPECT_EXIT_MAX = 255
+_EXPECT_EXIT_RE = re.compile(r"^(0|[1-9][0-9]{0,2})$")
+_JUMP_RE = _NAME_RE
 
 
 @dataclass
@@ -59,7 +67,14 @@ class ChainStep:
     retries: int = 0
     continue_on_error: bool = False
     capture: str = ""
+    capture_regex: str = ""
+    capture_json: str = ""
     expect: str = ""
+    expect_exit: list[int] = field(default_factory=list)
+    verify: str = ""
+    on_fail: str = ""
+    on_success: str = ""
+    confirm: bool = False
     artifacts: list[str] = field(default_factory=list)
     sinks: list[str] = field(default_factory=list)
 
@@ -84,6 +99,7 @@ class Chain:
     source: str = ""
     enabled: bool = True
     extends: str = ""
+    total_timeout: int = 0
 
     def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]:
         """Substitute tokens, evaluate conditions and guards.
@@ -104,7 +120,14 @@ class Chain:
                 "retries": step.retries,
                 "continue_on_error": step.continue_on_error,
                 "capture": step.capture,
+                "capture_regex": step.capture_regex,
+                "capture_json": step.capture_json,
                 "expect": step.expect,
+                "expect_exit": list(step.expect_exit),
+                "verify": step.verify,
+                "on_fail": step.on_fail,
+                "on_success": step.on_success,
+                "confirm": step.confirm,
                 "artifacts": list(step.artifacts),
                 "sinks": list(step.sinks),
                 "step": step,
@@ -284,6 +307,9 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         parent_file = Path(chains_dir) / f"{extends}.yaml"
         if not parent_file.is_file():
             errors.append(f"unknown parent chain file: {parent_file.name}")
+    total_timeout = data.get("total_timeout", 0)
+    if isinstance(total_timeout, bool) or not isinstance(total_timeout, int) or not 0 <= total_timeout <= _MAX_TOTAL_TIMEOUT:
+        errors.append(f"total_timeout must be 0-{_MAX_TOTAL_TIMEOUT} seconds")
     if "enabled" in data and not isinstance(data["enabled"], bool):
         errors.append("enabled must be true or false")
     steps = data.get("steps")
@@ -293,11 +319,13 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         errors.append("steps must be a non-empty list")
     if isinstance(steps, list):
         seen_ids: set[str] = set()
+        jumps: list[tuple[str, str]] = []
         for step in steps:
             if not isinstance(step, dict) or not str(step.get("run", "")).strip():
                 errors.append("every step needs a non-empty run string")
                 continue
             step_id = str(step.get("id", "") or "")
+            step_label = step_id or str(step.get("run"))[:60]
             if step_id:
                 if not _NAME_RE.match(step_id):
                     errors.append(f"invalid step id: {step_id!r}")
@@ -320,15 +348,61 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             capture = str(step.get("capture", "") or "")
             if capture and not _CAPTURE_RE.match(capture):
                 errors.append(f"step {step_id or step.get('run')!r}: invalid capture name {capture!r}")
-            for key in ("artifacts", "sinks"):
-                value = step.get(key, [])
-                if value is not None and not isinstance(value, list):
-                    errors.append(f"step {step_id or step.get('run')!r}: {key} must be a list")
+            capture_regex = str(step.get("capture_regex", "") or "")
+            if capture_regex:
+                if len(capture_regex) > _MAX_CAPTURE_REGEX_CHARS:
+                    errors.append(f"step {step_label}: capture_regex exceeds {_MAX_CAPTURE_REGEX_CHARS} chars")
+                else:
+                    try:
+                        re.compile(capture_regex)
+                    except re.error as exc:
+                        errors.append(f"step {step_label}: invalid capture_regex: {exc}")
+            capture_json = str(step.get("capture_json", "") or "")
+            if capture_json:
+                keys = [key.strip() for key in capture_json.split(",") if key.strip()]
+                if not keys or len(keys) > _MAX_JSON_KEYS:
+                    errors.append(f"step {step_label}: capture_json accepts 1-{_MAX_JSON_KEYS} keys")
+                else:
+                    for key in keys:
+                        if not _CAPTURE_RE.match(key):
+                            errors.append(f"step {step_label}: invalid capture_json key {key!r}")
+            verify = str(step.get("verify", "") or "")
+            if verify and len(verify) > _MAX_VERIFY_CHARS:
+                errors.append(f"step {step_label}: verify exceeds {_MAX_VERIFY_CHARS} chars")
+            expect_exit = step.get("expect_exit", [])
+            if expect_exit and not isinstance(expect_exit, (int, list)):
+                errors.append(f"step {step_label}: expect_exit must be an int or a list of ints")
+            codes = [expect_exit] if isinstance(expect_exit, int) else (expect_exit or [])
+            if isinstance(expect_exit, (int, list)):
+                if len(codes) > _MAX_EXPECT_EXITS:
+                    errors.append(f"step {step_label}: expect_exit accepts up to {_MAX_EXPECT_EXITS} codes")
+                else:
+                    for code in codes:
+                        if isinstance(code, bool) or not isinstance(code, int) or not 0 <= code <= _EXPECT_EXIT_MAX:
+                            errors.append(f"step {step_label}: expect_exit codes must be 0-{_EXPECT_EXIT_MAX}")
+            if "confirm" in step and not isinstance(step["confirm"], bool):
+                errors.append(f"step {step_label}: confirm must be true or false")
+            for jump_key in ("on_fail", "on_success"):
+                jump = str(step.get(jump_key, "") or "")
+                if jump and not _JUMP_RE.match(jump):
+                    errors.append(f"step {step_label}: invalid {jump_key} target {jump!r}")
+                elif jump and step_id and jump == step_id:
+                    errors.append(f"step {step_label}: {jump_key} cannot target itself")
+                elif jump:
+                    jumps.append((step_label, jump, jump_key))
             resolver = step.get("resolve_newest")
             if resolver is not None:
                 if not isinstance(resolver, dict) or not resolver.get("glob") or not resolver.get("as"):
                     errors.append("resolve_newest needs glob and as keys")
+        for step_label, jump, jump_key in jumps:
+            if jump not in seen_ids:
+                errors.append(f"step {step_label}: {jump_key} target {jump!r} is not a known step id")
     return errors
+
+
+def render_text_token_braces(text: str) -> str:
+    """Return text with every ``{name}`` token replaced by a placeholder."""
+    return _TOKEN_RE.sub("{_}", str(text or ""))
 
 
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]:
@@ -406,12 +480,17 @@ def _materialize(name: str, raw: dict[str, dict[str, Any]], stack: tuple[str, ..
         source=entry["source"],
         enabled=True,
         extends=parent_name,
+        total_timeout=int(data.get("total_timeout", 0) or 0),
     )
 
 
 def _step_from_raw(item: dict[str, Any]) -> ChainStep:
     """Build one validated step from YAML data."""
     resolver = item.get("resolve_newest") or {}
+    raw_exits = item.get("expect_exit", []) or []
+    codes = [int(raw_exits)] if isinstance(raw_exits, int) and not isinstance(raw_exits, bool) else [
+        int(code) for code in raw_exits if str(code).strip().isdigit()
+    ]
     return ChainStep(
         run=str(item["run"]),
         id=str(item.get("id", "") or ""),
@@ -425,7 +504,14 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
         retries=int(item.get("retries", 0) or 0),
         continue_on_error=bool(item.get("continue_on_error", False)),
         capture=str(item.get("capture", "") or ""),
+        capture_regex=str(item.get("capture_regex", "") or ""),
+        capture_json=str(item.get("capture_json", "") or ""),
         expect=str(item.get("expect", "") or ""),
+        expect_exit=codes,
+        verify=str(item.get("verify", "") or ""),
+        on_fail=str(item.get("on_fail", "") or ""),
+        on_success=str(item.get("on_success", "") or ""),
+        confirm=bool(item.get("confirm", False)),
         artifacts=[str(value) for value in (item.get("artifacts") or []) if str(value).strip()],
         sinks=[str(value) for value in (item.get("sinks") or []) if str(value).strip()],
     )

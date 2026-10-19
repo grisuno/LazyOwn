@@ -190,6 +190,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CertificateAuthority`](modules/modules.lazy_proxy.py.md#certificateauthority) class in `modules.lazy_proxy`
 - [`CertificateTemplate`](modules/modules.adcs_attacks.py.md#certificatetemplate) class in `modules.adcs_attacks`
 - [`Chain`](modules/modules.chain_registry.py.md#chain) class in `modules.chain_registry`
+- [`ChainArgs`](modules/cli.apt_chain_support.py.md#chainargs) class in `cli.apt_chain_support`
 - [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
 - [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
 - [`ChainModeStore`](modules/cli.chain_mode.py.md#chainmodestore) class in `cli.chain_mode`
@@ -333,6 +334,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`DashboardPusher`](modules/modules.event_consumers.py.md#dashboardpusher) class in `modules.event_consumers`
 - [`Database`](modules/lazy_sentinel4.py.md#database) class in `lazy_sentinel4`
 - [`DataDirectory`](modules/modules.reflective_dll.py.md#datadirectory) class in `modules.reflective_dll`
+- [`DecisionPersistence`](modules/modules.auto_loop_memory.py.md#decisionpersistence) class in `modules.auto_loop_memory`
 - [`DecisionRecord`](modules/modules.llm_evaluator.py.md#decisionrecord) class in `modules.llm_evaluator`
 - [`Defaults`](modules/skills.hermes-lazyown.constants.py.md#defaults) class in `skills.hermes-lazyown.constants`
 - [`DelegateResult`](modules/modules.unified_bridge.py.md#delegateresult) class in `modules.unified_bridge`
@@ -379,6 +381,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`EDRFinding`](modules/modules.edr_detector.py.md#edrfinding) class in `modules.edr_detector`
 - [`EDRProfile`](modules/modules.edr_detector.py.md#edrprofile) class in `modules.edr_detector`
 - [`EmailEntry`](modules/modules.world_model.py.md#emailentry) class in `modules.world_model`
+- [`EmbeddingError`](modules/modules.memory_embeddings.py.md#embeddingerror) exception in `modules.memory_embeddings`(ValueError)
 - [`EmulationReport`](modules/modules.emulation_runner.py.md#emulationreport) class in `modules.emulation_runner`
 - [`EmulationResult`](modules/modules.emulation_runner.py.md#emulationresult) class in `modules.emulation_runner`
 - [`EmulationRunner`](modules/modules.emulation_runner.py.md#emulationrunner) class in `modules.emulation_runner`
@@ -483,6 +486,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
 - [`Extractor`](modules/modules.obs_parser.py.md#extractor) class in `modules.obs_parser`(ABC)
 - [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
+- [`FailureMemory`](modules/modules.auto_loop_memory.py.md#failurememory) class in `modules.auto_loop_memory`
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
 - [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
 - [`fd_uring`](modules/modules.exp.c.md#fd_uring) struct in `modules/exp.c`
@@ -901,6 +905,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`MFABypassEngine`](modules/modules.mfa_bypass.py.md#mfabypassengine) class in `modules.mfa_bypass`
 - [`MFABypassResult`](modules/modules.mfa_bypass.py.md#mfabypassresult) class in `modules.mfa_bypass`
 - [`MFATarget`](modules/modules.mfa_bypass.py.md#mfatarget) class in `modules.mfa_bypass`
+- [`Migration`](modules/modules.metasploitable_migrations.py.md#migration) class in `modules.metasploitable_migrations`
 - [`MigrationError`](modules/scripts.activate_migrations.py.md#migrationerror) exception in `scripts.activate_migrations`(Exception)
 - [`MISPAttribute`](modules/modules.integrations.misp_export.py.md#mispattribute) class in `modules.integrations.misp_export`
 - [`MISPEvent`](modules/modules.integrations.misp_export.py.md#mispevent) class in `modules.integrations.misp_export`
@@ -1043,6 +1048,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`PEHeader`](modules/modules.reflective_dll.py.md#peheader) class in `modules.reflective_dll`
 - [`PendingAction`](modules/skills.daemon_control.py.md#pendingaction) class in `skills.daemon_control`
 - [`PendingApproval`](modules/modules.intercept.py.md#pendingapproval) class in `modules.intercept`
+- [`PendingDecision`](modules/modules.auto_loop_memory.py.md#pendingdecision) class in `modules.auto_loop_memory`
 - [`PentestState`](modules/skills.toposwarm_autonomous.py.md#penteststate) class in `skills.toposwarm_autonomous`
 - [`PEParser`](modules/modules.reflective_dll.py.md#peparser) class in `modules.reflective_dll`
 - [`Permission`](modules/modules.lazy_rbac.py.md#permission) enum in `modules.lazy_rbac`(enum.Enum)
@@ -1113,6 +1119,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ProfileValidator`](modules/modules.c2_profile_engine.py.md#profilevalidator) class in `modules.c2_profile_engine`
 - [`PromptBuilder`](modules/contrib.legacy.lazyllmchat.py.md#promptbuilder) class in `contrib.legacy.lazyllmchat`
 - [`Proposal`](modules/cli.recommendation.py.md#proposal) class in `cli.recommendation`
+- [`Proposal`](modules/modules.selector_manager.py.md#proposal) class in `modules.selector_manager`
 - [`ProTip`](modules/cli.protips.py.md#protip) class in `cli.protips`
 - [`ProxyController`](modules/modules.lazy_proxy.py.md#proxycontroller) class in `modules.lazy_proxy`
 - [`ProxyHandler`](modules/modules.lazyown_bprfuzzer.py.md#proxyhandler) class in `modules.lazyown_bprfuzzer`(BaseHTTPRequestHandler)
@@ -1135,6 +1142,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`RAGManager`](modules/lazy_sentinel4.py.md#ragmanager) class in `lazy_sentinel4`
 - [`RBACStore`](modules/modules.lazy_rbac.py.md#rbacstore) class in `modules.lazy_rbac`
 - [`RBACUser`](modules/modules.lazy_rbac.py.md#rbacuser) class in `modules.lazy_rbac`
+- [`ReactionPick`](modules/modules.reaction_bridge.py.md#reactionpick) class in `modules.reaction_bridge`
 - [`ReactiveDecision`](modules/modules.reactive_engine.py.md#reactivedecision) class in `modules.reactive_engine`
 - [`ReactiveEngine`](modules/modules.reactive_engine.py.md#reactiveengine) class in `modules.reactive_engine`
 - [`ReadlineBridge`](modules/cli.fuzzy_picker.py.md#readlinebridge) class in `cli.fuzzy_picker`
@@ -1154,6 +1162,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ReflectiveLoaderConfig`](modules/modules.reflective_dll.py.md#reflectiveloaderconfig) class in `modules.reflective_dll`
 - [`ReleaseArtifact`](modules/modules.selfupdate.py.md#releaseartifact) class in `modules.selfupdate`
 - [`RenderContext`](modules/cli.banner_config.py.md#rendercontext) class in `cli.banner_config`
+- [`ReplanContext`](modules/modules.chain_runner.py.md#replancontext) class in `modules.chain_runner`
 - [`ReplayDispatcher`](modules/skills.autonomous_replay.py.md#replaydispatcher) class in `skills.autonomous_replay`
 - [`ReplayDivergence`](modules/skills.autonomous_replay.py.md#replaydivergence) class in `skills.autonomous_replay`
 - [`ReplayReport`](modules/skills.autonomous_replay.py.md#replayreport) class in `skills.autonomous_replay`
@@ -1244,6 +1253,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`VenvSegment`](modules/cli.banner_config.py.md#venvsegment) class in `cli.banner_config`
   - [`VersionSegment`](modules/cli.banner_config.py.md#versionsegment) class in `cli.banner_config`
 - [`SegmentSpec`](modules/cli.banner_config.py.md#segmentspec) class in `cli.banner_config`
+- [`Selection`](modules/modules.selector_manager.py.md#selection) class in `modules.selector_manager`
 - [`Selector`](modules/core.protocols.py.md#selector) protocol in `core.protocols`(Protocol)
 - [`SemanticContextAdvisor`](modules/modules.reactive_engine.py.md#semanticcontextadvisor) class in `modules.reactive_engine`
 - [`Server`](modules/contrib.legacy.lazyhoneypot.py.md#server) class in `contrib.legacy.lazyhoneypot`(paramiko.ServerInterface)
@@ -1336,6 +1346,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`StepValidator`](modules/modules.pipeline_engine.py.md#stepvalidator) class in `modules.pipeline_engine`
 - [`StorageBackend`](modules/modules.memory_store.py.md#storagebackend) class in `modules.memory_store`(ABC)
   - [`SQLiteBackend`](modules/modules.memory_store.py.md#sqlitebackend) class in `modules.memory_store`
+    - [`VectorSQLiteBackend`](modules/modules.memory_store.py.md#vectorsqlitebackend) class in `modules.memory_store`
 - [`StrategyEngine`](modules/skills.autonomous_daemon.py.md#strategyengine) class in `skills.autonomous_daemon`
 - [`StructuredLogConfig`](modules/core.logging.py.md#structuredlogconfig) class in `core.logging`
 - [`StructuredLogger`](modules/core.logging.py.md#structuredlogger) class in `core.logging`(logging.Logger)

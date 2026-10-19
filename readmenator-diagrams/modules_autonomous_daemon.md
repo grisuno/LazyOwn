@@ -1,6 +1,6 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 109 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 115 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -27,33 +27,33 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (5.1)
+## cli (3.1)
 
 cli groups 9 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
-## contrib (5.2)
+## contrib (3.2)
 
 contrib groups 3 files (py) around BinaryFinder, __init__, find_suid_binaries, find_capabilities_binaries, find_executable_binaries.
 
-## lazygui (5.3)
+## lazygui (3.3)
 
 lazygui groups 2 files (py). LazyOwn Operator Console.
 
-## modules (5.4)
+## modules (3.4)
 
-modules groups 37 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. AI-Driven Exploit Chaining Engine.
+modules groups 41 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. AI-Driven Exploit Chaining Engine.
 
-## scripts (5.5)
+## scripts (3.5)
 
 scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## skills (5.6)
+## skills (3.6)
 
 skills groups 27 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 
-## tests (5.7)
+## tests (3.7)
 
-tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_dedup_anchor_coverage, test_c04_mirror_to_campaign_db, test_c05_frontier_emits_once_then_empty, test_c05_todo_blocks_lateral_until_creds. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 32 files (py) around test_autonomous_flow_integration, TestFailureMemory, test_counts_persist_across_reload, test_blocked_after_threshold_by_base, test_veto_blocks_immediately_and_persists. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -74,6 +74,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - modules/ai_exploit_chain.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
+- modules/auto_loop_memory.py
 - modules/auto_pivot.py
 - modules/autonomous_exploit_engine.py
 - modules/config_store.py
@@ -81,6 +82,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - modules/dashboard_engine.py
 - modules/detection_feed.py
 - modules/detection_oracle.py
+- modules/digest.py
 - modules/engage_summary.py
 - modules/enrich.py
 - modules/evidence.py
@@ -92,6 +94,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - modules/llm_evaluator.py
 - modules/llm_pool.py
 - modules/loop_ai_bridge.py
+- modules/memory_embeddings.py
 - modules/memory_store.py
 - modules/moe_router.py
 - modules/obs_parser.py
@@ -101,6 +104,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - modules/reactive_engine.py
 - modules/rich_tui.py
 - modules/rl_trainer.py
+- modules/selector_manager.py
 - modules/session_rag.py
 - modules/session_reader.py
 - modules/threat_model.py
@@ -137,6 +141,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - skills/unified_orchestrator.py
 - skills/update_knowledge.py
 - tests/integration_autonomous_flow.py
+- tests/test_auto_loop_memory.py
 - tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
 - tests/test_boyscout_contracts.py
@@ -155,6 +160,7 @@ tests groups 30 files (py) around test_autonomous_flow_integration, test_c04_ded
 - tests/test_loop_ai_bridge.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
+- tests/test_memory_semantics.py
 - tests/test_metrics_aware_selector.py
 - tests/test_moe_rl_swan.py
 - tests/test_moe_router_check_regression.py

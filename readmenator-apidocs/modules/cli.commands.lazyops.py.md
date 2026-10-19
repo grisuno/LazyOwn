@@ -1199,7 +1199,7 @@ Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all]
 
 #### `LazyCommandSet.do_lazy_notify`
 
-`method` | [cli/commands/lazyops.py:2099](../../cli/commands/lazyops.py#L2099)
+`method` | [cli/commands/lazyops.py:2095](../../cli/commands/lazyops.py#L2095)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1223,7 +1223,7 @@ Usage: lazy_notify ... [--task T]
 
 #### `LazyCommandSet.do_lazy_trigger`
 
-`method` | [cli/commands/lazyops.py:2147](../../cli/commands/lazyops.py#L2147)
+`method` | [cli/commands/lazyops.py:2143](../../cli/commands/lazyops.py#L2143)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1247,7 +1247,7 @@ Usage: lazy_trigger ... [--task T]
 
 #### `LazyCommandSet.do_lazy_llm`
 
-`method` | [cli/commands/lazyops.py:2206](../../cli/commands/lazyops.py#L2206)
+`method` | [cli/commands/lazyops.py:2202](../../cli/commands/lazyops.py#L2202)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1271,7 +1271,7 @@ Usage: lazy_llm ...
 
 #### `LazyCommandSet.do_lazy_compact`
 
-`method` | [cli/commands/lazyops.py:2343](../../cli/commands/lazyops.py#L2343)
+`method` | [cli/commands/lazyops.py:2339](../../cli/commands/lazyops.py#L2339)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1295,7 +1295,7 @@ Usage: lazy_compact ... [--task T]
 
 #### `LazyCommandSet.do_lazy_status`
 
-`method` | [cli/commands/lazyops.py:2415](../../cli/commands/lazyops.py#L2415)
+`method` | [cli/commands/lazyops.py:2411](../../cli/commands/lazyops.py#L2411)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1319,7 +1319,7 @@ Usage: lazy_status [--task T]
 
 #### `LazyCommandSet.do_lazy_overview`
 
-`method` | [cli/commands/lazyops.py:2439](../../cli/commands/lazyops.py#L2439)
+`method` | [cli/commands/lazyops.py:2435](../../cli/commands/lazyops.py#L2435)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1343,7 +1343,7 @@ Usage: lazy_overview [--task T]
 
 #### `LazyCommandSet.do_lazy_archive`
 
-`method` | [cli/commands/lazyops.py:2444](../../cli/commands/lazyops.py#L2444)
+`method` | [cli/commands/lazyops.py:2440](../../cli/commands/lazyops.py#L2440)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1367,7 +1367,7 @@ Usage: lazy_archive ...
 
 #### `LazyCommandSet.do_lazy_template`
 
-`method` | [cli/commands/lazyops.py:2475](../../cli/commands/lazyops.py#L2475)
+`method` | [cli/commands/lazyops.py:2471](../../cli/commands/lazyops.py#L2471)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1391,7 +1391,7 @@ Usage: lazy_template ...
 
 #### `LazyCommandSet.do_lazy_category`
 
-`method` | [cli/commands/lazyops.py:2506](../../cli/commands/lazyops.py#L2506)
+`method` | [cli/commands/lazyops.py:2502](../../cli/commands/lazyops.py#L2502)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1415,7 +1415,7 @@ Usage: lazy_category ...
 
 #### `LazyCommandSet.do_lazy_chat`
 
-`method` | [cli/commands/lazyops.py:2527](../../cli/commands/lazyops.py#L2527)
+`method` | [cli/commands/lazyops.py:2523](../../cli/commands/lazyops.py#L2523)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1439,7 +1439,7 @@ Usage: lazy_chat ... [--task T] [--session S]
 
 #### `LazyCommandSet.do_lazy_scheduler`
 
-`method` | [cli/commands/lazyops.py:2560](../../cli/commands/lazyops.py#L2560)
+`method` | [cli/commands/lazyops.py:2556](../../cli/commands/lazyops.py#L2556)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1463,7 +1463,7 @@ Usage: lazy_scheduler ... [--task T]
 
 #### `LazyCommandSet.do_lazy_gate`
 
-`method` | [cli/commands/lazyops.py:2587](../../cli/commands/lazyops.py#L2587)
+`method` | [cli/commands/lazyops.py:2583](../../cli/commands/lazyops.py#L2583)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1487,7 +1487,7 @@ Usage: lazy_gate ... [--task T] (allow-* require --task)
 
 #### `LazyCommandSet.do_lazy_loop`
 
-`method` | [cli/commands/lazyops.py:2632](../../cli/commands/lazyops.py#L2632)
+`method` | [cli/commands/lazyops.py:2628](../../cli/commands/lazyops.py#L2628)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1497,7 +1497,7 @@ def do_lazy_loop(self, line)
 
 Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
 
-Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--sandbox [image]] [--view|--plain] [<goal>]
+Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]
 
 **Parameters**
 

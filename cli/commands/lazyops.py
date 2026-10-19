@@ -1998,11 +1998,7 @@ class LazyCommandSet(LazyOwnCommandSet):
         if args[0] == "update":
             from modules.addon_updater import update_all
 
-            names = [
-                token
-                for token in args[1:]
-                if not token.startswith("--") and token != "--all"
-            ]
+            names = [token for token in args[1:] if not token.startswith("--") and token != "--all"]
             summary = update_all(names=names or None, dry_run="--dry-run" in args)
             counts = summary.get("counts", {})
             print_msg(
@@ -2630,7 +2626,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
-        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--sandbox [image]] [--view|--plain] [<goal>]"""
+        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]"""
         from modules.lazy_runner import parse_loop_line, run_loop
 
         try:
@@ -2639,7 +2635,11 @@ class LazyCommandSet(LazyOwnCommandSet):
             if str(exc) != "usage":
                 print_error(f"lazy_loop: {exc}")
             else:
-                print_error("Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--view] [<goal>]")
+                print_error(
+                    "Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] "
+                    "[--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] "
+                    "[--view] [<goal>]"
+                )
             return
         if not config.target:
             config.target = str(self.params.get("rhost", "") or "")

@@ -4,7 +4,7 @@ utils.py
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Creation date: 09/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: This file contains the logic for all functions used in the LazyOwnShell class.
 

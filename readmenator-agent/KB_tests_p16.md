@@ -1,6 +1,55 @@
 # Subsystem: tests (page 16 of 17)
 Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
+## tests/test_security_hardening_v5.py
+- Doc: SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_read` (function, line 33) `def _read(rel)`
+  - `TestIcmpAuthenticatedCrypto` (class, line 43) `class TestIcmpAuthenticatedCrypto`
+  - `TestCredentialLogHashing` (class, line 93) `class TestCredentialLogHashing`
+  - `TestCalderaConfigNoHardcodedSecrets` (class, line 119) `class TestCalderaConfigNoHardcodedSecrets`
+  - `TestSprayNoClearTextPassword` (class, line 155) `class TestSprayNoClearTextPassword`
+  - `TestPhishingWizardEncryptsCredentials` (class, line 173) `class TestPhishingWizardEncryptsCredentials`
+  - `TestBootstrapPasswordNotPrinted` (class, line 196) `class TestBootstrapPasswordNotPrinted`
+  - `TestNetworkOpsecTlsVersion` (class, line 222) `class TestNetworkOpsecTlsVersion`
+  - `TestCsrfCookieInjection` (class, line 235) `class TestCsrfCookieInjection`
+  - `TestHealthEndpointNoExceptionLeak` (class, line 259) `class TestHealthEndpointNoExceptionLeak`
+  - `test_server_has_no_ecb` (method, line 47) `def test_server_has_no_ecb(self)`
+  - `test_client_has_no_ecb` (method, line 50) `def test_client_has_no_ecb(self)`
+  - `test_server_uses_gcm` (method, line 53) `def test_server_uses_gcm(self)`
+  - `test_client_uses_gcm` (method, line 56) `def test_client_uses_gcm(self)`
+  - `test_encrypt_decrypt_roundtrip` (method, line 59) `def test_encrypt_decrypt_roundtrip(self)`
+  - `test_tampered_payload_rejected` (method, line 67) `def test_tampered_payload_rejected(self)`
+  - `test_short_payload_rejected` (method, line 76) `def test_short_payload_rejected(self)`
+  - `test_client_sudo_is_guarded` (method, line 82) `def test_client_sudo_is_guarded(self)`
+  - `test_uses_hmac_not_plain_sha256` (method, line 97) `def test_uses_hmac_not_plain_sha256(self)`
+  - `test_no_salted_sha256_fingerprint` (method, line 101) `def test_no_salted_sha256_fingerprint(self)`
+  - `test_fingerprint_is_hmac_of_proper_key` (method, line 105) `def test_fingerprint_is_hmac_of_proper_key(self)`
+  - `test_no_hardcoded_user_passwords` (method, line 123) `def test_no_hardcoded_user_passwords(self)`
+  - `test_generated_user_passwords` (method, line 128) `def test_generated_user_passwords(self)`
+  - `test_writes_with_owner_permissions` (method, line 134) `def test_writes_with_owner_permissions(self)`
+  - `test_functional_generates_no_static_passwords` (method, line 138) `def test_functional_generates_no_static_passwords(self)`
+  - `test_does_not_log_password` (method, line 158) `def test_does_not_log_password(self)`
+  - `test_logs_success_without_secret` (method, line 163) `def test_logs_success_without_secret(self)`
+  - `test_encrypts_password_before_storage` (method, line 177) `def test_encrypts_password_before_storage(self)`
+  - `test_hashes_password_before_log` (method, line 181) `def test_hashes_password_before_log(self)`
+  - `test_imports_encryption_contract` (method, line 185) `def test_imports_encryption_contract(self)`
+  - `test_no_password_print` (method, line 200) `def test_no_password_print(self)`
+  - `test_persist_helper_exists` (method, line 204) `def test_persist_helper_exists(self)`
+  - `test_persist_uses_owner_only_permissions` (method, line 208) `def test_persist_uses_owner_only_permissions(self)`
+  - `test_persist_writes_to_file` (method, line 212) `def test_persist_writes_to_file(self)`
+  - `test_pins_minimum_version` (method, line 225) `def test_pins_minimum_version(self)`
+  - `test_validates_client_id` (method, line 239) `def test_validates_client_id(self)`
+  - `test_validator_accepts_only_urlsafe_token` (method, line 243) `def test_validator_accepts_only_urlsafe_token(self)`
+  - `test_no_exception_interpolation` (method, line 263) `def test_no_exception_interpolation(self)`
+  - `test_database_error_is_generic` (method, line 267) `def test_database_error_is_generic(self)`
+  - `test_listener_error_is_generic` (method, line 271) `def test_listener_error_is_generic(self)`
+  - `test_loads_only_generic_error` (method, line 275) `def test_loads_only_generic_error(self)`
+  - `BrokenDB` (class, line 280) `class BrokenDB`
+- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `modules/icmp_server.py`, `modules/phishing_orchestrator.py`, `utils.py`
+
 ## tests/test_security_lazyc2.py
 - Doc: Security tests for the LazyOwn C2 web layer.
 - Layer: testing

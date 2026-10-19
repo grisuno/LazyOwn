@@ -186,6 +186,7 @@ class TestExitEncryptWiring:
             "shutdown_loop_runtime",
             lambda reason="": {"cancelled_processes": 0, "paused_tasks": []},
         )
+        monkeypatch.setattr(loop_module, "arm_exit_watchdog", lambda *a, **k: None)
         calls: list = []
         with pytest.raises(SystemExit):
             SessionOpsCommandSet.do_qa(self._stub_shell(calls), "")
@@ -202,6 +203,7 @@ class TestExitEncryptWiring:
             "shutdown_loop_runtime",
             lambda reason="": {"cancelled_processes": 0, "paused_tasks": []},
         )
+        monkeypatch.setattr(loop_module, "arm_exit_watchdog", lambda *a, **k: None)
         monkeypatch.setattr(builtins, "input", lambda *args, **kwargs: "s")
         calls: list = []
         with pytest.raises(SystemExit):

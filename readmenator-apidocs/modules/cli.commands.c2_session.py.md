@@ -177,7 +177,7 @@ live agents stay valid; ``c2_reboot`` always rotates.
 
 #### `C2SessionCommandSet.do_c2_deploy`
 
-`method` | [cli/commands/c2_session.py:251](../../cli/commands/c2_session.py#L251)
+`method` | [cli/commands/c2_session.py:249](../../cli/commands/c2_session.py#L249)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 

@@ -378,24 +378,25 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_container_ip` (method, line 118) `def _container_ip(self, container_name)`
   - `_lab_ensure_web` (method, line 140) `def _lab_ensure_web(self, scenario, container_name)`
   - `_print_lab_target` (method, line 155) `def _print_lab_target(self, scenario, container_name, ports)`
-  - `do_lab` (method, line 179) `def do_lab(self, line)`
-  - `_lab_list` (method, line 231) `def _lab_list(self)`
-  - `_lab_start` (method, line 245) `def _lab_start(self, scenario)`
-  - `_lab_stop` (method, line 287) `def _lab_stop(self, scenario)`
-  - `_range_dispatch` (method, line 305) `def _range_dispatch(self, args)`
-  - `_range_list` (method, line 337) `def _range_list(self)`
-  - `_range_compose` (method, line 346) `def _range_compose(self, profile)`
-  - `_range_start` (method, line 365) `def _range_start(self, profile)`
-  - `_range_container_state` (method, line 404) `def _range_container_state(self, container)`
-  - `_range_wait_healthy` (method, line 427) `def _range_wait_healthy(self, compose, timeout)`
-  - `_range_verify` (method, line 459) `def _range_verify(self, profile)`
-  - `_tcp_reachable` (method, line 495) `def _tcp_reachable(host, port, timeout)`
-  - `_ensure_range_secret` (method, line 512) `def _ensure_range_secret(self, profile_dir)`
-  - `_range_container_ip` (method, line 542) `def _range_container_ip(self, container)`
-  - `_range_stop` (method, line 571) `def _range_stop(self, profile)`
-  - `_range_status` (method, line 589) `def _range_status(self)`
-  - `_lab_status` (method, line 601) `def _lab_status(self)`
-- Depends on: `cli/commands/_base.py`, `utils.py`
+  - `_lab_migrate` (method, line 176) `def _lab_migrate(self, scenario, container_name)`
+  - `do_lab` (method, line 196) `def do_lab(self, line)`
+  - `_lab_list` (method, line 248) `def _lab_list(self)`
+  - `_lab_start` (method, line 262) `def _lab_start(self, scenario)`
+  - `_lab_stop` (method, line 306) `def _lab_stop(self, scenario)`
+  - `_range_dispatch` (method, line 324) `def _range_dispatch(self, args)`
+  - `_range_list` (method, line 356) `def _range_list(self)`
+  - `_range_compose` (method, line 365) `def _range_compose(self, profile)`
+  - `_range_start` (method, line 384) `def _range_start(self, profile)`
+  - `_range_container_state` (method, line 423) `def _range_container_state(self, container)`
+  - `_range_wait_healthy` (method, line 446) `def _range_wait_healthy(self, compose, timeout)`
+  - `_range_verify` (method, line 478) `def _range_verify(self, profile)`
+  - `_tcp_reachable` (method, line 514) `def _tcp_reachable(host, port, timeout)`
+  - `_ensure_range_secret` (method, line 531) `def _ensure_range_secret(self, profile_dir)`
+  - `_range_container_ip` (method, line 561) `def _range_container_ip(self, container)`
+  - `_range_stop` (method, line 590) `def _range_stop(self, profile)`
+  - `_range_status` (method, line 608) `def _range_status(self)`
+  - `_lab_status` (method, line 620) `def _lab_status(self)`
+- Depends on: `cli/commands/_base.py`, `modules/metasploitable_migrations.py`, `utils.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 
 ## cli/commands/lateral.py

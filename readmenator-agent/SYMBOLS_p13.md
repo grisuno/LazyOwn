@@ -1,8 +1,90 @@
-# Symbols (page 13 of 42)
+# Symbols (page 13 of 43)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
+| `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
+| `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
+| `_crack_cookies` | method | `modules/dpapi_harvester.py:320` | `def _crack_cookies(self, cookies_path, key, source)` |
+| `_crack_login_data` | method | `modules/dpapi_harvester.py:286` | `def _crack_login_data(self, login_db_path, key, source)` |
+| `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
+| `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
+| `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
+| `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
+| `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
+| `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
+| `_harvest_rdp` | method | `modules/dpapi_harvester.py:250` | `def _harvest_rdp(self)` |
+| `_harvest_wifi` | method | `modules/dpapi_harvester.py:210` | `def _harvest_wifi(self)` |
+| `_harvest_windows_vault` | method | `modules/dpapi_harvester.py:262` | `def _harvest_windows_vault(self)` |
+| `export_credentials` | method | `modules/dpapi_harvester.py:367` | `def export_credentials(self)` |
+| `harvest_all` | method | `modules/dpapi_harvester.py:90` | `def harvest_all(self)` |
+| `masterkey_report` | method | `modules/dpapi_harvester.py:386` | `def masterkey_report(self)` |
+| `EDRDetector` | class | `modules/edr_detector.py:191` | `class EDRDetector` |
+| `EDRFinding` | class | `modules/edr_detector.py:174` | `class EDRFinding` |
+| `EDRProfile` | class | `modules/edr_detector.py:182` | `class EDRProfile` |
+| `_generate_recommendations` | method | `modules/edr_detector.py:370` | `def _generate_recommendations(profile)` |
+| `_local_drivers` | method | `modules/edr_detector.py:322` | `def _local_drivers()` |
+| `_local_processes` | method | `modules/edr_detector.py:292` | `def _local_processes()` |
+| `_local_services` | method | `modules/edr_detector.py:305` | `def _local_services()` |
+| `_match_signatures` | method | `modules/edr_detector.py:335` | `def _match_signatures(profile)` |
+| `_severity` | method | `modules/edr_detector.py:428` | `def _severity(profile)` |
+| `detect_local` | method | `modules/edr_detector.py:202` | `def detect_local()` |
+| `detect_remote_commands` | method | `modules/edr_detector.py:221` | `def detect_remote_commands(remote_type)` |
+| `generate_edr_check_script` | method | `modules/edr_detector.py:440` | `def generate_edr_check_script(remote_type)` |
+| `init_board` | function | `modules/eegg.sh:26` | `` |
+| `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
+| `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
+| `show_board` | function | `modules/eegg.sh:40` | `` |
+| `EmulationReport` | class | `modules/emulation_runner.py:69` | `class EmulationReport` |
+| `EmulationResult` | class | `modules/emulation_runner.py:40` | `class EmulationResult` |
+| `EmulationRunner` | class | `modules/emulation_runner.py:105` | `class EmulationRunner` |
+| `EmulationStep` | class | `modules/emulation_runner.py:28` | `class EmulationStep` |
+| `__init__` | method | `modules/emulation_runner.py:108` | `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` |
+| `_detect` | method | `modules/emulation_runner.py:159` | `def _detect(self, spec, output)` |
+| `_exec` | method | `modules/emulation_runner.py:151` | `def _exec(self, spec, target, command, lhost)` |
+| `_open_shell` | method | `modules/emulation_runner.py:143` | `def _open_shell(self, target, services, lhost, exploits_dir)` |
+| `_playbook` | method | `modules/emulation_runner.py:135` | `def _playbook(self, name)` |
+| `_publish` | method | `modules/emulation_runner.py:450` | `def _publish(self, result, target, source, dry_run, sessions)` |
+| `_record` | method | `modules/emulation_runner.py:170` | `def _record(self)` |
+| `_resolver_obj` | method | `modules/emulation_runner.py:127` | `def _resolver_obj(self)` |
+| `_run_test` | method | `modules/emulation_runner.py:399` | `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)` |
+| `_stage` | method | `modules/emulation_runner.py:482` | `def _stage(self, report, sessions)` |
+| `executed` | method | `modules/emulation_runner.py:81` | `def executed(self)` |
+| `run` | method | `modules/emulation_runner.py:202` | `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` |
+| `run_steps` | method | `modules/emulation_runner.py:321` | `def run_steps(self, steps, target, executor, platform, dry_run, source)` |
+| `shell` | method | `modules/emulation_runner.py:86` | `def shell(self)` |
+| `techniques_for_playbook` | method | `modules/emulation_runner.py:182` | `def techniques_for_playbook(self, playbook, platform)` |
+| `to_dict` | method | `modules/emulation_runner.py:53` | `def to_dict(self)` |
+| `to_dict` | method | `modules/emulation_runner.py:90` | `def to_dict(self)` |
+| `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
+| `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
+| `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
+| `marker_lines` | function | `modules/engage_summary.py:35` | `def marker_lines(text, limit)` |
+| `next_actions` | function | `modules/engage_summary.py:150` | `def next_actions(target, sessions_dir, limit)` |
+| `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
+| `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
+| `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
+| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
+| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
+| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
+| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
+| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
+| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
+| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
+| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
+| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
+| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
+| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
+| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
+| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
+| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
+| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
+| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
+| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
+| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
 | `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
 | `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
 | `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
@@ -414,87 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
 | `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
 | `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
-| `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
-| `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
-| `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
-| `enumerate_iam_policy` | method | `modules/gcp_attacks.py:93` | `def enumerate_iam_policy(self, resource)` |
-| `gcs_enumeration` | method | `modules/gcp_attacks.py:194` | `def gcs_enumeration(self)` |
-| `organization_escalation` | method | `modules/gcp_attacks.py:261` | `def organization_escalation(self)` |
-| `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
-| `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
-| `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
-| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
-| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
-| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
-| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
-| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
-| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
-| `constraint_block_text` | function | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
-| `decompose_rule_based` | function | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
-| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
-| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
-| `load_constraints` | function | `modules/goals.py:83` | `def load_constraints(payload)` |
-| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
-| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
-| `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
-| `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
-| `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
-| `__init__` | method | `modules/gpo_abuse.py:118` | `def __init__(self, domain, dc_ip)` |
-| `detect_risky_gpos` | method | `modules/gpo_abuse.py:406` | `def detect_risky_gpos(self)` |
-| `generate_all_plans` | method | `modules/gpo_abuse.py:382` | `def generate_all_plans(self, command, username)` |
-| `parse_bloodhound_gpos` | method | `modules/gpo_abuse.py:160` | `def parse_bloodhound_gpos(self, bloodhound_nodes)` |
-| `parse_gpo_list` | method | `modules/gpo_abuse.py:124` | `def parse_gpo_list(self, raw_gpo_output)` |
-| `plan_local_admin_addition` | method | `modules/gpo_abuse.py:266` | `def plan_local_admin_addition(self, gpo, username, group)` |
-| `plan_logon_script` | method | `modules/gpo_abuse.py:238` | `def plan_logon_script(self, gpo, command)` |
-| `plan_registry_preference` | method | `modules/gpo_abuse.py:322` | `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` |
-| `plan_scheduled_task` | method | `modules/gpo_abuse.py:182` | `def plan_scheduled_task(self, gpo, command, task_name)` |
-| `plan_service_installation` | method | `modules/gpo_abuse.py:356` | `def plan_service_installation(self, gpo, service_name, binary_path)` |
-| `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
-| `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
-| `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
-| `has` | function | `modules/gui_askpass.sh:22` | `` |
-| `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
-| `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
-| `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
-| `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
-| `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
-| `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
-| `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
-| `_next_run_id` | function | `modules/gym_registry.py:569` | `def _next_run_id(state)` |
-| `_normalize_definition` | function | `modules/gym_registry.py:188` | `def _normalize_definition(data)` |
-| `_read_yaml` | function | `modules/gym_registry.py:178` | `def _read_yaml(path)` |
-| `_sanitize_state` | function | `modules/gym_registry.py:454` | `def _sanitize_state(raw)` |
-| `_world_model` | function | `modules/gym_registry.py:447` | `def _world_model()` |
-| `_write_yaml` | function | `modules/gym_registry.py:282` | `def _write_yaml(path, data)` |
-| `_yaml_module` | function | `modules/gym_registry.py:85` | `def _yaml_module()` |
-| `create_definition` | function | `modules/gym_registry.py:300` | `def create_definition(gym_id)` |
-| `definition_path` | function | `modules/gym_registry.py:155` | `def definition_path(gym_id, directory)` |
-| `delete_definition` | function | `modules/gym_registry.py:402` | `def delete_definition(gym_id, directory)` |
-| `get_active_runs` | function | `modules/gym_registry.py:637` | `def get_active_runs(selector, operator)` |
-| `load_definitions` | function | `modules/gym_registry.py:207` | `def load_definitions(directory)` |
-| `new_run_token` | function | `modules/gym_registry.py:761` | `def new_run_token()` |
-| `normalize_operator` | function | `modules/gym_registry.py:495` | `def normalize_operator(value)` |
-| `pop_run` | function | `modules/gym_registry.py:724` | `def pop_run(selector)` |
-| `read_state` | function | `modules/gym_registry.py:501` | `def read_state()` |
-| `scan_definitions` | function | `modules/gym_registry.py:239` | `def scan_definitions(directory)` |
-| `select_run` | function | `modules/gym_registry.py:663` | `def select_run(selector)` |
-| `slugify` | function | `modules/gym_registry.py:92` | `def slugify(value)` |
-| `start_run` | function | `modules/gym_registry.py:579` | `def start_run(challenge_id, definitions)` |
-| `state_summary` | function | `modules/gym_registry.py:751` | `def state_summary()` |
-| `stop_runs` | function | `modules/gym_registry.py:695` | `def stop_runs(selector)` |
-| `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
-| `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
-| `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
-| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
-| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
-| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
-| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
-| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
-| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
-| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

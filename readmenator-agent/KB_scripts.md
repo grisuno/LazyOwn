@@ -122,6 +122,21 @@
   - `main` (function, line 150) `def main(argv)`
 - Imported by: `skills/lazyown_mcp.py`
 
+## scripts/mcp_call.py
+- Doc: Call one LazyOwn MCP tool over stdio and print its text content.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ToolAnswer` (class, line 43) `class _ToolAnswer`
+  - `_LoopSettings` (class, line 52) `class _LoopSettings`
+  - `_server_command` (function, line 61) `def _server_command()`
+  - `_parse_arguments` (function, line 80) `def _parse_arguments(raw)`
+  - `_extract_answer` (function, line 100) `def _extract_answer(result)`
+  - `_call_once` (function, line 116) `def _call_once(settings, command)`
+  - `_build_parser` (function, line 152) `def _build_parser()`
+  - `main` (function, line 173) `def main(argv)`
+  - `__init__` (method, line 46) `def __init__(self, text, is_error)`
+
 ## scripts/migrate_commandsets.py
 - Doc: Merge _migrated.py CommandSet methods into clean phase modules.
 - Layer: utility

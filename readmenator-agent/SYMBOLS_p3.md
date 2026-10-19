@@ -1,9 +1,26 @@
-# Symbols (page 3 of 42)
+# Symbols (page 3 of 43)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2147` | `def do_lazy_trigger(self, line)` |
+| `do_lazy_resume` | method | `cli/commands/lazyops.py:1313` | `def do_lazy_resume(self, line)` |
+| `do_lazy_retest` | method | `cli/commands/lazyops.py:1260` | `def do_lazy_retest(self, line)` |
+| `do_lazy_runtime` | method | `cli/commands/lazyops.py:1340` | `def do_lazy_runtime(self, line)` |
+| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2652` | `def do_lazy_sandbox(self, line)` |
+| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2556` | `def do_lazy_scheduler(self, line)` |
+| `do_lazy_scope` | method | `cli/commands/lazyops.py:780` | `def do_lazy_scope(self, line)` |
+| `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:456` | `def do_lazy_selfupdate(self, line)` |
+| `do_lazy_skill` | method | `cli/commands/lazyops.py:319` | `def do_lazy_skill(self, line)` |
+| `do_lazy_stage` | method | `cli/commands/lazyops.py:1961` | `def do_lazy_stage(self, line)` |
+| `do_lazy_status` | method | `cli/commands/lazyops.py:2411` | `def do_lazy_status(self, line)` |
+| `do_lazy_steer` | method | `cli/commands/lazyops.py:1279` | `def do_lazy_steer(self, line)` |
+| `do_lazy_task` | method | `cli/commands/lazyops.py:147` | `def do_lazy_task(self, line)` |
+| `do_lazy_template` | method | `cli/commands/lazyops.py:2471` | `def do_lazy_template(self, line)` |
+| `do_lazy_todo` | method | `cli/commands/lazyops.py:798` | `def do_lazy_todo(self, line)` |
+| `do_lazy_tool` | method | `cli/commands/lazyops.py:1791` | `def do_lazy_tool(self, line)` |
+| `do_lazy_trace` | method | `cli/commands/lazyops.py:555` | `def do_lazy_trace(self, line)` |
+| `do_lazy_traffic` | method | `cli/commands/lazyops.py:873` | `def do_lazy_traffic(self, line)` |
+| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2143` | `def do_lazy_trigger(self, line)` |
 | `do_lazy_verb` | method | `cli/commands/lazyops.py:1863` | `def do_lazy_verb(self, line)` |
 | `do_lazy_worker` | method | `cli/commands/lazyops.py:515` | `def do_lazy_worker(self, line)` |
 | `do_lazy_workspace` | method | `cli/commands/lazyops.py:403` | `def do_lazy_workspace(self, line)` |
@@ -38,19 +55,19 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_build_playbook_run_parser` | function | `cli/commands/mcp_bridge.py:129` | `def _build_playbook_run_parser()` |
 | `_build_rag_query_parser` | function | `cli/commands/mcp_bridge.py:89` | `def _build_rag_query_parser()` |
 | `_build_threat_model_parser` | function | `cli/commands/mcp_bridge.py:116` | `def _build_threat_model_parser()` |
-| `_delegate` | method | `cli/commands/mcp_bridge.py:537` | `def _delegate(self, command, line)` |
+| `_delegate` | method | `cli/commands/mcp_bridge.py:543` | `def _delegate(self, command, line)` |
 | `_executor` | function | `cli/commands/mcp_bridge.py:475` | `def _executor(command, host)` |
-| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:545` | `def _refresh_aliases(self)` |
+| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:551` | `def _refresh_aliases(self)` |
 | `do_auto_loop` | method | `cli/commands/mcp_bridge.py:489` | `def do_auto_loop(self, line)` |
 | `do_auto_populate` | method | `cli/commands/mcp_bridge.py:151` | `def do_auto_populate(self, args)` |
-| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:528` | `def do_campaign_sitrep(self, line)` |
+| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:534` | `def do_campaign_sitrep(self, line)` |
 | `do_facts_show` | method | `cli/commands/mcp_bridge.py:261` | `def do_facts_show(self, args)` |
 | `do_parquet_query` | method | `cli/commands/mcp_bridge.py:316` | `def do_parquet_query(self, args)` |
 | `do_playbook_run` | method | `cli/commands/mcp_bridge.py:431` | `def do_playbook_run(self, args)` |
 | `do_rag_query` | method | `cli/commands/mcp_bridge.py:286` | `def do_rag_query(self, args)` |
-| `do_session_state` | method | `cli/commands/mcp_bridge.py:523` | `def do_session_state(self, line)` |
+| `do_session_state` | method | `cli/commands/mcp_bridge.py:529` | `def do_session_state(self, line)` |
 | `do_threat_model` | method | `cli/commands/mcp_bridge.py:378` | `def do_threat_model(self, args)` |
-| `do_timeline` | method | `cli/commands/mcp_bridge.py:533` | `def do_timeline(self, line)` |
+| `do_timeline` | method | `cli/commands/mcp_bridge.py:539` | `def do_timeline(self, line)` |
 | `MiscMigratedCommandSet` | class | `cli/commands/misc_migrated.py:87` | `class MiscMigratedCommandSet(LazyOwnCommandSet)` |
 | `__getattr__` | function | `cli/commands/misc_migrated.py:1172` | `def __getattr__(name)` |
 | `_handle_killchain_auto` | method | `cli/commands/misc_migrated.py:150` | `def _handle_killchain_auto(self, spec)` |
@@ -352,16 +369,16 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:272` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:399` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:365` | `def _gym_leaderboard(self, args)` |
-| `_gym_list` | method | `cli/commands/redteam_gym.py:141` | `def _gym_list(self)` |
-| `_gym_start` | method | `cli/commands/redteam_gym.py:175` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:277` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:345` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:224` | `def _gym_submit(self, args)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:268` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:395` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:361` | `def _gym_leaderboard(self, args)` |
+| `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
+| `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:273` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:341` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:220` | `def _gym_submit(self, args)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
-| `do_gym_ms2` | method | `cli/commands/redteam_gym.py:93` | `def do_gym_ms2(self, line)` |
+| `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
 | `_make_context` | method | `cli/commands/resource_scripting.py:31` | `def _make_context(self)` |
 | `do_makerc` | method | `cli/commands/resource_scripting.py:88` | `def do_makerc(self, line)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_scans` | method | `cli/commands/session_ops.py:219` | `def do_scans(self, line)` |
 | `do_scope` | method | `cli/commands/session_ops.py:390` | `def do_scope(self, line)` |
 | `do_show` | method | `cli/commands/session_ops.py:456` | `def do_show(self, line)` |
-| `do_sitrep` | method | `cli/commands/session_ops.py:236` | `def do_sitrep(self, line)` |
-| `do_tasks` | method | `cli/commands/session_ops.py:186` | `def do_tasks(self, line)` |
-| `do_tenant` | method | `cli/commands/session_ops.py:317` | `def do_tenant(self, line)` |
-| `do_traces` | method | `cli/commands/session_ops.py:739` | `def do_traces(self, line)` |
-| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
-| `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
-| `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
-| `do_fixel` | method | `cli/commands/shellsys.py:336` | `def do_fixel(self, line)` |
-| `do_fixperm` | method | `cli/commands/shellsys.py:303` | `def do_fixperm(self, line)` |
-| `do_nano` | method | `cli/commands/shellsys.py:146` | `def do_nano(self, line)` |
-| `do_pop` | method | `cli/commands/shellsys.py:369` | `def do_pop(self, line)` |
-| `do_pwd` | method | `cli/commands/shellsys.py:110` | `def do_pwd(self, line)` |
-| `do_sh` | method | `cli/commands/shellsys.py:30` | `def do_sh(self, line)` |
-| `do_sys` | method | `cli/commands/shellsys.py:62` | `def do_sys(self, line)` |
-| `do_tab` | method | `cli/commands/shellsys.py:406` | `def do_tab(self, line)` |
-| `lazyrun_command` | function | `cli/commands/shellsys.py:205` | `def lazyrun_command()` |
-| `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

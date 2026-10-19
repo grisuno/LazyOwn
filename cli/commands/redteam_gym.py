@@ -88,7 +88,6 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
         else:
             print_error(f"Unknown action: {action}")
 
-
     @cmd2.with_category(miscellaneous_category)
     def do_gym_ms2(self, line):
         """Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.
@@ -111,10 +110,7 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             return
         if action == "chains":
             for entry in vulnerabilities():
-                print_msg(
-                    f"{entry['id']:<34} {entry['chain']:<52} exploit={entry['exploit']:<34} "
-                    f"{entry['severity']}"
-                )
+                print_msg(f"{entry['id']:<34} {entry['chain']:<52} exploit={entry['exploit']:<34} {entry['severity']}")
             return
         if action == "validate":
             errors = validate_matrix()

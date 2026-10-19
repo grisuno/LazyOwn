@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import contextlib
 import io
+import os
 import queue
 import shlex
 import threading
@@ -105,6 +106,8 @@ class LoopRunConfig:
     profile: str = ""
     rounds_set: bool = True
     workers_set: bool = True
+    budget: dict = field(default_factory=dict)
+    budget_confirm: bool = False
     extra: dict = field(default_factory=dict)
 
     def clamped(self) -> LoopRunConfig:
@@ -117,8 +120,10 @@ class LoopRunConfig:
         return self
 
 
-FLAG_VALUES = ("--target", "--task", "--profile", "--rounds", "--max-steps", "--workers", "--timeout", "--step-delay")
-FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress")
+FLAG_VALUES = ("--target", "--task", "--profile", "--rounds", "--max-steps", "--workers", "--timeout", "--step-delay", "--budget")
+FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm")
+_BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
+_BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
 
 
 def _to_int(raw: str, default: int) -> int:
@@ -169,6 +174,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     no_bootstrap = False
     progress = True
     view = False
+    budget: dict[str, float] = {}
+    budget_confirm = False
     goal_parts: list[str] = []
     idx = 0
     while idx < len(parts):
@@ -202,6 +209,13 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 timeout = _to_float(value, 0.0)
             elif token == "--step-delay":
                 step_delay = _to_float(value, 0.0)
+            elif token == "--budget":
+                for chunk in str(value).split(","):
+                    key, _, raw_value = chunk.strip().partition("=")
+                    if key not in _BUDGET_KEYS or raw_value in ("", None):
+                        raise ValueError(f"--budget accepts {'/'.join(_BUDGET_KEYS)}=N pairs (got {chunk!r})")
+                    parsed = float(raw_value)
+                    budget[key] = max(_BUDGET_MINIMUMS[key], parsed)
             idx += 2
             continue
         if token in FLAG_TOGGLES:
@@ -209,6 +223,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 no_bootstrap = True
             elif token == "--view":
                 view = True
+            elif token == "--budget-confirm":
+                budget_confirm = True
             else:
                 progress = False
             idx += 1
@@ -232,6 +248,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         no_bootstrap=no_bootstrap,
         progress=progress,
         view=view,
+        budget=budget,
+        budget_confirm=budget_confirm,
     )
 
 
@@ -438,6 +456,35 @@ def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
         print_warn(f"[!] bootstrap timed out after {int(time.monotonic() - started)}s; continuing")
     else:
         print_msg(f"[*] bootstrap done in {time.monotonic() - started:.1f}s")
+
+
+def _apply_budget(engine, task_id: str, budget: dict) -> None:
+    """Persist per-task budget caps before orchestration begins."""
+    if not task_id or not budget:
+        return
+    try:
+        from modules.lazy_loop import Budget as _EngineBudget
+
+        _EngineBudget(getattr(engine, "store", None)).set_limits(task_id, **budget)
+        print_msg(f"[*] budget caps: {budget}")
+    except Exception as exc:
+        print_warn(f"[!] budget not applied: {exc}")
+
+
+def _budget_declined(config: LoopRunConfig) -> bool:
+    """Interactive confirm-gate for budget-constrained runs."""
+    if not (config.budget and config.budget_confirm):
+        return False
+    if os.environ.get("LAZYOWN_AUTONOMOUS", "") == "1":
+        return False
+    try:
+        reply = input(f"[*] budget caps {config.budget} will apply. Proceed? [y/N]: ").strip().lower()
+    except (EOFError, KeyboardInterrupt):
+        reply = "n"
+    if reply in ("y", "yes"):
+        return False
+    print_warn("budget run aborted at your request")
+    return True
 
 
 def _run_with_progress(engine, config: LoopRunConfig) -> dict:
@@ -787,6 +834,18 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
     _prepare_engine(engine, shell, config, params)
     _start_proxy(engine, params)
     print_msg(f"[*] orchestrator chain: {'/'.join(engine.ORCHESTRATOR_CHAIN)}")
+    if _budget_declined(config):
+        return {"task_id": config.task_id, "cancelled": True, "error": "budget declined"}
+    if config.budget and not config.task_id:
+        try:
+            created = engine.create_task(config.goal or f"engage {config.target or 'target'}")
+            config.task_id = str(created.get("task_id", ""))
+            if config.target:
+                engine.ensure_target(config.task_id, config.target, "loop target")
+        except Exception as exc:
+            print_warn(f"[!] pre-task budget failed: {exc}")
+    if config.budget:
+        _apply_budget(engine, config.task_id, config.budget)
 
     import signal as _signal
 

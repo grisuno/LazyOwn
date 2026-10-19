@@ -6,7 +6,7 @@ lazyown
 Author: Gris Iscomeback
 Email: grisiscomeback at gmail dot com
 Creation Date: 13/08/2024
-License: GPL v3
+License: AGPL v3
 
 Description: This file contains the definition of the logic in the LazyOwnShell class
 

@@ -6,9 +6,9 @@ These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 279.20, imported by 139 files)
 - `utils.py` (score: 216.40, imported by 90 files)
-- `skills/lazyown_mcp.py` (score: 194.20, imported by 8 files)
+- `skills/lazyown_mcp.py` (score: 200.60, imported by 8 files)
+- `modules/lazy_loop.py` (score: 192.10, imported by 47 files)
 - `cli/commands/_base.py` (score: 184.70, imported by 90 files)
-- `modules/lazy_loop.py` (score: 182.00, imported by 46 files)
 - `lazyc2.py` (score: 126.80)
 - `lazyown.py` (score: 118.90, imported by 9 files)
 - `core/config.py` (score: 107.80, imported by 51 files)
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 139 total dependents
-- `core/host_policy.py` -- 3 direct, 119 total dependents
+- `core/validators.py` -- 12 direct, 121 total dependents
 - `modules/backdoor/server.c` -- 12 direct, 108 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 106 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 104 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 102 total dependents
 - `cli/banner_config.py` -- 6 direct, 101 total dependents
-- `core/parsers.py` -- 9 direct, 101 total dependents
-- `core/validators.py` -- 12 direct, 101 total dependents
-- `core/dependencies.py` -- 3 direct, 95 total dependents
+- `core/parsers.py` -- 9 direct, 96 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 96 total dependents
+- `modules/lazyencoder_decoder.py` -- 5 direct, 95 total dependents
+- `skills/claude_md_orchestrator/parser.py` -- 4 direct, 94 total dependents
 
 ## Hotspots (complexity + centrality)
 

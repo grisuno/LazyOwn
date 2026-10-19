@@ -220,9 +220,7 @@ class C2SessionCommandSet(LazyOwnCommandSet):
             stored = json.loads(lab.read_text()) if lab.exists() else {}
         except (json.JSONDecodeError, OSError):
             stored = {}
-        stored.update(
-            {"user": srv.user, "password": srv.password, "https_port": srv.port, "http_port": http_port}
-        )
+        stored.update({"user": srv.user, "password": srv.password, "https_port": srv.port, "http_port": http_port})
         lab.write_text(json.dumps(stored, indent=2), encoding="utf-8")
         http_result = srv.ensure_http_listener(http_port, (srv.user, srv.password))
         try:
@@ -285,8 +283,10 @@ class C2SessionCommandSet(LazyOwnCommandSet):
             lhost="172.17.0.1",
             sleep=sleep,
         )
-        print_msg(f"Deploy: client={result.get('client_id')} via={result.get('via')} "
-                  f"size_ok={result.get('size_ok')} running={result.get('agent_running')}")
+        print_msg(
+            f"Deploy: client={result.get('client_id')} via={result.get('via')} "
+            f"size_ok={result.get('size_ok')} running={result.get('agent_running')}"
+        )
 
     @cmd2.with_category(CATEGORY)
     def do_c2_exec(self, line: str):
@@ -397,13 +397,18 @@ class C2SessionCommandSet(LazyOwnCommandSet):
         dest.write_bytes(staged.read_bytes())
         manifest = loot_dir / "manifest.jsonl"
         with manifest.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({
-                "client_id": client_id,
-                "remote": remote,
-                "local": str(dest),
-                "bytes": dest.stat().st_size,
-                "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            }) + "\n")
+            fh.write(
+                json.dumps(
+                    {
+                        "client_id": client_id,
+                        "remote": remote,
+                        "local": str(dest),
+                        "bytes": dest.stat().st_size,
+                        "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         print_msg(f"Loot staged: {dest} ({dest.stat().st_size} bytes)")
         try:
             import sys as _sys

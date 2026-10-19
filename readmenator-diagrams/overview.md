@@ -2,14 +2,14 @@
 graph LR
     cli_commands["cli/commands"]
     modules_lazyc2["modules: lazyc2"]
-    modules_lazy_loop["modules: lazy_loop"]
-    cli["cli"]
     modules_autonomous_daemon["modules: autonomous_daemon"]
+    cli["cli"]
+    modules_lazy_loop["modules: lazy_loop"]
     lazygui_panels["lazygui/panels"]
     modules_llm_budget["modules: llm_budget"]
     static_js["static/js"]
     skills_claude_md_orchestrator["skills/claude_md_orchestrator"]
-    skills_hermes_lazyown["skills/hermes-lazyown"]
+    modules_lazyown_facts["modules: lazyown_facts"]
     modules_surface_graph["modules: surface_graph"]
     modules_opsec_scorer["modules: opsec_scorer"]
     modules_kerberos_core["modules: kerberos_core"]
@@ -22,49 +22,49 @@ graph LR
     scripts_check_contract_manifest["scripts: check_contract_manifest"]
     scripts_migrate_lazyown["scripts: migrate_lazyown"]
     tools["tools"]
-    cli_commands -- "calls into" --> skills_hermes_lazyown
+    cli_commands -- "calls into" --> modules_lazyown_facts
     cli_commands -- "depends on" --> modules_surface_graph
+    cli_commands -- "calls into" --> modules_opsec_scorer
     cli_commands -- "calls into" --> modules_polymorphic_engine
     cli_commands -- "calls into" --> contrib_legacy
     cli_commands -- "calls into" --> scripts_journal
     cli_commands -- "calls into" --> poc_tui
     cli_commands -- "calls into" --> modules_lazyc2
-    cli_commands -- "calls into" --> modules_lazy_loop
-    cli_commands -- "calls into" --> cli
     cli_commands -- "calls into" --> modules_autonomous_daemon
+    cli_commands -- "calls into" --> cli
+    cli_commands -- "calls into" --> modules_lazy_loop
     cli_commands -- "calls into" --> lazygui_panels
     cli_commands -- "calls into" --> modules_llm_budget
     cli_commands -- "calls into" --> static_js
     cli_commands -- "calls into" --> skills_claude_md_orchestrator
-    skills_hermes_lazyown -- "calls into" --> cli_commands
-    skills_hermes_lazyown -- "calls into" --> modules_polymorphic_engine
-    skills_hermes_lazyown -- "calls into" --> scripts_journal
-    skills_hermes_lazyown -- "calls into" --> modules_backdoor
-    skills_hermes_lazyown -- "calls into" --> poc_tui
-    skills_hermes_lazyown -- "calls into" --> modules_lazyc2
-    skills_hermes_lazyown -- "calls into" --> modules_lazy_loop
-    skills_hermes_lazyown -- "calls into" --> cli
-    skills_hermes_lazyown -- "calls into" --> modules_autonomous_daemon
-    skills_hermes_lazyown -- "calls into" --> lazygui_panels
-    skills_hermes_lazyown -- "depends on" --> skills_claude_md_orchestrator
+    modules_lazyown_facts -- "calls into" --> cli_commands
+    modules_lazyown_facts -- "calls into" --> modules_polymorphic_engine
+    modules_lazyown_facts -- "calls into" --> scripts_journal
+    modules_lazyown_facts -- "calls into" --> poc_tui
+    modules_lazyown_facts -- "calls into" --> modules_lazyc2
+    modules_lazyown_facts -- "calls into" --> modules_autonomous_daemon
+    modules_lazyown_facts -- "calls into" --> cli
+    modules_lazyown_facts -- "calls into" --> modules_lazy_loop
+    modules_lazyown_facts -- "calls into" --> lazygui_panels
+    modules_lazyown_facts -- "calls into" --> modules_llm_budget
+    modules_lazyown_facts -- "depends on" --> static_js
+    modules_lazyown_facts -- "calls into" --> skills_claude_md_orchestrator
     modules_surface_graph -- "calls into" --> cli_commands
     modules_surface_graph -- "calls into" --> modules_polymorphic_engine
     modules_surface_graph -- "calls into" --> poc_tui
     modules_surface_graph -- "calls into" --> modules_lazyc2
-    modules_surface_graph -- "calls into" --> modules_lazy_loop
-    modules_surface_graph -- "calls into" --> cli
     modules_surface_graph -- "calls into" --> modules_autonomous_daemon
+    modules_surface_graph -- "calls into" --> cli
+    modules_surface_graph -- "calls into" --> modules_lazy_loop
     modules_surface_graph -- "calls into" --> lazygui_panels
     modules_surface_graph -- "depends on" --> modules_llm_budget
     modules_surface_graph -- "calls into" --> static_js
     modules_surface_graph -- "calls into" --> skills_claude_md_orchestrator
     modules_opsec_scorer -- "calls into" --> cli_commands
-    modules_opsec_scorer -- "calls into" --> modules_polymorphic_engine
     modules_opsec_scorer -- "calls into" --> poc_tui
-    modules_opsec_scorer -- "calls into" --> modules_lazyc2
-    modules_opsec_scorer -- "calls into" --> modules_lazy_loop
-    modules_opsec_scorer -- "depends on" --> cli
+    modules_opsec_scorer -- "depends on" --> modules_lazyc2
     modules_opsec_scorer -- "depends on" --> modules_autonomous_daemon
+    modules_opsec_scorer -- "calls into" --> cli
     modules_opsec_scorer -- "calls into" --> lazygui_panels
     modules_opsec_scorer -- "calls into" --> static_js
     modules_kerberos_core -- "calls into" --> cli_commands
@@ -76,11 +76,11 @@ graph LR
     modules_saas_attacks -- "calls into" --> poc_tui
     modules_saas_attacks -- "calls into" --> lazygui_panels
     modules_polymorphic_engine -- "calls into" --> cli_commands
-    modules_polymorphic_engine -- "calls into" --> skills_hermes_lazyown
     modules_polymorphic_engine -- "calls into" --> poc_tui
     modules_polymorphic_engine -- "calls into" --> modules_lazyc2
     modules_polymorphic_engine -- "calls into" --> modules_lazy_loop
     modules_polymorphic_engine -- "calls into" --> lazygui_panels
+    modules_polymorphic_engine -- "calls into" --> skills_claude_md_orchestrator
     contrib_legacy -- "calls into" --> poc_tui
     scripts_journal -- "calls into" --> poc_tui
     scripts_journal -- "calls into" --> lazygui_panels
@@ -88,14 +88,14 @@ graph LR
     poc_tui -- "calls into" --> modules_lazy_loop
     poc_tui -- "calls into" --> skills_claude_md_orchestrator
     modules_lazyc2 -- "calls into" --> cli_commands
-    modules_lazyc2 -- "calls into" --> skills_hermes_lazyown
+    modules_lazyc2 -- "calls into" --> modules_lazyown_facts
     modules_lazyc2 -- "depends on" --> modules_surface_graph
     modules_lazyc2 -- "calls into" --> modules_polymorphic_engine
     modules_lazyc2 -- "calls into" --> scripts_journal
     modules_lazyc2 -- "calls into" --> poc_tui
-    modules_lazyc2 -- "calls into" --> modules_lazy_loop
-    modules_lazyc2 -- "calls into" --> cli
     modules_lazyc2 -- "calls into" --> modules_autonomous_daemon
+    modules_lazyc2 -- "calls into" --> cli
+    modules_lazyc2 -- "calls into" --> modules_lazy_loop
     modules_lazyc2 -- "calls into" --> lazygui_panels
     modules_lazyc2 -- "calls into" --> modules_llm_budget
     modules_lazyc2 -- "calls into" --> static_js
@@ -107,33 +107,8 @@ graph LR
     scripts_migrate_lazyown -- "calls into" --> poc_tui
     scripts_migrate_lazyown -- "calls into" --> modules_lazyc2
     scripts_migrate_lazyown -- "calls into" --> modules_lazy_loop
-    modules_lazy_loop -- "calls into" --> cli_commands
-    modules_lazy_loop -- "depends on" --> skills_hermes_lazyown
-    modules_lazy_loop -- "calls into" --> modules_surface_graph
-    modules_lazy_loop -- "calls into" --> modules_polymorphic_engine
-    modules_lazy_loop -- "calls into" --> scripts_journal
-    modules_lazy_loop -- "calls into" --> poc_tui
-    modules_lazy_loop -- "calls into" --> modules_lazyc2
-    modules_lazy_loop -- "calls into" --> cli
-    modules_lazy_loop -- "calls into" --> modules_autonomous_daemon
-    modules_lazy_loop -- "calls into" --> lazygui_panels
-    modules_lazy_loop -- "depends on" --> modules_llm_budget
-    modules_lazy_loop -- "calls into" --> static_js
-    modules_lazy_loop -- "calls into" --> skills_claude_md_orchestrator
-    cli -- "calls into" --> cli_commands
-    cli -- "calls into" --> skills_hermes_lazyown
-    cli -- "calls into" --> modules_polymorphic_engine
-    cli -- "calls into" --> scripts_journal
-    cli -- "calls into" --> poc_tui
-    cli -- "calls into" --> modules_lazyc2
-    cli -- "calls into" --> modules_lazy_loop
-    cli -- "calls into" --> modules_autonomous_daemon
-    cli -- "calls into" --> lazygui_panels
-    cli -- "calls into" --> modules_llm_budget
-    cli -- "calls into" --> static_js
-    cli -- "calls into" --> skills_claude_md_orchestrator
     modules_autonomous_daemon -- "calls into" --> cli_commands
-    modules_autonomous_daemon -- "depends on" --> skills_hermes_lazyown
+    modules_autonomous_daemon -- "calls into" --> modules_lazyown_facts
     modules_autonomous_daemon -- "calls into" --> modules_surface_graph
     modules_autonomous_daemon -- "calls into" --> modules_opsec_scorer
     modules_autonomous_daemon -- "calls into" --> modules_kerberos_core
@@ -141,19 +116,44 @@ graph LR
     modules_autonomous_daemon -- "calls into" --> scripts_journal
     modules_autonomous_daemon -- "calls into" --> poc_tui
     modules_autonomous_daemon -- "calls into" --> modules_lazyc2
-    modules_autonomous_daemon -- "calls into" --> modules_lazy_loop
     modules_autonomous_daemon -- "calls into" --> cli
+    modules_autonomous_daemon -- "calls into" --> modules_lazy_loop
     modules_autonomous_daemon -- "calls into" --> lazygui_panels
     modules_autonomous_daemon -- "calls into" --> modules_llm_budget
     modules_autonomous_daemon -- "calls into" --> static_js
     modules_autonomous_daemon -- "calls into" --> skills_claude_md_orchestrator
+    cli -- "calls into" --> cli_commands
+    cli -- "calls into" --> modules_lazyown_facts
+    cli -- "calls into" --> modules_polymorphic_engine
+    cli -- "calls into" --> scripts_journal
+    cli -- "calls into" --> poc_tui
+    cli -- "calls into" --> modules_lazyc2
+    cli -- "calls into" --> modules_autonomous_daemon
+    cli -- "calls into" --> modules_lazy_loop
+    cli -- "calls into" --> lazygui_panels
+    cli -- "calls into" --> modules_llm_budget
+    cli -- "calls into" --> static_js
+    cli -- "calls into" --> skills_claude_md_orchestrator
+    modules_lazy_loop -- "calls into" --> cli_commands
+    modules_lazy_loop -- "calls into" --> modules_lazyown_facts
+    modules_lazy_loop -- "calls into" --> modules_surface_graph
+    modules_lazy_loop -- "calls into" --> modules_polymorphic_engine
+    modules_lazy_loop -- "calls into" --> scripts_journal
+    modules_lazy_loop -- "calls into" --> poc_tui
+    modules_lazy_loop -- "calls into" --> modules_lazyc2
+    modules_lazy_loop -- "calls into" --> modules_autonomous_daemon
+    modules_lazy_loop -- "calls into" --> cli
+    modules_lazy_loop -- "calls into" --> lazygui_panels
+    modules_lazy_loop -- "depends on" --> modules_llm_budget
+    modules_lazy_loop -- "calls into" --> static_js
+    modules_lazy_loop -- "calls into" --> skills_claude_md_orchestrator
     lazygui_panels -- "calls into" --> modules_polymorphic_engine
     lazygui_panels -- "calls into" --> scripts_journal
     lazygui_panels -- "calls into" --> poc_tui
     lazygui_panels -- "calls into" --> modules_lazyc2
-    lazygui_panels -- "calls into" --> modules_lazy_loop
-    lazygui_panels -- "calls into" --> cli
     lazygui_panels -- "calls into" --> modules_autonomous_daemon
+    lazygui_panels -- "calls into" --> cli
+    lazygui_panels -- "calls into" --> modules_lazy_loop
     lazygui_panels -- "calls into" --> static_js
     lazygui_panels -- "calls into" --> skills_claude_md_orchestrator
     modules_llm_budget -- "calls into" --> cli_commands
@@ -161,39 +161,44 @@ graph LR
     modules_llm_budget -- "calls into" --> scripts_journal
     modules_llm_budget -- "calls into" --> poc_tui
     modules_llm_budget -- "depends on" --> modules_lazyc2
-    modules_llm_budget -- "calls into" --> modules_lazy_loop
-    modules_llm_budget -- "calls into" --> cli
     modules_llm_budget -- "calls into" --> modules_autonomous_daemon
+    modules_llm_budget -- "calls into" --> cli
+    modules_llm_budget -- "calls into" --> modules_lazy_loop
     modules_llm_budget -- "calls into" --> static_js
     modules_llm_budget -- "calls into" --> skills_claude_md_orchestrator
     static_js -- "calls into" --> cli_commands
+    static_js -- "calls into" --> modules_polymorphic_engine
+    static_js -- "calls into" --> scripts_journal
+    static_js -- "calls into" --> poc_tui
     static_js -- "calls into" --> modules_lazyc2
-    static_js -- "calls into" --> modules_lazy_loop
-    static_js -- "calls into" --> cli
     static_js -- "calls into" --> modules_autonomous_daemon
+    static_js -- "calls into" --> cli
+    static_js -- "calls into" --> modules_lazy_loop
     static_js -- "calls into" --> lazygui_panels
     static_js -- "calls into" --> modules_llm_budget
+    static_js -- "depends on" --> skills_claude_md_orchestrator
     skills_claude_md_orchestrator -- "calls into" --> cli_commands
+    skills_claude_md_orchestrator -- "calls into" --> modules_lazyown_facts
     skills_claude_md_orchestrator -- "calls into" --> modules_polymorphic_engine
     skills_claude_md_orchestrator -- "calls into" --> scripts_journal
+    skills_claude_md_orchestrator -- "calls into" --> modules_backdoor
     skills_claude_md_orchestrator -- "calls into" --> poc_tui
     skills_claude_md_orchestrator -- "calls into" --> modules_lazyc2
-    skills_claude_md_orchestrator -- "calls into" --> modules_lazy_loop
-    skills_claude_md_orchestrator -- "calls into" --> cli
     skills_claude_md_orchestrator -- "calls into" --> modules_autonomous_daemon
+    skills_claude_md_orchestrator -- "calls into" --> cli
+    skills_claude_md_orchestrator -- "calls into" --> modules_lazy_loop
     skills_claude_md_orchestrator -- "calls into" --> lazygui_panels
     skills_claude_md_orchestrator -- "calls into" --> modules_llm_budget
-    skills_claude_md_orchestrator -- "calls into" --> static_js
     click cli_commands href "./cli_commands.md" "Details"
     click modules_lazyc2 href "./modules_lazyc2.md" "Details"
-    click modules_lazy_loop href "./modules_lazy_loop.md" "Details"
-    click cli href "./cli.md" "Details"
     click modules_autonomous_daemon href "./modules_autonomous_daemon.md" "Details"
+    click cli href "./cli.md" "Details"
+    click modules_lazy_loop href "./modules_lazy_loop.md" "Details"
     click lazygui_panels href "./lazygui_panels.md" "Details"
     click modules_llm_budget href "./modules_llm_budget.md" "Details"
     click static_js href "./static_js.md" "Details"
     click skills_claude_md_orchestrator href "./skills_claude_md_orchestrator.md" "Details"
-    click skills_hermes_lazyown href "./skills_hermes_lazyown.md" "Details"
+    click modules_lazyown_facts href "./modules_lazyown_facts.md" "Details"
     click modules_surface_graph href "./modules_surface_graph.md" "Details"
     click modules_opsec_scorer href "./modules_opsec_scorer.md" "Details"
     click modules_kerberos_core href "./modules_kerberos_core.md" "Details"
@@ -203,11 +208,11 @@ graph LR
 
 ## Details
 
-Static architecture map of 1078 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 22 components: cli/commands, modules: lazyc2, modules: lazy_loop, cli, modules: autonomous_daemon, lazygui/panels, modules: llm_budget, static/js. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 1098 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 22 components: cli/commands, modules: lazyc2, modules: autonomous_daemon, cli, modules: lazy_loop, lazygui/panels, modules: llm_budget, static/js. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### cli/commands (1)
 
-cli/commands groups 159 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 162 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 **Related Classes/Methods**:
 
@@ -222,7 +227,7 @@ cli/commands groups 159 files (c, py) around needs_sudo, sudo_available, redact_
 
 ### modules: lazyc2 (2)
 
-modules: lazyc2 groups 135 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 141 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 **Related Classes/Methods**:
 
@@ -235,20 +240,20 @@ modules: lazyc2 groups 135 files (js, py) around StructuredLogConfig, _JsonLineF
 - <a href="../core/logging.py#L139-L147">core/logging.py::StructuredLogger</a>
 - <a href="../core/logging.py#L148-L179">core/logging.py::makeRecord</a>
 
-### modules: lazy_loop (3)
+### modules: autonomous_daemon (3)
 
-modules: lazy_loop groups 115 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. command_and_control commands migrated from lazyown.py.
+modules: autonomous_daemon groups 115 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 **Related Classes/Methods**:
 
-- <a href="../modules/lazy_loop.py#L151-L236">modules/lazy_loop.py::plausible_command</a>
-- <a href="../modules/lazy_loop.py#L237-L242">modules/lazy_loop.py::_sudo_unavailable</a>
-- <a href="../modules/lazy_loop.py#L243-L256">modules/lazy_loop.py::_is_ip_literal</a>
-- <a href="../modules/lazy_loop.py#L257-L271">modules/lazy_loop.py::_valid_nmap_port_spec</a>
-- <a href="../modules/lazy_loop.py#L272-L349">modules/lazy_loop.py::repair_worker_command</a>
-- <a href="../modules/lazy_loop.py#L350-L401">modules/lazy_loop.py::_host_from_token</a>
-- <a href="../modules/lazy_loop.py#L402-L406">modules/lazy_loop.py::loop_exiting</a>
-- <a href="../modules/lazy_loop.py#L407-L412">modules/lazy_loop.py::_register_loop_executor</a>
+- <a href="../cli/commands/enum.py#L31-L37">cli/commands/enum.py::EnumCommandSet</a>
+- <a href="../cli/commands/enum.py#L38-L107">cli/commands/enum.py::do_smbclient</a>
+- <a href="../cli/commands/enum.py#L108-L177">cli/commands/enum.py::do_smbclient_impacket</a>
+- <a href="../cli/commands/enum.py#L178-L224">cli/commands/enum.py::do_smbclient_py</a>
+- <a href="../cli/commands/enum.py#L225-L344">cli/commands/enum.py::do_smbmap</a>
+- <a href="../cli/commands/enum.py#L345-L389">cli/commands/enum.py::do_getnpusers</a>
+- <a href="../cli/commands/enum.py#L390-L445">cli/commands/enum.py::do_psexec</a>
+- <a href="../cli/commands/enum.py#L446-L501">cli/commands/enum.py::do_psexec_py</a>
 
 ### cli (4)
 
@@ -265,20 +270,20 @@ cli groups 112 files (py) around _sanitize, colors_enabled, _paint, format_line,
 - <a href="../core/console.py#L149-L154">core/console.py::print_warn</a>
 - <a href="../core/console.py#L155-L160">core/console.py::print_succ</a>
 
-### modules: autonomous_daemon (5)
+### modules: lazy_loop (5)
 
-modules: autonomous_daemon groups 109 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: lazy_loop groups 99 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
 
 **Related Classes/Methods**:
 
-- <a href="../cli/commands/enum.py#L31-L37">cli/commands/enum.py::EnumCommandSet</a>
-- <a href="../cli/commands/enum.py#L38-L107">cli/commands/enum.py::do_smbclient</a>
-- <a href="../cli/commands/enum.py#L108-L177">cli/commands/enum.py::do_smbclient_impacket</a>
-- <a href="../cli/commands/enum.py#L178-L224">cli/commands/enum.py::do_smbclient_py</a>
-- <a href="../cli/commands/enum.py#L225-L344">cli/commands/enum.py::do_smbmap</a>
-- <a href="../cli/commands/enum.py#L345-L389">cli/commands/enum.py::do_getnpusers</a>
-- <a href="../cli/commands/enum.py#L390-L445">cli/commands/enum.py::do_psexec</a>
-- <a href="../cli/commands/enum.py#L446-L501">cli/commands/enum.py::do_psexec_py</a>
+- <a href="../modules/lazy_loop.py#L151-L236">modules/lazy_loop.py::plausible_command</a>
+- <a href="../modules/lazy_loop.py#L237-L242">modules/lazy_loop.py::_sudo_unavailable</a>
+- <a href="../modules/lazy_loop.py#L243-L256">modules/lazy_loop.py::_is_ip_literal</a>
+- <a href="../modules/lazy_loop.py#L257-L271">modules/lazy_loop.py::_valid_nmap_port_spec</a>
+- <a href="../modules/lazy_loop.py#L272-L349">modules/lazy_loop.py::repair_worker_command</a>
+- <a href="../modules/lazy_loop.py#L350-L401">modules/lazy_loop.py::_host_from_token</a>
+- <a href="../modules/lazy_loop.py#L402-L406">modules/lazy_loop.py::loop_exiting</a>
+- <a href="../modules/lazy_loop.py#L407-L412">modules/lazy_loop.py::_register_loop_executor</a>
 
 ### lazygui/panels (6)
 
@@ -312,7 +317,7 @@ modules: llm_budget groups 35 files (py) around is_model_missing_error, groq_mod
 
 ### static/js (8)
 
-static/js groups 25 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
+static/js groups 31 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
 
 **Related Classes/Methods**:
 
@@ -327,10 +332,11 @@ static/js groups 25 files (c, js, py, sh) around check_go_tool_installed, is_bin
 
 ### skills/claude_md_orchestrator (9)
 
-skills/claude_md_orchestrator groups 19 files (js, py) around _now_iso, Stage, Severity, Contract, to_dict. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+skills/claude_md_orchestrator groups 29 files (c, py) around main, _now_iso, Stage, Severity, Contract. Phishing Wizard command set.
 
 **Related Classes/Methods**:
 
+- <a href="../modules/backdoor/server.c#L10-L84">modules/backdoor/server.c::main</a>
 - <a href="../skills/claude_md_orchestrator/models.py#L19-L27">skills/claude_md_orchestrator/models.py::_now_iso</a>
 - <a href="../skills/claude_md_orchestrator/models.py#L28-L49">skills/claude_md_orchestrator/models.py::Stage</a>
 - <a href="../skills/claude_md_orchestrator/models.py#L50-L67">skills/claude_md_orchestrator/models.py::Severity</a>
@@ -338,22 +344,21 @@ skills/claude_md_orchestrator groups 19 files (js, py) around _now_iso, Stage, S
 - <a href="../skills/claude_md_orchestrator/models.py#L91-L95">skills/claude_md_orchestrator/models.py::to_dict</a>
 - <a href="../skills/claude_md_orchestrator/models.py#L96-L108">skills/claude_md_orchestrator/models.py::from_dict</a>
 - <a href="../skills/claude_md_orchestrator/models.py#L109-L119">skills/claude_md_orchestrator/models.py::SadPath</a>
-- <a href="../skills/claude_md_orchestrator/models.py#L120-L124">skills/claude_md_orchestrator/models.py::to_dict</a>
 
-### skills/hermes-lazyown (10)
+### modules: lazyown_facts (10)
 
-skills/hermes-lazyown groups 16 files (c, py) around main, ConfigKeys, EnvKeys, Defaults, PhaseNames. Phishing Wizard command set.
+modules: lazyown_facts groups 22 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 **Related Classes/Methods**:
 
-- <a href="../modules/backdoor/server.c#L10-L84">modules/backdoor/server.c::main</a>
-- <a href="../skills/hermes-lazyown/constants.py#L12-L34">skills/hermes-lazyown/constants.py::ConfigKeys</a>
-- <a href="../skills/hermes-lazyown/constants.py#L35-L44">skills/hermes-lazyown/constants.py::EnvKeys</a>
-- <a href="../skills/hermes-lazyown/constants.py#L45-L58">skills/hermes-lazyown/constants.py::Defaults</a>
-- <a href="../skills/hermes-lazyown/constants.py#L59-L101">skills/hermes-lazyown/constants.py::PhaseNames</a>
-- <a href="../skills/hermes-lazyown/constants.py#L102-L105">skills/hermes-lazyown/constants.py::Paths</a>
-- <a href="../skills/hermes-lazyown/constants.py#L106-L114">skills/hermes-lazyown/constants.py::lazyown_dir</a>
-- <a href="../skills/hermes-lazyown/constants.py#L115-L119">skills/hermes-lazyown/constants.py::payload_file</a>
+- <a href="../modules/chain_registry.py#L55-L81">modules/chain_registry.py::ChainStep</a>
+- <a href="../modules/chain_registry.py#L82-L87">modules/chain_registry.py::identifier</a>
+- <a href="../modules/chain_registry.py#L88-L103">modules/chain_registry.py::Chain</a>
+- <a href="../modules/chain_registry.py#L104-L158">modules/chain_registry.py::resolve</a>
+- <a href="../modules/chain_registry.py#L159-L187">modules/chain_registry.py::_render</a>
+- <a href="../modules/chain_registry.py#L188-L214">modules/chain_registry.py::_when_tree</a>
+- <a href="../modules/chain_registry.py#L215-L236">modules/chain_registry.py::evaluate_when</a>
+- <a href="../modules/chain_registry.py#L237-L279">modules/chain_registry.py::_eval</a>
 
 ### modules: surface_graph (11)
 
@@ -372,7 +377,7 @@ modules: surface_graph groups 15 files (py) around _cache_path, _cache_load, _ca
 
 ### modules: opsec_scorer (12)
 
-modules: opsec_scorer groups 12 files (py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory...
+modules: opsec_scorer groups 9 files (py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory...
 
 **Related Classes/Methods**:
 

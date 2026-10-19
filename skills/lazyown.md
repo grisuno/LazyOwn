@@ -5,6 +5,52 @@ LazyOwn is a penetration testing / C2 framework rooted at the current working di
 
 ---
 
+## Calling The MCP From An Agent — `scripts/mcp_call.py`
+
+Never write ad-hoc drivers in `/tmp` and never hand-run attack tooling;
+the shipped stdio client is the single entry point for agents and tests:
+
+```bash
+python3 scripts/mcp_call.py lazyown_campaign_sitrep '{"format":"json"}' --timeout 150
+python3 scripts/mcp_call.py lazyown_run_command '{"command":"apt_chain <chain> <ip> --json","timeout":500}' --timeout 700
+python3 scripts/mcp_call.py lazyown_auto_loop '<args-json>' --timeout 900 --server-stderr sessions/mcp_server_stderr.log
+```
+
+- Repo + virtualenv (`env/`, `venv`, `.venv`) resolved from the script location (no absolute user paths).
+- Parent env passes through: `AUTO_USE_LLM=1`, `AUTO_USE_SWAN=1` enable the full 6-selector cascade.
+- Exit codes: 0 answer, 1 tool error, 2 usage, 3 `mcp` missing, 4 timeout/transport, 5 error path variants documented in the script docstring.
+- `--server-stderr PATH` separates server crash traces from tool answers.
+- Raw OS commands inside `lazyown_run_command` need the cmd2 `!` prefix
+  (`"!python3 modules/atomic_exploit_bridge.py run --id <id> --rhost <ip>"`);
+  without it the alias layer intercepts and answers `Not Found`.
+- `lazyown_run_command` output includes the shell boot banner; grep the
+  relevant lines or use `dry_run=true` for pre-flight checks.
+- Encrypted campaign state decrypts transparently: the world model falls
+  back from `LAZYOWN_MASTER_PASSWORD` to `lazyown:<operator>`, so tool
+  subprocesses read `sessions/world_model.json` without extra setup.
+
+### Metasploitable 2 gym chains
+
+Every shipped gym vector runs through `apt_chain gym_metasploitable_*`;
+the lab container applies its migrations automatically on
+`lab start metasploitable` (see `docs/gym-setup.md`). Chain ids follow
+the exploit ids:
+
+```bash
+python3 scripts/mcp_call.py lazyown_run_command '{"command":"apt_chain gym_metasploitable_ms2_dvwa_sqli --target <ip> --json","timeout":500}' --timeout 700
+python3 scripts/mcp_call.py lazyown_run_command '{"command":"apt_chain gym_metasploitable_ms2_dvwa_xss_dom --target <ip> --json","timeout":600}' --timeout 700
+```
+
+Per-vector outcomes persist in `sessions/outcomes.jsonl`; shell
+attribution is per-spec (the bridge blocks cross-vector shell adoption).
+
+Everything reachable as a LazyOwn shell command goes through
+`lazyown_run_command` (`apt_chain`, gym chains, the atomic sweep,
+`atomic_shell`, `lazy_finding`). Attack primitives (nc, msfconsole,
+sshpass) are NEVER executed by the agent itself.
+
+---
+
 ## STEP 0 — At the start of EVERY operator shift: Campaign SITREP
 
 ```python

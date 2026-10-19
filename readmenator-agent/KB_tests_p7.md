@@ -1,6 +1,109 @@
 # Subsystem: tests (page 7 of 17)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
+## tests/test_daemon_loop.py
+- Doc: BDD tests for the integrated autonomous loop in the daemon.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Phase` (class, line 24) `class _Phase`
+  - `_World` (class, line 30) `class _World`
+  - `_Parser` (class, line 50) `class _Parser`
+  - `_Strategy` (class, line 58) `class _Strategy`
+  - `_EmptyPlanner` (class, line 75) `class _EmptyPlanner`
+  - `_patch` (function, line 82) `def _patch(monkeypatch, tmp_path)`
+  - `_events` (function, line 104) `def _events(tmp_path)`
+  - `_run` (function, line 112) `def _run(monkeypatch, tmp_path, objective, commands, planner, world, max_steps)`
+  - `test_loop_ends_when_no_new_direction` (function, line 126) `def test_loop_ends_when_no_new_direction(monkeypatch, tmp_path)`
+  - `test_loop_skips_unapproved_gated_command` (function, line 134) `def test_loop_skips_unapproved_gated_command(monkeypatch, tmp_path)`
+  - `test_loop_stops_when_objective_proven` (function, line 155) `def test_loop_stops_when_objective_proven(monkeypatch, tmp_path)`
+  - `test_loop_skips_duplicate_success` (function, line 164) `def test_loop_skips_duplicate_success(monkeypatch, tmp_path)`
+  - `test_decompose_goal_splits_compound` (function, line 197) `def test_decompose_goal_splits_compound(tmp_path)`
+  - `test_marker_helpers_extract_real_output` (function, line 216) `def test_marker_helpers_extract_real_output()`
+  - `__init__` (method, line 25) `def __init__(self, value)`
+  - `__init__` (method, line 31) `def __init__(self, state)`
+  - `get_phase` (method, line 35) `def get_phase(self)`
+  - `snapshot` (method, line 39) `def snapshot(self)`
+  - `update_from_findings` (method, line 43) `def update_from_findings(self, _findings)`
+  - `update_host` (method, line 46) `def update_host(self, _target)`
+  - `parse` (method, line 51) `def parse(self, _output, host, tool)`
+  - `__init__` (method, line 59) `def __init__(self, commands)`
+  - `next_command` (method, line 64) `def next_command(self, target, phase, services, os_hint)`
+  - `register_output` (method, line 70) `def register_output(self, _output, _command, platform, success)`
+  - `plan` (method, line 76) `def plan(self, _target, max_candidates)`
+  - `_fake_os` (function, line 90) `def _fake_os(_target, _loop)`
+  - `_fake_get_db` (function, line 98) `def _fake_get_db(db_path)`
+  - `_RepeatPlanner` (class, line 168) `class _RepeatPlanner`
+  - `__init__` (method, line 169) `def __init__(self)`
+  - `plan` (method, line 173) `def plan(self, target, max_candidates)`
+- Depends on: `modules/db.py`, `modules/obs_parser.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_objective.py`
+
+## tests/test_dashboard_routes.py
+- Doc: Integration tests for dashboard_bp loot and timeline routes.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_TestUser` (class, line 16) `class _TestUser(UserMixin)`
+  - `client` (function, line 22) `def client(tmp_path)`
+  - `_write_credentials_file` (function, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
+  - `_write_hashes_file` (function, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
+  - `_write_loot_file` (function, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
+  - `_write_csv_report` (function, line 60) `def _write_csv_report(sessions_dir, rows)`
+  - `_write_events_jsonl` (function, line 69) `def _write_events_jsonl(sessions_dir, events)`
+  - `TestLootRoute` (class, line 75) `class TestLootRoute`
+  - `TestTimelineRoute` (class, line 180) `class TestTimelineRoute`
+  - `TestDashboardIndexRoute` (class, line 391) `class TestDashboardIndexRoute`
+  - `__init__` (method, line 17) `def __init__(self, user_id)`
+  - `load_user` (function, line 34) `def load_user(user_id)`
+  - `test_loot_route_returns_200_with_data` (method, line 78) `def test_loot_route_returns_200_with_data(self, client)`
+  - `test_loot_empty_returns_200` (method, line 107) `def test_loot_empty_returns_200(self, client)`
+  - `test_loot_skips_comment_lines` (method, line 117) `def test_loot_skips_comment_lines(self, client)`
+  - `test_loot_respects_max_entries` (method, line 148) `def test_loot_respects_max_entries(self, client)`
+  - `test_loot_multiple_credential_files` (method, line 165) `def test_loot_multiple_credential_files(self, client)`
+  - `test_timeline_route_returns_200_with_data` (method, line 183) `def test_timeline_route_returns_200_with_data(self, client)`
+  - `test_timeline_empty_returns_200` (method, line 230) `def test_timeline_empty_returns_200(self, client)`
+  - `test_timeline_sorted_newest_first` (method, line 238) `def test_timeline_sorted_newest_first(self, client)`
+  - `test_timeline_handles_csv_tool_column` (method, line 266) `def test_timeline_handles_csv_tool_column(self, client)`
+  - `test_timeline_csv_without_timestamp` (method, line 278) `def test_timeline_csv_without_timestamp(self, client)`
+  - `test_timeline_respects_max_rows` (method, line 296) `def test_timeline_respects_max_rows(self, client)`
+  - `test_timeline_normalizes_iso_timestamps` (method, line 318) `def test_timeline_normalizes_iso_timestamps(self, client)`
+  - `test_timeline_only_events_no_csv` (method, line 339) `def test_timeline_only_events_no_csv(self, client)`
+  - `test_timeline_only_csv_no_events` (method, line 360) `def test_timeline_only_csv_no_events(self, client)`
+  - `test_timeline_handles_malformed_jsonl` (method, line 375) `def test_timeline_handles_malformed_jsonl(self, client)`
+  - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
+  - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
+- Depends on: `modules/dashboard_bp.py`
+
+## tests/test_dashboard_tui.py
+- Doc: Tests for cli/dashboard_tui.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestReadJson` (class, line 29) `class TestReadJson`
+  - `TestCountLinesInGlob` (class, line 44) `class TestCountLinesInGlob`
+  - `TestReadRecentCommands` (class, line 65) `class TestReadRecentCommands`
+  - `TestKillChainPhases` (class, line 117) `class TestKillChainPhases`
+  - `TestGraphHints` (class, line 131) `class TestGraphHints`
+  - `test_reads_valid_file` (method, line 30) `def test_reads_valid_file(self, tmp_path)`
+  - `test_missing_file_returns_empty_dict` (method, line 35) `def test_missing_file_returns_empty_dict(self, tmp_path)`
+  - `test_invalid_json_returns_empty_dict` (method, line 38) `def test_invalid_json_returns_empty_dict(self, tmp_path)`
+  - `test_counts_non_empty_lines` (method, line 45) `def test_counts_non_empty_lines(self, tmp_path)`
+  - `test_empty_file_returns_zero` (method, line 51) `def test_empty_file_returns_zero(self, tmp_path)`
+  - `test_no_matching_files_returns_zero` (method, line 56) `def test_no_matching_files_returns_zero(self, tmp_path)`
+  - `test_multiple_files_summed` (method, line 59) `def test_multiple_files_summed(self, tmp_path)`
+  - `_make_transcript` (method, line 66) `def _make_transcript(self, tmp_path, rows)`
+  - `test_reads_recent_commands` (method, line 77) `def test_reads_recent_commands(self, tmp_path)`
+  - `test_missing_file_returns_empty` (method, line 89) `def test_missing_file_returns_empty(self, tmp_path)`
+  - `test_empty_file_returns_empty` (method, line 93) `def test_empty_file_returns_empty(self, tmp_path)`
+  - `test_respects_window_limit` (method, line 98) `def test_respects_window_limit(self, tmp_path)`
+  - `test_skips_empty_tool_rows` (method, line 105) `def test_skips_empty_tool_rows(self, tmp_path)`
+  - `test_all_phases_present` (method, line 118) `def test_all_phases_present(self)`
+  - `test_phases_ordered` (method, line 125) `def test_phases_ordered(self)`
+  - `test_returns_list_when_advisor_unavailable` (method, line 132) `def test_returns_list_when_advisor_unavailable(self)`
+  - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
+  - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
+- Depends on: `cli/dashboard_tui.py`
+
 ## tests/test_db.py
 - Doc: Tests for modules.db — LazyOwnDB SQLite layer.
 - Layer: testing
@@ -374,100 +477,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
   - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
 - Depends on: `cli/engagement_hooks.py`
-
-## tests/test_engagement_command_gate.py
-- Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_redirect_paths` (function, line 34) `def _redirect_paths(tmp_path)`
-  - `_restore_paths` (function, line 56) `def _restore_paths(saved)`
-  - `TestIsRecordableCommand` (class, line 68) `class TestIsRecordableCommand`
-  - `TestHookRejectsNoise` (class, line 106) `class TestHookRejectsNoise`
-  - `TestSanitizeSeen` (class, line 141) `class TestSanitizeSeen`
-  - `TestHealCommandsSeen` (class, line 187) `class TestHealCommandsSeen`
-  - `test_accepts_command_shaped_tokens` (method, line 72) `def test_accepts_command_shaped_tokens(self, cmd)`
-  - `test_rejects_syntactic_garbage` (method, line 81) `def test_rejects_syntactic_garbage(self, cmd)`
-  - `test_quoted_path_rejected` (method, line 86) `def test_quoted_path_rejected(self)`
-  - `test_do_prefixed_input_is_accepted` (method, line 91) `def test_do_prefixed_input_is_accepted(self)`
-  - `test_normalize_is_idempotent` (method, line 96) `def test_normalize_is_idempotent(self)`
-  - `test_garbage_does_not_enter_commands_seen` (method, line 109) `def test_garbage_does_not_enter_commands_seen(self, tmp_path)`
-  - `test_real_command_recorded_between_garbage` (method, line 123) `def test_real_command_recorded_between_garbage(self, tmp_path)`
-  - `test_syntactic_only_drops_ugly_garbage` (method, line 144) `def test_syntactic_only_drops_ugly_garbage(self)`
-  - `test_roster_drops_valid_but_unknown_tokens` (method, line 158) `def test_roster_drops_valid_but_unknown_tokens(self)`
-  - `test_load_state_heals_polluted_file` (method, line 165) `def test_load_state_heals_polluted_file(self, tmp_path)`
-  - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
-  - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
-- Depends on: `cli/engagement_hooks.py`
-
-## tests/test_engagement_elo_and_methodology.py
-- Doc: Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_no_cli_operator` (function, line 31) `def _no_cli_operator(monkeypatch)`
-  - `_redirect_paths` (function, line 48) `def _redirect_paths(tmp_path)`
-  - `_restore_paths` (function, line 76) `def _restore_paths(saved)`
-  - `TestGetKarmaName` (class, line 88) `class TestGetKarmaName`
-  - `TestAwardElo` (class, line 119) `class TestAwardElo`
-  - `TestSyncUserElo` (class, line 179) `class TestSyncUserElo`
-  - `TestPersistNotification` (class, line 252) `class TestPersistNotification`
-  - `TestMethodologyRewards` (class, line 313) `class TestMethodologyRewards`
-  - `TestKarmaUp` (class, line 425) `class TestKarmaUp`
-  - `TestRenderEngagementHookIntegration` (class, line 463) `class TestRenderEngagementHookIntegration`
-  - `TestStateSnapshot` (class, line 524) `class TestStateSnapshot`
-  - `test_thresholds` (method, line 110) `def test_thresholds(self, elo, expected)`
-  - `test_base_only_for_unknown_command_and_phase` (method, line 120) `def test_base_only_for_unknown_command_and_phase(self)`
-  - `test_high_value_bonus_applied` (method, line 125) `def test_high_value_bonus_applied(self)`
-  - `test_phase_bonus_applied` (method, line 131) `def test_phase_bonus_applied(self)`
-  - `test_first_time_bonus` (method, line 137) `def test_first_time_bonus(self)`
-  - `test_new_phase_bonus` (method, line 143) `def test_new_phase_bonus(self)`
-  - `test_all_bonuses_stack` (method, line 149) `def test_all_bonuses_stack(self)`
-  - `test_do_prefix_is_stripped` (method, line 169) `def test_do_prefix_is_stripped(self)`
-  - `test_patches_matching_username` (method, line 180) `def test_patches_matching_username(self, tmp_path)`
-  - `test_silent_when_payload_missing` (method, line 199) `def test_silent_when_payload_missing(self, tmp_path)`
-  - `test_silent_when_username_not_found` (method, line 211) `def test_silent_when_username_not_found(self, tmp_path)`
-  - `test_ignores_non_positive_delta` (method, line 224) `def test_ignores_non_positive_delta(self, tmp_path)`
-  - `test_atomic_rename_leaves_no_tmp` (method, line 234) `def test_atomic_rename_leaves_no_tmp(self, tmp_path)`
-  - `test_creates_file_on_first_call` (method, line 253) `def test_creates_file_on_first_call(self, tmp_path)`
-  - `test_appends_to_existing_file` (method, line 264) `def test_appends_to_existing_file(self, tmp_path)`
-  - `test_ring_cap_drops_oldest` (method, line 277) `def test_ring_cap_drops_oldest(self, tmp_path)`
-  - `test_recovers_from_corrupt_file` (method, line 297) `def test_recovers_from_corrupt_file(self, tmp_path)`
-  - `test_task_reward_silent_when_no_file` (method, line 314) `def test_task_reward_silent_when_no_file(self, tmp_path, capsys)`
-  - `test_task_reward_renders_pending_match` (method, line 324) `def test_task_reward_renders_pending_match(self, tmp_path, capsys)`
-  - `test_task_reward_silent_when_all_done` (method, line 344) `def test_task_reward_silent_when_all_done(self, tmp_path, capsys)`
-  - `test_objective_reward_uses_phase_to_next_cmd` (method, line 361) `def test_objective_reward_uses_phase_to_next_cmd(self, tmp_path, capsys)`
-  - `test_objective_reward_silent_when_no_pending` (method, line 379) `def test_objective_reward_silent_when_no_pending(self, tmp_path, capsys)`
-  - `test_note_reward_renders_latest` (method, line 391) `def test_note_reward_renders_latest(self, tmp_path, capsys)`
-  - `test_note_reward_silent_when_empty` (method, line 412) `def test_note_reward_silent_when_empty(self, tmp_path, capsys)`
-  - `test_fires_on_threshold_crossing` (method, line 426) `def test_fires_on_threshold_crossing(self, tmp_path, capsys)`
-  - `test_idempotent_when_no_threshold_cross` (method, line 440) `def test_idempotent_when_no_threshold_cross(self, capsys)`
-  - `test_persists_notification` (method, line 447) `def test_persists_notification(self, tmp_path)`
-  - `test_elo_accumulates_across_commands` (method, line 464) `def test_elo_accumulates_across_commands(self, tmp_path)`
-  - `test_first_time_bonus_only_once_per_command` (method, line 479) `def test_first_time_bonus_only_once_per_command(self, tmp_path)`
-  - `test_users_json_syncd_when_payload_present` (method, line 493) `def test_users_json_syncd_when_payload_present(self, tmp_path)`
-  - `test_disabled_flag_is_noop` (method, line 508) `def test_disabled_flag_is_noop(self, tmp_path, capsys)`
-  - `test_returns_required_keys` (method, line 525) `def test_returns_required_keys(self, tmp_path)`
-- Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
-
-## tests/test_estorides_fusion.py
-- Doc: Estorides OSINT fusion: load, merge, surface readers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load_surface_graph` (function, line 27) `def _load_surface_graph()`
-  - `_base_nodes` (function, line 37) `def _base_nodes()`
-  - `test_load_lazyown_vocabulary` (function, line 45) `def test_load_lazyown_vocabulary(tmp_path)`
-  - `test_load_raw_export_translates_types` (function, line 58) `def test_load_raw_export_translates_types(tmp_path)`
-  - `test_merge_fuses_matching_ip` (function, line 75) `def test_merge_fuses_matching_ip()`
-  - `test_merge_adds_new_entities_capped` (function, line 91) `def test_merge_adds_new_entities_capped()`
-  - `test_merge_edges_reanchor` (function, line 107) `def test_merge_edges_reanchor(tmp_path)`
-  - `test_find_export_prefers_lazyown` (function, line 127) `def test_find_export_prefers_lazyown(tmp_path)`
-  - `test_parse_confirm` (function, line 132) `def test_parse_confirm()`
-  - `test_discovery_targets_reads_all_files` (function, line 139) `def test_discovery_targets_reads_all_files(tmp_path)`
-  - `test_write_world_model_hosts` (function, line 146) `def test_write_world_model_hosts(tmp_path)`
-  - `test_surface_readers_cover_sessions_formats` (function, line 158) `def test_surface_readers_cover_sessions_formats(tmp_path)`
-- Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

@@ -38,6 +38,19 @@ Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, 
 - `alias_with_trailing_args` (function) `cli/aliases.py:77` `def alias_with_trailing_args(expanded, original)` -- Append the operator's trailing arguments to an expanded alias.
 - `load_aliases` (function) `cli/aliases.py:100` `def load_aliases(payload, path, lazy)` -- Return the cmd2 alias map.
 
+## cli/apt_chain_support.py
+Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/reactive_engine.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+- `parse_chain_args` (function) `cli/apt_chain_support.py:72` `def parse_chain_args(line)` -- Parse one ``apt_chain`` command line into structured args.
+- `resolve_admin` (function) `cli/apt_chain_support.py:169` `def resolve_admin(args)` -- Execute an admin action against the registry and checkpoint store.
+- `select_step_ids` (function) `cli/apt_chain_support.py:257` `def select_step_ids(chain, args)` -- Resolve --step/--from-step/--to-step into one id set.
+- `adversarial_continue` (function) `cli/apt_chain_support.py:289` `def adversarial_continue(chain)` -- Return a copy of the chain where every step continues on error.
+- `render_result` (function) `cli/apt_chain_support.py:297` `def render_result(result)` -- Render one chain result as operator lines (JSON mode prints dict).
+- `build_cli_approver` (function) `cli/apt_chain_support.py:321` `def build_cli_approver(printer, input_fn)` -- Return an approver baked for interactive operators.
+- `approve` (function) `cli/apt_chain_support.py:329` `def approve(step_id, command)`
+- `build_reactive_replanner` (function) `cli/apt_chain_support.py:343` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
+- `replan` (function) `cli/apt_chain_support.py:346` `def replan(context)`
+
 ## cli/assign.py
 Depends on: `core/payload_schema.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/js/3d-force-graph-1.73.4.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/force-graph-1.43.5.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
@@ -336,7 +349,7 @@ Depends on: `cli/commands/_base.py`, `modules/c2_profile_engine.py`, `utils.py`
 Depends on: `cli/commands/_base.py`, `modules/c2_agent.py`, `modules/c2_surfaces.py`, `utils.py`
 - `C2SessionCommandSet.do_c2_server` (method) `cli/commands/c2_session.py:115` `def do_c2_server(self, line)` -- Manage the headless C2 server (lab use).
 - `C2SessionCommandSet.do_c2_reboot` (method) `cli/commands/c2_session.py:168` `def do_c2_reboot(self, line)` -- Restart the headless C2 server with ROTATED operator credentials.
-- `C2SessionCommandSet.do_c2_deploy` (method) `cli/commands/c2_session.py:251` `def do_c2_deploy(self, line)` -- Deploy the malleable agent to a lab target (needs root shell primitive).
+- `C2SessionCommandSet.do_c2_deploy` (method) `cli/commands/c2_session.py:249` `def do_c2_deploy(self, line)` -- Deploy the malleable agent to a lab target (needs root shell primitive).
 - `C2SessionCommandSet.do_c2_exec` (method) `cli/commands/c2_session.py:292` `def do_c2_exec(self, line)` -- Run one command on a live C2 session and print its answer.
 - `C2SessionCommandSet.do_c2_loot` (method) `cli/commands/c2_session.py:339` `def do_c2_loot(self, line)` -- Exfiltrate a remote file through a live C2 session into sessions/loot/.
 
@@ -419,8 +432,8 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `CommandAndControlCommandSet.do_c2_implant` (method) `cli/commands/command_and_control.py:233` `def do_c2_implant(self, line)` -- Generate a compiled implant payload for the target platform.
 
 ## cli/commands/command_and_control_migrated.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
-Imported by: `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
+Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
+Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
 - `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:44` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
 - `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:394` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
 - `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:516` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
@@ -434,19 +447,20 @@ Imported by: `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
 - `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1158` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
 - `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1222` `def do_atomic_tests(self, line)` -- Stage an Atomic Red Team test by MITRE technique ID or GUID.
 - `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1243` `def do_atomic_gen(self, line)` -- Generate test + cleanup scripts for a MITRE ID or GUID.
-- `CommandAndControlMigratedCommandSet.do_atomic_shell` (method) `cli/commands/command_and_control_migrated.py:1259` `def do_atomic_shell(self, line)` -- Open an interactive root shell on the target when possible.
-- `CommandAndControlMigratedCommandSet.do_atomic_clean` (method) `cli/commands/command_and_control_migrated.py:1291` `def do_atomic_clean(self, line)` -- Clean up engagement artefacts (soft) or tear down the gym (hard).
-- `CommandAndControlMigratedCommandSet.do_atomic_emulate` (method) `cli/commands/command_and_control_migrated.py:1328` `def do_atomic_emulate(self, line)` -- Execute emulation tests on the target through a working shell.
-- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1385` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
-- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1488` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
-- `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1647` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:1781` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:1901` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2004` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2183` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2240` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2289` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2381` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+- `CommandAndControlMigratedCommandSet.do_atomic_shell` (method) `cli/commands/command_and_control_migrated.py:1287` `def do_atomic_shell(self, line)` -- Open an interactive root shell on the target when possible.
+- `CommandAndControlMigratedCommandSet.do_atomic_clean` (method) `cli/commands/command_and_control_migrated.py:1326` `def do_atomic_clean(self, line)` -- Clean up engagement artefacts (soft) or tear down the gym (hard).
+- `CommandAndControlMigratedCommandSet.do_atomic_emulate` (method) `cli/commands/command_and_control_migrated.py:1363` `def do_atomic_emulate(self, line)` -- Execute emulation tests on the target through a working shell.
+- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1420` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
+- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1523` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
+- `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1682` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
+- `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1720` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:1946` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2066` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2169` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2348` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2405` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2454` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2546` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 ## cli/commands/containers.py
 Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`

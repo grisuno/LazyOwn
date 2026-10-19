@@ -1,8 +1,25 @@
-# Symbols (page 9 of 42)
+# Symbols (page 9 of 43)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `AddonYamlRenderer` | class | `lazyc2/addon_creator.py:728` | `class AddonYamlRenderer` |
+| `ParamSpec` | class | `lazyc2/addon_creator.py:345` | `class ParamSpec` |
+| `ValidationIssue` | class | `lazyc2/addon_creator.py:405` | `class ValidationIssue` |
+| `__init__` | method | `lazyc2/addon_creator.py:419` | `def __init__(self, issues)` |
+| `__init__` | method | `lazyc2/addon_creator.py:432` | `def __init__(self, draft, config)` |
+| `__init__` | method | `lazyc2/addon_creator.py:731` | `def __init__(self, config)` |
+| `__init__` | method | `lazyc2/addon_creator.py:822` | `def __init__(self, config, base_dir)` |
+| `_atomic_write` | method | `lazyc2/addon_creator.py:931` | `def _atomic_write(self, target, text)` |
+| `_check_identity` | method | `lazyc2/addon_creator.py:464` | `def _check_identity(self)` |
+| `_check_params` | method | `lazyc2/addon_creator.py:606` | `def _check_params(self)` |
+| `_check_placeholders` | method | `lazyc2/addon_creator.py:679` | `def _check_placeholders(self, text, field)` |
+| `_check_targeting` | method | `lazyc2/addon_creator.py:508` | `def _check_targeting(self)` |
+| `_check_tool` | method | `lazyc2/addon_creator.py:555` | `def _check_tool(self)` |
+| `_first_value` | function | `lazyc2/addon_creator.py:1056` | `def _first_value(form, key)` |
+| `_is_valid_repo_url` | method | `lazyc2/addon_creator.py:719` | `def _is_valid_repo_url(value)` |
+| `_multi_values` | function | `lazyc2/addon_creator.py:1035` | `def _multi_values(form, key)` |
+| `_parse_bool` | function | `lazyc2/addon_creator.py:1067` | `def _parse_bool(value)` |
 | `_parse_param_rows` | function | `lazyc2/addon_creator.py:1119` | `def _parse_param_rows(form)` |
 | `_render_tool` | method | `lazyc2/addon_creator.py:787` | `def _render_tool(self, draft)` |
 | `_resolve_target` | method | `lazyc2/addon_creator.py:874` | `def _resolve_target(self, name, pattern)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `active_tokens` | method | `lazygui/theme/manager.py:57` | `def active_tokens(self)` |
 | `apply` | method | `lazygui/theme/manager.py:80` | `def apply(self, identifier)` |
 | `apply_initial` | method | `lazygui/theme/manager.py:72` | `def apply_initial(self)` |
-| `available` | method | `lazygui/theme/manager.py:68` | `def available(self)` |
-| `cycle` | method | `lazygui/theme/manager.py:93` | `def cycle(self)` |
-| `builtin_palettes` | function | `lazygui/theme/palettes/__init__.py:23` | `def builtin_palettes()` |
-| `QssBuilder` | class | `lazygui/theme/qss_builder.py:16` | `class QssBuilder` |
-| `_font_stack` | method | `lazygui/theme/qss_builder.py:39` | `def _font_stack(stack)` |
-| `build` | method | `lazygui/theme/qss_builder.py:21` | `def build(self, tokens)` |
-| `ThemeTokens` | class | `lazygui/theme/tokens.py:14` | `class ThemeTokens` |
-| `BeaconCommandModal` | class | `lazygui/widgets/beacon_command_modal.py:44` | `class BeaconCommandModal(QDialog)` |
-| `_HistoryEntry` | class | `lazygui/widgets/beacon_command_modal.py:35` | `class _HistoryEntry` |
-| `__init__` | method | `lazygui/widgets/beacon_command_modal.py:53` | `def __init__(self, backend, parent)` |
-| `_build_ui` | method | `lazygui/widgets/beacon_command_modal.py:75` | `def _build_ui(self)` |
-| `_last_entry` | method | `lazygui/widgets/beacon_command_modal.py:201` | `def _last_entry(self, index)` |
-| `_on_beacon_result` | method | `lazygui/widgets/beacon_command_modal.py:209` | `def _on_beacon_result(self, result)` |
-| `_on_history_clicked` | method | `lazygui/widgets/beacon_command_modal.py:196` | `def _on_history_clicked(self, item)` |
-| `_on_sessions_changed` | method | `lazygui/widgets/beacon_command_modal.py:168` | `def _on_sessions_changed(self, sessions)` |
-| `_on_target_changed` | method | `lazygui/widgets/beacon_command_modal.py:127` | `def _on_target_changed(self, _text)` |
-| `_reload_history` | method | `lazygui/widgets/beacon_command_modal.py:131` | `def _reload_history(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

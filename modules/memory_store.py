@@ -17,6 +17,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from modules.memory_embeddings import EmbeddingError, embed, semantic_top_k
+
 try:
     import numpy as np  # noqa: F401
 
@@ -25,6 +27,7 @@ except ImportError:
     _NUMPY_AVAILABLE = False
 
 _DB_PATH = Path(__file__).parent.parent / "sessions" / "memory.db"
+_SEMANTIC_SCAN = 600
 
 _DDL_MAIN = """
 CREATE TABLE IF NOT EXISTS memories (
@@ -273,6 +276,19 @@ class MemoryStore:
     def recall_for_service(self, service_name: str, top_k: int = 5) -> list[MemoryEntry]:
         return self._backend.by_service(service_name, top_k)
 
+    def recall_hybrid(self, query: str, top_k: int = 5) -> list[MemoryEntry]:
+        """FTS5 keyword hits first; semantic fallback when keywords miss."""
+        try:
+            keyword_hits = self._backend.search(query, top_k)
+        except sqlite3.Error:
+            keyword_hits = []
+        if keyword_hits:
+            return keyword_hits
+        semantic_search = getattr(self._backend, "search_semantic", None)
+        if semantic_search is None:
+            return []
+        return semantic_search(query, top_k)
+
     def stats(self) -> dict:
         if isinstance(self._backend, SQLiteBackend):
             return self._backend.stats_raw()
@@ -296,6 +312,26 @@ class MemoryStore:
         return path
 
 
+class VectorSQLiteBackend(SQLiteBackend):
+    """SQLite backend that auto-embeds entries and adds semantic search."""
+
+    _EMBED_LIMIT = 256
+
+    def save(self, entry: MemoryEntry) -> None:
+        try:
+            text = f"{entry.command} {entry.findings_json or ''} {entry.output_snippet}"
+            entry.embedding = embed(text[: self._EMBED_LIMIT])
+        except EmbeddingError:
+            entry.embedding = None
+        super().save(entry)
+
+    def search_semantic(self, query: str, top_k: int) -> list[MemoryEntry]:
+        rows = self.all_entries(limit=_SEMANTIC_SCAN)
+        matches = semantic_top_k(query, [(row.id, row.embedding) for row in rows], top_k)
+        by_id = {row.id: row for row in rows}
+        return [by_id[row_id] for row_id, _score in matches if row_id in by_id]
+
+
 _store_instance: MemoryStore | None = None
 _store_lock = threading.Lock()
 
@@ -305,7 +341,7 @@ def get_memory_store() -> MemoryStore:
     if _store_instance is None:
         with _store_lock:
             if _store_instance is None:
-                _store_instance = MemoryStore(SQLiteBackend())
+                _store_instance = MemoryStore(VectorSQLiteBackend())
     return _store_instance
 
 
@@ -323,6 +359,10 @@ def remember(
 
 def recall(query: str, top_k: int = 5) -> list[MemoryEntry]:
     return get_memory_store().recall(query, top_k)
+
+
+def recall_hybrid(query: str, top_k: int = 5) -> list[MemoryEntry]:
+    return get_memory_store().recall_hybrid(query, top_k)
 
 
 def _print_entries(entries: list[MemoryEntry]) -> None:

@@ -1,8 +1,25 @@
-# Symbols (page 5 of 42)
+# Symbols (page 5 of 43)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `create_playbook_file` | method | `cli/lazy_orchestrator.py:357` | `def create_playbook_file(self, filename, name, description, platforms)` |
+| `delete_playbook_file` | method | `cli/lazy_orchestrator.py:390` | `def delete_playbook_file(self, filename)` |
+| `discover_shell_commands` | function | `cli/lazy_orchestrator.py:92` | `def discover_shell_commands()` |
+| `generate_chain` | method | `cli/lazy_orchestrator.py:766` | `def generate_chain(self, playbook_key)` |
+| `gym_preview` | method | `cli/lazy_orchestrator.py:518` | `def gym_preview(self, gym_id, limit)` |
+| `gym_rows` | method | `cli/lazy_orchestrator.py:481` | `def gym_rows(self)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:1079` | `def on_button_pressed(self, event)` |
+| `on_data_table_row_highlighted` | method | `cli/lazy_orchestrator.py:836` | `def on_data_table_row_highlighted(self, event)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:253` | `def on_mount(self)` |
+| `playbook_candidates` | method | `cli/lazy_orchestrator.py:398` | `def playbook_candidates(self)` |
+| `playbook_preview` | method | `cli/lazy_orchestrator.py:348` | `def playbook_preview(self, filename, limit)` |
+| `playbook_rows` | method | `cli/lazy_orchestrator.py:324` | `def playbook_rows(self)` |
+| `profile_rows` | method | `cli/lazy_orchestrator.py:644` | `def profile_rows(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:308` | `def remove_auto_verb(self, name)` |
+| `remove_chain` | method | `cli/lazy_orchestrator.py:780` | `def remove_chain(self, name)` |
+| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:975` | `def remove_guard_rule(self, pattern)` |
+| `remove_model_member` | method | `cli/lazy_orchestrator.py:947` | `def remove_model_member(self, name)` |
 | `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:1456` | `def run_orchestrator_console(task_id)` |
 | `save_config` | method | `cli/lazy_orchestrator.py:917` | `def save_config(self, values)` |
 | `save_playbook_text` | method | `cli/lazy_orchestrator.py:378` | `def save_playbook_text(self, filename, text)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `SessionFindingSource` | class | `cli/status_bar.py:319` | `class SessionFindingSource` |
 | `StatusBarConfig` | class | `cli/status_bar.py:41` | `class StatusBarConfig` |
 | `StatusBarManager` | class | `cli/status_bar.py:744` | `class StatusBarManager` |
-| `StatusBarRenderer` | class | `cli/status_bar.py:656` | `class StatusBarRenderer` |
-| `StatusContext` | class | `cli/status_bar.py:127` | `class StatusContext` |
-| `WorldModelPhaseSource` | class | `cli/status_bar.py:292` | `class WorldModelPhaseSource` |
-| `__init__` | method | `cli/status_bar.py:160` | `def __init__(self, config, root)` |
-| `__init__` | method | `cli/status_bar.py:271` | `def __init__(self, config, payload)` |
-| `__init__` | method | `cli/status_bar.py:295` | `def __init__(self, config, reader, payload)` |
-| `__init__` | method | `cli/status_bar.py:322` | `def __init__(self, config, reader)` |
-| `__init__` | method | `cli/status_bar.py:426` | `def __init__(self, config, reader, phase_provider, hint_provider)` |
-| `__init__` | method | `cli/status_bar.py:511` | `def __init__(self, config, reader, advisor_factory)` |
-| `__init__` | method | `cli/status_bar.py:601` | `def __init__(self, config, reader, clock)` |
-| `__init__` | method | `cli/status_bar.py:659` | `def __init__(self, config)` |
-| `__init__` | method | `cli/status_bar.py:752` | `def __init__(self, config, sources, renderer, payload)` |
-| `_build_precmd_hook` | method | `cli/status_bar.py:895` | `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)` |
-| `_default_provider` | method | `cli/status_bar.py:500` | `def _default_provider()` |
-| `_extract_entries` | method | `cli/status_bar.py:636` | `def _extract_entries(payload)` |
-| `_extract_vuln_items` | method | `cli/status_bar.py:396` | `def _extract_vuln_items(self, payload)` |
-| `_fallback_for` | method | `cli/status_bar.py:938` | `def _fallback_for(self, key)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

@@ -1,6 +1,74 @@
 # Subsystem: modules (page 4 of 15)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/dashboard_engine.py
+- Doc: Live Network Map Dashboard for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_parse_nmap_xml_services` (function, line 39) `def _parse_nmap_xml_services(sessions_dir)`
+  - `DashboardNode` (class, line 99) `class DashboardNode`
+  - `DashboardEdge` (class, line 111) `class DashboardEdge`
+  - `DashboardEngine` (class, line 118) `class DashboardEngine`
+  - `__init__` (method, line 139) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 148) `def set_world_model(self, model)`
+  - `set_exploit_recommender` (method, line 151) `def set_exploit_recommender(self, recommender)`
+  - `set_auto_pivot` (method, line 154) `def set_auto_pivot(self, pivot)`
+  - `set_evasion_engine` (method, line 157) `def set_evasion_engine(self, evasion)`
+  - `build_snapshot` (method, line 160) `def build_snapshot(self)`
+  - `render_text_map` (method, line 276) `def render_text_map(self, snapshot)`
+  - `render_ascii_topology` (method, line 358) `def render_ascii_topology(self, snapshot)`
+  - `_phase_icon` (method, line 398) `def _phase_icon(phase)`
+  - `export_json` (method, line 408) `def export_json(self, snapshot)`
+  - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
+  - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
+- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+
+## modules/db.py
+- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
+  - `get_db` (function, line 821) `def get_db(db_path)`
+  - `__init__` (method, line 159) `def __init__(self, db_path)`
+  - `_get_conn` (method, line 171) `def _get_conn(self)`
+  - `db_path` (method, line 182) `def db_path(self)`
+  - `_init_schema` (method, line 186) `def _init_schema(self)`
+  - `_current_version` (method, line 192) `def _current_version(self)`
+  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
+  - `migration_status` (method, line 222) `def migration_status(self)`
+  - `_cursor` (method, line 235) `def _cursor(self)`
+  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
+  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
+  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
+  - `workspace_list` (method, line 307) `def workspace_list(self)`
+  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
+  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
+  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
+  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
+  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
+  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
+  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
+  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
+  - `service_list` (method, line 447) `def service_list(self, host_id)`
+  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
+  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
+  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
+  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
+  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
+  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
+  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
+  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
+  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
+  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
+  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
+  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
+  - `status` (method, line 775) `def status(self, workspace_id)`
+  - `close` (method, line 804) `def close(self)`
+- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+
 ## modules/delegation_attacks.py
 - Doc: Active Directory delegation enumeration and abuse.
 - Layer: utility
@@ -72,6 +140,16 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
 - Depends on: `core/logging.py`, `modules/detection_feed.py`
 - Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+
+## modules/digest.py
+- Doc: Operator digest generation for loop runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `build_engine_digest` (function, line 20) `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)`
+  - `write_digest` (function, line 71) `def write_digest(task_id, body, root)`
+  - `worker_results_digest` (function, line 82) `def worker_results_digest(rows)`
+- Imported by: `modules/lazy_loop.py`, `skills/lazyown_mcp.py`
 
 ## modules/dns_beacon.py
 - Doc: DNS Beacon — covert C2 channel via DNS tunneling.
@@ -368,115 +446,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `load_lan_bundle` (function, line 288) `def load_lan_bundle(path)`
   - `split_lan_targets` (function, line 323) `def split_lan_targets(est)`
 - Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
-
-## modules/estorides_importer.py
-- Doc: estorides_importer
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
-  - `ImportResult` (class, line 96) `class ImportResult`
-  - `SeedResult` (class, line 128) `class SeedResult`
-  - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (function, line 175) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (function, line 203) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (function, line 242) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (function, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (function, line 332) `def run_estorides_run(query, out_json, timeout)`
-  - `EstoridesCaseReader` (class, line 385) `class EstoridesCaseReader`
-  - `EstoridesStixParser` (class, line 495) `class EstoridesStixParser`
-  - `find_lan_bundle_files` (function, line 586) `def find_lan_bundle_files(lan_dir, sessions_dir)`
-  - `LanBundleReader` (class, line 622) `class LanBundleReader`
-  - `ensure_directories` (function, line 694) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 700) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 881) `class FeedbackLoop`
-  - `export_combined_graph` (function, line 1027) `def export_combined_graph(output_path)`
-  - `success` (method, line 110) `def success(self)`
-  - `to_dict` (method, line 113) `def to_dict(self)`
-  - `new_assets` (method, line 139) `def new_assets(self)`
-  - `__init__` (method, line 388) `def __init__(self, db_path)`
-  - `available` (method, line 393) `def available(self)`
-  - `_ensure_conn` (method, line 396) `def _ensure_conn(self)`
-  - `list_cases` (method, line 402) `def list_cases(self, limit)`
-  - `get_entities` (method, line 414) `def get_entities(self, case_id, entity_types, limit)`
-  - `get_host_entities` (method, line 469) `def get_host_entities(self, case_id)`
-  - `get_all_entities` (method, line 473) `def get_all_entities(self, case_id)`
-  - `stats` (method, line 476) `def stats(self)`
-  - `close` (method, line 489) `def close(self)`
-  - `__init__` (method, line 511) `def __init__(self, stix_path)`
-  - `available` (method, line 515) `def available(self)`
-  - `parse` (method, line 518) `def parse(self)`
-  - `parse_by_type` (method, line 552) `def parse_by_type(self, entity_types)`
-  - `_extract_value` (method, line 563) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 632) `def __init__(self, lan_dir)`
-  - `available` (method, line 636) `def available(self)`
-  - `read_devices` (method, line 639) `def read_devices(self)`
-  - `parse` (method, line 652) `def parse(self)`
-  - `attack_targets` (method, line 683) `def attack_targets(self)`
-  - `__init__` (method, line 703) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 711) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 755) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 801) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 834) `def get_combined_surface(self)`
-  - `__init__` (method, line 892) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 908) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 1001) `def _gather_seeds(self, methods, seen)`
-- Depends on: `core/logging.py`, `modules/db.py`
-- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
-
-## modules/evasion_engine.py
-- Doc: Advanced Evasion Engine for LazyOwn C2 operations.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TrafficMorphConfig` (class, line 25) `class TrafficMorphConfig`
-  - `MalleableProfile` (class, line 37) `class MalleableProfile`
-  - `EvasionEngine` (class, line 52) `class EvasionEngine`
-  - `__init__` (method, line 130) `def __init__(self, config)`
-  - `set_config` (method, line 136) `def set_config(self, config)`
-  - `_random_chrome_version` (method, line 139) `def _random_chrome_version(self)`
-  - `_random_firefox_version` (method, line 142) `def _random_firefox_version(self)`
-  - `_random_safari_version` (method, line 145) `def _random_safari_version(self)`
-  - `_generate_ja4_hash` (method, line 148) `def _generate_ja4_hash(self)`
-  - `_generate_user_agent` (method, line 162) `def _generate_user_agent(self, os_family)`
-  - `_generate_headers` (method, line 180) `def _generate_headers(self, user_agent)`
-  - `_pick_uri_pool` (method, line 209) `def _pick_uri_pool(self)`
-  - `_generate_cert_fingerprint` (method, line 217) `def _generate_cert_fingerprint(self)`
-  - `_compute_jitter` (method, line 220) `def _compute_jitter(self)`
-  - `_compute_sleep` (method, line 224) `def _compute_sleep(self)`
-  - `_get_domain_front` (method, line 232) `def _get_domain_front(self)`
-  - `generate_profile` (method, line 244) `def generate_profile(self, os_family)`
-  - `rotate_profile` (method, line 264) `def rotate_profile(self, os_family)`
-  - `get_active_profile` (method, line 269) `def get_active_profile(self)`
-  - `get_beacon_config` (method, line 272) `def get_beacon_config(self)`
-  - `morph_traffic` (method, line 287) `def morph_traffic(self, config)`
-  - `_persist_profile` (method, line 311) `def _persist_profile(self, profile)`
-  - `get_history` (method, line 328) `def get_history(self)`
-  - `profile_to_json` (method, line 343) `def profile_to_json(self, profile)`
-- Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
-
-## modules/evasive_payloads.py
-- Doc: Advanced evasive payload generation with multiple obfuscation strategies.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EvasivePayloadGenerator` (class, line 18) `class EvasivePayloadGenerator`
-  - `__init__` (method, line 84) `def __init__(self)`
-  - `_random_var` (method, line 87) `def _random_var(self, length)`
-  - `_random_string` (method, line 93) `def _random_string(self, length)`
-  - `_xor_encode` (method, line 97) `def _xor_encode(self, data, key)`
-  - `_rot13` (method, line 102) `def _rot13(self, data)`
-  - `_gzip_compress` (method, line 114) `def _gzip_compress(self, data)`
-  - `_apply_encoding_chain` (method, line 118) `def _apply_encoding_chain(self, data, chain)`
-  - `generate_powershell_obfuscated` (method, line 138) `def generate_powershell_obfuscated(self, payload, obfuscation_level)`
-  - `generate_javascript_obfuscated` (method, line 178) `def generate_javascript_obfuscated(self, payload)`
-  - `generate_vba_obfuscated` (method, line 197) `def generate_vba_obfuscated(self, payload)`
-  - `generate_linux_evasive` (method, line 214) `def generate_linux_evasive(self, rhost, rport, technique)`
-  - `generate_shellcode_loader_powershell` (method, line 239) `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)`
-  - `generate_lolbas_execution` (method, line 284) `def generate_lolbas_execution(self, payload_url, technique)`
-  - `generate_polymorphic_command` (method, line 334) `def generate_polymorphic_command(self, base_cmd, iterations)`
-  - `list_techniques` (method, line 374) `def list_techniques(self)`
-- Imported by: `cli/commands/evasive_payload.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

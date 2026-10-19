@@ -1,6 +1,51 @@
 # Subsystem: tests (page 14 of 17)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
+## tests/test_playbook_admin.py
+- Doc: Playbook YAML administration: scan, create, update, delete, validate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 21) `def _write(directory, name, data)`
+  - `test_scan_reports_apt_and_plan_shapes` (function, line 27) `def test_scan_reports_apt_and_plan_shapes(tmp_path)`
+  - `test_validate_rejects_mixed_and_empty` (function, line 60) `def test_validate_rejects_mixed_and_empty(tmp_path)`
+  - `test_create_update_and_delete_round_trip` (function, line 70) `def test_create_update_and_delete_round_trip(tmp_path)`
+  - `test_create_refuses_overwrite_and_escape` (function, line 91) `def test_create_refuses_overwrite_and_escape(tmp_path)`
+  - `test_slug_and_preview` (function, line 110) `def test_slug_and_preview(tmp_path)`
+- Depends on: `modules/playbook_admin.py`
+
+## tests/test_plugin_loader_safety.py
+- Doc: Marketplace placeholder substitution must be shell-safe.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_fn` (function, line 23) `def _load_fn()`
+  - `TestPlaceholderQuoting` (class, line 38) `class TestPlaceholderQuoting`
+  - `test_plain_values_pass_through` (method, line 39) `def test_plain_values_pass_through(self)`
+  - `test_injection_neutralized` (method, line 43) `def test_injection_neutralized(self)`
+  - `test_command_substitution_neutralized` (method, line 48) `def test_command_substitution_neutralized(self)`
+  - `test_missing_key_left_verbatim` (method, line 53) `def test_missing_key_left_verbatim(self)`
+  - `test_uses_shlex_quote` (method, line 57) `def test_uses_shlex_quote(self)`
+
+## tests/test_plugin_tiers.py
+- Doc: Tests for marketplace plugin tiers and operator ratings.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_tier_constants` (function, line 25) `def test_tier_constants()`
+  - `test_manifest_overrides_metadata` (function, line 29) `def test_manifest_overrides_metadata()`
+  - `test_metadata_tier_used_without_manifest` (function, line 33) `def test_metadata_tier_used_without_manifest()`
+  - `test_default_tier_is_community` (function, line 37) `def test_default_tier_is_community()`
+  - `test_repo_manifest_loads_with_valid_tiers` (function, line 42) `def test_repo_manifest_loads_with_valid_tiers()`
+  - `test_missing_manifest_returns_empty` (function, line 52) `def test_missing_manifest_returns_empty(tmp_path)`
+  - `test_malformed_manifest_is_ignored` (function, line 56) `def test_malformed_manifest_is_ignored(tmp_path)`
+  - `test_rate_and_average` (function, line 62) `def test_rate_and_average(tmp_path)`
+  - `test_rate_rejects_bad_input` (function, line 70) `def test_rate_rejects_bad_input(tmp_path)`
+  - `test_corrupt_store_reads_empty` (function, line 79) `def test_corrupt_store_reads_empty(tmp_path)`
+  - `test_format_rating` (function, line 85) `def test_format_rating()`
+  - `test_read_metadata_tier` (function, line 91) `def test_read_metadata_tier(tmp_path)`
+- Depends on: `cli/plugin_tiers.py`
+
 ## tests/test_profiles.py
 - Doc: Tests for runtime install profiles (``core.profiles``).
 - Layer: testing
@@ -94,6 +139,21 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `list_tools` (method, line 50) `def list_tools(self)`
   - `call_tool` (method, line 53) `def call_tool(self)`
 - Depends on: `skills/lazyown_mcp.py`
+
+## tests/test_reaction_bridge.py
+- Doc: BDD tests for the reaction bridge (planner injections + cred reuse).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestDecisionBuffer` (class, line 10) `class TestDecisionBuffer`
+  - `TestCredentialExtraction` (class, line 44) `class TestCredentialExtraction`
+  - `test_save_and_drain_roundtrip` (method, line 13) `def test_save_and_drain_roundtrip(self, monkeypatch, tmp_path)`
+  - `test_assign_rhost_becomes_probe` (method, line 23) `def test_assign_rhost_becomes_probe(self, monkeypatch, tmp_path)`
+  - `test_dedupe_and_cap` (method, line 31) `def test_dedupe_and_cap(self, monkeypatch, tmp_path)`
+  - `test_pair_lines_extracted` (method, line 47) `def test_pair_lines_extracted(self)`
+  - `test_placeholders_dropped` (method, line 53) `def test_placeholders_dropped(self)`
+  - `test_hash_detected` (method, line 59) `def test_hash_detected(self)`
+- Depends on: `modules/reaction_bridge.py`
 
 ## tests/test_reactive_engine_semantic.py
 - Doc: Tests for the semantic context advisor in ``modules/reactive_engine.py``.
@@ -423,49 +483,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_console_never_forces_color` (function, line 41) `def test_console_never_forces_color()`
   - `test_panel_box_ascii_fallback` (function, line 52) `def test_panel_box_ascii_fallback(monkeypatch)`
 - Depends on: `core/safe_console.py`
-
-## tests/test_safe_subprocess.py
-- Doc: TDD tests for the safe subprocess runner contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestRunArgv` (class, line 35) `class TestRunArgv`
-  - `TestRunShellDefaultDeny` (class, line 53) `class TestRunShellDefaultDeny`
-  - `TestRunShellAllowed` (class, line 71) `class TestRunShellAllowed`
-  - `test_run_returns_completed_result` (method, line 38) `def test_run_returns_completed_result(self)`
-  - `test_run_does_not_audit` (method, line 46) `def test_run_does_not_audit(self, tmp_path)`
-  - `test_default_deny_raises` (method, line 56) `def test_default_deny_raises(self)`
-  - `test_deny_audit_logged` (method, line 61) `def test_deny_audit_logged(self, tmp_path)`
-  - `test_allowed_executes` (method, line 74) `def test_allowed_executes(self)`
-  - `test_allowed_is_audited` (method, line 84) `def test_allowed_is_audited(self, tmp_path)`
-  - `test_empty_reason_rejected` (method, line 94) `def test_empty_reason_rejected(self)`
-  - `test_failed_command_returns_nonzero` (method, line 99) `def test_failed_command_returns_nonzero(self)`
-- Depends on: `core/safe_subprocess.py`
-
-## tests/test_safe_subprocess_behavior.py
-- Doc: BDD behavior scenarios for the safe subprocess contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_given_argv_when_run_then_executes_without_audit` (function, line 12) `def test_given_argv_when_run_then_executes_without_audit(tmp_path)`
-  - `test_given_shell_without_allow_when_called_then_denied` (function, line 22) `def test_given_shell_without_allow_when_called_then_denied(tmp_path)`
-  - `test_given_shell_with_allow_and_reason_when_called_then_executes` (function, line 36) `def test_given_shell_with_allow_and_reason_when_called_then_executes(tmp_path)`
-- Depends on: `core/safe_subprocess.py`
-
-## tests/test_safety_gates.py
-- Doc: BDD scoped tests for safety gates C01-C03.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_c01_builtin_rules_block_destructive` (function, line 10) `def test_c01_builtin_rules_block_destructive()`
-  - `test_c01_allow_passthrough_and_audit` (function, line 19) `def test_c01_allow_passthrough_and_audit()`
-  - `test_c01_deny_rule_and_expiry` (function, line 29) `def test_c01_deny_rule_and_expiry()`
-  - `test_c01_daemon_gate_blocks_denied_command` (function, line 44) `def test_c01_daemon_gate_blocks_denied_command()`
-  - `test_c02_record_query_roundtrip` (function, line 54) `def test_c02_record_query_roundtrip(tmp_path)`
-  - `test_c02_path_traversal_blocked` (function, line 67) `def test_c02_path_traversal_blocked(tmp_path)`
-  - `test_c03_put_get_and_gc` (function, line 78) `def test_c03_put_get_and_gc(tmp_path)`
-  - `test_c03_tamper_detected` (function, line 100) `def test_c03_tamper_detected(tmp_path)`
-- Depends on: `modules/__init__.py`, `modules/evidence.py`, `modules/intercept.py`, `modules/traffic_recorder.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

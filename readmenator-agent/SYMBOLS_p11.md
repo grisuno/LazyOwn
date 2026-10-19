@@ -1,20 +1,40 @@
-# Symbols (page 11 of 42)
+# Symbols (page 11 of 43)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `live_sessions` | function | `modules/atomic_exploit_bridge.py:707` | `def live_sessions()` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:627` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:635` | `def __init__(self, target, port, sock, owner)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:962` | `def _adopt_live_shell(spec, target, port)` |
+| `_claim_port` | function | `modules/atomic_exploit_bridge.py:722` | `def _claim_port(spec_id, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:889` | `def _destroy_gym(container)` |
+| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:482` | `def _install_missing_binaries(names)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:666` | `def _read_until(self, marker, timeout)` |
+| `_release_port` | function | `modules/atomic_exploit_bridge.py:740` | `def _release_port(target, port)` |
+| `_string_list` | function | `modules/atomic_exploit_bridge.py:128` | `def _string_list(value)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:988` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:645` | `def alive(self, timeout)` |
+| `auto` | function | `modules/atomic_exploit_bridge.py:323` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:452` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:831` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:694` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:793` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:470` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1076` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:907` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1021` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `live_sessions` | function | `modules/atomic_exploit_bridge.py:774` | `def live_sessions()` |
 | `load_all` | function | `modules/atomic_exploit_bridge.py:212` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1103` | `def main()` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1198` | `def main()` |
 | `match_score` | function | `modules/atomic_exploit_bridge.py:267` | `def match_score(spec, service, product, version)` |
-| `open_shell` | function | `modules/atomic_exploit_bridge.py:550` | `def open_shell(target, services, lhost, exploits_dir, attempts)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:592` | `def open_shell(target, services, lhost, exploits_dir, attempts)` |
 | `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:286` | `def parse_scan_xml(xml_path)` |
 | `rank` | function | `modules/atomic_exploit_bridge.py:421` | `def rank(services, exploits_dir)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1015` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
-| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:678` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:911` | `def remote_exec(spec, target, command, lhost)` |
-| `run` | method | `modules/atomic_exploit_bridge.py:609` | `def run(self, command, timeout)` |
-| `run_spec` | function | `modules/atomic_exploit_bridge.py:479` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1110` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:745` | `def record_shell_outcome(target, via)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1003` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:652` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:512` | `def run_spec(spec, rhost, lhost, lport, port)` |
 | `severity_rank` | method | `modules/atomic_exploit_bridge.py:103` | `def severity_rank(self)` |
 | `to_dict` | method | `modules/atomic_exploit_bridge.py:107` | `def to_dict(self)` |
 | `validate_spec` | function | `modules/atomic_exploit_bridge.py:136` | `def validate_spec(data, filename)` |
@@ -56,6 +76,32 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `build_attack_graph` | function | `modules/attack_surface3d.py:147` | `def build_attack_graph(sessions_dir, payload_path, est_cap)` |
 | `refresh_summary` | function | `modules/attack_surface3d.py:460` | `def refresh_summary(graph, sessions_dir)` |
 | `tag` | function | `modules/attack_surface3d.py:166` | `def tag(nid, source)` |
+| `DecisionPersistence` | class | `modules/auto_loop_memory.py:212` | `class DecisionPersistence` |
+| `FailureMemory` | class | `modules/auto_loop_memory.py:53` | `class FailureMemory` |
+| `PendingDecision` | class | `modules/auto_loop_memory.py:45` | `class PendingDecision` |
+| `__init__` | method | `modules/auto_loop_memory.py:56` | `def __init__(self, filepath)` |
+| `__init__` | method | `modules/auto_loop_memory.py:215` | `def __init__(self, filepath)` |
+| `__len__` | method | `modules/auto_loop_memory.py:241` | `def __len__(self)` |
+| `_load` | method | `modules/auto_loop_memory.py:186` | `def _load(self)` |
+| `_load` | method | `modules/auto_loop_memory.py:262` | `def _load(self)` |
+| `_trim` | method | `modules/auto_loop_memory.py:159` | `def _trim(self)` |
+| `base_of` | method | `modules/auto_loop_memory.py:75` | `def base_of(command)` |
+| `blocked_bases` | method | `modules/auto_loop_memory.py:128` | `def blocked_bases(self, target)` |
+| `clear_target` | method | `modules/auto_loop_memory.py:140` | `def clear_target(self, target)` |
+| `count_for_base` | method | `modules/auto_loop_memory.py:94` | `def count_for_base(self, target, base_command)` |
+| `failure_count` | method | `modules/auto_loop_memory.py:89` | `def failure_count(self, target, category, command)` |
+| `failure_count_strict` | method | `modules/auto_loop_memory.py:123` | `def failure_count_strict(self, target, key)` |
+| `is_blocked` | method | `modules/auto_loop_memory.py:115` | `def is_blocked(self, target, base_command, bonus_key)` |
+| `make_key` | method | `modules/auto_loop_memory.py:68` | `def make_key(target, category, command)` |
+| `path` | method | `modules/auto_loop_memory.py:63` | `def path(self)` |
+| `peek` | method | `modules/auto_loop_memory.py:237` | `def peek(self)` |
+| `pop` | method | `modules/auto_loop_memory.py:229` | `def pop(self)` |
+| `push` | method | `modules/auto_loop_memory.py:220` | `def push(self, command, reason)` |
+| `record_failure` | method | `modules/auto_loop_memory.py:79` | `def record_failure(self, target, category, command)` |
+| `sanctioned_bases` | method | `modules/auto_loop_memory.py:146` | `def sanctioned_bases(self, target)` |
+| `save` | method | `modules/auto_loop_memory.py:166` | `def save(self)` |
+| `save` | method | `modules/auto_loop_memory.py:244` | `def save(self)` |
+| `veto_base` | method | `modules/auto_loop_memory.py:105` | `def veto_base(self, target, base_command)` |
 | `AutoPivotEngine` | class | `modules/auto_pivot.py:47` | `class AutoPivotEngine` |
 | `PivotChain` | class | `modules/auto_pivot.py:39` | `class PivotChain` |
 | `PivotNode` | class | `modules/auto_pivot.py:23` | `class PivotNode` |
@@ -450,51 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `publish_banner` | function | `modules/c2_surfaces.py:73` | `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` |
 | `publish_cve` | function | `modules/c2_surfaces.py:115` | `def publish_cve(title, description, operator, risk, sessions_dir)` |
 | `refresh_session_report` | function | `modules/c2_surfaces.py:229` | `def refresh_session_report(timeout)` |
-| `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
-| `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
-| `days_in_month` | function | `modules/cal.sh:14` | `` |
-| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
-| `is_leap_year` | function | `modules/cal.sh:4` | `` |
-| `Chain` | class | `modules/chain_registry.py:73` | `class Chain` |
-| `ChainStep` | class | `modules/chain_registry.py:47` | `class ChainStep` |
-| `_eval` | function | `modules/chain_registry.py:214` | `def _eval(node)` |
-| `_materialize` | function | `modules/chain_registry.py:368` | `def _materialize(name, raw, stack)` |
-| `_render` | function | `modules/chain_registry.py:136` | `def _render(template, variables)` |
-| `_step_from_raw` | function | `modules/chain_registry.py:412` | `def _step_from_raw(item)` |
-| `_when_tree` | function | `modules/chain_registry.py:165` | `def _when_tree(expression)` |
-| `evaluate_when` | function | `modules/chain_registry.py:192` | `def evaluate_when(expression, variables)` |
-| `generate_for_playbook` | function | `modules/chain_registry.py:521` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
-| `get` | function | `modules/chain_registry.py:434` | `def get(name, chains_dir)` |
-| `identifier` | method | `modules/chain_registry.py:67` | `def identifier(self)` |
-| `load_all` | function | `modules/chain_registry.py:334` | `def load_all(chains_dir)` |
-| `resolve` | method | `modules/chain_registry.py:88` | `def resolve(self, tokens)` |
-| `scan_all` | function | `modules/chain_registry.py:439` | `def scan_all(chains_dir)` |
-| `set_enabled` | function | `modules/chain_registry.py:498` | `def set_enabled(name, enabled, chains_dir)` |
-| `validate_chain` | function | `modules/chain_registry.py:257` | `def validate_chain(data, filename, chains_dir)` |
-| `ChainRunResult` | class | `modules/chain_runner.py:72` | `class ChainRunResult` |
-| `ChainRunner` | class | `modules/chain_runner.py:111` | `class ChainRunner` |
-| `StepOutcome` | class | `modules/chain_runner.py:34` | `class StepOutcome` |
-| `__init__` | method | `modules/chain_runner.py:114` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff)` |
-| `_call` | method | `modules/chain_runner.py:310` | `def _call(callback, timeout)` |
-| `_execute` | method | `modules/chain_runner.py:251` | `def _execute(self, command, timeout)` |
-| `_is_verb` | method | `modules/chain_runner.py:265` | `def _is_verb(self, command)` |
-| `_render_command` | method | `modules/chain_runner.py:169` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_raw` | method | `modules/chain_runner.py:294` | `def _run_raw(self, command, timeout)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:276` | `def _run_shell_verb(self, command)` |
-| `_run_step` | method | `modules/chain_runner.py:184` | `def _run_step(self, step, variables, captured_keys)` |
-| `ok` | method | `modules/chain_runner.py:50` | `def ok(self)` |
-| `render_text` | function | `modules/chain_runner.py:103` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:135` | `def run(self)` |
-| `to_dict` | method | `modules/chain_runner.py:54` | `def to_dict(self)` |
-| `to_dict` | method | `modules/chain_runner.py:86` | `def to_dict(self)` |
-| `CICDEnumerator` | class | `modules/cicd_enumerator.py:43` | `class CICDEnumerator` |
-| `CICDFinding` | class | `modules/cicd_enumerator.py:33` | `class CICDFinding` |
-| `__init__` | method | `modules/cicd_enumerator.py:54` | `def __init__(self, target_url, sessions_dir)` |
-| `_check_azure_devops` | method | `modules/cicd_enumerator.py:230` | `def _check_azure_devops(self)` |
-| `_check_bitbucket` | method | `modules/cicd_enumerator.py:266` | `def _check_bitbucket(self)` |
-| `_check_github_actions` | method | `modules/cicd_enumerator.py:189` | `def _check_github_actions(self)` |
-| `_check_gitlab` | method | `modules/cicd_enumerator.py:120` | `def _check_gitlab(self)` |
-| `_check_jenkins` | method | `modules/cicd_enumerator.py:73` | `def _check_jenkins(self)` |
-| `export_findings` | method | `modules/cicd_enumerator.py:387` | `def export_findings(self)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

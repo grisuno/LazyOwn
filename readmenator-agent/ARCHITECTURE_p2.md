@@ -2,6 +2,15 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/lazy_orchestrator.py` -> `cli/tui_forms.py`
+- `cli/lazy_orchestrator.py` -> `core/config.py`
+- `cli/lazy_orchestrator.py` -> `modules/__init__.py`
+- `cli/lazy_orchestrator.py` -> `modules/apt_playbooks.py`
+- `cli/lazy_orchestrator.py` -> `modules/chain_registry.py`
+- `cli/lazy_orchestrator.py` -> `modules/gym_registry.py`
+- `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
+- `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
+- `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
 - `cli/lazy_orchestrator.py` -> `modules/orchestrator_config.py`
 - `cli/lazy_orchestrator.py` -> `modules/playbook_admin.py`
 - `cli/lazy_orchestrator.py` -> `modules/redteam_gym.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyown.py` -> `modules/lazy_loop.py`
 - `lazyown.py` -> `modules/llm_factory.py`
 - `lazyown.py` -> `modules/logging_config.py`
-- `lazyown.py` -> `modules/metrics.py`
-- `lazyown.py` -> `modules/payload_factory.py`
-- `lazyown.py` -> `modules/session_cleanup.py`
-- `lazyown.py` -> `modules/state_manager.py`
-- `lazyown.py` -> `modules/unified_bridge.py`
-- `lazyown.py` -> `skills/unified_orchestrator.py`
-- `lazyown.py` -> `utils.py`
-- `modules/addon_updater.py` -> `core/logging.py`
-- `modules/agent_runner.py` -> `core/logging.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

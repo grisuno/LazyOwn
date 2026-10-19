@@ -7,6 +7,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/__init__.py` -> `cli/aliases.py`
 - `cli/__init__.py` -> `cli/registry.py`
 - `cli/aliases.py` -> `core/config.py`
+- `cli/apt_chain_support.py` -> `modules/chain_registry.py`
+- `cli/apt_chain_support.py` -> `modules/chain_runner.py`
+- `cli/apt_chain_support.py` -> `modules/chain_state.py`
+- `cli/apt_chain_support.py` -> `modules/chain_synth.py`
+- `cli/apt_chain_support.py` -> `modules/reactive_engine.py`
 - `cli/assign.py` -> `core/payload_schema.py`
 - `cli/auto_crypto.py` -> `core/crypto.py`
 - `cli/auto_crypto.py` -> `core/logging.py`
@@ -114,6 +119,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control.py` -> `cli/commands/_base.py`
 - `cli/commands/command_and_control.py` -> `utils.py`
 - `cli/commands/command_and_control_migrated.py` -> `cli/aliases.py`
+- `cli/commands/command_and_control_migrated.py` -> `cli/apt_chain_support.py`
 - `cli/commands/command_and_control_migrated.py` -> `cli/assign.py`
 - `cli/commands/command_and_control_migrated.py` -> `cli/commands/_base.py`
 - `cli/commands/command_and_control_migrated.py` -> `core/config.py`
@@ -126,6 +132,8 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_runner.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_state.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_tokens.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/listener_manager.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/outcome_bus.py`
 - `cli/commands/command_and_control_migrated.py` -> `utils.py`
@@ -221,6 +229,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/infra.py` -> `cli/confirm.py`
 - `cli/commands/infra.py` -> `utils.py`
 - `cli/commands/lab.py` -> `cli/commands/_base.py`
+- `cli/commands/lab.py` -> `modules/metasploitable_migrations.py`
 - `cli/commands/lab.py` -> `utils.py`
 - `cli/commands/lateral.py` -> `cli/commands/_base.py`
 - `cli/commands/lateral.py` -> `modules/categories.py`
@@ -487,14 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/lazy_monitor.py` -> `modules/loop_progress.py`
 - `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
 - `cli/lazy_orchestrator.py` -> `cli/palette.py`
-- `cli/lazy_orchestrator.py` -> `cli/tui_forms.py`
-- `cli/lazy_orchestrator.py` -> `core/config.py`
-- `cli/lazy_orchestrator.py` -> `modules/__init__.py`
-- `cli/lazy_orchestrator.py` -> `modules/apt_playbooks.py`
-- `cli/lazy_orchestrator.py` -> `modules/chain_registry.py`
-- `cli/lazy_orchestrator.py` -> `modules/gym_registry.py`
-- `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
-- `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
-- `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

@@ -1,6 +1,31 @@
 # Subsystem: modules (page 13 of 15)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/playbook_admin.py
+- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
+  - `_yaml_module` (function, line 55) `def _yaml_module()`
+  - `slugify` (function, line 62) `def slugify(value)`
+  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
+  - `load_playbook` (function, line 102) `def load_playbook(path)`
+  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
+  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
+  - `_count_steps` (function, line 183) `def _count_steps(data)`
+  - `summarize` (function, line 197) `def summarize(path)`
+  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
+  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
+  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
+  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
+  - `create_playbook` (function, line 297) `def create_playbook(filename)`
+  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
+  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
+  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
+  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
+- Imported by: `cli/lazy_orchestrator.py`, `tests/test_playbook_admin.py`
+
 ## modules/playbook_engine.py
 - Doc: modules/playbook_engine.py
 - Layer: utility
@@ -161,6 +186,23 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `download_kernel_sources` (function, line 10)
 - Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
 
+## modules/reaction_bridge.py
+- Doc: Reaction bridge between the reactive engine and the loop planner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReactionPick` (class, line 66) `class ReactionPick`
+  - `_buffer_path` (function, line 76) `def _buffer_path(task_id)`
+  - `save_decisions` (function, line 80) `def save_decisions(task_id, decisions)`
+  - `load_reaction_triggers` (function, line 108) `def load_reaction_triggers(task_id, consumer)`
+  - `_load_buffer` (function, line 143) `def _load_buffer(task_id)`
+  - `_write_buffer` (function, line 150) `def _write_buffer(task_id, payload)`
+  - `_placeholder_value` (function, line 154) `def _placeholder_value(value)`
+  - `find_credentials` (function, line 159) `def find_credentials(output)`
+  - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
+
 ## modules/reactive_engine.py
 - Doc: modules/reactive_engine.py
 - Layer: utility
@@ -209,7 +251,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
   - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 
 ## modules/recommender.py
 - Doc: LazyOwn Smart Command Recommender
@@ -424,69 +466,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
 - Layer: utility
 - Language: py
 - Imported by: `static/js/showdown-2.1.0.min.js`
-
-## modules/security_sanitizers.py
-- Doc: Security sanitizers shared across the LazyOwn framework.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SecurityConfig` (class, line 37) `class SecurityConfig`
-  - `HeaderValueSanitizer` (class, line 101) `class HeaderValueSanitizer`
-  - `SessionPathResolver` (class, line 162) `class SessionPathResolver`
-  - `BindAddressResolver` (class, line 256) `class BindAddressResolver`
-  - `CommandRedactor` (class, line 318) `class CommandRedactor`
-  - `OutputSanitizer` (class, line 406) `class OutputSanitizer`
-  - `build_default_config` (function, line 477) `def build_default_config(payload)`
-  - `from_payload` (method, line 68) `def from_payload(cls, payload)`
-  - `__init__` (method, line 115) `def __init__(self, config)`
-  - `is_valid_name` (method, line 129) `def is_valid_name(self, name)`
-  - `sanitize_value` (method, line 139) `def sanitize_value(self, value)`
-  - `__init__` (method, line 174) `def __init__(self, base_dir, config)`
-  - `base_dir` (method, line 192) `def base_dir(self)`
-  - `resolve` (method, line 196) `def resolve(self, untrusted_name)`
-  - `file_exists` (method, line 238) `def file_exists(self, untrusted_name)`
-  - `__init__` (method, line 269) `def __init__(self, config, preferred_addresses)`
-  - `_is_well_formed` (method, line 285) `def _is_well_formed(self, candidate)`
-  - `resolve` (method, line 298) `def resolve(self)`
-  - `__init__` (method, line 333) `def __init__(self, config)`
-  - `_display_username` (method, line 345) `def _display_username(self, username)`
-  - `_display_password` (method, line 353) `def _display_password(self, password)`
-  - `render` (method, line 359) `def render(self, template, substitutions, username, password)`
-  - `__init__` (method, line 418) `def __init__(self, config)`
-  - `sanitize` (method, line 429) `def sanitize(self, value)`
-  - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
-
-## modules/selfupdate.py
-- Doc: Guarded self-update for the LazyOwn working tree.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReleaseArtifact` (class, line 24) `class ReleaseArtifact`
-  - `Updater` (class, line 38) `class Updater`
-  - `_run` (function, line 85) `def _run(argv, cwd, timeout)`
-  - `_git` (function, line 90) `def _git(args, runner, cwd, timeout)`
-  - `current_branch` (function, line 96) `def current_branch(runner)`
-  - `dirty` (function, line 102) `def dirty(runner)`
-  - `check` (function, line 108) `def check(branch, runner)`
-  - `apply` (function, line 140) `def apply(branch, confirm, runner)`
-  - `__init__` (method, line 47) `def __init__(self, live_path)`
-  - `verify` (method, line 52) `def verify(self, artifact)`
-  - `stage` (method, line 57) `def stage(self, artifact, directory)`
-  - `rollback` (method, line 77) `def rollback(self)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
-
-## modules/session_cleanup.py
-- Doc: Ephemeral infrastructure cleanup on shell exit.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `find_cloudflared_pids` (function, line 28) `def find_cloudflared_pids(ps_output)`
-  - `_run_quiet` (function, line 49) `def _run_quiet(argv, timeout)`
-  - `_compose_down` (function, line 66) `def _compose_down(compose_file, label)`
-  - `stop_cloudflared_processes` (function, line 94) `def stop_cloudflared_processes()`
-  - `cleanup_ephemeral_infra` (function, line 120) `def cleanup_ephemeral_infra()`
-- Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

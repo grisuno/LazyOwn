@@ -56,7 +56,8 @@ graph, C2 banners/CVEs/notes, objectives and report stay current.
 
 ```bash
 lab start metasploitable
-# prints the container IP and the assign command, and starts Apache
+# prints the container IP and the assign command, starts Apache
+# and applies the gym migrations automatically
 assign rhost <container-ip>
 gym start metasploitable_full_chain
 apt_chain gym_metasploitable_ms2_tomcat_manager <container-ip>
@@ -64,6 +65,77 @@ apt_chain gym_metasploitable_ms2_tomcat_manager <container-ip>
 
 The Docker lab maps the container ports; the classic VM flow lives in
 `scripts/lazy_msf_lab.sh`. Both are lab-only and in-scope targets only.
+
+### Gym migrations
+
+The stock `tleemcjr/metasploitable2` image boots only a subset of the
+services the matrix needs. `modules/metasploitable_migrations.py` ships
+an ordered, idempotent migration list that is applied automatically on
+every `lab start metasploitable` (both on first create and when the
+container is already running). Each step checks whether the fix is
+already present and only runs the change when it is not.
+
+| Migration | What it fixes |
+|-----------|---------------|
+| `core-services` | Starts apache2, xinetd, proftpd, postfix, mysql, portmap, samba, postgresql, tomcat and distccd (all idempotent starts) |
+| `rservices-access` | Trusts telnet/rlogin/rsh/exec from the docker subnet in `/etc/hosts.allow` and adds `pts/0-5` to `/etc/securetty` |
+| `proftpd-anonymous` | Adds the `<Anonymous ~ftp>` block so anonymous FTP answers |
+| `xvnc-open` | Restarts Xtightvnc with an open display (`-ac`) and a valid font path |
+| `shellshock-cgi` | Installs the deliberately vulnerable `/usr/lib/cgi-bin/status` bash CGI |
+| `mutillidae-rfi-payload` | Installs `/var/www/ms2_rfi.txt`, the remote-include payload |
+| `php-allow-url-include` | Sets `allow_url_include = On` in both php.ini files and restarts Apache |
+| `mutillidae-database` | Runs the mutillidae setup page (populates `owasp10`) and mirrors it into `metasploit` (the schema the app reads) |
+| `dvwa-dom-page` | Installs the canonical DVWA DOM XSS page; the DVWA build shipped in the image predates `xss_d` |
+
+To run the migrations by hand:
+
+```bash
+python3 -c "from modules.metasploitable_migrations import apply_migrations; print(apply_migrations('lazyown-lab-metasploitable'))"
+```
+
+The subnet prefix defaults to `172.17.0.` and can be changed with
+`apply_migrations(container, subnet="192.168.7.")` when the lab network
+differs. `atomic_clean --hard` destroys the container; recreating it
+with `lab start metasploitable` re-applies every migration.
+
+### Headless browser vectors
+
+Three vectors execute their payload in a real browser session instead
+of detecting a server-side reflection:
+
+- `ms2_dvwa_xss_dom` — loads the DVWA DOM XSS page with an attribute
+  breakout payload (`'></select><script>...`) and beacons the cookie to
+  a local capture listener.
+- `ms2_twiki_xss` — the TWiki `bin/oops` endpoint reflects `param1`
+  unescaped; the headless browser executes the beacon script.
+- `ms2_mutillidae_csrf` — the capture listener serves an attacker page
+  whose form auto-submits a blog entry, then a mysql check verifies the
+  entry persisted.
+
+They need chromium, chromedriver and the selenium Python package
+(`sudo apt install -y chromium chromium-driver python3-selenium`). The
+spec commands resolve the system interpreter explicitly
+(`env PATH=/usr/bin:/bin:/usr/sbin:/sbin python3`) because the project
+virtualenv may lack these packages.
+
+### Verified matrix state
+
+With the migrations applied, 42 of the 45 vectors yield a shell (verified
+per-vector through `apt_chain` and the outcome bus). The three remaining
+failures are Docker limitations, not framework gaps:
+
+- `ms2_dns_recursion` — bind9 cannot start inside the container
+  (capset is blocked by the container runtime).
+- `ms2_nfs_exports` — nfsd needs a kernel module the container lacks.
+- `ms2_rlogin_trust` — rlogin requires a privileged source port
+  (below 1024) that a non-root client cannot provide.
+
+### Shell attribution
+
+Shell sessions are per-vector: `modules/atomic_exploit_bridge.py` keeps
+a port-ownership registry (`_PORT_OWNERS`) so a shell opened by one
+spec is never adopted and misattributed by another. `live_sessions()`
+reports the owning spec id for every cached session.
 
 ## Gym catalogue and run state
 
@@ -116,6 +188,11 @@ remove-host <ip>` (declared in `cli/aliases.yaml`).
 2. Add the chain YAML under `chains/`, extending the gym base.
 3. Add the index entry to `playbooks/gym_metasploitable.yaml`.
 4. Run `gym_ms2 validate` and `pytest tests/test_metasploitable_gym.py`.
+
+When the vector needs a lab adjustment (a service, a config flag, a
+payload file), add it to `modules/metasploitable_migrations.py` as a new
+idempotent migration so fresh gym containers get it automatically on
+`lab start metasploitable`.
 
 `tools/generate_metasploitable_gym.py` holds the catalogue table used to
 regenerate the shipped files when several vectors change at once.

@@ -159,9 +159,7 @@ class LabCommandSet(LazyOwnCommandSet):
             print_msg(f"[*] Container IP: {ip}")
             print_msg(f"[*] Assign target: assign rhost {ip}")
         else:
-            print_warn(
-                f"Container IP unavailable for {container_name}; inspect with: docker inspect {container_name}"
-            )
+            print_warn(f"Container IP unavailable for {container_name}; inspect with: docker inspect {container_name}")
         if ports:
             print_msg("[*] Host-mapped ports:")
             for container_port, host_port in ports.items():
@@ -174,6 +172,25 @@ class LabCommandSet(LazyOwnCommandSet):
         elif scenario in ("wordpress", "juice-shop", "tomcat", "struts"):
             port = list(ports.values())[0] if ports else ""
             print_msg(f"[*] Quick start: ww && gobuster  (url http://127.0.0.1:{port})")
+
+    def _lab_migrate(self, scenario: str, container_name: str) -> None:
+        """Apply gym migrations to the metasploitable lab container."""
+        if scenario != "metasploitable":
+            return
+        try:
+            from modules.metasploitable_migrations import apply_migrations
+        except ImportError as exc:
+            print_warn(f"Gym migrations unavailable: {exc}")
+            return
+        print_msg("[*] Applying gym migrations...")
+        report = apply_migrations(container_name)
+        for migration_id, step in report.items():
+            if step.get("skipped"):
+                print_msg(f"    [skip] {migration_id}: already applied")
+            elif step.get("applied"):
+                print_msg(f"    [ ok ] {migration_id}")
+            else:
+                print_warn(f"    [FAIL] {migration_id}: {step.get('detail', '')[:120]}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_lab(self, line):
@@ -262,6 +279,7 @@ class LabCommandSet(LazyOwnCommandSet):
         if container_name in running:
             print_warn(f"Lab '{scenario}' is already running.")
             self._lab_ensure_web(scenario, container_name)
+            self._lab_migrate(scenario, container_name)
             self._print_lab_target(scenario, container_name, ports)
             return
 
@@ -280,6 +298,7 @@ class LabCommandSet(LazyOwnCommandSet):
             container_id = result.stdout.strip()[:12]
             print_msg(f"Lab '{scenario}' started. Container: {container_id}")
             self._lab_ensure_web(scenario, container_name)
+            self._lab_migrate(scenario, container_name)
             self._print_lab_target(scenario, container_name, ports)
         else:
             print_error(f"Failed to start lab '{scenario}': {result.stderr}")

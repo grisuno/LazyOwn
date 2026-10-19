@@ -1,6 +1,16 @@
 # Subsystem: cli (page 2 of 5)
 Previous: [KB_cli.md](KB_cli.md)
 
+## cli/dashboard_layout.py
+- Doc: Responsive layout decisions for the Textual operator dashboard.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `DashboardLayoutConfig` (class, line 14) `class DashboardLayoutConfig`
+  - `layout_mode` (function, line 28) `def layout_mode(width, config)`
+  - `hidden_panels` (function, line 45) `def hidden_panels(mode)`
+- Imported by: `cli/dashboard_tui.py`
+
 ## cli/dashboard_tui.py
 - Doc: LazyOwn operator dashboard — a full-screen Textual TUI.
 - Layer: utility

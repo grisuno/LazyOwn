@@ -1,5 +1,5 @@
-# Symbols (page 1 of 42)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md)
+# Symbols (page 1 of 43)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -33,6 +33,21 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `empty_placeholders` | function | `cli/aliases.py:72` | `def empty_placeholders(template, context)` |
 | `load_aliases` | function | `cli/aliases.py:100` | `def load_aliases(payload, path, lazy)` |
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
+| `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
+| `_decision_command` | function | `cli/apt_chain_support.py:368` | `def _decision_command(decision)` |
+| `_platform` | function | `cli/apt_chain_support.py:399` | `def _platform()` |
+| `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
+| `_step_from_decision` | function | `cli/apt_chain_support.py:377` | `def _step_from_decision(command, outcome, executed_count)` |
+| `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
+| `adversarial_continue` | function | `cli/apt_chain_support.py:289` | `def adversarial_continue(chain)` |
+| `approve` | function | `cli/apt_chain_support.py:329` | `def approve(step_id, command)` |
+| `build_cli_approver` | function | `cli/apt_chain_support.py:321` | `def build_cli_approver(printer, input_fn)` |
+| `build_reactive_replanner` | function | `cli/apt_chain_support.py:343` | `def build_reactive_replanner()` |
+| `parse_chain_args` | function | `cli/apt_chain_support.py:72` | `def parse_chain_args(line)` |
+| `render_result` | function | `cli/apt_chain_support.py:297` | `def render_result(result)` |
+| `replan` | function | `cli/apt_chain_support.py:346` | `def replan(context)` |
+| `resolve_admin` | function | `cli/apt_chain_support.py:169` | `def resolve_admin(args)` |
+| `select_step_ids` | function | `cli/apt_chain_support.py:257` | `def select_step_ids(chain, args)` |
 | `apply_assign` | function | `cli/assign.py:36` | `def apply_assign(params, key, value)` |
 | `AutoCryptoConfig` | class | `cli/auto_crypto.py:48` | `class AutoCryptoConfig` |
 | `AutoCryptoEngine` | class | `cli/auto_crypto.py:77` | `class AutoCryptoEngine` |
@@ -446,7 +461,7 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_issue` | function | `cli/commands/c2_session.py:83` | `def _issue(client_id, command, auth, https_port)` |
 | `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
 | `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
-| `do_c2_deploy` | method | `cli/commands/c2_session.py:251` | `def do_c2_deploy(self, line)` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:249` | `def do_c2_deploy(self, line)` |
 | `do_c2_exec` | method | `cli/commands/c2_session.py:292` | `def do_c2_exec(self, line)` |
 | `do_c2_loot` | method | `cli/commands/c2_session.py:339` | `def do_c2_loot(self, line)` |
 | `do_c2_reboot` | method | `cli/commands/c2_session.py:168` | `def do_c2_reboot(self, line)` |
@@ -481,20 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_campaign` | method | `cli/commands/campaign.py:44` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 | `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
-| `_index` | method | `cli/commands/catalog.py:25` | `def _index(self)` |
-| `_print_hits` | method | `cli/commands/catalog.py:95` | `def _print_hits(self, hits, label)` |
-| `do_catalog` | method | `cli/commands/catalog.py:33` | `def do_catalog(self, line)` |
-| `shlex_split` | function | `cli/commands/catalog.py:111` | `def shlex_split(text)` |
-| `CICDCommandSet` | class | `cli/commands/cicd.py:27` | `class CICDCommandSet(LazyOwnCommandSet)` |
-| `_extract` | method | `cli/commands/cicd.py:290` | `def _extract(args, flag)` |
-| `do_cicd_scan` | method | `cli/commands/cicd.py:34` | `def do_cicd_scan(self, line)` |
-| `do_cicd_secrets` | method | `cli/commands/cicd.py:97` | `def do_cicd_secrets(self, line)` |
-| `do_gitlab_enum` | method | `cli/commands/cicd.py:185` | `def do_gitlab_enum(self, line)` |
-| `do_jenkins_enum` | method | `cli/commands/cicd.py:140` | `def do_jenkins_enum(self, line)` |
-| `do_mfa_bypass` | method | `cli/commands/cicd.py:231` | `def do_mfa_bypass(self, line)` |
-| `CliAuthCommandSet` | class | `cli/commands/cli_auth.py:27` | `class CliAuthCommandSet(LazyOwnCommandSet)` |
-| `do_login` | method | `cli/commands/cli_auth.py:34` | `def do_login(self, line)` |
-| `do_logout` | method | `cli/commands/cli_auth.py:191` | `def do_logout(self, line)` |
-| `do_register` | method | `cli/commands/cli_auth.py:117` | `def do_register(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

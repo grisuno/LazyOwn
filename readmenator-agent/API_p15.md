@@ -1,6 +1,24 @@
 # API (page 15 of 23)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/metasploitable_gym.py
+Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
+Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
+- `load_index` (function) `modules/metasploitable_gym.py:42` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/metasploitable_gym.py:47` `def vulnerabilities(path)` -- Return every indexed vulnerability.
+- `get` (function) `modules/metasploitable_gym.py:53` `def get(vuln_id, path)` -- Return one vulnerability by id, or None.
+- `chain_for` (function) `modules/metasploitable_gym.py:62` `def chain_for(vuln_id, path)` -- Return the resolved chain for one vulnerability, or None.
+- `exploit_for` (function) `modules/metasploitable_gym.py:72` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one vulnerability, or None.
+- `validate_matrix` (function) `modules/metasploitable_gym.py:82` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/metasploitable_gym.py:138` `def summary(path)` -- Return counts by severity and service for operators.
+- `main` (function) `modules/metasploitable_gym.py:157` `def main()` -- CLI: list | validate | info | chain.
+
+## modules/metasploitable_migrations.py
+Depends on: `core/safe_exec.py`
+Imported by: `cli/commands/lab.py`, `tests/test_metasploitable_migrations.py`
+- `build_migrations` (function) `modules/metasploitable_migrations.py:131` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
+- `apply_migrations` (function) `modules/metasploitable_migrations.py:236` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
+
 ## modules/metrics.py
 Depends on: `core/logging.py`
 Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
@@ -466,32 +484,6 @@ Imported by: `cli/commands/payload_arsenal.py`
 - `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
 - `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
 - `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
-
-## modules/privesc_predictor.py
-Depends on: `core/console.py`, `modules/llm_factory.py`
-Imported by: `cli/commands/crystal_ball.py`
-- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
-- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
-- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
-- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
-- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
-- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
-- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
-- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
-- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
-- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
-- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
-
-## modules/professional_report.py
-Depends on: `modules/llm_factory.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
-- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
-- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:217` `def classify_findings(self, data)` -- Classify collected data into structured findings.
-- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:244` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
-- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:841` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
-- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:865` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
-- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:911` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
 
 
 Next: [API_p16.md](API_p16.md)

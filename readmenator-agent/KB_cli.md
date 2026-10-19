@@ -24,6 +24,29 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Depends on: `core/config.py`
 - Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_enhancements.py`
 
+## cli/apt_chain_support.py
+- Doc: Parsing, printing and replanning support for the ``apt_chain`` CLI.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_token_name_ok` (function, line 42) `def _token_name_ok(name)`
+  - `ChainArgs` (class, line 48) `class ChainArgs`
+  - `parse_chain_args` (function, line 72) `def parse_chain_args(line)`
+  - `_set_value` (function, line 141) `def _set_value(args, flag, value)`
+  - `resolve_admin` (function, line 169) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 257) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 289) `def adversarial_continue(chain)`
+  - `render_result` (function, line 297) `def render_result(result)`
+  - `build_cli_approver` (function, line 321) `def build_cli_approver(printer, input_fn)`
+  - `build_reactive_replanner` (function, line 343) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 368) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 377) `def _step_from_decision(command, outcome, executed_count)`
+  - `_platform` (function, line 399) `def _platform()`
+  - `approve` (function, line 329) `def approve(step_id, command)`
+  - `replan` (function, line 346) `def replan(context)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/reactive_engine.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+
 ## cli/assign.py
 - Doc: ``assign`` business logic.
 - Layer: utility
@@ -467,16 +490,6 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `render_requirements_status` (method, line 281) `def render_requirements_status(self)`
 - Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
 - Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
-
-## cli/dashboard_layout.py
-- Doc: Responsive layout decisions for the Textual operator dashboard.
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `DashboardLayoutConfig` (class, line 14) `class DashboardLayoutConfig`
-  - `layout_mode` (function, line 28) `def layout_mode(width, config)`
-  - `hidden_panels` (function, line 45) `def hidden_panels(mode)`
-- Imported by: `cli/dashboard_tui.py`
 
 
 Next: [KB_cli_p2.md](KB_cli_p2.md)

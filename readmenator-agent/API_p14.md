@@ -452,44 +452,44 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
 - `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
 
-## modules/memory_store.py
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `StorageBackend.save` (method) `modules/memory_store.py:96` `def save(self, entry)`
-- `StorageBackend.search` (method) `modules/memory_store.py:99` `def search(self, query, top_k)`
-- `StorageBackend.by_host` (method) `modules/memory_store.py:102` `def by_host(self, host, top_k)`
-- `StorageBackend.by_service` (method) `modules/memory_store.py:105` `def by_service(self, service, top_k)`
-- `StorageBackend.all_entries` (method) `modules/memory_store.py:108` `def all_entries(self, limit)`
-- `StorageBackend.close` (method) `modules/memory_store.py:111` `def close(self)`
-- `SQLiteBackend.__init__` (method) `modules/memory_store.py:130` `def __init__(self, db_path)`
-- `SQLiteBackend.save` (method) `modules/memory_store.py:145` `def save(self, entry)`
-- `SQLiteBackend.search` (method) `modules/memory_store.py:177` `def search(self, query, top_k)`
-- `SQLiteBackend.by_host` (method) `modules/memory_store.py:189` `def by_host(self, host, top_k)`
-- `SQLiteBackend.by_service` (method) `modules/memory_store.py:200` `def by_service(self, service, top_k)`
-- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:212` `def all_entries(self, limit)`
-- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:222` `def stats_raw(self)`
-- `SQLiteBackend.close` (method) `modules/memory_store.py:229` `def close(self)`
-- `MemoryStore.__init__` (method) `modules/memory_store.py:237` `def __init__(self, backend)`
-- `MemoryStore.remember` (method) `modules/memory_store.py:240` `def remember(self, session_id, host, tool, command, output, findings, success)`
-- `MemoryStore.recall` (method) `modules/memory_store.py:267` `def recall(self, query, top_k)`
-- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:270` `def recall_by_host(self, host, top_k)`
-- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:273` `def recall_for_service(self, service_name, top_k)`
-- `MemoryStore.stats` (method) `modules/memory_store.py:276` `def stats(self)`
-- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:284` `def export_finetuning_dataset(self, path)`
-- `get_memory_store` (function) `modules/memory_store.py:303` `def get_memory_store()`
-- `remember` (function) `modules/memory_store.py:312` `def remember(session_id, host, tool, command, output, findings, success)`
-- `recall` (function) `modules/memory_store.py:324` `def recall(query, top_k)`
+## modules/memory_embeddings.py
+Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
+- `embed` (function) `modules/memory_embeddings.py:50` `def embed(text)` -- Map text to a normalised 512-float histogram BLOB.
+- `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
+- `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
+- `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
 
-## modules/metasploitable_gym.py
-Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
-- `load_index` (function) `modules/metasploitable_gym.py:42` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/metasploitable_gym.py:47` `def vulnerabilities(path)` -- Return every indexed vulnerability.
-- `get` (function) `modules/metasploitable_gym.py:53` `def get(vuln_id, path)` -- Return one vulnerability by id, or None.
-- `chain_for` (function) `modules/metasploitable_gym.py:62` `def chain_for(vuln_id, path)` -- Return the resolved chain for one vulnerability, or None.
-- `exploit_for` (function) `modules/metasploitable_gym.py:72` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one vulnerability, or None.
-- `validate_matrix` (function) `modules/metasploitable_gym.py:82` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/metasploitable_gym.py:138` `def summary(path)` -- Return counts by severity and service for operators.
-- `main` (function) `modules/metasploitable_gym.py:157` `def main()` -- CLI: list | validate | info | chain.
+## modules/memory_store.py
+Depends on: `modules/memory_embeddings.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
+- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
+- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
+- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
+- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
+- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
+- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
+- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
+- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
+- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
+- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
+- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
+- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
+- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
+- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
+- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
+- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
+- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
+- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
+- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
+- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
+- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
+- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
+- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
+- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
+- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
+- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
+- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
+- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
 
 
 Next: [API_p15.md](API_p15.md)

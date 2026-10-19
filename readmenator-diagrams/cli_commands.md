@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 159 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 162 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -31,7 +31,7 @@ graph LR
 
 ## cli (1.1)
 
-cli groups 67 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 68 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
 ## contrib (1.2)
 
@@ -43,7 +43,7 @@ core groups 10 files (py) around check_rhost, check_lhost, check_lport, check_po
 
 ## modules (1.4)
 
-modules groups 32 files (c, py) around TlsProfile, get_cipher_suites, get_ja3_hash, from_dict, to_dict. Git update contract for lazyaddons.
+modules groups 33 files (c, py) around TlsProfile, get_cipher_suites, get_ja3_hash, from_dict, to_dict. Git update contract for lazyaddons.
 
 ## root (1.5)
 
@@ -55,7 +55,7 @@ scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, mai
 
 ## tests (1.7)
 
-tests groups 46 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
+tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
 
 **Files**:
 
@@ -112,6 +112,7 @@ tests groups 46 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/resource_scripting.py
 - cli/commands/scan.py
 - cli/commands/scan_migrated.py
+- cli/commands/security.py
 - cli/commands/shellsys.py
 - cli/commands/sleep_obfuscation.py
 - cli/commands/socks_proxy.py
@@ -154,6 +155,7 @@ tests groups 46 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
+- modules/hash_cracker.py
 - modules/icmp_server.py
 - modules/lazycloud.py
 - modules/mfa_bypass.py
@@ -192,6 +194,7 @@ tests groups 46 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - tests/test_daemon_ctl_command_set.py
 - tests/test_encoding_command_set.py
 - tests/test_fuzzy_picker.py
+- tests/test_hash_cracker.py
 - tests/test_help_ui_command_set.py
 - tests/test_host_policy.py
 - tests/test_improvements_spec.py

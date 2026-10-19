@@ -1,8 +1,25 @@
-# Symbols (page 4 of 42)
+# Symbols (page 4 of 43)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_sitrep` | method | `cli/commands/session_ops.py:236` | `def do_sitrep(self, line)` |
+| `do_tasks` | method | `cli/commands/session_ops.py:186` | `def do_tasks(self, line)` |
+| `do_tenant` | method | `cli/commands/session_ops.py:317` | `def do_tenant(self, line)` |
+| `do_traces` | method | `cli/commands/session_ops.py:739` | `def do_traces(self, line)` |
+| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
+| `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
+| `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
+| `do_fixel` | method | `cli/commands/shellsys.py:336` | `def do_fixel(self, line)` |
+| `do_fixperm` | method | `cli/commands/shellsys.py:303` | `def do_fixperm(self, line)` |
+| `do_nano` | method | `cli/commands/shellsys.py:146` | `def do_nano(self, line)` |
+| `do_pop` | method | `cli/commands/shellsys.py:369` | `def do_pop(self, line)` |
+| `do_pwd` | method | `cli/commands/shellsys.py:110` | `def do_pwd(self, line)` |
+| `do_sh` | method | `cli/commands/shellsys.py:30` | `def do_sh(self, line)` |
+| `do_sys` | method | `cli/commands/shellsys.py:62` | `def do_sys(self, line)` |
+| `do_tab` | method | `cli/commands/shellsys.py:406` | `def do_tab(self, line)` |
+| `lazyrun_command` | function | `cli/commands/shellsys.py:205` | `def lazyrun_command()` |
+| `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
 | `do_sleep_configure` | method | `cli/commands/sleep_obfuscation.py:82` | `def do_sleep_configure(self, line)` |
 | `do_sleep_info` | method | `cli/commands/sleep_obfuscation.py:50` | `def do_sleep_info(self, line)` |
 | `do_sleep_list` | method | `cli/commands/sleep_obfuscation.py:23` | `def do_sleep_list(self, line)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `chain_steps_preview` | method | `cli/lazy_orchestrator.py:738` | `def chain_steps_preview(self, name, limit)` |
 | `command_descriptions` | function | `cli/lazy_orchestrator.py:125` | `def command_descriptions()` |
 | `compose` | method | `cli/lazy_orchestrator.py:212` | `def compose(self)` |
-| `create_playbook_file` | method | `cli/lazy_orchestrator.py:357` | `def create_playbook_file(self, filename, name, description, platforms)` |
-| `delete_playbook_file` | method | `cli/lazy_orchestrator.py:390` | `def delete_playbook_file(self, filename)` |
-| `discover_shell_commands` | function | `cli/lazy_orchestrator.py:92` | `def discover_shell_commands()` |
-| `generate_chain` | method | `cli/lazy_orchestrator.py:766` | `def generate_chain(self, playbook_key)` |
-| `gym_preview` | method | `cli/lazy_orchestrator.py:518` | `def gym_preview(self, gym_id, limit)` |
-| `gym_rows` | method | `cli/lazy_orchestrator.py:481` | `def gym_rows(self)` |
-| `on_button_pressed` | method | `cli/lazy_orchestrator.py:1079` | `def on_button_pressed(self, event)` |
-| `on_data_table_row_highlighted` | method | `cli/lazy_orchestrator.py:836` | `def on_data_table_row_highlighted(self, event)` |
-| `on_mount` | method | `cli/lazy_orchestrator.py:253` | `def on_mount(self)` |
-| `playbook_candidates` | method | `cli/lazy_orchestrator.py:398` | `def playbook_candidates(self)` |
-| `playbook_preview` | method | `cli/lazy_orchestrator.py:348` | `def playbook_preview(self, filename, limit)` |
-| `playbook_rows` | method | `cli/lazy_orchestrator.py:324` | `def playbook_rows(self)` |
-| `profile_rows` | method | `cli/lazy_orchestrator.py:644` | `def profile_rows(self)` |
-| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:308` | `def remove_auto_verb(self, name)` |
-| `remove_chain` | method | `cli/lazy_orchestrator.py:780` | `def remove_chain(self, name)` |
-| `remove_guard_rule` | method | `cli/lazy_orchestrator.py:975` | `def remove_guard_rule(self, pattern)` |
-| `remove_model_member` | method | `cli/lazy_orchestrator.py:947` | `def remove_model_member(self, name)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

@@ -5,7 +5,7 @@ ia_network_analysis.py
 
 Autor: grisun0
 Fecha de creación: 30/01/2025
-Licencia: GPL v3
+Licencia: AGPL v3
 
 Descripción: Bot de monitoreo de tráfico de red en tiempo real.
              Informa todo el tráfico (IPs, puertos, protocolos) y usa DeepSeek para detectar actividad sospechosa.

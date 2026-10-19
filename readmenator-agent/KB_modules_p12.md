@@ -1,6 +1,52 @@
 # Subsystem: modules (page 12 of 15)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/notify.py
+- Doc: Stateless multi-channel notifier for finding events.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NotifyConfig` (class, line 15) `class NotifyConfig`
+  - `severity_rank` (function, line 31) `def severity_rank(severity, config)`
+  - `mask_secrets` (function, line 39) `def mask_secrets(text, config)`
+  - `url_allowed` (function, line 57) `def url_allowed(url)`
+  - `post_url_validated` (function, line 145) `def post_url_validated(url, data, timeout)`
+  - `NotifyMessage` (class, line 173) `class NotifyMessage`
+  - `Channel` (class, line 186) `class Channel`
+  - `Notifier` (class, line 204) `class Notifier`
+  - `_addr_denied` (function, line 105) `def _addr_denied(addr)`
+  - `_GuardRedirect` (class, line 158) `class _GuardRedirect(HTTPRedirectHandler)`
+  - `__post_init__` (method, line 198) `def __post_init__(self)`
+  - `__init__` (method, line 207) `def __init__(self, config)`
+  - `should_send` (method, line 215) `def should_send(self, message, channel)`
+  - `render` (method, line 238) `def render(self, message)`
+  - `dispatch` (method, line 244) `def dispatch(self, message, channels)`
+  - `flush_digest` (method, line 260) `def flush_digest(self, max_age_sec)`
+  - `redirect_request` (method, line 159) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
+- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
+
+## modules/nuclei_templates_sync.py
+- Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `repo_root` (function, line 39) `def repo_root()`
+  - `canonical_dest` (function, line 48) `def canonical_dest(subdir)`
+  - `run` (function, line 60) `def run(argv, cwd)`
+  - `ensure_git_available` (function, line 73) `def ensure_git_available()`
+  - `clone_templates` (function, line 84) `def clone_templates(repo, staging)`
+  - `strip_git_traces` (function, line 113) `def strip_git_traces(tree)`
+  - `count_templates` (function, line 132) `def count_templates(tree)`
+  - `replace_dest` (function, line 144) `def replace_dest(src, dest, expected)`
+  - `same_remote` (function, line 168) `def same_remote(path, repo)`
+  - `refresh_existing_clone` (function, line 188) `def refresh_existing_clone(path, repo)`
+  - `validate_subset` (function, line 209) `def validate_subset(dest, subset)`
+  - `build_parser` (function, line 238) `def build_parser()`
+  - `sync` (function, line 263) `def sync(name, repo, dest, refresh_existing, skip_validate)`
+  - `resolve_plan` (function, line 308) `def resolve_plan(args)`
+  - `main` (function, line 337) `def main(argv)`
+  - `normalize` (function, line 179) `def normalize(url)`
+
 ## modules/obs_parser.py
 - Doc: modules/obs_parser.py
 - Layer: utility
@@ -433,31 +479,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `__len__` (method, line 560) `def __len__(self)`
 - Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
 - Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
-
-## modules/playbook_admin.py
-- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
-  - `_yaml_module` (function, line 55) `def _yaml_module()`
-  - `slugify` (function, line 62) `def slugify(value)`
-  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
-  - `load_playbook` (function, line 102) `def load_playbook(path)`
-  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
-  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
-  - `_count_steps` (function, line 183) `def _count_steps(data)`
-  - `summarize` (function, line 197) `def summarize(path)`
-  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
-  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
-  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
-  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
-  - `create_playbook` (function, line 297) `def create_playbook(filename)`
-  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
-  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
-  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
-  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
-- Imported by: `cli/lazy_orchestrator.py`, `tests/test_playbook_admin.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

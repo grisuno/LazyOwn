@@ -1,6 +1,55 @@
 # Subsystem: tests (page 13 of 17)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_ops_loot_phase.py
+- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
+  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
+  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
+  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
+  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
+  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
+  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
+  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
+  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
+  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
+  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
+  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
+  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
+  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
+  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
+  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
+  - `test_loot_mark_rejects_bad_outcome` (function, line 222) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
+  - `test_loot_mark_unknown_credential` (function, line 230) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
+  - `test_phase_progress_ranks` (function, line 241) `def test_phase_progress_ranks(tmp_path)`
+  - `test_phase_progress_completed_override` (function, line 262) `def test_phase_progress_completed_override(tmp_path)`
+  - `test_phase_progress_os_owned_report_and_loot` (function, line 283) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
+  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 310) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
+- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
+
+## tests/test_opsec_scorer.py
+- Doc: Tests for modules/opsec_scorer.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestOpsecScorer` (class, line 13) `class TestOpsecScorer`
+  - `test_score_high_noise_command` (method, line 14) `def test_score_high_noise_command(self)`
+  - `test_score_low_noise_command` (method, line 21) `def test_score_low_noise_command(self)`
+  - `test_score_unknown_command` (method, line 27) `def test_score_unknown_command(self)`
+  - `test_score_with_evasion` (method, line 33) `def test_score_with_evasion(self)`
+  - `test_score_batch` (method, line 39) `def test_score_batch(self)`
+  - `test_score_to_dict` (method, line 45) `def test_score_to_dict(self)`
+  - `test_confidence_is_float` (method, line 61) `def test_confidence_is_float(self)`
+  - `test_mitigations_returned` (method, line 67) `def test_mitigations_returned(self)`
+  - `test_convenience_function` (method, line 72) `def test_convenience_function(self)`
+  - `test_all_known_commands_have_mitigations` (method, line 77) `def test_all_known_commands_have_mitigations(self)`
+  - `test_suggest_mitigations` (method, line 85) `def test_suggest_mitigations(self)`
+  - `test_target_sensitivity_dc` (method, line 90) `def test_target_sensitivity_dc(self)`
+- Depends on: `modules/opsec_scorer.py`
+
 ## tests/test_opsec_scorer_consolidated.py
 - Doc: Consolidated OPSEC scorer contract tests (SDD/TDD/BDD).
 - Layer: testing
@@ -446,51 +495,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_addon_tokens_resolve_at_runtime` (function, line 94) `def test_addon_tokens_resolve_at_runtime()`
   - `test_required_params_exist_live` (function, line 118) `def test_required_params_exist_live()`
 - Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
-
-## tests/test_playbook_admin.py
-- Doc: Playbook YAML administration: scan, create, update, delete, validate.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_write` (function, line 21) `def _write(directory, name, data)`
-  - `test_scan_reports_apt_and_plan_shapes` (function, line 27) `def test_scan_reports_apt_and_plan_shapes(tmp_path)`
-  - `test_validate_rejects_mixed_and_empty` (function, line 60) `def test_validate_rejects_mixed_and_empty(tmp_path)`
-  - `test_create_update_and_delete_round_trip` (function, line 70) `def test_create_update_and_delete_round_trip(tmp_path)`
-  - `test_create_refuses_overwrite_and_escape` (function, line 91) `def test_create_refuses_overwrite_and_escape(tmp_path)`
-  - `test_slug_and_preview` (function, line 110) `def test_slug_and_preview(tmp_path)`
-- Depends on: `modules/playbook_admin.py`
-
-## tests/test_plugin_loader_safety.py
-- Doc: Marketplace placeholder substitution must be shell-safe.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load_fn` (function, line 23) `def _load_fn()`
-  - `TestPlaceholderQuoting` (class, line 38) `class TestPlaceholderQuoting`
-  - `test_plain_values_pass_through` (method, line 39) `def test_plain_values_pass_through(self)`
-  - `test_injection_neutralized` (method, line 43) `def test_injection_neutralized(self)`
-  - `test_command_substitution_neutralized` (method, line 48) `def test_command_substitution_neutralized(self)`
-  - `test_missing_key_left_verbatim` (method, line 53) `def test_missing_key_left_verbatim(self)`
-  - `test_uses_shlex_quote` (method, line 57) `def test_uses_shlex_quote(self)`
-
-## tests/test_plugin_tiers.py
-- Doc: Tests for marketplace plugin tiers and operator ratings.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_tier_constants` (function, line 25) `def test_tier_constants()`
-  - `test_manifest_overrides_metadata` (function, line 29) `def test_manifest_overrides_metadata()`
-  - `test_metadata_tier_used_without_manifest` (function, line 33) `def test_metadata_tier_used_without_manifest()`
-  - `test_default_tier_is_community` (function, line 37) `def test_default_tier_is_community()`
-  - `test_repo_manifest_loads_with_valid_tiers` (function, line 42) `def test_repo_manifest_loads_with_valid_tiers()`
-  - `test_missing_manifest_returns_empty` (function, line 52) `def test_missing_manifest_returns_empty(tmp_path)`
-  - `test_malformed_manifest_is_ignored` (function, line 56) `def test_malformed_manifest_is_ignored(tmp_path)`
-  - `test_rate_and_average` (function, line 62) `def test_rate_and_average(tmp_path)`
-  - `test_rate_rejects_bad_input` (function, line 70) `def test_rate_rejects_bad_input(tmp_path)`
-  - `test_corrupt_store_reads_empty` (function, line 79) `def test_corrupt_store_reads_empty(tmp_path)`
-  - `test_format_rating` (function, line 85) `def test_format_rating()`
-  - `test_read_metadata_tier` (function, line 91) `def test_read_metadata_tier(tmp_path)`
-- Depends on: `cli/plugin_tiers.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

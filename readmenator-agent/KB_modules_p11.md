@@ -156,45 +156,65 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `generate_on_exit_script` (method, line 255) `def generate_on_exit_script(self)`
 - Imported by: `cli/commands/opsec_cleanup.py`
 
+## modules/memory_embeddings.py
+- Doc: Hashing-trick text embeddings for episodic memory recall.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EmbeddingError` (class, line 30) `class EmbeddingError(ValueError)`
+  - `_fnv1a` (function, line 34) `def _fnv1a(data)`
+  - `_tokens` (function, line 41) `def _tokens(text)`
+  - `embed` (function, line 50) `def embed(text)`
+  - `cosine` (function, line 75) `def cosine(a, b)`
+  - `semantic_top_k` (function, line 85) `def semantic_top_k(query, candidates, top_k)`
+  - `as_floats` (function, line 109) `def as_floats(blob)`
+- Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
+
 ## modules/memory_store.py
 - Doc: — Episodic memory for the LazyOwn auto_loop.
 - Layer: data_access
 - Language: py
 - Symbols:
-  - `MemoryEntry` (class, line 81) `class MemoryEntry`
-  - `StorageBackend` (class, line 94) `class StorageBackend(ABC)`
-  - `_row_to_entry` (function, line 114) `def _row_to_entry(row)`
-  - `SQLiteBackend` (class, line 129) `class SQLiteBackend(StorageBackend)`
-  - `MemoryStore` (class, line 234) `class MemoryStore`
-  - `get_memory_store` (function, line 303) `def get_memory_store()`
-  - `remember` (function, line 312) `def remember(session_id, host, tool, command, output, findings, success)`
-  - `recall` (function, line 324) `def recall(query, top_k)`
-  - `_print_entries` (function, line 328) `def _print_entries(entries)`
-  - `_cli` (function, line 341) `def _cli()`
-  - `save` (method, line 96) `def save(self, entry)`
-  - `search` (method, line 99) `def search(self, query, top_k)`
-  - `by_host` (method, line 102) `def by_host(self, host, top_k)`
-  - `by_service` (method, line 105) `def by_service(self, service, top_k)`
-  - `all_entries` (method, line 108) `def all_entries(self, limit)`
-  - `close` (method, line 111) `def close(self)`
-  - `__init__` (method, line 130) `def __init__(self, db_path)`
-  - `_connect` (method, line 136) `def _connect(self)`
-  - `save` (method, line 145) `def save(self, entry)`
-  - `_fetch` (method, line 172) `def _fetch(self, sql, params)`
-  - `search` (method, line 177) `def search(self, query, top_k)`
-  - `by_host` (method, line 189) `def by_host(self, host, top_k)`
-  - `by_service` (method, line 200) `def by_service(self, service, top_k)`
-  - `all_entries` (method, line 212) `def all_entries(self, limit)`
-  - `stats_raw` (method, line 222) `def stats_raw(self)`
-  - `close` (method, line 229) `def close(self)`
-  - `__init__` (method, line 237) `def __init__(self, backend)`
-  - `remember` (method, line 240) `def remember(self, session_id, host, tool, command, output, findings, success)`
-  - `recall` (method, line 267) `def recall(self, query, top_k)`
-  - `recall_by_host` (method, line 270) `def recall_by_host(self, host, top_k)`
-  - `recall_for_service` (method, line 273) `def recall_for_service(self, service_name, top_k)`
-  - `stats` (method, line 276) `def stats(self)`
-  - `export_finetuning_dataset` (method, line 284) `def export_finetuning_dataset(self, path)`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+  - `MemoryEntry` (class, line 84) `class MemoryEntry`
+  - `StorageBackend` (class, line 97) `class StorageBackend(ABC)`
+  - `_row_to_entry` (function, line 117) `def _row_to_entry(row)`
+  - `SQLiteBackend` (class, line 132) `class SQLiteBackend(StorageBackend)`
+  - `MemoryStore` (class, line 237) `class MemoryStore`
+  - `VectorSQLiteBackend` (class, line 315) `class VectorSQLiteBackend(SQLiteBackend)`
+  - `get_memory_store` (function, line 339) `def get_memory_store()`
+  - `remember` (function, line 348) `def remember(session_id, host, tool, command, output, findings, success)`
+  - `recall` (function, line 360) `def recall(query, top_k)`
+  - `recall_hybrid` (function, line 364) `def recall_hybrid(query, top_k)`
+  - `_print_entries` (function, line 368) `def _print_entries(entries)`
+  - `_cli` (function, line 381) `def _cli()`
+  - `save` (method, line 99) `def save(self, entry)`
+  - `search` (method, line 102) `def search(self, query, top_k)`
+  - `by_host` (method, line 105) `def by_host(self, host, top_k)`
+  - `by_service` (method, line 108) `def by_service(self, service, top_k)`
+  - `all_entries` (method, line 111) `def all_entries(self, limit)`
+  - `close` (method, line 114) `def close(self)`
+  - `__init__` (method, line 133) `def __init__(self, db_path)`
+  - `_connect` (method, line 139) `def _connect(self)`
+  - `save` (method, line 148) `def save(self, entry)`
+  - `_fetch` (method, line 175) `def _fetch(self, sql, params)`
+  - `search` (method, line 180) `def search(self, query, top_k)`
+  - `by_host` (method, line 192) `def by_host(self, host, top_k)`
+  - `by_service` (method, line 203) `def by_service(self, service, top_k)`
+  - `all_entries` (method, line 215) `def all_entries(self, limit)`
+  - `stats_raw` (method, line 225) `def stats_raw(self)`
+  - `close` (method, line 232) `def close(self)`
+  - `__init__` (method, line 240) `def __init__(self, backend)`
+  - `remember` (method, line 243) `def remember(self, session_id, host, tool, command, output, findings, success)`
+  - `recall` (method, line 270) `def recall(self, query, top_k)`
+  - `recall_by_host` (method, line 273) `def recall_by_host(self, host, top_k)`
+  - `recall_for_service` (method, line 276) `def recall_for_service(self, service_name, top_k)`
+  - `recall_hybrid` (method, line 279) `def recall_hybrid(self, query, top_k)`
+  - `stats` (method, line 292) `def stats(self)`
+  - `export_finetuning_dataset` (method, line 300) `def export_finetuning_dataset(self, path)`
+  - `save` (method, line 320) `def save(self, entry)`
+  - `search_semantic` (method, line 328) `def search_semantic(self, query, top_k)`
+- Depends on: `modules/memory_embeddings.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
 
 ## modules/metasploitable_gym.py
 - Doc: Metasploitable 2 gym catalogue loader and matrix validator.
@@ -212,6 +232,19 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `main` (function, line 157) `def main()`
 - Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
 - Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
+
+## modules/metasploitable_migrations.py
+- Doc: Idempotent migrations for the Metasploitable 2 gym container.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `Migration` (class, line 65) `class Migration`
+  - `_docker_exec` (function, line 86) `def _docker_exec(container, script, payload, timeout)`
+  - `_core_services_apply` (function, line 116) `def _core_services_apply()`
+  - `build_migrations` (function, line 131) `def build_migrations(subnet)`
+  - `apply_migrations` (function, line 236) `def apply_migrations(container, subnet)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `cli/commands/lab.py`, `tests/test_metasploitable_migrations.py`
 
 ## modules/metrics.py
 - Doc: LazyOwn metrics surface.
@@ -444,52 +477,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `set_service` (method, line 305) `def set_service(self, service)`
   - `set_version` (method, line 308) `def set_version(self, version)`
   - `set_script` (method, line 311) `def set_script(self, script)`
-
-## modules/notify.py
-- Doc: Stateless multi-channel notifier for finding events.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `NotifyConfig` (class, line 15) `class NotifyConfig`
-  - `severity_rank` (function, line 31) `def severity_rank(severity, config)`
-  - `mask_secrets` (function, line 39) `def mask_secrets(text, config)`
-  - `url_allowed` (function, line 57) `def url_allowed(url)`
-  - `post_url_validated` (function, line 145) `def post_url_validated(url, data, timeout)`
-  - `NotifyMessage` (class, line 173) `class NotifyMessage`
-  - `Channel` (class, line 186) `class Channel`
-  - `Notifier` (class, line 204) `class Notifier`
-  - `_addr_denied` (function, line 105) `def _addr_denied(addr)`
-  - `_GuardRedirect` (class, line 158) `class _GuardRedirect(HTTPRedirectHandler)`
-  - `__post_init__` (method, line 198) `def __post_init__(self)`
-  - `__init__` (method, line 207) `def __init__(self, config)`
-  - `should_send` (method, line 215) `def should_send(self, message, channel)`
-  - `render` (method, line 238) `def render(self, message)`
-  - `dispatch` (method, line 244) `def dispatch(self, message, channels)`
-  - `flush_digest` (method, line 260) `def flush_digest(self, max_age_sec)`
-  - `redirect_request` (method, line 159) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
-- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
-
-## modules/nuclei_templates_sync.py
-- Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `repo_root` (function, line 39) `def repo_root()`
-  - `canonical_dest` (function, line 48) `def canonical_dest(subdir)`
-  - `run` (function, line 60) `def run(argv, cwd)`
-  - `ensure_git_available` (function, line 73) `def ensure_git_available()`
-  - `clone_templates` (function, line 84) `def clone_templates(repo, staging)`
-  - `strip_git_traces` (function, line 113) `def strip_git_traces(tree)`
-  - `count_templates` (function, line 132) `def count_templates(tree)`
-  - `replace_dest` (function, line 144) `def replace_dest(src, dest, expected)`
-  - `same_remote` (function, line 168) `def same_remote(path, repo)`
-  - `refresh_existing_clone` (function, line 188) `def refresh_existing_clone(path, repo)`
-  - `validate_subset` (function, line 209) `def validate_subset(dest, subset)`
-  - `build_parser` (function, line 238) `def build_parser()`
-  - `sync` (function, line 263) `def sync(name, repo, dest, refresh_existing, skip_validate)`
-  - `resolve_plan` (function, line 308) `def resolve_plan(args)`
-  - `main` (function, line 337) `def main(argv)`
-  - `normalize` (function, line 179) `def normalize(url)`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

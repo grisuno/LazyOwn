@@ -1,8 +1,141 @@
-# Symbols (page 23 of 42)
+# Symbols (page 23 of 43)
 Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_auto_loop` | function | `skills/hermes-lazyown/mcp_server.py:591` | `def _auto_loop(arguments)` |
+| `_c2_get_beacons` | function | `skills/hermes-lazyown/mcp_server.py:727` | `def _c2_get_beacons()` |
+| `_c2_status` | function | `skills/hermes-lazyown/mcp_server.py:706` | `def _c2_status()` |
+| `_compact` | function | `skills/hermes-lazyown/mcp_server.py:92` | `def _compact(result, phase, tool_name)` |
+| `_core_command_help` | function | `skills/hermes-lazyown/mcp_server.py:480` | `def _core_command_help(arguments)` |
+| `_core_run_command` | function | `skills/hermes-lazyown/mcp_server.py:464` | `def _core_run_command(arguments)` |
+| `_core_session_init` | function | `skills/hermes-lazyown/mcp_server.py:395` | `def _core_session_init(arguments)` |
+| `_core_set_config` | function | `skills/hermes-lazyown/mcp_server.py:441` | `def _core_set_config(arguments)` |
+| `_desc` | function | `skills/hermes-lazyown/mcp_server.py:120` | `def _desc(base)` |
+| `_get_checkpoint_serializer` | function | `skills/hermes-lazyown/mcp_server.py:68` | `def _get_checkpoint_serializer()` |
+| `_get_compactor` | function | `skills/hermes-lazyown/mcp_server.py:52` | `def _get_compactor()` |
+| `_get_config` | function | `skills/hermes-lazyown/mcp_server.py:45` | `def _get_config()` |
+| `_get_delegation_planner` | function | `skills/hermes-lazyown/mcp_server.py:82` | `def _get_delegation_planner()` |
+| `_get_executor` | function | `skills/hermes-lazyown/mcp_server.py:60` | `def _get_executor()` |
+| `_get_objective_sync` | function | `skills/hermes-lazyown/mcp_server.py:75` | `def _get_objective_sync()` |
+| `_handle_tool` | function | `skills/hermes-lazyown/mcp_server.py:346` | `def _handle_tool(name, arguments)` |
+| `_hermes_checkpoint_read` | function | `skills/hermes-lazyown/mcp_server.py:648` | `def _hermes_checkpoint_read()` |
+| `_hermes_checkpoint_write` | function | `skills/hermes-lazyown/mcp_server.py:638` | `def _hermes_checkpoint_write(arguments)` |
+| `_hermes_delegate_plan` | function | `skills/hermes-lazyown/mcp_server.py:677` | `def _hermes_delegate_plan(arguments)` |
+| `_hermes_rules_generate` | function | `skills/hermes-lazyown/mcp_server.py:659` | `def _hermes_rules_generate(arguments)` |
+| `_intel_facts_show` | function | `skills/hermes-lazyown/mcp_server.py:512` | `def _intel_facts_show(arguments)` |
+| `_intel_recommend_next` | function | `skills/hermes-lazyown/mcp_server.py:546` | `def _intel_recommend_next()` |
+| `_intel_searchsploit` | function | `skills/hermes-lazyown/mcp_server.py:562` | `def _intel_searchsploit(arguments)` |
+| `_try_import_lazyown_module` | function | `skills/hermes-lazyown/mcp_server.py:101` | `def _try_import_lazyown_module(module_name)` |
+| `call_tool` | function | `skills/hermes-lazyown/mcp_server.py:334` | `def call_tool(name, arguments)` |
+| `list_tools` | function | `skills/hermes-lazyown/mcp_server.py:329` | `def list_tools()` |
+| `main` | function | `skills/hermes-lazyown/mcp_server.py:751` | `def main()` |
+| `CompactionResult` | class | `skills/hermes-lazyown/output_compactor.py:17` | `class CompactionResult` |
+| `CompactionStrategy` | class | `skills/hermes-lazyown/output_compactor.py:36` | `class CompactionStrategy(ABC)` |
+| `DefaultCompaction` | class | `skills/hermes-lazyown/output_compactor.py:162` | `class DefaultCompaction(CompactionStrategy)` |
+| `EnumCompaction` | class | `skills/hermes-lazyown/output_compactor.py:80` | `class EnumCompaction(CompactionStrategy)` |
+| `ExploitCompaction` | class | `skills/hermes-lazyown/output_compactor.py:111` | `class ExploitCompaction(CompactionStrategy)` |
+| `OutputCompactor` | class | `skills/hermes-lazyown/output_compactor.py:179` | `class OutputCompactor` |
+| `PrivescCompaction` | class | `skills/hermes-lazyown/output_compactor.py:140` | `class PrivescCompaction(CompactionStrategy)` |
+| `ReconCompaction` | class | `skills/hermes-lazyown/output_compactor.py:45` | `class ReconCompaction(CompactionStrategy)` |
+| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:20` | `def __init__(self, compacted, original_lines, compacted_lines)` |
+| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:165` | `def __init__(self, max_lines)` |
+| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:196` | `def __init__(self, default_max_lines)` |
+| `__str__` | method | `skills/hermes-lazyown/output_compactor.py:32` | `def __str__(self)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:40` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:55` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:93` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:124` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:151` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:168` | `def compact(self, raw_output, tool_name)` |
+| `compact` | method | `skills/hermes-lazyown/output_compactor.py:200` | `def compact(self, raw_output, phase, tool_name)` |
+| `reduction_ratio` | method | `skills/hermes-lazyown/output_compactor.py:26` | `def reduction_ratio(self)` |
+| `ConsensusProtocol` | class | `skills/hive_mind.py:911` | `class ConsensusProtocol` |
+| `ConsensusVote` | class | `skills/hive_mind.py:902` | `class ConsensusVote` |
+| `DroneAgent` | class | `skills/hive_mind.py:1083` | `class DroneAgent` |
+| `DronePool` | class | `skills/hive_mind.py:1661` | `class DronePool` |
+| `DroneState` | class | `skills/hive_mind.py:1066` | `class DroneState` |
+| `DroneStateStore` | class | `skills/hive_mind.py:1481` | `class DroneStateStore` |
+| `EpisodicStore` | class | `skills/hive_mind.py:189` | `class EpisodicStore(IMemoryStore)` |
+| `HiveBus` | class | `skills/hive_mind.py:728` | `class HiveBus` |
+| `HiveMemory` | class | `skills/hive_mind.py:571` | `class HiveMemory` |
+| `HiveMessage` | class | `skills/hive_mind.py:717` | `class HiveMessage` |
+| `HiveMind` | class | `skills/hive_mind.py:1812` | `class HiveMind` |
+| `ICommandRunner` | class | `skills/hive_mind.py:171` | `class ICommandRunner(ABC)` |
+| `IMemoryStore` | class | `skills/hive_mind.py:161` | `class IMemoryStore(IReadableMemory, IWritableMemory)` |
+| `IReadableMemory` | class | `skills/hive_mind.py:145` | `class IReadableMemory(ABC)` |
+| `IWritableMemory` | class | `skills/hive_mind.py:153` | `class IWritableMemory(ABC)` |
+| `LongtermStore` | class | `skills/hive_mind.py:506` | `class LongtermStore(IMemoryStore)` |
+| `QueenBrain` | class | `skills/hive_mind.py:1289` | `class QueenBrain` |
+| `SemanticStore` | class | `skills/hive_mind.py:349` | `class SemanticStore(IMemoryStore)` |
+| `__init__` | method | `skills/hive_mind.py:215` | `def __init__(self, db_path)` |
+| `__init__` | method | `skills/hive_mind.py:358` | `def __init__(self, chroma_dir, episodic_fallback)` |
+| `__init__` | method | `skills/hive_mind.py:582` | `def __init__(self, stores, episodic, semantic, longterm)` |
+| `__init__` | method | `skills/hive_mind.py:736` | `def __init__(self)` |
+| `__init__` | method | `skills/hive_mind.py:943` | `def __init__(self, risk_assessor)` |
+| `__init__` | method | `skills/hive_mind.py:1091` | `def __init__(self, drone_id, role, goal, backend, memory, bus, max_iterations, api_key, model, runner, on_state_change)` |
+| `__init__` | method | `skills/hive_mind.py:1301` | `def __init__(self, memory, bus, pool, consensus)` |
+| `__init__` | method | `skills/hive_mind.py:1513` | `def __init__(self, db_path)` |
+| `__init__` | method | `skills/hive_mind.py:1673` | `def __init__(self, memory, bus, state_store)` |
+| `__init__` | method | `skills/hive_mind.py:1818` | `def __init__(self)` |
+| `_architect_vote` | method | `skills/hive_mind.py:1004` | `def _architect_vote(role, goal)` |
+| `_build_hive_context` | method | `skills/hive_mind.py:1212` | `def _build_hive_context(self)` |
+| `_build_system_prompt` | method | `skills/hive_mind.py:1223` | `def _build_system_prompt(self, tool_names, hive_ctx)` |
+| `_classify_objective` | function | `skills/hive_mind.py:1277` | `def _classify_objective(goal)` |
+| `_cli` | function | `skills/hive_mind.py:2074` | `def _cli()` |
+| `_connect` | method | `skills/hive_mind.py:220` | `def _connect(self)` |
+| `_embed` | method | `skills/hive_mind.py:488` | `def _embed(self, text)` |
+| `_estimate_detection_risk` | method | `skills/hive_mind.py:1032` | `def _estimate_detection_risk(self, role, goal)` |
+| `_get_embed_model` | function | `skills/hive_mind.py:108` | `def _get_embed_model()` |
+| `_init_chroma` | method | `skills/hive_mind.py:366` | `def _init_chroma(self, chroma_dir)` |
+| `_load_payload_key` | method | `skills/hive_mind.py:1240` | `def _load_payload_key()` |
+| `_persist` | method | `skills/hive_mind.py:1120` | `def _persist(self)` |
+| `_privesc_hunter_vote` | method | `skills/hive_mind.py:989` | `def _privesc_hunter_vote(role, goal)` |
+| `_run` | method | `skills/hive_mind.py:1142` | `def _run(self)` |
+| `_sanitize_fts` | method | `skills/hive_mind.py:266` | `def _sanitize_fts(query)` |
+| `_stealth_vote` | method | `skills/hive_mind.py:975` | `def _stealth_vote(self, detection_risk)` |
+| `_weighted_approval` | method | `skills/hive_mind.py:1041` | `def _weighted_approval(votes)` |
+| `ack_broadcast` | method | `skills/hive_mind.py:754` | `def ack_broadcast(self, agent_id, msg_id)` |
+| `active_count` | method | `skills/hive_mind.py:1801` | `def active_count(self)` |
+| `available` | method | `skills/hive_mind.py:380` | `def available(self)` |
+| `build_default_hive_memory` | function | `skills/hive_mind.py:558` | `def build_default_hive_memory(db_path)` |
+| `collect` | method | `skills/hive_mind.py:1417` | `def collect(self, drone_ids, timeout, poll_interval)` |
+| `collect_and_synthesize` | method | `skills/hive_mind.py:1896` | `def collect_and_synthesize(self, drone_ids, goal)` |
+| `count` | method | `skills/hive_mind.py:477` | `def count(self)` |
+| `delete_older_than` | method | `skills/hive_mind.py:1643` | `def delete_older_than(self, days)` |
+| `dispatch` | method | `skills/hive_mind.py:1332` | `def dispatch(self, tasks, backend, api_key, max_iterations)` |
+| `drone_result` | method | `skills/hive_mind.py:1882` | `def drone_result(self, drone_id)` |
+| `evaluate` | method | `skills/hive_mind.py:946` | `def evaluate(self, role, goal)` |
+| `forget` | method | `skills/hive_mind.py:329` | `def forget(self, older_than_hours, topic)` |
+| `forget` | method | `skills/hive_mind.py:704` | `def forget(self, older_than_hours, topic)` |
+| `forget` | method | `skills/hive_mind.py:1900` | `def forget(self, older_than_hours, topic)` |
+| `get_hive` | function | `skills/hive_mind.py:1911` | `def get_hive()` |
+| `get_state` | method | `skills/hive_mind.py:1767` | `def get_state(self, drone_id)` |
+| `join` | method | `skills/hive_mind.py:1137` | `def join(self, timeout)` |
+| `list_all` | method | `skills/hive_mind.py:1776` | `def list_all(self, limit)` |
+| `load_all` | method | `skills/hive_mind.py:1553` | `def load_all(self, limit)` |
+| `load_interrupted` | method | `skills/hive_mind.py:1609` | `def load_interrupted(self)` |
+| `mark_interrupted` | method | `skills/hive_mind.py:1588` | `def mark_interrupted(self)` |
+| `mcp_hive_collect` | function | `skills/hive_mind.py:2010` | `def mcp_hive_collect(drone_ids_csv, goal)` |
+| `mcp_hive_forget` | function | `skills/hive_mind.py:2021` | `def mcp_hive_forget(older_than_hours, topic)` |
+| `mcp_hive_plan` | function | `skills/hive_mind.py:1995` | `def mcp_hive_plan(goal, n_drones)` |
+| `mcp_hive_recall` | function | `skills/hive_mind.py:1981` | `def mcp_hive_recall(query, top_k)` |
+| `mcp_hive_recover` | function | `skills/hive_mind.py:2027` | `def mcp_hive_recover(backend, api_key, max_iterations)` |
+| `mcp_hive_result` | function | `skills/hive_mind.py:2004` | `def mcp_hive_result(drone_id)` |
+| `mcp_hive_spawn` | function | `skills/hive_mind.py:1926` | `def mcp_hive_spawn(goal, role, n_drones, backend, max_iterations, api_key)` |
+| `mcp_hive_status` | function | `skills/hive_mind.py:1976` | `def mcp_hive_status()` |
+| `name` | method | `skills/hive_mind.py:180` | `def name(self)` |
+| `pending_count` | method | `skills/hive_mind.py:758` | `def pending_count(self, agent_id)` |
+| `plan` | method | `skills/hive_mind.py:1313` | `def plan(self, goal, n_drones)` |
+| `plan_and_dispatch` | method | `skills/hive_mind.py:1405` | `def plan_and_dispatch(self, goal, n_drones, backend, api_key, max_iterations)` |
+| `publish` | method | `skills/hive_mind.py:740` | `def publish(self, msg)` |
+| `read_bus` | method | `skills/hive_mind.py:1471` | `def read_bus(self)` |
+| `recall` | method | `skills/hive_mind.py:149` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:274` | `def recall(self, query, top_k, role, event_type)` |
+| `recall` | method | `skills/hive_mind.py:434` | `def recall(self, query, top_k, where)` |
+| `recall` | method | `skills/hive_mind.py:519` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:668` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:1878` | `def recall(self, query, top_k)` |
 | `recall_episodic` | method | `skills/hive_mind.py:633` | `def recall_episodic(self, query, top_k, role, event_type)` |
 | `recall_longterm` | method | `skills/hive_mind.py:660` | `def recall_longterm(self, query, top_k)` |
 | `recall_semantic` | method | `skills/hive_mind.py:647` | `def recall_semantic(self, query, top_k, where)` |
@@ -270,231 +403,98 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `read_plan` | function | `skills/lazyown_llm.py:369` | `def read_plan()` |
 | `register_tool` | method | `skills/lazyown_llm.py:118` | `def register_tool(self, name, description, parameters, func)` |
 | `run_command` | function | `skills/lazyown_llm.py:346` | `def run_command(command)` |
-| `_add` | function | `skills/lazyown_mcp.py:1801` | `def _add(user, secret, host, source, confirmed)` |
-| `_advance_phase_wm` | function | `skills/lazyown_mcp.py:10104` | `def _advance_phase_wm()` |
-| `_blocking_run` | function | `skills/lazyown_mcp.py:11208` | `def _blocking_run()` |
-| `_bootstrap_sequence` | function | `skills/lazyown_mcp.py:9295` | `def _bootstrap_sequence()` |
-| `_build_command_from_facts` | function | `skills/lazyown_mcp.py:9414` | `def _build_command_from_facts(category, resolved_cmd, resolved_args, tgt)` |
-| `_c2_creds` | function | `skills/lazyown_mcp.py:542` | `def _c2_creds()` |
-| `_c2_request` | function | `skills/lazyown_mcp.py:552` | `def _c2_request(path, method, body)` |
-| `_compact` | function | `skills/lazyown_mcp.py:391` | `def _compact(content, tool_name)` |
-| `_compact_output_fn` | function | `skills/lazyown_mcp.py:401` | `def _compact_output_fn(c, t)` |
-| `_create_tool_file` | function | `skills/lazyown_mcp.py:193` | `def _create_tool_file()` |
-| `_decorator` | function | `skills/lazyown_mcp.py:634` | `def _decorator(func)` |
-| `_deploy_beacon_sync` | function | `skills/lazyown_mcp.py:11946` | `def _deploy_beacon_sync()` |
-| `_dispatch_perm_check` | function | `skills/lazyown_mcp.py:653` | `def _dispatch_perm_check(name, arguments)` |
-| `_do_facts` | function | `skills/lazyown_mcp.py:1864` | `def _do_facts()` |
-| `_ensure_aci` | function | `skills/lazyown_mcp.py:310` | `def _ensure_aci()` |
-| `_ensure_auto` | function | `skills/lazyown_mcp.py:290` | `def _ensure_auto()` |
-| `_ensure_automapper` | function | `skills/lazyown_mcp.py:235` | `def _ensure_automapper()` |
-| `_ensure_bridge` | function | `skills/lazyown_mcp.py:92` | `def _ensure_bridge()` |
-| `_ensure_engine` | function | `skills/lazyown_mcp.py:74` | `def _ensure_engine()` |
-| `_ensure_facts` | function | `skills/lazyown_mcp.py:186` | `def _ensure_facts()` |
-| `_ensure_hive` | function | `skills/lazyown_mcp.py:262` | `def _ensure_hive()` |
-| `_ensure_llm` | function | `skills/lazyown_mcp.py:224` | `def _ensure_llm()` |
-| `_ensure_narrator` | function | `skills/lazyown_mcp.py:165` | `def _ensure_narrator()` |
-| `_ensure_objectives` | function | `skills/lazyown_mcp.py:204` | `def _ensure_objectives()` |
-| `_ensure_orchestrator` | function | `skills/lazyown_mcp.py:8893` | `def _ensure_orchestrator()` |
-| `_ensure_pdb` | function | `skills/lazyown_mcp.py:245` | `def _ensure_pdb()` |
-| `_ensure_policy` | function | `skills/lazyown_mcp.py:176` | `def _ensure_policy()` |
-| `_ensure_recommender` | function | `skills/lazyown_mcp.py:118` | `def _ensure_recommender()` |
-| `_ensure_state` | function | `skills/lazyown_mcp.py:107` | `def _ensure_state()` |
-| `_execute_step` | function | `skills/lazyown_mcp.py:9450` | `def _execute_step()` |
-| `_fail` | function | `skills/lazyown_mcp.py:1046` | `def _fail(message, remediation)` |
-| `_fused_recommendations` | function | `skills/lazyown_mcp.py:8674` | `def _fused_recommendations()` |
-| `_gate_command` | function | `skills/lazyown_mcp.py:8966` | `def _gate_command(cmd)` |
-| `_generate_tasks_from_sessions` | function | `skills/lazyown_mcp.py:9134` | `def _generate_tasks_from_sessions(tgt, platform, api_key)` |
-| `_get_claudemd` | function | `skills/lazyown_mcp.py:407` | `def _get_claudemd()` |
-| `_get_hooks` | function | `skills/lazyown_mcp.py:365` | `def _get_hooks()` |
-| `_get_pdb` | function | `skills/lazyown_mcp.py:251` | `def _get_pdb(_)` |
-| `_get_pdb` | function | `skills/lazyown_mcp.py:331` | `def _get_pdb(_)` |
-| `_get_perm_system` | function | `skills/lazyown_mcp.py:352` | `def _get_perm_system()` |
-| `_get_transcript` | function | `skills/lazyown_mcp.py:378` | `def _get_transcript()` |
-| `_h_ack_event` | function | `skills/lazyown_mcp.py:980` | `def _h_ack_event(arguments, tool_name)` |
-| `_h_auto_pwn` | function | `skills/lazyown_mcp.py:1261` | `def _h_auto_pwn(arguments, tool_name)` |
-| `_h_c2_status` | function | `skills/lazyown_mcp.py:992` | `def _h_c2_status(arguments, tool_name)` |
-| `_h_credentials` | function | `skills/lazyown_mcp.py:1795` | `def _h_credentials(arguments, tool_name)` |
-| `_h_dashboard_snapshot` | function | `skills/lazyown_mcp.py:1222` | `def _h_dashboard_snapshot(arguments, tool_name)` |
-| `_h_db` | function | `skills/lazyown_mcp.py:699` | `def _h_db(arguments, tool_name)` |
-| `_h_evasion_generate` | function | `skills/lazyown_mcp.py:1173` | `def _h_evasion_generate(arguments, tool_name)` |
-| `_h_evasion_rotate` | function | `skills/lazyown_mcp.py:1188` | `def _h_evasion_rotate(arguments, tool_name)` |
-| `_h_exploit_chain` | function | `skills/lazyown_mcp.py:1294` | `def _h_exploit_chain(arguments, tool_name)` |
-| `_h_exploit_recommend` | function | `skills/lazyown_mcp.py:1149` | `def _h_exploit_recommend(arguments, tool_name)` |
-| `_h_exploitgym_list` | function | `skills/lazyown_mcp.py:1888` | `def _h_exploitgym_list(arguments, tool_name)` |
-| `_h_exploitgym_run` | function | `skills/lazyown_mcp.py:1904` | `def _h_exploitgym_run(arguments, tool_name)` |
-| `_h_exploitgym_score` | function | `skills/lazyown_mcp.py:1924` | `def _h_exploitgym_score(arguments, tool_name)` |
-| `_h_exploitgym_status` | function | `skills/lazyown_mcp.py:1874` | `def _h_exploitgym_status(arguments, tool_name)` |
-| `_h_facts_show` | function | `skills/lazyown_mcp.py:1854` | `def _h_facts_show(arguments, tool_name)` |
-| `_h_get_beacons` | function | `skills/lazyown_mcp.py:1255` | `def _h_get_beacons(arguments, tool_name)` |
-| `_h_get_config` | function | `skills/lazyown_mcp.py:693` | `def _h_get_config(arguments, tool_name)` |
-| `_h_get_llm_budget` | function | `skills/lazyown_mcp.py:831` | `def _h_get_llm_budget(arguments, tool_name)` |
-| `_h_inject_objective` | function | `skills/lazyown_mcp.py:1775` | `def _h_inject_objective(arguments, tool_name)` |
-| `_h_lazy_addon` | function | `skills/lazyown_mcp.py:1599` | `def _h_lazy_addon(arguments, tool_name)` |
-| `_h_lazy_board` | function | `skills/lazyown_mcp.py:1374` | `def _h_lazy_board(arguments, tool_name)` |
-| `_h_lazy_compact` | function | `skills/lazyown_mcp.py:1575` | `def _h_lazy_compact(arguments, tool_name)` |
-| `_h_lazy_delete` | function | `skills/lazyown_mcp.py:1550` | `def _h_lazy_delete(arguments, tool_name)` |
-| `_h_lazy_finding` | function | `skills/lazyown_mcp.py:1479` | `def _h_lazy_finding(arguments, tool_name)` |
-| `_h_lazy_hint` | function | `skills/lazyown_mcp.py:1414` | `def _h_lazy_hint(arguments, tool_name)` |
-| `_h_lazy_mention` | function | `skills/lazyown_mcp.py:1519` | `def _h_lazy_mention(arguments, tool_name)` |
-| `_h_lazy_proxy` | function | `skills/lazyown_mcp.py:1454` | `def _h_lazy_proxy(arguments, tool_name)` |
-| `_h_lazy_status` | function | `skills/lazyown_mcp.py:1354` | `def _h_lazy_status(arguments, tool_name)` |
-| `_h_lazy_sync` | function | `skills/lazyown_mcp.py:1364` | `def _h_lazy_sync(arguments, tool_name)` |
-| `_h_lazy_trace` | function | `skills/lazyown_mcp.py:1397` | `def _h_lazy_trace(arguments, tool_name)` |
-| `_h_lazy_workspace` | function | `skills/lazyown_mcp.py:1433` | `def _h_lazy_workspace(arguments, tool_name)` |
-| `_h_list_modules` | function | `skills/lazyown_mcp.py:893` | `def _h_list_modules(arguments, tool_name)` |
-| `_h_lolbas_list` | function | `skills/lazyown_mcp.py:1627` | `def _h_lolbas_list(arguments, tool_name)` |
-| `_h_lolbas_use` | function | `skills/lazyown_mcp.py:1667` | `def _h_lolbas_use(arguments, tool_name)` |
-| `_h_loop_smoke` | function | `skills/lazyown_mcp.py:1965` | `def _h_loop_smoke(arguments, tool_name)` |
-| `_h_opencode_config` | function | `skills/lazyown_mcp.py:1943` | `def _h_opencode_config(arguments, tool_name)` |
-| `_h_pivot_status` | function | `skills/lazyown_mcp.py:1202` | `def _h_pivot_status(arguments, tool_name)` |
-| `_h_rea` | function | `skills/lazyown_mcp.py:1034` | `def _h_rea(arguments, tool_name)` |
-| `_h_rich_tui_snapshot` | function | `skills/lazyown_mcp.py:1741` | `def _h_rich_tui_snapshot(arguments, tool_name)` |
-| `_h_run_command` | function | `skills/lazyown_mcp.py:915` | `def _h_run_command(arguments, tool_name)` |
-| `_h_set_config` | function | `skills/lazyown_mcp.py:868` | `def _h_set_config(arguments, tool_name)` |
-| `_h_stealth` | function | `skills/lazyown_mcp.py:1717` | `def _h_stealth(arguments, tool_name)` |
-| `_h_unified_dashboard` | function | `skills/lazyown_mcp.py:1242` | `def _h_unified_dashboard(arguments, tool_name)` |
-| `_handle_messages` | function | `skills/lazyown_mcp.py:12870` | `def _handle_messages(scope, receive, send)` |
-| `_handle_sighup` | function | `skills/lazyown_mcp.py:12837` | `def _handle_sighup(signum, frame)` |
-| `_handle_sse` | function | `skills/lazyown_mcp.py:12866` | `def _handle_sse(request)` |
-| `_has_data` | function | `skills/lazyown_mcp.py:518` | `def _has_data(path)` |
-| `_is_lab_target` | function | `skills/lazyown_mcp.py:575` | `def _is_lab_target(name)` |
-| `_is_placeholder` | function | `skills/lazyown_mcp.py:9557` | `def _is_placeholder(val)` |
-| `_is_placeholder` | function | `skills/lazyown_mcp.py:9923` | `def _is_placeholder(val)` |
-| `_isolated_runner` | function | `skills/lazyown_mcp.py:12742` | `def _isolated_runner(cmd)` |
-| `_launch` | function | `skills/lazyown_mcp.py:12306` | `def _launch()` |
-| `_load` | function | `skills/lazyown_mcp.py:75` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:93` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:108` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:119` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:166` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:177` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:187` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:205` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:225` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:236` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:246` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:263` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:291` | `def _load(ns)` |
-| `_load` | function | `skills/lazyown_mcp.py:311` | `def _load(ns)` |
-| `_load_category_command_map` | function | `skills/lazyown_mcp.py:462` | `def _load_category_command_map()` |
-| `_load_crons` | function | `skills/lazyown_mcp.py:11844` | `def _load_crons()` |
-| `_load_payload` | function | `skills/lazyown_mcp.py:509` | `def _load_payload()` |
-| `_make_text` | function | `skills/lazyown_mcp.py:641` | `def _make_text(tool_name, content)` |
-| `_mark_task_done` | function | `skills/lazyown_mcp.py:9278` | `def _mark_task_done(task_id, outcome)` |
-| `_mcp_executor` | function | `skills/lazyown_mcp.py:10408` | `def _mcp_executor(command, target)` |
-| `_next_pending_task` | function | `skills/lazyown_mcp.py:9249` | `def _next_pending_task()` |
-| `_parquet_candidates` | function | `skills/lazyown_mcp.py:9349` | `def _parquet_candidates(category, tgt)` |
-| `_read_docstring` | function | `skills/lazyown_mcp.py:7782` | `def _read_docstring(cmd_name)` |
-| `_read_os_json` | function | `skills/lazyown_mcp.py:9102` | `def _read_os_json()` |
-| `_read_prompt` | function | `skills/lazyown_mcp.py:10272` | `def _read_prompt()` |
-| `_refresh_facts` | function | `skills/lazyown_mcp.py:9406` | `def _refresh_facts(tgt)` |
-| `_result` | function | `skills/lazyown_mcp.py:719` | `def _result(payload)` |
-| `_run_campaign` | function | `skills/lazyown_mcp.py:12151` | `def _run_campaign()` |
-| `_run_daemon` | function | `skills/lazyown_mcp.py:12221` | `def _run_daemon()` |
-| `_run_lazyown_command` | function | `skills/lazyown_mcp.py:2021` | `def _run_lazyown_command(command, timeout)` |
-| `_run_parquet_query` | function | `skills/lazyown_mcp.py:12085` | `def _run_parquet_query()` |
-| `_run_pwntomate_if_xml_ready` | function | `skills/lazyown_mcp.py:9367` | `def _run_pwntomate_if_xml_ready(tgt)` |
-| `_run_rea` | function | `skills/lazyown_mcp.py:1121` | `def _run_rea()` |
-| `_run_with_fallback` | function | `skills/lazyown_mcp.py:932` | `def _run_with_fallback(cmd, to)` |
-| `_runner` | function | `skills/lazyown_mcp.py:6819` | `def _runner(cmd)` |
-| `_save_crons` | function | `skills/lazyown_mcp.py:11855` | `def _save_crons(entries)` |
-| `_save_payload` | function | `skills/lazyown_mcp.py:523` | `def _save_payload(data)` |
-| `_settle_step` | function | `skills/lazyown_mcp.py:9046` | `def _settle_step(cmd, output, via, finding_values)` |
-| `_sitrep_recommendations` | function | `skills/lazyown_mcp.py:128` | `def _sitrep_recommendations(limit)` |
-| `_trace_append` | function | `skills/lazyown_mcp.py:9001` | `def _trace_append(record)` |
-| `_trace_search` | function | `skills/lazyown_mcp.py:9026` | `def _trace_search(query, limit)` |
-| `_verified_context` | function | `skills/lazyown_mcp.py:565` | `def _verified_context()` |
-| `_wait_for_nmap_xml` | function | `skills/lazyown_mcp.py:9114` | `def _wait_for_nmap_xml(tgt, timeout_s)` |
-| `call_tool` | function | `skills/lazyown_mcp.py:6444` | `def call_tool(name, arguments)` |
-| `coerce_value` | function | `skills/lazyown_mcp.py:877` | `def coerce_value(k, v)` |
-| `list_tools` | function | `skills/lazyown_mcp.py:2124` | `def list_tools()` |
-| `main` | function | `skills/lazyown_mcp.py:12848` | `def main()` |
-| `register_handler` | function | `skills/lazyown_mcp.py:627` | `def register_handler(tool_name)` |
-| `substitute_playbook_target` | function | `skills/lazyown_mcp.py:6426` | `def substitute_playbook_target(command, target)` |
-| `text` | function | `skills/lazyown_mcp.py:6458` | `def text(content)` |
-| `JobRecord` | class | `skills/lazyown_mcp_helpers.py:672` | `class JobRecord` |
-| `JobStore` | class | `skills/lazyown_mcp_helpers.py:686` | `class JobStore` |
-| `TaskAudit` | class | `skills/lazyown_mcp_helpers.py:153` | `class TaskAudit` |
-| `__init__` | method | `skills/lazyown_mcp_helpers.py:689` | `def __init__(self, max_jobs)` |
-| `_format_age` | function | `skills/lazyown_mcp_helpers.py:112` | `def _format_age(seconds)` |
-| `_worker` | function | `skills/lazyown_mcp_helpers.py:709` | `def _worker()` |
-| `audit_tasks` | function | `skills/lazyown_mcp_helpers.py:165` | `def audit_tasks(tasks, min_confidence)` |
-| `build_target_context` | function | `skills/lazyown_mcp_helpers.py:414` | `def build_target_context(host, port, sessions_dir, payload, world_model)` |
-| `collect_pwntomate_evidence` | function | `skills/lazyown_mcp_helpers.py:376` | `def collect_pwntomate_evidence(rhost, sessions_dir)` |
-| `diff_snapshot` | function | `skills/lazyown_mcp_helpers.py:792` | `def diff_snapshot(sessions_dir, payload, world_model, tasks)` |
-| `evidence_freshness` | function | `skills/lazyown_mcp_helpers.py:67` | `def evidence_freshness(path, threshold_seconds, now)` |
-| `evidence_grep` | function | `skills/lazyown_mcp_helpers.py:297` | `def evidence_grep(pattern, sessions_dir, scope, max_matches, max_file_bytes, case_insensitive)` |
-| `find_credential_provenance` | function | `skills/lazyown_mcp_helpers.py:196` | `def find_credential_provenance(value, sessions_dir, csv_name)` |
-| `is_likely_credential` | function | `skills/lazyown_mcp_helpers.py:37` | `def is_likely_credential(value)` |
-| `list` | method | `skills/lazyown_mcp_helpers.py:732` | `def list(self, limit)` |
-| `needs_confirmation` | function | `skills/lazyown_mcp_helpers.py:875` | `def needs_confirmation(tool_name, arguments)` |
-| `parse_task_value` | function | `skills/lazyown_mcp_helpers.py:125` | `def parse_task_value(title)` |
-| `preflight_command` | function | `skills/lazyown_mcp_helpers.py:575` | `def preflight_command(command, payload, sessions_dir)` |
-| `status` | method | `skills/lazyown_mcp_helpers.py:727` | `def status(self, job_id)` |
-| `submit` | method | `skills/lazyown_mcp_helpers.py:694` | `def submit(self, command, runner, timeout)` |
-| `take_snapshot` | function | `skills/lazyown_mcp_helpers.py:747` | `def take_snapshot(sessions_dir, payload, world_model, tasks)` |
-| `call_tool` | function | `skills/lazyown_mcp_opencode.py:81` | `def call_tool(name, arguments)` |
-| `list_tools` | function | `skills/lazyown_mcp_opencode.py:62` | `def list_tools()` |
-| `main` | function | `skills/lazyown_mcp_opencode.py:89` | `def main()` |
-| `Objective` | class | `skills/lazyown_objective.py:105` | `class Objective` |
-| `ObjectiveStore` | class | `skills/lazyown_objective.py:123` | `class ObjectiveStore` |
-| `SoulUpdater` | class | `skills/lazyown_objective.py:359` | `class SoulUpdater` |
-| `__init__` | method | `skills/lazyown_objective.py:131` | `def __init__(self, path)` |
-| `__init__` | method | `skills/lazyown_objective.py:379` | `def __init__(self)` |
-| `_load_all` | method | `skills/lazyown_objective.py:138` | `def _load_all(self)` |
-| `_now` | method | `skills/lazyown_objective.py:135` | `def _now(self)` |
-| `_patch_line` | method | `skills/lazyown_objective.py:404` | `def _patch_line(self, key, value)` |
-| `_patch_section` | method | `skills/lazyown_objective.py:389` | `def _patch_section(self, header, new_body)` |
-| `_read` | method | `skills/lazyown_objective.py:384` | `def _read(self)` |
-| `_save_all` | method | `skills/lazyown_objective.py:153` | `def _save_all(self, objs)` |
-| `_text_hash` | method | `skills/lazyown_objective.py:159` | `def _text_hash(text)` |
-| `_update_status` | method | `skills/lazyown_objective.py:229` | `def _update_status(self, obj_id, status, notes)` |
-| `block` | method | `skills/lazyown_objective.py:246` | `def block(self, obj_id, reason)` |
-| `cleanup` | method | `skills/lazyown_objective.py:163` | `def cleanup(self)` |
-| `complete` | method | `skills/lazyown_objective.py:243` | `def complete(self, obj_id, notes)` |
-| `current_plan` | function | `skills/lazyown_objective.py:330` | `def current_plan()` |
-| `decompose_goal` | function | `skills/lazyown_objective.py:296` | `def decompose_goal(goal_text, target)` |
-| `full_context_for_claude` | function | `skills/lazyown_objective.py:336` | `def full_context_for_claude(target)` |
-| `inject` | method | `skills/lazyown_objective.py:193` | `def inject(self, text, priority, source, context, notes)` |
-| `list_all` | method | `skills/lazyown_objective.py:265` | `def list_all(self, status, limit)` |
-| `list_pending` | method | `skills/lazyown_objective.py:261` | `def list_pending(self, limit)` |
-| `main` | function | `skills/lazyown_objective.py:485` | `def main()` |
-| `next_pending` | method | `skills/lazyown_objective.py:255` | `def next_pending(self)` |
-| `read_soul` | function | `skills/lazyown_objective.py:320` | `def read_soul()` |
-| `skip` | method | `skills/lazyown_objective.py:249` | `def skip(self, obj_id, reason)` |
-| `sort_key` | method | `skills/lazyown_objective.py:116` | `def sort_key(self)` |
-| `start` | method | `skills/lazyown_objective.py:252` | `def start(self, obj_id)` |
-| `summary` | method | `skills/lazyown_objective.py:271` | `def summary(self)` |
-| `update_access` | method | `skills/lazyown_objective.py:459` | `def update_access(self, level, target, method)` |
-| `update_credentials` | method | `skills/lazyown_objective.py:432` | `def update_credentials(self, creds)` |
-| `update_os` | method | `skills/lazyown_objective.py:425` | `def update_os(self, os_name, target)` |
-| `update_phase` | method | `skills/lazyown_objective.py:417` | `def update_phase(self, phase)` |
-| `update_target` | method | `skills/lazyown_objective.py:421` | `def update_target(self, target)` |
-| `update_vulnerabilities` | method | `skills/lazyown_objective.py:466` | `def update_vulnerabilities(self, vulns)` |
-| `write_soul` | function | `skills/lazyown_objective.py:326` | `def write_soul(content)` |
-| `ParquetDB` | class | `skills/lazyown_parquet_db.py:244` | `class ParquetDB` |
-| `__init__` | method | `skills/lazyown_parquet_db.py:295` | `def __init__(self, lazyown_dir)` |
-| `_build_cmd2_category_map` | function | `skills/lazyown_parquet_db.py:146` | `def _build_cmd2_category_map(lazyown_py)` |
-| `_classify_row` | function | `skills/lazyown_parquet_db.py:203` | `def _classify_row(command, args, phase_hint)` |
-| `_load_session` | method | `skills/lazyown_parquet_db.py:307` | `def _load_session(self)` |
-| `_slim` | function | `skills/lazyown_parquet_db.py:930` | `def _slim(row)` |
-| `_stable_id` | function | `skills/lazyown_parquet_db.py:178` | `def _stable_id(start, cmd, args, dest_ip)` |
-| `annotate` | method | `skills/lazyown_parquet_db.py:405` | `def annotate(self, row_id, success, category, outcome)` |
-| `annotate_rich` | method | `skills/lazyown_parquet_db.py:434` | `def annotate_rich(self, row_id, output, finding_type, target_service, target_port, campaign_id, success, category...` |
-| `context_for_phase` | method | `skills/lazyown_parquet_db.py:630` | `def context_for_phase(self, phase, target, limit)` |
-| `get_pdb` | function | `skills/lazyown_parquet_db.py:948` | `def get_pdb(lazyown_dir)` |
-| `list_parquets` | method | `skills/lazyown_parquet_db.py:743` | `def list_parquets(self)` |
-| `main` | function | `skills/lazyown_parquet_db.py:961` | `def main()` |
-| `predict_success` | method | `skills/lazyown_parquet_db.py:843` | `def predict_success(self, command, category)` |
-| `query_atomic` | method | `skills/lazyown_parquet_db.py:576` | `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
-| `query_knowledge` | method | `skills/lazyown_parquet_db.py:526` | `def query_knowledge(self, keyword, parquet_name, columns, limit)` |
-| `query_session` | method | `skills/lazyown_parquet_db.py:490` | `def query_session(self, phase, target, success_only, limit)` |
-| `stats` | method | `skills/lazyown_parquet_db.py:729` | `def stats(self)` |
-| `sync` | method | `skills/lazyown_parquet_db.py:316` | `def sync(self, csv_path)` |
-| `train_classifier` | method | `skills/lazyown_parquet_db.py:748` | `def train_classifier(self, min_rows)` |
-| `verify_model_integrity` | function | `skills/lazyown_parquet_db.py:892` | `def verify_model_integrity(model_path, encoder_path, hash_path)` |
-| `PermissionMode` | class | `skills/lazyown_permissions.py:18` | `class PermissionMode(Enum)` |
-| `PermissionRule` | class | `skills/lazyown_permissions.py:29` | `class PermissionRule` |
-| `PermissionSystem` | class | `skills/lazyown_permissions.py:91` | `class PermissionSystem` |
+| `_Proposal` | class | `skills/lazyown_mcp.py:8945` | `class _Proposal` |
+| `__init__` | method | `skills/lazyown_mcp.py:8948` | `def __init__(self, command, args, source, reason, priority)` |
+| `_add` | function | `skills/lazyown_mcp.py:1808` | `def _add(user, secret, host, source, confirmed)` |
+| `_advance_phase_wm` | function | `skills/lazyown_mcp.py:10296` | `def _advance_phase_wm()` |
+| `_blocked` | function | `skills/lazyown_mcp.py:9579` | `def _blocked(base)` |
+| `_blocking_run` | function | `skills/lazyown_mcp.py:11473` | `def _blocking_run()` |
+| `_bootstrap_sequence` | function | `skills/lazyown_mcp.py:9419` | `def _bootstrap_sequence()` |
+| `_build_command_from_facts` | function | `skills/lazyown_mcp.py:9538` | `def _build_command_from_facts(category, resolved_cmd, resolved_args, tgt)` |
+| `_c2_creds` | function | `skills/lazyown_mcp.py:549` | `def _c2_creds()` |
+| `_c2_request` | function | `skills/lazyown_mcp.py:559` | `def _c2_request(path, method, body)` |
+| `_compact` | function | `skills/lazyown_mcp.py:398` | `def _compact(content, tool_name)` |
+| `_compact_output_fn` | function | `skills/lazyown_mcp.py:408` | `def _compact_output_fn(c, t)` |
+| `_create_tool_file` | function | `skills/lazyown_mcp.py:200` | `def _create_tool_file()` |
+| `_decorator` | function | `skills/lazyown_mcp.py:641` | `def _decorator(func)` |
+| `_deploy_beacon_sync` | function | `skills/lazyown_mcp.py:12211` | `def _deploy_beacon_sync()` |
+| `_dispatch_perm_check` | function | `skills/lazyown_mcp.py:660` | `def _dispatch_perm_check(name, arguments)` |
+| `_do_facts` | function | `skills/lazyown_mcp.py:1871` | `def _do_facts()` |
+| `_ensure_aci` | function | `skills/lazyown_mcp.py:317` | `def _ensure_aci()` |
+| `_ensure_auto` | function | `skills/lazyown_mcp.py:297` | `def _ensure_auto()` |
+| `_ensure_automapper` | function | `skills/lazyown_mcp.py:242` | `def _ensure_automapper()` |
+| `_ensure_bridge` | function | `skills/lazyown_mcp.py:99` | `def _ensure_bridge()` |
+| `_ensure_engine` | function | `skills/lazyown_mcp.py:81` | `def _ensure_engine()` |
+| `_ensure_facts` | function | `skills/lazyown_mcp.py:193` | `def _ensure_facts()` |
+| `_ensure_hive` | function | `skills/lazyown_mcp.py:269` | `def _ensure_hive()` |
+| `_ensure_llm` | function | `skills/lazyown_mcp.py:231` | `def _ensure_llm()` |
+| `_ensure_narrator` | function | `skills/lazyown_mcp.py:172` | `def _ensure_narrator()` |
+| `_ensure_objectives` | function | `skills/lazyown_mcp.py:211` | `def _ensure_objectives()` |
+| `_ensure_orchestrator` | function | `skills/lazyown_mcp.py:9009` | `def _ensure_orchestrator()` |
+| `_ensure_pdb` | function | `skills/lazyown_mcp.py:252` | `def _ensure_pdb()` |
+| `_ensure_policy` | function | `skills/lazyown_mcp.py:183` | `def _ensure_policy()` |
+| `_ensure_recommender` | function | `skills/lazyown_mcp.py:125` | `def _ensure_recommender()` |
+| `_ensure_state` | function | `skills/lazyown_mcp.py:114` | `def _ensure_state()` |
+| `_execute_step` | function | `skills/lazyown_mcp.py:9576` | `def _execute_step()` |
+| `_fail` | function | `skills/lazyown_mcp.py:1053` | `def _fail(message, remediation)` |
+| `_fused_recommendations` | function | `skills/lazyown_mcp.py:8726` | `def _fused_recommendations()` |
+| `_gate_command` | function | `skills/lazyown_mcp.py:9082` | `def _gate_command(cmd)` |
+| `_generate_tasks_from_sessions` | function | `skills/lazyown_mcp.py:9250` | `def _generate_tasks_from_sessions(tgt, platform, api_key)` |
+| `_get_claudemd` | function | `skills/lazyown_mcp.py:414` | `def _get_claudemd()` |
+| `_get_hooks` | function | `skills/lazyown_mcp.py:372` | `def _get_hooks()` |
+| `_get_pdb` | function | `skills/lazyown_mcp.py:258` | `def _get_pdb(_)` |
+| `_get_pdb` | function | `skills/lazyown_mcp.py:338` | `def _get_pdb(_)` |
+| `_get_perm_system` | function | `skills/lazyown_mcp.py:359` | `def _get_perm_system()` |
+| `_get_transcript` | function | `skills/lazyown_mcp.py:385` | `def _get_transcript()` |
+| `_h_ack_event` | function | `skills/lazyown_mcp.py:987` | `def _h_ack_event(arguments, tool_name)` |
+| `_h_auto_pwn` | function | `skills/lazyown_mcp.py:1268` | `def _h_auto_pwn(arguments, tool_name)` |
+| `_h_c2_status` | function | `skills/lazyown_mcp.py:999` | `def _h_c2_status(arguments, tool_name)` |
+| `_h_credentials` | function | `skills/lazyown_mcp.py:1802` | `def _h_credentials(arguments, tool_name)` |
+| `_h_dashboard_snapshot` | function | `skills/lazyown_mcp.py:1229` | `def _h_dashboard_snapshot(arguments, tool_name)` |
+| `_h_db` | function | `skills/lazyown_mcp.py:706` | `def _h_db(arguments, tool_name)` |
+| `_h_evasion_generate` | function | `skills/lazyown_mcp.py:1180` | `def _h_evasion_generate(arguments, tool_name)` |
+| `_h_evasion_rotate` | function | `skills/lazyown_mcp.py:1195` | `def _h_evasion_rotate(arguments, tool_name)` |
+| `_h_exploit_chain` | function | `skills/lazyown_mcp.py:1301` | `def _h_exploit_chain(arguments, tool_name)` |
+| `_h_exploit_recommend` | function | `skills/lazyown_mcp.py:1156` | `def _h_exploit_recommend(arguments, tool_name)` |
+| `_h_exploitgym_list` | function | `skills/lazyown_mcp.py:1895` | `def _h_exploitgym_list(arguments, tool_name)` |
+| `_h_exploitgym_run` | function | `skills/lazyown_mcp.py:1911` | `def _h_exploitgym_run(arguments, tool_name)` |
+| `_h_exploitgym_score` | function | `skills/lazyown_mcp.py:1931` | `def _h_exploitgym_score(arguments, tool_name)` |
+| `_h_exploitgym_status` | function | `skills/lazyown_mcp.py:1881` | `def _h_exploitgym_status(arguments, tool_name)` |
+| `_h_facts_show` | function | `skills/lazyown_mcp.py:1861` | `def _h_facts_show(arguments, tool_name)` |
+| `_h_get_beacons` | function | `skills/lazyown_mcp.py:1262` | `def _h_get_beacons(arguments, tool_name)` |
+| `_h_get_config` | function | `skills/lazyown_mcp.py:700` | `def _h_get_config(arguments, tool_name)` |
+| `_h_get_llm_budget` | function | `skills/lazyown_mcp.py:838` | `def _h_get_llm_budget(arguments, tool_name)` |
+| `_h_inject_objective` | function | `skills/lazyown_mcp.py:1782` | `def _h_inject_objective(arguments, tool_name)` |
+| `_h_lazy_addon` | function | `skills/lazyown_mcp.py:1606` | `def _h_lazy_addon(arguments, tool_name)` |
+| `_h_lazy_board` | function | `skills/lazyown_mcp.py:1381` | `def _h_lazy_board(arguments, tool_name)` |
+| `_h_lazy_compact` | function | `skills/lazyown_mcp.py:1582` | `def _h_lazy_compact(arguments, tool_name)` |
+| `_h_lazy_delete` | function | `skills/lazyown_mcp.py:1557` | `def _h_lazy_delete(arguments, tool_name)` |
+| `_h_lazy_finding` | function | `skills/lazyown_mcp.py:1486` | `def _h_lazy_finding(arguments, tool_name)` |
+| `_h_lazy_hint` | function | `skills/lazyown_mcp.py:1421` | `def _h_lazy_hint(arguments, tool_name)` |
+| `_h_lazy_mention` | function | `skills/lazyown_mcp.py:1526` | `def _h_lazy_mention(arguments, tool_name)` |
+| `_h_lazy_proxy` | function | `skills/lazyown_mcp.py:1461` | `def _h_lazy_proxy(arguments, tool_name)` |
+| `_h_lazy_status` | function | `skills/lazyown_mcp.py:1361` | `def _h_lazy_status(arguments, tool_name)` |
+| `_h_lazy_sync` | function | `skills/lazyown_mcp.py:1371` | `def _h_lazy_sync(arguments, tool_name)` |
+| `_h_lazy_trace` | function | `skills/lazyown_mcp.py:1404` | `def _h_lazy_trace(arguments, tool_name)` |
+| `_h_lazy_workspace` | function | `skills/lazyown_mcp.py:1440` | `def _h_lazy_workspace(arguments, tool_name)` |
+| `_h_list_modules` | function | `skills/lazyown_mcp.py:900` | `def _h_list_modules(arguments, tool_name)` |
+| `_h_lolbas_list` | function | `skills/lazyown_mcp.py:1634` | `def _h_lolbas_list(arguments, tool_name)` |
+| `_h_lolbas_use` | function | `skills/lazyown_mcp.py:1674` | `def _h_lolbas_use(arguments, tool_name)` |
+| `_h_loop_smoke` | function | `skills/lazyown_mcp.py:1972` | `def _h_loop_smoke(arguments, tool_name)` |
+| `_h_opencode_config` | function | `skills/lazyown_mcp.py:1950` | `def _h_opencode_config(arguments, tool_name)` |
+| `_h_pivot_status` | function | `skills/lazyown_mcp.py:1209` | `def _h_pivot_status(arguments, tool_name)` |
+| `_h_rea` | function | `skills/lazyown_mcp.py:1041` | `def _h_rea(arguments, tool_name)` |
+| `_h_rich_tui_snapshot` | function | `skills/lazyown_mcp.py:1748` | `def _h_rich_tui_snapshot(arguments, tool_name)` |
+| `_h_run_command` | function | `skills/lazyown_mcp.py:922` | `def _h_run_command(arguments, tool_name)` |
+| `_h_set_config` | function | `skills/lazyown_mcp.py:875` | `def _h_set_config(arguments, tool_name)` |
+| `_h_stealth` | function | `skills/lazyown_mcp.py:1724` | `def _h_stealth(arguments, tool_name)` |
+| `_h_unified_dashboard` | function | `skills/lazyown_mcp.py:1249` | `def _h_unified_dashboard(arguments, tool_name)` |
+| `_handle_messages` | function | `skills/lazyown_mcp.py:13135` | `def _handle_messages(scope, receive, send)` |
+| `_handle_sighup` | function | `skills/lazyown_mcp.py:13102` | `def _handle_sighup(signum, frame)` |
+| `_handle_sse` | function | `skills/lazyown_mcp.py:13131` | `def _handle_sse(request)` |
+| `_has_data` | function | `skills/lazyown_mcp.py:525` | `def _has_data(path)` |
+| `_is_lab_target` | function | `skills/lazyown_mcp.py:582` | `def _is_lab_target(name)` |
+| `_is_placeholder` | function | `skills/lazyown_mcp.py:9705` | `def _is_placeholder(val)` |
+| `_is_placeholder` | function | `skills/lazyown_mcp.py:10096` | `def _is_placeholder(val)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

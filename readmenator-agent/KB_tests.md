@@ -415,15 +415,15 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_repo_with_remote` (function, line 29) `def _repo_with_remote(tmp_path)`
   - `_addon` (function, line 46) `def _addon(path)`
   - `test_every_shipped_addon_opts_in` (function, line 62) `def test_every_shipped_addon_opts_in()`
-  - `test_update_disabled_is_skipped` (function, line 69) `def test_update_disabled_is_skipped(tmp_path)`
-  - `test_missing_repo_url_is_skipped` (function, line 77) `def test_missing_repo_url_is_skipped(tmp_path)`
-  - `test_path_traversal_is_rejected` (function, line 85) `def test_path_traversal_is_rejected(tmp_path)`
-  - `test_repository_root_is_rejected` (function, line 93) `def test_repository_root_is_rejected(tmp_path)`
-  - `test_not_installed_is_skipped` (function, line 101) `def test_not_installed_is_skipped(tmp_path)`
-  - `test_fast_forward_update` (function, line 109) `def test_fast_forward_update(tmp_path)`
-  - `test_dirty_worktree_is_skipped` (function, line 124) `def test_dirty_worktree_is_skipped(tmp_path)`
-  - `test_update_all_audits_summary` (function, line 134) `def test_update_all_audits_summary(tmp_path)`
-  - `test_unknown_addon_fails` (function, line 146) `def test_unknown_addon_fails(tmp_path)`
+  - `test_update_disabled_is_skipped` (function, line 72) `def test_update_disabled_is_skipped(tmp_path)`
+  - `test_missing_repo_url_is_skipped` (function, line 80) `def test_missing_repo_url_is_skipped(tmp_path)`
+  - `test_path_traversal_is_rejected` (function, line 88) `def test_path_traversal_is_rejected(tmp_path)`
+  - `test_repository_root_is_rejected` (function, line 96) `def test_repository_root_is_rejected(tmp_path)`
+  - `test_not_installed_is_skipped` (function, line 104) `def test_not_installed_is_skipped(tmp_path)`
+  - `test_fast_forward_update` (function, line 112) `def test_fast_forward_update(tmp_path)`
+  - `test_dirty_worktree_is_skipped` (function, line 127) `def test_dirty_worktree_is_skipped(tmp_path)`
+  - `test_update_all_audits_summary` (function, line 137) `def test_update_all_audits_summary(tmp_path)`
+  - `test_unknown_addon_fails` (function, line 149) `def test_unknown_addon_fails(tmp_path)`
 - Depends on: `modules/addon_updater.py`
 
 ## tests/test_aes_key_propagation.py

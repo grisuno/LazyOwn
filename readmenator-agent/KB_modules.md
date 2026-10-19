@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/outcome_bus.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_mentions.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/outcome_bus.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_mentions.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -344,29 +344,32 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `rank` (function, line 421) `def rank(services, exploits_dir)`
   - `build_commands` (function, line 452) `def build_commands(spec, rhost, lhost, lport, port)`
   - `detect_shell` (function, line 470) `def detect_shell(spec, output)`
-  - `run_spec` (function, line 479) `def run_spec(spec, rhost, lhost, lport, port)`
-  - `open_shell` (function, line 550) `def open_shell(target, services, lhost, exploits_dir, attempts)`
-  - `_ShellSession` (class, line 585) `class _ShellSession`
-  - `record_shell_outcome` (function, line 678) `def record_shell_outcome(target, via)`
-  - `live_sessions` (function, line 707) `def live_sessions()`
-  - `close_sessions` (function, line 718) `def close_sessions(target)`
-  - `cleanup_target` (function, line 753) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
-  - `_destroy_gym` (function, line 811) `def _destroy_gym(container)`
-  - `ensure_session` (function, line 829) `def ensure_session(spec, target, lhost)`
-  - `_adopt_live_shell` (function, line 880) `def _adopt_live_shell(spec, target, port)`
-  - `_wait_port_closed` (function, line 896) `def _wait_port_closed(target, port, timeout)`
-  - `remote_exec` (function, line 911) `def remote_exec(spec, target, command, lhost)`
-  - `interactive_shell` (function, line 929) `def interactive_shell(target, lhost, interactive, exploits_dir)`
-  - `emulate` (function, line 981) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
-  - `record_outcome` (function, line 1015) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
-  - `main` (function, line 1103) `def main()`
+  - `_install_missing_binaries` (function, line 482) `def _install_missing_binaries(names)`
+  - `run_spec` (function, line 512) `def run_spec(spec, rhost, lhost, lport, port)`
+  - `open_shell` (function, line 592) `def open_shell(target, services, lhost, exploits_dir, attempts)`
+  - `_ShellSession` (class, line 627) `class _ShellSession`
+  - `_claim_port` (function, line 722) `def _claim_port(spec_id, target, port)`
+  - `_release_port` (function, line 740) `def _release_port(target, port)`
+  - `record_shell_outcome` (function, line 745) `def record_shell_outcome(target, via)`
+  - `live_sessions` (function, line 774) `def live_sessions()`
+  - `close_sessions` (function, line 793) `def close_sessions(target)`
+  - `cleanup_target` (function, line 831) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
+  - `_destroy_gym` (function, line 889) `def _destroy_gym(container)`
+  - `ensure_session` (function, line 907) `def ensure_session(spec, target, lhost)`
+  - `_adopt_live_shell` (function, line 962) `def _adopt_live_shell(spec, target, port)`
+  - `_wait_port_closed` (function, line 988) `def _wait_port_closed(target, port, timeout)`
+  - `remote_exec` (function, line 1003) `def remote_exec(spec, target, command, lhost)`
+  - `interactive_shell` (function, line 1021) `def interactive_shell(target, lhost, interactive, exploits_dir)`
+  - `emulate` (function, line 1076) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
+  - `record_outcome` (function, line 1110) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
+  - `main` (function, line 1198) `def main()`
   - `severity_rank` (method, line 103) `def severity_rank(self)`
   - `to_dict` (method, line 107) `def to_dict(self)`
-  - `__init__` (method, line 593) `def __init__(self, target, port, sock)`
-  - `alive` (method, line 602) `def alive(self, timeout)`
-  - `run` (method, line 609) `def run(self, command, timeout)`
-  - `_read_until` (method, line 623) `def _read_until(self, marker, timeout)`
-  - `close` (method, line 651) `def close(self)`
+  - `__init__` (method, line 635) `def __init__(self, target, port, sock, owner)`
+  - `alive` (method, line 645) `def alive(self, timeout)`
+  - `run` (method, line 652) `def run(self, command, timeout)`
+  - `_read_until` (method, line 666) `def _read_until(self, marker, timeout)`
+  - `close` (method, line 694) `def close(self)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 
@@ -423,6 +426,39 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `tag` (function, line 166) `def tag(nid, source)`
 - Depends on: `cli/surface_graph.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
 - Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph.py`, `tests/test_attack_surface3d.py`
+
+## modules/auto_loop_memory.py
+- Doc: Persistent memory for the auto loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PendingDecision` (class, line 45) `class PendingDecision`
+  - `FailureMemory` (class, line 53) `class FailureMemory`
+  - `DecisionPersistence` (class, line 212) `class DecisionPersistence`
+  - `__init__` (method, line 56) `def __init__(self, filepath)`
+  - `path` (method, line 63) `def path(self)`
+  - `make_key` (method, line 68) `def make_key(target, category, command)`
+  - `base_of` (method, line 75) `def base_of(command)`
+  - `record_failure` (method, line 79) `def record_failure(self, target, category, command)`
+  - `failure_count` (method, line 89) `def failure_count(self, target, category, command)`
+  - `count_for_base` (method, line 94) `def count_for_base(self, target, base_command)`
+  - `veto_base` (method, line 105) `def veto_base(self, target, base_command)`
+  - `is_blocked` (method, line 115) `def is_blocked(self, target, base_command, bonus_key)`
+  - `failure_count_strict` (method, line 123) `def failure_count_strict(self, target, key)`
+  - `blocked_bases` (method, line 128) `def blocked_bases(self, target)`
+  - `clear_target` (method, line 140) `def clear_target(self, target)`
+  - `sanctioned_bases` (method, line 146) `def sanctioned_bases(self, target)`
+  - `_trim` (method, line 159) `def _trim(self)`
+  - `save` (method, line 166) `def save(self)`
+  - `_load` (method, line 186) `def _load(self)`
+  - `__init__` (method, line 215) `def __init__(self, filepath)`
+  - `push` (method, line 220) `def push(self, command, reason)`
+  - `pop` (method, line 229) `def pop(self)`
+  - `peek` (method, line 237) `def peek(self)`
+  - `__len__` (method, line 241) `def __len__(self)`
+  - `save` (method, line 244) `def save(self)`
+  - `_load` (method, line 262) `def _load(self)`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
 
 ## modules/auto_pivot.py
 - Doc: Auto-Pivoting Engine for LazyOwn.

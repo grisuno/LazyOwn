@@ -1,21 +1,21 @@
 # modules: lazyc2
 
-*Community 1 | 135 files | cohesion 0.52*
+*Community 1 | 141 files | cohesion 0.51*
 
 ## Definition
 
-This community groups 135 file(s) rooted at `modules` with dominant language py (cohesion 0.52). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIResult`, `AccessFact`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 141 file(s) rooted at `modules` with dominant language py (cohesion 0.51). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AESKeyManager`, `AIResult`, `AddonCreatorConfig`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `modules` (39 files)
+### `modules` (42 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/ai_fallback.py` | py | utility | 8 | yes |
 | `modules/beacon_history.py` | py | utility | 7 | yes |
 
-### `tests` (34 files)
+### `tests` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -36,24 +36,25 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 | `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
 | `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
-### `skills` (8 files)
+### `skills` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/aci_planner.py` | py | utility | 42 | yes |
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
+### `core` (6 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/api_authz.py` | py | presentation | 31 | yes |
+| `core/executor.py` | py | utility | 6 | yes |
+
 ### `contrib/legacy` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
-
-### `core` (5 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/api_authz.py` | py | presentation | 31 | yes |
 
 ### `lazyc2/extensions` (5 files)
 
@@ -97,13 +98,7 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
 
-### `skills/tests` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/tests/test_facts.py` | py | testing | 37 | yes |
-
-*... and 115 more files in this community.*
+*... and 121 more files in this community.*
 
 
 ## Key Symbols
@@ -128,7 +123,7 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 - `C2SessionCommandSet` (class, `cli/commands/c2_session.py:108`) `class C2SessionCommandSet(LazyOwnCommandSet)` - Headless C2 lifecycle + session ops: server, deploy, exec, loot.
 - `do_c2_server` (method, `cli/commands/c2_session.py:115`) `def do_c2_server(self, line)` - Manage the headless C2 server (lab use).
 - `do_c2_reboot` (method, `cli/commands/c2_session.py:168`) `def do_c2_reboot(self, line)` - Restart the headless C2 server with ROTATED operator credentials.
-- `do_c2_deploy` (method, `cli/commands/c2_session.py:251`) `def do_c2_deploy(self, line)` - Deploy the malleable agent to a lab target (needs root shell primitive).
+- `do_c2_deploy` (method, `cli/commands/c2_session.py:249`) `def do_c2_deploy(self, line)` - Deploy the malleable agent to a lab target (needs root shell primitive).
 - `do_c2_exec` (method, `cli/commands/c2_session.py:292`) `def do_c2_exec(self, line)` - Run one command on a live C2 session and print its answer.
 - `do_c2_loot` (method, `cli/commands/c2_session.py:339`) `def do_c2_loot(self, line)` - Exfiltrate a remote file through a live C2 session into sessions/loot/.
 - `CollaborationCommandSet` (class, `cli/commands/collaboration.py:20`) `class CollaborationCommandSet(LazyOwnCommandSet)` - Multi-operator collaboration commands for the CLI.
@@ -141,25 +136,26 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 454
-- Cross-boundary resolved imports (EXTRACTED): 296
+- Internal resolved imports (EXTRACTED): 492
+- Cross-boundary resolved imports (EXTRACTED): 339
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
+- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/listener_manager.py.
 - [EXTRACTED] depends_on community 10 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
 
 ## Risks
 
+- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [cycle] `skills/autonomous_daemon.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
@@ -173,7 +169,7 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 - Why do 7 file(s) lack file-level docs (e.g. `contrib/legacy/lazyssh.py`)? What purpose do they serve?
 - Can the cycle `skills/autonomous_daemon.py` -> `modules/pipeline_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.52?
+- Should modules: lazyc2 be split, given cohesion 0.51?
 
 ## Sources
 
@@ -189,6 +185,7 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 - `core/api_authz.py`
 - `core/executor.py`
 - `core/logging.py`
+- `core/safe_exec.py`
 - `core/scheduler.py`
 - `core/security.py`
 - `lazy_sentinel4.py`
@@ -196,5 +193,4 @@ This community groups 135 file(s) rooted at `modules` with dominant language py 
 - `lazyc2/__init__.py`
 - `lazyc2/addon_creator.py`
 - `lazyc2/app_factory.py`
-- `lazyc2/blueprints/__init__.py`
-- *... and 115 more*
+- *... and 121 more*

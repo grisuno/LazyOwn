@@ -1566,7 +1566,7 @@ def __init__(self, cfg: Config | None = None) -> None
 
 *Calls:* [`get_logger`](core.logging.py.md#get_logger), [`configure`](modules.logging_config.py.md#configure), [`Config.default`](#config-default), [`CrackMapExecParser`](#crackmapexecparser), [`Enum4linuxParser`](#enum4linuxparser), [`GenericOutputParser`](#genericoutputparser), [`GobusterFfufParser`](#gobusterffufparser), [`INmapXmlParser`](#inmapxmlparser), [`KerbruteParser`](#kerbruteparser), [`LdapParser`](#ldapparser), [`NiktoParser`](#niktoparser), [`NucleiParser`](#nucleiparser) and 3 more
 
-*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show)
+*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target)
 
 <a id="factstore-save"></a>
 
@@ -1652,7 +1652,7 @@ Returns a dict of {host: new_facts_count}.
 
 *Calls:* [`FactStore.ingest_text`](#factstore-ingest_text), [`FactStore.ingest_xml`](#factstore-ingest_xml), [`FactStore.save`](#factstore-save)
 
-*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show)
+*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target)
 
 <a id="factstore-get_host"></a>
 
@@ -1671,6 +1671,8 @@ def get_host(self, host: str) -> HostFacts | None
 | `host` | `str` |  |  |
 
 **Returns:** `HostFacts | None`
+
+*Called by:* [`facts_for_target`](modules.chain_synth.py.md#facts_for_target)
 
 <a id="factstore-all_hosts"></a>
 

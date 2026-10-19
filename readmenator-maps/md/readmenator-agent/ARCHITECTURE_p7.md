@@ -2,7 +2,16 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/phishing_orchestrator.py` -> __future__, base64, dataclasses, email.mime.multipart, email.mime.text, hashlib, hmac, json, pathlib, random, smtplib, ssl, subprocess, time, typing, uuid
+- `modules/pipeline_engine.py` -> __future__, abc, builtins, collections.abc, contextlib, dataclasses, datetime, io, json, os, pathlib, re, shutil, threading, typing, uuid, yaml
+- `modules/planner.py` -> __future__, dataclasses, pathlib, re
+- `modules/playbook_admin.py` -> __future__, dataclasses, os, pathlib, re, typing, yaml
+- `modules/playbook_engine.py` -> __future__, argparse, collections.abc, dataclasses, datetime, glob, json, os, pathlib, re, stix2, sys, typing, yaml
+- `modules/playbook_executor.py` -> __future__, abc, dataclasses, json, os, pathlib, re, typing, yaml
+- `modules/polymorphic_engine.py` -> __future__, base64, dataclasses, hashlib, math, pathlib, random, struct, typing, zlib
+- `modules/privesc_predictor.py` -> __future__, dataclasses, os, pandas, pathlib, re, sys, typing
 - `modules/professional_report.py` -> __future__, dataclasses, datetime, json, pathlib, subprocess, typing
+- `modules/reaction_bridge.py` -> __future__, json, pathlib, re, time
 - `modules/reactive_engine.py` -> __future__, abc, dataclasses, pandas, pathlib, re, typing
 - `modules/recommender.py` -> datetime, json, os, pathlib
 - `modules/redteam_gym.py` -> __future__, dataclasses, ipaddress, json, pathlib, sys, time, typing
@@ -20,6 +29,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
 - `modules/search.py` -> bs4, csv, requests
 - `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
+- `modules/selector_manager.py` -> __future__, collections.abc, dataclasses
 - `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
 - `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
 - `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
@@ -39,6 +49,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/socks_proxy.py` -> __future__, dataclasses, ipaddress, socket, time, typing
 - `modules/staged_delivery.py` -> __future__, base64, dataclasses, pathlib, struct, typing, uuid
 - `modules/state_manager.py` -> __future__, dataclasses, json, os, pathlib, threading, time, typing
+- `modules/stego_video.py` -> json, os, struct, subprocess, sys
 - `modules/sudo_tiocsti.py` -> argparse, fcntl, os, pathlib, subprocess, sys, time
 - `modules/surface_ops.py` -> __future__, json, pathlib, re
 - `modules/tel.py` -> Crypto.Cipher, datetime, json, re, requests, uuid
@@ -84,6 +95,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `scripts/generate_sbom.py` -> __future__, argparse, datetime, hashlib, json, pathlib, re
 - `scripts/journal.py` -> __future__, argparse, collections.abc, dataclasses, json, pathlib, subprocess, sys
 - `scripts/lazy_opencode_config.py` -> __future__, argparse, json, pathlib, shutil, time, yaml
+- `scripts/mcp_call.py` -> __future__, argparse, asyncio, dataclasses, json, mcp, mcp.client.stdio, pathlib, sys
 - `scripts/migrate_commandsets.py` -> __future__, argparse, ast, os, sys
 - `scripts/migrate_lazyown.py` -> __future__, ast, pathlib, re, sys
 - `scripts/mutation_gate.py` -> __future__, argparse, pathlib, subprocess, sys
@@ -192,6 +204,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_api_authz.py` -> __future__, flask, hashlib, json, pathlib, pytest, sys, time
 - `tests/test_api_key_resolution.py` -> __future__, pathlib
 - `tests/test_api_v1.py` -> __future__, flask, json, pathlib, pytest
+- `tests/test_apt_chain_admin.py` -> __future__, builtins, cmd2, json, pathlib, skills, yaml
 - `tests/test_apt_chain_integration.py` -> __future__, cmd2, threading, yaml
 - `tests/test_asset_gate.py` -> __future__, pathlib, pytest, sys
 - `tests/test_atomic_exploit_bridge.py` -> __future__, builtins, pathlib, re, socket, sys, threading, yaml
@@ -200,6 +213,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_attack_surface3d.py` -> __future__, json, pathlib, sys
 - `tests/test_attack_surface_addons.py` -> __future__, pathlib, pytest, re, yaml
 - `tests/test_auto_crypto.py` -> __future__, builtins, pathlib, pytest, tempfile, types
+- `tests/test_auto_loop_memory.py` -> __future__, pathlib, pytest
 - `tests/test_auto_registry.py` -> __future__, pathlib, pytest, sys, threading, time
 - `tests/test_autonomous_ops.py` -> __future__
 - `tests/test_autonomous_replay.py` -> __future__, json, pathlib, pytest, sys, typing
@@ -225,6 +239,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
 - `tests/test_chain_runner.py` -> __future__, threading, time
+- `tests/test_chain_synth.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_chain_v24_core.py` -> __future__, os, time
 - `tests/test_ci_strict.py` -> __future__, pathlib, re
 - `tests/test_claudemd_consistency.py` -> __future__, pathlib, pytest, re
 - `tests/test_claudemd_size.py` -> __future__, pathlib
@@ -333,6 +349,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_ai_bridge.py` -> __future__, pytest, types
 - `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
 - `tests/test_loop_broadcast.py` -> __future__
+- `tests/test_loop_budget.py` -> __future__, pytest
 - `tests/test_loop_cold_overview.py` -> __future__
 - `tests/test_loop_force_graph.py` -> __future__
 - `tests/test_loop_guard_audit.py` -> __future__
@@ -351,7 +368,9 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
 - `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
 - `tests/test_mcp_recommender_embed.py` -> __future__, importlib.util, pathlib
+- `tests/test_memory_semantics.py` -> __future__, pathlib, pytest, time
 - `tests/test_metasploitable_gym.py` -> __future__, yaml
+- `tests/test_metasploitable_migrations.py` -> __future__, pytest
 - `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
 - `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
 - `tests/test_migrate_lazyown_generator.py` -> __future__, ast
@@ -384,6 +403,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
 - `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
 - `tests/test_rea_mcp.py` -> __future__, asyncio, json, pathlib, pytest, subprocess, sys, types
+- `tests/test_reaction_bridge.py` -> __future__, pytest
 - `tests/test_reactive_engine_semantic.py` -> __future__, pathlib, sys, typing
 - `tests/test_reactive_hints.py` -> __future__, pathlib, pytest, sys, unittest.mock
 - `tests/test_reactive_hints_expanded.py` -> __future__

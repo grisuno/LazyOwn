@@ -174,9 +174,47 @@ Then restart Hermes or run `/reload-mcp`. LazyOwn exposes 173 MCP tools for AI-a
 
 See `AGENTS.md` for the Hermes integration guide.
 
+### Driving the framework from scripts and agents
+
+Any operator (human, script or AI agent) can call one MCP tool from the
+shell without spawning the full Hermes stack:
+
+```bash
+python3 scripts/mcp_call.py lazyown_campaign_sitrep '{"format":"json"}' --timeout 120
+python3 scripts/mcp_call.py lazyown_run_command '{"command":"list","timeout":60}' --timeout 120
+```
+
+Two quirks worth knowing:
+
+- Commands that should bypass the LazyOwn alias layer start with `!`
+  (cmd2's OS-escape), for example `"!python3 modules/atomic_exploit_bridge.py run --id ms2_dvwa_sqli --rhost <ip>"`.
+- `lazyown_run_command` spawns a real PTY session, so the output includes
+  the shell boot banner; filter it or prefer `dry_run=true` for pre-flight.
+
 ---
 
-## Step 7 (optional) — Invite teammates
+## Step 7 (optional) — Practice gym with automatic lab migrations
+
+```bash
+sudo apt install -y chromium chromium-driver python3-selenium
+(LazyOwn) > lab start metasploitable
+(LazyOwn) > assign rhost <container-ip>
+(LazyOwn) > gym_ms2 chains
+(LazyOwn) > apt_chain gym_metasploitable_ms2_dvwa_sqli --target <container-ip> --json
+```
+
+`lab start metasploitable` applies the gym migrations automatically
+(`modules/metasploitable_migrations.py`): starts every core daemon,
+opens the X display, enables anonymous FTP and the vulnerable CGI, seeds
+the mutillidae database and installs the DVWA DOM XSS page. 42 of the 45
+shipped vectors yield a shell on the lab; the three that cannot
+(`ms2_dns_recursion`, `ms2_nfs_exports`, `ms2_rlogin_trust`) are blocked
+by Docker itself — see [`docs/gym-setup.md`](docs/gym-setup.md) for the
+full setup guide and migration table.
+
+---
+
+## Step 8 (optional) — Invite teammates
 
 ```bash
 (LazyOwn) > collab_join alice
@@ -195,6 +233,7 @@ Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/c
 | `skills/lazyown.md` | You are operating via MCP (AI operator) |
 | `COMMANDS.md` | You need the full 834-command reference |
 | `CLAUDE.md` | You are developing or extending the framework |
+| `docs/gym-setup.md` | You are configuring the Metasploitable 2 practice gym |
 
 ---
 
@@ -228,6 +267,16 @@ bash gen_cert.sh
 ```
 (LazyOwn) > assign dirwordlist /path/to/wordlist.txt
 ```
+
+**A spec fails with `No module named 'telnetlib'`** — the project
+virtualenv runs Python 3.13+, where telnetlib was removed. The shipped
+telnet spec uses plain sockets; rewrite custom specs with `socket`
+(see `exploits/ms2_telnet_default_creds.yaml`).
+
+**Playwright raises `Connection closed while reading from the driver`**
+— the Debian `python3-playwright` package lacks its node driver. The
+browser-backed gym specs use selenium + chromedriver instead:
+`sudo apt install -y chromium chromium-driver python3-selenium`.
 
 **A command fails with `MissingDependencyError`** — a heavy optional package (for
 example `pycryptodome`, `python-libnmap`, `impacket`) is not installed. The shell

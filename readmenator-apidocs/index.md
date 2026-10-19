@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 766 modules, 14584 documented entities, documentation coverage 73.8% (6810/9224 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 778 modules, 14744 documented entities, documentation coverage 74.0% (6890/9317 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (655), sh (59)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (667), sh (59)
 
 ## Modules
 
@@ -50,6 +50,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 |---|---|---|---|---|
 | [`cli`](modules/cli.__init__.py.md) | LazyOwn CLI infrastructure. | 0 | 0 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | Declarative cmd2 alias loader. | 0 | 4 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 6 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | ``assign`` business logic. | 0 | 1 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | Automatic encryption of sensitive session data on app open/close. | 2 | 7 | 100.0% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | 7 | 18 | 96.2% |
@@ -476,6 +477,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | 2 | 22 | 100.0% |
 | [`modules.atomic_resolver`](modules/modules.atomic_resolver.py.md) | Central MITRE ATT&CK <-> Atomic Red Team translator. | 2 | 23 | 100.0% |
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | Attack-surface 3D intel module: C2-centred campaign graph. | 0 | 2 | 100.0% |
+| [`modules.auto_loop_memory`](modules/modules.auto_loop_memory.py.md) | Persistent memory for the auto loop. | 3 | 19 | 82.6% |
 | [`modules.auto_pivot`](modules/modules.auto_pivot.py.md) | Auto-Pivoting Engine for LazyOwn. | 3 | 17 | 9.5% |
 | [`modules.auto_purple`](modules/modules.auto_purple.py.md) | Purple Team Closed-Loop — honest measurement of offensive detection. | 6 | 19 | 57.7% |
 | [`modules.auto_registry`](modules/modules.auto_registry.py.md) | Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such as ``atomic_tests`` / ``atomic_gen``). | 2 | 22 | 100.0% |
@@ -495,7 +497,10 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/cal.sh`](modules/modules.cal.sh.md) |  | 0 | 3 | 75.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | modules/categories.py ===================== cmd2 command category strings for LazyOwn. | 0 | 0 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
-| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 3 | 6 | 100.0% |
+| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 12 | 100.0% |
+| [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
+| [`modules.chain_synth`](modules/modules.chain_synth.py.md) | Runtime chain synthesis from fact-store evidence. | 0 | 3 | 100.0% |
+| [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | Engagement-state tokens for YAML chains. | 0 | 2 | 100.0% |
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | CI/CD Pipeline Enumeration Module. | 2 | 5 | 87.5% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | CLI authentication module — login against users.json with remember-me. | 0 | 10 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | Native cloud enumeration modules for AWS, Azure, and GCP. | 1 | 6 | 100.0% |
@@ -517,6 +522,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.detailed_search`](modules/modules.detailed_search.py.md) | main.py | 0 | 1 | 50.0% |
 | [`modules.detection_feed`](modules/modules.detection_feed.py.md) | Dynamic detection feed for the Detection Oracle. | 2 | 5 | 87.5% |
 | [`modules.detection_oracle`](modules/modules.detection_oracle.py.md) | modules/detection_oracle.py ============================ Blue Team Mirror — predicts detection probability for a given action before it is executed by the... | 4 | 9 | 92.9% |
+| [`modules.digest`](modules/modules.digest.py.md) | Operator digest generation for loop runs. | 0 | 3 | 100.0% |
 | [`modules.dns_beacon`](modules/modules.dns_beacon.py.md) | DNS Beacon — covert C2 channel via DNS tunneling. | 2 | 10 | 100.0% |
 | [`modules.domain_dominance`](modules/modules.domain_dominance.py.md) | Domain Dominance Engine — automated Active Directory takeover. | 4 | 7 | 83.3% |
 | [`modules.dotnet_payload`](modules/modules.dotnet_payload.py.md) | .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation. | 2 | 8 | 90.9% |
@@ -635,8 +641,10 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.mario`](modules/modules.mario.py.md) |  | 0 | 1 | 0.0% |
 | [`modules.mcp_agent_bridge`](modules/modules.mcp_agent_bridge.py.md) | LazyOwn MCP Agent Bridge ======================== Allows Claude (via MCP) to delegate tasks to internal AI agents (Groq / Ollama) running inside LazyOwn... | 3 | 10 | 42.9% |
 | [`modules.memory_cleaner`](modules/modules.memory_cleaner.py.md) | Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear. | 2 | 5 | 87.5% |
-| [`modules.memory_store`](modules/modules.memory_store.py.md) | memory_store.py — Episodic memory for the LazyOwn auto_loop. | 4 | 24 | 3.4% |
+| [`modules.memory_embeddings`](modules/modules.memory_embeddings.py.md) | Hashing-trick text embeddings for episodic memory recall. | 1 | 4 | 100.0% |
+| [`modules.memory_store`](modules/modules.memory_store.py.md) | memory_store.py — Episodic memory for the LazyOwn auto_loop. | 5 | 28 | 8.8% |
 | [`modules.metasploitable_gym`](modules/modules.metasploitable_gym.py.md) | Metasploitable 2 gym catalogue loader and matrix validator. | 0 | 7 | 100.0% |
+| [`modules.metasploitable_migrations`](modules/modules.metasploitable_migrations.py.md) | Idempotent migrations for the Metasploitable 2 gym container. | 1 | 2 | 100.0% |
 | [`modules.metrics`](modules/modules.metrics.py.md) | LazyOwn metrics surface. | 5 | 16 | 100.0% |
 | [`modules.mfa_bypass`](modules/modules.mfa_bypass.py.md) | MFA Bypass Toolkit — techniques for circumventing multi-factor authentication. | 3 | 7 | 81.8% |
 | [`modules/mkcloudflaretunnel.sh`](modules/modules.mkcloudflaretunnel.sh.md) | cloudflare_tunnel.sh - Download cloudflared and create a tunnel to localhost on a specified port. | 0 | 0 | 100.0% |
@@ -667,6 +675,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.privesc_predictor`](modules/modules.privesc_predictor.py.md) | Crystal Ball — privilege escalation vector prediction engine. | 2 | 10 | 100.0% |
 | [`modules.professional_report`](modules/modules.professional_report.py.md) | Professional Red Team Report Generator. | 3 | 7 | 90.9% |
 | [`modules/r.sh`](modules/modules.r.sh.md) | Obtener la versión del kernel actual | 0 | 1 | 100.0% |
+| [`modules.reaction_bridge`](modules/modules.reaction_bridge.py.md) | Reaction bridge between the reactive engine and the loop planner. | 1 | 4 | 83.3% |
 | [`modules.reactive_engine`](modules/modules.reactive_engine.py.md) | modules/reactive_engine.py =========================== Parses command output and produces concrete next-action recommendations: - PrivEsc advice (GTFOBins /... | 16 | 21 | 57.9% |
 | [`modules.recommender`](modules/modules.recommender.py.md) | LazyOwn Smart Command Recommender =================================== Reads the current session state and asks Groq to rank the best 3-5 next LazyOwn commands... | 0 | 2 | 100.0% |
 | [`modules.redteam_gym`](modules/modules.redteam_gym.py.md) | Red Team Gym — gamified pentest training mode. | 0 | 13 | 100.0% |
@@ -679,6 +688,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.saas_attacks`](modules/modules.saas_attacks.py.md) | SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation. | 3 | 12 | 62.5% |
 | [`modules.search`](modules/modules.search.py.md) | main.py | 0 | 0 | 100.0% |
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | Security sanitizers shared across the LazyOwn framework. | 6 | 15 | 100.0% |
+| [`modules.selector_manager`](modules/modules.selector_manager.py.md) | Selector manager: deterministic priority cascade with provenance. | 2 | 1 | 100.0% |
 | [`modules.selfupdate`](modules/modules.selfupdate.py.md) | Guarded self-update for the LazyOwn working tree. | 2 | 8 | 100.0% |
 | [`modules.session_cleanup`](modules/modules.session_cleanup.py.md) | Ephemeral infrastructure cleanup on shell exit. | 0 | 3 | 100.0% |
 | [`modules.session_rag`](modules/modules.session_rag.py.md) | session_rag.py — ChromaDB-backed RAG over sessions/ artefacts. | 1 | 8 | 70.0% |
@@ -690,6 +700,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons. | 8 | 21 | 96.7% |
 | [`modules.staged_delivery`](modules/modules.staged_delivery.py.md) | Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging. | 2 | 9 | 91.7% |
 | [`modules.state_manager`](modules/modules.state_manager.py.md) | UnifiedStateManager — single source of truth for all LazyOwn campaign state. | 3 | 30 | 11.8% |
+| [`modules.stego_video`](modules/modules.stego_video.py.md) | Video steganography addon for LazyOwn. | 0 | 10 | 54.5% |
 | [`modules.sudo_tiocsti`](modules/modules.sudo_tiocsti.py.md) | tiocsti_advanced.py – Production‑grade TIOCSTI injection with multiple attack modes. | 0 | 9 | 90.0% |
 | [`modules.surface_ops`](modules/modules.surface_ops.py.md) | Pure attack-surface helpers (no cmd2): discovery targets, confirm parsing. | 0 | 4 | 100.0% |
 | [`modules.tel`](modules/modules.tel.py.md) |  | 0 | 6 | 57.1% |
@@ -854,6 +865,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`scripts/lazy_llamacpp_setup.sh`](modules/scripts.lazy_llamacpp_setup.sh.md) | lazy_llamacpp_setup.sh — one-time local LLM setup for LazyOwn users. | 0 | 1 | 50.0% |
 | [`scripts/lazy_msf_lab.sh`](modules/scripts.lazy_msf_lab.sh.md) | lazy_msf_lab.sh — Metasploitable2 smoke lab manager for LazyOwn. | 0 | 0 | 100.0% |
 | [`scripts.lazy_opencode_config`](modules/scripts.lazy_opencode_config.py.md) | Patch operator agent configs to use the Lazy llama.cpp server. | 0 | 2 | 100.0% |
+| [`scripts.mcp_call`](modules/scripts.mcp_call.py.md) | Call one LazyOwn MCP tool over stdio and print its text content. | 0 | 1 | 100.0% |
 | [`scripts.migrate_commandsets`](modules/scripts.migrate_commandsets.py.md) | Merge _migrated.py CommandSet methods into clean phase modules. | 0 | 2 | 66.7% |
 | [`scripts.migrate_lazyown`](modules/scripts.migrate_lazyown.py.md) | Staged migration script: extract do_* methods from lazyown.py into cli/commands/. | 0 | 4 | 80.0% |
 | [`scripts/mutate.sh`](modules/scripts.mutate.sh.md) | Mutation gate for LazyOwn. | 0 | 3 | 25.0% |

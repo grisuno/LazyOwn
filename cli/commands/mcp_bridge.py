@@ -491,12 +491,17 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
 
         Usage:
             auto_loop [--target T] [--task T] [--rounds N] [--workers N]
-                      [--timeout S] [--step-delay S] [--no-bootstrap]
+                      [--timeout S] [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
+                      [--budget-confirm] [--no-bootstrap]
                       [--view|--plain] <goal>
 
         Both commands share one runner (``modules.lazy_runner``): one
         engine, one chain, one terminal-safety path. ``--view`` opens
         the live worker monitor instead of the milestone panel.
+        ``--budget`` caps the run at the engine level (rounds, tool
+        calls, findings, wall clock); ``--budget-confirm`` gates the
+        start behind an interactive confirmation unless
+        ``LAZYOWN_AUTONOMOUS=1``.
         """
         from modules.lazy_runner import parse_loop_line, run_loop
 
@@ -508,7 +513,8 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             else:
                 print_error(
                     "Usage: auto_loop [--target T] [--task T] [--rounds N] "
-                    "[--workers N] [--view] <goal> "
+                    "[--workers N] [--budget rounds=N,...] [--budget-confirm] "
+                    "[--view] <goal> "
                     "(e.g. auto_loop --rounds 5 'gain initial access')"
                 )
             return

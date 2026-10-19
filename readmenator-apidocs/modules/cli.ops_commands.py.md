@@ -459,7 +459,7 @@ Record that a credential worked or was rejected against ``host``.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `selector` | `str` |  | Username/secret/value identifying the credential. |
-| `outcome` | `str` |  | ``worked`` or ``rejected``. |
+| `outcome` | `str` |  | ``worked`` or `[`rejected`](modules.selector_manager.py.md#selection-rejected)`. |
 | `host` | `str` |  | Host the credential was tried against. |
 | `sessions_dir` | `str` | `'sessions'` | Base sessions directory. |
 

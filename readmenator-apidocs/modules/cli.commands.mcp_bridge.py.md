@@ -313,12 +313,17 @@ Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
 
 Usage:
     auto_loop [--target T] [--task T] [--rounds N] [--workers N]
-              [--timeout S] [--step-delay S] [--no-bootstrap]
+              [--timeout S] [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
+              [--budget-confirm] [--no-bootstrap]
               [--view|--plain] <goal>
 
 Both commands share one runner (`[`modules.lazy_runner`](modules.lazy_runner.py.md)`): one
 engine, one chain, one terminal-safety path. ``--view`` opens
 the live worker monitor instead of the milestone panel.
+``--budget`` caps the run at the engine level (rounds, tool
+calls, findings, wall clock); ``--budget-confirm`` gates the
+start behind an interactive confirmation unless
+``LAZYOWN_AUTONOMOUS=1``.
 
 **Parameters**
 
@@ -332,7 +337,7 @@ the live worker monitor instead of the milestone panel.
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:523](../../cli/commands/mcp_bridge.py#L523)
+`method` | [cli/commands/mcp_bridge.py:529](../../cli/commands/mcp_bridge.py#L529)
 
 Decorators: `@with_category(ai_category)`
 
@@ -352,7 +357,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:528](../../cli/commands/mcp_bridge.py#L528)
+`method` | [cli/commands/mcp_bridge.py:534](../../cli/commands/mcp_bridge.py#L534)
 
 Decorators: `@with_category(ai_category)`
 
@@ -372,7 +377,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:533](../../cli/commands/mcp_bridge.py#L533)
+`method` | [cli/commands/mcp_bridge.py:539](../../cli/commands/mcp_bridge.py#L539)
 
 Decorators: `@with_category(ai_category)`
 

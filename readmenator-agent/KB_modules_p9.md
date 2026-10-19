@@ -206,41 +206,43 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ThreadStdoutRouter` (class, line 41) `class ThreadStdoutRouter(TextIOBase)`
-  - `LoopRunConfig` (class, line 90) `class LoopRunConfig`
-  - `_to_int` (function, line 124) `def _to_int(raw, default)`
-  - `_to_float` (function, line 132) `def _to_float(raw, default)`
-  - `parse_loop_line` (function, line 140) `def parse_loop_line(line)`
-  - `resolve_loop_defaults` (function, line 238) `def resolve_loop_defaults(config)`
-  - `build_executor` (function, line 274) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
-  - `_abort_run` (function, line 347) `def _abort_run(engine, task_id, reason)`
-  - `_prepare_engine` (function, line 366) `def _prepare_engine(engine, shell, config, params)`
-  - `_start_proxy` (function, line 380) `def _start_proxy(engine, params)`
-  - `report_result` (function, line 405) `def report_result(result)`
-  - `_bootstrap` (function, line 429) `def _bootstrap(scan_target, executor)`
-  - `_run_with_progress` (function, line 443) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 549) `def _overview(task_id)`
-  - `_format_activity` (function, line 559) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 573) `def _dump_thread_stacks()`
-  - `_stall_thresholds` (function, line 588) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 602) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 698) `def _terminal_stream()`
-  - `_run_plain` (function, line 720) `def _run_plain(engine, config)`
-  - `run_loop` (function, line 755) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 842) `def _tty_available()`
-  - `__init__` (method, line 51) `def __init__(self, main_stream, spool)`
-  - `write` (method, line 57) `def write(self, data)`
-  - `flush` (method, line 68) `def flush(self)`
-  - `encoding` (method, line 76) `def encoding(self)`
-  - `isatty` (method, line 80) `def isatty(self)`
-  - `clamped` (method, line 110) `def clamped(self)`
-  - `_resolve_alias` (function, line 291) `def _resolve_alias(command)`
-  - `_executor` (function, line 299) `def _executor(command)`
-  - `stream` (function, line 458) `def stream(text)`
-  - `_run` (function, line 495) `def _run()`
-  - `_write` (function, line 710) `def _write(text)`
+  - `ThreadStdoutRouter` (class, line 42) `class ThreadStdoutRouter(TextIOBase)`
+  - `LoopRunConfig` (class, line 91) `class LoopRunConfig`
+  - `_to_int` (function, line 129) `def _to_int(raw, default)`
+  - `_to_float` (function, line 137) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 145) `def parse_loop_line(line)`
+  - `resolve_loop_defaults` (function, line 256) `def resolve_loop_defaults(config)`
+  - `build_executor` (function, line 292) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
+  - `_abort_run` (function, line 365) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 384) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 398) `def _start_proxy(engine, params)`
+  - `report_result` (function, line 423) `def report_result(result)`
+  - `_bootstrap` (function, line 447) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 461) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 474) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 490) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 596) `def _overview(task_id)`
+  - `_format_activity` (function, line 606) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 620) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 635) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 649) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 745) `def _terminal_stream()`
+  - `_run_plain` (function, line 767) `def _run_plain(engine, config)`
+  - `run_loop` (function, line 802) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 901) `def _tty_available()`
+  - `__init__` (method, line 52) `def __init__(self, main_stream, spool)`
+  - `write` (method, line 58) `def write(self, data)`
+  - `flush` (method, line 69) `def flush(self)`
+  - `encoding` (method, line 77) `def encoding(self)`
+  - `isatty` (method, line 81) `def isatty(self)`
+  - `clamped` (method, line 113) `def clamped(self)`
+  - `_resolve_alias` (function, line 309) `def _resolve_alias(command)`
+  - `_executor` (function, line 317) `def _executor(command)`
+  - `stream` (function, line 505) `def stream(text)`
+  - `_run` (function, line 542) `def _run()`
+  - `_write` (function, line 757) `def _write(text)`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_progress.py`, `utils.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
 
 ## modules/lazy_sandbox.py
 - Doc: Per-task Docker sandbox for the Lazy autonomous loop.

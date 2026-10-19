@@ -451,7 +451,7 @@ Detect missing steps in the kill chain from world model and session state.
 
 Inspects ``sessions/world_model.json`` host states and session artefacts
 to identify gaps where the operator has not progressed. Each detected gap
-produces a high-confidence [`Proposal`](cli.recommendation.py.md#proposal) for the most impactful next
+produces a high-confidence `Proposal` for the most impactful next
 action.
 
 Gap detection rules (ordered by priority):

@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 115 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. command_and_control commands migrated from lazyown.py.
+modules: lazy_loop groups 99 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -19,25 +19,24 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (3.1)
+## cli (5.1)
 
-cli groups 10 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. command_and_control commands migrated from lazyown.py.
+cli groups 9 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
-## core (3.2)
+## core (5.2)
 
-core groups 4 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, safe_run_argv. Autonomous-run mode for the loop engine.
+core groups 3 files (py) around load_defaults, clear_cache, get, default_lport, default_rport. Autonomous-run mode for the loop engine.
 
-## modules (3.3)
+## modules (5.3)
 
-modules groups 53 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 46 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
 
-## tests (3.4)
+## tests (5.4)
 
-tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+tests groups 41 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
-- cli/commands/command_and_control_migrated.py
 - cli/commands/containers.py
 - cli/commands/defaults.py
 - cli/commands/exploit_migrated.py
@@ -49,20 +48,12 @@ tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - cli/tui_forms.py
 - core/autonomous.py
 - core/defaults.py
-- core/safe_exec.py
 - core/terminal_guard.py
 - modules/__init__.py
 - modules/adcs_attacks.py
-- modules/apt_playbooks.py
-- modules/atomic_cli.py
 - modules/atomic_exploit_bridge.py
-- modules/atomic_resolver.py
 - modules/auto_registry.py
-- modules/chain_registry.py
-- modules/chain_runner.py
-- modules/command_executor.py
 - modules/custom_tools.py
-- modules/emulation_runner.py
 - modules/exploit_chain.py
 - modules/gym_registry.py
 - modules/jsonl_tail.py
@@ -82,13 +73,13 @@ tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
 - modules/lazyk8s.py
-- modules/listener_manager.py
 - modules/loop_progress.py
 - modules/metasploitable_gym.py
 - modules/notify.py
 - modules/orchestrator_config.py
 - modules/outcome_bus.py
 - modules/playbook_admin.py
+- modules/reaction_bridge.py
 - modules/redteam_gym.py
 - modules/selfupdate.py
 - modules/sinks/attack_graph.py
@@ -105,17 +96,9 @@ tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/workspace.py
 - modules/world_model.py
 - tests/conftest.py
-- tests/test_apt_chain_integration.py
 - tests/test_asset_gate.py
-- tests/test_atomic_exploit_bridge.py
-- tests/test_atomic_loop.py
-- tests/test_atomic_resolver.py
 - tests/test_auto_registry.py
 - tests/test_chain_list_command.py
-- tests/test_chain_registry.py
-- tests/test_chain_runner.py
-- tests/test_emulation_runner.py
-- tests/test_executor_kernel.py
 - tests/test_gym_cli.py
 - tests/test_gym_ms2_cli.py
 - tests/test_gym_registry.py
@@ -130,6 +113,7 @@ tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_lazy_worker_safety.py
 - tests/test_loop_auto_orchestrator.py
 - tests/test_loop_broadcast.py
+- tests/test_loop_budget.py
 - tests/test_loop_cold_overview.py
 - tests/test_loop_force_graph.py
 - tests/test_loop_guard_audit.py
@@ -147,8 +131,8 @@ tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_outcome_bus.py
 - tests/test_pi_leg.py
 - tests/test_playbook_admin.py
+- tests/test_reaction_bridge.py
 - tests/test_security_codeql_batch.py
-- tests/test_security_hardening_v4.py
 - tests/test_ttpscope_bridge.py
 - tests/test_unified_bridge_delegate.py
 - tests/test_world_model_extended.py

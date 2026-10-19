@@ -2,6 +2,15 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazyown.py` -> `modules/metrics.py`
+- `lazyown.py` -> `modules/payload_factory.py`
+- `lazyown.py` -> `modules/session_cleanup.py`
+- `lazyown.py` -> `modules/state_manager.py`
+- `lazyown.py` -> `modules/unified_bridge.py`
+- `lazyown.py` -> `skills/unified_orchestrator.py`
+- `lazyown.py` -> `utils.py`
+- `modules/addon_updater.py` -> `core/logging.py`
+- `modules/agent_runner.py` -> `core/logging.py`
 - `modules/agent_runner.py` -> `modules/ai_model.py`
 - `modules/agent_runner.py` -> `modules/llm_factory.py`
 - `modules/agent_runner.py` -> `modules/logging_config.py`
@@ -69,6 +78,10 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_registry.py` -> `core/logging.py`
 - `modules/chain_runner.py` -> `core/safe_exec.py`
 - `modules/chain_runner.py` -> `modules/chain_registry.py`
+- `modules/chain_runner.py` -> `modules/chain_state.py`
+- `modules/chain_synth.py` -> `modules/chain_registry.py`
+- `modules/chain_synth.py` -> `skills/lazyown_facts.py`
+- `modules/chain_tokens.py` -> `skills/lazyown_facts.py`
 - `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 - `modules/cli_auth.py` -> `core/config.py`
 - `modules/cli_auth.py` -> `modules/lazy_rbac.py`
@@ -191,7 +204,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `core/process.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
+- `modules/lazy_loop.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/lazy_loop.py` -> `modules/custom_tools.py`
+- `modules/lazy_loop.py` -> `modules/digest.py`
 - `modules/lazy_loop.py` -> `modules/finding_lifecycle.py`
 - `modules/lazy_loop.py` -> `modules/intercept.py`
 - `modules/lazy_loop.py` -> `modules/lazy_bridge.py`
@@ -207,8 +222,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/notify.py`
 - `modules/lazy_loop.py` -> `modules/orchestrator_config.py`
 - `modules/lazy_loop.py` -> `modules/outcome_bus.py`
+- `modules/lazy_loop.py` -> `modules/reaction_bridge.py`
+- `modules/lazy_loop.py` -> `modules/reactive_engine.py`
 - `modules/lazy_loop.py` -> `modules/selfupdate.py`
 - `modules/lazy_loop.py` -> `modules/traffic_recorder.py`
+- `modules/lazy_loop.py` -> `modules/world_model.py`
 - `modules/lazy_loop.py` -> `utils.py`
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
@@ -270,9 +288,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/loop_progress.py` -> `core/safe_console.py`
 - `modules/mcp_agent_bridge.py` -> `core/logging.py`
 - `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
+- `modules/memory_store.py` -> `modules/memory_embeddings.py`
 - `modules/metasploitable_gym.py` -> `core/logging.py`
 - `modules/metasploitable_gym.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/metasploitable_gym.py` -> `modules/chain_registry.py`
+- `modules/metasploitable_migrations.py` -> `core/safe_exec.py`
 - `modules/metrics.py` -> `core/logging.py`
 - `modules/module_registry.py` -> `core/logging.py`
 - `modules/moe_router.py` -> `core/logging.py`
@@ -317,6 +337,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/privesc_predictor.py` -> `core/console.py`
 - `modules/privesc_predictor.py` -> `modules/llm_factory.py`
 - `modules/professional_report.py` -> `modules/llm_factory.py`
+- `modules/reaction_bridge.py` -> `modules/lazy_loop.py`
 - `modules/reactive_engine.py` -> `core/config.py`
 - `modules/reactive_engine.py` -> `core/logging.py`
 - `modules/reactive_engine.py` -> `modules/session_rag.py`
@@ -401,6 +422,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/websocket_beacon.py` -> `core/hardening.py`
 - `modules/world_model.py` -> `cli/commands/enum.py`
 - `modules/world_model.py` -> `core/logging.py`
+- `modules/world_model.py` -> `modules/cli_auth.py`
 - `modules/yaml_generator.py` -> `modules/ai_model.py`
 - `modules/yaml_generator.py` -> `modules/llm_factory.py`
 - `poc_tui/__main__.py` -> `poc_tui/app.py`
@@ -474,27 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/config.py`
 - `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/models.py`
 - `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `modules/llm_factory.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/validators.py` -> `core/hardening.py`
-- `skills/claude_md_orchestrator/validators.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/heartbeat.py` -> `modules/event_engine.py`
-- `skills/heartbeat.py` -> `modules/session_state.py`
-- `skills/heartbeat.py` -> `modules/timeline_narrator.py`
-- `skills/hermes-lazyown/claudemd_rules.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/config_bridge.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/constants.py` -> `modules/killchain.py`
-- `skills/hermes-lazyown/executor.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/hermes_sync.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `modules/backdoor/server.c`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/claudemd_rules.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/config_bridge.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/executor.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

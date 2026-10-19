@@ -1255,6 +1255,34 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         run_atomic_gen(dict(self.params), line or "", shell=self)
         return
 
+    def _latest_sweep_evidence(self, target: str) -> list[dict]:
+        """Return shell-bearing attempts from the newest sweep report.
+
+        Args:
+            target: Target address evaluating sweeps for.
+
+        Returns:
+            Attempt dicts with ``id``/``port``/``shell`` keys, or [].
+        """
+        from pathlib import Path
+
+        sessions_dir = Path(__file__).resolve().parents[2] / "sessions"
+        reports = sorted(
+            sessions_dir.glob(f"atomic_exploit_{target}_*.json"),
+            key=lambda path: path.stat().st_mtime,
+        )
+        if not reports:
+            return []
+        try:
+            report = json.loads(reports[-1].read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return []
+        return [
+            row
+            for row in (report.get("attempts") or [])
+            if row.get("shell") and row.get("id")
+        ]
+
     @cmd2.with_category("10. Command & Control")
     def do_atomic_shell(self, line):
         """Open an interactive root shell on the target when possible.
@@ -1279,6 +1307,13 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         result = interactive_shell(target, interactive=interactive)
         if result.get("live"):
             record_shell_outcome(target, via=str(result.get("via", "") or ""))
+        for row in (result.get("sessions") or []):
+            print_msg(f"[+] shell live {row.get('target')} via {row.get('via')}")
+        evidence = self._latest_sweep_evidence(target)
+        if evidence:
+            print_msg(f"[+] sweep evidence: {len(evidence)} vector(s) with shell this session")
+            for row in evidence:
+                print_msg(f"    {row['id']:<34} port={row['port']} shell={row['shell']}")
         if result.get("repl"):
             print_msg(f"Session on {target} closed.")
         elif result.get("live"):
@@ -1648,73 +1683,187 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         """Run a fully YAML-administered APT chain with one command.
 
         Usage:
-            apt_chain [chain] [target] [--dry-run]
-            apt_chain apt_rocke 172.17.0.2
-            apt_chain rocke 172.17.0.2   (playbook shorthand)
+            apt_chain [chain] [target] [options]
+            apt_chain list                      - every chain (valid, enabled)
+            apt_chain show <chain>              - steps, defaults, extends
+            apt_chain validate <chain>          - schema errors, step preview
+            apt_chain enable <chain> | disable <chain>
+            apt_chain checkpoints               - resumable runs
+            apt_chain resume <run_id> [target]  - continue a checkpointed run
+
+        Run options:
+            --dry-run                resolve without executing
+            --json                   machine-readable result + variables
+            --var key=value          override a chain token (repeatable)
+            --target HOST            target override (else rhost)
+            --playbook NAME          playbook override
+            --timeout SECONDS        chain wall clock (else chain YAML)
+            --continue               keep going after any failure
+            --step a,b               run only named steps
+            --from-step id           run from id to the end
+            --to-step id             run up to id (inclusive)
+            --replan                 let the reactive engine insert steps
+            --no-checkpoint          do not persist a resumable checkpoint
 
         The first token names a file in ``chains/`` (per-APT files like
         ``apt_rocke.yaml`` inherit the base ``apt_chain.yaml`` and only
         pin the playbook default). A bare playbook name falls back to
         its ``apt_<name>`` chain; anything else runs the base chain with
-        that playbook. Target defaults to ``rhost``. Manage chains from
-        the orchestrator Chains tab or by editing the YAML directly -
-        this method only interprets.
+        that playbook. Target defaults to ``rhost``. Unknown flags fail
+        loudly instead of being swallowed. Engagement facts discovered
+        earlier (ports, services, creds) are injected as ``{...}`` tokens
+        automatically when the fact store knows the target.
         """
-        from modules.auto_registry import _looks_like_target as _is_target
-        from modules.chain_registry import CHAINS_DIR as _CHAINS_DIR
-        from modules.chain_registry import get as _get_chain
+        from modules.chain_registry import CHAINS_DIR as chains_dir
+        from modules.chain_registry import get as get_chain
 
-        def _chain_file_exists(name: str) -> bool:
+        def chain_file_exists(name: str) -> bool:
             """True when chains/<name>.yaml exists, even if disabled."""
-            return (_CHAINS_DIR / f"{name}.yaml").is_file()
+            return (chains_dir / f"{name}.yaml").is_file()
 
-        tokens = [t for t in (line or "").strip().split() if not t.startswith("-")]
+        from cli.apt_chain_support import (
+            adversarial_continue,
+            build_cli_approver,
+            build_reactive_replanner,
+            parse_chain_args,
+            render_result,
+            resolve_admin,
+            select_step_ids,
+        )
+        from modules.auto_registry import _looks_like_target
+        from modules.chain_state import checkpoint_dir, load_checkpoint
+        from modules.chain_runner import ChainRunner
+
+        args = parse_chain_args(line)
+        for problem in args.errors:
+            print_error(f"[apt_chain] {problem}")
+        if args.errors:
+            return
+
+        resume_state: dict | None = None
+        if args.admin_action == "resume":
+            if not args.admin_args:
+                print_error("Usage: apt_chain resume <run_id> [target]")
+                return
+            args.resume_run_id = args.admin_args[0]
+        elif args.admin_action:
+            payload = resolve_admin(args)
+            if args.json_out:
+                print(json.dumps(payload, indent=2, default=str))
+                return
+            if not payload.get("ok", False):
+                print_error(f"[apt_chain] {args.admin_action}: {payload.get('error', 'failed')}")
+                if payload.get("errors"):
+                    for error in payload["errors"]:
+                        print_warn(f"    - {error}")
+                return
+            rows = payload.get("rows") or []
+            if payload.get("action") == "list":
+                print_msg(f"{'chain':<44} {'ok':<5} {'on':<4} {'steps':<6} playbook")
+                print_msg("-" * 78)
+                for row in rows:
+                    print_msg(
+                        f"{str(row.get('name', ''))[:43]:<44} {str(row.get('valid', ''))[:4]:<5} "
+                        f"{str(row.get('enabled', ''))[:3]:<4} {str(row.get('steps', ''))[:5]:<6} "
+                        f"{row.get('playbook', '')}"
+                    )
+            elif payload.get("action") == "checkpoints":
+                if not rows:
+                    print_warn("[apt_chain] no checkpoints (runs via apt_chain without --no-checkpoint).")
+                for row in rows:
+                    print_msg(
+                        f"{row.get('run_id', ''):<62} {row.get('chain', ''):<24} state={row.get('state', ''):<10} target={row.get('target', '')}"
+                    )
+            elif payload.get("action") == "show":
+                print_msg(f"[apt_chain] {payload.get('name')}: {payload.get('description') or '(no description)'}")
+                print_msg(f"    extends: {payload.get('extends') or '(base)'}  defaults: {json.dumps(payload.get('defaults', {}))}")
+                for step in payload.get("steps", []) or []:
+                    print_msg(f"    - {step.get('id', step.get('run'))}: {step.get('run', '')}")
+                if payload.get("errors"):
+                    for error in payload["errors"]:
+                        print_warn(f"    - {error}")
+            elif payload.get("action") == "synth":
+                if payload.get("path"):
+                    print_succ(f"[apt_chain] generated {payload.get('name', '')} ({payload.get('steps', 0)} steps)")
+                    print_msg(f"    file: {payload.get('path')}")
+                    print_msg("    run it: apt_chain " + str(payload.get("name", "")))
+                    for note in payload["notes"][:24]:
+                        print_msg(f"    • {note}")
+                else:
+                    print_error(f"[apt_chain] synth failed: {payload.get('error', 'validation')}")
+            else:
+                if payload.get("errors"):
+                    for error in payload["errors"]:
+                        print_warn(f"    - {error}")
+                else:
+                    print_succ(f"[apt_chain] {args.admin_action} ok: {payload.get('name', '')}")
+            return
+
         target = (self.params.get("rhost", "") or "").strip()
-        chain_name = "apt_chain"
-        playbook_override = ""
+        chain_name = args.chain_override or "apt_chain"
+        playbook_override = args.playbook
         try:
-            from modules.apt_playbooks import AptPlaybookEngine as _PBE
+            from modules.apt_playbooks import AptPlaybookEngine as playbook_engine
 
-            _known = _PBE(playbook_dir="playbooks")
+            known_playbooks = playbook_engine(playbook_dir="playbooks")
         except Exception:
-            _known = None
-        for token in tokens:
-            lowered = token.lower()
-            if _is_target(token):
-                target = token
-            elif _chain_file_exists(lowered):
-                if _get_chain(lowered) is None:
-                    print_warn(f"Chain disabled: {lowered}. Enable it from the orchestrator Chains tab.")
-                    return
-                chain_name = lowered
-            elif _known is not None and _known.get(token) is not None:
-                if _chain_file_exists(f"apt_{lowered}"):
+            known_playbooks = None
+
+        if args.resume_run_id:
+            resume_state = load_checkpoint(checkpoint_dir(), args.resume_run_id)
+            if not resume_state:
+                print_error(f"[apt_chain] checkpoint not found: {args.resume_run_id} (see: apt_chain checkpoints)")
+                return
+            chain_name = str(resume_state.get("chain", "") or chain_name)
+            if args.target:
+                target = args.target
+            elif resume_state.get("target"):
+                target = str(resume_state["target"])
+
+        if not resume_state:
+            for token in args.positional:
+                lowered = token.lower()
+                if chain_file_exists(lowered):
+                    if get_chain(lowered) is None:
+                        print_warn(f"Chain disabled: {lowered}. Enable it: apt_chain enable {lowered}.")
+                        return
+                    chain_name = lowered
+                elif not args.target and _looks_like_target(token):
+                    target = token
+                elif known_playbooks is not None and known_playbooks.get(token) is not None:
+                    if chain_file_exists(f"apt_{lowered}"):
+                        chain_name = f"apt_{lowered}"
+                    else:
+                        playbook_override = playbook_override or lowered
+                elif get_chain(f"apt_{lowered}") is not None:
                     chain_name = f"apt_{lowered}"
                 else:
-                    playbook_override = lowered
-            elif _get_chain(f"apt_{lowered}") is not None:
-                chain_name = f"apt_{lowered}"
-            else:
-                playbook_override = lowered
+                    playbook_override = playbook_override or lowered
+            target = (args.target or target).strip()
         if not target:
             print_warn("Usage: apt_chain [chain] [target] (no target and rhost unset).")
             return
 
         try:
-            chain = _get_chain(chain_name)
+            chain = get_chain(chain_name)
         except Exception as exc:
             print_warn(f"Chain registry unavailable: {exc}")
             chain = None
         if chain is None:
             print_warn(f"Chain not found or disabled: {chain_name}. See chains/ or the orchestrator Chains tab.")
             return
+        wanted_ids, wanted_errors = select_step_ids(chain, args)
+        for problem in wanted_errors:
+            print_error(f"[apt_chain] {problem}")
+        if wanted_errors:
+            return
+        if args.continue_all:
+            chain = adversarial_continue(chain)
 
         try:
             shell = self._resolve_shell() or self
         except Exception:
             shell = self
-
-        from modules.chain_runner import ChainRunner
 
         tokens_map = {"target": target}
         lhost = str(self.params.get("lhost", "") or "")
@@ -1725,57 +1874,73 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             tokens_map["lport"] = lport
         if playbook_override:
             tokens_map["playbook"] = playbook_override
-        print_msg(f"[apt_chain] chain={chain_name} target={target}")
+        try:
+            from modules.chain_tokens import build_tokens as build_state_tokens
+
+            discovered = build_state_tokens(target, self.params)
+        except Exception:
+            discovered = {}
+        for name, value in discovered.items():
+            tokens_map.setdefault(name, value)
+        tokens_map.update(args.vars)
+
+        total_timeout = args.timeout or float(chain.total_timeout or 0)
+        checkpoint_path = None if args.no_checkpoint else checkpoint_dir()
+        args_vars = ", ".join(f"{key}={value}" for key, value in args.vars.items()) or "-"
+        if not args.json_out:
+            print_msg(f"[apt_chain] chain={chain_name} target={target} vars={args_vars}")
         runner = ChainRunner(
             chain,
             tokens=tokens_map,
             shell=shell,
-            dry_run="--dry-run" in (line or ""),
+            dry_run=args.dry_run,
+            total_timeout=total_timeout,
+            approver=build_cli_approver(print_msg),
+            checkpoint_dir=checkpoint_path,
+            run_id=args.resume_run_id,
+            resume_state=resume_state,
+            step_filter=wanted_ids,
+            replanner=build_reactive_replanner() if args.replan else None,
         )
         result = runner.run()
-        for outcome in result.steps:
-            if outcome.status == "skipped":
-                print_msg(f"[apt_chain] skip: {outcome.run} ({outcome.reason})")
-            elif outcome.status == "dry-run":
-                print_msg(f"[apt_chain] dry-run: {outcome.run}")
-            elif outcome.ok:
-                print_msg(f"[apt_chain] ok: {outcome.run}")
-                if outcome.output:
-                    for line in outcome.output.splitlines()[:24]:
-                        print_msg(f"    {line[:220]}")
-            else:
-                print_warn(f"[apt_chain] {outcome.status}: {outcome.run} ({outcome.reason})")
-        if result.aborted:
-            print_warn(f"[apt_chain] aborted: {result.reason}")
-        if not runner.dry_run:
+        if args.json_out:
+            print(json.dumps(result.to_dict(), indent=2, default=str))
+        else:
+            for output_line in render_result(result):
+                print_msg(output_line)
+        if not args.dry_run:
             try:
                 from modules.outcome_bus import record_event
 
-                record_event(
-                    kind="chain",
-                    target=target,
-                    host=target,
-                    task_id=str(self.params.get("task_id", "") or ""),
-                    title=f"chain {chain_name}",
-                    description=result.reason or f"{len(result.steps)} step(s) executed",
-                    severity="medium",
-                    success=result.ok,
-                    shell=False,
-                    source=chain_name,
-                    artifacts=list(result.artifacts),
-                    metadata={
+                sinks = [sink for step in result.steps for sink in (getattr(step, "sinks", []) or [])]
+                event_kwargs: dict = {
+                    "kind": "chain",
+                    "target": target,
+                    "host": target,
+                    "task_id": str(self.params.get("task_id", "") or ""),
+                    "title": f"chain {chain_name}",
+                    "description": result.reason or f"{len(result.steps)} step(s) executed",
+                    "severity": "medium",
+                    "success": result.ok,
+                    "shell": False,
+                    "source": chain_name,
+                    "artifacts": list(result.artifacts),
+                    "metadata": {
                         "steps": [step.to_dict() for step in result.steps],
+                        "branches": result.branches,
+                        "run_id": result.run_id,
                         "refresh_report": True,
                     },
-                )
+                }
+                if sinks:
+                    event_kwargs["sinks"] = list(dict.fromkeys(sinks))
+                record_event(**event_kwargs)
             except Exception:
                 pass
         if result.aborted:
             return
-        print_msg(
-            f"[apt_chain] chain finished: {sum(1 for step in result.steps if step.ok)}/{len(result.steps)} "
-            "step(s) ok - a green run line means the step was issued, not that the target fell."
-        )
+        if result.run_id and checkpoint_path is not None:
+            print_msg(f"[apt_chain] checkpoint: {checkpoint_path / (result.run_id + '.json')}")
 
     @cmd2.with_category("10. Command & Control")
     def do_apt_playbook(self, line):

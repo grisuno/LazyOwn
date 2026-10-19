@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 766,
-  "entities": 14584,
+  "modules": 778,
+  "entities": 14744,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,43 +13,43 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 655,
+   "py": 667,
    "sh": 59
   },
   "kinds": {
-   "attribute": 4112,
-   "class": 1360,
+   "attribute": 4168,
+   "class": 1370,
    "classmethod": 81,
-   "constant": 1236,
-   "constructor": 510,
+   "constant": 1247,
+   "constructor": 513,
    "enum": 38,
-   "exception": 36,
-   "function": 2558,
+   "exception": 37,
+   "function": 2599,
    "macro": 113,
-   "method": 3452,
-   "module": 766,
-   "property": 183,
+   "method": 3472,
+   "module": 778,
+   "property": 187,
    "protocol": 14,
-   "staticmethod": 89,
+   "staticmethod": 91,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 312,
+  "skipped_files": 320,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6810,
-   "total": 9224,
-   "percent": 73.8
+   "documented": 6890,
+   "total": 9317,
+   "percent": 74.0
   },
   "by_kind": {
    "class": {
-    "documented": 1172,
-    "total": 1360,
-    "percent": 86.2
+    "documented": 1182,
+    "total": 1370,
+    "percent": 86.3
    },
    "classmethod": {
     "documented": 55,
@@ -58,8 +58,8 @@
    },
    "constructor": {
     "documented": 193,
-    "total": 510,
-    "percent": 37.8
+    "total": 513,
+    "percent": 37.6
    },
    "enum": {
     "documented": 29,
@@ -67,14 +67,14 @@
     "percent": 76.3
    },
    "exception": {
-    "documented": 34,
-    "total": 36,
-    "percent": 94.4
+    "documented": 35,
+    "total": 37,
+    "percent": 94.6
    },
    "function": {
-    "documented": 1669,
-    "total": 2558,
-    "percent": 65.2
+    "documented": 1704,
+    "total": 2599,
+    "percent": 65.6
    },
    "macro": {
     "documented": 3,
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2777,
-    "total": 3452,
+    "documented": 2793,
+    "total": 3472,
     "percent": 80.4
    },
    "module": {
-    "documented": 644,
-    "total": 766,
-    "percent": 84.1
+    "documented": 656,
+    "total": 778,
+    "percent": 84.3
    },
    "property": {
-    "documented": 139,
-    "total": 183,
-    "percent": 76.0
+    "documented": 143,
+    "total": 187,
+    "percent": 76.5
    },
    "protocol": {
     "documented": 14,
@@ -102,9 +102,9 @@
     "percent": 100.0
    },
    "staticmethod": {
-    "documented": 77,
-    "total": 89,
-    "percent": 86.5
+    "documented": 79,
+    "total": 91,
+    "percent": 86.8
    },
    "struct": {
     "documented": 1,
@@ -151,6 +151,11 @@
    "cli/aliases.py": {
     "documented": 5,
     "total": 5,
+    "percent": 100.0
+   },
+   "cli/apt_chain_support.py": {
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "cli/assign.py": {
@@ -1873,6 +1878,11 @@
     "total": 3,
     "percent": 100.0
    },
+   "modules/auto_loop_memory.py": {
+    "documented": 19,
+    "total": 23,
+    "percent": 82.6
+   },
    "modules/auto_pivot.py": {
     "documented": 2,
     "total": 21,
@@ -1994,8 +2004,23 @@
     "percent": 100.0
    },
    "modules/chain_runner.py": {
-    "documented": 10,
-    "total": 10,
+    "documented": 17,
+    "total": 17,
+    "percent": 100.0
+   },
+   "modules/chain_state.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
+   "modules/chain_synth.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/chain_tokens.py": {
+    "documented": 3,
+    "total": 3,
     "percent": 100.0
    },
    "modules/cicd_enumerator.py": {
@@ -2102,6 +2127,11 @@
     "documented": 13,
     "total": 14,
     "percent": 92.9
+   },
+   "modules/digest.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
    },
    "modules/dns_beacon.py": {
     "documented": 13,
@@ -2723,14 +2753,24 @@
     "total": 8,
     "percent": 87.5
    },
+   "modules/memory_embeddings.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
    "modules/memory_store.py": {
-    "documented": 1,
-    "total": 29,
-    "percent": 3.4
+    "documented": 3,
+    "total": 34,
+    "percent": 8.8
    },
    "modules/metasploitable_gym.py": {
     "documented": 8,
     "total": 8,
+    "percent": 100.0
+   },
+   "modules/metasploitable_migrations.py": {
+    "documented": 4,
+    "total": 4,
     "percent": 100.0
    },
    "modules/metrics.py": {
@@ -2883,6 +2923,11 @@
     "total": 2,
     "percent": 100.0
    },
+   "modules/reaction_bridge.py": {
+    "documented": 5,
+    "total": 6,
+    "percent": 83.3
+   },
    "modules/reactive_engine.py": {
     "documented": 22,
     "total": 38,
@@ -2976,6 +3021,11 @@
    "modules/security_sanitizers.py": {
     "documented": 22,
     "total": 22,
+    "percent": 100.0
+   },
+   "modules/selector_manager.py": {
+    "documented": 4,
+    "total": 4,
     "percent": 100.0
    },
    "modules/selfupdate.py": {
@@ -3082,6 +3132,11 @@
     "documented": 4,
     "total": 34,
     "percent": 11.8
+   },
+   "modules/stego_video.py": {
+    "documented": 6,
+    "total": 11,
+    "percent": 54.5
    },
    "modules/sudo_tiocsti.py": {
     "documented": 9,
@@ -3501,6 +3556,11 @@
    "scripts/lazy_opencode_config.py": {
     "documented": 3,
     "total": 3,
+    "percent": 100.0
+   },
+   "scripts/mcp_call.py": {
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "scripts/migrate_commandsets.py": {
@@ -3985,6 +4045,11 @@
    "uid": "cli/aliases.py",
    "path": "modules/cli.aliases.py.jsonl",
    "entities": 7
+  },
+  {
+   "uid": "cli/apt_chain_support.py",
+   "path": "modules/cli.apt_chain_support.py.jsonl",
+   "entities": 27
   },
   {
    "uid": "cli/assign.py",
@@ -5707,6 +5772,11 @@
    "entities": 5
   },
   {
+   "uid": "modules/auto_loop_memory.py",
+   "path": "modules/modules.auto_loop_memory.py.jsonl",
+   "entities": 26
+  },
+  {
    "uid": "modules/auto_pivot.py",
    "path": "modules/modules.auto_pivot.py.jsonl",
    "entities": 39
@@ -5824,12 +5894,27 @@
   {
    "uid": "modules/chain_registry.py",
    "path": "modules/modules.chain_registry.py.jsonl",
-   "entities": 39
+   "entities": 47
   },
   {
    "uid": "modules/chain_runner.py",
    "path": "modules/modules.chain_runner.py.jsonl",
-   "entities": 31
+   "entities": 47
+  },
+  {
+   "uid": "modules/chain_state.py",
+   "path": "modules/modules.chain_state.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "modules/chain_synth.py",
+   "path": "modules/modules.chain_synth.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/chain_tokens.py",
+   "path": "modules/modules.chain_tokens.py.jsonl",
+   "entities": 3
   },
   {
    "uid": "modules/cicd_enumerator.py",
@@ -5935,6 +6020,11 @@
    "uid": "modules/detection_oracle.py",
    "path": "modules/modules.detection_oracle.py.jsonl",
    "entities": 28
+  },
+  {
+   "uid": "modules/digest.py",
+   "path": "modules/modules.digest.py.jsonl",
+   "entities": 4
   },
   {
    "uid": "modules/dns_beacon.py",
@@ -6309,7 +6399,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 24
+   "entities": 26
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -6557,14 +6647,24 @@
    "entities": 19
   },
   {
+   "uid": "modules/memory_embeddings.py",
+   "path": "modules/modules.memory_embeddings.py.jsonl",
+   "entities": 6
+  },
+  {
    "uid": "modules/memory_store.py",
    "path": "modules/modules.memory_store.py.jsonl",
-   "entities": 39
+   "entities": 44
   },
   {
    "uid": "modules/metasploitable_gym.py",
    "path": "modules/modules.metasploitable_gym.py.jsonl",
    "entities": 9
+  },
+  {
+   "uid": "modules/metasploitable_migrations.py",
+   "path": "modules/modules.metasploitable_migrations.py.jsonl",
+   "entities": 11
   },
   {
    "uid": "modules/metrics.py",
@@ -6717,6 +6817,11 @@
    "entities": 2
   },
   {
+   "uid": "modules/reaction_bridge.py",
+   "path": "modules/modules.reaction_bridge.py.jsonl",
+   "entities": 6
+  },
+  {
    "uid": "modules/reactive_engine.py",
    "path": "modules/modules.reactive_engine.py.jsonl",
    "entities": 56
@@ -6810,6 +6915,11 @@
    "uid": "modules/security_sanitizers.py",
    "path": "modules/modules.security_sanitizers.py.jsonl",
    "entities": 40
+  },
+  {
+   "uid": "modules/selector_manager.py",
+   "path": "modules/modules.selector_manager.py.jsonl",
+   "entities": 14
   },
   {
    "uid": "modules/selfupdate.py",
@@ -6915,6 +7025,11 @@
    "uid": "modules/state_manager.py",
    "path": "modules/modules.state_manager.py.jsonl",
    "entities": 58
+  },
+  {
+   "uid": "modules/stego_video.py",
+   "path": "modules/modules.stego_video.py.jsonl",
+   "entities": 18
   },
   {
    "uid": "modules/sudo_tiocsti.py",
@@ -7335,6 +7450,11 @@
    "uid": "scripts/lazy_opencode_config.py",
    "path": "modules/scripts.lazy_opencode_config.py.jsonl",
    "entities": 3
+  },
+  {
+   "uid": "scripts/mcp_call.py",
+   "path": "modules/scripts.mcp_call.py.jsonl",
+   "entities": 4
   },
   {
    "uid": "scripts/migrate_commandsets.py",
@@ -7784,7 +7904,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2247
+  "total": 2259
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

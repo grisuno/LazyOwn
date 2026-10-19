@@ -7,7 +7,7 @@ main.py
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Creation Date: 09/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: Console assistant for generating dynamic YAML phishing templates using AI
 

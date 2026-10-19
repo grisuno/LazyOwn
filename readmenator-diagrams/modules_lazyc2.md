@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 135 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 141 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -24,7 +24,7 @@ graph LR
     root -- "depends on" --> core
     root -- "calls into" --> lazyc2
     root -- "calls into" --> modules
-    root -- "calls into" --> skills
+    root -- "depends on" --> skills
     skills -- "depends on" --> core
     skills -- "depends on" --> modules
     skills -- "calls into" --> root
@@ -48,7 +48,7 @@ contrib groups 5 files (py) around truncate_message, configure_logging, _load_pa
 
 ## core (2.3)
 
-core groups 5 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Tenant-bound API authorization for the LazyOwn C2 dashboard.
+core groups 6 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
 ## lazyc2 (2.4)
 
@@ -56,7 +56,7 @@ lazyc2 groups 28 files (py) around CorsConfigError, CorsPolicy, __init__, env, r
 
 ## modules (2.5)
 
-modules groups 46 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. LazyOwn AI Fallback Chain
+modules groups 49 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. LazyOwn AI Fallback Chain
 
 ## root (2.6)
 
@@ -64,7 +64,7 @@ root groups 2 files (py) around sanitize_content, RAGManager, __init__, initiali
 
 ## skills (2.7)
 
-skills groups 9 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 7 files (py) around ACIGoal, AttackPhase, to_dict, from_dict, ACIPlan. Autonomous Campaign Intelligence (ACI) Planner
 
 ## static (2.8)
 
@@ -72,7 +72,7 @@ static groups 2 files (js) around as, as, as, as, as. as: !
 
 ## tests (2.9)
 
-tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
+tests groups 38 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
 
 **Files**:
 
@@ -88,6 +88,7 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - core/api_authz.py
 - core/executor.py
 - core/logging.py
+- core/safe_exec.py
 - core/scheduler.py
 - core/security.py
 - lazy_sentinel4.py
@@ -126,6 +127,7 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/c2_profile.py
 - modules/c2_surfaces.py
 - modules/collab_bp.py
+- modules/command_executor.py
 - modules/compliance.py
 - modules/conditional_hooks.py
 - modules/credential_reuse.py
@@ -150,9 +152,11 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/lazyownerweb.py
 - modules/lesson_ingestor.py
 - modules/lilsplunky.py
+- modules/listener_manager.py
 - modules/live_surface.py
 - modules/logging_config.py
 - modules/mcp_agent_bridge.py
+- modules/metasploitable_migrations.py
 - modules/metrics.py
 - modules/operator_profiles.py
 - modules/pipeline_engine.py
@@ -171,9 +175,7 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/heartbeat.py
 - skills/lazyown_campaign.py
 - skills/lazyown_daemon.py
-- skills/lazyown_facts.py
 - skills/sessions_watcher.py
-- skills/tests/test_facts.py
 - skills/toposwarm_autonomous.py
 - static/js/socket.io-4.0.0.min.js
 - static/js/socket.io-4.3.2.min.js
@@ -181,6 +183,7 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_addon_creator.py
 - tests/test_api_authz.py
 - tests/test_api_v1.py
+- tests/test_atomic_exploit_bridge.py
 - tests/test_beacon_history.py
 - tests/test_c2_surfaces.py
 - tests/test_collab_and_onboarding.py
@@ -196,17 +199,20 @@ tests groups 34 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_csrf_policy.py
 - tests/test_dashboard_routes.py
 - tests/test_db.py
+- tests/test_executor_kernel.py
 - tests/test_html_sanitizer.py
 - tests/test_https_redirect.py
 - tests/test_intelligence_engine.py
 - tests/test_lesson_ingestor.py
 - tests/test_live_surface.py
 - tests/test_logging_config.py
+- tests/test_metasploitable_migrations.py
 - tests/test_metrics.py
 - tests/test_mutation_verification.py
 - tests/test_nuclei_parser.py
 - tests/test_pipeline_engine.py
 - tests/test_placeholder_coverage.py
+- tests/test_security_hardening_v4.py
 - tests/test_security_lazyc2.py
 - tests/test_short_url_file_containment.py
 - tests/test_structured_logging.py

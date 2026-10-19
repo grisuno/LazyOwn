@@ -74,8 +74,28 @@ def _derive_crypto_key(password: str, salt: bytes) -> bytes:
 
 
 def _master_password() -> str | None:
-    """Return the shared master password for state-at-rest protection."""
-    return os.environ.get("LAZYOWN_MASTER_PASSWORD")
+    """Return the shared master password for state-at-rest protection.
+
+    Resolution order mirrors ``cli.auto_crypto.build_password_provider_from_cli_login``:
+
+        1. ``LAZYOWN_MASTER_PASSWORD`` environment variable.
+        2. ``lazyown:<operator>`` for the authenticated CLI operator
+           (the same key material the auto-crypto engine derives from).
+
+    Returns None when no credential source is available.
+    """
+    password = os.environ.get("LAZYOWN_MASTER_PASSWORD")
+    if password:
+        return password
+    try:
+        from modules.cli_auth import get_current_operator
+
+        operator = get_current_operator()
+        if operator:
+            return f"lazyown:{operator}"
+    except Exception:
+        pass
+    return None
 
 
 def read_state_dict(path: str | Path) -> dict:

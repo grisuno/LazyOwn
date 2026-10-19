@@ -1,6 +1,79 @@
 # Subsystem: modules (page 14 of 15)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/security_sanitizers.py
+- Doc: Security sanitizers shared across the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SecurityConfig` (class, line 37) `class SecurityConfig`
+  - `HeaderValueSanitizer` (class, line 101) `class HeaderValueSanitizer`
+  - `SessionPathResolver` (class, line 162) `class SessionPathResolver`
+  - `BindAddressResolver` (class, line 256) `class BindAddressResolver`
+  - `CommandRedactor` (class, line 318) `class CommandRedactor`
+  - `OutputSanitizer` (class, line 406) `class OutputSanitizer`
+  - `build_default_config` (function, line 477) `def build_default_config(payload)`
+  - `from_payload` (method, line 68) `def from_payload(cls, payload)`
+  - `__init__` (method, line 115) `def __init__(self, config)`
+  - `is_valid_name` (method, line 129) `def is_valid_name(self, name)`
+  - `sanitize_value` (method, line 139) `def sanitize_value(self, value)`
+  - `__init__` (method, line 174) `def __init__(self, base_dir, config)`
+  - `base_dir` (method, line 192) `def base_dir(self)`
+  - `resolve` (method, line 196) `def resolve(self, untrusted_name)`
+  - `file_exists` (method, line 238) `def file_exists(self, untrusted_name)`
+  - `__init__` (method, line 269) `def __init__(self, config, preferred_addresses)`
+  - `_is_well_formed` (method, line 285) `def _is_well_formed(self, candidate)`
+  - `resolve` (method, line 298) `def resolve(self)`
+  - `__init__` (method, line 333) `def __init__(self, config)`
+  - `_display_username` (method, line 345) `def _display_username(self, username)`
+  - `_display_password` (method, line 353) `def _display_password(self, password)`
+  - `render` (method, line 359) `def render(self, template, substitutions, username, password)`
+  - `__init__` (method, line 418) `def __init__(self, config)`
+  - `sanitize` (method, line 429) `def sanitize(self, value)`
+  - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+
+## modules/selector_manager.py
+- Doc: Selector manager: deterministic priority cascade with provenance.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Proposal` (class, line 21) `class Proposal`
+  - `Selection` (class, line 32) `class Selection`
+  - `select` (function, line 42) `def select(proposals, is_blocked)`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
+
+## modules/selfupdate.py
+- Doc: Guarded self-update for the LazyOwn working tree.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReleaseArtifact` (class, line 24) `class ReleaseArtifact`
+  - `Updater` (class, line 38) `class Updater`
+  - `_run` (function, line 85) `def _run(argv, cwd, timeout)`
+  - `_git` (function, line 90) `def _git(args, runner, cwd, timeout)`
+  - `current_branch` (function, line 96) `def current_branch(runner)`
+  - `dirty` (function, line 102) `def dirty(runner)`
+  - `check` (function, line 108) `def check(branch, runner)`
+  - `apply` (function, line 140) `def apply(branch, confirm, runner)`
+  - `__init__` (method, line 47) `def __init__(self, live_path)`
+  - `verify` (method, line 52) `def verify(self, artifact)`
+  - `stage` (method, line 57) `def stage(self, artifact, directory)`
+  - `rollback` (method, line 77) `def rollback(self)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
+
+## modules/session_cleanup.py
+- Doc: Ephemeral infrastructure cleanup on shell exit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `find_cloudflared_pids` (function, line 28) `def find_cloudflared_pids(ps_output)`
+  - `_run_quiet` (function, line 49) `def _run_quiet(argv, timeout)`
+  - `_compose_down` (function, line 66) `def _compose_down(compose_file, label)`
+  - `stop_cloudflared_processes` (function, line 94) `def stop_cloudflared_processes()`
+  - `cleanup_ephemeral_infra` (function, line 120) `def cleanup_ephemeral_infra()`
+- Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
+
 ## modules/session_rag.py
 - Doc: — ChromaDB-backed RAG over sessions/ artefacts.
 - Layer: utility
@@ -255,6 +328,22 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`
 
+## modules/stego_video.py
+- Doc: Video steganography addon for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `load_payload_file` (function, line 26) `def load_payload_file()`
+  - `is_zip` (function, line 36) `def is_zip(path)`
+  - `is_video` (function, line 40) `def is_video(path)`
+  - `prompt_path` (function, line 44) `def prompt_path(message)`
+  - `resolve_path` (function, line 52) `def resolve_path(arg_path, payload_file, validator, kind)`
+  - `generate_carrier` (function, line 61) `def generate_carrier(output)`
+  - `encode` (function, line 75) `def encode(zip_path, output_video)`
+  - `decode` (function, line 93) `def decode(stego_video, output_zip)`
+  - `default_output` (function, line 113) `def default_output(zip_path)`
+  - `main` (function, line 118) `def main(argv)`
+
 ## modules/sudo_tiocsti.py
 - Doc: – Production‑grade TIOCSTI injection with multiple attack modes.
 - Layer: utility
@@ -401,75 +490,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `_hook` (function, line 508) `def _hook(m, i, o)`
 - Depends on: `core/logging.py`
 - Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
-
-## modules/traffic_morpher.py
-- Doc: C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TrafficMorpher` (class, line 18) `class TrafficMorpher`
-  - `__init__` (method, line 77) `def __init__(self)`
-  - `get_random_http_headers` (method, line 81) `def get_random_http_headers(self)`
-  - `get_cdn_fronting_hosts` (method, line 91) `def get_cdn_fronting_hosts(self, provider, count)`
-  - `generate_traffic_padding` (method, line 108) `def generate_traffic_padding(self, min_bytes, max_bytes)`
-  - `generate_jitter` (method, line 125) `def generate_jitter(self, base_delay, jitter_pct)`
-  - `generate_dns_tunnel_payload` (method, line 138) `def generate_dns_tunnel_payload(self, data, domain)`
-  - `generate_icmp_exfil_payload` (method, line 164) `def generate_icmp_exfil_payload(self, data, chunk_size)`
-  - `generate_websocket_masking` (method, line 190) `def generate_websocket_masking(self, data)`
-  - `generate_cloudflare_worker_proxy_config` (method, line 205) `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)`
-  - `generate_beacon_profile` (method, line 270) `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)`
-- Imported by: `cli/commands/persist_migrated.py`
-
-## modules/traffic_recorder.py
-- Doc: HTTP traffic recorder with file-tree storage and SQLite index.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RecorderConfig` (class, line 24) `class RecorderConfig`
-  - `url_template` (function, line 69) `def url_template(url)`
-  - `Exchange` (class, line 80) `class Exchange`
-  - `TrafficRecorder` (class, line 91) `class TrafficRecorder`
-  - `__init__` (method, line 94) `def __init__(self, base_dir)`
-  - `_migrate_fts` (method, line 115) `def _migrate_fts(self, conn)`
-  - `_connect` (method, line 132) `def _connect(self)`
-  - `record` (method, line 138) `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...`
-  - `since` (method, line 230) `def since(self, rowid, limit)`
-  - `latest_rowid` (method, line 247) `def latest_rowid(self)`
-  - `query` (method, line 253) `def query(self, host, status, limit, offset, task)`
-  - `get_body` (method, line 275) `def get_body(self, exchange_id)`
-  - `read_body` (method, line 284) `def read_body(self, exchange_id, part, offset, length)`
-  - `count` (method, line 317) `def count(self)`
-  - `_index_fts` (method, line 323) `def _index_fts(self, exchange_id, req, resp)`
-  - `backfill_fts` (method, line 343) `def backfill_fts(self, batch)`
-  - `_fts_query` (method, line 375) `def _fts_query(query)`
-  - `search_body` (method, line 382) `def search_body(self, query, limit)`
-  - `_scan_bodies` (method, line 422) `def _scan_bodies(self, needle, limit)`
-  - `export_archive` (method, line 451) `def export_archive(self, path, limit, task)`
-  - `import_archive` (method, line 493) `def import_archive(self, path)`
-  - `import_inbox` (method, line 554) `def import_inbox(self, inbox_dir)`
-  - `gc` (method, line 587) `def gc(self, older_than_sec)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-
-## modules/ttp_coverage.py
-- Doc: TTP coverage matrix — real-time MITRE ATT&CK technique tracking.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TTPRow` (class, line 55) `class TTPRow`
-  - `TTPCoverage` (class, line 65) `class TTPCoverage`
-  - `get_coverage` (function, line 260) `def get_coverage()`
-  - `__init__` (method, line 68) `def __init__(self)`
-  - `rebuild_from_operations` (method, line 76) `def rebuild_from_operations(self)`
-  - `add` (method, line 125) `def add(self, technique_id, name, tactic, status, operation_id)`
-  - `compute_ready` (method, line 149) `def compute_ready(self, available_facts)`
-  - `_blocking_facts` (method, line 168) `def _blocking_facts(self, tactic)`
-  - `matrix` (method, line 190) `def matrix(self)`
-  - `status_by_id` (method, line 231) `def status_by_id(self, technique_id)`
-  - `to_dict` (method, line 234) `def to_dict(self)`
-  - `_save_state` (method, line 241) `def _save_state(self)`
-  - `_load_state` (method, line 248) `def _load_state(self)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/caldera.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

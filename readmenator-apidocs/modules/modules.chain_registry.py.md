@@ -39,7 +39,14 @@ classDiagram
     ChainStep : int retries
     ChainStep : bool continue_on_error
     ChainStep : str capture
+    ChainStep : str capture_regex
+    ChainStep : str capture_json
     ChainStep : str expect
+    ChainStep : list[int] expect_exit
+    ChainStep : str verify
+    ChainStep : str on_fail
+    ChainStep : str on_success
+    ChainStep : bool confirm
     ChainStep : list[str] artifacts
     ChainStep : list[str] sinks
     ChainStep : identifier()
@@ -55,6 +62,7 @@ classDiagram
     Chain : str source
     Chain : bool enabled
     Chain : str extends
+    Chain : int total_timeout
     Chain : resolve()
 ```
 
@@ -82,7 +90,7 @@ flowchart LR
 
 ### `ChainStep`
 
-`class` `dataclass` | [modules/chain_registry.py:47](../../modules/chain_registry.py#L47)
+`class` `dataclass` | [modules/chain_registry.py:55](../../modules/chain_registry.py#L55)
 
 Decorators: `@dataclass`
 
@@ -108,7 +116,14 @@ One ordered step: shell line plus optional guards and outcome policy.
 | [`retries`](#chainstep-retries) | `int` | `0` |  |
 | [`continue_on_error`](#chainstep-continue_on_error) | `bool` | `False` |  |
 | [`capture`](#chainstep-capture) | `str` | `''` |  |
+| [`capture_regex`](#chainstep-capture_regex) | `str` | `''` |  |
+| [`capture_json`](#chainstep-capture_json) | `str` | `''` |  |
 | [`expect`](#chainstep-expect) | `str` | `''` |  |
+| [`expect_exit`](#chainstep-expect_exit) | `list[int]` | `field(default_factory=list)` |  |
+| [`verify`](#chainstep-verify) | `str` | `''` |  |
+| [`on_fail`](#chainstep-on_fail) | `str` | `''` |  |
+| [`on_success`](#chainstep-on_success) | `str` | `''` |  |
+| [`confirm`](#chainstep-confirm) | `bool` | `False` |  |
 | [`artifacts`](#chainstep-artifacts) | `list[str]` | `field(default_factory=list)` |  |
 | [`sinks`](#chainstep-sinks) | `list[str]` | `field(default_factory=list)` |  |
 
@@ -122,7 +137,7 @@ One ordered step: shell line plus optional guards and outcome policy.
 
 #### `ChainStep.identifier`
 
-`property` | [modules/chain_registry.py:67](../../modules/chain_registry.py#L67)
+`property` | [modules/chain_registry.py:82](../../modules/chain_registry.py#L82)
 
 Decorators: `@property`
 
@@ -140,7 +155,7 @@ Return the declared id or a stable generated one.
 
 ### `Chain`
 
-`class` `dataclass` | [modules/chain_registry.py:73](../../modules/chain_registry.py#L73)
+`class` `dataclass` | [modules/chain_registry.py:88](../../modules/chain_registry.py#L88)
 
 Decorators: `@dataclass`
 
@@ -165,6 +180,7 @@ A validated chain with defaults, variables and ordered steps.
 | [`source`](#chain-source) | `str` | `''` |  |
 | [`enabled`](#chain-enabled) | `bool` | `True` |  |
 | [`extends`](#chain-extends) | `str` | `''` |  |
+| [`total_timeout`](#chain-total_timeout) | `int` | `0` |  |
 
 **Members**
 
@@ -176,7 +192,7 @@ A validated chain with defaults, variables and ordered steps.
 
 #### `Chain.resolve`
 
-`method` | [modules/chain_registry.py:88](../../modules/chain_registry.py#L88)
+`method` | [modules/chain_registry.py:104](../../modules/chain_registry.py#L104)
 
 ```python
 def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]
@@ -206,7 +222,7 @@ resolution after every capture so later steps see earlier output.
 
 ### `evaluate_when`
 
-`function` | [modules/chain_registry.py:192](../../modules/chain_registry.py#L192)
+`function` | [modules/chain_registry.py:215](../../modules/chain_registry.py#L215)
 
 ```python
 def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
@@ -235,7 +251,7 @@ arithmetic are rejected. Undefined names resolve to an empty string.
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:257](../../modules/chain_registry.py#L257)
+`function` | [modules/chain_registry.py:280](../../modules/chain_registry.py#L280)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -253,7 +269,7 @@ Validate raw YAML data against the chain schema.
 
 **Returns:** `list[str]`
 
-*Called by:* [`load_all`](#load_all), [`scan_all`](#scan_all)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`load_all`](#load_all), [`scan_all`](#scan_all), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
 
 ---
 
@@ -261,7 +277,7 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:334](../../modules/chain_registry.py#L334)
+`function` | [modules/chain_registry.py:408](../../modules/chain_registry.py#L408)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
@@ -291,7 +307,7 @@ Load every valid, enabled chain file (skips the rest loudly).
 
 ### `get`
 
-`function` | [modules/chain_registry.py:434](../../modules/chain_registry.py#L434)
+`function` | [modules/chain_registry.py:520](../../modules/chain_registry.py#L520)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -316,7 +332,7 @@ Return one chain by name, or None.
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:439](../../modules/chain_registry.py#L439)
+`function` | [modules/chain_registry.py:525](../../modules/chain_registry.py#L525)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
@@ -338,7 +354,7 @@ List every chain file including disabled ones (for administration).
 
 *Calls:* [`validate_chain`](#validate_chain)
 
-*Called by:* [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`LazyOrchestratorApp.chain_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows), [`LazyOrchestratorApp.remove_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`LazyOrchestratorApp.chain_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows), [`LazyOrchestratorApp.remove_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
 
 ---
 
@@ -346,7 +362,7 @@ List every chain file including disabled ones (for administration).
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:498](../../modules/chain_registry.py#L498)
+`function` | [modules/chain_registry.py:584](../../modules/chain_registry.py#L584)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
@@ -368,7 +384,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 - `RuntimeError`: (raised in the body, not documented)
 
-*Called by:* [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
 
 ---
 
@@ -376,7 +392,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:521](../../modules/chain_registry.py#L521)
+`function` | [modules/chain_registry.py:607](../../modules/chain_registry.py#L607)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path

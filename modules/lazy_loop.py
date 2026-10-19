@@ -3229,6 +3229,15 @@ class Planner:
         out: list[tuple[str, list[int], list[int], int]] = []
         record = self.store.get(self.task_id) or {}
         scope = record.get("scope", []) or []
+        try:
+            from modules.reaction_bridge import load_reaction_triggers
+
+            for reaction in load_reaction_triggers(self.task_id, consumer="planner"):
+                text = str(reaction.get("text", ""))[:200]
+                if text:
+                    out.append((text, [], [], 1))
+        except Exception:
+            pass
         step = self.todos.next_pending()
         if step:
             satisfied = any(
@@ -3804,6 +3813,7 @@ class Worker:
                 skipped_tools.add(detail)
                 continue
             transcripts.append((command, output))
+            self._absorb_reaction(intent, command, output)
         return self._finish(intent, outcome, transcripts, worker_tools, skipped_tools)
 
     def _finish(
@@ -3878,6 +3888,59 @@ class Worker:
             if asset is not None:
                 return str(asset.value)
         return resolve_target(self.task_id, self.store, self.graph)
+
+    _ABSORB_OUTPUT_LIMIT = 4000
+
+    def _absorb_reaction(self, intent: ExplorationNode, command: str, output: str) -> None:
+        """Park reactive decisions and reuse captured credentials in-session."""
+        if not output or len(output) < 20:
+            return
+        target = self._target_for(intent)
+        try:
+            from modules.reaction_bridge import find_credentials
+
+            creds = find_credentials(output[: self._ABSORB_OUTPUT_LIMIT])
+            if creds:
+                from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
+                engine = AutonomousExploitEngine.get_instance()
+                engine.retry_with_credentials(target, credentials=creds)
+                self.activity.emit(
+                    self.name,
+                    "cred-reuse",
+                    f"{len(creds)} credential pair(s) from step output fed to retry engine ({target})",
+                    intent_id=intent.node_id,
+                )
+        except Exception:
+            pass
+        try:
+            from modules.reaction_bridge import ReactionPick
+            from modules.reaction_bridge import save_decisions as _save_reactions
+            from modules.reactive_engine import get_engine as _get_react
+
+            platform = "unknown"
+            try:
+                from modules.world_model import WorldModel
+
+                platform = str(WorldModel().snapshot().get("hosts", {}).get(target, {}).get("platform", "unknown"))
+            except Exception:
+                platform = "unknown"
+            decisions = _get_react().analyse(output=output[: self._ABSORB_OUTPUT_LIMIT], command=command, platform=platform)
+            picks = [
+                ReactionPick(command=str(d.command), reason=str(d.reason), priority=int(d.priority), mitre=str(d.mitre_tactic))
+                for d in decisions
+                if str(getattr(d, "command", "") or "").strip()
+            ]
+            if picks:
+                _save_reactions(self.task_id, picks[:3])
+                self.activity.emit(
+                    self.name,
+                    "reactive",
+                    f"parked {len(picks[:3])} reactive decision(s) for next planner round",
+                    intent_id=intent.node_id,
+                )
+        except Exception:
+            pass
 
     def _guard_step(
         self,
@@ -4281,6 +4344,7 @@ class Worker:
             if status == "skipped":
                 return f"[SYSTEM] skipped: binary '{detail}' is not installed. Use another approach."
             transcripts.append((command, output))
+            self._absorb_reaction(intent, command, output)
             steer = self._drain_steer(intent)
             if steer:
                 output = f"[OPERATOR MESSAGE] {steer}\nAdjust course accordingly before continuing.\n{output}"
@@ -8870,6 +8934,7 @@ class LazyLoopEngine:
         self._active_worker_pool = self._worker_pool
         self.runtime.beat(task_id, workers)
         rounds = []
+        last_results = []
         wake = _wake_event(task_id)
         heartbeat = max(0.05, float(getattr(self, "heartbeat_sec", PLAN_HEARTBEAT_SEC) or PLAN_HEARTBEAT_SEC))
         activity = ActivityLog(task_id)
@@ -8893,6 +8958,7 @@ class LazyLoopEngine:
                     break
                 summary = self.run_round(task_id, workers=workers, executor=executor)
                 rounds.append({"new_intents": summary["new_intents"], "executed": summary["executed"]})
+                last_results = list(summary.get("results", []) or [])
                 if self._goals_met(task_id):
                     self.store.set_status(task_id, "done")
                     self.runtime.abort(task_id, "goal_met", "every goal done")
@@ -8985,6 +9051,41 @@ class LazyLoopEngine:
             try:
                 if _stage_enabled("report") and ExplorationGraph(task_id).list("finding"):
                     self.export_findings_report(task_id)
+            except Exception:
+                pass
+            try:
+                from modules.digest import build_engine_digest
+                from modules.digest import worker_results_digest as _digest_rows
+                from modules.digest import write_digest as _digest_write
+
+                _graph_for_digest = ExplorationGraph(task_id)
+                shown_rows, blocked_rows = _digest_rows(last_results)
+                findings_for_digest = [n.text for n in _graph_for_digest.list("finding")]
+                facts_for_digest = [n.text for n in _graph_for_digest.list("fact")[-6:]]
+                reactions_for_digest = []
+                try:
+                    from modules.reaction_bridge import load_reaction_triggers as _backlog
+
+                    reactions_for_digest = [
+                        str(reaction.get("text", "")) for reaction in _backlog(task_id)
+                    ]
+                except Exception:
+                    reactions_for_digest = []
+                digest_path = _digest_write(
+                    task_id,
+                    build_engine_digest(
+                        task_id,
+                        str(record.get("status", "")),
+                        len(rounds),
+                        findings_for_digest,
+                        facts_for_digest,
+                        blocked_rows,
+                        reactions_for_digest,
+                    ),
+                    BASE_DIR / "sessions",
+                )
+                if digest_path:
+                    ActivityLog(task_id).emit("engine", "digest", f"operator digest: {digest_path}")
             except Exception:
                 pass
             self._sync_c2_board([task_id])

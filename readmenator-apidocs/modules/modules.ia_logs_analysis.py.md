@@ -7,7 +7,7 @@ log_monitor_bot.py
 Author: Your Name
 Email: youremail@example.com
 Creation Date: 10/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: Real-time log monitoring bot for Linux systems.
              Monitors logs in /var/log (e.g., SSH, Apache2, Nginx) and uses DeepSeek to detect suspicious activity.

@@ -1,6 +1,6 @@
 # `modules.memory_store`
 
-> Source: [modules/memory_store.py:1](../../modules/memory_store.py#L1) | language `py` | coverage 3.4% | [API index](../index.md)
+> Source: [modules/memory_store.py:1](../../modules/memory_store.py#L1) | language `py` | coverage 8.8% | [API index](../index.md)
 
 memory_store.py — Episodic memory for the LazyOwn auto_loop.
 
@@ -10,8 +10,8 @@ Optionally uses numpy for cosine similarity when available.
 
 ## Contents
 
-- **Classes:** [`MemoryEntry`](#memoryentry), [`StorageBackend`](#storagebackend), [`SQLiteBackend`](#sqlitebackend), [`MemoryStore`](#memorystore)
-- **Functions:** [`get_memory_store`](#get_memory_store), [`remember`](#remember), [`recall`](#recall)
+- **Classes:** [`MemoryEntry`](#memoryentry), [`StorageBackend`](#storagebackend), [`SQLiteBackend`](#sqlitebackend), [`MemoryStore`](#memorystore), [`VectorSQLiteBackend`](#vectorsqlitebackend)
+- **Functions:** [`get_memory_store`](#get_memory_store), [`remember`](#remember), [`recall`](#recall), [`recall_hybrid`](#recall_hybrid)
 
 ## Type Diagram
 
@@ -51,9 +51,14 @@ classDiagram
     MemoryStore : recall()
     MemoryStore : recall_by_host()
     MemoryStore : recall_for_service()
+    MemoryStore : recall_hybrid()
     MemoryStore : stats()
     MemoryStore : export_finetuning_dataset()
+    class VectorSQLiteBackend
+    VectorSQLiteBackend : save()
+    VectorSQLiteBackend : search_semantic()
     StorageBackend <|-- SQLiteBackend
+    SQLiteBackend <|-- VectorSQLiteBackend
 ```
 
 ## Call Graph
@@ -64,16 +69,26 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_modules_memory_store_py__MemoryStore_remember(["MemoryStore.remember"])
     n_modules_memory_store_py__MemoryEntry(["MemoryEntry"])
+    n_modules_memory_store_py__VectorSQLiteBackend_search_semantic(["VectorSQLiteBackend.search_semantic"])
+    n_modules_memory_store_py__SQLiteBackend_all_entries(["SQLiteBackend.all_entries"])
     n_modules_memory_store_py__get_memory_store(["get_memory_store"])
     n_modules_memory_store_py__MemoryStore___init__(["MemoryStore.__init__"])
-    n_modules_memory_store_py__SQLiteBackend___init__(["SQLiteBackend.__init__"])
+    n_modules_memory_store_py__VectorSQLiteBackend(["VectorSQLiteBackend"])
     n_modules_memory_store_py__remember(["remember"])
     n_modules_memory_store_py__recall(["recall"])
+    n_modules_memory_store_py__recall_hybrid(["recall_hybrid"])
+    n_modules_memory_store_py__VectorSQLiteBackend_save(["VectorSQLiteBackend.save"])
+    n_modules_memory_embeddings_py__embed["memory_embeddings.embed"]
+    n_modules_memory_embeddings_py__semantic_top_k["memory_embeddings.semantic_top_k"]
     n_modules_memory_store_py__MemoryStore_remember --> n_modules_memory_store_py__MemoryEntry
+    n_modules_memory_store_py__VectorSQLiteBackend_search_semantic --> n_modules_memory_store_py__SQLiteBackend_all_entries
     n_modules_memory_store_py__get_memory_store --> n_modules_memory_store_py__MemoryStore___init__
-    n_modules_memory_store_py__get_memory_store --> n_modules_memory_store_py__SQLiteBackend___init__
+    n_modules_memory_store_py__get_memory_store --> n_modules_memory_store_py__VectorSQLiteBackend
     n_modules_memory_store_py__remember --> n_modules_memory_store_py__get_memory_store
     n_modules_memory_store_py__recall --> n_modules_memory_store_py__get_memory_store
+    n_modules_memory_store_py__recall_hybrid --> n_modules_memory_store_py__get_memory_store
+    n_modules_memory_store_py__VectorSQLiteBackend_save -.-> n_modules_memory_embeddings_py__embed
+    n_modules_memory_store_py__VectorSQLiteBackend_search_semantic -.-> n_modules_memory_embeddings_py__semantic_top_k
 ```
 
 ## Classes
@@ -82,7 +97,7 @@ flowchart LR
 
 ### `MemoryEntry`
 
-`class` `dataclass` | [modules/memory_store.py:81](../../modules/memory_store.py#L81)
+`class` `dataclass` | [modules/memory_store.py:84](../../modules/memory_store.py#L84)
 
 Decorators: `@dataclass`
 
@@ -111,7 +126,7 @@ class MemoryEntry
 
 ### `StorageBackend`
 
-`class` `abstract` | [modules/memory_store.py:94](../../modules/memory_store.py#L94)
+`class` `abstract` | [modules/memory_store.py:97](../../modules/memory_store.py#L97)
 
 ```python
 class StorageBackend(ABC)
@@ -136,7 +151,7 @@ Subclasses: [`SQLiteBackend`](#sqlitebackend)
 
 #### `StorageBackend.save`
 
-`method` `abstract` | [modules/memory_store.py:96](../../modules/memory_store.py#L96)
+`method` `abstract` | [modules/memory_store.py:99](../../modules/memory_store.py#L99)
 
 Decorators: `@abstractmethod`
 
@@ -154,7 +169,7 @@ def save(self, entry: MemoryEntry) -> None
 
 #### `StorageBackend.search`
 
-`method` `abstract` | [modules/memory_store.py:99](../../modules/memory_store.py#L99)
+`method` `abstract` | [modules/memory_store.py:102](../../modules/memory_store.py#L102)
 
 Decorators: `@abstractmethod`
 
@@ -175,7 +190,7 @@ def search(self, query: str, top_k: int) -> list[MemoryEntry]
 
 #### `StorageBackend.by_host`
 
-`method` `abstract` | [modules/memory_store.py:102](../../modules/memory_store.py#L102)
+`method` `abstract` | [modules/memory_store.py:105](../../modules/memory_store.py#L105)
 
 Decorators: `@abstractmethod`
 
@@ -196,7 +211,7 @@ def by_host(self, host: str, top_k: int) -> list[MemoryEntry]
 
 #### `StorageBackend.by_service`
 
-`method` `abstract` | [modules/memory_store.py:105](../../modules/memory_store.py#L105)
+`method` `abstract` | [modules/memory_store.py:108](../../modules/memory_store.py#L108)
 
 Decorators: `@abstractmethod`
 
@@ -217,7 +232,7 @@ def by_service(self, service: str, top_k: int) -> list[MemoryEntry]
 
 #### `StorageBackend.all_entries`
 
-`method` `abstract` | [modules/memory_store.py:108](../../modules/memory_store.py#L108)
+`method` `abstract` | [modules/memory_store.py:111](../../modules/memory_store.py#L111)
 
 Decorators: `@abstractmethod`
 
@@ -237,7 +252,7 @@ def all_entries(self, limit: int) -> list[MemoryEntry]
 
 #### `StorageBackend.close`
 
-`method` `abstract` | [modules/memory_store.py:111](../../modules/memory_store.py#L111)
+`method` `abstract` | [modules/memory_store.py:114](../../modules/memory_store.py#L114)
 
 Decorators: `@abstractmethod`
 
@@ -251,13 +266,15 @@ def close(self) -> None
 
 ### `SQLiteBackend`
 
-`class` | [modules/memory_store.py:129](../../modules/memory_store.py#L129)
+`class` | [modules/memory_store.py:132](../../modules/memory_store.py#L132)
 
 ```python
 class SQLiteBackend(StorageBackend)
 ```
 
 Bases: [`StorageBackend`](#storagebackend)
+
+Subclasses: [`VectorSQLiteBackend`](#vectorsqlitebackend)
 
 **Members**
 
@@ -276,7 +293,7 @@ Bases: [`StorageBackend`](#storagebackend)
 
 #### `SQLiteBackend.__init__`
 
-`constructor` | [modules/memory_store.py:130](../../modules/memory_store.py#L130)
+`constructor` | [modules/memory_store.py:133](../../modules/memory_store.py#L133)
 
 ```python
 def __init__(self, db_path: Path = _DB_PATH) -> None
@@ -288,13 +305,11 @@ def __init__(self, db_path: Path = _DB_PATH) -> None
 |---|---|---|---|
 | `db_path` | `Path` | `_DB_PATH` |  |
 
-*Called by:* [`get_memory_store`](#get_memory_store)
-
 <a id="sqlitebackend-save"></a>
 
 #### `SQLiteBackend.save`
 
-`method` | [modules/memory_store.py:145](../../modules/memory_store.py#L145)
+`method` | [modules/memory_store.py:148](../../modules/memory_store.py#L148)
 
 ```python
 def save(self, entry: MemoryEntry) -> None
@@ -310,7 +325,7 @@ def save(self, entry: MemoryEntry) -> None
 
 #### `SQLiteBackend.search`
 
-`method` | [modules/memory_store.py:177](../../modules/memory_store.py#L177)
+`method` | [modules/memory_store.py:180](../../modules/memory_store.py#L180)
 
 ```python
 def search(self, query: str, top_k: int) -> list[MemoryEntry]
@@ -329,7 +344,7 @@ def search(self, query: str, top_k: int) -> list[MemoryEntry]
 
 #### `SQLiteBackend.by_host`
 
-`method` | [modules/memory_store.py:189](../../modules/memory_store.py#L189)
+`method` | [modules/memory_store.py:192](../../modules/memory_store.py#L192)
 
 ```python
 def by_host(self, host: str, top_k: int) -> list[MemoryEntry]
@@ -348,7 +363,7 @@ def by_host(self, host: str, top_k: int) -> list[MemoryEntry]
 
 #### `SQLiteBackend.by_service`
 
-`method` | [modules/memory_store.py:200](../../modules/memory_store.py#L200)
+`method` | [modules/memory_store.py:203](../../modules/memory_store.py#L203)
 
 ```python
 def by_service(self, service: str, top_k: int) -> list[MemoryEntry]
@@ -367,7 +382,7 @@ def by_service(self, service: str, top_k: int) -> list[MemoryEntry]
 
 #### `SQLiteBackend.all_entries`
 
-`method` | [modules/memory_store.py:212](../../modules/memory_store.py#L212)
+`method` | [modules/memory_store.py:215](../../modules/memory_store.py#L215)
 
 ```python
 def all_entries(self, limit: int) -> list[MemoryEntry]
@@ -381,11 +396,13 @@ def all_entries(self, limit: int) -> list[MemoryEntry]
 
 **Returns:** `list[MemoryEntry]`
 
+*Called by:* [`VectorSQLiteBackend.search_semantic`](#vectorsqlitebackend-search_semantic)
+
 <a id="sqlitebackend-stats_raw"></a>
 
 #### `SQLiteBackend.stats_raw`
 
-`method` | [modules/memory_store.py:222](../../modules/memory_store.py#L222)
+`method` | [modules/memory_store.py:225](../../modules/memory_store.py#L225)
 
 ```python
 def stats_raw(self) -> dict
@@ -397,7 +414,7 @@ def stats_raw(self) -> dict
 
 #### `SQLiteBackend.close`
 
-`method` | [modules/memory_store.py:229](../../modules/memory_store.py#L229)
+`method` | [modules/memory_store.py:232](../../modules/memory_store.py#L232)
 
 ```python
 def close(self) -> None
@@ -409,7 +426,7 @@ def close(self) -> None
 
 ### `MemoryStore`
 
-`class` | [modules/memory_store.py:234](../../modules/memory_store.py#L234)
+`class` | [modules/memory_store.py:237](../../modules/memory_store.py#L237)
 
 ```python
 class MemoryStore
@@ -424,6 +441,7 @@ class MemoryStore
 | [`recall`](#memorystore-recall) | method |  |
 | [`recall_by_host`](#memorystore-recall_by_host) | method |  |
 | [`recall_for_service`](#memorystore-recall_for_service) | method |  |
+| [`recall_hybrid`](#memorystore-recall_hybrid) | method | FTS5 keyword hits first; semantic fallback when keywords miss. |
 | [`stats`](#memorystore-stats) | method |  |
 | [`export_finetuning_dataset`](#memorystore-export_finetuning_dataset) | method |  |
 
@@ -431,7 +449,7 @@ class MemoryStore
 
 #### `MemoryStore.__init__`
 
-`constructor` | [modules/memory_store.py:237](../../modules/memory_store.py#L237)
+`constructor` | [modules/memory_store.py:240](../../modules/memory_store.py#L240)
 
 ```python
 def __init__(self, backend: StorageBackend) -> None
@@ -449,7 +467,7 @@ def __init__(self, backend: StorageBackend) -> None
 
 #### `MemoryStore.remember`
 
-`method` | [modules/memory_store.py:240](../../modules/memory_store.py#L240)
+`method` | [modules/memory_store.py:243](../../modules/memory_store.py#L243)
 
 ```python
 def remember(self, session_id: str, host: str, tool: str, command: str, output: str, findings: object, success: bool) -> None
@@ -473,7 +491,7 @@ def remember(self, session_id: str, host: str, tool: str, command: str, output: 
 
 #### `MemoryStore.recall`
 
-`method` | [modules/memory_store.py:267](../../modules/memory_store.py#L267)
+`method` | [modules/memory_store.py:270](../../modules/memory_store.py#L270)
 
 ```python
 def recall(self, query: str, top_k: int = 5) -> list[MemoryEntry]
@@ -492,7 +510,7 @@ def recall(self, query: str, top_k: int = 5) -> list[MemoryEntry]
 
 #### `MemoryStore.recall_by_host`
 
-`method` | [modules/memory_store.py:270](../../modules/memory_store.py#L270)
+`method` | [modules/memory_store.py:273](../../modules/memory_store.py#L273)
 
 ```python
 def recall_by_host(self, host: str, top_k: int = 10) -> list[MemoryEntry]
@@ -511,7 +529,7 @@ def recall_by_host(self, host: str, top_k: int = 10) -> list[MemoryEntry]
 
 #### `MemoryStore.recall_for_service`
 
-`method` | [modules/memory_store.py:273](../../modules/memory_store.py#L273)
+`method` | [modules/memory_store.py:276](../../modules/memory_store.py#L276)
 
 ```python
 def recall_for_service(self, service_name: str, top_k: int = 5) -> list[MemoryEntry]
@@ -526,11 +544,32 @@ def recall_for_service(self, service_name: str, top_k: int = 5) -> list[MemoryEn
 
 **Returns:** `list[MemoryEntry]`
 
+<a id="memorystore-recall_hybrid"></a>
+
+#### `MemoryStore.recall_hybrid`
+
+`method` | [modules/memory_store.py:279](../../modules/memory_store.py#L279)
+
+```python
+def recall_hybrid(self, query: str, top_k: int = 5) -> list[MemoryEntry]
+```
+
+FTS5 keyword hits first; semantic fallback when keywords miss.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `query` | `str` |  |  |
+| `top_k` | `int` | `5` |  |
+
+**Returns:** `list[MemoryEntry]`
+
 <a id="memorystore-stats"></a>
 
 #### `MemoryStore.stats`
 
-`method` | [modules/memory_store.py:276](../../modules/memory_store.py#L276)
+`method` | [modules/memory_store.py:292](../../modules/memory_store.py#L292)
 
 ```python
 def stats(self) -> dict
@@ -542,7 +581,7 @@ def stats(self) -> dict
 
 #### `MemoryStore.export_finetuning_dataset`
 
-`method` | [modules/memory_store.py:284](../../modules/memory_store.py#L284)
+`method` | [modules/memory_store.py:300](../../modules/memory_store.py#L300)
 
 ```python
 def export_finetuning_dataset(self, path: Path) -> Path
@@ -558,13 +597,75 @@ def export_finetuning_dataset(self, path: Path) -> Path
 
 ---
 
+<a id="vectorsqlitebackend"></a>
+
+### `VectorSQLiteBackend`
+
+`class` | [modules/memory_store.py:315](../../modules/memory_store.py#L315)
+
+```python
+class VectorSQLiteBackend(SQLiteBackend)
+```
+
+Bases: [`SQLiteBackend`](#sqlitebackend)
+
+SQLite backend that auto-embeds entries and adds semantic search.
+
+**Members**
+
+| Member | Kind | Summary |
+|---|---|---|
+| [`save`](#vectorsqlitebackend-save) | method |  |
+| [`search_semantic`](#vectorsqlitebackend-search_semantic) | method |  |
+
+<a id="vectorsqlitebackend-save"></a>
+
+#### `VectorSQLiteBackend.save`
+
+`method` | [modules/memory_store.py:320](../../modules/memory_store.py#L320)
+
+```python
+def save(self, entry: MemoryEntry) -> None
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `entry` | `MemoryEntry` |  |  |
+
+*Calls:* [`embed`](modules.memory_embeddings.py.md#embed)
+
+<a id="vectorsqlitebackend-search_semantic"></a>
+
+#### `VectorSQLiteBackend.search_semantic`
+
+`method` | [modules/memory_store.py:328](../../modules/memory_store.py#L328)
+
+```python
+def search_semantic(self, query: str, top_k: int) -> list[MemoryEntry]
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `query` | `str` |  |  |
+| `top_k` | `int` |  |  |
+
+**Returns:** `list[MemoryEntry]`
+
+*Calls:* [`semantic_top_k`](modules.memory_embeddings.py.md#semantic_top_k), [`SQLiteBackend.all_entries`](#sqlitebackend-all_entries)
+
+---
+
 ## Functions
 
 <a id="get_memory_store"></a>
 
 ### `get_memory_store`
 
-`function` | [modules/memory_store.py:303](../../modules/memory_store.py#L303)
+`function` | [modules/memory_store.py:339](../../modules/memory_store.py#L339)
 
 ```python
 def get_memory_store() -> MemoryStore
@@ -572,9 +673,9 @@ def get_memory_store() -> MemoryStore
 
 **Returns:** `MemoryStore`
 
-*Calls:* [`MemoryStore.__init__`](#memorystore-__init__), [`SQLiteBackend.__init__`](#sqlitebackend-__init__)
+*Calls:* [`MemoryStore.__init__`](#memorystore-__init__), [`VectorSQLiteBackend`](#vectorsqlitebackend)
 
-*Called by:* [`recall`](#recall), [`remember`](#remember)
+*Called by:* [`recall`](#recall), [`recall_hybrid`](#recall_hybrid), [`remember`](#remember)
 
 ---
 
@@ -582,7 +683,7 @@ def get_memory_store() -> MemoryStore
 
 ### `remember`
 
-`function` | [modules/memory_store.py:312](../../modules/memory_store.py#L312)
+`function` | [modules/memory_store.py:348](../../modules/memory_store.py#L348)
 
 ```python
 def remember(session_id: str, host: str, tool: str, command: str, output: str, findings: object, success: bool) -> None
@@ -608,10 +709,33 @@ def remember(session_id: str, host: str, tool: str, command: str, output: str, f
 
 ### `recall`
 
-`function` | [modules/memory_store.py:324](../../modules/memory_store.py#L324)
+`function` | [modules/memory_store.py:360](../../modules/memory_store.py#L360)
 
 ```python
 def recall(query: str, top_k: int = 5) -> list[MemoryEntry]
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `query` | `str` |  |  |
+| `top_k` | `int` | `5` |  |
+
+**Returns:** `list[MemoryEntry]`
+
+*Calls:* [`get_memory_store`](#get_memory_store)
+
+---
+
+<a id="recall_hybrid"></a>
+
+### `recall_hybrid`
+
+`function` | [modules/memory_store.py:364](../../modules/memory_store.py#L364)
+
+```python
+def recall_hybrid(query: str, top_k: int = 5) -> list[MemoryEntry]
 ```
 
 **Parameters**

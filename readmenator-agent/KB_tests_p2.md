@@ -92,6 +92,35 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_mutating_endpoints_require_auth` (function, line 134) `def test_mutating_endpoints_require_auth(api_client)`
 - Depends on: `core/api_authz.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_history.py`, `modules/db.py`
 
+## tests/test_apt_chain_admin.py
+- Doc: apt_chain admin & run options BDD contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_shell` (function, line 23) `def _make_shell()`
+  - `_write_chain` (function, line 41) `def _write_chain(tmp_path, name, steps, enabled)`
+  - `_patch_chain_loading` (function, line 49) `def _patch_chain_loading(monkeypatch, tmp_path, enabled_name, chain)`
+  - `test_parse_flags_and_unknown_flag_fails_loudly` (function, line 59) `def test_parse_flags_and_unknown_flag_fails_loudly()`
+  - `test_select_step_ids_supports_step_from_and_to` (function, line 74) `def test_select_step_ids_supports_step_from_and_to()`
+  - `test_admin_list_validate_and_enable_disable` (function, line 101) `def test_admin_list_validate_and_enable_disable(tmp_path, monkeypatch, capsys)`
+  - `test_admin_missing_chain_and_bad_input_fail` (function, line 127) `def test_admin_missing_chain_and_bad_input_fail(tmp_path, monkeypatch, capsys)`
+  - `test_run_dry_run_json_output` (function, line 138) `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)`
+  - `test_run_checkpoints_and_resume` (function, line 157) `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)`
+  - `test_confirm_gate_auto_approves_in_autonomous_mode` (function, line 200) `def test_confirm_gate_auto_approves_in_autonomous_mode(tmp_path, monkeypatch, capsys)`
+  - `test_confirm_gate_denies_when_operator_refuses` (function, line 217) `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)`
+  - `test_engagement_tokens_resolved_from_fact_store` (function, line 233) `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)`
+  - `test_playbook_overrides_base_chain` (function, line 282) `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)`
+  - `test_step_filtering_drops_out_of_scope_steps` (function, line 295) `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)`
+  - `test_unknown_run_flags_fail_loudly` (function, line 318) `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)`
+  - `_Set` (class, line 27) `class _Set(CommandAndControlMigratedCommandSet)`
+  - `_Shell` (class, line 30) `class _Shell(Cmd)`
+  - `FakeStore` (class, line 253) `class FakeStore`
+  - `__init__` (method, line 33) `def __init__(self)`
+  - `__init__` (method, line 256) `def __init__(self)`
+  - `parse_all` (method, line 260) `def parse_all()`
+  - `get_host` (method, line 265) `def get_host(host)`
+- Depends on: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/chain_tokens.py`
+
 ## tests/test_apt_chain_integration.py
 - Doc: BDD integration: apt_chain runs real cmd2 verbs, raw commands and shell.
 - Layer: testing
@@ -333,9 +362,35 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_false_when_provider_returns_empty` (method, line 163) `def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions)`
   - `_stub_shell` (method, line 172) `def _stub_shell(self, calls)`
   - `test_qa_encrypts_before_exit` (method, line 180) `def test_qa_encrypts_before_exit(self, monkeypatch)`
-  - `test_exit_encrypts_after_confirmation` (method, line 194) `def test_exit_encrypts_after_confirmation(self, monkeypatch)`
-  - `test_eof_encrypts_before_returning` (method, line 211) `def test_eof_encrypts_before_returning(self, monkeypatch)`
+  - `test_exit_encrypts_after_confirmation` (method, line 195) `def test_exit_encrypts_after_confirmation(self, monkeypatch)`
+  - `test_eof_encrypts_before_returning` (method, line 213) `def test_eof_encrypts_before_returning(self, monkeypatch)`
 - Depends on: `cli/auto_crypto.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`
+
+## tests/test_auto_loop_memory.py
+- Doc: BDD tests for the auto-loop persistent memory and selector cascade.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestFailureMemory` (class, line 13) `class TestFailureMemory`
+  - `TestFailureMemorySanctioned` (class, line 71) `class TestFailureMemorySanctioned`
+  - `TestDecisionPersistence` (class, line 86) `class TestDecisionPersistence`
+  - `TestSelectorManager` (class, line 121) `class TestSelectorManager`
+  - `test_counts_persist_across_reload` (method, line 16) `def test_counts_persist_across_reload(self, tmp_path)`
+  - `test_blocked_after_threshold_by_base` (method, line 25) `def test_blocked_after_threshold_by_base(self, tmp_path)`
+  - `test_veto_blocks_immediately_and_persists` (method, line 35) `def test_veto_blocks_immediately_and_persists(self, tmp_path)`
+  - `test_trims_to_capacity` (method, line 43) `def test_trims_to_capacity(self, tmp_path)`
+  - `test_clear_target_forgets_records` (method, line 53) `def test_clear_target_forgets_records(self, tmp_path)`
+  - `test_invalid_key_raises` (method, line 63) `def test_invalid_key_raises(self, tmp_path)`
+  - `test_sanctioned_lists_sorted_rows` (method, line 74) `def test_sanctioned_lists_sorted_rows(self, tmp_path)`
+  - `test_push_pop_round_trip` (method, line 89) `def test_push_pop_round_trip(self, tmp_path)`
+  - `test_newest_First_and_persisted` (method, line 99) `def test_newest_First_and_persisted(self, tmp_path)`
+  - `test_push_ignores_empty_and_caps` (method, line 110) `def test_push_ignores_empty_and_caps(self, tmp_path)`
+  - `test_priority_order_wins` (method, line 124) `def test_priority_order_wins(self)`
+  - `test_blocked_proposal_skipped_with_trace` (method, line 130) `def test_blocked_proposal_skipped_with_trace(self)`
+  - `test_all_blocked_returns_none` (method, line 144) `def test_all_blocked_returns_none(self)`
+  - `test_duplicates_deduped` (method, line 149) `def test_duplicates_deduped(self)`
+  - `test_empty_command_rejected` (method, line 155) `def test_empty_command_rejected(self)`
+- Depends on: `modules/auto_loop_memory.py`, `modules/selector_manager.py`
 
 ## tests/test_auto_registry.py
 - Doc: Auto-verb registry: loop-ready automation commands.
@@ -412,66 +467,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `run` (method, line 165) `def run(self, command, timeout)`
   - `run` (method, line 186) `def run(self, command, timeout)`
 - Depends on: `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`
-
-## tests/test_autosuggest.py
-- Doc: Unit tests for cli.autosuggest.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_StaticProvider` (class, line 42) `class _StaticProvider`
-  - `_RaisingProvider` (class, line 52) `class _RaisingProvider`
-  - `test_engine_refresh_stores_suggestion` (function, line 59) `def test_engine_refresh_stores_suggestion()`
-  - `test_engine_accept_returns_command_and_clears` (function, line 69) `def test_engine_accept_returns_command_and_clears()`
-  - `test_engine_disabled_clears_state_and_returns_none` (function, line 81) `def test_engine_disabled_clears_state_and_returns_none()`
-  - `test_engine_skip_commands_do_not_refresh` (function, line 93) `def test_engine_skip_commands_do_not_refresh()`
-  - `test_engine_display_text_empty_without_suggestion` (function, line 102) `def test_engine_display_text_empty_without_suggestion()`
-  - `test_engine_display_text_renders_active_suggestion` (function, line 108) `def test_engine_display_text_renders_active_suggestion()`
-  - `test_engine_display_text_truncates_long_command` (function, line 119) `def test_engine_display_text_truncates_long_command()`
-  - `test_composite_picks_highest_score` (function, line 133) `def test_composite_picks_highest_score()`
-  - `test_composite_skips_raising_provider` (function, line 143) `def test_composite_skips_raising_provider()`
-  - `test_composite_returns_none_when_no_provider_responds` (function, line 152) `def test_composite_returns_none_when_no_provider_responds()`
-  - `test_killchain_provider_uses_adjacency` (function, line 158) `def test_killchain_provider_uses_adjacency()`
-  - `test_killchain_provider_skips_already_executed` (function, line 169) `def test_killchain_provider_skips_already_executed()`
-  - `test_killchain_provider_falls_back_to_phase_priority` (function, line 184) `def test_killchain_provider_falls_back_to_phase_priority()`
-  - `test_killchain_provider_returns_none_with_nothing_to_offer` (function, line 197) `def test_killchain_provider_returns_none_with_nothing_to_offer()`
-  - `_FakeAdvisor` (class, line 203) `class _FakeAdvisor`
-  - `test_graph_provider_returns_top_result` (function, line 215) `def test_graph_provider_returns_top_result()`
-  - `test_graph_provider_returns_none_when_advisor_empty` (function, line 232) `def test_graph_provider_returns_none_when_advisor_empty()`
-  - `test_graph_provider_skips_when_last_command_blank` (function, line 239) `def test_graph_provider_skips_when_last_command_blank()`
-  - `test_build_default_engine_includes_killchain_only_when_no_advisor` (function, line 246) `def test_build_default_engine_includes_killchain_only_when_no_advisor()`
-  - `test_format_hint_line_includes_accept_key_and_reason` (function, line 261) `def test_format_hint_line_includes_accept_key_and_reason()`
-  - `test_format_hint_line_truncates_long_command` (function, line 275) `def test_format_hint_line_truncates_long_command()`
-  - `test_format_hint_line_omits_reason_when_blank` (function, line 287) `def test_format_hint_line_omits_reason_when_blank()`
-  - `_CapturingConsole` (class, line 295) `class _CapturingConsole`
-  - `test_render_hint_line_emits_to_console` (function, line 303) `def test_render_hint_line_emits_to_console()`
-  - `test_render_hint_line_is_noop_without_suggestion` (function, line 315) `def test_render_hint_line_is_noop_without_suggestion()`
-  - `test_render_hint_line_is_noop_when_disabled` (function, line 325) `def test_render_hint_line_is_noop_when_disabled()`
-  - `_SequenceProvider` (class, line 339) `class _SequenceProvider`
-  - `test_engine_advances_suggestion_after_accept_refresh` (function, line 354) `def test_engine_advances_suggestion_after_accept_refresh()`
-  - `test_build_default_engine_with_unavailable_advisor` (function, line 372) `def test_build_default_engine_with_unavailable_advisor()`
-  - `__init__` (method, line 45) `def __init__(self, suggestion)`
-  - `suggest` (method, line 48) `def suggest(self, context)`
-  - `suggest` (method, line 55) `def suggest(self, context)`
-  - `__init__` (method, line 204) `def __init__(self, results, available)`
-  - `is_available` (method, line 208) `def is_available(self)`
-  - `suggest_next` (method, line 211) `def suggest_next(self, recent_commands, limit)`
-  - `__init__` (method, line 296) `def __init__(self)`
-  - `print` (method, line 299) `def print(self, value)`
-  - `__init__` (method, line 342) `def __init__(self, suggestions)`
-  - `suggest` (method, line 346) `def suggest(self, context)`
-- Depends on: `cli/autosuggest.py`
-
-## tests/test_backdoor_random.py
-- Doc: Backdoor credentials: random like C2 operators, persisted via assign.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_username_shape_and_uniqueness` (function, line 17) `def test_username_shape_and_uniqueness()`
-  - `test_password_assign_and_shell_safe` (function, line 25) `def test_password_assign_and_shell_safe()`
-  - `test_resolve_keeps_configured` (function, line 33) `def test_resolve_keeps_configured()`
-  - `test_resolve_generates_on_placeholders` (function, line 39) `def test_resolve_generates_on_placeholders()`
-  - `test_ensure_persists_once_then_reuses` (function, line 50) `def test_ensure_persists_once_then_reuses(monkeypatch)`
-- Depends on: `cli/commands/persist_migrated.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

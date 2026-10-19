@@ -1,8 +1,25 @@
-# Symbols (page 6 of 42)
+# Symbols (page 6 of 43)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `StatusBarRenderer` | class | `cli/status_bar.py:656` | `class StatusBarRenderer` |
+| `StatusContext` | class | `cli/status_bar.py:127` | `class StatusContext` |
+| `WorldModelPhaseSource` | class | `cli/status_bar.py:292` | `class WorldModelPhaseSource` |
+| `__init__` | method | `cli/status_bar.py:160` | `def __init__(self, config, root)` |
+| `__init__` | method | `cli/status_bar.py:271` | `def __init__(self, config, payload)` |
+| `__init__` | method | `cli/status_bar.py:295` | `def __init__(self, config, reader, payload)` |
+| `__init__` | method | `cli/status_bar.py:322` | `def __init__(self, config, reader)` |
+| `__init__` | method | `cli/status_bar.py:426` | `def __init__(self, config, reader, phase_provider, hint_provider)` |
+| `__init__` | method | `cli/status_bar.py:511` | `def __init__(self, config, reader, advisor_factory)` |
+| `__init__` | method | `cli/status_bar.py:601` | `def __init__(self, config, reader, clock)` |
+| `__init__` | method | `cli/status_bar.py:659` | `def __init__(self, config)` |
+| `__init__` | method | `cli/status_bar.py:752` | `def __init__(self, config, sources, renderer, payload)` |
+| `_build_precmd_hook` | method | `cli/status_bar.py:895` | `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)` |
+| `_default_provider` | method | `cli/status_bar.py:500` | `def _default_provider()` |
+| `_extract_entries` | method | `cli/status_bar.py:636` | `def _extract_entries(payload)` |
+| `_extract_vuln_items` | method | `cli/status_bar.py:396` | `def _extract_vuln_items(self, payload)` |
+| `_fallback_for` | method | `cli/status_bar.py:938` | `def _fallback_for(self, key)` |
 | `_has_traversal` | method | `cli/status_bar.py:261` | `def _has_traversal(value)` |
 | `_hook` | function | `cli/status_bar.py:915` | `def _hook(data)` |
 | `_is_active` | method | `cli/status_bar.py:646` | `def _is_active(entry, threshold)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `log_downloaded_file` | function | `contrib/legacy/lazyhoneypot.py:132` | `def log_downloaded_file(filename, url, downloads_log)` |
 | `main` | function | `contrib/legacy/lazyhoneypot.py:165` | `def main()` |
 | `parse_args` | function | `contrib/legacy/lazyhoneypot.py:34` | `def parse_args()` |
-| `process_packet` | function | `contrib/legacy/lazyhoneypot.py:137` | `def process_packet(packet)` |
-| `setup_logging` | function | `contrib/legacy/lazyhoneypot.py:52` | `def setup_logging(log_file)` |
-| `RequestHandler` | class | `contrib/legacy/lazyhttpreverseshell.py:51` | `class RequestHandler(BaseHTTPRequestHandler)` |
-| `compress` | function | `contrib/legacy/lazyhttpreverseshell.py:20` | `def compress(data)` |
-| `decompress` | function | `contrib/legacy/lazyhttpreverseshell.py:23` | `def decompress(data)` |
-| `decrypt` | function | `contrib/legacy/lazyhttpreverseshell.py:17` | `def decrypt(data)` |
-| `do_GET` | method | `contrib/legacy/lazyhttpreverseshell.py:52` | `def do_GET(self)` |
-| `do_POST` | method | `contrib/legacy/lazyhttpreverseshell.py:65` | `def do_POST(self)` |
-| `encrypt` | function | `contrib/legacy/lazyhttpreverseshell.py:14` | `def encrypt(data)` |
-| `parse_arguments` | function | `contrib/legacy/lazyhttpreverseshell.py:88` | `def parse_arguments(args)` |
-| `reverse_http_shell_client` | function | `contrib/legacy/lazyhttpreverseshell.py:26` | `def reverse_http_shell_client(lhost, rhost, rport)` |
-| `reverse_http_shell_server` | function | `contrib/legacy/lazyhttpreverseshell.py:50` | `def reverse_http_shell_server(lhost, lport)` |
-| `decrypt` | function | `contrib/legacy/lazykeygen.py:17` | `def decrypt(ciphertext, key)` |
-| `encrypt` | function | `contrib/legacy/lazykeygen.py:11` | `def encrypt(plaintext, key)` |
-| `generate_key` | function | `contrib/legacy/lazykeygen.py:23` | `def generate_key(length)` |
-| `main` | function | `contrib/legacy/lazykeygen.py:26` | `def main()` |
-| `pad` | function | `contrib/legacy/lazykeygen.py:8` | `def pad(s)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

@@ -1,6 +1,49 @@
 # Subsystem: tests (page 15 of 17)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
+## tests/test_safe_subprocess.py
+- Doc: TDD tests for the safe subprocess runner contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestRunArgv` (class, line 35) `class TestRunArgv`
+  - `TestRunShellDefaultDeny` (class, line 53) `class TestRunShellDefaultDeny`
+  - `TestRunShellAllowed` (class, line 71) `class TestRunShellAllowed`
+  - `test_run_returns_completed_result` (method, line 38) `def test_run_returns_completed_result(self)`
+  - `test_run_does_not_audit` (method, line 46) `def test_run_does_not_audit(self, tmp_path)`
+  - `test_default_deny_raises` (method, line 56) `def test_default_deny_raises(self)`
+  - `test_deny_audit_logged` (method, line 61) `def test_deny_audit_logged(self, tmp_path)`
+  - `test_allowed_executes` (method, line 74) `def test_allowed_executes(self)`
+  - `test_allowed_is_audited` (method, line 84) `def test_allowed_is_audited(self, tmp_path)`
+  - `test_empty_reason_rejected` (method, line 94) `def test_empty_reason_rejected(self)`
+  - `test_failed_command_returns_nonzero` (method, line 99) `def test_failed_command_returns_nonzero(self)`
+- Depends on: `core/safe_subprocess.py`
+
+## tests/test_safe_subprocess_behavior.py
+- Doc: BDD behavior scenarios for the safe subprocess contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_given_argv_when_run_then_executes_without_audit` (function, line 12) `def test_given_argv_when_run_then_executes_without_audit(tmp_path)`
+  - `test_given_shell_without_allow_when_called_then_denied` (function, line 22) `def test_given_shell_without_allow_when_called_then_denied(tmp_path)`
+  - `test_given_shell_with_allow_and_reason_when_called_then_executes` (function, line 36) `def test_given_shell_with_allow_and_reason_when_called_then_executes(tmp_path)`
+- Depends on: `core/safe_subprocess.py`
+
+## tests/test_safety_gates.py
+- Doc: BDD scoped tests for safety gates C01-C03.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_c01_builtin_rules_block_destructive` (function, line 10) `def test_c01_builtin_rules_block_destructive()`
+  - `test_c01_allow_passthrough_and_audit` (function, line 19) `def test_c01_allow_passthrough_and_audit()`
+  - `test_c01_deny_rule_and_expiry` (function, line 29) `def test_c01_deny_rule_and_expiry()`
+  - `test_c01_daemon_gate_blocks_denied_command` (function, line 44) `def test_c01_daemon_gate_blocks_denied_command()`
+  - `test_c02_record_query_roundtrip` (function, line 54) `def test_c02_record_query_roundtrip(tmp_path)`
+  - `test_c02_path_traversal_blocked` (function, line 67) `def test_c02_path_traversal_blocked(tmp_path)`
+  - `test_c03_put_get_and_gc` (function, line 78) `def test_c03_put_get_and_gc(tmp_path)`
+  - `test_c03_tamper_detected` (function, line 100) `def test_c03_tamper_detected(tmp_path)`
+- Depends on: `modules/__init__.py`, `modules/evidence.py`, `modules/intercept.py`, `modules/traffic_recorder.py`
+
 ## tests/test_scope_bound_auto_gate.py
 - Doc: tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto...
 - Layer: testing
@@ -437,55 +480,6 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_finds_existing_tool` (method, line 628) `def test_finds_existing_tool(self)`
   - `test_returns_none_for_missing_tool` (method, line 637) `def test_returns_none_for_missing_tool(self)`
 - Depends on: `core/safe_exec.py`
-
-## tests/test_security_hardening_v5.py
-- Doc: SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_read` (function, line 33) `def _read(rel)`
-  - `TestIcmpAuthenticatedCrypto` (class, line 43) `class TestIcmpAuthenticatedCrypto`
-  - `TestCredentialLogHashing` (class, line 93) `class TestCredentialLogHashing`
-  - `TestCalderaConfigNoHardcodedSecrets` (class, line 119) `class TestCalderaConfigNoHardcodedSecrets`
-  - `TestSprayNoClearTextPassword` (class, line 155) `class TestSprayNoClearTextPassword`
-  - `TestPhishingWizardEncryptsCredentials` (class, line 173) `class TestPhishingWizardEncryptsCredentials`
-  - `TestBootstrapPasswordNotPrinted` (class, line 196) `class TestBootstrapPasswordNotPrinted`
-  - `TestNetworkOpsecTlsVersion` (class, line 222) `class TestNetworkOpsecTlsVersion`
-  - `TestCsrfCookieInjection` (class, line 235) `class TestCsrfCookieInjection`
-  - `TestHealthEndpointNoExceptionLeak` (class, line 259) `class TestHealthEndpointNoExceptionLeak`
-  - `test_server_has_no_ecb` (method, line 47) `def test_server_has_no_ecb(self)`
-  - `test_client_has_no_ecb` (method, line 50) `def test_client_has_no_ecb(self)`
-  - `test_server_uses_gcm` (method, line 53) `def test_server_uses_gcm(self)`
-  - `test_client_uses_gcm` (method, line 56) `def test_client_uses_gcm(self)`
-  - `test_encrypt_decrypt_roundtrip` (method, line 59) `def test_encrypt_decrypt_roundtrip(self)`
-  - `test_tampered_payload_rejected` (method, line 67) `def test_tampered_payload_rejected(self)`
-  - `test_short_payload_rejected` (method, line 76) `def test_short_payload_rejected(self)`
-  - `test_client_sudo_is_guarded` (method, line 82) `def test_client_sudo_is_guarded(self)`
-  - `test_uses_hmac_not_plain_sha256` (method, line 97) `def test_uses_hmac_not_plain_sha256(self)`
-  - `test_no_salted_sha256_fingerprint` (method, line 101) `def test_no_salted_sha256_fingerprint(self)`
-  - `test_fingerprint_is_hmac_of_proper_key` (method, line 105) `def test_fingerprint_is_hmac_of_proper_key(self)`
-  - `test_no_hardcoded_user_passwords` (method, line 123) `def test_no_hardcoded_user_passwords(self)`
-  - `test_generated_user_passwords` (method, line 128) `def test_generated_user_passwords(self)`
-  - `test_writes_with_owner_permissions` (method, line 134) `def test_writes_with_owner_permissions(self)`
-  - `test_functional_generates_no_static_passwords` (method, line 138) `def test_functional_generates_no_static_passwords(self)`
-  - `test_does_not_log_password` (method, line 158) `def test_does_not_log_password(self)`
-  - `test_logs_success_without_secret` (method, line 163) `def test_logs_success_without_secret(self)`
-  - `test_encrypts_password_before_storage` (method, line 177) `def test_encrypts_password_before_storage(self)`
-  - `test_hashes_password_before_log` (method, line 181) `def test_hashes_password_before_log(self)`
-  - `test_imports_encryption_contract` (method, line 185) `def test_imports_encryption_contract(self)`
-  - `test_no_password_print` (method, line 200) `def test_no_password_print(self)`
-  - `test_persist_helper_exists` (method, line 204) `def test_persist_helper_exists(self)`
-  - `test_persist_uses_owner_only_permissions` (method, line 208) `def test_persist_uses_owner_only_permissions(self)`
-  - `test_persist_writes_to_file` (method, line 212) `def test_persist_writes_to_file(self)`
-  - `test_pins_minimum_version` (method, line 225) `def test_pins_minimum_version(self)`
-  - `test_validates_client_id` (method, line 239) `def test_validates_client_id(self)`
-  - `test_validator_accepts_only_urlsafe_token` (method, line 243) `def test_validator_accepts_only_urlsafe_token(self)`
-  - `test_no_exception_interpolation` (method, line 263) `def test_no_exception_interpolation(self)`
-  - `test_database_error_is_generic` (method, line 267) `def test_database_error_is_generic(self)`
-  - `test_listener_error_is_generic` (method, line 271) `def test_listener_error_is_generic(self)`
-  - `test_loads_only_generic_error` (method, line 275) `def test_loads_only_generic_error(self)`
-  - `BrokenDB` (class, line 280) `class BrokenDB`
-- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `modules/icmp_server.py`, `modules/phishing_orchestrator.py`, `utils.py`
 
 
 Next: [KB_tests_p16.md](KB_tests_p16.md)

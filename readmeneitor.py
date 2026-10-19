@@ -5,7 +5,7 @@ readmeneitor.py — Automated documentation generator for LazyOwn RedTeam Framew
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Creation date: 09/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: Scans all do_* methods across cli/commands/ and lazyown.py via AST,
 augments metadata from cli/command_index.json, and generates a categorized

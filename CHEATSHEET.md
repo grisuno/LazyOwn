@@ -205,6 +205,21 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Submit challenge | `gym submit --techniques implant_deploy,beacon_callback` |
 | Remove a stale world-model host | `rm_wm_host 127.0.0.1` |
 
+### Metasploitable 2 gym
+
+| Goal | Command |
+|------|---------|
+| Install gym prerequisites once | `sudo apt install -y chromium chromium-driver python3-selenium sshpass` |
+| Start the lab (applies migrations automatically) | `lab start metasploitable` |
+| Run the migrations by hand | `python3 -c "from modules.metasploitable_migrations import apply_migrations; print(apply_migrations('lazyown-lab-metasploitable'))"` |
+| List the 45 vectors | `gym_ms2 chains` |
+| Validate the matrix | `gym_ms2 validate` |
+| Run one vector end to end | `apt_chain gym_metasploitable_ms2_dvwa_sqli --target <ip> --json` |
+| Sweep-like chain dry run | `apt_chain gym_metasploitable_ms2_distcc_exec <ip> --dry-run` |
+| Check per-vector outcomes | `grep '"kind": "exploit"' sessions/outcomes.jsonl \| tail -45` |
+| Headless browser vectors (need chromium + selenium) | `apt_chain gym_metasploitable_ms2_dvwa_xss_dom / _twiki_xss / _mutillidae_csrf --target <ip>` |
+| Full setup guide | `docs/gym-setup.md` |
+
 ---
 
 ## Reporting and Awareness

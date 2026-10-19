@@ -279,9 +279,9 @@ Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposabl
 - `InfraCommandSet.do_infra` (method) `cli/commands/infra.py:136` `def do_infra(self, line)` -- Manage disposable C2 infrastructure.
 
 ## cli/commands/lab.py
-Depends on: `cli/commands/_base.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/metasploitable_migrations.py`, `utils.py`
 Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
-- `LabCommandSet.do_lab` (method) `cli/commands/lab.py:179` `def do_lab(self, line)` -- Manage local CTF practice labs.
+- `LabCommandSet.do_lab` (method) `cli/commands/lab.py:196` `def do_lab(self, line)` -- Manage local CTF practice labs.
 
 ## cli/commands/lateral.py
 Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
@@ -385,19 +385,19 @@ Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test
 - `LazyCommandSet.do_lazy_verb` (method) `cli/commands/lazyops.py:1863` `def do_lazy_verb(self, line)` -- Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target]...
 - `LazyCommandSet.do_lazy_stage` (method) `cli/commands/lazyops.py:1961` `def do_lazy_stage(self, line)` -- Loop stage admin: list|enable|disable <stage>|reset.
 - `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:1989` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].
-- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2099` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
-- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2147` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
-- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2206` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
-- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2343` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
-- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2415` `def do_lazy_status(self, line)` -- Full task status.
-- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2439` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
-- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2444` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
-- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2475` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
-- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2506` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
-- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2527` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
-- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2560` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
-- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2587` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
-- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2632` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
+- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2095` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
+- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2143` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
+- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2202` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
+- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2339` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
+- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2411` `def do_lazy_status(self, line)` -- Full task status.
+- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2435` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
+- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2440` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
+- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2471` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2502` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
+- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2523` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
+- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2556` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
+- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2583` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
+- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2628` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
 - `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2652` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
 - `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2715` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
 
@@ -416,9 +416,9 @@ Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
 - `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:378` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
 - `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:431` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
 - `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:489` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
-- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:523` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
-- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:528` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
-- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:533` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
+- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:529` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:534` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:539` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 ## cli/commands/misc_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`

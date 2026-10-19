@@ -1,6 +1,20 @@
 # Subsystem: tests (page 12 of 17)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
 
+## tests/test_loop_scope_traffic_evidence.py
+- Doc: Scope ownership, port-aware traffic search, role-based evidences (lazy parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_scope_covers_by_ownership_not_substring` (function, line 15) `def test_scope_covers_by_ownership_not_substring(tmp_path, monkeypatch)`
+  - `test_scope_cidr_covers_url_embedded_ip` (function, line 29) `def test_scope_cidr_covers_url_embedded_ip(tmp_path, monkeypatch)`
+  - `test_scope_ip_covers_any_port_url` (function, line 41) `def test_scope_ip_covers_any_port_url(tmp_path, monkeypatch)`
+  - `test_worker_scope_enforcement_cidr` (function, line 54) `def test_worker_scope_enforcement_cidr(tmp_path, monkeypatch)`
+  - `test_traffic_search_host_port_aware` (function, line 71) `def test_traffic_search_host_port_aware(tmp_path, monkeypatch)`
+  - `test_finding_evidence_roles_notes_order` (function, line 88) `def test_finding_evidence_roles_notes_order(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
 ## tests/test_loop_spawn_side.py
 - Doc: Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9).
 - Layer: testing
@@ -158,6 +172,27 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `fake_recommend` (function, line 48) `def fake_recommend()`
   - `explode` (function, line 62) `def explode()`
 
+## tests/test_memory_semantics.py
+- Doc: BDD tests for hashing embeddings and hybrid episodic recall.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_entry` (function, line 14) `def _entry(tool, command, snippet)`
+  - `TestHashingEmbedder` (class, line 27) `class TestHashingEmbedder`
+  - `TestVectorSQLiteBackend` (class, line 62) `class TestVectorSQLiteBackend`
+  - `TestMemoryStoreHybrid` (class, line 90) `class TestMemoryStoreHybrid`
+  - `test_identical_text_full_similarity` (method, line 30) `def test_identical_text_full_similarity(self)`
+  - `test_similar_text_scores_higher_than_unrelated` (method, line 36) `def test_similar_text_scores_higher_than_unrelated(self)`
+  - `test_determinism_across_runs` (method, line 44) `def test_determinism_across_runs(self)`
+  - `test_empty_text_raises` (method, line 49) `def test_empty_text_raises(self)`
+  - `test_unit_length` (method, line 55) `def test_unit_length(self)`
+  - `test_save_gets_embedding` (method, line 65) `def test_save_gets_embedding(self, tmp_path)`
+  - `test_semantic_ranks_relevant_first` (method, line 73) `def test_semantic_ranks_relevant_first(self, tmp_path)`
+  - `test_keyword_query_still_works` (method, line 82) `def test_keyword_query_still_works(self, tmp_path)`
+  - `test_fts_wins_when_present` (method, line 93) `def test_fts_wins_when_present(self, tmp_path)`
+  - `test_hybrid_fallback_after_miss` (method, line 101) `def test_hybrid_fallback_after_miss(self, tmp_path)`
+- Depends on: `modules/memory_embeddings.py`, `modules/memory_store.py`
+
 ## tests/test_metasploitable_gym.py
 - Doc: Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry.
 - Layer: testing
@@ -170,6 +205,20 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_unknown_vulnerability_returns_none` (function, line 89) `def test_unknown_vulnerability_returns_none()`
   - `test_invalid_matrix_is_reported` (function, line 96) `def test_invalid_matrix_is_reported(tmp_path)`
 - Depends on: `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `modules/metasploitable_gym.py`
+
+## tests/test_metasploitable_migrations.py
+- Doc: Unit tests for the Metasploitable 2 gym migrations module.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_build_migrations_ordered_and_unique` (function, line 10) `def test_build_migrations_ordered_and_unique()`
+  - `test_hosts_allow_uses_subnet_prefix` (function, line 19) `def test_hosts_allow_uses_subnet_prefix()`
+  - `test_apply_migrations_skips_when_check_passes` (function, line 29) `def test_apply_migrations_skips_when_check_passes(monkeypatch)`
+  - `test_apply_migrations_applies_when_check_fails` (function, line 40) `def test_apply_migrations_applies_when_check_fails(monkeypatch)`
+  - `test_dvwa_dom_page_payload_contains_sink` (function, line 54) `def test_dvwa_dom_page_payload_contains_sink()`
+  - `test_database_mirror_uses_dump_and_restore` (function, line 62) `def test_database_mirror_uses_dump_and_restore()`
+  - `_fake_exec` (function, line 41) `def _fake_exec(container, script, payload, timeout)`
+- Depends on: `modules/metasploitable_migrations.py`
 
 ## tests/test_metrics.py
 - Doc: Tests for ``modules/metrics.py``.
@@ -420,55 +469,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
   - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
 - Depends on: `modules/integrations/nuclei_parser.py`
-
-## tests/test_ops_loot_phase.py
-- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
-  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
-  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
-  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
-  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
-  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
-  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
-  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
-  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
-  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
-  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
-  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
-  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
-  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
-  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
-  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
-  - `test_loot_mark_rejects_bad_outcome` (function, line 222) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
-  - `test_loot_mark_unknown_credential` (function, line 230) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
-  - `test_phase_progress_ranks` (function, line 241) `def test_phase_progress_ranks(tmp_path)`
-  - `test_phase_progress_completed_override` (function, line 262) `def test_phase_progress_completed_override(tmp_path)`
-  - `test_phase_progress_os_owned_report_and_loot` (function, line 283) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
-  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 310) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
-- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
-
-## tests/test_opsec_scorer.py
-- Doc: Tests for modules/opsec_scorer.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestOpsecScorer` (class, line 13) `class TestOpsecScorer`
-  - `test_score_high_noise_command` (method, line 14) `def test_score_high_noise_command(self)`
-  - `test_score_low_noise_command` (method, line 21) `def test_score_low_noise_command(self)`
-  - `test_score_unknown_command` (method, line 27) `def test_score_unknown_command(self)`
-  - `test_score_with_evasion` (method, line 33) `def test_score_with_evasion(self)`
-  - `test_score_batch` (method, line 39) `def test_score_batch(self)`
-  - `test_score_to_dict` (method, line 45) `def test_score_to_dict(self)`
-  - `test_confidence_is_float` (method, line 61) `def test_confidence_is_float(self)`
-  - `test_mitigations_returned` (method, line 67) `def test_mitigations_returned(self)`
-  - `test_convenience_function` (method, line 72) `def test_convenience_function(self)`
-  - `test_all_known_commands_have_mitigations` (method, line 77) `def test_all_known_commands_have_mitigations(self)`
-  - `test_suggest_mitigations` (method, line 85) `def test_suggest_mitigations(self)`
-  - `test_target_sensitivity_dc` (method, line 90) `def test_target_sensitivity_dc(self)`
-- Depends on: `modules/opsec_scorer.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

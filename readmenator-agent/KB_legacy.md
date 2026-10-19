@@ -145,7 +145,7 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 - Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
 
 ## contrib/legacy/lazydisassebler.py
-- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3...
+- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: AGPL...
 - Layer: utility
 - Language: py
 - Symbols:

@@ -2191,7 +2191,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         Generates an 8-byte aligned hex string padded with '/' for direct use in
         x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
 
-        License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+        License: AGPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
 
         Args:
             line: Input path (e.g., '/bin/ls')
@@ -2239,7 +2239,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         assembly data section with line-wrapped db directives. Handles byte alignment and
         validation.
 
-        License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+        License: AGPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
 
         Args:
             line: Raw hex string from msfvenom (e.g., "4831c94881e9f6...")

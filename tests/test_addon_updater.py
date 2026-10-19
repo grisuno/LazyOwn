@@ -60,10 +60,13 @@ def _addon(path: Path, *, update: bool = True, install_path: str = "work", repo_
 
 
 def test_every_shipped_addon_opts_in():
-    """Given the catalogue, When loaded, Then every addon has update: true."""
+    """Given the catalogue, When loaded, Then every addon opts in unless it has no git repo."""
     addons = load_addons()
     assert len(addons) >= 180
-    assert all(item["update"] is True for item in addons)
+    assert all(
+        item["update"] is True or not str((item.get("tool") or {}).get("repo_url", "") or "").strip()
+        for item in addons
+    )
 
 
 def test_update_disabled_is_skipped(tmp_path: Path):

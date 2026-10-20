@@ -111,23 +111,23 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
   - `ToastState` (class, line 122) `class ToastState`
   - `ToastReader` (class, line 204) `class ToastReader`
   - `ToastrConfig` (class, line 357) `class ToastrConfig`
-  - `toastr_severity_style` (function, line 375) `def toastr_severity_style(severity)`
-  - `rich_toastr_panel` (function, line 382) `def rich_toastr_panel(message, severity, terminal_width, config)`
-  - `shell_hint_bypass` (function, line 435) `def shell_hint_bypass(console, message, severity)`
-  - `sentinel_toast_panel` (function, line 454) `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)`
-  - `ToastFormatter` (class, line 489) `class ToastFormatter`
-  - `ToastBus` (class, line 670) `class ToastBus`
-  - `_is_truthy` (function, line 804) `def _is_truthy(value, config, default)`
-  - `_is_dumb_stream` (function, line 818) `def _is_dumb_stream(stream)`
-  - `toasts_enabled` (function, line 838) `def toasts_enabled(payload, config)`
-  - `_budget` (function, line 846) `def _budget(payload, config)`
-  - `build_default_bus` (function, line 861) `def build_default_bus(payload, sessions_dir, console)`
-  - `render_toasts` (function, line 890) `def render_toasts(payload, sessions_dir, console, bus_factory)`
-  - `ephemeral_enabled` (function, line 914) `def ephemeral_enabled(payload, config)`
-  - `render_ephemeral_toasts` (function, line 930) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
-  - `emit_toast` (function, line 960) `def emit_toast(message, severity, event_type, sessions_dir, config)`
-  - `read_recent_toasts` (function, line 1005) `def read_recent_toasts(sessions_dir, limit, config)`
-  - `build_toast_renderable` (function, line 1049) `def build_toast_renderable(events, payload, width, config)`
+  - `toastr_severity_style` (function, line 373) `def toastr_severity_style(severity)`
+  - `rich_toastr_panel` (function, line 380) `def rich_toastr_panel(message, severity, terminal_width, config)`
+  - `shell_hint_bypass` (function, line 433) `def shell_hint_bypass(console, message, severity)`
+  - `sentinel_toast_panel` (function, line 452) `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)`
+  - `ToastFormatter` (class, line 487) `class ToastFormatter`
+  - `ToastBus` (class, line 668) `class ToastBus`
+  - `_is_truthy` (function, line 802) `def _is_truthy(value, config, default)`
+  - `_is_dumb_stream` (function, line 816) `def _is_dumb_stream(stream)`
+  - `toasts_enabled` (function, line 836) `def toasts_enabled(payload, config)`
+  - `_budget` (function, line 844) `def _budget(payload, config)`
+  - `build_default_bus` (function, line 859) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (function, line 888) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ephemeral_enabled` (function, line 912) `def ephemeral_enabled(payload, config)`
+  - `render_ephemeral_toasts` (function, line 928) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
+  - `emit_toast` (function, line 958) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (function, line 1003) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (function, line 1047) `def build_toast_renderable(events, payload, width, config)`
   - `__init__` (method, line 130) `def __init__(self, config, root)`
   - `path` (method, line 145) `def path(self)`
   - `get` (method, line 149) `def get(self, name)`
@@ -142,24 +142,24 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
   - `_build_event` (method, line 268) `def _build_event(self, line, source, offset)`
   - `_coerce_str` (method, line 291) `def _coerce_str(value)`
   - `_summary` (method, line 299) `def _summary(record)`
-  - `__init__` (method, line 492) `def __init__(self, config, theme)`
-  - `format` (method, line 497) `def format(self, event)`
-  - `is_prominent` (method, line 509) `def is_prominent(self, event)`
-  - `format_prominent` (method, line 519) `def format_prominent(self, event)`
-  - `format_ephemeral` (method, line 536) `def format_ephemeral(self, event)`
-  - `duration_for` (method, line 564) `def duration_for(self, event)`
-  - `digest_line` (method, line 589) `def digest_line(dropped)`
-  - `format_many` (method, line 597) `def format_many(self, events, width)`
-  - `_console_width` (method, line 651) `def _console_width(self)`
-  - `_role_for` (method, line 658) `def _role_for(self, severity)`
-  - `_truncate` (method, line 664) `def _truncate(self, value)`
-  - `__init__` (method, line 677) `def __init__(self, config, state, reader, formatter, console)`
-  - `collect` (method, line 692) `def collect(self)`
-  - `render` (method, line 704) `def render(self, enabled)`
-  - `mark_all_seen` (method, line 733) `def mark_all_seen(self)`
-  - `render_ephemeral` (method, line 740) `def render_ephemeral(self, enabled, duration)`
-  - `_schedule_erase` (method, line 773) `def _schedule_erase(self, delay)`
-  - `_erase_lines` (method, line 789) `def _erase_lines(stream, rows)`
+  - `__init__` (method, line 490) `def __init__(self, config, theme)`
+  - `format` (method, line 495) `def format(self, event)`
+  - `is_prominent` (method, line 507) `def is_prominent(self, event)`
+  - `format_prominent` (method, line 517) `def format_prominent(self, event)`
+  - `format_ephemeral` (method, line 534) `def format_ephemeral(self, event)`
+  - `duration_for` (method, line 562) `def duration_for(self, event)`
+  - `digest_line` (method, line 587) `def digest_line(dropped)`
+  - `format_many` (method, line 595) `def format_many(self, events, width)`
+  - `_console_width` (method, line 649) `def _console_width(self)`
+  - `_role_for` (method, line 656) `def _role_for(self, severity)`
+  - `_truncate` (method, line 662) `def _truncate(self, value)`
+  - `__init__` (method, line 675) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 690) `def collect(self)`
+  - `render` (method, line 702) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 731) `def mark_all_seen(self)`
+  - `render_ephemeral` (method, line 738) `def render_ephemeral(self, enabled, duration)`
+  - `_schedule_erase` (method, line 771) `def _schedule_erase(self, delay)`
+  - `_erase_lines` (method, line 787) `def _erase_lines(stream, rows)`
 - Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazy_sentinel4.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`, `tests/test_toastr_unify.py`
 
@@ -200,7 +200,7 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
   - `_save` (method, line 327) `def _save(self)`
   - `on_button_pressed` (method, line 338) `def on_button_pressed(self, event)`
 - Depends on: `cli/commands/containers.py`
-- Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `tests/test_lazy_orchestrator.py`
+- Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_lazy_orchestrator.py`
 
 ## cli/tui_theme.py
 - Doc: Operator-facing ``tui_theme`` command logic.

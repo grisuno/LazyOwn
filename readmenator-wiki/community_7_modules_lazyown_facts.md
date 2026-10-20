@@ -1,55 +1,50 @@
 # modules: lazyown_facts
 
-*Community 7 | 29 files | cohesion 0.41*
+*Community 7 | 29 files | cohesion 0.52*
 
 ## Definition
 
-This community groups 29 file(s) rooted at `tests` with dominant language py (cohesion 0.41). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `Broken`, `CalderaAbilityRef`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 29 file(s) rooted at `modules` with dominant language py (cohesion 0.52). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `Broken`, `CalderaAbilityRef`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
 
-### `tests` (13 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
-| `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
-| `tests/test_atomic_exploit_bridge.py` | py | testing | 36 | yes |
-| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
-| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
-| `tests/test_chain_registry.py` | py | testing | 9 | yes |
-| `tests/test_chain_runner.py` | py | testing | 39 | yes |
-| `tests/test_chain_synth.py` | py | testing | 10 | yes |
-
-### `modules` (11 files)
+### `modules` (12 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/apt_playbooks.py` | py | utility | 15 | yes |
 | `modules/atomic_cli.py` | py | utility | 11 | yes |
 | `modules/atomic_resolver.py` | py | utility | 27 | yes |
+| `modules/chain_distill.py` | py | utility | 18 | yes |
 | `modules/chain_registry.py` | py | utility | 17 | yes |
 | `modules/chain_runner.py` | py | utility | 31 | yes |
 | `modules/chain_state.py` | py | utility | 5 | yes |
 | `modules/chain_synth.py` | py | utility | 6 | yes |
 
-### `cli` (1 files)
+### `tests` (12 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
+| `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
+| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
+| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
+| `tests/test_chain_distill.py` | py | testing | 15 | yes |
+| `tests/test_chain_registry.py` | py | testing | 9 | yes |
+| `tests/test_chain_runner.py` | py | testing | 39 | yes |
+
+### `cli` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/apt_chain_support.py` | py | utility | 15 | yes |
+| `cli/retry_support.py` | py | utility | 10 | yes |
 
 ### `cli/commands` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/command_and_control_migrated.py` | py | utility | 32 | yes |
-
-### `core` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/safe_exec.py` | py | utility | 12 | yes |
+| `cli/commands/command_and_control_migrated.py` | py | utility | 33 | yes |
 
 ### `skills` (1 files)
 
@@ -83,73 +78,69 @@ This community groups 29 file(s) rooted at `tests` with dominant language py (co
 - `_decision_command` (function, `cli/apt_chain_support.py:368`) `def _decision_command(decision)` - Extract one actionable command from a reactive decision.
 - `_step_from_decision` (function, `cli/apt_chain_support.py:377`) `def _step_from_decision(command, outcome, executed_count)` - Build one safe replan step from a suggested command.
 - `_platform` (function, `cli/apt_chain_support.py:399`) `def _platform()` - Guess the loop platform from the payload configuration.
-- `CommandAndControlMigratedCommandSet` (class, `cli/commands/command_and_control_migrated.py:39`) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
-- `do_msf` (method, `cli/commands/command_and_control_migrated.py:44`) `def do_msf(self, line)` - Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells
-- `do_c2` (method, `cli/commands/command_and_control_migrated.py:394`) `def do_c2(self, line)` - Handle C2 server setup and agent compilation.
-- `do_listener` (method, `cli/commands/command_and_control_migrated.py:516`) `def do_listener(self, line)` - Manage C2 listeners: list, add, start, stop, remove.
-- `_api` (function, `cli/commands/command_and_control_migrated.py:543`) `def _api(method, endpoint, payload)`
-- `do_sandbox` (method, `cli/commands/command_and_control_migrated.py:644`) `def do_sandbox(self, line)` - Toggle or query Docker sandbox mode.
-- `do_msfrpc` (method, `cli/commands/command_and_control_migrated.py:686`) `def do_msfrpc(self, line)` - Connects to the msfrpcd daemon and allows remote control of Metasploit.
-- `do_sliver_server` (method, `cli/commands/command_and_control_migrated.py:710`) `def do_sliver_server(self, line)` - Starts the Sliver server and generates a client configuration file for connecting clients.
-- `do_empire` (method, `cli/commands/command_and_control_migrated.py:827`) `def do_empire(self, line)` - Generates payloads using PowerShell Empire with various options.
-- `do_automsf` (method, `cli/commands/command_and_control_migrated.py:877`) `def do_automsf(self, line)` - Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/wi
-- `do_iis_webdav_upload_asp` (method, `cli/commands/command_and_control_migrated.py:922`) `def do_iis_webdav_upload_asp(self, line)` - (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
-- `do_duckyspark` (method, `cli/commands/command_and_control_migrated.py:957`) `def do_duckyspark(self, line)` - duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucl
-- `do_emp3r0r` (method, `cli/commands/command_and_control_migrated.py:1158`) `def do_emp3r0r(self, line)` - Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
-- `do_atomic_tests` (method, `cli/commands/command_and_control_migrated.py:1222`) `def do_atomic_tests(self, line)` - Stage an Atomic Red Team test by MITRE technique ID or GUID.
-- `do_atomic_gen` (method, `cli/commands/command_and_control_migrated.py:1243`) `def do_atomic_gen(self, line)` - Generate test + cleanup scripts for a MITRE ID or GUID.
+- `CommandAndControlMigratedCommandSet` (class, `cli/commands/command_and_control_migrated.py:40`) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
+- `do_msf` (method, `cli/commands/command_and_control_migrated.py:45`) `def do_msf(self, line)` - Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells
+- `do_c2` (method, `cli/commands/command_and_control_migrated.py:395`) `def do_c2(self, line)` - Handle C2 server setup and agent compilation.
+- `do_listener` (method, `cli/commands/command_and_control_migrated.py:517`) `def do_listener(self, line)` - Manage C2 listeners: list, add, start, stop, remove.
+- `_api` (function, `cli/commands/command_and_control_migrated.py:544`) `def _api(method, endpoint, payload)`
+- `do_sandbox` (method, `cli/commands/command_and_control_migrated.py:645`) `def do_sandbox(self, line)` - Toggle or query Docker sandbox mode.
+- `do_msfrpc` (method, `cli/commands/command_and_control_migrated.py:687`) `def do_msfrpc(self, line)` - Connects to the msfrpcd daemon and allows remote control of Metasploit.
+- `do_sliver_server` (method, `cli/commands/command_and_control_migrated.py:711`) `def do_sliver_server(self, line)` - Starts the Sliver server and generates a client configuration file for connecting clients.
+- `do_empire` (method, `cli/commands/command_and_control_migrated.py:828`) `def do_empire(self, line)` - Generates payloads using PowerShell Empire with various options.
+- `do_automsf` (method, `cli/commands/command_and_control_migrated.py:878`) `def do_automsf(self, line)` - Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/wi
+- `do_iis_webdav_upload_asp` (method, `cli/commands/command_and_control_migrated.py:923`) `def do_iis_webdav_upload_asp(self, line)` - (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
+- `do_duckyspark` (method, `cli/commands/command_and_control_migrated.py:958`) `def do_duckyspark(self, line)` - duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucl
+- `do_emp3r0r` (method, `cli/commands/command_and_control_migrated.py:1159`) `def do_emp3r0r(self, line)` - Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
+- `do_atomic_tests` (method, `cli/commands/command_and_control_migrated.py:1223`) `def do_atomic_tests(self, line)` - Stage an Atomic Red Team test by MITRE technique ID or GUID.
+- `do_atomic_gen` (method, `cli/commands/command_and_control_migrated.py:1244`) `def do_atomic_gen(self, line)` - Generate test + cleanup scripts for a MITRE ID or GUID.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 103
-- Cross-boundary resolved imports (EXTRACTED): 120
+- Internal resolved imports (EXTRACTED): 101
+- Cross-boundary resolved imports (EXTRACTED): 81
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
+- [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
 - [EXTRACTED] depends_on community 7 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/listener_manager.py.
 - [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
 - [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
 - [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
 - [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
 - [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
-- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
-- [dataflow UNCHECKED_ALLOC] `modules/command_executor.py:224` `run_tee` `handle`: Result of allocator stored in `handle` is never checked against NULL.
 
 ## Open Questions
 
 - Can the cycle `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_facts changed?
-- Should modules: lazyown_facts be split, given cohesion 0.41?
+- Should modules: lazyown_facts be split, given cohesion 0.52?
 
 ## Sources
 
 - `cli/apt_chain_support.py`
 - `cli/commands/command_and_control_migrated.py`
-- `core/safe_exec.py`
+- `cli/retry_support.py`
 - `modules/apt_playbooks.py`
 - `modules/atomic_cli.py`
 - `modules/atomic_resolver.py`
+- `modules/chain_distill.py`
 - `modules/chain_registry.py`
 - `modules/chain_runner.py`
 - `modules/chain_state.py`
 - `modules/chain_synth.py`
 - `modules/chain_tokens.py`
-- `modules/command_executor.py`
 - `modules/emulation_runner.py`
-- `modules/metasploitable_migrations.py`
+- `modules/retry_session.py`
+- `modules/verb_manifest.py`
 - `skills/lazyown_facts.py`
 - `skills/tests/test_facts.py`
 - `tests/test_apt_chain_admin.py`
 - `tests/test_apt_chain_integration.py`
-- `tests/test_atomic_exploit_bridge.py`
 - `tests/test_atomic_loop.py`
 - *... and 9 more*

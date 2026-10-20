@@ -1,6 +1,26 @@
 # Subsystem: tests (page 18 of 18)
 Previous: [KB_tests_p17.md](KB_tests_p17.md)
 
+## tests/test_verb_manifest.py
+- Doc: BDD tests for the typed verb manifest store.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `manifest_path` (function, line 14) `def manifest_path(tmp_path)`
+  - `TestSchema` (class, line 50) `class TestSchema`
+  - `TestPlanCheck` (class, line 81) `class TestPlanCheck`
+  - `TestNoiseAndCost` (class, line 118) `class TestNoiseAndCost`
+  - `test_valid_manifest_parses` (method, line 53) `def test_valid_manifest_parses(self, manifest_path)`
+  - `test_unknown_fact_id_dropped` (method, line 65) `def test_unknown_fact_id_dropped(self, manifest_path)`
+  - `test_parse_manifest_rejects_junk` (method, line 73) `def test_parse_manifest_rejects_junk(self)`
+  - `test_unmet_precondition_reported` (method, line 84) `def test_unmet_precondition_reported(self, manifest_path)`
+  - `test_effect_paid_forward` (method, line 91) `def test_effect_paid_forward(self, manifest_path)`
+  - `test_world_model_facts_default` (method, line 104) `def test_world_model_facts_default(self)`
+  - `test_fallback_when_store_empty` (method, line 112) `def test_fallback_when_store_empty(self, tmp_path)`
+  - `test_noise_clamped` (method, line 121) `def test_noise_clamped(self)`
+  - `test_cost_tolerates_junk` (method, line 129) `def test_cost_tolerates_junk(self)`
+- Depends on: `modules/chain_registry.py`, `modules/verb_manifest.py`
+
 ## tests/test_viral_adoption.py
 - Doc: Viral adoption assets: GIFs, smoke script, drift CI, launch kit.
 - Layer: testing

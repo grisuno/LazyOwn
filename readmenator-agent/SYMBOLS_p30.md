@@ -3,6 +3,72 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Fx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Hk` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:48` | `` |
+| `LO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Lk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Lx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ow` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pc` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Px` | function | `static/js/vis-network.min.js:33` | `` |
+| `Qk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Wu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Xu` | function | `static/js/vis-network.min.js:33` | `` |
+| `ZO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Zk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Zx` | function | `static/js/vis-network.min.js:33` | `` |
+| `a` | function | `static/js/vis-network.min.js:48` | `` |
+| `as` | class | `static/js/vis-network.min.js:26` | `` |
+| `as` | class | `static/js/vis-network.min.js:48` | `` |
+| `bO` | function | `static/js/vis-network.min.js:48` | `` |
+| `bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `cO` | function | `static/js/vis-network.min.js:48` | `` |
+| `d` | function | `static/js/vis-network.min.js:33` | `` |
+| `dE` | function | `static/js/vis-network.min.js:33` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:48` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:26` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network.min.js:33` | `` |
+| `h` | function | `static/js/vis-network.min.js:33` | `` |
+| `has` | function | `static/js/vis-network.min.js:48` | `` |
+| `i` | function | `static/js/vis-network.min.js:33` | `` |
+| `ik` | function | `static/js/vis-network.min.js:33` | `` |
+| `in` | function | `static/js/vis-network.min.js:33` | `` |
+| `kk` | function | `static/js/vis-network.min.js:33` | `` |
+| `ku` | function | `static/js/vis-network.min.js:33` | `` |
+| `kw` | function | `static/js/vis-network.min.js:33` | `` |
+| `l` | function | `static/js/vis-network.min.js:33` | `` |
+| `l` | function | `static/js/vis-network.min.js:48` | `` |
+| `lE` | function | `static/js/vis-network.min.js:33` | `` |
+| `lO` | function | `static/js/vis-network.min.js:48` | `` |
+| `lk` | function | `static/js/vis-network.min.js:33` | `` |
 | `mw` | function | `static/js/vis-network.min.js:33` | `` |
 | `nE` | function | `static/js/vis-network.min.js:33` | `` |
 | `nc` | function | `static/js/vis-network.min.js:26` | `` |
@@ -430,71 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
 | `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
 | `test_missing_optional_fields_become_empty` | method | `tests/test_addon_creator.py:509` | `def test_missing_optional_fields_become_empty(self)` |
-| `test_name_pattern_rejects_traversal` | method | `tests/test_addon_creator.py:89` | `def test_name_pattern_rejects_traversal(self)` |
-| `test_nested_brace_placeholder_reports_issue` | method | `tests/test_addon_creator.py:180` | `def test_nested_brace_placeholder_reports_issue(self)` |
-| `test_optional_fields_are_dropped` | method | `tests/test_addon_creator.py:295` | `def test_optional_fields_are_dropped(self)` |
-| `test_os_options_cover_mitre_platforms` | method | `tests/test_addon_creator.py:105` | `def test_os_options_cover_mitre_platforms(self)` |
-| `test_param_without_description_reports_issue` | method | `tests/test_addon_creator.py:218` | `def test_param_without_description_reports_issue(self)` |
-| `test_parse_complete_form` | method | `tests/test_addon_creator.py:463` | `def test_parse_complete_form(self)` |
-| `test_patterns_accept_canonical_values` | method | `tests/test_addon_creator.py:96` | `def test_patterns_accept_canonical_values(self)` |
-| `test_payload_placeholders_cover_core_keys` | method | `tests/test_addon_creator.py:111` | `def test_payload_placeholders_cover_core_keys(self)` |
-| `test_post_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:612` | `def test_post_without_csrf_is_rejected(self, tmp_path)` |
-| `test_rendered_addon_passes_cli_schema_contract` | method | `tests/test_addon_creator.py:786` | `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)` |
-| `test_rendered_document_is_canonical` | method | `tests/test_addon_creator.py:266` | `def test_rendered_document_is_canonical(self)` |
-| `test_rendered_yaml_has_no_none_values` | method | `tests/test_addon_creator.py:310` | `def test_rendered_yaml_has_no_none_values(self)` |
-| `test_save_is_atomic_and_leaves_no_temp_files` | method | `tests/test_addon_creator.py:357` | `def test_save_is_atomic_and_leaves_no_temp_files(self, tmp_path)` |
-| `test_save_load_delete_round_trip` | method | `tests/test_addon_creator.py:331` | `def test_save_load_delete_round_trip(self, tmp_path)` |
-| `test_save_overwrites_cleanly` | method | `tests/test_addon_creator.py:363` | `def test_save_overwrites_cleanly(self, tmp_path)` |
-| `test_single_trigger_string_becomes_list` | method | `tests/test_addon_creator.py:516` | `def test_single_trigger_string_becomes_list(self)` |
-| `test_symlink_escape_rejected_on_delete` | method | `tests/test_addon_creator.py:448` | `def test_symlink_escape_rejected_on_delete(self, tmp_path)` |
-| `test_symlink_escape_rejected_on_load` | method | `tests/test_addon_creator.py:438` | `def test_symlink_escape_rejected_on_load(self, tmp_path)` |
-| `test_too_many_params_reports_issue` | method | `tests/test_addon_creator.py:240` | `def test_too_many_params_reports_issue(self)` |
-| `test_tools_creator_template_has_no_broken_js` | method | `tests/test_addon_creator.py:821` | `def test_tools_creator_template_has_no_broken_js(self)` |
-| `test_traversal_install_path_reports_issue` | method | `tests/test_addon_creator.py:198` | `def test_traversal_install_path_reports_issue(self)` |
-| `test_traversal_name_rejected_on_delete` | method | `tests/test_addon_creator.py:352` | `def test_traversal_name_rejected_on_delete(self, tmp_path)` |
-| `test_traversal_name_rejected_on_load` | method | `tests/test_addon_creator.py:347` | `def test_traversal_name_rejected_on_load(self, tmp_path)` |
-| `test_traversal_name_rejected_on_save` | method | `tests/test_addon_creator.py:342` | `def test_traversal_name_rejected_on_save(self, tmp_path)` |
-| `test_unauthenticated_access_redirects_to_login` | method | `tests/test_addon_creator.py:594` | `def test_unauthenticated_access_redirects_to_login(self, tmp_path)` |
-| `test_unchecked_enabled_becomes_false` | method | `tests/test_addon_creator.py:505` | `def test_unchecked_enabled_becomes_false(self)` |
-| `test_unknown_module_type_reports_issue` | method | `tests/test_addon_creator.py:150` | `def test_unknown_module_type_reports_issue(self)` |
-| `test_unknown_os_reports_issue` | method | `tests/test_addon_creator.py:144` | `def test_unknown_os_reports_issue(self)` |
-| `test_unknown_placeholder_reports_issue` | method | `tests/test_addon_creator.py:174` | `def test_unknown_placeholder_reports_issue(self)` |
-| `test_uppercase_trigger_reports_issue` | method | `tests/test_addon_creator.py:162` | `def test_uppercase_trigger_reports_issue(self)` |
-| `test_valid_draft_has_no_issues` | method | `tests/test_addon_creator.py:120` | `def test_valid_draft_has_no_issues(self)` |
-| `test_valid_post_creates_addon_and_redirects` | method | `tests/test_addon_creator.py:660` | `def test_valid_post_creates_addon_and_redirects(self, tmp_path)` |
-| `test_validation_error_carries_issues` | method | `tests/test_addon_creator.py:255` | `def test_validation_error_carries_issues(self)` |
-| `test_view_legacy_uppercase_addon_renders` | method | `tests/test_addon_creator.py:751` | `def test_view_legacy_uppercase_addon_renders(self, tmp_path)` |
-| `test_view_page_renders_yaml` | method | `tests/test_addon_creator.py:698` | `def test_view_page_renders_yaml(self, tmp_path)` |
-| `test_view_unknown_addon_redirects_to_list` | method | `tests/test_addon_creator.py:744` | `def test_view_unknown_addon_redirects_to_list(self, tmp_path)` |
-| `test_yaml_round_trips_through_loader` | method | `tests/test_addon_creator.py:286` | `def test_yaml_round_trips_through_loader(self)` |
-| `_addon` | function | `tests/test_addon_updater.py:46` | `def _addon(path)` |
-| `_git` | function | `tests/test_addon_updater.py:17` | `def _git(cwd)` |
-| `_repo_with_remote` | function | `tests/test_addon_updater.py:29` | `def _repo_with_remote(tmp_path)` |
-| `test_dirty_worktree_is_skipped` | function | `tests/test_addon_updater.py:127` | `def test_dirty_worktree_is_skipped(tmp_path)` |
-| `test_every_shipped_addon_opts_in` | function | `tests/test_addon_updater.py:62` | `def test_every_shipped_addon_opts_in()` |
-| `test_fast_forward_update` | function | `tests/test_addon_updater.py:112` | `def test_fast_forward_update(tmp_path)` |
-| `test_missing_repo_url_is_skipped` | function | `tests/test_addon_updater.py:80` | `def test_missing_repo_url_is_skipped(tmp_path)` |
-| `test_not_installed_is_skipped` | function | `tests/test_addon_updater.py:104` | `def test_not_installed_is_skipped(tmp_path)` |
-| `test_path_traversal_is_rejected` | function | `tests/test_addon_updater.py:88` | `def test_path_traversal_is_rejected(tmp_path)` |
-| `test_repository_root_is_rejected` | function | `tests/test_addon_updater.py:96` | `def test_repository_root_is_rejected(tmp_path)` |
-| `test_unknown_addon_fails` | function | `tests/test_addon_updater.py:149` | `def test_unknown_addon_fails(tmp_path)` |
-| `test_update_all_audits_summary` | function | `tests/test_addon_updater.py:137` | `def test_update_all_audits_summary(tmp_path)` |
-| `test_update_disabled_is_skipped` | function | `tests/test_addon_updater.py:72` | `def test_update_disabled_is_skipped(tmp_path)` |
-| `TestConfigExposesKey` | class | `tests/test_aes_key_propagation.py:83` | `class TestConfigExposesKey` |
-| `TestDiskSource` | class | `tests/test_aes_key_propagation.py:57` | `class TestDiskSource` |
-| `TestGeneratedSource` | class | `tests/test_aes_key_propagation.py:67` | `class TestGeneratedSource` |
-| `TestHexSource` | class | `tests/test_aes_key_propagation.py:32` | `class TestHexSource` |
-| `test_config_exposes_params_dict` | method | `tests/test_aes_key_propagation.py:91` | `def test_config_exposes_params_dict(self)` |
-| `test_config_has_aes_key_attribute` | method | `tests/test_aes_key_propagation.py:86` | `def test_config_has_aes_key_attribute(self)` |
-| `test_existing_disk_key_is_loaded` | method | `tests/test_aes_key_propagation.py:60` | `def test_existing_disk_key_is_loaded(self, tmp_path)` |
-| `test_generated_key_is_32_bytes` | method | `tests/test_aes_key_propagation.py:70` | `def test_generated_key_is_32_bytes(self, tmp_path)` |
-| `test_generated_key_is_persisted` | method | `tests/test_aes_key_propagation.py:75` | `def test_generated_key_is_persisted(self, tmp_path)` |
-| `test_non_hex_raises` | method | `tests/test_aes_key_propagation.py:49` | `def test_non_hex_raises(self)` |
-| `test_valid_hex_decodes_to_32_bytes` | method | `tests/test_aes_key_propagation.py:35` | `def test_valid_hex_decodes_to_32_bytes(self)` |
-| `test_wrong_length_raises` | method | `tests/test_aes_key_propagation.py:42` | `def test_wrong_length_raises(self)` |
-| `TestDoAsk` | class | `tests/test_ai_commands_llm.py:26` | `class TestDoAsk` |
-| `TestDoGroq` | class | `tests/test_ai_commands_llm.py:53` | `class TestDoGroq` |
-| `_Backend` | class | `tests/test_ai_commands_llm.py:71` | `class _Backend` |
-| `_Backend` | class | `tests/test_ai_commands_llm.py:93` | `class _Backend` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

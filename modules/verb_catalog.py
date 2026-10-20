@@ -23,6 +23,7 @@ built-in verb set only.
 from __future__ import annotations
 
 import json
+import re
 import threading
 import time
 from dataclasses import dataclass, field
@@ -44,6 +45,27 @@ DEFAULT_INDEX_PATH = REPO_ROOT / "cli" / "command_index.json"
 
 BUILTIN_ENABLED_VERBS: frozenset[str] = frozenset({"lazynmap"})
 
+ADDON_VERB_PREFIX = "addon:"
+
+ADDON_PHASE_MAP: dict[str, str] = {
+    "01": "recon",
+    "02": "enum",
+    "03": "exploit",
+    "04": "exploit",
+    "05": "exploit",
+    "06": "privesc",
+    "07": "lateral",
+    "08": "lateral",
+    "09": "exfil",
+    "10": "exploit",
+    "11": "report",
+    "12": "exploit",
+    "16": "exploit",
+    "17": "exploit",
+    "18": "exploit",
+    "20": "exploit",
+}
+
 _CACHE_TTL_SEC = 2.0
 _CACHE_LOCK = threading.Lock()
 _WRITE_LOCK = threading.Lock()
@@ -57,6 +79,8 @@ class VerbCatalogConfig:
     Args:
         catalog_path: YAML file holding the operator catalog.
         index_path: Pre-built command index JSON.
+        addons_dir: Directory of lazyaddon YAML manifests; ``None`` keeps
+            the sweep off so unit sandboxes stay single-surface tests.
         version: Schema version this module reads and writes.
         default_enabled: Enabled flag for newly discovered commands.
         max_yaml_bytes: Safety cap so a corrupt file cannot stall reads.
@@ -65,6 +89,7 @@ class VerbCatalogConfig:
 
     catalog_path: Path = field(default=DEFAULT_CATALOG_PATH)
     index_path: Path = field(default=DEFAULT_INDEX_PATH)
+    addons_dir: Path | None = None
     version: int = 1
     default_enabled: bool = False
     max_yaml_bytes: int = 1_000_000
@@ -73,7 +98,8 @@ class VerbCatalogConfig:
 
 def _default_config() -> VerbCatalogConfig:
     """Return the process-wide configuration (override point for tests)."""
-    return VerbCatalogConfig()
+    addons_dir = REPO_ROOT / "lazyaddons"
+    return VerbCatalogConfig(addons_dir=addons_dir if addons_dir.is_dir() else None)
 
 
 def _builtin_names() -> set[str]:
@@ -106,6 +132,59 @@ def _risk_fallback(verb: str) -> str:
         return risk_for(verb)
     except Exception:
         return "safe"
+
+
+def _addon_discoveries(config: VerbCatalogConfig) -> dict[str, dict[str, str]]:
+    """Return enabled lazyaddons as pseudo-verbs keyed ``addon:<name>``.
+
+    Args:
+        config: Active configuration; the sweep runs only when
+            ``addons_dir`` is set.
+
+    Returns:
+        Mapping of ``addon:<name>`` to ``{summary, phase}`` metadata for
+        every enabled lazyaddon; a failing parse or read skips the file
+        instead of breaking the catalog.
+    """
+    base = config.addons_dir
+    if base is None:
+        return {}
+    out: dict[str, dict[str, str]] = {}
+    try:
+        paths = sorted(base.glob("*.yaml"))
+    except OSError as exc:
+        log.warning("lazyaddon dir unreadable at %s: %s", base, exc)
+        return out
+    for path in paths:
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8", errors="replace")) or {}
+        except Exception as exc:
+            log.warning("lazyaddon unreadable at %s: %s", path, exc)
+            continue
+        if not isinstance(data, dict) or not bool(data.get("enabled", True)):
+            continue
+        name = str(data.get("name", "") or path.stem).strip()
+        if not name:
+            continue
+        category = str(data.get("category", "") or "")
+        prefix = re.match(r"\A(\d{2})", category.strip())
+        phase = ADDON_PHASE_MAP.get(prefix.group(1), "exploit") if prefix else "exploit"
+        summary = (
+            str(data.get("description", "") or "").strip().splitlines()[0]
+            if str(data.get("description", "")).strip()
+            else ""
+        )
+        out[f"{ADDON_VERB_PREFIX}{name}"] = {"summary": summary, "phase": phase}
+    return out
+
+
+def _all_discoveries(config: VerbCatalogConfig) -> dict[str, dict[str, str]]:
+    """Merge shell commands and lazyaddon pseudo-verbs into one mapping."""
+    discovered = index_commands(config)
+    addon_rows = _addon_discoveries(config)
+    for name, meta in addon_rows.items():
+        discovered.setdefault(name, meta)
+    return discovered
 
 
 def index_commands(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, str]]:
@@ -235,7 +314,7 @@ def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]
         )
         if fresh:
             return dict(_CACHE["entries"])
-    discovered = index_commands(cfg)
+    discovered = _all_discoveries(cfg)
     raw = load(cfg)
     merged: dict[str, dict[str, Any]] = {}
     for name, meta in discovered.items():
@@ -248,7 +327,7 @@ def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]
             "phase": phase,
             "risk": str(stored.get("risk") or _risk_fallback(name)),
             "description": str(stored.get("description") or meta.get("summary") or ""),
-            "source": str(stored.get("source") or "cli"),
+            "source": str(stored.get("source") or ("addon" if name.startswith(ADDON_VERB_PREFIX) else "cli")),
         }
     for name, stored in raw.items():
         if name in merged:
@@ -315,7 +394,8 @@ def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = Non
     if not clean:
         raise ValueError("verb name is required")
     cfg = config or _default_config()
-    discovered = index_commands(cfg)
+    discovered = _all_discoveries(cfg)
+    addon_verb = clean.startswith(ADDON_VERB_PREFIX)
     with _WRITE_LOCK:
         if clean not in discovered and clean not in load(cfg):
             raise KeyError(f"unknown shell verb: {clean!r}")
@@ -325,7 +405,7 @@ def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = Non
         entry.setdefault("phase", discovered.get(clean, {}).get("phase") or _phase_fallback(clean))
         entry.setdefault("risk", _risk_fallback(clean))
         entry.setdefault("description", discovered.get(clean, {}).get("summary") or "")
-        entry.setdefault("source", "cli")
+        entry.setdefault("source", "addon" if addon_verb else "cli")
         raw[clean] = entry
         _write(cfg, raw)
     _drop_cache(str(cfg.catalog_path))
@@ -346,7 +426,7 @@ def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]:
         Statistics ``{added, kept, removed, total, on, off}``.
     """
     cfg = config or _default_config()
-    discovered = index_commands(cfg)
+    discovered = _all_discoveries(cfg)
     builtins = _builtin_names()
     with _WRITE_LOCK:
         raw = load(cfg)
@@ -354,14 +434,15 @@ def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]:
         added = 0
         kept = 0
         for name, meta in discovered.items():
+            addon_verb = name.startswith(ADDON_VERB_PREFIX)
             stored = raw.get(name)
             if stored is None:
                 merged[name] = {
-                    "enabled": name in builtins,
+                    "enabled": False if addon_verb else name in builtins,
                     "phase": meta.get("phase") or "",
                     "risk": _risk_fallback(name),
                     "description": meta.get("summary") or "",
-                    "source": "builtin" if name in builtins else "cli",
+                    "source": "addon" if addon_verb else ("builtin" if name in builtins else "cli"),
                 }
                 added += 1
             else:
@@ -376,7 +457,14 @@ def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]:
         _write(cfg, merged)
     _drop_cache(str(cfg.catalog_path))
     on = sum(1 for entry in merged.values() if entry["enabled"])
-    return {"added": added, "kept": kept, "removed": max(0, removed), "total": len(merged), "on": on, "off": len(merged) - on}
+    return {
+        "added": added,
+        "kept": kept,
+        "removed": max(0, removed),
+        "total": len(merged),
+        "on": on,
+        "off": len(merged) - on,
+    }
 
 
 def _write(cfg: VerbCatalogConfig, verbs: dict[str, dict[str, Any]]) -> bool:

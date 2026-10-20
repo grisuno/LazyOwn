@@ -1,6 +1,53 @@
 # Subsystem: tests (page 8 of 18)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
+## tests/test_engagement_and_ping.py
+- Doc: tests/test_engagement_and_ping.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_command_location` (function, line 30) `def _command_location(name)`
+  - `TestEngagementState` (class, line 58) `class TestEngagementState`
+  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
+  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
+  - `TestPingOsId` (class, line 283) `class TestPingOsId`
+  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
+  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
+  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
+  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
+  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
+  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
+  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
+  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
+  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
+  - `_make_state` (method, line 178) `def _make_state(self, seen)`
+  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
+  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
+  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
+  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
+  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
+  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
+  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
+  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
+  - `_make_params` (method, line 289) `def _make_params(self)`
+  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
+  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
+  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
+  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
+  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
+  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
+  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
+  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
+  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
+  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
+  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
+  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
+  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
+  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
+  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
+  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
+- Depends on: `cli/engagement_hooks.py`
+
 ## tests/test_engagement_command_gate.py
 - Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
 - Layer: testing
@@ -363,9 +410,9 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_gym_start_status_stop_lifecycle` (function, line 39) `def test_gym_start_status_stop_lifecycle(sandbox, capsys)`
   - `test_gym_stop_all_and_by_name` (function, line 65) `def test_gym_stop_all_and_by_name(sandbox, capsys)`
   - `test_gym_status_explains_live_shell_without_gym` (function, line 82) `def test_gym_status_explains_live_shell_without_gym(sandbox, monkeypatch, capsys)`
-  - `test_gym_top_aliases_leaderboard` (function, line 94) `def test_gym_top_aliases_leaderboard(sandbox, capsys)`
-  - `test_gym_status_filters_hosts_by_current_target` (function, line 100) `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)`
-  - `test_atomic_shell_marks_target_compromised` (function, line 120) `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)`
+  - `test_gym_top_aliases_leaderboard` (function, line 97) `def test_gym_top_aliases_leaderboard(sandbox, capsys)`
+  - `test_gym_status_filters_hosts_by_current_target` (function, line 103) `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)`
+  - `test_atomic_shell_marks_target_compromised` (function, line 123) `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)`
 - Depends on: `cli/commands/command_and_control_migrated.py`, `cli/commands/redteam_gym.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
 
 ## tests/test_gym_ms2_cli.py
@@ -435,63 +482,6 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_registry_registers_target` (function, line 105) `def test_registry_registers_target()`
   - `test_no_command_collisions_with_source` (function, line 112) `def test_no_command_collisions_with_source()`
 - Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
-
-## tests/test_host_policy.py
-- Doc: Single host-validation policy shared by CLI gates and hardening.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSharedPolicy` (class, line 51) `class TestSharedPolicy`
-  - `TestCliGatesDelegate` (class, line 73) `class TestCliGatesDelegate`
-  - `test_valid_hosts_accepted` (method, line 52) `def test_valid_hosts_accepted(self)`
-  - `test_invalid_hosts_rejected` (method, line 57) `def test_invalid_hosts_rejected(self)`
-  - `test_shell_meta_rejected` (method, line 62) `def test_shell_meta_rejected(self)`
-  - `test_pinned_quirks_unchanged` (method, line 67) `def test_pinned_quirks_unchanged(self)`
-  - `test_check_rhost_matches_policy` (method, line 74) `def test_check_rhost_matches_policy(self, capsys)`
-  - `test_check_lhost_matches_policy` (method, line 81) `def test_check_lhost_matches_policy(self, capsys)`
-  - `test_check_lport_unchanged` (method, line 88) `def test_check_lport_unchanged(self, capsys)`
-- Depends on: `core/hardening.py`, `core/host_policy.py`, `core/validators.py`
-
-## tests/test_html_sanitizer.py
-- Doc: TDD tests for the bleach-based HTML sanitizer contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestScriptStripping` (class, line 25) `class TestScriptStripping`
-  - `TestEventHandlerStripping` (class, line 49) `class TestEventHandlerStripping`
-  - `TestJavascriptUriStripping` (class, line 63) `class TestJavascriptUriStripping`
-  - `TestBenignTagsPreserved` (class, line 71) `class TestBenignTagsPreserved`
-  - `TestCustomAllowlist` (class, line 93) `class TestCustomAllowlist`
-  - `test_script_block_removed` (method, line 28) `def test_script_block_removed(self)`
-  - `test_iframe_removed` (method, line 33) `def test_iframe_removed(self)`
-  - `test_object_and_embed_removed` (method, line 38) `def test_object_and_embed_removed(self)`
-  - `test_style_removed` (method, line 43) `def test_style_removed(self)`
-  - `test_onclick_removed` (method, line 52) `def test_onclick_removed(self)`
-  - `test_onerror_removed` (method, line 57) `def test_onerror_removed(self)`
-  - `test_javascript_href_stripped` (method, line 66) `def test_javascript_href_stripped(self)`
-  - `test_basic_formatting_preserved` (method, line 74) `def test_basic_formatting_preserved(self)`
-  - `test_lists_preserved` (method, line 81) `def test_lists_preserved(self)`
-  - `test_headings_preserved` (method, line 86) `def test_headings_preserved(self)`
-  - `test_strict_allowlist_strips_more` (method, line 96) `def test_strict_allowlist_strips_more(self)`
-- Depends on: `lazyc2/security/html_sanitizer.py`
-
-## tests/test_https_redirect.py
-- Doc: TDD tests for the HTTPS redirect contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeRequest` (class, line 23) `class _FakeRequest`
-  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
-  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
-  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
-  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
-  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
-  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
-  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
-  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
-  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
-  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
-- Depends on: `lazyc2/security/https_redirect.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

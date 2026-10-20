@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_profile` | function | `modules/c2_profile.py:620` | `def get_profile(name)` |
+| `get_registry` | function | `modules/c2_profile.py:595` | `def get_registry()` |
+| `get_uri` | method | `modules/c2_profile.py:117` | `def get_uri(self, method)` |
+| `jitter_delay` | method | `modules/c2_profile.py:101` | `def jitter_delay(self)` |
+| `list_names` | method | `modules/c2_profile.py:485` | `def list_names(self)` |
+| `list_profiles` | function | `modules/c2_profile.py:625` | `def list_profiles()` |
+| `load_from_directory` | method | `modules/c2_profile.py:493` | `def load_from_directory(self, path)` |
+| `register` | method | `modules/c2_profile.py:464` | `def register(self, name, profile)` |
+| `save` | method | `modules/c2_profile.py:282` | `def save(profile, path)` |
+| `to_dict` | method | `modules/c2_profile.py:254` | `def to_dict(profile)` |
+| `validate` | method | `modules/c2_profile.py:162` | `def validate(self, profile)` |
+| `DnsProfile` | class | `modules/c2_profile_engine.py:205` | `class DnsProfile` |
+| `ProfileEngine` | class | `modules/c2_profile_engine.py:611` | `class ProfileEngine` |
+| `ProfileRotator` | class | `modules/c2_profile_engine.py:441` | `class ProfileRotator` |
+| `ProfileValidator` | class | `modules/c2_profile_engine.py:503` | `class ProfileValidator` |
+| `RotationSlot` | class | `modules/c2_profile_engine.py:414` | `class RotationSlot` |
+| `SmbProfile` | class | `modules/c2_profile_engine.py:289` | `class SmbProfile` |
+| `TlsProfile` | class | `modules/c2_profile_engine.py:117` | `class TlsProfile` |
+| `TransportType` | class | `modules/c2_profile_engine.py:404` | `class TransportType(Enum)` |
 | `WebSocketProfile` | class | `modules/c2_profile_engine.py:349` | `class WebSocketProfile` |
 | `__init__` | method | `modules/c2_profile_engine.py:453` | `def __init__(self, slots)` |
 | `__init__` | method | `modules/c2_profile_engine.py:627` | `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)` |
@@ -56,6 +75,24 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `days_in_month` | function | `modules/cal.sh:14` | `` |
 | `first_day_of_month` | function | `modules/cal.sh:31` | `` |
 | `is_leap_year` | function | `modules/cal.sh:4` | `` |
+| `DistillReport` | class | `modules/chain_distill.py:333` | `class DistillReport` |
+| `StepDecision` | class | `modules/chain_distill.py:312` | `class StepDecision` |
+| `_command_verb` | function | `modules/chain_distill.py:225` | `def _command_verb(command)` |
+| `_infer_target` | function | `modules/chain_distill.py:280` | `def _infer_target(rows, graph)` |
+| `_is_failed` | function | `modules/chain_distill.py:209` | `def _is_failed(row)` |
+| `_is_prose` | function | `modules/chain_distill.py:194` | `def _is_prose(command)` |
+| `_load_graph` | function | `modules/chain_distill.py:168` | `def _load_graph(path)` |
+| `_load_traffic` | function | `modules/chain_distill.py:132` | `def _load_traffic(path)` |
+| `_phase_for` | function | `modules/chain_distill.py:245` | `def _phase_for(command, manifest_phase)` |
+| `_slug` | function | `modules/chain_distill.py:76` | `def _slug(text)` |
+| `build_chain_data` | function | `modules/chain_distill.py:428` | `def build_chain_data(task, rows, graph, manifests)` |
+| `distill` | function | `modules/chain_distill.py:537` | `def distill(task, sessions_dir, write, chains_dir)` |
+| `dropped` | method | `modules/chain_distill.py:366` | `def dropped(self)` |
+| `kept` | method | `modules/chain_distill.py:361` | `def kept(self)` |
+| `locate_traces` | function | `modules/chain_distill.py:89` | `def locate_traces(task, sessions_dir)` |
+| `note` | function | `modules/chain_distill.py:452` | `def note(row, kept, reason)` |
+| `render` | method | `modules/chain_distill.py:397` | `def render(self, verbose)` |
+| `to_dict` | method | `modules/chain_distill.py:370` | `def to_dict(self)` |
 | `Chain` | class | `modules/chain_registry.py:88` | `class Chain` |
 | `ChainStep` | class | `modules/chain_registry.py:55` | `class ChainStep` |
 | `_eval` | function | `modules/chain_registry.py:237` | `def _eval(node)` |
@@ -74,38 +111,38 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `set_enabled` | function | `modules/chain_registry.py:584` | `def set_enabled(name, enabled, chains_dir)` |
 | `validate_chain` | function | `modules/chain_registry.py:280` | `def validate_chain(data, filename, chains_dir)` |
 | `ChainRunResult` | class | `modules/chain_runner.py:83` | `class ChainRunResult` |
-| `ChainRunner` | class | `modules/chain_runner.py:176` | `class ChainRunner` |
-| `ReplanContext` | class | `modules/chain_runner.py:121` | `class ReplanContext` |
+| `ChainRunner` | class | `modules/chain_runner.py:178` | `class ChainRunner` |
+| `ReplanContext` | class | `modules/chain_runner.py:123` | `class ReplanContext` |
 | `StepOutcome` | class | `modules/chain_runner.py:43` | `class StepOutcome` |
-| `__init__` | method | `modules/chain_runner.py:179` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
-| `_apply_replanner` | method | `modules/chain_runner.py:359` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
-| `_ask_approval` | method | `modules/chain_runner.py:529` | `def _ask_approval(self, step_id, command)` |
-| `_call` | method | `modules/chain_runner.py:695` | `def _call(callback, timeout)` |
-| `_execute` | method | `modules/chain_runner.py:625` | `def _execute(self, command, timeout, expect_exits)` |
-| `_first_json` | method | `modules/chain_runner.py:596` | `def _first_json(output)` |
-| `_is_verb` | method | `modules/chain_runner.py:649` | `def _is_verb(self, command)` |
-| `_notify` | method | `modules/chain_runner.py:350` | `def _notify(self, outcome)` |
-| `_render_command` | method | `modules/chain_runner.py:610` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_raw` | method | `modules/chain_runner.py:678` | `def _run_raw(self, command, timeout, allowed)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:660` | `def _run_shell_verb(self, command)` |
-| `_run_step` | method | `modules/chain_runner.py:443` | `def _run_step(self, step, variables, captured_keys)` |
-| `_save_checkpoint` | method | `modules/chain_runner.py:408` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)` |
-| `_skip_remaining` | method | `modules/chain_runner.py:335` | `def _skip_remaining(self, steps, start, reason)` |
-| `_store_capture` | method | `modules/chain_runner.py:544` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
-| `_verify_timeout` | method | `modules/chain_runner.py:538` | `def _verify_timeout(self, step)` |
-| `applied_vars` | method | `modules/chain_runner.py:153` | `def applied_vars(self)` |
-| `insert_step` | method | `modules/chain_runner.py:143` | `def insert_step(self, step)` |
-| `inserted` | method | `modules/chain_runner.py:158` | `def inserted(self)` |
+| `__init__` | method | `modules/chain_runner.py:181` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
+| `_apply_replanner` | method | `modules/chain_runner.py:392` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
+| `_ask_approval` | method | `modules/chain_runner.py:562` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:737` | `def _call(callback, timeout)` |
+| `_execute` | method | `modules/chain_runner.py:658` | `def _execute(self, command, timeout, expect_exits)` |
+| `_first_json` | method | `modules/chain_runner.py:629` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:691` | `def _is_verb(self, command)` |
+| `_notify` | method | `modules/chain_runner.py:383` | `def _notify(self, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:643` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_raw` | method | `modules/chain_runner.py:720` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:702` | `def _run_shell_verb(self, command)` |
+| `_run_step` | method | `modules/chain_runner.py:476` | `def _run_step(self, step, variables, captured_keys)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:441` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:368` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:577` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:571` | `def _verify_timeout(self, step)` |
+| `applied_vars` | method | `modules/chain_runner.py:155` | `def applied_vars(self)` |
+| `insert_step` | method | `modules/chain_runner.py:145` | `def insert_step(self, step)` |
+| `inserted` | method | `modules/chain_runner.py:160` | `def inserted(self)` |
 | `ok` | method | `modules/chain_runner.py:60` | `def ok(self)` |
-| `render_text` | function | `modules/chain_runner.py:168` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:215` | `def run(self)` |
-| `set_var` | method | `modules/chain_runner.py:138` | `def set_var(self, name, value)` |
-| `skip_rest` | method | `modules/chain_runner.py:148` | `def skip_rest(self)` |
-| `skip_rest_flag` | method | `modules/chain_runner.py:163` | `def skip_rest_flag(self)` |
+| `render_text` | function | `modules/chain_runner.py:170` | `def render_text(template, variables)` |
+| `run` | method | `modules/chain_runner.py:241` | `def run(self)` |
+| `set_var` | method | `modules/chain_runner.py:140` | `def set_var(self, name, value)` |
+| `skip_rest` | method | `modules/chain_runner.py:150` | `def skip_rest(self)` |
+| `skip_rest_flag` | method | `modules/chain_runner.py:165` | `def skip_rest_flag(self)` |
 | `to_dict` | method | `modules/chain_runner.py:64` | `def to_dict(self)` |
-| `to_dict` | method | `modules/chain_runner.py:100` | `def to_dict(self)` |
+| `to_dict` | method | `modules/chain_runner.py:101` | `def to_dict(self)` |
 | `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
-| `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit)` |
+| `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit, chain)` |
 | `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
 | `new_run_id` | function | `modules/chain_state.py:33` | `def new_run_id(chain_name)` |
 | `write_checkpoint` | function | `modules/chain_state.py:39` | `def write_checkpoint(directory, state)` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
 | `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
 | `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
-| `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
-| `DetectionOracle` | class | `modules/detection_oracle.py:317` | `class DetectionOracle(IDetectionOracle)` |
-| `IDetectionOracle` | class | `modules/detection_oracle.py:90` | `class IDetectionOracle(ABC)` |
-| `SigmaRule` | class | `modules/detection_oracle.py:50` | `class SigmaRule` |
-| `__init__` | method | `modules/detection_oracle.py:332` | `def __init__(self, rules, feed)` |
-| `_aggregate_probability` | method | `modules/detection_oracle.py:427` | `def _aggregate_probability(self, matched, action_category)` |
-| `_build_recommendation` | method | `modules/detection_oracle.py:444` | `def _build_recommendation(probability, matched, action_category)` |
-| `_effective_probability` | method | `modules/detection_oracle.py:417` | `def _effective_probability(rule, action_category)` |
-| `_match_rules` | method | `modules/detection_oracle.py:397` | `def _match_rules(self, text, action_category)` |
-| `assess` | method | `modules/detection_oracle.py:94` | `def assess(self, command, args, action_category)` |
-| `assess` | method | `modules/detection_oracle.py:371` | `def assess(self, command, args, action_category)` |
-| `get_oracle` | function | `modules/detection_oracle.py:478` | `def get_oracle()` |
-| `is_critical_risk` | method | `modules/detection_oracle.py:80` | `def is_critical_risk(self)` |
-| `is_high_risk` | method | `modules/detection_oracle.py:75` | `def is_high_risk(self)` |
-| `probability` | method | `modules/detection_oracle.py:103` | `def probability(self, command, args, action_category)` |
-| `probability` | method | `modules/detection_oracle.py:392` | `def probability(self, command, args, action_category)` |
-| `refresh` | method | `modules/detection_oracle.py:336` | `def refresh(self)` |
-| `build_engine_digest` | function | `modules/digest.py:20` | `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` |
-| `worker_results_digest` | function | `modules/digest.py:82` | `def worker_results_digest(rows)` |
-| `write_digest` | function | `modules/digest.py:71` | `def write_digest(task_id, body, root)` |
-| `DNSBeacon` | class | `modules/dns_beacon.py:23` | `class DNSBeacon` |
-| `DNSC2Server` | class | `modules/dns_beacon.py:199` | `class DNSC2Server` |
-| `__init__` | method | `modules/dns_beacon.py:38` | `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)` |
-| `__init__` | method | `modules/dns_beacon.py:211` | `def __init__(self, domain, log_source, interface)` |
-| `_build_query` | method | `modules/dns_beacon.py:96` | `def _build_query(self, msg_type, payload)` |
-| `_decode` | method | `modules/dns_beacon.py:70` | `def _decode(self, data)` |
-| `_dns_query` | method | `modules/dns_beacon.py:84` | `def _dns_query(self, name, qtype)` |
-| `_encode` | method | `modules/dns_beacon.py:63` | `def _encode(self, data)` |
-| `_ensure_dnspython` | method | `modules/dns_beacon.py:57` | `def _ensure_dnspython(self)` |
-| `_handle_result` | method | `modules/dns_beacon.py:294` | `def _handle_result(self, labels, query)` |
-| `_jittered_sleep` | method | `modules/dns_beacon.py:78` | `def _jittered_sleep(self)` |
-| `check_in` | method | `modules/dns_beacon.py:105` | `def check_in(self)` |
-| `get_results` | method | `modules/dns_beacon.py:327` | `def get_results(self, beacon_id)` |
-| `list_beacons` | method | `modules/dns_beacon.py:235` | `def list_beacons(self)` |
-| `process_query_log` | method | `modules/dns_beacon.py:248` | `def process_query_log(self, line)` |
-| `register_beacon` | method | `modules/dns_beacon.py:225` | `def register_beacon(self, beacon_id, hostname)` |
-| `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

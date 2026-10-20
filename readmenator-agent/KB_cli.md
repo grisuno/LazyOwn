@@ -45,7 +45,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `approve` (function, line 329) `def approve(step_id, command)`
   - `replan` (function, line 346) `def replan(context)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/reactive_engine.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`
 
 ## cli/assign.py
 - Doc: ``assign`` business logic.

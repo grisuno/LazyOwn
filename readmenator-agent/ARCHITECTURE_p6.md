@@ -36,7 +36,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/cloud_attacks.py` -> __future__
 - `cli/commands/collaboration.py` -> __future__, cmd2
 - `cli/commands/command_and_control.py` -> __future__, cmd2, json, os, time
-- `cli/commands/command_and_control_migrated.py` -> __future__, cmd2, fnmatch, glob, json, os, pathlib, requests, shlex, subprocess, sys, time, yaml
+- `cli/commands/command_and_control_migrated.py` -> __future__, argparse, cmd2, fnmatch, glob, json, os, pathlib, requests, shlex, subprocess, sys, time, yaml
 - `cli/commands/containers.py` -> __future__, cmd2, json, os
 - `cli/commands/cred.py` -> __future__, cmd2
 - `cli/commands/cred_migrated.py` -> __future__, cmd2, itertools, json, os, pykeepass, re, subprocess, time
@@ -87,6 +87,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/commands/recon_migrated.py` -> __future__, cmd2, json, os, re, requests, subprocess, time
 - `cli/commands/redteam_gym.py` -> __future__, cmd2, json, shlex
 - `cli/commands/resource_scripting.py` -> __future__, cmd2, datetime, os
+- `cli/commands/retry_ops.py` -> __future__, cmd2, shlex, sys
 - `cli/commands/scan.py` -> __future__, cmd2, os, subprocess
 - `cli/commands/scan_migrated.py` -> __future__, cmd2, json, os, subprocess
 - `cli/commands/security.py` -> __future__, pathlib, rich.table
@@ -116,7 +117,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/headless.py` -> contextlib, io, json, sys, time, typing, yaml
 - `cli/killchain.py` -> __future__, dataclasses, typing
 - `cli/lazy_monitor.py` -> __future__, pathlib, rich.text, textual.app, textual.binding, textual.screen, textual.widgets, threading
-- `cli/lazy_orchestrator.py` -> __future__, dataclasses, pathlib, re, rich.text, textual.app, textual.binding, textual.widgets
+- `cli/lazy_orchestrator.py` -> __future__, pathlib, re, rich.text, textual.app, textual.binding, textual.widgets
 - `cli/lazynmap_post.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, time, typing, uuid
 - `cli/marketplace_config.py` -> __future__, dataclasses, json, os, pathlib, textual.app, textual.binding, textual.widgets, typing, yaml
 - `cli/noise_verbs.py` -> __future__
@@ -138,6 +139,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `cli/recommendation_signals.py` -> __future__, collections.abc, csv, dataclasses, json, pathlib, sys, typing
 - `cli/recon_plan.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, time, typing
 - `cli/registry.py` -> __future__, cmd2, collections.abc, importlib, inspect, pkgutil
+- `cli/retry_support.py` -> __future__, dataclasses, getpass
 - `cli/scope_guard.py` -> __future__, collections.abc, dataclasses, ipaddress, json
 - `cli/session_brief.py` -> __future__, collections.abc, dataclasses, os, pathlib, rich.panel, rich.text, typing
 - `cli/session_hud.py` -> __future__, dataclasses, glob, pathlib, time, typing
@@ -350,6 +352,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/c2_profile_engine.py` -> __future__, base64, dataclasses, hashlib, pathlib, random, re, time, typing
 - `modules/c2_surfaces.py` -> __future__, datetime, json, os, pathlib, re, subprocess, sys, typing
 - `modules/cgi-bin/lazywebshell.py` -> cgi, subprocess
+- `modules/chain_distill.py` -> __future__, dataclasses, json, pathlib, re, typing, yaml
 - `modules/chain_registry.py` -> __future__, ast, dataclasses, glob, hashlib, os, pathlib, re, typing, yaml
 - `modules/chain_runner.py` -> __future__, collections.abc, concurrent.futures, contextlib, dataclasses, glob, io, json, os, re, shlex, subprocess, time, typing
 - `modules/chain_state.py` -> __future__, json, os, pathlib, time, typing
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, socket, time, urllib.parse, urllib.request
 - `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
 - `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
-- `modules/ooficesod0woodo.py` -> uno
-- `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
-- `modules/operator_profiles.py` -> __future__, dataclasses, datetime, json, os, pathlib, shutil, subprocess, threading, typing
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

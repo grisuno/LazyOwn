@@ -3,6 +3,53 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
+| `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
+| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
+| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:26` | `#define HIDDEN_PROCESS_NAME` |
+| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:28` | `#define LISTENER_IP` |
+| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:29` | `#define LISTENER_PORT` |
+| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:31` | `#define SPECIAL_STRING` |
+| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:34` | `#define SPECIAL_STRING_PORT` |
+| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:181` | `static void disable_module_signature_verification(void)` |
+| `hook_syscalls` | function | `modules/rootkit/rootkit.c:195` | `static int __init hook_syscalls(void)` |
+| `hooked_getdents` | function | `modules/rootkit/rootkit.c:75` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:101` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_read` | function | `modules/rootkit/rootkit.c:127` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `regs_override_return` | function | `modules/rootkit/rootkit.c:43` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
+| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:208` | `static void __exit unhook_syscalls(void)` |
+| `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
+| `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
+| `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
+| `__init__` | method | `modules/saas_attacks.py:163` | `def __init__(self, config)` |
+| `detect_external_sharing` | method | `modules/saas_attacks.py:327` | `def detect_external_sharing(self)` |
+| `enumerate_all` | method | `modules/saas_attacks.py:166` | `def enumerate_all(self)` |
+| `google_workspace_commands` | method | `modules/saas_attacks.py:100` | `def google_workspace_commands()` |
+| `google_workspace_domain_wide_delegation` | method | `modules/saas_attacks.py:228` | `def google_workspace_domain_wide_delegation(self)` |
+| `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
+| `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
+| `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
+| `salesforce_report_mining` | method | `modules/saas_attacks.py:257` | `def salesforce_report_mining(self)` |
+| `servicenow_commands` | method | `modules/saas_attacks.py:135` | `def servicenow_commands()` |
+| `slack_data_mining` | method | `modules/saas_attacks.py:286` | `def slack_data_mining(self)` |
+| `summary` | method | `modules/saas_attacks.py:352` | `def summary(self)` |
+| `BindAddressResolver` | class | `modules/security_sanitizers.py:256` | `class BindAddressResolver` |
+| `CommandRedactor` | class | `modules/security_sanitizers.py:318` | `class CommandRedactor` |
+| `HeaderValueSanitizer` | class | `modules/security_sanitizers.py:101` | `class HeaderValueSanitizer` |
+| `OutputSanitizer` | class | `modules/security_sanitizers.py:406` | `class OutputSanitizer` |
+| `SecurityConfig` | class | `modules/security_sanitizers.py:37` | `class SecurityConfig` |
+| `SessionPathResolver` | class | `modules/security_sanitizers.py:162` | `class SessionPathResolver` |
+| `__init__` | method | `modules/security_sanitizers.py:115` | `def __init__(self, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:174` | `def __init__(self, base_dir, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:269` | `def __init__(self, config, preferred_addresses)` |
+| `__init__` | method | `modules/security_sanitizers.py:333` | `def __init__(self, config)` |
+| `__init__` | method | `modules/security_sanitizers.py:418` | `def __init__(self, config)` |
+| `_display_password` | method | `modules/security_sanitizers.py:353` | `def _display_password(self, password)` |
+| `_display_username` | method | `modules/security_sanitizers.py:345` | `def _display_username(self, username)` |
+| `_is_well_formed` | method | `modules/security_sanitizers.py:285` | `def _is_well_formed(self, candidate)` |
+| `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
+| `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
+| `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
 | `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
 | `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
 | `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
@@ -449,52 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `route` | method | `modules/unified_bridge.py:253` | `def route(self, prompt, context)` |
 | `route_prompt` | function | `modules/unified_bridge.py:483` | `def route_prompt(prompt, context)` |
 | `set_publish_callback` | method | `modules/unified_bridge.py:230` | `def set_publish_callback(self, cb)` |
-| `UnifiedDashboard` | class | `modules/unified_dashboard.py:37` | `class UnifiedDashboard` |
-| `__init__` | method | `modules/unified_dashboard.py:44` | `def __init__(self, sessions_dir)` |
-| `_collect_daemon_status` | method | `modules/unified_dashboard.py:124` | `def _collect_daemon_status(self)` |
-| `_collect_dashboard` | method | `modules/unified_dashboard.py:163` | `def _collect_dashboard(self)` |
-| `_collect_graph_advice` | method | `modules/unified_dashboard.py:145` | `def _collect_graph_advice(self)` |
-| `_collect_hive_status` | method | `modules/unified_dashboard.py:104` | `def _collect_hive_status(self)` |
-| `_collect_live_graph` | method | `modules/unified_dashboard.py:133` | `def _collect_live_graph(self)` |
-| `_collect_policy_status` | method | `modules/unified_dashboard.py:114` | `def _collect_policy_status(self)` |
-| `_collect_world_model` | method | `modules/unified_dashboard.py:95` | `def _collect_world_model(self)` |
-| `_get_dashboard` | method | `modules/unified_dashboard.py:49` | `def _get_dashboard(self)` |
-| `_get_graph` | method | `modules/unified_dashboard.py:65` | `def _get_graph(self)` |
-| `build_unified_snapshot` | method | `modules/unified_dashboard.py:76` | `def build_unified_snapshot(self)` |
-| `export_json` | method | `modules/unified_dashboard.py:254` | `def export_json(self)` |
-| `get_unified_dashboard` | function | `modules/unified_dashboard.py:259` | `def get_unified_dashboard(sessions_dir)` |
-| `render_unified` | method | `modules/unified_dashboard.py:173` | `def render_unified(self)` |
-| `GatekeeperStatus` | function | `modules/venator.py:651` | `def GatekeeperStatus(output_file)` |
-| `SIPStatus` | function | `modules/venator.py:637` | `def SIPStatus(output_file)` |
-| `amzn_canonical_req` | function | `modules/venator.py:856` | `def amzn_canonical_req(filename_path, headers_list)` |
-| `amzn_sig` | function | `modules/venator.py:846` | `def amzn_sig(secret_access_key, data, aws_region, aws_service)` |
-| `checkSignature` | function | `modules/venator.py:132` | `def checkSignature(file, bundle)` |
-| `datetime_handler` | function | `modules/venator.py:210` | `def datetime_handler(x)` |
-| `getApps` | function | `modules/venator.py:741` | `def getApps(path, output_file, ignoreVFlag)` |
-| `getBashHistory` | function | `modules/venator.py:786` | `def getBashHistory(output_file, users)` |
-| `getChromeDownloads` | function | `modules/venator.py:388` | `def getChromeDownloads(chromeHistoryDbPath, output_file)` |
-| `getChromeExtensions` | function | `modules/venator.py:357` | `def getChromeExtensions(path, output_file)` |
-| `getConnections` | function | `modules/venator.py:609` | `def getConnections(output_file)` |
-| `getCronJobs` | function | `modules/venator.py:494` | `def getCronJobs(users, output_file)` |
-| `getEmond` | function | `modules/venator.py:513` | `def getEmond(output_file)` |
-| `getEnv` | function | `modules/venator.py:577` | `def getEnv(output_file)` |
-| `getEventTaps` | function | `modules/venator.py:763` | `def getEventTaps(output_file)` |
-| `getFirefoxExtensions` | function | `modules/venator.py:442` | `def getFirefoxExtensions(path, output_file)` |
-| `getHash` | function | `modules/venator.py:112` | `def getHash(file, ignoreVFlag)` |
-| `getInstallHistory` | function | `modules/venator.py:477` | `def getInstallHistory(output_file)` |
-| `getKext` | function | `modules/venator.py:530` | `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)` |
-| `getLaunchAgents` | function | `modules/venator.py:287` | `def getLaunchAgents(path, output_file, ignoreVFlag)` |
-| `getLaunchDaemons` | function | `modules/venator.py:302` | `def getLaunchDaemons(path, output_file, ignoreVFlag)` |
-| `getLoginItems` | function | `modules/venator.py:706` | `def getLoginItems(path, output_file, ignoreVFlag)` |
-| `getPeriodicScripts` | function | `modules/venator.py:592` | `def getPeriodicScripts(output_file)` |
-| `getSafariExtensions` | function | `modules/venator.py:338` | `def getSafariExtensions(path, output_file)` |
-| `getShellStartupScripts` | function | `modules/venator.py:804` | `def getShellStartupScripts(users, output_file)` |
-| `getSystemInfo` | function | `modules/venator.py:66` | `def getSystemInfo(output_file)` |
-| `getUUID` | function | `modules/venator.py:38` | `def getUUID()` |
-| `getUsers` | function | `modules/venator.py:317` | `def getUsers(output_file)` |
-| `getVTResult` | function | `modules/venator.py:83` | `def getVTResult(fileHash)` |
-| `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
-| `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
-| `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

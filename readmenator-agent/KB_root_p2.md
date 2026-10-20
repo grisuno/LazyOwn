@@ -6,133 +6,133 @@ Previous: [KB_root.md](KB_root.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_ux_debug` (function, line 157) `def _ux_debug(context, exc)`
-  - `_parse_bool_setting` (function, line 212) `def _parse_bool_setting(value)`
-  - `_PayloadSettableProxy` (class, line 234) `class _PayloadSettableProxy`
-  - `LazyOwnShell` (class, line 299) `class LazyOwnShell(Cmd)`
-  - `main` (function, line 4942) `def main()`
-  - `__init__` (method, line 246) `def __init__(self, params)`
-  - `__getattr__` (method, line 250) `def __getattr__(self, name)`
-  - `__setattr__` (method, line 256) `def __setattr__(self, name, value)`
-  - `__init__` (method, line 374) `def __init__(self)`
-  - `_register_ux_settables` (method, line 677) `def _register_ux_settables(self)`
-  - `_load_extended_params` (method, line 748) `def _load_extended_params(self)`
-  - `log_command` (method, line 781) `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)`
-  - `default` (method, line 844) `def default(self, line)`
-  - `scripts` (method, line 873) `def scripts(self)`
-  - `refresh_prompt` (method, line 892) `def refresh_prompt(self)`
-  - `do_set` (method, line 903) `def do_set(self, line)`
-  - `_ui_hints_level` (method, line 928) `def _ui_hints_level(self)`
-  - `_toast_hook` (method, line 939) `def _toast_hook(self, data)`
-  - `_unified_tips_hook` (method, line 968) `def _unified_tips_hook(self, data)`
-  - `_sync_chain_active` (method, line 1004) `def _sync_chain_active(self, tips_engine)`
-  - `_chain_boot_prompt` (method, line 1018) `def _chain_boot_prompt(self)`
-  - `_build_chain_prompt_engine` (method, line 1033) `def _build_chain_prompt_engine(self)`
-  - `_chain_resolver` (method, line 1058) `def _chain_resolver(self, cmd, phase)`
-  - `_maybe_chain_prompt` (method, line 1076) `def _maybe_chain_prompt(self, cmd, phase)`
-  - `_install_crypto_signal_handlers` (method, line 1122) `def _install_crypto_signal_handlers(self)`
-  - `_run_auto_decrypt` (method, line 1148) `def _run_auto_decrypt(self)`
-  - `_run_auto_encrypt` (method, line 1160) `def _run_auto_encrypt(self)`
-  - `_read_recent_commands_for_autosuggest` (method, line 1177) `def _read_recent_commands_for_autosuggest(self, limit)`
-  - `_refresh_autosuggest` (method, line 1204) `def _refresh_autosuggest(self, executed_command)`
-  - `_recording_hook` (method, line 1230) `def _recording_hook(self, data)`
-  - `_did_you_mean` (method, line 1243) `def _did_you_mean(self, query, limit)`
-  - `logcsv` (method, line 1284) `def logcsv(self, line, start_time, end_time, duration_ms)`
-  - `cmd` (method, line 1325) `def cmd(self, line)`
-  - `onecmd_plus_hooks` (method, line 1417) `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)`
-  - `_split_and_chain` (method, line 1520) `def _split_and_chain(raw_input)`
-  - `_run_and_chain` (method, line 1565) `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)`
-  - `_chain_part_exists` (method, line 1647) `def _chain_part_exists(self, part)`
-  - `_build_scope_offensive` (method, line 1675) `def _build_scope_offensive(self)`
-  - `_resolve_offensive` (method, line 1694) `def _resolve_offensive(self, name)`
-  - `_scope_check` (method, line 1713) `def _scope_check(self, cmd_name)`
-  - `_scope_confirm` (method, line 1760) `def _scope_confirm(self, decision)`
-  - `one_cmd` (method, line 1781) `def one_cmd(self, command)`
-  - `emptyline` (method, line 1827) `def emptyline(self)`
-  - `load_user_commands` (method, line 1852) `def load_user_commands(self)`
-  - `save_user_command` (method, line 1864) `def save_user_command(self, alias, command)`
-  - `list_files_in_directory` (method, line 1876) `def list_files_in_directory(self, directory)`
-  - `register_tool_commands` (method, line 1882) `def register_tool_commands(self)`
-  - `_register_lua_command` (method, line 2039) `def _register_lua_command(self, command_name, lua_function)`
-  - `load_plugins` (method, line 2066) `def load_plugins(self)`
-  - `load_yaml_plugins` (method, line 2096) `def load_yaml_plugins(self)`
-  - `register_yaml_plugin` (method, line 2119) `def register_yaml_plugin(self, plugin_data)`
-  - `register_all_adversary_commands` (method, line 2265) `def register_all_adversary_commands(self)`
-  - `_register_adversary_command` (method, line 2278) `def _register_adversary_command(self, adv)`
-  - `display_toastr` (method, line 2294) `def display_toastr(self, message, type)`
-  - `completedefault` (method, line 2307) `def completedefault(self, text, line, begidx, endidx)`
-  - `preloop` (method, line 2332) `def preloop(self)`
-  - `postparsing_precmd` (method, line 2476) `def postparsing_precmd(self, statement)`
-  - `postloop` (method, line 2504) `def postloop(self)`
-  - `complete_phase` (method, line 2537) `def complete_phase(self, text, line, begidx, endidx)`
-  - `complete_l00t` (method, line 2542) `def complete_l00t(self, text, line, begidx, endidx)`
-  - `complete_loot` (method, line 2548) `def complete_loot(self, text, line, begidx, endidx)`
-  - `complete_assign` (method, line 2553) `def complete_assign(self, text, line, begidx, endidx)`
-  - `complete_scope` (method, line 2570) `def complete_scope(self, text, line, begidx, endidx)`
-  - `_scope_entries` (method, line 2583) `def _scope_entries(self)`
-  - `_scope_save` (method, line 2589) `def _scope_save(self, entries, mode)`
-  - `_scope_render` (method, line 2607) `def _scope_render(self, entries, mode)`
-  - `complete_palette` (method, line 2621) `def complete_palette(self, text, line, begidx, endidx)`
-  - `run_lazysearch` (method, line 2638) `def run_lazysearch(self)`
-  - `run_lazysearch_gui` (method, line 2655) `def run_lazysearch_gui(self)`
-  - `run_lazyown` (method, line 2685) `def run_lazyown(self)`
-  - `run_update_db` (method, line 2711) `def run_update_db(self)`
-  - `run_lazynmap` (method, line 2741) `def run_lazynmap(self)`
-  - `run_lazywerkzeugdebug` (method, line 2806) `def run_lazywerkzeugdebug(self)`
-  - `run_lazygath` (method, line 2863) `def run_lazygath(self)`
-  - `run_lazynmapdiscovery` (method, line 2895) `def run_lazynmapdiscovery(self)`
-  - `run_lazysniff` (method, line 2910) `def run_lazysniff(self)`
-  - `run_lazyftpsniff` (method, line 2959) `def run_lazyftpsniff(self)`
-  - `run_lazynetbios` (method, line 3005) `def run_lazynetbios(self)`
-  - `run_lazyhoneypot` (method, line 3056) `def run_lazyhoneypot(self)`
-  - `run_lazysearch_bot` (method, line 3122) `def run_lazysearch_bot(self)`
-  - `run_lazymetaextract0r` (method, line 3173) `def run_lazymetaextract0r(self)`
-  - `run_lazyownratcli` (method, line 3214) `def run_lazyownratcli(self)`
-  - `run_lazyownrat` (method, line 3274) `def run_lazyownrat(self)`
-  - `run_lazybotnet` (method, line 3335) `def run_lazybotnet(self)`
-  - `run_lazylfi2rce` (method, line 3391) `def run_lazylfi2rce(self)`
-  - `run_lazylogpoisoning` (method, line 3472) `def run_lazylogpoisoning(self)`
-  - `run_lazybotcli` (method, line 3519) `def run_lazybotcli(self)`
-  - `run_lazyssh77enum` (method, line 3575) `def run_lazyssh77enum(self)`
-  - `run_lazyburpfuzzer` (method, line 3625) `def run_lazyburpfuzzer(self)`
-  - `run_lazyreverse_shell` (method, line 3751) `def run_lazyreverse_shell(self)`
-  - `run_lazyarpspoofing` (method, line 3801) `def run_lazyarpspoofing(self)`
-  - `run_lazyattack` (method, line 3855) `def run_lazyattack(self)`
-  - `run_lazymsfvenom` (method, line 3910) `def run_lazymsfvenom(self)`
-  - `run_lazyaslrcheck` (method, line 4087) `def run_lazyaslrcheck(self)`
-  - `run_lazypathhijacking` (method, line 4134) `def run_lazypathhijacking(self)`
-  - `run_script` (method, line 4167) `def run_script(self, script_name)`
-  - `run_command` (method, line 4199) `def run_command(self, command)`
-  - `_render_chain_next` (method, line 4246) `def _render_chain_next(self, raw_args)`
-  - `get_output` (method, line 4279) `def get_output(self)`
-  - `upload_file_to_c2` (method, line 4284) `def upload_file_to_c2(self, file_path, clientid)`
-  - `complete_upload_c2` (method, line 4310) `def complete_upload_c2(self, text, line, begidx, endidx)`
-  - `download_file_from_c2` (method, line 4338) `def download_file_from_c2(self, file_name, clientid)`
-  - `_sync_c2_credentials` (method, line 4370) `def _sync_c2_credentials(self)`
-  - `issue_command_to_c2` (method, line 4407) `def issue_command_to_c2(self, command, client_id)`
-  - `complete_issue_command_to_c2` (method, line 4441) `def complete_issue_command_to_c2(self, text, line, begidx, endidx)`
-  - `view_code` (method, line 4507) `def view_code(self, stdscr)`
-  - `get_available_actions` (method, line 4612) `def get_available_actions(self)`
-  - `_create_strict_yaml_prompt` (method, line 4618) `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)`
-  - `process_scan_csv` (method, line 4695) `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)`
-  - `process_vuln_csv` (method, line 4718) `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)`
-  - `_load_adversaries` (method, line 4777) `def _load_adversaries(self)`
-  - `_parse_adversary_args` (method, line 4791) `def _parse_adversary_args(self, line)`
-  - `_patch_template_if_needed` (method, line 4800) `def _patch_template_if_needed(self, adversary, path, replacements)`
-  - `_build_command_stack` (method, line 4810) `def _build_command_stack(self, adversary, r)`
-  - `_display_adversary_info` (method, line 4824) `def _display_adversary_info(self, adversary, commands)`
-  - `_execute_commands` (method, line 4831) `def _execute_commands(self, confirm, remote_cmds)`
-  - `do_event_log` (method, line 4850) `def do_event_log(self, line)`
-  - `do_state_snapshot` (method, line 4880) `def do_state_snapshot(self, line)`
-  - `do_route` (method, line 4919) `def do_route(self, line)`
-  - `_persist` (function, line 694) `def _persist(name, _old, _new)`
-  - `wrapper` (function, line 2043) `def wrapper(arg)`
-  - `wrapper_yaml` (function, line 2159) `def wrapper_yaml(arg)`
-  - `cmd_wrapper` (function, line 2287) `def cmd_wrapper(_)`
-  - `_handler` (function, line 1139) `def _handler(received, frame, _signum)`
-  - `_chain_perror` (function, line 1602) `def _chain_perror()`
-  - `make_wrapper` (function, line 1941) `def make_wrapper(cmd_template, tname, default_target)`
-  - `tool_wrapper` (function, line 1942) `def tool_wrapper(arg)`
+  - `_ux_debug` (function, line 155) `def _ux_debug(context, exc)`
+  - `_parse_bool_setting` (function, line 210) `def _parse_bool_setting(value)`
+  - `_PayloadSettableProxy` (class, line 232) `class _PayloadSettableProxy`
+  - `LazyOwnShell` (class, line 297) `class LazyOwnShell(Cmd)`
+  - `main` (function, line 4940) `def main()`
+  - `__init__` (method, line 244) `def __init__(self, params)`
+  - `__getattr__` (method, line 248) `def __getattr__(self, name)`
+  - `__setattr__` (method, line 254) `def __setattr__(self, name, value)`
+  - `__init__` (method, line 372) `def __init__(self)`
+  - `_register_ux_settables` (method, line 675) `def _register_ux_settables(self)`
+  - `_load_extended_params` (method, line 746) `def _load_extended_params(self)`
+  - `log_command` (method, line 779) `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)`
+  - `default` (method, line 842) `def default(self, line)`
+  - `scripts` (method, line 871) `def scripts(self)`
+  - `refresh_prompt` (method, line 890) `def refresh_prompt(self)`
+  - `do_set` (method, line 901) `def do_set(self, line)`
+  - `_ui_hints_level` (method, line 926) `def _ui_hints_level(self)`
+  - `_toast_hook` (method, line 937) `def _toast_hook(self, data)`
+  - `_unified_tips_hook` (method, line 966) `def _unified_tips_hook(self, data)`
+  - `_sync_chain_active` (method, line 1002) `def _sync_chain_active(self, tips_engine)`
+  - `_chain_boot_prompt` (method, line 1016) `def _chain_boot_prompt(self)`
+  - `_build_chain_prompt_engine` (method, line 1031) `def _build_chain_prompt_engine(self)`
+  - `_chain_resolver` (method, line 1056) `def _chain_resolver(self, cmd, phase)`
+  - `_maybe_chain_prompt` (method, line 1074) `def _maybe_chain_prompt(self, cmd, phase)`
+  - `_install_crypto_signal_handlers` (method, line 1120) `def _install_crypto_signal_handlers(self)`
+  - `_run_auto_decrypt` (method, line 1146) `def _run_auto_decrypt(self)`
+  - `_run_auto_encrypt` (method, line 1158) `def _run_auto_encrypt(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1175) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_refresh_autosuggest` (method, line 1202) `def _refresh_autosuggest(self, executed_command)`
+  - `_recording_hook` (method, line 1228) `def _recording_hook(self, data)`
+  - `_did_you_mean` (method, line 1241) `def _did_you_mean(self, query, limit)`
+  - `logcsv` (method, line 1282) `def logcsv(self, line, start_time, end_time, duration_ms)`
+  - `cmd` (method, line 1323) `def cmd(self, line)`
+  - `onecmd_plus_hooks` (method, line 1415) `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)`
+  - `_split_and_chain` (method, line 1518) `def _split_and_chain(raw_input)`
+  - `_run_and_chain` (method, line 1563) `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)`
+  - `_chain_part_exists` (method, line 1645) `def _chain_part_exists(self, part)`
+  - `_build_scope_offensive` (method, line 1673) `def _build_scope_offensive(self)`
+  - `_resolve_offensive` (method, line 1692) `def _resolve_offensive(self, name)`
+  - `_scope_check` (method, line 1711) `def _scope_check(self, cmd_name)`
+  - `_scope_confirm` (method, line 1758) `def _scope_confirm(self, decision)`
+  - `one_cmd` (method, line 1779) `def one_cmd(self, command)`
+  - `emptyline` (method, line 1825) `def emptyline(self)`
+  - `load_user_commands` (method, line 1850) `def load_user_commands(self)`
+  - `save_user_command` (method, line 1862) `def save_user_command(self, alias, command)`
+  - `list_files_in_directory` (method, line 1874) `def list_files_in_directory(self, directory)`
+  - `register_tool_commands` (method, line 1880) `def register_tool_commands(self)`
+  - `_register_lua_command` (method, line 2037) `def _register_lua_command(self, command_name, lua_function)`
+  - `load_plugins` (method, line 2064) `def load_plugins(self)`
+  - `load_yaml_plugins` (method, line 2094) `def load_yaml_plugins(self)`
+  - `register_yaml_plugin` (method, line 2117) `def register_yaml_plugin(self, plugin_data)`
+  - `register_all_adversary_commands` (method, line 2263) `def register_all_adversary_commands(self)`
+  - `_register_adversary_command` (method, line 2276) `def _register_adversary_command(self, adv)`
+  - `display_toastr` (method, line 2292) `def display_toastr(self, message, type)`
+  - `completedefault` (method, line 2305) `def completedefault(self, text, line, begidx, endidx)`
+  - `preloop` (method, line 2330) `def preloop(self)`
+  - `postparsing_precmd` (method, line 2474) `def postparsing_precmd(self, statement)`
+  - `postloop` (method, line 2502) `def postloop(self)`
+  - `complete_phase` (method, line 2535) `def complete_phase(self, text, line, begidx, endidx)`
+  - `complete_l00t` (method, line 2540) `def complete_l00t(self, text, line, begidx, endidx)`
+  - `complete_loot` (method, line 2546) `def complete_loot(self, text, line, begidx, endidx)`
+  - `complete_assign` (method, line 2551) `def complete_assign(self, text, line, begidx, endidx)`
+  - `complete_scope` (method, line 2568) `def complete_scope(self, text, line, begidx, endidx)`
+  - `_scope_entries` (method, line 2581) `def _scope_entries(self)`
+  - `_scope_save` (method, line 2587) `def _scope_save(self, entries, mode)`
+  - `_scope_render` (method, line 2605) `def _scope_render(self, entries, mode)`
+  - `complete_palette` (method, line 2619) `def complete_palette(self, text, line, begidx, endidx)`
+  - `run_lazysearch` (method, line 2636) `def run_lazysearch(self)`
+  - `run_lazysearch_gui` (method, line 2653) `def run_lazysearch_gui(self)`
+  - `run_lazyown` (method, line 2683) `def run_lazyown(self)`
+  - `run_update_db` (method, line 2709) `def run_update_db(self)`
+  - `run_lazynmap` (method, line 2739) `def run_lazynmap(self)`
+  - `run_lazywerkzeugdebug` (method, line 2804) `def run_lazywerkzeugdebug(self)`
+  - `run_lazygath` (method, line 2861) `def run_lazygath(self)`
+  - `run_lazynmapdiscovery` (method, line 2893) `def run_lazynmapdiscovery(self)`
+  - `run_lazysniff` (method, line 2908) `def run_lazysniff(self)`
+  - `run_lazyftpsniff` (method, line 2957) `def run_lazyftpsniff(self)`
+  - `run_lazynetbios` (method, line 3003) `def run_lazynetbios(self)`
+  - `run_lazyhoneypot` (method, line 3054) `def run_lazyhoneypot(self)`
+  - `run_lazysearch_bot` (method, line 3120) `def run_lazysearch_bot(self)`
+  - `run_lazymetaextract0r` (method, line 3171) `def run_lazymetaextract0r(self)`
+  - `run_lazyownratcli` (method, line 3212) `def run_lazyownratcli(self)`
+  - `run_lazyownrat` (method, line 3272) `def run_lazyownrat(self)`
+  - `run_lazybotnet` (method, line 3333) `def run_lazybotnet(self)`
+  - `run_lazylfi2rce` (method, line 3389) `def run_lazylfi2rce(self)`
+  - `run_lazylogpoisoning` (method, line 3470) `def run_lazylogpoisoning(self)`
+  - `run_lazybotcli` (method, line 3517) `def run_lazybotcli(self)`
+  - `run_lazyssh77enum` (method, line 3573) `def run_lazyssh77enum(self)`
+  - `run_lazyburpfuzzer` (method, line 3623) `def run_lazyburpfuzzer(self)`
+  - `run_lazyreverse_shell` (method, line 3749) `def run_lazyreverse_shell(self)`
+  - `run_lazyarpspoofing` (method, line 3799) `def run_lazyarpspoofing(self)`
+  - `run_lazyattack` (method, line 3853) `def run_lazyattack(self)`
+  - `run_lazymsfvenom` (method, line 3908) `def run_lazymsfvenom(self)`
+  - `run_lazyaslrcheck` (method, line 4085) `def run_lazyaslrcheck(self)`
+  - `run_lazypathhijacking` (method, line 4132) `def run_lazypathhijacking(self)`
+  - `run_script` (method, line 4165) `def run_script(self, script_name)`
+  - `run_command` (method, line 4197) `def run_command(self, command)`
+  - `_render_chain_next` (method, line 4244) `def _render_chain_next(self, raw_args)`
+  - `get_output` (method, line 4277) `def get_output(self)`
+  - `upload_file_to_c2` (method, line 4282) `def upload_file_to_c2(self, file_path, clientid)`
+  - `complete_upload_c2` (method, line 4308) `def complete_upload_c2(self, text, line, begidx, endidx)`
+  - `download_file_from_c2` (method, line 4336) `def download_file_from_c2(self, file_name, clientid)`
+  - `_sync_c2_credentials` (method, line 4368) `def _sync_c2_credentials(self)`
+  - `issue_command_to_c2` (method, line 4405) `def issue_command_to_c2(self, command, client_id)`
+  - `complete_issue_command_to_c2` (method, line 4439) `def complete_issue_command_to_c2(self, text, line, begidx, endidx)`
+  - `view_code` (method, line 4505) `def view_code(self, stdscr)`
+  - `get_available_actions` (method, line 4610) `def get_available_actions(self)`
+  - `_create_strict_yaml_prompt` (method, line 4616) `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)`
+  - `process_scan_csv` (method, line 4693) `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)`
+  - `process_vuln_csv` (method, line 4716) `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)`
+  - `_load_adversaries` (method, line 4775) `def _load_adversaries(self)`
+  - `_parse_adversary_args` (method, line 4789) `def _parse_adversary_args(self, line)`
+  - `_patch_template_if_needed` (method, line 4798) `def _patch_template_if_needed(self, adversary, path, replacements)`
+  - `_build_command_stack` (method, line 4808) `def _build_command_stack(self, adversary, r)`
+  - `_display_adversary_info` (method, line 4822) `def _display_adversary_info(self, adversary, commands)`
+  - `_execute_commands` (method, line 4829) `def _execute_commands(self, confirm, remote_cmds)`
+  - `do_event_log` (method, line 4848) `def do_event_log(self, line)`
+  - `do_state_snapshot` (method, line 4878) `def do_state_snapshot(self, line)`
+  - `do_route` (method, line 4917) `def do_route(self, line)`
+  - `_persist` (function, line 692) `def _persist(name, _old, _new)`
+  - `wrapper` (function, line 2041) `def wrapper(arg)`
+  - `wrapper_yaml` (function, line 2157) `def wrapper_yaml(arg)`
+  - `cmd_wrapper` (function, line 2285) `def cmd_wrapper(_)`
+  - `_handler` (function, line 1137) `def _handler(received, frame, _signum)`
+  - `_chain_perror` (function, line 1600) `def _chain_perror()`
+  - `make_wrapper` (function, line 1939) `def make_wrapper(cmd_template, tname, default_target)`
+  - `tool_wrapper` (function, line 1940) `def tool_wrapper(arg)`
 - Depends on: `cli/aliases.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/engagement_hooks.py`, `cli/exploration.py`, `cli/fuzzy_picker.py`, `cli/graph_advisor.py`, `cli/headless.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/registry.py`, `cli/scope_guard.py`, `cli/session_brief.py`, `cli/splash.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `core/autonomous.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `core/defaults.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/command_executor.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/payload_factory.py`, `modules/session_cleanup.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/unified_orchestrator.py`, `utils.py`
 - Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/app.py`, `scripts/devtools/command_audit.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_c2_agent.py`, `tests/test_scope_guard_integration.py`
 
@@ -298,128 +298,129 @@ Previous: [KB_root.md](KB_root.md)
 - Symbols:
   - `needs_sudo` (function, line 323) `def needs_sudo(command)`
   - `sudo_available` (function, line 347) `def sudo_available()`
-  - `redact_secrets` (function, line 376) `def redact_secrets(text)`
-  - `parse_ip_mac` (function, line 396) `def parse_ip_mac(input_string)`
-  - `create_arp_packet` (function, line 418) `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)`
-  - `send_packet` (function, line 453) `def send_packet(packet, iface)`
-  - `load_version` (function, line 471) `def load_version()`
-  - `parse_bool` (function, line 497) `def parse_bool(value)`
-  - `signal_handler` (function, line 515) `def signal_handler(sig, frame)`
-  - `activate_virtualenv` (function, line 540) `def activate_virtualenv(venv_path)`
-  - `parse_proc_net_file` (function, line 565) `def parse_proc_net_file(file_path)`
-  - `get_open_ports` (function, line 609) `def get_open_ports()`
-  - `rotate_char` (function, line 628) `def rotate_char(c, shift)`
-  - `get_network_info` (function, line 650) `def get_network_info()`
-  - `get_git_info` (function, line 685) `def get_git_info()`
-  - `get_venv_info` (function, line 704) `def get_venv_info()`
-  - `_load_prompt_payload` (function, line 711) `def _load_prompt_payload()`
-  - `getprompt` (function, line 725) `def getprompt()`
-  - `copy2clip` (function, line 743) `def copy2clip(text)`
-  - `clean_output` (function, line 763) `def clean_output(output)`
-  - `teclado_usuario` (function, line 776) `def teclado_usuario(filename)`
-  - `salida_strace` (function, line 812) `def salida_strace(filename)`
-  - `exploitalert` (function, line 848) `def exploitalert(content)`
-  - `packetstormsecurity` (function, line 887) `def packetstormsecurity(content)`
-  - `nvddb` (function, line 925) `def nvddb(content)`
-  - `find_ss` (function, line 971) `def find_ss(keyword)`
-  - `find_ea` (function, line 1033) `def find_ea(keyword)`
-  - `find_ps` (function, line 1083) `def find_ps(keyword)`
-  - `run` (function, line 1115) `def run(command)`
-  - `is_exist` (function, line 1174) `def is_exist(file)`
-  - `get_domain` (function, line 1203) `def get_domain(url)`
-  - `generate_random_cve_id` (function, line 1220) `def generate_random_cve_id()`
-  - `generate_certificates` (function, line 1232) `def generate_certificates()`
-  - `generate_emails` (function, line 1315) `def generate_emails(full_name, domain)`
-  - `clean_url` (function, line 1375) `def clean_url(host)`
-  - `random_string` (function, line 1382) `def random_string(length)`
-  - `generate_http_req` (function, line 1388) `def generate_http_req(host, port, uri, custom_header, cmd)`
-  - `format_openssh_key` (function, line 1412) `def format_openssh_key(raw_key)`
-  - `format_rsa_key` (function, line 1444) `def format_rsa_key(raw_key)`
-  - `is_package_installed` (function, line 1475) `def is_package_installed(package_name)`
-  - `extract` (function, line 1486) `def extract(string, extract_flag)`
-  - `clean_html` (function, line 1510) `def clean_html(html_string)`
-  - `get_credentials` (function, line 1537) `def get_credentials(file, ncred)`
-  - `obfuscate_payload` (function, line 1593) `def obfuscate_payload(payload)`
-  - `read_payloads` (function, line 1618) `def read_payloads(file_path)`
-  - `inject_payloads` (function, line 1640) `def inject_payloads(urls, payload_url, request_timeout)`
-  - `prompt` (function, line 1740) `def prompt(label, default)`
-  - `add` (function, line 1748) `def add(str_part, delimiter, i)`
-  - `detect_delimiter` (function, line 1765) `def detect_delimiter(foo_bar)`
-  - `transform` (function, line 1784) `def transform(parts, delimiter, casing)`
-  - `handle` (function, line 1814) `def handle(input_str)`
-  - `get_users_dic` (function, line 1844) `def get_users_dic(txt)`
-  - `get_hash` (function, line 1879) `def get_hash(dir)`
-  - `is_digit` (function, line 1920) `def is_digit(the_digit)`
-  - `crack_password` (function, line 1932) `def crack_password(crypttext)`
-  - `get_terminal_size` (function, line 1972) `def get_terminal_size()`
-  - `halp` (function, line 1981) `def halp()`
-  - `ensure_tmux_session` (function, line 2036) `def ensure_tmux_session(session_name)`
-  - `get_xml` (function, line 2072) `def get_xml(directory)`
-  - `get_domain_from_xml` (function, line 2085) `def get_domain_from_xml(xml_file)`
-  - `shellcode_to_sylk` (function, line 2115) `def shellcode_to_sylk(shellcode_path)`
-  - `get_banner` (function, line 2140) `def get_banner(ip, port)`
-  - `list_binaries` (function, line 2157) `def list_binaries(directory)`
-  - `select_binary` (function, line 2177) `def select_binary(binaries)`
-  - `decode` (function, line 2202) `def decode(data)`
-  - `get_command` (function, line 2220) `def get_command(url, lhost)`
-  - `send_command` (function, line 2231) `def send_command(cmd, url, lhost)`
-  - `activate_server` (function, line 2259) `def activate_server(httpd, url, lhost)`
-  - `Spray` (function, line 2270) `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
-  - `ProcessResults` (function, line 2317) `def ProcessResults(results, outfile)`
-  - `generate_index` (function, line 2332) `def generate_index(repo_dir)`
-  - `replace_variables` (function, line 2382) `def replace_variables(command, variables)`
-  - `create_caldera_config` (function, line 2403) `def create_caldera_config(file_path)`
-  - `extract_banners` (function, line 2499) `def extract_banners(xml_file)`
-  - `scrape_news` (function, line 2548) `def scrape_news()`
-  - `display_news` (function, line 2583) `def display_news(titles, links, scores)`
-  - `htmlify` (function, line 2597) `def htmlify(data)`
-  - `de_htmlify` (function, line 2608) `def de_htmlify(data)`
-  - `is_port_in_use` (function, line 2620) `def is_port_in_use(port, host)`
-  - `return_creds` (function, line 2629) `def return_creds()`
-  - `query_arin_ip` (function, line 2643) `def query_arin_ip(ip)`
-  - `get_org` (function, line 2662) `def get_org(data)`
-  - `load_adversary` (function, line 2679) `def load_adversary()`
-  - `replace_placeholders` (function, line 2685) `def replace_placeholders(template, replacements)`
-  - `replace_command_placeholders` (function, line 2703) `def replace_command_placeholders(command, params)`
-  - `parse_nmap_csv` (function, line 2729) `def parse_nmap_csv(csv_path)`
-  - `query_ollama` (function, line 2743) `def query_ollama(prompt, model)`
-  - `preprocess_llm_response` (function, line 2758) `def preprocess_llm_response(response)`
-  - `manual_yaml_extraction` (function, line 2793) `def manual_yaml_extraction(content)`
-  - `create_synthetic_yaml` (function, line 2859) `def create_synthetic_yaml(nmap_services)`
-  - `parse_yaml_response` (function, line 2932) `def parse_yaml_response(content)`
-  - `fix_common_yaml_issues` (function, line 2967) `def fix_common_yaml_issues(yaml_content)`
-  - `aggressive_yaml_fix` (function, line 3007) `def aggressive_yaml_fix(yaml_content)`
-  - `save_playbook` (function, line 3038) `def save_playbook(playbook_data, playbook_name)`
-  - `load_knowledge_base` (function, line 3050) `def load_knowledge_base(knowledge_file)`
-  - `anti_debug` (function, line 3058) `def anti_debug()`
-  - `create_msfshellcoder_parser` (function, line 3067) `def create_msfshellcoder_parser()`
-  - `load_user_aliases` (function, line 3087) `def load_user_aliases()`
-  - `MyServer` (class, line 3099) `class MyServer(HTTPServer)`
-  - `SimpleHTTPRequestHandler` (class, line 3107) `class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)`
-  - `IP2ASN` (class, line 3137) `class IP2ASN`
-  - `VulnerabilityScanner` (class, line 3226) `class VulnerabilityScanner`
-  - `_build_startup_parser` (function, line 3403) `def _build_startup_parser()`
-  - `_redact` (function, line 1142) `def _redact(text)`
-  - `send_request` (function, line 1665) `def send_request(raw_url)`
-  - `handle_forms` (function, line 1702) `def handle_forms(content, url)`
-  - `replace_match` (function, line 2721) `def replace_match(match)`
-  - `log_request` (method, line 3112) `def log_request(self)`
-  - `log_message` (method, line 3115) `def log_message(self)`
-  - `do_GET` (method, line 3118) `def do_GET(self)`
-  - `__init__` (method, line 3138) `def __init__(self)`
-  - `open_file` (method, line 3143) `def open_file(self, filename)`
-  - `open_reader` (method, line 3148) `def open_reader(self, reader)`
-  - `_parse_file` (method, line 3158) `def _parse_file(self, reader)`
-  - `as_of_ip` (method, line 3188) `def as_of_ip(self, ip)`
-  - `_rec_index_has_ip` (method, line 3194) `def _rec_index_has_ip(self, idx, ip)`
-  - `as_name` (method, line 3203) `def as_name(self, asn)`
-  - `as_country` (method, line 3207) `def as_country(self, asn)`
-  - `__init__` (method, line 3244) `def __init__(self, user_agent, max_workers, sessions_dir, description_language)`
-  - `search_cves` (method, line 3270) `def search_cves(self, service)`
-  - `_enrich_cve` (method, line 3319) `def _enrich_cve(self, cve_info)`
-  - `persist` (method, line 3340) `def persist(self, service, target, cves)`
-  - `pretty_print` (method, line 3377) `def pretty_print(self, cves_details)`
-  - `_cvss_sort_key` (function, line 3390) `def _cvss_sort_key(record)`
+  - `_retry_sudo_gate` (function, line 383) `def _retry_sudo_gate()`
+  - `redact_secrets` (function, line 399) `def redact_secrets(text)`
+  - `parse_ip_mac` (function, line 419) `def parse_ip_mac(input_string)`
+  - `create_arp_packet` (function, line 441) `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)`
+  - `send_packet` (function, line 476) `def send_packet(packet, iface)`
+  - `load_version` (function, line 494) `def load_version()`
+  - `parse_bool` (function, line 520) `def parse_bool(value)`
+  - `signal_handler` (function, line 538) `def signal_handler(sig, frame)`
+  - `activate_virtualenv` (function, line 563) `def activate_virtualenv(venv_path)`
+  - `parse_proc_net_file` (function, line 588) `def parse_proc_net_file(file_path)`
+  - `get_open_ports` (function, line 632) `def get_open_ports()`
+  - `rotate_char` (function, line 651) `def rotate_char(c, shift)`
+  - `get_network_info` (function, line 673) `def get_network_info()`
+  - `get_git_info` (function, line 708) `def get_git_info()`
+  - `get_venv_info` (function, line 727) `def get_venv_info()`
+  - `_load_prompt_payload` (function, line 734) `def _load_prompt_payload()`
+  - `getprompt` (function, line 748) `def getprompt()`
+  - `copy2clip` (function, line 766) `def copy2clip(text)`
+  - `clean_output` (function, line 786) `def clean_output(output)`
+  - `teclado_usuario` (function, line 799) `def teclado_usuario(filename)`
+  - `salida_strace` (function, line 835) `def salida_strace(filename)`
+  - `exploitalert` (function, line 871) `def exploitalert(content)`
+  - `packetstormsecurity` (function, line 910) `def packetstormsecurity(content)`
+  - `nvddb` (function, line 948) `def nvddb(content)`
+  - `find_ss` (function, line 994) `def find_ss(keyword)`
+  - `find_ea` (function, line 1056) `def find_ea(keyword)`
+  - `find_ps` (function, line 1106) `def find_ps(keyword)`
+  - `run` (function, line 1138) `def run(command)`
+  - `is_exist` (function, line 1197) `def is_exist(file)`
+  - `get_domain` (function, line 1226) `def get_domain(url)`
+  - `generate_random_cve_id` (function, line 1243) `def generate_random_cve_id()`
+  - `generate_certificates` (function, line 1255) `def generate_certificates()`
+  - `generate_emails` (function, line 1338) `def generate_emails(full_name, domain)`
+  - `clean_url` (function, line 1398) `def clean_url(host)`
+  - `random_string` (function, line 1405) `def random_string(length)`
+  - `generate_http_req` (function, line 1411) `def generate_http_req(host, port, uri, custom_header, cmd)`
+  - `format_openssh_key` (function, line 1435) `def format_openssh_key(raw_key)`
+  - `format_rsa_key` (function, line 1467) `def format_rsa_key(raw_key)`
+  - `is_package_installed` (function, line 1498) `def is_package_installed(package_name)`
+  - `extract` (function, line 1509) `def extract(string, extract_flag)`
+  - `clean_html` (function, line 1533) `def clean_html(html_string)`
+  - `get_credentials` (function, line 1560) `def get_credentials(file, ncred)`
+  - `obfuscate_payload` (function, line 1616) `def obfuscate_payload(payload)`
+  - `read_payloads` (function, line 1641) `def read_payloads(file_path)`
+  - `inject_payloads` (function, line 1663) `def inject_payloads(urls, payload_url, request_timeout)`
+  - `prompt` (function, line 1763) `def prompt(label, default)`
+  - `add` (function, line 1771) `def add(str_part, delimiter, i)`
+  - `detect_delimiter` (function, line 1788) `def detect_delimiter(foo_bar)`
+  - `transform` (function, line 1807) `def transform(parts, delimiter, casing)`
+  - `handle` (function, line 1837) `def handle(input_str)`
+  - `get_users_dic` (function, line 1867) `def get_users_dic(txt)`
+  - `get_hash` (function, line 1902) `def get_hash(dir)`
+  - `is_digit` (function, line 1943) `def is_digit(the_digit)`
+  - `crack_password` (function, line 1955) `def crack_password(crypttext)`
+  - `get_terminal_size` (function, line 1995) `def get_terminal_size()`
+  - `halp` (function, line 2004) `def halp()`
+  - `ensure_tmux_session` (function, line 2059) `def ensure_tmux_session(session_name)`
+  - `get_xml` (function, line 2095) `def get_xml(directory)`
+  - `get_domain_from_xml` (function, line 2108) `def get_domain_from_xml(xml_file)`
+  - `shellcode_to_sylk` (function, line 2138) `def shellcode_to_sylk(shellcode_path)`
+  - `get_banner` (function, line 2163) `def get_banner(ip, port)`
+  - `list_binaries` (function, line 2180) `def list_binaries(directory)`
+  - `select_binary` (function, line 2200) `def select_binary(binaries)`
+  - `decode` (function, line 2225) `def decode(data)`
+  - `get_command` (function, line 2243) `def get_command(url, lhost)`
+  - `send_command` (function, line 2254) `def send_command(cmd, url, lhost)`
+  - `activate_server` (function, line 2282) `def activate_server(httpd, url, lhost)`
+  - `Spray` (function, line 2293) `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
+  - `ProcessResults` (function, line 2340) `def ProcessResults(results, outfile)`
+  - `generate_index` (function, line 2355) `def generate_index(repo_dir)`
+  - `replace_variables` (function, line 2405) `def replace_variables(command, variables)`
+  - `create_caldera_config` (function, line 2426) `def create_caldera_config(file_path)`
+  - `extract_banners` (function, line 2522) `def extract_banners(xml_file)`
+  - `scrape_news` (function, line 2571) `def scrape_news()`
+  - `display_news` (function, line 2606) `def display_news(titles, links, scores)`
+  - `htmlify` (function, line 2620) `def htmlify(data)`
+  - `de_htmlify` (function, line 2631) `def de_htmlify(data)`
+  - `is_port_in_use` (function, line 2643) `def is_port_in_use(port, host)`
+  - `return_creds` (function, line 2652) `def return_creds()`
+  - `query_arin_ip` (function, line 2666) `def query_arin_ip(ip)`
+  - `get_org` (function, line 2685) `def get_org(data)`
+  - `load_adversary` (function, line 2702) `def load_adversary()`
+  - `replace_placeholders` (function, line 2708) `def replace_placeholders(template, replacements)`
+  - `replace_command_placeholders` (function, line 2726) `def replace_command_placeholders(command, params)`
+  - `parse_nmap_csv` (function, line 2752) `def parse_nmap_csv(csv_path)`
+  - `query_ollama` (function, line 2766) `def query_ollama(prompt, model)`
+  - `preprocess_llm_response` (function, line 2781) `def preprocess_llm_response(response)`
+  - `manual_yaml_extraction` (function, line 2816) `def manual_yaml_extraction(content)`
+  - `create_synthetic_yaml` (function, line 2882) `def create_synthetic_yaml(nmap_services)`
+  - `parse_yaml_response` (function, line 2955) `def parse_yaml_response(content)`
+  - `fix_common_yaml_issues` (function, line 2990) `def fix_common_yaml_issues(yaml_content)`
+  - `aggressive_yaml_fix` (function, line 3030) `def aggressive_yaml_fix(yaml_content)`
+  - `save_playbook` (function, line 3061) `def save_playbook(playbook_data, playbook_name)`
+  - `load_knowledge_base` (function, line 3073) `def load_knowledge_base(knowledge_file)`
+  - `anti_debug` (function, line 3081) `def anti_debug()`
+  - `create_msfshellcoder_parser` (function, line 3090) `def create_msfshellcoder_parser()`
+  - `load_user_aliases` (function, line 3110) `def load_user_aliases()`
+  - `MyServer` (class, line 3122) `class MyServer(HTTPServer)`
+  - `SimpleHTTPRequestHandler` (class, line 3130) `class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)`
+  - `IP2ASN` (class, line 3160) `class IP2ASN`
+  - `VulnerabilityScanner` (class, line 3249) `class VulnerabilityScanner`
+  - `_build_startup_parser` (function, line 3426) `def _build_startup_parser()`
+  - `_redact` (function, line 1165) `def _redact(text)`
+  - `send_request` (function, line 1688) `def send_request(raw_url)`
+  - `handle_forms` (function, line 1725) `def handle_forms(content, url)`
+  - `replace_match` (function, line 2744) `def replace_match(match)`
+  - `log_request` (method, line 3135) `def log_request(self)`
+  - `log_message` (method, line 3138) `def log_message(self)`
+  - `do_GET` (method, line 3141) `def do_GET(self)`
+  - `__init__` (method, line 3161) `def __init__(self)`
+  - `open_file` (method, line 3166) `def open_file(self, filename)`
+  - `open_reader` (method, line 3171) `def open_reader(self, reader)`
+  - `_parse_file` (method, line 3181) `def _parse_file(self, reader)`
+  - `as_of_ip` (method, line 3211) `def as_of_ip(self, ip)`
+  - `_rec_index_has_ip` (method, line 3217) `def _rec_index_has_ip(self, idx, ip)`
+  - `as_name` (method, line 3226) `def as_name(self, asn)`
+  - `as_country` (method, line 3230) `def as_country(self, asn)`
+  - `__init__` (method, line 3267) `def __init__(self, user_agent, max_workers, sessions_dir, description_language)`
+  - `search_cves` (method, line 3293) `def search_cves(self, service)`
+  - `_enrich_cve` (method, line 3342) `def _enrich_cve(self, cve_info)`
+  - `persist` (method, line 3363) `def persist(self, service, target, cves)`
+  - `pretty_print` (method, line 3400) `def pretty_print(self, cves_details)`
+  - `_cvss_sort_key` (function, line 3413) `def _cvss_sort_key(record)`
 - Depends on: `cli/banner_config.py`, `core/config.py`, `core/console.py`, `core/crypto.py`, `core/dependencies.py`, `core/parsers.py`, `core/process.py`, `core/safe_subprocess.py`, `core/validators.py`, `modules/backdoor/server.c`, `modules/lazyencoder_decoder.py`, `skills/claude_md_orchestrator/parser.py`
-- Imported by: `banner.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `cli/commands/verb_admin.py`, `contrib/legacy/lazysmbrelay.py`, `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/c2_builder.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/listener_manager.py`, `slack_c2_bot.py`, `tests/test_api_key_resolution.py`, `tests/test_boyscout_contracts.py`, `tests/test_fuzzy_picker.py`, `tests/test_lazy_worker_safety.py`, `tests/test_scope_guard.py`, `tests/test_security_hardening_v5.py`, `tests/test_single_implementation.py`
+- Imported by: `banner.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/retry_ops.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `cli/commands/verb_admin.py`, `cli/retry_support.py`, `contrib/legacy/lazysmbrelay.py`, `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/c2_builder.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/listener_manager.py`, `slack_c2_bot.py`, `tests/test_api_key_resolution.py`, `tests/test_boyscout_contracts.py`, `tests/test_fuzzy_picker.py`, `tests/test_lazy_worker_safety.py`, `tests/test_retry_session.py`, `tests/test_scope_guard.py`, `tests/test_security_hardening_v5.py`, `tests/test_single_implementation.py`
 

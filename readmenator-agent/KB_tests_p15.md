@@ -90,6 +90,38 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_nested_if` (method, line 267) `def test_nested_if(self)`
 - Depends on: `modules/resource_script.py`
 
+## tests/test_retry_session.py
+- Doc: BDD tests for retry sessions, support relaunch and the retry command set.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `clean_session` (function, line 24) `def clean_session(monkeypatch, tmp_path)`
+  - `checkpoint` (function, line 35) `def checkpoint(tmp_path, monkeypatch)`
+  - `TestElevatedSession` (class, line 57) `class TestElevatedSession`
+  - `TestConsent` (class, line 96) `class TestConsent`
+  - `TestCheckpointSelectionRun` (class, line 126) `class TestCheckpointSelectionRun`
+  - `TestRunnerCommandFilter` (class, line 201) `class TestRunnerCommandFilter`
+  - `TestUtilsGate` (class, line 220) `class TestUtilsGate`
+  - `TestRetryStatus` (class, line 238) `class TestRetryStatus`
+  - `test_arm_and_gate` (method, line 60) `def test_arm_and_gate(self)`
+  - `test_clear_revokes` (method, line 72) `def test_clear_revokes(self)`
+  - `test_empty_secret_refused` (method, line 80) `def test_empty_secret_refused(self)`
+  - `test_apply_sudo_askpass_rewrite` (method, line 85) `def test_apply_sudo_askpass_rewrite(self)`
+  - `test_no_flag_no_consent` (method, line 99) `def test_no_flag_no_consent(self)`
+  - `test_no_tty_refuses` (method, line 106) `def test_no_tty_refuses(self)`
+  - `test_wrong_answer_refuses` (method, line 113) `def test_wrong_answer_refuses(self)`
+  - `test_warning_mentions_destructive_steps` (method, line 120) `def test_warning_mentions_destructive_steps(self)`
+  - `test_chain_filter_selection` (method, line 129) `def test_chain_filter_selection(self, tmp_path)`
+  - `test_retry_chain_resume_respects_completed_steps` (method, line 164) `def test_retry_chain_resume_respects_completed_steps(self, checkpoint, monkeypatch)`
+  - `test_retry_chain_disabled_chain_hint` (method, line 187) `def test_retry_chain_disabled_chain_hint(self, checkpoint, monkeypatch)`
+  - `test_filter_applies` (method, line 204) `def test_filter_applies(self)`
+  - `test_retry_gate_overrides_cached_probe` (method, line 223) `def test_retry_gate_overrides_cached_probe(self, monkeypatch)`
+  - `test_snapshot_digs_past_finished_rows` (method, line 241) `def test_snapshot_digs_past_finished_rows(self, checkpoint, tmp_path)`
+  - `test_snapshot_shape` (method, line 260) `def test_snapshot_shape(self, checkpoint)`
+  - `fake_scan` (function, line 193) `def fake_scan(chains_dir)`
+  - `capture` (function, line 208) `def capture(command)`
+- Depends on: `cli/retry_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/retry_session.py`, `utils.py`
+
 ## tests/test_safe_console.py
 - Doc: Terminal-safe console: colors and glyphs degrade, never leak.
 - Layer: testing

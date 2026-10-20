@@ -1,6 +1,31 @@
 # API (page 17 of 23)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/socks_proxy.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`
+Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
+- `SocksReply.message` (method) `modules/socks_proxy.py:103` `def message(self)` -- Return a human-readable message for this reply code.
+- `SocksSession.elapsed_seconds` (method) `modules/socks_proxy.py:144` `def elapsed_seconds(self)` -- Return seconds since session creation.
+- `SocksSession.to_dict` (method) `modules/socks_proxy.py:150` `def to_dict(self)` -- Serialize session to dictionary.
+- `SocksProxyConfig.to_dict` (method) `modules/socks_proxy.py:199` `def to_dict(self)` -- Serialize config to dictionary.
+- `SocksProxyConfig.from_dict` (method) `modules/socks_proxy.py:218` `def from_dict(cls, raw)` -- Build config from dictionary.
+- `SocksValidator.validate_config` (method) `modules/socks_proxy.py:253` `def validate_config(config)` -- Validate a SocksProxyConfig and return error messages.
+- `SocksValidator.validate_request` (method) `modules/socks_proxy.py:300` `def validate_request(command, address_type, host, port, config)` -- Validate a SOCKS5 request against the proxy configuration.
+- `SocksProxyEngine.__init__` (method) `modules/socks_proxy.py:381` `def __init__(self, config)`
+- `SocksProxyEngine.config` (method) `modules/socks_proxy.py:387` `def config(self)` -- Return the current proxy configuration.
+- `SocksProxyEngine.sessions` (method) `modules/socks_proxy.py:392` `def sessions(self)` -- Return active proxied sessions.
+- `SocksProxyEngine.session_count` (method) `modules/socks_proxy.py:397` `def session_count(self)` -- Return the number of active sessions.
+- `SocksProxyEngine.validate` (method) `modules/socks_proxy.py:401` `def validate(self, config)` -- Validate the configuration.
+- `SocksProxyEngine.build_spec` (method) `modules/socks_proxy.py:413` `def build_spec(self)` -- Build a JSON-serializable proxy specification for beacon delivery.
+- `SocksProxyEngine.create_session` (method) `modules/socks_proxy.py:436` `def create_session(self, session_id, target_host, target_port, beacon_client_id)` -- Create and track a new proxied session.
+- `SocksProxyEngine.remove_session` (method) `modules/socks_proxy.py:475` `def remove_session(self, session_id)` -- Remove a session by ID.
+- `SocksProxyEngine.get_session` (method) `modules/socks_proxy.py:482` `def get_session(self, session_id)` -- Return a session by ID, or None.
+- `SocksProxyEngine.add_bytes` (method) `modules/socks_proxy.py:486` `def add_bytes(self, session_id, sent, received)` -- Update byte counters for a session.
+- `SocksProxyEngine.cleanup_expired` (method) `modules/socks_proxy.py:497` `def cleanup_expired(self)` -- Remove sessions that have exceeded the timeout.
+- `SocksProxyEngine.list_sessions` (method) `modules/socks_proxy.py:511` `def list_sessions(self)` -- Return a list of all active sessions as dictionaries.
+- `SocksProxyEngine.from_dict` (method) `modules/socks_proxy.py:522` `def from_dict(cls, raw)` -- Build a SocksProxyEngine from a configuration dictionary.
+- `SocksProxyEngine.from_payload` (method) `modules/socks_proxy.py:528` `def from_payload(cls, payload)` -- Build a SocksProxyEngine from a LazyOwn payload configuration.
+
 ## modules/staged_delivery.py
 Imported by: `cli/commands/payload_arsenal.py`
 - `StagedDeliveryFactory.__init__` (method) `modules/staged_delivery.py:83` `def __init__(self, config, output_dir)`
@@ -289,16 +314,30 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
 ## modules/verb_catalog.py
 Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
-- `index_commands` (function) `modules/verb_catalog.py:111` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
-- `validate_catalog` (function) `modules/verb_catalog.py:151` `def validate_catalog(data)` -- Validate one raw catalog document.
-- `load` (function) `modules/verb_catalog.py:184` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
-- `entries` (function) `modules/verb_catalog.py:217` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
-- `catalog_enabled` (function) `modules/verb_catalog.py:270` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
-- `catalog_source` (function) `modules/verb_catalog.py:285` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
-- `set_enabled` (function) `modules/verb_catalog.py:299` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
-- `sync` (function) `modules/verb_catalog.py:335` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
-- `stats` (function) `modules/verb_catalog.py:414` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
-- `search` (function) `modules/verb_catalog.py:428` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+- `index_commands` (function) `modules/verb_catalog.py:190` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:230` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:263` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:296` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:349` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:364` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:378` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:415` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:502` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:516` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+
+## modules/verb_manifest.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
+- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
+- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
+- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
+- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
+- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
+- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
+- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
+- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
+- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
 
 ## modules/vuln_bot_cli.py
 Depends on: `modules/vulnbot.py`
@@ -408,91 +447,6 @@ Imported by: `tests/test_lazy_loop.py`
 - `write_text` (function) `modules/workspace.py:72` `def write_text(rel, content)` -- Write one file, creating parents; returns the character count.
 - `make_dir` (function) `modules/workspace.py:83` `def make_dir(rel)` -- Create one directory (parents included).
 - `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
-
-## modules/world_model.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
-- `read_state_dict` (function) `modules/world_model.py:101` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
-- `write_state_dict` (function) `modules/world_model.py:147` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
-- `HostState.rank` (method) `modules/world_model.py:189` `def rank(self)`
-- `HostState.can_advance_to` (method) `modules/world_model.py:192` `def can_advance_to(self, next_state)`
-- `NetworkGraph.__init__` (method) `modules/world_model.py:296` `def __init__(self)`
-- `NetworkGraph.add_relation` (method) `modules/world_model.py:303` `def add_relation(self, relation)` -- Add a directed edge.
-- `NetworkGraph.neighbors` (method) `modules/world_model.py:311` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
-- `NetworkGraph.in_degree` (method) `modules/world_model.py:315` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
-- `NetworkGraph.out_degree` (method) `modules/world_model.py:319` `def out_degree(self, node)` -- Count edges leaving *node*.
-- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:323` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
-- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:338` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
-- `NetworkGraph.to_dict` (method) `modules/world_model.py:360` `def to_dict(self)`
-- `NetworkGraph.from_dict` (method) `modules/world_model.py:377` `def from_dict(cls, data)`
-- `HostEntry.add_service` (method) `modules/world_model.py:402` `def add_service(self, svc)`
-- `HostEntry.advance` (method) `modules/world_model.py:406` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
-- `HostEntry.to_dict` (method) `modules/world_model.py:414` `def to_dict(self)`
-- `HostEntry.from_dict` (method) `modules/world_model.py:426` `def from_dict(cls, d)`
-- `_PhaseDeriver.derive` (method) `modules/world_model.py:459` `def derive(self, hosts)`
-- `WorldModel.__init__` (method) `modules/world_model.py:578` `def __init__(self, path)`
-- `WorldModel.add_host` (method) `modules/world_model.py:594` `def add_host(self, ip)`
-- `WorldModel.reset_host` (method) `modules/world_model.py:602` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
-- `WorldModel.remove_host` (method) `modules/world_model.py:612` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
-- `WorldModel.advance_host` (method) `modules/world_model.py:628` `def advance_host(self, ip, new_state)`
-- `WorldModel.add_service` (method) `modules/world_model.py:637` `def add_service(self, ip, port, name, version, protocol)`
-- `WorldModel.add_note` (method) `modules/world_model.py:654` `def add_note(self, ip, note)`
-- `WorldModel.set_os_hint` (method) `modules/world_model.py:661` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
-- `WorldModel.get_host` (method) `modules/world_model.py:675` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
-- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:687` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
-- `WorldModel.add_credential` (method) `modules/world_model.py:698` `def add_credential(self, value, host, service)`
-- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:730` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
-- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:751` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
-- `WorldModel.add_vulnerability` (method) `modules/world_model.py:781` `def add_vulnerability(self, description, host, cve, severity)`
-- `WorldModel.add_email` (method) `modules/world_model.py:787` `def add_email(self, address, host, context)`
-- `WorldModel.add_domain` (method) `modules/world_model.py:793` `def add_domain(self, domain, host, context)`
-- `WorldModel.update_from_findings` (method) `modules/world_model.py:807` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
-- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:880` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
-- `WorldModel.add_relation` (method) `modules/world_model.py:972` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
-- `WorldModel.pivot_candidates` (method) `modules/world_model.py:993` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
-- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1001` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
-- `WorldModel.get_phase` (method) `modules/world_model.py:1008` `def get_phase(self)`
-- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1012` `def get_suggested_tools(self)`
-- `WorldModel.to_context_string` (method) `modules/world_model.py:1015` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
-- `WorldModel.reload` (method) `modules/world_model.py:1123` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
-- `WorldModel.reset` (method) `modules/world_model.py:1139` `def reset(self)` -- Clear all state and delete the persisted file.
-- `WorldModel.snapshot` (method) `modules/world_model.py:1150` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
-- `WorldModel.read_section` (method) `modules/world_model.py:1166` `def read_section(self, key)` -- Return one allowlisted passthrough section.
-- `WorldModel.write_section` (method) `modules/world_model.py:1183` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
-- `get_world_model` (function) `modules/world_model.py:1211` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
-
-## modules/yaml_generator.py
-Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
-- `YAMLPromptGenerator.__init__` (method) `modules/yaml_generator.py:18` `def __init__(self, provider, api_key)`
-- `YAMLPromptGenerator.load_payload` (method) `modules/yaml_generator.py:25` `def load_payload(self)` -- Carga las variables desde payload.json
-- `YAMLPromptGenerator.generate_prompt` (method) `modules/yaml_generator.py:54` `def generate_prompt(self, user_request)` -- Genera el prompt para la IA en inglés
-- `YAMLPromptGenerator.extract_yaml_from_markdown` (method) `modules/yaml_generator.py:100` `def extract_yaml_from_markdown(self, text)` -- Extrae el primer bloque YAML entre ```yaml y ```
-- `YAMLPromptGenerator.create_yaml_addon` (method) `modules/yaml_generator.py:109` `def create_yaml_addon(self, user_request, output_dir)` -- Genera el YAML y lo guarda en disco
-- `main` (function) `modules/yaml_generator.py:141` `def main()`
-
-## modules/yara_scanner.py
-Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
-- `YaraScanner.__init__` (method) `modules/yara_scanner.py:31` `def __init__(self, rules_dir, auto_compile)`
-- `YaraScanner.ensure_directory` (method) `modules/yara_scanner.py:41` `def ensure_directory(self)` -- Create the YARA rules directory if it does not exist.
-- `YaraScanner.compile_all` (method) `modules/yara_scanner.py:54` `def compile_all(self)` -- Compile all .yar files in the rules directory.
-- `YaraScanner.scan_file` (method) `modules/yara_scanner.py:98` `def scan_file(self, filepath, timeout)` -- Scan a single file with all compiled YARA rules.
-- `target` (function) `modules/yara_scanner.py:137` `def target()`
-- `YaraScanner.scan_directory` (method) `modules/yara_scanner.py:187` `def scan_directory(self, directory, recursive, extensions, max_files)` -- Scan all files in a directory recursively.
-- `YaraScanner.add_rule` (method) `modules/yara_scanner.py:258` `def add_rule(self, name, content)` -- Add a new YARA rule to the rules directory.
-- `YaraScanner.list_rules` (method) `modules/yara_scanner.py:277` `def list_rules(self)` -- List all YARA rules in the rules directory.
-- `YaraScanner.download_community_rules` (method) `modules/yara_scanner.py:300` `def download_community_rules(self)` -- Attempt to download community YARA rules from popular repositories.
-- `YaraScanner.ioc_scan` (method) `modules/yara_scanner.py:328` `def ioc_scan(self, target_path, iocs)` -- Scan for IOCs (hashes, strings, registry keys) in a file/directory.
-- `create_default_rules` (function) `modules/yara_scanner.py:371` `def create_default_rules()` -- Create a set of default YARA rules for common threats.
-
-## plugins/generate_c_reverse_shell.lua
-- `generate_c_reverse_shell` (function) `plugins/generate_c_reverse_shell.lua:1`
-- `all` (function) `plugins/generate_c_reverse_shell.lua:108`
-
-## plugins/generate_cleanup_commands.lua
-- `generate_cleanup_commands` (function) `plugins/generate_cleanup_commands.lua:3`
-
-## plugins/generate_html_payload.lua
-- `generate_html_payload` (function) `plugins/generate_html_payload.lua:1`
 
 
 Next: [API_p18.md](API_p18.md)

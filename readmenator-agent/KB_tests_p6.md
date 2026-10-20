@@ -1,6 +1,55 @@
 # Subsystem: tests (page 6 of 18)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_command_set_migration.py
+- Doc: Tests for the completed migration of ``LazyOwnShell`` commands.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_discover_migrated_class_names` (function, line 38) `def _discover_migrated_class_names()`
+  - `_collect_migrated_modules` (function, line 57) `def _collect_migrated_modules()`
+  - `_parse_class` (function, line 62) `def _parse_class(file_path, class_name)`
+  - `_category_argument` (function, line 82) `def _category_argument(decorator)`
+  - `_collect_legacy_do_methods` (function, line 110) `def _collect_legacy_do_methods()`
+  - `_module_path` (function, line 134) `def _module_path(module_name)`
+  - `TestDormancyMechanism` (class, line 139) `class TestDormancyMechanism`
+  - `TestShellForwarding` (class, line 189) `class TestShellForwarding`
+  - `TestMigratedSetsStructure` (class, line 249) `class TestMigratedSetsStructure`
+  - `TestParityWithLegacyShell` (class, line 284) `class TestParityWithLegacyShell`
+  - `TestProductionHygiene` (class, line 312) `class TestProductionHygiene`
+  - `test_pending_marker_attribute` (method, line 140) `def test_pending_marker_attribute(self)`
+  - `test_is_pending_helper` (method, line 145) `def test_is_pending_helper(self)`
+  - `test_subclass_inherits_pending_flag` (method, line 154) `def test_subclass_inherits_pending_flag(self)`
+  - `test_all_discovered_sets_are_active` (method, line 162) `def test_all_discovered_sets_are_active(self)`
+  - `test_active_sets_excluded_when_pending_skipped` (method, line 169) `def test_active_sets_excluded_when_pending_skipped(self)`
+  - `test_register_includes_migrated_sets` (method, line 175) `def test_register_includes_migrated_sets(self)`
+  - `_make_set` (method, line 199) `def _make_set(self)`
+  - `test_unregistered_params_default_empty` (method, line 207) `def test_unregistered_params_default_empty(self)`
+  - `test_unregistered_forwarding_raises_attribute_error` (method, line 211) `def test_unregistered_forwarding_raises_attribute_error(self)`
+  - `test_registered_params_reflect_shell` (method, line 216) `def test_registered_params_reflect_shell(self)`
+  - `test_registered_forwards_shell_methods` (method, line 229) `def test_registered_forwards_shell_methods(self)`
+  - `migrated_modules` (method, line 251) `def migrated_modules(self)`
+  - `module_names` (method, line 255) `def module_names(self, migrated_modules)`
+  - `test_all_modules_discoverable` (method, line 258) `def test_all_modules_discoverable(self, migrated_modules)`
+  - `test_all_active_and_have_phase` (method, line 261) `def test_all_active_and_have_phase(self, migrated_modules)`
+  - `test_each_module_has_do_methods` (method, line 273) `def test_each_module_has_do_methods(self, migrated_modules)`
+  - `test_no_do_methods_remain_on_shell` (method, line 285) `def test_no_do_methods_remain_on_shell(self)`
+  - `test_migrated_methods_not_duplicated_on_shell` (method, line 295) `def test_migrated_methods_not_duplicated_on_shell(self)`
+  - `module_names` (method, line 314) `def module_names(self)`
+  - `test_no_forbidden_markers` (method, line 317) `def test_no_forbidden_markers(self, module_names)`
+  - `test_no_emoji` (method, line 325) `def test_no_emoji(self, module_names)`
+  - `test_every_module_is_parseable` (method, line 345) `def test_every_module_is_parseable(self, module_names)`
+  - `_Sample` (class, line 157) `class _Sample(PendingCommandSet)`
+  - `_Bare` (class, line 180) `class _Bare(Cmd)`
+  - `_Probe` (class, line 202) `class _Probe(LazyOwnCommandSet)`
+  - `_Shell` (class, line 219) `class _Shell(Cmd)`
+  - `_Shell` (class, line 234) `class _Shell(Cmd)`
+  - `__init__` (method, line 181) `def __init__(self)`
+  - `__init__` (method, line 220) `def __init__(self)`
+  - `__init__` (method, line 235) `def __init__(self)`
+  - `cmd` (method, line 239) `def cmd(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/registry.py`
+
 ## tests/test_conditional_hooks_extended.py
 - Doc: Tests for extended HookEngine trigger matching.
 - Layer: testing
@@ -440,58 +489,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_mutating_with_valid_token_passes` (method, line 136) `def test_mutating_with_valid_token_passes(self)`
   - `test_exempt_path_with_no_token_still_passes` (method, line 146) `def test_exempt_path_with_no_token_still_passes(self)`
 - Depends on: `lazyc2/security/csrf.py`
-
-## tests/test_daemon_control.py
-- Doc: Unit tests for skills.daemon_control.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sessions_dir` (function, line 46) `def sessions_dir(tmp_path)`
-  - `test_default_state_roundtrip` (function, line 52) `def test_default_state_roundtrip(sessions_dir)`
-  - `test_set_mode_persists_and_normalises_invalid` (function, line 63) `def test_set_mode_persists_and_normalises_invalid(sessions_dir)`
-  - `test_state_from_dict_sanitises_unknown_mode` (function, line 74) `def test_state_from_dict_sanitises_unknown_mode()`
-  - `test_state_from_dict_preserves_pending` (function, line 80) `def test_state_from_dict_preserves_pending()`
-  - `test_pause_resume_round_trip` (function, line 102) `def test_pause_resume_round_trip(sessions_dir)`
-  - `test_add_remove_clear_veto` (function, line 112) `def test_add_remove_clear_veto(sessions_dir)`
-  - `test_add_veto_rejects_empty_token` (function, line 128) `def test_add_veto_rejects_empty_token(sessions_dir)`
-  - `test_is_vetoed_uses_first_token` (function, line 135) `def test_is_vetoed_uses_first_token(sessions_dir)`
-  - `test_set_focus_replaces_list` (function, line 143) `def test_set_focus_replaces_list(sessions_dir)`
-  - `test_target_in_focus_defaults_to_true_when_no_focus` (function, line 153) `def test_target_in_focus_defaults_to_true_when_no_focus(sessions_dir)`
-  - `test_propose_decide_consume_cycle` (function, line 163) `def test_propose_decide_consume_cycle(sessions_dir)`
-  - `test_decide_rejects_invalid_decision` (function, line 183) `def test_decide_rejects_invalid_decision(sessions_dir)`
-  - `test_decide_with_unknown_id_returns_none` (function, line 191) `def test_decide_with_unknown_id_returns_none(sessions_dir)`
-  - `test_consume_expires_overdue_pending` (function, line 198) `def test_consume_expires_overdue_pending(sessions_dir)`
-  - `test_pending_action_is_expired_only_when_still_pending` (function, line 209) `def test_pending_action_is_expired_only_when_still_pending()`
-  - `test_wait_for_decision_returns_approved` (function, line 221) `def test_wait_for_decision_returns_approved(sessions_dir)`
-  - `test_wait_for_decision_expires_after_ttl` (function, line 237) `def test_wait_for_decision_expires_after_ttl(sessions_dir)`
-  - `test_wait_for_decision_polls_until_decided` (function, line 252) `def test_wait_for_decision_polls_until_decided(sessions_dir)`
-  - `test_wait_until_unpaused_returns_true_when_already_running` (function, line 274) `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)`
-  - `test_wait_until_unpaused_returns_false_after_max_wait` (function, line 288) `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)`
-  - `test_wait_until_unpaused_returns_true_after_resume` (function, line 310) `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)`
-  - `test_save_writes_atomic_file_with_restricted_mode` (function, line 331) `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)`
-  - `test_load_returns_defaults_on_invalid_json` (function, line 342) `def test_load_returns_defaults_on_invalid_json(sessions_dir)`
-  - `test_concurrent_save_serialised_by_lock` (function, line 352) `def test_concurrent_save_serialised_by_lock(sessions_dir)`
-  - `_sleep` (function, line 257) `def _sleep(_seconds)`
-  - `_now` (function, line 293) `def _now()`
-  - `_sleep` (function, line 296) `def _sleep(_seconds)`
-  - `_sleep` (function, line 315) `def _sleep(_seconds)`
-- Depends on: `skills/daemon_control.py`
-
-## tests/test_daemon_ctl_command_set.py
-- Doc: Daemon command set extraction tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 28) `def _add_repo_root_to_syspath()`
-  - `DaemonSuiteConfig` (class, line 34) `class DaemonSuiteConfig`
-  - `_methods_of` (function, line 53) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (function, line 65) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_daemon_cluster` (function, line 74) `def test_target_exposes_full_daemon_cluster()`
-  - `test_target_phase_metadata` (function, line 81) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (function, line 87) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (function, line 93) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (function, line 100) `def test_no_command_collisions_with_source()`
-- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/daemon_ctl.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

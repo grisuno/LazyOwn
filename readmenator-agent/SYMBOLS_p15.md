@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_build_silver_pac` | method | `modules/kerberos_tickets.py:200` | `def _build_silver_pac(self, config, start, end)` |
+| `_build_ticket_structure` | method | `modules/kerberos_tickets.py:225` | `def _build_ticket_structure(self, config, flags, enc_part)` |
+| `_impacket_command` | method | `modules/kerberos_tickets.py:254` | `def _impacket_command(self, config)` |
+| `_impacket_command` | method | `modules/kerberos_tickets.py:388` | `def _impacket_command(self, config)` |
+| `_mimikatz_command` | method | `modules/kerberos_tickets.py:379` | `def _mimikatz_command(self, config)` |
+| `_mimikatz_inject_command` | method | `modules/kerberos_tickets.py:244` | `def _mimikatz_inject_command(self, config)` |
+| `_resolve_key` | method | `modules/kerberos_tickets.py:190` | `def _resolve_key(self, config)` |
+| `_resolve_krbtgt_key` | method | `modules/kerberos_tickets.py:324` | `def _resolve_krbtgt_key(self, config)` |
+| `cleanup_command` | method | `modules/kerberos_tickets.py:612` | `def cleanup_command()` |
+| `detect_skeleton_key` | method | `modules/kerberos_tickets.py:578` | `def detect_skeleton_key(target_host, domain, dc_ip)` |
+| `forge` | method | `modules/kerberos_tickets.py:134` | `def forge(self, config)` |
+| `forge` | method | `modules/kerberos_tickets.py:275` | `def forge(self, config)` |
+| `forge` | method | `modules/kerberos_tickets.py:408` | `def forge(self, config)` |
+| `forge_rbcd` | method | `modules/kerberos_tickets.py:530` | `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` |
+| `forge_s4u2self` | method | `modules/kerberos_tickets.py:472` | `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` |
+| `inject_command` | method | `modules/kerberos_tickets.py:600` | `def inject_command(target_host)` |
+| `_build_svg` | function | `modules/kill_chain_viz.py:34` | `def _build_svg(phases)` |
+| `_load_phases` | function | `modules/kill_chain_viz.py:20` | `def _load_phases(sessions)` |
+| `_read_target` | function | `modules/kill_chain_viz.py:27` | `def _read_target()` |
+| `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
+| `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
+| `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
+| `KillChainConfig` | class | `modules/killchain.py:38` | `class KillChainConfig` |
+| `PhaseStatus` | class | `modules/killchain.py:136` | `class PhaseStatus` |
+| `advance_phase` | method | `modules/killchain.py:251` | `def advance_phase(new_phase, world_model_path, host)` |
+| `cli_phase_to_host_state` | method | `modules/killchain.py:191` | `def cli_phase_to_host_state(phase)` |
+| `compact_progress` | method | `modules/killchain.py:377` | `def compact_progress(current_phase, phases_entered)` |
+| `config` | method | `modules/killchain.py:154` | `def config()` |
+| `current_phase` | method | `modules/killchain.py:204` | `def current_phase(world_model_path)` |
+| `engagement_phase_to_cli` | method | `modules/killchain.py:179` | `def engagement_phase_to_cli(engagement_value)` |
+| `get_killchain` | function | `modules/killchain.py:453` | `def get_killchain()` |
+| `get_progress` | method | `modules/killchain.py:328` | `def get_progress(world_model_path)` |
+| `is_valid_phase` | method | `modules/killchain.py:127` | `def is_valid_phase(self, phase)` |
+| `phase_colors` | method | `modules/killchain.py:169` | `def phase_colors()` |
+| `phase_index` | method | `modules/killchain.py:120` | `def phase_index(self, phase)` |
+| `phase_index` | method | `modules/killchain.py:408` | `def phase_index(phase)` |
+| `phase_labels` | method | `modules/killchain.py:164` | `def phase_labels()` |
 | `phase_rich_colors` | method | `modules/killchain.py:174` | `def phase_rich_colors()` |
 | `phases` | method | `modules/killchain.py:159` | `def phases()` |
 | `phases_for_display` | method | `modules/killchain.py:397` | `def phases_for_display()` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `read` | method | `modules/lazy_loop.py:1587` | `def read(self, limit)` |
 | `read` | method | `modules/lazy_loop.py:6389` | `def read(self, evidence_id, offset, length)` |
 | `rebind` | method | `modules/lazy_loop.py:3532` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
-| `record` | method | `modules/lazy_loop.py:1565` | `def record(self, kind, command, output, meta)` |
-| `record_fact` | method | `modules/lazy_loop.py:1374` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
-| `record_fact` | function | `modules/lazy_loop.py:4353` | `def record_fact(text)` |
-| `record_fact` | method | `modules/lazy_loop.py:8187` | `def record_fact(self, task_id, text, evidence, intent_id)` |
-| `record_raw` | method | `modules/lazy_loop.py:6965` | `def record_raw(self)` |
-| `record_round` | method | `modules/lazy_loop.py:2303` | `def record_round(self, task_id)` |
-| `record_toolcall` | method | `modules/lazy_loop.py:2291` | `def record_toolcall(self, task_id, intent_id)` |
-| `record_verdict` | method | `modules/lazy_loop.py:8194` | `def record_verdict(self, task_id, finding_id, verdict, note)` |
-| `recorder_blob` | method | `modules/lazy_loop.py:1676` | `def recorder_blob(self, digest, part, offset, length)` |
-| `recorder_body` | method | `modules/lazy_loop.py:1647` | `def recorder_body(self, digest)` |
-| `refine` | method | `modules/lazy_loop.py:3145` | `def refine(self)` |
-| `register_worker` | function | `modules/lazy_loop.py:598` | `def register_worker(worker)` |
-| `reload` | method | `modules/lazy_loop.py:1274` | `def reload(self)` |
-| `remove` | method | `modules/lazy_loop.py:2213` | `def remove(self, rule_id, action)` |
-| `remove` | method | `modules/lazy_loop.py:7315` | `def remove(self, name)` |
-| `remove_channel` | method | `modules/lazy_loop.py:6496` | `def remove_channel(self, index)` |
-| `remove_member` | method | `modules/lazy_loop.py:6669` | `def remove_member(self, name)` |
-| `remove_rule` | method | `modules/lazy_loop.py:1855` | `def remove_rule(self, pattern)` |
-| `reorder_evidence` | method | `modules/lazy_loop.py:1778` | `def reorder_evidence(self, finding_id, digests, graph)` |
-| `repair_worker_command` | function | `modules/lazy_loop.py:272` | `def repair_worker_command(command, target)` |
-| `report` | method | `modules/lazy_loop.py:6063` | `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` |
-| `report_finding` | function | `modules/lazy_loop.py:4362` | `def report_finding(name, evidence, severity)` |
-| `request` | method | `modules/lazy_loop.py:2445` | `def request(self, tool, command, reason, tool_use_id)` |
-| `resolve_target` | function | `modules/lazy_loop.py:2952` | `def resolve_target(task_id, store, graph)` |
-| `restore` | method | `modules/lazy_loop.py:7217` | `def restore(self, path)` |
-| `resume` | method | `modules/lazy_loop.py:2651` | `def resume(self, task_id)` |
-| `resume_intent` | method | `modules/lazy_loop.py:8106` | `def resume_intent(self, task_id, intent_id)` |
-| `resume_task` | method | `modules/lazy_loop.py:7735` | `def resume_task(self, task_id)` |
-| `retest` | method | `modules/lazy_loop.py:5234` | `def retest(self, finding_id, executor, note)` |
-| `retest_context` | method | `modules/lazy_loop.py:5310` | `def retest_context(self, finding_id)` |
-| `run` | method | `modules/lazy_loop.py:8768` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
-| `run_command` | function | `modules/lazy_loop.py:4327` | `def run_command(command, background)` |
-| `run_round` | method | `modules/lazy_loop.py:8283` | `def run_round(self, task_id, workers, executor, pool)` |
-| `save` | method | `modules/lazy_loop.py:7174` | `def save(self, task_id)` |
-| `say` | method | `modules/lazy_loop.py:7367` | `def say(self, task_id, text, pool, session)` |
-| `scoped` | method | `modules/lazy_loop.py:1045` | `def scoped(self, scope, kind)` |
-| `scrub_secrets` | function | `modules/lazy_loop.py:460` | `def scrub_secrets(text)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -2,6 +2,11 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/opsec_scorer.py` -> __future__, dataclasses, time, typing
+- `modules/orchestrator_config.py` -> __future__, copy, pathlib, threading, time, typing, yaml
+- `modules/osint_enrich.py` -> __future__, json, pathlib, re, time, urllib.parse, urllib.request
+- `modules/outcome_bus.py` -> __future__, collections, dataclasses, hashlib, importlib, json, pathlib, threading, time, typing
+- `modules/payload_factory.py` -> __future__, abc, base64, builtins, os, socket, struct, subprocess, typing
 - `modules/phishing_orchestrator.py` -> __future__, base64, dataclasses, email.mime.multipart, email.mime.text, hashlib, hmac, json, pathlib, random, smtplib, ssl, subprocess, time, typing, uuid
 - `modules/pipeline_engine.py` -> __future__, abc, builtins, collections.abc, contextlib, dataclasses, datetime, io, json, os, pathlib, re, shutil, threading, typing, uuid, yaml
 - `modules/planner.py` -> __future__, dataclasses, pathlib, re
@@ -62,11 +67,13 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/toposwarm_bridge.py` -> __future__, collections, dataclasses, importlib.util, json, os, pathlib, re, subprocess, sys, torch, torch.nn.functional, typing, uuid
 - `modules/traffic_morpher.py` -> __future__, base64, hashlib, os, random, struct, time, typing
 - `modules/traffic_recorder.py` -> __future__, dataclasses, hashlib, json, pathlib, re, sqlite3, threading, time, urllib.parse, zipfile
+- `modules/trigger_policy.py` -> __future__, dataclasses, pathlib
 - `modules/ttp_coverage.py` -> __future__, collections, dataclasses, datetime, json, pathlib
 - `modules/ttpscope_bridge.py` -> __future__, argparse, datetime, json, os, pandas, pathlib, re, shutil, sys, typing, urllib.request
 - `modules/unified_bridge.py` -> __future__, abc, collections.abc, dataclasses, fcntl, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
 - `modules/unified_dashboard.py` -> __future__, datetime, json, pathlib, typing
 - `modules/venator.py` -> Foundation, Quartz, argparse, base64, binascii, ctypes, ctypes.util, datetime, hashlib, hmac, httplib, json, objc, os, platform, plistlib, shutil, socket, sqlite3, subprocess, sys, tempfile, time, urllib2
+- `modules/verb_catalog.py` -> __future__, dataclasses, json, pathlib, threading, time, typing, yaml
 - `modules/vuln_bot_cli.py` -> argparse, sys
 - `modules/vulnbot.py` -> flask, importlib.util, json, os
 - `modules/websocket_beacon.py` -> asyncio, base64, collections.abc, cryptography.fernet, json, os, random, shlex, ssl, threading, time, typing, uuid, websocket, websockets
@@ -177,6 +184,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/conftest.py` -> __future__, importlib, pathlib, pytest, sys, tempfile
 - `tests/contract/test_suite_homologation.py` -> __future__, pathlib, pytest, re, sys
 - `tests/integration_autonomous_flow.py` -> pathlib, pytest, sys, world_model
+- `tests/mutation_common.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_addon_creator.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_addon_updater.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_api_authz.py` -> __future__, importlib, pathlib, subprocess, sys
@@ -188,6 +196,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/run_mutation_infra_report.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_killchain.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_llm.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_loop_cli_catalog.py` -> __future__, pathlib, sys
 - `tests/run_mutation_no_shell.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_opsec.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_orchestrator_yaml.py` -> __future__, pathlib, subprocess, sys
@@ -195,7 +204,9 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/run_mutation_phase1.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_shell_semantics.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_tests.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_trigger_policy.py` -> __future__, pathlib, sys
 - `tests/run_mutation_ux_usability.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_verb_catalog.py` -> __future__, pathlib, sys
 - `tests/test_aci_planner.py` -> __future__, json, pathlib, secrets, sys, typing, unittest.mock
 - `tests/test_addon_creator.py` -> __future__, flask, flask_login, pathlib, pytest, re, yaml
 - `tests/test_addon_updater.py` -> __future__, pathlib, subprocess, yaml
@@ -350,6 +361,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
 - `tests/test_loop_broadcast.py` -> __future__
 - `tests/test_loop_budget.py` -> __future__, pytest
+- `tests/test_loop_cli_catalog.py` -> __future__, pytest
 - `tests/test_loop_cold_overview.py` -> __future__
 - `tests/test_loop_force_graph.py` -> __future__
 - `tests/test_loop_guard_audit.py` -> __future__
@@ -384,6 +396,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_ops_loot_phase.py` -> json, pathlib, sys, world_model
 - `tests/test_opsec_scorer.py` -> __future__
 - `tests/test_opsec_scorer_consolidated.py` -> __future__
+- `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
+- `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
 - `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_outcome_bus.py` -> __future__, concurrent.futures, json, modules.sinks.report, pathlib
 - `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
@@ -430,6 +444,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
+- `tests/test_session_brief.py` -> __future__, pathlib, pytest
 - `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
 - `tests/test_shell_semantics.py` -> __future__
@@ -446,6 +461,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_timeline_browser.py` -> __future__, csv, pathlib, sys
 - `tests/test_tips_engine.py` -> __future__, pathlib, pytest, tempfile
 - `tests/test_toast_bus.py` -> __future__, io, json, pathlib, sys
+- `tests/test_toastr_unify.py` -> __future__
+- `tests/test_trigger_policy.py` -> pathlib
 - `tests/test_trusted_proxy.py` -> __future__
 - `tests/test_ttpscope_bridge.py` -> __future__, pathlib, pytest, sys, yaml
 - `tests/test_tui_splash.py` -> __future__, io, unittest
@@ -455,6 +472,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_unified_bridge_delegate.py` -> __future__, itertools, pytest
 - `tests/test_unified_dashboard.py` -> __future__, json
 - `tests/test_utils_import_silent.py` -> __future__, pathlib, subprocess, sys
+- `tests/test_verb_catalog.py` -> json, pathlib, pytest
 - `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
 - `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys

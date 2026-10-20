@@ -3,6 +3,84 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
+| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
+| `VerbCatalogConfig` | class | `modules/verb_catalog.py:54` | `class VerbCatalogConfig` |
+| `_builtin_names` | function | `modules/verb_catalog.py:79` | `def _builtin_names()` |
+| `_default_config` | function | `modules/verb_catalog.py:74` | `def _default_config()` |
+| `_drop_cache` | function | `modules/verb_catalog.py:406` | `def _drop_cache(path_key)` |
+| `_phase_fallback` | function | `modules/verb_catalog.py:91` | `def _phase_fallback(verb)` |
+| `_risk_fallback` | function | `modules/verb_catalog.py:101` | `def _risk_fallback(verb)` |
+| `_write` | function | `modules/verb_catalog.py:382` | `def _write(cfg, verbs)` |
+| `catalog_enabled` | function | `modules/verb_catalog.py:270` | `def catalog_enabled(name, config)` |
+| `catalog_source` | function | `modules/verb_catalog.py:285` | `def catalog_source(name, config)` |
+| `entries` | function | `modules/verb_catalog.py:217` | `def entries(config)` |
+| `index_commands` | function | `modules/verb_catalog.py:111` | `def index_commands(config)` |
+| `load` | function | `modules/verb_catalog.py:184` | `def load(config)` |
+| `search` | function | `modules/verb_catalog.py:428` | `def search(query, config, phase, enabled, limit)` |
+| `set_enabled` | function | `modules/verb_catalog.py:299` | `def set_enabled(name, enabled, config)` |
+| `stats` | function | `modules/verb_catalog.py:414` | `def stats(config)` |
+| `sync` | function | `modules/verb_catalog.py:335` | `def sync(config)` |
+| `validate_catalog` | function | `modules/verb_catalog.py:151` | `def validate_catalog(data)` |
+| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
+| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
+| `VulnBotCLI` | class | `modules/vulnbot.py:29` | `class VulnBotCLI` |
+| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
+| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
+| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
+| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
+| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
+| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
+| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
+| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
+| `edit_file` | function | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
+| `generate` | function | `modules/vulnbot.py:139` | `def generate()` |
+| `generate` | function | `modules/vulnbot.py:207` | `def generate()` |
+| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
+| `list_files` | function | `modules/vulnbot.py:86` | `def list_files(directory)` |
+| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
+| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
+| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
+| `read_file` | function | `modules/vulnbot.py:90` | `def read_file(path)` |
+| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
+| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
+| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
+| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
+| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
+| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
+| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
+| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
+| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
+| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
+| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
+| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
+| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
+| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
+| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
+| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
+| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
+| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
+| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
+| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
+| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
+| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
+| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
+| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
+| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
+| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
+| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
+| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
+| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
 | `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
 | `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
 | `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
@@ -418,83 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
 | `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
 | `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
-| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
-| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
-| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
-| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
-| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
-| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
-| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
-| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
-| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
-| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
-| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
-| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
-| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
-| `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
-| `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
-| `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
-| `_method_names_from_file` | function | `scripts/migrate_commandsets.py:52` | `def _method_names_from_file(filepath)` |
-| `main` | function | `scripts/migrate_commandsets.py:158` | `def main()` |
-| `merge_phase` | function | `scripts/migrate_commandsets.py:117` | `def merge_phase(phase, dry_run)` |
-| `_category_from_decorator` | function | `scripts/migrate_lazyown.py:70` | `def _category_from_decorator(decorator)` |
-| `_indent_level` | function | `scripts/migrate_lazyown.py:84` | `def _indent_level(line)` |
-| `build_migrated_module` | function | `scripts/migrate_lazyown.py:124` | `def build_migrated_module(phase, category, methods)` |
-| `extract_method` | function | `scripts/migrate_lazyown.py:88` | `def extract_method(source, node)` |
-| `main` | function | `scripts/migrate_lazyown.py:173` | `def main()` |
-| `rewrite_globals` | function | `scripts/migrate_lazyown.py:96` | `def rewrite_globals(method_source)` |
-| `changed_sources` | function | `scripts/mutate.sh:33` | `` |
-| `runners` | function | `scripts/mutate.sh:29` | `` |
-| `usage` | function | `scripts/mutate.sh:40` | `` |
-| `discover_runners` | function | `scripts/mutation_gate.py:25` | `def discover_runners()` |
-| `main` | function | `scripts/mutation_gate.py:63` | `def main(argv)` |
-| `run_runner` | function | `scripts/mutation_gate.py:34` | `def run_runner(path, timeout_s)` |
-| `fail` | function | `scripts/publish_wiki.sh:38` | `` |
-| `log` | function | `scripts/publish_wiki.sh:37` | `` |
-| `write_c2_api` | function | `scripts/publish_wiki.sh:150` | `` |
-| `write_footer` | function | `scripts/publish_wiki.sh:207` | `` |
-| `write_home` | function | `scripts/publish_wiki.sh:58` | `` |
-| `write_installation` | function | `scripts/publish_wiki.sh:92` | `` |
-| `write_plugins` | function | `scripts/publish_wiki.sh:174` | `` |
-| `write_sidebar` | function | `scripts/publish_wiki.sh:188` | `` |
-| `_build_parser` | function | `scripts/read_journal.py:19` | `def _build_parser()` |
-| `main` | function | `scripts/read_journal.py:29` | `def main(argv)` |
-| `check` | function | `scripts/smoke_onboarding.sh:8` | `` |
-| `canonical_command_count` | function | `scripts/sync_doc_stats.py:87` | `def canonical_command_count(root)` |
-| `main` | function | `scripts/sync_doc_stats.py:165` | `def main()` |
-| `measure_stats` | function | `scripts/sync_doc_stats.py:109` | `def measure_stats(root)` |
-| `project_version` | function | `scripts/sync_doc_stats.py:100` | `def project_version(root)` |
-| `render` | function | `scripts/sync_doc_stats.py:136` | `def render(template, stats)` |
-| `sync` | function | `scripts/sync_doc_stats.py:141` | `def sync(check, stats, root)` |
-| `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
-| `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
-| `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
-| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
-| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
-| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
-| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
-| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
-| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
-| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
-| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
-| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
-| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
-| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
-| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
-| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
-| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
-| `fail` | function | `scripts/validate_agent_contract.sh:27` | `` |
-| `pass` | function | `scripts/validate_agent_contract.sh:23` | `` |
-| `ACIEngine` | class | `skills/aci_planner.py:593` | `class ACIEngine` |
-| `ACIGoal` | class | `skills/aci_planner.py:146` | `class ACIGoal` |
-| `ACIPlan` | class | `skills/aci_planner.py:182` | `class ACIPlan` |
-| `ACIPlanner` | class | `skills/aci_planner.py:449` | `class ACIPlanner` |
-| `ACIReflector` | class | `skills/aci_planner.py:787` | `class ACIReflector` |
-| `AttackPhase` | class | `skills/aci_planner.py:157` | `class AttackPhase` |
-| `__init__` | method | `skills/aci_planner.py:461` | `def __init__(self, api_key, objectives_file, plan_file)` |
-| `__init__` | method | `skills/aci_planner.py:604` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
-| `__init__` | method | `skills/aci_planner.py:797` | `def __init__(self, lessons_file)` |
-| `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
-| `_build_parser` | function | `skills/aci_planner.py:978` | `def _build_parser()` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

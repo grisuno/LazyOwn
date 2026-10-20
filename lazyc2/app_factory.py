@@ -27,6 +27,7 @@ from flask_login import LoginManager
 from flask_socketio import SocketIO
 
 from lazyc2.blueprints import api_bp, api_v1_bp, redirect_bp
+from lazyc2.blueprints.orchestrator import orchestrator_bp
 from lazyc2.extensions import short_urls as short_urls_ext
 
 
@@ -132,6 +133,25 @@ def create_app() -> Flask:
     login_manager = LoginManager(app)
     login_manager.login_view = "login"
 
+    @login_manager.user_loader
+    def _factory_load_user(user_id):
+        """Resolve one RBAC user so the blueprint session auth works."""
+        from flask_login import UserMixin
+
+        class _FactoryUser(UserMixin):
+            def __init__(self, data: dict) -> None:
+                self.id = str(data.get("id", ""))
+                self.username = str(data.get("username", ""))
+                self.role = str(data.get("role", "operator"))
+
+        try:
+            from modules.lazy_rbac import get_rbac_store
+
+            rbac_user = get_rbac_store().find_by_id(int(user_id))
+        except Exception:
+            return None
+        return _FactoryUser(rbac_user.to_dict()) if rbac_user else None
+
     # ── Shared config for blueprints ──────────────────────────────────────
     app.config["_security_config"] = security
     app.config["SESSIONS_DIR"] = "sessions"
@@ -145,6 +165,7 @@ def create_app() -> Flask:
     # ── Blueprints ────────────────────────────────────────────────────────
     app.register_blueprint(api_bp, url_prefix="/api")
     app.register_blueprint(api_v1_bp, url_prefix="/api/v1")
+    app.register_blueprint(orchestrator_bp)
     app.register_blueprint(redirect_bp)
 
     # ── Error handlers ────────────────────────────────────────────────────

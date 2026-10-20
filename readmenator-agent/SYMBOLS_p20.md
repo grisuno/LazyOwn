@@ -3,6 +3,59 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
+| `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
+| `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
+| `render` | method | `modules/security_sanitizers.py:359` | `def render(self, template, substitutions, username, password)` |
+| `resolve` | method | `modules/security_sanitizers.py:196` | `def resolve(self, untrusted_name)` |
+| `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
+| `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
+| `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
+| `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
+| `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
+| `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
+| `ReleaseArtifact` | class | `modules/selfupdate.py:24` | `class ReleaseArtifact` |
+| `Updater` | class | `modules/selfupdate.py:38` | `class Updater` |
+| `__init__` | method | `modules/selfupdate.py:47` | `def __init__(self, live_path)` |
+| `_git` | function | `modules/selfupdate.py:90` | `def _git(args, runner, cwd, timeout)` |
+| `_run` | function | `modules/selfupdate.py:85` | `def _run(argv, cwd, timeout)` |
+| `apply` | function | `modules/selfupdate.py:140` | `def apply(branch, confirm, runner)` |
+| `check` | function | `modules/selfupdate.py:108` | `def check(branch, runner)` |
+| `current_branch` | function | `modules/selfupdate.py:96` | `def current_branch(runner)` |
+| `dirty` | function | `modules/selfupdate.py:102` | `def dirty(runner)` |
+| `rollback` | method | `modules/selfupdate.py:77` | `def rollback(self)` |
+| `stage` | method | `modules/selfupdate.py:57` | `def stage(self, artifact, directory)` |
+| `verify` | method | `modules/selfupdate.py:52` | `def verify(self, artifact)` |
+| `_compose_down` | function | `modules/session_cleanup.py:66` | `def _compose_down(compose_file, label)` |
+| `_run_quiet` | function | `modules/session_cleanup.py:49` | `def _run_quiet(argv, timeout)` |
+| `cleanup_ephemeral_infra` | function | `modules/session_cleanup.py:120` | `def cleanup_ephemeral_infra()` |
+| `find_cloudflared_pids` | function | `modules/session_cleanup.py:28` | `def find_cloudflared_pids(ps_output)` |
+| `stop_cloudflared_processes` | function | `modules/session_cleanup.py:94` | `def stop_cloudflared_processes()` |
+| `SessionRAG` | class | `modules/session_rag.py:188` | `class SessionRAG` |
+| `_KeywordFallback` | class | `modules/session_rag.py:103` | `class _KeywordFallback` |
+| `_RagState` | class | `modules/session_rag.py:168` | `class _RagState` |
+| `__init__` | method | `modules/session_rag.py:111` | `def __init__(self)` |
+| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
+| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
+| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
+| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
+| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
+| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
+| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
+| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
+| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
+| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
+| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
+| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
+| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
+| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
+| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
+| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
+| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
+| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
+| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
+| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
+| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
 | `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
 | `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
 | `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
@@ -313,6 +366,14 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `search_body` | method | `modules/traffic_recorder.py:382` | `def search_body(self, query, limit)` |
 | `since` | method | `modules/traffic_recorder.py:230` | `def since(self, rowid, limit)` |
 | `url_template` | function | `modules/traffic_recorder.py:69` | `def url_template(url)` |
+| `TriggerPolicyConfig` | class | `modules/trigger_policy.py:31` | `class TriggerPolicyConfig` |
+| `_coerce_every_sec` | function | `modules/trigger_policy.py:79` | `def _coerce_every_sec(value)` |
+| `export_store` | function | `modules/trigger_policy.py:171` | `def export_store(task_id)` |
+| `read_policy` | function | `modules/trigger_policy.py:120` | `def read_policy(path)` |
+| `remove_seed` | function | `modules/trigger_policy.py:185` | `def remove_seed(kind, arg, task_id)` |
+| `seed_store` | function | `modules/trigger_policy.py:146` | `def seed_store(policy, store, task_id)` |
+| `seeds` | function | `modules/trigger_policy.py:87` | `def seeds(raw)` |
+| `validate_triggers` | function | `modules/trigger_policy.py:40` | `def validate_triggers(raw)` |
 | `TTPCoverage` | class | `modules/ttp_coverage.py:65` | `class TTPCoverage` |
 | `TTPRow` | class | `modules/ttp_coverage.py:55` | `class TTPRow` |
 | `__init__` | method | `modules/ttp_coverage.py:68` | `def __init__(self)` |
@@ -435,66 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
 | `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
 | `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
-| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
-| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
-| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
-| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
-| `VulnBotCLI` | class | `modules/vulnbot.py:29` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | function | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
-| `generate` | function | `modules/vulnbot.py:139` | `def generate()` |
-| `generate` | function | `modules/vulnbot.py:207` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | function | `modules/vulnbot.py:86` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
-| `read_file` | function | `modules/vulnbot.py:90` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
-| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
-| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
-| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
-| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
-| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
-| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
-| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
-| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
-| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
-| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
-| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
-| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
-| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
-| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
-| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
-| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
-| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
-| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
-| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
-| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
-| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

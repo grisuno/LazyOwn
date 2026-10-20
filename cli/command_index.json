@@ -85,10 +85,11 @@
     "cli/commands/socks_proxy.py",
     "cli/commands/supply_chain.py",
     "cli/commands/surface.py",
-    "cli/commands/ux.py"
+    "cli/commands/ux.py",
+    "cli/commands/verb_admin.py"
   ],
   "source_sha256": {
-    "lazyown.py": "6ff0e65ac8674bb97ed3fff816d507bda1549541e1016a45ef3b7418b1c4ee6a",
+    "lazyown.py": "75fc75d814ec2d68837a603a84339ec953f085b3522ad0b492046d4744882513",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -108,7 +109,7 @@
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
-    "cli/commands/command_and_control_migrated.py": "c2128d62f9faba3f472a4925568c5bc4dbcef90cf4030566be57e4aafde1fc56",
+    "cli/commands/command_and_control_migrated.py": "091cab83e5fe8377297f35a1819500684ed3e7a561a42a1353837fedf77a12fe",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "b05636924991f9b44d22baa8aafdceaa5a6af31501a4d53d5a98d5579d9a22c3",
@@ -131,11 +132,11 @@
     "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
     "cli/commands/help_ui.py": "a841a890187be73bf0c85e666b39c14407ede6f34b85d5a68d49170105f1bd37",
     "cli/commands/infra.py": "b6b9031230e32ca71e5372c7a9438f99b64889956a54685ea42a00bff7c5c1ef",
-    "cli/commands/lab.py": "de2bbcd0972b5339b34e49cb01689019c36bc009a5075ef5aa7b1d1a6aacf548",
+    "cli/commands/lab.py": "6c51f9b0c95f9442ea230885f959c9c878a3b6e634912aba66ef7875c8f0dcc8",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
     "cli/commands/lazyloop.py": "cbd9d58d2eeb5cda512b70346b13f1f722fdbc7626e8e9d0d3f42bcb5e159626",
-    "cli/commands/lazyops.py": "9b87597138a77687f76291ab5fb9e3ad3ac9bd1f69bae89a84e2b94feb4e29ba",
+    "cli/commands/lazyops.py": "82b1b1b7d3e7db1a1c0e0d067195b310957d290ae736b462caa8d9dc7961b760",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "4e2eb4f28ad64e4036171e783e5ecc5a87f9d872f2d7cc473bfbdca8acb84afa",
     "cli/commands/misc_migrated.py": "af46cb9c05dd52a910ff121088196ed05f491ab50222ff5268157432f84ba02a",
@@ -172,11 +173,12 @@
     "cli/commands/socks_proxy.py": "e99a7a2b9659faa77c93932118fcd4798ca09fbacc85a69c4e01046cc098dc1f",
     "cli/commands/supply_chain.py": "a9f97411e937e90f9ea87f3ba10853f6dc0ae4500a086babe256224206efdc2f",
     "cli/commands/surface.py": "e1c5391eac03ed2b67a0b638d7adee6c2c3f8bece2f3be497a59e81fe1cbfd38",
-    "cli/commands/ux.py": "3707156f3afd8e03ebb896e9118818088401db76b6ca5f63679c6e4af137bacf"
+    "cli/commands/ux.py": "3707156f3afd8e03ebb896e9118818088401db76b6ca5f63679c6e4af137bacf",
+    "cli/commands/verb_admin.py": "4271624171bebc36b3ff4791691fbd200d613a34c7241c392545f8d1f645ab93"
   },
   "totals": {
-    "method_definitions": 834,
-    "unique_commands": 834,
+    "method_definitions": 835,
+    "unique_commands": 835,
     "duplicates": 0,
     "phases": 14,
     "categories": 17
@@ -576,6 +578,7 @@
       "do_urlencode",
       "do_use",
       "do_v",
+      "do_verb",
       "do_whoami",
       "do_wizard"
     ],
@@ -1243,6 +1246,7 @@
       "do_urlencode",
       "do_use",
       "do_v",
+      "do_verb",
       "do_whoami",
       "do_wizard"
     ],
@@ -3078,7 +3082,7 @@
     },
     {
       "name": "do_atomic_shell",
-      "line": 1259,
+      "line": 1287,
       "summary": "Open an interactive root shell on the target when possible.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3089,7 +3093,7 @@
     },
     {
       "name": "do_atomic_clean",
-      "line": 1291,
+      "line": 1326,
       "summary": "Clean up engagement artefacts (soft) or tear down the gym (hard).",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3100,7 +3104,7 @@
     },
     {
       "name": "do_atomic_emulate",
-      "line": 1328,
+      "line": 1363,
       "summary": "Execute emulation tests on the target through a working shell.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3111,7 +3115,7 @@
     },
     {
       "name": "do_atomic_agent",
-      "line": 1385,
+      "line": 1420,
       "summary": "Generates and synchronizes atomic agent scripts.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3122,7 +3126,7 @@
     },
     {
       "name": "do_attack_plan",
-      "line": 1488,
+      "line": 1523,
       "summary": "Execute a multi-step APT simulation plan.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3133,7 +3137,7 @@
     },
     {
       "name": "do_apt_chain",
-      "line": 1647,
+      "line": 1682,
       "summary": "Run a fully YAML-administered APT chain with one command.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3144,7 +3148,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 1911,
+      "line": 1946,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3155,7 +3159,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 2031,
+      "line": 2066,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3166,7 +3170,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 2134,
+      "line": 2169,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3177,7 +3181,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 2313,
+      "line": 2348,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3188,7 +3192,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 2370,
+      "line": 2405,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3199,7 +3203,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 2419,
+      "line": 2454,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3210,7 +3214,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 2511,
+      "line": 2546,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5487,7 +5491,7 @@
     },
     {
       "name": "do_lab",
-      "line": 177,
+      "line": 196,
       "summary": "Manage local CTF practice labs.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6401,7 +6405,7 @@
     {
       "name": "do_lazy_trigger",
       "line": 2143,
-      "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync. Usage: lazy_trigger ... [--task T]",
+      "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
       "source_file": "cli/commands/lazyops.py",
@@ -6411,7 +6415,7 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 2202,
+      "line": 2230,
       "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
@@ -6422,7 +6426,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2339,
+      "line": 2367,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6433,7 +6437,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2411,
+      "line": 2439,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6444,7 +6448,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2435,
+      "line": 2463,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6455,7 +6459,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2440,
+      "line": 2468,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6466,7 +6470,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2471,
+      "line": 2499,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6477,7 +6481,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2502,
+      "line": 2530,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -6488,7 +6492,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2523,
+      "line": 2551,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6499,7 +6503,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2556,
+      "line": 2584,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6510,7 +6514,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2583,
+      "line": 2611,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -6521,7 +6525,7 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2628,
+      "line": 2656,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -6532,7 +6536,7 @@
     },
     {
       "name": "do_lazy_sandbox",
-      "line": 2652,
+      "line": 2680,
       "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
       "category": null,
       "phase": "uncategorized",
@@ -6543,7 +6547,7 @@
     },
     {
       "name": "do_lazy_install",
-      "line": 2715,
+      "line": 2743,
       "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
       "category": null,
       "phase": "uncategorized",
@@ -10854,6 +10858,17 @@
       "duplicate_of": null
     },
     {
+      "name": "do_verb",
+      "line": 52,
+      "summary": "Manage the autonomous-loop verb catalog.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/verb_admin.py",
+      "class_name": "VerbCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_set",
       "line": 903,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
@@ -10866,7 +10881,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4910,
+      "line": 4850,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -10877,7 +10892,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4940,
+      "line": 4880,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -10888,7 +10903,7 @@
     },
     {
       "name": "do_route",
-      "line": 4979,
+      "line": 4919,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

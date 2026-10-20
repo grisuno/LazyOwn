@@ -2292,82 +2292,16 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Command '{name}' registered for adversary ID {adv['id']}")
 
     def display_toastr(self, message, type="info"):
-        """Display a toastr-like notification in the terminal with adaptive sizing."""
-
-        styles = {
-            "success": {"border_style": "green", "text_style": "bold green"},
-            "error": {"border_style": "red", "text_style": "bold red"},
-            "warning": {"border_style": "yellow", "text_style": "bold yellow"},
-            "info": {"border_style": "blue", "text_style": "bold blue"},
-        }
-        style = styles.get(type.lower(), styles["info"])
-        terminal_size = self.console.size
-        terminal_width = terminal_size.width
-        clean_message = message.strip()
-        if not clean_message:
-            clean_message = "Empty message"
+        """Display the unified toastr panel from the shared toast bus."""
+        from cli.toast_bus import rich_toastr_panel, shell_hint_bypass
 
         if self._ui_hints_level() == "off":
-            self.console.print(f"[{type.upper()}] {clean_message}", style=style["text_style"])
+            shell_hint_bypass(self.console, message, type)
             return
-
-        lines = clean_message.split("\n")
-        max_line_length = max(len(line) for line in lines)
-        min_width = max(20, len(type.upper()) + 8)
-        max_width = min(100, int(terminal_width * 0.9))
-        content_based_width = max_line_length + 8
-        optimal_width = max(min_width, min(content_based_width, max_width))
-
-        if max_line_length > optimal_width - 8:
-            import textwrap
-
-            wrapped_lines = []
-            for line in lines:
-                if len(line) <= optimal_width - 8:
-                    wrapped_lines.append(line)
-                else:
-                    wrapped = textwrap.fill(
-                        line, width=optimal_width - 8, break_long_words=False, break_on_hyphens=False
-                    )
-                    wrapped_lines.extend(wrapped.split("\n"))
-
-            final_message = "\n".join(wrapped_lines)
-            num_lines = len(wrapped_lines)
-        else:
-            final_message = clean_message
-            num_lines = len(lines)
-
-        num_lines + 2
-
-        panel = Panel(
-            Text(final_message, style=style["text_style"], justify="left"),
-            border_style=style["border_style"],
-            width=optimal_width,
-            padding=(0, 2),
-            title=f"[bold]{type.upper()}[/bold]",
-            title_align="center",
+        self.console.print(
+            rich_toastr_panel(message, type, terminal_width=self.console.size.width),
+            justify="center",
         )
-
-        def show_toastr():
-            self.console.print(panel, justify="center")
-
-        show_toastr()
-
-    def _wrap_text(self, text, max_width):
-        """Helper method to wrap text to fit within specified width."""
-        import textwrap
-
-        lines = text.split("\n")
-        wrapped_lines = []
-
-        for line in lines:
-            if len(line) <= max_width:
-                wrapped_lines.append(line)
-            else:
-                wrapped = textwrap.fill(line, width=max_width, break_long_words=True)
-                wrapped_lines.extend(wrapped.split("\n"))
-
-        return "\n".join(wrapped_lines)
 
     @cmd2.with_category(miscellaneous_category)
     def completedefault(self, text, line, begidx, endidx):
@@ -2508,7 +2442,13 @@ class LazyOwnShell(cmd2.Cmd):
             except Exception as exc:
                 _ux_debug("onboarding sentinel write failed", exc)
         else:
-            # ── Normal session tip ───────────────────────────────────────────
+            # ── Normal session brief + tip ───────────────────────────────────
+            try:
+                from cli.session_brief import print_session_brief
+
+                print_session_brief(self.console, self.params)
+            except Exception:
+                pass
             try:
                 from modules.cli_auth import needs_login
 

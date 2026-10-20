@@ -1,4 +1,4 @@
-# Subsystem: tests (page 8 of 17)
+# Subsystem: tests (page 8 of 18)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
 ## tests/test_engagement_command_gate.py

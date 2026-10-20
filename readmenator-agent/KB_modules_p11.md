@@ -84,6 +84,25 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Depends on: `core/safe_console.py`
 - Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
 
+## modules/loop_triggers.py
+- Doc: TriggerStore: persistent loop triggers extracted from the loop core.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_core` (function, line 16) `def _core()`
+  - `TriggerStore` (class, line 23) `class TriggerStore`
+  - `__init__` (method, line 26) `def __init__(self, task_id)`
+  - `_load` (method, line 32) `def _load(self)`
+  - `add` (method, line 36) `def add(self, kind, arg, every_sec)`
+  - `upsert_defaults` (method, line 58) `def upsert_defaults(self, seeds)`
+  - `remove` (method, line 100) `def remove(self, trigger_id)`
+  - `set_enabled` (method, line 111) `def set_enabled(self, trigger_id, enabled)`
+  - `list` (method, line 125) `def list(self)`
+  - `ensure_service_trigger` (method, line 129) `def ensure_service_trigger(self)`
+  - `due` (method, line 142) `def due(self, task_id, graph, activity, assets, store)`
+- Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+
 ## modules/macos_payloads.py
 - Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
 - Layer: utility
@@ -427,56 +446,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `canary_detection_setup` (method, line 317) `def canary_detection_setup(self)`
   - `summary` (method, line 349) `def summary(self)`
 - Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/nmap2csv.py
-- Doc: This file is part of nmaptocsv.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `dottedquad_to_num` (function, line 126) `def dottedquad_to_num(ip)`
-  - `num_to_dottedquad` (function, line 133) `def num_to_dottedquad(n)`
-  - `unique_match_from_list` (function, line 140) `def unique_match_from_list(list)`
-  - `extract_matching_pattern` (function, line 156) `def extract_matching_pattern(regex, group_name, unfiltered_list)`
-  - `Host` (class, line 176) `class Host`
-  - `Port` (class, line 282) `class Port`
-  - `split_grepable_match` (function, line 315) `def split_grepable_match(raw_string)`
-  - `parse` (function, line 362) `def parse(fd)`
-  - `parse_xml` (function, line 492) `def parse_xml(xml_file)`
-  - `is_format_valid` (function, line 572) `def is_format_valid(fmt)`
-  - `formatted_item` (function, line 606) `def formatted_item(host, format_item)`
-  - `repeat_attributes` (function, line 639) `def repeat_attributes(attribute_list)`
-  - `generate_csv` (function, line 653) `def generate_csv(fd, results, options)`
-  - `main` (function, line 688) `def main()`
-  - `__init__` (method, line 177) `def __init__(self, ip, fqdn)`
-  - `add_port` (method, line 188) `def add_port(self, port)`
-  - `get_ip_num_format` (method, line 192) `def get_ip_num_format(self)`
-  - `get_ip_dotted_format` (method, line 195) `def get_ip_dotted_format(self)`
-  - `get_fqdn` (method, line 198) `def get_fqdn(self)`
-  - `get_rdns_record` (method, line 201) `def get_rdns_record(self)`
-  - `get_port_list` (method, line 204) `def get_port_list(self)`
-  - `get_port_number_list` (method, line 207) `def get_port_number_list(self)`
-  - `get_port_protocol_list` (method, line 216) `def get_port_protocol_list(self)`
-  - `get_port_service_list` (method, line 225) `def get_port_service_list(self)`
-  - `get_port_version_list` (method, line 234) `def get_port_version_list(self)`
-  - `get_port_script_list` (method, line 243) `def get_port_script_list(self)`
-  - `get_os` (method, line 252) `def get_os(self)`
-  - `get_mac_address` (method, line 255) `def get_mac_address(self)`
-  - `get_mac_address_vendor` (method, line 258) `def get_mac_address_vendor(self)`
-  - `get_network_distance` (method, line 261) `def get_network_distance(self)`
-  - `set_fqdn` (method, line 265) `def set_fqdn(self, fqdn)`
-  - `set_rdns_record` (method, line 268) `def set_rdns_record(self, rdns_record)`
-  - `set_os` (method, line 271) `def set_os(self, os)`
-  - `set_mac` (method, line 274) `def set_mac(self, mac_address, mac_address_vendor)`
-  - `set_network_distance` (method, line 278) `def set_network_distance(self, network_distance)`
-  - `__init__` (method, line 283) `def __init__(self, number, protocol, service, version, script)`
-  - `get_number` (method, line 290) `def get_number(self)`
-  - `get_protocol` (method, line 293) `def get_protocol(self)`
-  - `get_service` (method, line 296) `def get_service(self)`
-  - `get_version` (method, line 299) `def get_version(self)`
-  - `get_script` (method, line 302) `def get_script(self)`
-  - `set_service` (method, line 305) `def set_service(self, service)`
-  - `set_version` (method, line 308) `def set_version(self, version)`
-  - `set_script` (method, line 311) `def set_script(self, script)`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

@@ -3,6 +3,35 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `tcp_bridge` | function | `lazyc2.py:1873` | `def tcp_bridge(local_port, remote_host, remote_port)` |
+| `teamserver` | function | `lazyc2.py:6519` | `def teamserver()` |
+| `terminal` | function | `lazyc2.py:6857` | `def terminal()` |
+| `terminal_command` | function | `lazyc2.py:6899` | `def terminal_command(data)` |
+| `terminal_connect` | function | `lazyc2.py:6866` | `def terminal_connect()` |
+| `terminal_disconnect` | function | `lazyc2.py:6876` | `def terminal_disconnect()` |
+| `terminal_input` | function | `lazyc2.py:6886` | `def terminal_input(data)` |
+| `terminal_resize` | function | `lazyc2.py:6914` | `def terminal_resize(data)` |
+| `to_serializable` | function | `lazyc2.py:1193` | `def to_serializable(obj)` |
+| `tojson_filter` | function | `lazyc2.py:3049` | `def tojson_filter(value)` |
+| `track_interaction` | function | `lazyc2.py:4508` | `def track_interaction(short_url)` |
+| `track_pixel` | function | `lazyc2.py:7754` | `def track_pixel(campaign_id, email)` |
+| `update_short_url` | function | `lazyc2.py:4533` | `def update_short_url(short_url)` |
+| `update_tool` | function | `lazyc2.py:5682` | `def update_tool(toolname)` |
+| `upload` | function | `lazyc2.py:3907` | `def upload()` |
+| `upload_zip_file` | function | `lazyc2.py:7589` | `def upload_zip_file()` |
+| `validate_route_path` | function | `lazyc2.py:506` | `def validate_route_path(route_path)` |
+| `validate_template_name` | function | `lazyc2.py:519` | `def validate_template_name(template_name)` |
+| `view_note` | function | `lazyc2.py:5443` | `def view_note()` |
+| `view_tool` | function | `lazyc2.py:5651` | `def view_tool(toolname)` |
+| `view_yaml` | function | `lazyc2.py:4660` | `def view_yaml()` |
+| `vuln` | function | `lazyc2.py:5006` | `def vuln()` |
+| `webserver_report` | function | `lazyc2.py:4588` | `def webserver_report(filename)` |
+| `wrapper` | function | `lazyc2.py:1414` | `def wrapper()` |
+| `AddonCreatorConfig` | class | `lazyc2/addon_creator.py:71` | `class AddonCreatorConfig` |
+| `AddonDraft` | class | `lazyc2/addon_creator.py:378` | `class AddonDraft` |
+| `AddonStore` | class | `lazyc2/addon_creator.py:813` | `class AddonStore` |
+| `AddonValidationError` | class | `lazyc2/addon_creator.py:412` | `class AddonValidationError(ValueError)` |
+| `AddonValidator` | class | `lazyc2/addon_creator.py:425` | `class AddonValidator` |
 | `AddonYamlRenderer` | class | `lazyc2/addon_creator.py:728` | `class AddonYamlRenderer` |
 | `ParamSpec` | class | `lazyc2/addon_creator.py:345` | `class ParamSpec` |
 | `ValidationIssue` | class | `lazyc2/addon_creator.py:405` | `class ValidationIssue` |
@@ -36,15 +65,18 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `to_dict` | method | `lazyc2/addon_creator.py:363` | `def to_dict(self)` |
 | `to_document` | method | `lazyc2/addon_creator.py:757` | `def to_document(self, draft)` |
 | `validate` | method | `lazyc2/addon_creator.py:446` | `def validate(self)` |
-| `_add_security_headers` | function | `lazyc2/app_factory.py:167` | `def _add_security_headers(response)` |
-| `_build_api_key_store` | function | `lazyc2/app_factory.py:42` | `def _build_api_key_store(payload)` |
-| `_handle_404` | function | `lazyc2/app_factory.py:152` | `def _handle_404(_error)` |
-| `_handle_405` | function | `lazyc2/app_factory.py:156` | `def _handle_405(_error)` |
-| `_handle_exception` | function | `lazyc2/app_factory.py:160` | `def _handle_exception(error)` |
-| `_load_or_create_secret_key` | function | `lazyc2/app_factory.py:61` | `def _load_or_create_secret_key(sessions_dir)` |
-| `_load_payload_config` | function | `lazyc2/app_factory.py:33` | `def _load_payload_config()` |
-| `_make_security_config` | function | `lazyc2/app_factory.py:75` | `def _make_security_config(payload)` |
-| `create_app` | function | `lazyc2/app_factory.py:89` | `def create_app()` |
+| `_FactoryUser` | class | `lazyc2/app_factory.py:141` | `class _FactoryUser(UserMixin)` |
+| `__init__` | method | `lazyc2/app_factory.py:142` | `def __init__(self, data)` |
+| `_add_security_headers` | function | `lazyc2/app_factory.py:188` | `def _add_security_headers(response)` |
+| `_build_api_key_store` | function | `lazyc2/app_factory.py:43` | `def _build_api_key_store(payload)` |
+| `_factory_load_user` | function | `lazyc2/app_factory.py:137` | `def _factory_load_user(user_id)` |
+| `_handle_404` | function | `lazyc2/app_factory.py:173` | `def _handle_404(_error)` |
+| `_handle_405` | function | `lazyc2/app_factory.py:177` | `def _handle_405(_error)` |
+| `_handle_exception` | function | `lazyc2/app_factory.py:181` | `def _handle_exception(error)` |
+| `_load_or_create_secret_key` | function | `lazyc2/app_factory.py:62` | `def _load_or_create_secret_key(sessions_dir)` |
+| `_load_payload_config` | function | `lazyc2/app_factory.py:34` | `def _load_payload_config()` |
+| `_make_security_config` | function | `lazyc2/app_factory.py:76` | `def _make_security_config(payload)` |
+| `create_app` | function | `lazyc2/app_factory.py:90` | `def create_app()` |
 | `_csrf_policy` | function | `lazyc2/blueprints/addons.py:87` | `def _csrf_policy()` |
 | `_draft_from_document` | function | `lazyc2/blueprints/addons.py:216` | `def _draft_from_document(document)` |
 | `_form_context` | function | `lazyc2/blueprints/addons.py:164` | `def _form_context(draft, issues)` |
@@ -124,6 +156,23 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `task_detail` | function | `lazyc2/blueprints/operations.py:33` | `def task_detail(task_id)` |
 | `tasks` | function | `lazyc2/blueprints/operations.py:57` | `def tasks()` |
 | `view_note` | function | `lazyc2/blueprints/operations.py:182` | `def view_note()` |
+| `_error` | function | `lazyc2/blueprints/orchestrator.py:56` | `def _error(message, status)` |
+| `_namespaced_path` | function | `lazyc2/blueprints/orchestrator.py:61` | `def _namespaced_path(name)` |
+| `_read_body_name` | function | `lazyc2/blueprints/orchestrator.py:141` | `def _read_body_name()` |
+| `_status_payload` | function | `lazyc2/blueprints/orchestrator.py:88` | `def _status_payload()` |
+| `_world_snapshot` | function | `lazyc2/blueprints/orchestrator.py:66` | `def _world_snapshot()` |
+| `panel` | function | `lazyc2/blueprints/orchestrator.py:242` | `def panel()` |
+| `panel_json` | function | `lazyc2/blueprints/orchestrator.py:262` | `def panel_json()` |
+| `stage_names` | function | `lazyc2/blueprints/orchestrator.py:180` | `def stage_names()` |
+| `stages_toggle` | function | `lazyc2/blueprints/orchestrator.py:166` | `def stages_toggle()` |
+| `status` | function | `lazyc2/blueprints/orchestrator.py:104` | `def status()` |
+| `triggers` | function | `lazyc2/blueprints/orchestrator.py:193` | `def triggers()` |
+| `triggers_add` | function | `lazyc2/blueprints/orchestrator.py:202` | `def triggers_add()` |
+| `triggers_delete` | function | `lazyc2/blueprints/orchestrator.py:231` | `def triggers_delete(trigger_id)` |
+| `triggers_seed` | function | `lazyc2/blueprints/orchestrator.py:222` | `def triggers_seed()` |
+| `verbs` | function | `lazyc2/blueprints/orchestrator.py:125` | `def verbs()` |
+| `verbs_toggle` | function | `lazyc2/blueprints/orchestrator.py:149` | `def verbs_toggle()` |
+| `world` | function | `lazyc2/blueprints/orchestrator.py:111` | `def world()` |
 | `_get_config` | function | `lazyc2/blueprints/phishing.py:43` | `def _get_config(key, default)` |
 | `create_short_url` | function | `lazyc2/blueprints/phishing.py:49` | `def create_short_url()` |
 | `download_files` | function | `lazyc2/blueprints/phishing.py:192` | `def download_files(filename)` |
@@ -447,54 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `__init__` | method | `lazygui/services/teamserver_backend.py:51` | `def __init__(self, constants, credentials, parent)` |
 | `_build_http_session` | method | `lazygui/services/teamserver_backend.py:302` | `def _build_http_session(self)` |
 | `_build_topology_from_payload` | method | `lazygui/services/teamserver_backend.py:664` | `def _build_topology_from_payload(self, payload)` |
-| `_build_url` | method | `lazygui/services/teamserver_backend.py:312` | `def _build_url(self, path)` |
-| `_connect_sio` | function | `lazygui/services/teamserver_backend.py:444` | `def _connect_sio()` |
-| `_dispatch_terminal_lines` | method | `lazygui/services/teamserver_backend.py:378` | `def _dispatch_terminal_lines(self, data)` |
-| `_emit_event` | method | `lazygui/services/teamserver_backend.py:780` | `def _emit_event(self, level, message)` |
-| `_establish_flask_session` | method | `lazygui/services/teamserver_backend.py:285` | `def _establish_flask_session(self)` |
-| `_http_get_json` | method | `lazygui/services/teamserver_backend.py:318` | `def _http_get_json(self, path)` |
-| `_http_post_form` | method | `lazygui/services/teamserver_backend.py:332` | `def _http_post_form(self, path, payload)` |
-| `_install_http_polling` | method | `lazygui/services/teamserver_backend.py:424` | `def _install_http_polling(self)` |
-| `_on_connect` | function | `lazygui/services/teamserver_backend.py:487` | `def _on_connect()` |
-| `_on_disconnect` | function | `lazygui/services/teamserver_backend.py:491` | `def _on_disconnect()` |
-| `_on_output` | function | `lazygui/services/teamserver_backend.py:481` | `def _on_output(data)` |
-| `_on_pty_connect` | function | `lazygui/services/teamserver_backend.py:461` | `def _on_pty_connect()` |
-| `_on_pty_output` | function | `lazygui/services/teamserver_backend.py:465` | `def _on_pty_output(data)` |
-| `_on_terminal_connect` | function | `lazygui/services/teamserver_backend.py:471` | `def _on_terminal_connect()` |
-| `_on_terminal_response` | function | `lazygui/services/teamserver_backend.py:475` | `def _on_terminal_response(data)` |
-| `_parse_graph_edges` | method | `lazygui/services/teamserver_backend.py:645` | `def _parse_graph_edges(self, payload)` |
-| `_parse_graph_nodes` | method | `lazygui/services/teamserver_backend.py:621` | `def _parse_graph_nodes(self, payload)` |
-| `_poll_beacon_results` | method | `lazygui/services/teamserver_backend.py:242` | `def _poll_beacon_results(self)` |
-| `_post_session_command` | method | `lazygui/services/teamserver_backend.py:346` | `def _post_session_command(self, command, client_id)` |
-| `_refresh_dashboard` | method | `lazygui/services/teamserver_backend.py:396` | `def _refresh_dashboard(self)` |
-| `_refresh_topology` | method | `lazygui/services/teamserver_backend.py:386` | `def _refresh_topology(self)` |
-| `_send_command_via_pty` | method | `lazygui/services/teamserver_backend.py:357` | `def _send_command_via_pty(self, command)` |
-| `_start_socketio` | method | `lazygui/services/teamserver_backend.py:443` | `def _start_socketio(self)` |
-| `_stop_socketio` | method | `lazygui/services/teamserver_backend.py:520` | `def _stop_socketio(self)` |
-| `_update_from_payload` | method | `lazygui/services/teamserver_backend.py:530` | `def _update_from_payload(self, payload)` |
-| `_update_listeners` | method | `lazygui/services/teamserver_backend.py:577` | `def _update_listeners(self, payload)` |
-| `_update_operator` | method | `lazygui/services/teamserver_backend.py:608` | `def _update_operator(self, payload)` |
-| `_update_sessions` | method | `lazygui/services/teamserver_backend.py:537` | `def _update_sessions(self, payload)` |
-| `feed_terminal_input` | method | `lazygui/services/teamserver_backend.py:151` | `def feed_terminal_input(self, data)` |
-| `known_campaigns` | method | `lazygui/services/teamserver_backend.py:181` | `def known_campaigns(self)` |
-| `known_listeners` | method | `lazygui/services/teamserver_backend.py:173` | `def known_listeners(self)` |
-| `known_sessions` | method | `lazygui/services/teamserver_backend.py:169` | `def known_sessions(self)` |
-| `known_topology` | method | `lazygui/services/teamserver_backend.py:177` | `def known_topology(self)` |
-| `refresh` | method | `lazygui/services/teamserver_backend.py:124` | `def refresh(self)` |
-| `request_beacon_history` | method | `lazygui/services/teamserver_backend.py:224` | `def request_beacon_history(self, client_id)` |
-| `request_beacon_results` | method | `lazygui/services/teamserver_backend.py:185` | `def request_beacon_results(self, client_id)` |
-| `request_world_model` | method | `lazygui/services/teamserver_backend.py:210` | `def request_world_model(self)` |
-| `resize_terminal` | method | `lazygui/services/teamserver_backend.py:139` | `def resize_terminal(self, columns, rows)` |
-| `send_command` | method | `lazygui/services/teamserver_backend.py:112` | `def send_command(self, command, target_session)` |
-| `start` | method | `lazygui/services/teamserver_backend.py:80` | `def start(self)` |
-| `stop` | method | `lazygui/services/teamserver_backend.py:97` | `def stop(self)` |
-| `ThemeManager` | class | `lazygui/theme/manager.py:26` | `class ThemeManager(QObject)` |
-| `__init__` | method | `lazygui/theme/manager.py:31` | `def __init__(self, constants, settings, application, palettes, parent)` |
-| `_apply_to_application` | method | `lazygui/theme/manager.py:103` | `def _apply_to_application(self, tokens)` |
-| `_build_qpalette` | method | `lazygui/theme/manager.py:109` | `def _build_qpalette(tokens)` |
-| `active_id` | method | `lazygui/theme/manager.py:64` | `def active_id(self)` |
-| `active_tokens` | method | `lazygui/theme/manager.py:57` | `def active_tokens(self)` |
-| `apply` | method | `lazygui/theme/manager.py:80` | `def apply(self, identifier)` |
-| `apply_initial` | method | `lazygui/theme/manager.py:72` | `def apply_initial(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

@@ -1,6 +1,42 @@
 # Subsystem: modules (page 13 of 15)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/planner.py
+- Doc: Fact-based planner — decides the next ability to run.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlanCandidate` (class, line 41) `class PlanCandidate`
+  - `PlanResult` (class, line 54) `class PlanResult`
+  - `_gather_facts` (function, line 64) `def _gather_facts(world_model, obs_parser)`
+  - `_risk_for` (function, line 160) `def _risk_for(technique_id)`
+  - `_score_step` (function, line 225) `def _score_step(step, facts)`
+  - `Planner` (class, line 260) `class Planner`
+  - `get_planner` (function, line 446) `def get_planner(api_key)`
+  - `TodoItem` (class, line 452) `class TodoItem`
+  - `TodoList` (class, line 460) `class TodoList`
+  - `Frontier` (class, line 505) `class Frontier`
+  - `__init__` (method, line 269) `def __init__(self, world_model, obs_parser, api_key)`
+  - `_wm` (method, line 279) `def _wm(self)`
+  - `_parser` (method, line 294) `def _parser(self)`
+  - `plan` (method, line 313) `def plan(self, target, max_candidates)`
+  - `_build_rationale` (method, line 374) `def _build_rationale(chosen, facts, target)`
+  - `_llm_tiebreak` (method, line 387) `def _llm_tiebreak(self, target, facts, candidates)`
+  - `to_dict` (method, line 413) `def to_dict(self, result)`
+  - `__init__` (method, line 468) `def __init__(self)`
+  - `todo_add` (method, line 472) `def todo_add(self, name, requires)`
+  - `todo_done` (method, line 478) `def todo_done(self, name)`
+  - `next_ready` (method, line 489) `def next_ready(self)`
+  - `blocks` (method, line 497) `def blocks(self, tactic)`
+  - `__init__` (method, line 514) `def __init__(self, planner, todos)`
+  - `todos` (method, line 523) `def todos(self)`
+  - `tried` (method, line 528) `def tried(self)`
+  - `refill` (method, line 532) `def refill(self, target, max_intents)`
+  - `pop` (method, line 551) `def pop(self)`
+  - `__len__` (method, line 560) `def __len__(self)`
+- Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+
 ## modules/playbook_admin.py
 - Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
 - Layer: utility
@@ -24,7 +60,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
   - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
   - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
-- Imported by: `cli/lazy_orchestrator.py`, `tests/test_playbook_admin.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
 
 ## modules/playbook_engine.py
 - Doc: modules/playbook_engine.py
@@ -299,7 +335,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `record_external_attempt` (function, line 977) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
   - `main` (function, line 1031) `def main()`
 - Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
 
 ## modules/reflective_dll.py
 - Doc: Reflective DLL loading — load PE from memory without touching disk.
@@ -438,34 +474,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_penalize` (method, line 407) `def _penalize(self, reward, detection_prob)`
 - Depends on: `core/logging.py`
 - Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
-
-## modules/saas_attacks.py
-- Doc: SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SaaSConfig` (class, line 49) `class SaaSConfig`
-  - `SaaSEnumerationTools` (class, line 71) `class SaaSEnumerationTools`
-  - `SaaSAttackEngine` (class, line 152) `class SaaSAttackEngine`
-  - `microsoft365_commands` (method, line 75) `def microsoft365_commands()`
-  - `google_workspace_commands` (method, line 100) `def google_workspace_commands()`
-  - `salesforce_commands` (method, line 118) `def salesforce_commands()`
-  - `servicenow_commands` (method, line 135) `def servicenow_commands()`
-  - `__init__` (method, line 163) `def __init__(self, config)`
-  - `enumerate_all` (method, line 166) `def enumerate_all(self)`
-  - `m365_ews_mail_search` (method, line 179) `def m365_ews_mail_search(self, search_term)`
-  - `google_workspace_domain_wide_delegation` (method, line 228) `def google_workspace_domain_wide_delegation(self)`
-  - `salesforce_report_mining` (method, line 257) `def salesforce_report_mining(self)`
-  - `slack_data_mining` (method, line 286) `def slack_data_mining(self)`
-  - `detect_external_sharing` (method, line 327) `def detect_external_sharing(self)`
-  - `summary` (method, line 352) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/search.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Imported by: `static/js/showdown-2.1.0.min.js`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

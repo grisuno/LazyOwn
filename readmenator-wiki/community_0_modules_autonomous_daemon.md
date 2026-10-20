@@ -132,6 +132,9 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
@@ -141,9 +144,6 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- [cycle] `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py`
 
 ## Open Questions
 

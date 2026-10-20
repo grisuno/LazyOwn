@@ -124,7 +124,7 @@ Return the theme selected by ``payload["tui_theme"]``.
 
 *Calls:* [`get_theme`](#get_theme)
 
-*Called by:* [`launch_form`](cli.command_form.py.md#launch_form), [`launch_overlay`](cli.graph_overlay.py.md#launch_overlay), [`launch_overlay`](cli.palette_overlay.py.md#launch_overlay), [`launch_browser`](cli.sessions_browser.py.md#launch_browser), [`active_tokens`](cli.style.py.md#active_tokens), [`paint`](cli.style.py.md#paint), [`render_prompt`](cli.style.py.md#render_prompt), [`launch_scrubber`](cli.timeline_browser.py.md#launch_scrubber), [`build_default_bus`](cli.toast_bus.py.md#build_default_bus), [`build_toast_renderable`](cli.toast_bus.py.md#build_toast_renderable)
+*Called by:* [`launch_form`](cli.command_form.py.md#launch_form), [`launch_overlay`](cli.graph_overlay.py.md#launch_overlay), [`launch_overlay`](cli.palette_overlay.py.md#launch_overlay), [`build_session_brief`](cli.session_brief.py.md#build_session_brief), [`launch_browser`](cli.sessions_browser.py.md#launch_browser), [`active_tokens`](cli.style.py.md#active_tokens), [`paint`](cli.style.py.md#paint), [`render_prompt`](cli.style.py.md#render_prompt), [`launch_scrubber`](cli.timeline_browser.py.md#launch_scrubber), [`build_default_bus`](cli.toast_bus.py.md#build_default_bus), [`build_toast_renderable`](cli.toast_bus.py.md#build_toast_renderable)
 
 ---
 

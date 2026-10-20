@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import os
+import textwrap
 import threading
 import time
 from collections.abc import Callable, Mapping
@@ -325,6 +326,164 @@ _BORDER_BY_ROLE: dict[str, str] = {
     "success": "green",
     "accent": "blue",
 }
+
+TOASTR_SEVERITY_STYLES: Mapping[str, Mapping[str, str]] = {
+    "success": {"border_style": "green", "text_style": "bold green"},
+    "error": {"border_style": "red", "text_style": "bold red"},
+    "warning": {"border_style": "yellow", "text_style": "bold yellow"},
+    "info": {"border_style": "blue", "text_style": "bold blue"},
+    "low": {"border_style": "cyan", "text_style": "bold cyan"},
+    "medium": {"border_style": "yellow", "text_style": "bold yellow"},
+    "high": {"border_style": "red", "text_style": "bold red"},
+    "critical": {"border_style": "magenta", "text_style": "bold magenta"},
+}
+
+TOASTR_DEFAULT_SEVERITY = "info"
+
+TOASTR_EMPTY_MESSAGE = "Empty message"
+
+TOASTR_WIDTH_FRACTION = 0.9
+
+TOASTR_MIN_WIDTH = 20
+
+TOASTR_MAX_WIDTH = 100
+
+TOASTR_WIDTH_MARGIN = 8
+
+TOASTR_SENTINEL_WIDTH = 60
+
+
+@dataclass(frozen=True)
+class ToastrConfig:
+    """Display knobs for the inline toastr boxes every surface shares."""
+
+    severity_styles: Mapping[str, Mapping[str, str]] = field(
+        default_factory=lambda: TOASTR_SEVERITY_STYLES
+    )
+    default_severity: str = TOASTR_DEFAULT_SEVERITY
+    empty_message: str = TOASTR_EMPTY_MESSAGE
+    width_fraction: float = TOASTR_WIDTH_FRACTION
+    min_width: int = TOASTR_MIN_WIDTH
+    max_width: int = TOASTR_MAX_WIDTH
+    width_margin: int = TOASTR_WIDTH_MARGIN
+    sentinel_width: int = TOASTR_SENTINEL_WIDTH
+
+
+TOASTR = ToastrConfig()
+
+
+def toastr_severity_style(severity: str) -> dict[str, str]:
+    """Resolve one severity into the shared border/text style pair."""
+    key = str(severity or "").lower()
+    table = TOASTR_SEVERITY_STYLES
+    return dict(table.get(key) or table[TOASTR_DEFAULT_SEVERITY])
+
+
+def rich_toastr_panel(
+    message: str,
+    severity: str = TOASTR_DEFAULT_SEVERITY,
+    terminal_width: int = 0,
+    config: ToastrConfig | None = None,
+) -> Panel:
+    """Build the adaptive toastr panel used by the cmd2 shell.
+
+    Args:
+        message: Plain single- or multi-line notification text.
+        severity: Key of the shared style table.
+        terminal_width: Console width; ``0`` reuses the legacy clamp.
+        config: Optional display configuration override.
+
+    Returns:
+        A Rich Panel with adaptive width, wrapped plain text and the
+        unified severity styling.
+    """
+    cfg = config or TOASTR
+    style = dict(cfg.severity_styles.get(str(severity or "").lower(), {}) or {})
+    clean_input = str(message or "").strip() or cfg.empty_message
+    lines = clean_input.split("\n")
+    max_line_length = max(len(line) for line in lines)
+    min_width = max(cfg.min_width, len(str(severity or cfg.default_severity).upper()) + cfg.width_margin)
+    max_width = min(cfg.max_width, int(max(terminal_width, cfg.min_width) * cfg.width_fraction))
+    content_width = max_line_length + cfg.width_margin
+    optimal_width = max(min_width, min(content_width, max_width))
+    if max_line_length > optimal_width - cfg.width_margin:
+        wrapped: list[str] = []
+        for line in lines:
+            if len(line) <= optimal_width - cfg.width_margin:
+                wrapped.append(line)
+            else:
+                filler = textwrap.fill(
+                    line,
+                    width=optimal_width - cfg.width_margin,
+                    break_long_words=False,
+                    break_on_hyphens=False,
+                )
+                wrapped.extend(filler.split("\n"))
+        final_message = "\n".join(wrapped)
+    else:
+        final_message = clean_input
+    return Panel(
+        Text(final_message, style=style.get("text_style", ""), justify="left"),
+        border_style=style.get("border_style", "dim"),
+        width=optimal_width,
+        padding=(0, 2),
+        title=f"[bold]{str(severity or cfg.default_severity).upper()}[/bold]",
+        title_align="center",
+    )
+
+
+def shell_hint_bypass(console: Any, message: str, severity: str = TOASTR_DEFAULT_SEVERITY) -> bool:
+    """Print the flat bypass line used when UI hints are off.
+
+    Args:
+        console: Any console-like object exposing ``print``.
+        message: Notification text.
+        severity: Key of the shared style table.
+
+    Returns:
+        Always ``True`` so callers can branch on success.
+    """
+    cfg = TOASTR
+    style = dict(cfg.severity_styles.get(str(severity or "").lower(), {}) or {})
+    level = str(severity or cfg.default_severity).upper()
+    clean = str(message or "").strip() or cfg.empty_message
+    console.print(f"[{level}] {clean}", style=style.get("text_style", ""))
+    return True
+
+
+def sentinel_toast_panel(
+    file_name: str,
+    relevant_info: str,
+    commands: str,
+    details: str,
+    severity: str = TOASTR_DEFAULT_SEVERITY,
+) -> Panel:
+    """Build the yara sentinel popup with the shared styling.
+
+    Args:
+        file_name: Processed file path.
+        relevant_info: Sentinel summary.
+        commands: Suggested shell commands.
+        details: Alert details block.
+        severity: Sentinel alert level.
+
+    Returns:
+        A Rich Panel preserving the sentinel field layout.
+    """
+    style = toastr_severity_style(severity)
+    content = (
+        f"[bold]File:[/bold] {file_name}\n\n"
+        f"[bold]Info:[/bold] {relevant_info}\n\n"
+        f"[bold]Commands:[/bold] {commands}\n\n"
+        f"[bold]Details:[/bold] {details}"
+    )
+    return Panel(
+        Text.from_markup(content, justify="left"),
+        border_style=style.get("border_style", "blue"),
+        width=TOASTR.sentinel_width,
+        padding=(1, 2),
+        height=10,
+    )
 
 
 class ToastFormatter:
@@ -910,12 +1069,15 @@ def build_toast_renderable(
 
 
 __all__ = [
+    "TOASTR_DEFAULT_SEVERITY",
+    "TOASTR_SEVERITY_STYLES",
     "ToastBus",
     "ToastConfig",
     "ToastEvent",
     "ToastFormatter",
     "ToastReader",
     "ToastState",
+    "ToastrConfig",
     "build_default_bus",
     "build_toast_renderable",
     "emit_toast",
@@ -923,5 +1085,9 @@ __all__ = [
     "read_recent_toasts",
     "render_ephemeral_toasts",
     "render_toasts",
+    "rich_toastr_panel",
+    "sentinel_toast_panel",
+    "shell_hint_bypass",
     "toasts_enabled",
+    "toastr_severity_style",
 ]

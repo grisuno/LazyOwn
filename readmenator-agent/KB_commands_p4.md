@@ -360,3 +360,14 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `_find_cheat_section` (method, line 298) `def _find_cheat_section(query)`
 - Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 
+## cli/commands/verb_admin.py
+- Doc: Operator administration of the autonomous-loop verb catalog.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `VerbAdminConfig` (class, line 23) `class VerbAdminConfig`
+  - `_row_text` (function, line 35) `def _row_text(entry)`
+  - `VerbCommandSet` (class, line 45) `class VerbCommandSet(LazyOwnCommandSet)`
+  - `do_verb` (method, line 52) `def do_verb(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
+

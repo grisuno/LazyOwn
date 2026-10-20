@@ -20,8 +20,6 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from rich.console import Console
 from rich.live import Live
-from rich.panel import Panel
-from rich.text import Text
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -559,28 +557,10 @@ class App(cmd2.Cmd):
     def display_toastr(
         self, file_name: str, relevant_info: str, commands: str, details: str, severity: str = "info", duration: int = 3
     ):
-        """Display a toastr-like notification for file processing alerts."""
-        styles = {
-            "info": {"border_style": "blue", "text_style": "bold blue"},
-            "low": {"border_style": "cyan", "text_style": "bold cyan"},
-            "medium": {"border_style": "yellow", "text_style": "bold yellow"},
-            "high": {"border_style": "red", "text_style": "bold red"},
-            "critical": {"border_style": "magenta", "text_style": "bold magenta"},
-        }
-        style = styles.get(severity.lower(), styles["info"])
-        content = (
-            f"[bold]File:[/bold] {file_name}\n\n"
-            f"[bold]Info:[/bold] {relevant_info}\n\n"
-            f"[bold]Commands:[/bold] {commands}\n\n"
-            f"[bold]Details:[/bold] {details}"
-        )
-        panel = Panel(
-            Text.from_markup(content, justify="left"),
-            border_style=style["border_style"],
-            width=60,
-            padding=(1, 2),
-            height=10,
-        )
+        """Display the sentinel popup through the shared toast bus panel."""
+        from cli.toast_bus import sentinel_toast_panel
+
+        panel = sentinel_toast_panel(file_name, relevant_info, commands, details, severity=severity)
         with Live(panel, console=self.console, auto_refresh=False, transient=True):
             time.sleep(duration)
 

@@ -1,6 +1,29 @@
 # Subsystem: cli (page 4 of 5)
 Previous: [KB_cli_p3.md](KB_cli_p3.md)
 
+## cli/purple_tui.py
+- Doc: Purple Team Dashboard — Textual TUI for engagement monitoring.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_score` (function, line 33) `def _load_score()`
+  - `_load_recent_results` (function, line 42) `def _load_recent_results(n)`
+  - `_dataset_stats` (function, line 56) `def _dataset_stats()`
+  - `_make_bar` (function, line 65) `def _make_bar(value, width)`
+  - `_color_rate` (function, line 70) `def _color_rate(rate)`
+  - `PurpleDashboard` (class, line 79) `class PurpleDashboard(App)`
+  - `launch` (function, line 233) `def launch()`
+  - `compose` (method, line 98) `def compose(self)`
+  - `on_mount` (method, line 108) `def on_mount(self)`
+  - `action_refresh` (method, line 112) `def action_refresh(self)`
+  - `refresh_data` (method, line 115) `def refresh_data(self)`
+  - `_render_score` (method, line 125) `def _render_score(self, score)`
+  - `_render_methods` (method, line 157) `def _render_methods(self, score)`
+  - `_render_actions` (method, line 173) `def _render_actions(self, results)`
+  - `_render_stats` (method, line 205) `def _render_stats(self, score, ds)`
+- Depends on: `cli/commands/containers.py`
+- Imported by: `cli/commands/purple_team.py`
+
 ## cli/reactive_hints.py
 - Doc: Non-blocking inline hint renderer for the LazyOwn cmd2 shell.
 - Layer: utility
@@ -171,6 +194,24 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `evaluate` (method, line 283) `def evaluate(self, command, target)`
 - Depends on: `cli/commands/enum.py`
 - Imported by: `lazyown.py`, `tests/test_scope_guard.py`
+
+## cli/session_brief.py
+- Doc: Consolidated session-start brief for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SessionBriefConfig` (class, line 35) `class SessionBriefConfig`
+  - `brief_enabled` (function, line 47) `def brief_enabled(payload)`
+  - `_redirect_world_model_env` (function, line 55) `def _redirect_world_model_env(payload)`
+  - `_world_line` (function, line 68) `def _world_line(payload)`
+  - `fetch_task_rows` (function, line 84) `def fetch_task_rows()`
+  - `_task_line` (function, line 94) `def _task_line(rows)`
+  - `_verb_line` (function, line 110) `def _verb_line()`
+  - `_trigger_line` (function, line 123) `def _trigger_line()`
+  - `build_session_brief` (function, line 135) `def build_session_brief(payload, tasks)`
+  - `print_session_brief` (function, line 171) `def print_session_brief(console, payload)`
+- Depends on: `cli/themes.py`, `modules/__init__.py`, `modules/lazy_engine.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
+- Imported by: `lazyown.py`, `tests/test_session_brief.py`
 
 ## cli/session_hud.py
 - Doc: Compact session HUD: the numbers no other command shows.
@@ -426,40 +467,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `Theme` (class, line 31) `class Theme`
   - `get_theme` (function, line 222) `def get_theme(name)`
   - `theme_from_payload` (function, line 238) `def theme_from_payload(payload)`
-- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
-
-## cli/timeline_browser.py
-- Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TimelineColumn` (class, line 33) `class TimelineColumn`
-  - `TimelineConfig` (class, line 43) `class TimelineConfig`
-  - `TimelineEntry` (class, line 65) `class TimelineEntry`
-  - `TimelineReader` (class, line 72) `class TimelineReader`
-  - `TimelineState` (class, line 122) `class TimelineState`
-  - `build_state` (function, line 157) `def build_state(payload, sessions_dir, config)`
-  - `launch_scrubber` (function, line 169) `def launch_scrubber(payload, state, runner)`
-  - `_build_app` (function, line 202) `def _build_app(state, theme)`
-  - `__init__` (method, line 75) `def __init__(self, config, root)`
-  - `root` (method, line 81) `def root(self)`
-  - `read` (method, line 85) `def read(self)`
-  - `_coerce_row` (method, line 103) `def _coerce_row(self, row)`
-  - `reload` (method, line 130) `def reload(self)`
-  - `entries` (method, line 134) `def entries(self)`
-  - `column_value` (method, line 148) `def column_value(self, entry, column)`
-  - `_TimelineBrowserApp` (class, line 213) `class _TimelineBrowserApp(App)`
-  - `__init__` (method, line 228) `def __init__(self)`
-  - `compose` (method, line 234) `def compose(self)`
-  - `on_mount` (method, line 242) `def on_mount(self)`
-  - `on_input_changed` (method, line 249) `def on_input_changed(self, event)`
-  - `on_data_table_row_highlighted` (method, line 253) `def on_data_table_row_highlighted(self, event)`
-  - `action_refresh` (method, line 259) `def action_refresh(self)`
-  - `action_close` (method, line 263) `def action_close(self)`
-  - `_rebuild_rows` (method, line 266) `def _rebuild_rows(self)`
-  - `_refresh_detail` (method, line 278) `def _refresh_detail(self, row_index)`
-- Depends on: `cli/commands/containers.py`, `cli/themes.py`
-- Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
+- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/session_brief.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 
 
 Next: [KB_cli_p5.md](KB_cli_p5.md)

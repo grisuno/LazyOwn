@@ -117,7 +117,7 @@
 - [`ActionCategory`](modules/skills.lazyown_policy.py.md#actioncategory) enum in `skills.lazyown_policy`
 - [`actions`](modules/modules.conditional_hooks.py.md#hookrule-actions) attribute of `HookRule` in `modules.conditional_hooks`
 - [`activate_migrated_file`](modules/scripts.activate_migrations.py.md#activate_migrated_file) function in `scripts.activate_migrations`
-- [`activate_profile`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-activate_profile) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`activate_profile`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-activate_profile) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`activate_server`](modules/core.process.py.md#activate_server) function in `core.process`
 - [`activate_server`](modules/utils.py.md#activate_server) function in `utils`
 - [`activate_virtualenv`](modules/utils.py.md#activate_virtualenv) function in `utils`
@@ -159,7 +159,7 @@
 - [`add`](modules/modules.ttp_coverage.py.md#ttpcoverage-add) method of `TTPCoverage` in `modules.ttp_coverage`
 - [`add`](modules/modules.lazy_loop.py.md#tasktemplate-add) method of `TaskTemplate` in `modules.lazy_loop`
 - [`add`](modules/modules.lazy_loop.py.md#todostore-add) method of `TodoStore` in `modules.lazy_loop`
-- [`add`](modules/modules.lazy_loop.py.md#triggerstore-add) method of `TriggerStore` in `modules.lazy_loop`
+- [`add`](modules/modules.loop_triggers.py.md#triggerstore-add) method of `TriggerStore` in `modules.loop_triggers`
 - [`add`](modules/utils.py.md#add) function in `utils`
 - [`add_auto_verb`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-add_auto_verb) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
 - [`add_boolean`](modules/contrib.legacy.lazyopenssh77enum2.py.md#add_boolean) function in `contrib.legacy.lazyopenssh77enum2`
@@ -182,7 +182,7 @@
 - [`add_file`](modules/modules.compliance.py.md#evidencechain-add_file) method of `EvidenceChain` in `modules.compliance`
 - [`add_finding`](modules/modules.asset_graph.py.md#assetgraph-add_finding) method of `AssetGraph` in `modules.asset_graph`
 - [`add_finding`](modules/skills.toposwarm_autonomous.py.md#penteststate-add_finding) method of `PentestState` in `skills.toposwarm_autonomous`
-- [`add_guard_rule`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-add_guard_rule) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`add_guard_rule`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_guard_rule) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`add_hint`](modules/modules.lazy_loop.py.md#lazyloopengine-add_hint) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`add_hook`](modules/modules.command_executor.py.md#commandexecutor-add_hook) method of `CommandExecutor` in `modules.command_executor`
 - [`add_host`](modules/modules.state_manager.py.md#statemanager-add_host) method of `StateManager` in `modules.state_manager`
@@ -191,7 +191,7 @@
 - [`add_loot`](modules/modules.state_manager.py.md#statemanager-add_loot) method of `StateManager` in `modules.state_manager`
 - [`add_member`](modules/modules.lazy_loop.py.md#llmpool-add_member) method of `LlmPool` in `modules.lazy_loop`
 - [`add_milestone`](modules/skills.lazyown_campaign.py.md#campaignstore-add_milestone) method of `CampaignStore` in `skills.lazyown_campaign`
-- [`add_model_member`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-add_model_member) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`add_model_member`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_model_member) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`add_new_attack_vector`](modules/modules.LazyOwnExplorer.py.md#lazyowngui-add_new_attack_vector) method of `LazyOwnGUI` in `modules.LazyOwnExplorer`
 - [`add_node`](modules/modules.asset_graph.py.md#assetgraph-add_node) method of `AssetGraph` in `modules.asset_graph`
 - [`add_node`](modules/modules.lazy_loop.py.md#explorationgraph-add_node) method of `ExplorationGraph` in `modules.lazy_loop`
@@ -220,6 +220,7 @@
 - [`add_to_knowledge_base`](modules/contrib.legacy.lazysearch_bot.py.md#add_to_knowledge_base) function in `contrib.legacy.lazysearch_bot`
 - [`add_to_scope`](modules/skills.lazyown_campaign.py.md#campaignstore-add_to_scope) method of `CampaignStore` in `skills.lazyown_campaign`
 - [`add_tool`](modules/modules.custom_tools.py.md#add_tool) function in `modules.custom_tools`
+- [`add_trigger`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_trigger) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`add_veto`](modules/skills.daemon_control.py.md#daemoncontrol-add_veto) method of `DaemonControl` in `skills.daemon_control`
 - [`add_vulnerability`](modules/modules.state_manager.py.md#statemanager-add_vulnerability) method of `StateManager` in `modules.state_manager`
 - [`add_vulnerability`](modules/modules.world_model.py.md#worldmodel-add_vulnerability) method of `WorldModel` in `modules.world_model`
@@ -964,6 +965,7 @@
 - [`body`](modules/skills.claude_md_orchestrator.documentation_agent.py.md#docresult-body) attribute of `DocResult` in `skills.claude_md_orchestrator.documentation_agent`
 - [`body`](modules/modules.notify.py.md#notifymessage-body) attribute of `NotifyMessage` in `modules.notify`
 - [`body_html`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-body_html) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
+- [`BODY_NAME_REQUIRED`](modules/lazyc2.blueprints.orchestrator.py.md#body_name_required) constant in `lazyc2.blueprints.orchestrator`
 - [`BODY_REPORT_FILE`](modules/contrib.legacy.lazydeepseekcli.py.md#body_report_file) constant in `contrib.legacy.lazydeepseekcli`
 - [`body_text`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-body_text) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
 - [`BofCatalog`](modules/modules.bof_registry.py.md#bofcatalog) class in `modules.bof_registry`
@@ -994,6 +996,7 @@
 - [`BridgeDispatcher`](modules/modules.lazyown_bridge.py.md#bridgedispatcher) class in `modules.lazyown_bridge`
 - [`BridgeFallbackResolver`](modules/skills.autonomous_daemon.py.md#bridgefallbackresolver) class in `skills.autonomous_daemon`
 - [`BridgeSelector`](modules/skills.autonomous_daemon.py.md#bridgeselector) class in `skills.autonomous_daemon`
+- [`brief_enabled`](modules/cli.session_brief.py.md#brief_enabled) function in `cli.session_brief`
 - [`BRIGHT_BLACK`](modules/core.console.py.md#bright_black) constant in `core.console`
 - [`BRIGHT_BLACK`](modules/modules.colors.py.md#bright_black) constant in `modules.colors`
 - [`BRIGHT_BLUE`](modules/core.console.py.md#bright_blue) constant in `core.console`
@@ -1088,6 +1091,7 @@
 - [`build_reactive_replanner`](modules/cli.apt_chain_support.py.md#build_reactive_replanner) function in `cli.apt_chain_support`
 - [`build_recon_plan`](modules/cli.recon_plan.py.md#build_recon_plan) function in `cli.recon_plan`
 - [`build_sbom`](modules/scripts.generate_sbom.py.md#build_sbom) function in `scripts.generate_sbom`
+- [`build_session_brief`](modules/cli.session_brief.py.md#build_session_brief) function in `cli.session_brief`
 - [`build_snapshot`](modules/modules.dashboard_engine.py.md#dashboardengine-build_snapshot) method of `DashboardEngine` in `modules.dashboard_engine`
 - [`build_snapshot`](modules/cli.session_hud.py.md#build_snapshot) function in `cli.session_hud`
 - [`build_spec`](modules/modules.socks_proxy.py.md#socksproxyengine-build_spec) method of `SocksProxyEngine` in `modules.socks_proxy`
@@ -1108,6 +1112,7 @@
 - [`build_variables`](modules/modules.atomic_resolver.py.md#build_variables) function in `modules.atomic_resolver`
 - [`build_yaml`](modules/contrib.legacy.lazyaddon_creator.py.md#build_yaml) function in `contrib.legacy.lazyaddon_creator`
 - [`builtin`](modules/modules.intercept.py.md#interceptrule-builtin) attribute of `InterceptRule` in `modules.intercept`
+- [`BUILTIN_ENABLED_VERBS`](modules/modules.verb_catalog.py.md#builtin_enabled_verbs) constant in `modules.verb_catalog`
 - [`builtin_palettes`](modules/lazygui.theme.palettes.__init__.py.md#builtin_palettes) function in `lazygui.theme.palettes`
 - [`builtin_rules`](modules/modules.intercept.py.md#builtin_rules) function in `modules.intercept`
 - [`builtin_seeds`](modules/modules.toolset.py.md#builtin_seeds) function in `modules.toolset`
@@ -1289,6 +1294,8 @@
 - [`catalog`](modules/modules.bof_registry.py.md#bofmarketplace-catalog) property of `BofMarketplace` in `modules.bof_registry`
 - [`catalog`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationengine-catalog) property of `SleepObfuscationEngine` in `modules.sleep_obfuscation`
 - [`catalog_count`](modules/modules.lazyown_bridge.py.md#bridgedispatcher-catalog_count) method of `BridgeDispatcher` in `modules.lazyown_bridge`
+- [`catalog_enabled`](modules/modules.verb_catalog.py.md#catalog_enabled) function in `modules.verb_catalog`
+- [`catalog_path`](modules/modules.verb_catalog.py.md#verbcatalogconfig-catalog_path) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`catalog_summary`](modules/modules.lazyown_bridge.py.md#bridgedispatcher-catalog_summary) method of `BridgeDispatcher` in `modules.lazyown_bridge`
 - [`catalog_summary_filtered`](modules/modules.lazyown_bridge.py.md#bridgedispatcher-catalog_summary_filtered) method of `BridgeDispatcher` in `modules.lazyown_bridge`
 - [`CatalogCommandSet`](modules/cli.commands.catalog.py.md#catalogcommandset) class in `cli.commands.catalog`
@@ -1400,6 +1407,7 @@
 - [`category`](modules/cli.commands.surface.py.md#surfacecommandset-category) attribute of `SurfaceCommandSet` in `cli.commands.surface`
 - [`category`](modules/cli.exploration.py.md#toolentry-category) attribute of `ToolEntry` in `cli.exploration`
 - [`category`](modules/cli.commands.ux.py.md#uxcommandset-category) attribute of `UxCommandSet` in `cli.commands.ux`
+- [`category`](modules/cli.commands.verb_admin.py.md#verbcommandset-category) attribute of `VerbCommandSet` in `cli.commands.verb_admin`
 - [`category_accuracy`](modules/modules.auto_purple.py.md#ipurpleevaluator-category_accuracy) method of `IPurpleEvaluator` in `modules.auto_purple`
 - [`category_accuracy`](modules/modules.auto_purple.py.md#purpleteamloop-category_accuracy) method of `PurpleTeamLoop` in `modules.auto_purple`
 - [`category_for`](modules/cli.recommendation.py.md#categoryresolver-category_for) method of `CategoryResolver` in `cli.recommendation`
@@ -1439,11 +1447,11 @@
 - [`chain_name`](modules/modules.chain_runner.py.md#replancontext-chain_name) attribute of `ReplanContext` in `modules.chain_runner`
 - [`chain_override`](modules/cli.apt_chain_support.py.md#chainargs-chain_override) attribute of `ChainArgs` in `cli.apt_chain_support`
 - [`chain_privesc`](modules/modules.autonomous_exploit_engine.py.md#autonomousexploitengine-chain_privesc) method of `AutonomousExploitEngine` in `modules.autonomous_exploit_engine`
-- [`chain_rows`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`chain_rows`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_rows) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`chain_score`](modules/modules.ai_exploit_chain.py.md#exploitchaincontext-chain_score) attribute of `ExploitChainContext` in `modules.ai_exploit_chain`
 - [`CHAIN_SKIP_VERBS`](modules/cli.chain_mode.py.md#chain_skip_verbs) constant in `cli.chain_mode`
 - [`CHAIN_STAGES`](modules/modules.loop_progress.py.md#chain_stages) constant in `modules.loop_progress`
-- [`chain_steps_preview`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_steps_preview) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`chain_steps_preview`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_steps_preview) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`ChainArgs`](modules/cli.apt_chain_support.py.md#chainargs) class in `cli.apt_chain_support`
 - [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
 - [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
@@ -2136,6 +2144,7 @@
 - [`config_cmd`](modules/telegram_hermes.py.md#config_cmd) function in `telegram_hermes`
 - [`config_dir`](modules/lazygui.config.paths.py.md#apppaths-config_dir) property of `AppPaths` in `lazygui.config.paths`
 - [`CONFIG_EDIT`](modules/modules.lazy_rbac.py.md#permission-config_edit) attribute of `Permission` in `modules.lazy_rbac`
+- [`CONFIG_FIELDS`](modules/cli.orchestrator_assets_tabs.py.md#config_fields) constant in `cli.orchestrator_assets_tabs`
 - [`CONFIG_INVALID`](modules/core.errors.py.md#errorcode-config_invalid) attribute of `ErrorCode` in `core.errors`
 - [`CONFIG_KEY_ANTHROPIC_API_KEY`](modules/modules.llm_factory.py.md#config_key_anthropic_api_key) constant in `modules.llm_factory`
 - [`CONFIG_KEY_API_KEY`](modules/modules.llm_factory.py.md#config_key_api_key) constant in `modules.llm_factory`
@@ -2155,6 +2164,7 @@
 - [`ConfigBridge`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridge) class in `skills.hermes-lazyown.config_bridge`
 - [`ConfigBridgeError`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridgeerror) exception in `skills.hermes-lazyown.config_bridge`
 - [`ConfigError`](modules/core.errors.py.md#configerror) exception in `core.errors`
+- [`ConfigField`](modules/cli.orchestrator_assets_tabs.py.md#configfield) class in `cli.orchestrator_assets_tabs`
 - [`ConfigHistory`](modules/cli.config_history.py.md#confighistory) class in `cli.config_history`
 - [`ConfigHistoryConfig`](modules/cli.config_history.py.md#confighistoryconfig) class in `cli.config_history`
 - [`ConfigKeys`](modules/skills.hermes-lazyown.constants.py.md#configkeys) class in `skills.hermes-lazyown.constants`
@@ -2350,7 +2360,7 @@
 - [`create_multivector_campaign`](modules/lazyc2.py.md#create_multivector_campaign) function in `lazyc2`
 - [`CREATE_MUTATION`](modules/scripts.journal.py.md#create_mutation) constant in `scripts.journal`
 - [`create_playbook`](modules/modules.playbook_admin.py.md#create_playbook) function in `modules.playbook_admin`
-- [`create_playbook_file`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-create_playbook_file) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`create_playbook_file`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-create_playbook_file) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`create_priv_file`](modules/modules.exp.c.md#create_priv_file) function in `modules/exp.c`
 - [`create_profile`](modules/modules.operator_profiles.py.md#operatorprofilemanager-create_profile) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`create_project_file`](modules/skills.lazyown_claudemd.py.md#claudemdloader-create_project_file) method of `ClaudeMdLoader` in `skills.lazyown_claudemd`
@@ -2661,6 +2671,7 @@
 - [`default_author`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-default_author) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`DEFAULT_BACKEND`](modules/modules.llm_factory.py.md#default_backend) constant in `modules.llm_factory`
 - [`DEFAULT_BRANCH`](modules/modules.selfupdate.py.md#default_branch) constant in `modules.selfupdate`
+- [`DEFAULT_CATALOG_PATH`](modules/modules.verb_catalog.py.md#default_catalog_path) constant in `modules.verb_catalog`
 - [`DEFAULT_CATEGORY`](modules/scripts.journal.py.md#default_category) constant in `scripts.journal`
 - [`default_color`](modules/cli.banner_config.py.md#segmentspec-default_color) attribute of `SegmentSpec` in `cli.banner_config`
 - [`DEFAULT_COMPLETE_MAX_TOKENS`](modules/modules.ai_model.py.md#default_complete_max_tokens) constant in `modules.ai_model`
@@ -2678,6 +2689,7 @@
 - [`DEFAULT_DOCKER_SUBNET`](modules/modules.metasploitable_migrations.py.md#default_docker_subnet) constant in `modules.metasploitable_migrations`
 - [`default_drones`](modules/skills.unified_orchestrator.py.md#orchestratorconfig-default_drones) attribute of `OrchestratorConfig` in `skills.unified_orchestrator`
 - [`default_enabled`](modules/cli.banner_config.py.md#segmentspec-default_enabled) attribute of `SegmentSpec` in `cli.banner_config`
+- [`default_enabled`](modules/modules.verb_catalog.py.md#verbcatalogconfig-default_enabled) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`DEFAULT_EVENTS_FILE`](modules/cli.reasoning_stream.py.md#default_events_file) constant in `cli.reasoning_stream`
 - [`DEFAULT_EVENTS_FILE`](modules/skills.autonomous_replay.py.md#default_events_file) constant in `skills.autonomous_replay`
 - [`default_field_set`](modules/cli.command_form.py.md#commandformconfig-default_field_set) attribute of `CommandFormConfig` in `cli.command_form`
@@ -2693,6 +2705,7 @@
 - [`DEFAULT_HEALTH_FILE`](modules/skills.daemon_health.py.md#default_health_file) constant in `skills.daemon_health`
 - [`DEFAULT_HUD_CONFIG`](modules/cli.session_hud.py.md#default_hud_config) constant in `cli.session_hud`
 - [`DEFAULT_INDEX_PATH`](modules/cli.palette.py.md#default_index_path) constant in `cli.palette`
+- [`DEFAULT_INDEX_PATH`](modules/modules.verb_catalog.py.md#default_index_path) constant in `modules.verb_catalog`
 - [`default_install_type`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-default_install_type) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`DEFAULT_INTERVAL`](modules/skills.daemon_health.py.md#default_interval) constant in `skills.daemon_health`
 - [`DEFAULT_LANDING_PAGE`](modules/modules.phishing_orchestrator.py.md#phishingorchestrator-default_landing_page) attribute of `PhishingOrchestrator` in `modules.phishing_orchestrator`
@@ -2753,6 +2766,7 @@
 - [`default_search_limit`](modules/cli.graph_advisor.py.md#graphadvisorconfig-default_search_limit) attribute of `GraphAdvisorConfig` in `cli.graph_advisor`
 - [`DEFAULT_SESSIONS_DIR`](modules/modules.lazy_rbac.py.md#default_sessions_dir) constant in `modules.lazy_rbac`
 - [`default_sessions_dir`](modules/core.llm_budget.py.md#default_sessions_dir) function in `core.llm_budget`
+- [`default_severity`](modules/cli.toast_bus.py.md#toastrconfig-default_severity) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`DEFAULT_SHELL_TIMEOUT_SEC`](modules/modules.auto_registry.py.md#default_shell_timeout_sec) constant in `modules.auto_registry`
 - [`DEFAULT_SINKS`](modules/modules.outcome_bus.py.md#default_sinks) constant in `modules.outcome_bus`
 - [`DEFAULT_SOUL`](modules/skills.lazyown_objective.py.md#default_soul) constant in `skills.lazyown_objective`
@@ -2817,7 +2831,7 @@
 - [`delete_lines`](modules/modules.colors.py.md#delete_lines) function in `modules.colors`
 - [`delete_older_than`](modules/skills.hive_mind.py.md#dronestatestore-delete_older_than) method of `DroneStateStore` in `skills.hive_mind`
 - [`delete_playbook`](modules/modules.playbook_admin.py.md#delete_playbook) function in `modules.playbook_admin`
-- [`delete_playbook_file`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-delete_playbook_file) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`delete_playbook_file`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-delete_playbook_file) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`delete_profile`](modules/modules.operator_profiles.py.md#operatorprofilemanager-delete_profile) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`delete_task`](modules/modules.lazy_loop.py.md#lazyloopengine-delete_task) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`delete_tenant`](modules/modules.lazy_rbac.py.md#tenantmanager-delete_tenant) method of `TenantManager` in `modules.lazy_rbac`
@@ -2911,6 +2925,7 @@
 - [`description`](modules/cli.exploration.py.md#toolentry-description) attribute of `ToolEntry` in `cli.exploration`
 - [`description`](modules/modules.world_model.py.md#vulnerabilityentry-description) attribute of `VulnerabilityEntry` in `modules.world_model`
 - [`description`](modules/modules.exploit_chain.py.md#vulnerabilitymatch-description) attribute of `VulnerabilityMatch` in `modules.exploit_chain`
+- [`description_cap`](modules/cli.commands.verb_admin.py.md#verbadminconfig-description_cap) attribute of `VerbAdminConfig` in `cli.commands.verb_admin`
 - [`description_max_length`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-description_max_length) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`description_max_width`](modules/cli.fuzzy_picker.py.md#pickerconfig-description_max_width) attribute of `PickerConfig` in `cli.fuzzy_picker`
 - [`descriptor`](modules/lazygui.services.backend.py.md#backend-descriptor) property of `Backend` in `lazygui.services.backend`
@@ -3867,6 +3882,7 @@
 - [`do_utf`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_utf) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`do_v`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_v) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
 - [`do_veil`](modules/cli.commands.persist_migrated.py.md#persistmigratedcommandset-do_veil) method of `PersistMigratedCommandSet` in `cli.commands.persist_migrated`
+- [`do_verb`](modules/cli.commands.verb_admin.py.md#verbcommandset-do_verb) method of `VerbCommandSet` in `cli.commands.verb_admin`
 - [`do_vpn`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-do_vpn) method of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`do_vscan`](modules/cli.commands.scan.py.md#scancommandset-do_vscan) method of `ScanCommandSet` in `cli.commands.scan`
 - [`do_waybackmachine`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset-do_waybackmachine) method of `ReconMigratedCommandSet` in `cli.commands.recon_migrated`
@@ -3995,7 +4011,7 @@
 - [`dry_run_flag`](modules/cli.output_mode.py.md#outputmodeconfig-dry_run_flag) attribute of `OutputModeConfig` in `cli.output_mode`
 - [`dry_run_line`](modules/cli.output_mode.py.md#dry_run_line) function in `cli.output_mode`
 - [`DST_PARQUET`](modules/modules.atomic_enricher.py.md#dst_parquet) constant in `modules.atomic_enricher`
-- [`due`](modules/modules.lazy_loop.py.md#triggerstore-due) method of `TriggerStore` in `modules.lazy_loop`
+- [`due`](modules/modules.loop_triggers.py.md#triggerstore-due) method of `TriggerStore` in `modules.loop_triggers`
 - [`duplicates`](modules/cli.palette.py.md#duplicates) function in `cli.palette`
 - [`duration`](modules/skills.unified_orchestrator.py.md#orchestratorresult-duration) attribute of `OrchestratorResult` in `skills.unified_orchestrator`
 - [`duration_for`](modules/cli.toast_bus.py.md#toastformatter-duration_for) method of `ToastFormatter` in `cli.toast_bus`
@@ -4114,6 +4130,7 @@
 - [`empty_goal_message`](modules/skills.unified_orchestrator.py.md#orchestratorconfig-empty_goal_message) attribute of `OrchestratorConfig` in `skills.unified_orchestrator`
 - [`empty_message`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-empty_message) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
 - [`empty_message`](modules/cli.timeline_browser.py.md#timelineconfig-empty_message) attribute of `TimelineConfig` in `cli.timeline_browser`
+- [`empty_message`](modules/cli.toast_bus.py.md#toastrconfig-empty_message) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`empty_placeholders`](modules/cli.aliases.py.md#empty_placeholders) function in `cli.aliases`
 - [`empty_results_message`](modules/cli.palette_command.py.md#paletteviewconfig-empty_results_message) attribute of `PaletteViewConfig` in `cli.palette_command`
 - [`emptyline`](modules/lazyown.py.md#lazyownshell-emptyline) method of `LazyOwnShell` in `lazyown`
@@ -4265,7 +4282,7 @@
 - [`ensure_pid_file_exists`](modules/modules.win_rootkit.backup.c.md#ensure_pid_file_exists) function in `modules/win_rootkit/backup.c`
 - [`ensure_pid_file_exists`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#ensure_pid_file_exists) function in `modules/win_rootkit/win_ring3_rootkit.c`
 - [`ensure_repo`](modules/modules.atomic_resolver.py.md#atomicresolver-ensure_repo) method of `AtomicResolver` in `modules.atomic_resolver`
-- [`ensure_service_trigger`](modules/modules.lazy_loop.py.md#triggerstore-ensure_service_trigger) method of `TriggerStore` in `modules.lazy_loop`
+- [`ensure_service_trigger`](modules/modules.loop_triggers.py.md#triggerstore-ensure_service_trigger) method of `TriggerStore` in `modules.loop_triggers`
 - [`ensure_session`](modules/modules.atomic_exploit_bridge.py.md#ensure_session) function in `modules.atomic_exploit_bridge`
 - [`ensure_sessions_dir`](modules/lazyc2.py.md#ensure_sessions_dir) function in `lazyc2`
 - [`ensure_target`](modules/modules.lazy_loop.py.md#lazyloopengine-ensure_target) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -4287,6 +4304,7 @@
 - [`entries`](modules/modules.bof_registry.py.md#bofcatalog-entries) attribute of `BofCatalog` in `modules.bof_registry`
 - [`entries`](modules/scripts.journal.py.md#journal-entries) method of `Journal` in `scripts.journal`
 - [`entries`](modules/cli.timeline_browser.py.md#timelinestate-entries) method of `TimelineState` in `cli.timeline_browser`
+- [`entries`](modules/modules.verb_catalog.py.md#entries) function in `modules.verb_catalog`
 - [`ENTRIES_QUERY`](modules/scripts.journal.py.md#entries_query) constant in `scripts.journal`
 - [`entropy`](modules/modules.polymorphic_engine.py.md#mutationresult-entropy) attribute of `MutationResult` in `modules.polymorphic_engine`
 - [`entry_modified`](modules/modules.timestomper.py.md#filetimestamps-entry_modified) attribute of `FileTimestamps` in `modules.timestomper`
@@ -4691,6 +4709,7 @@
 - [`export_report`](modules/modules.auto_purple.py.md#purpleteamloop-export_report) method of `PurpleTeamLoop` in `modules.auto_purple`
 - [`export_session`](modules/modules.integrations.misp_export.py.md#mispexporter-export_session) method of `MISPExporter` in `modules.integrations.misp_export`
 - [`export_spans`](modules/modules.lazy_intel.py.md#export_spans) function in `modules.lazy_intel`
+- [`export_store`](modules/modules.trigger_policy.py.md#export_store) function in `modules.trigger_policy`
 - [`export_summary`](modules/modules.state_manager.py.md#statemanager-export_summary) method of `StateManager` in `modules.state_manager`
 - [`export_task_traffic`](modules/modules.lazy_loop.py.md#lazyloopengine-export_task_traffic) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`export_to_cef`](modules/modules.compliance.py.md#export_to_cef) function in `modules.compliance`
@@ -4856,6 +4875,7 @@
 - [`fetch_readme`](modules/contrib.legacy.lazyaddon_creator.py.md#fetch_readme) function in `contrib.legacy.lazyaddon_creator`
 - [`fetch_repo_metadata`](modules/contrib.legacy.lazyaddon_creator.py.md#fetch_repo_metadata) function in `contrib.legacy.lazyaddon_creator`
 - [`fetch_root_files`](modules/contrib.legacy.lazyaddon_creator.py.md#fetch_root_files) function in `contrib.legacy.lazyaddon_creator`
+- [`fetch_task_rows`](modules/cli.session_brief.py.md#fetch_task_rows) function in `cli.session_brief`
 - [`ffuf`](modules/contrib.legacy.lazyseo.py.md#ffuf) function in `contrib.legacy.lazyseo`
 - [`FG`](modules/tools.gen_demo_gifs.py.md#fg) constant in `tools.gen_demo_gifs`
 - [`field`](modules/skills.autonomous_replay.py.md#replaydivergence-field) attribute of `ReplayDivergence` in `skills.autonomous_replay`
@@ -5231,7 +5251,7 @@
 - [`generate_certificates`](modules/core.security.py.md#generate_certificates) function in `core.security`
 - [`generate_certificates`](modules/install.sh.md#generate_certificates) function in `install.sh`
 - [`generate_certificates`](modules/utils.py.md#generate_certificates) function in `utils`
-- [`generate_chain`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`generate_chain`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-generate_chain) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`generate_chisel_command`](modules/modules.auto_pivot.py.md#autopivotengine-generate_chisel_command) method of `AutoPivotEngine` in `modules.auto_pivot`
 - [`generate_ci_attack_matrix`](modules/modules.cicd_enumerator.py.md#cicdenumerator-generate_ci_attack_matrix) method of `CICDEnumerator` in `modules.cicd_enumerator`
 - [`generate_cleanup_commands`](modules/plugins.generate_cleanup_commands.lua.md#generate_cleanup_commands) function in `plugins/generate_cleanup_commands.lua`
@@ -5693,6 +5713,7 @@
 - [`goal`](modules/skills.claude_md_orchestrator.models.py.md#spec-goal) attribute of `Spec` in `skills.claude_md_orchestrator.models`
 - [`goal`](modules/skills.swan_agent.py.md#swanresult-goal) attribute of `SwanResult` in `skills.swan_agent`
 - [`goal_achieved`](modules/skills.toposwarm_autonomous.py.md#penteststate-goal_achieved) attribute of `PentestState` in `skills.toposwarm_autonomous`
+- [`goal_cap`](modules/cli.session_brief.py.md#sessionbriefconfig-goal_cap) attribute of `SessionBriefConfig` in `cli.session_brief`
 - [`goal_met`](modules/modules.goals.py.md#goaltracker-goal_met) method of `GoalTracker` in `modules.goals`
 - [`goal_met`](modules/modules.lazy_loop.py.md#lazyloopengine-goal_met) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`GOALS`](modules/cli.command_explorer.py.md#goals) constant in `cli.command_explorer`
@@ -5819,8 +5840,8 @@
 - [`GYM_CHALLENGE_DEFINITIONS`](modules/modules.redteam_gym.py.md#gym_challenge_definitions) constant in `modules.redteam_gym`
 - [`GYM_DEFAULT_DEFINITIONS`](modules/modules.redteam_gym.py.md#gym_default_definitions) constant in `modules.redteam_gym`
 - [`GYM_DIR`](modules/modules.gym_registry.py.md#gym_dir) constant in `modules.gym_registry`
-- [`gym_preview`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-gym_preview) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
-- [`gym_rows`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-gym_rows) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`gym_preview`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_preview) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
+- [`gym_rows`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_rows) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`GYMS_DIR`](modules/modules.gym_registry.py.md#gyms_dir) constant in `modules.gym_registry`
 
 <a id="h"></a>
@@ -6014,6 +6035,8 @@
 - [`hint`](modules/cli.doctor.py.md#checkresult-hint) attribute of `CheckResult` in `cli.doctor`
 - [`hint`](modules/cli.themes.py.md#theme-hint) attribute of `Theme` in `cli.themes`
 - [`HINT_COMMAND_LIMIT`](modules/cli.autosuggest.py.md#hint_command_limit) constant in `cli.autosuggest`
+- [`hint_key`](modules/cli.session_brief.py.md#sessionbriefconfig-hint_key) attribute of `SessionBriefConfig` in `cli.session_brief`
+- [`hint_off_values`](modules/cli.session_brief.py.md#sessionbriefconfig-hint_off_values) attribute of `SessionBriefConfig` in `cli.session_brief`
 - [`HINT_REASON_LIMIT`](modules/cli.autosuggest.py.md#hint_reason_limit) constant in `cli.autosuggest`
 - [`HINTS_EXTRA_VERBS`](modules/cli.noise_verbs.py.md#hints_extra_verbs) constant in `cli.noise_verbs`
 - [`hints_level`](modules/cli.tips_engine.py.md#tipsconfig-hints_level) attribute of `TipsConfig` in `cli.tips_engine`
@@ -6276,6 +6299,7 @@
 - [`index`](modules/cli.sessions_browser.py.md#sessionsbrowserstate-index) attribute of `SessionsBrowserState` in `cli.sessions_browser`
 - [`index`](modules/lazyc2.py.md#index) function in `lazyc2`
 - [`index_all`](modules/modules.session_rag.py.md#sessionrag-index_all) method of `SessionRAG` in `modules.session_rag`
+- [`index_commands`](modules/modules.verb_catalog.py.md#index_commands) function in `modules.verb_catalog`
 - [`index_document`](modules/tools.generate_metasploitable_gym.py.md#index_document) function in `tools.generate_metasploitable_gym`
 - [`index_name`](modules/modules.traffic_recorder.py.md#recorderconfig-index_name) attribute of `RecorderConfig` in `modules.traffic_recorder`
 - [`index_new`](modules/modules.session_rag.py.md#sessionrag-index_new) method of `SessionRAG` in `modules.session_rag`
@@ -6284,6 +6308,7 @@
 - [`index_path`](modules/cli.command_explorer.py.md#explorerconfig-index_path) attribute of `ExplorerConfig` in `cli.command_explorer`
 - [`INDEX_PATH`](modules/cli.engagement_hooks.py.md#index_path) constant in `cli.engagement_hooks`
 - [`INDEX_PATH`](modules/modules.metasploitable_gym.py.md#index_path) constant in `modules.metasploitable_gym`
+- [`index_path`](modules/modules.verb_catalog.py.md#verbcatalogconfig-index_path) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`INDEX_SCHEMA`](modules/modules.traffic_recorder.py.md#index_schema) constant in `modules.traffic_recorder`
 - [`INDEXABLE_SUFFIXES`](modules/modules.session_rag.py.md#indexable_suffixes) constant in `modules.session_rag`
 - [`indirect_syscalls`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-indirect_syscalls) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
@@ -6804,7 +6829,7 @@
 - [`__init__`](modules/cli.cli_enhancements.py.md#transcriptstore-__init__) constructor of `TranscriptStore` in `cli.cli_enhancements`
 - [`__init__`](modules/skills.lazyown_policy.py.md#transitiontable-__init__) constructor of `TransitionTable` in `skills.lazyown_policy`
 - [`__init__`](modules/cli.exploration.py.md#triggermatcher-__init__) constructor of `TriggerMatcher` in `cli.exploration`
-- [`__init__`](modules/modules.lazy_loop.py.md#triggerstore-__init__) constructor of `TriggerStore` in `modules.lazy_loop`
+- [`__init__`](modules/modules.loop_triggers.py.md#triggerstore-__init__) constructor of `TriggerStore` in `modules.loop_triggers`
 - [`__init__`](modules/lazyc2.security.trusted_proxy.py.md#trustedproxyresolver-__init__) constructor of `TrustedProxyResolver` in `lazyc2.security.trusted_proxy`
 - [`__init__`](modules/modules.unified_bridge.py.md#unifiedbridge-__init__) constructor of `UnifiedBridge` in `modules.unified_bridge`
 - [`__init__`](modules/modules.unified_dashboard.py.md#unifieddashboard-__init__) constructor of `UnifiedDashboard` in `modules.unified_dashboard`
@@ -7184,6 +7209,7 @@
 - [`kernel_version`](modules/modules.privesc_predictor.py.md#systemprofile-kernel_version) attribute of `SystemProfile` in `modules.privesc_predictor`
 - [`KernelSegment`](modules/cli.banner_config.py.md#kernelsegment) class in `cli.banner_config`
 - [`key`](modules/modules.asset_graph.py.md#assetnode-key) attribute of `AssetNode` in `modules.asset_graph`
+- [`key`](modules/cli.orchestrator_assets_tabs.py.md#configfield-key) attribute of `ConfigField` in `cli.orchestrator_assets_tabs`
 - [`key`](modules/modules.kerberos_core.py.md#kerberosticket-key) attribute of `KerberosTicket` in `modules.kerberos_core`
 - [`key`](modules/modules.outcome_bus.py.md#outcomeevent-key) method of `OutcomeEvent` in `modules.outcome_bus`
 - [`key`](modules/cli.killchain.py.md#phaseprogress-key) attribute of `PhaseProgress` in `cli.killchain`
@@ -7259,6 +7285,7 @@
 - [`killed`](modules/modules.lazy_loop.py.md#taskstore-killed) method of `TaskStore` in `modules.lazy_loop`
 - [`kind`](modules/cli.marketplace_config.py.md#addoninfo-kind) attribute of `AddonInfo` in `cli.marketplace_config`
 - [`kind`](modules/modules.notify.py.md#channel-kind) attribute of `Channel` in `modules.notify`
+- [`kind`](modules/cli.orchestrator_assets_tabs.py.md#configfield-kind) attribute of `ConfigField` in `cli.orchestrator_assets_tabs`
 - [`kind`](modules/lazygui.windows.connect_dialog.py.md#connectionrequest-kind) attribute of `ConnectionRequest` in `lazygui.windows.connect_dialog`
 - [`kind`](modules/modules.engagement_hooks.py.md#engagementevent-kind) attribute of `EngagementEvent` in `modules.engagement_hooks`
 - [`kind`](modules/modules.asset_graph.py.md#explorationnode-kind) attribute of `ExplorationNode` in `modules.asset_graph`
@@ -7326,6 +7353,7 @@
 - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
 - [`label`](modules/core.api_authz.py.md#apikey-label) attribute of `ApiKey` in `core.api_authz`
 - [`label`](modules/cli.sessions_browser.py.md#categoryspec-label) attribute of `CategorySpec` in `cli.sessions_browser`
+- [`label`](modules/cli.orchestrator_assets_tabs.py.md#configfield-label) attribute of `ConfigField` in `cli.orchestrator_assets_tabs`
 - [`label`](modules/modules.dashboard_engine.py.md#dashboardnode-label) attribute of `DashboardNode` in `modules.dashboard_engine`
 - [`label`](modules/cli.exploration.py.md#discoveredservice-label) property of `DiscoveredService` in `cli.exploration`
 - [`label`](modules/skills.autonomous_daemon.py.md#enginephasestep-label) attribute of `EnginePhaseStep` in `skills.autonomous_daemon`
@@ -7563,7 +7591,7 @@
 - [`list`](modules/modules.lazy_loop.py.md#taskstore-list) method of `TaskStore` in `modules.lazy_loop`
 - [`list`](modules/modules.lazy_loop.py.md#tasktemplate-list) method of `TaskTemplate` in `modules.lazy_loop`
 - [`list`](modules/cli.cli_enhancements.py.md#transcriptstore-list) method of `TranscriptStore` in `cli.cli_enhancements`
-- [`list`](modules/modules.lazy_loop.py.md#triggerstore-list) method of `TriggerStore` in `modules.lazy_loop`
+- [`list`](modules/modules.loop_triggers.py.md#triggerstore-list) method of `TriggerStore` in `modules.loop_triggers`
 - [`list_addons`](modules/lazyc2.blueprints.addons.py.md#list_addons) function in `lazyc2.blueprints.addons`
 - [`list_agents`](modules/modules.mcp_agent_bridge.py.md#list_agents) function in `modules.mcp_agent_bridge`
 - [`list_agents`](modules/skills.lazyown_groq_agents.py.md#list_agents) function in `skills.lazyown_groq_agents`
@@ -7698,6 +7726,7 @@
 - [`load`](modules/modules.threat_model.py.md#threatmodelbuilder-load) method of `ThreatModelBuilder` in `modules.threat_model`
 - [`load`](modules/cli.exploration.py.md#toolcatalog-load) method of `ToolCatalog` in `cli.exploration`
 - [`load`](modules/modules.session_state.py.md#load) function in `modules.session_state`
+- [`load`](modules/modules.verb_catalog.py.md#load) function in `modules.verb_catalog`
 - [`load_addons`](modules/modules.addon_updater.py.md#load_addons) function in `modules.addon_updater`
 - [`load_adversary`](modules/utils.py.md#load_adversary) function in `utils`
 - [`load_aliases`](modules/cli.aliases.py.md#load_aliases) function in `cli.aliases`
@@ -8219,7 +8248,9 @@
 - [`max_version`](modules/modules.c2_profile_engine.py.md#tlsprofile-max_version) attribute of `TlsProfile` in `modules.c2_profile_engine`
 - [`max_visible_rows`](modules/cli.fuzzy_picker.py.md#pickerconfig-max_visible_rows) attribute of `PickerConfig` in `cli.fuzzy_picker`
 - [`MAX_VX`](modules/modules.mario.py.md#max_vx) constant in `modules.mario`
+- [`max_width`](modules/cli.toast_bus.py.md#toastrconfig-max_width) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`MAX_WRITE_CHARS`](modules/modules.workspace.py.md#max_write_chars) constant in `modules.workspace`
+- [`max_yaml_bytes`](modules/modules.verb_catalog.py.md#verbcatalogconfig-max_yaml_bytes) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`MAX_YAML_FILE_SIZE_BYTES`](modules/lazyc2.security.constants.py.md#max_yaml_file_size_bytes) constant in `lazyc2.security.constants`
 - [`maybe_auto_compact`](modules/skills.lazyown_session.py.md#sessiontranscript-maybe_auto_compact) method of `SessionTranscript` in `skills.lazyown_session`
 - [`MCP`](modules/tools.gen_demo_gifs.py.md#mcp) constant in `tools.gen_demo_gifs`
@@ -8353,6 +8384,7 @@
 - [`min_value`](modules/core.payload_schema.py.md#fieldspec-min_value) attribute of `FieldSpec` in `core.payload_schema`
 - [`min_version`](modules/modules.c2_profile_engine.py.md#tlsprofile-min_version) attribute of `TlsProfile` in `modules.c2_profile_engine`
 - [`min_visible_rows`](modules/cli.fuzzy_picker.py.md#pickerconfig-min_visible_rows) attribute of `PickerConfig` in `cli.fuzzy_picker`
+- [`min_width`](modules/cli.toast_bus.py.md#toastrconfig-min_width) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`minimum_level`](modules/lazygui.widgets.event_log_view.py.md#eventlogview-minimum_level) property of `EventLogView` in `lazygui.widgets.event_log_view`
 - [`MINIMUM_PASSWORD_LENGTH`](modules/lazyc2.security.constants.py.md#minimum_password_length) constant in `lazyc2.security.constants`
 - [`mirror_all`](modules/modules.lazy_skill_mirror.py.md#mirror_all) function in `modules.lazy_skill_mirror`
@@ -8594,6 +8626,7 @@
 - [`name_min_width`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-name_min_width) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
 - [`name_pattern`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-name_pattern) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`name_type`](modules/modules.kerberos_core.py.md#kerberosprincipal-name_type) attribute of `KerberosPrincipal` in `modules.kerberos_core`
+- [`name_width`](modules/cli.commands.verb_admin.py.md#verbadminconfig-name_width) attribute of `VerbAdminConfig` in `cli.commands.verb_admin`
 - [`NAMELEN`](modules/modules.exp.c.md#namelen) macro in `modules/exp.c`
 - [`names`](modules/skills.unified_orchestrator.py.md#backendregistry-names) property of `BackendRegistry` in `skills.unified_orchestrator`
 - [`names`](modules/cli.banner_config.py.md#colorregistry-names) method of `ColorRegistry` in `cli.banner_config`
@@ -8856,8 +8889,8 @@
 - [`on_command_submitted`](modules/poc_tui.app.py.md#lazyowntui-on_command_submitted) method of `LazyOwnTUI` in `poc_tui.app`
 - [`on_created`](modules/lazy_sentinel4.py.md#lazysentinelhandler-on_created) method of `LazySentinelHandler` in `lazy_sentinel4`
 - [`on_created`](modules/modules.lilsplunky.py.md#logfilehandler-on_created) method of `LogFileHandler` in `modules.lilsplunky`
-- [`on_data_table_row_highlighted`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-on_data_table_row_highlighted) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
 - [`on_data_table_row_highlighted`](modules/cli.marketplace_config.py.md#marketplaceconfigapp-on_data_table_row_highlighted) method of `MarketplaceConfigApp` in `cli.marketplace_config`
+- [`on_data_table_row_highlighted`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-on_data_table_row_highlighted) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`on_fail`](modules/modules.chain_registry.py.md#chainstep-on_fail) attribute of `ChainStep` in `modules.chain_registry`
 - [`on_failure`](modules/modules.pipeline_engine.py.md#pipelinestep-on_failure) attribute of `PipelineStep` in `modules.pipeline_engine`
 - [`on_input_changed`](modules/cli.marketplace_config.py.md#marketplaceconfigapp-on_input_changed) method of `MarketplaceConfigApp` in `cli.marketplace_config`
@@ -8965,6 +8998,7 @@
 - [`ORCHESTRATOR_CHAIN`](modules/modules.tools.loop_smoke.py.md#fakeengine-orchestrator_chain) attribute of `FakeEngine` in `modules.tools.loop_smoke`
 - [`ORCHESTRATOR_CHAIN`](modules/modules.lazy_loop.py.md#lazyloopengine-orchestrator_chain) attribute of `LazyLoopEngine` in `modules.lazy_loop`
 - [`ORCHESTRATOR_YAML_PATH`](modules/modules.orchestrator_config.py.md#orchestrator_yaml_path) constant in `modules.orchestrator_config`
+- [`OrchestratorAssetsMixin`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin) class in `cli.orchestrator_assets_tabs`
 - [`OrchestratorConfig`](modules/skills.unified_orchestrator.py.md#orchestratorconfig) class in `skills.unified_orchestrator`
 - [`OrchestratorGoal`](modules/skills.unified_orchestrator.py.md#orchestratorgoal) class in `skills.unified_orchestrator`
 - [`OrchestratorResult`](modules/skills.unified_orchestrator.py.md#orchestratorresult) class in `skills.unified_orchestrator`
@@ -9122,7 +9156,9 @@
 - [`PaletteRow`](modules/cli.palette_overlay.py.md#paletterow) class in `cli.palette_overlay`
 - [`PaletteViewConfig`](modules/cli.palette_command.py.md#paletteviewconfig) class in `cli.palette_command`
 - [`panel`](modules/lazygui.config.constants.py.md#appconstants-panel) attribute of `AppConstants` in `lazygui.config.constants`
+- [`panel`](modules/lazyc2.blueprints.orchestrator.py.md#panel) function in `lazyc2.blueprints.orchestrator`
 - [`panel_box`](modules/core.safe_console.py.md#panel_box) function in `core.safe_console`
+- [`panel_json`](modules/lazyc2.blueprints.orchestrator.py.md#panel_json) function in `lazyc2.blueprints.orchestrator`
 - [`panel_labels`](modules/lazygui.config.constants.py.md#appconstants-panel_labels) method of `AppConstants` in `lazygui.config.constants`
 - [`panel_refresh_interval_ms`](modules/lazygui.config.constants.py.md#timingconstants-panel_refresh_interval_ms) attribute of `TimingConstants` in `lazygui.config.constants`
 - [`PanelBase`](modules/lazygui.panels.base.py.md#panelbase) class in `lazygui.panels.base`
@@ -9527,6 +9563,7 @@
 - [`phase`](modules/cli.commands.supply_chain.py.md#supplychaincommandset-phase) attribute of `SupplyChainCommandSet` in `cli.commands.supply_chain`
 - [`phase`](modules/cli.commands.surface.py.md#surfacecommandset-phase) attribute of `SurfaceCommandSet` in `cli.commands.surface`
 - [`phase`](modules/cli.commands.ux.py.md#uxcommandset-phase) attribute of `UxCommandSet` in `cli.commands.ux`
+- [`phase`](modules/cli.commands.verb_admin.py.md#verbcommandset-phase) attribute of `VerbCommandSet` in `cli.commands.verb_admin`
 - [`phase_aliases`](modules/cli.recon_plan.py.md#reconplanconfig-phase_aliases) attribute of `ReconPlanConfig` in `cli.recon_plan`
 - [`phase_bar`](modules/cli.session_hud.py.md#phase_bar) function in `cli.session_hud`
 - [`PHASE_BASE_NOISE`](modules/modules.opsec_scorer.py.md#phase_base_noise) constant in `modules.opsec_scorer`
@@ -9563,6 +9600,7 @@
 - [`PHASE_TITLES`](modules/readmeneitor.py.md#phase_titles) constant in `readmeneitor`
 - [`PHASE_TO_MITRE_TACTICS`](modules/modules.world_model.py.md#phase_to_mitre_tactics) constant in `modules.world_model`
 - [`PHASE_TO_TOOLS`](modules/modules.world_model.py.md#phase_to_tools) constant in `modules.world_model`
+- [`phase_width`](modules/cli.commands.verb_admin.py.md#verbadminconfig-phase_width) attribute of `VerbAdminConfig` in `cli.commands.verb_admin`
 - [`phase_world_model_key`](modules/cli.status_bar.py.md#statusbarconfig-phase_world_model_key) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`PhaseMapper`](modules/modules.lazyown_bridge.py.md#phasemapper) class in `modules.lazyown_bridge`
 - [`PhaseNames`](modules/skills.hermes-lazyown.constants.py.md#phasenames) class in `skills.hermes-lazyown.constants`
@@ -9640,6 +9678,7 @@
 - [`PivotingCommandSet`](modules/cli.commands.pivoting.py.md#pivotingcommandset) class in `cli.commands.pivoting`
 - [`PivotNode`](modules/modules.auto_pivot.py.md#pivotnode) class in `modules.auto_pivot`
 - [`pJS`](modules/static.js.particles.js.md#pjs) function in `static/js/particles.js`
+- [`placeholder`](modules/cli.orchestrator_assets_tabs.py.md#configfield-placeholder) attribute of `ConfigField` in `cli.orchestrator_assets_tabs`
 - [`placeholder`](modules/cli.command_form.py.md#formfield-placeholder) attribute of `FormField` in `cli.command_form`
 - [`placeholder_pattern`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-placeholder_pattern) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`placeholder_text`](modules/lazygui.config.constants.py.md#commandpaletteconstants-placeholder_text) attribute of `CommandPaletteConstants` in `lazygui.config.constants`
@@ -9698,14 +9737,14 @@
 - [`Playbook`](modules/modules.playbook_engine.py.md#playbook) class in `modules.playbook_engine`
 - [`playbook`](modules/modules.playbook_engine.py.md#playbookresult-playbook) attribute of `PlaybookResult` in `modules.playbook_engine`
 - [`playbook_analyze`](modules/modules.playbook_executor.py.md#playbook_analyze) function in `modules.playbook_executor`
-- [`playbook_candidates`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_candidates) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`playbook_candidates`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_candidates) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`playbook_generate`](modules/modules.playbook_executor.py.md#playbook_generate) function in `modules.playbook_executor`
 - [`playbook_kind`](modules/modules.playbook_admin.py.md#playbook_kind) function in `modules.playbook_admin`
 - [`playbook_list`](modules/modules.playbook_executor.py.md#playbook_list) function in `modules.playbook_executor`
 - [`playbook_name`](modules/modules.playbook_executor.py.md#playbookrunresult-playbook_name) attribute of `PlaybookRunResult` in `modules.playbook_executor`
 - [`playbook_path`](modules/modules.playbook_admin.py.md#playbook_path) function in `modules.playbook_admin`
-- [`playbook_preview`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_preview) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
-- [`playbook_rows`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_rows) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`playbook_preview`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_preview) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
+- [`playbook_rows`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_rows) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`playbook_run`](modules/modules.playbook_executor.py.md#playbook_run) function in `modules.playbook_executor`
 - [`playbook_template`](modules/modules.playbook_admin.py.md#playbook_template) function in `modules.playbook_admin`
 - [`PlaybookEngine`](modules/modules.playbook_engine.py.md#playbookengine) class in `modules.playbook_engine`
@@ -9821,6 +9860,7 @@
 - [`print_phase`](modules/cli.ops_commands.py.md#print_phase) function in `cli.ops_commands`
 - [`print_row`](modules/modules.lazymasscan.sh.md#print_row) function in `modules/lazymasscan.sh`
 - [`print_row`](modules/modules.lazynmap.sh.md#print_row) function in `modules/lazynmap.sh`
+- [`print_session_brief`](modules/cli.session_brief.py.md#print_session_brief) function in `cli.session_brief`
 - [`print_session_tip`](modules/cli.protips.py.md#print_session_tip) function in `cli.protips`
 - [`print_succ`](modules/core.console.py.md#print_succ) function in `core.console`
 - [`print_warn`](modules/core.console.py.md#print_warn) function in `core.console`
@@ -9909,7 +9949,7 @@
 - [`PROFILE_FULL`](modules/core.profiles.py.md#profile_full) constant in `core.profiles`
 - [`profile_id`](modules/modules.evasion_engine.py.md#malleableprofile-profile_id) attribute of `MalleableProfile` in `modules.evasion_engine`
 - [`PROFILE_LIGHT`](modules/core.profiles.py.md#profile_light) constant in `core.profiles`
-- [`profile_rows`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-profile_rows) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`profile_rows`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-profile_rows) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`profile_targets`](modules/modules.phishing_orchestrator.py.md#phishingorchestrator-profile_targets) method of `PhishingOrchestrator` in `modules.phishing_orchestrator`
 - [`profile_to_json`](modules/modules.evasion_engine.py.md#evasionengine-profile_to_json) method of `EvasionEngine` in `modules.evasion_engine`
 - [`ProfileApplier`](modules/modules.c2_profile.py.md#profileapplier) class in `modules.c2_profile`
@@ -10182,6 +10222,7 @@
 - [`read_payloads`](modules/utils.py.md#read_payloads) function in `utils`
 - [`read_phase`](modules/cli.ops_commands.py.md#read_phase) function in `cli.ops_commands`
 - [`read_pid_value`](modules/modules.fast_run_service.sh.md#read_pid_value) function in `modules/fast_run_service.sh`
+- [`read_policy`](modules/modules.trigger_policy.py.md#read_policy) function in `modules.trigger_policy`
 - [`read_raw_events`](modules/cli.reasoning_stream.py.md#read_raw_events) function in `cli.reasoning_stream`
 - [`read_recent_commands`](modules/cli.graph_advisor.py.md#graphadvisor-read_recent_commands) method of `GraphAdvisor` in `cli.graph_advisor`
 - [`read_recent_commands`](modules/cli.recommendation_signals.py.md#read_recent_commands) function in `cli.recommendation_signals`
@@ -10484,28 +10525,30 @@
 - [`remove`](modules/modules.lazy_loop.py.md#assetgate-remove) method of `AssetGate` in `modules.lazy_loop`
 - [`remove`](modules/modules.listener_manager.py.md#listenermanager-remove) method of `ListenerManager` in `modules.listener_manager`
 - [`remove`](modules/modules.lazy_loop.py.md#tasktemplate-remove) method of `TaskTemplate` in `modules.lazy_loop`
-- [`remove`](modules/modules.lazy_loop.py.md#triggerstore-remove) method of `TriggerStore` in `modules.lazy_loop`
+- [`remove`](modules/modules.loop_triggers.py.md#triggerstore-remove) method of `TriggerStore` in `modules.loop_triggers`
 - [`remove`](modules/modules.rootkit.mrhyde.c.md#remove) function in `modules/rootkit/mrhyde.c`
 - [`remove`](modules/modules.rootkit.mrhyde2.c.md#remove) function in `modules/rootkit/mrhyde2.c`
 - [`remove`](modules/modules.rootkit.mrhyde3.c.md#remove) function in `modules/rootkit/mrhyde3.c`
 - [`remove`](modules/modules.workspace.py.md#remove) function in `modules.workspace`
 - [`remove_auto_verb`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_auto_verb) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
-- [`remove_chain`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`remove_chain`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_chain) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`remove_channel`](modules/modules.lazy_loop.py.md#notifier-remove_channel) method of `Notifier` in `modules.lazy_loop`
 - [`remove_container`](modules/modules.lazy_sandbox.py.md#remove_container) function in `modules.lazy_sandbox`
 - [`remove_from_lazyown`](modules/scripts.activate_migrations.py.md#remove_from_lazyown) function in `scripts.activate_migrations`
-- [`remove_guard_rule`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_guard_rule) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`remove_guard_rule`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_guard_rule) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`remove_host`](modules/modules.world_model.py.md#worldmodel-remove_host) method of `WorldModel` in `modules.world_model`
 - [`remove_member`](modules/modules.lazy_loop.py.md#llmpool-remove_member) method of `LlmPool` in `modules.lazy_loop`
-- [`remove_model_member`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_model_member) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`remove_model_member`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_model_member) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`remove_pivot_node`](modules/modules.auto_pivot.py.md#autopivotengine-remove_pivot_node) method of `AutoPivotEngine` in `modules.auto_pivot`
 - [`remove_rule`](modules/modules.lazy_loop.py.md#guard-remove_rule) method of `Guard` in `modules.lazy_loop`
 - [`remove_rule`](modules/modules.conditional_hooks.py.md#hookengine-remove_rule) method of `HookEngine` in `modules.conditional_hooks`
 - [`remove_rule`](modules/modules.intercept.py.md#interceptor-remove_rule) method of `Interceptor` in `modules.intercept`
 - [`remove_rule`](modules/skills.lazyown_permissions.py.md#permissionsystem-remove_rule) method of `PermissionSystem` in `skills.lazyown_permissions`
+- [`remove_seed`](modules/modules.trigger_policy.py.md#remove_seed) function in `modules.trigger_policy`
 - [`remove_session`](modules/modules.socks_proxy.py.md#socksproxyengine-remove_session) method of `SocksProxyEngine` in `modules.socks_proxy`
 - [`remove_stale_beacons`](modules/modules.websocket_beacon.py.md#websocketc2handler-remove_stale_beacons) method of `WebSocketC2Handler` in `modules.websocket_beacon`
 - [`remove_tool`](modules/modules.custom_tools.py.md#remove_tool) function in `modules.custom_tools`
+- [`remove_trigger`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_trigger) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`remove_verb`](modules/modules.orchestrator_config.py.md#remove_verb) function in `modules.orchestrator_config`
 - [`remove_veto`](modules/skills.daemon_control.py.md#daemoncontrol-remove_veto) method of `DaemonControl` in `skills.daemon_control`
 - [`render`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer-render) method of `AddonYamlRenderer` in `lazyc2.addon_creator`
@@ -10898,6 +10941,7 @@
 - [`rhost`](modules/skills.toposwarm_autonomous.py.md#penteststate-rhost) attribute of `PentestState` in `skills.toposwarm_autonomous`
 - [`rhost`](modules/cli.banner_config.py.md#rendercontext-rhost) attribute of `RenderContext` in `cli.banner_config`
 - [`RhostSegment`](modules/cli.banner_config.py.md#rhostsegment) class in `cli.banner_config`
+- [`rich_toastr_panel`](modules/cli.toast_bus.py.md#rich_toastr_panel) function in `cli.toast_bus`
 - [`RichDashboard`](modules/modules.rich_tui.py.md#richdashboard) class in `modules.rich_tui`
 - [`rights`](modules/modules.dacl_abuse.py.md#acentry-rights) attribute of `ACEntry` in `modules.dacl_abuse`
 - [`risk`](modules/modules.planner.py.md#plancandidate-risk) attribute of `PlanCandidate` in `modules.planner`
@@ -10907,6 +10951,7 @@
 - [`risk_level`](modules/modules.opsec_scorer.py.md#gatedopsecscore-risk_level) attribute of `GatedOpsecScore` in `modules.opsec_scorer`
 - [`risk_level`](modules/modules.opsec_scorer.py.md#opsecscore-risk_level) attribute of `OpsecScore` in `modules.opsec_scorer`
 - [`risk_score`](modules/skills.hive_mind.py.md#consensusvote-risk_score) attribute of `ConsensusVote` in `skills.hive_mind`
+- [`risk_width`](modules/cli.commands.verb_admin.py.md#verbadminconfig-risk_width) attribute of `VerbAdminConfig` in `cli.commands.verb_admin`
 - [`RiskLevel`](modules/modules.opsec_scorer.py.md#risklevel) enum in `modules.opsec_scorer`
 - [`rl_save`](modules/modules.loop_ai_bridge.py.md#rl_save) function in `modules.loop_ai_bridge`
 - [`rl_select`](modules/modules.loop_ai_bridge.py.md#rl_select) function in `modules.loop_ai_bridge`
@@ -11246,7 +11291,7 @@
 - [`save`](modules/modules.memory_store.py.md#storagebackend-save) method of `StorageBackend` in `modules.memory_store`
 - [`save`](modules/modules.lazy_loop.py.md#taskarchive-save) method of `TaskArchive` in `modules.lazy_loop`
 - [`save`](modules/modules.memory_store.py.md#vectorsqlitebackend-save) method of `VectorSQLiteBackend` in `modules.memory_store`
-- [`save_config`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-save_config) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`save_config`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_config) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`save_current_rules`](modules/modules.lazyvpnshield.sh.md#save_current_rules) function in `modules/lazyvpnshield.sh`
 - [`save_cves`](modules/lazyc2.py.md#save_cves) function in `lazyc2`
 - [`save_cves`](modules/lazyc2.extensions.storage.py.md#save_cves) function in `lazyc2.extensions.storage`
@@ -11264,7 +11309,7 @@
 - [`save_note`](modules/lazyc2.extensions.storage.py.md#save_note) function in `lazyc2.extensions.storage`
 - [`save_payload`](modules/core.config.py.md#save_payload) function in `core.config`
 - [`save_playbook`](modules/utils.py.md#save_playbook) function in `utils`
-- [`save_playbook_text`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-save_playbook_text) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`save_playbook_text`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_playbook_text) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`save_playbook_yaml`](modules/modules.playbook_admin.py.md#save_playbook_yaml) function in `modules.playbook_admin`
 - [`save_report`](modules/modules.exploit_chain.py.md#exploitchain-save_report) method of `ExploitChain` in `modules.exploit_chain`
 - [`save_results_to_json`](modules/modules.ia_code_analysis.py.md#save_results_to_json) function in `modules.ia_code_analysis`
@@ -11410,6 +11455,7 @@
 - [`search`](modules/cli.palette.py.md#search) function in `cli.palette`
 - [`search`](modules/lazyc2.py.md#search) function in `lazyc2`
 - [`search`](modules/modules.cve_matcher.py.md#search) function in `modules.cve_matcher`
+- [`search`](modules/modules.verb_catalog.py.md#search) function in `modules.verb_catalog`
 - [`search_all`](modules/modules.lazy_loop.py.md#activitylog-search_all) method of `ActivityLog` in `modules.lazy_loop`
 - [`search_body`](modules/modules.traffic_recorder.py.md#trafficrecorder-search_body) method of `TrafficRecorder` in `modules.traffic_recorder`
 - [`search_by_cpe`](modules/modules.cve_matcher.py.md#cvematcher-search_by_cpe) method of `CVEMatcher` in `modules.cve_matcher`
@@ -11429,6 +11475,7 @@
 - [`search_in_parquet`](modules/modules.LazyOwnExplorer.py.md#lazyowngui-search_in_parquet) method of `LazyOwnGUI` in `modules.LazyOwnExplorer`
 - [`search_in_parquet`](modules/contrib.legacy.lazysearch.py.md#search_in_parquet) function in `contrib.legacy.lazysearch`
 - [`search_in_parquet`](modules/modules.lazyown_parquet_tool.py.md#search_in_parquet) function in `modules.lazyown_parquet_tool`
+- [`search_limit`](modules/modules.verb_catalog.py.md#verbcatalogconfig-search_limit) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`search_logs`](modules/modules.lilsplunky.py.md#search_logs) function in `modules.lilsplunky`
 - [`search_mentions_page`](modules/modules.lazy_mentions.py.md#search_mentions_page) function in `modules.lazy_mentions`
 - [`search_minimum_limit`](modules/cli.palette_command.py.md#paletterenderconfig-search_minimum_limit) attribute of `PaletteRenderConfig` in `cli.palette_command`
@@ -11469,7 +11516,9 @@
 - [`SecurityViolation`](modules/core.hardening.py.md#securityviolation) exception in `core.hardening`
 - [`seed`](modules/modules.polymorphic_engine.py.md#mutationconfig-seed) attribute of `MutationConfig` in `modules.polymorphic_engine`
 - [`seed_payload_config`](modules/install.sh.md#seed_payload_config) function in `install.sh`
+- [`seed_store`](modules/modules.trigger_policy.py.md#seed_store) function in `modules.trigger_policy`
 - [`SeedResult`](modules/modules.estorides_importer.py.md#seedresult) class in `modules.estorides_importer`
+- [`seeds`](modules/modules.trigger_policy.py.md#seeds) function in `modules.trigger_policy`
 - [`seeds_sent`](modules/modules.estorides_importer.py.md#seedresult-seeds_sent) attribute of `SeedResult` in `modules.estorides_importer`
 - [`SegmentRegistry`](modules/cli.banner_config.py.md#segmentregistry) class in `cli.banner_config`
 - [`SegmentRenderer`](modules/cli.banner_config.py.md#segmentrenderer) class in `cli.banner_config`
@@ -11547,6 +11596,8 @@
 - [`sender_display`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-sender_display) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
 - [`sensitive`](modules/core.payload_schema.py.md#fieldspec-sensitive) attribute of `FieldSpec` in `core.payload_schema`
 - [`SENSITIVE_KEYS`](modules/core.credential_vault.py.md#sensitive_keys) constant in `core.credential_vault`
+- [`sentinel_toast_panel`](modules/cli.toast_bus.py.md#sentinel_toast_panel) function in `cli.toast_bus`
+- [`sentinel_width`](modules/cli.toast_bus.py.md#toastrconfig-sentinel_width) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`separator`](modules/cli.wizard_scope.py.md#wizardscopeconfig-separator) attribute of `WizardScopeConfig` in `cli.wizard_scope`
 - [`serve_file`](modules/lazyc2.py.md#serve_file) function in `lazyc2`
 - [`serve_landing_page`](modules/lazyc2.py.md#serve_landing_page) function in `lazyc2`
@@ -11611,6 +11662,7 @@
 - [`session`](modules/modules.lazycloud.py.md#cloudmetadataharvester-session) property of `CloudMetadataHarvester` in `modules.lazycloud`
 - [`session`](modules/modules.lazy_agent.py.md#conversationstore-session) method of `ConversationStore` in `modules.lazy_agent`
 - [`Session`](modules/lazygui.services.models.py.md#session) class in `lazygui.services.models`
+- [`SESSION_BRIEF`](modules/cli.session_brief.py.md#session_brief) constant in `cli.session_brief`
 - [`session_commands`](modules/cli.engagement_hooks.py.md#engagementstate-session_commands) attribute of `EngagementState` in `cli.engagement_hooks`
 - [`session_commands`](modules/cli.session_hud.py.md#hudsnapshot-session_commands) attribute of `HudSnapshot` in `cli.session_hud`
 - [`session_context_menu`](modules/lazygui.panels.sessions_panel.py.md#sessionspanel-session_context_menu) attribute of `SessionsPanel` in `lazygui.panels.sessions_panel`
@@ -11647,6 +11699,7 @@
 - [`session_uptime_minutes`](modules/modules.opsec_scorer.py.md#opseccontext-session_uptime_minutes) attribute of `OpsecContext` in `modules.opsec_scorer`
 - [`SESSION_VIEW`](modules/modules.lazy_rbac.py.md#permission-session_view) attribute of `Permission` in `modules.lazy_rbac`
 - [`SessionAggregator`](modules/modules.session_reader.py.md#sessionaggregator) class in `modules.session_reader`
+- [`SessionBriefConfig`](modules/cli.session_brief.py.md#sessionbriefconfig) class in `cli.session_brief`
 - [`SessionClassificationPipeline`](modules/skills.lazyown_policy.py.md#sessionclassificationpipeline) class in `skills.lazyown_policy`
 - [`SessionContextProvider`](modules/contrib.legacy.lazyllmchat.py.md#sessioncontextprovider) class in `contrib.legacy.lazyllmchat`
 - [`SessionEntry`](modules/cli.sessions_browser.py.md#sessionentry) class in `cli.sessions_browser`
@@ -11772,7 +11825,9 @@
 - [`set_enabled`](modules/cli.chain_mode.py.md#chainpromptengine-set_enabled) method of `ChainPromptEngine` in `cli.chain_mode`
 - [`set_enabled`](modules/cli.status_bar.py.md#statusbarmanager-set_enabled) method of `StatusBarManager` in `cli.status_bar`
 - [`set_enabled`](modules/cli.tips_engine.py.md#tipsengine-set_enabled) method of `TipsEngine` in `cli.tips_engine`
+- [`set_enabled`](modules/modules.loop_triggers.py.md#triggerstore-set_enabled) method of `TriggerStore` in `modules.loop_triggers`
 - [`set_enabled`](modules/modules.chain_registry.py.md#set_enabled) function in `modules.chain_registry`
+- [`set_enabled`](modules/modules.verb_catalog.py.md#set_enabled) function in `modules.verb_catalog`
 - [`set_evasion_engine`](modules/modules.dashboard_engine.py.md#dashboardengine-set_evasion_engine) method of `DashboardEngine` in `modules.dashboard_engine`
 - [`set_exploit_recommender`](modules/modules.dashboard_engine.py.md#dashboardengine-set_exploit_recommender) method of `DashboardEngine` in `modules.dashboard_engine`
 - [`set_extra_args`](modules/cli.command_form.py.md#commandformstate-set_extra_args) method of `CommandFormState` in `cli.command_form`
@@ -11792,7 +11847,7 @@
 - [`set_minimum_level`](modules/lazygui.widgets.event_log_view.py.md#eventlogview-set_minimum_level) method of `EventLogView` in `lazygui.widgets.event_log_view`
 - [`set_mode`](modules/skills.daemon_control.py.md#daemoncontrol-set_mode) method of `DaemonControl` in `skills.daemon_control`
 - [`set_mode`](modules/skills.lazyown_permissions.py.md#permissionsystem-set_mode) method of `PermissionSystem` in `skills.lazyown_permissions`
-- [`set_model_priority`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-set_model_priority) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`set_model_priority`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-set_model_priority) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`set_network_distance`](modules/modules.nmap2csv.py.md#host-set_network_distance) method of `Host` in `modules.nmap2csv`
 - [`set_nvd_api_key`](modules/modules.exploit_recommender.py.md#exploitrecommender-set_nvd_api_key) method of `ExploitRecommender` in `modules.exploit_recommender`
 - [`set_os`](modules/modules.nmap2csv.py.md#host-set_os) method of `Host` in `modules.nmap2csv`
@@ -11887,6 +11942,7 @@
 - [`severity_rank`](modules/modules.notify.py.md#notifyconfig-severity_rank) attribute of `NotifyConfig` in `modules.notify`
 - [`severity_rank`](modules/modules.notify.py.md#severity_rank) function in `modules.notify`
 - [`severity_styles`](modules/cli.toast_bus.py.md#toastconfig-severity_styles) attribute of `ToastConfig` in `cli.toast_bus`
+- [`severity_styles`](modules/cli.toast_bus.py.md#toastrconfig-severity_styles) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`SEVERITY_TACTIC`](modules/modules.threat_model.py.md#severity_tactic) constant in `modules.threat_model`
 - [`severity_to_risk`](modules/modules.c2_surfaces.py.md#severity_to_risk) function in `modules.c2_surfaces`
 - [`sha256`](modules/modules.bof_registry.py.md#bofentry-sha256) attribute of `BofEntry` in `modules.bof_registry`
@@ -11905,6 +11961,7 @@
 - [`Shell`](modules/modules.backdoor.backdoor.c.md#shell) function in `modules/backdoor/backdoor.c`
 - [`shell`](modules/lazyc2.state.py.md#shell) variable in `lazyc2.state`
 - [`SHELL_BUILTIN_TOKENS`](modules/lazyown.py.md#shell_builtin_tokens) constant in `lazyown`
+- [`shell_hint_bypass`](modules/cli.toast_bus.py.md#shell_hint_bypass) function in `cli.toast_bus`
 - [`shell_indicators`](modules/modules.atomic_exploit_bridge.py.md#exploitspec-shell_indicators) attribute of `ExploitSpec` in `modules.atomic_exploit_bridge`
 - [`SHELL_INJECTION_ATTRIBUTE`](modules/cli.commands._base.py.md#shell_injection_attribute) constant in `cli.commands._base`
 - [`SHELL_METACHAR`](modules/lazyc2.security.command_allowlist.py.md#commandrejectionreason-shell_metachar) attribute of `CommandRejectionReason` in `lazyc2.security.command_allowlist`
@@ -12275,6 +12332,7 @@
 - [`stage`](modules/modules.selfupdate.py.md#updater-stage) method of `Updater` in `modules.selfupdate`
 - [`STAGE_DEFS`](modules/modules.orchestrator_config.py.md#stage_defs) constant in `modules.orchestrator_config`
 - [`stage_enabled`](modules/modules.orchestrator_config.py.md#stage_enabled) function in `modules.orchestrator_config`
+- [`stage_names`](modules/lazyc2.blueprints.orchestrator.py.md#stage_names) function in `lazyc2.blueprints.orchestrator`
 - [`stage_params`](modules/modules.orchestrator_config.py.md#stage_params) function in `modules.orchestrator_config`
 - [`stage_uri`](modules/modules.c2_profile.py.md#stagerconfig-stage_uri) attribute of `StagerConfig` in `modules.c2_profile`
 - [`staged`](modules/modules.emulation_runner.py.md#emulationreport-staged) attribute of `EmulationReport` in `modules.emulation_runner`
@@ -12283,6 +12341,7 @@
 - [`stager`](modules/modules.c2_profile.py.md#c2profile-stager) attribute of `C2Profile` in `modules.c2_profile`
 - [`StagerConfig`](modules/modules.c2_profile.py.md#stagerconfig) class in `modules.c2_profile`
 - [`stages`](modules/modules.orchestrator_config.py.md#stages) function in `modules.orchestrator_config`
+- [`stages_toggle`](modules/lazyc2.blueprints.orchestrator.py.md#stages_toggle) function in `lazyc2.blueprints.orchestrator`
 - [`staging_dirname`](modules/modules.evidence.py.md#evidenceconfig-staging_dirname) attribute of `EvidenceConfig` in `modules.evidence`
 - [`STAGING_DIRNAME`](modules/modules.evidence.py.md#staging_dirname) constant in `modules.evidence`
 - [`stale_after_days`](modules/cli.graph_advisor.py.md#graphadvisorconfig-stale_after_days) attribute of `GraphAdvisorConfig` in `cli.graph_advisor`
@@ -12320,7 +12379,7 @@
 - [`start_date`](modules/modules.professional_report.py.md#reportmetadata-start_date) attribute of `ReportMetadata` in `modules.professional_report`
 - [`start_discord_service`](modules/modules.fast_run_service.sh.md#start_discord_service) function in `modules/fast_run_service.sh`
 - [`start_dns_server`](modules/lazyc2.py.md#start_dns_server) function in `lazyc2`
-- [`start_gym`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-start_gym) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`start_gym`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-start_gym) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`start_in_thread`](modules/modules.websocket_beacon.py.md#websocketc2handler-start_in_thread) method of `WebSocketC2Handler` in `modules.websocket_beacon`
 - [`start_lazyc2_service`](modules/modules.fast_run_service.sh.md#start_lazyc2_service) function in `modules/fast_run_service.sh`
 - [`start_monitoring`](modules/modules.ia_logs_analysis.py.md#start_monitoring) function in `modules.ia_logs_analysis`
@@ -12399,6 +12458,7 @@
 - [`stats`](modules/modules.session_rag.py.md#sessionrag-stats) method of `SessionRAG` in `modules.session_rag`
 - [`stats`](modules/cli.surface_graph.py.md#surfacegraph-stats) method of `SurfaceGraph` in `cli.surface_graph`
 - [`stats`](modules/modules.lazy_loop.py.md#taskarchive-stats) method of `TaskArchive` in `modules.lazy_loop`
+- [`stats`](modules/modules.verb_catalog.py.md#stats) function in `modules.verb_catalog`
 - [`stats_by_command`](modules/cli.palette_telemetry.py.md#telemetryindex-stats_by_command) attribute of `TelemetryIndex` in `cli.palette_telemetry`
 - [`stats_raw`](modules/modules.memory_store.py.md#sqlitebackend-stats_raw) method of `SQLiteBackend` in `modules.memory_store`
 - [`status`](modules/skills.aci_planner.py.md#aciengine-status) method of `ACIEngine` in `skills.aci_planner`
@@ -12442,6 +12502,7 @@
 - [`status`](modules/skills.swan_agent.py.md#swanresult-status) attribute of `SwanResult` in `skills.swan_agent`
 - [`status`](modules/modules.ttp_coverage.py.md#ttprow-status) attribute of `TTPRow` in `modules.ttp_coverage`
 - [`status`](modules/skills.lazyown_mcp_helpers.py.md#taskaudit-status) attribute of `TaskAudit` in `skills.lazyown_mcp_helpers`
+- [`status`](modules/lazyc2.blueprints.orchestrator.py.md#status) function in `lazyc2.blueprints.orchestrator`
 - [`status`](modules/modules.lazy_sandbox.py.md#status) function in `modules.lazy_sandbox`
 - [`status_badge`](modules/lazygui.windows.main_window.py.md#mainwindow-status_badge) property of `MainWindow` in `lazygui.windows.main_window`
 - [`status_bar_actions`](modules/cli.commands.orchestration.py.md#orchestrationconfig-status_bar_actions) attribute of `OrchestrationConfig` in `cli.commands.orchestration`
@@ -12536,7 +12597,7 @@
 - [`stop_cloudflared_processes`](modules/modules.session_cleanup.py.md#stop_cloudflared_processes) function in `modules.session_cleanup`
 - [`stop_container`](modules/lazyown-docker.mkdocker.sh.md#stop_container) function in `lazyown-docker/mkdocker.sh`
 - [`stop_daemon_cmd`](modules/telegram_hermes.py.md#stop_daemon_cmd) function in `telegram_hermes`
-- [`stop_gym`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-stop_gym) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`stop_gym`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-stop_gym) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`stop_named_service`](modules/modules.fast_run_service.sh.md#stop_named_service) function in `modules/fast_run_service.sh`
 - [`stop_runs`](modules/modules.gym_registry.py.md#stop_runs) function in `modules.gym_registry`
 - [`stop_watcher`](modules/modules.config_store.py.md#stop_watcher) function in `modules.config_store`
@@ -12740,6 +12801,7 @@
 - [`SYLK_TEMPLATE`](modules/utils.py.md#sylk_template) constant in `utils`
 - [`sync`](modules/skills.lazyown_parquet_db.py.md#parquetdb-sync) method of `ParquetDB` in `skills.lazyown_parquet_db`
 - [`sync`](modules/modules.nuclei_templates_sync.py.md#sync) function in `modules.nuclei_templates_sync`
+- [`sync`](modules/modules.verb_catalog.py.md#sync) function in `modules.verb_catalog`
 - [`sync`](modules/scripts.sync_doc_stats.py.md#sync) function in `scripts.sync_doc_stats`
 - [`sync_all`](modules/modules.lazy_bridge.py.md#sync_all) function in `modules.lazy_bridge`
 - [`sync_elo_from_session`](modules/modules.cli_auth.py.md#sync_elo_from_session) function in `modules.cli_auth`
@@ -13110,6 +13172,7 @@
 - [`title`](modules/modules.outcome_bus.py.md#outcomeevent-title) attribute of `OutcomeEvent` in `modules.outcome_bus`
 - [`title`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-title) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
 - [`title`](modules/modules.professional_report.py.md#reportfinding-title) attribute of `ReportFinding` in `modules.professional_report`
+- [`title`](modules/cli.session_brief.py.md#sessionbriefconfig-title) attribute of `SessionBriefConfig` in `cli.session_brief`
 - [`title`](modules/cli.sessions_browser.py.md#sessionsbrowserconfig-title) attribute of `SessionsBrowserConfig` in `cli.sessions_browser`
 - [`title`](modules/skills.lazyown_mcp_helpers.py.md#taskaudit-title) attribute of `TaskAudit` in `skills.lazyown_mcp_helpers`
 - [`title`](modules/cli.themes.py.md#theme-title) attribute of `Theme` in `cli.themes`
@@ -13233,6 +13296,10 @@
 - [`ToastConfig`](modules/cli.toast_bus.py.md#toastconfig) class in `cli.toast_bus`
 - [`ToastEvent`](modules/cli.toast_bus.py.md#toastevent) class in `cli.toast_bus`
 - [`ToastFormatter`](modules/cli.toast_bus.py.md#toastformatter) class in `cli.toast_bus`
+- [`TOASTR_DEFAULT_SEVERITY`](modules/cli.toast_bus.py.md#toastr_default_severity) constant in `cli.toast_bus`
+- [`toastr_severity_style`](modules/cli.toast_bus.py.md#toastr_severity_style) function in `cli.toast_bus`
+- [`TOASTR_SEVERITY_STYLES`](modules/cli.toast_bus.py.md#toastr_severity_styles) constant in `cli.toast_bus`
+- [`ToastrConfig`](modules/cli.toast_bus.py.md#toastrconfig) class in `cli.toast_bus`
 - [`ToastReader`](modules/cli.toast_bus.py.md#toastreader) class in `cli.toast_bus`
 - [`toasts_enabled`](modules/cli.toast_bus.py.md#toasts_enabled) function in `cli.toast_bus`
 - [`ToastState`](modules/cli.toast_bus.py.md#toaststate) class in `cli.toast_bus`
@@ -13245,16 +13312,17 @@
 - [`TodoStore`](modules/modules.lazy_loop.py.md#todostore) class in `modules.lazy_loop`
 - [`toggle`](modules/cli.banner_config.py.md#bannersettings-toggle) method of `BannerSettings` in `cli.banner_config`
 - [`toggle`](modules/cli.marketplace_config.py.md#marketplacesettings-toggle) method of `MarketplaceSettings` in `cli.marketplace_config`
-- [`toggle_chain`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`toggle_chain`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_chain) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`toggle_credentials_panel`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_credentials_panel) attribute of `KeybindingConstants` in `lazygui.config.constants`
 - [`toggle_enabled`](modules/cli.marketplace_config.py.md#addoninfo-toggle_enabled) method of `AddonInfo` in `cli.marketplace_config`
 - [`toggle_event_log_panel`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_event_log_panel) attribute of `KeybindingConstants` in `lazygui.config.constants`
-- [`toggle_gym`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_gym) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
+- [`toggle_gym`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_gym) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`toggle_killchain_panel`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_killchain_panel) attribute of `KeybindingConstants` in `lazygui.config.constants`
 - [`toggle_listeners_panel`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_listeners_panel) attribute of `KeybindingConstants` in `lazygui.config.constants`
 - [`toggle_sessions_panel`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_sessions_panel) attribute of `KeybindingConstants` in `lazygui.config.constants`
 - [`toggle_stage`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
 - [`toggle_terminal_focus`](modules/lazygui.config.constants.py.md#keybindingconstants-toggle_terminal_focus) attribute of `KeybindingConstants` in `lazygui.config.constants`
+- [`toggle_trigger`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_trigger) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`toggle_verb`](modules/cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_verb) method of `LazyOrchestratorApp` in `cli.lazy_orchestrator`
 - [`toggle_view`](modules/cli.graph_overlay.py.md#graphoverlaystate-toggle_view) method of `GraphOverlayState` in `cli.graph_overlay`
 - [`toggleable`](modules/cli.marketplace_config.py.md#addoninfo-toggleable) property of `AddonInfo` in `cli.marketplace_config`
@@ -13393,6 +13461,8 @@
 - [`trigger`](modules/skills.claude_md_orchestrator.models.py.md#spec-trigger) attribute of `Spec` in `skills.claude_md_orchestrator.models`
 - [`trigger`](modules/skills.lazyown_facts.py.md#tooldefinition-trigger) attribute of `ToolDefinition` in `skills.lazyown_facts`
 - [`trigger`](modules/cli.exploration.py.md#toolentry-trigger) attribute of `ToolEntry` in `cli.exploration`
+- [`trigger_kind_options`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-trigger_kind_options) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
+- [`TRIGGER_KINDS`](modules/modules.loop_triggers.py.md#trigger_kinds) constant in `modules.loop_triggers`
 - [`trigger_match`](modules/cli.recon_plan.py.md#reconplanitem-trigger_match) attribute of `ReconPlanItem` in `cli.recon_plan`
 - [`trigger_options`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-trigger_options) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`trigger_pattern`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-trigger_pattern) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
@@ -13403,7 +13473,11 @@
 - [`triggered_rules`](modules/modules.detection_oracle.py.md#detectionassessment-triggered_rules) attribute of `DetectionAssessment` in `modules.detection_oracle`
 - [`TriggerMatcher`](modules/cli.exploration.py.md#triggermatcher) class in `cli.exploration`
 - [`triggers`](modules/lazyc2.addon_creator.py.md#addondraft-triggers) attribute of `AddonDraft` in `lazyc2.addon_creator`
-- [`TriggerStore`](modules/modules.lazy_loop.py.md#triggerstore) class in `modules.lazy_loop`
+- [`triggers`](modules/lazyc2.blueprints.orchestrator.py.md#triggers) function in `lazyc2.blueprints.orchestrator`
+- [`triggers_add`](modules/lazyc2.blueprints.orchestrator.py.md#triggers_add) function in `lazyc2.blueprints.orchestrator`
+- [`triggers_delete`](modules/lazyc2.blueprints.orchestrator.py.md#triggers_delete) function in `lazyc2.blueprints.orchestrator`
+- [`triggers_seed`](modules/lazyc2.blueprints.orchestrator.py.md#triggers_seed) function in `lazyc2.blueprints.orchestrator`
+- [`TriggerStore`](modules/modules.loop_triggers.py.md#triggerstore) class in `modules.loop_triggers`
 - [`TRUE_COLOR`](modules/contrib.legacy.lazyllmchat.py.md#lazyownpromptrenderer-true_color) attribute of `LazyOwnPromptRenderer` in `contrib.legacy.lazyllmchat`
 - [`TRUE_COLOR`](modules/core.console.py.md#true_color) constant in `core.console`
 - [`TRUE_COLOR`](modules/modules.colors.py.md#true_color) constant in `modules.colors`
@@ -13571,6 +13645,7 @@
 - [`upn_dns_info`](modules/modules.kerberos_core.py.md#pacinfo-upn_dns_info) attribute of `PACInfo` in `modules.kerberos_core`
 - [`upsert`](modules/skills.hive_mind.py.md#dronestatestore-upsert) method of `DroneStateStore` in `skills.hive_mind`
 - [`upsert_asset`](modules/modules.asset_graph.py.md#assetgraph-upsert_asset) method of `AssetGraph` in `modules.asset_graph`
+- [`upsert_defaults`](modules/modules.loop_triggers.py.md#triggerstore-upsert_defaults) method of `TriggerStore` in `modules.loop_triggers`
 - [`upsert_verb`](modules/modules.orchestrator_config.py.md#upsert_verb) function in `modules.orchestrator_config`
 - [`UPSTREAM_PATH_MAX_LENGTH`](modules/core.hardening.py.md#upstream_path_max_length) constant in `core.hardening`
 - [`urgency_score`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-urgency_score) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
@@ -13687,6 +13762,7 @@
 - [`validate_aes_key`](modules/lazyc2.security.validators.py.md#validate_aes_key) function in `lazyc2.security.validators`
 - [`validate_all`](modules/modules.c2_profile_engine.py.md#profilevalidator-validate_all) method of `ProfileValidator` in `modules.c2_profile_engine`
 - [`validate_args`](modules/modules.bof_registry.py.md#bofvalidator-validate_args) staticmethod of `BofValidator` in `modules.bof_registry`
+- [`validate_catalog`](modules/modules.verb_catalog.py.md#validate_catalog) function in `modules.verb_catalog`
 - [`validate_chain`](modules/modules.chain_registry.py.md#validate_chain) function in `modules.chain_registry`
 - [`validate_client_id`](modules/modules.c2_agent.py.md#validate_client_id) function in `modules.c2_agent`
 - [`validate_config`](modules/modules.sleep_obfuscation.py.md#sleeptechniquevalidator-validate_config) staticmethod of `SleepTechniqueValidator` in `modules.sleep_obfuscation`
@@ -13728,6 +13804,7 @@
 - [`validate_text`](modules/cli.marketplace_config.py.md#addoninfo-validate_text) method of `AddonInfo` in `cli.marketplace_config`
 - [`VALIDATE_TIMEOUT`](modules/modules.nuclei_templates_sync.py.md#validate_timeout) constant in `modules.nuclei_templates_sync`
 - [`validate_tls`](modules/modules.c2_profile_engine.py.md#profilevalidator-validate_tls) staticmethod of `ProfileValidator` in `modules.c2_profile_engine`
+- [`validate_triggers`](modules/modules.trigger_policy.py.md#validate_triggers) function in `modules.trigger_policy`
 - [`validate_upload_size`](modules/lazyc2.security.validators.py.md#validate_upload_size) function in `lazyc2.security.validators`
 - [`validate_upstream_path`](modules/core.hardening.py.md#validate_upstream_path) function in `core.hardening`
 - [`validate_url`](modules/core.safe_exec.py.md#validate_url) function in `core.safe_exec`
@@ -13760,6 +13837,7 @@
 - [`VenvSegment`](modules/cli.banner_config.py.md#venvsegment) class in `cli.banner_config`
 - [`verb`](modules/modules.auto_registry.py.md#autoverb-verb) attribute of `AutoVerb` in `modules.auto_registry`
 - [`verb`](modules/cli.reactive_hints.py.md#evidencehint-verb) attribute of `EvidenceHint` in `cli.reactive_hints`
+- [`VERB_ADMIN`](modules/cli.commands.verb_admin.py.md#verb_admin) constant in `cli.commands.verb_admin`
 - [`verb_available`](modules/modules.auto_registry.py.md#verb_available) function in `modules.auto_registry`
 - [`verb_config`](modules/modules.orchestrator_config.py.md#verb_config) function in `modules.orchestrator_config`
 - [`verb_enabled`](modules/modules.auto_registry.py.md#verb_enabled) function in `modules.auto_registry`
@@ -13768,9 +13846,14 @@
 - [`verb_line`](modules/cli.command_form.py.md#commandformstate-verb_line) method of `CommandFormState` in `cli.command_form`
 - [`verb_prior`](modules/modules.lazy_orchestrator_feedback.py.md#verb_prior) function in `modules.lazy_orchestrator_feedback`
 - [`verb_timeout`](modules/modules.lazy_runner.py.md#looprunconfig-verb_timeout) attribute of `LoopRunConfig` in `modules.lazy_runner`
+- [`VerbAdminConfig`](modules/cli.commands.verb_admin.py.md#verbadminconfig) class in `cli.commands.verb_admin`
+- [`VerbCatalogConfig`](modules/modules.verb_catalog.py.md#verbcatalogconfig) class in `modules.verb_catalog`
+- [`VerbCommandSet`](modules/cli.commands.verb_admin.py.md#verbcommandset) class in `cli.commands.verb_admin`
 - [`verbose`](modules/skills.claude_md_orchestrator.config.py.md#config-verbose) attribute of `Config` in `skills.claude_md_orchestrator.config`
+- [`verbs`](modules/lazyc2.blueprints.orchestrator.py.md#verbs) function in `lazyc2.blueprints.orchestrator`
 - [`verbs`](modules/modules.auto_registry.py.md#verbs) function in `modules.auto_registry`
 - [`verbs_for`](modules/modules.auto_registry.py.md#verbs_for) function in `modules.auto_registry`
+- [`verbs_toggle`](modules/lazyc2.blueprints.orchestrator.py.md#verbs_toggle) function in `lazyc2.blueprints.orchestrator`
 - [`verificar_conectividad`](modules/modules.lazyatack.sh.md#verificar_conectividad) function in `modules/lazyatack.sh`
 - [`verificar_curl`](modules/modules.lazyatack.sh.md#verificar_curl) function in `modules/lazyatack.sh`
 - [`verification`](modules/modules.log_tamper.py.md#logtamperconfig-verification) attribute of `LogTamperConfig` in `modules.log_tamper`
@@ -13804,6 +13887,7 @@
 - [`version`](modules/modules.world_model.py.md#serviceinfo-version) attribute of `ServiceInfo` in `modules.world_model`
 - [`VERSION`](modules/lazygui.version.py.md#version) constant in `lazygui.version`
 - [`VERSION`](modules/modules.nmap2csv.py.md#version) constant in `modules.nmap2csv`
+- [`version`](modules/modules.verb_catalog.py.md#verbcatalogconfig-version) attribute of `VerbCatalogConfig` in `modules.verb_catalog`
 - [`version_cache_seconds`](modules/cli.banner_config.py.md#bannerconfig-version_cache_seconds) attribute of `BannerConfig` in `cli.banner_config`
 - [`version_filename`](modules/cli.banner_config.py.md#bannerconfig-version_filename) attribute of `BannerConfig` in `cli.banner_config`
 - [`version_pattern`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-version_pattern) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
@@ -13923,6 +14007,8 @@
 - [`whoami`](modules/modules.cli_auth.py.md#whoami) function in `modules.cli_auth`
 - [`why`](modules/core.error_advice.py.md#erroradvice-why) attribute of `ErrorAdvice` in `core.error_advice`
 - [`width`](modules/cli.timeline_browser.py.md#timelinecolumn-width) attribute of `TimelineColumn` in `cli.timeline_browser`
+- [`width_fraction`](modules/cli.toast_bus.py.md#toastrconfig-width_fraction) attribute of `ToastrConfig` in `cli.toast_bus`
+- [`width_margin`](modules/cli.toast_bus.py.md#toastrconfig-width_margin) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`WIN32_FIND_DATA`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-win32_find_data) class of `WinRing3Rootkit` in `modules/win_rootkit/win_rin3_rootkit.cs`
 - [`window`](modules/lazygui.config.constants.py.md#appconstants-window) attribute of `AppConstants` in `lazygui.config.constants`
 - [`window_requests_connect`](modules/lazygui.windows.main_window.py.md#mainwindow-window_requests_connect) method of `MainWindow` in `lazygui.windows.main_window`
@@ -13985,6 +14071,7 @@
 - [`workspace_id`](modules/modules.state_manager.py.md#statemanager-workspace_id) property of `StateManager` in `modules.state_manager`
 - [`workspace_list`](modules/modules.db.py.md#lazyowndb-workspace_list) method of `LazyOwnDB` in `modules.db`
 - [`WORKSPACE_ROOT`](modules/modules.workspace.py.md#workspace_root) constant in `modules.workspace`
+- [`world`](modules/lazyc2.blueprints.orchestrator.py.md#world) function in `lazyc2.blueprints.orchestrator`
 - [`world_model_file`](modules/skills.hermes-lazyown.constants.py.md#paths-world_model_file) staticmethod of `Paths` in `skills.hermes-lazyown.constants`
 - [`world_model_file`](modules/cli.lazynmap_post.py.md#postscanconfig-world_model_file) attribute of `PostScanConfig` in `cli.lazynmap_post`
 - [`world_model_file`](modules/cli.session_resumer.py.md#sessionresumerconfig-world_model_file) attribute of `SessionResumerConfig` in `cli.session_resumer`

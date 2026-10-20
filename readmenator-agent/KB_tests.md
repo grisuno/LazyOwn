@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 17)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md)
+# Subsystem: tests (page 1 of 18)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -29,6 +29,18 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Symbols:
   - `test_autonomous_flow_integration` (function, line 15) `def test_autonomous_flow_integration()`
 - Depends on: `modules/moe_router.py`, `modules/obs_parser.py`, `modules/session_rag.py`
+
+## tests/mutation_common.py
+- Doc: Shared driver for curated mutation runners.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 20) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 30) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 37) `def run_tests(test_targets)`
+  - `title` (function, line 49) `def title(name)`
+  - `run_all` (function, line 56) `def run_all(mutations, test_targets)`
+- Imported by: `tests/run_mutation_loop_cli_catalog.py`, `tests/run_mutation_trigger_policy.py`, `tests/run_mutation_verb_catalog.py`
 
 ## tests/run_mutation_addon_creator.py
 - Doc: Manual mutation testing runner for the LazyAddon creator contract.
@@ -135,6 +147,14 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `run_tests` (function, line 74) `def run_tests()`
   - `main` (function, line 84) `def main()`
 
+## tests/run_mutation_loop_cli_catalog.py
+- Doc: Mutation runner for the planner catalog visibility contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `main` (function, line 50) `def main()`
+- Depends on: `tests/mutation_common.py`
+
 ## tests/run_mutation_no_shell.py
 - Doc: Mutation gate for the no-shell execution contract.
 - Layer: testing
@@ -201,6 +221,14 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `run_tests` (function, line 84) `def run_tests()`
   - `main` (function, line 103) `def main()`
 
+## tests/run_mutation_trigger_policy.py
+- Doc: Mutation runner for the trigger policy contract.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `main` (function, line 52) `def main()`
+- Depends on: `tests/mutation_common.py`
+
 ## tests/run_mutation_ux_usability.py
 - Doc: Mutation testing runner for the UX usability contracts.
 - Layer: testing
@@ -210,6 +238,14 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_backups` (function, line 71) `def _backups(mutations)`
   - `_restore` (function, line 79) `def _restore(backups, mutations)`
   - `main` (function, line 84) `def main()`
+
+## tests/run_mutation_verb_catalog.py
+- Doc: Mutation runner for the verb catalog contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `main` (function, line 52) `def main()`
+- Depends on: `tests/mutation_common.py`
 
 ## tests/test_aci_planner.py
 - Doc: tests/test_aci_planner.py
@@ -444,31 +480,6 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_config_has_aes_key_attribute` (method, line 86) `def test_config_has_aes_key_attribute(self)`
   - `test_config_exposes_params_dict` (method, line 91) `def test_config_exposes_params_dict(self)`
 - Depends on: `core/config.py`
-
-## tests/test_ai_commands_llm.py
-- Doc: Behavioural tests for the resurrected ``ask``/``groq`` commands.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_command_set` (function, line 17) `def _command_set()`
-  - `TestDoAsk` (class, line 26) `class TestDoAsk`
-  - `TestDoGroq` (class, line 53) `class TestDoGroq`
-  - `test_empty_question_prints_usage` (method, line 27) `def test_empty_question_prints_usage(self, monkeypatch)`
-  - `test_question_forwarded_with_session_context` (method, line 33) `def test_question_forwarded_with_session_context(self, monkeypatch)`
-  - `test_backend_error_surfaces_as_message` (method, line 45) `def test_backend_error_surfaces_as_message(self, monkeypatch)`
-  - `test_unavailable_backend_prints_actionable_error` (method, line 54) `def test_unavailable_backend_prints_actionable_error(self, monkeypatch)`
-  - `test_success_completes_oneliner_and_prints` (method, line 66) `def test_success_completes_oneliner_and_prints(self, monkeypatch)`
-  - `test_completion_failure_prints_error` (method, line 90) `def test_completion_failure_prints_error(self, monkeypatch)`
-  - `test_empty_line_falls_back_to_shell_prompt` (method, line 103) `def test_empty_line_falls_back_to_shell_prompt(self, monkeypatch)`
-  - `_raise` (function, line 57) `def _raise()`
-  - `_Backend` (class, line 71) `class _Backend`
-  - `_factory` (function, line 77) `def _factory()`
-  - `_Backend` (class, line 93) `class _Backend`
-  - `_Backend` (class, line 106) `class _Backend`
-  - `complete` (method, line 72) `def complete(self, system, user)`
-  - `complete` (method, line 94) `def complete(self, system, user)`
-  - `complete` (method, line 107) `def complete(self, system, user)`
-- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

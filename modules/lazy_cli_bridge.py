@@ -216,6 +216,40 @@ def cli_catalog_for_phase(phase: str, limit: int = 40) -> str:
     return ", ".join(names)
 
 
+def catalog_cli_for_phase(limit: int = 24) -> str:
+    """Return enabled catalog commands for the current kill-chain phase.
+
+    The operator's verb catalog is the routing truth, so the planner
+    prompt only advertises commands the catalog lets the loop execute.
+    The current phase comes from the canonical kill chain; a missing
+    catalog view degrades to an empty string so the prompt never hands
+    the planner a command the loop cannot route (fail closed).
+
+    Args:
+        limit: Maximum commands included in one line.
+
+    Returns:
+        Comma-separated enabled command names, empty when the view or
+        the phase is unavailable.
+    """
+    try:
+        from modules.killchain import KillChain
+        from modules.verb_catalog import entries
+
+        phase = str(KillChain.current_phase() or "").strip().lower()
+        view = entries()
+        names = [
+            name
+            for name, row in view.items()
+            if bool(row.get("enabled")) and str(row.get("phase") or "") == phase
+        ]
+        if not names:
+            names = [name for name, row in view.items() if bool(row.get("enabled"))]
+        return ", ".join(names[: max(1, int(limit or 24))])
+    except Exception:
+        return ""
+
+
 def full_cli_enabled() -> bool:
     """Return whether the loop may route any CLI verb.
 

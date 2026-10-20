@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 778 modules, 14744 documented entities, documentation coverage 74.0% (6890/9317 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 785 modules, 14838 documented entities, documentation coverage 74.1% (6946/9373 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (667), sh (59)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (674), sh (59)
 
 ## Modules
 
@@ -78,11 +78,12 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.headless`](modules/cli.headless.py.md) | Headless / non-interactive runner for automated pipelines. | 1 | 5 | 85.7% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | Self-populating kill-chain progress derived from the daemon event stream. | 1 | 1 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | Live worker-visibility monitor for the autonomous loop. | 1 | 17 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 1 | 40 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 1 | 15 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | Post-scan side effects executed at the tail of ``do_lazynmap``. | 2 | 1 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 40 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans. | 1 | 24 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | Asset administration tabs for the orchestrator console. | 2 | 29 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | Structured output modes and dry-run rendering for CLI commands. | 2 | 4 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | Read-only loader for ``cli/command_index.json``. | 1 | 10 | 100.0% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | Pure logic for the operator-facing ``palette`` command. | 11 | 29 | 87.8% |
@@ -100,6 +101,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | Reconnaissance plan generator built on top of :mod:`cli.exploration`. | 3 | 5 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | 0 | 2 | 100.0% |
 | [`cli.scope_guard`](modules/cli.scope_guard.py.md) | Authorization scope guard for offensive command execution. | 3 | 6 | 100.0% |
+| [`cli.session_brief`](modules/cli.session_brief.py.md) | Consolidated session-start brief for the LazyOwn shell. | 1 | 4 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | Compact session HUD: the numbers no other command shows. | 2 | 6 | 100.0% |
 | [`cli.session_resumer`](modules/cli.session_resumer.py.md) | Session resumer for the LazyOwn shell. | 3 | 2 | 100.0% |
 | [`cli.sessions_browser`](modules/cli.sessions_browser.py.md) | Textual browser for the LazyOwn ``sessions/`` directory. | 6 | 9 | 100.0% |
@@ -112,7 +114,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.themes`](modules/cli.themes.py.md) | Theme registry for the LazyOwn TUI surfaces. | 1 | 2 | 100.0% |
 | [`cli.timeline_browser`](modules/cli.timeline_browser.py.md) | Textual scrubber over ``sessions/LazyOwn_session_report.csv``. | 5 | 8 | 100.0% |
 | [`cli.tips_engine`](modules/cli.tips_engine.py.md) | Unified post-command tips engine: single coordination point for all suggestion surfaces. | 2 | 9 | 100.0% |
-| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | Non-blocking toast notification subsystem for the LazyOwn shell. | 6 | 30 | 100.0% |
+| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | Non-blocking toast notification subsystem for the LazyOwn shell. | 7 | 34 | 100.0% |
 | [`cli.tui_forms`](modules/cli.tui_forms.py.md) | Reusable Textual modals shared by the LazyOwn operator consoles. | 4 | 20 | 100.0% |
 | [`cli.tui_theme`](modules/cli.tui_theme.py.md) | Operator-facing ``tui_theme`` command logic. | 0 | 1 | 100.0% |
 | [`cli.tutorial`](modules/cli.tutorial.py.md) | Interactive post-install tutorial for the LazyOwn framework. | 1 | 6 | 100.0% |
@@ -206,6 +208,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.supply_chain`](modules/cli.commands.supply_chain.py.md) | Supply Chain Attack command set. | 1 | 3 | 100.0% |
 | [`cli.commands.surface`](modules/cli.commands.surface.py.md) | Attack-surface operations: confirmed discovery scans, estorides fusion. | 1 | 2 | 100.0% |
 | [`cli.commands.ux`](modules/cli.commands.ux.py.md) | Usability commands: hud, undo, config_diff, cheat, suggest. | 1 | 6 | 100.0% |
+| [`cli.commands.verb_admin`](modules/cli.commands.verb_admin.py.md) | Operator administration of the autonomous-loop verb catalog. | 2 | 1 | 100.0% |
 
 ### `contrib/legacy`
 
@@ -323,6 +326,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`lazyc2.blueprints.auth`](modules/lazyc2.blueprints.auth.py.md) | Authentication and authorisation blueprint for the LazyOwn C2 server. | 0 | 14 | 6.7% |
 | [`lazyc2.blueprints.beacon`](modules/lazyc2.blueprints.beacon.py.md) | Beacon communication blueprint for the LazyOwn C2 server. | 0 | 4 | 100.0% |
 | [`lazyc2.blueprints.operations`](modules/lazyc2.blueprints.operations.py.md) | Operations blueprint — tasks, CVEs, notes, and event management. | 0 | 13 | 100.0% |
+| [`lazyc2.blueprints.orchestrator`](modules/lazyc2.blueprints.orchestrator.py.md) | Orchestrator REST + web panel for the LazyOwn C2 dashboard. | 0 | 12 | 100.0% |
 | [`lazyc2.blueprints.phishing`](modules/lazyc2.blueprints.phishing.py.md) | Phishing blueprint for the LazyOwn C2 server. | 0 | 6 | 100.0% |
 | [`lazyc2.blueprints.session_auth`](modules/lazyc2.blueprints.session_auth.py.md) | Session-based authentication gate for operator dashboard blueprints. | 0 | 1 | 100.0% |
 
@@ -586,7 +590,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | Capability installer for the Lazy autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 29 | 262 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 256 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |
@@ -637,6 +641,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.logging_config`](modules/modules.logging_config.py.md) | Centralized logging configuration for the LazyOwn framework. | 4 | 15 | 85.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 11 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 8 | 100.0% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | 2 | 11 | 92.9% |
 | [`modules.mario`](modules/modules.mario.py.md) |  | 0 | 1 | 0.0% |
 | [`modules.mcp_agent_bridge`](modules/modules.mcp_agent_bridge.py.md) | LazyOwn MCP Agent Bridge ======================== Allows Claude (via MCP) to delegate tasks to internal AI agents (Groq / Ollama) running inside LazyOwn... | 3 | 10 | 42.9% |
@@ -712,12 +717,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.toposwarm_bridge`](modules/modules.toposwarm_bridge.py.md) | modules/toposwarm_bridge.py ============================ Local brain bridge: connects LazyOwn to the TopoSwarm router when cloud LLMs (Groq / Ollama / Claude... | 3 | 14 | 72.2% |
 | [`modules.traffic_morpher`](modules/modules.traffic_morpher.py.md) | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | 1 | 10 | 91.7% |
 | [`modules.traffic_recorder`](modules/modules.traffic_recorder.py.md) | HTTP traffic recorder with file-tree storage and SQLite index. | 3 | 15 | 100.0% |
+| [`modules.trigger_policy`](modules/modules.trigger_policy.py.md) | Declarative trigger policy: YAML seeds for the loop TriggerStore. | 0 | 6 | 100.0% |
 | [`modules.ttp_coverage`](modules/modules.ttp_coverage.py.md) | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | 2 | 8 | 54.5% |
 | [`modules.ttpscope_bridge`](modules/modules.ttpscope_bridge.py.md) | Secure bridge for the TTPScope MITRE ATT&CK research client. | 0 | 13 | 100.0% |
 | [`modules.unified_bridge`](modules/modules.unified_bridge.py.md) | UnifiedBridge — single API over all LazyOwn bridges and routing engines. | 7 | 16 | 37.5% |
 | [`modules.unified_dashboard`](modules/modules.unified_dashboard.py.md) | Unified campaign dashboard — combines all state sources into one view. | 1 | 5 | 85.7% |
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 0 | 100.0% |
 | [`modules.venator`](modules/modules.venator.py.md) |  | 0 | 33 | 0.0% |
+| [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | Operator-owned YAML catalog of every routable shell verb. | 1 | 9 | 100.0% |
 | [`modules.vuln_bot_cli`](modules/modules.vuln_bot_cli.py.md) | main.py | 0 | 2 | 33.3% |
 | [`modules.vulnbot`](modules/modules.vulnbot.py.md) | vulnbot.py | 1 | 10 | 8.3% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | WebSocket beacon transport for modern C2 channels. | 2 | 13 | 100.0% |

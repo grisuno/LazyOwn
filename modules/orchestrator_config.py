@@ -392,7 +392,7 @@ def set_stage(name: str, enabled: bool) -> dict:
 
 
 def effective_verbs() -> list[dict]:
-    """Merged auto-verb view: built-ins plus operator overrides and additions."""
+    """Merged auto-verb view: built-ins plus operator overrides, additions and catalog."""
     with _CACHE_LOCK:
         cached = _CACHE["verbs"]
         fresh = cached is not None and (time.monotonic() - float(_CACHE["at"])) < CACHE_TTL_SEC
@@ -437,10 +437,49 @@ def effective_verbs() -> list[dict]:
                 "source": "custom",
             }
         )
+        seen.add(verb)
+    merged.extend(_catalog_verbs(seen, overrides))
     with _CACHE_LOCK:
         _CACHE["verbs"] = merged
         _CACHE["at"] = time.monotonic()
     return [dict(entry) for entry in merged]
+
+
+def _catalog_verbs(seen: set[str], overrides: dict) -> list[dict]:
+    """Append catalog CLI verbs not already covered by built-ins or overrides.
+
+    Args:
+        seen: Verb names already present in the merged view.
+        overrides: Payload overrides that win over catalog state.
+
+    Returns:
+        Catalog entries shaped like the merged verb view.
+    """
+    try:
+        from modules.verb_catalog import entries as catalog_entries
+
+        table = catalog_entries()
+    except Exception:
+        return []
+    out: list[dict] = []
+    for name, stored in sorted(table.items()):
+        if name in seen:
+            continue
+        raw = dict(overrides.get(name) or {})
+        out.append(
+            {
+                "name": name,
+                "enabled": bool(raw.get("enabled", stored.get("enabled", False))),
+                "phases": list(raw.get("phases", [stored.get("phase", "")] if stored.get("phase") else [])),
+                "keywords": list(raw.get("keywords") or []),
+                "needs_target": bool(raw.get("needs_target", True)),
+                "extra_args": str(raw.get("extra_args") or ""),
+                "description": str(raw.get("description") or stored.get("description") or ""),
+                "source": "catalog",
+            }
+        )
+        seen.add(name)
+    return out
 
 
 def verb_config(name: str) -> dict | None:
@@ -603,6 +642,12 @@ def validate_config(data: Any) -> list[str]:
         for stage_name in (profile.get("stages") or {}):
             if stage_name not in known_stages:
                 errors.append(f"profile {name} references unknown stage {stage_name!r}")
+    try:
+        from modules.trigger_policy import validate_triggers
+
+        errors.extend(f"triggers: {error}" for error in validate_triggers(data.get("triggers")))
+    except Exception:
+        pass
     return errors
 
 

@@ -1,4 +1,4 @@
-# Subsystem: tests (page 3 of 17)
+# Subsystem: tests (page 3 of 18)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
 ## tests/test_autosuggest.py

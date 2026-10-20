@@ -354,7 +354,7 @@ List every chain file including disabled ones (for administration).
 
 *Calls:* [`validate_chain`](#validate_chain)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`LazyOrchestratorApp.chain_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-chain_rows), [`LazyOrchestratorApp.remove_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-remove_chain), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`OrchestratorAssetsMixin.chain_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_rows), [`OrchestratorAssetsMixin.remove_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_chain), [`OrchestratorAssetsMixin.toggle_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_chain)
 
 ---
 
@@ -384,7 +384,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 - `RuntimeError`: (raised in the body, not documented)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`LazyOrchestratorApp.toggle_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`OrchestratorAssetsMixin.toggle_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_chain)
 
 ---
 
@@ -418,7 +418,7 @@ Write a per-APT chain file inheriting the base APT chain.
 - `RuntimeError`: (raised in the body, not documented)
 - `ValueError`: (raised in the body, not documented)
 
-*Called by:* [`LazyOrchestratorApp.generate_chain`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-generate_chain)
+*Called by:* [`OrchestratorAssetsMixin.generate_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-generate_chain)
 
 ---
 

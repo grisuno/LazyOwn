@@ -480,7 +480,7 @@ Load every ``lazyaddons/*.yaml`` exposing ``os`` and `[`trigger`](#addonentry-tr
 
 Missing fields default to ``os: any`` and ``trigger: []`` so existing
 addons continue to load without modification. Parsed entries are
-cached per-process by ``(path, mtime)`` so repeated `[`load`](modules.session_state.py.md#load)` calls
+cached per-process by ``(path, mtime)`` so repeated ``load()`` calls
 inside long-lived sessions (CLI shell, MCP server) re-parse only the
 YAML files that actually changed on disk.
 
@@ -561,7 +561,7 @@ Load every ``tools/*.tool`` exposing ``os`` and `[`trigger`](#addonentry-trigger
 The ``.tool`` schema already carries a `[`trigger`](#addonentry-trigger)` list; this catalog
 adds OS awareness with a ``any`` default so the legacy files keep
 working. Parsed entries are cached per-process by ``(path, mtime)``
-so repeated `[`load`](modules.session_state.py.md#load)` calls only re-parse changed files.
+so repeated ``load()`` calls only re-parse changed files.
 
 **Members**
 

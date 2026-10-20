@@ -271,7 +271,7 @@ Filtering + selection state shared with the Textual app.
 
 | Member | Kind | Summary |
 |---|---|---|
-| [`reload`](#timelinestate-reload) | method | Drop the cache so the next [`entries`](#timelinestate-entries) call re-reads disk. |
+| [`reload`](#timelinestate-reload) | method | Drop the cache so the next [`entries`](modules.verb_catalog.py.md#entries) call re-reads disk. |
 | [`entries`](#timelinestate-entries) | method | Return filtered entries; reads disk on the first call. |
 | [`column_value`](#timelinestate-column_value) | method | Return the first non-empty value among ``column.source_keys``. |
 
@@ -285,7 +285,7 @@ Filtering + selection state shared with the Textual app.
 def reload(self) -> None
 ```
 
-Drop the cache so the next [`entries`](#timelinestate-entries) call re-reads disk.
+Drop the cache so the next [`entries`](modules.verb_catalog.py.md#entries) call re-reads disk.
 
 <a id="timelinestate-entries"></a>
 

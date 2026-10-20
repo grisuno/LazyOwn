@@ -55,16 +55,19 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_load_payload_config` (function, line 33) `def _load_payload_config()`
-  - `_build_api_key_store` (function, line 42) `def _build_api_key_store(payload)`
-  - `_load_or_create_secret_key` (function, line 61) `def _load_or_create_secret_key(sessions_dir)`
-  - `_make_security_config` (function, line 75) `def _make_security_config(payload)`
-  - `create_app` (function, line 89) `def create_app()`
-  - `_handle_404` (function, line 152) `def _handle_404(_error)`
-  - `_handle_405` (function, line 156) `def _handle_405(_error)`
-  - `_handle_exception` (function, line 160) `def _handle_exception(error)`
-  - `_add_security_headers` (function, line 167) `def _add_security_headers(response)`
-- Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`
+  - `_load_payload_config` (function, line 34) `def _load_payload_config()`
+  - `_build_api_key_store` (function, line 43) `def _build_api_key_store(payload)`
+  - `_load_or_create_secret_key` (function, line 62) `def _load_or_create_secret_key(sessions_dir)`
+  - `_make_security_config` (function, line 76) `def _make_security_config(payload)`
+  - `create_app` (function, line 90) `def create_app()`
+  - `_factory_load_user` (function, line 137) `def _factory_load_user(user_id)`
+  - `_handle_404` (function, line 173) `def _handle_404(_error)`
+  - `_handle_405` (function, line 177) `def _handle_405(_error)`
+  - `_handle_exception` (function, line 181) `def _handle_exception(error)`
+  - `_add_security_headers` (function, line 188) `def _add_security_headers(response)`
+  - `_FactoryUser` (class, line 141) `class _FactoryUser(UserMixin)`
+  - `__init__` (method, line 142) `def __init__(self, data)`
+- Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`, `modules/lazy_rbac.py`
 
 ## lazyc2/models.py
 - Doc: C2 data models extracted from lazyc2.py.

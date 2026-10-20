@@ -11,15 +11,15 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (12.1)
+## cli (13.1)
 
 cli groups 1 files (py) around OpsecCleanupCommandSet, do_opsec_score, do_log_tamper, do_forensic_clean, do_timestomp. OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory...
 
-## modules (12.2)
+## modules (13.2)
 
 modules groups 6 files (py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
 
-## tests (12.3)
+## tests (13.3)
 
 tests groups 2 files (py) around TestOpsecScorer, test_score_high_noise_command, test_score_low_noise_command, test_score_unknown_command, test_score_with_evasion. Tests for modules/opsec_scorer.py
 

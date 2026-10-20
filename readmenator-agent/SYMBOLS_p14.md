@@ -3,6 +3,54 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
+| `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
+| `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
+| `start_ollama_service` | function | `modules/fast_run_service.sh:410` | `` |
+| `start_telegram_service` | function | `modules/fast_run_service.sh:390` | `` |
+| `start_vpn_service` | function | `modules/fast_run_service.sh:363` | `` |
+| `start_www_service` | function | `modules/fast_run_service.sh:356` | `` |
+| `stop_named_service` | function | `modules/fast_run_service.sh:292` | `` |
+| `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
+| `usage` | function | `modules/fast_run_service.sh:528` | `` |
+| `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
+| `FindingRecord` | class | `modules/finding_lifecycle.py:182` | `class FindingRecord` |
+| `RetestRecord` | class | `modules/finding_lifecycle.py:195` | `class RetestRecord` |
+| `_finding_from_row` | function | `modules/finding_lifecycle.py:220` | `def _finding_from_row(row)` |
+| `_load` | function | `modules/finding_lifecycle.py:40` | `def _load(sessions_dir)` |
+| `_load_retests` | function | `modules/finding_lifecycle.py:292` | `def _load_retests(sessions_dir)` |
+| `_retests_path` | function | `modules/finding_lifecycle.py:287` | `def _retests_path(sessions_dir)` |
+| `_save` | function | `modules/finding_lifecycle.py:53` | `def _save(sessions_dir, data)` |
+| `_save_retests` | function | `modules/finding_lifecycle.py:303` | `def _save_retests(sessions_dir, payload)` |
+| `_store_path` | function | `modules/finding_lifecycle.py:35` | `def _store_path(sessions_dir)` |
+| `_token_value` | function | `modules/finding_lifecycle.py:205` | `def _token_value(refs, prefix, default)` |
+| `_with_token` | function | `modules/finding_lifecycle.py:213` | `def _with_token(refs, prefix, value)` |
+| `add_dead_end` | function | `modules/finding_lifecycle.py:104` | `def add_dead_end(kind, value, reason, sessions_dir)` |
+| `apply_confirmation` | function | `modules/finding_lifecycle.py:154` | `def apply_confirmation(nodes, sessions_dir)` |
+| `classify_retest` | function | `modules/finding_lifecycle.py:384` | `def classify_retest(needle, output)` |
+| `confirm` | function | `modules/finding_lifecycle.py:61` | `def confirm(finding_id, evidence, sessions_dir, by)` |
+| `findings_for` | function | `modules/finding_lifecycle.py:259` | `def findings_for(db, workspace)` |
+| `has_running_retest` | function | `modules/finding_lifecycle.py:310` | `def has_running_retest(finding_id, sessions_dir)` |
+| `is_dead_end` | function | `modules/finding_lifecycle.py:116` | `def is_dead_end(kind, value, sessions_dir)` |
+| `record` | function | `modules/finding_lifecycle.py:234` | `def record(db, workspace, host, title, severity, summary, poc)` |
+| `reject` | function | `modules/finding_lifecycle.py:90` | `def reject(finding_id, reason, sessions_dir, by)` |
+| `render_markdown` | function | `modules/finding_lifecycle.py:403` | `def render_markdown(db, workspace, title)` |
+| `request_retest` | function | `modules/finding_lifecycle.py:318` | `def request_retest(db, finding_id, sessions_dir)` |
+| `resolve` | function | `modules/finding_lifecycle.py:129` | `def resolve(node, sessions_dir)` |
+| `resolve_retest` | function | `modules/finding_lifecycle.py:338` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
+| `set_status` | function | `modules/finding_lifecycle.py:264` | `def set_status(db, finding_id, status)` |
+| `suppressed_values` | function | `modules/finding_lifecycle.py:123` | `def suppressed_values(sessions_dir)` |
+| `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
+| `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
+| `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
+| `amcache_parse` | method | `modules/forensic_cleaner.py:259` | `def amcache_parse(self)` |
+| `linux_cleanup` | method | `modules/forensic_cleaner.py:165` | `def linux_cleanup(self)` |
+| `macos_cleanup` | method | `modules/forensic_cleaner.py:193` | `def macos_cleanup(self)` |
+| `windows_cleanup` | method | `modules/forensic_cleaner.py:70` | `def windows_cleanup(self)` |
+| `windows_prefetch_parse` | method | `modules/forensic_cleaner.py:221` | `def windows_prefetch_parse(self, prefetch_path)` |
+| `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
+| `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
+| `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
 | `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
 | `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
 | `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
@@ -448,53 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `phase_index` | method | `modules/killchain.py:120` | `def phase_index(self, phase)` |
 | `phase_index` | method | `modules/killchain.py:408` | `def phase_index(phase)` |
 | `phase_labels` | method | `modules/killchain.py:164` | `def phase_labels()` |
-| `phase_rich_colors` | method | `modules/killchain.py:174` | `def phase_rich_colors()` |
-| `phases` | method | `modules/killchain.py:159` | `def phases()` |
-| `phases_for_display` | method | `modules/killchain.py:397` | `def phases_for_display()` |
-| `snapshot` | method | `modules/killchain.py:413` | `def snapshot(world_model_path)` |
-| `world_model_path` | method | `modules/killchain.py:116` | `def world_model_path(self)` |
-| `ReverseShellApp` | class | `modules/kivi.py:11` | `class ReverseShellApp(App)` |
-| `build` | method | `modules/kivi.py:12` | `def build(self)` |
-| `connect_to_server` | method | `modules/kivi.py:27` | `def connect_to_server(self, instance)` |
-| `ConversationStore` | class | `modules/lazy_agent.py:261` | `class ConversationStore` |
-| `ObservableAgentRunner` | class | `modules/lazy_agent.py:145` | `class ObservableAgentRunner(AgentRunner)` |
-| `__init__` | method | `modules/lazy_agent.py:148` | `def __init__(self, model, system_prompt, max_iterations, on_event)` |
-| `__init__` | method | `modules/lazy_agent.py:264` | `def __init__(self, task_id)` |
-| `_call_model` | method | `modules/lazy_agent.py:174` | `def _call_model(self)` |
-| `_deep_clean` | function | `modules/lazy_agent.py:237` | `def _deep_clean(value, _depth)` |
-| `_enable_streaming` | function | `modules/lazy_agent.py:123` | `def _enable_streaming(runner, on_event)` |
-| `_invoke` | function | `modules/lazy_agent.py:190` | `def _invoke()` |
-| `_json_default` | function | `modules/lazy_agent.py:221` | `def _json_default(value)` |
-| `_json_safe` | function | `modules/lazy_agent.py:253` | `def _json_safe(messages)` |
-| `_kill` | function | `modules/lazy_agent.py:583` | `def _kill()` |
-| `_load` | method | `modules/lazy_agent.py:269` | `def _load(self)` |
-| `_process_tool_call` | method | `modules/lazy_agent.py:159` | `def _process_tool_call(self, tool_call)` |
-| `_process_watchdog` | function | `modules/lazy_agent.py:578` | `def _process_watchdog(timeout_sec, process)` |
-| `_session_from_line` | function | `modules/lazy_agent.py:556` | `def _session_from_line(line)` |
-| `_tick` | function | `modules/lazy_agent.py:196` | `def _tick()` |
-| `intent_messages` | method | `modules/lazy_agent.py:273` | `def intent_messages(self, intent_id)` |
-| `max_iterations` | function | `modules/lazy_agent.py:72` | `def max_iterations()` |
-| `model_timeout_sec` | function | `modules/lazy_agent.py:41` | `def model_timeout_sec()` |
-| `register_tools` | function | `modules/lazy_agent.py:322` | `def register_tools(runner, specs)` |
-| `reset_intents` | method | `modules/lazy_agent.py:315` | `def reset_intents(self)` |
-| `resolve_agentic_model` | function | `modules/lazy_agent.py:83` | `def resolve_agentic_model(exclude)` |
-| `run` | method | `modules/lazy_agent.py:168` | `def run(self, user_input)` |
-| `run_external_hermes` | function | `modules/lazy_agent.py:472` | `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` |
-| `run_external_opencode` | function | `modules/lazy_agent.py:396` | `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` |
-| `run_main_session` | function | `modules/lazy_agent.py:374` | `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` |
-| `run_worker_session` | function | `modules/lazy_agent.py:335` | `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` |
-| `save_intent` | method | `modules/lazy_agent.py:278` | `def save_intent(self, intent_id, messages)` |
-| `save_session` | method | `modules/lazy_agent.py:305` | `def save_session(self, session_id, messages, title)` |
-| `session` | method | `modules/lazy_agent.py:287` | `def session(self, session_id)` |
-| `sessions` | method | `modules/lazy_agent.py:291` | `def sessions(self)` |
-| `tool_calling_enabled` | function | `modules/lazy_agent.py:57` | `def tool_calling_enabled()` |
-| `_data_dir` | function | `modules/lazy_bridge.py:35` | `def _data_dir()` |
-| `_extract_hosts_from_graph` | function | `modules/lazy_bridge.py:180` | `def _extract_hosts_from_graph(graph)` |
-| `_notify` | function | `modules/lazy_bridge.py:351` | `def _notify(progress, text)` |
-| `_read_json` | function | `modules/lazy_bridge.py:47` | `def _read_json(path, default)` |
-| `_read_jsonl` | function | `modules/lazy_bridge.py:64` | `def _read_jsonl(path)` |
-| `_read_new_traffic` | function | `modules/lazy_bridge.py:314` | `def _read_new_traffic(path, offset)` |
-| `_record_sync` | function | `modules/lazy_bridge.py:545` | `def _record_sync(action, summary)` |
-| `bridge_status` | function | `modules/lazy_bridge.py:159` | `def bridge_status()` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

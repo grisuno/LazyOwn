@@ -129,7 +129,7 @@ Match against rules and emit events to events.jsonl. Returns the number of event
 def read_events(limit: int = 20, status: str = 'pending') -> list[dict]
 ```
 
-Return up to `limit` events matching [`status`](modules.lazy_sandbox.py.md#status) (pending/processed/all).
+Return up to `limit` events matching `status` (pending/processed/all).
 
 **Parameters**
 

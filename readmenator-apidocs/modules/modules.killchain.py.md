@@ -419,7 +419,7 @@ Resolution order:
 
 *Calls:* [`KillChain.engagement_phase_to_cli`](#killchain-engagement_phase_to_cli), [`get_world_model`](modules.world_model.py.md#get_world_model), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
-*Called by:* [`AiCommandSet.do_ask`](cli.commands.ai.py.md#aicommandset-do_ask), [`KillChain.get_progress`](#killchain-get_progress), [`KillChain.snapshot`](#killchain-snapshot), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`AiCommandSet.do_ask`](cli.commands.ai.py.md#aicommandset-do_ask), [`world`](lazyc2.blueprints.orchestrator.py.md#world), [`KillChain.get_progress`](#killchain-get_progress), [`KillChain.snapshot`](#killchain-snapshot), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
 
 <a id="killchain-advance_phase"></a>
 

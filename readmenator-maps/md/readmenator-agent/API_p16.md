@@ -1,6 +1,34 @@
 # API (page 16 of 23)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/playbook_executor.py
+Depends on: `modules/pipeline_engine.py`
+- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
+- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
+- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
+- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
+- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
+- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
+- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
+- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
+- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
+- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
+- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
+- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
+- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
+- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
+- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
+- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
+
+## modules/polymorphic_engine.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
+- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
+- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
+- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
+- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
+- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
+
 ## modules/privesc_predictor.py
 Depends on: `core/console.py`, `modules/llm_factory.py`
 Imported by: `cli/commands/crystal_ball.py`
@@ -72,7 +100,7 @@ Imported by: `skills/lazyown_mcp.py`
 
 ## modules/redteam_gym.py
 Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
 - `reload_challenge_definitions` (function) `modules/redteam_gym.py:299` `def reload_challenge_definitions(directory)` -- Reload YAML definitions, falling back to the embedded catalogue.
 - `definition_rows` (function) `modules/redteam_gym.py:393` `def definition_rows()` -- Return one row per gym YAML file, including invalid files.
 - `create_gym` (function) `modules/redteam_gym.py:398` `def create_gym(gym_id)` -- Create a gym definition YAML and reload the catalogue.
@@ -463,18 +491,6 @@ Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, 
 - `SocksProxyEngine.list_sessions` (method) `modules/socks_proxy.py:511` `def list_sessions(self)` -- Return a list of all active sessions as dictionaries.
 - `SocksProxyEngine.from_dict` (method) `modules/socks_proxy.py:522` `def from_dict(cls, raw)` -- Build a SocksProxyEngine from a configuration dictionary.
 - `SocksProxyEngine.from_payload` (method) `modules/socks_proxy.py:528` `def from_payload(cls, payload)` -- Build a SocksProxyEngine from a LazyOwn payload configuration.
-
-## modules/staged_delivery.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `StagedDeliveryFactory.__init__` (method) `modules/staged_delivery.py:83` `def __init__(self, config, output_dir)`
-- `StagedDeliveryFactory.generate_hta` (method) `modules/staged_delivery.py:134` `def generate_hta(self)` -- Generate an HTA (HTML Application) dropper.
-- `StagedDeliveryFactory.generate_vba_macro` (method) `modules/staged_delivery.py:171` `def generate_vba_macro(self)` -- Generate a VBA macro for Office documents (Word/Excel).
-- `StagedDeliveryFactory.generate_xlm_macro` (method) `modules/staged_delivery.py:219` `def generate_xlm_macro(self)` -- Generate an Excel 4.0 (XLM) macro for legacy macro execution.
-- `StagedDeliveryFactory.generate_lnk` (method) `modules/staged_delivery.py:237` `def generate_lnk(self)` -- Generate a Windows .lnk shortcut file with embedded command execution.
-- `StagedDeliveryFactory.generate_iso` (method) `modules/staged_delivery.py:301` `def generate_iso(self, inner_files)` -- Generate an ISO 9660 image with an embedded payload autorun.
-- `StagedDeliveryFactory.generate_vhd` (method) `modules/staged_delivery.py:370` `def generate_vhd(self, inner_files)` -- Generate a VHD (Virtual Hard Disk) image with embedded payloads.
-- `StagedDeliveryFactory.generate_all` (method) `modules/staged_delivery.py:420` `def generate_all(self)` -- Generate all delivery formats for the current configuration.
-- `StagedDeliveryFactory.generate_phishing_page` (method) `modules/staged_delivery.py:460` `def generate_phishing_page(self, template)` -- Generate a credential harvesting HTML page.
 
 
 Next: [API_p17.md](API_p17.md)

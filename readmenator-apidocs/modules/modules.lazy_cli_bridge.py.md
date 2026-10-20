@@ -64,7 +64,7 @@ Return every discovered shell verb, cached by source mtime.
 
 **Returns:** `tuple[str, ...]`
 
-*Called by:* [`LazyCommandSet.do_lazy_verb`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_verb), [`cli_catalog_for_phase`](#cli_catalog_for_phase), [`is_cli_verb`](#is_cli_verb), [`search_cli_verbs`](#search_cli_verbs)
+*Called by:* [`LazyCommandSet.do_lazy_verb`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_verb), [`cli_catalog_for_phase`](#cli_catalog_for_phase), [`is_cli_verb`](#is_cli_verb), [`search_cli_verbs`](#search_cli_verbs), [`index_commands`](modules.verb_catalog.py.md#index_commands)
 
 ---
 
@@ -114,7 +114,7 @@ Map a verb to its kill-chain phase via keyword affinity.
 
 **Returns:** `str`
 
-*Called by:* [`steps_for`](modules.auto_registry.py.md#steps_for), [`search_cli_verbs`](#search_cli_verbs), [`describe_command`](modules.lazy_intel.py.md#describe_command)
+*Called by:* [`search_cli_verbs`](#search_cli_verbs), [`describe_command`](modules.lazy_intel.py.md#describe_command)
 
 ---
 
@@ -255,7 +255,7 @@ Return a compact verb list for LLM prompt injection.
 
 ### `full_cli_enabled`
 
-`function` | [modules/lazy_cli_bridge.py:219](../../modules/lazy_cli_bridge.py#L219)
+`function` | [modules/lazy_cli_bridge.py:253](../../modules/lazy_cli_bridge.py#L253)
 
 ```python
 def full_cli_enabled() -> bool
@@ -279,7 +279,7 @@ the loop silently in the wrong direction.
 
 ### `set_full_cli`
 
-`function` | [modules/lazy_cli_bridge.py:242](../../modules/lazy_cli_bridge.py#L242)
+`function` | [modules/lazy_cli_bridge.py:276](../../modules/lazy_cli_bridge.py#L276)
 
 ```python
 def set_full_cli(enabled: bool) -> bool

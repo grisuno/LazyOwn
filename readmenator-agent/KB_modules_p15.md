@@ -1,6 +1,36 @@
 # Subsystem: modules (page 15 of 15)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/toposwarm_bridge.py
+- Doc: modules/toposwarm_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RoutedCall` (class, line 71) `class RoutedCall`
+  - `_keyword_route` (function, line 202) `def _keyword_route(prompt)`
+  - `_load_toposwarm_modules` (function, line 241) `def _load_toposwarm_modules()`
+  - `OnlineFeedbackLoop` (class, line 273) `class OnlineFeedbackLoop`
+  - `TopoSwarmBridge` (class, line 424) `class TopoSwarmBridge`
+  - `get_bridge` (function, line 645) `def get_bridge()`
+  - `lazyown_command` (method, line 81) `def lazyown_command(self)`
+  - `__init__` (method, line 296) `def __init__(self, maxsize)`
+  - `register` (method, line 303) `def register(self, result, hidden)`
+  - `feedback` (method, line 318) `def feedback(self, result_id, good, comment, routing_head)`
+  - `pending_count` (method, line 379) `def pending_count(self)`
+  - `stats` (method, line 382) `def stats(self)`
+  - `load_feedback_for_training` (method, line 389) `def load_feedback_for_training(self)`
+  - `__init__` (method, line 432) `def __init__(self)`
+  - `available` (method, line 444) `def available(self)`
+  - `model_loaded` (method, line 449) `def model_loaded(self)`
+  - `_try_load` (method, line 452) `def _try_load(self)`
+  - `_neural_route` (method, line 493) `def _neural_route(self, prompt)`
+  - `feedback` (method, line 562) `def feedback(self, result_id, good, comment)`
+  - `route` (method, line 586) `def route(self, prompt)`
+  - `execute_via_orchestrator` (method, line 613) `def execute_via_orchestrator(self, prompt, no_model)`
+  - `_hook` (function, line 508) `def _hook(m, i, o)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
+
 ## modules/traffic_morpher.py
 - Doc: C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping.
 - Layer: utility
@@ -48,6 +78,22 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `import_inbox` (method, line 554) `def import_inbox(self, inbox_dir)`
   - `gc` (method, line 587) `def gc(self, older_than_sec)`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
+
+## modules/trigger_policy.py
+- Doc: Declarative trigger policy: YAML seeds for the loop TriggerStore.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `TriggerPolicyConfig` (class, line 31) `class TriggerPolicyConfig`
+  - `validate_triggers` (function, line 40) `def validate_triggers(raw)`
+  - `_coerce_every_sec` (function, line 79) `def _coerce_every_sec(value)`
+  - `seeds` (function, line 87) `def seeds(raw)`
+  - `read_policy` (function, line 120) `def read_policy(path)`
+  - `seed_store` (function, line 146) `def seed_store(policy, store, task_id)`
+  - `export_store` (function, line 171) `def export_store(task_id)`
+  - `remove_seed` (function, line 185) `def remove_seed(kind, arg, task_id)`
+- Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`
 
 ## modules/ttp_coverage.py
 - Doc: TTP coverage matrix — real-time MITRE ATT&CK technique tracking.
@@ -215,6 +261,31 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `s3_upload` (function, line 866) `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
   - `io_key` (function, line 49) `def io_key(keyname)`
 
+## modules/verb_catalog.py
+- Doc: Operator-owned YAML catalog of every routable shell verb.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `VerbCatalogConfig` (class, line 54) `class VerbCatalogConfig`
+  - `_default_config` (function, line 74) `def _default_config()`
+  - `_builtin_names` (function, line 79) `def _builtin_names()`
+  - `_phase_fallback` (function, line 91) `def _phase_fallback(verb)`
+  - `_risk_fallback` (function, line 101) `def _risk_fallback(verb)`
+  - `index_commands` (function, line 111) `def index_commands(config)`
+  - `validate_catalog` (function, line 151) `def validate_catalog(data)`
+  - `load` (function, line 184) `def load(config)`
+  - `entries` (function, line 217) `def entries(config)`
+  - `catalog_enabled` (function, line 270) `def catalog_enabled(name, config)`
+  - `catalog_source` (function, line 285) `def catalog_source(name, config)`
+  - `set_enabled` (function, line 299) `def set_enabled(name, enabled, config)`
+  - `sync` (function, line 335) `def sync(config)`
+  - `_write` (function, line 382) `def _write(cfg, verbs)`
+  - `_drop_cache` (function, line 406) `def _drop_cache(path_key)`
+  - `stats` (function, line 414) `def stats(config)`
+  - `search` (function, line 428) `def search(query, config, phase, enabled, limit)`
+- Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+- Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+
 ## modules/vuln_bot_cli.py
 - Layer: utility
 - Language: py
@@ -368,7 +439,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `read_section` (method, line 1166) `def read_section(self, key)`
   - `write_section` (method, line 1183) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

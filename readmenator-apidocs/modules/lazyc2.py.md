@@ -3726,7 +3726,7 @@ Reads ``sessions/world_model.json`` on every request so the topology
 reflects current campaign state, then projects it to a vis-network payload
 via [`modules.live_surface.build_live_graph`](modules.live_surface.py.md#build_live_graph).
 
-**Returns:** A JSON object with ``nodes``, ``edges`` and ``stats`` keys. A missing
+**Returns:** A JSON object with ``nodes``, ``edges`` and `[`stats`](modules.verb_catalog.py.md#stats)` keys. A missing
 or unreadable world model yields an empty but well-formed graph.
 
 ---
@@ -3837,7 +3837,7 @@ still map to `[`force`](cli.output_mode.py.md#outputmode-force)`. Every request 
 ``sessions/intel_summary.json`` so the autonomous loop planner scores
 probes from current campaign state.
 
-**Returns:** A JSON object with ``nodes``, ``edges``, ``stats``, `[`settings`](modules.notify.py.md#channel-settings)`
+**Returns:** A JSON object with ``nodes``, ``edges``, `[`stats`](modules.verb_catalog.py.md#stats)`, `[`settings`](modules.notify.py.md#channel-settings)`
 and ``analytics`` keys.
 
 ---
@@ -4015,7 +4015,7 @@ campaign intel (objectives, findings, tasks, log mentions). Query param
 Every request refreshes ``sessions/intel_summary.json`` so the
 autonomous loop scores probes from current campaign state.
 
-**Returns:** A JSON object with ``nodes``, ``edges``, ``stats``, `[`settings`](modules.notify.py.md#channel-settings)`
+**Returns:** A JSON object with ``nodes``, ``edges``, `[`stats`](modules.verb_catalog.py.md#stats)`, `[`settings`](modules.notify.py.md#channel-settings)`
 and ``analytics`` keys.
 
 ---

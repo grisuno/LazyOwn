@@ -1141,7 +1141,7 @@ def get_rbac_store() -> RBACStore
 
 **Returns:** `RBACStore`
 
-*Called by:* [`aumentar_elo`](lazyc2.py.md#aumentar_elo), [`check_auth`](lazyc2.py.md#check_auth), [`load_user`](lazyc2.py.md#load_user), [`load_users`](lazyc2.py.md#load_users), [`save_users`](lazyc2.py.md#save_users), [`load_users`](lazyc2.extensions.users.py.md#load_users), [`save_users`](lazyc2.extensions.users.py.md#save_users), [`register`](modules.cli_auth.py.md#register), [`user_exists`](modules.cli_auth.py.md#user_exists)
+*Called by:* [`aumentar_elo`](lazyc2.py.md#aumentar_elo), [`check_auth`](lazyc2.py.md#check_auth), [`load_user`](lazyc2.py.md#load_user), [`load_users`](lazyc2.py.md#load_users), [`save_users`](lazyc2.py.md#save_users), [`create_app`](lazyc2.app_factory.py.md#create_app), [`load_users`](lazyc2.extensions.users.py.md#load_users), [`save_users`](lazyc2.extensions.users.py.md#save_users), [`register`](modules.cli_auth.py.md#register), [`user_exists`](modules.cli_auth.py.md#user_exists)
 
 ---
 

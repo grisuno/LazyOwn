@@ -45,7 +45,7 @@
   - `set_default` (function, line 211) `def set_default()`
   - `guarded` (function, line 146) `def guarded()`
 - Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
 
 ## lazyc2/blueprints/api_v1.py
 - Doc: Versioned REST API (``/api/v1``) for the LazyOwn C2 server.
@@ -133,6 +133,31 @@
   - `events` (function, line 218) `def events()`
 - Depends on: `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/storage.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
+
+## lazyc2/blueprints/orchestrator.py
+- Doc: Orchestrator REST + web panel for the LazyOwn C2 dashboard.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_error` (function, line 56) `def _error(message, status)`
+  - `_namespaced_path` (function, line 61) `def _namespaced_path(name)`
+  - `_world_snapshot` (function, line 66) `def _world_snapshot()`
+  - `_status_payload` (function, line 88) `def _status_payload()`
+  - `status` (function, line 104) `def status()`
+  - `world` (function, line 111) `def world()`
+  - `verbs` (function, line 125) `def verbs()`
+  - `_read_body_name` (function, line 141) `def _read_body_name()`
+  - `verbs_toggle` (function, line 149) `def verbs_toggle()`
+  - `stages_toggle` (function, line 166) `def stages_toggle()`
+  - `stage_names` (function, line 180) `def stage_names()`
+  - `triggers` (function, line 193) `def triggers()`
+  - `triggers_add` (function, line 202) `def triggers_add()`
+  - `triggers_seed` (function, line 222) `def triggers_seed()`
+  - `triggers_delete` (function, line 231) `def triggers_delete(trigger_id)`
+  - `panel` (function, line 242) `def panel()`
+  - `panel_json` (function, line 262) `def panel_json()`
+- Depends on: `core/logging.py`, `lazyc2/blueprints/api.py`, `modules/__init__.py`, `modules/killchain.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
+- Imported by: `lazyc2/app_factory.py`, `tests/test_orchestrator_api.py`
 
 ## lazyc2/blueprints/phishing.py
 - Doc: Phishing blueprint for the LazyOwn C2 server.

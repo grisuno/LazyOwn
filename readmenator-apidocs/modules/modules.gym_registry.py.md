@@ -163,7 +163,7 @@ Resolve one gym YAML file inside the gyms directory.
 
 *Calls:* [`slugify`](#slugify)
 
-*Called by:* [`LazyOrchestratorApp.gym_preview`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-gym_preview), [`create_definition`](#create_definition), [`delete_definition`](#delete_definition), [`update_definition_yaml`](#update_definition_yaml)
+*Called by:* [`OrchestratorAssetsMixin.gym_preview`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_preview), [`create_definition`](#create_definition), [`delete_definition`](#delete_definition), [`update_definition_yaml`](#update_definition_yaml)
 
 ---
 
@@ -216,7 +216,7 @@ Return one row per YAML file, including invalid files.
 
 *Calls:* [`validate_definition`](#validate_definition)
 
-*Called by:* [`LazyOrchestratorApp.gym_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-gym_rows), [`definition_rows`](modules.redteam_gym.py.md#definition_rows)
+*Called by:* [`OrchestratorAssetsMixin.gym_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_rows), [`definition_rows`](modules.redteam_gym.py.md#definition_rows)
 
 ---
 

@@ -268,7 +268,7 @@ Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
 
 *Calls:* [`summarize`](#summarize)
 
-*Called by:* [`LazyOrchestratorApp.playbook_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_rows)
+*Called by:* [`OrchestratorAssetsMixin.playbook_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_rows)
 
 ---
 
@@ -293,7 +293,7 @@ Return a bounded, sanitized text preview for the detail pane.
 
 **Returns:** `str`
 
-*Called by:* [`LazyOrchestratorApp.playbook_preview`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-playbook_preview)
+*Called by:* [`OrchestratorAssetsMixin.playbook_preview`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_preview)
 
 ---
 
@@ -355,7 +355,7 @@ Create one APT playbook file.
 
 *Calls:* [`playbook_path`](#playbook_path), [`playbook_template`](#playbook_template), [`slugify`](#slugify), [`validate_playbook`](#validate_playbook)
 
-*Called by:* [`LazyOrchestratorApp.create_playbook_file`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-create_playbook_file)
+*Called by:* [`OrchestratorAssetsMixin.create_playbook_file`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-create_playbook_file)
 
 ---
 
@@ -421,7 +421,7 @@ Parse, validate and write a raw YAML document.
 
 *Calls:* [`update_playbook`](#update_playbook)
 
-*Called by:* [`LazyOrchestratorApp.save_playbook_text`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-save_playbook_text)
+*Called by:* [`OrchestratorAssetsMixin.save_playbook_text`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_playbook_text)
 
 ---
 
@@ -446,7 +446,7 @@ Delete one playbook confined to the playbooks root.
 
 **Returns:** `bool` - True when the file was removed.
 
-*Called by:* [`LazyOrchestratorApp.delete_playbook_file`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-delete_playbook_file)
+*Called by:* [`OrchestratorAssetsMixin.delete_playbook_file`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-delete_playbook_file)
 
 ---
 

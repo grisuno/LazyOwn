@@ -125,7 +125,7 @@ flowchart LR
 
 ### `RAGManager`
 
-`class` | [lazy_sentinel4.py:58](../../lazy_sentinel4.py#L58)
+`class` | [lazy_sentinel4.py:56](../../lazy_sentinel4.py#L56)
 
 ```python
 class RAGManager
@@ -151,7 +151,7 @@ Manages RAG functionality with CAG caching for document processing and querying.
 
 #### `RAGManager.__init__`
 
-`constructor` | [lazy_sentinel4.py:61](../../lazy_sentinel4.py#L61)
+`constructor` | [lazy_sentinel4.py:59](../../lazy_sentinel4.py#L59)
 
 ```python
 def __init__(self, model_name: str = DEEPSEEK_MODEL, cache_size: int = 1000)
@@ -172,7 +172,7 @@ def __init__(self, model_name: str = DEEPSEEK_MODEL, cache_size: int = 1000)
 
 #### `RAGManager.initialize_cache_table`
 
-`method` | [lazy_sentinel4.py:73](../../lazy_sentinel4.py#L73)
+`method` | [lazy_sentinel4.py:71](../../lazy_sentinel4.py#L71)
 
 ```python
 def initialize_cache_table(self)
@@ -186,7 +186,7 @@ def initialize_cache_table(self)
 
 #### `RAGManager.get_cache_key`
 
-`method` | [lazy_sentinel4.py:85](../../lazy_sentinel4.py#L85)
+`method` | [lazy_sentinel4.py:83](../../lazy_sentinel4.py#L83)
 
 ```python
 def get_cache_key(self, content: str) -> str
@@ -206,7 +206,7 @@ def get_cache_key(self, content: str) -> str
 
 #### `RAGManager.load_existing_vectorstore`
 
-`method` | [lazy_sentinel4.py:88](../../lazy_sentinel4.py#L88)
+`method` | [lazy_sentinel4.py:86](../../lazy_sentinel4.py#L86)
 
 ```python
 def load_existing_vectorstore(self)
@@ -218,7 +218,7 @@ def load_existing_vectorstore(self)
 
 #### `RAGManager.ollama_llm`
 
-`method` | [lazy_sentinel4.py:101](../../lazy_sentinel4.py#L101)
+`method` | [lazy_sentinel4.py:99](../../lazy_sentinel4.py#L99)
 
 ```python
 def ollama_llm(self, question: str, context: str) -> str
@@ -239,7 +239,7 @@ def ollama_llm(self, question: str, context: str) -> str
 
 #### `RAGManager.process_file_to_rag`
 
-`method` | [lazy_sentinel4.py:115](../../lazy_sentinel4.py#L115)
+`method` | [lazy_sentinel4.py:113](../../lazy_sentinel4.py#L113)
 
 ```python
 def process_file_to_rag(self, file_path: Path) -> bool
@@ -261,7 +261,7 @@ def process_file_to_rag(self, file_path: Path) -> bool
 
 #### `RAGManager.query_rag`
 
-`method` | [lazy_sentinel4.py:155](../../lazy_sentinel4.py#L155)
+`method` | [lazy_sentinel4.py:153](../../lazy_sentinel4.py#L153)
 
 ```python
 def query_rag(self, question: str) -> str
@@ -283,7 +283,7 @@ def query_rag(self, question: str) -> str
 
 #### `RAGManager.invalidate_cache`
 
-`method` | [lazy_sentinel4.py:177](../../lazy_sentinel4.py#L177)
+`method` | [lazy_sentinel4.py:175](../../lazy_sentinel4.py#L175)
 
 ```python
 def invalidate_cache(self, file_path: Path)
@@ -303,7 +303,7 @@ def invalidate_cache(self, file_path: Path)
 
 #### `RAGManager.get_knowledge_base_stats`
 
-`method` | [lazy_sentinel4.py:191](../../lazy_sentinel4.py#L191)
+`method` | [lazy_sentinel4.py:189](../../lazy_sentinel4.py#L189)
 
 ```python
 def get_knowledge_base_stats(self) -> dict
@@ -319,7 +319,7 @@ def get_knowledge_base_stats(self) -> dict
 
 ### `Database`
 
-`class` | [lazy_sentinel4.py:214](../../lazy_sentinel4.py#L214)
+`class` | [lazy_sentinel4.py:212](../../lazy_sentinel4.py#L212)
 
 ```python
 class Database
@@ -338,7 +338,7 @@ class Database
 
 #### `Database.__init__`
 
-`constructor` | [lazy_sentinel4.py:215](../../lazy_sentinel4.py#L215)
+`constructor` | [lazy_sentinel4.py:213](../../lazy_sentinel4.py#L213)
 
 ```python
 def __init__(self, db_path: str)
@@ -358,7 +358,7 @@ def __init__(self, db_path: str)
 
 #### `Database.initialize`
 
-`method` | [lazy_sentinel4.py:219](../../lazy_sentinel4.py#L219)
+`method` | [lazy_sentinel4.py:217](../../lazy_sentinel4.py#L217)
 
 ```python
 def initialize(self) -> None
@@ -370,7 +370,7 @@ def initialize(self) -> None
 
 #### `Database.execute`
 
-`method` | [lazy_sentinel4.py:243](../../lazy_sentinel4.py#L243)
+`method` | [lazy_sentinel4.py:241](../../lazy_sentinel4.py#L241)
 
 ```python
 def execute(self, query: str, params: tuple = ()) -> list[sqlite3.Row]
@@ -391,7 +391,7 @@ def execute(self, query: str, params: tuple = ()) -> list[sqlite3.Row]
 
 #### `Database.insert`
 
-`method` | [lazy_sentinel4.py:255](../../lazy_sentinel4.py#L255)
+`method` | [lazy_sentinel4.py:253](../../lazy_sentinel4.py#L253)
 
 ```python
 def insert(self, query: str, params: tuple = ()) -> int | None
@@ -414,7 +414,7 @@ def insert(self, query: str, params: tuple = ()) -> int | None
 
 ### `Alert`
 
-`class` | [lazy_sentinel4.py:271](../../lazy_sentinel4.py#L271)
+`class` | [lazy_sentinel4.py:269](../../lazy_sentinel4.py#L269)
 
 ```python
 class Alert
@@ -438,7 +438,7 @@ class Alert
 
 #### `Alert.__init__`
 
-`constructor` | [lazy_sentinel4.py:274](../../lazy_sentinel4.py#L274)
+`constructor` | [lazy_sentinel4.py:272](../../lazy_sentinel4.py#L272)
 
 ```python
 def __init__(self, alert_type: str, details: dict, severity: str = 'medium')
@@ -458,7 +458,7 @@ def __init__(self, alert_type: str, details: dict, severity: str = 'medium')
 
 #### `Alert.to_dict`
 
-`method` | [lazy_sentinel4.py:280](../../lazy_sentinel4.py#L280)
+`method` | [lazy_sentinel4.py:278](../../lazy_sentinel4.py#L278)
 
 ```python
 def to_dict(self) -> dict
@@ -470,7 +470,7 @@ def to_dict(self) -> dict
 
 #### `Alert.save_to_db`
 
-`method` | [lazy_sentinel4.py:288](../../lazy_sentinel4.py#L288)
+`method` | [lazy_sentinel4.py:286](../../lazy_sentinel4.py#L286)
 
 ```python
 def save_to_db(self, db: Database) -> int | None
@@ -494,7 +494,7 @@ def save_to_db(self, db: Database) -> int | None
 
 ### `LazySentinelHandler`
 
-`class` | [lazy_sentinel4.py:302](../../lazy_sentinel4.py#L302)
+`class` | [lazy_sentinel4.py:300](../../lazy_sentinel4.py#L300)
 
 ```python
 class LazySentinelHandler(FileSystemEventHandler)
@@ -515,7 +515,7 @@ Bases: `FileSystemEventHandler`
 
 #### `LazySentinelHandler.__init__`
 
-`constructor` | [lazy_sentinel4.py:303](../../lazy_sentinel4.py#L303)
+`constructor` | [lazy_sentinel4.py:301](../../lazy_sentinel4.py#L301)
 
 ```python
 def __init__(self, lazysentinel)
@@ -533,7 +533,7 @@ def __init__(self, lazysentinel)
 
 #### `LazySentinelHandler.is_text_file`
 
-`method` | [lazy_sentinel4.py:306](../../lazy_sentinel4.py#L306)
+`method` | [lazy_sentinel4.py:304](../../lazy_sentinel4.py#L304)
 
 ```python
 def is_text_file(self, file_path: Path) -> bool
@@ -553,7 +553,7 @@ def is_text_file(self, file_path: Path) -> bool
 
 #### `LazySentinelHandler.on_created`
 
-`method` | [lazy_sentinel4.py:316](../../lazy_sentinel4.py#L316)
+`method` | [lazy_sentinel4.py:314](../../lazy_sentinel4.py#L314)
 
 ```python
 def on_created(self, event)
@@ -571,7 +571,7 @@ def on_created(self, event)
 
 #### `LazySentinelHandler.on_modified`
 
-`method` | [lazy_sentinel4.py:328](../../lazy_sentinel4.py#L328)
+`method` | [lazy_sentinel4.py:326](../../lazy_sentinel4.py#L326)
 
 ```python
 def on_modified(self, event)
@@ -591,7 +591,7 @@ def on_modified(self, event)
 
 ### `LazySentinel`
 
-`class` | [lazy_sentinel4.py:340](../../lazy_sentinel4.py#L340)
+`class` | [lazy_sentinel4.py:338](../../lazy_sentinel4.py#L338)
 
 ```python
 class LazySentinel
@@ -613,7 +613,7 @@ class LazySentinel
 
 #### `LazySentinel.__init__`
 
-`constructor` | [lazy_sentinel4.py:341](../../lazy_sentinel4.py#L341)
+`constructor` | [lazy_sentinel4.py:339](../../lazy_sentinel4.py#L339)
 
 ```python
 def __init__(self, app, popup_queue, watch_dir='sessions', excluded_files=None, min_file_size=10)
@@ -637,7 +637,7 @@ def __init__(self, app, popup_queue, watch_dir='sessions', excluded_files=None, 
 
 #### `LazySentinel.chunk_text`
 
-`method` | [lazy_sentinel4.py:361](../../lazy_sentinel4.py#L361)
+`method` | [lazy_sentinel4.py:359](../../lazy_sentinel4.py#L359)
 
 ```python
 def chunk_text(self, text, chunk_size)
@@ -656,7 +656,7 @@ def chunk_text(self, text, chunk_size)
 
 #### `LazySentinel.select_relevant_chunk`
 
-`method` | [lazy_sentinel4.py:364](../../lazy_sentinel4.py#L364)
+`method` | [lazy_sentinel4.py:362](../../lazy_sentinel4.py#L362)
 
 ```python
 def select_relevant_chunk(self, file_content, chunks)
@@ -675,7 +675,7 @@ def select_relevant_chunk(self, file_content, chunks)
 
 #### `LazySentinel.parse_deepseek_response`
 
-`method` | [lazy_sentinel4.py:378](../../lazy_sentinel4.py#L378)
+`method` | [lazy_sentinel4.py:376](../../lazy_sentinel4.py#L376)
 
 ```python
 def parse_deepseek_response(self, response_text: str) -> dict
@@ -695,7 +695,7 @@ def parse_deepseek_response(self, response_text: str) -> dict
 
 #### `LazySentinel.show_popup`
 
-`method` | [lazy_sentinel4.py:404](../../lazy_sentinel4.py#L404)
+`method` | [lazy_sentinel4.py:402](../../lazy_sentinel4.py#L402)
 
 ```python
 def show_popup(self, file_name: str, relevant_info: str, commands: list[str], details: str)
@@ -718,7 +718,7 @@ def show_popup(self, file_name: str, relevant_info: str, commands: list[str], de
 
 #### `LazySentinel.process_file`
 
-`method` | [lazy_sentinel4.py:422](../../lazy_sentinel4.py#L422)
+`method` | [lazy_sentinel4.py:420](../../lazy_sentinel4.py#L420)
 
 ```python
 def process_file(self, file_path)
@@ -736,7 +736,7 @@ def process_file(self, file_path)
 
 #### `LazySentinel.stop`
 
-`method` | [lazy_sentinel4.py:538](../../lazy_sentinel4.py#L538)
+`method` | [lazy_sentinel4.py:536](../../lazy_sentinel4.py#L536)
 
 ```python
 def stop(self)
@@ -750,7 +750,7 @@ def stop(self)
 
 ### `App`
 
-`class` | [lazy_sentinel4.py:544](../../lazy_sentinel4.py#L544)
+`class` | [lazy_sentinel4.py:542](../../lazy_sentinel4.py#L542)
 
 ```python
 class App(cmd2.Cmd)
@@ -765,7 +765,7 @@ Subclasses: [`LazyOwnDashboard`](cli.dashboard_tui.py.md#lazyowndashboard), [`La
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#app-__init__) | constructor |  |
-| [`display_toastr`](#app-display_toastr) | method | Display a toastr-like notification for file processing alerts. |
+| [`display_toastr`](#app-display_toastr) | method | Display the sentinel popup through the shared toast bus panel. |
 | [`postcmd`](#app-postcmd) | method | Check the popup queue after each command and display toastr notifications. |
 | [`do_quit`](#app-do_quit) | method |  |
 | [`do_debug`](#app-do_debug) | method |  |
@@ -782,7 +782,7 @@ Subclasses: [`LazyOwnDashboard`](cli.dashboard_tui.py.md#lazyowndashboard), [`La
 
 #### `App.__init__`
 
-`constructor` | [lazy_sentinel4.py:545](../../lazy_sentinel4.py#L545)
+`constructor` | [lazy_sentinel4.py:543](../../lazy_sentinel4.py#L543)
 
 ```python
 def __init__(self)
@@ -794,13 +794,13 @@ def __init__(self)
 
 #### `App.display_toastr`
 
-`method` | [lazy_sentinel4.py:559](../../lazy_sentinel4.py#L559)
+`method` | [lazy_sentinel4.py:557](../../lazy_sentinel4.py#L557)
 
 ```python
 def display_toastr(self, file_name: str, relevant_info: str, commands: str, details: str, severity: str = 'info', duration: int = 3)
 ```
 
-Display a toastr-like notification for file processing alerts.
+Display the sentinel popup through the shared toast bus panel.
 
 **Parameters**
 
@@ -813,13 +813,15 @@ Display a toastr-like notification for file processing alerts.
 | `severity` | `str` | `'info'` |  |
 | `duration` | `int` | `3` |  |
 
+*Calls:* [`sentinel_toast_panel`](cli.toast_bus.py.md#sentinel_toast_panel)
+
 *Called by:* [`App.postcmd`](#app-postcmd)
 
 <a id="app-postcmd"></a>
 
 #### `App.postcmd`
 
-`method` | [lazy_sentinel4.py:587](../../lazy_sentinel4.py#L587)
+`method` | [lazy_sentinel4.py:567](../../lazy_sentinel4.py#L567)
 
 ```python
 def postcmd(self, stop, line)
@@ -840,7 +842,7 @@ Check the popup queue after each command and display toastr notifications.
 
 #### `App.do_quit`
 
-`method` | [lazy_sentinel4.py:611](../../lazy_sentinel4.py#L611)
+`method` | [lazy_sentinel4.py:591](../../lazy_sentinel4.py#L591)
 
 ```python
 def do_quit(self, arg)
@@ -858,7 +860,7 @@ def do_quit(self, arg)
 
 #### `App.do_debug`
 
-`method` | [lazy_sentinel4.py:615](../../lazy_sentinel4.py#L615)
+`method` | [lazy_sentinel4.py:595](../../lazy_sentinel4.py#L595)
 
 ```python
 def do_debug(self, arg)
@@ -876,7 +878,7 @@ def do_debug(self, arg)
 
 #### `App.do_rag_query`
 
-`method` | [lazy_sentinel4.py:624](../../lazy_sentinel4.py#L624)
+`method` | [lazy_sentinel4.py:604](../../lazy_sentinel4.py#L604)
 
 ```python
 def do_rag_query(self, arg)
@@ -894,7 +896,7 @@ def do_rag_query(self, arg)
 
 #### `App.do_rag_add`
 
-`method` | [lazy_sentinel4.py:632](../../lazy_sentinel4.py#L632)
+`method` | [lazy_sentinel4.py:612](../../lazy_sentinel4.py#L612)
 
 ```python
 def do_rag_add(self, arg)
@@ -912,7 +914,7 @@ def do_rag_add(self, arg)
 
 #### `App.do_rag_status`
 
-`method` | [lazy_sentinel4.py:647](../../lazy_sentinel4.py#L647)
+`method` | [lazy_sentinel4.py:627](../../lazy_sentinel4.py#L627)
 
 ```python
 def do_rag_status(self, arg)
@@ -930,7 +932,7 @@ def do_rag_status(self, arg)
 
 #### `App.do_rag_toggle`
 
-`method` | [lazy_sentinel4.py:654](../../lazy_sentinel4.py#L654)
+`method` | [lazy_sentinel4.py:634](../../lazy_sentinel4.py#L634)
 
 ```python
 def do_rag_toggle(self, arg)
@@ -946,7 +948,7 @@ def do_rag_toggle(self, arg)
 
 #### `App.do_rag_bulk_add`
 
-`method` | [lazy_sentinel4.py:659](../../lazy_sentinel4.py#L659)
+`method` | [lazy_sentinel4.py:639](../../lazy_sentinel4.py#L639)
 
 ```python
 def do_rag_bulk_add(self, arg)
@@ -964,7 +966,7 @@ def do_rag_bulk_add(self, arg)
 
 #### `App.do_rag_search`
 
-`method` | [lazy_sentinel4.py:678](../../lazy_sentinel4.py#L678)
+`method` | [lazy_sentinel4.py:658](../../lazy_sentinel4.py#L658)
 
 ```python
 def do_rag_search(self, arg)
@@ -980,7 +982,7 @@ def do_rag_search(self, arg)
 
 #### `App.complete_rag_add`
 
-`method` | [lazy_sentinel4.py:699](../../lazy_sentinel4.py#L699)
+`method` | [lazy_sentinel4.py:679](../../lazy_sentinel4.py#L679)
 
 ```python
 def complete_rag_add(self, text, line, begidx, endidx)
@@ -999,7 +1001,7 @@ def complete_rag_add(self, text, line, begidx, endidx)
 
 #### `App.complete_rag_bulk_add`
 
-`method` | [lazy_sentinel4.py:706](../../lazy_sentinel4.py#L706)
+`method` | [lazy_sentinel4.py:686](../../lazy_sentinel4.py#L686)
 
 ```python
 def complete_rag_bulk_add(self, text, line, begidx, endidx)
@@ -1022,7 +1024,7 @@ def complete_rag_bulk_add(self, text, line, begidx, endidx)
 
 ### `sanitize_content`
 
-`function` | [lazy_sentinel4.py:47](../../lazy_sentinel4.py#L47)
+`function` | [lazy_sentinel4.py:45](../../lazy_sentinel4.py#L45)
 
 ```python
 def sanitize_content(text: str) -> str
@@ -1048,7 +1050,7 @@ Sanitize text to ensure it's safe for rendering.
 
 ### `DEEPSEEK_API_URL`
 
-`constant` | [lazy_sentinel4.py:42](../../lazy_sentinel4.py#L42)
+`constant` | [lazy_sentinel4.py:40](../../lazy_sentinel4.py#L40)
 
 ```python
 DEEPSEEK_API_URL = 'http://localhost:11434/api/generate'
@@ -1060,7 +1062,7 @@ DEEPSEEK_API_URL = 'http://localhost:11434/api/generate'
 
 ### `DEEPSEEK_MODEL`
 
-`constant` | [lazy_sentinel4.py:43](../../lazy_sentinel4.py#L43)
+`constant` | [lazy_sentinel4.py:41](../../lazy_sentinel4.py#L41)
 
 ```python
 DEEPSEEK_MODEL = 'deepseek-r1:1.5b'
@@ -1072,7 +1074,7 @@ DEEPSEEK_MODEL = 'deepseek-r1:1.5b'
 
 ### `KNOWLEDGE_BASE_DIR`
 
-`constant` | [lazy_sentinel4.py:44](../../lazy_sentinel4.py#L44)
+`constant` | [lazy_sentinel4.py:42](../../lazy_sentinel4.py#L42)
 
 ```python
 KNOWLEDGE_BASE_DIR = './persistent_chroma_db'

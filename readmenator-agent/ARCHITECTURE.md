@@ -458,6 +458,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/ux.py` -> `core/config.py`
 - `cli/commands/ux.py` -> `core/console.py`
 - `cli/commands/ux.py` -> `utils.py`
+- `cli/commands/verb_admin.py` -> `cli/commands/_base.py`
+- `cli/commands/verb_admin.py` -> `modules/verb_catalog.py`
+- `cli/commands/verb_admin.py` -> `utils.py`
 - `cli/config_status.py` -> `core/console.py`
 - `cli/contextual_help.py` -> `cli/palette.py`
 - `cli/contextual_help.py` -> `cli/phase_labels.py`
@@ -493,8 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
 - `cli/lazy_monitor.py` -> `modules/lazy_engine.py`
 - `cli/lazy_monitor.py` -> `modules/lazy_runner.py`
-- `cli/lazy_monitor.py` -> `modules/loop_progress.py`
-- `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
-- `cli/lazy_orchestrator.py` -> `cli/palette.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

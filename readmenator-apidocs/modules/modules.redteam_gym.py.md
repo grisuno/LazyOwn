@@ -249,7 +249,7 @@ Begin a gym challenge and persist the run in the world model.
 
 *Calls:* [`get_active_runs`](modules.gym_registry.py.md#get_active_runs), [`start_run`](modules.gym_registry.py.md#start_run), [`reload_challenge_definitions`](#reload_challenge_definitions)
 
-*Called by:* [`LazyOrchestratorApp.start_gym`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-start_gym)
+*Called by:* [`OrchestratorAssetsMixin.start_gym`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-start_gym)
 
 ---
 
@@ -301,7 +301,7 @@ Stop one gym by id/name/run id, or every gym when selector is empty.
 
 *Calls:* [`stop_runs`](modules.gym_registry.py.md#stop_runs)
 
-*Called by:* [`LazyOrchestratorApp.stop_gym`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-stop_gym)
+*Called by:* [`OrchestratorAssetsMixin.stop_gym`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-stop_gym)
 
 ---
 
@@ -321,7 +321,7 @@ Return every active gym run across operators.
 
 *Calls:* [`get_active_runs`](modules.gym_registry.py.md#get_active_runs), [`reload_challenge_definitions`](#reload_challenge_definitions)
 
-*Called by:* [`LazyOrchestratorApp.gym_rows`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-gym_rows)
+*Called by:* [`OrchestratorAssetsMixin.gym_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_rows)
 
 ---
 

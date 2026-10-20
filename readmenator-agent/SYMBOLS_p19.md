@@ -3,6 +3,59 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_local_executor` | function | `modules/playbook_engine.py:722` | `def _local_executor(command, host)` |
+| `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
+| `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
+| `available` | method | `modules/playbook_engine.py:192` | `def available(self)` |
+| `available` | method | `modules/playbook_engine.py:264` | `def available(self)` |
+| `build` | method | `modules/playbook_engine.py:267` | `def build(self)` |
+| `derive` | method | `modules/playbook_engine.py:427` | `def derive(self, target, phase, platform, apt_name)` |
+| `execute` | method | `modules/playbook_engine.py:529` | `def execute(self, playbook, executor, dry_run)` |
+| `from_dict` | method | `modules/playbook_engine.py:128` | `def from_dict(cls, d)` |
+| `from_dict` | method | `modules/playbook_engine.py:152` | `def from_dict(cls, d)` |
+| `get_engine` | function | `modules/playbook_engine.py:669` | `def get_engine(api_key)` |
+| `load` | method | `modules/playbook_engine.py:611` | `def load(self, path)` |
+| `result_summary` | method | `modules/playbook_engine.py:640` | `def result_summary(self, result)` |
+| `save` | method | `modules/playbook_engine.py:599` | `def save(self, playbook, path)` |
+| `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
+| `store` | method | `modules/playbook_engine.py:195` | `def store(self)` |
+| `techniques_for_tactics` | method | `modules/playbook_engine.py:210` | `def techniques_for_tactics(self, tactic_shortnames, platform)` |
+| `tests_for_technique` | method | `modules/playbook_engine.py:300` | `def tests_for_technique(self, technique_id, platform)` |
+| `to_dict` | method | `modules/playbook_engine.py:113` | `def to_dict(self)` |
+| `to_dict` | method | `modules/playbook_engine.py:141` | `def to_dict(self)` |
+| `DefaultTTPMapper` | class | `modules/playbook_executor.py:101` | `class DefaultTTPMapper(ITTPMapper)` |
+| `ITTPMapper` | class | `modules/playbook_executor.py:93` | `class ITTPMapper(ABC)` |
+| `PlaybookEngine` | class | `modules/playbook_executor.py:336` | `class PlaybookEngine` |
+| `PlaybookLoader` | class | `modules/playbook_executor.py:203` | `class PlaybookLoader` |
+| `PlaybookRunResult` | class | `modules/playbook_executor.py:61` | `class PlaybookRunResult` |
+| `PlaybookSpec` | class | `modules/playbook_executor.py:48` | `class PlaybookSpec` |
+| `PlaybookTechnique` | class | `modules/playbook_executor.py:36` | `class PlaybookTechnique` |
+| `__init__` | method | `modules/playbook_executor.py:208` | `def __init__(self, playbooks_dir)` |
+| `__init__` | method | `modules/playbook_executor.py:339` | `def __init__(self, loader, mapper, pipelines_dir)` |
+| `_build_pipeline_yaml` | function | `modules/playbook_executor.py:285` | `def _build_pipeline_yaml(playbook, mapper, platform)` |
+| `_validate` | method | `modules/playbook_executor.py:235` | `def _validate(self, raw, source_path)` |
+| `analyze` | method | `modules/playbook_executor.py:353` | `def analyze(self, name, platform)` |
+| `generate_pipeline` | method | `modules/playbook_executor.py:378` | `def generate_pipeline(self, name, platform)` |
+| `list` | method | `modules/playbook_executor.py:211` | `def list(self)` |
+| `load` | method | `modules/playbook_executor.py:224` | `def load(self, name)` |
+| `loader` | method | `modules/playbook_executor.py:350` | `def loader(self)` |
+| `playbook_analyze` | function | `modules/playbook_executor.py:422` | `def playbook_analyze(name, platform)` |
+| `playbook_generate` | function | `modules/playbook_executor.py:429` | `def playbook_generate(name, platform)` |
+| `playbook_list` | function | `modules/playbook_executor.py:416` | `def playbook_list()` |
+| `playbook_run` | function | `modules/playbook_executor.py:436` | `def playbook_run(name, platform, target, onecmd)` |
+| `register` | method | `modules/playbook_executor.py:180` | `def register(cls, technique_id, platform, command)` |
+| `resolve` | method | `modules/playbook_executor.py:97` | `def resolve(self, technique_id, atomic_test, platform)` |
+| `resolve` | method | `modules/playbook_executor.py:185` | `def resolve(self, technique_id, atomic_test, platform)` |
+| `run` | method | `modules/playbook_executor.py:390` | `def run(self, name, platform, target, onecmd)` |
+| `to_dict` | method | `modules/playbook_executor.py:74` | `def to_dict(self)` |
+| `MutationConfig` | class | `modules/polymorphic_engine.py:93` | `class MutationConfig` |
+| `MutationResult` | class | `modules/polymorphic_engine.py:126` | `class MutationResult` |
+| `PolymorphicEngine` | class | `modules/polymorphic_engine.py:146` | `class PolymorphicEngine` |
+| `__init__` | method | `modules/polymorphic_engine.py:159` | `def __init__(self, config)` |
+| `_base64_wrap` | method | `modules/polymorphic_engine.py:330` | `def _base64_wrap(self, data, arch)` |
+| `_compress_data` | method | `modules/polymorphic_engine.py:324` | `def _compress_data(self, data)` |
+| `_estimate_entropy` | method | `modules/polymorphic_engine.py:344` | `def _estimate_entropy(data)` |
+| `_junk_insertion` | method | `modules/polymorphic_engine.py:282` | `def _junk_insertion(self, data, arch)` |
 | `_multi_xor_encrypt` | method | `modules/polymorphic_engine.py:309` | `def _multi_xor_encrypt(self, data)` |
 | `_nop_insertion` | method | `modules/polymorphic_engine.py:253` | `def _nop_insertion(self, data, arch)` |
 | `_nop_substitution` | method | `modules/polymorphic_engine.py:231` | `def _nop_substitution(self, data, arch)` |
@@ -443,58 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
 | `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
 | `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
-| `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
-| `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
-| `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
-| `render` | method | `modules/security_sanitizers.py:359` | `def render(self, template, substitutions, username, password)` |
-| `resolve` | method | `modules/security_sanitizers.py:196` | `def resolve(self, untrusted_name)` |
-| `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
-| `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
-| `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
-| `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
-| `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
-| `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
-| `ReleaseArtifact` | class | `modules/selfupdate.py:24` | `class ReleaseArtifact` |
-| `Updater` | class | `modules/selfupdate.py:38` | `class Updater` |
-| `__init__` | method | `modules/selfupdate.py:47` | `def __init__(self, live_path)` |
-| `_git` | function | `modules/selfupdate.py:90` | `def _git(args, runner, cwd, timeout)` |
-| `_run` | function | `modules/selfupdate.py:85` | `def _run(argv, cwd, timeout)` |
-| `apply` | function | `modules/selfupdate.py:140` | `def apply(branch, confirm, runner)` |
-| `check` | function | `modules/selfupdate.py:108` | `def check(branch, runner)` |
-| `current_branch` | function | `modules/selfupdate.py:96` | `def current_branch(runner)` |
-| `dirty` | function | `modules/selfupdate.py:102` | `def dirty(runner)` |
-| `rollback` | method | `modules/selfupdate.py:77` | `def rollback(self)` |
-| `stage` | method | `modules/selfupdate.py:57` | `def stage(self, artifact, directory)` |
-| `verify` | method | `modules/selfupdate.py:52` | `def verify(self, artifact)` |
-| `_compose_down` | function | `modules/session_cleanup.py:66` | `def _compose_down(compose_file, label)` |
-| `_run_quiet` | function | `modules/session_cleanup.py:49` | `def _run_quiet(argv, timeout)` |
-| `cleanup_ephemeral_infra` | function | `modules/session_cleanup.py:120` | `def cleanup_ephemeral_infra()` |
-| `find_cloudflared_pids` | function | `modules/session_cleanup.py:28` | `def find_cloudflared_pids(ps_output)` |
-| `stop_cloudflared_processes` | function | `modules/session_cleanup.py:94` | `def stop_cloudflared_processes()` |
-| `SessionRAG` | class | `modules/session_rag.py:188` | `class SessionRAG` |
-| `_KeywordFallback` | class | `modules/session_rag.py:103` | `class _KeywordFallback` |
-| `_RagState` | class | `modules/session_rag.py:168` | `class _RagState` |
-| `__init__` | method | `modules/session_rag.py:111` | `def __init__(self)` |
-| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
-| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
-| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
-| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
-| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
-| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
-| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
-| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
-| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
-| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
-| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
-| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
-| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
-| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
-| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
-| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
-| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
-| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
-| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
-| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
-| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

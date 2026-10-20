@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1182 | 1370 | 86.3% |
+| class | 1189 | 1377 | 86.3% |
 | classmethod | 55 | 81 | 67.9% |
 | constructor | 193 | 513 | 37.6% |
 | enum | 29 | 38 | 76.3% |
 | exception | 35 | 37 | 94.6% |
-| function | 1704 | 2599 | 65.6% |
+| function | 1739 | 2634 | 66.0% |
 | macro | 3 | 113 | 2.7% |
-| method | 2793 | 3472 | 80.4% |
-| module | 656 | 778 | 84.3% |
+| method | 2800 | 3479 | 80.5% |
+| module | 663 | 785 | 84.5% |
 | property | 143 | 187 | 76.5% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -474,6 +474,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`cli.commands.supply_chain`](modules/cli.commands.supply_chain.py.md) | 5 | 5 | 100.0% |
 | [`cli.commands.surface`](modules/cli.commands.surface.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.ux`](modules/cli.commands.ux.py.md) | 8 | 8 | 100.0% |
+| [`cli.commands.verb_admin`](modules/cli.commands.verb_admin.py.md) | 4 | 4 | 100.0% |
 | [`cli.config_history`](modules/cli.config_history.py.md) | 10 | 10 | 100.0% |
 | [`cli.config_status`](modules/cli.config_status.py.md) | 6 | 6 | 100.0% |
 | [`cli.confirm`](modules/cli.confirm.py.md) | 2 | 2 | 100.0% |
@@ -486,11 +487,12 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`cli.graph_overlay`](modules/cli.graph_overlay.py.md) | 11 | 11 | 100.0% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | 3 | 3 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | 19 | 19 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 42 | 42 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 17 | 17 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | 4 | 4 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | 46 | 46 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | 26 | 26 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | 32 | 32 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | 7 | 7 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | 12 | 12 | 100.0% |
 | [`cli.palette_graph`](modules/cli.palette_graph.py.md) | 10 | 10 | 100.0% |
@@ -505,6 +507,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | 9 | 9 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | 3 | 3 | 100.0% |
 | [`cli.scope_guard`](modules/cli.scope_guard.py.md) | 10 | 10 | 100.0% |
+| [`cli.session_brief`](modules/cli.session_brief.py.md) | 6 | 6 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | 9 | 9 | 100.0% |
 | [`cli.session_resumer`](modules/cli.session_resumer.py.md) | 6 | 6 | 100.0% |
 | [`cli.sessions_browser`](modules/cli.sessions_browser.py.md) | 16 | 16 | 100.0% |
@@ -515,7 +518,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`cli.themes`](modules/cli.themes.py.md) | 4 | 4 | 100.0% |
 | [`cli.timeline_browser`](modules/cli.timeline_browser.py.md) | 14 | 14 | 100.0% |
 | [`cli.tips_engine`](modules/cli.tips_engine.py.md) | 12 | 12 | 100.0% |
-| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | 37 | 37 | 100.0% |
+| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | 42 | 42 | 100.0% |
 | [`cli.tui_forms`](modules/cli.tui_forms.py.md) | 25 | 25 | 100.0% |
 | [`cli.tui_theme`](modules/cli.tui_theme.py.md) | 2 | 2 | 100.0% |
 | [`cli.tutorial`](modules/cli.tutorial.py.md) | 8 | 8 | 100.0% |
@@ -561,6 +564,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`lazyc2.blueprints.api_v1`](modules/lazyc2.blueprints.api_v1.py.md) | 8 | 8 | 100.0% |
 | [`lazyc2.blueprints.beacon`](modules/lazyc2.blueprints.beacon.py.md) | 5 | 5 | 100.0% |
 | [`lazyc2.blueprints.operations`](modules/lazyc2.blueprints.operations.py.md) | 14 | 14 | 100.0% |
+| [`lazyc2.blueprints.orchestrator`](modules/lazyc2.blueprints.orchestrator.py.md) | 13 | 13 | 100.0% |
 | [`lazyc2.blueprints.phishing`](modules/lazyc2.blueprints.phishing.py.md) | 7 | 7 | 100.0% |
 | [`lazyc2.blueprints.session_auth`](modules/lazyc2.blueprints.session_auth.py.md) | 2 | 2 | 100.0% |
 | [`lazyc2.extensions`](modules/lazyc2.extensions.__init__.py.md) | 1 | 1 | 100.0% |
@@ -679,7 +683,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 292 | 292 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 285 | 285 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |
@@ -706,6 +710,7 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | 20 | 20 | 100.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 10 | 10 | 100.0% |
 | [`modules.memory_embeddings`](modules/modules.memory_embeddings.py.md) | 6 | 6 | 100.0% |
 | [`modules.metasploitable_gym`](modules/modules.metasploitable_gym.py.md) | 8 | 8 | 100.0% |
 | [`modules.metasploitable_migrations`](modules/modules.metasploitable_migrations.py.md) | 4 | 4 | 100.0% |
@@ -748,8 +753,10 @@ Overall: **74.0%** (6890 of 9317 public modules, types, and callables). Data mem
 | [`modules.tools.monitor_smoke`](modules/modules.tools.monitor_smoke.py.md) | 3 | 3 | 100.0% |
 | [`modules.toolset`](modules/modules.toolset.py.md) | 6 | 6 | 100.0% |
 | [`modules.traffic_recorder`](modules/modules.traffic_recorder.py.md) | 19 | 19 | 100.0% |
+| [`modules.trigger_policy`](modules/modules.trigger_policy.py.md) | 7 | 7 | 100.0% |
 | [`modules.ttpscope_bridge`](modules/modules.ttpscope_bridge.py.md) | 14 | 14 | 100.0% |
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | 1 | 1 | 100.0% |
+| [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | 11 | 11 | 100.0% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | 16 | 16 | 100.0% |
 | [`modules.workspace`](modules/modules.workspace.py.md) | 8 | 8 | 100.0% |
 | [`modules.yara_scanner`](modules/modules.yara_scanner.py.md) | 12 | 12 | 100.0% |

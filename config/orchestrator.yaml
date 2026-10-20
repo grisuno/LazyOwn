@@ -85,6 +85,9 @@ stages:
     enabled: true
     label: Stream model deltas into the activity log
     fires_when: every pool and agent LLM call while streaming is supported
+triggers:
+  - kind: service
+    enabled: true
 profiles:
   default:
     description: Balanced autonomous engagement.

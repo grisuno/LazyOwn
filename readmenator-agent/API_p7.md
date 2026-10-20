@@ -1,6 +1,43 @@
 # API (page 7 of 23)
 Previous: [API_p6.md](API_p6.md)
 
+## core/safe_console.py
+Depends on: `core/console.py`
+Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, `modules/loop_progress.py`, `tests/test_safe_console.py`
+- `supports_unicode` (function) `core/safe_console.py:33` `def supports_unicode()` -- Return True when stdout can encode box-drawing glyphs and emoji.
+- `get_console` (function) `core/safe_console.py:42` `def get_console()` -- Build a Rich console with safe color/box defaults.
+- `panel_box` (function) `core/safe_console.py:52` `def panel_box()` -- Return the ROUNDED box on UTF-8 sinks, ASCII otherwise.
+- `milestone_glyph` (function) `core/safe_console.py:57` `def milestone_glyph(state)` -- Glyph for a milestone state: done / active / pending (or other).
+- `progress_bar` (function) `core/safe_console.py:67` `def progress_bar(ratio, width)` -- Fixed-width fill bar, unicode blocks or ASCII hashes.
+
+## core/safe_exec.py
+Depends on: `core/logging.py`
+Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+- `needs_shell` (function) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
+- `safe_system` (function) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
+- `safe_run_argv` (function) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
+- `safe_run_shell` (function) `core/safe_exec.py:146` `def safe_run_shell(command)` -- Execute a command through the shell, gated by policy.
+- `safe_clear_screen` (function) `core/safe_exec.py:192` `def safe_clear_screen()` -- Clear the terminal screen without using os.system.
+- `validate_url` (function) `core/safe_exec.py:207` `def validate_url(url)` -- Validate a URL string, rejecting shell metacharacters.
+- `safe_git_clone` (function) `core/safe_exec.py:234` `def safe_git_clone(repo_url, target_dir)` -- Clone a git repository safely using subprocess list-form.
+- `safe_ip_show` (function) `core/safe_exec.py:268` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
+- `safe_find_tool` (function) `core/safe_exec.py:305` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
+- `safe_file_read` (function) `core/safe_exec.py:321` `def safe_file_read(path)` -- Read a file safely with a size limit.
+
+## core/safe_import.py
+Imported by: `cli/commands/campaign.py`, `tests/test_campaign_import_safety.py`
+- `is_safe_identifier` (function) `core/safe_import.py:20` `def is_safe_identifier(name)` -- Return True when ``name`` is a bare SQL identifier.
+- `filter_columns` (function) `core/safe_import.py:32` `def filter_columns(src_columns, dest_columns)` -- Intersect source columns with destination columns, safely.
+- `safe_extract_zip` (function) `core/safe_import.py:51` `def safe_extract_zip(archive, dest)` -- Extract a zip archive with ZipSlip protection.
+- `safe_copy_tree` (function) `core/safe_import.py:93` `def safe_copy_tree(src, dest)` -- Copy a directory tree without symlink escape.
+
+## core/safe_subprocess.py
+Depends on: `core/hardening.py`, `core/safe_exec.py`
+Imported by: `core/process.py`, `tests/test_safe_subprocess.py`, `tests/test_safe_subprocess_behavior.py`, `tests/test_security_hardening.py`, `tests/test_shell_semantics.py`, `utils.py`
+- `SafeRunner.__init__` (method) `core/safe_subprocess.py:70` `def __init__(self, audit_log_path)`
+- `SafeRunner.run` (method) `core/safe_subprocess.py:73` `def run(self, argv)` -- Execute ``argv`` without invoking a shell.
+- `SafeRunner.run_shell` (method) `core/safe_subprocess.py:105` `def run_shell(self, command)` -- Execute ``command`` through the system shell, gated by policy.
+
 ## core/scheduler.py
 Depends on: `core/logging.py`
 - `TaskScheduler.__init__` (method) `core/scheduler.py:61` `def __init__(self)`
@@ -105,48 +142,48 @@ Depends on: `core/console.py`, `core/prompt.py`
 - `main` (function) `key.py:10` `def main()`
 
 ## lazy_sentinel4.py
-Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `sanitize_content` (function) `lazy_sentinel4.py:47` `def sanitize_content(text)` -- Sanitize text to ensure it's safe for rendering.
-- `RAGManager.__init__` (method) `lazy_sentinel4.py:61` `def __init__(self, model_name, cache_size)`
-- `RAGManager.initialize_cache_table` (method) `lazy_sentinel4.py:73` `def initialize_cache_table(self)`
-- `RAGManager.get_cache_key` (method) `lazy_sentinel4.py:85` `def get_cache_key(self, content)`
-- `RAGManager.load_existing_vectorstore` (method) `lazy_sentinel4.py:88` `def load_existing_vectorstore(self)`
-- `RAGManager.ollama_llm` (method) `lazy_sentinel4.py:101` `def ollama_llm(self, question, context)`
-- `RAGManager.process_file_to_rag` (method) `lazy_sentinel4.py:115` `def process_file_to_rag(self, file_path)`
-- `RAGManager.query_rag` (method) `lazy_sentinel4.py:155` `def query_rag(self, question)`
-- `RAGManager.invalidate_cache` (method) `lazy_sentinel4.py:177` `def invalidate_cache(self, file_path)`
-- `RAGManager.get_knowledge_base_stats` (method) `lazy_sentinel4.py:191` `def get_knowledge_base_stats(self)`
-- `Database.__init__` (method) `lazy_sentinel4.py:215` `def __init__(self, db_path)`
-- `Database.initialize` (method) `lazy_sentinel4.py:219` `def initialize(self)`
-- `Database.execute` (method) `lazy_sentinel4.py:243` `def execute(self, query, params)`
-- `Database.insert` (method) `lazy_sentinel4.py:255` `def insert(self, query, params)`
-- `Alert.__init__` (method) `lazy_sentinel4.py:274` `def __init__(self, alert_type, details, severity)`
-- `Alert.to_dict` (method) `lazy_sentinel4.py:280` `def to_dict(self)`
-- `Alert.save_to_db` (method) `lazy_sentinel4.py:288` `def save_to_db(self, db)`
-- `LazySentinelHandler.__init__` (method) `lazy_sentinel4.py:303` `def __init__(self, lazysentinel)`
-- `LazySentinelHandler.is_text_file` (method) `lazy_sentinel4.py:306` `def is_text_file(self, file_path)`
-- `LazySentinelHandler.on_created` (method) `lazy_sentinel4.py:316` `def on_created(self, event)`
-- `LazySentinelHandler.on_modified` (method) `lazy_sentinel4.py:328` `def on_modified(self, event)`
-- `LazySentinel.__init__` (method) `lazy_sentinel4.py:341` `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)`
-- `LazySentinel.chunk_text` (method) `lazy_sentinel4.py:361` `def chunk_text(self, text, chunk_size)`
-- `LazySentinel.select_relevant_chunk` (method) `lazy_sentinel4.py:364` `def select_relevant_chunk(self, file_content, chunks)`
-- `LazySentinel.parse_deepseek_response` (method) `lazy_sentinel4.py:378` `def parse_deepseek_response(self, response_text)`
-- `LazySentinel.show_popup` (method) `lazy_sentinel4.py:404` `def show_popup(self, file_name, relevant_info, commands, details)`
-- `LazySentinel.process_file` (method) `lazy_sentinel4.py:422` `def process_file(self, file_path)`
-- `LazySentinel.stop` (method) `lazy_sentinel4.py:538` `def stop(self)`
-- `App.__init__` (method) `lazy_sentinel4.py:545` `def __init__(self)`
-- `App.display_toastr` (method) `lazy_sentinel4.py:559` `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` -- Display a toastr-like notification for file processing alerts.
-- `App.postcmd` (method) `lazy_sentinel4.py:587` `def postcmd(self, stop, line)` -- Check the popup queue after each command and display toastr notifications.
-- `App.do_quit` (method) `lazy_sentinel4.py:611` `def do_quit(self, arg)`
-- `App.do_debug` (method) `lazy_sentinel4.py:615` `def do_debug(self, arg)`
-- `App.do_rag_query` (method) `lazy_sentinel4.py:624` `def do_rag_query(self, arg)`
-- `App.do_rag_add` (method) `lazy_sentinel4.py:632` `def do_rag_add(self, arg)`
-- `App.do_rag_status` (method) `lazy_sentinel4.py:647` `def do_rag_status(self, arg)`
-- `App.do_rag_toggle` (method) `lazy_sentinel4.py:654` `def do_rag_toggle(self, arg)`
-- `App.do_rag_bulk_add` (method) `lazy_sentinel4.py:659` `def do_rag_bulk_add(self, arg)`
-- `App.do_rag_search` (method) `lazy_sentinel4.py:678` `def do_rag_search(self, arg)`
-- `App.complete_rag_add` (method) `lazy_sentinel4.py:699` `def complete_rag_add(self, text, line, begidx, endidx)`
-- `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:706` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
+Depends on: `cli/toast_bus.py`, `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+- `sanitize_content` (function) `lazy_sentinel4.py:45` `def sanitize_content(text)` -- Sanitize text to ensure it's safe for rendering.
+- `RAGManager.__init__` (method) `lazy_sentinel4.py:59` `def __init__(self, model_name, cache_size)`
+- `RAGManager.initialize_cache_table` (method) `lazy_sentinel4.py:71` `def initialize_cache_table(self)`
+- `RAGManager.get_cache_key` (method) `lazy_sentinel4.py:83` `def get_cache_key(self, content)`
+- `RAGManager.load_existing_vectorstore` (method) `lazy_sentinel4.py:86` `def load_existing_vectorstore(self)`
+- `RAGManager.ollama_llm` (method) `lazy_sentinel4.py:99` `def ollama_llm(self, question, context)`
+- `RAGManager.process_file_to_rag` (method) `lazy_sentinel4.py:113` `def process_file_to_rag(self, file_path)`
+- `RAGManager.query_rag` (method) `lazy_sentinel4.py:153` `def query_rag(self, question)`
+- `RAGManager.invalidate_cache` (method) `lazy_sentinel4.py:175` `def invalidate_cache(self, file_path)`
+- `RAGManager.get_knowledge_base_stats` (method) `lazy_sentinel4.py:189` `def get_knowledge_base_stats(self)`
+- `Database.__init__` (method) `lazy_sentinel4.py:213` `def __init__(self, db_path)`
+- `Database.initialize` (method) `lazy_sentinel4.py:217` `def initialize(self)`
+- `Database.execute` (method) `lazy_sentinel4.py:241` `def execute(self, query, params)`
+- `Database.insert` (method) `lazy_sentinel4.py:253` `def insert(self, query, params)`
+- `Alert.__init__` (method) `lazy_sentinel4.py:272` `def __init__(self, alert_type, details, severity)`
+- `Alert.to_dict` (method) `lazy_sentinel4.py:278` `def to_dict(self)`
+- `Alert.save_to_db` (method) `lazy_sentinel4.py:286` `def save_to_db(self, db)`
+- `LazySentinelHandler.__init__` (method) `lazy_sentinel4.py:301` `def __init__(self, lazysentinel)`
+- `LazySentinelHandler.is_text_file` (method) `lazy_sentinel4.py:304` `def is_text_file(self, file_path)`
+- `LazySentinelHandler.on_created` (method) `lazy_sentinel4.py:314` `def on_created(self, event)`
+- `LazySentinelHandler.on_modified` (method) `lazy_sentinel4.py:326` `def on_modified(self, event)`
+- `LazySentinel.__init__` (method) `lazy_sentinel4.py:339` `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)`
+- `LazySentinel.chunk_text` (method) `lazy_sentinel4.py:359` `def chunk_text(self, text, chunk_size)`
+- `LazySentinel.select_relevant_chunk` (method) `lazy_sentinel4.py:362` `def select_relevant_chunk(self, file_content, chunks)`
+- `LazySentinel.parse_deepseek_response` (method) `lazy_sentinel4.py:376` `def parse_deepseek_response(self, response_text)`
+- `LazySentinel.show_popup` (method) `lazy_sentinel4.py:402` `def show_popup(self, file_name, relevant_info, commands, details)`
+- `LazySentinel.process_file` (method) `lazy_sentinel4.py:420` `def process_file(self, file_path)`
+- `LazySentinel.stop` (method) `lazy_sentinel4.py:536` `def stop(self)`
+- `App.__init__` (method) `lazy_sentinel4.py:543` `def __init__(self)`
+- `App.display_toastr` (method) `lazy_sentinel4.py:557` `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` -- Display the sentinel popup through the shared toast bus panel.
+- `App.postcmd` (method) `lazy_sentinel4.py:567` `def postcmd(self, stop, line)` -- Check the popup queue after each command and display toastr notifications.
+- `App.do_quit` (method) `lazy_sentinel4.py:591` `def do_quit(self, arg)`
+- `App.do_debug` (method) `lazy_sentinel4.py:595` `def do_debug(self, arg)`
+- `App.do_rag_query` (method) `lazy_sentinel4.py:604` `def do_rag_query(self, arg)`
+- `App.do_rag_add` (method) `lazy_sentinel4.py:612` `def do_rag_add(self, arg)`
+- `App.do_rag_status` (method) `lazy_sentinel4.py:627` `def do_rag_status(self, arg)`
+- `App.do_rag_toggle` (method) `lazy_sentinel4.py:634` `def do_rag_toggle(self, arg)`
+- `App.do_rag_bulk_add` (method) `lazy_sentinel4.py:639` `def do_rag_bulk_add(self, arg)`
+- `App.do_rag_search` (method) `lazy_sentinel4.py:658` `def do_rag_search(self, arg)`
+- `App.complete_rag_add` (method) `lazy_sentinel4.py:679` `def complete_rag_add(self, text, line, begidx, endidx)`
+- `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:686` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
 
 ## lazyc2.py
 Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `core/reverse_shell_secret.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/c2_surfaces.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
@@ -405,8 +442,9 @@ Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `test
 - `parse_addon_form` (function) `lazyc2/addon_creator.py:1080` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
 
 ## lazyc2/app_factory.py
-Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`
-- `create_app` (function) `lazyc2/app_factory.py:89` `def create_app()` -- Create and return a fully configured C2 Flask application.
+Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`, `modules/lazy_rbac.py`
+- `create_app` (function) `lazyc2/app_factory.py:90` `def create_app()` -- Create and return a fully configured C2 Flask application.
+- `_FactoryUser.__init__` (method) `lazyc2/app_factory.py:142` `def __init__(self, data)`
 
 ## lazyc2/blueprints/addons.py
 Depends on: `core/logging.py`, `lazyc2/addon_creator.py`, `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/security/csrf.py`
@@ -421,7 +459,7 @@ Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_addon_creator.py`, `te
 
 ## lazyc2/blueprints/api.py
 Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
-Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
+Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
 - `health` (function) `lazyc2/blueprints/api.py:108` `def health()` -- Health-check endpoint returning subsystem status.
 - `ping` (function) `lazyc2/blueprints/api.py:120` `def ping()` -- Lightweight liveness probe.
 - `require_api_auth_with_store` (function) `lazyc2/blueprints/api.py:129` `def require_api_auth_with_store(view)` -- Protect a view with the app-scoped API key store.
@@ -440,53 +478,6 @@ Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_api_v1.py`
 - `webhooks_list` (function) `lazyc2/blueprints/api_v1.py:180` `def webhooks_list()` -- List registered result webhooks.
 - `webhooks_register` (function) `lazyc2/blueprints/api_v1.py:191` `def webhooks_register()` -- Register a result webhook URL.
 - `webhooks_delete` (function) `lazyc2/blueprints/api_v1.py:228` `def webhooks_delete(index)` -- Remove a registered webhook by index.
-
-## lazyc2/blueprints/auth.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
-Imported by: `lazyc2/blueprints/__init__.py`, `lazygui/services/teamserver_backend.py`, `static/js/socket.io-4.0.0.min.js`, `static/js/socket.io-4.3.2.min.js`
-- `Role.valid_roles` (method) `lazyc2/blueprints/auth.py:51` `def valid_roles(cls)` -- Return valid role values.
-- `require_role` (function) `lazyc2/blueprints/auth.py:59` `def require_role(role)` -- Return a deny-by-default decorator when RBAC is unavailable.
-- `decorator` (function) `lazyc2/blueprints/auth.py:69` `def decorator(view)`
-- `wrapper` (function) `lazyc2/blueprints/auth.py:71` `def wrapper()`
-- `register` (function) `lazyc2/blueprints/auth.py:128` `def register()`
-- `login` (function) `lazyc2/blueprints/auth.py:187` `def login()`
-- `mfa_setup` (function) `lazyc2/blueprints/auth.py:232` `def mfa_setup()`
-- `mfa_qr` (function) `lazyc2/blueprints/auth.py:305` `def mfa_qr(username)`
-- `mfa_verify` (function) `lazyc2/blueprints/auth.py:327` `def mfa_verify()`
-- `profile` (function) `lazyc2/blueprints/auth.py:371` `def profile()`
-- `logout` (function) `lazyc2/blueprints/auth.py:396` `def logout()`
-- `admin_users` (function) `lazyc2/blueprints/auth.py:415` `def admin_users()`
-- `admin_set_role` (function) `lazyc2/blueprints/auth.py:432` `def admin_set_role(user_id)`
-- `admin_reset_mfa` (function) `lazyc2/blueprints/auth.py:454` `def admin_reset_mfa(user_id)`
-- `admin_delete_user` (function) `lazyc2/blueprints/auth.py:466` `def admin_delete_user(user_id)`
-- `admin_tenants` (function) `lazyc2/blueprints/auth.py:484` `def admin_tenants()`
-- `admin_create_tenant` (function) `lazyc2/blueprints/auth.py:504` `def admin_create_tenant()`
-- `admin_switch_tenant` (function) `lazyc2/blueprints/auth.py:523` `def admin_switch_tenant(tenant_id)`
-
-## lazyc2/blueprints/beacon.py
-Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-Imported by: `lazyc2/blueprints/__init__.py`
-- `init_beacon_bp` (function) `lazyc2/blueprints/beacon.py:35` `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...` -- Wire the blueprint to the C2 monolith's shared state.
-- `send_command` (function) `lazyc2/blueprints/beacon.py:111` `def send_command(client_id)` -- Implant polls for the next encrypted command.
-- `receive_result` (function) `lazyc2/blueprints/beacon.py:131` `def receive_result(client_id)` -- Implant reports command output.
-- `issue_command` (function) `lazyc2/blueprints/beacon.py:245` `def issue_command()` -- Operator queues a command for a connected implant.
-
-## lazyc2/blueprints/operations.py
-Depends on: `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/storage.py`
-Imported by: `lazyc2/blueprints/__init__.py`
-- `task_detail` (function) `lazyc2/blueprints/operations.py:33` `def task_detail(task_id)` -- View a single task by ID.
-- `get_tasks` (function) `lazyc2/blueprints/operations.py:48` `def get_tasks()` -- Return all tasks as JSON.
-- `tasks` (function) `lazyc2/blueprints/operations.py:57` `def tasks()` -- Render the tasks list page.
-- `edit_task` (function) `lazyc2/blueprints/operations.py:66` `def edit_task(task_id)` -- Edit an existing task.
-- `cves` (function) `lazyc2/blueprints/operations.py:92` `def cves()` -- List all CVEs or create a new one.
-- `cve_detail` (function) `lazyc2/blueprints/operations.py:117` `def cve_detail(cve_id)` -- View a single CVE by ID.
-- `edit_cve` (function) `lazyc2/blueprints/operations.py:132` `def edit_cve(cve_id)` -- Edit an existing CVE entry.
-- `edit_notes` (function) `lazyc2/blueprints/operations.py:158` `def edit_notes()` -- View or edit the operator notes.
-- `get_notes` (function) `lazyc2/blueprints/operations.py:173` `def get_notes()` -- Return notes as JSON.
-- `view_note` (function) `lazyc2/blueprints/operations.py:182` `def view_note()` -- Render the notes view page.
-- `event_config` (function) `lazyc2/blueprints/operations.py:192` `def event_config()` -- Return event configuration as JSON.
-- `event_config_view` (function) `lazyc2/blueprints/operations.py:198` `def event_config_view()` -- View or update event configuration.
-- `events` (function) `lazyc2/blueprints/operations.py:218` `def events()` -- Render the events page.
 
 
 Next: [API_p8.md](API_p8.md)

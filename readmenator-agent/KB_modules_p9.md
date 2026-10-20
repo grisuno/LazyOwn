@@ -187,7 +187,7 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `decorated` (function, line 544) `def decorated()`
   - `decorated` (function, line 570) `def decorated()`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
+- Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
 
 ## modules/lazy_roles.py
 - Doc: Lazy specialist roles for the autonomous loop.

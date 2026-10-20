@@ -1948,7 +1948,7 @@ Public MCP / CLI entry point for the engage verb.
 | `detach` | `bool` | `True` | When True (default) the orchestrator runs in a background thread and the call returns immediately with the engagement id; the operator polls progress via lazyown_engage_status. When False the call blocks until the kill-chain finishes and returns the full summary JSON. |
 | `auto` | `bool` | `False` | When True the engagement runs fully unattended. Approval is delegated to a `[`ScopeBoundAutoGate`](skills.lazyown_policy.py.md#scopeboundautogate)` that never prompts a human: it approves in-scope steps, denies out-of-scope steps when `[`scope_enforcement`](lazyown.py.md#lazyownshell-scope_enforcement)` is ``enforce`` (the single fail-closed safety boundary), and a client-ready report is generated when the run finishes. |
 
-**Returns:** `str` - JSON string with `[`engagement_id`](#engageorchestrator-engagement_id)` and `[`status`](modules.lazy_sandbox.py.md#status)` (started|done)
+**Returns:** `str` - JSON string with `[`engagement_id`](#engageorchestrator-engagement_id)` and ``status`` (started|done)
 plus the full result payload when detach is False.
 
 *Called by:* [`cmd_engage`](#cmd_engage)

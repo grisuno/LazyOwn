@@ -3,6 +3,10 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/lazyevilwimrm.sh` | execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida | modules | 1 | 0 |
+| `modules/lazygat.sh` | Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
+| `modules/lazyk8s.py` | Container and Kubernetes attack module. | modules | 32 | 1 |
+| `modules/lazylynis.sh` | Verificar si se proporcionó un argumento para el host remoto | modules | 1 | 0 |
 | `modules/lazymasscan.sh` | Nombre del script: lazymasscan.sh Autor: Gris Iscomeback Correo electrónico... | modules | 4 | 0 |
 | `modules/lazymobilerevshell.sh` | Verificar si se pasaron los argumentos de IP y puerto | modules | 0 | 0 |
 | `modules/lazynmap.sh` | Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico... | modules | 8 | 0 |
@@ -34,6 +38,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 24 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 23 | 5 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
+| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 11 | 6 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
 | `modules/mario.py` | - | modules | 1 | 0 |
 | `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 2 |
@@ -58,7 +63,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 4 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 30 | 8 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 31 | 12 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
 | `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 20 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 6 |
@@ -75,7 +80,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/reaction_bridge.py` | Reaction bridge between the reactive engine and the loop planner. | modules | 9 | 2 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 9 |
 | `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
-| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 28 | 7 |
+| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 28 | 8 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
 | `modules/reverse-shell.c` | reverse_shell_init: call_usermodehelper function is used to create user mode processes from... | modules | 2 | 0 |
@@ -130,12 +135,14 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/toposwarm_bridge.py` | modules/toposwarm_bridge.py | modules | 22 | 6 |
 | `modules/traffic_morpher.py` | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | modules | 11 | 1 |
 | `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 12 |
+| `modules/trigger_policy.py` | Declarative trigger policy: YAML seeds for the loop TriggerStore. | modules | 8 | 8 |
 | `modules/ttp_coverage.py` | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | modules | 13 | 1 |
 | `modules/ttpscope_bridge.py` | Secure bridge for the TTPScope MITRE ATT&CK research client. | modules | 33 | 1 |
 | `modules/unified_bridge.py` | UnifiedBridge — single API over all LazyOwn bridges and routing engines. | modules | 29 | 1 |
 | `modules/unified_dashboard.py` | Unified campaign dashboard — combines all state sources into one view. | modules | 15 | 2 |
 | `modules/update_db.sh` | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
 | `modules/venator.py` | - | modules | 34 | 0 |
+| `modules/verb_catalog.py` | Operator-owned YAML catalog of every routable shell verb. | modules | 17 | 9 |
 | `modules/vuln_bot_cli.py` | - | modules | 2 | 0 |
 | `modules/vulnbot.py` | list_files: Lista archivos en un directorio | modules | 21 | 1 |
 | `modules/websocket_beacon.py` | WebSocket beacon transport for modern C2 channels. | modules | 21 | 0 |
@@ -146,7 +153,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 64 | 36 |
+| `modules/world_model.py` | modules/world_model.py | modules | 64 | 41 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -315,6 +322,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/contract/__init__.py` | - | contract | 0 | 0 |
 | `tests/contract/test_suite_homologation.py` | SDD suite homologation contract for LazyOwn tests. | contract | 20 | 0 |
 | `tests/integration_autonomous_flow.py` | test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module... | tests | 1 | 0 |
+| `tests/mutation_common.py` | Shared driver for curated mutation runners. | tests | 5 | 3 |
 | `tests/run_mutation_addon_creator.py` | Manual mutation testing runner for the LazyAddon creator contract. | tests | 4 | 0 |
 | `tests/run_mutation_addon_updater.py` | Mutation runner for the lazyaddon update contract. | tests | 4 | 0 |
 | `tests/run_mutation_api_authz.py` | Mutation testing runner for core.api_authz and core.logging. | tests | 3 | 0 |
@@ -326,6 +334,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/run_mutation_infra_report.py` | Mutation runner for the disposable infra and reporting contracts. | tests | 4 | 0 |
 | `tests/run_mutation_killchain.py` | Manual mutation testing runner for the unified kill-chain contract. | tests | 4 | 0 |
 | `tests/run_mutation_llm.py` | Mutation runner for the LLM subsystem contract. | tests | 4 | 0 |
+| `tests/run_mutation_loop_cli_catalog.py` | Mutation runner for the planner catalog visibility contract. | tests | 1 | 0 |
 | `tests/run_mutation_no_shell.py` | Mutation gate for the no-shell execution contract. | tests | 2 | 0 |
 | `tests/run_mutation_opsec.py` | Mutation runner for the consolidated OPSEC scorer contract. | tests | 4 | 0 |
 | `tests/run_mutation_orchestrator_yaml.py` | Mutation runner for the orchestrator YAML contract. | tests | 4 | 0 |
@@ -333,7 +342,9 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/run_mutation_phase1.py` | Mutation testing runner for Phase 1 data-gap closure. | tests | 4 | 0 |
 | `tests/run_mutation_shell_semantics.py` | Mutation gate for shell semantics and colored output. | tests | 2 | 0 |
 | `tests/run_mutation_tests.py` | Manual mutation testing runner for LazyOwn connectivity improvements. | tests | 4 | 0 |
+| `tests/run_mutation_trigger_policy.py` | Mutation runner for the trigger policy contract. | tests | 1 | 0 |
 | `tests/run_mutation_ux_usability.py` | Mutation testing runner for the UX usability contracts. | tests | 4 | 0 |
+| `tests/run_mutation_verb_catalog.py` | Mutation runner for the verb catalog contract. | tests | 1 | 0 |
 | `tests/test_aci_planner.py` | tests/test_aci_planner.py | tests | 95 | 0 |
 | `tests/test_addon_creator.py` | Tests for the LazyAddon creator contract and C2 blueprint. | tests | 86 | 0 |
 | `tests/test_addon_updater.py` | Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware. | tests | 13 | 0 |
@@ -485,16 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_llm_legacy_isolation.py` | Watchdog: core must not depend on the retired legacy Groq LLM scripts. | tests | 4 | 0 |
 | `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
 | `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
-| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 14 | 0 |
-| `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
-| `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
-| `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
-| `tests/test_loop_cold_overview.py` | Cold debounce + planner overview parity (lazy 0.3.8 coldgraph). | tests | 6 | 0 |
-| `tests/test_loop_force_graph.py` | Loop ForceGraph context regression tests (lazy 0.3.12 fidelity). | tests | 4 | 0 |
-| `tests/test_loop_guard_audit.py` | Guard audit filters + tool_use_id source jump (lazy 0.3.11/0.3.12 parity). | tests | 4 | 0 |
-| `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
-| `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 18 | 0 |
-| `tests/test_loop_mentions.py` | Lazy mentions multi-type search and scroll pagination. | tests | 2 | 0 |
-| `tests/test_loop_nmap_guard.py` | Loop guardrails: command repair and bounded scanning retests. | tests | 8 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

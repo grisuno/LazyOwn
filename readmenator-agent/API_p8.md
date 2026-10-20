@@ -1,6 +1,69 @@
 # API (page 8 of 23)
 Previous: [API_p7.md](API_p7.md)
 
+## lazyc2/blueprints/auth.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
+Imported by: `lazyc2/blueprints/__init__.py`, `lazygui/services/teamserver_backend.py`, `static/js/socket.io-4.0.0.min.js`, `static/js/socket.io-4.3.2.min.js`
+- `Role.valid_roles` (method) `lazyc2/blueprints/auth.py:51` `def valid_roles(cls)` -- Return valid role values.
+- `require_role` (function) `lazyc2/blueprints/auth.py:59` `def require_role(role)` -- Return a deny-by-default decorator when RBAC is unavailable.
+- `decorator` (function) `lazyc2/blueprints/auth.py:69` `def decorator(view)`
+- `wrapper` (function) `lazyc2/blueprints/auth.py:71` `def wrapper()`
+- `register` (function) `lazyc2/blueprints/auth.py:128` `def register()`
+- `login` (function) `lazyc2/blueprints/auth.py:187` `def login()`
+- `mfa_setup` (function) `lazyc2/blueprints/auth.py:232` `def mfa_setup()`
+- `mfa_qr` (function) `lazyc2/blueprints/auth.py:305` `def mfa_qr(username)`
+- `mfa_verify` (function) `lazyc2/blueprints/auth.py:327` `def mfa_verify()`
+- `profile` (function) `lazyc2/blueprints/auth.py:371` `def profile()`
+- `logout` (function) `lazyc2/blueprints/auth.py:396` `def logout()`
+- `admin_users` (function) `lazyc2/blueprints/auth.py:415` `def admin_users()`
+- `admin_set_role` (function) `lazyc2/blueprints/auth.py:432` `def admin_set_role(user_id)`
+- `admin_reset_mfa` (function) `lazyc2/blueprints/auth.py:454` `def admin_reset_mfa(user_id)`
+- `admin_delete_user` (function) `lazyc2/blueprints/auth.py:466` `def admin_delete_user(user_id)`
+- `admin_tenants` (function) `lazyc2/blueprints/auth.py:484` `def admin_tenants()`
+- `admin_create_tenant` (function) `lazyc2/blueprints/auth.py:504` `def admin_create_tenant()`
+- `admin_switch_tenant` (function) `lazyc2/blueprints/auth.py:523` `def admin_switch_tenant(tenant_id)`
+
+## lazyc2/blueprints/beacon.py
+Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+Imported by: `lazyc2/blueprints/__init__.py`
+- `init_beacon_bp` (function) `lazyc2/blueprints/beacon.py:35` `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...` -- Wire the blueprint to the C2 monolith's shared state.
+- `send_command` (function) `lazyc2/blueprints/beacon.py:111` `def send_command(client_id)` -- Implant polls for the next encrypted command.
+- `receive_result` (function) `lazyc2/blueprints/beacon.py:131` `def receive_result(client_id)` -- Implant reports command output.
+- `issue_command` (function) `lazyc2/blueprints/beacon.py:245` `def issue_command()` -- Operator queues a command for a connected implant.
+
+## lazyc2/blueprints/operations.py
+Depends on: `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/storage.py`
+Imported by: `lazyc2/blueprints/__init__.py`
+- `task_detail` (function) `lazyc2/blueprints/operations.py:33` `def task_detail(task_id)` -- View a single task by ID.
+- `get_tasks` (function) `lazyc2/blueprints/operations.py:48` `def get_tasks()` -- Return all tasks as JSON.
+- `tasks` (function) `lazyc2/blueprints/operations.py:57` `def tasks()` -- Render the tasks list page.
+- `edit_task` (function) `lazyc2/blueprints/operations.py:66` `def edit_task(task_id)` -- Edit an existing task.
+- `cves` (function) `lazyc2/blueprints/operations.py:92` `def cves()` -- List all CVEs or create a new one.
+- `cve_detail` (function) `lazyc2/blueprints/operations.py:117` `def cve_detail(cve_id)` -- View a single CVE by ID.
+- `edit_cve` (function) `lazyc2/blueprints/operations.py:132` `def edit_cve(cve_id)` -- Edit an existing CVE entry.
+- `edit_notes` (function) `lazyc2/blueprints/operations.py:158` `def edit_notes()` -- View or edit the operator notes.
+- `get_notes` (function) `lazyc2/blueprints/operations.py:173` `def get_notes()` -- Return notes as JSON.
+- `view_note` (function) `lazyc2/blueprints/operations.py:182` `def view_note()` -- Render the notes view page.
+- `event_config` (function) `lazyc2/blueprints/operations.py:192` `def event_config()` -- Return event configuration as JSON.
+- `event_config_view` (function) `lazyc2/blueprints/operations.py:198` `def event_config_view()` -- View or update event configuration.
+- `events` (function) `lazyc2/blueprints/operations.py:218` `def events()` -- Render the events page.
+
+## lazyc2/blueprints/orchestrator.py
+Depends on: `core/logging.py`, `lazyc2/blueprints/api.py`, `modules/__init__.py`, `modules/killchain.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
+Imported by: `lazyc2/app_factory.py`, `tests/test_orchestrator_api.py`
+- `status` (function) `lazyc2/blueprints/orchestrator.py:104` `def status()` -- One-call awareness: world model, verbs, triggers and stages.
+- `world` (function) `lazyc2/blueprints/orchestrator.py:111` `def world()` -- Return the raw world-model + kill chain snapshot.
+- `verbs` (function) `lazyc2/blueprints/orchestrator.py:125` `def verbs()` -- Verb catalog view with optional search filtering.
+- `verbs_toggle` (function) `lazyc2/blueprints/orchestrator.py:149` `def verbs_toggle()` -- Flip one loop verb between enabled and disabled.
+- `stages_toggle` (function) `lazyc2/blueprints/orchestrator.py:166` `def stages_toggle()` -- Flip one autonomous-loop stage between enabled and disabled.
+- `stage_names` (function) `lazyc2/blueprints/orchestrator.py:180` `def stage_names()` -- Return the known stage names (fallback builtins included).
+- `triggers` (function) `lazyc2/blueprints/orchestrator.py:193` `def triggers()` -- List the scheduler triggers pinned in the store.
+- `triggers_add` (function) `lazyc2/blueprints/orchestrator.py:202` `def triggers_add()` -- Register one scheduler trigger from the JSON body.
+- `triggers_seed` (function) `lazyc2/blueprints/orchestrator.py:222` `def triggers_seed()` -- Re-merge the declarative YAML seeds into the store once.
+- `triggers_delete` (function) `lazyc2/blueprints/orchestrator.py:231` `def triggers_delete(trigger_id)` -- Remove one scheduler trigger by id.
+- `panel` (function) `lazyc2/blueprints/orchestrator.py:242` `def panel()` -- Dashboard panel mirroring the orchestrator console state.
+- `panel_json` (function) `lazyc2/blueprints/orchestrator.py:262` `def panel_json()` -- JSON mirror of the panel payload for automation.
+
 ## lazyc2/blueprints/phishing.py
 Depends on: `core/logging.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/security/validators.py`, `modules/security_sanitizers.py`, `utils.py`
 Imported by: `lazyc2/blueprints/__init__.py`
@@ -430,40 +493,6 @@ Imported by: `lazygui/windows/__init__.py`, `lazygui/windows/main_window.py`
 - `CommandPaletteWindow.set_actions` (method) `lazygui/windows/command_palette_window.py:43` `def set_actions(self, actions)` -- Replace the action set on the underlying list.
 - `CommandPaletteWindow.keyPressEvent` (method) `lazygui/windows/command_palette_window.py:48` `def keyPressEvent(self, event)` -- Intercept Enter and Esc, otherwise delegate to the search box.
 - `CommandPaletteWindow.showEvent` (method) `lazygui/windows/command_palette_window.py:71` `def showEvent(self, event)` -- Move keyboard focus into the search box on every open.
-
-## lazygui/windows/connect_dialog.py
-Depends on: `lazygui/config/c2_credentials.py`, `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
-Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`
-- `ConnectDialog.__init__` (method) `lazygui/windows/connect_dialog.py:53` `def __init__(self, constants, settings, paths, parent)` -- Build the form and pre-fill from persisted settings + credentials file.
-- `ConnectDialog.request` (method) `lazygui/windows/connect_dialog.py:105` `def request(self)` -- Translate current widget state into a :class:`ConnectionRequest`.
-- `ConnectDialog.persist_choice` (method) `lazygui/windows/connect_dialog.py:120` `def persist_choice(self)` -- Save the picked values back into :class:`AppSettings`.
-
-## lazygui/windows/main_window.py
-Depends on: `lazygui/config/constants.py`, `lazygui/config/settings.py`, `lazygui/panels/registry.py`, `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/models.py`, `lazygui/theme/manager.py`, `lazygui/theme/tokens.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/command_palette_window.py`
-Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`
-- `MainWindow.__init__` (method) `lazygui/windows/main_window.py:40` `def __init__(self, constants, settings, theme_manager, backend, event_log, parent)` -- Wire the dependencies and build the full layout.
-- `MainWindow.closeEvent` (method) `lazygui/windows/main_window.py:99` `def closeEvent(self, event)` -- Persist geometry, layout and theme before closing.
-- `MainWindow.window_requests_connect` (method) `lazygui/windows/main_window.py:376` `def window_requests_connect(self)` -- Hook overridden by :class:`Application` to swap backend at runtime.
-- `MainWindow.status_badge` (method) `lazygui/windows/main_window.py:393` `def status_badge(self)` -- Expose the badge so the application can update it on backend swaps.
-- `MainWindow.panels` (method) `lazygui/windows/main_window.py:398` `def panels(self)` -- Expose the panel registry for backend swaps.
-
-## lazyown-docker/hostdiscover.sh
-- `extract_ips_from_arp` (function) `lazyown-docker/hostdiscover.sh:21`
-- `extract_listening_ips_from_netstat` (function) `lazyown-docker/hostdiscover.sh:26`
-
-## lazyown-docker/mkdocker.sh
-- `usage` (function) `lazyown-docker/mkdocker.sh:23` -- Help message
-- `log` (function) `lazyown-docker/mkdocker.sh:36` -- Log function
-- `check_docker` (function) `lazyown-docker/mkdocker.sh:41` -- Check if Docker is running
-- `check_file` (function) `lazyown-docker/mkdocker.sh:49` -- Check if file exists
-- `container_exists` (function) `lazyown-docker/mkdocker.sh:58` -- Check if container exists
-- `image_exists` (function) `lazyown-docker/mkdocker.sh:63` -- Check if image exists
-- `get_ports` (function) `lazyown-docker/mkdocker.sh:68` -- Get ports from payload.json
-- `build_image` (function) `lazyown-docker/mkdocker.sh:93` -- Build Docker image
-- `validate_payload` (function) `lazyown-docker/mkdocker.sh:109` -- Validate payload.json exists
-- `run_container` (function) `lazyown-docker/mkdocker.sh:117` -- Run container
-- `stop_container` (function) `lazyown-docker/mkdocker.sh:187` -- Stop container
-- `clean_container_and_image` (function) `lazyown-docker/mkdocker.sh:197` -- Clean container and image
 
 
 Next: [API_p9.md](API_p9.md)

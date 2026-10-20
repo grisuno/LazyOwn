@@ -1,4 +1,4 @@
-# Subsystem: tests (page 7 of 17)
+# Subsystem: tests (page 7 of 18)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
 ## tests/test_daemon_loop.py

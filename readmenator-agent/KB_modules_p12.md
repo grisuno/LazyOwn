@@ -1,6 +1,56 @@
 # Subsystem: modules (page 12 of 15)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/nmap2csv.py
+- Doc: This file is part of nmaptocsv.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `dottedquad_to_num` (function, line 126) `def dottedquad_to_num(ip)`
+  - `num_to_dottedquad` (function, line 133) `def num_to_dottedquad(n)`
+  - `unique_match_from_list` (function, line 140) `def unique_match_from_list(list)`
+  - `extract_matching_pattern` (function, line 156) `def extract_matching_pattern(regex, group_name, unfiltered_list)`
+  - `Host` (class, line 176) `class Host`
+  - `Port` (class, line 282) `class Port`
+  - `split_grepable_match` (function, line 315) `def split_grepable_match(raw_string)`
+  - `parse` (function, line 362) `def parse(fd)`
+  - `parse_xml` (function, line 492) `def parse_xml(xml_file)`
+  - `is_format_valid` (function, line 572) `def is_format_valid(fmt)`
+  - `formatted_item` (function, line 606) `def formatted_item(host, format_item)`
+  - `repeat_attributes` (function, line 639) `def repeat_attributes(attribute_list)`
+  - `generate_csv` (function, line 653) `def generate_csv(fd, results, options)`
+  - `main` (function, line 688) `def main()`
+  - `__init__` (method, line 177) `def __init__(self, ip, fqdn)`
+  - `add_port` (method, line 188) `def add_port(self, port)`
+  - `get_ip_num_format` (method, line 192) `def get_ip_num_format(self)`
+  - `get_ip_dotted_format` (method, line 195) `def get_ip_dotted_format(self)`
+  - `get_fqdn` (method, line 198) `def get_fqdn(self)`
+  - `get_rdns_record` (method, line 201) `def get_rdns_record(self)`
+  - `get_port_list` (method, line 204) `def get_port_list(self)`
+  - `get_port_number_list` (method, line 207) `def get_port_number_list(self)`
+  - `get_port_protocol_list` (method, line 216) `def get_port_protocol_list(self)`
+  - `get_port_service_list` (method, line 225) `def get_port_service_list(self)`
+  - `get_port_version_list` (method, line 234) `def get_port_version_list(self)`
+  - `get_port_script_list` (method, line 243) `def get_port_script_list(self)`
+  - `get_os` (method, line 252) `def get_os(self)`
+  - `get_mac_address` (method, line 255) `def get_mac_address(self)`
+  - `get_mac_address_vendor` (method, line 258) `def get_mac_address_vendor(self)`
+  - `get_network_distance` (method, line 261) `def get_network_distance(self)`
+  - `set_fqdn` (method, line 265) `def set_fqdn(self, fqdn)`
+  - `set_rdns_record` (method, line 268) `def set_rdns_record(self, rdns_record)`
+  - `set_os` (method, line 271) `def set_os(self, os)`
+  - `set_mac` (method, line 274) `def set_mac(self, mac_address, mac_address_vendor)`
+  - `set_network_distance` (method, line 278) `def set_network_distance(self, network_distance)`
+  - `__init__` (method, line 283) `def __init__(self, number, protocol, service, version, script)`
+  - `get_number` (method, line 290) `def get_number(self)`
+  - `get_protocol` (method, line 293) `def get_protocol(self)`
+  - `get_service` (method, line 296) `def get_service(self)`
+  - `get_version` (method, line 299) `def get_version(self)`
+  - `get_script` (method, line 302) `def get_script(self)`
+  - `set_service` (method, line 305) `def set_service(self, service)`
+  - `set_version` (method, line 308) `def set_version(self, version)`
+  - `set_script` (method, line 311) `def set_script(self, script)`
+
 ## modules/notify.py
 - Doc: Stateless multi-channel notifier for finding events.
 - Layer: utility
@@ -232,14 +282,15 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `stage_params` (function, line 364) `def stage_params(name)`
   - `set_stage` (function, line 369) `def set_stage(name, enabled)`
   - `effective_verbs` (function, line 394) `def effective_verbs()`
-  - `verb_config` (function, line 446) `def verb_config(name)`
-  - `verb_enabled` (function, line 455) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 461) `def upsert_verb(name)`
-  - `remove_verb` (function, line 518) `def remove_verb(name)`
-  - `reset` (function, line 539) `def reset()`
-  - `validate_config` (function, line 546) `def validate_config(data)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+  - `_catalog_verbs` (function, line 448) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 485) `def verb_config(name)`
+  - `verb_enabled` (function, line 494) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 500) `def upsert_verb(name)`
+  - `remove_verb` (function, line 557) `def remove_verb(name)`
+  - `reset` (function, line 578) `def reset()`
+  - `validate_config` (function, line 585) `def validate_config(data)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -443,42 +494,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `_replace` (function, line 282) `def _replace(match)`
 - Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
 - Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
-
-## modules/planner.py
-- Doc: Fact-based planner — decides the next ability to run.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlanCandidate` (class, line 41) `class PlanCandidate`
-  - `PlanResult` (class, line 54) `class PlanResult`
-  - `_gather_facts` (function, line 64) `def _gather_facts(world_model, obs_parser)`
-  - `_risk_for` (function, line 160) `def _risk_for(technique_id)`
-  - `_score_step` (function, line 225) `def _score_step(step, facts)`
-  - `Planner` (class, line 260) `class Planner`
-  - `get_planner` (function, line 446) `def get_planner(api_key)`
-  - `TodoItem` (class, line 452) `class TodoItem`
-  - `TodoList` (class, line 460) `class TodoList`
-  - `Frontier` (class, line 505) `class Frontier`
-  - `__init__` (method, line 269) `def __init__(self, world_model, obs_parser, api_key)`
-  - `_wm` (method, line 279) `def _wm(self)`
-  - `_parser` (method, line 294) `def _parser(self)`
-  - `plan` (method, line 313) `def plan(self, target, max_candidates)`
-  - `_build_rationale` (method, line 374) `def _build_rationale(chosen, facts, target)`
-  - `_llm_tiebreak` (method, line 387) `def _llm_tiebreak(self, target, facts, candidates)`
-  - `to_dict` (method, line 413) `def to_dict(self, result)`
-  - `__init__` (method, line 468) `def __init__(self)`
-  - `todo_add` (method, line 472) `def todo_add(self, name, requires)`
-  - `todo_done` (method, line 478) `def todo_done(self, name)`
-  - `next_ready` (method, line 489) `def next_ready(self)`
-  - `blocks` (method, line 497) `def blocks(self, tactic)`
-  - `__init__` (method, line 514) `def __init__(self, planner, todos)`
-  - `todos` (method, line 523) `def todos(self)`
-  - `tried` (method, line 528) `def tried(self)`
-  - `refill` (method, line 532) `def refill(self, target, max_intents)`
-  - `pop` (method, line 551) `def pop(self)`
-  - `__len__` (method, line 560) `def __len__(self)`
-- Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

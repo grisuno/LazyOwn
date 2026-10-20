@@ -57,19 +57,19 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_addon` (method, line 1989) `def do_lazy_addon(self, line)`
   - `do_lazy_notify` (method, line 2095) `def do_lazy_notify(self, line)`
   - `do_lazy_trigger` (method, line 2143) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2202) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2339) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2411) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2435) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2440) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2471) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2502) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2523) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2556) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2583) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2628) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2652) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2715) `def do_lazy_install(self, line)`
+  - `do_lazy_llm` (method, line 2230) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2367) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2439) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2463) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2468) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2499) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2530) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2551) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2584) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2611) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2656) `def do_lazy_loop(self, line)`
+  - `do_lazy_sandbox` (method, line 2680) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2743) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`

@@ -10,7 +10,7 @@ nodes; it cannot reflect an engagement in progress. This module builds a
 authoritative campaign state written by the autonomous daemon and the CLI).
 
 The output is a vis-network-friendly payload — ``nodes``, ``edges`` and a
-``stats`` block — that the ``/surface_live`` page polls on an interval so the
+`[`stats`](modules.verb_catalog.py.md#stats)` block — that the ``/surface_live`` page polls on an interval so the
 topology updates as hosts move from *unscanned* to *owned*. Compromised hosts
 and high-centrality pivot points are flagged with ``pulse`` so the front end
 can animate them.
@@ -56,7 +56,7 @@ Build a live vis-network payload from a world-model snapshot.
 |---|---|---|---|
 | `world` | `dict[str, Any]` |  | Parsed ``world_model.json`` content. Missing or malformed sections degrade gracefully to an empty graph. |
 
-**Returns:** `dict[str, Any]` - A dictionary with ``nodes``, ``edges`` and ``stats`` keys. Each node
+**Returns:** `dict[str, Any]` - A dictionary with ``nodes``, ``edges`` and `[`stats`](modules.verb_catalog.py.md#stats)` keys. Each node
 carries ``id``, ``label``, `[`group`](cli.banner_config.py.md#segmentspec-group)`, ``state``, ``centrality``,
 ``value``, ``pulse`` and ``title``. Each edge carries ``from``, ``to``,
 ``relation`` and ``value``.

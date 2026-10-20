@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 778,
-  "entities": 14744,
+  "modules": 785,
+  "entities": 14838,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 667,
+   "py": 674,
    "sh": 59
   },
   "kinds": {
-   "attribute": 4168,
-   "class": 1370,
+   "attribute": 4196,
+   "class": 1377,
    "classmethod": 81,
-   "constant": 1247,
+   "constant": 1257,
    "constructor": 513,
    "enum": 38,
    "exception": 37,
-   "function": 2599,
+   "function": 2634,
    "macro": 113,
-   "method": 3472,
-   "module": 778,
+   "method": 3479,
+   "module": 785,
    "property": 187,
    "protocol": 14,
    "staticmethod": 91,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 320,
+  "skipped_files": 331,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6890,
-   "total": 9317,
-   "percent": 74.0
+   "documented": 6946,
+   "total": 9373,
+   "percent": 74.1
   },
   "by_kind": {
    "class": {
-    "documented": 1182,
-    "total": 1370,
+    "documented": 1189,
+    "total": 1377,
     "percent": 86.3
    },
    "classmethod": {
@@ -72,9 +72,9 @@
     "percent": 94.6
    },
    "function": {
-    "documented": 1704,
-    "total": 2599,
-    "percent": 65.6
+    "documented": 1739,
+    "total": 2634,
+    "percent": 66.0
    },
    "macro": {
     "documented": 3,
@@ -82,14 +82,14 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2793,
-    "total": 3472,
-    "percent": 80.4
+    "documented": 2800,
+    "total": 3479,
+    "percent": 80.5
    },
    "module": {
-    "documented": 656,
-    "total": 778,
-    "percent": 84.3
+    "documented": 663,
+    "total": 785,
+    "percent": 84.5
    },
    "property": {
     "documented": 143,
@@ -618,6 +618,11 @@
     "total": 8,
     "percent": 100.0
    },
+   "cli/commands/verb_admin.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "cli/config_history.py": {
     "documented": 10,
     "total": 10,
@@ -709,8 +714,8 @@
     "percent": 100.0
    },
    "cli/lazy_orchestrator.py": {
-    "documented": 42,
-    "total": 42,
+    "documented": 17,
+    "total": 17,
     "percent": 100.0
    },
    "cli/lazynmap_post.py": {
@@ -731,6 +736,11 @@
    "cli/ops_commands.py": {
     "documented": 26,
     "total": 26,
+    "percent": 100.0
+   },
+   "cli/orchestrator_assets_tabs.py": {
+    "documented": 32,
+    "total": 32,
     "percent": 100.0
    },
    "cli/output_mode.py": {
@@ -818,6 +828,11 @@
     "total": 10,
     "percent": 100.0
    },
+   "cli/session_brief.py": {
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
+   },
    "cli/session_hud.py": {
     "documented": 9,
     "total": 9,
@@ -879,8 +894,8 @@
     "percent": 100.0
    },
    "cli/toast_bus.py": {
-    "documented": 37,
-    "total": 37,
+    "documented": 42,
+    "total": 42,
     "percent": 100.0
    },
    "cli/tui_forms.py": {
@@ -1391,6 +1406,11 @@
    "lazyc2/blueprints/operations.py": {
     "documented": 14,
     "total": 14,
+    "percent": 100.0
+   },
+   "lazyc2/blueprints/orchestrator.py": {
+    "documented": 13,
+    "total": 13,
     "percent": 100.0
    },
    "lazyc2/blueprints/phishing.py": {
@@ -2474,8 +2494,8 @@
     "percent": 100.0
    },
    "modules/lazy_loop.py": {
-    "documented": 292,
-    "total": 292,
+    "documented": 285,
+    "total": 285,
     "percent": 100.0
    },
    "modules/lazy_mentions.py": {
@@ -2731,6 +2751,11 @@
    "modules/loop_progress.py": {
     "documented": 12,
     "total": 12,
+    "percent": 100.0
+   },
+   "modules/loop_triggers.py": {
+    "documented": 10,
+    "total": 10,
     "percent": 100.0
    },
    "modules/macos_payloads.py": {
@@ -3208,6 +3233,11 @@
     "total": 19,
     "percent": 100.0
    },
+   "modules/trigger_policy.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
    "modules/ttp_coverage.py": {
     "documented": 6,
     "total": 11,
@@ -3237,6 +3267,11 @@
     "documented": 0,
     "total": 34,
     "percent": 0.0
+   },
+   "modules/verb_catalog.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
    },
    "modules/vuln_bot_cli.py": {
     "documented": 1,
@@ -4512,6 +4547,11 @@
    "entities": 10
   },
   {
+   "uid": "cli/commands/verb_admin.py",
+   "path": "modules/cli.commands.verb_admin.py.jsonl",
+   "entities": 11
+  },
+  {
    "uid": "cli/config_history.py",
    "path": "modules/cli.config_history.py.jsonl",
    "entities": 12
@@ -4604,7 +4644,7 @@
   {
    "uid": "cli/lazy_orchestrator.py",
    "path": "modules/cli.lazy_orchestrator.py.jsonl",
-   "entities": 44
+   "entities": 19
   },
   {
    "uid": "cli/lazynmap_post.py",
@@ -4625,6 +4665,11 @@
    "uid": "cli/ops_commands.py",
    "path": "modules/cli.ops_commands.py.jsonl",
    "entities": 31
+  },
+  {
+   "uid": "cli/orchestrator_assets_tabs.py",
+   "path": "modules/cli.orchestrator_assets_tabs.py.jsonl",
+   "entities": 37
   },
   {
    "uid": "cli/output_mode.py",
@@ -4712,6 +4757,11 @@
    "entities": 21
   },
   {
+   "uid": "cli/session_brief.py",
+   "path": "modules/cli.session_brief.py.jsonl",
+   "entities": 11
+  },
+  {
    "uid": "cli/session_hud.py",
    "path": "modules/cli.session_hud.py.jsonl",
    "entities": 24
@@ -4774,7 +4824,7 @@
   {
    "uid": "cli/toast_bus.py",
    "path": "modules/cli.toast_bus.py.jsonl",
-   "entities": 71
+   "entities": 86
   },
   {
    "uid": "cli/tui_forms.py",
@@ -5284,6 +5334,11 @@
   {
    "uid": "lazyc2/blueprints/operations.py",
    "path": "modules/lazyc2.blueprints.operations.py.jsonl",
+   "entities": 14
+  },
+  {
+   "uid": "lazyc2/blueprints/orchestrator.py",
+   "path": "modules/lazyc2.blueprints.orchestrator.py.jsonl",
    "entities": 14
   },
   {
@@ -6369,7 +6424,7 @@
   {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 297
+   "entities": 290
   },
   {
    "uid": "modules/lazy_mentions.py",
@@ -6625,6 +6680,11 @@
    "uid": "modules/loop_progress.py",
    "path": "modules/modules.loop_progress.py.jsonl",
    "entities": 30
+  },
+  {
+   "uid": "modules/loop_triggers.py",
+   "path": "modules/modules.loop_triggers.py.jsonl",
+   "entities": 11
   },
   {
    "uid": "modules/macos_payloads.py",
@@ -7102,6 +7162,11 @@
    "entities": 33
   },
   {
+   "uid": "modules/trigger_policy.py",
+   "path": "modules/modules.trigger_policy.py.jsonl",
+   "entities": 7
+  },
+  {
    "uid": "modules/ttp_coverage.py",
    "path": "modules/modules.ttp_coverage.py.jsonl",
    "entities": 19
@@ -7130,6 +7195,11 @@
    "uid": "modules/venator.py",
    "path": "modules/modules.venator.py.jsonl",
    "entities": 37
+  },
+  {
+   "uid": "modules/verb_catalog.py",
+   "path": "modules/modules.verb_catalog.py.jsonl",
+   "entities": 20
   },
   {
    "uid": "modules/vuln_bot_cli.py",

@@ -235,7 +235,7 @@ Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
 
 Modes: ``session`` (past command outcomes by phase/target),
 ``keyword`` (search all parquets), ``context`` (phase briefing),
-``stats`` and ``list``. Mirrors the ``lazyown_parquet_query`` MCP tool.
+`[`stats`](modules.verb_catalog.py.md#stats)` and ``list``. Mirrors the ``lazyown_parquet_query`` MCP tool.
 
 **Parameters**
 
@@ -259,7 +259,7 @@ def do_threat_model(self, args: argparse.Namespace) -> None
 
 Build or inspect the threat model derived from session events.
 
-Actions: ``build`` (default) regenerates the model, `[`load`](modules.session_state.py.md#load)` shows the
+Actions: ``build`` (default) regenerates the model, ``load`` shows the
 cached one, ``ttps`` lists observed ATT&CK techniques. Mirrors the
 ``lazyown_threat_model`` MCP tool.
 

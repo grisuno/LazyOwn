@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 162 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 165 files (c, py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -17,7 +17,7 @@ graph LR
     cli -- "calls into" --> tests
     contrib -- "depends on" --> root
     modules -- "calls into" --> cli
-    modules -- "depends on" --> core
+    modules -- "calls into" --> core
     modules -- "calls into" --> root
     root -- "calls into" --> cli
     root -- "calls into" --> core
@@ -29,31 +29,31 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (1.1)
+## cli (2.1)
 
-cli groups 68 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 69 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
-## contrib (1.2)
+## contrib (2.2)
 
 contrib groups 1 files (py) around check_sudo, start_smb_server, start_smb_relay, CustomSMBRelayServer, __init__.
 
-## core (1.3)
+## core (2.3)
 
-core groups 10 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Configuration loader and Config wrapper.
+core groups 11 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Configuration loader and Config wrapper.
 
-## modules (1.4)
+## modules (2.4)
 
-modules groups 33 files (c, py) around TlsProfile, get_cipher_suites, get_ja3_hash, from_dict, to_dict. Git update contract for lazyaddons.
+modules groups 34 files (c, py) around TlsProfile, get_cipher_suites, get_ja3_hash, from_dict, to_dict. Git update contract for lazyaddons.
 
-## root (1.5)
+## root (2.5)
 
 root groups 2 files (py) around needs_sudo, sudo_available, redact_secrets, parse_ip_mac, create_arp_packet. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## scripts (1.6)
+## scripts (2.6)
 
 scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, main. Smoke check for the public surfaces documented in CORE.md.
 
-## tests (1.7)
+## tests (2.7)
 
 tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
 
@@ -63,7 +63,6 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/aliases.py
 - cli/banner_config.py
 - cli/cli_enhancements.py
-- cli/commands/__init__.py
 - cli/commands/_base.py
 - cli/commands/_dormancy.py
 - cli/commands/anti_forensics.py
@@ -80,6 +79,7 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
+- cli/commands/defaults.py
 - cli/commands/demo.py
 - cli/commands/diagnostics.py
 - cli/commands/dns_exfil.py
@@ -89,6 +89,7 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/evasive_payload.py
 - cli/commands/exfiltration.py
 - cli/commands/exploit.py
+- cli/commands/exploitgym.py
 - cli/commands/infra.py
 - cli/commands/lab.py
 - cli/commands/lateral.py
@@ -99,7 +100,6 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/mobile_macos.py
 - cli/commands/module_manager.py
 - cli/commands/nethelpers.py
-- cli/commands/orchestration.py
 - cli/commands/payload_generation.py
 - cli/commands/persist.py
 - cli/commands/persist_migrated.py
@@ -118,6 +118,7 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/socks_proxy.py
 - cli/commands/supply_chain.py
 - cli/commands/ux.py
+- cli/commands/verb_admin.py
 - cli/config_history.py
 - cli/confirm.py
 - cli/fuzzy_match.py
@@ -132,6 +133,7 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - core/config.py
 - core/credential_vault.py
 - core/crypto.py
+- core/defaults.py
 - core/hardening.py
 - core/host_policy.py
 - core/protocols.py
@@ -155,6 +157,7 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
+- modules/exploitgym_gym.py
 - modules/hash_cracker.py
 - modules/icmp_server.py
 - modules/lazycloud.py
@@ -193,11 +196,11 @@ tests groups 47 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - tests/test_credentials_rotation.py
 - tests/test_daemon_ctl_command_set.py
 - tests/test_encoding_command_set.py
+- tests/test_exploitgym_gym.py
 - tests/test_fuzzy_picker.py
 - tests/test_hash_cracker.py
 - tests/test_help_ui_command_set.py
 - tests/test_host_policy.py
-- tests/test_improvements_spec.py
 - tests/test_infra_disposable.py
 - tests/test_input_fuzz.py
 - tests/test_lab_target_visibility.py

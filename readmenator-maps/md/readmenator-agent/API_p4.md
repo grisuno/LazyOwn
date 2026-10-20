@@ -1,6 +1,26 @@
 # API (page 4 of 23)
 Previous: [API_p3.md](API_p3.md)
 
+## cli/doctor.py
+Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
+Imported by: `cli/commands/help_ui.py`
+- `DoctorReport.failures` (method) `cli/doctor.py:119` `def failures(self)` -- Return the checks whose status is :data:`STATUS_FAIL`.
+- `DoctorReport.warnings` (method) `cli/doctor.py:124` `def warnings(self)` -- Return the checks whose status is :data:`STATUS_WARN`.
+- `DoctorReport.healthy` (method) `cli/doctor.py:129` `def healthy(self)` -- Return ``True`` when no check failed (warnings are tolerated).
+- `DoctorReport.overall_status` (method) `cli/doctor.py:134` `def overall_status(self)` -- Return the worst status across every check.
+- `check_python_version` (function) `cli/doctor.py:143` `def check_python_version(version_info)` -- Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
+- `check_virtualenv` (function) `cli/doctor.py:172` `def check_virtualenv()` -- Report whether the framework is running inside its virtual environment.
+- `check_packages` (function) `cli/doctor.py:209` `def check_packages(specs, finder)` -- Verify every dependency in ``specs`` is importable without importing it.
+- `check_certificates` (function) `cli/doctor.py:248` `def check_certificates(root)` -- Verify the self-signed C2 certificate pair exists.
+- `check_payload` (function) `cli/doctor.py:269` `def check_payload(root)` -- Verify ``payload.json`` exists in the repository root.
+- `check_seclists` (function) `cli/doctor.py:289` `def check_seclists(finder)` -- Verify a SecLists installation is discoverable on disk.
+- `check_command_index` (function) `cli/doctor.py:313` `def check_command_index(root)`
+- `check_external_tools` (function) `cli/doctor.py:343` `def check_external_tools(checker)` -- Adapt :func:`cli.wizard.check_binaries` into preflight check results.
+- `gather_report` (function) `cli/doctor.py:368` `def gather_report(root)` -- Run every preflight check and collect the results without printing.
+- `render_report` (function) `cli/doctor.py:406` `def render_report(report, console)` -- Render a :class:`DoctorReport` as a rich table with a summary banner.
+- `run` (function) `cli/doctor.py:451` `def run(root, console)` -- Gather and render the preflight report.
+- `fix_report` (function) `cli/doctor.py:468` `def fix_report(report)` -- Interactively offer to fix every failure and warning in the report.
+
 ## cli/engagement_hooks.py
 Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
 Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
@@ -171,51 +191,26 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tool
 - `run_monitor_session` (function) `cli/lazy_monitor.py:589` `def run_monitor_session(engine, config, params)` -- Run the loop inside the monitor (``lazy_loop --view``).
 
 ## cli/lazy_orchestrator.py
-Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`
-Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_yaml.py`
-- `discover_shell_commands` (function) `cli/lazy_orchestrator.py:92` `def discover_shell_commands()` -- Return every routable shell command name.
-- `command_descriptions` (function) `cli/lazy_orchestrator.py:125` `def command_descriptions()` -- Return ``{command: summary}`` from the palette index when available.
-- `verb_candidates` (function) `cli/lazy_orchestrator.py:139` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
-- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:200` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
-- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:212` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:253` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:267` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:276` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:285` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:308` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.playbook_rows` (method) `cli/lazy_orchestrator.py:324` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
-- `LazyOrchestratorApp.playbook_preview` (method) `cli/lazy_orchestrator.py:348` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
-- `LazyOrchestratorApp.create_playbook_file` (method) `cli/lazy_orchestrator.py:357` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
-- `LazyOrchestratorApp.save_playbook_text` (method) `cli/lazy_orchestrator.py:378` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
-- `LazyOrchestratorApp.delete_playbook_file` (method) `cli/lazy_orchestrator.py:390` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
-- `LazyOrchestratorApp.playbook_candidates` (method) `cli/lazy_orchestrator.py:398` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
-- `LazyOrchestratorApp.gym_rows` (method) `cli/lazy_orchestrator.py:481` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
-- `LazyOrchestratorApp.gym_preview` (method) `cli/lazy_orchestrator.py:518` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
-- `LazyOrchestratorApp.start_gym` (method) `cli/lazy_orchestrator.py:586` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
-- `LazyOrchestratorApp.stop_gym` (method) `cli/lazy_orchestrator.py:594` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
-- `LazyOrchestratorApp.toggle_gym` (method) `cli/lazy_orchestrator.py:602` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
-- `LazyOrchestratorApp.profile_rows` (method) `cli/lazy_orchestrator.py:644` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
-- `LazyOrchestratorApp.activate_profile` (method) `cli/lazy_orchestrator.py:669` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
-- `LazyOrchestratorApp.chain_rows` (method) `cli/lazy_orchestrator.py:729` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
-- `LazyOrchestratorApp.chain_steps_preview` (method) `cli/lazy_orchestrator.py:738` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
-- `LazyOrchestratorApp.toggle_chain` (method) `cli/lazy_orchestrator.py:755` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
-- `LazyOrchestratorApp.generate_chain` (method) `cli/lazy_orchestrator.py:766` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
-- `LazyOrchestratorApp.remove_chain` (method) `cli/lazy_orchestrator.py:780` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
-- `LazyOrchestratorApp.on_data_table_row_highlighted` (method) `cli/lazy_orchestrator.py:836` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
-- `LazyOrchestratorApp.save_config` (method) `cli/lazy_orchestrator.py:917` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
-- `LazyOrchestratorApp.add_model_member` (method) `cli/lazy_orchestrator.py:939` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
-- `LazyOrchestratorApp.remove_model_member` (method) `cli/lazy_orchestrator.py:947` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
-- `LazyOrchestratorApp.set_model_priority` (method) `cli/lazy_orchestrator.py:955` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `LazyOrchestratorApp.add_guard_rule` (method) `cli/lazy_orchestrator.py:967` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `LazyOrchestratorApp.remove_guard_rule` (method) `cli/lazy_orchestrator.py:975` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:1079` `def on_button_pressed(self, event)` -- Handle the config save button.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:1097` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:1118` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:1142` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:1159` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:1332` `def action_edit_item(self)` -- Edit the selected playbook YAML or LLM member priority.
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:1377` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:1456` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
+Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`
+- `discover_shell_commands` (function) `cli/lazy_orchestrator.py:68` `def discover_shell_commands()` -- Return every routable shell command name.
+- `command_descriptions` (function) `cli/lazy_orchestrator.py:101` `def command_descriptions()` -- Return ``{command: summary}`` from the palette index when available.
+- `verb_candidates` (function) `cli/lazy_orchestrator.py:115` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
+- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:176` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
+- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:188` `def compose(self)` -- Build the four panes.
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:233` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:248` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:257` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:273` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:296` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:357` `def on_button_pressed(self, event)` -- Handle the config save button.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:375` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:397` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:427` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:444` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:646` `def action_edit_item(self)` -- Edit the selected playbook YAML or LLM member priority.
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:691` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:767` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`
@@ -293,6 +288,39 @@ Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/co
 - `tasks_start` (function) `cli/ops_commands.py:1166` `def tasks_start(task_id)` -- Mark a task as Started.
 - `scans_list` (function) `cli/ops_commands.py:1189` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
 - `sitrep` (function) `cli/ops_commands.py:1242` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
+
+## cli/orchestrator_assets_tabs.py
+Depends on: `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
+Imported by: `cli/lazy_orchestrator.py`
+- `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:69` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
+- `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:93` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
+- `OrchestratorAssetsMixin.create_playbook_file` (method) `cli/orchestrator_assets_tabs.py:102` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
+- `OrchestratorAssetsMixin.save_playbook_text` (method) `cli/orchestrator_assets_tabs.py:123` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
+- `OrchestratorAssetsMixin.delete_playbook_file` (method) `cli/orchestrator_assets_tabs.py:135` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
+- `OrchestratorAssetsMixin.playbook_candidates` (method) `cli/orchestrator_assets_tabs.py:143` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
+- `OrchestratorAssetsMixin.gym_rows` (method) `cli/orchestrator_assets_tabs.py:226` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
+- `OrchestratorAssetsMixin.gym_preview` (method) `cli/orchestrator_assets_tabs.py:263` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
+- `OrchestratorAssetsMixin.start_gym` (method) `cli/orchestrator_assets_tabs.py:331` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
+- `OrchestratorAssetsMixin.stop_gym` (method) `cli/orchestrator_assets_tabs.py:339` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
+- `OrchestratorAssetsMixin.toggle_gym` (method) `cli/orchestrator_assets_tabs.py:347` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
+- `OrchestratorAssetsMixin.profile_rows` (method) `cli/orchestrator_assets_tabs.py:389` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
+- `OrchestratorAssetsMixin.activate_profile` (method) `cli/orchestrator_assets_tabs.py:414` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
+- `OrchestratorAssetsMixin.chain_rows` (method) `cli/orchestrator_assets_tabs.py:474` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
+- `OrchestratorAssetsMixin.chain_steps_preview` (method) `cli/orchestrator_assets_tabs.py:483` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
+- `OrchestratorAssetsMixin.toggle_chain` (method) `cli/orchestrator_assets_tabs.py:500` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
+- `OrchestratorAssetsMixin.generate_chain` (method) `cli/orchestrator_assets_tabs.py:511` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
+- `OrchestratorAssetsMixin.remove_chain` (method) `cli/orchestrator_assets_tabs.py:525` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
+- `OrchestratorAssetsMixin.on_data_table_row_highlighted` (method) `cli/orchestrator_assets_tabs.py:581` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
+- `OrchestratorAssetsMixin.toggle_trigger` (method) `cli/orchestrator_assets_tabs.py:635` `def toggle_trigger(self, trigger_id)` -- Flip one trigger's enabled flag in the store.
+- `OrchestratorAssetsMixin.remove_trigger` (method) `cli/orchestrator_assets_tabs.py:648` `def remove_trigger(self, trigger_id)` -- Delete one trigger from the store.
+- `OrchestratorAssetsMixin.add_trigger` (method) `cli/orchestrator_assets_tabs.py:656` `def add_trigger(self, kind, every_sec, arg)` -- Add a scheduler trigger entered from the picker form.
+- `OrchestratorAssetsMixin.trigger_kind_options` (method) `cli/orchestrator_assets_tabs.py:668` `def trigger_kind_options(self)` -- Return selectable trigger kinds for the add form.
+- `OrchestratorAssetsMixin.save_config` (method) `cli/orchestrator_assets_tabs.py:735` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
+- `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:757` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
+- `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:765` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
+- `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:773` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
+- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:785` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:793` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
 
 ## cli/output_mode.py
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
@@ -463,31 +491,6 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_
 - `GraphTopologySignal.propose` (method) `cli/recommendation_signals.py:545` `def propose(self, ctx)` -- Return lateral movement and topology proposals from network graph.
 - `build_default_engine` (function) `cli/recommendation_signals.py:649` `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` -- Wire every available deterministic signal into one engine.
 - `recommend_with_evidence` (function) `cli/recommendation_signals.py:705` `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` -- Return fused, ranked recommendations carrying reason and score for display.
-
-## cli/recon_plan.py
-Depends on: `cli/exploration.py`, `modules/killchain.py`
-Imported by: `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
-- `ReconPlan.is_empty` (method) `cli/recon_plan.py:139` `def is_empty(self)` -- Return ``True`` when the plan carries no actionable items.
-- `build_recon_plan` (function) `cli/recon_plan.py:144` `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)` -- Assemble a :class:`ReconPlan` for ``target`` using ``engine``.
-- `render_markdown` (function) `cli/recon_plan.py:207` `def render_markdown(plan)` -- Render ``plan`` as a Markdown document suitable for sessions/.
-- `write_plan` (function) `cli/recon_plan.py:257` `def write_plan(plan, sessions_dir, config)` -- Persist ``plan`` to ``sessions/recon_plan_<target>.md`` atomically.
-- `render_rich` (function) `cli/recon_plan.py:299` `def render_rich(plan, console)` -- Render ``plan`` to the supplied Rich console.
-
-## cli/registry.py
-Depends on: `cli/commands/_dormancy.py`
-Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-- `iter_command_sets` (function) `cli/registry.py:41` `def iter_command_sets(include_pending)` -- Yield every ``CommandSet`` subclass found under ``cli.commands.*``.
-- `register_command_sets` (function) `cli/registry.py:77` `def register_command_sets(shell)` -- Instantiate and register every active ``CommandSet`` on ``shell``.
-
-## cli/scope_guard.py
-Depends on: `cli/commands/enum.py`
-Imported by: `lazyown.py`, `tests/test_scope_guard.py`
-- `ScopeMode.from_value` (method) `cli/scope_guard.py:105` `def from_value(cls, value)` -- Coerce an arbitrary payload value into a :class:`ScopeMode`.
-- `build_offensive_commands` (function) `cli/scope_guard.py:147` `def build_offensive_commands(command_categories)` -- Select the command names whose category is offensive.
-- `normalize_scope` (function) `cli/scope_guard.py:163` `def normalize_scope(entries)` -- Coerce a scope specification into a tuple of entry strings.
-- `target_in_scope` (function) `cli/scope_guard.py:218` `def target_in_scope(target, entries)` -- Return whether *target* falls within any of the scope *entries*.
-- `ScopeGuard.__init__` (method) `cli/scope_guard.py:263` `def __init__(self, scope_entries, mode, is_offensive)` -- Initialise the guard.
-- `ScopeGuard.evaluate` (method) `cli/scope_guard.py:283` `def evaluate(self, command, target)` -- Evaluate a single command against the active target.
 
 
 Next: [API_p5.md](API_p5.md)

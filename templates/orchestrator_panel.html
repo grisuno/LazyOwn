@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Orchestrator</h1>
+            <span class="badge bg-primary">user: {{ user or "operator" }}</span>
+        </div>
+        <p class="text-muted">Autonomous-loop live overview. Mutations go through
+        the X-API-Key guarded REST endpoints; this panel mirrors their state.</p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <a class="btn btn-outline-light" href="/api/v1/orchestrator/status">status</a>
+            <a class="btn btn-outline-light" href="/api/v1/orchestrator/world">world</a>
+            <a class="btn btn-outline-light" href="/api/v1/orchestrator/verbs">verbs</a>
+            <a class="btn btn-outline-light" href="/api/v1/orchestrator/triggers">triggers</a>
+        </div>
+
+        <h3 class="mt-4">World model</h3>
+        <table class="table table-dark table-striped">
+            <thead><tr><th>Host</th><th>State</th></tr></thead>
+            <tbody>
+                {% for host in world.get("hosts", []) %}
+                <tr><td>{{ host.ip }}</td><td>{{ host.state }}</td></tr>
+                {% else %}
+                <tr><td colspan="2">no host state yet</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>phase: <strong>{{ world.get("phase", "unknown") }}</strong></p>
+
+        <h3 class="mt-4">Loop verbs</h3>
+        <p>on={{ verbs.get("on", 0) }} off={{ verbs.get("off", 0) }} total={{ verbs.get("total", 0) }}</p>
+
+        <h3 class="mt-4">Scheduler triggers</h3>
+        <table class="table table-dark table-striped">
+            <thead><tr><th>#</th><th>kind</th><th>every</th><th>state</th></tr></thead>
+            <tbody>
+                {% for trigger in triggers %}
+                <tr><td>{{ trigger.id }}</td><td>{{ trigger.kind }}</td><td>{{ trigger.every_sec }}</td>
+                    <td>{{ "on" if trigger.enabled else "off" }}</td></tr>
+                {% else %}
+                <tr><td colspan="4">no triggers</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

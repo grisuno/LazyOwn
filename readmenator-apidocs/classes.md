@@ -278,6 +278,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Config`](modules/telegram_c2.py.md#config) class in `telegram_c2`
 - [`ConfigBridge`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridge) class in `skills.hermes-lazyown.config_bridge`
 - [`ConfigBridgeError`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridgeerror) exception in `skills.hermes-lazyown.config_bridge`(Exception)
+- [`ConfigField`](modules/cli.orchestrator_assets_tabs.py.md#configfield) class in `cli.orchestrator_assets_tabs`
 - [`ConfigHistory`](modules/cli.config_history.py.md#confighistory) class in `cli.config_history`
 - [`ConfigHistoryConfig`](modules/cli.config_history.py.md#confighistoryconfig) class in `cli.config_history`
 - [`ConfigKeys`](modules/skills.hermes-lazyown.constants.py.md#configkeys) class in `skills.hermes-lazyown.constants`
@@ -823,6 +824,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`SupplyChainCommandSet`](modules/cli.commands.supply_chain.py.md#supplychaincommandset) class in `cli.commands.supply_chain`
   - [`SurfaceCommandSet`](modules/cli.commands.surface.py.md#surfacecommandset) class in `cli.commands.surface`
   - [`UxCommandSet`](modules/cli.commands.ux.py.md#uxcommandset) class in `cli.commands.ux`
+  - [`VerbCommandSet`](modules/cli.commands.verb_admin.py.md#verbcommandset) class in `cli.commands.verb_admin`
 - [`LazyOwnDB`](modules/modules.db.py.md#lazyowndb) class in `modules.db`
 - [`LazyOwnError`](modules/core.errors.py.md#lazyownerror) exception in `core.errors`(Exception)
   - [`AuthError`](modules/core.errors.py.md#autherror) exception in `core.errors`
@@ -978,6 +980,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`OpsecScorer`](modules/modules.opsec_scorer.py.md#opsecscorer) class in `modules.opsec_scorer`
 - [`OpsecScorerV2`](modules/modules.opsec_scorer.py.md#opsecscorerv2) class in `modules.opsec_scorer`
 - [`OrchestrationConfig`](modules/cli.commands.orchestration.py.md#orchestrationconfig) class in `cli.commands.orchestration`
+- [`OrchestratorAssetsMixin`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin) class in `cli.orchestrator_assets_tabs`
 - [`OrchestratorConfig`](modules/skills.unified_orchestrator.py.md#orchestratorconfig) class in `skills.unified_orchestrator`
 - [`OrchestratorGoal`](modules/skills.unified_orchestrator.py.md#orchestratorgoal) class in `skills.unified_orchestrator`
 - [`OrchestratorResult`](modules/skills.unified_orchestrator.py.md#orchestratorresult) class in `skills.unified_orchestrator`
@@ -1265,6 +1268,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ServiceResult`](modules/cli.exploit_advisor.py.md#serviceresult) class in `cli.exploit_advisor`
 - [`Session`](modules/lazygui.services.models.py.md#session) class in `lazygui.services.models`
 - [`SessionAggregator`](modules/modules.session_reader.py.md#sessionaggregator) class in `modules.session_reader`
+- [`SessionBriefConfig`](modules/cli.session_brief.py.md#sessionbriefconfig) class in `cli.session_brief`
 - [`SessionClassificationPipeline`](modules/skills.lazyown_policy.py.md#sessionclassificationpipeline) class in `skills.lazyown_policy`
 - [`SessionContextProvider`](modules/contrib.legacy.lazyllmchat.py.md#sessioncontextprovider) class in `contrib.legacy.lazyllmchat`
 - [`SessionEntry`](modules/cli.sessions_browser.py.md#sessionentry) class in `cli.sessions_browser`
@@ -1417,6 +1421,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ToastConfig`](modules/cli.toast_bus.py.md#toastconfig) class in `cli.toast_bus`
 - [`ToastEvent`](modules/cli.toast_bus.py.md#toastevent) class in `cli.toast_bus`
 - [`ToastFormatter`](modules/cli.toast_bus.py.md#toastformatter) class in `cli.toast_bus`
+- [`ToastrConfig`](modules/cli.toast_bus.py.md#toastrconfig) class in `cli.toast_bus`
 - [`ToastReader`](modules/cli.toast_bus.py.md#toastreader) class in `cli.toast_bus`
 - [`ToastState`](modules/cli.toast_bus.py.md#toaststate) class in `cli.toast_bus`
 - [`TodoItem`](modules/modules.planner.py.md#todoitem) class in `modules.planner`
@@ -1440,7 +1445,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TransitionTable`](modules/skills.lazyown_policy.py.md#transitiontable) class in `skills.lazyown_policy`
 - [`TransportType`](modules/modules.c2_profile_engine.py.md#transporttype) enum in `modules.c2_profile_engine`(Enum)
 - [`TriggerMatcher`](modules/cli.exploration.py.md#triggermatcher) class in `cli.exploration`
-- [`TriggerStore`](modules/modules.lazy_loop.py.md#triggerstore) class in `modules.lazy_loop`
+- [`TriggerStore`](modules/modules.loop_triggers.py.md#triggerstore) class in `modules.loop_triggers`
 - [`TrustedProxyResolver`](modules/lazyc2.security.trusted_proxy.py.md#trustedproxyresolver) class in `lazyc2.security.trusted_proxy`
 - [`TTPCoverage`](modules/modules.ttp_coverage.py.md#ttpcoverage) class in `modules.ttp_coverage`
 - [`TTPRow`](modules/modules.ttp_coverage.py.md#ttprow) class in `modules.ttp_coverage`
@@ -1458,6 +1463,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`user_rule_t`](modules/modules.exp.c.md#user_rule_t) struct in `modules/exp.c`
 - [`ValidationIssue`](modules/core.payload_schema.py.md#validationissue) class in `core.payload_schema`
 - [`ValidationIssue`](modules/lazyc2.addon_creator.py.md#validationissue) class in `lazyc2.addon_creator`
+- [`VerbAdminConfig`](modules/cli.commands.verb_admin.py.md#verbadminconfig) class in `cli.commands.verb_admin`
+- [`VerbCatalogConfig`](modules/modules.verb_catalog.py.md#verbcatalogconfig) class in `modules.verb_catalog`
 - [`VirtualFile`](modules/modules.rootkit.mr.c.md#virtualfile) struct in `modules/rootkit/mr.c`
 - [`VirtualFile`](modules/modules.win_rootkit.backup.c.md#virtualfile) struct in `modules/win_rootkit/backup.c`
 - [`VirtualFile`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#virtualfile) struct in `modules/win_rootkit/win_ring3_rootkit.c`

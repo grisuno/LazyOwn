@@ -511,48 +511,48 @@
 {"code":"DOC001","uid":"key.py","file":"key.py","line":1,"message":"module key.py is not documented"}
 {"code":"DOC001","uid":"key.py::main","file":"key.py","line":10,"message":"function main is not documented"}
 {"code":"DOC001","uid":"lazy_sentinel4.py","file":"lazy_sentinel4.py","line":1,"message":"module lazy_sentinel4.py is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.initialize_cache_table","file":"lazy_sentinel4.py","line":73,"message":"method RAGManager.initialize_cache_table is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.get_cache_key","file":"lazy_sentinel4.py","line":85,"message":"method RAGManager.get_cache_key is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.load_existing_vectorstore","file":"lazy_sentinel4.py","line":88,"message":"method RAGManager.load_existing_vectorstore is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.ollama_llm","file":"lazy_sentinel4.py","line":101,"message":"method RAGManager.ollama_llm is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.process_file_to_rag","file":"lazy_sentinel4.py","line":115,"message":"method RAGManager.process_file_to_rag is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.query_rag","file":"lazy_sentinel4.py","line":155,"message":"method RAGManager.query_rag is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.invalidate_cache","file":"lazy_sentinel4.py","line":177,"message":"method RAGManager.invalidate_cache is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.get_knowledge_base_stats","file":"lazy_sentinel4.py","line":191,"message":"method RAGManager.get_knowledge_base_stats is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Database","file":"lazy_sentinel4.py","line":214,"message":"class Database is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Database.__init__","file":"lazy_sentinel4.py","line":215,"message":"constructor Database.__init__ is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Database.initialize","file":"lazy_sentinel4.py","line":219,"message":"method Database.initialize is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Database.execute","file":"lazy_sentinel4.py","line":243,"message":"method Database.execute is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Database.insert","file":"lazy_sentinel4.py","line":255,"message":"method Database.insert is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Alert","file":"lazy_sentinel4.py","line":271,"message":"class Alert is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.__init__","file":"lazy_sentinel4.py","line":274,"message":"constructor Alert.__init__ is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.to_dict","file":"lazy_sentinel4.py","line":280,"message":"method Alert.to_dict is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.save_to_db","file":"lazy_sentinel4.py","line":288,"message":"method Alert.save_to_db is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler","file":"lazy_sentinel4.py","line":302,"message":"class LazySentinelHandler is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.__init__","file":"lazy_sentinel4.py","line":303,"message":"constructor LazySentinelHandler.__init__ is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.is_text_file","file":"lazy_sentinel4.py","line":306,"message":"method LazySentinelHandler.is_text_file is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.on_created","file":"lazy_sentinel4.py","line":316,"message":"method LazySentinelHandler.on_created is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.on_modified","file":"lazy_sentinel4.py","line":328,"message":"method LazySentinelHandler.on_modified is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel","file":"lazy_sentinel4.py","line":340,"message":"class LazySentinel is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.__init__","file":"lazy_sentinel4.py","line":341,"message":"constructor LazySentinel.__init__ is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.chunk_text","file":"lazy_sentinel4.py","line":361,"message":"method LazySentinel.chunk_text is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.select_relevant_chunk","file":"lazy_sentinel4.py","line":364,"message":"method LazySentinel.select_relevant_chunk is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.parse_deepseek_response","file":"lazy_sentinel4.py","line":378,"message":"method LazySentinel.parse_deepseek_response is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.show_popup","file":"lazy_sentinel4.py","line":404,"message":"method LazySentinel.show_popup is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.process_file","file":"lazy_sentinel4.py","line":422,"message":"method LazySentinel.process_file is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.stop","file":"lazy_sentinel4.py","line":538,"message":"method LazySentinel.stop is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App","file":"lazy_sentinel4.py","line":544,"message":"class App is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.__init__","file":"lazy_sentinel4.py","line":545,"message":"constructor App.__init__ is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_quit","file":"lazy_sentinel4.py","line":611,"message":"method App.do_quit is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_debug","file":"lazy_sentinel4.py","line":615,"message":"method App.do_debug is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_query","file":"lazy_sentinel4.py","line":624,"message":"method App.do_rag_query is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_add","file":"lazy_sentinel4.py","line":632,"message":"method App.do_rag_add is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_status","file":"lazy_sentinel4.py","line":647,"message":"method App.do_rag_status is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_toggle","file":"lazy_sentinel4.py","line":654,"message":"method App.do_rag_toggle is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_bulk_add","file":"lazy_sentinel4.py","line":659,"message":"method App.do_rag_bulk_add is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_search","file":"lazy_sentinel4.py","line":678,"message":"method App.do_rag_search is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.complete_rag_add","file":"lazy_sentinel4.py","line":699,"message":"method App.complete_rag_add is not documented"}
-{"code":"DOC001","uid":"lazy_sentinel4.py::App.complete_rag_bulk_add","file":"lazy_sentinel4.py","line":706,"message":"method App.complete_rag_bulk_add is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.initialize_cache_table","file":"lazy_sentinel4.py","line":71,"message":"method RAGManager.initialize_cache_table is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.get_cache_key","file":"lazy_sentinel4.py","line":83,"message":"method RAGManager.get_cache_key is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.load_existing_vectorstore","file":"lazy_sentinel4.py","line":86,"message":"method RAGManager.load_existing_vectorstore is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.ollama_llm","file":"lazy_sentinel4.py","line":99,"message":"method RAGManager.ollama_llm is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.process_file_to_rag","file":"lazy_sentinel4.py","line":113,"message":"method RAGManager.process_file_to_rag is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.query_rag","file":"lazy_sentinel4.py","line":153,"message":"method RAGManager.query_rag is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.invalidate_cache","file":"lazy_sentinel4.py","line":175,"message":"method RAGManager.invalidate_cache is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::RAGManager.get_knowledge_base_stats","file":"lazy_sentinel4.py","line":189,"message":"method RAGManager.get_knowledge_base_stats is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Database","file":"lazy_sentinel4.py","line":212,"message":"class Database is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Database.__init__","file":"lazy_sentinel4.py","line":213,"message":"constructor Database.__init__ is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Database.initialize","file":"lazy_sentinel4.py","line":217,"message":"method Database.initialize is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Database.execute","file":"lazy_sentinel4.py","line":241,"message":"method Database.execute is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Database.insert","file":"lazy_sentinel4.py","line":253,"message":"method Database.insert is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Alert","file":"lazy_sentinel4.py","line":269,"message":"class Alert is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.__init__","file":"lazy_sentinel4.py","line":272,"message":"constructor Alert.__init__ is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.to_dict","file":"lazy_sentinel4.py","line":278,"message":"method Alert.to_dict is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::Alert.save_to_db","file":"lazy_sentinel4.py","line":286,"message":"method Alert.save_to_db is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler","file":"lazy_sentinel4.py","line":300,"message":"class LazySentinelHandler is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.__init__","file":"lazy_sentinel4.py","line":301,"message":"constructor LazySentinelHandler.__init__ is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.is_text_file","file":"lazy_sentinel4.py","line":304,"message":"method LazySentinelHandler.is_text_file is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.on_created","file":"lazy_sentinel4.py","line":314,"message":"method LazySentinelHandler.on_created is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinelHandler.on_modified","file":"lazy_sentinel4.py","line":326,"message":"method LazySentinelHandler.on_modified is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel","file":"lazy_sentinel4.py","line":338,"message":"class LazySentinel is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.__init__","file":"lazy_sentinel4.py","line":339,"message":"constructor LazySentinel.__init__ is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.chunk_text","file":"lazy_sentinel4.py","line":359,"message":"method LazySentinel.chunk_text is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.select_relevant_chunk","file":"lazy_sentinel4.py","line":362,"message":"method LazySentinel.select_relevant_chunk is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.parse_deepseek_response","file":"lazy_sentinel4.py","line":376,"message":"method LazySentinel.parse_deepseek_response is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.show_popup","file":"lazy_sentinel4.py","line":402,"message":"method LazySentinel.show_popup is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.process_file","file":"lazy_sentinel4.py","line":420,"message":"method LazySentinel.process_file is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::LazySentinel.stop","file":"lazy_sentinel4.py","line":536,"message":"method LazySentinel.stop is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App","file":"lazy_sentinel4.py","line":542,"message":"class App is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.__init__","file":"lazy_sentinel4.py","line":543,"message":"constructor App.__init__ is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_quit","file":"lazy_sentinel4.py","line":591,"message":"method App.do_quit is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_debug","file":"lazy_sentinel4.py","line":595,"message":"method App.do_debug is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_query","file":"lazy_sentinel4.py","line":604,"message":"method App.do_rag_query is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_add","file":"lazy_sentinel4.py","line":612,"message":"method App.do_rag_add is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_status","file":"lazy_sentinel4.py","line":627,"message":"method App.do_rag_status is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_toggle","file":"lazy_sentinel4.py","line":634,"message":"method App.do_rag_toggle is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_bulk_add","file":"lazy_sentinel4.py","line":639,"message":"method App.do_rag_bulk_add is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.do_rag_search","file":"lazy_sentinel4.py","line":658,"message":"method App.do_rag_search is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.complete_rag_add","file":"lazy_sentinel4.py","line":679,"message":"method App.complete_rag_add is not documented"}
+{"code":"DOC001","uid":"lazy_sentinel4.py::App.complete_rag_bulk_add","file":"lazy_sentinel4.py","line":686,"message":"method App.complete_rag_bulk_add is not documented"}
 {"code":"DOC001","uid":"lazyc2.py","file":"lazyc2.py","line":1,"message":"module lazyc2.py is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::clean_expired_tokens","file":"lazyc2.py","line":610,"message":"function clean_expired_tokens is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::Handler","file":"lazyc2.py","line":728,"message":"class Handler is not documented"}
@@ -738,7 +738,7 @@
 {"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1325,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
 {"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1325,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
 {"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2265,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":5002,"message":"function main is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4942,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -829,7 +829,7 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":876,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":891,"message":"return value of execute_shell_verb is not documented"}
 {"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
@@ -1103,15 +1103,15 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1475,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":6922,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8051,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8074,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8074,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8219,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8244,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8267,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8267,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9167,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":6784,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":7913,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":7936,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":7936,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8081,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8106,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8129,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8129,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9035,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}

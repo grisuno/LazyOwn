@@ -41,6 +41,8 @@ flowchart LR
     n_modules_orchestrator_config_py__verb_enabled(["verb_enabled"])
     n_modules_orchestrator_config_py__upsert_verb(["upsert_verb"])
     n_modules_orchestrator_config_py__remove_verb(["remove_verb"])
+    n_modules_orchestrator_config_py__validate_config(["validate_config"])
+    n_modules_trigger_policy_py__validate_triggers["trigger_policy.validate_triggers"]
     n_modules_orchestrator_config_py__active_profile --> n_modules_orchestrator_config_py__profiles
     n_modules_orchestrator_config_py__profile_config --> n_modules_orchestrator_config_py__active_profile
     n_modules_orchestrator_config_py__profile_config --> n_modules_orchestrator_config_py__profiles
@@ -59,6 +61,7 @@ flowchart LR
     n_modules_orchestrator_config_py__upsert_verb --> n_modules_orchestrator_config_py__verb_config
     n_modules_orchestrator_config_py__remove_verb --> n_modules_orchestrator_config_py__upsert_verb
     n_modules_orchestrator_config_py__remove_verb --> n_modules_orchestrator_config_py__verb_config
+    n_modules_orchestrator_config_py__validate_config -.-> n_modules_trigger_policy_py__validate_triggers
 ```
 
 ## Functions
@@ -257,7 +260,7 @@ Merged stage view: enabled flag, label, firing condition and params.
 
 *Calls:* [`profile_config`](#profile_config)
 
-*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`set_stage`](#set_stage), [`stage_enabled`](#stage_enabled), [`stage_params`](#stage_params)
+*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`stage_names`](lazyc2.blueprints.orchestrator.py.md#stage_names), [`set_stage`](#set_stage), [`stage_enabled`](#stage_enabled), [`stage_params`](#stage_params)
 
 ---
 
@@ -283,7 +286,7 @@ Return whether one pipeline stage is enabled (unknown = enabled).
 
 *Calls:* [`stages`](#stages)
 
-*Called by:* [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage)
+*Called by:* [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage), [`stages_toggle`](lazyc2.blueprints.orchestrator.py.md#stages_toggle)
 
 ---
 
@@ -338,7 +341,7 @@ Persist the enabled flag of one stage.
 
 *Calls:* [`stages`](#stages)
 
-*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage)
+*Called by:* [`LazyCommandSet.do_lazy_stage`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_stage), [`LazyOrchestratorApp.toggle_stage`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_stage), [`stages_toggle`](lazyc2.blueprints.orchestrator.py.md#stages_toggle)
 
 ---
 
@@ -352,7 +355,7 @@ Persist the enabled flag of one stage.
 def effective_verbs() -> list[dict]
 ```
 
-Merged auto-verb view: built-ins plus operator overrides and additions.
+Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
 
 **Returns:** `list[dict]`
 
@@ -364,7 +367,7 @@ Merged auto-verb view: built-ins plus operator overrides and additions.
 
 ### `verb_config`
 
-`function` | [modules/orchestrator_config.py:446](../../modules/orchestrator_config.py#L446)
+`function` | [modules/orchestrator_config.py:485](../../modules/orchestrator_config.py#L485)
 
 ```python
 def verb_config(name: str) -> dict | None
@@ -390,7 +393,7 @@ Return the merged configuration of one auto verb, or None.
 
 ### `verb_enabled`
 
-`function` | [modules/orchestrator_config.py:455](../../modules/orchestrator_config.py#L455)
+`function` | [modules/orchestrator_config.py:494](../../modules/orchestrator_config.py#L494)
 
 ```python
 def verb_enabled(name: str) -> bool
@@ -416,7 +419,7 @@ Return whether one auto verb may be proposed or executed.
 
 ### `upsert_verb`
 
-`function` | [modules/orchestrator_config.py:461](../../modules/orchestrator_config.py#L461)
+`function` | [modules/orchestrator_config.py:500](../../modules/orchestrator_config.py#L500)
 
 ```python
 def upsert_verb(name: str, *, enabled: bool | None = None, keywords: list[str] | None = None, phases: list[str] | None = None, needs_target: bool | None = None, extra_args: str | None = None, description: str | None = None, custom: bool = False) -> dict
@@ -453,7 +456,7 @@ Create or update one auto-verb override in the payload.
 
 ### `remove_verb`
 
-`function` | [modules/orchestrator_config.py:518](../../modules/orchestrator_config.py#L518)
+`function` | [modules/orchestrator_config.py:557](../../modules/orchestrator_config.py#L557)
 
 ```python
 def remove_verb(name: str) -> bool
@@ -479,7 +482,7 @@ Remove a custom verb, or disable a built-in one.
 
 ### `reset`
 
-`function` | [modules/orchestrator_config.py:539](../../modules/orchestrator_config.py#L539)
+`function` | [modules/orchestrator_config.py:578](../../modules/orchestrator_config.py#L578)
 
 ```python
 def reset() -> None
@@ -495,7 +498,7 @@ Drop every orchestrator override (back to YAML defaults).
 
 ### `validate_config`
 
-`function` | [modules/orchestrator_config.py:546](../../modules/orchestrator_config.py#L546)
+`function` | [modules/orchestrator_config.py:585](../../modules/orchestrator_config.py#L585)
 
 ```python
 def validate_config(data: Any) -> list[str]
@@ -510,6 +513,8 @@ Validate one raw orchestration mapping.
 | `data` | `Any` |  | Parsed YAML document. |
 
 **Returns:** `list[str]` - Human-readable errors; an empty list means the document is valid.
+
+*Calls:* [`validate_triggers`](modules.trigger_policy.py.md#validate_triggers)
 
 ---
 

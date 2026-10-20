@@ -404,6 +404,10 @@ Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.p
 - `UxCommandSet.do_toast` (method) `cli/commands/ux.py:167` `def do_toast(self, line)` -- Raise a toast notification inside the cmd2 shell.
 - `UxCommandSet.do_suggest` (method) `cli/commands/ux.py:261` `def do_suggest(self, line)` -- Fuzzy command suggestion for typos and fragments.
 
+## cli/commands/verb_admin.py
+Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
+- `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
+
 ## cli/config_history.py
 Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
 - `ConfigHistory.capture_baseline` (method) `cli/config_history.py:30` `def capture_baseline(self, state)` -- Store session-start snapshot used by diff.
@@ -474,26 +478,6 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 - `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:987` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
 - `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:991` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
 - `launch` (function) `cli/dashboard_tui.py:1064` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
-
-## cli/doctor.py
-Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
-Imported by: `cli/commands/help_ui.py`
-- `DoctorReport.failures` (method) `cli/doctor.py:119` `def failures(self)` -- Return the checks whose status is :data:`STATUS_FAIL`.
-- `DoctorReport.warnings` (method) `cli/doctor.py:124` `def warnings(self)` -- Return the checks whose status is :data:`STATUS_WARN`.
-- `DoctorReport.healthy` (method) `cli/doctor.py:129` `def healthy(self)` -- Return ``True`` when no check failed (warnings are tolerated).
-- `DoctorReport.overall_status` (method) `cli/doctor.py:134` `def overall_status(self)` -- Return the worst status across every check.
-- `check_python_version` (function) `cli/doctor.py:143` `def check_python_version(version_info)` -- Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
-- `check_virtualenv` (function) `cli/doctor.py:172` `def check_virtualenv()` -- Report whether the framework is running inside its virtual environment.
-- `check_packages` (function) `cli/doctor.py:209` `def check_packages(specs, finder)` -- Verify every dependency in ``specs`` is importable without importing it.
-- `check_certificates` (function) `cli/doctor.py:248` `def check_certificates(root)` -- Verify the self-signed C2 certificate pair exists.
-- `check_payload` (function) `cli/doctor.py:269` `def check_payload(root)` -- Verify ``payload.json`` exists in the repository root.
-- `check_seclists` (function) `cli/doctor.py:289` `def check_seclists(finder)` -- Verify a SecLists installation is discoverable on disk.
-- `check_command_index` (function) `cli/doctor.py:313` `def check_command_index(root)`
-- `check_external_tools` (function) `cli/doctor.py:343` `def check_external_tools(checker)` -- Adapt :func:`cli.wizard.check_binaries` into preflight check results.
-- `gather_report` (function) `cli/doctor.py:368` `def gather_report(root)` -- Run every preflight check and collect the results without printing.
-- `render_report` (function) `cli/doctor.py:406` `def render_report(report, console)` -- Render a :class:`DoctorReport` as a rich table with a summary banner.
-- `run` (function) `cli/doctor.py:451` `def run(root, console)` -- Gather and render the preflight report.
-- `fix_report` (function) `cli/doctor.py:468` `def fix_report(report)` -- Interactively offer to fix every failure and warning in the report.
 
 
 Next: [API_p4.md](API_p4.md)

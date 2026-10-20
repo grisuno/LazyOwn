@@ -1,6 +1,39 @@
 # Subsystem: cli (page 5 of 5)
 Previous: [KB_cli_p4.md](KB_cli_p4.md)
 
+## cli/timeline_browser.py
+- Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TimelineColumn` (class, line 33) `class TimelineColumn`
+  - `TimelineConfig` (class, line 43) `class TimelineConfig`
+  - `TimelineEntry` (class, line 65) `class TimelineEntry`
+  - `TimelineReader` (class, line 72) `class TimelineReader`
+  - `TimelineState` (class, line 122) `class TimelineState`
+  - `build_state` (function, line 157) `def build_state(payload, sessions_dir, config)`
+  - `launch_scrubber` (function, line 169) `def launch_scrubber(payload, state, runner)`
+  - `_build_app` (function, line 202) `def _build_app(state, theme)`
+  - `__init__` (method, line 75) `def __init__(self, config, root)`
+  - `root` (method, line 81) `def root(self)`
+  - `read` (method, line 85) `def read(self)`
+  - `_coerce_row` (method, line 103) `def _coerce_row(self, row)`
+  - `reload` (method, line 130) `def reload(self)`
+  - `entries` (method, line 134) `def entries(self)`
+  - `column_value` (method, line 148) `def column_value(self, entry, column)`
+  - `_TimelineBrowserApp` (class, line 213) `class _TimelineBrowserApp(App)`
+  - `__init__` (method, line 228) `def __init__(self)`
+  - `compose` (method, line 234) `def compose(self)`
+  - `on_mount` (method, line 242) `def on_mount(self)`
+  - `on_input_changed` (method, line 249) `def on_input_changed(self, event)`
+  - `on_data_table_row_highlighted` (method, line 253) `def on_data_table_row_highlighted(self, event)`
+  - `action_refresh` (method, line 259) `def action_refresh(self)`
+  - `action_close` (method, line 263) `def action_close(self)`
+  - `_rebuild_rows` (method, line 266) `def _rebuild_rows(self)`
+  - `_refresh_detail` (method, line 278) `def _refresh_detail(self, row_index)`
+- Depends on: `cli/commands/containers.py`, `cli/themes.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
+
 ## cli/tips_engine.py
 - Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.
 - Layer: utility
@@ -73,57 +106,62 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `ToastConfig` (class, line 43) `class ToastConfig`
-  - `ToastEvent` (class, line 110) `class ToastEvent`
-  - `ToastState` (class, line 121) `class ToastState`
-  - `ToastReader` (class, line 203) `class ToastReader`
-  - `ToastFormatter` (class, line 330) `class ToastFormatter`
-  - `ToastBus` (class, line 511) `class ToastBus`
-  - `_is_truthy` (function, line 645) `def _is_truthy(value, config, default)`
-  - `_is_dumb_stream` (function, line 659) `def _is_dumb_stream(stream)`
-  - `toasts_enabled` (function, line 679) `def toasts_enabled(payload, config)`
-  - `_budget` (function, line 687) `def _budget(payload, config)`
-  - `build_default_bus` (function, line 702) `def build_default_bus(payload, sessions_dir, console)`
-  - `render_toasts` (function, line 731) `def render_toasts(payload, sessions_dir, console, bus_factory)`
-  - `ephemeral_enabled` (function, line 755) `def ephemeral_enabled(payload, config)`
-  - `render_ephemeral_toasts` (function, line 771) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
-  - `emit_toast` (function, line 801) `def emit_toast(message, severity, event_type, sessions_dir, config)`
-  - `read_recent_toasts` (function, line 846) `def read_recent_toasts(sessions_dir, limit, config)`
-  - `build_toast_renderable` (function, line 890) `def build_toast_renderable(events, payload, width, config)`
-  - `__init__` (method, line 129) `def __init__(self, config, root)`
-  - `path` (method, line 144) `def path(self)`
-  - `get` (method, line 148) `def get(self, name)`
-  - `set` (method, line 153) `def set(self, name, offset)`
-  - `reset` (method, line 159) `def reset(self)`
-  - `flush` (method, line 164) `def flush(self)`
-  - `_ensure_loaded` (method, line 182) `def _ensure_loaded(self)`
-  - `__init__` (method, line 206) `def __init__(self, config, root)`
-  - `root` (method, line 217) `def root(self)`
-  - `read_unseen` (method, line 221) `def read_unseen(self, name, start_offset)`
-  - `_parse` (method, line 252) `def _parse(self, text, source, base_offset)`
-  - `_build_event` (method, line 267) `def _build_event(self, line, source, offset)`
-  - `_coerce_str` (method, line 290) `def _coerce_str(value)`
-  - `_summary` (method, line 298) `def _summary(record)`
-  - `__init__` (method, line 333) `def __init__(self, config, theme)`
-  - `format` (method, line 338) `def format(self, event)`
-  - `is_prominent` (method, line 350) `def is_prominent(self, event)`
-  - `format_prominent` (method, line 360) `def format_prominent(self, event)`
-  - `format_ephemeral` (method, line 377) `def format_ephemeral(self, event)`
-  - `duration_for` (method, line 405) `def duration_for(self, event)`
-  - `digest_line` (method, line 430) `def digest_line(dropped)`
-  - `format_many` (method, line 438) `def format_many(self, events, width)`
-  - `_console_width` (method, line 492) `def _console_width(self)`
-  - `_role_for` (method, line 499) `def _role_for(self, severity)`
-  - `_truncate` (method, line 505) `def _truncate(self, value)`
-  - `__init__` (method, line 518) `def __init__(self, config, state, reader, formatter, console)`
-  - `collect` (method, line 533) `def collect(self)`
-  - `render` (method, line 545) `def render(self, enabled)`
-  - `mark_all_seen` (method, line 574) `def mark_all_seen(self)`
-  - `render_ephemeral` (method, line 581) `def render_ephemeral(self, enabled, duration)`
-  - `_schedule_erase` (method, line 614) `def _schedule_erase(self, delay)`
-  - `_erase_lines` (method, line 630) `def _erase_lines(stream, rows)`
+  - `ToastConfig` (class, line 44) `class ToastConfig`
+  - `ToastEvent` (class, line 111) `class ToastEvent`
+  - `ToastState` (class, line 122) `class ToastState`
+  - `ToastReader` (class, line 204) `class ToastReader`
+  - `ToastrConfig` (class, line 357) `class ToastrConfig`
+  - `toastr_severity_style` (function, line 375) `def toastr_severity_style(severity)`
+  - `rich_toastr_panel` (function, line 382) `def rich_toastr_panel(message, severity, terminal_width, config)`
+  - `shell_hint_bypass` (function, line 435) `def shell_hint_bypass(console, message, severity)`
+  - `sentinel_toast_panel` (function, line 454) `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)`
+  - `ToastFormatter` (class, line 489) `class ToastFormatter`
+  - `ToastBus` (class, line 670) `class ToastBus`
+  - `_is_truthy` (function, line 804) `def _is_truthy(value, config, default)`
+  - `_is_dumb_stream` (function, line 818) `def _is_dumb_stream(stream)`
+  - `toasts_enabled` (function, line 838) `def toasts_enabled(payload, config)`
+  - `_budget` (function, line 846) `def _budget(payload, config)`
+  - `build_default_bus` (function, line 861) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (function, line 890) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ephemeral_enabled` (function, line 914) `def ephemeral_enabled(payload, config)`
+  - `render_ephemeral_toasts` (function, line 930) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
+  - `emit_toast` (function, line 960) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (function, line 1005) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (function, line 1049) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 130) `def __init__(self, config, root)`
+  - `path` (method, line 145) `def path(self)`
+  - `get` (method, line 149) `def get(self, name)`
+  - `set` (method, line 154) `def set(self, name, offset)`
+  - `reset` (method, line 160) `def reset(self)`
+  - `flush` (method, line 165) `def flush(self)`
+  - `_ensure_loaded` (method, line 183) `def _ensure_loaded(self)`
+  - `__init__` (method, line 207) `def __init__(self, config, root)`
+  - `root` (method, line 218) `def root(self)`
+  - `read_unseen` (method, line 222) `def read_unseen(self, name, start_offset)`
+  - `_parse` (method, line 253) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 268) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 291) `def _coerce_str(value)`
+  - `_summary` (method, line 299) `def _summary(record)`
+  - `__init__` (method, line 492) `def __init__(self, config, theme)`
+  - `format` (method, line 497) `def format(self, event)`
+  - `is_prominent` (method, line 509) `def is_prominent(self, event)`
+  - `format_prominent` (method, line 519) `def format_prominent(self, event)`
+  - `format_ephemeral` (method, line 536) `def format_ephemeral(self, event)`
+  - `duration_for` (method, line 564) `def duration_for(self, event)`
+  - `digest_line` (method, line 589) `def digest_line(dropped)`
+  - `format_many` (method, line 597) `def format_many(self, events, width)`
+  - `_console_width` (method, line 651) `def _console_width(self)`
+  - `_role_for` (method, line 658) `def _role_for(self, severity)`
+  - `_truncate` (method, line 664) `def _truncate(self, value)`
+  - `__init__` (method, line 677) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 692) `def collect(self)`
+  - `render` (method, line 704) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 733) `def mark_all_seen(self)`
+  - `render_ephemeral` (method, line 740) `def render_ephemeral(self, enabled, duration)`
+  - `_schedule_erase` (method, line 773) `def _schedule_erase(self, delay)`
+  - `_erase_lines` (method, line 789) `def _erase_lines(stream, rows)`
 - Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazy_sentinel4.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`, `tests/test_toastr_unify.py`
 
 ## cli/tui_forms.py
 - Doc: Reusable Textual modals shared by the LazyOwn operator consoles.

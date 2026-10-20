@@ -3,6 +3,30 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_input_changed` | method | `cli/sessions_browser.py:359` | `def on_input_changed(self, event)` |
+| `on_mount` | method | `cli/sessions_browser.py:356` | `def on_mount(self)` |
+| `on_tree_node_selected` | method | `cli/sessions_browser.py:363` | `def on_tree_node_selected(self, event)` |
+| `read` | method | `cli/sessions_browser.py:193` | `def read(self, relative)` |
+| `root` | method | `cli/sessions_browser.py:100` | `def root(self)` |
+| `format_payload` | function | `cli/show.py:14` | `def format_payload(params)` |
+| `InstantEffect` | class | `cli/splash.py:141` | `class InstantEffect` |
+| `SplashConfig` | class | `cli/splash.py:37` | `class SplashConfig` |
+| `SplashEffect` | class | `cli/splash.py:62` | `class SplashEffect(Protocol)` |
+| `TypewriterEffect` | class | `cli/splash.py:80` | `class TypewriterEffect` |
+| `_redraw` | function | `cli/splash.py:119` | `def _redraw(console, accumulated, caret, tokens)` |
+| `render` | method | `cli/splash.py:71` | `def render(self, console, lines, tokens, config)` |
+| `render` | method | `cli/splash.py:90` | `def render(self, console, lines, tokens, config)` |
+| `render` | method | `cli/splash.py:150` | `def render(self, console, lines, tokens, config)` |
+| `render_splash` | function | `cli/splash.py:166` | `def render_splash(console, lines, payload, config, effect_name)` |
+| `CollabPresenceSource` | class | `cli/status_bar.py:590` | `class CollabPresenceSource` |
+| `CommandHintSuggestionSource` | class | `cli/status_bar.py:416` | `class CommandHintSuggestionSource` |
+| `FileSystemReader` | class | `cli/status_bar.py:151` | `class FileSystemReader` |
+| `GraphSuggestionSource` | class | `cli/status_bar.py:508` | `class GraphSuggestionSource` |
+| `IStatusSource` | class | `cli/status_bar.py:143` | `class IStatusSource(Protocol)` |
+| `PayloadTargetSource` | class | `cli/status_bar.py:268` | `class PayloadTargetSource` |
+| `SessionFindingSource` | class | `cli/status_bar.py:319` | `class SessionFindingSource` |
+| `StatusBarConfig` | class | `cli/status_bar.py:41` | `class StatusBarConfig` |
+| `StatusBarManager` | class | `cli/status_bar.py:744` | `class StatusBarManager` |
 | `StatusBarRenderer` | class | `cli/status_bar.py:656` | `class StatusBarRenderer` |
 | `StatusContext` | class | `cli/status_bar.py:127` | `class StatusContext` |
 | `WorldModelPhaseSource` | class | `cli/status_bar.py:292` | `class WorldModelPhaseSource` |
@@ -201,55 +225,60 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `render_session_start` | method | `cli/tips_engine.py:408` | `def render_session_start(self, phase, os_id)` |
 | `reset_session` | method | `cli/tips_engine.py:455` | `def reset_session(self)` |
 | `set_enabled` | method | `cli/tips_engine.py:225` | `def set_enabled(self, value)` |
-| `ToastBus` | class | `cli/toast_bus.py:511` | `class ToastBus` |
-| `ToastConfig` | class | `cli/toast_bus.py:43` | `class ToastConfig` |
-| `ToastEvent` | class | `cli/toast_bus.py:110` | `class ToastEvent` |
-| `ToastFormatter` | class | `cli/toast_bus.py:330` | `class ToastFormatter` |
-| `ToastReader` | class | `cli/toast_bus.py:203` | `class ToastReader` |
-| `ToastState` | class | `cli/toast_bus.py:121` | `class ToastState` |
-| `__init__` | method | `cli/toast_bus.py:129` | `def __init__(self, config, root)` |
-| `__init__` | method | `cli/toast_bus.py:206` | `def __init__(self, config, root)` |
-| `__init__` | method | `cli/toast_bus.py:333` | `def __init__(self, config, theme)` |
-| `__init__` | method | `cli/toast_bus.py:518` | `def __init__(self, config, state, reader, formatter, console)` |
-| `_budget` | function | `cli/toast_bus.py:687` | `def _budget(payload, config)` |
-| `_build_event` | method | `cli/toast_bus.py:267` | `def _build_event(self, line, source, offset)` |
-| `_coerce_str` | method | `cli/toast_bus.py:290` | `def _coerce_str(value)` |
-| `_console_width` | method | `cli/toast_bus.py:492` | `def _console_width(self)` |
-| `_ensure_loaded` | method | `cli/toast_bus.py:182` | `def _ensure_loaded(self)` |
-| `_erase_lines` | method | `cli/toast_bus.py:630` | `def _erase_lines(stream, rows)` |
-| `_is_dumb_stream` | function | `cli/toast_bus.py:659` | `def _is_dumb_stream(stream)` |
-| `_is_truthy` | function | `cli/toast_bus.py:645` | `def _is_truthy(value, config, default)` |
-| `_parse` | method | `cli/toast_bus.py:252` | `def _parse(self, text, source, base_offset)` |
-| `_role_for` | method | `cli/toast_bus.py:499` | `def _role_for(self, severity)` |
-| `_schedule_erase` | method | `cli/toast_bus.py:614` | `def _schedule_erase(self, delay)` |
-| `_summary` | method | `cli/toast_bus.py:298` | `def _summary(record)` |
-| `_truncate` | method | `cli/toast_bus.py:505` | `def _truncate(self, value)` |
-| `build_default_bus` | function | `cli/toast_bus.py:702` | `def build_default_bus(payload, sessions_dir, console)` |
-| `build_toast_renderable` | function | `cli/toast_bus.py:890` | `def build_toast_renderable(events, payload, width, config)` |
-| `collect` | method | `cli/toast_bus.py:533` | `def collect(self)` |
-| `digest_line` | method | `cli/toast_bus.py:430` | `def digest_line(dropped)` |
-| `duration_for` | method | `cli/toast_bus.py:405` | `def duration_for(self, event)` |
-| `emit_toast` | function | `cli/toast_bus.py:801` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
-| `ephemeral_enabled` | function | `cli/toast_bus.py:755` | `def ephemeral_enabled(payload, config)` |
-| `flush` | method | `cli/toast_bus.py:164` | `def flush(self)` |
-| `format` | method | `cli/toast_bus.py:338` | `def format(self, event)` |
-| `format_ephemeral` | method | `cli/toast_bus.py:377` | `def format_ephemeral(self, event)` |
-| `format_many` | method | `cli/toast_bus.py:438` | `def format_many(self, events, width)` |
-| `format_prominent` | method | `cli/toast_bus.py:360` | `def format_prominent(self, event)` |
-| `get` | method | `cli/toast_bus.py:148` | `def get(self, name)` |
-| `is_prominent` | method | `cli/toast_bus.py:350` | `def is_prominent(self, event)` |
-| `mark_all_seen` | method | `cli/toast_bus.py:574` | `def mark_all_seen(self)` |
-| `path` | method | `cli/toast_bus.py:144` | `def path(self)` |
-| `read_recent_toasts` | function | `cli/toast_bus.py:846` | `def read_recent_toasts(sessions_dir, limit, config)` |
-| `read_unseen` | method | `cli/toast_bus.py:221` | `def read_unseen(self, name, start_offset)` |
-| `render` | method | `cli/toast_bus.py:545` | `def render(self, enabled)` |
-| `render_ephemeral` | method | `cli/toast_bus.py:581` | `def render_ephemeral(self, enabled, duration)` |
-| `render_ephemeral_toasts` | function | `cli/toast_bus.py:771` | `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` |
-| `render_toasts` | function | `cli/toast_bus.py:731` | `def render_toasts(payload, sessions_dir, console, bus_factory)` |
-| `reset` | method | `cli/toast_bus.py:159` | `def reset(self)` |
-| `root` | method | `cli/toast_bus.py:217` | `def root(self)` |
-| `set` | method | `cli/toast_bus.py:153` | `def set(self, name, offset)` |
-| `toasts_enabled` | function | `cli/toast_bus.py:679` | `def toasts_enabled(payload, config)` |
+| `ToastBus` | class | `cli/toast_bus.py:670` | `class ToastBus` |
+| `ToastConfig` | class | `cli/toast_bus.py:44` | `class ToastConfig` |
+| `ToastEvent` | class | `cli/toast_bus.py:111` | `class ToastEvent` |
+| `ToastFormatter` | class | `cli/toast_bus.py:489` | `class ToastFormatter` |
+| `ToastReader` | class | `cli/toast_bus.py:204` | `class ToastReader` |
+| `ToastState` | class | `cli/toast_bus.py:122` | `class ToastState` |
+| `ToastrConfig` | class | `cli/toast_bus.py:357` | `class ToastrConfig` |
+| `__init__` | method | `cli/toast_bus.py:130` | `def __init__(self, config, root)` |
+| `__init__` | method | `cli/toast_bus.py:207` | `def __init__(self, config, root)` |
+| `__init__` | method | `cli/toast_bus.py:492` | `def __init__(self, config, theme)` |
+| `__init__` | method | `cli/toast_bus.py:677` | `def __init__(self, config, state, reader, formatter, console)` |
+| `_budget` | function | `cli/toast_bus.py:846` | `def _budget(payload, config)` |
+| `_build_event` | method | `cli/toast_bus.py:268` | `def _build_event(self, line, source, offset)` |
+| `_coerce_str` | method | `cli/toast_bus.py:291` | `def _coerce_str(value)` |
+| `_console_width` | method | `cli/toast_bus.py:651` | `def _console_width(self)` |
+| `_ensure_loaded` | method | `cli/toast_bus.py:183` | `def _ensure_loaded(self)` |
+| `_erase_lines` | method | `cli/toast_bus.py:789` | `def _erase_lines(stream, rows)` |
+| `_is_dumb_stream` | function | `cli/toast_bus.py:818` | `def _is_dumb_stream(stream)` |
+| `_is_truthy` | function | `cli/toast_bus.py:804` | `def _is_truthy(value, config, default)` |
+| `_parse` | method | `cli/toast_bus.py:253` | `def _parse(self, text, source, base_offset)` |
+| `_role_for` | method | `cli/toast_bus.py:658` | `def _role_for(self, severity)` |
+| `_schedule_erase` | method | `cli/toast_bus.py:773` | `def _schedule_erase(self, delay)` |
+| `_summary` | method | `cli/toast_bus.py:299` | `def _summary(record)` |
+| `_truncate` | method | `cli/toast_bus.py:664` | `def _truncate(self, value)` |
+| `build_default_bus` | function | `cli/toast_bus.py:861` | `def build_default_bus(payload, sessions_dir, console)` |
+| `build_toast_renderable` | function | `cli/toast_bus.py:1049` | `def build_toast_renderable(events, payload, width, config)` |
+| `collect` | method | `cli/toast_bus.py:692` | `def collect(self)` |
+| `digest_line` | method | `cli/toast_bus.py:589` | `def digest_line(dropped)` |
+| `duration_for` | method | `cli/toast_bus.py:564` | `def duration_for(self, event)` |
+| `emit_toast` | function | `cli/toast_bus.py:960` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
+| `ephemeral_enabled` | function | `cli/toast_bus.py:914` | `def ephemeral_enabled(payload, config)` |
+| `flush` | method | `cli/toast_bus.py:165` | `def flush(self)` |
+| `format` | method | `cli/toast_bus.py:497` | `def format(self, event)` |
+| `format_ephemeral` | method | `cli/toast_bus.py:536` | `def format_ephemeral(self, event)` |
+| `format_many` | method | `cli/toast_bus.py:597` | `def format_many(self, events, width)` |
+| `format_prominent` | method | `cli/toast_bus.py:519` | `def format_prominent(self, event)` |
+| `get` | method | `cli/toast_bus.py:149` | `def get(self, name)` |
+| `is_prominent` | method | `cli/toast_bus.py:509` | `def is_prominent(self, event)` |
+| `mark_all_seen` | method | `cli/toast_bus.py:733` | `def mark_all_seen(self)` |
+| `path` | method | `cli/toast_bus.py:145` | `def path(self)` |
+| `read_recent_toasts` | function | `cli/toast_bus.py:1005` | `def read_recent_toasts(sessions_dir, limit, config)` |
+| `read_unseen` | method | `cli/toast_bus.py:222` | `def read_unseen(self, name, start_offset)` |
+| `render` | method | `cli/toast_bus.py:704` | `def render(self, enabled)` |
+| `render_ephemeral` | method | `cli/toast_bus.py:740` | `def render_ephemeral(self, enabled, duration)` |
+| `render_ephemeral_toasts` | function | `cli/toast_bus.py:930` | `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` |
+| `render_toasts` | function | `cli/toast_bus.py:890` | `def render_toasts(payload, sessions_dir, console, bus_factory)` |
+| `reset` | method | `cli/toast_bus.py:160` | `def reset(self)` |
+| `rich_toastr_panel` | function | `cli/toast_bus.py:382` | `def rich_toastr_panel(message, severity, terminal_width, config)` |
+| `root` | method | `cli/toast_bus.py:218` | `def root(self)` |
+| `sentinel_toast_panel` | function | `cli/toast_bus.py:454` | `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` |
+| `set` | method | `cli/toast_bus.py:154` | `def set(self, name, offset)` |
+| `shell_hint_bypass` | function | `cli/toast_bus.py:435` | `def shell_hint_bypass(console, message, severity)` |
+| `toastr_severity_style` | function | `cli/toast_bus.py:375` | `def toastr_severity_style(severity)` |
+| `toasts_enabled` | function | `cli/toast_bus.py:838` | `def toasts_enabled(payload, config)` |
 | `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
 | `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
 | `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_prompt_general` | function | `contrib/legacy/lazygptcli_unified.py:206` | `def _prompt_general(base_prompt, history, knowledge_base)` |
 | `_prompt_oneliner` | function | `contrib/legacy/lazygptcli_unified.py:159` | `def _prompt_oneliner(base_prompt, history, knowledge_base)` |
 | `_prompt_redop` | function | `contrib/legacy/lazygptcli_unified.py:267` | `def _prompt_redop(base_prompt, history, knowledge_base)` |
-| `_prompt_script` | function | `contrib/legacy/lazygptcli_unified.py:175` | `def _prompt_script(base_prompt, history, knowledge_base)` |
-| `_prompt_search` | function | `contrib/legacy/lazygptcli_unified.py:225` | `def _prompt_search(base_prompt, history, knowledge_base)` |
-| `_prompt_task` | function | `contrib/legacy/lazygptcli_unified.py:254` | `def _prompt_task(base_prompt, history, knowledge_base)` |
-| `_prompt_vuln` | function | `contrib/legacy/lazygptcli_unified.py:239` | `def _prompt_vuln(base_prompt, history, knowledge_base)` |
-| `_ret_model` | function | `contrib/legacy/lazygptcli_unified.py:45` | `def _ret_model()` |
-| `_save_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:70` | `def _save_knowledge_base(knowledge_base, file_path)` |
-| `_transform_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:95` | `def _transform_knowledge_base(client, kb_file, improved_file)` |
-| `process_prompt` | function | `contrib/legacy/lazygptcli_unified.py:318` | `def process_prompt(client, prompt, debug)` |
-| `process_prompt_adversary` | function | `contrib/legacy/lazygptcli_unified.py:328` | `def process_prompt_adversary(client, prompt, debug)` |
-| `process_prompt_general` | function | `contrib/legacy/lazygptcli_unified.py:333` | `def process_prompt_general(client, prompt, debug)` |
-| `process_prompt_redop` | function | `contrib/legacy/lazygptcli_unified.py:382` | `def process_prompt_redop(client, prompt, debug)` |
-| `process_prompt_script` | function | `contrib/legacy/lazygptcli_unified.py:323` | `def process_prompt_script(client, prompt, debug)` |
-| `process_prompt_search` | function | `contrib/legacy/lazygptcli_unified.py:341` | `def process_prompt_search(client, prompt, debug)` |
-| `process_prompt_task` | function | `contrib/legacy/lazygptcli_unified.py:346` | `def process_prompt_task(client, prompt, debug)` |
-| `process_prompt_vuln` | function | `contrib/legacy/lazygptcli_unified.py:356` | `def process_prompt_vuln(client, prompt, debug, event)` |
-| `truncate_message` | function | `contrib/legacy/lazygptcli_unified.py:53` | `def truncate_message(message, max_chars)` |
-| `Server` | class | `contrib/legacy/lazyhoneypot.py:60` | `class Server(ServerInterface)` |
-| `__init__` | method | `contrib/legacy/lazyhoneypot.py:61` | `def __init__(self)` |
-| `alert_admin` | function | `contrib/legacy/lazyhoneypot.py:147` | `def alert_admin(message)` |
-| `analyze_traffic` | function | `contrib/legacy/lazyhoneypot.py:136` | `def analyze_traffic()` |
-| `check_auth_password` | method | `contrib/legacy/lazyhoneypot.py:69` | `def check_auth_password(self, username, password)` |
-| `check_channel_request` | method | `contrib/legacy/lazyhoneypot.py:64` | `def check_channel_request(self, kind, chanid)` |
-| `generate_rsa_key` | function | `contrib/legacy/lazyhoneypot.py:56` | `def generate_rsa_key(key_filename)` |
-| `handle_connection` | function | `contrib/legacy/lazyhoneypot.py:74` | `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)` |
-| `handle_file_download` | function | `contrib/legacy/lazyhoneypot.py:110` | `def handle_file_download(command, downloads_dir, downloads_log)` |
-| `log_command` | function | `contrib/legacy/lazyhoneypot.py:128` | `def log_command(command, commands_log)` |
-| `log_downloaded_file` | function | `contrib/legacy/lazyhoneypot.py:132` | `def log_downloaded_file(filename, url, downloads_log)` |
-| `main` | function | `contrib/legacy/lazyhoneypot.py:165` | `def main()` |
-| `parse_args` | function | `contrib/legacy/lazyhoneypot.py:34` | `def parse_args()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

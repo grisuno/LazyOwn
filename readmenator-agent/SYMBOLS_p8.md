@@ -3,6 +3,35 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Severity` | class | `core/payload_schema.py:91` | `class Severity(StrEnum)` |
+| `ValidationIssue` | class | `core/payload_schema.py:142` | `class ValidationIssue` |
+| `_coerce_bool` | function | `core/payload_schema.py:316` | `def _coerce_bool(raw)` |
+| `_coerce_int` | function | `core/payload_schema.py:301` | `def _coerce_int(raw)` |
+| `_spec` | function | `core/payload_schema.py:335` | `def _spec(name, kind, default, description)` |
+| `_validate_bool` | function | `core/payload_schema.py:195` | `def _validate_bool(value)` |
+| `_validate_hex` | function | `core/payload_schema.py:254` | `def _validate_hex(value)` |
+| `_validate_hostname` | function | `core/payload_schema.py:220` | `def _validate_hostname(value)` |
+| `_validate_int` | function | `core/payload_schema.py:171` | `def _validate_int(value)` |
+| `_validate_interface` | function | `core/payload_schema.py:246` | `def _validate_interface(value)` |
+| `_validate_ip` | function | `core/payload_schema.py:212` | `def _validate_ip(value)` |
+| `_validate_json_blob` | function | `core/payload_schema.py:268` | `def _validate_json_blob(value)` |
+| `_validate_opaque` | function | `core/payload_schema.py:280` | `def _validate_opaque(_value)` |
+| `_validate_os_id` | function | `core/payload_schema.py:262` | `def _validate_os_id(value)` |
+| `_validate_path` | function | `core/payload_schema.py:240` | `def _validate_path(value)` |
+| `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
+| `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
+| `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
+| `categories` | function | `core/payload_schema.py:1745` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:1587` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:1737` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:1582` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:1719` | `def format_issue(issue)` |
+| `validate_payload` | function | `core/payload_schema.py:1684` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:1610` | `def validate_value(key, value)` |
+| `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
+| `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
+| `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
+| `check_go_tool_installed` | function | `core/process.py:34` | `def check_go_tool_installed(tool_name)` |
 | `check_sudo` | function | `core/process.py:97` | `def check_sudo()` |
 | `ensure_tmux_session` | function | `core/process.py:253` | `def ensure_tmux_session(session_name)` |
 | `handle_multiple_rhosts` | function | `core/process.py:68` | `def handle_multiple_rhosts(func)` |
@@ -156,53 +185,53 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `usage` | function | `install.sh:49` | `` |
 | `verify_installation` | function | `install.sh:294` | `` |
 | `main` | function | `key.py:10` | `def main()` |
-| `Alert` | class | `lazy_sentinel4.py:271` | `class Alert` |
-| `App` | class | `lazy_sentinel4.py:544` | `class App(Cmd)` |
-| `Database` | class | `lazy_sentinel4.py:214` | `class Database` |
-| `LazySentinel` | class | `lazy_sentinel4.py:340` | `class LazySentinel` |
-| `LazySentinelHandler` | class | `lazy_sentinel4.py:302` | `class LazySentinelHandler(FileSystemEventHandler)` |
-| `RAGManager` | class | `lazy_sentinel4.py:58` | `class RAGManager` |
-| `__init__` | method | `lazy_sentinel4.py:61` | `def __init__(self, model_name, cache_size)` |
-| `__init__` | method | `lazy_sentinel4.py:215` | `def __init__(self, db_path)` |
-| `__init__` | method | `lazy_sentinel4.py:274` | `def __init__(self, alert_type, details, severity)` |
-| `__init__` | method | `lazy_sentinel4.py:303` | `def __init__(self, lazysentinel)` |
-| `__init__` | method | `lazy_sentinel4.py:341` | `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)` |
-| `__init__` | method | `lazy_sentinel4.py:545` | `def __init__(self)` |
-| `chunk_text` | method | `lazy_sentinel4.py:361` | `def chunk_text(self, text, chunk_size)` |
-| `complete_rag_add` | method | `lazy_sentinel4.py:699` | `def complete_rag_add(self, text, line, begidx, endidx)` |
-| `complete_rag_bulk_add` | method | `lazy_sentinel4.py:706` | `def complete_rag_bulk_add(self, text, line, begidx, endidx)` |
-| `display_toastr` | method | `lazy_sentinel4.py:559` | `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` |
-| `do_debug` | method | `lazy_sentinel4.py:615` | `def do_debug(self, arg)` |
-| `do_quit` | method | `lazy_sentinel4.py:611` | `def do_quit(self, arg)` |
-| `do_rag_add` | method | `lazy_sentinel4.py:632` | `def do_rag_add(self, arg)` |
-| `do_rag_bulk_add` | method | `lazy_sentinel4.py:659` | `def do_rag_bulk_add(self, arg)` |
-| `do_rag_query` | method | `lazy_sentinel4.py:624` | `def do_rag_query(self, arg)` |
-| `do_rag_search` | method | `lazy_sentinel4.py:678` | `def do_rag_search(self, arg)` |
-| `do_rag_status` | method | `lazy_sentinel4.py:647` | `def do_rag_status(self, arg)` |
-| `do_rag_toggle` | method | `lazy_sentinel4.py:654` | `def do_rag_toggle(self, arg)` |
-| `execute` | method | `lazy_sentinel4.py:243` | `def execute(self, query, params)` |
-| `get_cache_key` | method | `lazy_sentinel4.py:85` | `def get_cache_key(self, content)` |
-| `get_knowledge_base_stats` | method | `lazy_sentinel4.py:191` | `def get_knowledge_base_stats(self)` |
-| `initialize` | method | `lazy_sentinel4.py:219` | `def initialize(self)` |
-| `initialize_cache_table` | method | `lazy_sentinel4.py:73` | `def initialize_cache_table(self)` |
-| `insert` | method | `lazy_sentinel4.py:255` | `def insert(self, query, params)` |
-| `invalidate_cache` | method | `lazy_sentinel4.py:177` | `def invalidate_cache(self, file_path)` |
-| `is_text_file` | method | `lazy_sentinel4.py:306` | `def is_text_file(self, file_path)` |
-| `load_existing_vectorstore` | method | `lazy_sentinel4.py:88` | `def load_existing_vectorstore(self)` |
-| `ollama_llm` | method | `lazy_sentinel4.py:101` | `def ollama_llm(self, question, context)` |
-| `on_created` | method | `lazy_sentinel4.py:316` | `def on_created(self, event)` |
-| `on_modified` | method | `lazy_sentinel4.py:328` | `def on_modified(self, event)` |
-| `parse_deepseek_response` | method | `lazy_sentinel4.py:378` | `def parse_deepseek_response(self, response_text)` |
-| `postcmd` | method | `lazy_sentinel4.py:587` | `def postcmd(self, stop, line)` |
-| `process_file` | method | `lazy_sentinel4.py:422` | `def process_file(self, file_path)` |
-| `process_file_to_rag` | method | `lazy_sentinel4.py:115` | `def process_file_to_rag(self, file_path)` |
-| `query_rag` | method | `lazy_sentinel4.py:155` | `def query_rag(self, question)` |
-| `sanitize_content` | function | `lazy_sentinel4.py:47` | `def sanitize_content(text)` |
-| `save_to_db` | method | `lazy_sentinel4.py:288` | `def save_to_db(self, db)` |
-| `select_relevant_chunk` | method | `lazy_sentinel4.py:364` | `def select_relevant_chunk(self, file_content, chunks)` |
-| `show_popup` | method | `lazy_sentinel4.py:404` | `def show_popup(self, file_name, relevant_info, commands, details)` |
-| `stop` | method | `lazy_sentinel4.py:538` | `def stop(self)` |
-| `to_dict` | method | `lazy_sentinel4.py:280` | `def to_dict(self)` |
+| `Alert` | class | `lazy_sentinel4.py:269` | `class Alert` |
+| `App` | class | `lazy_sentinel4.py:542` | `class App(Cmd)` |
+| `Database` | class | `lazy_sentinel4.py:212` | `class Database` |
+| `LazySentinel` | class | `lazy_sentinel4.py:338` | `class LazySentinel` |
+| `LazySentinelHandler` | class | `lazy_sentinel4.py:300` | `class LazySentinelHandler(FileSystemEventHandler)` |
+| `RAGManager` | class | `lazy_sentinel4.py:56` | `class RAGManager` |
+| `__init__` | method | `lazy_sentinel4.py:59` | `def __init__(self, model_name, cache_size)` |
+| `__init__` | method | `lazy_sentinel4.py:213` | `def __init__(self, db_path)` |
+| `__init__` | method | `lazy_sentinel4.py:272` | `def __init__(self, alert_type, details, severity)` |
+| `__init__` | method | `lazy_sentinel4.py:301` | `def __init__(self, lazysentinel)` |
+| `__init__` | method | `lazy_sentinel4.py:339` | `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)` |
+| `__init__` | method | `lazy_sentinel4.py:543` | `def __init__(self)` |
+| `chunk_text` | method | `lazy_sentinel4.py:359` | `def chunk_text(self, text, chunk_size)` |
+| `complete_rag_add` | method | `lazy_sentinel4.py:679` | `def complete_rag_add(self, text, line, begidx, endidx)` |
+| `complete_rag_bulk_add` | method | `lazy_sentinel4.py:686` | `def complete_rag_bulk_add(self, text, line, begidx, endidx)` |
+| `display_toastr` | method | `lazy_sentinel4.py:557` | `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` |
+| `do_debug` | method | `lazy_sentinel4.py:595` | `def do_debug(self, arg)` |
+| `do_quit` | method | `lazy_sentinel4.py:591` | `def do_quit(self, arg)` |
+| `do_rag_add` | method | `lazy_sentinel4.py:612` | `def do_rag_add(self, arg)` |
+| `do_rag_bulk_add` | method | `lazy_sentinel4.py:639` | `def do_rag_bulk_add(self, arg)` |
+| `do_rag_query` | method | `lazy_sentinel4.py:604` | `def do_rag_query(self, arg)` |
+| `do_rag_search` | method | `lazy_sentinel4.py:658` | `def do_rag_search(self, arg)` |
+| `do_rag_status` | method | `lazy_sentinel4.py:627` | `def do_rag_status(self, arg)` |
+| `do_rag_toggle` | method | `lazy_sentinel4.py:634` | `def do_rag_toggle(self, arg)` |
+| `execute` | method | `lazy_sentinel4.py:241` | `def execute(self, query, params)` |
+| `get_cache_key` | method | `lazy_sentinel4.py:83` | `def get_cache_key(self, content)` |
+| `get_knowledge_base_stats` | method | `lazy_sentinel4.py:189` | `def get_knowledge_base_stats(self)` |
+| `initialize` | method | `lazy_sentinel4.py:217` | `def initialize(self)` |
+| `initialize_cache_table` | method | `lazy_sentinel4.py:71` | `def initialize_cache_table(self)` |
+| `insert` | method | `lazy_sentinel4.py:253` | `def insert(self, query, params)` |
+| `invalidate_cache` | method | `lazy_sentinel4.py:175` | `def invalidate_cache(self, file_path)` |
+| `is_text_file` | method | `lazy_sentinel4.py:304` | `def is_text_file(self, file_path)` |
+| `load_existing_vectorstore` | method | `lazy_sentinel4.py:86` | `def load_existing_vectorstore(self)` |
+| `ollama_llm` | method | `lazy_sentinel4.py:99` | `def ollama_llm(self, question, context)` |
+| `on_created` | method | `lazy_sentinel4.py:314` | `def on_created(self, event)` |
+| `on_modified` | method | `lazy_sentinel4.py:326` | `def on_modified(self, event)` |
+| `parse_deepseek_response` | method | `lazy_sentinel4.py:376` | `def parse_deepseek_response(self, response_text)` |
+| `postcmd` | method | `lazy_sentinel4.py:567` | `def postcmd(self, stop, line)` |
+| `process_file` | method | `lazy_sentinel4.py:420` | `def process_file(self, file_path)` |
+| `process_file_to_rag` | method | `lazy_sentinel4.py:113` | `def process_file_to_rag(self, file_path)` |
+| `query_rag` | method | `lazy_sentinel4.py:153` | `def query_rag(self, question)` |
+| `sanitize_content` | function | `lazy_sentinel4.py:45` | `def sanitize_content(text)` |
+| `save_to_db` | method | `lazy_sentinel4.py:286` | `def save_to_db(self, db)` |
+| `select_relevant_chunk` | method | `lazy_sentinel4.py:362` | `def select_relevant_chunk(self, file_content, chunks)` |
+| `show_popup` | method | `lazy_sentinel4.py:402` | `def show_popup(self, file_name, relevant_info, commands, details)` |
+| `stop` | method | `lazy_sentinel4.py:536` | `def stop(self)` |
+| `to_dict` | method | `lazy_sentinel4.py:278` | `def to_dict(self)` |
 | `CustomDNSResolver` | class | `lazyc2.py:1728` | `class CustomDNSResolver(BaseResolver)` |
 | `Handler` | class | `lazyc2.py:728` | `class Handler(FileSystemEventHandler)` |
 | `User` | class | `lazyc2.py:2973` | `class User(UserMixin)` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `task` | function | `lazyc2.py:5252` | `def task(task_id)` |
 | `taskbot` | function | `lazyc2.py:5045` | `def taskbot()` |
 | `tasks` | function | `lazyc2.py:5277` | `def tasks()` |
-| `tcp_bridge` | function | `lazyc2.py:1873` | `def tcp_bridge(local_port, remote_host, remote_port)` |
-| `teamserver` | function | `lazyc2.py:6519` | `def teamserver()` |
-| `terminal` | function | `lazyc2.py:6857` | `def terminal()` |
-| `terminal_command` | function | `lazyc2.py:6899` | `def terminal_command(data)` |
-| `terminal_connect` | function | `lazyc2.py:6866` | `def terminal_connect()` |
-| `terminal_disconnect` | function | `lazyc2.py:6876` | `def terminal_disconnect()` |
-| `terminal_input` | function | `lazyc2.py:6886` | `def terminal_input(data)` |
-| `terminal_resize` | function | `lazyc2.py:6914` | `def terminal_resize(data)` |
-| `to_serializable` | function | `lazyc2.py:1193` | `def to_serializable(obj)` |
-| `tojson_filter` | function | `lazyc2.py:3049` | `def tojson_filter(value)` |
-| `track_interaction` | function | `lazyc2.py:4508` | `def track_interaction(short_url)` |
-| `track_pixel` | function | `lazyc2.py:7754` | `def track_pixel(campaign_id, email)` |
-| `update_short_url` | function | `lazyc2.py:4533` | `def update_short_url(short_url)` |
-| `update_tool` | function | `lazyc2.py:5682` | `def update_tool(toolname)` |
-| `upload` | function | `lazyc2.py:3907` | `def upload()` |
-| `upload_zip_file` | function | `lazyc2.py:7589` | `def upload_zip_file()` |
-| `validate_route_path` | function | `lazyc2.py:506` | `def validate_route_path(route_path)` |
-| `validate_template_name` | function | `lazyc2.py:519` | `def validate_template_name(template_name)` |
-| `view_note` | function | `lazyc2.py:5443` | `def view_note()` |
-| `view_tool` | function | `lazyc2.py:5651` | `def view_tool(toolname)` |
-| `view_yaml` | function | `lazyc2.py:4660` | `def view_yaml()` |
-| `vuln` | function | `lazyc2.py:5006` | `def vuln()` |
-| `webserver_report` | function | `lazyc2.py:4588` | `def webserver_report(filename)` |
-| `wrapper` | function | `lazyc2.py:1414` | `def wrapper()` |
-| `AddonCreatorConfig` | class | `lazyc2/addon_creator.py:71` | `class AddonCreatorConfig` |
-| `AddonDraft` | class | `lazyc2/addon_creator.py:378` | `class AddonDraft` |
-| `AddonStore` | class | `lazyc2/addon_creator.py:813` | `class AddonStore` |
-| `AddonValidationError` | class | `lazyc2/addon_creator.py:412` | `class AddonValidationError(ValueError)` |
-| `AddonValidator` | class | `lazyc2/addon_creator.py:425` | `class AddonValidator` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

@@ -1,6 +1,37 @@
 # API (page 10 of 23)
 Previous: [API_p9.md](API_p9.md)
 
+## modules/backdoor/keylogger.h
+Imported by: `modules/backdoor/backdoor.c`
+- `logg` (function) `modules/backdoor/keylogger.h:1` `DWORD WINAPI logg(LPVOID lpParam)`
+
+## modules/backdoor/server.c
+Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_lazy_proxy.py`, `utils.py`
+- `main` (function) `modules/backdoor/server.c:10` `int main()`
+
+## modules/beacon_config_builder.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
+Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
+- `BeaconConfig.to_gen_beacon_args` (method) `modules/beacon_config_builder.py:117` `def to_gen_beacon_args(self)` -- Produce CLI arguments for gen_beacon.sh.
+- `BeaconConfig.to_go_implant_vars` (method) `modules/beacon_config_builder.py:137` `def to_go_implant_vars(self)` -- Produce template variables for the Go implant builder.
+- `BeaconConfig.to_config_json` (method) `modules/beacon_config_builder.py:160` `def to_config_json(self)` -- Produce the config.json that beacons fetch on startup.
+- `BeaconConfig.to_dict` (method) `modules/beacon_config_builder.py:185` `def to_dict(self)` -- Full serialization of beacon config.
+- `BeaconConfigBuilder.__init__` (method) `modules/beacon_config_builder.py:245` `def __init__(self, payload)`
+- `BeaconConfigBuilder.build` (method) `modules/beacon_config_builder.py:248` `def build(self, name)` -- Build a complete BeaconConfig.
+- `BeaconConfigBuilder.from_payload` (method) `modules/beacon_config_builder.py:403` `def from_payload(cls, payload)` -- Build a BeaconConfigBuilder from a payload dictionary.
+- `BeaconConfigBuilder.from_payload_file` (method) `modules/beacon_config_builder.py:408` `def from_payload_file(cls, path)` -- Build a BeaconConfigBuilder by loading payload.json from disk.
+- `generate_bof_execution_command` (function) `modules/beacon_config_builder.py:416` `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` -- Generate a ``bof:<url>`` command that the C beacon executes.
+
+## modules/beacon_history.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+- `BeaconHistoryConfig.sessions_dir` (method) `modules/beacon_history.py:39` `def sessions_dir(self)` -- Return the resolved sessions directory under the base dir.
+- `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:43` `def records_path(self, client_id)` -- Resolve the history file path for a sanitised beacon client id.
+- `sanitize_client_id` (function) `modules/beacon_history.py:70` `def sanitize_client_id(client_id)` -- Sanitise a beacon id to only URL/file-safe characters.
+- `append_record` (function) `modules/beacon_history.py:82` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
+- `read_records` (function) `modules/beacon_history.py:116` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
+- `records_path` (function) `modules/beacon_history.py:145` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
+
 ## modules/bin2img.py
 - `binario_a_imagen` (function) `modules/bin2img.py:7` `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
 - `main` (function) `modules/bin2img.py:54` `def main()`
@@ -167,7 +198,7 @@ Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/lazy_orchestrator.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`
 - `ChainStep.identifier` (method) `modules/chain_registry.py:82` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:104` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
 - `evaluate_when` (function) `modules/chain_registry.py:215` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
@@ -433,63 +464,6 @@ Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dash
 - `DashboardEngine.export_json` (method) `modules/dashboard_engine.py:408` `def export_json(self, snapshot)` -- Export dashboard snapshot as JSON string.
 - `DashboardEngine.persist_snapshot` (method) `modules/dashboard_engine.py:421` `def persist_snapshot(self, snapshot)` -- Persist dashboard snapshot to sessions/dashboard_snapshot.json.
 - `DashboardEngine.format_for_cli` (method) `modules/dashboard_engine.py:438` `def format_for_cli(self, snapshot)` -- Compact single-line status for CLI prompt integration.
-
-## modules/db.py
-Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
-- `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
-- `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
-- `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.
-- `LazyOwnDB.workspace_create` (method) `modules/db.py:292` `def workspace_create(self, name, description)` -- Create a new workspace.
-- `LazyOwnDB.workspace_list` (method) `modules/db.py:307` `def workspace_list(self)` -- Return all workspaces as dicts.
-- `LazyOwnDB.workspace_get` (method) `modules/db.py:313` `def workspace_get(self, name)` -- Get a workspace by name, or None.
-- `LazyOwnDB.default_workspace` (method) `modules/db.py:320` `def default_workspace(self, name)` -- Return the id of the named workspace, creating it when absent.
-- `LazyOwnDB.workspace_delete` (method) `modules/db.py:333` `def workspace_delete(self, name)` -- Delete a workspace and all its data.
-- `LazyOwnDB.host_add` (method) `modules/db.py:357` `def host_add(self, workspace_id, address, mac, hostname, os, state)` -- Add or update a host.
-- `LazyOwnDB.host_delete` (method) `modules/db.py:390` `def host_delete(self, host_id)` -- Delete a host and its related data.
-- `LazyOwnDB.host_list` (method) `modules/db.py:401` `def host_list(self, workspace_id)` -- List all hosts in a workspace.
-- `LazyOwnDB.host_find` (method) `modules/db.py:410` `def host_find(self, workspace_id, query)` -- Search hosts by address, hostname, or os.
-- `LazyOwnDB.service_add` (method) `modules/db.py:427` `def service_add(self, host_id, port, protocol, state, name, product, version)` -- Add a service to a host.
-- `LazyOwnDB.service_list` (method) `modules/db.py:447` `def service_list(self, host_id)` -- List all services on a host.
-- `LazyOwnDB.vuln_add` (method) `modules/db.py:460` `def vuln_add(self, host_id, name, severity, description, refs)` -- Add a vulnerability to a host.
-- `LazyOwnDB.vuln_get` (method) `modules/db.py:478` `def vuln_get(self, vuln_id)` -- Return one vuln row with its host address, or None.
-- `LazyOwnDB.vuln_update` (method) `modules/db.py:490` `def vuln_update(self, vuln_id, refs, severity, description)` -- Update mutable vuln fields; returns True when a row changed.
-- `LazyOwnDB.vuln_list` (method) `modules/db.py:528` `def vuln_list(self, workspace_id, severity)` -- List vulns in workspace, optionally filtered by severity.
-- `LazyOwnDB.cred_add` (method) `modules/db.py:557` `def cred_add(self, host_id, username, password, realm, cred_type, origin)` -- Add a credential (password encrypted at rest).
-- `LazyOwnDB.cred_list` (method) `modules/db.py:577` `def cred_list(self, workspace_id)` -- List all creds in workspace (passwords decrypted).
-- `LazyOwnDB.loot_add` (method) `modules/db.py:596` `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` -- Add a loot entry.
-- `LazyOwnDB.loot_list` (method) `modules/db.py:615` `def loot_list(self, workspace_id)` -- List all loot in workspace.
-- `LazyOwnDB.note_add` (method) `modules/db.py:631` `def note_add(self, workspace_id, data, note_type, host_id)` -- Add a note.
-- `LazyOwnDB.note_list` (method) `modules/db.py:648` `def note_list(self, workspace_id)` -- List all notes in workspace.
-- `LazyOwnDB.import_nmap_xml` (method) `modules/db.py:664` `def import_nmap_xml(self, workspace_id, xml_path)` -- Import an Nmap XML file into the database.
-- `LazyOwnDB.export_csv` (method) `modules/db.py:740` `def export_csv(self, table, workspace_id)` -- Export a table to CSV string.
-- `LazyOwnDB.status` (method) `modules/db.py:775` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
-- `LazyOwnDB.close` (method) `modules/db.py:804` `def close(self)` -- Close the database connection for the current thread.
-- `get_db` (function) `modules/db.py:821` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
-
-## modules/delegation_attacks.py
-Imported by: `cli/commands/active_directory.py`
-- `DelegationEnumerator.__init__` (method) `modules/delegation_attacks.py:98` `def __init__(self, domain, raw_ldap_output)`
-- `DelegationEnumerator.enumerate_from_uac_flags` (method) `modules/delegation_attacks.py:104` `def enumerate_from_uac_flags(self, accounts)` -- Enumerate delegation targets from parsed account data.
-- `DelegationEnumerator.parse_bloodhound_output` (method) `modules/delegation_attacks.py:151` `def parse_bloodhound_output(self, bloodhound_json)` -- Parse BloodHound JSON output for delegation data.
-- `DelegationEnumerator.find_unconstrained_targets` (method) `modules/delegation_attacks.py:181` `def find_unconstrained_targets(self)` -- Return all accounts with unconstrained delegation enabled.
-- `DelegationEnumerator.find_constrained_targets` (method) `modules/delegation_attacks.py:189` `def find_constrained_targets(self)` -- Return all accounts with constrained delegation configured.
-- `DelegationEnumerator.find_rbcd_targets` (method) `modules/delegation_attacks.py:197` `def find_rbcd_targets(self)` -- Return all accounts with RBCD configured.
-- `DelegationEnumerator.find_dc_targets` (method) `modules/delegation_attacks.py:205` `def find_dc_targets(self)` -- Return domain controllers with delegation configured.
-- `DelegationEnumerator.compute_attack_paths` (method) `modules/delegation_attacks.py:215` `def compute_attack_paths(self)` -- Compute delegation-based attack paths.
-- `DelegationEnumerator.summary` (method) `modules/delegation_attacks.py:296` `def summary(self)` -- Return a summary of all delegation findings.
-
-## modules/detailed_search.py
-- `obtener_informacion` (function) `modules/detailed_search.py:40` `def obtener_informacion(url)`
-
-## modules/detection_feed.py
-Depends on: `core/logging.py`, `modules/detection_oracle.py`
-Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
-- `DetectionFeed.__init__` (method) `modules/detection_feed.py:83` `def __init__(self, cache_dir, sources)`
-- `DetectionFeed.update_rules` (method) `modules/detection_feed.py:92` `def update_rules(self, source)` -- Download and parse rules from the given source.
-- `DetectionFeed.load_cached_rules` (method) `modules/detection_feed.py:246` `def load_cached_rules(self, source)` -- Load previously cached rules from disk.
-- `DetectionFeed.adjust_from_feedback` (method) `modules/detection_feed.py:270` `def adjust_from_feedback(self, feedback_file)` -- Adjust rule probabilities based on historical detection feedback.
-- `get_feed` (function) `modules/detection_feed.py:326` `def get_feed()` -- Return a module-level :class:`DetectionFeed` singleton.
 
 
 Next: [API_p11.md](API_p11.md)

@@ -1,6 +1,6 @@
 # modules: surface_graph
 
-modules: surface_graph groups 15 files (py) around _cache_path, _cache_load, _cache_save, _cached, _store. Database commands — workspace isolation, host/service/vuln management, nmap import...
+modules: surface_graph groups 16 files (py) around _cache_path, _cache_load, _cache_save, _cached, _store. Database commands — workspace isolation, host/service/vuln management, nmap import...
 
 ```mermaid
 graph LR
@@ -23,7 +23,7 @@ modules groups 6 files (py) around _cache_path, _cache_load, _cache_save, _cache
 
 ## tests (9.3)
 
-tests groups 5 files (py) around _fixture_sessions, test_attack_fuses_surface_and_intel, test_attack_payload_readmenator_shape, test_attack_bundle_payload, test_attack_summary_feeds_loop. Attack-surface 3D module: surface+intel fusion + embedded pages.
+tests groups 6 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 
 **Files**:
 
@@ -37,6 +37,7 @@ tests groups 5 files (py) around _fixture_sessions, test_attack_fuses_surface_an
 - modules/intel_fusion.py
 - modules/osint_enrich.py
 - modules/surface_ops.py
+- tests/test_asset_gate.py
 - tests/test_attack_surface3d.py
 - tests/test_estorides_fusion.py
 - tests/test_finding_lifecycle.py

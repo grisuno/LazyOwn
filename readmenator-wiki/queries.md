@@ -4,19 +4,19 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (142 connections)
+### Q: What does logging.py depend on, and what depends on it? (144 connections)
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (103 connections)
+### Q: What does utils.py depend on, and what depends on it? (106 connections)
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (81 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (82 connections)
 
 - Status: unanswered
 
-### Q: How are the 166 files in 'modules: autonomous_daemon' related to each other?
+### Q: How are the 167 files in 'cli/commands' related to each other?
 
 - Status: unanswered
 

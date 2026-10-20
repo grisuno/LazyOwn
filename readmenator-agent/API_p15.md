@@ -48,8 +48,8 @@ Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
 ## modules/metasploitable_migrations.py
 Depends on: `core/safe_exec.py`
 Imported by: `cli/commands/lab.py`, `tests/test_metasploitable_migrations.py`
-- `build_migrations` (function) `modules/metasploitable_migrations.py:131` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
-- `apply_migrations` (function) `modules/metasploitable_migrations.py:236` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
+- `build_migrations` (function) `modules/metasploitable_migrations.py:194` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
+- `apply_migrations` (function) `modules/metasploitable_migrations.py:354` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
 
 ## modules/metrics.py
 Depends on: `core/logging.py`

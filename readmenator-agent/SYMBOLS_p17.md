@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
+| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
+| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
+| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
+| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
+| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
+| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
+| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
+| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
+| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
+| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
+| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
+| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
+| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
+| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
+| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
+| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
+| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
+| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
+| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
+| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
+| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
+| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
+| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
+| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
+| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
+| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
+| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
+| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
+| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
+| `decrypt` | function | `modules/lazyownclient.py:62` | `def decrypt(ciphertext, key)` |
+| `encrypt` | function | `modules/lazyownclient.py:55` | `def encrypt(plaintext, key)` |
 | `handle_command` | function | `modules/lazyownclient.py:69` | `def handle_command(cmd, key)` |
 | `main` | function | `modules/lazyownclient.py:198` | `def main()` |
 | `pad` | function | `modules/lazyownclient.py:51` | `def pad(s)` |
@@ -407,11 +444,11 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
 | `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
 | `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
-| `Migration` | class | `modules/metasploitable_migrations.py:65` | `class Migration` |
-| `_core_services_apply` | function | `modules/metasploitable_migrations.py:116` | `def _core_services_apply()` |
-| `_docker_exec` | function | `modules/metasploitable_migrations.py:86` | `def _docker_exec(container, script, payload, timeout)` |
-| `apply_migrations` | function | `modules/metasploitable_migrations.py:236` | `def apply_migrations(container, subnet)` |
-| `build_migrations` | function | `modules/metasploitable_migrations.py:131` | `def build_migrations(subnet)` |
+| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
+| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
+| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
+| `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
+| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
 | `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
 | `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
 | `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
 | `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
 | `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
-| `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
-| `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
-| `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
-| `_scan_tools` | method | `modules/module_registry.py:419` | `def _scan_tools(self)` |
-| `_scan_yaml_addons` | method | `modules/module_registry.py:338` | `def _scan_yaml_addons(self)` |
-| `by_type` | method | `modules/module_registry.py:321` | `def by_type(self, module_type)` |
-| `deprecated_modules` | method | `modules/module_registry.py:315` | `def deprecated_modules(self)` |
-| `format_module_detail` | function | `modules/module_registry.py:589` | `def format_module_detail(m)` |
-| `format_module_table` | function | `modules/module_registry.py:542` | `def format_module_table(modules, cols)` |
-| `get` | method | `modules/module_registry.py:269` | `def get(self, name)` |
-| `get_instance` | method | `modules/module_registry.py:241` | `def get_instance(cls, base_dir)` |
-| `rescan` | method | `modules/module_registry.py:260` | `def rescan(self)` |
-| `scan` | method | `modules/module_registry.py:247` | `def scan(self)` |
-| `search` | method | `modules/module_registry.py:275` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
-| `summary` | method | `modules/module_registry.py:325` | `def summary(self)` |
-| `to_dict` | method | `modules/module_registry.py:202` | `def to_dict(self)` |
-| `ExpertAvailabilityChecker` | class | `modules/moe_router.py:437` | `class ExpertAvailabilityChecker` |
-| `ExpertPerformance` | class | `modules/moe_router.py:101` | `class ExpertPerformance` |
-| `ExpertPerformanceStore` | class | `modules/moe_router.py:276` | `class ExpertPerformanceStore` |
-| `ExpertProfile` | class | `modules/moe_router.py:83` | `class ExpertProfile` |
-| `IExpertSelector` | class | `modules/moe_router.py:257` | `class IExpertSelector(ABC)` |
-| `MoERouter` | class | `modules/moe_router.py:489` | `class MoERouter` |
-| `SoftmaxSelector` | class | `modules/moe_router.py:368` | `class SoftmaxSelector(IExpertSelector)` |
-| `__init__` | method | `modules/moe_router.py:283` | `def __init__(self, path)` |
-| `__init__` | method | `modules/moe_router.py:377` | `def __init__(self, temperature)` |
-| `__init__` | method | `modules/moe_router.py:443` | `def __init__(self)` |
-| `__init__` | method | `modules/moe_router.py:500` | `def __init__(self, experts, selector, performance_store, api_key)` |
-| `_anneal_temperature` | method | `modules/moe_router.py:645` | `def _anneal_temperature(self)` |
-| `_available_for_task` | method | `modules/moe_router.py:640` | `def _available_for_task(self, task_type)` |
-| `_check` | method | `modules/moe_router.py:458` | `def _check(expert, api_key)` |
-| `_compute_weights` | method | `modules/moe_router.py:410` | `def _compute_weights(candidates, task_type, store)` |
-| `_key` | method | `modules/moe_router.py:293` | `def _key(expert_id, task_type)` |
-| `_load` | method | `modules/moe_router.py:350` | `def _load(self)` |
-| `_load_groq_key` | function | `modules/moe_router.py:665` | `def _load_groq_key()` |
-| `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
-| `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
-| `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

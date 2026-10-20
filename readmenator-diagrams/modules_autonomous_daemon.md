@@ -1,6 +1,6 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 166 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 165 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -31,33 +31,33 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (1.1)
+## cli (2.1)
 
 cli groups 8 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
-## contrib (1.2)
+## contrib (2.2)
 
 contrib groups 6 files (py) around parse_github_url, github_api_get, fetch_repo_metadata, fetch_readme, fetch_root_files. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
 
-## core (1.3)
+## core (2.3)
 
 core groups 4 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Centralised subprocess wrapper for the LazyOwn framework.
 
-## modules (1.4)
+## modules (2.4)
 
 modules groups 73 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
-## scripts (1.5)
+## scripts (2.5)
 
 scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## skills (1.6)
+## skills (2.6)
 
 skills groups 32 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
 
-## tests (1.7)
+## tests (2.7)
 
-tests groups 42 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+tests groups 41 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
@@ -208,7 +208,6 @@ tests groups 42 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_lesson_ingestor.py
 - tests/test_logging_config.py
 - tests/test_loop_ai_bridge.py
-- tests/test_loop_llm_resilience.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
 - tests/test_memory_semantics.py

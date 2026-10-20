@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `main` | function | `contrib/legacy/lazygptcli.py:177` | `def main()` |
+| `parse_args` | function | `contrib/legacy/lazygptcli.py:87` | `def parse_args()` |
+| `save_knowledge_base` | function | `contrib/legacy/lazygptcli.py:124` | `def save_knowledge_base(knowledge_base, file_path)` |
+| `show_help` | function | `contrib/legacy/lazygptcli.py:73` | `def show_help(message)` |
+| `signal_handler` | function | `contrib/legacy/lazygptcli.py:66` | `def signal_handler(sig, frame)` |
+| `transform_knowledge_base` | function | `contrib/legacy/lazygptcli.py:141` | `def transform_knowledge_base(client)` |
+| `_add_to_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:76` | `def _add_to_knowledge_base(prompt, response, file_path)` |
+| `_configure_logging` | function | `contrib/legacy/lazygptcli_unified.py:57` | `def _configure_logging(debug)` |
+| `_deepseek_fallback` | function | `contrib/legacy/lazygptcli_unified.py:392` | `def _deepseek_fallback(prompt)` |
+| `_get_relevant_knowledge` | function | `contrib/legacy/lazygptcli_unified.py:82` | `def _get_relevant_knowledge(prompt, file_path)` |
+| `_groq_chat` | function | `contrib/legacy/lazygptcli_unified.py:115` | `def _groq_chat(client, messages, model, max_tokens)` |
+| `_load_event_config` | function | `contrib/legacy/lazygptcli_unified.py:147` | `def _load_event_config()` |
+| `_load_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:62` | `def _load_knowledge_base(file_path)` |
+| `_load_payload_kv` | function | `contrib/legacy/lazygptcli_unified.py:129` | `def _load_payload_kv()` |
+| `_process_groq` | function | `contrib/legacy/lazygptcli_unified.py:287` | `def _process_groq(client, prompt, debug, prompt_template, kb_file, model)` |
+| `_prompt_adversary` | function | `contrib/legacy/lazygptcli_unified.py:190` | `def _prompt_adversary(base_prompt, history, knowledge_base)` |
+| `_prompt_general` | function | `contrib/legacy/lazygptcli_unified.py:206` | `def _prompt_general(base_prompt, history, knowledge_base)` |
+| `_prompt_oneliner` | function | `contrib/legacy/lazygptcli_unified.py:159` | `def _prompt_oneliner(base_prompt, history, knowledge_base)` |
+| `_prompt_redop` | function | `contrib/legacy/lazygptcli_unified.py:267` | `def _prompt_redop(base_prompt, history, knowledge_base)` |
 | `_prompt_script` | function | `contrib/legacy/lazygptcli_unified.py:175` | `def _prompt_script(base_prompt, history, knowledge_base)` |
 | `_prompt_search` | function | `contrib/legacy/lazygptcli_unified.py:225` | `def _prompt_search(base_prompt, history, knowledge_base)` |
 | `_prompt_task` | function | `contrib/legacy/lazygptcli_unified.py:254` | `def _prompt_task(base_prompt, history, knowledge_base)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `StructuredLogger` | class | `core/logging.py:139` | `class StructuredLogger(Logger)` |
 | `_ConsoleFormatter` | class | `core/logging.py:121` | `class _ConsoleFormatter(Formatter)` |
 | `_JsonLineFormatter` | class | `core/logging.py:71` | `class _JsonLineFormatter(Formatter)` |
-| `__init__` | method | `core/logging.py:74` | `def __init__(self, redacted_fields)` |
-| `_log_factory` | function | `core/logging.py:180` | `def _log_factory(name, config)` |
-| `format` | method | `core/logging.py:78` | `def format(self, record)` |
-| `format` | method | `core/logging.py:132` | `def format(self, record)` |
-| `get_logger` | function | `core/logging.py:231` | `def get_logger(name)` |
-| `install_json_handler` | function | `core/logging.py:251` | `def install_json_handler(name, config)` |
-| `makeRecord` | method | `core/logging.py:148` | `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)` |
-| `reconfigure` | function | `core/logging.py:300` | `def reconfigure(config)` |
-| `create_arp_packet` | function | `core/network.py:33` | `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)` |
-| `get_banner` | function | `core/network.py:134` | `def get_banner(ip, port)` |
-| `get_network_info` | function | `core/network.py:154` | `def get_network_info()` |
-| `get_open_ports` | function | `core/network.py:105` | `def get_open_ports()` |
-| `is_port_in_use` | function | `core/network.py:120` | `def is_port_in_use(port, host)` |
-| `parse_ip_mac` | function | `core/network.py:18` | `def parse_ip_mac(input_string)` |
-| `parse_proc_net_file` | function | `core/network.py:78` | `def parse_proc_net_file(file_path)` |
-| `send_packet` | function | `core/network.py:66` | `def send_packet(packet, iface)` |
-| `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
-| `FieldKind` | class | `core/payload_schema.py:73` | `class FieldKind(StrEnum)` |
-| `FieldSpec` | class | `core/payload_schema.py:100` | `class FieldSpec` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

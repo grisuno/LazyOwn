@@ -10,7 +10,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `bootstrap.sh` | LazyOwn bootstrap installer (one-liner entry point). | root | 16 | 0 |
 | `cli/__init__.py` | LazyOwn CLI infrastructure. | cli | 0 | 9 |
 | `cli/aliases.py` | Declarative cmd2 alias loader. | cli | 8 | 10 |
-| `cli/apt_chain_support.py` | Parsing, printing and replanning support for the ``apt_chain`` CLI. | cli | 15 | 2 |
+| `cli/apt_chain_support.py` | Parsing, printing and replanning support for the ``apt_chain`` CLI. | cli | 15 | 3 |
 | `cli/assign.py` | ``assign`` business logic. | cli | 1 | 16 |
 | `cli/auto_crypto.py` | Automatic encryption of sensitive session data on app open/close. | cli | 13 | 3 |
 | `cli/autosuggest.py` | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | cli | 27 | 5 |
@@ -21,7 +21,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/command_explorer.py` | Interactive command explorer by phase and goal for the LazyOwn shell. | cli | 7 | 1 |
 | `cli/command_form.py` | Textual form-mode launcher for LazyOwn commands. | cli | 31 | 1 |
 | `cli/commands/__init__.py` | Phase-scoped CommandSet modules. | commands | 0 | 1 |
-| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 91 |
+| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 92 |
 | `cli/commands/_dormancy.py` | Dormancy marker for incrementally migrated command sets. | commands | 2 | 9 |
 | `cli/commands/active_directory.py` | Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting. | commands | 8 | 0 |
 | `cli/commands/ai.py` | Artificial Intelligence command set. | commands | 8 | 1 |
@@ -42,7 +42,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/cloud_attacks.py` | Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS. | commands | 7 | 0 |
 | `cli/commands/collaboration.py` | Collaboration CLI commands — multi-operator teamwork from the shell. | commands | 8 | 0 |
 | `cli/commands/command_and_control.py` | Command & Control command set. | commands | 7 | 0 |
-| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 32 | 3 |
+| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 33 | 3 |
 | `cli/commands/containers.py` | Container and Kubernetes attack command set. | commands | 7 | 12 |
 | `cli/commands/cred.py` | Credential Access command set (pending). | commands | 10 | 0 |
 | `cli/commands/cred_migrated.py` | cred commands migrated from lazyown.py. | commands | 33 | 1 |
@@ -93,6 +93,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/recon_migrated.py` | recon commands migrated from lazyown.py. | commands | 30 | 0 |
 | `cli/commands/redteam_gym.py` | Red Team Gym CLI command set - gamified pentest training. | commands | 11 | 2 |
 | `cli/commands/resource_scripting.py` | Resource script commands — run .ls scripts, record macros, spool output. | commands | 8 | 0 |
+| `cli/commands/retry_ops.py` | ``retry`` - relaunch a failed chain or failed loop from where it stopped. | commands | 8 | 0 |
 | `cli/commands/scan.py` | Scanning command set. | commands | 17 | 0 |
 | `cli/commands/scan_migrated.py` | scan commands migrated from lazyown.py. | commands | 52 | 0 |
 | `cli/commands/security.py` | OPSEC and security commands — risk scoring, credential sealing, rotation. | commands | 8 | 0 |
@@ -144,6 +145,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/recommendation_signals.py` | Concrete :class:`cli.recommendation.RecommendationSignal` adapters. | cli | 37 | 9 |
 | `cli/recon_plan.py` | Reconnaissance plan generator built on top of :mod:`cli.exploration`. | cli | 18 | 4 |
 | `cli/registry.py` | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | cli | 2 | 11 |
+| `cli/retry_support.py` | Retry support - resume logic shared by the ``retry`` CLI surface. | cli | 10 | 2 |
 | `cli/scope_guard.py` | Authorization scope guard for offensive command execution. | cli | 12 | 2 |
 | `cli/session_brief.py` | Consolidated session-start brief for the LazyOwn shell. | cli | 10 | 2 |
 | `cli/session_hud.py` | Compact session HUD: the numbers no other command shows. | cli | 9 | 1 |
@@ -159,7 +161,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/timeline_browser.py` | Textual scrubber over ``sessions/LazyOwn_session_report.csv``. | cli | 25 | 2 |
 | `cli/tips_engine.py` | Unified post-command tips engine: single coordination point for all suggestion surfaces. | cli | 59 | 5 |
 | `cli/toast_bus.py` | Non-blocking toast notification subsystem for the LazyOwn shell. | cli | 54 | 8 |
-| `cli/tui_forms.py` | Reusable Textual modals shared by the LazyOwn operator consoles. | cli | 31 | 3 |
+| `cli/tui_forms.py` | Reusable Textual modals shared by the LazyOwn operator consoles. | cli | 31 | 4 |
 | `cli/tui_theme.py` | Operator-facing ``tui_theme`` command logic. | cli | 4 | 1 |
 | `cli/tutorial.py` | Interactive post-install tutorial for the LazyOwn framework. | cli | 7 | 1 |
 | `cli/wizard.py` | Guided first-run setup wizard for the LazyOwn framework. | cli | 45 | 5 |
@@ -225,7 +227,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
-| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 142 |
+| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 144 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
 | `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
 | `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 12 |
@@ -384,9 +386,10 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/categories.py` | modules/categories.py | modules | 0 | 7 |
 | `modules/cgi-bin/lazywebshell.py` | - | cgi-bin | 0 | 0 |
 | `modules/cgi-bin/lazywebshell.sh` | - | cgi-bin | 0 | 0 |
-| `modules/chain_registry.py` | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | modules | 17 | 14 |
-| `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 31 | 4 |
-| `modules/chain_state.py` | Durable chain checkpoints for pause, resume and audit. | modules | 5 | 5 |
+| `modules/chain_distill.py` | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | modules | 18 | 2 |
+| `modules/chain_registry.py` | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | modules | 17 | 20 |
+| `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 31 | 6 |
+| `modules/chain_state.py` | Durable chain checkpoints for pause, resume and audit. | modules | 5 | 8 |
 | `modules/chain_synth.py` | Runtime chain synthesis from fact-store evidence. | modules | 6 | 2 |
 | `modules/chain_tokens.py` | Engagement-state tokens for YAML chains. | modules | 6 | 2 |
 | `modules/cicd_enumerator.py` | CI/CD Pipeline Enumeration Module. | modules | 12 | 1 |
@@ -475,17 +478,17 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/kivi.py` | - | modules | 3 | 0 |
 | `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 5 |
-| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 7 |
+| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 33 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 4 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 453 | 53 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 453 | 54 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 3 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 35 | 8 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 35 | 9 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
@@ -493,8 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/lazyatack.sh` | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico... | modules | 30 | 0 |
 | `modules/lazybrutesshuserenum.sh` | Función para manejar el interruptor de señal Ctrl+C | modules | 0 | 0 |
 | `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
-| `modules/lazycloud.py` | Cloud-native attack module for AWS, Azure, and GCP. | modules | 26 | 1 |
-| `modules/lazycurl.sh` | Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico... | modules | 3 | 0 |
-| `modules/lazyencoder_decoder.py` | - | modules | 10 | 5 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

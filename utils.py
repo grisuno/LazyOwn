@@ -345,14 +345,21 @@ def needs_sudo(command: str) -> bool:
 
 
 def sudo_available() -> bool:
-    """Return whether passwordless sudo works here, cached per process.
+    """Return whether sudo can run unattended right now.
 
     The unattended loop must not launch sudo commands that will die on a
     missing terminal; one ``sudo -n true`` probe answers that for good.
+    An armed retry session (``SUDO_ASKPASS`` provided by
+    :mod:`modules.retry_session`) answers True while its on-disk askpass
+    pair is sound, and clears the stale probe cache afterwards.
 
     Returns:
-        True when ``sudo -n true`` succeeds.
+        True when ``sudo -n true`` succeeds or an elevated retry session
+        is armed.
     """
+    retry_open = _retry_sudo_gate()
+    if retry_open:
+        return True
     if _SUDO_STATE["checked"]:
         return bool(_SUDO_STATE["ok"])
     ok = False
@@ -371,6 +378,22 @@ def sudo_available() -> bool:
     _SUDO_STATE["checked"] = True
     _SUDO_STATE["ok"] = ok
     return ok
+
+
+def _retry_sudo_gate() -> bool:
+    """Return True while a session-bound retry sudo askpass is armed.
+
+    Reads only environment markers set by ``modules.retry_session`` and
+    verifies both on-disk files exist, so no stale environment can claim
+    elevation. Import-free by design (``utils`` stays stand-alone).
+    """
+    if os.environ.get("LAZYOWN_RETRY_SUDO") != "1":
+        return False
+    helper = os.environ.get("SUDO_ASKPASS", "")
+    if not helper or not os.path.isfile(helper):
+        return False
+    session_dir = os.path.dirname(os.path.abspath(helper))
+    return os.path.isfile(os.path.join(session_dir, "sudo.secret"))
 
 
 def redact_secrets(text):

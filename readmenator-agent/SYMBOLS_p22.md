@@ -3,6 +3,72 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
+| `extract_functions_from_file` | function | `readmeneitor.py:209` | `def extract_functions_from_file(filepath)` |
+| `group_commands_by_phase` | function | `readmeneitor.py:187` | `def group_commands_by_phase(cmd_map)` |
+| `load_command_index` | function | `readmeneitor.py:83` | `def load_command_index(index_path)` |
+| `main` | function | `readmeneitor.py:379` | `def main()` |
+| `normalize_trailing_newline` | function | `readmeneitor.py:74` | `def normalize_trailing_newline(output_path)` |
+| `write_commands_md` | function | `readmeneitor.py:276` | `def write_commands_md(cmd_map, docstrings, groups, output_path)` |
+| `write_utils_md` | function | `readmeneitor.py:241` | `def write_utils_md(functions, output_path)` |
+| `banner` | function | `run_topoexploit_agent.sh:29` | `` |
+| `start_api` | function | `run_topoexploit_agent.sh:38` | `` |
+| `MigrationError` | class | `scripts/activate_migrations.py:28` | `class MigrationError(Exception)` |
+| `activate_migrated_file` | function | `scripts/activate_migrations.py:75` | `def activate_migrated_file(migrated_path, dry_run)` |
+| `extract_command_names` | function | `scripts/activate_migrations.py:42` | `def extract_command_names(migrated_path)` |
+| `find_in_lazyown` | function | `scripts/activate_migrations.py:52` | `def find_in_lazyown(command_names)` |
+| `find_migrated_sets` | function | `scripts/activate_migrations.py:32` | `def find_migrated_sets()` |
+| `main` | function | `scripts/activate_migrations.py:88` | `def main()` |
+| `remove_from_lazyown` | function | `scripts/activate_migrations.py:62` | `def remove_from_lazyown(locations, dry_run)` |
+| `classify_os` | function | `scripts/backfill_addon_os_trigger.py:104` | `def classify_os(filename)` |
+| `known_trigger` | function | `scripts/backfill_addon_os_trigger.py:121` | `def known_trigger(name)` |
+| `main` | function | `scripts/backfill_addon_os_trigger.py:175` | `def main()` |
+| `patch` | function | `scripts/backfill_addon_os_trigger.py:141` | `def patch(path)` |
+| `render_trigger` | function | `scripts/backfill_addon_os_trigger.py:127` | `def render_trigger(trigger)` |
+| `ManifestConfig` | class | `scripts/check_contract_manifest.py:34` | `class ManifestConfig` |
+| `__post_init__` | method | `scripts/check_contract_manifest.py:53` | `def __post_init__(self)` |
+| `_collect_doc_imports` | function | `scripts/check_contract_manifest.py:163` | `def _collect_doc_imports(text)` |
+| `_dotted_symbol_exists` | function | `scripts/check_contract_manifest.py:112` | `def _dotted_symbol_exists(token, config)` |
+| `_extract_dotted_tokens` | function | `scripts/check_contract_manifest.py:209` | `def _extract_dotted_tokens(text, config)` |
+| `_extract_path_tokens` | function | `scripts/check_contract_manifest.py:138` | `def _extract_path_tokens(text, config)` |
+| `_iter_table_cells` | function | `scripts/check_contract_manifest.py:127` | `def _iter_table_cells(text)` |
+| `_module_path` | function | `scripts/check_contract_manifest.py:100` | `def _module_path(module, config)` |
+| `_resolve` | method | `scripts/check_contract_manifest.py:58` | `def _resolve(self, path)` |
+| `_resolve_reference` | function | `scripts/check_contract_manifest.py:154` | `def _resolve_reference(token, config)` |
+| `_top_level_names` | function | `scripts/check_contract_manifest.py:72` | `def _top_level_names(path)` |
+| `check_manifest` | function | `scripts/check_contract_manifest.py:176` | `def check_manifest(config)` |
+| `main` | function | `scripts/check_contract_manifest.py:229` | `def main(argv)` |
+| `AuditConfig` | class | `scripts/devtools/command_audit.py:25` | `class AuditConfig` |
+| `argparser_commands` | function | `scripts/devtools/command_audit.py:40` | `def argparser_commands(config)` |
+| `audit` | function | `scripts/devtools/command_audit.py:65` | `def audit(config)` |
+| `main` | function | `scripts/devtools/command_audit.py:105` | `def main(argv)` |
+| `SmokeConfig` | class | `scripts/devtools/core_smoke.py:20` | `class SmokeConfig` |
+| `check_calls` | function | `scripts/devtools/core_smoke.py:81` | `def check_calls()` |
+| `check_surfaces` | function | `scripts/devtools/core_smoke.py:64` | `def check_surfaces(config)` |
+| `main` | function | `scripts/devtools/core_smoke.py:118` | `def main()` |
+| `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
+| `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
+| `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
+| `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
+| `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
+| `Journal` | class | `scripts/journal.py:149` | `class Journal` |
+| `JournalConfig` | class | `scripts/journal.py:53` | `class JournalConfig` |
+| `JournalError` | class | `scripts/journal.py:48` | `class JournalError(RuntimeError)` |
+| `_build_parser` | function | `scripts/journal.py:245` | `def _build_parser()` |
+| `_default_runner` | function | `scripts/journal.py:124` | `def _default_runner(args)` |
+| `_git_remote_slug` | function | `scripts/journal.py:114` | `def _git_remote_slug()` |
+| `_graphql` | method | `scripts/journal.py:163` | `def _graphql(self, query, variables)` |
+| `_run_git` | function | `scripts/journal.py:90` | `def _run_git(args)` |
+| `category_id` | method | `scripts/journal.py:192` | `def category_id(self)` |
+| `entries` | method | `scripts/journal.py:223` | `def entries(self, limit)` |
+| `from_git_remote` | method | `scripts/journal.py:71` | `def from_git_remote(cls, remote, category)` |
+| `main` | function | `scripts/journal.py:264` | `def main(argv)` |
+| `post` | method | `scripts/journal.py:206` | `def post(self, title, body)` |
+| `repo_id` | method | `scripts/journal.py:184` | `def repo_id(self)` |
+| `healthy` | function | `scripts/lazy_llamacpp_serve.sh:33` | `` |
+| `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
+| `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
+| `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
 | `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
 | `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
 | `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
@@ -430,71 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `test_orchestrator_full_cycle` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:166` | `def test_orchestrator_full_cycle(config)` |
 | `test_parser_extracts_contract` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:78` | `def test_parser_extracts_contract(config)` |
 | `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
-| `test_tdd_agent_lands_red` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:102` | `def test_tdd_agent_lands_red(config)` |
-| `tmp_run_dir` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:46` | `def tmp_run_dir(tmp_path)` |
-| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:96` | `class CheckResult` |
-| `_EmojiPattern` | class | `skills/claude_md_orchestrator/validators.py:74` | `class _EmojiPattern` |
-| `_EmojiSpan` | class | `skills/claude_md_orchestrator/validators.py:57` | `class _EmojiSpan` |
-| `__init__` | method | `skills/claude_md_orchestrator/validators.py:60` | `def __init__(self, start, text)` |
-| `blocks` | method | `skills/claude_md_orchestrator/validators.py:111` | `def blocks(self)` |
-| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:249` | `def check_docstrings(source, path)` |
-| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:225` | `def check_english_only(source, path)` |
-| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:324` | `def check_magic_numbers(source, path, allow)` |
-| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:372` | `def check_markdown(content, path)` |
-| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:155` | `def check_no_comments(source, path)` |
-| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:186` | `def check_no_emoji(content, path)` |
-| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:208` | `def check_no_forbidden_markers(content, path)` |
-| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:290` | `def check_no_hardcoded_paths_or_ips(source, path)` |
-| `check_source` | function | `skills/claude_md_orchestrator/validators.py:359` | `def check_source(source, path, allow_numbers)` |
-| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:381` | `def check_spec(spec, min_sad_paths)` |
-| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:116` | `def find_block_comments(source)` |
-| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:138` | `def find_inline_comments(source)` |
-| `finditer` | method | `skills/claude_md_orchestrator/validators.py:81` | `def finditer(self, content)` |
-| `group` | method | `skills/claude_md_orchestrator/validators.py:69` | `def group(self, index)` |
-| `passed` | method | `skills/claude_md_orchestrator/validators.py:107` | `def passed(self)` |
-| `start` | method | `skills/claude_md_orchestrator/validators.py:65` | `def start(self)` |
-| `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
-| `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
-| `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
-| `__init__` | method | `skills/daemon_control.py:171` | `def __init__(self, sessions_dir)` |
-| `_first_token` | function | `skills/daemon_control.py:154` | `def _first_token(command)` |
-| `add_veto` | method | `skills/daemon_control.py:252` | `def add_veto(self, command_token)` |
-| `clear_vetoes` | method | `skills/daemon_control.py:275` | `def clear_vetoes(self)` |
-| `consume` | method | `skills/daemon_control.py:343` | `def consume(self, action_id)` |
-| `decide` | method | `skills/daemon_control.py:317` | `def decide(self, action_id, decision)` |
-| `from_dict` | method | `skills/daemon_control.py:121` | `def from_dict(cls, data)` |
-| `is_expired` | method | `skills/daemon_control.py:79` | `def is_expired(self, now)` |
-| `is_paused` | method | `skills/daemon_control.py:375` | `def is_paused(self)` |
-| `is_vetoed` | method | `skills/daemon_control.py:379` | `def is_vetoed(self, command)` |
-| `load` | method | `skills/daemon_control.py:188` | `def load(self)` |
-| `path` | method | `skills/daemon_control.py:184` | `def path(self)` |
-| `pause` | method | `skills/daemon_control.py:240` | `def pause(self)` |
-| `propose` | method | `skills/daemon_control.py:290` | `def propose(self, command)` |
-| `remove_veto` | method | `skills/daemon_control.py:267` | `def remove_veto(self, command_token)` |
-| `require_approval` | method | `skills/daemon_control.py:248` | `def require_approval(self)` |
-| `resume` | method | `skills/daemon_control.py:244` | `def resume(self)` |
-| `save` | method | `skills/daemon_control.py:201` | `def save(self, state)` |
-| `set_focus` | method | `skills/daemon_control.py:282` | `def set_focus(self, targets)` |
-| `set_mode` | method | `skills/daemon_control.py:231` | `def set_mode(self, mode)` |
-| `target_in_focus` | method | `skills/daemon_control.py:386` | `def target_in_focus(self, target)` |
-| `to_dict` | method | `skills/daemon_control.py:110` | `def to_dict(self)` |
-| `wait_for_decision` | function | `skills/daemon_control.py:394` | `def wait_for_decision(control, action)` |
-| `wait_until_unpaused` | function | `skills/daemon_control.py:445` | `def wait_until_unpaused(control)` |
-| `DaemonHealth` | class | `skills/daemon_health.py:94` | `class DaemonHealth` |
-| `__init__` | method | `skills/daemon_health.py:102` | `def __init__(self, interval, health_file)` |
-| `_health_path` | function | `skills/daemon_health.py:32` | `def _health_path()` |
-| `_loop` | method | `skills/daemon_health.py:147` | `def _loop(self)` |
-| `_write_heartbeat` | method | `skills/daemon_health.py:133` | `def _write_heartbeat(self)` |
-| `daemon_status` | function | `skills/daemon_health.py:58` | `def daemon_status(timeout)` |
-| `error_count` | method | `skills/daemon_health.py:114` | `def error_count(self)` |
-| `error_count` | method | `skills/daemon_health.py:119` | `def error_count(self, value)` |
-| `increment_cycles` | method | `skills/daemon_health.py:185` | `def increment_cycles(self)` |
-| `is_daemon_alive` | function | `skills/daemon_health.py:36` | `def is_daemon_alive(timeout)` |
-| `phase` | method | `skills/daemon_health.py:124` | `def phase(self)` |
-| `phase` | method | `skills/daemon_health.py:129` | `def phase(self, value)` |
-| `record_error` | method | `skills/daemon_health.py:175` | `def record_error(self)` |
-| `set_phase` | method | `skills/daemon_health.py:180` | `def set_phase(self, phase)` |
-| `start` | method | `skills/daemon_health.py:155` | `def start(self)` |
-| `stop` | method | `skills/daemon_health.py:164` | `def stop(self)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

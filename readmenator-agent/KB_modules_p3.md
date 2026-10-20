@@ -1,5 +1,31 @@
-# Subsystem: modules (page 3 of 15)
+# Subsystem: modules (page 3 of 16)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/chain_distill.py
+- Doc: chain_distill - crystallise one autonomous-loop trace into a chain YAML.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 76) `def _slug(text)`
+  - `locate_traces` (function, line 89) `def locate_traces(task, sessions_dir)`
+  - `_load_traffic` (function, line 132) `def _load_traffic(path)`
+  - `_load_graph` (function, line 168) `def _load_graph(path)`
+  - `_is_prose` (function, line 194) `def _is_prose(command)`
+  - `_is_failed` (function, line 209) `def _is_failed(row)`
+  - `_command_verb` (function, line 225) `def _command_verb(command)`
+  - `_phase_for` (function, line 245) `def _phase_for(command, manifest_phase)`
+  - `_infer_target` (function, line 280) `def _infer_target(rows, graph)`
+  - `StepDecision` (class, line 312) `class StepDecision`
+  - `DistillReport` (class, line 333) `class DistillReport`
+  - `build_chain_data` (function, line 428) `def build_chain_data(task, rows, graph, manifests)`
+  - `distill` (function, line 537) `def distill(task, sessions_dir, write, chains_dir)`
+  - `kept` (method, line 361) `def kept(self)`
+  - `dropped` (method, line 366) `def dropped(self)`
+  - `to_dict` (method, line 370) `def to_dict(self)`
+  - `render` (method, line 397) `def render(self, verbose)`
+  - `note` (function, line 452) `def note(row, kept, reason)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`
 
 ## modules/chain_registry.py
 - Doc: Chain registry - ordered orchestration chains from ``chains/*.yaml``.
@@ -24,7 +50,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `resolve` (method, line 104) `def resolve(self, tokens)`
   - `_eval` (function, line 237) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
@@ -33,37 +59,37 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Symbols:
   - `StepOutcome` (class, line 43) `class StepOutcome`
   - `ChainRunResult` (class, line 83) `class ChainRunResult`
-  - `ReplanContext` (class, line 121) `class ReplanContext`
-  - `render_text` (function, line 168) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 176) `class ChainRunner`
+  - `ReplanContext` (class, line 123) `class ReplanContext`
+  - `render_text` (function, line 170) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 178) `class ChainRunner`
   - `ok` (method, line 60) `def ok(self)`
   - `to_dict` (method, line 64) `def to_dict(self)`
-  - `to_dict` (method, line 100) `def to_dict(self)`
-  - `set_var` (method, line 138) `def set_var(self, name, value)`
-  - `insert_step` (method, line 143) `def insert_step(self, step)`
-  - `skip_rest` (method, line 148) `def skip_rest(self)`
-  - `applied_vars` (method, line 153) `def applied_vars(self)`
-  - `inserted` (method, line 158) `def inserted(self)`
-  - `skip_rest_flag` (method, line 163) `def skip_rest_flag(self)`
-  - `__init__` (method, line 179) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
-  - `run` (method, line 215) `def run(self)`
-  - `_skip_remaining` (method, line 335) `def _skip_remaining(self, steps, start, reason)`
-  - `_notify` (method, line 350) `def _notify(self, outcome)`
-  - `_apply_replanner` (method, line 359) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
-  - `_save_checkpoint` (method, line 408) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)`
-  - `_run_step` (method, line 443) `def _run_step(self, step, variables, captured_keys)`
-  - `_ask_approval` (method, line 529) `def _ask_approval(self, step_id, command)`
-  - `_verify_timeout` (method, line 538) `def _verify_timeout(self, step)`
-  - `_store_capture` (method, line 544) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
-  - `_first_json` (method, line 596) `def _first_json(output)`
-  - `_render_command` (method, line 610) `def _render_command(self, template, variables, captured_keys)`
-  - `_execute` (method, line 625) `def _execute(self, command, timeout, expect_exits)`
-  - `_is_verb` (method, line 649) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 660) `def _run_shell_verb(self, command)`
-  - `_run_raw` (method, line 678) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 695) `def _call(callback, timeout)`
-- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`
+  - `to_dict` (method, line 101) `def to_dict(self)`
+  - `set_var` (method, line 140) `def set_var(self, name, value)`
+  - `insert_step` (method, line 145) `def insert_step(self, step)`
+  - `skip_rest` (method, line 150) `def skip_rest(self)`
+  - `applied_vars` (method, line 155) `def applied_vars(self)`
+  - `inserted` (method, line 160) `def inserted(self)`
+  - `skip_rest_flag` (method, line 165) `def skip_rest_flag(self)`
+  - `__init__` (method, line 181) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `run` (method, line 241) `def run(self)`
+  - `_skip_remaining` (method, line 368) `def _skip_remaining(self, steps, start, reason)`
+  - `_notify` (method, line 383) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 392) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_save_checkpoint` (method, line 441) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)`
+  - `_run_step` (method, line 476) `def _run_step(self, step, variables, captured_keys)`
+  - `_ask_approval` (method, line 562) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 571) `def _verify_timeout(self, step)`
+  - `_store_capture` (method, line 577) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 629) `def _first_json(output)`
+  - `_render_command` (method, line 643) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 658) `def _execute(self, command, timeout, expect_exits)`
+  - `_is_verb` (method, line 691) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 702) `def _run_shell_verb(self, command)`
+  - `_run_raw` (method, line 720) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 737) `def _call(callback, timeout)`
+- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 
 ## modules/chain_state.py
 - Doc: Durable chain checkpoints for pause, resume and audit.
@@ -74,8 +100,8 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `new_run_id` (function, line 33) `def new_run_id(chain_name)`
   - `write_checkpoint` (function, line 39) `def write_checkpoint(directory, state)`
   - `load_checkpoint` (function, line 65) `def load_checkpoint(directory, run_id)`
-  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit)`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/chain_runner.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`
+  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit, chain)`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 
 ## modules/chain_synth.py
 - Doc: Runtime chain synthesis from fact-store evidence.
@@ -457,26 +483,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_extract_cn` (method, line 414) `def _extract_cn(dn)`
   - `summary` (method, line 418) `def summary(self)`
 - Imported by: `cli/commands/active_directory.py`
-
-## modules/dashboard_bp.py
-- Doc: modules/dashboard_bp.py
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `_require_login` (function, line 30) `def _require_login()`
-  - `_read_jsonl` (function, line 71) `def _read_jsonl(path, last_n)`
-  - `_read_json` (function, line 93) `def _read_json(path)`
-  - `_count_lines` (function, line 103) `def _count_lines(path)`
-  - `_aggregate_data` (function, line 113) `def _aggregate_data()`
-  - `dashboard_index` (function, line 778) `def dashboard_index()`
-  - `dashboard_api_data` (function, line 784) `def dashboard_api_data()`
-  - `_read_loot_lines` (function, line 800) `def _read_loot_lines(pattern)`
-  - `_read_loot` (function, line 817) `def _read_loot()`
-  - `dashboard_loot` (function, line 902) `def dashboard_loot()`
-  - `_normalize_ts` (function, line 913) `def _normalize_ts(raw)`
-  - `_read_timeline` (function, line 934) `def _read_timeline()`
-  - `dashboard_timeline` (function, line 1017) `def dashboard_timeline()`
-- Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

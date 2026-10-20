@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `record` | method | `modules/lazy_loop.py:1565` | `def record(self, kind, command, output, meta)` |
+| `record_fact` | method | `modules/lazy_loop.py:1374` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
+| `record_fact` | function | `modules/lazy_loop.py:4353` | `def record_fact(text)` |
+| `record_fact` | method | `modules/lazy_loop.py:8187` | `def record_fact(self, task_id, text, evidence, intent_id)` |
+| `record_raw` | method | `modules/lazy_loop.py:6965` | `def record_raw(self)` |
+| `record_round` | method | `modules/lazy_loop.py:2303` | `def record_round(self, task_id)` |
+| `record_toolcall` | method | `modules/lazy_loop.py:2291` | `def record_toolcall(self, task_id, intent_id)` |
+| `record_verdict` | method | `modules/lazy_loop.py:8194` | `def record_verdict(self, task_id, finding_id, verdict, note)` |
+| `recorder_blob` | method | `modules/lazy_loop.py:1676` | `def recorder_blob(self, digest, part, offset, length)` |
+| `recorder_body` | method | `modules/lazy_loop.py:1647` | `def recorder_body(self, digest)` |
+| `refine` | method | `modules/lazy_loop.py:3145` | `def refine(self)` |
+| `register_worker` | function | `modules/lazy_loop.py:598` | `def register_worker(worker)` |
+| `reload` | method | `modules/lazy_loop.py:1274` | `def reload(self)` |
+| `remove` | method | `modules/lazy_loop.py:2213` | `def remove(self, rule_id, action)` |
+| `remove` | method | `modules/lazy_loop.py:7315` | `def remove(self, name)` |
+| `remove_channel` | method | `modules/lazy_loop.py:6496` | `def remove_channel(self, index)` |
+| `remove_member` | method | `modules/lazy_loop.py:6669` | `def remove_member(self, name)` |
+| `remove_rule` | method | `modules/lazy_loop.py:1855` | `def remove_rule(self, pattern)` |
+| `reorder_evidence` | method | `modules/lazy_loop.py:1778` | `def reorder_evidence(self, finding_id, digests, graph)` |
+| `repair_worker_command` | function | `modules/lazy_loop.py:272` | `def repair_worker_command(command, target)` |
+| `report` | method | `modules/lazy_loop.py:6063` | `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` |
+| `report_finding` | function | `modules/lazy_loop.py:4362` | `def report_finding(name, evidence, severity)` |
+| `request` | method | `modules/lazy_loop.py:2445` | `def request(self, tool, command, reason, tool_use_id)` |
+| `resolve_target` | function | `modules/lazy_loop.py:2952` | `def resolve_target(task_id, store, graph)` |
+| `restore` | method | `modules/lazy_loop.py:7217` | `def restore(self, path)` |
+| `resume` | method | `modules/lazy_loop.py:2651` | `def resume(self, task_id)` |
+| `resume_intent` | method | `modules/lazy_loop.py:8106` | `def resume_intent(self, task_id, intent_id)` |
+| `resume_task` | method | `modules/lazy_loop.py:7735` | `def resume_task(self, task_id)` |
+| `retest` | method | `modules/lazy_loop.py:5234` | `def retest(self, finding_id, executor, note)` |
+| `retest_context` | method | `modules/lazy_loop.py:5310` | `def retest_context(self, finding_id)` |
+| `run` | method | `modules/lazy_loop.py:8768` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
+| `run_command` | function | `modules/lazy_loop.py:4327` | `def run_command(command, background)` |
+| `run_round` | method | `modules/lazy_loop.py:8283` | `def run_round(self, task_id, workers, executor, pool)` |
+| `save` | method | `modules/lazy_loop.py:7174` | `def save(self, task_id)` |
+| `say` | method | `modules/lazy_loop.py:7367` | `def say(self, task_id, text, pool, session)` |
+| `scoped` | method | `modules/lazy_loop.py:1045` | `def scoped(self, scope, kind)` |
+| `scrub_secrets` | function | `modules/lazy_loop.py:460` | `def scrub_secrets(text)` |
 | `search` | method | `modules/lazy_loop.py:1543` | `def search(self, query, exclude_intent)` |
 | `search` | method | `modules/lazy_loop.py:1601` | `def search(self, query, limit)` |
 | `search_all` | method | `modules/lazy_loop.py:1513` | `def search_all(self, query, limit)` |
@@ -246,26 +283,26 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `ThreadStdoutRouter` | class | `modules/lazy_runner.py:42` | `class ThreadStdoutRouter(TextIOBase)` |
 | `__init__` | method | `modules/lazy_runner.py:52` | `def __init__(self, main_stream, spool)` |
 | `_abort_run` | function | `modules/lazy_runner.py:365` | `def _abort_run(engine, task_id, reason)` |
-| `_apply_budget` | function | `modules/lazy_runner.py:461` | `def _apply_budget(engine, task_id, budget)` |
-| `_bootstrap` | function | `modules/lazy_runner.py:447` | `def _bootstrap(scan_target, executor)` |
-| `_budget_declined` | function | `modules/lazy_runner.py:474` | `def _budget_declined(config)` |
-| `_dump_thread_stacks` | function | `modules/lazy_runner.py:620` | `def _dump_thread_stacks()` |
+| `_apply_budget` | function | `modules/lazy_runner.py:480` | `def _apply_budget(engine, task_id, budget)` |
+| `_bootstrap` | function | `modules/lazy_runner.py:466` | `def _bootstrap(scan_target, executor)` |
+| `_budget_declined` | function | `modules/lazy_runner.py:493` | `def _budget_declined(config)` |
+| `_dump_thread_stacks` | function | `modules/lazy_runner.py:639` | `def _dump_thread_stacks()` |
 | `_executor` | function | `modules/lazy_runner.py:317` | `def _executor(command)` |
-| `_format_activity` | function | `modules/lazy_runner.py:606` | `def _format_activity(record)` |
-| `_overview` | function | `modules/lazy_runner.py:596` | `def _overview(task_id)` |
-| `_poll_progress` | function | `modules/lazy_runner.py:649` | `def _poll_progress(engine, config, progress, transcript, worker)` |
+| `_format_activity` | function | `modules/lazy_runner.py:625` | `def _format_activity(record)` |
+| `_overview` | function | `modules/lazy_runner.py:615` | `def _overview(task_id)` |
+| `_poll_progress` | function | `modules/lazy_runner.py:668` | `def _poll_progress(engine, config, progress, transcript, worker)` |
 | `_prepare_engine` | function | `modules/lazy_runner.py:384` | `def _prepare_engine(engine, shell, config, params)` |
 | `_resolve_alias` | function | `modules/lazy_runner.py:309` | `def _resolve_alias(command)` |
-| `_run` | function | `modules/lazy_runner.py:542` | `def _run()` |
-| `_run_plain` | function | `modules/lazy_runner.py:767` | `def _run_plain(engine, config)` |
-| `_run_with_progress` | function | `modules/lazy_runner.py:490` | `def _run_with_progress(engine, config)` |
-| `_stall_thresholds` | function | `modules/lazy_runner.py:635` | `def _stall_thresholds(verb_timeout)` |
+| `_run` | function | `modules/lazy_runner.py:561` | `def _run()` |
+| `_run_plain` | function | `modules/lazy_runner.py:786` | `def _run_plain(engine, config)` |
+| `_run_with_progress` | function | `modules/lazy_runner.py:509` | `def _run_with_progress(engine, config)` |
+| `_stall_thresholds` | function | `modules/lazy_runner.py:654` | `def _stall_thresholds(verb_timeout)` |
 | `_start_proxy` | function | `modules/lazy_runner.py:398` | `def _start_proxy(engine, params)` |
-| `_terminal_stream` | function | `modules/lazy_runner.py:745` | `def _terminal_stream()` |
+| `_terminal_stream` | function | `modules/lazy_runner.py:764` | `def _terminal_stream()` |
 | `_to_float` | function | `modules/lazy_runner.py:137` | `def _to_float(raw, default)` |
 | `_to_int` | function | `modules/lazy_runner.py:129` | `def _to_int(raw, default)` |
-| `_tty_available` | function | `modules/lazy_runner.py:901` | `def _tty_available()` |
-| `_write` | function | `modules/lazy_runner.py:757` | `def _write(text)` |
+| `_tty_available` | function | `modules/lazy_runner.py:920` | `def _tty_available()` |
+| `_write` | function | `modules/lazy_runner.py:776` | `def _write(text)` |
 | `build_executor` | function | `modules/lazy_runner.py:292` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
 | `clamped` | method | `modules/lazy_runner.py:113` | `def clamped(self)` |
 | `encoding` | method | `modules/lazy_runner.py:77` | `def encoding(self)` |
@@ -274,8 +311,8 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `parse_loop_line` | function | `modules/lazy_runner.py:145` | `def parse_loop_line(line)` |
 | `report_result` | function | `modules/lazy_runner.py:423` | `def report_result(result)` |
 | `resolve_loop_defaults` | function | `modules/lazy_runner.py:256` | `def resolve_loop_defaults(config)` |
-| `run_loop` | function | `modules/lazy_runner.py:802` | `def run_loop(shell, params, config)` |
-| `stream` | function | `modules/lazy_runner.py:505` | `def stream(text)` |
+| `run_loop` | function | `modules/lazy_runner.py:821` | `def run_loop(shell, params, config)` |
+| `stream` | function | `modules/lazy_runner.py:524` | `def stream(text)` |
 | `write` | method | `modules/lazy_runner.py:58` | `def write(self, data)` |
 | `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
 | `_sandbox_executor` | function | `modules/lazy_sandbox.py:265` | `def _sandbox_executor(command)` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
 | `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
 | `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
-| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
-| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
-| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
-| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
-| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
-| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
-| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
-| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
-| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
-| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
-| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
-| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
-| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
-| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
-| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
-| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
-| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
-| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
-| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
-| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
-| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
-| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
-| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
-| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
-| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
-| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
-| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
-| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
-| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
-| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
-| `decrypt` | function | `modules/lazyownclient.py:62` | `def decrypt(ciphertext, key)` |
-| `encrypt` | function | `modules/lazyownclient.py:55` | `def encrypt(plaintext, key)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

@@ -2,6 +2,28 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `poc_tui/run.py` -> `poc_tui/app.py`
+- `poc_tui/test_app.py` -> `poc_tui/app.py`
+- `pwntomate.py` -> `modules/security_sanitizers.py`
+- `pwntomate.py` -> `skills/claude_md_orchestrator/parser.py`
+- `scripts/devtools/command_audit.py` -> `lazyown.py`
+- `scripts/devtools/core_smoke.py` -> `core/hardening.py`
+- `scripts/devtools/core_smoke.py` -> `core/payload_schema.py`
+- `scripts/devtools/core_smoke.py` -> `modules/db.py`
+- `scripts/devtools/core_smoke.py` -> `modules/killchain.py`
+- `scripts/devtools/core_smoke.py` -> `modules/payload_factory.py`
+- `scripts/read_journal.py` -> `scripts/journal.py`
+- `skills/aci_planner.py` -> `core/logging.py`
+- `skills/aci_planner.py` -> `modules/logging_config.py`
+- `skills/autonomous_daemon.py` -> `core/logging.py`
+- `skills/autonomous_daemon.py` -> `modules/asset_graph.py`
+- `skills/autonomous_daemon.py` -> `modules/db.py`
+- `skills/autonomous_daemon.py` -> `modules/detection_oracle.py`
+- `skills/autonomous_daemon.py` -> `modules/enrich.py`
+- `skills/autonomous_daemon.py` -> `modules/event_consumers.py`
+- `skills/autonomous_daemon.py` -> `modules/evidence.py`
+- `skills/autonomous_daemon.py` -> `modules/finding_lifecycle.py`
+- `skills/autonomous_daemon.py` -> `modules/goals.py`
 - `skills/autonomous_daemon.py` -> `modules/intercept.py`
 - `skills/autonomous_daemon.py` -> `modules/killchain.py`
 - `skills/autonomous_daemon.py` -> `modules/llm_pool.py`
@@ -378,6 +400,8 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_c2_surfaces.py` -> `modules/c2_surfaces.py`
 - `tests/test_campaign_import_safety.py` -> `core/safe_import.py`
 - `tests/test_categories.py` -> `modules/categories.py`
+- `tests/test_chain_distill.py` -> `modules/chain_distill.py`
+- `tests/test_chain_distill.py` -> `modules/chain_registry.py`
 - `tests/test_chain_list_command.py` -> `cli/commands/exploit_migrated.py`
 - `tests/test_chain_mode.py` -> `cli/chain_mode.py`
 - `tests/test_chain_registry.py` -> `modules/chain_registry.py`
@@ -472,29 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 - `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
 - `tests/test_doctor.py` -> `cli/__init__.py`
-- `tests/test_doctor.py` -> `cli/wizard.py`
-- `tests/test_emulation_runner.py` -> `modules/apt_playbooks.py`
-- `tests/test_emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- `tests/test_emulation_runner.py` -> `modules/autonomous_exploit_engine.py`
-- `tests/test_emulation_runner.py` -> `modules/emulation_runner.py`
-- `tests/test_encoding_command_set.py` -> `cli/commands/_base.py`
-- `tests/test_encoding_command_set.py` -> `cli/commands/_dormancy.py`
-- `tests/test_encoding_command_set.py` -> `cli/commands/encoding.py`
-- `tests/test_encoding_command_set.py` -> `cli/commands/misc_migrated.py`
-- `tests/test_encoding_command_set.py` -> `cli/registry.py`
-- `tests/test_engage_gates.py` -> `cli/reasoning_stream.py`
-- `tests/test_engage_gates.py` -> `modules/intercept.py`
-- `tests/test_engage_gates.py` -> `modules/planner.py`
-- `tests/test_engage_gates.py` -> `modules/traffic_recorder.py`
-- `tests/test_engage_gates.py` -> `skills/autonomous_daemon.py`
-- `tests/test_engage_orchestrator.py` -> `skills/autonomous_daemon.py`
-- `tests/test_engage_orchestrator.py` -> `skills/lazyown_policy.py`
-- `tests/test_engage_summary.py` -> `modules/engage_summary.py`
-- `tests/test_engage_summary.py` -> `modules/evidence.py`
-- `tests/test_engagement_and_ping.py` -> `cli/engagement_hooks.py`
-- `tests/test_engagement_command_gate.py` -> `cli/engagement_hooks.py`
-- `tests/test_engagement_elo_and_methodology.py` -> `cli/engagement_hooks.py`
-- `tests/test_engagement_elo_and_methodology.py` -> `modules/cli_auth.py`
-- `tests/test_estorides_fusion.py` -> `modules/estorides_fusion.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

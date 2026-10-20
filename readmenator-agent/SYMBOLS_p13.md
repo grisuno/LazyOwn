@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
+| `DetectionOracle` | class | `modules/detection_oracle.py:317` | `class DetectionOracle(IDetectionOracle)` |
+| `IDetectionOracle` | class | `modules/detection_oracle.py:90` | `class IDetectionOracle(ABC)` |
+| `SigmaRule` | class | `modules/detection_oracle.py:50` | `class SigmaRule` |
+| `__init__` | method | `modules/detection_oracle.py:332` | `def __init__(self, rules, feed)` |
+| `_aggregate_probability` | method | `modules/detection_oracle.py:427` | `def _aggregate_probability(self, matched, action_category)` |
+| `_build_recommendation` | method | `modules/detection_oracle.py:444` | `def _build_recommendation(probability, matched, action_category)` |
+| `_effective_probability` | method | `modules/detection_oracle.py:417` | `def _effective_probability(rule, action_category)` |
+| `_match_rules` | method | `modules/detection_oracle.py:397` | `def _match_rules(self, text, action_category)` |
+| `assess` | method | `modules/detection_oracle.py:94` | `def assess(self, command, args, action_category)` |
+| `assess` | method | `modules/detection_oracle.py:371` | `def assess(self, command, args, action_category)` |
+| `get_oracle` | function | `modules/detection_oracle.py:478` | `def get_oracle()` |
+| `is_critical_risk` | method | `modules/detection_oracle.py:80` | `def is_critical_risk(self)` |
+| `is_high_risk` | method | `modules/detection_oracle.py:75` | `def is_high_risk(self)` |
+| `probability` | method | `modules/detection_oracle.py:103` | `def probability(self, command, args, action_category)` |
+| `probability` | method | `modules/detection_oracle.py:392` | `def probability(self, command, args, action_category)` |
+| `refresh` | method | `modules/detection_oracle.py:336` | `def refresh(self)` |
+| `build_engine_digest` | function | `modules/digest.py:20` | `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` |
+| `worker_results_digest` | function | `modules/digest.py:82` | `def worker_results_digest(rows)` |
+| `write_digest` | function | `modules/digest.py:71` | `def write_digest(task_id, body, root)` |
+| `DNSBeacon` | class | `modules/dns_beacon.py:23` | `class DNSBeacon` |
+| `DNSC2Server` | class | `modules/dns_beacon.py:199` | `class DNSC2Server` |
+| `__init__` | method | `modules/dns_beacon.py:38` | `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)` |
+| `__init__` | method | `modules/dns_beacon.py:211` | `def __init__(self, domain, log_source, interface)` |
+| `_build_query` | method | `modules/dns_beacon.py:96` | `def _build_query(self, msg_type, payload)` |
+| `_decode` | method | `modules/dns_beacon.py:70` | `def _decode(self, data)` |
+| `_dns_query` | method | `modules/dns_beacon.py:84` | `def _dns_query(self, name, qtype)` |
+| `_encode` | method | `modules/dns_beacon.py:63` | `def _encode(self, data)` |
+| `_ensure_dnspython` | method | `modules/dns_beacon.py:57` | `def _ensure_dnspython(self)` |
+| `_handle_result` | method | `modules/dns_beacon.py:294` | `def _handle_result(self, labels, query)` |
+| `_jittered_sleep` | method | `modules/dns_beacon.py:78` | `def _jittered_sleep(self)` |
+| `check_in` | method | `modules/dns_beacon.py:105` | `def check_in(self)` |
+| `get_results` | method | `modules/dns_beacon.py:327` | `def get_results(self, beacon_id)` |
+| `list_beacons` | method | `modules/dns_beacon.py:235` | `def list_beacons(self)` |
+| `process_query_log` | method | `modules/dns_beacon.py:248` | `def process_query_log(self, line)` |
+| `register_beacon` | method | `modules/dns_beacon.py:225` | `def register_beacon(self, beacon_id, hostname)` |
+| `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
 | `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
 | `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
 | `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
 | `_run` | function | `modules/exploitgym_gym.py:274` | `def _run(name, cmd, cwd, timeout)` |
 | `_run_agent` | function | `modules/exploitgym_gym.py:378` | `def _run_agent(task_id, model, mitigations, root, params, timeout)` |
-| `_run_streaming` | function | `modules/exploitgym_gym.py:206` | `def _run_streaming(cmd, cwd, timeout)` |
-| `_save_records` | function | `modules/exploitgym_gym.py:514` | `def _save_records(records)` |
-| `check_readiness` | function | `modules/exploitgym_gym.py:112` | `def check_readiness(params)` |
-| `list_tasks` | function | `modules/exploitgym_gym.py:178` | `def list_tasks(params, domain, limit)` |
-| `pull_task` | function | `modules/exploitgym_gym.py:344` | `def pull_task(task_id, params, timeout)` |
-| `run_task` | function | `modules/exploitgym_gym.py:423` | `def run_task(task_id, params, model, mitigations, timeout)` |
-| `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
-| `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
-| `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
-| `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
-| `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
-| `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
-| `cmd_restart` | function | `modules/fast_run_service.sh:480` | `` |
-| `cmd_start` | function | `modules/fast_run_service.sh:445` | `` |
-| `cmd_status` | function | `modules/fast_run_service.sh:486` | `` |
-| `cmd_stop` | function | `modules/fast_run_service.sh:465` | `` |
-| `config_truthy` | function | `modules/fast_run_service.sh:155` | `` |
-| `ensure_log_file` | function | `modules/fast_run_service.sh:211` | `` |
-| `is_pid_alive` | function | `modules/fast_run_service.sh:189` | `` |
-| `is_service_running` | function | `modules/fast_run_service.sh:194` | `` |
-| `load_config` | function | `modules/fast_run_service.sh:139` | `` |
-| `log_error` | function | `modules/fast_run_service.sh:81` | `` |
-| `log_file_for` | function | `modules/fast_run_service.sh:171` | `` |
-| `log_info` | function | `modules/fast_run_service.sh:73` | `` |
-| `log_timestamp` | function | `modules/fast_run_service.sh:69` | `` |
-| `log_warn` | function | `modules/fast_run_service.sh:77` | `` |
-| `main` | function | `modules/fast_run_service.sh:557` | `` |
-| `managed_services_in_order` | function | `modules/fast_run_service.sh:429` | `` |
-| `pid_file_for` | function | `modules/fast_run_service.sh:166` | `` |
-| `prepare_runtime_dirs` | function | `modules/fast_run_service.sh:126` | `` |
-| `read_pid_value` | function | `modules/fast_run_service.sh:176` | `` |
-| `require_deps` | function | `modules/fast_run_service.sh:97` | `` |
-| `require_paths` | function | `modules/fast_run_service.sh:113` | `` |
-| `require_root` | function | `modules/fast_run_service.sh:89` | `` |
-| `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
-| `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
-| `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

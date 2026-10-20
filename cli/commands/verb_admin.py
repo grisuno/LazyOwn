@@ -112,7 +112,7 @@ class VerbCommandSet(LazyOwnCommandSet):
                     keyword = token
                 index += 1
             try:
-                from modules.verb_catalog import stats, search
+                from modules.verb_catalog import search, stats
 
                 overview = stats()
             except Exception as exc:

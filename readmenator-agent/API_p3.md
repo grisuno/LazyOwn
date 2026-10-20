@@ -236,6 +236,10 @@ Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
 - `ResourceCommandSet.do_spool` (method) `cli/commands/resource_scripting.py:122` `def do_spool(self, line)` -- Log session output to a file.
 - `ResourceCommandSet.do_mkrc` (method) `cli/commands/resource_scripting.py:152` `def do_mkrc(self, line)` -- Alias for makerc — record commands to a script.
 
+## cli/commands/retry_ops.py
+Depends on: `cli/commands/_base.py`, `cli/retry_support.py`, `modules/lazy_runner.py`, `utils.py`
+- `RetryOpsCommandSet.do_retry` (method) `cli/commands/retry_ops.py:68` `def do_retry(self, line)` -- Relaunch failed work: retry status | chain | loop.
+
 ## cli/commands/scan.py
 Depends on: `cli/commands/_base.py`, `utils.py`
 - `ScanCommandSet.do_gobuster` (method) `cli/commands/scan.py:56` `def do_gobuster(self, line)` -- Uses `gobuster` for directory and virtual host fuzzing based on provided parameters.

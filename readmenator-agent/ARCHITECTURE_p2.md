@@ -2,6 +2,11 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/killchain.py` -> `modules/killchain.py`
+- `cli/lazy_monitor.py` -> `cli/commands/containers.py`
+- `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
+- `cli/lazy_monitor.py` -> `modules/lazy_engine.py`
+- `cli/lazy_monitor.py` -> `modules/lazy_runner.py`
 - `cli/lazy_monitor.py` -> `modules/loop_progress.py`
 - `cli/lazy_orchestrator.py` -> `cli/commands/containers.py`
 - `cli/lazy_orchestrator.py` -> `cli/orchestrator_assets_tabs.py`
@@ -19,6 +24,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/ops_commands.py` -> `core/safe_console.py`
 - `cli/ops_commands.py` -> `modules/killchain.py`
 - `cli/ops_commands.py` -> `modules/world_model.py`
+- `cli/orchestrator_assets_tabs.py` -> `cli/tui_forms.py`
 - `cli/orchestrator_assets_tabs.py` -> `core/config.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/__init__.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/apt_playbooks.py`
@@ -60,6 +66,13 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/recon_plan.py` -> `cli/exploration.py`
 - `cli/recon_plan.py` -> `modules/killchain.py`
 - `cli/registry.py` -> `cli/commands/_dormancy.py`
+- `cli/retry_support.py` -> `cli/apt_chain_support.py`
+- `cli/retry_support.py` -> `modules/chain_registry.py`
+- `cli/retry_support.py` -> `modules/chain_runner.py`
+- `cli/retry_support.py` -> `modules/chain_state.py`
+- `cli/retry_support.py` -> `modules/lazy_loop.py`
+- `cli/retry_support.py` -> `modules/retry_session.py`
+- `cli/retry_support.py` -> `utils.py`
 - `cli/scope_guard.py` -> `cli/commands/enum.py`
 - `cli/session_brief.py` -> `cli/themes.py`
 - `cli/session_brief.py` -> `modules/__init__.py`
@@ -483,18 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/windows/main_window.py` -> `lazygui/services/models.py`
 - `lazygui/windows/main_window.py` -> `lazygui/theme/manager.py`
 - `lazygui/windows/main_window.py` -> `lazygui/theme/tokens.py`
-- `lazygui/windows/main_window.py` -> `lazygui/widgets/beacon_command_modal.py`
-- `lazygui/windows/main_window.py` -> `lazygui/widgets/command_palette_list.py`
-- `lazygui/windows/main_window.py` -> `lazygui/widgets/status_badge.py`
-- `lazygui/windows/main_window.py` -> `lazygui/windows/command_palette_window.py`
-- `lazyown.py` -> `cli/aliases.py`
-- `lazyown.py` -> `cli/auto_crypto.py`
-- `lazyown.py` -> `cli/autosuggest.py`
-- `lazyown.py` -> `cli/chain_mode.py`
-- `lazyown.py` -> `cli/cli_enhancements.py`
-- `lazyown.py` -> `cli/command_chain.py`
-- `lazyown.py` -> `cli/engagement_hooks.py`
-- `lazyown.py` -> `cli/exploration.py`
-- `lazyown.py` -> `cli/fuzzy_picker.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

@@ -2,6 +2,19 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/windows/main_window.py` -> `lazygui/widgets/beacon_command_modal.py`
+- `lazygui/windows/main_window.py` -> `lazygui/widgets/command_palette_list.py`
+- `lazygui/windows/main_window.py` -> `lazygui/widgets/status_badge.py`
+- `lazygui/windows/main_window.py` -> `lazygui/windows/command_palette_window.py`
+- `lazyown.py` -> `cli/aliases.py`
+- `lazyown.py` -> `cli/auto_crypto.py`
+- `lazyown.py` -> `cli/autosuggest.py`
+- `lazyown.py` -> `cli/chain_mode.py`
+- `lazyown.py` -> `cli/cli_enhancements.py`
+- `lazyown.py` -> `cli/command_chain.py`
+- `lazyown.py` -> `cli/engagement_hooks.py`
+- `lazyown.py` -> `cli/exploration.py`
+- `lazyown.py` -> `cli/fuzzy_picker.py`
 - `lazyown.py` -> `cli/graph_advisor.py`
 - `lazyown.py` -> `cli/headless.py`
 - `lazyown.py` -> `cli/lazynmap_post.py`
@@ -104,10 +117,15 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/c2_profile_engine.py` -> `core/logging.py`
 - `modules/c2_surfaces.py` -> `core/logging.py`
 - `modules/c2_surfaces.py` -> `skills/lazyown_mcp_helpers.py`
+- `modules/chain_distill.py` -> `core/logging.py`
+- `modules/chain_distill.py` -> `modules/chain_registry.py`
+- `modules/chain_distill.py` -> `modules/lazy_cli_bridge.py`
+- `modules/chain_distill.py` -> `modules/verb_manifest.py`
 - `modules/chain_registry.py` -> `core/logging.py`
 - `modules/chain_runner.py` -> `core/safe_exec.py`
 - `modules/chain_runner.py` -> `modules/chain_registry.py`
 - `modules/chain_runner.py` -> `modules/chain_state.py`
+- `modules/chain_runner.py` -> `modules/verb_manifest.py`
 - `modules/chain_synth.py` -> `modules/chain_registry.py`
 - `modules/chain_synth.py` -> `skills/lazyown_facts.py`
 - `modules/chain_tokens.py` -> `skills/lazyown_facts.py`
@@ -390,6 +408,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/redteam_gym.py` -> `modules/outcome_bus.py`
 - `modules/redteam_gym.py` -> `modules/world_model.py`
 - `modules/resource_script.py` -> `core/safe_exec.py`
+- `modules/retry_session.py` -> `modules/chain_state.py`
 - `modules/rich_tui.py` -> `core/console.py`
 - `modules/rich_tui.py` -> `modules/dashboard_engine.py`
 - `modules/rl_trainer.py` -> `core/logging.py`
@@ -458,6 +477,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/verb_catalog.py` -> `core/logging.py`
 - `modules/verb_catalog.py` -> `modules/auto_registry.py`
 - `modules/verb_catalog.py` -> `modules/lazy_cli_bridge.py`
+- `modules/verb_manifest.py` -> `core/logging.py`
+- `modules/verb_manifest.py` -> `modules/chain_registry.py`
+- `modules/verb_manifest.py` -> `modules/world_model.py`
 - `modules/vuln_bot_cli.py` -> `modules/vulnbot.py`
 - `modules/vulnbot.py` -> `core/logging.py`
 - `modules/vulnbot.py` -> `modules/agent_runner.py`
@@ -474,27 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `poc_tui/app.py` -> `cli/commands/containers.py`
 - `poc_tui/app.py` -> `lazyown.py`
 - `poc_tui/plugin_loader.py` -> `poc_tui/config.py`
-- `poc_tui/run.py` -> `poc_tui/app.py`
-- `poc_tui/test_app.py` -> `poc_tui/app.py`
-- `pwntomate.py` -> `modules/security_sanitizers.py`
-- `pwntomate.py` -> `skills/claude_md_orchestrator/parser.py`
-- `scripts/devtools/command_audit.py` -> `lazyown.py`
-- `scripts/devtools/core_smoke.py` -> `core/hardening.py`
-- `scripts/devtools/core_smoke.py` -> `core/payload_schema.py`
-- `scripts/devtools/core_smoke.py` -> `modules/db.py`
-- `scripts/devtools/core_smoke.py` -> `modules/killchain.py`
-- `scripts/devtools/core_smoke.py` -> `modules/payload_factory.py`
-- `scripts/read_journal.py` -> `scripts/journal.py`
-- `skills/aci_planner.py` -> `core/logging.py`
-- `skills/aci_planner.py` -> `modules/logging_config.py`
-- `skills/autonomous_daemon.py` -> `core/logging.py`
-- `skills/autonomous_daemon.py` -> `modules/asset_graph.py`
-- `skills/autonomous_daemon.py` -> `modules/db.py`
-- `skills/autonomous_daemon.py` -> `modules/detection_oracle.py`
-- `skills/autonomous_daemon.py` -> `modules/enrich.py`
-- `skills/autonomous_daemon.py` -> `modules/event_consumers.py`
-- `skills/autonomous_daemon.py` -> `modules/evidence.py`
-- `skills/autonomous_daemon.py` -> `modules/finding_lifecycle.py`
-- `skills/autonomous_daemon.py` -> `modules/goals.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

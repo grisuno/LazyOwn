@@ -421,9 +421,20 @@ def _start_proxy(engine, params: dict) -> None:
 
 
 def report_result(result: dict) -> None:
-    """Print the final outcome of one loop run."""
+    """Print the final outcome of one loop run.
+
+    Failed, cancelled or incomplete endings carry a retry offer so the
+    operator can resume the exact task with user-varied flags, or arm
+    the elevated ``--sudo`` mode when the failure was a sudo gate.
+    """
     if result.get("error"):
         print_error(f"lazy_loop failed: {result['error']}")
+        task_id = str(result.get("task_id", "") or "")
+        if task_id:
+            print_warn(
+                f"retry offer: retry loop {task_id} [--rounds N --target T] "
+                "--sudo (elevated reruns prompt with a destructive-steps warning)"
+            )
         return
     if result.get("cancelled"):
         print_warn(
@@ -431,6 +442,9 @@ def report_result(result: dict) -> None:
             f"({result.get('task_id') or 'no task'}). "
             "Inspect: lazy_status / lazy_trace"
         )
+        task_id = str(result.get("task_id", "") or "")
+        if task_id:
+            print_warn(f"retry offer: retry loop {task_id} --sudo")
         return
     task_id = result.get("task_id", "")
     overview = result.get("overview", {}) or {}
@@ -442,6 +456,11 @@ def report_result(result: dict) -> None:
     )
     if overview.get("findings"):
         print_warn(f"Findings present — inspect with: lazy_findings {task_id} / lazy_trace {task_id} list")
+    if str(result.get("status", "")) in ("failed", "timeout", "exhausted"):
+        print_warn(
+            "retry offer: retry loop "
+            f"{task_id} [--sudo] (elevated reruns prompt with a destructive-steps warning)"
+        )
 
 
 def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:

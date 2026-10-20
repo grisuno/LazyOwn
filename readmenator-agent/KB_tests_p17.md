@@ -480,8 +480,13 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `test_validate_catalog_rejects_bad_documents` (function, line 88) `def test_validate_catalog_rejects_bad_documents(sandbox)`
   - `test_effective_verbs_include_catalog_entries` (function, line 97) `def test_effective_verbs_include_catalog_entries(sandbox, monkeypatch)`
   - `test_loop_refuses_disabled_cli_verb_and_allows_enabled` (function, line 111) `def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox, monkeypatch)`
-  - `test_stats_reports_on_off_counts` (function, line 134) `def test_stats_reports_on_off_counts(sandbox)`
-  - `test_search_filters_catalog` (function, line 142) `def test_search_filters_catalog(sandbox)`
+  - `test_stats_reports_on_off_counts` (function, line 133) `def test_stats_reports_on_off_counts(sandbox)`
+  - `test_search_filters_catalog` (function, line 141) `def test_search_filters_catalog(sandbox)`
+  - `_addon_sandbox` (function, line 150) `def _addon_sandbox(tmp_path, enabled)`
+  - `test_sync_indexes_enabled_lazyaddons_disabled_by_default` (function, line 169) `def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path)`
+  - `test_sync_prunes_renamed_or_disabled_addons` (function, line 187) `def test_sync_prunes_renamed_or_disabled_addons(tmp_path)`
+  - `test_operator_can_turn_addon_verb_on` (function, line 202) `def test_operator_can_turn_addon_verb_on(tmp_path)`
+  - `test_steps_for_addon_verb_runs_lazy_addon` (function, line 215) `def test_steps_for_addon_verb_runs_lazy_addon(tmp_path, monkeypatch)`
 - Depends on: `modules/__init__.py`
 
 

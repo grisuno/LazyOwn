@@ -77,9 +77,24 @@ def load_checkpoint(directory: Path | str, run_id: str) -> dict[str, Any] | None
     return data if isinstance(data, dict) else None
 
 
-def list_checkpoints(directory: Path | str | None = None, limit: int = 20) -> list[dict[str, Any]]:
-    """Return the newest checkpoints (run_id, chain, target, state, times)."""
+def list_checkpoints(
+    directory: Path | str | None = None,
+    limit: int = 20,
+    chain: str = "",
+) -> list[dict[str, Any]]:
+    """Return the newest checkpoints (run_id, chain, target, state, times).
+
+    Args:
+        directory: Checkpoint directory override.
+        limit: Maximum rows to return.
+        chain: Optional chain-name filter, case-insensitive.
+
+    Returns:
+        Newest-first rows; each row also carries ``ok``/``aborted``/
+        ``reason`` so callers can identify the failed runs.
+    """
     directory = checkpoint_dir(directory)
+    lowered_chain = (chain or "").strip().lower()
     rows: list[dict[str, Any]] = []
     if not directory.is_dir():
         return rows
@@ -90,12 +105,17 @@ def list_checkpoints(directory: Path | str | None = None, limit: int = 20) -> li
             continue
         if not isinstance(data, dict):
             continue
+        if lowered_chain and str(data.get("chain", "")).lower() != lowered_chain:
+            continue
         rows.append(
             {
                 "run_id": str(data.get("run_id", path.stem)),
                 "chain": str(data.get("chain", "")),
                 "target": str(data.get("target", "")),
                 "state": str(data.get("state", "")),
+                "ok": bool(data.get("ok", True)),
+                "aborted": bool(data.get("aborted", False)),
+                "reason": str(data.get("reason", "")),
                 "steps": int(len(data.get("steps") or [])),
                 "started_at": float(data.get("started_at", 0.0) or 0.0),
                 "updated_at": float(data.get("updated_at", 0.0) or 0.0),

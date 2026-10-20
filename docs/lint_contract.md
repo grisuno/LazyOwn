@@ -74,3 +74,34 @@ import in `lazymidm.py`, removal of an unused `subprocess` import in
 `cli/commands/ai.py`, `scripts/sync_doc_stats.py`, and
 `scripts/top_tier_check.py`. `cli/command_index.json` was stale and is now
 regenerated from the 741 commands on disk.
+
+---
+
+## 16b. Lint contract — `ruff check .` is green (SDD+TDD+BDD gate)
+
+Scope decision (boy-scout, 2026-09-09): `ruff check .` passes with zero
+errors. `mutants/` (mutmut output, generated code) is excluded via
+`extend-exclude` in `pyproject.toml` — generated artifacts are never linted.
+`ruff format --check .` remains red on ~400 pre-existing legacy files; only
+touched files are format-clean. Do NOT reformat `lazyc2.py` (7415-line god
+class, minimal diff only) or other untouched legacy files.
+
+Methodology gate for every lint fix (mandatory order):
+
+1. SDD — inventory findings with `ruff check . --output-format concise`,
+   classify auto-fixable (I001/F401/W292/UP) vs manual (F821/E402/syntax).
+2. TDD — record baseline first: `pytest` result + `ruff` count before edits.
+   Pre-existing failures stay pre-existing; new failures block the change.
+3. BDD — validate after: `ruff check .` zero, `pytest` matches baseline,
+   behavioral spot-check of rewritten modules, one mutation probe
+   (mutant must die: observable behavior changes when code is altered).
+4. Boy-scout — every touched file also gets: English only, docstrings on
+   public symbols, no comments, no emojis, centralized config class
+   (no magic numbers, no hardcoded paths/URLs/timeouts), dead code removed,
+   no `sys.stdout` redirection, `subprocess` list-form with timeouts.
+
+Bugs closed in the 2026-09-09 pass and the validation record are archived in
+`docs/lint_contract.md`. The current contract: `ruff check .` and
+`ruff format --check` are green on touched files, `mypy --no-site-packages
+core cli setup.py` is green, `bandit ... --severity-level high` finds nothing,
+and each change ships with a probe that kills one mutant.

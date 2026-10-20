@@ -1,6 +1,28 @@
 # Subsystem: tests (page 14 of 18)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
+## tests/test_pi_leg.py
+- Doc: pi loop-leg contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Proc` (class, line 20) `class _Proc`
+  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
+  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
+  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
+  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
+  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
+  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
+  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
+  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
+  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
+  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
+  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
+  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
+  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
+  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
+
 ## tests/test_pipeline_engine.py
 - Doc: tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)...
 - Layer: testing

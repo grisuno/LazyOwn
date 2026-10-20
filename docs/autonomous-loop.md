@@ -271,3 +271,69 @@ per-finding evidence vault.
 - Worker suggestions look wrong: inspect `[llm]` activity lines and pin
   skills or hints (`lazy_hint`, `lazy_steer`, `lazy_agent` for the main
   agent).
+
+## Retry and resume
+
+A chain, loop or orchestrator run that dies mid-flight never has to be
+restarted from zero. The `retry` command re-launches only the steps that
+did not finish, writing a checkpoint under `sessions/chains/` first.
+
+```text
+retry status                        # list unfinished chains (newest first)
+retry status 5                      # cap the listing
+retry chain <name>                  # resume one chain, skipping done steps
+retry chain <name> --var key=value  # adjust the config of the rerun
+```
+
+Elevated steps need root (sudo). Passing `--sudo` arms an askpass helper:
+
+```text
+retry chain <name> --sudo
+```
+
+The decision is intentionally loud: the CLI prints a destructive-steps
+warning and waits for `YES` before arming anything (`modules/retry_session.py`).
+Secrets live in the helper's session directory with `0700/0600` permissions
+and are removed on `retry status` cleanup. The same gate applies to
+`retry loop <task>` relaunches. `apt_chain` offers this exact line after a
+failing run, and `lazy_runner` ends a loop with the same offer.
+
+## Chain distillation
+
+One finished (or partially finished) loop trace is reusable:
+
+```text
+chain_distill t0123                 # dry report: kept, dropped, suggested name
+chain_distill t0123 --json          # machine-readable report
+chain_distill t0123 --write         # validate and write chains/<name>.yaml
+chain_distill t0123 --all           # include dropped rows in the listing
+```
+
+Output chains are plain `ChainRunner` YAML — run them again with
+`apt_chain <name> <target>` or schedule them as playbooks. Implementation:
+`modules/chain_distill.py`; CLI in
+`cli/commands/command_and_control_migrated.py`.
+
+## Verb catalog and lazyaddon verbs
+
+The loop only proposes commands the operator enabled. Two surfaces exist:
+
+- `verb sync` refreshes the catalog from the shell scan
+  (`cli/command_index.json`); new commands arrive `off`, today's built-ins
+  stay `on`.
+- Every **enabled lazyaddon** under `lazyaddons/*.yaml` is surfaced as a
+  `addon:<name>` verb — off by default, ready to be turned on. Phase maps
+  from the addon category; the trigger tokens become keywords.
+
+```text
+verb list addon                     # see lazyaddons waiting (keyword search)
+verb on addon:adcs_attacks          # enable one (resolved as lazy addon <name>)
+verb off addon:adcs_attacks         # revoke
+verb sync                           # re-scan after adding new lazyaddons
+```
+
+When the loop proposes `auto addon:<name>`, the router translates it to
+`lazy addon <name> [target]` and refuses it while the verb is off.
+Cost/noise/precondition semantics live in `config/verb_manifests.yaml`
+(`modules/verb_manifest.py`) and feed `apt_chain --dry-run` plan checks,
+the detection oracle and the planner ranking.

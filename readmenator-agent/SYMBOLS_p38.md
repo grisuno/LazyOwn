@@ -3,6 +3,87 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_send_command_does_not_raise` | method | `tests/test_lazygui_backend.py:321` | `def test_send_command_does_not_raise(self)` |
+| `test_session_state_default` | method | `tests/test_lazygui_backend.py:138` | `def test_session_state_default(self)` |
+| `test_signals_exist` | method | `tests/test_lazygui_backend.py:80` | `def test_signals_exist(self)` |
+| `test_status_no_duplicate_emit` | method | `tests/test_lazygui_backend.py:104` | `def test_status_no_duplicate_emit(self)` |
+| `test_status_transition` | method | `tests/test_lazygui_backend.py:97` | `def test_status_transition(self)` |
+| `test_stop_sets_disconnected` | method | `tests/test_lazygui_backend.py:312` | `def test_stop_sets_disconnected(self)` |
+| `test_stop_without_start` | method | `tests/test_lazygui_backend.py:305` | `def test_stop_without_start(self)` |
+| `test_topology_emitted_on_change` | method | `tests/test_lazygui_backend.py:439` | `def test_topology_emitted_on_change(self)` |
+| `test_topology_not_emitted_on_no_change` | method | `tests/test_lazygui_backend.py:455` | `def test_topology_not_emitted_on_no_change(self)` |
+| `test_update_from_empty_payload` | method | `tests/test_lazygui_backend.py:209` | `def test_update_from_empty_payload(self)` |
+| `test_update_operator` | method | `tests/test_lazygui_backend.py:267` | `def test_update_operator(self)` |
+| `test_update_operator_no_username` | method | `tests/test_lazygui_backend.py:285` | `def test_update_operator_no_username(self)` |
+| `test_update_sessions_empty` | method | `tests/test_lazygui_backend.py:294` | `def test_update_sessions_empty(self)` |
+| `test_values` | method | `tests/test_lazygui_backend.py:44` | `def test_values(self)` |
+| `test_world_model_default` | method | `tests/test_lazygui_backend.py:133` | `def test_world_model_default(self)` |
+| `TestColorMap` | class | `tests/test_lazygui_graph_widget.py:106` | `class TestColorMap` |
+| `TestColorResolution` | class | `tests/test_lazygui_graph_widget.py:43` | `class TestColorResolution` |
+| `TestGraphEdgeItem` | class | `tests/test_lazygui_graph_widget.py:181` | `class TestGraphEdgeItem` |
+| `TestGraphNodeItem` | class | `tests/test_lazygui_graph_widget.py:114` | `class TestGraphNodeItem` |
+| `TestGraphNodeItemWithIcon` | class | `tests/test_lazygui_graph_widget.py:360` | `class TestGraphNodeItemWithIcon` |
+| `TestGraphScene` | class | `tests/test_lazygui_graph_widget.py:212` | `class TestGraphScene` |
+| `TestGraphView` | class | `tests/test_lazygui_graph_widget.py:307` | `class TestGraphView` |
+| `TestGraphViewWithDatabaseFixture` | class | `tests/test_lazygui_graph_widget.py:333` | `class TestGraphViewWithDatabaseFixture` |
+| `TestRadiusResolution` | class | `tests/test_lazygui_graph_widget.py:79` | `class TestRadiusResolution` |
+| `_capture` | function | `tests/test_lazygui_graph_widget.py:296` | `def _capture(nid, pos)` |
+| `_cb` | function | `tests/test_lazygui_graph_widget.py:149` | `def _cb(nid)` |
+| `_cb` | function | `tests/test_lazygui_graph_widget.py:163` | `def _cb(nid, pos)` |
+| `_get_qapp` | function | `tests/test_lazygui_graph_widget.py:36` | `def _get_qapp()` |
+| `test_all_keys_present` | method | `tests/test_lazygui_graph_widget.py:109` | `def test_all_keys_present(self)` |
+| `test_beacon_color` | method | `tests/test_lazygui_graph_widget.py:50` | `def test_beacon_color(self)` |
+| `test_beacon_radius` | method | `tests/test_lazygui_graph_widget.py:86` | `def test_beacon_radius(self)` |
+| `test_c2_color` | method | `tests/test_lazygui_graph_widget.py:46` | `def test_c2_color(self)` |
+| `test_c2_radius` | method | `tests/test_lazygui_graph_widget.py:82` | `def test_c2_radius(self)` |
+| `test_callback_on_context_menu` | method | `tests/test_lazygui_graph_widget.py:157` | `def test_callback_on_context_menu(self)` |
+| `test_callback_on_selected` | method | `tests/test_lazygui_graph_widget.py:144` | `def test_callback_on_selected(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:117` | `def test_construction(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:215` | `def test_construction(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:310` | `def test_construction(self)` |
+| `test_construction_with_nodes` | method | `tests/test_lazygui_graph_widget.py:184` | `def test_construction_with_nodes(self)` |
+| `test_default_radius` | method | `tests/test_lazygui_graph_widget.py:101` | `def test_default_radius(self)` |
+| `test_fit_to_content` | method | `tests/test_lazygui_graph_widget.py:325` | `def test_fit_to_content(self)` |
+| `test_force_layout_single_node` | method | `tests/test_lazygui_graph_widget.py:243` | `def test_force_layout_single_node(self)` |
+| `test_full_pipeline` | method | `tests/test_lazygui_graph_widget.py:336` | `def test_full_pipeline(self)` |
+| `test_host_color` | method | `tests/test_lazygui_graph_widget.py:54` | `def test_host_color(self)` |
+| `test_host_radius` | method | `tests/test_lazygui_graph_widget.py:91` | `def test_host_radius(self)` |
+| `test_hover_behavior` | method | `tests/test_lazygui_graph_widget.py:369` | `def test_hover_behavior(self)` |
+| `test_identifiers` | method | `tests/test_lazygui_graph_widget.py:127` | `def test_identifiers(self)` |
+| `test_linux_os_hint` | method | `tests/test_lazygui_graph_widget.py:66` | `def test_linux_os_hint(self)` |
+| `test_macos_os_hint` | method | `tests/test_lazygui_graph_widget.py:70` | `def test_macos_os_hint(self)` |
+| `test_movable_flag` | method | `tests/test_lazygui_graph_widget.py:375` | `def test_movable_flag(self)` |
+| `test_node_context_menu_signal` | method | `tests/test_lazygui_graph_widget.py:289` | `def test_node_context_menu_signal(self)` |
+| `test_node_selected_signal` | method | `tests/test_lazygui_graph_widget.py:280` | `def test_node_selected_signal(self)` |
+| `test_node_with_icon` | method | `tests/test_lazygui_graph_widget.py:363` | `def test_node_with_icon(self)` |
+| `test_node_without_callbacks_does_not_raise` | method | `tests/test_lazygui_graph_widget.py:173` | `def test_node_without_callbacks_does_not_raise(self)` |
+| `test_physics_completion` | method | `tests/test_lazygui_graph_widget.py:258` | `def test_physics_completion(self)` |
+| `test_physics_stops_without_nodes` | method | `tests/test_lazygui_graph_widget.py:273` | `def test_physics_stops_without_nodes(self)` |
+| `test_port_color` | method | `tests/test_lazygui_graph_widget.py:58` | `def test_port_color(self)` |
+| `test_port_radius` | method | `tests/test_lazygui_graph_widget.py:96` | `def test_port_radius(self)` |
+| `test_selected_node_id_none_when_empty` | method | `tests/test_lazygui_graph_widget.py:252` | `def test_selected_node_id_none_when_empty(self)` |
+| `test_selection_behaviour` | method | `tests/test_lazygui_graph_widget.py:134` | `def test_selection_behaviour(self)` |
+| `test_set_empty_topology` | method | `tests/test_lazygui_graph_widget.py:235` | `def test_set_empty_topology(self)` |
+| `test_set_topology` | method | `tests/test_lazygui_graph_widget.py:316` | `def test_set_topology(self)` |
+| `test_set_topology_with_data` | method | `tests/test_lazygui_graph_widget.py:221` | `def test_set_topology_with_data(self)` |
+| `test_unknown_default` | method | `tests/test_lazygui_graph_widget.py:74` | `def test_unknown_default(self)` |
+| `test_update_position` | method | `tests/test_lazygui_graph_widget.py:198` | `def test_update_position(self)` |
+| `test_windows_os_hint` | method | `tests/test_lazygui_graph_widget.py:62` | `def test_windows_os_hint(self)` |
+| `TestBackendKind` | class | `tests/test_lazygui_models.py:303` | `class TestBackendKind` |
+| `TestBeaconResult` | class | `tests/test_lazygui_models.py:143` | `class TestBeaconResult` |
+| `TestCampaignSummary` | class | `tests/test_lazygui_models.py:221` | `class TestCampaignSummary` |
+| `TestDashboardPayload` | class | `tests/test_lazygui_models.py:196` | `class TestDashboardPayload` |
+| `TestEventLevel` | class | `tests/test_lazygui_models.py:314` | `class TestEventLevel` |
+| `TestEventRecord` | class | `tests/test_lazygui_models.py:256` | `class TestEventRecord` |
+| `TestGraphEdge` | class | `tests/test_lazygui_models.py:74` | `class TestGraphEdge` |
+| `TestGraphNode` | class | `tests/test_lazygui_models.py:30` | `class TestGraphNode` |
+| `TestSessionModel` | class | `tests/test_lazygui_models.py:280` | `class TestSessionModel` |
+| `TestTopology` | class | `tests/test_lazygui_models.py:105` | `class TestTopology` |
+| `test_compare` | method | `tests/test_lazygui_models.py:322` | `def test_compare(self)` |
+| `test_construction` | method | `tests/test_lazygui_models.py:77` | `def test_construction(self)` |
+| `test_construction` | method | `tests/test_lazygui_models.py:283` | `def test_construction(self)` |
+| `test_default_metadata` | method | `tests/test_lazygui_models.py:56` | `def test_default_metadata(self)` |
+| `test_defaults` | method | `tests/test_lazygui_models.py:91` | `def test_defaults(self)` |
 | `test_defaults` | method | `tests/test_lazygui_models.py:199` | `def test_defaults(self)` |
 | `test_defaults` | method | `tests/test_lazygui_models.py:224` | `def test_defaults(self)` |
 | `test_empty_classmethod` | method | `tests/test_lazygui_models.py:115` | `def test_empty_classmethod(self)` |
@@ -415,86 +496,5 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `explode` | function | `tests/test_mcp_recommender_embed.py:62` | `def explode()` |
 | `fake_recommend` | function | `tests/test_mcp_recommender_embed.py:48` | `def fake_recommend()` |
 | `test_limits_suggestions` | function | `tests/test_mcp_recommender_embed.py:81` | `def test_limits_suggestions(monkeypatch)` |
-| `test_maps_recommender_fields` | function | `tests/test_mcp_recommender_embed.py:25` | `def test_maps_recommender_fields(monkeypatch)` |
-| `test_never_forwards_positional_arguments` | function | `tests/test_mcp_recommender_embed.py:44` | `def test_never_forwards_positional_arguments(monkeypatch)` |
-| `test_reports_unavailable_recommender` | function | `tests/test_mcp_recommender_embed.py:71` | `def test_reports_unavailable_recommender(monkeypatch)` |
-| `test_returns_error_entry_on_failure` | function | `tests/test_mcp_recommender_embed.py:59` | `def test_returns_error_entry_on_failure(monkeypatch)` |
-| `TestHashingEmbedder` | class | `tests/test_memory_semantics.py:27` | `class TestHashingEmbedder` |
-| `TestMemoryStoreHybrid` | class | `tests/test_memory_semantics.py:90` | `class TestMemoryStoreHybrid` |
-| `TestVectorSQLiteBackend` | class | `tests/test_memory_semantics.py:62` | `class TestVectorSQLiteBackend` |
-| `_entry` | function | `tests/test_memory_semantics.py:14` | `def _entry(tool, command, snippet)` |
-| `test_determinism_across_runs` | method | `tests/test_memory_semantics.py:44` | `def test_determinism_across_runs(self)` |
-| `test_empty_text_raises` | method | `tests/test_memory_semantics.py:49` | `def test_empty_text_raises(self)` |
-| `test_fts_wins_when_present` | method | `tests/test_memory_semantics.py:93` | `def test_fts_wins_when_present(self, tmp_path)` |
-| `test_hybrid_fallback_after_miss` | method | `tests/test_memory_semantics.py:101` | `def test_hybrid_fallback_after_miss(self, tmp_path)` |
-| `test_identical_text_full_similarity` | method | `tests/test_memory_semantics.py:30` | `def test_identical_text_full_similarity(self)` |
-| `test_keyword_query_still_works` | method | `tests/test_memory_semantics.py:82` | `def test_keyword_query_still_works(self, tmp_path)` |
-| `test_save_gets_embedding` | method | `tests/test_memory_semantics.py:65` | `def test_save_gets_embedding(self, tmp_path)` |
-| `test_semantic_ranks_relevant_first` | method | `tests/test_memory_semantics.py:73` | `def test_semantic_ranks_relevant_first(self, tmp_path)` |
-| `test_similar_text_scores_higher_than_unrelated` | method | `tests/test_memory_semantics.py:36` | `def test_similar_text_scores_higher_than_unrelated(self)` |
-| `test_unit_length` | method | `tests/test_memory_semantics.py:55` | `def test_unit_length(self)` |
-| `test_every_chain_resolves_without_unresolved_tokens` | function | `tests/test_metasploitable_gym.py:74` | `def test_every_chain_resolves_without_unresolved_tokens()` |
-| `test_every_exploit_and_chain_is_loadable` | function | `tests/test_metasploitable_gym.py:50` | `def test_every_exploit_and_chain_is_loadable()` |
-| `test_gym_base_ends_with_interactive_shell` | function | `tests/test_metasploitable_gym.py:63` | `def test_gym_base_ends_with_interactive_shell()` |
-| `test_index_covers_the_ms2_vectors` | function | `tests/test_metasploitable_gym.py:23` | `def test_index_covers_the_ms2_vectors()` |
-| `test_invalid_matrix_is_reported` | function | `tests/test_metasploitable_gym.py:96` | `def test_invalid_matrix_is_reported(tmp_path)` |
-| `test_unknown_vulnerability_returns_none` | function | `tests/test_metasploitable_gym.py:89` | `def test_unknown_vulnerability_returns_none()` |
-| `_fake_exec` | function | `tests/test_metasploitable_migrations.py:41` | `def _fake_exec(container, script, payload, timeout)` |
-| `test_apply_migrations_applies_when_check_fails` | function | `tests/test_metasploitable_migrations.py:40` | `def test_apply_migrations_applies_when_check_fails(monkeypatch)` |
-| `test_apply_migrations_skips_when_check_passes` | function | `tests/test_metasploitable_migrations.py:29` | `def test_apply_migrations_skips_when_check_passes(monkeypatch)` |
-| `test_build_migrations_ordered_and_unique` | function | `tests/test_metasploitable_migrations.py:10` | `def test_build_migrations_ordered_and_unique()` |
-| `test_database_mirror_uses_dump_and_restore` | function | `tests/test_metasploitable_migrations.py:62` | `def test_database_mirror_uses_dump_and_restore()` |
-| `test_dvwa_dom_page_payload_contains_sink` | function | `tests/test_metasploitable_migrations.py:54` | `def test_dvwa_dom_page_payload_contains_sink()` |
-| `test_hosts_allow_uses_subnet_prefix` | function | `tests/test_metasploitable_migrations.py:19` | `def test_hosts_allow_uses_subnet_prefix()` |
-| `_build_recorder` | function | `tests/test_metrics.py:35` | `def _build_recorder(tmp_path)` |
-| `test_aggregator_handles_empty_iterable` | function | `tests/test_metrics.py:211` | `def test_aggregator_handles_empty_iterable()` |
-| `test_aggregator_skips_malformed_records` | function | `tests/test_metrics.py:220` | `def test_aggregator_skips_malformed_records()` |
-| `test_concurrent_writes_do_not_corrupt` | function | `tests/test_metrics.py:173` | `def test_concurrent_writes_do_not_corrupt(tmp_path)` |
-| `test_get_recorder_is_singleton` | function | `tests/test_metrics.py:202` | `def test_get_recorder_is_singleton(tmp_path)` |
-| `test_legacy_registry_inc_and_render` | function | `tests/test_metrics.py:42` | `def test_legacy_registry_inc_and_render()` |
-| `test_metric_record_to_dict_roundtrip` | function | `tests/test_metrics.py:234` | `def test_metric_record_to_dict_roundtrip()` |
-| `test_p95_uses_nearest_rank` | function | `tests/test_metrics.py:227` | `def test_p95_uses_nearest_rank()` |
-| `test_recorder_appends_record_line` | function | `tests/test_metrics.py:57` | `def test_recorder_appends_record_line(tmp_path)` |
-| `test_recorder_clamps_negative_duration` | function | `tests/test_metrics.py:83` | `def test_recorder_clamps_negative_duration(tmp_path)` |
-| `test_summarize_aggregates_by_command` | function | `tests/test_metrics.py:92` | `def test_summarize_aggregates_by_command(tmp_path)` |
-| `test_summarize_window_filters_old_records` | function | `tests/test_metrics.py:124` | `def test_summarize_window_filters_old_records(tmp_path)` |
-| `test_tail_returns_newest_first` | function | `tests/test_metrics.py:163` | `def test_tail_returns_newest_first(tmp_path)` |
-| `worker` | function | `tests/test_metrics.py:180` | `def worker(tag)` |
-| `_BrokenSource` | class | `tests/test_metrics_aware_selector.py:217` | `class _BrokenSource` |
-| `_StubMetrics` | class | `tests/test_metrics_aware_selector.py:54` | `class _StubMetrics` |
-| `_StubSelector` | class | `tests/test_metrics_aware_selector.py:37` | `class _StubSelector(ICommandSelector)` |
-| `__init__` | method | `tests/test_metrics_aware_selector.py:40` | `def __init__(self, decision)` |
-| `__init__` | method | `tests/test_metrics_aware_selector.py:57` | `def __init__(self, by_command)` |
-| `_decision` | function | `tests/test_metrics_aware_selector.py:71` | `def _decision(command)` |
-| `fake_clock` | function | `tests/test_metrics_aware_selector.py:169` | `def fake_clock()` |
-| `select` | method | `tests/test_metrics_aware_selector.py:44` | `def select(self, target, phase, context)` |
-| `summarize` | method | `tests/test_metrics_aware_selector.py:62` | `def summarize(self, window_seconds)` |
-| `summarize` | method | `tests/test_metrics_aware_selector.py:218` | `def summarize(self, window_seconds)` |
-| `test_accepts_when_success_rate_at_threshold` | function | `tests/test_metrics_aware_selector.py:122` | `def test_accepts_when_success_rate_at_threshold()` |
-| `test_chain_falls_through_to_fallback_when_all_filtered` | function | `tests/test_metrics_aware_selector.py:298` | `def test_chain_falls_through_to_fallback_when_all_filtered()` |
-| `test_decorator_degrades_when_metrics_source_unavailable` | function | `tests/test_metrics_aware_selector.py:214` | `def test_decorator_degrades_when_metrics_source_unavailable()` |
-| `test_filtering_emits_skip_event` | function | `tests/test_metrics_aware_selector.py:265` | `def test_filtering_emits_skip_event(tmp_path, monkeypatch)` |
-| `test_filters_when_success_rate_below_threshold` | function | `tests/test_metrics_aware_selector.py:105` | `def test_filters_when_success_rate_below_threshold()` |
-| `test_only_filters_named_command_not_whole_decision_object` | function | `tests/test_metrics_aware_selector.py:141` | `def test_only_filters_named_command_not_whole_decision_object()` |
-| `test_passthrough_when_insufficient_attempts` | function | `tests/test_metrics_aware_selector.py:87` | `def test_passthrough_when_insufficient_attempts()` |
-| `test_passthrough_when_wrapped_returns_none` | function | `tests/test_metrics_aware_selector.py:75` | `def test_passthrough_when_wrapped_returns_none()` |
-| `test_summary_forwards_window_seconds` | function | `tests/test_metrics_aware_selector.py:188` | `def test_summary_forwards_window_seconds()` |
-| `test_summary_is_cached_within_ttl` | function | `tests/test_metrics_aware_selector.py:158` | `def test_summary_is_cached_within_ttl()` |
-| `test_wrap_chain_is_idempotent` | function | `tests/test_metrics_aware_selector.py:253` | `def test_wrap_chain_is_idempotent()` |
-| `test_wrap_chain_leaves_fallback_unwrapped` | function | `tests/test_metrics_aware_selector.py:230` | `def test_wrap_chain_leaves_fallback_unwrapped()` |
-| `test_wrap_chain_master_switch_off` | function | `tests/test_metrics_aware_selector.py:241` | `def test_wrap_chain_master_switch_off()` |
-| `test_zero_window_is_treated_as_unbounded` | function | `tests/test_metrics_aware_selector.py:201` | `def test_zero_window_is_treated_as_unbounded()` |
-| `_module_all` | function | `tests/test_migrate_lazyown_generator.py:27` | `def _module_all(source)` |
-| `test_all_is_static_and_matches_class_name` | function | `tests/test_migrate_lazyown_generator.py:62` | `def test_all_is_static_and_matches_class_name()` |
-| `test_compound_phase_title_casing` | function | `tests/test_migrate_lazyown_generator.py:68` | `def test_compound_phase_title_casing()` |
-| `test_generated_module_parses` | function | `tests/test_migrate_lazyown_generator.py:57` | `def test_generated_module_parses()` |
-| `test_method_bodies_are_embedded_in_order` | function | `tests/test_migrate_lazyown_generator.py:81` | `def test_method_bodies_are_embedded_in_order()` |
-| `test_no_unevaluated_fstring_all_literal` | function | `tests/test_migrate_lazyown_generator.py:74` | `def test_no_unevaluated_fstring_all_literal()` |
-| `TestClassify` | class | `tests/test_module_registry.py:20` | `class TestClassify` |
-| `TestFormatFunctions` | class | `tests/test_module_registry.py:185` | `class TestFormatFunctions` |
-| `TestModuleInfo` | class | `tests/test_module_registry.py:36` | `class TestModuleInfo` |
-| `TestModuleRegistry` | class | `tests/test_module_registry.py:75` | `class TestModuleRegistry` |
-| `test_by_type_shorthand` | method | `tests/test_module_registry.py:159` | `def test_by_type_shorthand(self)` |
-| `test_empty_string` | method | `tests/test_module_registry.py:31` | `def test_empty_string(self)` |
 
 Next: [SYMBOLS_p39.md](SYMBOLS_p39.md)

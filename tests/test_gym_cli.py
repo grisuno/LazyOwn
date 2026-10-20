@@ -81,9 +81,12 @@ def test_gym_stop_all_and_by_name(sandbox, capsys):
 
 def test_gym_status_explains_live_shell_without_gym(sandbox, monkeypatch, capsys):
     """A live shell is reported as context, not as a gym run."""
+    from types import SimpleNamespace
+
     import modules.atomic_exploit_bridge as bridge
 
-    monkeypatch.setitem(bridge._SESSIONS, ("172.17.0.2", "ms2_ingreslock"), object())
+    session = SimpleNamespace(owner="ms2_ingreslock")
+    monkeypatch.setitem(bridge._SESSIONS, ("172.17.0.2", "ms2_ingreslock"), session)
     RedTeamGymCommandSet().do_gym("status")
     output = capsys.readouterr().out
     assert "No active gyms" in output

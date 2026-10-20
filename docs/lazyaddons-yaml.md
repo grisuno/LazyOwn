@@ -110,6 +110,26 @@ repository itself. Decisions land in `sessions/addon_updates.jsonl`.
 Addons that are vendored, installed by a custom command or missing from
 disk stay `update: true` and are reported as skipped with a reason.
 
+## Addons as loop verbs
+
+Every enabled addon is also a catalog verb (`addon:<name>`, phase mapped
+from `category`, trigger tokens as keywords) that the autonomous loop can
+propose once you turn it on:
+
+```sh
+LazyOwn> verb sync
+LazyOwn> verb list addon
+  [off] addon:adcs_attacks   phase=privesc  risk=safe  ADCS audit tool.
+LazyOwn> verb on addon:adcs_attacks
+[+] verb addon:adcs_attacks is now on
+LazyOwn> verb off addon:adcs_attacks
+[+] verb addon:adcs_attacks is now off
+```
+
+Dropping a new `*.yaml` into `lazyaddons/` is enough: `verb sync` lists it
+the next time, and `lazy addon <name>` remains the explicit one-to-one
+runner. Full loop context: [`docs/autonomous-loop.md`](autonomous-loop.md).
+
 ## Troubleshooting
 Missing parameters: Verify required fields in YAML
 

@@ -1,6 +1,66 @@
 # Subsystem: tests (page 12 of 18)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
 
+## tests/test_loop_intent_delete.py
+- Doc: Intent delete modes regression tests (lazy 0.3.12 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 8) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_soft_delete_keeps_outputs_and_notifies` (function, line 17) `def test_soft_delete_keeps_outputs_and_notifies(tmp_path, monkeypatch)`
+  - `test_soft_delete_requires_reason` (function, line 37) `def test_soft_delete_requires_reason(tmp_path, monkeypatch)`
+  - `test_hard_delete_removes_exclusive_keeps_shared` (function, line 46) `def test_hard_delete_removes_exclusive_keeps_shared(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_loop_llm_resilience.py
+- Doc: LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_empty_reply_replays_before_failover` (function, line 15) `def test_empty_reply_replays_before_failover(tmp_path, monkeypatch)`
+  - `test_empty_budget_exhausted_moves_to_next_member` (function, line 34) `def test_empty_budget_exhausted_moves_to_next_member(tmp_path, monkeypatch)`
+  - `test_error_reply_fails_over_instead_of_becoming_content` (function, line 54) `def test_error_reply_fails_over_instead_of_becoming_content(tmp_path, monkeypatch)`
+  - `test_worker_llm_steps_filtered_by_scope_and_tooling` (function, line 71) `def test_worker_llm_steps_filtered_by_scope_and_tooling(tmp_path, monkeypatch)`
+  - `test_wall_clock_settles_partial_not_hard_kill` (function, line 95) `def test_wall_clock_settles_partial_not_hard_kill(tmp_path, monkeypatch)`
+  - `test_stall_guard_forces_intent_when_nothing_open` (function, line 114) `def test_stall_guard_forces_intent_when_nothing_open(tmp_path, monkeypatch)`
+  - `test_task_llm_chain_quota_failover` (function, line 135) `def test_task_llm_chain_quota_failover(tmp_path, monkeypatch)`
+  - `test_raw_llm_recording_toggle` (function, line 169) `def test_raw_llm_recording_toggle(tmp_path, monkeypatch)`
+  - `test_llm_context_budget_roundtrip` (function, line 190) `def test_llm_context_budget_roundtrip(tmp_path, monkeypatch)`
+  - `test_planner_uses_bound_task_chain` (function, line 202) `def test_planner_uses_bound_task_chain(tmp_path, monkeypatch)`
+  - `scripted` (function, line 23) `def scripted(model, prompt, max_tokens)`
+  - `first_empty_then_ok` (function, line 42) `def first_empty_then_ok(model, prompt, max_tokens)`
+  - `error_then_ok` (function, line 61) `def error_then_ok(model, prompt, max_tokens)`
+  - `scripted` (function, line 79) `def scripted(model, prompt, max_tokens)`
+  - `scripted` (function, line 147) `def scripted(model, prompt, max_tokens)`
+  - `scripted_next` (function, line 160) `def scripted_next(model, prompt, max_tokens)`
+  - `scripted` (function, line 213) `def scripted(model, prompt, max_tokens)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
+
+## tests/test_loop_mentions.py
+- Doc: Lazy mentions multi-type search and scroll pagination.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_mentions_search_and_cursor` (function, line 6) `def test_mentions_search_and_cursor(tmp_path, monkeypatch)`
+  - `test_mentions_parse_caps_and_trusts_ids` (function, line 16) `def test_mentions_parse_caps_and_trusts_ids()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_loop_nmap_guard.py
+- Doc: Loop guardrails: command repair and bounded scanning retests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 8) `def _sandbox(tmp_path, monkeypatch)`
+  - `test_repair_rejects_target_in_port_slot` (function, line 13) `def test_repair_rejects_target_in_port_slot()`
+  - `test_repair_strips_binary_path_for_shell_verb` (function, line 20) `def test_repair_strips_binary_path_for_shell_verb()`
+  - `test_repair_keeps_valid_port_specs` (function, line 27) `def test_repair_keeps_valid_port_specs()`
+  - `test_repair_appends_missing_target` (function, line 35) `def test_repair_appends_missing_target()`
+  - `test_repair_drops_port_flag_without_value` (function, line 41) `def test_repair_drops_port_flag_without_value()`
+  - `test_stall_thresholds_follow_command_timeout` (function, line 48) `def test_stall_thresholds_follow_command_timeout()`
+  - `test_scan_commands_are_not_replayed` (function, line 58) `def test_scan_commands_are_not_replayed(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_loop.py`, `modules/lazy_runner.py`
+
 ## tests/test_loop_progress.py
 - Doc: Loop milestone panel: inferred stage states stay honest.
 - Layer: testing
@@ -229,13 +289,16 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `test_build_migrations_ordered_and_unique` (function, line 10) `def test_build_migrations_ordered_and_unique()`
-  - `test_hosts_allow_uses_subnet_prefix` (function, line 19) `def test_hosts_allow_uses_subnet_prefix()`
-  - `test_apply_migrations_skips_when_check_passes` (function, line 29) `def test_apply_migrations_skips_when_check_passes(monkeypatch)`
-  - `test_apply_migrations_applies_when_check_fails` (function, line 40) `def test_apply_migrations_applies_when_check_fails(monkeypatch)`
-  - `test_dvwa_dom_page_payload_contains_sink` (function, line 54) `def test_dvwa_dom_page_payload_contains_sink()`
-  - `test_database_mirror_uses_dump_and_restore` (function, line 62) `def test_database_mirror_uses_dump_and_restore()`
-  - `_fake_exec` (function, line 41) `def _fake_exec(container, script, payload, timeout)`
+  - `test_build_migrations_ordered_and_unique` (function, line 8) `def test_build_migrations_ordered_and_unique()`
+  - `test_dns_fallback_payload_targets_port_53` (function, line 17) `def test_dns_fallback_payload_targets_port_53()`
+  - `test_nfs_fallback_starts_mountd_without_kernel_nfsd` (function, line 28) `def test_nfs_fallback_starts_mountd_without_kernel_nfsd()`
+  - `test_rlogin_trust_sets_rhosts_and_local_allow` (function, line 37) `def test_rlogin_trust_sets_rhosts_and_local_allow()`
+  - `test_hosts_allow_uses_subnet_prefix` (function, line 47) `def test_hosts_allow_uses_subnet_prefix()`
+  - `test_apply_migrations_skips_when_check_passes` (function, line 57) `def test_apply_migrations_skips_when_check_passes(monkeypatch)`
+  - `test_apply_migrations_applies_when_check_fails` (function, line 68) `def test_apply_migrations_applies_when_check_fails(monkeypatch)`
+  - `test_dvwa_dom_page_payload_contains_sink` (function, line 82) `def test_dvwa_dom_page_payload_contains_sink()`
+  - `test_database_mirror_uses_dump_and_restore` (function, line 90) `def test_database_mirror_uses_dump_and_restore()`
+  - `_fake_exec` (function, line 69) `def _fake_exec(container, script, payload, timeout)`
 - Depends on: `modules/metasploitable_migrations.py`
 
 ## tests/test_metrics.py
@@ -429,64 +492,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_pickle_removed` (function, line 56) `def test_pickle_removed()`
   - `test_no_hardcoded_secrets` (function, line 63) `def test_no_hardcoded_secrets()`
 - Depends on: `modules/db.py`
-
-## tests/test_nethelpers_command_set.py
-- Doc: Network helpers command set extraction tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
-  - `NethelpersSuiteConfig` (class, line 38) `class NethelpersSuiteConfig`
-  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_nethelpers_cluster` (function, line 82) `def test_target_exposes_full_nethelpers_cluster()`
-  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
-- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/nethelpers.py`, `cli/registry.py`
-
-## tests/test_no_shell_execution.py
-- Doc: Contract tests: no os.system and no manual sys.stdout reassignment.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `ScanConfig` (class, line 20) `class ScanConfig`
-  - `_parse` (function, line 64) `def _parse(path)`
-  - `find_os_system_calls` (function, line 72) `def find_os_system_calls(config)`
-  - `find_stdout_assignments` (function, line 96) `def find_stdout_assignments(config)`
-  - `test_no_os_system_in_production` (function, line 124) `def test_no_os_system_in_production()`
-  - `test_no_manual_stdout_reassignment` (function, line 130) `def test_no_manual_stdout_reassignment()`
-  - `test_scanner_detects_a_synthetic_os_system` (function, line 136) `def test_scanner_detects_a_synthetic_os_system(tmp_path)`
-  - `iter_files` (method, line 44) `def iter_files(self)`
-
-## tests/test_nuclei_parser.py
-- Doc: Tests for modules/integrations/nuclei_parser.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestNucleiFinding` (class, line 13) `class TestNucleiFinding`
-  - `TestNucleiParserText` (class, line 58) `class TestNucleiParserText`
-  - `TestNucleiParserJson` (class, line 73) `class TestNucleiParserJson`
-  - `TestSeverityMap` (class, line 120) `class TestSeverityMap`
-  - `TestMitreTactics` (class, line 128) `class TestMitreTactics`
-  - `TestRecommendations` (class, line 134) `class TestRecommendations`
-  - `test_fields` (method, line 14) `def test_fields(self)`
-  - `test_exploit_probability_map` (method, line 28) `def test_exploit_probability_map(self)`
-  - `test_mitre_tactic` (method, line 46) `def test_mitre_tactic(self)`
-  - `test_parse_empty` (method, line 59) `def test_parse_empty(self)`
-  - `test_parse_nuclei_line` (method, line 64) `def test_parse_nuclei_line(self)`
-  - `test_parse_empty` (method, line 74) `def test_parse_empty(self)`
-  - `test_parse_json_single_finding` (method, line 78) `def test_parse_json_single_finding(self)`
-  - `test_parse_json_multiple_findings` (method, line 90) `def test_parse_json_multiple_findings(self)`
-  - `test_parse_json_array` (method, line 99) `def test_parse_json_array(self)`
-  - `test_parse_with_cve_classification` (method, line 108) `def test_parse_with_cve_classification(self)`
-  - `test_critical_is_10` (method, line 121) `def test_critical_is_10(self)`
-  - `test_info_is_1` (method, line 124) `def test_info_is_1(self)`
-  - `test_all_tactics_have_ta_prefix` (method, line 129) `def test_all_tactics_have_ta_prefix(self)`
-  - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
-  - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
-- Depends on: `modules/integrations/nuclei_parser.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

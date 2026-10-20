@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_run_streaming` | function | `modules/exploitgym_gym.py:206` | `def _run_streaming(cmd, cwd, timeout)` |
+| `_save_records` | function | `modules/exploitgym_gym.py:514` | `def _save_records(records)` |
+| `check_readiness` | function | `modules/exploitgym_gym.py:112` | `def check_readiness(params)` |
+| `list_tasks` | function | `modules/exploitgym_gym.py:178` | `def list_tasks(params, domain, limit)` |
+| `pull_task` | function | `modules/exploitgym_gym.py:344` | `def pull_task(task_id, params, timeout)` |
+| `run_task` | function | `modules/exploitgym_gym.py:423` | `def run_task(task_id, params, model, mitigations, timeout)` |
+| `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
+| `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
+| `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
+| `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
+| `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
+| `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
+| `cmd_restart` | function | `modules/fast_run_service.sh:480` | `` |
+| `cmd_start` | function | `modules/fast_run_service.sh:445` | `` |
+| `cmd_status` | function | `modules/fast_run_service.sh:486` | `` |
+| `cmd_stop` | function | `modules/fast_run_service.sh:465` | `` |
+| `config_truthy` | function | `modules/fast_run_service.sh:155` | `` |
+| `ensure_log_file` | function | `modules/fast_run_service.sh:211` | `` |
+| `is_pid_alive` | function | `modules/fast_run_service.sh:189` | `` |
+| `is_service_running` | function | `modules/fast_run_service.sh:194` | `` |
+| `load_config` | function | `modules/fast_run_service.sh:139` | `` |
+| `log_error` | function | `modules/fast_run_service.sh:81` | `` |
+| `log_file_for` | function | `modules/fast_run_service.sh:171` | `` |
+| `log_info` | function | `modules/fast_run_service.sh:73` | `` |
+| `log_timestamp` | function | `modules/fast_run_service.sh:69` | `` |
+| `log_warn` | function | `modules/fast_run_service.sh:77` | `` |
+| `main` | function | `modules/fast_run_service.sh:557` | `` |
+| `managed_services_in_order` | function | `modules/fast_run_service.sh:429` | `` |
+| `pid_file_for` | function | `modules/fast_run_service.sh:166` | `` |
+| `prepare_runtime_dirs` | function | `modules/fast_run_service.sh:126` | `` |
+| `read_pid_value` | function | `modules/fast_run_service.sh:176` | `` |
+| `require_deps` | function | `modules/fast_run_service.sh:97` | `` |
+| `require_paths` | function | `modules/fast_run_service.sh:113` | `` |
+| `require_root` | function | `modules/fast_run_service.sh:89` | `` |
+| `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
+| `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
+| `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
 | `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
 | `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
 | `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_build_golden_enc_part` | method | `modules/kerberos_tickets.py:346` | `def _build_golden_enc_part(self, config, start, end, flags, key)` |
 | `_build_golden_pac` | method | `modules/kerberos_tickets.py:339` | `def _build_golden_pac(self, config)` |
 | `_build_kirbi` | method | `modules/kerberos_tickets.py:235` | `def _build_kirbi(self, ticket, enc_part, etype)` |
-| `_build_silver_pac` | method | `modules/kerberos_tickets.py:200` | `def _build_silver_pac(self, config, start, end)` |
-| `_build_ticket_structure` | method | `modules/kerberos_tickets.py:225` | `def _build_ticket_structure(self, config, flags, enc_part)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:254` | `def _impacket_command(self, config)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:388` | `def _impacket_command(self, config)` |
-| `_mimikatz_command` | method | `modules/kerberos_tickets.py:379` | `def _mimikatz_command(self, config)` |
-| `_mimikatz_inject_command` | method | `modules/kerberos_tickets.py:244` | `def _mimikatz_inject_command(self, config)` |
-| `_resolve_key` | method | `modules/kerberos_tickets.py:190` | `def _resolve_key(self, config)` |
-| `_resolve_krbtgt_key` | method | `modules/kerberos_tickets.py:324` | `def _resolve_krbtgt_key(self, config)` |
-| `cleanup_command` | method | `modules/kerberos_tickets.py:612` | `def cleanup_command()` |
-| `detect_skeleton_key` | method | `modules/kerberos_tickets.py:578` | `def detect_skeleton_key(target_host, domain, dc_ip)` |
-| `forge` | method | `modules/kerberos_tickets.py:134` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:275` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:408` | `def forge(self, config)` |
-| `forge_rbcd` | method | `modules/kerberos_tickets.py:530` | `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` |
-| `forge_s4u2self` | method | `modules/kerberos_tickets.py:472` | `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` |
-| `inject_command` | method | `modules/kerberos_tickets.py:600` | `def inject_command(target_host)` |
-| `_build_svg` | function | `modules/kill_chain_viz.py:34` | `def _build_svg(phases)` |
-| `_load_phases` | function | `modules/kill_chain_viz.py:20` | `def _load_phases(sessions)` |
-| `_read_target` | function | `modules/kill_chain_viz.py:27` | `def _read_target()` |
-| `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
-| `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
-| `KillChain` | class | `modules/killchain.py:145` | `class KillChain` |
-| `KillChainConfig` | class | `modules/killchain.py:38` | `class KillChainConfig` |
-| `PhaseStatus` | class | `modules/killchain.py:136` | `class PhaseStatus` |
-| `advance_phase` | method | `modules/killchain.py:251` | `def advance_phase(new_phase, world_model_path, host)` |
-| `cli_phase_to_host_state` | method | `modules/killchain.py:191` | `def cli_phase_to_host_state(phase)` |
-| `compact_progress` | method | `modules/killchain.py:377` | `def compact_progress(current_phase, phases_entered)` |
-| `config` | method | `modules/killchain.py:154` | `def config()` |
-| `current_phase` | method | `modules/killchain.py:204` | `def current_phase(world_model_path)` |
-| `engagement_phase_to_cli` | method | `modules/killchain.py:179` | `def engagement_phase_to_cli(engagement_value)` |
-| `get_killchain` | function | `modules/killchain.py:453` | `def get_killchain()` |
-| `get_progress` | method | `modules/killchain.py:328` | `def get_progress(world_model_path)` |
-| `is_valid_phase` | method | `modules/killchain.py:127` | `def is_valid_phase(self, phase)` |
-| `phase_colors` | method | `modules/killchain.py:169` | `def phase_colors()` |
-| `phase_index` | method | `modules/killchain.py:120` | `def phase_index(self, phase)` |
-| `phase_index` | method | `modules/killchain.py:408` | `def phase_index(phase)` |
-| `phase_labels` | method | `modules/killchain.py:164` | `def phase_labels()` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

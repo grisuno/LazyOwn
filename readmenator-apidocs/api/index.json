@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 785,
-  "entities": 14838,
+  "modules": 790,
+  "entities": 14956,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 674,
+   "py": 679,
    "sh": 59
   },
   "kinds": {
-   "attribute": 4196,
-   "class": 1377,
+   "attribute": 4258,
+   "class": 1386,
    "classmethod": 81,
-   "constant": 1257,
+   "constant": 1266,
    "constructor": 513,
    "enum": 38,
    "exception": 37,
-   "function": 2634,
+   "function": 2656,
    "macro": 113,
-   "method": 3479,
-   "module": 785,
-   "property": 187,
+   "method": 3487,
+   "module": 790,
+   "property": 190,
    "protocol": 14,
    "staticmethod": 91,
    "struct": 20,
@@ -36,20 +36,20 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 331,
+  "skipped_files": 334,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6946,
-   "total": 9373,
-   "percent": 74.1
+   "documented": 6993,
+   "total": 9420,
+   "percent": 74.2
   },
   "by_kind": {
    "class": {
-    "documented": 1189,
-    "total": 1377,
-    "percent": 86.3
+    "documented": 1198,
+    "total": 1386,
+    "percent": 86.4
    },
    "classmethod": {
     "documented": 55,
@@ -72,9 +72,9 @@
     "percent": 94.6
    },
    "function": {
-    "documented": 1739,
-    "total": 2634,
-    "percent": 66.0
+    "documented": 1761,
+    "total": 2656,
+    "percent": 66.3
    },
    "macro": {
     "documented": 3,
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2800,
-    "total": 3479,
+    "documented": 2808,
+    "total": 3487,
     "percent": 80.5
    },
    "module": {
-    "documented": 663,
-    "total": 785,
-    "percent": 84.5
+    "documented": 668,
+    "total": 790,
+    "percent": 84.6
    },
    "property": {
-    "documented": 143,
-    "total": 187,
-    "percent": 76.5
+    "documented": 146,
+    "total": 190,
+    "percent": 76.8
    },
    "protocol": {
     "documented": 14,
@@ -314,9 +314,9 @@
     "percent": 100.0
    },
    "cli/commands/command_and_control_migrated.py": {
-    "documented": 27,
-    "total": 28,
-    "percent": 96.4
+    "documented": 28,
+    "total": 29,
+    "percent": 96.6
    },
    "cli/commands/containers.py": {
     "documented": 8,
@@ -566,6 +566,11 @@
    "cli/commands/resource_scripting.py": {
     "documented": 6,
     "total": 6,
+    "percent": 100.0
+   },
+   "cli/commands/retry_ops.py": {
+    "documented": 3,
+    "total": 3,
     "percent": 100.0
    },
    "cli/commands/scan.py": {
@@ -821,6 +826,11 @@
    "cli/registry.py": {
     "documented": 3,
     "total": 3,
+    "percent": 100.0
+   },
+   "cli/retry_support.py": {
+    "documented": 10,
+    "total": 10,
     "percent": 100.0
    },
    "cli/scope_guard.py": {
@@ -2018,6 +2028,11 @@
     "total": 1,
     "percent": 0.0
    },
+   "modules/chain_distill.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
    "modules/chain_registry.py": {
     "documented": 12,
     "total": 12,
@@ -2978,6 +2993,11 @@
     "total": 12,
     "percent": 75.0
    },
+   "modules/retry_session.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
    "modules/reverse-shell.c": {
     "documented": 0,
     "total": 1,
@@ -3271,6 +3291,11 @@
    "modules/verb_catalog.py": {
     "documented": 11,
     "total": 11,
+    "percent": 100.0
+   },
+   "modules/verb_manifest.py": {
+    "documented": 15,
+    "total": 15,
     "percent": 100.0
    },
    "modules/vuln_bot_cli.py": {
@@ -4244,7 +4269,7 @@
   {
    "uid": "cli/commands/command_and_control_migrated.py",
    "path": "modules/cli.commands.command_and_control_migrated.py.jsonl",
-   "entities": 30
+   "entities": 31
   },
   {
    "uid": "cli/commands/containers.py",
@@ -4495,6 +4520,11 @@
    "uid": "cli/commands/resource_scripting.py",
    "path": "modules/cli.commands.resource_scripting.py.jsonl",
    "entities": 8
+  },
+  {
+   "uid": "cli/commands/retry_ops.py",
+   "path": "modules/cli.commands.retry_ops.py.jsonl",
+   "entities": 6
   },
   {
    "uid": "cli/commands/scan.py",
@@ -4750,6 +4780,11 @@
    "uid": "cli/registry.py",
    "path": "modules/cli.registry.py.jsonl",
    "entities": 4
+  },
+  {
+   "uid": "cli/retry_support.py",
+   "path": "modules/cli.retry_support.py.jsonl",
+   "entities": 23
   },
   {
    "uid": "cli/scope_guard.py",
@@ -5947,6 +5982,11 @@
    "entities": 1
   },
   {
+   "uid": "modules/chain_distill.py",
+   "path": "modules/modules.chain_distill.py.jsonl",
+   "entities": 30
+  },
+  {
    "uid": "modules/chain_registry.py",
    "path": "modules/modules.chain_registry.py.jsonl",
    "entities": 47
@@ -5954,7 +5994,7 @@
   {
    "uid": "modules/chain_runner.py",
    "path": "modules/modules.chain_runner.py.jsonl",
-   "entities": 47
+   "entities": 48
   },
   {
    "uid": "modules/chain_state.py",
@@ -6907,6 +6947,11 @@
    "entities": 12
   },
   {
+   "uid": "modules/retry_session.py",
+   "path": "modules/modules.retry_session.py.jsonl",
+   "entities": 9
+  },
+  {
    "uid": "modules/reverse-shell.c",
    "path": "modules/modules.reverse-shell.c.jsonl",
    "entities": 1
@@ -7199,7 +7244,12 @@
   {
    "uid": "modules/verb_catalog.py",
    "path": "modules/modules.verb_catalog.py.jsonl",
-   "entities": 20
+   "entities": 21
+  },
+  {
+   "uid": "modules/verb_manifest.py",
+   "path": "modules/modules.verb_manifest.py.jsonl",
+   "entities": 47
   },
   {
    "uid": "modules/vuln_bot_cli.py",

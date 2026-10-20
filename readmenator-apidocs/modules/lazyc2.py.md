@@ -3875,7 +3875,7 @@ def api_loop_broadcast_stream()
 SSE live tail of one loop task's activity stream.
 
 Query params `[`task`](#task)` (required), ``cursor`` (resume line index),
-``interval`` (poll seconds, 0.2..5) and ``seconds`` (stream
+``interval`` (poll seconds, 0.2..5) and `[`seconds`](modules.verb_manifest.py.md#manifestcost-seconds)` (stream
 lifetime, max 1800). Every event carries ``id: <cursor>`` so an
 operator reconnects without gaps after a page reload.
 

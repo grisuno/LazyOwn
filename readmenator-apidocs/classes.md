@@ -356,6 +356,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`DiscordNotificationSink`](modules/modules.engagement_hooks.py.md#discordnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)
 - [`DiscoveredPath`](modules/skills.lazyown_facts.py.md#discoveredpath) class in `skills.lazyown_facts`
 - [`DiscoveredService`](modules/cli.exploration.py.md#discoveredservice) class in `cli.exploration`
+- [`DistillReport`](modules/modules.chain_distill.py.md#distillreport) class in `modules.chain_distill`
 - [`DNSBeacon`](modules/modules.dns_beacon.py.md#dnsbeacon) class in `modules.dns_beacon`
 - [`DNSC2Server`](modules/modules.dns_beacon.py.md#dnsc2server) class in `modules.dns_beacon`
 - [`DnsProfile`](modules/modules.c2_profile_engine.py.md#dnsprofile) class in `modules.c2_profile_engine`
@@ -486,6 +487,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
 - [`Extractor`](modules/modules.obs_parser.py.md#extractor) class in `modules.obs_parser`(ABC)
+- [`FactPredicate`](modules/modules.verb_manifest.py.md#factpredicate) class in `modules.verb_manifest`
 - [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
 - [`FailureMemory`](modules/modules.auto_loop_memory.py.md#failurememory) class in `modules.auto_loop_memory`
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
@@ -737,6 +739,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Ct.G.I.J.L`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, x)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l) class in `static/js/xterm.js`(a.Disposable)
 - [`LanBundleReader`](modules/modules.estorides_importer.py.md#lanbundlereader) class in `modules.estorides_importer`
+- [`LastTask`](modules/cli.retry_support.py.md#lasttask) class in `cli.retry_support`
 - [`LazyEvent`](modules/modules.event_bus.py.md#lazyevent) class in `modules.event_bus`
 - [`LazyLoopEngine`](modules/modules.lazy_loop.py.md#lazyloopengine) class in `modules.lazy_loop`
   - [`LazyEngine`](modules/modules.lazy_engine.py.md#lazyengine) class in `modules.lazy_engine`
@@ -814,6 +817,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`ReconMigratedCommandSet`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset) class in `cli.commands.recon_migrated`
   - [`RedTeamGymCommandSet`](modules/cli.commands.redteam_gym.py.md#redteamgymcommandset) class in `cli.commands.redteam_gym`
   - [`ResourceCommandSet`](modules/cli.commands.resource_scripting.py.md#resourcecommandset) class in `cli.commands.resource_scripting`
+  - [`RetryOpsCommandSet`](modules/cli.commands.retry_ops.py.md#retryopscommandset) class in `cli.commands.retry_ops`
   - [`ScanCommandSet`](modules/cli.commands.scan.py.md#scancommandset) class in `cli.commands.scan`
   - [`ScanMigratedCommandSet`](modules/cli.commands.scan_migrated.py.md#scanmigratedcommandset) class in `cli.commands.scan_migrated`
   - [`SecurityCommandSet`](modules/cli.commands.security.py.md#securitycommandset) class in `cli.commands.security`
@@ -891,6 +895,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`MainWindow`](modules/lazygui.windows.main_window.py.md#mainwindow) class in `lazygui.windows.main_window`(QMainWindow)
 - [`MalleableProfile`](modules/modules.evasion_engine.py.md#malleableprofile) class in `modules.evasion_engine`
 - [`ManifestConfig`](modules/scripts.check_contract_manifest.py.md#manifestconfig) class in `scripts.check_contract_manifest`
+- [`ManifestCost`](modules/modules.verb_manifest.py.md#manifestcost) class in `modules.verb_manifest`
+- [`ManifestNoise`](modules/modules.verb_manifest.py.md#manifestnoise) class in `modules.verb_manifest`
 - [`MarketplaceConfig`](modules/cli.marketplace_config.py.md#marketplaceconfig) class in `cli.marketplace_config`
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
@@ -1176,6 +1182,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ResourceScriptEngine`](modules/modules.resource_script.py.md#resourcescriptengine) class in `modules.resource_script`
 - [`Retester`](modules/modules.lazy_loop.py.md#retester) class in `modules.lazy_loop`
 - [`RetestRecord`](modules/modules.finding_lifecycle.py.md#retestrecord) class in `modules.finding_lifecycle`
+- [`RetryChainReport`](modules/cli.retry_support.py.md#retrychainreport) class in `cli.retry_support`
 - [`ReuseCandidate`](modules/modules.credential_reuse.py.md#reusecandidate) class in `modules.credential_reuse`
 - [`ReviewReport`](modules/skills.claude_md_orchestrator.models.py.md#reviewreport) class in `skills.claude_md_orchestrator.models`
 - [`RewardCalculator`](modules/skills.lazyown_policy.py.md#rewardcalculator) class in `skills.lazyown_policy`
@@ -1341,6 +1348,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`StatusBarRenderer`](modules/cli.status_bar.py.md#statusbarrenderer) class in `cli.status_bar`
 - [`StatusContext`](modules/cli.status_bar.py.md#statuscontext) class in `cli.status_bar`
 - [`StatusUpdate`](modules/cli.cli_enhancements.py.md#statusupdate) class in `cli.cli_enhancements`
+- [`StepDecision`](modules/modules.chain_distill.py.md#stepdecision) class in `modules.chain_distill`
 - [`StepDerivers`](modules/modules.pipeline_engine.py.md#stepderivers) class in `modules.pipeline_engine`
 - [`StepOutcome`](modules/modules.chain_runner.py.md#stepoutcome) class in `modules.chain_runner`
 - [`StepRecord`](modules/skills.lazyown_policy.py.md#steprecord) class in `skills.lazyown_policy`
@@ -1465,6 +1473,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ValidationIssue`](modules/lazyc2.addon_creator.py.md#validationissue) class in `lazyc2.addon_creator`
 - [`VerbAdminConfig`](modules/cli.commands.verb_admin.py.md#verbadminconfig) class in `cli.commands.verb_admin`
 - [`VerbCatalogConfig`](modules/modules.verb_catalog.py.md#verbcatalogconfig) class in `modules.verb_catalog`
+- [`VerbManifest`](modules/modules.verb_manifest.py.md#verbmanifest) class in `modules.verb_manifest`
 - [`VirtualFile`](modules/modules.rootkit.mr.c.md#virtualfile) struct in `modules/rootkit/mr.c`
 - [`VirtualFile`](modules/modules.win_rootkit.backup.c.md#virtualfile) struct in `modules/win_rootkit/backup.c`
 - [`VirtualFile`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#virtualfile) struct in `modules/win_rootkit/win_ring3_rootkit.c`

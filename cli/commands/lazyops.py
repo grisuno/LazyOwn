@@ -2180,8 +2180,10 @@ class LazyCommandSet(LazyOwnCommandSet):
             from modules import trigger_policy
 
             result = trigger_policy.seed_store(store=table)
-            print_msg(f"[+] YAML seeds merged into{' task ' + task_id if task_id else ' global'} store: "
-                      f"+{result['added']} (total {result['total']}).")
+            print_msg(
+                f"[+] YAML seeds merged into{' task ' + task_id if task_id else ' global'} store: "
+                f"+{result['added']} (total {result['total']})."
+            )
         elif args[0] == "policy":
             from modules import trigger_policy
 

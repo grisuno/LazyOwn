@@ -130,6 +130,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_resolver.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_runner.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_state.py`
@@ -402,6 +403,10 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
 - `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
 - `cli/commands/resource_scripting.py` -> `utils.py`
+- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
+- `cli/commands/retry_ops.py` -> `cli/retry_support.py`
+- `cli/commands/retry_ops.py` -> `modules/lazy_runner.py`
+- `cli/commands/retry_ops.py` -> `utils.py`
 - `cli/commands/scan.py` -> `cli/commands/_base.py`
 - `cli/commands/scan.py` -> `utils.py`
 - `cli/commands/scan_migrated.py` -> `cli/commands/_base.py`
@@ -491,10 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/graph_overlay.py` -> `cli/graph_advisor.py`
 - `cli/graph_overlay.py` -> `cli/themes.py`
 - `cli/graph_overlay.py` -> `core/text_utils.py`
-- `cli/killchain.py` -> `modules/killchain.py`
-- `cli/lazy_monitor.py` -> `cli/commands/containers.py`
-- `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
-- `cli/lazy_monitor.py` -> `modules/lazy_engine.py`
-- `cli/lazy_monitor.py` -> `modules/lazy_runner.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

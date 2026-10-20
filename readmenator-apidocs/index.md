@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 785 modules, 14838 documented entities, documentation coverage 74.1% (6946/9373 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 790 modules, 14956 documented entities, documentation coverage 74.2% (6993/9420 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (674), sh (59)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (679), sh (59)
 
 ## Modules
 
@@ -100,6 +100,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.recommendation_signals`](modules/cli.recommendation_signals.py.md) | Concrete :class:`cli.recommendation.RecommendationSignal` adapters. | 7 | 18 | 92.3% |
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | Reconnaissance plan generator built on top of :mod:`cli.exploration`. | 3 | 5 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | 0 | 2 | 100.0% |
+| [`cli.retry_support`](modules/cli.retry_support.py.md) | Retry support - resume logic shared by the ``retry`` CLI surface. | 2 | 7 | 100.0% |
 | [`cli.scope_guard`](modules/cli.scope_guard.py.md) | Authorization scope guard for offensive command execution. | 3 | 6 | 100.0% |
 | [`cli.session_brief`](modules/cli.session_brief.py.md) | Consolidated session-start brief for the LazyOwn shell. | 1 | 4 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | Compact session HUD: the numbers no other command shows. | 2 | 6 | 100.0% |
@@ -147,7 +148,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.cloud_attacks`](modules/cli.commands.cloud_attacks.py.md) | Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS. | 1 | 6 | 100.0% |
 | [`cli.commands.collaboration`](modules/cli.commands.collaboration.py.md) | Collaboration CLI commands — multi-operator teamwork from the shell. | 1 | 5 | 100.0% |
 | [`cli.commands.command_and_control`](modules/cli.commands.command_and_control.py.md) | Command & Control command set. | 1 | 6 | 100.0% |
-| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | command_and_control commands migrated from lazyown.py. | 1 | 26 | 96.4% |
+| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | command_and_control commands migrated from lazyown.py. | 1 | 27 | 96.6% |
 | [`cli.commands.containers`](modules/cli.commands.containers.py.md) | Container and Kubernetes attack command set. | 1 | 6 | 100.0% |
 | [`cli.commands.cred`](modules/cli.commands.cred.py.md) | Credential Access command set (pending). | 1 | 9 | 100.0% |
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | cred commands migrated from lazyown.py. | 1 | 22 | 95.8% |
@@ -198,6 +199,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | recon commands migrated from lazyown.py. | 1 | 28 | 96.7% |
 | [`cli.commands.redteam_gym`](modules/cli.commands.redteam_gym.py.md) | Red Team Gym CLI command set - gamified pentest training. | 1 | 2 | 100.0% |
 | [`cli.commands.resource_scripting`](modules/cli.commands.resource_scripting.py.md) | Resource script commands — run .ls scripts, record macros, spool output. | 1 | 4 | 100.0% |
+| [`cli.commands.retry_ops`](modules/cli.commands.retry_ops.py.md) | ``retry`` - relaunch a failed chain or failed loop from where it stopped. | 1 | 1 | 100.0% |
 | [`cli.commands.scan`](modules/cli.commands.scan.py.md) | Scanning command set. | 1 | 16 | 100.0% |
 | [`cli.commands.scan_migrated`](modules/cli.commands.scan_migrated.py.md) | scan commands migrated from lazyown.py. | 1 | 45 | 97.9% |
 | [`cli.commands.security`](modules/cli.commands.security.py.md) | OPSEC and security commands — risk scoring, credential sealing, rotation. | 1 | 7 | 77.8% |
@@ -500,6 +502,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | C2 dashboard surfaces fed by the autonomous loop and APT chains. | 0 | 7 | 100.0% |
 | [`modules/cal.sh`](modules/modules.cal.sh.md) |  | 0 | 3 | 75.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | modules/categories.py ===================== cmd2 command category strings for LazyOwn. | 0 | 0 | 100.0% |
+| [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 12 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
@@ -686,6 +689,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.redteam_gym`](modules/modules.redteam_gym.py.md) | Red Team Gym — gamified pentest training mode. | 0 | 13 | 100.0% |
 | [`modules.reflective_dll`](modules/modules.reflective_dll.py.md) | Reflective DLL loading — load PE from memory without touching disk. | 7 | 18 | 84.6% |
 | [`modules.resource_script`](modules/modules.resource_script.py.md) | Enhanced resource script engine — variables, conditionals, loops, macros. | 3 | 8 | 75.0% |
+| [`modules.retry_session`](modules/modules.retry_session.py.md) | Retry sessions - safely relaunch a failed verb or a failed run. | 0 | 7 | 100.0% |
 | [`modules/reverse-shell.c`](modules/modules.reverse-shell.c.md) |  | 0 | 0 | 0.0% |
 | [`modules/revshell.c`](modules/modules.revshell.c.md) |  | 0 | 2 | 0.0% |
 | [`modules.rich_tui`](modules/modules.rich_tui.py.md) | Rich-based live TUI dashboard for LazyOwn campaign monitoring. | 1 | 3 | 100.0% |
@@ -725,6 +729,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 0 | 100.0% |
 | [`modules.venator`](modules/modules.venator.py.md) |  | 0 | 33 | 0.0% |
 | [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | Operator-owned YAML catalog of every routable shell verb. | 1 | 9 | 100.0% |
+| [`modules.verb_manifest`](modules/modules.verb_manifest.py.md) | Typed verb manifests - semantics for routable shell verbs. | 4 | 10 | 100.0% |
 | [`modules.vuln_bot_cli`](modules/modules.vuln_bot_cli.py.md) | main.py | 0 | 2 | 33.3% |
 | [`modules.vulnbot`](modules/modules.vulnbot.py.md) | vulnbot.py | 1 | 10 | 8.3% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | WebSocket beacon transport for modern C2 channels. | 2 | 13 | 100.0% |

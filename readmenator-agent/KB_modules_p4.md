@@ -1,5 +1,25 @@
-# Subsystem: modules (page 4 of 15)
+# Subsystem: modules (page 4 of 16)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/dashboard_bp.py
+- Doc: modules/dashboard_bp.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_require_login` (function, line 30) `def _require_login()`
+  - `_read_jsonl` (function, line 71) `def _read_jsonl(path, last_n)`
+  - `_read_json` (function, line 93) `def _read_json(path)`
+  - `_count_lines` (function, line 103) `def _count_lines(path)`
+  - `_aggregate_data` (function, line 113) `def _aggregate_data()`
+  - `dashboard_index` (function, line 778) `def dashboard_index()`
+  - `dashboard_api_data` (function, line 784) `def dashboard_api_data()`
+  - `_read_loot_lines` (function, line 800) `def _read_loot_lines(pattern)`
+  - `_read_loot` (function, line 817) `def _read_loot()`
+  - `dashboard_loot` (function, line 902) `def dashboard_loot()`
+  - `_normalize_ts` (function, line 913) `def _normalize_ts(raw)`
+  - `_read_timeline` (function, line 934) `def _read_timeline()`
+  - `dashboard_timeline` (function, line 1017) `def dashboard_timeline()`
+- Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
 
 ## modules/dashboard_engine.py
 - Doc: Live Network Map Dashboard for LazyOwn.

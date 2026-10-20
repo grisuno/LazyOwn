@@ -1,10 +1,10 @@
 # modules: surface_graph
 
-*Community 8 | 15 files | cohesion 0.50*
+*Community 8 | 16 files | cohesion 0.50*
 
 ## Definition
 
-This community groups 15 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `DatabaseCommandSet`, `FindingRecord`, `RetestRecord`, `SurfaceCommandSet`, `SurfaceEdge`, `SurfaceExplorer`, `SurfaceGraph`, `SurfaceGraphBuilder`. Core file: `cli/surface_graph.py` (33 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
+This community groups 16 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `DatabaseCommandSet`, `FindingRecord`, `RetestRecord`, `SurfaceCommandSet`, `SurfaceEdge`, `SurfaceExplorer`, `SurfaceGraph`, `SurfaceGraphBuilder`. Core file: `cli/surface_graph.py` (33 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
 
 ## Files
 
@@ -20,6 +20,7 @@ This community groups 15 file(s) rooted at `modules` with dominant language py (
 | `modules/intel_fusion.py` | py | utility | 23 | yes |
 | `modules/osint_enrich.py` | py | utility | 13 | yes |
 | `modules/surface_ops.py` | py | utility | 4 | yes |
+| `tests/test_asset_gate.py` | py | testing | 16 | yes |
 | `tests/test_attack_surface3d.py` | py | testing | 8 | yes |
 | `tests/test_estorides_fusion.py` | py | testing | 12 | yes |
 | `tests/test_finding_lifecycle.py` | py | testing | 10 | yes |
@@ -61,14 +62,14 @@ This community groups 15 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 29
-- Cross-boundary resolved imports (EXTRACTED): 28
+- Internal resolved imports (EXTRACTED): 31
+- Cross-boundary resolved imports (EXTRACTED): 33
 
 ## Connections
 
-- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
-- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
 
 ## Risks
 
@@ -91,6 +92,7 @@ This community groups 15 file(s) rooted at `modules` with dominant language py (
 - `modules/intel_fusion.py`
 - `modules/osint_enrich.py`
 - `modules/surface_ops.py`
+- `tests/test_asset_gate.py`
 - `tests/test_attack_surface3d.py`
 - `tests/test_estorides_fusion.py`
 - `tests/test_finding_lifecycle.py`

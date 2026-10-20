@@ -2,6 +2,9 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/ooficesod0woodo.py` -> uno
+- `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
+- `modules/operator_profiles.py` -> __future__, dataclasses, datetime, json, os, pathlib, shutil, subprocess, threading, typing
 - `modules/opsec_scorer.py` -> __future__, dataclasses, time, typing
 - `modules/orchestrator_config.py` -> __future__, copy, pathlib, threading, time, typing, yaml
 - `modules/osint_enrich.py` -> __future__, json, pathlib, re, time, urllib.parse, urllib.request
@@ -22,6 +25,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/redteam_gym.py` -> __future__, dataclasses, ipaddress, json, pathlib, sys, time, typing
 - `modules/reflective_dll.py` -> __future__, dataclasses, hashlib, struct, typing
 - `modules/resource_script.py` -> __future__, collections.abc, datetime, os, re, shlex, subprocess, time, typing
+- `modules/retry_session.py` -> __future__, atexit, collections.abc, os, pathlib, re, stat
 - `modules/reverse-shell.c` -> linux/kmod.h, linux/module.h
 - `modules/revshell.c` -> windows.h
 - `modules/rich_tui.py` -> __future__, rich.align, rich.box, rich.layout, rich.live, rich.panel, rich.table, rich.text, rich.tree, select, sys, termios, threading, time, tty, typing
@@ -73,7 +77,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/unified_bridge.py` -> __future__, abc, collections.abc, dataclasses, fcntl, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
 - `modules/unified_dashboard.py` -> __future__, datetime, json, pathlib, typing
 - `modules/venator.py` -> Foundation, Quartz, argparse, base64, binascii, ctypes, ctypes.util, datetime, hashlib, hmac, httplib, json, objc, os, platform, plistlib, shutil, socket, sqlite3, subprocess, sys, tempfile, time, urllib2
-- `modules/verb_catalog.py` -> __future__, dataclasses, json, pathlib, threading, time, typing, yaml
+- `modules/verb_catalog.py` -> __future__, dataclasses, json, pathlib, re, threading, time, typing, yaml
+- `modules/verb_manifest.py` -> __future__, dataclasses, pathlib, re, threading, time, yaml
 - `modules/vuln_bot_cli.py` -> argparse, sys
 - `modules/vulnbot.py` -> flask, importlib.util, json, os
 - `modules/websocket_beacon.py` -> asyncio, base64, collections.abc, cryptography.fernet, json, os, random, shlex, ssl, threading, time, typing, uuid, websocket, websockets
@@ -246,6 +251,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_c2_surfaces.py` -> __future__, flask, json, pathlib, requests, sys
 - `tests/test_campaign_import_safety.py` -> __future__, ast, pathlib, sqlite3, zipfile
 - `tests/test_categories.py` -> __future__, pytest
+- `tests/test_chain_distill.py` -> __future__, json, pathlib, pytest
 - `tests/test_chain_list_command.py` -> __future__
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
@@ -311,7 +317,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_graph_advisor.py` -> __future__, json, os, pathlib, pytest, sys
 - `tests/test_graph_overlay.py` -> __future__, pathlib, sys, typing
 - `tests/test_gui_xss_sinks.py` -> __future__, pathlib, re, sys, unittest
-- `tests/test_gym_cli.py` -> __future__, pytest, shutil
+- `tests/test_gym_cli.py` -> __future__, pytest, shutil, types
 - `tests/test_gym_registry.py` -> __future__, json, pytest, shutil, yaml
 - `tests/test_hash_cracker.py` -> __future__
 - `tests/test_help_ui_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
@@ -382,7 +388,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_mcp_recommender_embed.py` -> __future__, importlib.util, pathlib
 - `tests/test_memory_semantics.py` -> __future__, pathlib, pytest, time
 - `tests/test_metasploitable_gym.py` -> __future__, yaml
-- `tests/test_metasploitable_migrations.py` -> __future__, pytest
+- `tests/test_metasploitable_migrations.py` -> __future__
 - `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
 - `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
 - `tests/test_migrate_lazyown_generator.py` -> __future__, ast
@@ -428,6 +434,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
 - `tests/test_require_guards.py` -> __future__
 - `tests/test_resource_script.py` -> __future__, pytest
+- `tests/test_retry_session.py` -> __future__, os, pathlib, pytest
 - `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
 - `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
@@ -472,7 +479,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_unified_bridge_delegate.py` -> __future__, itertools, pytest
 - `tests/test_unified_dashboard.py` -> __future__, json
 - `tests/test_utils_import_silent.py` -> __future__, pathlib, subprocess, sys
-- `tests/test_verb_catalog.py` -> json, pathlib, pytest
+- `tests/test_verb_catalog.py` -> json, pathlib, pytest, types
+- `tests/test_verb_manifest.py` -> __future__, pathlib, pytest
 - `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
 - `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys

@@ -2,17 +2,17 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1116 files at commit `5f10e2fad6ea`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1124 files at commit `f63de0ac0352`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (445), `modules` (432), `lazy` (406), `file` (402), `one` (387), `all` (383), `not` (381), `path` (365), `run` (364), `own` (355), `cli` (351), `json` (345), `name` (338), `without` (337), `set` (315)
-- Subsystem `modules: autonomous_daemon`: 166 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 165 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Domain vocabulary (term, files): `command` (451), `modules` (437), `file` (408), `lazy` (408), `one` (396), `not` (385), `all` (385), `run` (370), `path` (370), `own` (355), `cli` (354), `json` (348), `name` (345), `without` (342), `set` (321)
+- Subsystem `cli/commands`: 167 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: autonomous_daemon`: 165 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 - Subsystem `cli`: 113 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazy_loop`: 111 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyc2`: 82 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: lazy_loop`: 110 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `modules: lazyc2`: 98 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
 - Subsystem `static/js`: 56 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
 - Subsystem `modules: lazyown_facts`: 29 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
@@ -75,34 +75,15 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 987 files, 18678 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 217 lines, max 13152.
+- py: 995 files, 18806 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 219 lines, max 13152.
 - sh: 62 files, 204 symbols; docstrings on 41% of symbols; functions snake_case (100%); median file 78 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 315 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 318 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
 Declared:
-- **English only.** Identifiers, strings, logs, docstrings. Translate Spanish remnants when you touch them. (`CLAUDE.md:334`)
-- **No comments.** Self-explanatory names + docstrings. Single-line note OK for non-obvious constraint or CVE ref. (`CLAUDE.md:335`)
-- **No emojis** in code/logs/docs unless operator asked. Banner ASCII art OK. (`CLAUDE.md:336`)
-- **Docstrings on every public function/class**: (`CLAUDE.md:337`)
-- **No magic numbers** — constants in `class Config` (shared) or `UPPER_SNAKE_CASE` module-level. (`CLAUDE.md:350`)
-- **No hardcoded paths/ports/IPs/wordlists/creds** — `payload.json` if reused, module constant if local. (`CLAUDE.md:351`)
-- **S**: one reason to change per class/fn. (`CLAUDE.md:353`)
-- **O**: extend via new addon/MCP tool/selector — don't edit hot paths. (`CLAUDE.md:354`)
-- **L**: new selector honours `BaseSelector.suggest()` contract. (`CLAUDE.md:355`)
-- **I**: small role-specific protocols (recon/exploit/cred/lateral/privesc). (`CLAUDE.md:356`)
-- **D**: orchestration depends on `LLMBackend`/`MemoryStore`/`Selector` abstractions, not Groq/ChromaDB directly. (`CLAUDE.md:357`)
-- **Consistency beats novelty** — when two patterns fit, pick the one already used. (`CLAUDE.md:358`)
-- **No partial implementations** — end-to-end (CLI ↔ payload.json ↔ MCP ↔ `sessions/` artefact) or not merged. (`CLAUDE.md:359`)
-- **No backwards-compat shims** for unshipped code — just change it. (`CLAUDE.md:360`)
-- **Every new directory gets a README** (see §2 rules). No exceptions. (`CLAUDE.md:361`)
-- **Boy-scout law (tech debt).** When a fix / refactor / new feature uncovers tech debt or a vulnerability that can be addressed **without breaking public surface or shipped behaviour**, address it in the same change and call it out in the PR body. Plan with `/graphify` first so the blast radius is understood — never refactor blindly. If the cleanup is unsafe within the change, open a follow-up task; do **not** silently leave the broken window. (`CLAUDE.md:362`)
-- **Smart consolidation (DRY+SOLID).** When two or more code paths duplicate logic (~10 LOC or one decision tree), consolidate into a single class/function honouring SOLID. Shared values go to `class Config` / `payload.json` if globally reused, module-level `UPPER_SNAKE_CASE` if local. Refactor must keep every existing call site working and ship with tests that pin behaviour **before** the move. No silent simplifications — feature parity is mandatory. (`CLAUDE.md:363`)
-- **Tests trend to 100%.** Every change ships with tests. If a touched module gains testable code, the change must raise coverage, not lower it. `pytest -q` must stay green. No `skip` / `xfail` without an issue link in the same PR. (`CLAUDE.md:364`)
-- **Docs follow code.** When a public surface (CLI verb, MCP tool, payload key, blueprint route, addon schema) is added or renamed, update the matching `docs/<topic>.md` and regenerate `COMMANDS.md` / `UTILS.md` via `python3 readmeneitor.py lazyown.py` and `python3 readmeneitor.py utils.py`. Missing or empty docstrings on new public API block merge. Extend `readmeneitor.py` itself when a new source file deserves auto-generated reference docs. (`CLAUDE.md:365`)
 - **Code Quality**: Code must be clean, readable, and follow project conventions. (`CONTRIBUTING.md:46`)
 - **Tests**: Ensure all tests pass and new tests have been added for introduced changes. (`CONTRIBUTING.md:47`)
 - **Documentation**: Significant changes must be well documented. (`CONTRIBUTING.md:48`)
@@ -137,4 +118,11 @@ Measured baseline:
 Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, decision, rule, workflow, style, deliverable, gotcha, todo, note) or the MCP tool `readmenator.remember`. Record business rules, decisions and their reasons, workflow changes, and anything the next session must not rediscover.
 
 <!-- readmenator:memory:notes:begin -->
+- 2026-10-19 [note] Full suite run tracked the additions of modules/verb_manifest.py, modules/chain_distill.py and CLI chain_distill; new tests live in tests/test_verb_manifest.py and tests/test_chain_distill.py --kind decision
+- 2026-10-19 [decision] Typed verb manifests live in config/verb_manifests.yaml (version 1): closed fact vocabulary (host_known, service_open, os, credentials, access, session, artifact, scan_completed, services_discovered, min_version_collected, c2, fact) with host/port/service/os/scope/level/kind/path/name/state corner args; verbose verb_manifest manifests()/plan_check()/facts_for_target()/coverage() APIs; plan_check is injectable with facts list so callers can bypass world-model projection
+- 2026-10-19 [decision] chain_distill policy v1: streams only kind=bash rows, drops empty-output/failure-signature/prose lines, dedupes by digest then rendered line, tokenises target from goal text then frequency, keeps intent id + digest lineage in step description, guards nmap steps with sessions/scan_{target}.nmap.xml via skip_if_exists, writes chains/distill_<task>_<goal>.yaml enabled=false only when chain_registry.validate_chain passes
+- 2026-10-20 [decision] Retry/resume shipped: retry status|chain|loop CLI (cli/commands/retry_ops.py + cli/retry_support.py, modules/retry_session.py); ChainRunner command_filter; utils.sudo_available honors armed retry askpass; end-of-run retry offers in do_apt_chain + lazy_runner report_result. Tests tests/test_retry_session.py 15.
+- 2026-10-20 [decision] Metasploitable2 docker lab: three documented-failing vectors now validate via lab migrations in modules/metasploitable_migrations.py (bind-udp-fallback python2.5 DNS responder, nfs-mountd-fallback userspace rpc.mountd, rlogin-root-trust /root/.rhosts + loopback hosts.allow) and spec edits (ms2_dns_recursion full dig; ms2_rlogin_trust rsh+docker-exec fallback). Verified [SHELL] x3 on a fresh container.
+- 2026-10-20 [decision] pytest census chunked 12-chunk run green 5781/0 after fixing 7 failures: stale cli/command_index.json (regenerated 837), RetryOpsCommandSet missing phase/category attrs, ruff cli F401/I001 F821 YamlEditorModal import, unformatted cli files, unused Panel/Text imports in lazyown.py, CLAUDE.md test count 265 to 276, CLAUDE.md size over 40KB budget (moved section 10 to docs/coding_standards.md and 16b to docs/lint_contract.md), stale gym test object stub lacking owner attr
+- 2026-10-20 [decision] lazyaddons surface as loop verbs: verb_catalog indexes enabled lazyaddons/*.yaml as addon:<name> pseudo-verbs (off by default, phase from category, trigger tokens as keywords); steps_for('auto addon:x') maps to 'lazy addon x [target]'; VerbCatalogConfig.addons_dir injectable (None keeps sandbox single-surface); docs updated (README short sentences + links, autonomous-loop.md Retry/Distill/Catalog sections, lazyaddons-yaml.md verb section, CHEATSHEET rows, COMMANDS.md regen)
 <!-- readmenator:memory:notes:end -->

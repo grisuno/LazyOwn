@@ -1,6 +1,64 @@
 # Subsystem: tests (page 13 of 18)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_nethelpers_command_set.py
+- Doc: Network helpers command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
+  - `NethelpersSuiteConfig` (class, line 38) `class NethelpersSuiteConfig`
+  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_nethelpers_cluster` (function, line 82) `def test_target_exposes_full_nethelpers_cluster()`
+  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/nethelpers.py`, `cli/registry.py`
+
+## tests/test_no_shell_execution.py
+- Doc: Contract tests: no os.system and no manual sys.stdout reassignment.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ScanConfig` (class, line 20) `class ScanConfig`
+  - `_parse` (function, line 64) `def _parse(path)`
+  - `find_os_system_calls` (function, line 72) `def find_os_system_calls(config)`
+  - `find_stdout_assignments` (function, line 96) `def find_stdout_assignments(config)`
+  - `test_no_os_system_in_production` (function, line 124) `def test_no_os_system_in_production()`
+  - `test_no_manual_stdout_reassignment` (function, line 130) `def test_no_manual_stdout_reassignment()`
+  - `test_scanner_detects_a_synthetic_os_system` (function, line 136) `def test_scanner_detects_a_synthetic_os_system(tmp_path)`
+  - `iter_files` (method, line 44) `def iter_files(self)`
+
+## tests/test_nuclei_parser.py
+- Doc: Tests for modules/integrations/nuclei_parser.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestNucleiFinding` (class, line 13) `class TestNucleiFinding`
+  - `TestNucleiParserText` (class, line 58) `class TestNucleiParserText`
+  - `TestNucleiParserJson` (class, line 73) `class TestNucleiParserJson`
+  - `TestSeverityMap` (class, line 120) `class TestSeverityMap`
+  - `TestMitreTactics` (class, line 128) `class TestMitreTactics`
+  - `TestRecommendations` (class, line 134) `class TestRecommendations`
+  - `test_fields` (method, line 14) `def test_fields(self)`
+  - `test_exploit_probability_map` (method, line 28) `def test_exploit_probability_map(self)`
+  - `test_mitre_tactic` (method, line 46) `def test_mitre_tactic(self)`
+  - `test_parse_empty` (method, line 59) `def test_parse_empty(self)`
+  - `test_parse_nuclei_line` (method, line 64) `def test_parse_nuclei_line(self)`
+  - `test_parse_empty` (method, line 74) `def test_parse_empty(self)`
+  - `test_parse_json_single_finding` (method, line 78) `def test_parse_json_single_finding(self)`
+  - `test_parse_json_multiple_findings` (method, line 90) `def test_parse_json_multiple_findings(self)`
+  - `test_parse_json_array` (method, line 99) `def test_parse_json_array(self)`
+  - `test_parse_with_cve_classification` (method, line 108) `def test_parse_with_cve_classification(self)`
+  - `test_critical_is_10` (method, line 121) `def test_critical_is_10(self)`
+  - `test_info_is_1` (method, line 124) `def test_info_is_1(self)`
+  - `test_all_tactics_have_ta_prefix` (method, line 129) `def test_all_tactics_have_ta_prefix(self)`
+  - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
+  - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
+- Depends on: `modules/integrations/nuclei_parser.py`
+
 ## tests/test_ops_loot_phase.py
 - Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
 - Layer: testing
@@ -418,28 +476,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
   - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
 - Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
-
-## tests/test_pi_leg.py
-- Doc: pi loop-leg contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Proc` (class, line 20) `class _Proc`
-  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
-  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
-  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
-  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
-  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
-  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
-  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
-  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
-  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
-  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
-  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
-  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
-  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
-  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
-- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

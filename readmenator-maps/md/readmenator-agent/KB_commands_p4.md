@@ -130,6 +130,21 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `on_print` (function, line 39) `def on_print(msg)`
 - Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
 
+## cli/commands/retry_ops.py
+- Doc: ``retry`` - relaunch a failed chain or failed loop from where it stopped.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_confirmer` (function, line 43) `def _confirmer(warning)`
+  - `RetryOpsCommandSet` (class, line 61) `class RetryOpsCommandSet(LazyOwnCommandSet)`
+  - `_collect_vars` (function, line 218) `def _collect_vars(tokens)`
+  - `do_retry` (method, line 68) `def do_retry(self, line)`
+  - `_arm_elevation` (method, line 111) `def _arm_elevation(self, rest)`
+  - `_retry_status` (method, line 129) `def _retry_status(self, rest)`
+  - `_retry_chain` (method, line 152) `def _retry_chain(self, rest)`
+  - `_retry_loop` (method, line 184) `def _retry_loop(self, rest)`
+- Depends on: `cli/commands/_base.py`, `cli/retry_support.py`, `modules/lazy_runner.py`, `utils.py`
+
 ## cli/commands/scan.py
 - Doc: Scanning command set.
 - Layer: utility

@@ -1,6 +1,26 @@
 # API (page 10 of 23)
 Previous: [API_p9.md](API_p9.md)
 
+## modules/aws_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `AWSAttackEngine.__init__` (method) `modules/aws_attacks.py:91` `def __init__(self, config)`
+- `AWSAttackEngine.enumerate_iam_permissions` (method) `modules/aws_attacks.py:95` `def enumerate_iam_permissions(self)` -- Enumerate IAM permissions for the current user/role.
+- `AWSAttackEngine.lambda_backdoor` (method) `modules/aws_attacks.py:127` `def lambda_backdoor(self, function_name)` -- Plan a Lambda backdoor for privilege escalation.
+- `AWSAttackEngine.sts_role_chain` (method) `modules/aws_attacks.py:155` `def sts_role_chain(self, target_role_arn)` -- Enumerate and exploit STS AssumeRole privilege escalation chains.
+- `AWSAttackEngine.ec2_user_data_exfil` (method) `modules/aws_attacks.py:181` `def ec2_user_data_exfil(self)` -- Extract sensitive data from EC2 instance user data and metadata.
+- `AWSAttackEngine.s3_enumeration` (method) `modules/aws_attacks.py:206` `def s3_enumeration(self)` -- Enumerate S3 buckets and their permissions.
+- `AWSAttackEngine.cloudformation_drift` (method) `modules/aws_attacks.py:242` `def cloudformation_drift(self)` -- Exploit CloudFormation for privilege escalation.
+- `AWSAttackEngine.ec2_ssm_session_abuse` (method) `modules/aws_attacks.py:274` `def ec2_ssm_session_abuse(self)` -- Abuse SSM to gain shell access to EC2 instances.
+- `AWSAttackEngine.summary` (method) `modules/aws_attacks.py:293` `def summary(self)`
+
+## modules/backdoor/backdoor.c
+Depends on: `modules/backdoor/keylogger.h`
+- `bootRun` (function) `modules/backdoor/backdoor.c:18` `int bootRun()`
+- `str_cut` (function) `modules/backdoor/backdoor.c:49` `char *
+str_cut(char str[], int slice_from, int slice_to)`
+- `Shell` (function) `modules/backdoor/backdoor.c:84` `void Shell()`
+- `WinMain` (function) `modules/backdoor/backdoor.c:125` `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
+
 ## modules/backdoor/keylogger.h
 Imported by: `modules/backdoor/backdoor.c`
 - `logg` (function) `modules/backdoor/keylogger.h:1` `DWORD WINAPI logg(LPVOID lpParam)`
@@ -196,9 +216,21 @@ Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_
 - `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
 - `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
 
+## modules/chain_distill.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`
+- `locate_traces` (function) `modules/chain_distill.py:89` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
+- `DistillReport.kept` (method) `modules/chain_distill.py:361` `def kept(self)` -- Count decisions turned into steps.
+- `DistillReport.dropped` (method) `modules/chain_distill.py:366` `def dropped(self)` -- Count decisions rejected with a reason.
+- `DistillReport.to_dict` (method) `modules/chain_distill.py:370` `def to_dict(self)` -- Return a JSON-serializable report.
+- `DistillReport.render` (method) `modules/chain_distill.py:397` `def render(self, verbose)` -- Return printable report lines.
+- `build_chain_data` (function) `modules/chain_distill.py:428` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
+- `note` (function) `modules/chain_distill.py:452` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
+- `distill` (function) `modules/chain_distill.py:537` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
+
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 - `ChainStep.identifier` (method) `modules/chain_registry.py:82` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:104` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
 - `evaluate_when` (function) `modules/chain_registry.py:215` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
@@ -211,28 +243,28 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `generate_for_playbook` (function) `modules/chain_registry.py:607` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`
+Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 - `StepOutcome.ok` (method) `modules/chain_runner.py:60` `def ok(self)` -- Return True for success, dry-run and skipped steps.
 - `StepOutcome.to_dict` (method) `modules/chain_runner.py:64` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:100` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:138` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:143` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:148` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:153` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:158` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:163` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:168` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:179` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:215` `def run(self)` -- Execute the chain in order and return every step outcome.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:101` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:140` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:145` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:150` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:155` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:160` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:165` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:170` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:181` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:241` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/chain_runner.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 - `checkpoint_dir` (function) `modules/chain_state.py:26` `def checkpoint_dir(base_dir)` -- Return the directory that stores chain checkpoints.
 - `new_run_id` (function) `modules/chain_state.py:33` `def new_run_id(chain_name)` -- Return a collision-resistant run id for one chain execution.
 - `write_checkpoint` (function) `modules/chain_state.py:39` `def write_checkpoint(directory, state)` -- Persist one chain run state as JSON and return the file path.
 - `load_checkpoint` (function) `modules/chain_state.py:65` `def load_checkpoint(directory, run_id)` -- Load one checkpoint by run id, or None when missing/unreadable.
-- `list_checkpoints` (function) `modules/chain_state.py:80` `def list_checkpoints(directory, limit)` -- Return the newest checkpoints (run_id, chain, target, state, times).
+- `list_checkpoints` (function) `modules/chain_state.py:80` `def list_checkpoints(directory, limit, chain)` -- Return the newest checkpoints (run_id, chain, target, state, times).
 
 ## modules/chain_synth.py
 Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
@@ -450,20 +482,6 @@ Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_ro
 - `dashboard_api_data` (function) `modules/dashboard_bp.py:784` `def dashboard_api_data()` -- JSON snapshot of all dashboard data.
 - `dashboard_loot` (function) `modules/dashboard_bp.py:902` `def dashboard_loot()` -- Render the loot browser: captured credentials, hashes and files.
 - `dashboard_timeline` (function) `modules/dashboard_bp.py:1017` `def dashboard_timeline()` -- Render the campaign timeline: commands and events, newest first.
-
-## modules/dashboard_engine.py
-Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
-- `DashboardEngine.__init__` (method) `modules/dashboard_engine.py:139` `def __init__(self, world_model)`
-- `DashboardEngine.set_world_model` (method) `modules/dashboard_engine.py:148` `def set_world_model(self, model)`
-- `DashboardEngine.set_exploit_recommender` (method) `modules/dashboard_engine.py:151` `def set_exploit_recommender(self, recommender)`
-- `DashboardEngine.set_auto_pivot` (method) `modules/dashboard_engine.py:154` `def set_auto_pivot(self, pivot)`
-- `DashboardEngine.set_evasion_engine` (method) `modules/dashboard_engine.py:157` `def set_evasion_engine(self, evasion)`
-- `DashboardEngine.build_snapshot` (method) `modules/dashboard_engine.py:160` `def build_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
-- `DashboardEngine.render_text_map` (method) `modules/dashboard_engine.py:276` `def render_text_map(self, snapshot)` -- Render a text-based network map from a dashboard snapshot.
-- `DashboardEngine.render_ascii_topology` (method) `modules/dashboard_engine.py:358` `def render_ascii_topology(self, snapshot)` -- Render an ASCII-art topology tree from a snapshot.
-- `DashboardEngine.export_json` (method) `modules/dashboard_engine.py:408` `def export_json(self, snapshot)` -- Export dashboard snapshot as JSON string.
-- `DashboardEngine.persist_snapshot` (method) `modules/dashboard_engine.py:421` `def persist_snapshot(self, snapshot)` -- Persist dashboard snapshot to sessions/dashboard_snapshot.json.
-- `DashboardEngine.format_for_cli` (method) `modules/dashboard_engine.py:438` `def format_for_cli(self, snapshot)` -- Compact single-line status for CLI prompt integration.
 
 
 Next: [API_p11.md](API_p11.md)

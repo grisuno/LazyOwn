@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
+| `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
+| `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
+| `_scan_tools` | method | `modules/module_registry.py:419` | `def _scan_tools(self)` |
+| `_scan_yaml_addons` | method | `modules/module_registry.py:338` | `def _scan_yaml_addons(self)` |
+| `by_type` | method | `modules/module_registry.py:321` | `def by_type(self, module_type)` |
+| `deprecated_modules` | method | `modules/module_registry.py:315` | `def deprecated_modules(self)` |
+| `format_module_detail` | function | `modules/module_registry.py:589` | `def format_module_detail(m)` |
+| `format_module_table` | function | `modules/module_registry.py:542` | `def format_module_table(modules, cols)` |
+| `get` | method | `modules/module_registry.py:269` | `def get(self, name)` |
+| `get_instance` | method | `modules/module_registry.py:241` | `def get_instance(cls, base_dir)` |
+| `rescan` | method | `modules/module_registry.py:260` | `def rescan(self)` |
+| `scan` | method | `modules/module_registry.py:247` | `def scan(self)` |
+| `search` | method | `modules/module_registry.py:275` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
+| `summary` | method | `modules/module_registry.py:325` | `def summary(self)` |
+| `to_dict` | method | `modules/module_registry.py:202` | `def to_dict(self)` |
+| `ExpertAvailabilityChecker` | class | `modules/moe_router.py:437` | `class ExpertAvailabilityChecker` |
+| `ExpertPerformance` | class | `modules/moe_router.py:101` | `class ExpertPerformance` |
+| `ExpertPerformanceStore` | class | `modules/moe_router.py:276` | `class ExpertPerformanceStore` |
+| `ExpertProfile` | class | `modules/moe_router.py:83` | `class ExpertProfile` |
+| `IExpertSelector` | class | `modules/moe_router.py:257` | `class IExpertSelector(ABC)` |
+| `MoERouter` | class | `modules/moe_router.py:489` | `class MoERouter` |
+| `SoftmaxSelector` | class | `modules/moe_router.py:368` | `class SoftmaxSelector(IExpertSelector)` |
+| `__init__` | method | `modules/moe_router.py:283` | `def __init__(self, path)` |
+| `__init__` | method | `modules/moe_router.py:377` | `def __init__(self, temperature)` |
+| `__init__` | method | `modules/moe_router.py:443` | `def __init__(self)` |
+| `__init__` | method | `modules/moe_router.py:500` | `def __init__(self, experts, selector, performance_store, api_key)` |
+| `_anneal_temperature` | method | `modules/moe_router.py:645` | `def _anneal_temperature(self)` |
+| `_available_for_task` | method | `modules/moe_router.py:640` | `def _available_for_task(self, task_type)` |
+| `_check` | method | `modules/moe_router.py:458` | `def _check(expert, api_key)` |
+| `_compute_weights` | method | `modules/moe_router.py:410` | `def _compute_weights(candidates, task_type, store)` |
+| `_key` | method | `modules/moe_router.py:293` | `def _key(expert_id, task_type)` |
+| `_load` | method | `modules/moe_router.py:350` | `def _load(self)` |
+| `_load_groq_key` | function | `modules/moe_router.py:665` | `def _load_groq_key()` |
+| `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
+| `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
+| `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
 | `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
 | `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
 | `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
 | `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
 | `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
-| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
-| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
-| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
-| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
-| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
-| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
-| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
-| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
-| `PlaybookEntry` | class | `modules/playbook_admin.py:40` | `class PlaybookEntry` |
-| `_count_steps` | function | `modules/playbook_admin.py:183` | `def _count_steps(data)` |
-| `_target_for_write` | function | `modules/playbook_admin.py:337` | `def _target_for_write(path, directory)` |
-| `_write_atomic` | function | `modules/playbook_admin.py:282` | `def _write_atomic(target, data)` |
-| `_yaml_module` | function | `modules/playbook_admin.py:55` | `def _yaml_module()` |
-| `create_playbook` | function | `modules/playbook_admin.py:297` | `def create_playbook(filename)` |
-| `delete_playbook` | function | `modules/playbook_admin.py:406` | `def delete_playbook(path, directory)` |
-| `load_playbook` | function | `modules/playbook_admin.py:102` | `def load_playbook(path)` |
-| `playbook_kind` | function | `modules/playbook_admin.py:123` | `def playbook_kind(data)` |
-| `playbook_path` | function | `modules/playbook_admin.py:75` | `def playbook_path(filename, directory)` |
-| `playbook_template` | function | `modules/playbook_admin.py:265` | `def playbook_template(name, description, platforms)` |
-| `preview_playbook` | function | `modules/playbook_admin.py:251` | `def preview_playbook(path, limit)` |
-| `save_playbook_yaml` | function | `modules/playbook_admin.py:377` | `def save_playbook_yaml(path, text, directory)` |
-| `scan_playbooks` | function | `modules/playbook_admin.py:231` | `def scan_playbooks(directory)` |
-| `slugify` | function | `modules/playbook_admin.py:62` | `def slugify(value)` |
-| `summarize` | function | `modules/playbook_admin.py:197` | `def summarize(path)` |
-| `update_playbook` | function | `modules/playbook_admin.py:350` | `def update_playbook(path, data, directory)` |
-| `validate_playbook` | function | `modules/playbook_admin.py:136` | `def validate_playbook(data)` |
-| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
-| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
-| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
-| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
-| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
-| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
-| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
-| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
-| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
-| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
-| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

@@ -3,6 +3,9 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/lazycloud.py` | Cloud-native attack module for AWS, Azure, and GCP. | modules | 26 | 1 |
+| `modules/lazycurl.sh` | Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico... | modules | 3 | 0 |
+| `modules/lazyencoder_decoder.py` | - | modules | 10 | 5 |
 | `modules/lazyevilwimrm.sh` | execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida | modules | 1 | 0 |
 | `modules/lazygat.sh` | Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
 | `modules/lazyk8s.py` | Container and Kubernetes attack module. | modules | 32 | 1 |
@@ -83,6 +86,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 28 | 8 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
+| `modules/retry_session.py` | Retry sessions - safely relaunch a failed verb or a failed run. | modules | 10 | 2 |
 | `modules/reverse-shell.c` | reverse_shell_init: call_usermodehelper function is used to create user mode processes from... | modules | 2 | 0 |
 | `modules/revshell.c` | - | modules | 2 | 0 |
 | `modules/rich_tui.py` | Rich-based live TUI dashboard for LazyOwn campaign monitoring. | modules | 14 | 1 |
@@ -142,7 +146,8 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/unified_dashboard.py` | Unified campaign dashboard — combines all state sources into one view. | modules | 15 | 2 |
 | `modules/update_db.sh` | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
 | `modules/venator.py` | - | modules | 34 | 0 |
-| `modules/verb_catalog.py` | Operator-owned YAML catalog of every routable shell verb. | modules | 17 | 9 |
+| `modules/verb_catalog.py` | Operator-owned YAML catalog of every routable shell verb. | modules | 19 | 9 |
+| `modules/verb_manifest.py` | Typed verb manifests - semantics for routable shell verbs. | modules | 17 | 3 |
 | `modules/vuln_bot_cli.py` | - | modules | 2 | 0 |
 | `modules/vulnbot.py` | list_files: Lista archivos en un directorio | modules | 21 | 1 |
 | `modules/websocket_beacon.py` | WebSocket beacon transport for modern C2 channels. | modules | 21 | 0 |
@@ -153,7 +158,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 64 | 41 |
+| `modules/world_model.py` | modules/world_model.py | modules | 64 | 42 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -384,6 +389,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_c2_surfaces.py` | C2 dashboard surfaces fed by the autonomous loop and APT chains. | tests | 12 | 0 |
 | `tests/test_campaign_import_safety.py` | Campaign import trust boundaries hold against hostile packages. | tests | 14 | 0 |
 | `tests/test_categories.py` | Tests for modules/categories.py — category constants and look-up tables. | tests | 47 | 0 |
+| `tests/test_chain_distill.py` | BDD tests for chain_distill trace crystallisation. | tests | 15 | 0 |
 | `tests/test_chain_list_command.py` | BDD: chain list exposes the YAML chain registry. | tests | 2 | 0 |
 | `tests/test_chain_mode.py` | Tests for cli/chain_mode.py. | tests | 28 | 0 |
 | `tests/test_chain_registry.py` | Chain registry: orchestration from chains/*.yaml, never hardcoded steps. | tests | 9 | 0 |
@@ -490,11 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
 | `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
 | `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
-| `tests/test_llm_adapter_parity.py` | Parity contract tests for the self-contained Groq adapter family. | tests | 41 | 0 |
-| `tests/test_llm_budget.py` | Contract tests for the LLM budget cap. | tests | 27 | 0 |
-| `tests/test_llm_contract.py` | LLM subsystem contract tests. | tests | 23 | 0 |
-| `tests/test_llm_legacy_isolation.py` | Watchdog: core must not depend on the retired legacy Groq LLM scripts. | tests | 4 | 0 |
-| `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
-| `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

@@ -1,4 +1,4 @@
-# Subsystem: modules (page 7 of 15)
+# Subsystem: modules (page 7 of 16)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
 ## modules/killchain.py
@@ -127,7 +127,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `full_cli_enabled` (function, line 253) `def full_cli_enabled()`
   - `set_full_cli` (function, line 276) `def set_full_cli(enabled)`
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
 ## modules/lazy_engine.py
 - Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.

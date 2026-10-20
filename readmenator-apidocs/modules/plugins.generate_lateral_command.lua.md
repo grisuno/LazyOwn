@@ -14,7 +14,9 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_plugins_generate_lateral_command_lua__generate_lateral_command(["generate_lateral_command"])
     n_cli_ops_commands_py__LootEntry_value["ops_commands.LootEntry.value"]
+    n_modules_verb_manifest_py__FactPredicate_args["verb_manifest.FactPredicate.args"]
     n_plugins_generate_lateral_command_lua__generate_lateral_command -.-> n_cli_ops_commands_py__LootEntry_value
+    n_plugins_generate_lateral_command_lua__generate_lateral_command -.-> n_modules_verb_manifest_py__FactPredicate_args
 ```
 
 ## Functions
@@ -37,6 +39,6 @@ The main plugin function for generating lateral movement commands Expects ONE st
 |---|---|---|---|
 | `arg_string` |  |  |  |
 
-*Calls:* [`LootEntry.value`](cli.ops_commands.py.md#lootentry-value)
+*Calls:* [`LootEntry.value`](cli.ops_commands.py.md#lootentry-value), [`FactPredicate.args`](modules.verb_manifest.py.md#factpredicate-args)
 
 ---

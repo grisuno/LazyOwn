@@ -19,7 +19,6 @@ directory and written atomically.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 from rich.text import Text
@@ -43,7 +42,6 @@ from cli.tui_forms import (
     ConfirmModal,
     FormModal,
     SearchSelectModal,
-    YamlEditorModal,
 )
 from modules.jsonl_tail import JsonlTail
 

@@ -116,8 +116,7 @@ def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox: catalog.Verb
     index_path.write_text(json.dumps(doc), encoding="utf-8")
     catalog.sync(sandbox)
     monkeypatch.setattr(catalog, "_default_config", lambda: sandbox)
-    from modules import lazy_cli_bridge
-    from modules import orchestrator_config
+    from modules import lazy_cli_bridge, orchestrator_config
 
     monkeypatch.setattr(lazy_cli_bridge, "full_cli_enabled", lambda: True)
     monkeypatch.setattr(orchestrator_config, "_payload", lambda: {})
@@ -146,3 +145,88 @@ def test_search_filters_catalog(sandbox: catalog.VerbCatalogConfig):
     assert [row["name"] for row in rows] == ["webprobe"]
     rows = catalog.search("", sandbox, enabled=True)
     assert {row["name"] for row in rows} == {"auto_pwn", "lazynmap"}
+
+
+def _addon_sandbox(tmp_path: Path, enabled: bool = True) -> catalog.VerbCatalogConfig:
+    """Return a config whose lazyaddons directory holds one green addon."""
+    addons_dir = tmp_path / "lazyaddons"
+    addons_dir.mkdir()
+    body = (
+        f"name: certipy_v2\ndescription: ADCS audit tool.\ncategory: 03. Exploitation\n"
+        f"enabled: {str(enabled).lower()}\ntrigger:\n- http\n"
+    )
+    (addons_dir / "certipy_v2.yaml").write_text(body, encoding="utf-8")
+    disabled = addons_dir / "sleepy.yaml"
+    if enabled:
+        disabled.write_text("name: sleepy\nenabled: false\ntrigger:\n- ssh\n", encoding="utf-8")
+    return catalog.VerbCatalogConfig(
+        catalog_path=tmp_path / "verbs.yaml",
+        index_path=tmp_path / "command_index.json",
+        addons_dir=addons_dir,
+    )
+
+
+def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path: Path):
+    """Given a repo lazyaddon, verb sync lists it as an off addon verb."""
+    cfg = _addon_sandbox(tmp_path)
+    index_path = cfg.index_path
+    index_path.write_text(
+        json.dumps({"commands": [{"name": "do_lazynmap", "summary": "scan", "phase": "recon", "duplicate_of": None}]}),
+        encoding="utf-8",
+    )
+    stats = catalog.sync(cfg)
+    assert stats["total"] == 2
+    entry = catalog.entries(cfg)["addon:certipy_v2"]
+    assert entry["enabled"] is False
+    assert entry["source"] == "addon"
+    assert entry["phase"] == "exploit"
+    assert entry["description"] == "ADCS audit tool."
+    assert "addon:sleepy" not in catalog.entries(cfg)
+
+
+def test_sync_prunes_renamed_or_disabled_addons(tmp_path: Path):
+    """Given an addon flipped off, the next sync drops its catalog row."""
+    cfg = _addon_sandbox(tmp_path)
+    cfg.index_path.write_text(
+        json.dumps({"commands": [{"name": "do_zzz_stale", "summary": "old", "phase": "misc", "duplicate_of": None}]}),
+        encoding="utf-8",
+    )
+    catalog.sync(cfg)
+    pkg = cfg.addons_dir / "certipy_v2.yaml"
+    pkg.write_text(pkg.read_text(encoding="utf-8").replace("enabled: true", "enabled: false"), encoding="utf-8")
+    stats = catalog.sync(cfg)
+    assert stats["total"] == 1
+    assert "addon:certipy_v2" not in catalog.entries(cfg)
+
+
+def test_operator_can_turn_addon_verb_on(tmp_path: Path):
+    """Given a synced addon, verb on persists the operator choice."""
+    cfg = _addon_sandbox(tmp_path)
+    index_path = cfg.index_path
+    index_path.write_text(json.dumps({"commands": []}), encoding="utf-8")
+    catalog.sync(cfg)
+    entry = catalog.set_enabled("addon:certipy_v2", True, cfg)
+    assert entry["enabled"] is True
+    assert entry["source"] == "addon"
+    catalog.sync(cfg)
+    assert catalog.entries(cfg)["addon:certipy_v2"]["enabled"] is True
+
+
+def test_steps_for_addon_verb_runs_lazy_addon(tmp_path: Path, monkeypatch):
+    """Given an enabled addon verb, the loop router emits a lazy addon line."""
+    from types import SimpleNamespace
+
+    from modules import auto_registry
+
+    cfg = _addon_sandbox(tmp_path)
+    index_path = cfg.index_path
+    index_path.write_text(json.dumps({"commands": []}), encoding="utf-8")
+    catalog.sync(cfg)
+    catalog.set_enabled("addon:certipy_v2", True, cfg)
+    monkeypatch.setattr(
+        auto_registry, "_verb_row", lambda name: SimpleNamespace(enabled=True) if name == "addon:certipy_v2" else None
+    )
+    monkeypatch.setattr(auto_registry, "verb_gap", lambda name: "")
+    monkeypatch.setattr(auto_registry, "verb_enabled", lambda name: name == "addon:certipy_v2")
+    assert auto_registry.steps_for("auto addon:certipy_v2", "10.0.0.1") == ["lazy addon certipy_v2 10.0.0.1"]
+    assert auto_registry.steps_for("auto addon:certipy_v2") == ["lazy addon certipy_v2"]

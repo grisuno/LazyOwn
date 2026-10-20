@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.2%** (6993 of 9420 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1189 | 1377 | 86.3% |
+| class | 1198 | 1386 | 86.4% |
 | classmethod | 55 | 81 | 67.9% |
 | constructor | 193 | 513 | 37.6% |
 | enum | 29 | 38 | 76.3% |
 | exception | 35 | 37 | 94.6% |
-| function | 1739 | 2634 | 66.0% |
+| function | 1761 | 2656 | 66.3% |
 | macro | 3 | 113 | 2.7% |
-| method | 2800 | 3479 | 80.5% |
-| module | 663 | 785 | 84.5% |
-| property | 143 | 187 | 76.5% |
+| method | 2808 | 3487 | 80.5% |
+| module | 668 | 790 | 84.6% |
+| property | 146 | 190 | 76.8% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
@@ -382,7 +382,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | 23 | 24 | 95.8% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 25 | 26 | 96.2% |
-| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 27 | 28 | 96.4% |
+| [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 28 | 29 | 96.6% |
 | [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 57 | 59 | 96.6% |
 | [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 28 | 29 | 96.6% |
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
@@ -466,6 +466,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`cli.commands.recon`](modules/cli.commands.recon.py.md) | 14 | 14 | 100.0% |
 | [`cli.commands.redteam_gym`](modules/cli.commands.redteam_gym.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.resource_scripting`](modules/cli.commands.resource_scripting.py.md) | 6 | 6 | 100.0% |
+| [`cli.commands.retry_ops`](modules/cli.commands.retry_ops.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.scan`](modules/cli.commands.scan.py.md) | 18 | 18 | 100.0% |
 | [`cli.commands.session_ops`](modules/cli.commands.session_ops.py.md) | 35 | 35 | 100.0% |
 | [`cli.commands.shellsys`](modules/cli.commands.shellsys.py.md) | 12 | 12 | 100.0% |
@@ -506,6 +507,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`cli.recommendation`](modules/cli.recommendation.py.md) | 13 | 13 | 100.0% |
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | 9 | 9 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | 3 | 3 | 100.0% |
+| [`cli.retry_support`](modules/cli.retry_support.py.md) | 10 | 10 | 100.0% |
 | [`cli.scope_guard`](modules/cli.scope_guard.py.md) | 10 | 10 | 100.0% |
 | [`cli.session_brief`](modules/cli.session_brief.py.md) | 6 | 6 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | 9 | 9 | 100.0% |
@@ -647,6 +649,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
+| [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 17 | 17 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | 6 | 6 | 100.0% |
@@ -727,6 +730,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`modules/r.sh`](modules/modules.r.sh.md) | 2 | 2 | 100.0% |
 | [`modules.recommender`](modules/modules.recommender.py.md) | 3 | 3 | 100.0% |
 | [`modules.redteam_gym`](modules/modules.redteam_gym.py.md) | 14 | 14 | 100.0% |
+| [`modules.retry_session`](modules/modules.retry_session.py.md) | 8 | 8 | 100.0% |
 | [`modules.rich_tui`](modules/modules.rich_tui.py.md) | 5 | 5 | 100.0% |
 | [`modules.search`](modules/modules.search.py.md) | 1 | 1 | 100.0% |
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | 22 | 22 | 100.0% |
@@ -757,6 +761,7 @@ Overall: **74.1%** (6946 of 9373 public modules, types, and callables). Data mem
 | [`modules.ttpscope_bridge`](modules/modules.ttpscope_bridge.py.md) | 14 | 14 | 100.0% |
 | [`modules/update_db.sh`](modules/modules.update_db.sh.md) | 1 | 1 | 100.0% |
 | [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | 11 | 11 | 100.0% |
+| [`modules.verb_manifest`](modules/modules.verb_manifest.py.md) | 15 | 15 | 100.0% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | 16 | 16 | 100.0% |
 | [`modules.workspace`](modules/modules.workspace.py.md) | 8 | 8 | 100.0% |
 | [`modules.yara_scanner`](modules/modules.yara_scanner.py.md) | 12 | 12 | 100.0% |
@@ -919,7 +924,7 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 - DOC001 `cli/cli_enhancements.py:644` method DictPayloadProvider.keys is not documented
 - DOC001 `cli/cli_enhancements.py:647` method DictPayloadProvider.update is not documented
 - DOC001 `cli/cli_enhancements.py:657` method StaticCommandLister.commands is not documented
-- DOC001 `cli/commands/command_and_control_migrated.py:39` class CommandAndControlMigratedCommandSet is not documented
+- DOC001 `cli/commands/command_and_control_migrated.py:40` class CommandAndControlMigratedCommandSet is not documented
 - DOC001 `cli/commands/cred_migrated.py:30` class CredMigratedCommandSet is not documented
 - DOC005 `cli/commands/encoding.py:173` EncodingCommandSet.do_rot raises ValueError but does not document it
 - DOC005 `cli/commands/encoding.py:213` EncodingCommandSet.do_rotf raises ValueError but does not document it

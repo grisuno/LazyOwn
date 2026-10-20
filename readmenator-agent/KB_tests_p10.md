@@ -1,6 +1,54 @@
 # Subsystem: tests (page 10 of 18)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_lab_target_visibility.py
+- Doc: Lab target visibility: start/status always show the container IP.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
+  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
+- Depends on: `cli/commands/lab.py`
+
+## tests/test_lazy_agent.py
+- Doc: Agentic tool-calling: worker agent path, resume and main sessions.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_tool_call` (function, line 13) `def _tool_call(tool_id, name, arguments)`
+  - `_message` (function, line 19) `def _message(content, tool_calls)`
+  - `_Completions` (class, line 23) `class _Completions`
+  - `fake_model` (function, line 37) `def fake_model(script)`
+  - `_sandbox` (function, line 43) `def _sandbox(tmp_path, monkeypatch)`
+  - `_worker` (function, line 50) `def _worker(loop, engine, task_id, graph)`
+  - `test_worker_agentic_tool_calling` (function, line 63) `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)`
+  - `test_worker_agentic_resume_seeds_prior_turns` (function, line 104) `def test_worker_agentic_resume_seeds_prior_turns(tmp_path, monkeypatch)`
+  - `test_main_session_persists_and_resumes` (function, line 138) `def test_main_session_persists_and_resumes(tmp_path, monkeypatch)`
+  - `test_model_keepalive_tick_while_waiting` (function, line 152) `def test_model_keepalive_tick_while_waiting(tmp_path, monkeypatch)`
+  - `test_tool_calling_flag_honors_payload` (function, line 175) `def test_tool_calling_flag_honors_payload(tmp_path, monkeypatch)`
+  - `test_external_opencode_degrades_without_binary` (function, line 184) `def test_external_opencode_degrades_without_binary(monkeypatch)`
+  - `test_lazy_agent_command_session_lifecycle` (function, line 194) `def test_lazy_agent_command_session_lifecycle(tmp_path, monkeypatch)`
+  - `__init__` (method, line 26) `def __init__(self, script)`
+  - `create` (method, line 30) `def create(self)`
+  - `_executor` (function, line 85) `def _executor(command)`
+  - `_Completions` (class, line 162) `class _Completions`
+  - `create` (method, line 163) `def create(self)`
+- Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_lazy_bridge_traffic.py
+- Doc: Incremental LAZY traffic mirroring (stall regression).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
+  - `_append` (function, line 29) `def _append(path, rows)`
+  - `_exchanges` (function, line 35) `def _exchanges(sessions_dir)`
+  - `test_traffic_mirror_is_incremental` (function, line 39) `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)`
+  - `test_partial_line_is_retried` (function, line 61) `def test_partial_line_is_retried(tmp_path, monkeypatch)`
+  - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
+  - `_boom` (function, line 83) `def _boom(_text)`
+- Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
+
 ## tests/test_lazy_engine.py
 - Doc: Lazy engine (LAZY-faithful) regression tests with stub executor.
 - Layer: testing
@@ -433,64 +481,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_topology_emitted_on_change` (method, line 439) `def test_topology_emitted_on_change(self)`
   - `test_topology_not_emitted_on_no_change` (method, line 455) `def test_topology_not_emitted_on_no_change(self)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
-
-## tests/test_lazygui_graph_widget.py
-- Doc: Tests for lazygui graph widget contracts.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_get_qapp` (function, line 36) `def _get_qapp()`
-  - `TestColorResolution` (class, line 43) `class TestColorResolution`
-  - `TestRadiusResolution` (class, line 79) `class TestRadiusResolution`
-  - `TestColorMap` (class, line 106) `class TestColorMap`
-  - `TestGraphNodeItem` (class, line 114) `class TestGraphNodeItem`
-  - `TestGraphEdgeItem` (class, line 181) `class TestGraphEdgeItem`
-  - `TestGraphScene` (class, line 212) `class TestGraphScene`
-  - `TestGraphView` (class, line 307) `class TestGraphView`
-  - `TestGraphViewWithDatabaseFixture` (class, line 333) `class TestGraphViewWithDatabaseFixture`
-  - `TestGraphNodeItemWithIcon` (class, line 360) `class TestGraphNodeItemWithIcon`
-  - `test_c2_color` (method, line 46) `def test_c2_color(self)`
-  - `test_beacon_color` (method, line 50) `def test_beacon_color(self)`
-  - `test_host_color` (method, line 54) `def test_host_color(self)`
-  - `test_port_color` (method, line 58) `def test_port_color(self)`
-  - `test_windows_os_hint` (method, line 62) `def test_windows_os_hint(self)`
-  - `test_linux_os_hint` (method, line 66) `def test_linux_os_hint(self)`
-  - `test_macos_os_hint` (method, line 70) `def test_macos_os_hint(self)`
-  - `test_unknown_default` (method, line 74) `def test_unknown_default(self)`
-  - `test_c2_radius` (method, line 82) `def test_c2_radius(self)`
-  - `test_beacon_radius` (method, line 86) `def test_beacon_radius(self)`
-  - `test_host_radius` (method, line 91) `def test_host_radius(self)`
-  - `test_port_radius` (method, line 96) `def test_port_radius(self)`
-  - `test_default_radius` (method, line 101) `def test_default_radius(self)`
-  - `test_all_keys_present` (method, line 109) `def test_all_keys_present(self)`
-  - `test_construction` (method, line 117) `def test_construction(self)`
-  - `test_identifiers` (method, line 127) `def test_identifiers(self)`
-  - `test_selection_behaviour` (method, line 134) `def test_selection_behaviour(self)`
-  - `test_callback_on_selected` (method, line 144) `def test_callback_on_selected(self)`
-  - `test_callback_on_context_menu` (method, line 157) `def test_callback_on_context_menu(self)`
-  - `test_node_without_callbacks_does_not_raise` (method, line 173) `def test_node_without_callbacks_does_not_raise(self)`
-  - `test_construction_with_nodes` (method, line 184) `def test_construction_with_nodes(self)`
-  - `test_update_position` (method, line 198) `def test_update_position(self)`
-  - `test_construction` (method, line 215) `def test_construction(self)`
-  - `test_set_topology_with_data` (method, line 221) `def test_set_topology_with_data(self)`
-  - `test_set_empty_topology` (method, line 235) `def test_set_empty_topology(self)`
-  - `test_force_layout_single_node` (method, line 243) `def test_force_layout_single_node(self)`
-  - `test_selected_node_id_none_when_empty` (method, line 252) `def test_selected_node_id_none_when_empty(self)`
-  - `test_physics_completion` (method, line 258) `def test_physics_completion(self)`
-  - `test_physics_stops_without_nodes` (method, line 273) `def test_physics_stops_without_nodes(self)`
-  - `test_node_selected_signal` (method, line 280) `def test_node_selected_signal(self)`
-  - `test_node_context_menu_signal` (method, line 289) `def test_node_context_menu_signal(self)`
-  - `test_construction` (method, line 310) `def test_construction(self)`
-  - `test_set_topology` (method, line 316) `def test_set_topology(self)`
-  - `test_fit_to_content` (method, line 325) `def test_fit_to_content(self)`
-  - `test_full_pipeline` (method, line 336) `def test_full_pipeline(self)`
-  - `test_node_with_icon` (method, line 363) `def test_node_with_icon(self)`
-  - `test_hover_behavior` (method, line 369) `def test_hover_behavior(self)`
-  - `test_movable_flag` (method, line 375) `def test_movable_flag(self)`
-  - `_cb` (function, line 149) `def _cb(nid)`
-  - `_cb` (function, line 163) `def _cb(nid, pos)`
-  - `_capture` (function, line 296) `def _capture(nid, pos)`
-- Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`, `lazygui/widgets/graph_view.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

@@ -1,4 +1,4 @@
-# Subsystem: modules (page 6 of 15)
+# Subsystem: modules (page 6 of 16)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
 ## modules/goals.py

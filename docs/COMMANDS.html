@@ -201,12 +201,12 @@ commands)</li>
 <li><a href="#09-data-exfiltration">09. Data Exfiltration</a> (35
 commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
-(33 commands)</li>
+(34 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
 <li><a href="#12-miscellaneous">12. Miscellaneous</a> (191
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (203 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (204 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -2060,6 +2060,10 @@ sessions.</p>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
 <p>Import CALDERA abilities into LazyOwn playbooks.</p>
+<h3 id="chain_distill"><code>chain_distill</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Turn one autonomous-loop trace into a reusable chain YAML.</p>
 <h3 id="duckyspark"><code>duckyspark</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
@@ -3875,6 +3879,10 @@ sessions).</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/audit.py</code></p>
 <p>Re-scan lazyaddons/ and plugins/ for changes; reloads what’s new.</p>
+<h3 id="retry"><code>retry</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/retry_ops.py</code></p>
+<p>Relaunch failed work: retry status | chain | loop.</p>
 <h3 id="rotate_aes"><code>rotate_aes</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/security.py</code></p>

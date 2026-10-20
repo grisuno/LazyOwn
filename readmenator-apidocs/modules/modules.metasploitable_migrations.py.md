@@ -41,7 +41,7 @@ flowchart LR
 
 ### `Migration`
 
-`class` `dataclass` | [modules/metasploitable_migrations.py:65](../../modules/metasploitable_migrations.py#L65)
+`class` `dataclass` | [modules/metasploitable_migrations.py:129](../../modules/metasploitable_migrations.py#L129)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -69,7 +69,7 @@ One idempotent gym fix: a check script and an apply script.
 
 ### `build_migrations`
 
-`function` | [modules/metasploitable_migrations.py:131](../../modules/metasploitable_migrations.py#L131)
+`function` | [modules/metasploitable_migrations.py:194](../../modules/metasploitable_migrations.py#L194)
 
 ```python
 def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ...]
@@ -95,7 +95,7 @@ Return the ordered migration list with the docker subnet applied.
 
 ### `apply_migrations`
 
-`function` | [modules/metasploitable_migrations.py:236](../../modules/metasploitable_migrations.py#L236)
+`function` | [modules/metasploitable_migrations.py:354](../../modules/metasploitable_migrations.py#L354)
 
 ```python
 def apply_migrations(container: str = DEFAULT_CONTAINER, subnet: str = DEFAULT_DOCKER_SUBNET) -> dict[str, dict[str, Any]]

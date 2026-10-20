@@ -1,6 +1,63 @@
 # Subsystem: tests (page 5 of 18)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
+## tests/test_cli_enhancements.py
+- Doc: Tests for cli/cli_enhancements.py and the audit CommandSet.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `fixture_index` (function, line 39) `def fixture_index()`
+  - `test_fuzzy_exact_match_scores_one` (function, line 50) `def test_fuzzy_exact_match_scores_one(fixture_index)`
+  - `test_fuzzy_alias_resolves_to_command` (function, line 56) `def test_fuzzy_alias_resolves_to_command(fixture_index)`
+  - `test_fuzzy_substring_match` (function, line 62) `def test_fuzzy_substring_match(fixture_index)`
+  - `test_fuzzy_empty_query_lists_all` (function, line 67) `def test_fuzzy_empty_query_lists_all(fixture_index)`
+  - `test_fuzzy_returns_empty_on_garbage` (function, line 72) `def test_fuzzy_returns_empty_on_garbage(fixture_index)`
+  - `test_completer_set_lists_payload_keys` (function, line 80) `def test_completer_set_lists_payload_keys()`
+  - `test_completer_target_lists_targets_and_rhost` (function, line 89) `def test_completer_target_lists_targets_and_rhost()`
+  - `test_completer_wordlist_keys_only_when_set` (function, line 101) `def test_completer_wordlist_keys_only_when_set()`
+  - `test_completer_addon_lister_used_for_run` (function, line 108) `def test_completer_addon_lister_used_for_run()`
+  - `test_completer_filters_by_partial` (function, line 116) `def test_completer_filters_by_partial()`
+  - `test_completer_ignores_unknown_command` (function, line 123) `def test_completer_ignores_unknown_command()`
+  - `test_dynamic_resolver_renders_against_current_payload` (function, line 132) `def test_dynamic_resolver_renders_against_current_payload()`
+  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 140) `def test_dynamic_resolver_missing_keys_become_empty()`
+  - `test_dynamic_resolver_payload_changes_propagate` (function, line 146) `def test_dynamic_resolver_payload_changes_propagate()`
+  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 155) `def test_dynamic_resolver_passes_through_literal_braces()`
+  - `test_load_aliases_lazy_preserves_placeholders` (function, line 162) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
+  - `test_load_aliases_eager_substitutes` (function, line 169) `def test_load_aliases_eager_substitutes(tmp_path)`
+  - `test_hot_reloader_detects_new_file` (function, line 179) `def test_hot_reloader_detects_new_file(tmp_path)`
+  - `test_hot_reloader_detects_modification` (function, line 191) `def test_hot_reloader_detects_modification(tmp_path)`
+  - `test_hot_reloader_ignores_non_addon_files` (function, line 208) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
+  - `test_status_tail_extracts_open_ports` (function, line 221) `def test_status_tail_extracts_open_ports()`
+  - `test_status_tail_handles_empty` (function, line 237) `def test_status_tail_handles_empty()`
+  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 244) `def test_status_tail_no_ports_falls_back_to_stats()`
+  - `test_transcript_grep_matches_recent_output` (function, line 254) `def test_transcript_grep_matches_recent_output(tmp_path)`
+  - `test_transcript_grep_command_filter` (function, line 262) `def test_transcript_grep_command_filter(tmp_path)`
+  - `test_transcript_grep_invalid_regex` (function, line 270) `def test_transcript_grep_invalid_regex(tmp_path)`
+  - `test_transcript_persists_and_reloads` (function, line 277) `def test_transcript_persists_and_reloads(tmp_path)`
+  - `test_transcript_capacity` (function, line 285) `def test_transcript_capacity(tmp_path)`
+  - `FakeIO` (class, line 297) `class FakeIO`
+  - `test_form_collects_values_with_defaults` (function, line 311) `def test_form_collects_values_with_defaults()`
+  - `test_form_options_constraint_falls_back_to_default` (function, line 325) `def test_form_options_constraint_falls_back_to_default()`
+  - `test_form_required_reprompted` (function, line 336) `def test_form_required_reprompted()`
+  - `_ShellLike` (class, line 349) `class _ShellLike`
+  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (function, line 359) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
+  - `_MiniShell` (class, line 371) `class _MiniShell`
+  - `test_audit_fz_command_emits_results` (function, line 399) `def test_audit_fz_command_emits_results(tmp_path)`
+  - `test_audit_status_tail_reports_no_evidence` (function, line 409) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
+  - `test_audit_grep_log_handles_empty_store` (function, line 419) `def test_audit_grep_log_handles_empty_store(tmp_path)`
+  - `test_audit_form_unknown_lists_known` (function, line 429) `def test_audit_form_unknown_lists_known(tmp_path)`
+  - `__init__` (method, line 298) `def __init__(self, replies)`
+  - `prompt` (method, line 302) `def prompt(self, message, default)`
+  - `emit` (method, line 307) `def emit(self, line)`
+  - `do_lazynmap` (method, line 352) `def do_lazynmap(self, _)`
+  - `do_gobuster` (method, line 355) `def do_gobuster(self, _)`
+  - `__init__` (method, line 374) `def __init__(self, tmp)`
+  - `poutput` (method, line 386) `def poutput(self, msg)`
+  - `get_all_commands` (method, line 389) `def get_all_commands(self)`
+  - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
+  - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
+- Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
+
 ## tests/test_collab_and_onboarding.py
 - Doc: tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE...
 - Layer: testing
@@ -434,55 +491,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_enrichment_passes_through_none` (method, line 2270) `def test_enrichment_passes_through_none(self)`
   - `blocking_import` (function, line 2260) `def blocking_import(name)`
 - Depends on: `cli/__init__.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`
-
-## tests/test_command_set_migration.py
-- Doc: Tests for the completed migration of ``LazyOwnShell`` commands.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_discover_migrated_class_names` (function, line 38) `def _discover_migrated_class_names()`
-  - `_collect_migrated_modules` (function, line 57) `def _collect_migrated_modules()`
-  - `_parse_class` (function, line 62) `def _parse_class(file_path, class_name)`
-  - `_category_argument` (function, line 82) `def _category_argument(decorator)`
-  - `_collect_legacy_do_methods` (function, line 110) `def _collect_legacy_do_methods()`
-  - `_module_path` (function, line 134) `def _module_path(module_name)`
-  - `TestDormancyMechanism` (class, line 139) `class TestDormancyMechanism`
-  - `TestShellForwarding` (class, line 189) `class TestShellForwarding`
-  - `TestMigratedSetsStructure` (class, line 249) `class TestMigratedSetsStructure`
-  - `TestParityWithLegacyShell` (class, line 284) `class TestParityWithLegacyShell`
-  - `TestProductionHygiene` (class, line 312) `class TestProductionHygiene`
-  - `test_pending_marker_attribute` (method, line 140) `def test_pending_marker_attribute(self)`
-  - `test_is_pending_helper` (method, line 145) `def test_is_pending_helper(self)`
-  - `test_subclass_inherits_pending_flag` (method, line 154) `def test_subclass_inherits_pending_flag(self)`
-  - `test_all_discovered_sets_are_active` (method, line 162) `def test_all_discovered_sets_are_active(self)`
-  - `test_active_sets_excluded_when_pending_skipped` (method, line 169) `def test_active_sets_excluded_when_pending_skipped(self)`
-  - `test_register_includes_migrated_sets` (method, line 175) `def test_register_includes_migrated_sets(self)`
-  - `_make_set` (method, line 199) `def _make_set(self)`
-  - `test_unregistered_params_default_empty` (method, line 207) `def test_unregistered_params_default_empty(self)`
-  - `test_unregistered_forwarding_raises_attribute_error` (method, line 211) `def test_unregistered_forwarding_raises_attribute_error(self)`
-  - `test_registered_params_reflect_shell` (method, line 216) `def test_registered_params_reflect_shell(self)`
-  - `test_registered_forwards_shell_methods` (method, line 229) `def test_registered_forwards_shell_methods(self)`
-  - `migrated_modules` (method, line 251) `def migrated_modules(self)`
-  - `module_names` (method, line 255) `def module_names(self, migrated_modules)`
-  - `test_all_modules_discoverable` (method, line 258) `def test_all_modules_discoverable(self, migrated_modules)`
-  - `test_all_active_and_have_phase` (method, line 261) `def test_all_active_and_have_phase(self, migrated_modules)`
-  - `test_each_module_has_do_methods` (method, line 273) `def test_each_module_has_do_methods(self, migrated_modules)`
-  - `test_no_do_methods_remain_on_shell` (method, line 285) `def test_no_do_methods_remain_on_shell(self)`
-  - `test_migrated_methods_not_duplicated_on_shell` (method, line 295) `def test_migrated_methods_not_duplicated_on_shell(self)`
-  - `module_names` (method, line 314) `def module_names(self)`
-  - `test_no_forbidden_markers` (method, line 317) `def test_no_forbidden_markers(self, module_names)`
-  - `test_no_emoji` (method, line 325) `def test_no_emoji(self, module_names)`
-  - `test_every_module_is_parseable` (method, line 345) `def test_every_module_is_parseable(self, module_names)`
-  - `_Sample` (class, line 157) `class _Sample(PendingCommandSet)`
-  - `_Bare` (class, line 180) `class _Bare(Cmd)`
-  - `_Probe` (class, line 202) `class _Probe(LazyOwnCommandSet)`
-  - `_Shell` (class, line 219) `class _Shell(Cmd)`
-  - `_Shell` (class, line 234) `class _Shell(Cmd)`
-  - `__init__` (method, line 181) `def __init__(self)`
-  - `__init__` (method, line 220) `def __init__(self)`
-  - `__init__` (method, line 235) `def __init__(self)`
-  - `cmd` (method, line 239) `def cmd(self, line)`
-- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/registry.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

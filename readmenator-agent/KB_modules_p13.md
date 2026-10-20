@@ -1,4 +1,4 @@
-# Subsystem: modules (page 13 of 15)
+# Subsystem: modules (page 13 of 16)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
 ## modules/planner.py
@@ -398,6 +398,24 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_repl` (function, line 125) `def _repl(m)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+
+## modules/retry_session.py
+- Doc: Retry sessions - safely relaunch a failed verb or a failed run.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `is_active` (function, line 56) `def is_active()`
+  - `secret_enabled_path` (function, line 61) `def secret_enabled_path()`
+  - `_verify_askpass_layout` (function, line 67) `def _verify_askpass_layout(helper, secret_file)`
+  - `sudo_gate_open` (function, line 79) `def sudo_gate_open()`
+  - `set_sudo_secret` (function, line 94) `def set_sudo_secret(secret)`
+  - `clear_sudo_secret` (function, line 125) `def clear_sudo_secret()`
+  - `apply_sudo_askpass` (function, line 137) `def apply_sudo_askpass(command)`
+  - `_rewrite_segment` (function, line 162) `def _rewrite_segment(segment)`
+  - `newest_failed_checkpoint` (function, line 180) `def newest_failed_checkpoint(chain, run_id)`
+  - `resolve_sudo_consent` (function, line 204) `def resolve_sudo_consent(confirmer, want_sudo)`
+- Depends on: `modules/chain_state.py`
+- Imported by: `cli/retry_support.py`, `tests/test_retry_session.py`
 
 ## modules/reverse-shell.c
 - Doc: reverse_shell_init: call_usermodehelper function is used to create user mode processes from...

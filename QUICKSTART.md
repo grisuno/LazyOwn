@@ -231,7 +231,7 @@ Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/c
 | `ESSENTIALS.md` | You want the 18 core commands (start here after this doc) |
 | `CHEATSHEET.md` | You know the basics and need the next 40 frequent commands |
 | `skills/lazyown.md` | You are operating via MCP (AI operator) |
-| `COMMANDS.md` | You need the full 835-command reference |
+| `COMMANDS.md` | You need the full 837-command reference |
 | `CLAUDE.md` | You are developing or extending the framework |
 | `docs/gym-setup.md` | You are configuring the Metasploitable 2 practice gym |
 

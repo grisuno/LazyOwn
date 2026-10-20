@@ -247,6 +247,10 @@ def report_result(result: dict) -> None
 
 Print the final outcome of one loop run.
 
+Failed, cancelled or incomplete endings carry a retry offer so the
+operator can resume the exact task with user-varied flags, or arm
+the elevated ``--sudo`` mode when the failure was a sudo gate.
+
 **Parameters**
 
 | Name | Type | Default | Description |
@@ -263,7 +267,7 @@ Print the final outcome of one loop run.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:802](../../modules/lazy_runner.py#L802)
+`function` | [modules/lazy_runner.py:821](../../modules/lazy_runner.py#L821)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

@@ -1,6 +1,6 @@
 # LazyOwn Cheatsheet — Frequent Commands by Goal
 
-This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 835-command catalog, see `COMMANDS.md`.
+This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 837-command catalog, see `COMMANDS.md`.
 
 ---
 
@@ -148,6 +148,10 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Chain commands | `chain` |
 | Auto attack loop | `auto_loop` |
 | Full APT chain (one command) | `apt_chain apt_rocke 172.17.0.2` |
+| Resume a failed chain/loop | `retry status` → `retry chain <name> --var k=v` |
+| Elevate a retry run (guarded) | `retry chain <name> --sudo` (prints warning, waits for YES) |
+| Distill a loop trace into a chain | `chain_distill t0001 --write` |
+| Loop verb administration | `verb list addon` / `verb on addon:<name>` |
 | Interactive root shell on target | `atomic_shell --interactive 172.17.0.2` |
 | Cleanup artefacts / tear down gym | `atomic_clean 172.17.0.2` / `atomic_clean --hard 172.17.0.2` |
 | Generate playbook | `playbook_generate` |
@@ -296,6 +300,6 @@ The framework reads `rhost`, `wordlist`, `lhost`, `lport`, `domain`, `start_user
 | 1 | `ESSENTIALS.md` | ~120 | You are new or need the golden path |
 | 2 | `CHEATSHEET.md` | ~300 | You know the basics, need the next layer |
 | 3 | `QUICKSTART.md` | ~200 | Setting up for the first time |
-| 4 | `COMMANDS.md` | ~1600 | You need the complete 835-command reference |
+| 4 | `COMMANDS.md` | ~1600 | You need the complete 837-command reference |
 | 5 | `skills/lazyown.md` | ~1600 | You are an AI operator using MCP tools |
 | 6 | `CLAUDE.md` | ~540 | You are developing or extending the framework |

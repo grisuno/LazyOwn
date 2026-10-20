@@ -269,7 +269,7 @@ Validate raw YAML data against the chain schema.
 
 **Returns:** `list[str]`
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`load_all`](#load_all), [`scan_all`](#scan_all), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`distill`](modules.chain_distill.py.md#distill), [`load_all`](#load_all), [`scan_all`](#scan_all), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
 
 ---
 

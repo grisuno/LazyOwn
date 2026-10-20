@@ -120,7 +120,7 @@ flowchart LR
 
 ### `LazyOwnShell`
 
-`class` | [lazyown.py:299](../../lazyown.py#L299)
+`class` | [lazyown.py:297](../../lazyown.py#L297)
 
 ```python
 class LazyOwnShell(cmd2.Cmd)
@@ -236,7 +236,7 @@ Methods:
 
 #### `LazyOwnShell.aliases`
 
-`attribute` | [lazyown.py:371](../../lazyown.py#L371)
+`attribute` | [lazyown.py:369](../../lazyown.py#L369)
 
 ```python
 aliases: dict = {}
@@ -248,7 +248,7 @@ Populated at runtime in __init__ from cli/aliases.yaml.
 
 #### `LazyOwnShell.__init__`
 
-`constructor` | [lazyown.py:374](../../lazyown.py#L374)
+`constructor` | [lazyown.py:372](../../lazyown.py#L372)
 
 ```python
 def __init__(self)
@@ -268,7 +268,7 @@ values and a list of script names that are part of the LazyOwnShell toolkit.
 
 #### `LazyOwnShell.log_command`
 
-`method` | [lazyown.py:781](../../lazyown.py#L781)
+`method` | [lazyown.py:779](../../lazyown.py#L779)
 
 ```python
 def log_command(self, cmd_name, cmd_args, start_time=None, end_time=None, duration_ms=0)
@@ -292,7 +292,7 @@ Logs the command execution details to a CSV file.
 
 #### `LazyOwnShell.default`
 
-`method` | [lazyown.py:844](../../lazyown.py#L844)
+`method` | [lazyown.py:842](../../lazyown.py#L842)
 
 ```python
 def default(self, line)
@@ -318,7 +318,7 @@ found, it prints an error message.
 
 #### `LazyOwnShell.scripts`
 
-`property` | [lazyown.py:873](../../lazyown.py#L873)
+`property` | [lazyown.py:871](../../lazyown.py#L871)
 
 Decorators: `@property`
 
@@ -338,7 +338,7 @@ result is cached until the next shell restart.
 
 #### `LazyOwnShell.refresh_prompt`
 
-`method` | [lazyown.py:892](../../lazyown.py#L892)
+`method` | [lazyown.py:890](../../lazyown.py#L890)
 
 ```python
 def refresh_prompt(self) -> None
@@ -357,7 +357,7 @@ through this so the prompt and the status-bar hook never disagree.
 
 #### `LazyOwnShell.do_set`
 
-`method` | [lazyown.py:903](../../lazyown.py#L903)
+`method` | [lazyown.py:901](../../lazyown.py#L901)
 
 ```python
 def do_set(self, line) -> None
@@ -383,7 +383,7 @@ single unknown key and no value, prints the current value.
 
 #### `LazyOwnShell.logcsv`
 
-`method` | [lazyown.py:1284](../../lazyown.py#L1284)
+`method` | [lazyown.py:1282](../../lazyown.py#L1282)
 
 ```python
 def logcsv(self, line, start_time=None, end_time=None, duration_ms=0)
@@ -408,7 +408,7 @@ Forward a command line to [`log_command`](contrib.legacy.lazyhoneypot.py.md#log_
 
 #### `LazyOwnShell.cmd`
 
-`method` | [lazyown.py:1325](../../lazyown.py#L1325)
+`method` | [lazyown.py:1323](../../lazyown.py#L1323)
 
 ```python
 def cmd(self, line)
@@ -438,7 +438,7 @@ code can be analysed later.
 
 #### `LazyOwnShell.onecmd_plus_hooks`
 
-`method` | [lazyown.py:1417](../../lazyown.py#L1417)
+`method` | [lazyown.py:1415](../../lazyown.py#L1415)
 
 ```python
 def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None)
@@ -470,7 +470,7 @@ terminating the session.
 
 #### `LazyOwnShell.one_cmd`
 
-`method` | [lazyown.py:1781](../../lazyown.py#L1781)
+`method` | [lazyown.py:1779](../../lazyown.py#L1779)
 
 ```python
 def one_cmd(self, command)
@@ -494,7 +494,7 @@ executed successfully or an exception occurred.
 
 #### `LazyOwnShell.emptyline`
 
-`method` | [lazyown.py:1827](../../lazyown.py#L1827)
+`method` | [lazyown.py:1825](../../lazyown.py#L1825)
 
 ```python
 def emptyline(self)
@@ -530,7 +530,7 @@ You didn't enter any command.
 
 #### `LazyOwnShell.load_user_commands`
 
-`method` | [lazyown.py:1852](../../lazyown.py#L1852)
+`method` | [lazyown.py:1850](../../lazyown.py#L1850)
 
 ```python
 def load_user_commands(self)
@@ -546,7 +546,7 @@ Carga los comandos personalizados desde user_commands.json
 
 #### `LazyOwnShell.save_user_command`
 
-`method` | [lazyown.py:1864](../../lazyown.py#L1864)
+`method` | [lazyown.py:1862](../../lazyown.py#L1862)
 
 ```python
 def save_user_command(self, alias, command)
@@ -567,7 +567,7 @@ Guarda un nuevo comando en user_commands.json
 
 #### `LazyOwnShell.list_files_in_directory`
 
-`method` | [lazyown.py:1876](../../lazyown.py#L1876)
+`method` | [lazyown.py:1874](../../lazyown.py#L1874)
 
 ```python
 def list_files_in_directory(self, directory)
@@ -585,7 +585,7 @@ Lista todos los archivos en un directorio dado.
 
 #### `LazyOwnShell.register_tool_commands`
 
-`method` | [lazyown.py:1882](../../lazyown.py#L1882)
+`method` | [lazyown.py:1880](../../lazyown.py#L1880)
 
 ```python
 def register_tool_commands(self)
@@ -611,7 +611,7 @@ back to `[`rhost`](#lazyownshell-rhost)`/``rport`` from ``payload.json``.
 
 #### `LazyOwnShell.load_plugins`
 
-`method` | [lazyown.py:2066](../../lazyown.py#L2066)
+`method` | [lazyown.py:2064](../../lazyown.py#L2064)
 
 ```python
 def load_plugins(self)
@@ -627,7 +627,7 @@ Load every Lua plugin from the 'plugins/' directory.
 
 #### `LazyOwnShell.load_yaml_plugins`
 
-`method` | [lazyown.py:2096](../../lazyown.py#L2096)
+`method` | [lazyown.py:2094](../../lazyown.py#L2094)
 
 ```python
 def load_yaml_plugins(self)
@@ -646,7 +646,7 @@ and registers enabled plugins as new commands.
 
 #### `LazyOwnShell.register_yaml_plugin`
 
-`method` | [lazyown.py:2119](../../lazyown.py#L2119)
+`method` | [lazyown.py:2117](../../lazyown.py#L2117)
 
 ```python
 def register_yaml_plugin(self, plugin_data)
@@ -682,7 +682,7 @@ A lightweight dependency check runs before first execution.
 
 #### `LazyOwnShell.register_all_adversary_commands`
 
-`method` | [lazyown.py:2265](../../lazyown.py#L2265)
+`method` | [lazyown.py:2263](../../lazyown.py#L2263)
 
 ```python
 def register_all_adversary_commands(self)
@@ -696,7 +696,7 @@ def register_all_adversary_commands(self)
 
 #### `LazyOwnShell.display_toastr`
 
-`method` | [lazyown.py:2294](../../lazyown.py#L2294)
+`method` | [lazyown.py:2292](../../lazyown.py#L2292)
 
 ```python
 def display_toastr(self, message, type='info')
@@ -719,7 +719,7 @@ Display the unified toastr panel from the shared toast bus.
 
 #### `LazyOwnShell.completedefault`
 
-`method` | [lazyown.py:2307](../../lazyown.py#L2307)
+`method` | [lazyown.py:2305](../../lazyown.py#L2305)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -744,7 +744,7 @@ Fall through to the payload-aware completer for unhandled commands.
 
 #### `LazyOwnShell.preloop`
 
-`method` | [lazyown.py:2332](../../lazyown.py#L2332)
+`method` | [lazyown.py:2330](../../lazyown.py#L2330)
 
 ```python
 def preloop(self)
@@ -761,7 +761,7 @@ If no session exists, warns the operator to use ``login``.
 
 #### `LazyOwnShell.postparsing_precmd`
 
-`method` | [lazyown.py:2476](../../lazyown.py#L2476)
+`method` | [lazyown.py:2474](../../lazyown.py#L2474)
 
 ```python
 def postparsing_precmd(self, statement)
@@ -784,7 +784,7 @@ an empty command string to block execution.
 
 #### `LazyOwnShell.postloop`
 
-`method` | [lazyown.py:2504](../../lazyown.py#L2504)
+`method` | [lazyown.py:2502](../../lazyown.py#L2502)
 
 ```python
 def postloop(self)
@@ -821,7 +821,7 @@ GoodBye LazyOwner
 
 #### `LazyOwnShell.complete_phase`
 
-`method` | [lazyown.py:2537](../../lazyown.py#L2537)
+`method` | [lazyown.py:2535](../../lazyown.py#L2535)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -844,7 +844,7 @@ Tab-complete phase names.
 
 #### `LazyOwnShell.complete_l00t`
 
-`method` | [lazyown.py:2542](../../lazyown.py#L2542)
+`method` | [lazyown.py:2540](../../lazyown.py#L2540)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -869,7 +869,7 @@ Tab-complete l00t subcommands.
 
 #### `LazyOwnShell.complete_loot`
 
-`method` | [lazyown.py:2548](../../lazyown.py#L2548)
+`method` | [lazyown.py:2546](../../lazyown.py#L2546)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -894,7 +894,7 @@ Tab-complete loot subcommands (delegates to l00t).
 
 #### `LazyOwnShell.complete_assign`
 
-`method` | [lazyown.py:2553](../../lazyown.py#L2553)
+`method` | [lazyown.py:2551](../../lazyown.py#L2551)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -921,7 +921,7 @@ maintain a parallel list of completion targets — adding a new key to
 
 #### `LazyOwnShell.complete_scope`
 
-`method` | [lazyown.py:2570](../../lazyown.py#L2570)
+`method` | [lazyown.py:2568](../../lazyown.py#L2568)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -944,7 +944,7 @@ Tab-complete the scope subcommands.
 
 #### `LazyOwnShell.complete_palette`
 
-`method` | [lazyown.py:2621](../../lazyown.py#L2621)
+`method` | [lazyown.py:2619](../../lazyown.py#L2619)
 
 Decorators: `@with_category('10. Command & Control')`
 
@@ -974,7 +974,7 @@ is enough.
 
 #### `LazyOwnShell.run_lazysearch`
 
-`method` | [lazyown.py:2638](../../lazyown.py#L2638)
+`method` | [lazyown.py:2636](../../lazyown.py#L2636)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -996,7 +996,7 @@ is not set, it prints an error message.
 
 #### `LazyOwnShell.run_lazysearch_gui`
 
-`method` | [lazyown.py:2655](../../lazyown.py#L2655)
+`method` | [lazyown.py:2653](../../lazyown.py#L2653)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -1034,7 +1034,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyown`
 
-`method` | [lazyown.py:2685](../../lazyown.py#L2685)
+`method` | [lazyown.py:2683](../../lazyown.py#L2683)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1068,7 +1068,7 @@ Note:
 
 #### `LazyOwnShell.run_update_db`
 
-`method` | [lazyown.py:2711](../../lazyown.py#L2711)
+`method` | [lazyown.py:2709](../../lazyown.py#L2709)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -1106,7 +1106,7 @@ Note:
 
 #### `LazyOwnShell.run_lazynmap`
 
-`method` | [lazyown.py:2741](../../lazyown.py#L2741)
+`method` | [lazyown.py:2739](../../lazyown.py#L2739)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1133,7 +1133,7 @@ If [`rhost`](#lazyownshell-rhost) is not set, it prints an error message.
 
 #### `LazyOwnShell.run_lazywerkzeugdebug`
 
-`method` | [lazyown.py:2806](../../lazyown.py#L2806)
+`method` | [lazyown.py:2804](../../lazyown.py#L2804)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1192,7 +1192,7 @@ Note:
 
 #### `LazyOwnShell.run_lazygath`
 
-`method` | [lazyown.py:2863](../../lazyown.py#L2863)
+`method` | [lazyown.py:2861](../../lazyown.py#L2861)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1231,7 +1231,7 @@ Note:
 
 #### `LazyOwnShell.run_lazynmapdiscovery`
 
-`method` | [lazyown.py:2895](../../lazyown.py#L2895)
+`method` | [lazyown.py:2893](../../lazyown.py#L2893)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1252,7 +1252,7 @@ working directory for locating the script.
 
 #### `LazyOwnShell.run_lazysniff`
 
-`method` | [lazyown.py:2910](../../lazyown.py#L2910)
+`method` | [lazyown.py:2908](../../lazyown.py#L2908)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1302,7 +1302,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyftpsniff`
 
-`method` | [lazyown.py:2959](../../lazyown.py#L2959)
+`method` | [lazyown.py:2957](../../lazyown.py#L2957)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1354,7 +1354,7 @@ Note:
 
 #### `LazyOwnShell.run_lazynetbios`
 
-`method` | [lazyown.py:3005](../../lazyown.py#L3005)
+`method` | [lazyown.py:3003](../../lazyown.py#L3003)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -1411,7 +1411,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyhoneypot`
 
-`method` | [lazyown.py:3056](../../lazyown.py#L3056)
+`method` | [lazyown.py:3054](../../lazyown.py#L3054)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -1474,7 +1474,7 @@ Note:
 
 #### `LazyOwnShell.run_lazysearch_bot`
 
-`method` | [lazyown.py:3122](../../lazyown.py#L3122)
+`method` | [lazyown.py:3120](../../lazyown.py#L3120)
 
 ```python
 def run_lazysearch_bot(self)
@@ -1530,7 +1530,7 @@ Note:
 
 #### `LazyOwnShell.run_lazymetaextract0r`
 
-`method` | [lazyown.py:3173](../../lazyown.py#L3173)
+`method` | [lazyown.py:3171](../../lazyown.py#L3171)
 
 ```python
 def run_lazymetaextract0r(self)
@@ -1579,7 +1579,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyownratcli`
 
-`method` | [lazyown.py:3214](../../lazyown.py#L3214)
+`method` | [lazyown.py:3212](../../lazyown.py#L3212)
 
 ```python
 def run_lazyownratcli(self)
@@ -1634,7 +1634,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyownrat`
 
-`method` | [lazyown.py:3274](../../lazyown.py#L3274)
+`method` | [lazyown.py:3272](../../lazyown.py#L3272)
 
 ```python
 def run_lazyownrat(self)
@@ -1689,7 +1689,7 @@ Note:
 
 #### `LazyOwnShell.run_lazybotnet`
 
-`method` | [lazyown.py:3335](../../lazyown.py#L3335)
+`method` | [lazyown.py:3333](../../lazyown.py#L3333)
 
 ```python
 def run_lazybotnet(self)
@@ -1742,7 +1742,7 @@ Note:
 
 #### `LazyOwnShell.run_lazylfi2rce`
 
-`method` | [lazyown.py:3391](../../lazyown.py#L3391)
+`method` | [lazyown.py:3389](../../lazyown.py#L3389)
 
 ```python
 def run_lazylfi2rce(self)
@@ -1806,7 +1806,7 @@ Note:
 
 #### `LazyOwnShell.run_lazylogpoisoning`
 
-`method` | [lazyown.py:3472](../../lazyown.py#L3472)
+`method` | [lazyown.py:3470](../../lazyown.py#L3470)
 
 ```python
 def run_lazylogpoisoning(self)
@@ -1858,7 +1858,7 @@ Note:
 
 #### `LazyOwnShell.run_lazybotcli`
 
-`method` | [lazyown.py:3519](../../lazyown.py#L3519)
+`method` | [lazyown.py:3517](../../lazyown.py#L3517)
 
 ```python
 def run_lazybotcli(self)
@@ -1911,7 +1911,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyssh77enum`
 
-`method` | [lazyown.py:3575](../../lazyown.py#L3575)
+`method` | [lazyown.py:3573](../../lazyown.py#L3573)
 
 ```python
 def run_lazyssh77enum(self)
@@ -1967,7 +1967,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyburpfuzzer`
 
-`method` | [lazyown.py:3625](../../lazyown.py#L3625)
+`method` | [lazyown.py:3623](../../lazyown.py#L3623)
 
 ```python
 def run_lazyburpfuzzer(self)
@@ -2042,7 +2042,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyreverse_shell`
 
-`method` | [lazyown.py:3751](../../lazyown.py#L3751)
+`method` | [lazyown.py:3749](../../lazyown.py#L3749)
 
 ```python
 def run_lazyreverse_shell(self)
@@ -2096,7 +2096,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyarpspoofing`
 
-`method` | [lazyown.py:3801](../../lazyown.py#L3801)
+`method` | [lazyown.py:3799](../../lazyown.py#L3799)
 
 ```python
 def run_lazyarpspoofing(self)
@@ -2153,7 +2153,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyattack`
 
-`method` | [lazyown.py:3855](../../lazyown.py#L3855)
+`method` | [lazyown.py:3853](../../lazyown.py#L3853)
 
 ```python
 def run_lazyattack(self)
@@ -2210,7 +2210,7 @@ Note:
 
 #### `LazyOwnShell.run_lazymsfvenom`
 
-`method` | [lazyown.py:3910](../../lazyown.py#L3910)
+`method` | [lazyown.py:3908](../../lazyown.py#L3908)
 
 ```python
 def run_lazymsfvenom(self)
@@ -2240,7 +2240,7 @@ the function will also sign the APK and perform necessary post-processing steps.
 
 #### `LazyOwnShell.run_lazyaslrcheck`
 
-`method` | [lazyown.py:4087](../../lazyown.py#L4087)
+`method` | [lazyown.py:4085](../../lazyown.py#L4085)
 
 ```python
 def run_lazyaslrcheck(self)
@@ -2290,7 +2290,7 @@ Note:
 
 #### `LazyOwnShell.run_lazypathhijacking`
 
-`method` | [lazyown.py:4134](../../lazyown.py#L4134)
+`method` | [lazyown.py:4132](../../lazyown.py#L4132)
 
 ```python
 def run_lazypathhijacking(self)
@@ -2319,7 +2319,7 @@ The function then prints out each command being executed and a message indicatin
 
 #### `LazyOwnShell.run_script`
 
-`method` | [lazyown.py:4167](../../lazyown.py#L4167)
+`method` | [lazyown.py:4165](../../lazyown.py#L4165)
 
 ```python
 def run_script(self, script_name, *args)
@@ -2364,7 +2364,7 @@ Note:
 
 #### `LazyOwnShell.run_command`
 
-`method` | [lazyown.py:4199](../../lazyown.py#L4199)
+`method` | [lazyown.py:4197](../../lazyown.py#L4197)
 
 ```python
 def run_command(self, command)
@@ -2411,7 +2411,7 @@ Note:
 
 #### `LazyOwnShell.get_output`
 
-`method` | [lazyown.py:4279](../../lazyown.py#L4279)
+`method` | [lazyown.py:4277](../../lazyown.py#L4277)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -2425,7 +2425,7 @@ Devuelve la salida acumulada
 
 #### `LazyOwnShell.upload_file_to_c2`
 
-`method` | [lazyown.py:4284](../../lazyown.py#L4284)
+`method` | [lazyown.py:4282](../../lazyown.py#L4282)
 
 Decorators: `@cmd2.with_category(lateral_movement_category)`
 
@@ -2450,7 +2450,7 @@ None
 
 #### `LazyOwnShell.complete_upload_c2`
 
-`method` | [lazyown.py:4310](../../lazyown.py#L4310)
+`method` | [lazyown.py:4308](../../lazyown.py#L4308)
 
 Decorators: `@cmd2.with_category(lateral_movement_category)`
 
@@ -2473,7 +2473,7 @@ Autocomplete implant names from implant_config_*.json files in sessions/ directo
 
 #### `LazyOwnShell.download_file_from_c2`
 
-`method` | [lazyown.py:4338](../../lazyown.py#L4338)
+`method` | [lazyown.py:4336](../../lazyown.py#L4336)
 
 Decorators: `@cmd2.with_category(exfiltration_category)`
 
@@ -2501,7 +2501,7 @@ None
 
 #### `LazyOwnShell.issue_command_to_c2`
 
-`method` | [lazyown.py:4407](../../lazyown.py#L4407)
+`method` | [lazyown.py:4405](../../lazyown.py#L4405)
 
 ```python
 def issue_command_to_c2(self, command, client_id='')
@@ -2527,7 +2527,7 @@ None
 
 #### `LazyOwnShell.complete_issue_command_to_c2`
 
-`method` | [lazyown.py:4441](../../lazyown.py#L4441)
+`method` | [lazyown.py:4439](../../lazyown.py#L4439)
 
 Decorators: `@cmd2.with_category(post_exploitation_category)`
 
@@ -2550,7 +2550,7 @@ Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed
 
 #### `LazyOwnShell.view_code`
 
-`method` | [lazyown.py:4507](../../lazyown.py#L4507)
+`method` | [lazyown.py:4505](../../lazyown.py#L4505)
 
 Decorators: `@cmd2.with_category(reporting_category)`
 
@@ -2578,7 +2578,7 @@ from the ASM code.
 
 #### `LazyOwnShell.get_available_actions`
 
-`method` | [lazyown.py:4612](../../lazyown.py#L4612)
+`method` | [lazyown.py:4610](../../lazyown.py#L4610)
 
 Decorators: `@cmd2.with_category(post_exploitation_category)`
 
@@ -2592,7 +2592,7 @@ Returns a list of available actions using cmd2 introspection.
 
 #### `LazyOwnShell.process_scan_csv`
 
-`method` | [lazyown.py:4695](../../lazyown.py#L4695)
+`method` | [lazyown.py:4693](../../lazyown.py#L4693)
 
 Decorators: `@cmd2.with_category(reporting_category)`
 
@@ -2616,7 +2616,7 @@ Processes a single scan CSV file.
 
 #### `LazyOwnShell.process_vuln_csv`
 
-`method` | [lazyown.py:4718](../../lazyown.py#L4718)
+`method` | [lazyown.py:4716](../../lazyown.py#L4716)
 
 ```python
 def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)
@@ -2637,7 +2637,7 @@ Processes a single vulnerability CSV file.
 
 #### `LazyOwnShell.do_event_log`
 
-`method` | [lazyown.py:4850](../../lazyown.py#L4850)
+`method` | [lazyown.py:4848](../../lazyown.py#L4848)
 
 Decorators: `@cmd2.with_category('Event Bus')`
 
@@ -2661,7 +2661,7 @@ Usage: event_log [N] [category]
 
 #### `LazyOwnShell.do_state_snapshot`
 
-`method` | [lazyown.py:4880](../../lazyown.py#L4880)
+`method` | [lazyown.py:4878](../../lazyown.py#L4878)
 
 Decorators: `@cmd2.with_category('State Manager')`
 
@@ -2683,7 +2683,7 @@ Show unified StateManager snapshot (DB + JSON caches).
 
 #### `LazyOwnShell.do_route`
 
-`method` | [lazyown.py:4919](../../lazyown.py#L4919)
+`method` | [lazyown.py:4917](../../lazyown.py#L4917)
 
 Decorators: `@cmd2.with_category('Unified Bridge')`
 
@@ -2711,7 +2711,7 @@ Usage: route <prompt>
 
 ### `main`
 
-`function` | [lazyown.py:4942](../../lazyown.py#L4942)
+`function` | [lazyown.py:4940](../../lazyown.py#L4940)
 
 ```python
 def main()
@@ -2727,7 +2727,7 @@ def main()
 
 ### `SHELL_BUILTIN_TOKENS`
 
-`constant` | [lazyown.py:261](../../lazyown.py#L261)
+`constant` | [lazyown.py:259](../../lazyown.py#L259)
 
 ```python
 SHELL_BUILTIN_TOKENS

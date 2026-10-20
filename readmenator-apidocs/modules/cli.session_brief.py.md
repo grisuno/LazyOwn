@@ -119,7 +119,7 @@ Read the full task rows from the loop store, never raising.
 
 ### `build_session_brief`
 
-`function` | [cli/session_brief.py:135](../../cli/session_brief.py#L135)
+`function` | [cli/session_brief.py:127](../../cli/session_brief.py#L127)
 
 ```python
 def build_session_brief(payload: Mapping[str, Any], tasks: list[dict] | None = None) -> Panel
@@ -147,7 +147,7 @@ the block instead of reading prose.
 
 ### `print_session_brief`
 
-`function` | [cli/session_brief.py:171](../../cli/session_brief.py#L171)
+`function` | [cli/session_brief.py:163](../../cli/session_brief.py#L163)
 
 ```python
 def print_session_brief(console: Any, payload: Mapping[str, Any]) -> bool

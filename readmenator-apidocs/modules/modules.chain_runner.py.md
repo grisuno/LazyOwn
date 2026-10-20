@@ -51,6 +51,7 @@ classDiagram
     ChainRunResult : int filtered
     ChainRunResult : float started_at
     ChainRunResult : float finished_at
+    ChainRunResult : list[str] plan_warnings
     ChainRunResult : to_dict()
     class ReplanContext
     ReplanContext : str chain_name
@@ -80,10 +81,12 @@ flowchart LR
     n_modules_chain_runner_py__StepOutcome(["StepOutcome"])
     n_modules_chain_runner_py__render_text(["render_text"])
     n_modules_chain_state_py__new_run_id["chain_state.new_run_id"]
+    n_modules_verb_manifest_py__plan_check["verb_manifest.plan_check"]
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__ChainRunResult
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__StepOutcome
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__render_text
     n_modules_chain_runner_py__ChainRunner_run -.-> n_modules_chain_state_py__new_run_id
+    n_modules_chain_runner_py__ChainRunner_run -.-> n_modules_verb_manifest_py__plan_check
 ```
 
 ## Classes
@@ -189,6 +192,7 @@ Structured result of one chain execution.
 | [`filtered`](#chainrunresult-filtered) | `int` | `0` |  |
 | [`started_at`](#chainrunresult-started_at) | `float` | `0.0` |  |
 | [`finished_at`](#chainrunresult-finished_at) | `float` | `0.0` |  |
+| [`plan_warnings`](#chainrunresult-plan_warnings) | `list[str]` | `field(default_factory=list)` |  |
 
 **Members**
 
@@ -200,7 +204,7 @@ Structured result of one chain execution.
 
 #### `ChainRunResult.to_dict`
 
-`method` | [modules/chain_runner.py:100](../../modules/chain_runner.py#L100)
+`method` | [modules/chain_runner.py:101](../../modules/chain_runner.py#L101)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -216,7 +220,7 @@ Return a JSON-serializable view.
 
 ### `ReplanContext`
 
-`class` `dataclass` | [modules/chain_runner.py:121](../../modules/chain_runner.py#L121)
+`class` `dataclass` | [modules/chain_runner.py:123](../../modules/chain_runner.py#L123)
 
 Decorators: `@dataclass`
 
@@ -255,7 +259,7 @@ source cannot break the chain invariants.
 
 #### `ReplanContext.set_var`
 
-`method` | [modules/chain_runner.py:138](../../modules/chain_runner.py#L138)
+`method` | [modules/chain_runner.py:140](../../modules/chain_runner.py#L140)
 
 ```python
 def set_var(self, name: str, value: str) -> None
@@ -274,7 +278,7 @@ Record a variable the next steps should see.
 
 #### `ReplanContext.insert_step`
 
-`method` | [modules/chain_runner.py:143](../../modules/chain_runner.py#L143)
+`method` | [modules/chain_runner.py:145](../../modules/chain_runner.py#L145)
 
 ```python
 def insert_step(self, step: ChainStep) -> None
@@ -294,7 +298,7 @@ Record one step to execute right after the finished step.
 
 #### `ReplanContext.skip_rest`
 
-`method` | [modules/chain_runner.py:148](../../modules/chain_runner.py#L148)
+`method` | [modules/chain_runner.py:150](../../modules/chain_runner.py#L150)
 
 ```python
 def skip_rest(self) -> None
@@ -306,7 +310,7 @@ Record that remaining steps must not execute.
 
 #### `ReplanContext.applied_vars`
 
-`property` | [modules/chain_runner.py:153](../../modules/chain_runner.py#L153)
+`property` | [modules/chain_runner.py:155](../../modules/chain_runner.py#L155)
 
 Decorators: `@property`
 
@@ -322,7 +326,7 @@ Return recorded variable changes.
 
 #### `ReplanContext.inserted`
 
-`property` | [modules/chain_runner.py:158](../../modules/chain_runner.py#L158)
+`property` | [modules/chain_runner.py:160](../../modules/chain_runner.py#L160)
 
 Decorators: `@property`
 
@@ -338,7 +342,7 @@ Return recorded steps to insert.
 
 #### `ReplanContext.skip_rest_flag`
 
-`property` | [modules/chain_runner.py:163](../../modules/chain_runner.py#L163)
+`property` | [modules/chain_runner.py:165](../../modules/chain_runner.py#L165)
 
 Decorators: `@property`
 
@@ -356,7 +360,7 @@ Return True when remaining steps should be skipped.
 
 ### `ChainRunner`
 
-`class` | [modules/chain_runner.py:176](../../modules/chain_runner.py#L176)
+`class` | [modules/chain_runner.py:178](../../modules/chain_runner.py#L178)
 
 ```python
 class ChainRunner
@@ -375,10 +379,10 @@ Execute one chain with per-step policy and structured outcomes.
 
 #### `ChainRunner.__init__`
 
-`constructor` | [modules/chain_runner.py:179](../../modules/chain_runner.py#L179)
+`constructor` | [modules/chain_runner.py:181](../../modules/chain_runner.py#L181)
 
 ```python
-def __init__(self, chain: Chain, tokens: dict[str, str] | None = None, shell: Any = None, executor: Callable[[str], str] | None = None, default_timeout: float = _DEFAULT_TIMEOUT, dry_run: bool = False, on_step: Callable[[StepOutcome], None] | None = None, retry_backoff: float = 0.5, total_timeout: float = 0.0, approver: Callable[[str, str], bool] | None = None, checkpoint_dir: str | os.PathLike | None = None, run_id: str = '', resume_state: dict[str, Any] | None = None, step_filter: set[str] | None = None, replanner: Callable[[ReplanContext], None] | None = None) -> None
+def __init__(self, chain: Chain, tokens: dict[str, str] | None = None, shell: Any = None, executor: Callable[[str], str] | None = None, default_timeout: float = _DEFAULT_TIMEOUT, dry_run: bool = False, on_step: Callable[[StepOutcome], None] | None = None, retry_backoff: float = 0.5, total_timeout: float = 0.0, approver: Callable[[str, str], bool] | None = None, checkpoint_dir: str | os.PathLike | None = None, run_id: str = '', resume_state: dict[str, Any] | None = None, step_filter: set[str] | None = None, replanner: Callable[[ReplanContext], None] | None = None, command_filter: Callable[[str], str] | None = None) -> None
 ```
 
 Bind the chain, the execution primitive and operator switches.
@@ -387,29 +391,30 @@ Bind the chain, the execution primitive and operator switches.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `chain` | `Chain` |  |  |
-| `tokens` | `dict[str, str] \| None` | `None` |  |
-| `shell` | `Any` | `None` |  |
-| `executor` | `Callable[[str], str] \| None` | `None` |  |
-| `default_timeout` | `float` | `_DEFAULT_TIMEOUT` |  |
-| `dry_run` | `bool` | `False` |  |
-| `on_step` | `Callable[[StepOutcome], None] \| None` | `None` |  |
-| `retry_backoff` | `float` | `0.5` |  |
-| `total_timeout` | `float` | `0.0` |  |
-| `approver` | `Callable[[str, str], bool] \| None` | `None` |  |
-| `checkpoint_dir` | `str \| os.PathLike \| None` | `None` |  |
-| `run_id` | `str` | `''` |  |
-| `resume_state` | `dict[str, Any] \| None` | `None` |  |
-| `step_filter` | `set[str] \| None` | `None` |  |
-| `replanner` | `Callable[[ReplanContext], None] \| None` | `None` |  |
+| `chain` | `Chain` |  | Chain to execute. |
+| `tokens` | `dict[str, str] \| None` | `None` | Chain tokens (target, playbook, artefact paths...). |
+| `shell` | `Any` | `None` | Live cmd2 shell for verb steps (None uses raw exec). |
+| `executor` | `Callable[[str], str] \| None` | `None` | Optional alternative execution primitive. |
+| `default_timeout` | `float` | `_DEFAULT_TIMEOUT` | Per-step wall clock fallback. |
+| `dry_run` | `bool` | `False` | Resolve without executing anything. |
+| `on_step` | `Callable[[StepOutcome], None] \| None` | `None` | Optional per-step observer callback. |
+| `retry_backoff` | `float` | `0.5` | Base seconds between retry attempts. |
+| `total_timeout` | `float` | `0.0` | Whole-chain wall clock cap (0 disables). |
+| `approver` | `Callable[[str, str], bool] \| None` | `None` | Callback for ``confirm`` steps (None: denied). |
+| `checkpoint_dir` | `str \| os.PathLike \| None` | `None` | When set, persist resumable checkpoints. |
+| `run_id` | `str` | `''` | Explicit run id (else generated with checkpointing). |
+| `resume_state` | `dict[str, Any] \| None` | `None` | Previously saved checkpoint to continue from. |
+| `step_filter` | `set[str] \| None` | `None` | Restrict execution to these step ids. |
+| `replanner` | `Callable[[ReplanContext], None] \| None` | `None` | Optional after-step advice hook. |
+| `command_filter` | `Callable[[str], str] \| None` | `None` | Optional transform applied to every command (run and verify) right before execution, such as the retry-session ``sudo -A`` askpass rewrite. A filter error keeps the original command instead of aborting. |
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
 
 <a id="chainrunner-run"></a>
 
 #### `ChainRunner.run`
 
-`method` | [modules/chain_runner.py:215](../../modules/chain_runner.py#L215)
+`method` | [modules/chain_runner.py:241](../../modules/chain_runner.py#L241)
 
 ```python
 def run(self) -> ChainRunResult
@@ -419,9 +424,9 @@ Execute the chain in order and return every step outcome.
 
 **Returns:** `ChainRunResult`
 
-*Calls:* [`ChainRunResult`](#chainrunresult), [`StepOutcome`](#stepoutcome), [`render_text`](#render_text), [`new_run_id`](modules.chain_state.py.md#new_run_id)
+*Calls:* [`ChainRunResult`](#chainrunresult), [`StepOutcome`](#stepoutcome), [`render_text`](#render_text), [`new_run_id`](modules.chain_state.py.md#new_run_id), [`plan_check`](modules.verb_manifest.py.md#plan_check)
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
 
 ---
 
@@ -431,7 +436,7 @@ Execute the chain in order and return every step outcome.
 
 ### `render_text`
 
-`function` | [modules/chain_runner.py:168](../../modules/chain_runner.py#L168)
+`function` | [modules/chain_runner.py:170](../../modules/chain_runner.py#L170)
 
 ```python
 def render_text(template: str, variables: dict[str, str]) -> str

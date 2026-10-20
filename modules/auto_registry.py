@@ -384,6 +384,7 @@ def _cli_verb_allowed(name: str) -> bool:
         return False
     return bool(entry and entry.get("source") == "catalog" and entry.get("enabled"))
 
+
 ADDON_TRIGGER_CAP = 4
 
 _SERVICE_ALIASES: dict[str, tuple[str, ...]] = {
@@ -682,6 +683,7 @@ def propose_intents(goal: str, target: str = "", finding_texts: tuple[str, ...] 
 
 
 _ATOMIC_VERBS = frozenset({"atomic_tests", "atomic_gen"})
+_ADDON_VERB_PREFIX = "addon:"
 _TECHNIQUE_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
 _PLATFORM_RE = re.compile(r"\b(windows|linux|macos)\b", re.IGNORECASE)
 _PLAYBOOK_RE = re.compile(r"\b([a-z][a-z0-9_-]{1,40})\s+playbook\b", re.IGNORECASE)
@@ -765,6 +767,12 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
         if _verb_row(verb) is not None:
             if verb_gap(verb) or not verb_enabled(verb):
                 return None
+            if verb.startswith(_ADDON_VERB_PREFIX):
+                addon = verb[len(_ADDON_VERB_PREFIX) :]
+                if not addon:
+                    return None
+                tail = " ".join(parts[2:]).strip() or (target or "").strip()
+                return [f"lazy addon {addon} {tail}".strip()]
             if verb == "automsf":
                 import re as _re
 

@@ -63,7 +63,7 @@ This community groups 12 file(s) rooted at `skills/hermes-lazyown` with dominant
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

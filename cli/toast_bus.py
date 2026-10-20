@@ -357,9 +357,7 @@ TOASTR_SENTINEL_WIDTH = 60
 class ToastrConfig:
     """Display knobs for the inline toastr boxes every surface shares."""
 
-    severity_styles: Mapping[str, Mapping[str, str]] = field(
-        default_factory=lambda: TOASTR_SEVERITY_STYLES
-    )
+    severity_styles: Mapping[str, Mapping[str, str]] = field(default_factory=lambda: TOASTR_SEVERITY_STYLES)
     default_severity: str = TOASTR_DEFAULT_SEVERITY
     empty_message: str = TOASTR_EMPTY_MESSAGE
     width_fraction: float = TOASTR_WIDTH_FRACTION

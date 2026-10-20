@@ -11,6 +11,7 @@ from cli.assign import apply_assign as _apply_assign
 import glob
 import json
 import os
+import shlex
 import subprocess
 import sys
 import time
@@ -1908,6 +1909,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         else:
             for output_line in render_result(result):
                 print_msg(output_line)
+            if not result.ok and not args.dry_run:
+                print_warn(
+                    "[apt_chain] retry hint: retry chain "
+                    f"{chain_name} --var key=value --sudo"
+                )
+                print_warn(
+                    "[apt_chain] --sudo authorizes elevated reruns (root-level effects); it prompts with the destructive-steps warning"
+                )
         if not args.dry_run:
             try:
                 from modules.outcome_bus import record_event
@@ -1941,6 +1950,56 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             return
         if result.run_id and checkpoint_path is not None:
             print_msg(f"[apt_chain] checkpoint: {checkpoint_path / (result.run_id + '.json')}")
+
+    @cmd2.with_category("10. Command & Control")
+    def do_chain_distill(self, line: str) -> None:
+        """Turn one autonomous-loop trace into a reusable chain YAML.
+
+        Usage:
+            chain_distill <task>              Distill task tNNNN (dry report)
+            chain_distill <task> --write      Validate and write chains/<name>.yaml
+            chain_distill <task> --json       Machine-readable report
+            chain_distill <task> --all        Include dropped rows in the listing
+            chain_distill <task> --dir D      Search D instead of sessions/
+
+        Sources: sessions/<dir>/exp_<task>.json plus traffic_<task>.jsonl.
+        Kept steps carry lineage (intent id + digest) in the description.
+        Generated chains start disabled; the operator owns the file.
+        """
+        import argparse
+        import json as jsonlib
+
+        parser = argparse.ArgumentParser(prog="chain_distill", add_help=False)
+        parser.add_argument("task", nargs="?", default="")
+        parser.add_argument("--write", action="store_true")
+        parser.add_argument("--json", dest="json_out", action="store_true")
+        parser.add_argument("--all", dest="verbose", action="store_true")
+        parser.add_argument("--dir", dest="directory", default="")
+        try:
+            args = parser.parse_args(shlex.split(line))
+        except SystemExit:
+            return
+        if not args.task:
+            print_error("Usage: chain_distill <task> [--write] [--json] [--all] [--dir D]")
+            return
+        from modules.chain_distill import distill
+
+        report = distill(
+            args.task,
+            sessions_dir=args.directory or None,
+            write=bool(args.write),
+        )
+        if args.json_out:
+            print(jsonlib.dumps(report.to_dict(), indent=2, default=str))
+            return
+        for output_line in report.render(verbose=bool(args.verbose)):
+            print_msg(output_line)
+        if args.write and report.path and not report.errors:
+            print_msg(f"chain written and disabled: {report.path}")
+        elif args.write and not report.path:
+            print_warn("chain not written; see errors above")
+        else:
+            print_msg("dry run only (pass --write to persist chains/<name>.yaml)")
 
     @cmd2.with_category("10. Command & Control")
     def do_apt_playbook(self, line):

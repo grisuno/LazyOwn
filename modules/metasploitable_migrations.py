@@ -32,11 +32,75 @@ PHP_INI_APACHE = "/etc/php5/apache2/php.ini"
 MUTILLIDAE_SETUP_URL = "http://127.0.0.1/mutillidae/set-up-database.php"
 MUTILLIDAE_DB = "metasploit"
 MUTILLIDAE_SOURCE_DB = "owasp10"
+DNS_FALLBACK_SCRIPT = "/usr/local/sbin/lz_dns_server.py"
+DNS_FALLBACK_LOG = "/var/log/lz_dns_server.log"
+DNS_FALLBACK_PORT = 53
+DNS_FALLBACK_ANSWER = "10.10.10.10"
+MOUNTD_LOG = "/var/log/lz_mountd.log"
 XVNC_COMMAND = (
     "Xtightvnc :0 -desktop X -ac -auth /root/.Xauthority -geometry 1024x768 "
     "-depth 24 -rfbwait 120000 -rfbauth /root/.vnc/passwd -rfbport 5900 "
-    "-fp /usr/share/X11/fonts/misc,/usr/share/fonts/X11/misc/ -co /etc/X11/rgb"
+    "-fp /usr/share/fonts/X11/misc -co /etc/X11/rgb"
 )
+
+DNS_FALLBACK_PY = f"""#!/usr/bin/env python
+# Lab-only userspace BIND fallback: answers every A query over UDP/53.
+# The stock named cannot run inside a plain docker container (capset is
+# blocked by the container runtime), so the ms2_dns_recursion vector
+# depends on this responder. Written for the container's python2.5.
+
+import socket
+import struct
+
+ANSWER_IP = "{DNS_FALLBACK_ANSWER}"
+QUESTION = chr(0) + chr(1) + chr(0) + chr(1)
+
+
+def parse_name(msg):
+    labels = []
+    i = 0
+    while i < len(msg):
+        if ord(msg[i]) == 0:
+            i += 1
+            break
+        n = ord(msg[i])
+        labels.append(msg[i + 1:i + 1 + n])
+        i += n + 1
+    return ".".join(labels), msg[:i], i
+
+
+def handle(sock):
+    data, addr = sock.recvfrom(1500)
+    if len(data) < 12:
+        return
+    _name, _bytes, consumed = parse_name(data[12:])
+    rest = data[12 + consumed:]
+    if len(rest) < 4 or rest[:4] != QUESTION:
+        return
+    qtype = struct.unpack(">HH", rest[:4])[1]
+    ancount = 1 if qtype == 1 else 0
+    resp = data[:2] + struct.pack(">HHHHH", 0x8180, 1, ancount, 0, 0)
+    resp += data[12:12 + consumed] + rest[:4]
+    if ancount:
+        resp += struct.pack(">HHHIH", 0xC00C, 1, 1, 60, 4)
+        resp += socket.inet_aton(ANSWER_IP)
+    sock.sendto(resp, addr)
+
+
+def main():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(("0.0.0.0", {DNS_FALLBACK_PORT}))
+    while True:
+        try:
+            handle(sock)
+        except Exception:
+            pass
+
+
+if __name__ == "__main__":
+    main()
+"""
 
 DVWA_DOM_PHP = """<?php
 header('Content-Type: text/html; charset=UTF-8');
@@ -122,8 +186,7 @@ def _core_services_apply() -> str:
             "/etc/init.d/samba start >/dev/null 2>&1 || true",
             "/etc/init.d/postgresql-8.3 start >/dev/null 2>&1 || true",
             "/etc/init.d/tomcat5.5 start >/dev/null 2>&1 || true",
-            "pgrep -x distccd >/dev/null 2>&1 || "
-            f"distccd --daemon --allow 0.0.0.0/0 >{DISTCCD_LOG} 2>&1 || true",
+            f"pgrep -x distccd >/dev/null 2>&1 || distccd --daemon --allow 0.0.0.0/0 >{DISTCCD_LOG} 2>&1 || true",
         ]
     )
 
@@ -140,10 +203,10 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
     """
     hosts_allow = "\n".join(
         [
-            'for svc in in.telnetd in.rlogind in.rshd in.rexecd; do',
+            "for svc in in.telnetd in.rlogind in.rshd in.rexecd; do",
             ' grep -q "^$svc" /etc/hosts.allow || printf "%s: {subnet}\\n" "$svc" >> /etc/hosts.allow',
             "done",
-            "for i in 0 1 2 3 4 5; do grep -q \"pts/$i\" /etc/securetty || echo \"pts/$i\" >> /etc/securetty; done",
+            'for i in 0 1 2 3 4 5; do grep -q "pts/$i" /etc/securetty || echo "pts/$i" >> /etc/securetty; done',
         ]
     ).replace("{subnet}", subnet)
     return (
@@ -229,6 +292,61 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
             check=f"test -f {DVWA_DOM_PAGE}",
             apply=f"mkdir -p $(dirname {DVWA_DOM_PAGE}) && cat > {DVWA_DOM_PAGE}",
             payload=DVWA_DOM_PHP,
+        ),
+        Migration(
+            id="bind-udp-fallback",
+            description=(
+                "Serve answered A records over UDP/53 from a python2.5 responder "
+                "(named cannot capset inside the container)"
+            ),
+            check=(f'test -x {DNS_FALLBACK_SCRIPT} && grep -q "00000000:0035" /proc/net/udp'),
+            apply="\n".join(
+                [
+                    f"mkdir -p /usr/local/sbin && cat > {DNS_FALLBACK_SCRIPT} && chmod 755 {DNS_FALLBACK_SCRIPT}",
+                    "for pid in $(ps ax -o pid,cmd | grep 'python.*lz_dns_server' | grep -v grep | awk '{print $1}'); do kill $pid 2>/dev/null; done",
+                    "sleep 1",
+                    f"(nohup python {DNS_FALLBACK_SCRIPT} >{DNS_FALLBACK_LOG} 2>&1 &)",
+                    "sleep 2",
+                ]
+            ),
+            payload=DNS_FALLBACK_PY,
+        ),
+        Migration(
+            id="nfs-mountd-fallback",
+            description=(
+                "Start userspace rpc.mountd so showmount answers export lists "
+                "(rpc.nfsd needs a kernel module the container lacks)"
+            ),
+            check="showmount -e 127.0.0.1 2>/dev/null | grep -q '^/ '",
+            apply="\n".join(
+                [
+                    "/etc/init.d/portmap start >/dev/null 2>&1 || true",
+                    "grep -qE '^/ ' /etc/exports 2>/dev/null || echo '/ *(rw,sync,no_root_squash)' >> /etc/exports",
+                    "pgrep -x rpc.mountd >/dev/null 2>&1 || (nohup rpc.mountd >" + MOUNTD_LOG + " 2>&1 &)",
+                    "sleep 2",
+                    "rpcinfo -p 127.0.0.1 2>/dev/null | grep -q mountd || pmap_set 100005 1 udp 20048 || true",
+                    "pmap_set 100005 1 tcp 20048 >/dev/null 2>&1 || true",
+                ]
+            ),
+        ),
+        Migration(
+            id="rlogin-root-trust",
+            description=(
+                "Trust the container-local root rsh/rlogind path: /root/.rhosts "
+                "(+ +), localhost entries in hosts.allow and xinetd up"
+            ),
+            check='grep -qE "^[+] [+]$" /root/.rhosts && grep -qE "^in.rshd: 127.0.0.1$" /etc/hosts.allow && pgrep -x xinetd >/dev/null',
+            apply="\n".join(
+                [
+                    'printf "+ +\\n" > /root/.rhosts',
+                    "chmod 600 /root/.rhosts",
+                    "for svc in in.rlogind in.rshd in.rexecd in.telnetd; do",
+                    ' grep -q "^$svc: 127.0.0.1" /etc/hosts.allow || echo "$svc: 127.0.0.1" >> /etc/hosts.allow',
+                    "done",
+                    "/etc/init.d/xinetd start >/dev/null 2>&1 || true",
+                    "sleep 2",
+                ]
+            ),
         ),
     )
 

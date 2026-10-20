@@ -484,7 +484,7 @@ Display knobs for the inline toastr boxes every surface shares.
 
 ### `ToastFormatter`
 
-`class` | [cli/toast_bus.py:489](../../cli/toast_bus.py#L489)
+`class` | [cli/toast_bus.py:487](../../cli/toast_bus.py#L487)
 
 ```python
 class ToastFormatter
@@ -509,7 +509,7 @@ Render a [`ToastEvent`](#toastevent) as a `rich.text.Text` line.
 
 #### `ToastFormatter.__init__`
 
-`constructor` | [cli/toast_bus.py:492](../../cli/toast_bus.py#L492)
+`constructor` | [cli/toast_bus.py:490](../../cli/toast_bus.py#L490)
 
 ```python
 def __init__(self, config: ToastConfig, theme: Theme) -> None
@@ -530,7 +530,7 @@ Bind to config and the active theme.
 
 #### `ToastFormatter.format`
 
-`method` | [cli/toast_bus.py:497](../../cli/toast_bus.py#L497)
+`method` | [cli/toast_bus.py:495](../../cli/toast_bus.py#L495)
 
 ```python
 def format(self, event: ToastEvent) -> Text
@@ -550,7 +550,7 @@ Return a single themed line for `[`event`](modules.notify.py.md#notifymessage-ev
 
 #### `ToastFormatter.is_prominent`
 
-`method` | [cli/toast_bus.py:509](../../cli/toast_bus.py#L509)
+`method` | [cli/toast_bus.py:507](../../cli/toast_bus.py#L507)
 
 ```python
 def is_prominent(self, event: ToastEvent) -> bool
@@ -575,7 +575,7 @@ into a truncated line: they render with their complete text.
 
 #### `ToastFormatter.format_prominent`
 
-`method` | [cli/toast_bus.py:519](../../cli/toast_bus.py#L519)
+`method` | [cli/toast_bus.py:517](../../cli/toast_bus.py#L517)
 
 ```python
 def format_prominent(self, event: ToastEvent) -> Panel
@@ -597,7 +597,7 @@ Render an event as a toastr panel with the complete summary.
 
 #### `ToastFormatter.format_ephemeral`
 
-`method` | [cli/toast_bus.py:536](../../cli/toast_bus.py#L536)
+`method` | [cli/toast_bus.py:534](../../cli/toast_bus.py#L534)
 
 ```python
 def format_ephemeral(self, event: ToastEvent) -> Text
@@ -622,7 +622,7 @@ glyph each; this is the terminal equivalent without the ascii box.
 
 #### `ToastFormatter.duration_for`
 
-`method` | [cli/toast_bus.py:564](../../cli/toast_bus.py#L564)
+`method` | [cli/toast_bus.py:562](../../cli/toast_bus.py#L562)
 
 ```python
 def duration_for(self, event: ToastEvent) -> float
@@ -645,7 +645,7 @@ the sonner `[`duration`](skills.unified_orchestrator.py.md#orchestratorresult-du
 
 #### `ToastFormatter.digest_line`
 
-`staticmethod` | [cli/toast_bus.py:589](../../cli/toast_bus.py#L589)
+`staticmethod` | [cli/toast_bus.py:587](../../cli/toast_bus.py#L587)
 
 Decorators: `@staticmethod`
 
@@ -669,7 +669,7 @@ Summarise over-budget events so none vanish silently.
 
 #### `ToastFormatter.format_many`
 
-`method` | [cli/toast_bus.py:597](../../cli/toast_bus.py#L597)
+`method` | [cli/toast_bus.py:595](../../cli/toast_bus.py#L595)
 
 ```python
 def format_many(self, events: list[ToastEvent], width: int = 0) -> Any
@@ -706,7 +706,7 @@ line for one plain event, or ``None`` when empty.
 
 ### `ToastBus`
 
-`class` | [cli/toast_bus.py:670](../../cli/toast_bus.py#L670)
+`class` | [cli/toast_bus.py:668](../../cli/toast_bus.py#L668)
 
 ```python
 class ToastBus
@@ -731,7 +731,7 @@ only on `render` and [`mark_all_seen`](#toastbus-mark_all_seen).
 
 #### `ToastBus.__init__`
 
-`constructor` | [cli/toast_bus.py:677](../../cli/toast_bus.py#L677)
+`constructor` | [cli/toast_bus.py:675](../../cli/toast_bus.py#L675)
 
 ```python
 def __init__(self, config: ToastConfig, state: ToastState, reader: ToastReader, formatter: ToastFormatter, console: Console | None = None) -> None
@@ -755,7 +755,7 @@ Bind every collaborator.
 
 #### `ToastBus.collect`
 
-`method` | [cli/toast_bus.py:692](../../cli/toast_bus.py#L692)
+`method` | [cli/toast_bus.py:690](../../cli/toast_bus.py#L690)
 
 ```python
 def collect(self) -> list[ToastEvent]
@@ -771,7 +771,7 @@ Return every unseen event across [`ToastConfig.event_files`](#toastconfig-event_
 
 #### `ToastBus.render`
 
-`method` | [cli/toast_bus.py:704](../../cli/toast_bus.py#L704)
+`method` | [cli/toast_bus.py:702](../../cli/toast_bus.py#L702)
 
 ```python
 def render(self, enabled: bool = True) -> int
@@ -798,7 +798,7 @@ renders as a plain line to avoid unnecessary visual weight.
 
 #### `ToastBus.mark_all_seen`
 
-`method` | [cli/toast_bus.py:733](../../cli/toast_bus.py#L733)
+`method` | [cli/toast_bus.py:731](../../cli/toast_bus.py#L731)
 
 ```python
 def mark_all_seen(self) -> None
@@ -810,7 +810,7 @@ Advance the offset for every configured file to its current size.
 
 #### `ToastBus.render_ephemeral`
 
-`method` | [cli/toast_bus.py:740](../../cli/toast_bus.py#L740)
+`method` | [cli/toast_bus.py:738](../../cli/toast_bus.py#L738)
 
 ```python
 def render_ephemeral(self, enabled: bool = True, duration: float | None = None) -> int
@@ -843,7 +843,7 @@ so logs never lose the event. Offsets persist exactly like
 
 ### `toastr_severity_style`
 
-`function` | [cli/toast_bus.py:375](../../cli/toast_bus.py#L375)
+`function` | [cli/toast_bus.py:373](../../cli/toast_bus.py#L373)
 
 ```python
 def toastr_severity_style(severity: str) -> dict[str, str]
@@ -867,7 +867,7 @@ Resolve one severity into the shared border/text style pair.
 
 ### `rich_toastr_panel`
 
-`function` | [cli/toast_bus.py:382](../../cli/toast_bus.py#L382)
+`function` | [cli/toast_bus.py:380](../../cli/toast_bus.py#L380)
 
 ```python
 def rich_toastr_panel(message: str, severity: str = TOASTR_DEFAULT_SEVERITY, terminal_width: int = 0, config: ToastrConfig | None = None) -> Panel
@@ -895,7 +895,7 @@ unified severity styling.
 
 ### `shell_hint_bypass`
 
-`function` | [cli/toast_bus.py:435](../../cli/toast_bus.py#L435)
+`function` | [cli/toast_bus.py:433](../../cli/toast_bus.py#L433)
 
 ```python
 def shell_hint_bypass(console: Any, message: str, severity: str = TOASTR_DEFAULT_SEVERITY) -> bool
@@ -921,7 +921,7 @@ Print the flat bypass line used when UI hints are off.
 
 ### `sentinel_toast_panel`
 
-`function` | [cli/toast_bus.py:454](../../cli/toast_bus.py#L454)
+`function` | [cli/toast_bus.py:452](../../cli/toast_bus.py#L452)
 
 ```python
 def sentinel_toast_panel(file_name: str, relevant_info: str, commands: str, details: str, severity: str = TOASTR_DEFAULT_SEVERITY) -> Panel
@@ -951,7 +951,7 @@ Build the yara sentinel popup with the shared styling.
 
 ### `toasts_enabled`
 
-`function` | [cli/toast_bus.py:838](../../cli/toast_bus.py#L838)
+`function` | [cli/toast_bus.py:836](../../cli/toast_bus.py#L836)
 
 ```python
 def toasts_enabled(payload: Mapping[str, Any] | None, config: ToastConfig | None = None) -> bool
@@ -978,7 +978,7 @@ Return ``True`` when toast rendering is permitted.
 
 ### `build_default_bus`
 
-`function` | [cli/toast_bus.py:861](../../cli/toast_bus.py#L861)
+`function` | [cli/toast_bus.py:859](../../cli/toast_bus.py#L859)
 
 ```python
 def build_default_bus(payload: Mapping[str, Any] | None, sessions_dir: str | None = None, console: Console | None = None) -> ToastBus
@@ -1006,7 +1006,7 @@ Wire the canonical bus used by the shell postcmd hook.
 
 ### `render_toasts`
 
-`function` | [cli/toast_bus.py:890](../../cli/toast_bus.py#L890)
+`function` | [cli/toast_bus.py:888](../../cli/toast_bus.py#L888)
 
 ```python
 def render_toasts(payload: Mapping[str, Any] | None, sessions_dir: str | None = None, console: Console | None = None, bus_factory: Callable[[], ToastBus] | None = None) -> int
@@ -1035,7 +1035,7 @@ One-shot helper used by the cmd2 postcmd hook.
 
 ### `ephemeral_enabled`
 
-`function` | [cli/toast_bus.py:914](../../cli/toast_bus.py#L914)
+`function` | [cli/toast_bus.py:912](../../cli/toast_bus.py#L912)
 
 ```python
 def ephemeral_enabled(payload: Mapping[str, Any] | None, config: ToastConfig | None = None) -> bool
@@ -1060,7 +1060,7 @@ Return True when toasts must auto-dismiss like sonner.
 
 ### `render_ephemeral_toasts`
 
-`function` | [cli/toast_bus.py:930](../../cli/toast_bus.py#L930)
+`function` | [cli/toast_bus.py:928](../../cli/toast_bus.py#L928)
 
 ```python
 def render_ephemeral_toasts(payload: Mapping[str, Any] | None, sessions_dir: str | None = None, console: Console | None = None, duration: float | None = None, bus_factory: Callable[[], ToastBus] | None = None) -> int
@@ -1094,7 +1094,7 @@ the persistent ascii panel.
 
 ### `emit_toast`
 
-`function` | [cli/toast_bus.py:960](../../cli/toast_bus.py#L960)
+`function` | [cli/toast_bus.py:958](../../cli/toast_bus.py#L958)
 
 ```python
 def emit_toast(message: str, severity: str = 'info', event_type: str = 'note', sessions_dir: str | None = None, config: ToastConfig | None = None) -> bool
@@ -1129,7 +1129,7 @@ command, or immediately via [`render_toasts`](#render_toasts).
 
 ### `read_recent_toasts`
 
-`function` | [cli/toast_bus.py:1005](../../cli/toast_bus.py#L1005)
+`function` | [cli/toast_bus.py:1003](../../cli/toast_bus.py#L1003)
 
 ```python
 def read_recent_toasts(sessions_dir: str | None = None, limit: int = 5, config: ToastConfig | None = None) -> list[ToastEvent]
@@ -1161,7 +1161,7 @@ missing or unreadable.
 
 ### `build_toast_renderable`
 
-`function` | [cli/toast_bus.py:1049](../../cli/toast_bus.py#L1049)
+`function` | [cli/toast_bus.py:1047](../../cli/toast_bus.py#L1047)
 
 ```python
 def build_toast_renderable(events: list[ToastEvent], payload: Mapping[str, Any] | None = None, width: int = 0, config: ToastConfig | None = None) -> Any

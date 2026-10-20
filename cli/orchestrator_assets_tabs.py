@@ -14,6 +14,8 @@ from pathlib import Path
 from rich.text import Text
 from textual.widgets import DataTable, Input, Static
 
+from cli.tui_forms import YamlEditorModal
+
 
 @dataclass(frozen=True)
 class ConfigField:
@@ -637,10 +639,7 @@ class OrchestratorAssetsMixin:
         from modules.loop_triggers import TriggerStore
         from modules.trigger_policy import export_store
 
-        enabled = any(
-            int(item.get("id", 0)) == int(trigger_id) and item.get("enabled")
-            for item in export_store()
-        )
+        enabled = any(int(item.get("id", 0)) == int(trigger_id) and item.get("enabled") for item in export_store())
         changed = TriggerStore("").set_enabled(trigger_id, not enabled)
         self._refresh_triggers()
         return changed
@@ -840,4 +839,3 @@ class OrchestratorAssetsMixin:
                 )
         except Exception:
             return
-

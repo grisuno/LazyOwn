@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `save_users` | function | `lazyc2.py:3006` | `def save_users(users)` |
+| `script` | function | `lazyc2.py:5077` | `def script()` |
+| `search` | function | `lazyc2.py:5061` | `def search()` |
+| `search_database` | function | `lazyc2.py:1644` | `def search_database(term, data_path)` |
+| `search_results` | function | `lazyc2.py:5195` | `def search_results()` |
+| `send_command` | function | `lazyc2.py:3207` | `def send_command(client_id)` |
+| `send_lcommand` | function | `lazyc2.py:4957` | `def send_lcommand(ip, port)` |
+| `serve_file` | function | `lazyc2.py:3971` | `def serve_file(file_path)` |
+| `serve_landing_page` | function | `lazyc2.py:8057` | `def serve_landing_page(campaign_id, short_url)` |
+| `set_winsize` | function | `lazyc2.py:1976` | `def set_winsize(fd, row, col, xpix, ypix)` |
+| `start_bridge` | function | `lazyc2.py:6970` | `def start_bridge()` |
+| `start_dns_server` | function | `lazyc2.py:1833` | `def start_dns_server()` |
+| `start_reverse_shell` | function | `lazyc2.py:6923` | `def start_reverse_shell()` |
+| `start_watching` | function | `lazyc2.py:1040` | `def start_watching()` |
+| `surface` | function | `lazyc2.py:7067` | `def surface()` |
+| `surface_live` | function | `lazyc2.py:7073` | `def surface_live()` |
+| `task` | function | `lazyc2.py:5252` | `def task(task_id)` |
+| `taskbot` | function | `lazyc2.py:5045` | `def taskbot()` |
+| `tasks` | function | `lazyc2.py:5277` | `def tasks()` |
 | `tcp_bridge` | function | `lazyc2.py:1873` | `def tcp_bridge(local_port, remote_host, remote_port)` |
 | `teamserver` | function | `lazyc2.py:6519` | `def teamserver()` |
 | `terminal` | function | `lazyc2.py:6857` | `def terminal()` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `start` | method | `lazygui/services/local_backend.py:62` | `def start(self)` |
 | `stop` | method | `lazygui/services/local_backend.py:87` | `def stop(self)` |
 | `BackendKind` | class | `lazygui/services/models.py:17` | `class BackendKind(StrEnum)` |
-| `BeaconResult` | class | `lazygui/services/models.py:164` | `class BeaconResult` |
-| `CampaignSummary` | class | `lazygui/services/models.py:151` | `class CampaignSummary` |
-| `DashboardPayload` | class | `lazygui/services/models.py:139` | `class DashboardPayload` |
-| `EventLevel` | class | `lazygui/services/models.py:24` | `class EventLevel(StrEnum)` |
-| `EventRecord` | class | `lazygui/services/models.py:87` | `class EventRecord` |
-| `GraphEdge` | class | `lazygui/services/models.py:115` | `class GraphEdge` |
-| `GraphNode` | class | `lazygui/services/models.py:102` | `class GraphNode` |
-| `Listener` | class | `lazygui/services/models.py:64` | `class Listener` |
-| `Operator` | class | `lazygui/services/models.py:76` | `class Operator` |
-| `Session` | class | `lazygui/services/models.py:49` | `class Session` |
-| `Topology` | class | `lazygui/services/models.py:126` | `class Topology` |
-| `empty` | method | `lazygui/services/models.py:133` | `def empty(cls)` |
-| `now` | method | `lazygui/services/models.py:96` | `def now(cls, level, source, message)` |
-| `numeric` | method | `lazygui/services/models.py:34` | `def numeric(self)` |
-| `TeamserverBackend` | class | `lazygui/services/teamserver_backend.py:48` | `class TeamserverBackend(Backend)` |
-| `TeamserverCredentials` | class | `lazygui/services/teamserver_backend.py:39` | `class TeamserverCredentials` |
-| `__init__` | method | `lazygui/services/teamserver_backend.py:51` | `def __init__(self, constants, credentials, parent)` |
-| `_build_http_session` | method | `lazygui/services/teamserver_backend.py:302` | `def _build_http_session(self)` |
-| `_build_topology_from_payload` | method | `lazygui/services/teamserver_backend.py:664` | `def _build_topology_from_payload(self, payload)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

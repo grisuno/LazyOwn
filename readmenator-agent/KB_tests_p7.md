@@ -1,6 +1,58 @@
 # Subsystem: tests (page 7 of 18)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
+## tests/test_daemon_control.py
+- Doc: Unit tests for skills.daemon_control.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 46) `def sessions_dir(tmp_path)`
+  - `test_default_state_roundtrip` (function, line 52) `def test_default_state_roundtrip(sessions_dir)`
+  - `test_set_mode_persists_and_normalises_invalid` (function, line 63) `def test_set_mode_persists_and_normalises_invalid(sessions_dir)`
+  - `test_state_from_dict_sanitises_unknown_mode` (function, line 74) `def test_state_from_dict_sanitises_unknown_mode()`
+  - `test_state_from_dict_preserves_pending` (function, line 80) `def test_state_from_dict_preserves_pending()`
+  - `test_pause_resume_round_trip` (function, line 102) `def test_pause_resume_round_trip(sessions_dir)`
+  - `test_add_remove_clear_veto` (function, line 112) `def test_add_remove_clear_veto(sessions_dir)`
+  - `test_add_veto_rejects_empty_token` (function, line 128) `def test_add_veto_rejects_empty_token(sessions_dir)`
+  - `test_is_vetoed_uses_first_token` (function, line 135) `def test_is_vetoed_uses_first_token(sessions_dir)`
+  - `test_set_focus_replaces_list` (function, line 143) `def test_set_focus_replaces_list(sessions_dir)`
+  - `test_target_in_focus_defaults_to_true_when_no_focus` (function, line 153) `def test_target_in_focus_defaults_to_true_when_no_focus(sessions_dir)`
+  - `test_propose_decide_consume_cycle` (function, line 163) `def test_propose_decide_consume_cycle(sessions_dir)`
+  - `test_decide_rejects_invalid_decision` (function, line 183) `def test_decide_rejects_invalid_decision(sessions_dir)`
+  - `test_decide_with_unknown_id_returns_none` (function, line 191) `def test_decide_with_unknown_id_returns_none(sessions_dir)`
+  - `test_consume_expires_overdue_pending` (function, line 198) `def test_consume_expires_overdue_pending(sessions_dir)`
+  - `test_pending_action_is_expired_only_when_still_pending` (function, line 209) `def test_pending_action_is_expired_only_when_still_pending()`
+  - `test_wait_for_decision_returns_approved` (function, line 221) `def test_wait_for_decision_returns_approved(sessions_dir)`
+  - `test_wait_for_decision_expires_after_ttl` (function, line 237) `def test_wait_for_decision_expires_after_ttl(sessions_dir)`
+  - `test_wait_for_decision_polls_until_decided` (function, line 252) `def test_wait_for_decision_polls_until_decided(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_when_already_running` (function, line 274) `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)`
+  - `test_wait_until_unpaused_returns_false_after_max_wait` (function, line 288) `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_after_resume` (function, line 310) `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)`
+  - `test_save_writes_atomic_file_with_restricted_mode` (function, line 331) `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)`
+  - `test_load_returns_defaults_on_invalid_json` (function, line 342) `def test_load_returns_defaults_on_invalid_json(sessions_dir)`
+  - `test_concurrent_save_serialised_by_lock` (function, line 352) `def test_concurrent_save_serialised_by_lock(sessions_dir)`
+  - `_sleep` (function, line 257) `def _sleep(_seconds)`
+  - `_now` (function, line 293) `def _now()`
+  - `_sleep` (function, line 296) `def _sleep(_seconds)`
+  - `_sleep` (function, line 315) `def _sleep(_seconds)`
+- Depends on: `skills/daemon_control.py`
+
+## tests/test_daemon_ctl_command_set.py
+- Doc: Daemon command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 28) `def _add_repo_root_to_syspath()`
+  - `DaemonSuiteConfig` (class, line 34) `class DaemonSuiteConfig`
+  - `_methods_of` (function, line 53) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 65) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_daemon_cluster` (function, line 74) `def test_target_exposes_full_daemon_cluster()`
+  - `test_target_phase_metadata` (function, line 81) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 87) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 93) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 100) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/daemon_ctl.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
+
 ## tests/test_daemon_loop.py
 - Doc: BDD tests for the integrated autonomous loop in the daemon.
 - Layer: testing
@@ -430,53 +482,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_write_report_persists_markdown` (function, line 114) `def test_write_report_persists_markdown(tmp_path)`
   - `test_render_markdown_lists_evidence_and_next` (function, line 125) `def test_render_markdown_lists_evidence_and_next()`
 - Depends on: `modules/engage_summary.py`, `modules/evidence.py`
-
-## tests/test_engagement_and_ping.py
-- Doc: tests/test_engagement_and_ping.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_command_location` (function, line 30) `def _command_location(name)`
-  - `TestEngagementState` (class, line 58) `class TestEngagementState`
-  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
-  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
-  - `TestPingOsId` (class, line 283) `class TestPingOsId`
-  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
-  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
-  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
-  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
-  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
-  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
-  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
-  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
-  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
-  - `_make_state` (method, line 178) `def _make_state(self, seen)`
-  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
-  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
-  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
-  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
-  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
-  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
-  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
-  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
-  - `_make_params` (method, line 289) `def _make_params(self)`
-  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
-  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
-  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
-  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
-  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
-  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
-  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
-  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
-  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
-  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
-  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
-  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
-  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
-  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
-  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
-  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
-- Depends on: `cli/engagement_hooks.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

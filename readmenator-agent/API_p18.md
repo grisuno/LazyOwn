@@ -1,6 +1,91 @@
 # API (page 18 of 23)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/world_model.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
+- `read_state_dict` (function) `modules/world_model.py:101` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
+- `write_state_dict` (function) `modules/world_model.py:147` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
+- `HostState.rank` (method) `modules/world_model.py:189` `def rank(self)`
+- `HostState.can_advance_to` (method) `modules/world_model.py:192` `def can_advance_to(self, next_state)`
+- `NetworkGraph.__init__` (method) `modules/world_model.py:296` `def __init__(self)`
+- `NetworkGraph.add_relation` (method) `modules/world_model.py:303` `def add_relation(self, relation)` -- Add a directed edge.
+- `NetworkGraph.neighbors` (method) `modules/world_model.py:311` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
+- `NetworkGraph.in_degree` (method) `modules/world_model.py:315` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
+- `NetworkGraph.out_degree` (method) `modules/world_model.py:319` `def out_degree(self, node)` -- Count edges leaving *node*.
+- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:323` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
+- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:338` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
+- `NetworkGraph.to_dict` (method) `modules/world_model.py:360` `def to_dict(self)`
+- `NetworkGraph.from_dict` (method) `modules/world_model.py:377` `def from_dict(cls, data)`
+- `HostEntry.add_service` (method) `modules/world_model.py:402` `def add_service(self, svc)`
+- `HostEntry.advance` (method) `modules/world_model.py:406` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
+- `HostEntry.to_dict` (method) `modules/world_model.py:414` `def to_dict(self)`
+- `HostEntry.from_dict` (method) `modules/world_model.py:426` `def from_dict(cls, d)`
+- `_PhaseDeriver.derive` (method) `modules/world_model.py:459` `def derive(self, hosts)`
+- `WorldModel.__init__` (method) `modules/world_model.py:578` `def __init__(self, path)`
+- `WorldModel.add_host` (method) `modules/world_model.py:594` `def add_host(self, ip)`
+- `WorldModel.reset_host` (method) `modules/world_model.py:602` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
+- `WorldModel.remove_host` (method) `modules/world_model.py:612` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
+- `WorldModel.advance_host` (method) `modules/world_model.py:628` `def advance_host(self, ip, new_state)`
+- `WorldModel.add_service` (method) `modules/world_model.py:637` `def add_service(self, ip, port, name, version, protocol)`
+- `WorldModel.add_note` (method) `modules/world_model.py:654` `def add_note(self, ip, note)`
+- `WorldModel.set_os_hint` (method) `modules/world_model.py:661` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
+- `WorldModel.get_host` (method) `modules/world_model.py:675` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
+- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:687` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
+- `WorldModel.add_credential` (method) `modules/world_model.py:698` `def add_credential(self, value, host, service)`
+- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:730` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
+- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:751` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
+- `WorldModel.add_vulnerability` (method) `modules/world_model.py:781` `def add_vulnerability(self, description, host, cve, severity)`
+- `WorldModel.add_email` (method) `modules/world_model.py:787` `def add_email(self, address, host, context)`
+- `WorldModel.add_domain` (method) `modules/world_model.py:793` `def add_domain(self, domain, host, context)`
+- `WorldModel.update_from_findings` (method) `modules/world_model.py:807` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
+- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:880` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
+- `WorldModel.add_relation` (method) `modules/world_model.py:972` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
+- `WorldModel.pivot_candidates` (method) `modules/world_model.py:993` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
+- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1001` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
+- `WorldModel.get_phase` (method) `modules/world_model.py:1008` `def get_phase(self)`
+- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1012` `def get_suggested_tools(self)`
+- `WorldModel.to_context_string` (method) `modules/world_model.py:1015` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
+- `WorldModel.reload` (method) `modules/world_model.py:1123` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
+- `WorldModel.reset` (method) `modules/world_model.py:1139` `def reset(self)` -- Clear all state and delete the persisted file.
+- `WorldModel.snapshot` (method) `modules/world_model.py:1150` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
+- `WorldModel.read_section` (method) `modules/world_model.py:1166` `def read_section(self, key)` -- Return one allowlisted passthrough section.
+- `WorldModel.write_section` (method) `modules/world_model.py:1183` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
+- `get_world_model` (function) `modules/world_model.py:1211` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
+
+## modules/yaml_generator.py
+Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+- `YAMLPromptGenerator.__init__` (method) `modules/yaml_generator.py:18` `def __init__(self, provider, api_key)`
+- `YAMLPromptGenerator.load_payload` (method) `modules/yaml_generator.py:25` `def load_payload(self)` -- Carga las variables desde payload.json
+- `YAMLPromptGenerator.generate_prompt` (method) `modules/yaml_generator.py:54` `def generate_prompt(self, user_request)` -- Genera el prompt para la IA en inglés
+- `YAMLPromptGenerator.extract_yaml_from_markdown` (method) `modules/yaml_generator.py:100` `def extract_yaml_from_markdown(self, text)` -- Extrae el primer bloque YAML entre ```yaml y ```
+- `YAMLPromptGenerator.create_yaml_addon` (method) `modules/yaml_generator.py:109` `def create_yaml_addon(self, user_request, output_dir)` -- Genera el YAML y lo guarda en disco
+- `main` (function) `modules/yaml_generator.py:141` `def main()`
+
+## modules/yara_scanner.py
+Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
+- `YaraScanner.__init__` (method) `modules/yara_scanner.py:31` `def __init__(self, rules_dir, auto_compile)`
+- `YaraScanner.ensure_directory` (method) `modules/yara_scanner.py:41` `def ensure_directory(self)` -- Create the YARA rules directory if it does not exist.
+- `YaraScanner.compile_all` (method) `modules/yara_scanner.py:54` `def compile_all(self)` -- Compile all .yar files in the rules directory.
+- `YaraScanner.scan_file` (method) `modules/yara_scanner.py:98` `def scan_file(self, filepath, timeout)` -- Scan a single file with all compiled YARA rules.
+- `target` (function) `modules/yara_scanner.py:137` `def target()`
+- `YaraScanner.scan_directory` (method) `modules/yara_scanner.py:187` `def scan_directory(self, directory, recursive, extensions, max_files)` -- Scan all files in a directory recursively.
+- `YaraScanner.add_rule` (method) `modules/yara_scanner.py:258` `def add_rule(self, name, content)` -- Add a new YARA rule to the rules directory.
+- `YaraScanner.list_rules` (method) `modules/yara_scanner.py:277` `def list_rules(self)` -- List all YARA rules in the rules directory.
+- `YaraScanner.download_community_rules` (method) `modules/yara_scanner.py:300` `def download_community_rules(self)` -- Attempt to download community YARA rules from popular repositories.
+- `YaraScanner.ioc_scan` (method) `modules/yara_scanner.py:328` `def ioc_scan(self, target_path, iocs)` -- Scan for IOCs (hashes, strings, registry keys) in a file/directory.
+- `create_default_rules` (function) `modules/yara_scanner.py:371` `def create_default_rules()` -- Create a set of default YARA rules for common threats.
+
+## plugins/generate_c_reverse_shell.lua
+- `generate_c_reverse_shell` (function) `plugins/generate_c_reverse_shell.lua:1`
+- `all` (function) `plugins/generate_c_reverse_shell.lua:108`
+
+## plugins/generate_cleanup_commands.lua
+- `generate_cleanup_commands` (function) `plugins/generate_cleanup_commands.lua:3`
+
+## plugins/generate_html_payload.lua
+- `generate_html_payload` (function) `plugins/generate_html_payload.lua:1`
+
 ## plugins/generate_lateral_command.lua
 - `generate_lateral_command` (function) `plugins/generate_lateral_command.lua:4`
 
@@ -409,78 +494,6 @@ Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchest
 ## skills/claude_md_orchestrator/cicd_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
 - `run` (function) `skills/claude_md_orchestrator/cicd_agent.py:177` `def run(contract, spec, report, config)` -- Run the CI and CD agent for one contract.
-
-## skills/claude_md_orchestrator/config.py
-Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
-- `Config.ensure` (method) `skills/claude_md_orchestrator/config.py:112` `def ensure(self)` -- Create the run subdirectories if they do not exist.
-- `Config.state_path` (method) `skills/claude_md_orchestrator/config.py:122` `def state_path(self)` -- Return the absolute path of the cycle state file.
-- `Config.specs_dir` (method) `skills/claude_md_orchestrator/config.py:126` `def specs_dir(self)` -- Return the absolute path of the spec directory.
-- `Config.tests_dir` (method) `skills/claude_md_orchestrator/config.py:130` `def tests_dir(self)` -- Return the absolute path of the test directory.
-- `Config.src_dir` (method) `skills/claude_md_orchestrator/config.py:134` `def src_dir(self)` -- Return the absolute path of the implementation directory.
-- `Config.review_dir` (method) `skills/claude_md_orchestrator/config.py:138` `def review_dir(self)` -- Return the absolute path of the review directory.
-- `Config.docs_dir` (method) `skills/claude_md_orchestrator/config.py:142` `def docs_dir(self)` -- Return the absolute path of the documentation directory.
-- `Config.logs_dir` (method) `skills/claude_md_orchestrator/config.py:146` `def logs_dir(self)` -- Return the absolute path of the log directory.
-- `Config.log_path` (method) `skills/claude_md_orchestrator/config.py:150` `def log_path(self)` -- Return the absolute path of the JSONL log for the active run.
-- `load_config` (function) `skills/claude_md_orchestrator/config.py:155` `def load_config()` -- Build a Config from environment variables and return it.
-- `resolve_optional` (function) `skills/claude_md_orchestrator/config.py:164` `def resolve_optional(config, key)` -- Return the environment value for a key or None when missing.
-
-## skills/claude_md_orchestrator/documentation_agent.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-- `run` (function) `skills/claude_md_orchestrator/documentation_agent.py:123` `def run(contract, spec, report, config)` -- Run the documentation agent for one contract.
-
-## skills/claude_md_orchestrator/models.py
-Depends on: `cli/commands/enum.py`
-Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
-- `Contract.to_dict` (method) `skills/claude_md_orchestrator/models.py:91` `def to_dict(self)` -- Return a JSON friendly view of the contract.
-- `Contract.from_dict` (method) `skills/claude_md_orchestrator/models.py:96` `def from_dict(cls, data)` -- Build a Contract from a JSON friendly dictionary.
-- `SadPath.to_dict` (method) `skills/claude_md_orchestrator/models.py:120` `def to_dict(self)` -- Return a JSON friendly view of the sad path.
-- `SadPath.from_dict` (method) `skills/claude_md_orchestrator/models.py:125` `def from_dict(cls, data)` -- Build a SadPath from a JSON friendly dictionary.
-- `Spec.to_dict` (method) `skills/claude_md_orchestrator/models.py:166` `def to_dict(self)` -- Return a JSON friendly view of the spec.
-- `Spec.from_dict` (method) `skills/claude_md_orchestrator/models.py:173` `def from_dict(cls, data)` -- Build a Spec from a JSON friendly dictionary.
-- `Spec.validate` (method) `skills/claude_md_orchestrator/models.py:189` `def validate(self, min_sad_paths)` -- Return the list of DoD violations the spec carries.
-- `TestSuite.to_dict` (method) `skills/claude_md_orchestrator/models.py:236` `def to_dict(self)` -- Return a JSON friendly view of the test suite.
-- `TestSuite.from_dict` (method) `skills/claude_md_orchestrator/models.py:243` `def from_dict(cls, data)` -- Build a TestSuite from a JSON friendly dictionary.
-- `Finding.to_dict` (method) `skills/claude_md_orchestrator/models.py:270` `def to_dict(self)` -- Return a JSON friendly view of the finding.
-- `Finding.from_dict` (method) `skills/claude_md_orchestrator/models.py:280` `def from_dict(cls, data)` -- Build a Finding from a JSON friendly dictionary.
-- `ReviewReport.blockers` (method) `skills/claude_md_orchestrator/models.py:315` `def blockers(self)` -- Return the list of blocker findings.
-- `ReviewReport.to_dict` (method) `skills/claude_md_orchestrator/models.py:319` `def to_dict(self)` -- Return a JSON friendly view of the report.
-- `ReviewReport.from_dict` (method) `skills/claude_md_orchestrator/models.py:333` `def from_dict(cls, data)` -- Build a ReviewReport from a JSON friendly dictionary.
-- `CicleState.to_dict` (method) `skills/claude_md_orchestrator/models.py:383` `def to_dict(self)` -- Return a JSON friendly view of the state.
-- `CicleState.from_dict` (method) `skills/claude_md_orchestrator/models.py:402` `def from_dict(cls, data)` -- Build a CicleState from a JSON friendly dictionary.
-- `CicleStateFile.to_dict` (method) `skills/claude_md_orchestrator/models.py:440` `def to_dict(self)` -- Return a JSON friendly view of the state file.
-- `CicleStateFile.from_dict` (method) `skills/claude_md_orchestrator/models.py:450` `def from_dict(cls, data)` -- Build a CicleStateFile from a JSON friendly dictionary.
-- `CicleStateFile.save` (method) `skills/claude_md_orchestrator/models.py:459` `def save(self, path)` -- Persist the state to disk as pretty JSON.
-- `CicleStateFile.load` (method) `skills/claude_md_orchestrator/models.py:467` `def load(cls, path)` -- Read the state from disk.
-- `write_jsonl` (function) `skills/claude_md_orchestrator/models.py:480` `def write_jsonl(path, event)` -- Append a single JSONL event to the log file.
-
-## skills/claude_md_orchestrator/orchestrator.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/parser.py`
-Imported by: `skills/claude_md_orchestrator/__init__.py`
-- `run` (function) `skills/claude_md_orchestrator/orchestrator.py:275` `def run(config, options)` -- Run the orchestrator for the current run directory.
-- `summary_to_dict` (function) `skills/claude_md_orchestrator/orchestrator.py:306` `def summary_to_dict(summary)` -- Return a JSON friendly view of the summary.
-- `main` (function) `skills/claude_md_orchestrator/orchestrator.py:393` `def main(argv)` -- Run the orchestrator CLI and return the process exit code.
-
-## skills/claude_md_orchestrator/parser.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-Imported by: `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
-- `flush_body` (function) `skills/claude_md_orchestrator/parser.py:97` `def flush_body()`
-- `parse_claude_md` (function) `skills/claude_md_orchestrator/parser.py:167` `def parse_claude_md(path)` -- Parse a CLAUDE.md file and return the list of contracts.
-- `load_contracts` (function) `skills/claude_md_orchestrator/parser.py:225` `def load_contracts(config, seeds)` -- Return the contracts the orchestrator should process.
-
-## skills/claude_md_orchestrator/reviewer_agent.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
-- `run` (function) `skills/claude_md_orchestrator/reviewer_agent.py:171` `def run(state, config)` -- Run the reviewer for one contract.
-- `write_report` (function) `skills/claude_md_orchestrator/reviewer_agent.py:225` `def write_report(report, config)` -- Persist the report as JSON inside the run review directory.
-
-## skills/claude_md_orchestrator/sdd_agent.py
-Depends on: `modules/llm_factory.py`, `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
-- `run` (function) `skills/claude_md_orchestrator/sdd_agent.py:204` `def run(contract, config)` -- Run the spec agent for one contract.
-
-## skills/claude_md_orchestrator/tdd_agent.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
-Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
-- `run` (function) `skills/claude_md_orchestrator/tdd_agent.py:175` `def run(contract, spec, config)` -- Run the test agent for one contract.
-- `read_test_source` (function) `skills/claude_md_orchestrator/tdd_agent.py:228` `def read_test_source(test_path)` -- Return the test source for inspection.
 
 
 Next: [API_p19.md](API_p19.md)

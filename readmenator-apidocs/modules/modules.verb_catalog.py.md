@@ -38,20 +38,17 @@ flowchart LR
     n_modules_verb_catalog_py__load(["load"])
     n_modules_verb_catalog_py__validate_catalog(["validate_catalog"])
     n_modules_verb_catalog_py__entries(["entries"])
-    n_modules_verb_catalog_py__index_commands(["index_commands"])
     n_modules_verb_catalog_py__catalog_enabled(["catalog_enabled"])
     n_modules_verb_catalog_py__set_enabled(["set_enabled"])
     n_modules_verb_catalog_py__sync(["sync"])
     n_modules_verb_catalog_py__stats(["stats"])
     n_modules_verb_catalog_py__search(["search"])
+    n_modules_verb_catalog_py__index_commands(["index_commands"])
     n_modules_lazy_cli_bridge_py__cli_verbs["lazy_cli_bridge.cli_verbs"]
     n_modules_verb_catalog_py__load --> n_modules_verb_catalog_py__validate_catalog
-    n_modules_verb_catalog_py__entries --> n_modules_verb_catalog_py__index_commands
     n_modules_verb_catalog_py__entries --> n_modules_verb_catalog_py__load
     n_modules_verb_catalog_py__catalog_enabled --> n_modules_verb_catalog_py__entries
-    n_modules_verb_catalog_py__set_enabled --> n_modules_verb_catalog_py__index_commands
     n_modules_verb_catalog_py__set_enabled --> n_modules_verb_catalog_py__load
-    n_modules_verb_catalog_py__sync --> n_modules_verb_catalog_py__index_commands
     n_modules_verb_catalog_py__sync --> n_modules_verb_catalog_py__load
     n_modules_verb_catalog_py__stats --> n_modules_verb_catalog_py__entries
     n_modules_verb_catalog_py__search --> n_modules_verb_catalog_py__entries
@@ -64,7 +61,7 @@ flowchart LR
 
 ### `VerbCatalogConfig`
 
-`class` `dataclass` | [modules/verb_catalog.py:54](../../modules/verb_catalog.py#L54)
+`class` `dataclass` | [modules/verb_catalog.py:76](../../modules/verb_catalog.py#L76)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -80,6 +77,7 @@ Centralised paths and limits for the catalog subsystem.
 |---|---|---|---|
 | `catalog_path` | `Path` | `field(default=DEFAULT_CATALOG_PATH)` | YAML file holding the operator catalog. |
 | `index_path` | `Path` | `field(default=DEFAULT_INDEX_PATH)` | Pre-built command index JSON. |
+| `addons_dir` | `Path \| None` | `None` | Directory of lazyaddon YAML manifests; ``None`` keeps the sweep off so unit sandboxes stay single-surface tests. |
 | `version` | `int` | `1` | Schema version this module reads and writes. |
 | `default_enabled` | `bool` | `False` | Enabled flag for newly discovered commands. |
 | `max_yaml_bytes` | `int` | `1000000` | Safety cap so a corrupt file cannot stall reads. |
@@ -91,6 +89,7 @@ Centralised paths and limits for the catalog subsystem.
 |---|---|---|---|
 | [`catalog_path`](#verbcatalogconfig-catalog_path) | `Path` | `field(default=DEFAULT_CATALOG_PATH)` |  |
 | [`index_path`](#verbcatalogconfig-index_path) | `Path` | `field(default=DEFAULT_INDEX_PATH)` |  |
+| [`addons_dir`](#verbcatalogconfig-addons_dir) | `Path \| None` | `None` |  |
 | [`version`](#verbcatalogconfig-version) | `int` | `1` |  |
 | [`default_enabled`](#verbcatalogconfig-default_enabled) | `bool` | `False` |  |
 | [`max_yaml_bytes`](#verbcatalogconfig-max_yaml_bytes) | `int` | `1000000` |  |
@@ -104,7 +103,7 @@ Centralised paths and limits for the catalog subsystem.
 
 ### `index_commands`
 
-`function` | [modules/verb_catalog.py:111](../../modules/verb_catalog.py#L111)
+`function` | [modules/verb_catalog.py:190](../../modules/verb_catalog.py#L190)
 
 ```python
 def index_commands(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, str]]
@@ -126,15 +125,13 @@ never loses a command that exists in the shell.
 
 *Calls:* [`cli_verbs`](modules.lazy_cli_bridge.py.md#cli_verbs)
 
-*Called by:* [`entries`](#entries), [`set_enabled`](#set_enabled), [`sync`](#sync)
-
 ---
 
 <a id="validate_catalog"></a>
 
 ### `validate_catalog`
 
-`function` | [modules/verb_catalog.py:151](../../modules/verb_catalog.py#L151)
+`function` | [modules/verb_catalog.py:230](../../modules/verb_catalog.py#L230)
 
 ```python
 def validate_catalog(data: Any) -> list[str]
@@ -158,7 +155,7 @@ Validate one raw catalog document.
 
 ### `load`
 
-`function` | [modules/verb_catalog.py:184](../../modules/verb_catalog.py#L184)
+`function` | [modules/verb_catalog.py:263](../../modules/verb_catalog.py#L263)
 
 ```python
 def load(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -185,7 +182,7 @@ is missing, oversized, or invalid.
 
 ### `entries`
 
-`function` | [modules/verb_catalog.py:217](../../modules/verb_catalog.py#L217)
+`function` | [modules/verb_catalog.py:296](../../modules/verb_catalog.py#L296)
 
 ```python
 def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -202,7 +199,7 @@ Return the catalog with defaults filled in, cached briefly.
 **Returns:** `dict[str, dict[str, Any]]` - Mapping of command name to entry with keys ``enabled``,
 ``phase``, ``risk``, ``description`` and ``source``.
 
-*Calls:* [`index_commands`](#index_commands), [`load`](#load)
+*Calls:* [`load`](#load)
 
 *Called by:* [`verbs`](lazyc2.blueprints.orchestrator.py.md#verbs), [`catalog_enabled`](#catalog_enabled), [`search`](#search), [`stats`](#stats)
 
@@ -212,7 +209,7 @@ Return the catalog with defaults filled in, cached briefly.
 
 ### `catalog_enabled`
 
-`function` | [modules/verb_catalog.py:270](../../modules/verb_catalog.py#L270)
+`function` | [modules/verb_catalog.py:349](../../modules/verb_catalog.py#L349)
 
 ```python
 def catalog_enabled(name: str, config: VerbCatalogConfig | None = None) -> bool | None
@@ -240,7 +237,7 @@ caller can apply its own fallback.
 
 ### `set_enabled`
 
-`function` | [modules/verb_catalog.py:299](../../modules/verb_catalog.py#L299)
+`function` | [modules/verb_catalog.py:378](../../modules/verb_catalog.py#L378)
 
 ```python
 def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = None) -> dict[str, Any]
@@ -263,7 +260,7 @@ Flip one verb in the YAML catalog atomically.
 - `KeyError`: The command is not exposed by the shell.
 - `ValueError`: The verb name is empty or the YAML cannot be written.
 
-*Calls:* [`index_commands`](#index_commands), [`load`](#load)
+*Calls:* [`load`](#load)
 
 *Called by:* [`VerbCommandSet.do_verb`](cli.commands.verb_admin.py.md#verbcommandset-do_verb), [`LazyOrchestratorApp.toggle_verb`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-toggle_verb)
 
@@ -273,7 +270,7 @@ Flip one verb in the YAML catalog atomically.
 
 ### `sync`
 
-`function` | [modules/verb_catalog.py:335](../../modules/verb_catalog.py#L335)
+`function` | [modules/verb_catalog.py:415](../../modules/verb_catalog.py#L415)
 
 ```python
 def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -293,7 +290,7 @@ command lands disabled. Commands that no longer exist are pruned.
 
 **Returns:** `dict[str, int]` - Statistics ``{added, kept, removed, total, on, off}``.
 
-*Calls:* [`index_commands`](#index_commands), [`load`](#load)
+*Calls:* [`load`](#load)
 
 *Called by:* [`VerbCommandSet.do_verb`](cli.commands.verb_admin.py.md#verbcommandset-do_verb)
 
@@ -303,7 +300,7 @@ command lands disabled. Commands that no longer exist are pruned.
 
 ### `stats`
 
-`function` | [modules/verb_catalog.py:414](../../modules/verb_catalog.py#L414)
+`function` | [modules/verb_catalog.py:502](../../modules/verb_catalog.py#L502)
 
 ```python
 def stats(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -329,7 +326,7 @@ Summarise the catalog for the brief and the HTTP API.
 
 ### `search`
 
-`function` | [modules/verb_catalog.py:428](../../modules/verb_catalog.py#L428)
+`function` | [modules/verb_catalog.py:516](../../modules/verb_catalog.py#L516)
 
 ```python
 def search(query: str = '', config: VerbCatalogConfig | None = None, phase: str = '', enabled: bool | None = None, limit: int | None = None) -> list[dict[str, Any]]
@@ -361,7 +358,7 @@ Search catalog entries by substring, phase and state.
 
 ### `DEFAULT_CATALOG_PATH`
 
-`constant` | [modules/verb_catalog.py:42](../../modules/verb_catalog.py#L42)
+`constant` | [modules/verb_catalog.py:43](../../modules/verb_catalog.py#L43)
 
 ```python
 DEFAULT_CATALOG_PATH = REPO_ROOT / 'config' / 'verbs.yaml'
@@ -373,7 +370,7 @@ DEFAULT_CATALOG_PATH = REPO_ROOT / 'config' / 'verbs.yaml'
 
 ### `DEFAULT_INDEX_PATH`
 
-`constant` | [modules/verb_catalog.py:43](../../modules/verb_catalog.py#L43)
+`constant` | [modules/verb_catalog.py:44](../../modules/verb_catalog.py#L44)
 
 ```python
 DEFAULT_INDEX_PATH = REPO_ROOT / 'cli' / 'command_index.json'
@@ -385,7 +382,7 @@ DEFAULT_INDEX_PATH = REPO_ROOT / 'cli' / 'command_index.json'
 
 ### `BUILTIN_ENABLED_VERBS`
 
-`constant` | [modules/verb_catalog.py:45](../../modules/verb_catalog.py#L45)
+`constant` | [modules/verb_catalog.py:46](../../modules/verb_catalog.py#L46)
 
 ```python
 BUILTIN_ENABLED_VERBS: frozenset[str] = frozenset({'lazynmap'})

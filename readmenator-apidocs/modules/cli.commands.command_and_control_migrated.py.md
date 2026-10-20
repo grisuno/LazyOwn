@@ -1,6 +1,6 @@
 # `cli.commands.command_and_control_migrated`
 
-> Source: [cli/commands/command_and_control_migrated.py:1](../../cli/commands/command_and_control_migrated.py#L1) | language `py` | coverage 96.4% | [API index](../index.md)
+> Source: [cli/commands/command_and_control_migrated.py:1](../../cli/commands/command_and_control_migrated.py#L1) | language `py` | coverage 96.6% | [API index](../index.md)
 
 command_and_control commands migrated from lazyown.py.
 
@@ -37,9 +37,9 @@ classDiagram
     CommandAndControlMigratedCommandSet : do_atomic_agent()
     CommandAndControlMigratedCommandSet : do_attack_plan()
     CommandAndControlMigratedCommandSet : do_apt_chain()
+    CommandAndControlMigratedCommandSet : do_chain_distill()
     CommandAndControlMigratedCommandSet : do_apt_playbook()
     CommandAndControlMigratedCommandSet : do_mitre_test()
-    CommandAndControlMigratedCommandSet : do_generate_playbook()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- CommandAndControlMigratedCommandSet
 ```
@@ -102,7 +102,7 @@ flowchart LR
 
 ### `CommandAndControlMigratedCommandSet`
 
-`class` | [cli/commands/command_and_control_migrated.py:39](../../cli/commands/command_and_control_migrated.py#L39)
+`class` | [cli/commands/command_and_control_migrated.py:40](../../cli/commands/command_and_control_migrated.py#L40)
 
 ```python
 class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)
@@ -140,6 +140,7 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 | [`do_atomic_agent`](#commandandcontrolmigratedcommandset-do_atomic_agent) | method | Generates and synchronizes atomic agent scripts. |
 | [`do_attack_plan`](#commandandcontrolmigratedcommandset-do_attack_plan) | method | Execute a multi-step APT simulation plan. |
 | [`do_apt_chain`](#commandandcontrolmigratedcommandset-do_apt_chain) | method | Run a fully YAML-administered APT chain with one command. |
+| [`do_chain_distill`](#commandandcontrolmigratedcommandset-do_chain_distill) | method | Turn one autonomous-loop trace into a reusable chain YAML. |
 | [`do_apt_playbook`](#commandandcontrolmigratedcommandset-do_apt_playbook) | method | List, validate, and run APT playbooks based on public threat reports. |
 | [`do_mitre_test`](#commandandcontrolmigratedcommandset-do_mitre_test) | method | Interacts with the MITRE ATT&CK framework using the STIX 2.0 format. |
 | [`do_generate_playbook`](#commandandcontrolmigratedcommandset-do_generate_playbook) | method | Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques. |
@@ -152,7 +153,7 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 
 #### `CommandAndControlMigratedCommandSet.do_msf`
 
-`method` | [cli/commands/command_and_control_migrated.py:44](../../cli/commands/command_and_control_migrated.py#L44)
+`method` | [cli/commands/command_and_control_migrated.py:45](../../cli/commands/command_and_control_migrated.py#L45)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -212,7 +213,7 @@ Note: Ensure all required parameters (`self.params['lhost']`, `lport`, etc.) are
 
 #### `CommandAndControlMigratedCommandSet.do_c2`
 
-`method` | [cli/commands/command_and_control_migrated.py:394](../../cli/commands/command_and_control_migrated.py#L394)
+`method` | [cli/commands/command_and_control_migrated.py:395](../../cli/commands/command_and_control_migrated.py#L395)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -255,7 +256,7 @@ Example Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_listener`
 
-`method` | [cli/commands/command_and_control_migrated.py:516](../../cli/commands/command_and_control_migrated.py#L516)
+`method` | [cli/commands/command_and_control_migrated.py:517](../../cli/commands/command_and_control_migrated.py#L517)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -292,7 +293,7 @@ listener stop default
 
 #### `CommandAndControlMigratedCommandSet.do_sandbox`
 
-`method` | [cli/commands/command_and_control_migrated.py:644](../../cli/commands/command_and_control_migrated.py#L644)
+`method` | [cli/commands/command_and_control_migrated.py:645](../../cli/commands/command_and_control_migrated.py#L645)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -322,7 +323,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_msfrpc`
 
-`method` | [cli/commands/command_and_control_migrated.py:686](../../cli/commands/command_and_control_migrated.py#L686)
+`method` | [cli/commands/command_and_control_migrated.py:687](../../cli/commands/command_and_control_migrated.py#L687)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -349,7 +350,7 @@ This command will prompt the user for necessary information to connect to msfrpc
 
 #### `CommandAndControlMigratedCommandSet.do_sliver_server`
 
-`method` | [cli/commands/command_and_control_migrated.py:710](../../cli/commands/command_and_control_migrated.py#L710)
+`method` | [cli/commands/command_and_control_migrated.py:711](../../cli/commands/command_and_control_migrated.py#L711)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -390,7 +391,7 @@ run this function. Choose the appropriate client download option based on the op
 
 #### `CommandAndControlMigratedCommandSet.do_empire`
 
-`method` | [cli/commands/command_and_control_migrated.py:827](../../cli/commands/command_and_control_migrated.py#L827)
+`method` | [cli/commands/command_and_control_migrated.py:828](../../cli/commands/command_and_control_migrated.py#L828)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -414,7 +415,7 @@ Generates payloads using PowerShell Empire with various options.
 
 #### `CommandAndControlMigratedCommandSet.do_automsf`
 
-`method` | [cli/commands/command_and_control_migrated.py:877](../../cli/commands/command_and_control_migrated.py#L877)
+`method` | [cli/commands/command_and_control_migrated.py:878](../../cli/commands/command_and_control_migrated.py#L878)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -438,7 +439,7 @@ Try to check if Vulnerable using the module passed by argument of lazyown exampl
 
 #### `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp`
 
-`method` | [cli/commands/command_and_control_migrated.py:922](../../cli/commands/command_and_control_migrated.py#L922)
+`method` | [cli/commands/command_and_control_migrated.py:923](../../cli/commands/command_and_control_migrated.py#L923)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -464,7 +465,7 @@ Vulnerable using the module iis_webdav_upload_asp of metasploit
 
 #### `CommandAndControlMigratedCommandSet.do_duckyspark`
 
-`method` | [cli/commands/command_and_control_migrated.py:957](../../cli/commands/command_and_control_migrated.py#L957)
+`method` | [cli/commands/command_and_control_migrated.py:958](../../cli/commands/command_and_control_migrated.py#L958)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -501,7 +502,7 @@ by executing commands.
 
 #### `CommandAndControlMigratedCommandSet.do_emp3r0r`
 
-`method` | [cli/commands/command_and_control_migrated.py:1158](../../cli/commands/command_and_control_migrated.py#L1158)
+`method` | [cli/commands/command_and_control_migrated.py:1159](../../cli/commands/command_and_control_migrated.py#L1159)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -540,7 +541,7 @@ emp3r0r 6666
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_tests`
 
-`method` | [cli/commands/command_and_control_migrated.py:1222](../../cli/commands/command_and_control_migrated.py#L1222)
+`method` | [cli/commands/command_and_control_migrated.py:1223](../../cli/commands/command_and_control_migrated.py#L1223)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -574,7 +575,7 @@ Implementation lives in [`modules.atomic_cli`](modules.atomic_cli.py.md).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_gen`
 
-`method` | [cli/commands/command_and_control_migrated.py:1243](../../cli/commands/command_and_control_migrated.py#L1243)
+`method` | [cli/commands/command_and_control_migrated.py:1244](../../cli/commands/command_and_control_migrated.py#L1244)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -605,7 +606,7 @@ Implementation lives in [`modules.atomic_cli`](modules.atomic_cli.py.md).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_shell`
 
-`method` | [cli/commands/command_and_control_migrated.py:1287](../../cli/commands/command_and_control_migrated.py#L1287)
+`method` | [cli/commands/command_and_control_migrated.py:1288](../../cli/commands/command_and_control_migrated.py#L1288)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -635,7 +636,7 @@ operator into a live ``target#`` REPL until exit.
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_clean`
 
-`method` | [cli/commands/command_and_control_migrated.py:1326](../../cli/commands/command_and_control_migrated.py#L1326)
+`method` | [cli/commands/command_and_control_migrated.py:1327](../../cli/commands/command_and_control_migrated.py#L1327)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -666,7 +667,7 @@ the lab container (default lazyown-lab-metasploitable).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_emulate`
 
-`method` | [cli/commands/command_and_control_migrated.py:1363](../../cli/commands/command_and_control_migrated.py#L1363)
+`method` | [cli/commands/command_and_control_migrated.py:1364](../../cli/commands/command_and_control_migrated.py#L1364)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -699,7 +700,7 @@ with per-test outputs. Lab and in-scope targets only.
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_agent`
 
-`method` | [cli/commands/command_and_control_migrated.py:1420](../../cli/commands/command_and_control_migrated.py#L1420)
+`method` | [cli/commands/command_and_control_migrated.py:1421](../../cli/commands/command_and_control_migrated.py#L1421)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -725,7 +726,7 @@ None
 
 #### `CommandAndControlMigratedCommandSet.do_attack_plan`
 
-`method` | [cli/commands/command_and_control_migrated.py:1523](../../cli/commands/command_and_control_migrated.py#L1523)
+`method` | [cli/commands/command_and_control_migrated.py:1524](../../cli/commands/command_and_control_migrated.py#L1524)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -757,7 +758,7 @@ only use it when the target IS this host.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_chain`
 
-`method` | [cli/commands/command_and_control_migrated.py:1682](../../cli/commands/command_and_control_migrated.py#L1682)
+`method` | [cli/commands/command_and_control_migrated.py:1683](../../cli/commands/command_and_control_migrated.py#L1683)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -807,11 +808,44 @@ automatically when the fact store knows the target.
 
 *Calls:* [`build_cli_approver`](cli.apt_chain_support.py.md#build_cli_approver), [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner), [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args), [`render_result`](cli.apt_chain_support.py.md#render_result), [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`select_step_ids`](cli.apt_chain_support.py.md#select_step_ids), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`print_warn`](core.console.py.md#print_warn), [`ChainRunner.__init__`](modules.chain_runner.py.md#chainrunner-__init__), [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run) and 3 more
 
+<a id="commandandcontrolmigratedcommandset-do_chain_distill"></a>
+
+#### `CommandAndControlMigratedCommandSet.do_chain_distill`
+
+`method` | [cli/commands/command_and_control_migrated.py:1955](../../cli/commands/command_and_control_migrated.py#L1955)
+
+Decorators: `@cmd2.with_category('10. Command & Control')`
+
+```python
+def do_chain_distill(self, line: str) -> None
+```
+
+Turn one autonomous-loop trace into a reusable chain YAML.
+
+Usage:
+    chain_distill <task>              Distill task tNNNN (dry report)
+    chain_distill <task> --write      Validate and write chains/<name>.yaml
+    chain_distill <task> --json       Machine-readable report
+    chain_distill <task> --all        Include dropped rows in the listing
+    chain_distill <task> --dir D      Search D instead of sessions/
+
+Sources: sessions/<dir>/exp_<task>.json plus traffic_<task>.jsonl.
+Kept steps carry lineage (intent id + digest) in the description.
+Generated chains start disabled; the operator owns the file.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` | `str` |  |  |
+
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`distill`](modules.chain_distill.py.md#distill)
+
 <a id="commandandcontrolmigratedcommandset-do_apt_playbook"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:1946](../../cli/commands/command_and_control_migrated.py#L1946)
+`method` | [cli/commands/command_and_control_migrated.py:2005](../../cli/commands/command_and_control_migrated.py#L2005)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -848,7 +882,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:2066](../../cli/commands/command_and_control_migrated.py#L2066)
+`method` | [cli/commands/command_and_control_migrated.py:2125](../../cli/commands/command_and_control_migrated.py#L2125)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -879,7 +913,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2169](../../cli/commands/command_and_control_migrated.py#L2169)
+`method` | [cli/commands/command_and_control_migrated.py:2228](../../cli/commands/command_and_control_migrated.py#L2228)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -928,7 +962,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2348](../../cli/commands/command_and_control_migrated.py#L2348)
+`method` | [cli/commands/command_and_control_migrated.py:2407](../../cli/commands/command_and_control_migrated.py#L2407)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -952,7 +986,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2405](../../cli/commands/command_and_control_migrated.py#L2405)
+`method` | [cli/commands/command_and_control_migrated.py:2464](../../cli/commands/command_and_control_migrated.py#L2464)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -987,7 +1021,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2454](../../cli/commands/command_and_control_migrated.py#L2454)
+`method` | [cli/commands/command_and_control_migrated.py:2513](../../cli/commands/command_and_control_migrated.py#L2513)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1020,7 +1054,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2546](../../cli/commands/command_and_control_migrated.py#L2546)
+`method` | [cli/commands/command_and_control_migrated.py:2605](../../cli/commands/command_and_control_migrated.py#L2605)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

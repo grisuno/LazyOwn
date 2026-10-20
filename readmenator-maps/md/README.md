@@ -9,7 +9,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **835 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
+> **837 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 
@@ -80,9 +80,9 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v0.2.161
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 835 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 837 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
-**New in v0.2.161:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
+**New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
 
 **Autonomous contracts update:** the loop is now administered by
 `config/orchestrator.yaml` profiles (`default`, `stealth`, `lab`, `gym`),
@@ -143,6 +143,15 @@ The loop reads `config/orchestrator.yaml`; explicit flags still win.
 lazy_loop --profile gym --target 172.17.0.2 "root the gym"
 apt_chain gym_metasploitable_ms2_distcc_exec 172.17.0.2
 apt_chain gym_metasploitable_ms2_distcc_exec 172.17.0.2 --dry-run
+# something failed mid-chain? resume only what did not finish:
+retry status
+retry chain gym_metasploitable_ms2_distcc_exec --var target=172.17.0.2
+retry chain gym_metasploitable_ms2_distcc_exec --sudo   # guarded: prints a warning, waits for YES
+# distill a finished loop trace into a reusable chain:
+chain_distill t0001 --write
+# choose what the loop may run (837 shell verbs + every lazyaddon):
+verb list addon
+verb on addon:adcs_attacks
 gym_ms2 list
 gym_ms2 validate
 lazy_addon update --all --dry-run
@@ -153,11 +162,13 @@ line, starts Apache when the image boots without it, and applies the gym
 migrations automatically (`modules/metasploitable_migrations.py`): core
 daemons, telnet/rlogin/rsh access from the docker subnet, anonymous FTP,
 an open X display, the Shellshock CGI, the mutillidae database (setup +
-mirror into `metasploit`) and the canonical DVWA DOM XSS page. With the
-migrations in place 42 of the 45 shipped vectors yield a shell on the
-lab — the three that cannot (`ms2_dns_recursion`, `ms2_nfs_exports`,
-`ms2_rlogin_trust`) are blocked by Docker itself, not by the framework.
-Setup guide: [`docs/gym-setup.md`](docs/gym-setup.md).
+mirror into `metasploit`) and the canonical DVWA DOM XSS page. Three
+vectors need extra cheerleading inside a container, and migrations fix
+them too: a Python DNS responder stands in for `bind9` (Docker strips the
+`capset` it wants), a userspace `rpc.mountd` stands in for the kernel
+NFS server, and `/root/.rhosts` trusts the loopback for `rsh`. All 45
+shipped vectors yield a shell on the lab. Setup guide:
+[`docs/gym-setup.md`](docs/gym-setup.md).
 
 The outcome bus updates the world model, kill-chain, intel graph, attack
 graph, C2 banners/CVEs/notes, objectives and session report from one
@@ -228,7 +239,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Key Features
 
-1. **835 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **837 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
 3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
 4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
@@ -295,7 +306,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Command Capabilities
 
-LazyOwn provides 835 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
+LazyOwn provides 837 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
 | Phase | Highlight Commands |
 |-------|-------------------|
@@ -315,14 +326,16 @@ LazyOwn provides 835 commands across 13 kill-chain phases, available from both C
 
 Core management: `assign`, `show`, `doctor`, `wizard`, `scope`, `collab_join`, `config_banner`, `palette`, `fz`.
 
-See [`COMMANDS.md`](COMMANDS.md) for the full 835-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
+See [`COMMANDS.md`](COMMANDS.md) for the full 837-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
 
 ## Go deeper
 
 | Guide | Contents |
 |-------|----------|
 | [`docs/collaboration.md`](docs/collaboration.md) | Multi-operator C2: SSE stream, publish, target locks |
-| [`docs/autonomous-loop.md`](docs/autonomous-loop.md) | Autonomous loop: pipeline stages, auto verbs, observability, audit, teardown |
+| [`docs/autonomous-loop.md`](docs/autonomous-loop.md) | Autonomous loop: pipeline stages, auto verbs, observability, audit, teardown, retry/resume, chain distillation, verb catalog |
+| [`docs/command_chain.md`](docs/command_chain.md) | `prev`/`next`: what runs before and after a verb |
+| [`docs/metasploitable-gym.md`](docs/metasploitable-gym.md) | Gym: 45 indexed MS2 vectors, migrations, verified matrix |
 | [`docs/mcp-setup.md`](docs/mcp-setup.md) | MCP setup per agent, env vars, 153 tool groups |
 | [`docs/cli-ux.md`](docs/cli-ux.md) | Audit mode, fuzzy autocomplete, prompt themes, palette, dashboard |
 | [`docs/ai-architecture.md`](docs/ai-architecture.md) | MoE router, RL trainer, SWAN, Hive Mind, detection oracle |
@@ -336,7 +349,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 835-command reference and [`ESSENT
 
 ## Full references (auto-generated, standalone)
 
-- [`COMMANDS.md`](COMMANDS.md) — full 835-command reference
+- [`COMMANDS.md`](COMMANDS.md) — full 837-command reference
 - [`UTILS.md`](UTILS.md) — helper-function reference for `utils.py`
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 

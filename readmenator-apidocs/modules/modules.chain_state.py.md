@@ -52,7 +52,7 @@ Return the directory that stores chain checkpoints.
 
 **Returns:** `Path`
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`list_checkpoints`](#list_checkpoints), [`load_checkpoint`](#load_checkpoint), [`write_checkpoint`](#write_checkpoint)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`status_snapshot`](cli.retry_support.py.md#status_snapshot), [`list_checkpoints`](#list_checkpoints), [`load_checkpoint`](#load_checkpoint), [`write_checkpoint`](#write_checkpoint), [`newest_failed_checkpoint`](modules.retry_session.py.md#newest_failed_checkpoint)
 
 ---
 
@@ -132,7 +132,7 @@ Load one checkpoint by run id, or None when missing/unreadable.
 
 *Calls:* [`checkpoint_dir`](#checkpoint_dir)
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`newest_failed_checkpoint`](modules.retry_session.py.md#newest_failed_checkpoint)
 
 ---
 
@@ -143,7 +143,7 @@ Load one checkpoint by run id, or None when missing/unreadable.
 `function` | [modules/chain_state.py:80](../../modules/chain_state.py#L80)
 
 ```python
-def list_checkpoints(directory: Path | str | None = None, limit: int = 20) -> list[dict[str, Any]]
+def list_checkpoints(directory: Path | str | None = None, limit: int = 20, chain: str = '') -> list[dict[str, Any]]
 ```
 
 Return the newest checkpoints (run_id, chain, target, state, times).
@@ -152,13 +152,15 @@ Return the newest checkpoints (run_id, chain, target, state, times).
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `directory` | `Path \| str \| None` | `None` |  |
-| `limit` | `int` | `20` |  |
+| `directory` | `Path \| str \| None` | `None` | Checkpoint directory override. |
+| `limit` | `int` | `20` | Maximum rows to return. |
+| `chain` | `str` | `''` | Optional chain-name filter, case-insensitive. |
 
-**Returns:** `list[dict[str, Any]]`
+**Returns:** `list[dict[str, Any]]` - Newest-first rows; each row also carries `[`ok`](scripts.top_tier_check.py.md#ok)`/`[`aborted`](modules.chain_runner.py.md#chainrunresult-aborted)`/
+``reason`` so callers can identify the failed runs.
 
 *Calls:* [`checkpoint_dir`](#checkpoint_dir)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`status_snapshot`](cli.retry_support.py.md#status_snapshot), [`newest_failed_checkpoint`](modules.retry_session.py.md#newest_failed_checkpoint)
 
 ---

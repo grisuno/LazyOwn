@@ -95,6 +95,28 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_forward_and_reverse_match` (method, line 173) `def test_forward_and_reverse_match(self)`
 - Depends on: `modules/categories.py`
 
+## tests/test_chain_distill.py
+- Doc: BDD tests for chain_distill trace crystallisation.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `trace_dir` (function, line 22) `def trace_dir(tmp_path)`
+  - `TestLocate` (class, line 133) `class TestLocate`
+  - `TestInferTarget` (class, line 150) `class TestInferTarget`
+  - `TestBuild` (class, line 167) `class TestBuild`
+  - `TestWrite` (class, line 232) `class TestWrite`
+  - `test_pair_found` (method, line 136) `def test_pair_found(self, trace_dir)`
+  - `test_unknown_task_is_none` (method, line 142) `def test_unknown_task_is_none(self, trace_dir)`
+  - `test_goal_beats_frequency` (method, line 153) `def test_goal_beats_frequency(self, trace_dir)`
+  - `test_frequency_fallback_hosts_win_over_loopback` (method, line 161) `def test_frequency_fallback_hosts_win_over_loopback(self, tmp_path)`
+  - `test_keep_drop_dedupe` (method, line 170) `def test_keep_drop_dedupe(self, trace_dir)`
+  - `test_target_tokenised_and_lineage_kept` (method, line 186) `def test_target_tokenised_and_lineage_kept(self, trace_dir)`
+  - `test_exploit_steps_strict` (method, line 204) `def test_exploit_steps_strict(self, trace_dir)`
+  - `report_checks` (method, line 213) `def report_checks(self, trace_dir)`
+  - `test_empty_trace_yields_validateable_chain` (method, line 220) `def test_empty_trace_yields_validateable_chain(self, tmp_path)`
+  - `test_written_chain_validates_lifetime` (method, line 235) `def test_written_chain_validates_lifetime(self, trace_dir)`
+- Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`
+
 ## tests/test_chain_list_command.py
 - Doc: BDD: chain list exposes the YAML chain registry.
 - Layer: testing
@@ -417,63 +439,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `__init__` (method, line 429) `def __init__(self)`
   - `_scope_helper` (method, line 433) `def _scope_helper(self)`
 - Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
-
-## tests/test_cli_enhancements.py
-- Doc: Tests for cli/cli_enhancements.py and the audit CommandSet.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `fixture_index` (function, line 39) `def fixture_index()`
-  - `test_fuzzy_exact_match_scores_one` (function, line 50) `def test_fuzzy_exact_match_scores_one(fixture_index)`
-  - `test_fuzzy_alias_resolves_to_command` (function, line 56) `def test_fuzzy_alias_resolves_to_command(fixture_index)`
-  - `test_fuzzy_substring_match` (function, line 62) `def test_fuzzy_substring_match(fixture_index)`
-  - `test_fuzzy_empty_query_lists_all` (function, line 67) `def test_fuzzy_empty_query_lists_all(fixture_index)`
-  - `test_fuzzy_returns_empty_on_garbage` (function, line 72) `def test_fuzzy_returns_empty_on_garbage(fixture_index)`
-  - `test_completer_set_lists_payload_keys` (function, line 80) `def test_completer_set_lists_payload_keys()`
-  - `test_completer_target_lists_targets_and_rhost` (function, line 89) `def test_completer_target_lists_targets_and_rhost()`
-  - `test_completer_wordlist_keys_only_when_set` (function, line 101) `def test_completer_wordlist_keys_only_when_set()`
-  - `test_completer_addon_lister_used_for_run` (function, line 108) `def test_completer_addon_lister_used_for_run()`
-  - `test_completer_filters_by_partial` (function, line 116) `def test_completer_filters_by_partial()`
-  - `test_completer_ignores_unknown_command` (function, line 123) `def test_completer_ignores_unknown_command()`
-  - `test_dynamic_resolver_renders_against_current_payload` (function, line 132) `def test_dynamic_resolver_renders_against_current_payload()`
-  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 140) `def test_dynamic_resolver_missing_keys_become_empty()`
-  - `test_dynamic_resolver_payload_changes_propagate` (function, line 146) `def test_dynamic_resolver_payload_changes_propagate()`
-  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 155) `def test_dynamic_resolver_passes_through_literal_braces()`
-  - `test_load_aliases_lazy_preserves_placeholders` (function, line 162) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
-  - `test_load_aliases_eager_substitutes` (function, line 169) `def test_load_aliases_eager_substitutes(tmp_path)`
-  - `test_hot_reloader_detects_new_file` (function, line 179) `def test_hot_reloader_detects_new_file(tmp_path)`
-  - `test_hot_reloader_detects_modification` (function, line 191) `def test_hot_reloader_detects_modification(tmp_path)`
-  - `test_hot_reloader_ignores_non_addon_files` (function, line 208) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
-  - `test_status_tail_extracts_open_ports` (function, line 221) `def test_status_tail_extracts_open_ports()`
-  - `test_status_tail_handles_empty` (function, line 237) `def test_status_tail_handles_empty()`
-  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 244) `def test_status_tail_no_ports_falls_back_to_stats()`
-  - `test_transcript_grep_matches_recent_output` (function, line 254) `def test_transcript_grep_matches_recent_output(tmp_path)`
-  - `test_transcript_grep_command_filter` (function, line 262) `def test_transcript_grep_command_filter(tmp_path)`
-  - `test_transcript_grep_invalid_regex` (function, line 270) `def test_transcript_grep_invalid_regex(tmp_path)`
-  - `test_transcript_persists_and_reloads` (function, line 277) `def test_transcript_persists_and_reloads(tmp_path)`
-  - `test_transcript_capacity` (function, line 285) `def test_transcript_capacity(tmp_path)`
-  - `FakeIO` (class, line 297) `class FakeIO`
-  - `test_form_collects_values_with_defaults` (function, line 311) `def test_form_collects_values_with_defaults()`
-  - `test_form_options_constraint_falls_back_to_default` (function, line 325) `def test_form_options_constraint_falls_back_to_default()`
-  - `test_form_required_reprompted` (function, line 336) `def test_form_required_reprompted()`
-  - `_ShellLike` (class, line 349) `class _ShellLike`
-  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (function, line 359) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
-  - `_MiniShell` (class, line 371) `class _MiniShell`
-  - `test_audit_fz_command_emits_results` (function, line 399) `def test_audit_fz_command_emits_results(tmp_path)`
-  - `test_audit_status_tail_reports_no_evidence` (function, line 409) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
-  - `test_audit_grep_log_handles_empty_store` (function, line 419) `def test_audit_grep_log_handles_empty_store(tmp_path)`
-  - `test_audit_form_unknown_lists_known` (function, line 429) `def test_audit_form_unknown_lists_known(tmp_path)`
-  - `__init__` (method, line 298) `def __init__(self, replies)`
-  - `prompt` (method, line 302) `def prompt(self, message, default)`
-  - `emit` (method, line 307) `def emit(self, line)`
-  - `do_lazynmap` (method, line 352) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 355) `def do_gobuster(self, _)`
-  - `__init__` (method, line 374) `def __init__(self, tmp)`
-  - `poutput` (method, line 386) `def poutput(self, msg)`
-  - `get_all_commands` (method, line 389) `def get_all_commands(self)`
-  - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
-- Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

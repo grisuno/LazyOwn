@@ -1,9 +1,60 @@
 # API (page 12 of 23)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/gcp_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `GCPAttackEngine.__init__` (method) `modules/gcp_attacks.py:90` `def __init__(self, config)`
+- `GCPAttackEngine.enumerate_iam_policy` (method) `modules/gcp_attacks.py:93` `def enumerate_iam_policy(self, resource)` -- Enumerate IAM policies for projects, folders, or organizations.
+- `GCPAttackEngine.service_account_impersonation` (method) `modules/gcp_attacks.py:119` `def service_account_impersonation(self)` -- Exploit service account impersonation for privilege escalation.
+- `GCPAttackEngine.cloud_functions_backdoor` (method) `modules/gcp_attacks.py:144` `def cloud_functions_backdoor(self)` -- Backdoor Cloud Functions for privilege escalation.
+- `GCPAttackEngine.compute_engine_metadata_exfil` (method) `modules/gcp_attacks.py:173` `def compute_engine_metadata_exfil(self)` -- Exfiltrate GCE instance metadata and service account tokens.
+- `GCPAttackEngine.gcs_enumeration` (method) `modules/gcp_attacks.py:194` `def gcs_enumeration(self)` -- Enumerate Cloud Storage buckets for sensitive data.
+- `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
+- `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
+- `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
+
+## modules/generate_tools.py
+- `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
+
+## modules/goals.py
+Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
+- `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
+- `decompose_rule_based` (function) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
+- `load_constraints` (function) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
+- `constraint_block_text` (function) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
+- `GoalTracker.__init__` (method) `modules/goals.py:120` `def __init__(self, goals)` -- Bind to an initial goal list.
+- `GoalTracker.goals` (method) `modules/goals.py:125` `def goals(self)` -- Return a copy of tracked goals.
+- `GoalTracker.prove_goal` (method) `modules/goals.py:129` `def prove_goal(self, goal_text, evidence)` -- Mark one goal achieved from evidence; return True when found.
+- `GoalTracker.goal_met` (method) `modules/goals.py:140` `def goal_met(self, opt_in)` -- End the whole task; requires explicit opt-in (default unbound).
+- `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
+- `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
+
+## modules/gpo_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
+- `GPOAbuseEngine.parse_gpo_list` (method) `modules/gpo_abuse.py:124` `def parse_gpo_list(self, raw_gpo_output)` -- Parse Get-GPO or ldapsearch output for GPO information.
+- `GPOAbuseEngine.parse_bloodhound_gpos` (method) `modules/gpo_abuse.py:160` `def parse_bloodhound_gpos(self, bloodhound_nodes)` -- Parse BloodHound GPO nodes for abusable policies.
+- `GPOAbuseEngine.plan_scheduled_task` (method) `modules/gpo_abuse.py:182` `def plan_scheduled_task(self, gpo, command, task_name)` -- Plan a GPO-backed scheduled task for immediate code execution.
+- `GPOAbuseEngine.plan_startup_script` (method) `modules/gpo_abuse.py:208` `def plan_startup_script(self, gpo, script_content, script_name)` -- Plan a GPO startup script for persistence via SYSVOL.
+- `GPOAbuseEngine.plan_logon_script` (method) `modules/gpo_abuse.py:238` `def plan_logon_script(self, gpo, command)` -- Plan a GPO user logon script for user-triggered code execution.
+- `GPOAbuseEngine.plan_local_admin_addition` (method) `modules/gpo_abuse.py:266` `def plan_local_admin_addition(self, gpo, username, group)` -- Plan adding a user to the local Administrators group via GPO preferences.
+- `GPOAbuseEngine.plan_wmi_filter_abuse` (method) `modules/gpo_abuse.py:293` `def plan_wmi_filter_abuse(self, gpo, wmi_query)` -- Plan WMI filter abuse for targeted GPO scope control.
+- `GPOAbuseEngine.plan_registry_preference` (method) `modules/gpo_abuse.py:322` `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` -- Plan a registry modification via GPO preferences.
+- `GPOAbuseEngine.plan_service_installation` (method) `modules/gpo_abuse.py:356` `def plan_service_installation(self, gpo, service_name, binary_path)` -- Plan a service installation via GPO for SYSTEM-level persistence.
+- `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
+- `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
+- `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
+
+## modules/gui_askpass.sh
+- `has` (function) `modules/gui_askpass.sh:22` -- ── helpers ───────────────────────────────────────────────────────────────────
+- `try_zenity` (function) `modules/gui_askpass.sh:24`
+- `try_yad` (function) `modules/gui_askpass.sh:28`
+- `try_ssh_askpass` (function) `modules/gui_askpass.sh:33`
+- `try_kdialog` (function) `modules/gui_askpass.sh:40`
+
 ## modules/gym_registry.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/lazy_orchestrator.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
 - `slugify` (function) `modules/gym_registry.py:92` `def slugify(value)` -- Return a safe gym identifier.
 - `validate_definition` (function) `modules/gym_registry.py:110` `def validate_definition(data, filename)` -- Validate one gym definition mapping.
 - `definition_path` (function) `modules/gym_registry.py:155` `def definition_path(gym_id, directory)` -- Resolve one gym YAML file inside the gyms directory.
@@ -301,7 +352,7 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 - `KillChainConfig.world_model_path` (method) `modules/killchain.py:116` `def world_model_path(self)` -- Return the resolved path to world_model.json.
 - `KillChainConfig.phase_index` (method) `modules/killchain.py:120` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
 - `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:127` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
@@ -366,8 +417,8 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown
 - `sync_all` (function) `modules/lazy_bridge.py:519` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
 
 ## modules/lazy_cli_bridge.py
-Depends on: `core/config.py`
-Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_intel.py`, `modules/lazy_orchestrator_feedback.py`
+Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 - `cli_verbs` (function) `modules/lazy_cli_bridge.py:106` `def cli_verbs()` -- Return every discovered shell verb, cached by source mtime.
 - `is_cli_verb` (function) `modules/lazy_cli_bridge.py:125` `def is_cli_verb(name)` -- Return True when name is a real shell command.
 - `phase_for` (function) `modules/lazy_cli_bridge.py:131` `def phase_for(verb)` -- Map a verb to its kill-chain phase via keyword affinity.
@@ -376,8 +427,9 @@ Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/laz
 - `build_cli_command` (function) `modules/lazy_cli_bridge.py:158` `def build_cli_command(verb, target)` -- Build a shell line for any CLI verb bound to target.
 - `search_cli_verbs` (function) `modules/lazy_cli_bridge.py:185` `def search_cli_verbs(query, phase, limit)` -- Search the full CLI catalog by keyword and phase.
 - `cli_catalog_for_phase` (function) `modules/lazy_cli_bridge.py:211` `def cli_catalog_for_phase(phase, limit)` -- Return a compact verb list for LLM prompt injection.
-- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:219` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
-- `set_full_cli` (function) `modules/lazy_cli_bridge.py:242` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
+- `catalog_cli_for_phase` (function) `modules/lazy_cli_bridge.py:219` `def catalog_cli_for_phase(limit)` -- Return enabled catalog commands for the current kill-chain phase.
+- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:253` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
+- `set_full_cli` (function) `modules/lazy_cli_bridge.py:276` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
 
 ## modules/lazy_installer.py
 Depends on: `core/config.py`, `modules/auto_registry.py`

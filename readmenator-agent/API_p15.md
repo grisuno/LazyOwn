@@ -1,6 +1,38 @@
 # API (page 15 of 23)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/memory_store.py
+Depends on: `modules/memory_embeddings.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
+- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
+- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
+- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
+- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
+- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
+- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
+- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
+- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
+- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
+- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
+- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
+- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
+- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
+- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
+- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
+- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
+- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
+- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
+- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
+- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
+- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
+- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
+- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
+- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
+- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
+- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
+- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
+- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
+
 ## modules/metasploitable_gym.py
 Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
 Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
@@ -275,8 +307,8 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 - `score_command` (function) `modules/opsec_scorer.py:811` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
 
 ## modules/orchestrator_config.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 - `reload` (function) `modules/orchestrator_config.py:109` `def reload()` -- Invalidate every merged view after an external configuration change.
 - `profiles` (function) `modules/orchestrator_config.py:226` `def profiles()` -- Return every resolved profile, including inherited values.
 - `active_profile` (function) `modules/orchestrator_config.py:251` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
@@ -290,13 +322,13 @@ Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `modules/aut
 - `stage_enabled` (function) `modules/orchestrator_config.py:358` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
 - `stage_params` (function) `modules/orchestrator_config.py:364` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
 - `set_stage` (function) `modules/orchestrator_config.py:369` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:394` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides and additions.
-- `verb_config` (function) `modules/orchestrator_config.py:446` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:455` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:461` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:518` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:539` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:546` `def validate_config(data)` -- Validate one raw orchestration mapping.
+- `effective_verbs` (function) `modules/orchestrator_config.py:394` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:485` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:494` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:500` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:557` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:578` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:585` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -418,7 +450,7 @@ Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/a
 - `Frontier.pop` (method) `modules/planner.py:551` `def pop(self)` -- Claim the oldest queued intent and mark its technique tried.
 
 ## modules/playbook_admin.py
-Imported by: `cli/lazy_orchestrator.py`, `tests/test_playbook_admin.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
 - `slugify` (function) `modules/playbook_admin.py:62` `def slugify(value)` -- Return a safe playbook filename stem.
 - `playbook_path` (function) `modules/playbook_admin.py:75` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
 - `load_playbook` (function) `modules/playbook_admin.py:102` `def load_playbook(path)` -- Read one playbook YAML mapping.
@@ -456,34 +488,6 @@ Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/o
 - `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
 - `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
 - `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
-
-## modules/playbook_executor.py
-Depends on: `modules/pipeline_engine.py`
-- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
-- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
-- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
-- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
-- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
-- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
-- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
-- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
-- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
-- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
-- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
-- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
-- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
-- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
-- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
-- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
-
-## modules/polymorphic_engine.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
-- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
-- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
-- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
-- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
-- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
 
 
 Next: [API_p16.md](API_p16.md)

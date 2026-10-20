@@ -3,6 +3,84 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
+| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
+| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
+| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
+| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
+| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
+| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
+| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
+| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
+| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
+| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
+| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
+| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
+| `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
+| `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
+| `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
+| `_method_names_from_file` | function | `scripts/migrate_commandsets.py:52` | `def _method_names_from_file(filepath)` |
+| `main` | function | `scripts/migrate_commandsets.py:158` | `def main()` |
+| `merge_phase` | function | `scripts/migrate_commandsets.py:117` | `def merge_phase(phase, dry_run)` |
+| `_category_from_decorator` | function | `scripts/migrate_lazyown.py:70` | `def _category_from_decorator(decorator)` |
+| `_indent_level` | function | `scripts/migrate_lazyown.py:84` | `def _indent_level(line)` |
+| `build_migrated_module` | function | `scripts/migrate_lazyown.py:124` | `def build_migrated_module(phase, category, methods)` |
+| `extract_method` | function | `scripts/migrate_lazyown.py:88` | `def extract_method(source, node)` |
+| `main` | function | `scripts/migrate_lazyown.py:173` | `def main()` |
+| `rewrite_globals` | function | `scripts/migrate_lazyown.py:96` | `def rewrite_globals(method_source)` |
+| `changed_sources` | function | `scripts/mutate.sh:33` | `` |
+| `runners` | function | `scripts/mutate.sh:29` | `` |
+| `usage` | function | `scripts/mutate.sh:40` | `` |
+| `discover_runners` | function | `scripts/mutation_gate.py:25` | `def discover_runners()` |
+| `main` | function | `scripts/mutation_gate.py:63` | `def main(argv)` |
+| `run_runner` | function | `scripts/mutation_gate.py:34` | `def run_runner(path, timeout_s)` |
+| `fail` | function | `scripts/publish_wiki.sh:38` | `` |
+| `log` | function | `scripts/publish_wiki.sh:37` | `` |
+| `write_c2_api` | function | `scripts/publish_wiki.sh:150` | `` |
+| `write_footer` | function | `scripts/publish_wiki.sh:207` | `` |
+| `write_home` | function | `scripts/publish_wiki.sh:58` | `` |
+| `write_installation` | function | `scripts/publish_wiki.sh:92` | `` |
+| `write_plugins` | function | `scripts/publish_wiki.sh:174` | `` |
+| `write_sidebar` | function | `scripts/publish_wiki.sh:188` | `` |
+| `_build_parser` | function | `scripts/read_journal.py:19` | `def _build_parser()` |
+| `main` | function | `scripts/read_journal.py:29` | `def main(argv)` |
+| `check` | function | `scripts/smoke_onboarding.sh:8` | `` |
+| `canonical_command_count` | function | `scripts/sync_doc_stats.py:87` | `def canonical_command_count(root)` |
+| `main` | function | `scripts/sync_doc_stats.py:165` | `def main()` |
+| `measure_stats` | function | `scripts/sync_doc_stats.py:109` | `def measure_stats(root)` |
+| `project_version` | function | `scripts/sync_doc_stats.py:100` | `def project_version(root)` |
+| `render` | function | `scripts/sync_doc_stats.py:136` | `def render(template, stats)` |
+| `sync` | function | `scripts/sync_doc_stats.py:141` | `def sync(check, stats, root)` |
+| `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
+| `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
+| `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
+| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
+| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
+| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
+| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
+| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
+| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
+| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
+| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
+| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
+| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
+| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
+| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
+| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
+| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
+| `fail` | function | `scripts/validate_agent_contract.sh:27` | `` |
+| `pass` | function | `scripts/validate_agent_contract.sh:23` | `` |
+| `ACIEngine` | class | `skills/aci_planner.py:593` | `class ACIEngine` |
+| `ACIGoal` | class | `skills/aci_planner.py:146` | `class ACIGoal` |
+| `ACIPlan` | class | `skills/aci_planner.py:182` | `class ACIPlan` |
+| `ACIPlanner` | class | `skills/aci_planner.py:449` | `class ACIPlanner` |
+| `ACIReflector` | class | `skills/aci_planner.py:787` | `class ACIReflector` |
+| `AttackPhase` | class | `skills/aci_planner.py:157` | `class AttackPhase` |
+| `__init__` | method | `skills/aci_planner.py:461` | `def __init__(self, api_key, objectives_file, plan_file)` |
+| `__init__` | method | `skills/aci_planner.py:604` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
+| `__init__` | method | `skills/aci_planner.py:797` | `def __init__(self, lessons_file)` |
+| `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
+| `_build_parser` | function | `skills/aci_planner.py:978` | `def _build_parser()` |
 | `_build_phases_from_llm` | method | `skills/aci_planner.py:509` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
 | `_build_phases_static` | method | `skills/aci_planner.py:534` | `def _build_phases_static(self, goal, phase_filter)` |
 | `_count_blocked` | method | `skills/aci_planner.py:773` | `def _count_blocked(self, plan)` |
@@ -418,83 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `set_phase` | method | `skills/daemon_health.py:180` | `def set_phase(self, phase)` |
 | `start` | method | `skills/daemon_health.py:155` | `def start(self)` |
 | `stop` | method | `skills/daemon_health.py:164` | `def stop(self)` |
-| `clear_pid` | function | `skills/heartbeat.py:57` | `def clear_pid()` |
-| `is_running` | function | `skills/heartbeat.py:62` | `def is_running()` |
-| `main` | function | `skills/heartbeat.py:127` | `def main()` |
-| `run_loop` | function | `skills/heartbeat.py:74` | `def run_loop(interval, once)` |
-| `write_pid` | function | `skills/heartbeat.py:53` | `def write_pid()` |
-| `RuleSetBuilder` | class | `skills/hermes-lazyown/claudemd_rules.py:14` | `class RuleSetBuilder` |
-| `__init__` | method | `skills/hermes-lazyown/claudemd_rules.py:24` | `def __init__(self)` |
-| `_base_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:70` | `def _base_rules(self)` |
-| `_credential_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:157` | `def _credential_rules(self)` |
-| `_hermes_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:170` | `def _hermes_rules(self)` |
-| `_phase_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:82` | `def _phase_rules(self)` |
-| `_service_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:138` | `def _service_rules(self)` |
-| `build` | method | `skills/hermes-lazyown/claudemd_rules.py:56` | `def build(self)` |
-| `generate_rules` | function | `skills/hermes-lazyown/claudemd_rules.py:185` | `def generate_rules(phase, rhost, services, creds_found, is_hermes)` |
-| `with_creds` | method | `skills/hermes-lazyown/claudemd_rules.py:46` | `def with_creds(self, found)` |
-| `with_hermes` | method | `skills/hermes-lazyown/claudemd_rules.py:51` | `def with_hermes(self, is_hermes)` |
-| `with_phase` | method | `skills/hermes-lazyown/claudemd_rules.py:31` | `def with_phase(self, phase)` |
-| `with_services` | method | `skills/hermes-lazyown/claudemd_rules.py:41` | `def with_services(self, services)` |
-| `with_target` | method | `skills/hermes-lazyown/claudemd_rules.py:36` | `def with_target(self, rhost)` |
-| `ConfigBridge` | class | `skills/hermes-lazyown/config_bridge.py:23` | `class ConfigBridge` |
-| `ConfigBridgeError` | class | `skills/hermes-lazyown/config_bridge.py:17` | `class ConfigBridgeError(Exception)` |
-| `__init__` | method | `skills/hermes-lazyown/config_bridge.py:35` | `def __init__(self, payload_path)` |
-| `_from_env` | method | `skills/hermes-lazyown/config_bridge.py:117` | `def _from_env(self, key)` |
-| `_from_payload` | method | `skills/hermes-lazyown/config_bridge.py:134` | `def _from_payload(self, key)` |
-| `_load_payload` | method | `skills/hermes-lazyown/config_bridge.py:139` | `def _load_payload(self)` |
-| `_resolve` | method | `skills/hermes-lazyown/config_bridge.py:105` | `def _resolve(self, key, default)` |
-| `active_target` | method | `skills/hermes-lazyown/config_bridge.py:80` | `def active_target(self)` |
-| `attacker_context` | method | `skills/hermes-lazyown/config_bridge.py:90` | `def attacker_context(self)` |
-| `get` | method | `skills/hermes-lazyown/config_bridge.py:42` | `def get(self, key, default)` |
-| `get_bool` | method | `skills/hermes-lazyown/config_bridge.py:66` | `def get_bool(self, key, default)` |
-| `get_int` | method | `skills/hermes-lazyown/config_bridge.py:58` | `def get_int(self, key, default)` |
-| `get_required` | method | `skills/hermes-lazyown/config_bridge.py:46` | `def get_required(self, key)` |
-| `get_str` | method | `skills/hermes-lazyown/config_bridge.py:53` | `def get_str(self, key, default)` |
-| `is_hermes_session` | method | `skills/hermes-lazyown/config_bridge.py:99` | `def is_hermes_session(self)` |
-| `refresh` | method | `skills/hermes-lazyown/config_bridge.py:75` | `def refresh(self)` |
-| `ConfigKeys` | class | `skills/hermes-lazyown/constants.py:12` | `class ConfigKeys` |
-| `Defaults` | class | `skills/hermes-lazyown/constants.py:45` | `class Defaults` |
-| `EnvKeys` | class | `skills/hermes-lazyown/constants.py:35` | `class EnvKeys` |
-| `Paths` | class | `skills/hermes-lazyown/constants.py:102` | `class Paths` |
-| `PhaseNames` | class | `skills/hermes-lazyown/constants.py:59` | `class PhaseNames` |
-| `claude_md_file` | method | `skills/hermes-lazyown/constants.py:155` | `def claude_md_file()` |
-| `lazyown_dir` | method | `skills/hermes-lazyown/constants.py:106` | `def lazyown_dir()` |
-| `objectives_file` | method | `skills/hermes-lazyown/constants.py:140` | `def objectives_file()` |
-| `payload_file` | method | `skills/hermes-lazyown/constants.py:115` | `def payload_file()` |
-| `scan_file` | method | `skills/hermes-lazyown/constants.py:125` | `def scan_file(rhost)` |
-| `sessions_dir` | method | `skills/hermes-lazyown/constants.py:120` | `def sessions_dir()` |
-| `soul_file` | method | `skills/hermes-lazyown/constants.py:150` | `def soul_file()` |
-| `tasks_file` | method | `skills/hermes-lazyown/constants.py:145` | `def tasks_file()` |
-| `vulns_file` | method | `skills/hermes-lazyown/constants.py:130` | `def vulns_file(rhost)` |
-| `world_model_file` | method | `skills/hermes-lazyown/constants.py:135` | `def world_model_file()` |
-| `ExecutionResult` | class | `skills/hermes-lazyown/executor.py:21` | `class ExecutionResult` |
-| `LazyOwnExecutor` | class | `skills/hermes-lazyown/executor.py:58` | `class LazyOwnExecutor` |
-| `__init__` | method | `skills/hermes-lazyown/executor.py:24` | `def __init__(self, stdout, stderr, returncode, timed_out, duration_ms)` |
-| `__init__` | method | `skills/hermes-lazyown/executor.py:66` | `def __init__(self, lazyown_dir, timeout)` |
-| `__str__` | method | `skills/hermes-lazyown/executor.py:51` | `def __str__(self)` |
-| `_has_pty` | method | `skills/hermes-lazyown/executor.py:229` | `def _has_pty(self)` |
-| `_run_via_subprocess` | method | `skills/hermes-lazyown/executor.py:114` | `def _run_via_subprocess(self, command, timeout)` |
-| `_run_with_pty` | method | `skills/hermes-lazyown/executor.py:177` | `def _run_with_pty(self, argv, command, timeout, env)` |
-| `_run_without_pty` | method | `skills/hermes-lazyown/executor.py:149` | `def _run_without_pty(self, argv, command, timeout, env)` |
-| `combined` | method | `skills/hermes-lazyown/executor.py:39` | `def combined(self)` |
-| `execute` | method | `skills/hermes-lazyown/executor.py:77` | `def execute(self, command, timeout)` |
-| `execute_batch` | method | `skills/hermes-lazyown/executor.py:98` | `def execute_batch(self, commands, timeout)` |
-| `success` | method | `skills/hermes-lazyown/executor.py:47` | `def success(self)` |
-| `CheckpointSerializer` | class | `skills/hermes-lazyown/hermes_sync.py:27` | `class CheckpointSerializer` |
-| `DelegationPlanner` | class | `skills/hermes-lazyown/hermes_sync.py:145` | `class DelegationPlanner` |
-| `HermesSyncError` | class | `skills/hermes-lazyown/hermes_sync.py:21` | `class HermesSyncError(Exception)` |
-| `ObjectiveTodoSync` | class | `skills/hermes-lazyown/hermes_sync.py:73` | `class ObjectiveTodoSync` |
-| `__init__` | method | `skills/hermes-lazyown/hermes_sync.py:33` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `skills/hermes-lazyown/hermes_sync.py:82` | `def __init__(self, objectives_path)` |
-| `clear` | method | `skills/hermes-lazyown/hermes_sync.py:64` | `def clear(self)` |
-| `inject_objective` | method | `skills/hermes-lazyown/hermes_sync.py:127` | `def inject_objective(self, text, priority, notes)` |
-| `mark_done` | method | `skills/hermes-lazyown/hermes_sync.py:106` | `def mark_done(self, objective_text)` |
-| `pending_objectives` | method | `skills/hermes-lazyown/hermes_sync.py:85` | `def pending_objectives(self)` |
-| `plan_for_credential` | method | `skills/hermes-lazyown/hermes_sync.py:233` | `def plan_for_credential(self, cred_type, value, rhost)` |
-| `plan_for_service` | method | `skills/hermes-lazyown/hermes_sync.py:154` | `def plan_for_service(self, service, port, rhost)` |
-| `read` | method | `skills/hermes-lazyown/hermes_sync.py:49` | `def read(self)` |
-| `write` | method | `skills/hermes-lazyown/hermes_sync.py:37` | `def write(self, state)` |
-| `_auto_inject_objective` | function | `skills/hermes-lazyown/mcp_server.py:611` | `def _auto_inject_objective(arguments)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

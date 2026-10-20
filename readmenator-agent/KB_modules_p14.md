@@ -1,6 +1,34 @@
 # Subsystem: modules (page 14 of 15)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/saas_attacks.py
+- Doc: SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SaaSConfig` (class, line 49) `class SaaSConfig`
+  - `SaaSEnumerationTools` (class, line 71) `class SaaSEnumerationTools`
+  - `SaaSAttackEngine` (class, line 152) `class SaaSAttackEngine`
+  - `microsoft365_commands` (method, line 75) `def microsoft365_commands()`
+  - `google_workspace_commands` (method, line 100) `def google_workspace_commands()`
+  - `salesforce_commands` (method, line 118) `def salesforce_commands()`
+  - `servicenow_commands` (method, line 135) `def servicenow_commands()`
+  - `__init__` (method, line 163) `def __init__(self, config)`
+  - `enumerate_all` (method, line 166) `def enumerate_all(self)`
+  - `m365_ews_mail_search` (method, line 179) `def m365_ews_mail_search(self, search_term)`
+  - `google_workspace_domain_wide_delegation` (method, line 228) `def google_workspace_domain_wide_delegation(self)`
+  - `salesforce_report_mining` (method, line 257) `def salesforce_report_mining(self)`
+  - `slack_data_mining` (method, line 286) `def slack_data_mining(self)`
+  - `detect_external_sharing` (method, line 327) `def detect_external_sharing(self)`
+  - `summary` (method, line 352) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/search.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Imported by: `static/js/showdown-2.1.0.min.js`
+
 ## modules/security_sanitizers.py
 - Doc: Security sanitizers shared across the LazyOwn framework.
 - Layer: utility
@@ -460,36 +488,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `extract_tool` (function, line 105) `def extract_tool(command)`
   - `validate_shell` (function, line 128) `def validate_shell(role, command)`
 - Imported by: `skills/autonomous_daemon.py`
-
-## modules/toposwarm_bridge.py
-- Doc: modules/toposwarm_bridge.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RoutedCall` (class, line 71) `class RoutedCall`
-  - `_keyword_route` (function, line 202) `def _keyword_route(prompt)`
-  - `_load_toposwarm_modules` (function, line 241) `def _load_toposwarm_modules()`
-  - `OnlineFeedbackLoop` (class, line 273) `class OnlineFeedbackLoop`
-  - `TopoSwarmBridge` (class, line 424) `class TopoSwarmBridge`
-  - `get_bridge` (function, line 645) `def get_bridge()`
-  - `lazyown_command` (method, line 81) `def lazyown_command(self)`
-  - `__init__` (method, line 296) `def __init__(self, maxsize)`
-  - `register` (method, line 303) `def register(self, result, hidden)`
-  - `feedback` (method, line 318) `def feedback(self, result_id, good, comment, routing_head)`
-  - `pending_count` (method, line 379) `def pending_count(self)`
-  - `stats` (method, line 382) `def stats(self)`
-  - `load_feedback_for_training` (method, line 389) `def load_feedback_for_training(self)`
-  - `__init__` (method, line 432) `def __init__(self)`
-  - `available` (method, line 444) `def available(self)`
-  - `model_loaded` (method, line 449) `def model_loaded(self)`
-  - `_try_load` (method, line 452) `def _try_load(self)`
-  - `_neural_route` (method, line 493) `def _neural_route(self, prompt)`
-  - `feedback` (method, line 562) `def feedback(self, result_id, good, comment)`
-  - `route` (method, line 586) `def route(self, prompt)`
-  - `execute_via_orchestrator` (method, line 613) `def execute_via_orchestrator(self, prompt, no_model)`
-  - `_hook` (function, line 508) `def _hook(m, i, o)`
-- Depends on: `core/logging.py`
-- Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

@@ -89,7 +89,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `state_summary` (function, line 751) `def state_summary()`
   - `new_run_token` (function, line 761) `def new_run_token()`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/lazy_orchestrator.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
 
 ## modules/hash_cracker.py
 - Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.

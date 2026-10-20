@@ -1,6 +1,18 @@
 # API (page 17 of 23)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/staged_delivery.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `StagedDeliveryFactory.__init__` (method) `modules/staged_delivery.py:83` `def __init__(self, config, output_dir)`
+- `StagedDeliveryFactory.generate_hta` (method) `modules/staged_delivery.py:134` `def generate_hta(self)` -- Generate an HTA (HTML Application) dropper.
+- `StagedDeliveryFactory.generate_vba_macro` (method) `modules/staged_delivery.py:171` `def generate_vba_macro(self)` -- Generate a VBA macro for Office documents (Word/Excel).
+- `StagedDeliveryFactory.generate_xlm_macro` (method) `modules/staged_delivery.py:219` `def generate_xlm_macro(self)` -- Generate an Excel 4.0 (XLM) macro for legacy macro execution.
+- `StagedDeliveryFactory.generate_lnk` (method) `modules/staged_delivery.py:237` `def generate_lnk(self)` -- Generate a Windows .lnk shortcut file with embedded command execution.
+- `StagedDeliveryFactory.generate_iso` (method) `modules/staged_delivery.py:301` `def generate_iso(self, inner_files)` -- Generate an ISO 9660 image with an embedded payload autorun.
+- `StagedDeliveryFactory.generate_vhd` (method) `modules/staged_delivery.py:370` `def generate_vhd(self, inner_files)` -- Generate a VHD (Virtual Hard Disk) image with embedded payloads.
+- `StagedDeliveryFactory.generate_all` (method) `modules/staged_delivery.py:420` `def generate_all(self)` -- Generate all delivery formats for the current configuration.
+- `StagedDeliveryFactory.generate_phishing_page` (method) `modules/staged_delivery.py:460` `def generate_phishing_page(self, template)` -- Generate a credential harvesting HTML page.
+
 ## modules/state_manager.py
 Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`
@@ -170,6 +182,16 @@ Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_
 - `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
 - `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
 
+## modules/trigger_policy.py
+Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`
+- `validate_triggers` (function) `modules/trigger_policy.py:40` `def validate_triggers(raw)` -- Validate the raw ``triggers`` section of the orchestrator YAML.
+- `seeds` (function) `modules/trigger_policy.py:87` `def seeds(raw)` -- Coerce validated trigger rows into seed dicts for the store.
+- `read_policy` (function) `modules/trigger_policy.py:120` `def read_policy(path)` -- Read the shipped orchestrator YAML triggers section.
+- `seed_store` (function) `modules/trigger_policy.py:146` `def seed_store(policy, store, task_id)` -- Merge declarative seeds into a persistent TriggerStore.
+- `export_store` (function) `modules/trigger_policy.py:171` `def export_store(task_id)` -- Return the current store rows for TUI and API surfaces.
+- `remove_seed` (function) `modules/trigger_policy.py:185` `def remove_seed(kind, arg, task_id)` -- Drop the first runtime trigger matching a declarative signature.
+
 ## modules/ttp_coverage.py
 Depends on: `core/logging.py`
 Imported by: `cli/commands/caldera.py`
@@ -263,6 +285,20 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
 - `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
 - `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
 - `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+
+## modules/verb_catalog.py
+Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+- `index_commands` (function) `modules/verb_catalog.py:111` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:151` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:184` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:217` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:270` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:285` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:299` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:335` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:414` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:428` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
 
 ## modules/vuln_bot_cli.py
 Depends on: `modules/vulnbot.py`
@@ -375,7 +411,7 @@ Imported by: `tests/test_lazy_loop.py`
 
 ## modules/world_model.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
 - `read_state_dict` (function) `modules/world_model.py:101` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
 - `write_state_dict` (function) `modules/world_model.py:147` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
 - `HostState.rank` (method) `modules/world_model.py:189` `def rank(self)`
@@ -457,44 +493,6 @@ Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py
 
 ## plugins/generate_html_payload.lua
 - `generate_html_payload` (function) `plugins/generate_html_payload.lua:1`
-
-## plugins/generate_lateral_command.lua
-- `generate_lateral_command` (function) `plugins/generate_lateral_command.lua:4`
-
-## plugins/generate_linux_asm_reverse_shell.lua
-- `generate_linux_asm_reverse_shell` (function) `plugins/generate_linux_asm_reverse_shell.lua:1`
-- `all` (function) `plugins/generate_linux_asm_reverse_shell.lua:121`
-
-## plugins/generate_linux_raw_shellcode.lua
-- `generate_linux_raw_shellcode` (function) `plugins/generate_linux_raw_shellcode.lua:1`
-
-## plugins/generate_lolbird.lua
-- `write_file` (function) `plugins/generate_lolbird.lua:4`
-- `read_file` (function) `plugins/generate_lolbird.lua:12`
-- `xor_hex_string` (function) `plugins/generate_lolbird.lua:21`
-- `xor_string` (function) `plugins/generate_lolbird.lua:31`
-- `generate_lolbird_ps1` (function) `plugins/generate_lolbird.lua:44`
-- `Xor` (function) `plugins/generate_lolbird.lua:64`
-
-## plugins/generate_msfvenom_loader.lua
-- `execute_command_to_file` (function) `plugins/generate_msfvenom_loader.lua:2`
-- `read_file` (function) `plugins/generate_msfvenom_loader.lua:7`
-- `hex_to_nasm` (function) `plugins/generate_msfvenom_loader.lua:18`
-- `generate_loader` (function) `plugins/generate_msfvenom_loader.lua:49`
-- `generate_msfvenom_loader` (function) `plugins/generate_msfvenom_loader.lua:104`
-
-## plugins/generate_msfvenom_loader_windows.lua
-- `generate_msfvenom_loader_windows` (function) `plugins/generate_msfvenom_loader_windows.lua:2`
-
-## plugins/generate_reverse_shell.lua
-- `generate_reverse_shell` (function) `plugins/generate_reverse_shell.lua:1`
-
-## plugins/generate_stub.lua
-- `write_file` (function) `plugins/generate_stub.lua:4`
-- `read_file` (function) `plugins/generate_stub.lua:12`
-- `xor_data` (function) `plugins/generate_stub.lua:21`
-- `xor_string` (function) `plugins/generate_stub.lua:30`
-- `generate_stub_ps1` (function) `plugins/generate_stub.lua:43`
 
 
 Next: [API_p18.md](API_p18.md)

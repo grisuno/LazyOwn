@@ -3,6 +3,35 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_prompt_script` | function | `contrib/legacy/lazygptcli_unified.py:175` | `def _prompt_script(base_prompt, history, knowledge_base)` |
+| `_prompt_search` | function | `contrib/legacy/lazygptcli_unified.py:225` | `def _prompt_search(base_prompt, history, knowledge_base)` |
+| `_prompt_task` | function | `contrib/legacy/lazygptcli_unified.py:254` | `def _prompt_task(base_prompt, history, knowledge_base)` |
+| `_prompt_vuln` | function | `contrib/legacy/lazygptcli_unified.py:239` | `def _prompt_vuln(base_prompt, history, knowledge_base)` |
+| `_ret_model` | function | `contrib/legacy/lazygptcli_unified.py:45` | `def _ret_model()` |
+| `_save_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:70` | `def _save_knowledge_base(knowledge_base, file_path)` |
+| `_transform_knowledge_base` | function | `contrib/legacy/lazygptcli_unified.py:95` | `def _transform_knowledge_base(client, kb_file, improved_file)` |
+| `process_prompt` | function | `contrib/legacy/lazygptcli_unified.py:318` | `def process_prompt(client, prompt, debug)` |
+| `process_prompt_adversary` | function | `contrib/legacy/lazygptcli_unified.py:328` | `def process_prompt_adversary(client, prompt, debug)` |
+| `process_prompt_general` | function | `contrib/legacy/lazygptcli_unified.py:333` | `def process_prompt_general(client, prompt, debug)` |
+| `process_prompt_redop` | function | `contrib/legacy/lazygptcli_unified.py:382` | `def process_prompt_redop(client, prompt, debug)` |
+| `process_prompt_script` | function | `contrib/legacy/lazygptcli_unified.py:323` | `def process_prompt_script(client, prompt, debug)` |
+| `process_prompt_search` | function | `contrib/legacy/lazygptcli_unified.py:341` | `def process_prompt_search(client, prompt, debug)` |
+| `process_prompt_task` | function | `contrib/legacy/lazygptcli_unified.py:346` | `def process_prompt_task(client, prompt, debug)` |
+| `process_prompt_vuln` | function | `contrib/legacy/lazygptcli_unified.py:356` | `def process_prompt_vuln(client, prompt, debug, event)` |
+| `truncate_message` | function | `contrib/legacy/lazygptcli_unified.py:53` | `def truncate_message(message, max_chars)` |
+| `Server` | class | `contrib/legacy/lazyhoneypot.py:60` | `class Server(ServerInterface)` |
+| `__init__` | method | `contrib/legacy/lazyhoneypot.py:61` | `def __init__(self)` |
+| `alert_admin` | function | `contrib/legacy/lazyhoneypot.py:147` | `def alert_admin(message)` |
+| `analyze_traffic` | function | `contrib/legacy/lazyhoneypot.py:136` | `def analyze_traffic()` |
+| `check_auth_password` | method | `contrib/legacy/lazyhoneypot.py:69` | `def check_auth_password(self, username, password)` |
+| `check_channel_request` | method | `contrib/legacy/lazyhoneypot.py:64` | `def check_channel_request(self, kind, chanid)` |
+| `generate_rsa_key` | function | `contrib/legacy/lazyhoneypot.py:56` | `def generate_rsa_key(key_filename)` |
+| `handle_connection` | function | `contrib/legacy/lazyhoneypot.py:74` | `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)` |
+| `handle_file_download` | function | `contrib/legacy/lazyhoneypot.py:110` | `def handle_file_download(command, downloads_dir, downloads_log)` |
+| `log_command` | function | `contrib/legacy/lazyhoneypot.py:128` | `def log_command(command, commands_log)` |
+| `log_downloaded_file` | function | `contrib/legacy/lazyhoneypot.py:132` | `def log_downloaded_file(filename, url, downloads_log)` |
+| `main` | function | `contrib/legacy/lazyhoneypot.py:165` | `def main()` |
+| `parse_args` | function | `contrib/legacy/lazyhoneypot.py:34` | `def parse_args()` |
 | `process_packet` | function | `contrib/legacy/lazyhoneypot.py:137` | `def process_packet(packet)` |
 | `setup_logging` | function | `contrib/legacy/lazyhoneypot.py:52` | `def setup_logging(log_file)` |
 | `RequestHandler` | class | `contrib/legacy/lazyhttpreverseshell.py:51` | `class RequestHandler(BaseHTTPRequestHandler)` |
@@ -467,34 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
 | `FieldKind` | class | `core/payload_schema.py:73` | `class FieldKind(StrEnum)` |
 | `FieldSpec` | class | `core/payload_schema.py:100` | `class FieldSpec` |
-| `Severity` | class | `core/payload_schema.py:91` | `class Severity(StrEnum)` |
-| `ValidationIssue` | class | `core/payload_schema.py:142` | `class ValidationIssue` |
-| `_coerce_bool` | function | `core/payload_schema.py:316` | `def _coerce_bool(raw)` |
-| `_coerce_int` | function | `core/payload_schema.py:301` | `def _coerce_int(raw)` |
-| `_spec` | function | `core/payload_schema.py:335` | `def _spec(name, kind, default, description)` |
-| `_validate_bool` | function | `core/payload_schema.py:195` | `def _validate_bool(value)` |
-| `_validate_hex` | function | `core/payload_schema.py:254` | `def _validate_hex(value)` |
-| `_validate_hostname` | function | `core/payload_schema.py:220` | `def _validate_hostname(value)` |
-| `_validate_int` | function | `core/payload_schema.py:171` | `def _validate_int(value)` |
-| `_validate_interface` | function | `core/payload_schema.py:246` | `def _validate_interface(value)` |
-| `_validate_ip` | function | `core/payload_schema.py:212` | `def _validate_ip(value)` |
-| `_validate_json_blob` | function | `core/payload_schema.py:268` | `def _validate_json_blob(value)` |
-| `_validate_opaque` | function | `core/payload_schema.py:280` | `def _validate_opaque(_value)` |
-| `_validate_os_id` | function | `core/payload_schema.py:262` | `def _validate_os_id(value)` |
-| `_validate_path` | function | `core/payload_schema.py:240` | `def _validate_path(value)` |
-| `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
-| `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
-| `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:1745` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:1587` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:1737` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:1582` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:1719` | `def format_issue(issue)` |
-| `validate_payload` | function | `core/payload_schema.py:1684` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:1610` | `def validate_value(key, value)` |
-| `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
-| `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
-| `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
-| `check_go_tool_installed` | function | `core/process.py:34` | `def check_go_tool_installed(tool_name)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

@@ -12,7 +12,7 @@ Durable context for any Claude/agent touching this repo. Source of truth: `lazyo
 ## 0. What LazyOwn is
 
 Professional red-team / pentest framework:
-- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 834 commands + 130 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
+- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 835 commands + 130 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 121 routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
 - **Skills** (`skills/`): MCP server (173 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
@@ -637,6 +637,32 @@ Bugs closed in the 2026-09-09 pass and the validation record are archived in
 `ruff format --check` are green on touched files, `mypy --no-site-packages
 core cli setup.py` is green, `bandit ... --severity-level high` finds nothing,
 and each change ships with a probe that kills one mutant.
+
+## 16c. Orchestrator visibility contracts (verb catalog, triggers, brief, C2)
+
+Loop-orchestrator visibility contract (2026-10-19). One file per contract,
+tests + mutation runners green; `./scripts/mutate.sh` scoped and
+`./scripts/test_bdd.sh` run at release time.
+
+| Contract | File | Test / mutation gate |
+|----------|------|----------------------|
+| Verb catalog (834 cmds, YAML source of truth) | `modules/verb_catalog.py`, `config/verbs.yaml` | `tests/test_verb_catalog.py`, `tests/run_mutation_verb_catalog.py` |
+| Declarative trigger policy | `modules/trigger_policy.py`, section `triggers:` in `config/orchestrator.yaml` | `tests/test_trigger_policy.py`, `tests/run_mutation_trigger_policy.py` |
+| TriggerStore extraction (from `lazy_loop`) | `modules/loop_triggers.py` | `tests/test_lazy_loop.py` re-export test |
+| Planner allowed-commands line | `modules/lazy_cli_bridge.py::catalog_cli_for_phase`, wired in `lazy_loop.build_prompt_context` | `tests/test_loop_cli_catalog.py`, `tests/run_mutation_loop_cli_catalog.py` |
+| Orchestrator TUI (Tabbed mixin + Triggers tab) | `cli/orchestrator_assets_tabs.py` (<1000 lines) + `cli/lazy_orchestrator.py` | `tests/test_orchestrator_triggers.py` |
+| Unified toastr (shell + sentinel severities) | `cli/toast_bus.py` (`TOASTR_SEVERITY_STYLES`, `ToastrConfig`) | `tests/test_toastr_unify.py` |
+| Startup session brief (world phase, looping tasks, verbs, triggers) | `cli/session_brief.py`, wired in `lazyown.preloop` | `tests/test_session_brief.py` |
+| C2 orchestrator API + mini panel | `lazyc2/blueprints/orchestrator.py`, `templates/orchestrator_panel.html` | `tests/test_orchestrator_api.py` |
+
+Rules: toggles write `config/verbs.yaml` directly (`verb_catalog.set_enabled`);
+registry management continues via `cli/commands/verb_admin.py` (`verb` command,
+`VerbAdminConfig` for table widths); trigger CLI is `lazy_trigger
+list|add|remove|on|off|seed|policy|addons|sync`; the planner only sees
+catalog-enabled verbs filtered by the current kill-chain phase (fail-closed).
+The generic `/api/data` monolith route stays untouched; the orchestrator state
+mirror lives at `GET /api/v1/orchestrator/panel.json`.
+
 
 ## 16. Read next
 

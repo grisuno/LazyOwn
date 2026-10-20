@@ -3,6 +3,54 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
+| `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
+| `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
+| `DomainDominance` | class | `modules/domain_dominance.py:89` | `class DomainDominance` |
+| `DomainInfo` | class | `modules/domain_dominance.py:49` | `class DomainInfo` |
+| `DominanceResult` | class | `modules/domain_dominance.py:75` | `class DominanceResult` |
+| `__init__` | method | `modules/domain_dominance.py:103` | `def __init__(self)` |
+| `_asrep_roast` | method | `modules/domain_dominance.py:575` | `def _asrep_roast(self, domain_info)` |
+| `_attempt_dcsync` | method | `modules/domain_dominance.py:768` | `def _attempt_dcsync(self, dc_ip)` |
+| `_discover_dc` | method | `modules/domain_dominance.py:340` | `def _discover_dc(self, domain, dns_servers)` |
+| `_domain_to_dn` | method | `modules/domain_dominance.py:838` | `def _domain_to_dn(self, domain)` |
+| `_enumerate_computers` | method | `modules/domain_dominance.py:469` | `def _enumerate_computers(self, dc_ip)` |
+| `_enumerate_groups` | method | `modules/domain_dominance.py:495` | `def _enumerate_groups(self, dc_ip)` |
+| `_enumerate_spns` | method | `modules/domain_dominance.py:516` | `def _enumerate_spns(self, dc_ip)` |
+| `_enumerate_trusts` | method | `modules/domain_dominance.py:546` | `def _enumerate_trusts(self, domain, dc_ip)` |
+| `_enumerate_users` | method | `modules/domain_dominance.py:426` | `def _enumerate_users(self, dc_ip)` |
+| `_find_dcs` | method | `modules/domain_dominance.py:366` | `def _find_dcs(self, domain, dc_ip)` |
+| `_find_domain_admins` | method | `modules/domain_dominance.py:392` | `def _find_domain_admins(self, domain, dc_ip)` |
+| `_kerberoast` | method | `modules/domain_dominance.py:625` | `def _kerberoast(self, domain_info)` |
+| `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
+| `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
+| `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
+| `_save_credential` | method | `modules/domain_dominance.py:890` | `def _save_credential(self, username, secret, secret_type, source)` |
+| `_save_dominance_report` | method | `modules/domain_dominance.py:944` | `def _save_dominance_report(self)` |
+| `_save_session` | method | `modules/domain_dominance.py:924` | `def _save_session(self, session_id, target, method, user)` |
+| `_seal_loot_secret` | method | `modules/domain_dominance.py:850` | `def _seal_loot_secret(secret)` |
+| `_unseal_loot_secret` | method | `modules/domain_dominance.py:871` | `def _unseal_loot_secret(stored)` |
+| `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
+| `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
+| `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
+| `escalate` | method | `modules/domain_dominance.py:260` | `def escalate(self, domain_info, stash)` |
+| `extract_credentials` | method | `modules/domain_dominance.py:227` | `def extract_credentials(self, domain_info, known_creds)` |
+| `get_instance` | method | `modules/domain_dominance.py:110` | `def get_instance(cls)` |
+| `persist` | method | `modules/domain_dominance.py:314` | `def persist(self, domain_info)` |
+| `DotNetPayloadConfig` | class | `modules/dotnet_payload.py:293` | `class DotNetPayloadConfig` |
+| `DotNetPayloadFactory` | class | `modules/dotnet_payload.py:315` | `class DotNetPayloadFactory` |
+| `__init__` | method | `modules/dotnet_payload.py:327` | `def __init__(self, output_dir)` |
+| `_detect_compiler` | method | `modules/dotnet_payload.py:333` | `def _detect_compiler()` |
+| `_resolve_template` | method | `modules/dotnet_payload.py:368` | `def _resolve_template(self, config)` |
+| `compile` | method | `modules/dotnet_payload.py:403` | `def compile(self, config, source_code)` |
+| `generate` | method | `modules/dotnet_payload.py:454` | `def generate(self, config)` |
+| `generate_inline_assembly` | method | `modules/dotnet_payload.py:500` | `def generate_inline_assembly(self, config)` |
+| `generate_powershell_reflective` | method | `modules/dotnet_payload.py:481` | `def generate_powershell_reflective(self, config)` |
+| `generate_source` | method | `modules/dotnet_payload.py:389` | `def generate_source(self, config)` |
+| `list_templates` | method | `modules/dotnet_payload.py:364` | `def list_templates()` |
+| `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
+| `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
+| `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
 | `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
 | `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
 | `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
@@ -448,53 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
 | `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
 | `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
-| `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
-| `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
-| `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
-| `start_ollama_service` | function | `modules/fast_run_service.sh:410` | `` |
-| `start_telegram_service` | function | `modules/fast_run_service.sh:390` | `` |
-| `start_vpn_service` | function | `modules/fast_run_service.sh:363` | `` |
-| `start_www_service` | function | `modules/fast_run_service.sh:356` | `` |
-| `stop_named_service` | function | `modules/fast_run_service.sh:292` | `` |
-| `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
-| `usage` | function | `modules/fast_run_service.sh:528` | `` |
-| `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
-| `FindingRecord` | class | `modules/finding_lifecycle.py:182` | `class FindingRecord` |
-| `RetestRecord` | class | `modules/finding_lifecycle.py:195` | `class RetestRecord` |
-| `_finding_from_row` | function | `modules/finding_lifecycle.py:220` | `def _finding_from_row(row)` |
-| `_load` | function | `modules/finding_lifecycle.py:40` | `def _load(sessions_dir)` |
-| `_load_retests` | function | `modules/finding_lifecycle.py:292` | `def _load_retests(sessions_dir)` |
-| `_retests_path` | function | `modules/finding_lifecycle.py:287` | `def _retests_path(sessions_dir)` |
-| `_save` | function | `modules/finding_lifecycle.py:53` | `def _save(sessions_dir, data)` |
-| `_save_retests` | function | `modules/finding_lifecycle.py:303` | `def _save_retests(sessions_dir, payload)` |
-| `_store_path` | function | `modules/finding_lifecycle.py:35` | `def _store_path(sessions_dir)` |
-| `_token_value` | function | `modules/finding_lifecycle.py:205` | `def _token_value(refs, prefix, default)` |
-| `_with_token` | function | `modules/finding_lifecycle.py:213` | `def _with_token(refs, prefix, value)` |
-| `add_dead_end` | function | `modules/finding_lifecycle.py:104` | `def add_dead_end(kind, value, reason, sessions_dir)` |
-| `apply_confirmation` | function | `modules/finding_lifecycle.py:154` | `def apply_confirmation(nodes, sessions_dir)` |
-| `classify_retest` | function | `modules/finding_lifecycle.py:384` | `def classify_retest(needle, output)` |
-| `confirm` | function | `modules/finding_lifecycle.py:61` | `def confirm(finding_id, evidence, sessions_dir, by)` |
-| `findings_for` | function | `modules/finding_lifecycle.py:259` | `def findings_for(db, workspace)` |
-| `has_running_retest` | function | `modules/finding_lifecycle.py:310` | `def has_running_retest(finding_id, sessions_dir)` |
-| `is_dead_end` | function | `modules/finding_lifecycle.py:116` | `def is_dead_end(kind, value, sessions_dir)` |
-| `record` | function | `modules/finding_lifecycle.py:234` | `def record(db, workspace, host, title, severity, summary, poc)` |
-| `reject` | function | `modules/finding_lifecycle.py:90` | `def reject(finding_id, reason, sessions_dir, by)` |
-| `render_markdown` | function | `modules/finding_lifecycle.py:403` | `def render_markdown(db, workspace, title)` |
-| `request_retest` | function | `modules/finding_lifecycle.py:318` | `def request_retest(db, finding_id, sessions_dir)` |
-| `resolve` | function | `modules/finding_lifecycle.py:129` | `def resolve(node, sessions_dir)` |
-| `resolve_retest` | function | `modules/finding_lifecycle.py:338` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
-| `set_status` | function | `modules/finding_lifecycle.py:264` | `def set_status(db, finding_id, status)` |
-| `suppressed_values` | function | `modules/finding_lifecycle.py:123` | `def suppressed_values(sessions_dir)` |
-| `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
-| `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
-| `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
-| `amcache_parse` | method | `modules/forensic_cleaner.py:259` | `def amcache_parse(self)` |
-| `linux_cleanup` | method | `modules/forensic_cleaner.py:165` | `def linux_cleanup(self)` |
-| `macos_cleanup` | method | `modules/forensic_cleaner.py:193` | `def macos_cleanup(self)` |
-| `windows_cleanup` | method | `modules/forensic_cleaner.py:70` | `def windows_cleanup(self)` |
-| `windows_prefetch_parse` | method | `modules/forensic_cleaner.py:221` | `def windows_prefetch_parse(self, prefetch_path)` |
-| `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
-| `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
-| `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

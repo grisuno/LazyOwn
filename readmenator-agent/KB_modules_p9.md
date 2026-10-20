@@ -1,4 +1,4 @@
-# Subsystem: modules (page 9 of 15)
+# Subsystem: modules (page 9 of 16)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
 ## modules/lazy_orchestrator_feedback.py
@@ -217,19 +217,19 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `_prepare_engine` (function, line 384) `def _prepare_engine(engine, shell, config, params)`
   - `_start_proxy` (function, line 398) `def _start_proxy(engine, params)`
   - `report_result` (function, line 423) `def report_result(result)`
-  - `_bootstrap` (function, line 447) `def _bootstrap(scan_target, executor)`
-  - `_apply_budget` (function, line 461) `def _apply_budget(engine, task_id, budget)`
-  - `_budget_declined` (function, line 474) `def _budget_declined(config)`
-  - `_run_with_progress` (function, line 490) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 596) `def _overview(task_id)`
-  - `_format_activity` (function, line 606) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 620) `def _dump_thread_stacks()`
-  - `_stall_thresholds` (function, line 635) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 649) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 745) `def _terminal_stream()`
-  - `_run_plain` (function, line 767) `def _run_plain(engine, config)`
-  - `run_loop` (function, line 802) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 901) `def _tty_available()`
+  - `_bootstrap` (function, line 466) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 480) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 493) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 509) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 615) `def _overview(task_id)`
+  - `_format_activity` (function, line 625) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 639) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 654) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 668) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 764) `def _terminal_stream()`
+  - `_run_plain` (function, line 786) `def _run_plain(engine, config)`
+  - `run_loop` (function, line 821) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 920) `def _tty_available()`
   - `__init__` (method, line 52) `def __init__(self, main_stream, spool)`
   - `write` (method, line 58) `def write(self, data)`
   - `flush` (method, line 69) `def flush(self)`
@@ -238,11 +238,11 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `clamped` (method, line 113) `def clamped(self)`
   - `_resolve_alias` (function, line 309) `def _resolve_alias(command)`
   - `_executor` (function, line 317) `def _executor(command)`
-  - `stream` (function, line 505) `def stream(text)`
-  - `_run` (function, line 542) `def _run()`
-  - `_write` (function, line 757) `def _write(text)`
+  - `stream` (function, line 524) `def stream(text)`
+  - `_run` (function, line 561) `def _run()`
+  - `_write` (function, line 776) `def _write(text)`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_progress.py`, `utils.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
 
 ## modules/lazy_sandbox.py
 - Doc: Per-task Docker sandbox for the Lazy autonomous loop.

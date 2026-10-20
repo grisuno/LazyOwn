@@ -3,19 +3,20 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_report` | method | `cli/commands/lazyops.py:1323` | `def do_lazy_report(self, line)` |
 | `do_lazy_resume` | method | `cli/commands/lazyops.py:1313` | `def do_lazy_resume(self, line)` |
 | `do_lazy_retest` | method | `cli/commands/lazyops.py:1260` | `def do_lazy_retest(self, line)` |
 | `do_lazy_runtime` | method | `cli/commands/lazyops.py:1340` | `def do_lazy_runtime(self, line)` |
-| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2680` | `def do_lazy_sandbox(self, line)` |
-| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2584` | `def do_lazy_scheduler(self, line)` |
+| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2682` | `def do_lazy_sandbox(self, line)` |
+| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2586` | `def do_lazy_scheduler(self, line)` |
 | `do_lazy_scope` | method | `cli/commands/lazyops.py:780` | `def do_lazy_scope(self, line)` |
 | `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:456` | `def do_lazy_selfupdate(self, line)` |
 | `do_lazy_skill` | method | `cli/commands/lazyops.py:319` | `def do_lazy_skill(self, line)` |
 | `do_lazy_stage` | method | `cli/commands/lazyops.py:1961` | `def do_lazy_stage(self, line)` |
-| `do_lazy_status` | method | `cli/commands/lazyops.py:2439` | `def do_lazy_status(self, line)` |
+| `do_lazy_status` | method | `cli/commands/lazyops.py:2441` | `def do_lazy_status(self, line)` |
 | `do_lazy_steer` | method | `cli/commands/lazyops.py:1279` | `def do_lazy_steer(self, line)` |
 | `do_lazy_task` | method | `cli/commands/lazyops.py:147` | `def do_lazy_task(self, line)` |
-| `do_lazy_template` | method | `cli/commands/lazyops.py:2499` | `def do_lazy_template(self, line)` |
+| `do_lazy_template` | method | `cli/commands/lazyops.py:2501` | `def do_lazy_template(self, line)` |
 | `do_lazy_todo` | method | `cli/commands/lazyops.py:798` | `def do_lazy_todo(self, line)` |
 | `do_lazy_tool` | method | `cli/commands/lazyops.py:1791` | `def do_lazy_tool(self, line)` |
 | `do_lazy_trace` | method | `cli/commands/lazyops.py:555` | `def do_lazy_trace(self, line)` |
@@ -387,6 +388,14 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_spool` | method | `cli/commands/resource_scripting.py:122` | `def do_spool(self, line)` |
 | `on_cmd` | function | `cli/commands/resource_scripting.py:35` | `def on_cmd(cmd)` |
 | `on_print` | function | `cli/commands/resource_scripting.py:39` | `def on_print(msg)` |
+| `RetryOpsCommandSet` | class | `cli/commands/retry_ops.py:61` | `class RetryOpsCommandSet(LazyOwnCommandSet)` |
+| `_arm_elevation` | method | `cli/commands/retry_ops.py:111` | `def _arm_elevation(self, rest)` |
+| `_collect_vars` | function | `cli/commands/retry_ops.py:218` | `def _collect_vars(tokens)` |
+| `_confirmer` | function | `cli/commands/retry_ops.py:43` | `def _confirmer(warning)` |
+| `_retry_chain` | method | `cli/commands/retry_ops.py:152` | `def _retry_chain(self, rest)` |
+| `_retry_loop` | method | `cli/commands/retry_ops.py:184` | `def _retry_loop(self, rest)` |
+| `_retry_status` | method | `cli/commands/retry_ops.py:129` | `def _retry_status(self, rest)` |
+| `do_retry` | method | `cli/commands/retry_ops.py:68` | `def do_retry(self, line)` |
 | `ScanCommandSet` | class | `cli/commands/scan.py:49` | `class ScanCommandSet(LazyOwnCommandSet)` |
 | `do_amass` | method | `cli/commands/scan.py:392` | `def do_amass(self, line)` |
 | `do_arpscan` | method | `cli/commands/scan.py:129` | `def do_arpscan(self, line)` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_msfshellcoder` | method | `cli/commands/session_ops.py:1603` | `def do_msfshellcoder(self, line)` |
 | `do_next` | method | `cli/commands/session_ops.py:651` | `def do_next(self, line)` |
 | `do_note` | method | `cli/commands/session_ops.py:79` | `def do_note(self, line)` |
-| `do_payload` | method | `cli/commands/session_ops.py:600` | `def do_payload(self, line)` |
-| `do_pipeline` | method | `cli/commands/session_ops.py:998` | `def do_pipeline(self, line)` |
-| `do_pivot` | method | `cli/commands/session_ops.py:161` | `def do_pivot(self, line)` |
-| `do_qa` | method | `cli/commands/session_ops.py:1385` | `def do_qa(self, line)` |
-| `do_resume` | method | `cli/commands/session_ops.py:1212` | `def do_resume(self, line)` |
-| `do_run` | method | `cli/commands/session_ops.py:561` | `def do_run(self, line)` |
-| `do_scans` | method | `cli/commands/session_ops.py:219` | `def do_scans(self, line)` |
-| `do_scope` | method | `cli/commands/session_ops.py:390` | `def do_scope(self, line)` |
-| `do_show` | method | `cli/commands/session_ops.py:456` | `def do_show(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

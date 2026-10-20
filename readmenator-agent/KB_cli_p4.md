@@ -175,6 +175,24 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Depends on: `cli/commands/_dormancy.py`
 - Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
+## cli/retry_support.py
+- Doc: Retry support - resume logic shared by the ``retry`` CLI surface.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `looks_like_run_id` (function, line 45) `def looks_like_run_id(token)`
+  - `LastTask` (class, line 62) `class LastTask`
+  - `last_loop_task` (function, line 81) `def last_loop_task()`
+  - `status_snapshot` (function, line 104) `def status_snapshot(limit)`
+  - `consent_to_elevate` (function, line 129) `def consent_to_elevate(rest, confirmer)`
+  - `RetryChainReport` (class, line 164) `class RetryChainReport`
+  - `retry_chain` (function, line 204) `def retry_chain(chain_or_run, shell, extra_vars, dry_run)`
+  - `_chain_state_when_disabled` (function, line 268) `def _chain_state_when_disabled(chain_name)`
+  - `known` (method, line 76) `def known(self)`
+  - `to_dict` (method, line 189) `def to_dict(self)`
+- Depends on: `cli/apt_chain_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/lazy_loop.py`, `modules/retry_session.py`, `utils.py`
+- Imported by: `cli/commands/retry_ops.py`, `tests/test_retry_session.py`
+
 ## cli/scope_guard.py
 - Doc: Authorization scope guard for offensive command execution.
 - Layer: utility
@@ -206,10 +224,10 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_world_line` (function, line 68) `def _world_line(payload)`
   - `fetch_task_rows` (function, line 84) `def fetch_task_rows()`
   - `_task_line` (function, line 94) `def _task_line(rows)`
-  - `_verb_line` (function, line 110) `def _verb_line()`
-  - `_trigger_line` (function, line 123) `def _trigger_line()`
-  - `build_session_brief` (function, line 135) `def build_session_brief(payload, tasks)`
-  - `print_session_brief` (function, line 171) `def print_session_brief(console, payload)`
+  - `_verb_line` (function, line 104) `def _verb_line()`
+  - `_trigger_line` (function, line 115) `def _trigger_line()`
+  - `build_session_brief` (function, line 127) `def build_session_brief(payload, tasks)`
+  - `print_session_brief` (function, line 163) `def print_session_brief(console, payload)`
 - Depends on: `cli/themes.py`, `modules/__init__.py`, `modules/lazy_engine.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
 - Imported by: `lazyown.py`, `tests/test_session_brief.py`
 

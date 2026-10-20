@@ -1,0 +1,249 @@
+version: 1
+manifests:
+  lazynmap:
+    version: 1
+    title: Nmap service scan
+    phase: recon
+    description: Discover open ports, service versions and OS hints on one host.
+    mitre: [T1046]
+    keywords: [scan, ports, services, fingerprint]
+    needs_target: true
+    cost: {tokens: 300, seconds: 600, toolcalls: 1}
+    noise: {weight: 0.7, why: "full connect scan shows in network flow and scan-detectors.", sigma: [LAZ-010]}
+    preconditions:
+      - {fact: host_known, host: "{target}"}
+    effects:
+      - {fact: services_discovered, host: "{target}"}
+      - {fact: scan_completed, host: "{target}"}
+    idempotent: true
+
+  auto_populate:
+    version: 1
+    title: World-model ingest of the last scan
+    phase: recon
+    description: Parse the stored nmap XML into hosts, services and OS facets.
+    mitre: [T1046]
+    keywords: [populate, facts, model]
+    needs_target: true
+    cost: {tokens: 80, seconds: 5, toolcalls: 1}
+    noise: {weight: 0.0, why: "pure local file ingestion, zero packets."}
+    preconditions:
+      - {fact: scan_completed, host: "{target}"}
+    effects:
+      - {fact: services_discovered, host: "{target}"}
+      - {fact: os, host: "{target}"}
+    idempotent: true
+
+  auto_pwn:
+    version: 1
+    title: Autonomous initial-access sweep
+    phase: exploit
+    description: Full recon-to-shell sweep driving atomic exploit tests.
+    mitre: [T1210, T1190]
+    keywords: [exploit, pwn, gain access, initial access, compromise, foothold]
+    needs_target: true
+    cost: {tokens: 2500, seconds: 1800, toolcalls: 8}
+    noise: {weight: 0.85, why: "defense template checks and public exploit usage.", sigma: [LAZ-020]}
+    preconditions:
+      - {fact: services_discovered, host: "{target}"}
+    effects:
+      - {fact: access, host: "{target}", level: shell}
+    idempotent: false
+
+  autopivot:
+    version: 1
+    title: Autonomous pivot search
+    phase: postexp
+    description: Enumerate adjacent networks and fire the reachable pivots.
+    mitre: [T1570]
+    keywords: [pivot, lateral, spread]
+    needs_target: true
+    cost: {tokens: 1500, seconds: 900, toolcalls: 5}
+    noise: {weight: 0.45, why: "internal sweeps over routable subnets."}
+    preconditions:
+      - {fact: access, host: "{target}", level: shell}
+    effects:
+      - {fact: host_known, host: "{target}"}
+    idempotent: true
+
+  c2_deploy:
+    version: 1
+    title: Beacon deployment
+    phase: postexp
+    description: Deliver the beacon payload and open C2 connectivity.
+    mitre: [T1105]
+    keywords: [beacon, c2, implant, deploy]
+    needs_target: true
+    cost: {tokens: 120, seconds: 120, toolcalls: 2}
+    noise: {weight: 0.3, why: "staged binary drop over plain HTTP."}
+    preconditions:
+      - {fact: access, host: "{target}", level: shell}
+      - {fact: c2, state: running}
+    effects:
+      - {fact: session, host: "{target}", kind: c2}
+      - {fact: access, host: "{target}", level: root}
+    idempotent: false
+
+  nuclei:
+    version: 1
+    title: Nuclei web template sweep
+    phase: enum
+    description: Template-driven web vulnerability detection on http surfaces.
+    mitre: [T1595]
+    keywords: [nuclei, cve, web, vuln scan]
+    needs_target: true
+    cost: {tokens: 900, seconds: 900, toolcalls: 1}
+    noise: {weight: 0.6, why: "hundreds of probe endpoints; WAF fingerprint durable."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: http}
+    effects:
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: true
+
+  bloodhound:
+    version: 1
+    title: BloodHound LDAP collection
+    phase: enum
+    description: Collect the AD graph (users, groups, sessions) for path finding.
+    mitre: [T1087, T1482]
+    keywords: [bloodhound, ldap, domain paths, sharphound]
+    needs_target: true
+    cost: {tokens: 15000, seconds: 1200, toolcalls: 3}
+    noise: {weight: 0.8, why: "mass LDAP SPN and membership enumeration trips SIEM baselines.", sigma: [LAZ-003]}
+    preconditions:
+      - {fact: credentials, scope: any}
+      - {fact: service_open, host: "{target}", service: ldap}
+    effects:
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: false
+
+  hydra:
+    version: 1
+    title: Credential brute force
+    phase: cred
+    description: Online password guessing against one service.
+    mitre: [T1110]
+    keywords: [bruteforce, brute, wordlist, password guessing]
+    needs_target: true
+    cost: {tokens: 400, seconds: 900, toolcalls: 1}
+    noise: {weight: 0.9, why: "auth failure storms are top-of-stack in every SIEM.", sigma: [LAZ-003]}
+    preconditions:
+      - {fact: service_open, host: "{target}"}
+    effects:
+      - {fact: credentials, scope: host}
+    idempotent: true
+
+  enum4linux:
+    version: 1
+    title: SMB enumeration
+    phase: enum
+    description: Pull users, shares, and policy facts over SMB.
+    mitre: [T1087, T1201]
+    keywords: [smb, shares, users, windows enum]
+    needs_target: true
+    cost: {tokens: 1200, seconds: 600, toolcalls: 1}
+    noise: {weight: 0.5, why: "wide SMB tree walks logged on DCs."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: smb}
+    effects:
+      - {fact: credentials, scope: any}
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: true
+
+  gobuster:
+    version: 1
+    title: Web directory fuzzing
+    phase: enum
+    description: Discover hidden paths with a wordlist over one http endpoint.
+    mitre: [T1592]
+    keywords: [dirs, fuzz, web paths, gobuster]
+    needs_target: true
+    cost: {tokens: 800, seconds: 600, toolcalls: 1}
+    noise: {weight: 0.4, why: "high-rate 404 storm visible to WAFs.", sigma: [LAZ-011]}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: http}
+    effects:
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: true
+
+  whatweb:
+    version: 1
+    title: Web technology fingerprint
+    phase: enum
+    description: Identify CMS, frameworks and versions of the http surface.
+    mitre: [T1592]
+    keywords: [fingerprint, cms, web tech]
+    needs_target: true
+    cost: {tokens: 200, seconds: 60, toolcalls: 1}
+    noise: {weight: 0.15, why: "few polite requests; low signal in logs."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: http}
+    effects:
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: true
+
+  nikto:
+    version: 1
+    title: Nikto web server audit
+    phase: enum
+    description: Classic web server vuln audit against one http surface.
+    mitre: [T1595]
+    keywords: [nikto, webserver audit, old vulns]
+    needs_target: true
+    cost: {tokens: 700, seconds: 600, toolcalls: 1}
+    noise: {weight: 0.9, why: "Nikto user-agent is signatured in virtually every IDS."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: http}
+    effects:
+      - {fact: min_version_collected, host: "{target}"}
+    idempotent: true
+
+  smbclient:
+    version: 1
+    title: SMB share interaction
+    phase: enum
+    description: List or fetch from one share to move loot.
+    mitre: [T1135]
+    keywords: [smb, share listing, fetch loot]
+    needs_target: true
+    cost: {tokens: 150, seconds: 120, toolcalls: 1}
+    noise: {weight: 0.25, why: "single session, low volume."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: smb}
+    effects:
+      - {fact: artifact, path: "loot/smb"}
+    idempotent: true
+
+  chisel:
+    version: 1
+    title: Reverse tunnel
+    phase: postexp
+    description: Open a chisel reverse tunnel from the target to the operator.
+    mitre: [T1572]
+    keywords: [tunnel, socks, forward, chisel]
+    needs_target: false
+    cost: {tokens: 100, seconds: 30, toolcalls: 1}
+    noise: {weight: 0.35, why: "unusual long-lived encrypted stream on a nonstandard port."}
+    preconditions:
+      - {fact: access, host: "{target}", level: shell}
+    effects:
+      - {fact: session, host: "{target}", kind: c2}
+    idempotent: false
+
+  secretsdump:
+    version: 1
+    title: Remote credential dumping
+    phase: cred
+    description: Dump SAM/NTDS hashes remotely using captured credentials.
+    mitre: [T1003.002]
+    keywords: [dump hashes, sam, ntds, secretsdump]
+    needs_target: true
+    cost: {tokens: 1200, seconds: 300, toolcalls: 1}
+    noise: {weight: 0.95, why: "LSASS/registry salt read patterns are detection bread and butter.", sigma: [LAZ-002]}
+    preconditions:
+      - {fact: credentials, scope: any}
+      - {fact: access, host: "{target}", level: shell}
+    effects:
+      - {fact: credentials, scope: any}
+      - {fact: access, host: "{target}", level: root}
+    idempotent: false

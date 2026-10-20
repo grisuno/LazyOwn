@@ -96,6 +96,7 @@ class ChainRunResult:
     filtered: int = 0
     started_at: float = 0.0
     finished_at: float = 0.0
+    plan_warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
@@ -113,6 +114,7 @@ class ChainRunResult:
             "filtered": self.filtered,
             "started_at": self.started_at,
             "finished_at": self.finished_at,
+            "plan_warnings": list(self.plan_warnings),
             "duration_ms": round(max(0.0, self.finished_at - self.started_at) * 1000, 2),
         }
 
@@ -193,8 +195,31 @@ class ChainRunner:
         resume_state: dict[str, Any] | None = None,
         step_filter: set[str] | None = None,
         replanner: Callable[[ReplanContext], None] | None = None,
+        command_filter: Callable[[str], str] | None = None,
     ) -> None:
-        """Bind the chain, the execution primitive and operator switches."""
+        """Bind the chain, the execution primitive and operator switches.
+
+        Args:
+            chain: Chain to execute.
+            tokens: Chain tokens (target, playbook, artefact paths...).
+            shell: Live cmd2 shell for verb steps (None uses raw exec).
+            executor: Optional alternative execution primitive.
+            default_timeout: Per-step wall clock fallback.
+            dry_run: Resolve without executing anything.
+            on_step: Optional per-step observer callback.
+            retry_backoff: Base seconds between retry attempts.
+            total_timeout: Whole-chain wall clock cap (0 disables).
+            approver: Callback for ``confirm`` steps (None: denied).
+            checkpoint_dir: When set, persist resumable checkpoints.
+            run_id: Explicit run id (else generated with checkpointing).
+            resume_state: Previously saved checkpoint to continue from.
+            step_filter: Restrict execution to these step ids.
+            replanner: Optional after-step advice hook.
+            command_filter: Optional transform applied to every command
+                (run and verify) right before execution, such as the
+                retry-session ``sudo -A`` askpass rewrite. A filter
+                error keeps the original command instead of aborting.
+        """
         self.chain = chain
         self.tokens = {str(key): str(value) for key, value in (tokens or {}).items()}
         self.shell = shell
@@ -209,6 +234,7 @@ class ChainRunner:
         self.run_id = str(run_id or "")
         self.step_filter = {str(item) for item in (step_filter or set()) if str(item)}
         self.replanner = replanner
+        self.command_filter = command_filter
         self.resume_state = resume_state if isinstance(resume_state, dict) else None
         self._replan_inserts_total = 0
 
@@ -326,6 +352,13 @@ class ChainRunner:
             else:
                 index += 1
         result.ok = all(step.ok for step in result.steps) and not result.aborted
+        if self.dry_run:
+            try:
+                from modules.verb_manifest import plan_check
+
+                result.plan_warnings = plan_check(steps, dict(variables))
+            except Exception:
+                result.plan_warnings = []
         result.variables = dict(variables)
         result.finished_at = time.time()
         state_name = "aborted" if result.aborted else "finished"
@@ -628,7 +661,16 @@ class ChainRunner:
         timeout: int,
         expect_exits: tuple[int, ...] = (),
     ) -> tuple[bool, str, str]:
-        """Run one command with an optional timeout and return (ok, output, reason)."""
+        """Run one command with an optional timeout and return (ok, output, reason).
+
+        The bound ``command_filter`` (retry sessions) rewrites the line
+        first; a filter failure keeps the original command.
+        """
+        if self.command_filter is not None:
+            try:
+                command = str(self.command_filter(command))
+            except Exception:
+                pass
         limit = float(timeout or self.default_timeout)
         allowed = {
             code

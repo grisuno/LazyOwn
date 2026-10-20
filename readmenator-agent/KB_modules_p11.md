@@ -1,4 +1,4 @@
-# Subsystem: modules (page 11 of 15)
+# Subsystem: modules (page 11 of 16)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
 ## modules/logging_config.py
@@ -257,11 +257,11 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Layer: data_access
 - Language: py
 - Symbols:
-  - `Migration` (class, line 65) `class Migration`
-  - `_docker_exec` (function, line 86) `def _docker_exec(container, script, payload, timeout)`
-  - `_core_services_apply` (function, line 116) `def _core_services_apply()`
-  - `build_migrations` (function, line 131) `def build_migrations(subnet)`
-  - `apply_migrations` (function, line 236) `def apply_migrations(container, subnet)`
+  - `Migration` (class, line 129) `class Migration`
+  - `_docker_exec` (function, line 150) `def _docker_exec(container, script, payload, timeout)`
+  - `_core_services_apply` (function, line 180) `def _core_services_apply()`
+  - `build_migrations` (function, line 194) `def build_migrations(subnet)`
+  - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `cli/commands/lab.py`, `tests/test_metasploitable_migrations.py`
 

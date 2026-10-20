@@ -1,4 +1,4 @@
-# Subsystem: modules (page 15 of 15)
+# Subsystem: modules (page 15 of 16)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
 ## modules/toposwarm_bridge.py
@@ -266,25 +266,52 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `VerbCatalogConfig` (class, line 54) `class VerbCatalogConfig`
-  - `_default_config` (function, line 74) `def _default_config()`
-  - `_builtin_names` (function, line 79) `def _builtin_names()`
-  - `_phase_fallback` (function, line 91) `def _phase_fallback(verb)`
-  - `_risk_fallback` (function, line 101) `def _risk_fallback(verb)`
-  - `index_commands` (function, line 111) `def index_commands(config)`
-  - `validate_catalog` (function, line 151) `def validate_catalog(data)`
-  - `load` (function, line 184) `def load(config)`
-  - `entries` (function, line 217) `def entries(config)`
-  - `catalog_enabled` (function, line 270) `def catalog_enabled(name, config)`
-  - `catalog_source` (function, line 285) `def catalog_source(name, config)`
-  - `set_enabled` (function, line 299) `def set_enabled(name, enabled, config)`
-  - `sync` (function, line 335) `def sync(config)`
-  - `_write` (function, line 382) `def _write(cfg, verbs)`
-  - `_drop_cache` (function, line 406) `def _drop_cache(path_key)`
-  - `stats` (function, line 414) `def stats(config)`
-  - `search` (function, line 428) `def search(query, config, phase, enabled, limit)`
+  - `VerbCatalogConfig` (class, line 76) `class VerbCatalogConfig`
+  - `_default_config` (function, line 99) `def _default_config()`
+  - `_builtin_names` (function, line 105) `def _builtin_names()`
+  - `_phase_fallback` (function, line 117) `def _phase_fallback(verb)`
+  - `_risk_fallback` (function, line 127) `def _risk_fallback(verb)`
+  - `_addon_discoveries` (function, line 137) `def _addon_discoveries(config)`
+  - `_all_discoveries` (function, line 181) `def _all_discoveries(config)`
+  - `index_commands` (function, line 190) `def index_commands(config)`
+  - `validate_catalog` (function, line 230) `def validate_catalog(data)`
+  - `load` (function, line 263) `def load(config)`
+  - `entries` (function, line 296) `def entries(config)`
+  - `catalog_enabled` (function, line 349) `def catalog_enabled(name, config)`
+  - `catalog_source` (function, line 364) `def catalog_source(name, config)`
+  - `set_enabled` (function, line 378) `def set_enabled(name, enabled, config)`
+  - `sync` (function, line 415) `def sync(config)`
+  - `_write` (function, line 470) `def _write(cfg, verbs)`
+  - `_drop_cache` (function, line 494) `def _drop_cache(path_key)`
+  - `stats` (function, line 502) `def stats(config)`
+  - `search` (function, line 516) `def search(query, config, phase, enabled, limit)`
 - Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 - Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+
+## modules/verb_manifest.py
+- Doc: Typed verb manifests - semantics for routable shell verbs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ManifestCost` (class, line 93) `class ManifestCost`
+  - `ManifestNoise` (class, line 108) `class ManifestNoise`
+  - `FactPredicate` (class, line 123) `class FactPredicate`
+  - `VerbManifest` (class, line 188) `class VerbManifest`
+  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
+  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
+  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
+  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
+  - `_load_document` (function, line 338) `def _load_document(path)`
+  - `manifests` (function, line 371) `def manifests(path)`
+  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
+  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
+  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
+  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
+  - `args` (method, line 152) `def args(self)`
+  - `is_wild` (method, line 156) `def is_wild(self, key)`
+  - `matches` (method, line 161) `def matches(self, other)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
 
 ## modules/vuln_bot_cli.py
 - Layer: utility
@@ -439,7 +466,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `read_section` (method, line 1166) `def read_section(self, key)`
   - `write_section` (method, line 1183) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json
@@ -456,26 +483,5 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `create_yaml_addon` (method, line 109) `def create_yaml_addon(self, user_request, output_dir)`
 - Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
 
-## modules/yara_scanner.py
-- Doc: YARA integration for malware classification and IOC scanning.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `YaraScanner` (class, line 23) `class YaraScanner`
-  - `create_default_rules` (function, line 371) `def create_default_rules()`
-  - `__init__` (method, line 31) `def __init__(self, rules_dir, auto_compile)`
-  - `ensure_directory` (method, line 41) `def ensure_directory(self)`
-  - `_load_external_vars` (method, line 45) `def _load_external_vars(self)`
-  - `compile_all` (method, line 54) `def compile_all(self)`
-  - `scan_file` (method, line 98) `def scan_file(self, filepath, timeout)`
-  - `_scan_with_timeout` (method, line 129) `def _scan_with_timeout(self, filepath, externals, timeout)`
-  - `_format_match` (method, line 162) `def _format_match(self, match)`
-  - `scan_directory` (method, line 187) `def scan_directory(self, directory, recursive, extensions, max_files)`
-  - `_sha256` (method, line 250) `def _sha256(filepath)`
-  - `add_rule` (method, line 258) `def add_rule(self, name, content)`
-  - `list_rules` (method, line 277) `def list_rules(self)`
-  - `download_community_rules` (method, line 300) `def download_community_rules(self)`
-  - `ioc_scan` (method, line 328) `def ioc_scan(self, target_path, iocs)`
-  - `target` (function, line 137) `def target()`
-- Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
 
+Next: [KB_modules_p16.md](KB_modules_p16.md)

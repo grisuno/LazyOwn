@@ -1,10 +1,10 @@
 # modules: autonomous_daemon
 
-*Community 0 | 166 files | cohesion 0.56*
+*Community 1 | 165 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 166 file(s) rooted at `modules` with dominant language py (cohesion 0.56). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIModel`, `AIResult`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 165 file(s) rooted at `modules` with dominant language py (cohesion 0.56). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIModel`, `AIResult`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
@@ -16,7 +16,7 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 | `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
 | `modules/ai_fallback.py` | py | utility | 8 | yes |
 
-### `tests` (42 files)
+### `tests` (41 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -78,7 +78,7 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 146 more files in this community.*
+*... and 145 more files in this community.*
 
 
 ## Key Symbols
@@ -116,25 +116,25 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 954
-- Cross-boundary resolved imports (EXTRACTED): 445
+- Internal resolved imports (EXTRACTED): 947
+- Cross-boundary resolved imports (EXTRACTED): 442
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
-- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
+- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
@@ -174,4 +174,4 @@ This community groups 166 file(s) rooted at `modules` with dominant language py 
 - `core/security.py`
 - `modules/agent_runner.py`
 - `modules/ai_exploit_chain.py`
-- *... and 146 more*
+- *... and 145 more*

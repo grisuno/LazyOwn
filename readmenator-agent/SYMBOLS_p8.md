@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `core/logging.py:74` | `def __init__(self, redacted_fields)` |
+| `_log_factory` | function | `core/logging.py:180` | `def _log_factory(name, config)` |
+| `format` | method | `core/logging.py:78` | `def format(self, record)` |
+| `format` | method | `core/logging.py:132` | `def format(self, record)` |
+| `get_logger` | function | `core/logging.py:231` | `def get_logger(name)` |
+| `install_json_handler` | function | `core/logging.py:251` | `def install_json_handler(name, config)` |
+| `makeRecord` | method | `core/logging.py:148` | `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)` |
+| `reconfigure` | function | `core/logging.py:300` | `def reconfigure(config)` |
+| `create_arp_packet` | function | `core/network.py:33` | `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)` |
+| `get_banner` | function | `core/network.py:134` | `def get_banner(ip, port)` |
+| `get_network_info` | function | `core/network.py:154` | `def get_network_info()` |
+| `get_open_ports` | function | `core/network.py:105` | `def get_open_ports()` |
+| `is_port_in_use` | function | `core/network.py:120` | `def is_port_in_use(port, host)` |
+| `parse_ip_mac` | function | `core/network.py:18` | `def parse_ip_mac(input_string)` |
+| `parse_proc_net_file` | function | `core/network.py:78` | `def parse_proc_net_file(file_path)` |
+| `send_packet` | function | `core/network.py:66` | `def send_packet(packet, iface)` |
+| `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
+| `FieldKind` | class | `core/payload_schema.py:73` | `class FieldKind(StrEnum)` |
+| `FieldSpec` | class | `core/payload_schema.py:100` | `class FieldSpec` |
 | `Severity` | class | `core/payload_schema.py:91` | `class Severity(StrEnum)` |
 | `ValidationIssue` | class | `core/payload_schema.py:142` | `class ValidationIssue` |
 | `_coerce_bool` | function | `core/payload_schema.py:316` | `def _coerce_bool(raw)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `save_short_urls` | function | `lazyc2.py:2270` | `def save_short_urls(data)` |
 | `save_tasks` | function | `lazyc2.py:1089` | `def save_tasks(tasks)` |
 | `save_to_log` | function | `lazyc2.py:2170` | `def save_to_log(data)` |
-| `save_users` | function | `lazyc2.py:3006` | `def save_users(users)` |
-| `script` | function | `lazyc2.py:5077` | `def script()` |
-| `search` | function | `lazyc2.py:5061` | `def search()` |
-| `search_database` | function | `lazyc2.py:1644` | `def search_database(term, data_path)` |
-| `search_results` | function | `lazyc2.py:5195` | `def search_results()` |
-| `send_command` | function | `lazyc2.py:3207` | `def send_command(client_id)` |
-| `send_lcommand` | function | `lazyc2.py:4957` | `def send_lcommand(ip, port)` |
-| `serve_file` | function | `lazyc2.py:3971` | `def serve_file(file_path)` |
-| `serve_landing_page` | function | `lazyc2.py:8057` | `def serve_landing_page(campaign_id, short_url)` |
-| `set_winsize` | function | `lazyc2.py:1976` | `def set_winsize(fd, row, col, xpix, ypix)` |
-| `start_bridge` | function | `lazyc2.py:6970` | `def start_bridge()` |
-| `start_dns_server` | function | `lazyc2.py:1833` | `def start_dns_server()` |
-| `start_reverse_shell` | function | `lazyc2.py:6923` | `def start_reverse_shell()` |
-| `start_watching` | function | `lazyc2.py:1040` | `def start_watching()` |
-| `surface` | function | `lazyc2.py:7067` | `def surface()` |
-| `surface_live` | function | `lazyc2.py:7073` | `def surface_live()` |
-| `task` | function | `lazyc2.py:5252` | `def task(task_id)` |
-| `taskbot` | function | `lazyc2.py:5045` | `def taskbot()` |
-| `tasks` | function | `lazyc2.py:5277` | `def tasks()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

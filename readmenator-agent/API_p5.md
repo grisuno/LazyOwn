@@ -16,6 +16,17 @@ Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, 
 - `iter_command_sets` (function) `cli/registry.py:41` `def iter_command_sets(include_pending)` -- Yield every ``CommandSet`` subclass found under ``cli.commands.*``.
 - `register_command_sets` (function) `cli/registry.py:77` `def register_command_sets(shell)` -- Instantiate and register every active ``CommandSet`` on ``shell``.
 
+## cli/retry_support.py
+Depends on: `cli/apt_chain_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/lazy_loop.py`, `modules/retry_session.py`, `utils.py`
+Imported by: `cli/commands/retry_ops.py`, `tests/test_retry_session.py`
+- `looks_like_run_id` (function) `cli/retry_support.py:45` `def looks_like_run_id(token)` -- Return True when the token reads as a chain run id, not a name.
+- `LastTask.known` (method) `cli/retry_support.py:76` `def known(self)` -- Return True when a task record exists.
+- `last_loop_task` (function) `cli/retry_support.py:81` `def last_loop_task()` -- Return the last non-complete task from the TaskStore.
+- `status_snapshot` (function) `cli/retry_support.py:104` `def status_snapshot(limit)` -- Collect retry-relevant state: failed checkpoints + last task.
+- `consent_to_elevate` (function) `cli/retry_support.py:129` `def consent_to_elevate(rest, confirmer)` -- Resolve ``--sudo`` for one retry invocation.
+- `RetryChainReport.to_dict` (method) `cli/retry_support.py:189` `def to_dict(self)` -- Return a JSON-serializable view.
+- `retry_chain` (function) `cli/retry_support.py:204` `def retry_chain(chain_or_run, shell, extra_vars, dry_run)` -- Resume a failed chain, applying user-varied tokens.
+
 ## cli/scope_guard.py
 Depends on: `cli/commands/enum.py`
 Imported by: `lazyown.py`, `tests/test_scope_guard.py`
@@ -31,8 +42,8 @@ Depends on: `cli/themes.py`, `modules/__init__.py`, `modules/lazy_engine.py`, `m
 Imported by: `lazyown.py`, `tests/test_session_brief.py`
 - `brief_enabled` (function) `cli/session_brief.py:47` `def brief_enabled(payload)` -- Return False when the UI hints continuity suppresses the brief.
 - `fetch_task_rows` (function) `cli/session_brief.py:84` `def fetch_task_rows()` -- Read the full task rows from the loop store, never raising.
-- `build_session_brief` (function) `cli/session_brief.py:135` `def build_session_brief(payload, tasks)` -- Build the one-startup campaign brief panel.
-- `print_session_brief` (function) `cli/session_brief.py:171` `def print_session_brief(console, payload)` -- Render the brief through ``console`` when UI hints allow.
+- `build_session_brief` (function) `cli/session_brief.py:127` `def build_session_brief(payload, tasks)` -- Build the one-startup campaign brief panel.
+- `print_session_brief` (function) `cli/session_brief.py:163` `def print_session_brief(console, payload)` -- Render the brief through ``console`` when UI hints allow.
 
 ## cli/session_hud.py
 Depends on: `cli/engagement_hooks.py`
@@ -200,35 +211,35 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboa
 - `ToastReader.__init__` (method) `cli/toast_bus.py:207` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
 - `ToastReader.root` (method) `cli/toast_bus.py:218` `def root(self)` -- Return the resolved events root directory.
 - `ToastReader.read_unseen` (method) `cli/toast_bus.py:222` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
-- `toastr_severity_style` (function) `cli/toast_bus.py:375` `def toastr_severity_style(severity)` -- Resolve one severity into the shared border/text style pair.
-- `rich_toastr_panel` (function) `cli/toast_bus.py:382` `def rich_toastr_panel(message, severity, terminal_width, config)` -- Build the adaptive toastr panel used by the cmd2 shell.
-- `shell_hint_bypass` (function) `cli/toast_bus.py:435` `def shell_hint_bypass(console, message, severity)` -- Print the flat bypass line used when UI hints are off.
-- `sentinel_toast_panel` (function) `cli/toast_bus.py:454` `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` -- Build the yara sentinel popup with the shared styling.
-- `ToastFormatter.__init__` (method) `cli/toast_bus.py:492` `def __init__(self, config, theme)` -- Bind to config and the active theme.
-- `ToastFormatter.format` (method) `cli/toast_bus.py:497` `def format(self, event)` -- Return a single themed line for ``event``.
-- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:509` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
-- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:519` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
-- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:536` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
-- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:564` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
-- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:589` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
-- `ToastFormatter.format_many` (method) `cli/toast_bus.py:597` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
-- `ToastBus.__init__` (method) `cli/toast_bus.py:677` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
-- `ToastBus.collect` (method) `cli/toast_bus.py:692` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
-- `ToastBus.render` (method) `cli/toast_bus.py:704` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
-- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:733` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
-- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:740` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
-- `toasts_enabled` (function) `cli/toast_bus.py:838` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
-- `build_default_bus` (function) `cli/toast_bus.py:861` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
-- `render_toasts` (function) `cli/toast_bus.py:890` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
-- `ephemeral_enabled` (function) `cli/toast_bus.py:914` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
-- `render_ephemeral_toasts` (function) `cli/toast_bus.py:930` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
-- `emit_toast` (function) `cli/toast_bus.py:960` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
-- `read_recent_toasts` (function) `cli/toast_bus.py:1005` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
-- `build_toast_renderable` (function) `cli/toast_bus.py:1049` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
+- `toastr_severity_style` (function) `cli/toast_bus.py:373` `def toastr_severity_style(severity)` -- Resolve one severity into the shared border/text style pair.
+- `rich_toastr_panel` (function) `cli/toast_bus.py:380` `def rich_toastr_panel(message, severity, terminal_width, config)` -- Build the adaptive toastr panel used by the cmd2 shell.
+- `shell_hint_bypass` (function) `cli/toast_bus.py:433` `def shell_hint_bypass(console, message, severity)` -- Print the flat bypass line used when UI hints are off.
+- `sentinel_toast_panel` (function) `cli/toast_bus.py:452` `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` -- Build the yara sentinel popup with the shared styling.
+- `ToastFormatter.__init__` (method) `cli/toast_bus.py:490` `def __init__(self, config, theme)` -- Bind to config and the active theme.
+- `ToastFormatter.format` (method) `cli/toast_bus.py:495` `def format(self, event)` -- Return a single themed line for ``event``.
+- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:507` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
+- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:517` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
+- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:534` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
+- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:562` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
+- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:587` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
+- `ToastFormatter.format_many` (method) `cli/toast_bus.py:595` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
+- `ToastBus.__init__` (method) `cli/toast_bus.py:675` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
+- `ToastBus.collect` (method) `cli/toast_bus.py:690` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
+- `ToastBus.render` (method) `cli/toast_bus.py:702` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
+- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:731` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
+- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:738` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
+- `toasts_enabled` (function) `cli/toast_bus.py:836` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
+- `build_default_bus` (function) `cli/toast_bus.py:859` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
+- `render_toasts` (function) `cli/toast_bus.py:888` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
+- `ephemeral_enabled` (function) `cli/toast_bus.py:912` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
+- `render_ephemeral_toasts` (function) `cli/toast_bus.py:928` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
+- `emit_toast` (function) `cli/toast_bus.py:958` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
+- `read_recent_toasts` (function) `cli/toast_bus.py:1003` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
+- `build_toast_renderable` (function) `cli/toast_bus.py:1047` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
 
 ## cli/tui_forms.py
 Depends on: `cli/commands/containers.py`
-Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `tests/test_lazy_orchestrator.py`
+Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_lazy_orchestrator.py`
 - `filter_candidates` (function) `cli/tui_forms.py:27` `def filter_candidates(query, options, limit)` -- Filter ``(value, description)`` pairs by a case-insensitive query.
 - `FormModal.__init__` (method) `cli/tui_forms.py:68` `def __init__(self, title, fields, defaults, save_label)` -- Store the title, ``(id, label, placeholder)`` fields and defaults.
 - `FormModal.compose` (method) `cli/tui_forms.py:82` `def compose(self)` -- One labeled input per field plus the save button.
@@ -467,32 +478,6 @@ Depends on: `modules/backdoor/server.c`
 - `check_lfi_success` (function) `contrib/legacy/lazylfi2rce.py:35` `def check_lfi_success(response_text)`
 - `check_rfi_success` (function) `contrib/legacy/lazylfi2rce.py:39` `def check_rfi_success(response_text)`
 - `main` (function) `contrib/legacy/lazylfi2rce.py:43` `def main()`
-
-## contrib/legacy/lazyllmchat.py
-Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
-- `LazyOwnShellBridge.__init__` (method) `contrib/legacy/lazyllmchat.py:25` `def __init__(self, script_path)`
-- `no_history_init` (function) `contrib/legacy/lazyllmchat.py:38` `def no_history_init(self_)`
-- `LazyOwnShellBridge.execute` (method) `contrib/legacy/lazyllmchat.py:65` `def execute(self, command)`
-- `target` (function) `contrib/legacy/lazyllmchat.py:70` `def target()`
-- `SessionContextProvider.__init__` (method) `contrib/legacy/lazyllmchat.py:105` `def __init__(self, session_path)`
-- `SessionContextProvider.get_last_lines` (method) `contrib/legacy/lazyllmchat.py:108` `def get_last_lines(self, count)`
-- `PromptBuilder.for_command_analysis` (method) `contrib/legacy/lazyllmchat.py:133` `def for_command_analysis(command, output, context, history)`
-- `PromptBuilder.for_direct_query` (method) `contrib/legacy/lazyllmchat.py:149` `def for_direct_query(query, context, history)`
-- `LLMEngine.__init__` (method) `contrib/legacy/lazyllmchat.py:164` `def __init__(self)`
-- `LLMEngine.is_ready` (method) `contrib/legacy/lazyllmchat.py:179` `def is_ready(self)`
-- `LLMEngine.ask` (method) `contrib/legacy/lazyllmchat.py:182` `def ask(self, prompt)`
-- `LLMEngine.get_history_text` (method) `contrib/legacy/lazyllmchat.py:194` `def get_history_text(self)`
-- `LazyOwnPromptRenderer.render` (method) `contrib/legacy/lazyllmchat.py:208` `def render(self)`
-- `LazyOwnPromptRenderer.banner` (method) `contrib/legacy/lazyllmchat.py:223` `def banner(self)`
-- `LazyOwnLLMChat.__init__` (method) `contrib/legacy/lazyllmchat.py:235` `def __init__(self)`
-- `LazyOwnLLMChat.run` (method) `contrib/legacy/lazyllmchat.py:280` `def run(self, initial_query)`
-- `main` (function) `contrib/legacy/lazyllmchat.py:309` `def main()`
-
-## contrib/legacy/lazylogpoisoning.py
-Depends on: `modules/lazyencoder_decoder.py`
-- `ensure_http_prefix` (function) `contrib/legacy/lazylogpoisoning.py:39` `def ensure_http_prefix(url)`
-- `signal_handler` (function) `contrib/legacy/lazylogpoisoning.py:45` `def signal_handler(sig, frame)`
-- `main` (function) `contrib/legacy/lazylogpoisoning.py:53` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

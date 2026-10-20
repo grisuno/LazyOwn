@@ -93,18 +93,12 @@ def fetch_task_rows() -> list[dict]:
 
 def _task_line(rows: list[dict]) -> str:
     """Return the newest running loop task line, or the placeholder."""
-    running = [
-        row
-        for row in rows
-        if str(row.get("status", "")).lower().startswith(RUNNING_STATUS_PREFIXES)
-    ]
+    running = [row for row in rows if str(row.get("status", "")).lower().startswith(RUNNING_STATUS_PREFIXES)]
     if not running:
         return BRIEF_TASK_PLACEHOLDER
     newest = max(running, key=lambda row: float(row.get("updated", 0.0) or 0.0))
     goal = str(newest.get("goal", ""))[: SESSION_BRIEF.goal_cap].strip() or "-"
-    return (
-        f"loop task={newest.get('task_id', '')} status={newest.get('status', '')} goal={goal}"
-    )
+    return f"loop task={newest.get('task_id', '')} status={newest.get('status', '')} goal={goal}"
 
 
 def _verb_line() -> str:
@@ -115,9 +109,7 @@ def _verb_line() -> str:
         overview = stats()
     except Exception:
         return "verbs unavailable"
-    return (
-        f"verbs on={overview['on']} off={overview['off']} total={overview['total']}"
-    )
+    return f"verbs on={overview['on']} off={overview['off']} total={overview['total']}"
 
 
 def _trigger_line() -> str:

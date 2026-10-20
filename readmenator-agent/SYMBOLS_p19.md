@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
+| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
+| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
+| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
+| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
+| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
+| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
+| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
+| `PlaybookEntry` | class | `modules/playbook_admin.py:40` | `class PlaybookEntry` |
+| `_count_steps` | function | `modules/playbook_admin.py:183` | `def _count_steps(data)` |
+| `_target_for_write` | function | `modules/playbook_admin.py:337` | `def _target_for_write(path, directory)` |
+| `_write_atomic` | function | `modules/playbook_admin.py:282` | `def _write_atomic(target, data)` |
+| `_yaml_module` | function | `modules/playbook_admin.py:55` | `def _yaml_module()` |
+| `create_playbook` | function | `modules/playbook_admin.py:297` | `def create_playbook(filename)` |
+| `delete_playbook` | function | `modules/playbook_admin.py:406` | `def delete_playbook(path, directory)` |
+| `load_playbook` | function | `modules/playbook_admin.py:102` | `def load_playbook(path)` |
+| `playbook_kind` | function | `modules/playbook_admin.py:123` | `def playbook_kind(data)` |
+| `playbook_path` | function | `modules/playbook_admin.py:75` | `def playbook_path(filename, directory)` |
+| `playbook_template` | function | `modules/playbook_admin.py:265` | `def playbook_template(name, description, platforms)` |
+| `preview_playbook` | function | `modules/playbook_admin.py:251` | `def preview_playbook(path, limit)` |
+| `save_playbook_yaml` | function | `modules/playbook_admin.py:377` | `def save_playbook_yaml(path, text, directory)` |
+| `scan_playbooks` | function | `modules/playbook_admin.py:231` | `def scan_playbooks(directory)` |
+| `slugify` | function | `modules/playbook_admin.py:62` | `def slugify(value)` |
+| `summarize` | function | `modules/playbook_admin.py:197` | `def summarize(path)` |
+| `update_playbook` | function | `modules/playbook_admin.py:350` | `def update_playbook(path, data, directory)` |
+| `validate_playbook` | function | `modules/playbook_admin.py:136` | `def validate_playbook(data)` |
+| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
+| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
+| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
+| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
+| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
+| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
+| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
+| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
+| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
+| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
+| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
 | `_local_executor` | function | `modules/playbook_engine.py:722` | `def _local_executor(command, host)` |
 | `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
 | `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
@@ -238,6 +275,16 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `execute_string` | method | `modules/resource_script.py:327` | `def execute_string(self, script)` |
 | `print` | method | `modules/resource_script.py:138` | `def print(self, msg)` |
 | `run_command` | method | `modules/resource_script.py:147` | `def run_command(self, cmd)` |
+| `_rewrite_segment` | function | `modules/retry_session.py:162` | `def _rewrite_segment(segment)` |
+| `_verify_askpass_layout` | function | `modules/retry_session.py:67` | `def _verify_askpass_layout(helper, secret_file)` |
+| `apply_sudo_askpass` | function | `modules/retry_session.py:137` | `def apply_sudo_askpass(command)` |
+| `clear_sudo_secret` | function | `modules/retry_session.py:125` | `def clear_sudo_secret()` |
+| `is_active` | function | `modules/retry_session.py:56` | `def is_active()` |
+| `newest_failed_checkpoint` | function | `modules/retry_session.py:180` | `def newest_failed_checkpoint(chain, run_id)` |
+| `resolve_sudo_consent` | function | `modules/retry_session.py:204` | `def resolve_sudo_consent(confirmer, want_sudo)` |
+| `secret_enabled_path` | function | `modules/retry_session.py:61` | `def secret_enabled_path()` |
+| `set_sudo_secret` | function | `modules/retry_session.py:94` | `def set_sudo_secret(secret)` |
+| `sudo_gate_open` | function | `modules/retry_session.py:79` | `def sudo_gate_open()` |
 | `reverse_shell_exit` | function | `modules/reverse-shell.c:16` | `static void __exit reverse_shell_exit(void)` |
 | `reverse_shell_init` | function | `modules/reverse-shell.c:12` | `static int __init reverse_shell_init(void)` |
 | `DllMain` | function | `modules/revshell.c:10` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
@@ -449,52 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
 | `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
 | `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
-| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
-| `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
-| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
-| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:26` | `#define HIDDEN_PROCESS_NAME` |
-| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:28` | `#define LISTENER_IP` |
-| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:29` | `#define LISTENER_PORT` |
-| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:31` | `#define SPECIAL_STRING` |
-| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:34` | `#define SPECIAL_STRING_PORT` |
-| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:181` | `static void disable_module_signature_verification(void)` |
-| `hook_syscalls` | function | `modules/rootkit/rootkit.c:195` | `static int __init hook_syscalls(void)` |
-| `hooked_getdents` | function | `modules/rootkit/rootkit.c:75` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:101` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_read` | function | `modules/rootkit/rootkit.c:127` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `regs_override_return` | function | `modules/rootkit/rootkit.c:43` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
-| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:208` | `static void __exit unhook_syscalls(void)` |
-| `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
-| `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
-| `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
-| `__init__` | method | `modules/saas_attacks.py:163` | `def __init__(self, config)` |
-| `detect_external_sharing` | method | `modules/saas_attacks.py:327` | `def detect_external_sharing(self)` |
-| `enumerate_all` | method | `modules/saas_attacks.py:166` | `def enumerate_all(self)` |
-| `google_workspace_commands` | method | `modules/saas_attacks.py:100` | `def google_workspace_commands()` |
-| `google_workspace_domain_wide_delegation` | method | `modules/saas_attacks.py:228` | `def google_workspace_domain_wide_delegation(self)` |
-| `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
-| `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
-| `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
-| `salesforce_report_mining` | method | `modules/saas_attacks.py:257` | `def salesforce_report_mining(self)` |
-| `servicenow_commands` | method | `modules/saas_attacks.py:135` | `def servicenow_commands()` |
-| `slack_data_mining` | method | `modules/saas_attacks.py:286` | `def slack_data_mining(self)` |
-| `summary` | method | `modules/saas_attacks.py:352` | `def summary(self)` |
-| `BindAddressResolver` | class | `modules/security_sanitizers.py:256` | `class BindAddressResolver` |
-| `CommandRedactor` | class | `modules/security_sanitizers.py:318` | `class CommandRedactor` |
-| `HeaderValueSanitizer` | class | `modules/security_sanitizers.py:101` | `class HeaderValueSanitizer` |
-| `OutputSanitizer` | class | `modules/security_sanitizers.py:406` | `class OutputSanitizer` |
-| `SecurityConfig` | class | `modules/security_sanitizers.py:37` | `class SecurityConfig` |
-| `SessionPathResolver` | class | `modules/security_sanitizers.py:162` | `class SessionPathResolver` |
-| `__init__` | method | `modules/security_sanitizers.py:115` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:174` | `def __init__(self, base_dir, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:269` | `def __init__(self, config, preferred_addresses)` |
-| `__init__` | method | `modules/security_sanitizers.py:333` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:418` | `def __init__(self, config)` |
-| `_display_password` | method | `modules/security_sanitizers.py:353` | `def _display_password(self, password)` |
-| `_display_username` | method | `modules/security_sanitizers.py:345` | `def _display_username(self, username)` |
-| `_is_well_formed` | method | `modules/security_sanitizers.py:285` | `def _is_well_formed(self, candidate)` |
-| `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
-| `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
-| `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

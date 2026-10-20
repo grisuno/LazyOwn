@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 111 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
+modules: lazy_loop groups 110 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -24,7 +24,7 @@ graph LR
 
 ## cli (4.1)
 
-cli groups 10 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 11 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
 ## core (4.2)
 
@@ -36,11 +36,11 @@ lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _st
 
 ## modules (4.4)
 
-modules groups 50 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 49 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
 
 ## tests (4.5)
 
-tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
+tests groups 47 files (py) around test_registry_covers_auto_family, test_build_command_binds_target, test_is_shell_verb_matches_first_token, test_verbs_for_matches_keywords, test_propose_and_translate_roundtrip. Auto-verb registry: loop-ready automation commands.
 
 **Files**:
 
@@ -49,6 +49,7 @@ tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
 - cli/commands/redteam_gym.py
+- cli/commands/retry_ops.py
 - cli/lazy_monitor.py
 - cli/lazy_orchestrator.py
 - cli/orchestrator_assets_tabs.py
@@ -73,7 +74,6 @@ tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - modules/lazy_installer.py
 - modules/lazy_intel.py
 - modules/lazy_loop.py
-- modules/lazy_mentions.py
 - modules/lazy_orchestrator_feedback.py
 - modules/lazy_proxy.py
 - modules/lazy_roles.py
@@ -107,7 +107,6 @@ tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - modules/verb_catalog.py
 - modules/workspace.py
 - modules/world_model.py
-- tests/test_asset_gate.py
 - tests/test_auto_registry.py
 - tests/test_chain_list_command.py
 - tests/test_gym_cli.py
@@ -132,6 +131,7 @@ tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - tests/test_loop_force_graph.py
 - tests/test_loop_guard_audit.py
 - tests/test_loop_intent_delete.py
+- tests/test_loop_llm_resilience.py
 - tests/test_loop_mentions.py
 - tests/test_loop_nmap_guard.py
 - tests/test_loop_progress.py
@@ -148,7 +148,6 @@ tests groups 48 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - tests/test_pi_leg.py
 - tests/test_playbook_admin.py
 - tests/test_reaction_bridge.py
-- tests/test_security_codeql_batch.py
 - tests/test_session_brief.py
 - tests/test_trigger_policy.py
 - tests/test_ttpscope_bridge.py

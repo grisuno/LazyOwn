@@ -1,6 +1,28 @@
 # API (page 8 of 23)
 Previous: [API_p7.md](API_p7.md)
 
+## lazyc2/blueprints/api.py
+Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
+Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
+- `health` (function) `lazyc2/blueprints/api.py:108` `def health()` -- Health-check endpoint returning subsystem status.
+- `ping` (function) `lazyc2/blueprints/api.py:120` `def ping()` -- Lightweight liveness probe.
+- `require_api_auth_with_store` (function) `lazyc2/blueprints/api.py:129` `def require_api_auth_with_store(view)` -- Protect a view with the app-scoped API key store.
+- `guarded` (function) `lazyc2/blueprints/api.py:146` `def guarded()`
+- `health_tenant` (function) `lazyc2/blueprints/api.py:157` `def health_tenant()` -- Health-check scoped to the current authenticated tenant.
+- `get_defaults` (function) `lazyc2/blueprints/api.py:182` `def get_defaults()` -- Return build-time defaults alongside live payload values.
+- `set_default` (function) `lazyc2/blueprints/api.py:211` `def set_default()` -- Persist a per-engagement override for a build default.
+
+## lazyc2/blueprints/api_v1.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `lazyc2/blueprints/api.py`, `modules/beacon_history.py`, `modules/db.py`
+Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_api_v1.py`
+- `health` (function) `lazyc2/blueprints/api_v1.py:65` `def health()` -- Public service status (same payload as ``/api/health``).
+- `targets` (function) `lazyc2/blueprints/api_v1.py:76` `def targets()` -- List in-scope hosts from the campaign database.
+- `results` (function) `lazyc2/blueprints/api_v1.py:108` `def results()` -- Return beacon task results.
+- `campaigns` (function) `lazyc2/blueprints/api_v1.py:141` `def campaigns()` -- Report autonomous campaign status from operational state files.
+- `webhooks_list` (function) `lazyc2/blueprints/api_v1.py:180` `def webhooks_list()` -- List registered result webhooks.
+- `webhooks_register` (function) `lazyc2/blueprints/api_v1.py:191` `def webhooks_register()` -- Register a result webhook URL.
+- `webhooks_delete` (function) `lazyc2/blueprints/api_v1.py:228` `def webhooks_delete(index)` -- Remove a registered webhook by index.
+
 ## lazyc2/blueprints/auth.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `lazyc2/__init__.py`, `lazyc2/extensions/decoy.py`, `lazyc2/extensions/users.py`, `modules/lazy_rbac.py`
 Imported by: `lazyc2/blueprints/__init__.py`, `lazygui/services/teamserver_backend.py`, `static/js/socket.io-4.0.0.min.js`, `static/js/socket.io-4.3.2.min.js`
@@ -472,27 +494,6 @@ Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `te
 - `GraphView.selected_node_id` (method) `lazygui/widgets/graph_view.py:561` `def selected_node_id(self)` -- Return the identifier of the currently selected node.
 - `GraphView.fit_to_content` (method) `lazygui/widgets/graph_view.py:565` `def fit_to_content(self)` -- Zoom to fit all graph content.
 - `GraphView.scene_handle` (method) `lazygui/widgets/graph_view.py:570` `def scene_handle(self)` -- Return the underlying graph scene.
-
-## lazygui/widgets/status_badge.py
-Depends on: `lazygui/services/backend.py`
-Imported by: `lazygui/widgets/__init__.py`, `lazygui/windows/main_window.py`
-- `StatusBadge.__init__` (method) `lazygui/widgets/status_badge.py:21` `def __init__(self, parent)` -- Create the badge in the disconnected state.
-- `StatusBadge.set_status` (method) `lazygui/widgets/status_badge.py:27` `def set_status(self, status)` -- Update label text and the object name driving QSS colour.
-
-## lazygui/widgets/terminal_view.py
-Depends on: `lazygui/config/constants.py`
-Imported by: `lazygui/panels/terminal_panel.py`, `lazygui/widgets/__init__.py`
-- `TerminalView.__init__` (method) `lazygui/widgets/terminal_view.py:38` `def __init__(self, constants, parent)` -- Configure the widget for log-style append-only behaviour.
-- `TerminalView.append_output` (method) `lazygui/widgets/terminal_view.py:54` `def append_output(self, text)` -- Append ``text`` after stripping ANSI control codes and control chars.
-- `TerminalView.keyPressEvent` (method) `lazygui/widgets/terminal_view.py:75` `def keyPressEvent(self, event)` -- Forward keystrokes to listeners instead of mutating the buffer.
-
-## lazygui/windows/command_palette_window.py
-Depends on: `lazygui/config/constants.py`, `lazygui/widgets/command_palette_list.py`
-Imported by: `lazygui/windows/__init__.py`, `lazygui/windows/main_window.py`
-- `CommandPaletteWindow.__init__` (method) `lazygui/windows/command_palette_window.py:18` `def __init__(self, constants, actions, parent)` -- Build the search input plus the result list.
-- `CommandPaletteWindow.set_actions` (method) `lazygui/windows/command_palette_window.py:43` `def set_actions(self, actions)` -- Replace the action set on the underlying list.
-- `CommandPaletteWindow.keyPressEvent` (method) `lazygui/windows/command_palette_window.py:48` `def keyPressEvent(self, event)` -- Intercept Enter and Esc, otherwise delegate to the search box.
-- `CommandPaletteWindow.showEvent` (method) `lazygui/windows/command_palette_window.py:71` `def showEvent(self, event)` -- Move keyboard focus into the search box on every open.
 
 
 Next: [API_p9.md](API_p9.md)

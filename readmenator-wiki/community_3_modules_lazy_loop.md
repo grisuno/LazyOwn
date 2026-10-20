@@ -1,22 +1,22 @@
 # modules: lazy_loop
 
-*Community 3 | 111 files | cohesion 0.59*
+*Community 3 | 110 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 111 file(s) rooted at `tests` with dominant language py (cohesion 0.59). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (453 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 110 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (453 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
-### `tests` (48 files)
+### `tests` (47 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/test_asset_gate.py` | py | testing | 16 | yes |
 | `tests/test_auto_registry.py` | py | testing | 20 | yes |
 | `tests/test_chain_list_command.py` | py | testing | 2 | yes |
+| `tests/test_gym_cli.py` | py | testing | 8 | yes |
 
-### `modules` (40 files)
+### `modules` (39 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -32,6 +32,14 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 | `modules/sinks/c2_surfaces.py` | py | utility | 1 | yes |
 | `modules/sinks/intel_graph.py` | py | utility | 1 | yes |
 
+### `cli/commands` (6 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
+| `cli/commands/exploit_migrated.py` | py | utility | 52 | yes |
+| `cli/commands/lazyloop.py` | py | utility | 12 | yes |
+
 ### `cli` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -39,14 +47,6 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 | `cli/lazy_monitor.py` | py | utility | 46 | yes |
 | `cli/lazy_orchestrator.py` | py | utility | 36 | yes |
 | `cli/orchestrator_assets_tabs.py` | py | utility | 56 | yes |
-
-### `cli/commands` (5 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
-| `cli/commands/exploit_migrated.py` | py | utility | 52 | yes |
-| `cli/commands/lazyloop.py` | py | utility | 12 | yes |
 
 ### `modules/tools` (3 files)
 
@@ -68,7 +68,7 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/orchestrator.py` | py | presentation | 17 | yes |
 
-*... and 91 more files in this community.*
+*... and 90 more files in this community.*
 
 
 ## Key Symbols
@@ -106,15 +106,15 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 798
-- Cross-boundary resolved imports (EXTRACTED): 368
+- Internal resolved imports (EXTRACTED): 778
+- Cross-boundary resolved imports (EXTRACTED): 394
 
 ## Connections
 
 - [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
 - [EXTRACTED] depends_on community 5 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 - [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
-- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/containers.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/containers.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -139,7 +139,7 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 - Why do 2 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - Can the cycle `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` be broken with an interface?
 - What would break if the most connected file in modules: lazy_loop changed?
-- Should modules: lazy_loop be split, given cohesion 0.59?
+- Should modules: lazy_loop be split, given cohesion 0.58?
 
 ## Sources
 
@@ -148,6 +148,7 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 - `cli/commands/lazyloop.py`
 - `cli/commands/lazyops.py`
 - `cli/commands/redteam_gym.py`
+- `cli/commands/retry_ops.py`
 - `cli/lazy_monitor.py`
 - `cli/lazy_orchestrator.py`
 - `cli/orchestrator_assets_tabs.py`
@@ -162,5 +163,4 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 - `modules/auto_registry.py`
 - `modules/custom_tools.py`
 - `modules/exploit_chain.py`
-- `modules/gym_registry.py`
-- *... and 91 more*
+- *... and 90 more*

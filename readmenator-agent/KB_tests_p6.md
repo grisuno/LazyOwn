@@ -1,4 +1,4 @@
-# Subsystem: tests (page 6 of 17)
+# Subsystem: tests (page 6 of 18)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
 ## tests/test_conditional_hooks_extended.py

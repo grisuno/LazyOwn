@@ -3,6 +3,54 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `WebSocketProfile` | class | `modules/c2_profile_engine.py:349` | `class WebSocketProfile` |
+| `__init__` | method | `modules/c2_profile_engine.py:453` | `def __init__(self, slots)` |
+| `__init__` | method | `modules/c2_profile_engine.py:627` | `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)` |
+| `_default_slots` | method | `modules/c2_profile_engine.py:709` | `def _default_slots(self)` |
+| `active_transport` | method | `modules/c2_profile_engine.py:668` | `def active_transport(self)` |
+| `build_query_subdomain` | method | `modules/c2_profile_engine.py:231` | `def build_query_subdomain(self, data, packet_id)` |
+| `current_slot` | method | `modules/c2_profile_engine.py:460` | `def current_slot(self)` |
+| `dns_profile` | method | `modules/c2_profile_engine.py:648` | `def dns_profile(self)` |
+| `from_config` | method | `modules/c2_profile_engine.py:771` | `def from_config(cls, config)` |
+| `from_dict` | method | `modules/c2_profile_engine.py:173` | `def from_dict(raw)` |
+| `from_dict` | method | `modules/c2_profile_engine.py:261` | `def from_dict(raw)` |
+| `from_dict` | method | `modules/c2_profile_engine.py:319` | `def from_dict(raw)` |
+| `from_dict` | method | `modules/c2_profile_engine.py:375` | `def from_dict(raw)` |
+| `from_dict` | method | `modules/c2_profile_engine.py:747` | `def from_dict(cls, raw)` |
+| `from_payload` | method | `modules/c2_profile_engine.py:766` | `def from_payload(cls, payload)` |
+| `get_active_profile_dict` | method | `modules/c2_profile_engine.py:685` | `def get_active_profile_dict(self)` |
+| `get_all_profiles_dict` | method | `modules/c2_profile_engine.py:699` | `def get_all_profiles_dict(self)` |
+| `get_cipher_suites` | method | `modules/c2_profile_engine.py:144` | `def get_cipher_suites(self)` |
+| `get_ja3_hash` | method | `modules/c2_profile_engine.py:155` | `def get_ja3_hash(self)` |
+| `is_available` | method | `modules/c2_profile_engine.py:429` | `def is_available(self)` |
+| `list_slots` | method | `modules/c2_profile_engine.py:487` | `def list_slots(self)` |
+| `rotate` | method | `modules/c2_profile_engine.py:469` | `def rotate(self)` |
+| `rotate` | method | `modules/c2_profile_engine.py:672` | `def rotate(self)` |
+| `rotator` | method | `modules/c2_profile_engine.py:663` | `def rotator(self)` |
+| `smb_profile` | method | `modules/c2_profile_engine.py:653` | `def smb_profile(self)` |
+| `tls_profile` | method | `modules/c2_profile_engine.py:643` | `def tls_profile(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:188` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:274` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:333` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:389` | `def to_dict(self)` |
+| `touch` | method | `modules/c2_profile_engine.py:436` | `def touch(self)` |
+| `transport` | method | `modules/c2_profile_engine.py:465` | `def transport(self)` |
+| `validate` | method | `modules/c2_profile_engine.py:676` | `def validate(self)` |
+| `validate_all` | method | `modules/c2_profile_engine.py:591` | `def validate_all(self, tls, dns, smb, websocket)` |
+| `validate_dns` | method | `modules/c2_profile_engine.py:536` | `def validate_dns(profile)` |
+| `validate_smb` | method | `modules/c2_profile_engine.py:556` | `def validate_smb(profile)` |
+| `validate_tls` | method | `modules/c2_profile_engine.py:511` | `def validate_tls(profile)` |
+| `validate_websocket` | method | `modules/c2_profile_engine.py:576` | `def validate_websocket(profile)` |
+| `websocket_profile` | method | `modules/c2_profile_engine.py:658` | `def websocket_profile(self)` |
+| `_normalize_task_title` | function | `modules/c2_surfaces.py:256` | `def _normalize_task_title(title)` |
+| `_read_json` | function | `modules/c2_surfaces.py:42` | `def _read_json(path, default)` |
+| `_stamp` | function | `modules/c2_surfaces.py:68` | `def _stamp()` |
+| `_write_json` | function | `modules/c2_surfaces.py:54` | `def _write_json(path, data)` |
+| `append_note` | function | `modules/c2_surfaces.py:155` | `def append_note(line, sessions_dir)` |
+| `group_tasks_for_display` | function | `modules/c2_surfaces.py:261` | `def group_tasks_for_display(tasks)` |
+| `publish_banner` | function | `modules/c2_surfaces.py:73` | `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` |
+| `publish_cve` | function | `modules/c2_surfaces.py:115` | `def publish_cve(title, description, operator, risk, sessions_dir)` |
+| `refresh_session_report` | function | `modules/c2_surfaces.py:229` | `def refresh_session_report(timeout)` |
 | `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
 | `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
 | `days_in_month` | function | `modules/cal.sh:14` | `` |
@@ -448,53 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `process_query_log` | method | `modules/dns_beacon.py:248` | `def process_query_log(self, line)` |
 | `register_beacon` | method | `modules/dns_beacon.py:225` | `def register_beacon(self, beacon_id, hostname)` |
 | `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
-| `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
-| `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
-| `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
-| `DomainDominance` | class | `modules/domain_dominance.py:89` | `class DomainDominance` |
-| `DomainInfo` | class | `modules/domain_dominance.py:49` | `class DomainInfo` |
-| `DominanceResult` | class | `modules/domain_dominance.py:75` | `class DominanceResult` |
-| `__init__` | method | `modules/domain_dominance.py:103` | `def __init__(self)` |
-| `_asrep_roast` | method | `modules/domain_dominance.py:575` | `def _asrep_roast(self, domain_info)` |
-| `_attempt_dcsync` | method | `modules/domain_dominance.py:768` | `def _attempt_dcsync(self, dc_ip)` |
-| `_discover_dc` | method | `modules/domain_dominance.py:340` | `def _discover_dc(self, domain, dns_servers)` |
-| `_domain_to_dn` | method | `modules/domain_dominance.py:838` | `def _domain_to_dn(self, domain)` |
-| `_enumerate_computers` | method | `modules/domain_dominance.py:469` | `def _enumerate_computers(self, dc_ip)` |
-| `_enumerate_groups` | method | `modules/domain_dominance.py:495` | `def _enumerate_groups(self, dc_ip)` |
-| `_enumerate_spns` | method | `modules/domain_dominance.py:516` | `def _enumerate_spns(self, dc_ip)` |
-| `_enumerate_trusts` | method | `modules/domain_dominance.py:546` | `def _enumerate_trusts(self, domain, dc_ip)` |
-| `_enumerate_users` | method | `modules/domain_dominance.py:426` | `def _enumerate_users(self, dc_ip)` |
-| `_find_dcs` | method | `modules/domain_dominance.py:366` | `def _find_dcs(self, domain, dc_ip)` |
-| `_find_domain_admins` | method | `modules/domain_dominance.py:392` | `def _find_domain_admins(self, domain, dc_ip)` |
-| `_kerberoast` | method | `modules/domain_dominance.py:625` | `def _kerberoast(self, domain_info)` |
-| `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
-| `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
-| `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
-| `_save_credential` | method | `modules/domain_dominance.py:890` | `def _save_credential(self, username, secret, secret_type, source)` |
-| `_save_dominance_report` | method | `modules/domain_dominance.py:944` | `def _save_dominance_report(self)` |
-| `_save_session` | method | `modules/domain_dominance.py:924` | `def _save_session(self, session_id, target, method, user)` |
-| `_seal_loot_secret` | method | `modules/domain_dominance.py:850` | `def _seal_loot_secret(secret)` |
-| `_unseal_loot_secret` | method | `modules/domain_dominance.py:871` | `def _unseal_loot_secret(stored)` |
-| `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
-| `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
-| `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
-| `escalate` | method | `modules/domain_dominance.py:260` | `def escalate(self, domain_info, stash)` |
-| `extract_credentials` | method | `modules/domain_dominance.py:227` | `def extract_credentials(self, domain_info, known_creds)` |
-| `get_instance` | method | `modules/domain_dominance.py:110` | `def get_instance(cls)` |
-| `persist` | method | `modules/domain_dominance.py:314` | `def persist(self, domain_info)` |
-| `DotNetPayloadConfig` | class | `modules/dotnet_payload.py:293` | `class DotNetPayloadConfig` |
-| `DotNetPayloadFactory` | class | `modules/dotnet_payload.py:315` | `class DotNetPayloadFactory` |
-| `__init__` | method | `modules/dotnet_payload.py:327` | `def __init__(self, output_dir)` |
-| `_detect_compiler` | method | `modules/dotnet_payload.py:333` | `def _detect_compiler()` |
-| `_resolve_template` | method | `modules/dotnet_payload.py:368` | `def _resolve_template(self, config)` |
-| `compile` | method | `modules/dotnet_payload.py:403` | `def compile(self, config, source_code)` |
-| `generate` | method | `modules/dotnet_payload.py:454` | `def generate(self, config)` |
-| `generate_inline_assembly` | method | `modules/dotnet_payload.py:500` | `def generate_inline_assembly(self, config)` |
-| `generate_powershell_reflective` | method | `modules/dotnet_payload.py:481` | `def generate_powershell_reflective(self, config)` |
-| `generate_source` | method | `modules/dotnet_payload.py:389` | `def generate_source(self, config)` |
-| `list_templates` | method | `modules/dotnet_payload.py:364` | `def list_templates()` |
-| `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
-| `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
-| `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

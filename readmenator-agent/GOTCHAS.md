@@ -4,31 +4,31 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 279.20, imported by 139 files)
-- `utils.py` (score: 216.40, imported by 90 files)
+- `core/logging.py` (score: 285.20, imported by 142 files)
+- `utils.py` (score: 218.40, imported by 91 files)
+- `modules/lazy_loop.py` (score: 207.30, imported by 53 files)
 - `skills/lazyown_mcp.py` (score: 200.60, imported by 8 files)
-- `modules/lazy_loop.py` (score: 192.10, imported by 47 files)
-- `cli/commands/_base.py` (score: 184.70, imported by 90 files)
+- `cli/commands/_base.py` (score: 186.70, imported by 91 files)
 - `lazyc2.py` (score: 126.80)
-- `lazyown.py` (score: 118.90, imported by 9 files)
+- `lazyown.py` (score: 120.70, imported by 9 files)
 - `core/config.py` (score: 107.80, imported by 51 files)
-- `core/console.py` (score: 103.10, imported by 51 files)
+- `core/console.py` (score: 105.10, imported by 52 files)
 - `skills/autonomous_daemon.py` (score: 99.00, imported by 15 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `core/logging.py` -- 50 direct, 139 total dependents
-- `core/validators.py` -- 12 direct, 121 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 108 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 106 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 104 total dependents
-- `cli/banner_config.py` -- 6 direct, 101 total dependents
-- `core/parsers.py` -- 9 direct, 96 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 96 total dependents
-- `modules/lazyencoder_decoder.py` -- 5 direct, 95 total dependents
-- `skills/claude_md_orchestrator/parser.py` -- 4 direct, 94 total dependents
+- `core/logging.py` -- 50 direct, 142 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 109 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 107 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 105 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 103 total dependents
+- `cli/banner_config.py` -- 6 direct, 102 total dependents
+- `core/parsers.py` -- 9 direct, 102 total dependents
+- `modules/lazyencoder_decoder.py` -- 5 direct, 96 total dependents
+- `skills/claude_md_orchestrator/parser.py` -- 4 direct, 95 total dependents
+- `core/dependencies.py` -- 3 direct, 94 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -47,10 +47,10 @@ Editing these files can break the listed number of dependents. Run their tests a
 
 Circular dependencies. Refactor to break the cycle.
 
-- `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
-- `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
-- `modules/lazy_intel.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/sinks/routing.py` -> `modules/lazy_intel.py`
+- `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
+- `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`

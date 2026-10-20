@@ -1,5 +1,23 @@
-# Subsystem: tests (page 12 of 17)
+# Subsystem: tests (page 12 of 18)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
+
+## tests/test_loop_progress.py
+- Doc: Loop milestone panel: inferred stage states stay honest.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_overview` (function, line 20) `def _overview()`
+  - `test_chain_has_fourteen_stages` (function, line 28) `def test_chain_has_fourteen_stages()`
+  - `test_fresh_task_shows_first_stage_current` (function, line 34) `def test_fresh_task_shows_first_stage_current()`
+  - `test_progress_advances_with_evidence` (function, line 44) `def test_progress_advances_with_evidence()`
+  - `test_finished_task_all_green` (function, line 58) `def test_finished_task_all_green()`
+  - `test_snapshot_counts_intent_states` (function, line 69) `def test_snapshot_counts_intent_states()`
+  - `test_panel_renders_without_live` (function, line 79) `def test_panel_renders_without_live()`
+  - `test_render_contains_no_markup_strings` (function, line 88) `def test_render_contains_no_markup_strings()`
+  - `test_line_mode_prints_only_on_stage_change` (function, line 104) `def test_line_mode_prints_only_on_stage_change(capsys)`
+  - `test_sanitize_line_strips_ansi_and_cr` (function, line 126) `def test_sanitize_line_strips_ansi_and_cr()`
+  - `test_sanitize_line_keeps_ansi_when_asked` (function, line 134) `def test_sanitize_line_keeps_ansi_when_asked()`
+- Depends on: `core/console.py`, `modules/loop_progress.py`
 
 ## tests/test_loop_scope_traffic_evidence.py
 - Doc: Scope ownership, port-aware traffic search, role-based evidences (lazy parity).

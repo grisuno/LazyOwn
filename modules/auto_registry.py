@@ -89,7 +89,7 @@ def auto_verb_target(command: str) -> str:
     try:
         from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb, needs_target_for
 
-        if full_cli_enabled() and is_cli_verb(first):
+        if full_cli_enabled() and is_cli_verb(first) and _cli_verb_allowed(first):
             if len(parts) != 2:
                 return ""
             return candidate if needs_target_for(first) else ""
@@ -280,7 +280,7 @@ def _verb_rows() -> list:
             source=str(row.get("source", "builtin")),
         )
         for row in rows
-        if str(row.get("name", "")).strip()
+        if str(row.get("name", "")).strip() and str(row.get("source", "builtin")) != "catalog"
     ]
 
 
@@ -366,6 +366,23 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
 ROUTABLE_VERBS = frozenset({"lazynmap"})
+
+
+def _cli_verb_allowed(name: str) -> bool:
+    """Return True when the merged view lets the loop route a CLI verb.
+
+    Built-in auto verbs pass through the auto-verb path; this gate only
+    applies to plain ``do_<verb>`` shell commands. It consults the
+    orchestrator merged view so catalog state and payload overrides are
+    one truth, and fails closed when the view is unavailable.
+    """
+    try:
+        from modules.orchestrator_config import verb_config
+
+        entry = verb_config(name)
+    except Exception:
+        return False
+    return bool(entry and entry.get("source") == "catalog" and entry.get("enabled"))
 
 ADDON_TRIGGER_CAP = 4
 
@@ -594,7 +611,7 @@ def is_routable_command(line: str) -> bool:
     try:
         from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb
 
-        if full_cli_enabled() and is_cli_verb(first):
+        if full_cli_enabled() and is_cli_verb(first) and _cli_verb_allowed(first):
             return True
     except Exception:
         pass
@@ -610,8 +627,10 @@ def is_shell_verb(token: str) -> bool:
     """Return True when ``token`` names a loop-routable shell verb.
 
     Built-in auto verbs always route. When full-CLI mode is enabled any
-    real ``do_<verb>`` shell command routes as well, so the loop reaches
-    the whole cmd2 surface through the same Guard and scope path.
+    real ``do_<verb>`` shell command routes as well, but only when the
+    operator's catalog enables it, so the loop reaches exactly the
+    command surface the operator chose through the same Guard and scope
+    path.
     """
     parts = (token or "").strip().split(maxsplit=1)
     if not parts:
@@ -621,7 +640,7 @@ def is_shell_verb(token: str) -> bool:
     try:
         from modules.lazy_cli_bridge import full_cli_enabled, is_cli_verb
 
-        if full_cli_enabled() and is_cli_verb(parts[0]):
+        if full_cli_enabled() and is_cli_verb(parts[0]) and _cli_verb_allowed(parts[0]):
             return True
     except Exception:
         pass
@@ -767,6 +786,14 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
                 return None
             embedded = " ".join(parts[2:]).strip()
             return [build_command(verb, target or embedded)]
+        try:
+            from modules.lazy_cli_bridge import build_cli_command, is_cli_verb
+
+            if verb and is_cli_verb(verb) and _cli_verb_allowed(verb):
+                tail = " ".join(parts[2:]).strip() or (target or "").strip()
+                return [build_cli_command(verb, tail)]
+        except Exception:
+            pass
         return None
     if lowered.startswith("lazy addon "):
         parts = (text or "").strip().split()
@@ -809,28 +836,16 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
     if verbs_for(lowered):
         return None
     try:
-        from modules.lazy_cli_bridge import (
-            build_cli_command,
-            full_cli_enabled,
-            is_cli_verb,
-            phase_for,
-        )
-        from modules.orchestrator_config import verb_config as _verb_cfg
+        from modules.lazy_cli_bridge import build_cli_command, full_cli_enabled, is_cli_verb
 
         if full_cli_enabled():
             raw_parts = (text or "").strip().split()
             head = raw_parts[0].lower() if raw_parts else ""
-            if head and is_cli_verb(head):
-                cfg = _verb_cfg(head)
-                if cfg is None or cfg.get("enabled", True):
-                    tail = " ".join(raw_parts[1:]).strip() or (target or "").strip()
-                    return [build_cli_command(head, tail)]
+            if head and is_cli_verb(head) and _cli_verb_allowed(head):
+                tail = " ".join(raw_parts[1:]).strip() or (target or "").strip()
+                return [build_cli_command(head, tail)]
             for token in lowered.split():
-                if is_cli_verb(token):
-                    cfg = _verb_cfg(token)
-                    if cfg is not None and not cfg.get("enabled", True):
-                        continue
-                    _ = phase_for(token)
+                if is_cli_verb(token) and _cli_verb_allowed(token):
                     return [build_cli_command(token, target)]
     except Exception:
         pass

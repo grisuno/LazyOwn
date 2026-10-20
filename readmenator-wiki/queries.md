@@ -4,23 +4,23 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (139 connections)
+### Q: What does logging.py depend on, and what depends on it? (142 connections)
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (102 connections)
+### Q: What does utils.py depend on, and what depends on it? (103 connections)
 
 - Status: unanswered
 
-### Q: What does lazyown_mcp.py depend on, and what depends on it? (93 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (81 connections)
 
 - Status: unanswered
 
-### Q: How are the 162 files in 'cli/commands' related to each other?
+### Q: How are the 166 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 
-### Q: Why are __init__.py and search.py connected through 9 hops across 4 communities?
+### Q: Why are kerberos_core.py and search.py connected through 9 hops across 4 communities?
 
 - Status: unanswered
 

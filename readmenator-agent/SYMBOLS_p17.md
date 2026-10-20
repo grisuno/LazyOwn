@@ -3,6 +3,47 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `handle_command` | function | `modules/lazyownclient.py:69` | `def handle_command(cmd, key)` |
+| `main` | function | `modules/lazyownclient.py:198` | `def main()` |
+| `pad` | function | `modules/lazyownclient.py:51` | `def pad(s)` |
+| `signal_handler` | function | `modules/lazyownclient.py:34` | `def signal_handler(sig, frame)` |
+| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
+| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
+| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
+| `decrypt` | function | `modules/lazyownserver.py:53` | `def decrypt(ciphertext, key)` |
+| `encrypt` | function | `modules/lazyownserver.py:46` | `def encrypt(plaintext, key)` |
+| `handle_client` | function | `modules/lazyownserver.py:60` | `def handle_client(conn, addr, key)` |
+| `main` | function | `modules/lazyownserver.py:97` | `def main()` |
+| `pad` | function | `modules/lazyownserver.py:42` | `def pad(s)` |
+| `signal_handler` | function | `modules/lazyownserver.py:34` | `def signal_handler(sig, frame)` |
+| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
+| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
+| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
+| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
+| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
+| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
+| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
+| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
+| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
+| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
+| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
+| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
+| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
+| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
+| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
+| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
+| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
+| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
+| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
+| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
+| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
+| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
+| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
+| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
+| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
+| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
 | `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
 | `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
 | `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
@@ -256,6 +297,17 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
 | `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
 | `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
+| `TriggerStore` | class | `modules/loop_triggers.py:23` | `class TriggerStore` |
+| `__init__` | method | `modules/loop_triggers.py:26` | `def __init__(self, task_id)` |
+| `_core` | function | `modules/loop_triggers.py:16` | `def _core()` |
+| `_load` | method | `modules/loop_triggers.py:32` | `def _load(self)` |
+| `add` | method | `modules/loop_triggers.py:36` | `def add(self, kind, arg, every_sec)` |
+| `due` | method | `modules/loop_triggers.py:142` | `def due(self, task_id, graph, activity, assets, store)` |
+| `ensure_service_trigger` | method | `modules/loop_triggers.py:129` | `def ensure_service_trigger(self)` |
+| `list` | method | `modules/loop_triggers.py:125` | `def list(self)` |
+| `remove` | method | `modules/loop_triggers.py:100` | `def remove(self, trigger_id)` |
+| `set_enabled` | method | `modules/loop_triggers.py:111` | `def set_enabled(self, trigger_id, enabled)` |
+| `upsert_defaults` | method | `modules/loop_triggers.py:58` | `def upsert_defaults(self, seeds)` |
 | `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
 | `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
 | `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
@@ -444,57 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
 | `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
 | `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
-| `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
-| `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
-| `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
-| `get_expert` | method | `modules/moe_router.py:605` | `def get_expert(self, expert_id)` |
-| `get_router` | function | `modules/moe_router.py:684` | `def get_router(api_key)` |
-| `is_available` | method | `modules/moe_router.py:447` | `def is_available(self, expert, api_key)` |
-| `is_local` | method | `modules/moe_router.py:96` | `def is_local(self)` |
-| `performance_bonus` | method | `modules/moe_router.py:325` | `def performance_bonus(self, expert_id, task_type)` |
-| `record` | method | `modules/moe_router.py:298` | `def record(self, expert_id, task_type, reward, detection_prob)` |
-| `record_outcome` | method | `modules/moe_router.py:575` | `def record_outcome(self, expert_id, task_type, reward, detection_prob)` |
-| `route` | method | `modules/moe_router.py:515` | `def route(self, task_type, goal, deterministic)` |
-| `select` | method | `modules/moe_router.py:261` | `def select(self, candidates, task_type, performance_store, deterministic)` |
-| `select` | method | `modules/moe_router.py:388` | `def select(self, candidates, task_type, performance_store, deterministic)` |
-| `status_report` | method | `modules/moe_router.py:609` | `def status_report(self)` |
-| `temperature` | method | `modules/moe_router.py:381` | `def temperature(self)` |
-| `temperature` | method | `modules/moe_router.py:385` | `def temperature(self, value)` |
-| `top_experts_for_task` | method | `modules/moe_router.py:589` | `def top_experts_for_task(self, task_type, top_k)` |
-| `update` | method | `modules/moe_router.py:115` | `def update(self, reward, detection_prob)` |
-| `MorseConfig` | class | `modules/morse.py:16` | `class MorseConfig` |
-| `clear_screen` | function | `modules/morse.py:157` | `def clear_screen(config)` |
-| `morse_to_text` | function | `modules/morse.py:130` | `def morse_to_text(morse_code, config)` |
-| `read_choice` | function | `modules/morse.py:171` | `def read_choice(config)` |
-| `reverse_morse_code` | function | `modules/morse.py:98` | `def reverse_morse_code()` |
-| `run_driver` | function | `modules/morse.py:186` | `def run_driver(config)` |
-| `text_to_morse` | function | `modules/morse.py:109` | `def text_to_morse(text, config)` |
-| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
-| `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
-| `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
-| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
-| `execvp` | function | `modules/mysql_hookandroot_lib.c:128` | `int execvp(const char* filename, char* const argv[])` |
-| `reverse_shell` | function | `modules/mysql_hookandroot_lib.c:74` | `void reverse_shell(void)` |
-| `NetworkOpsecConfig` | class | `modules/network_opsec.py:23` | `class NetworkOpsecConfig` |
-| `NetworkOpsecEngine` | class | `modules/network_opsec.py:53` | `class NetworkOpsecEngine` |
-| `__init__` | method | `modules/network_opsec.py:83` | `def __init__(self, config)` |
-| `_build_proxychains_config` | method | `modules/network_opsec.py:119` | `def _build_proxychains_config(proxies)` |
-| `analyze_traffic_with_canary_check` | method | `modules/network_opsec.py:179` | `def analyze_traffic_with_canary_check(self, target_host, target_port)` |
-| `canary_detection_setup` | method | `modules/network_opsec.py:317` | `def canary_detection_setup(self)` |
-| `check_canary_tokens` | method | `modules/network_opsec.py:131` | `def check_canary_tokens(self)` |
-| `configure_proxy_chain` | method | `modules/network_opsec.py:87` | `def configure_proxy_chain(self, chain_type)` |
-| `connection_jitter_schedule` | method | `modules/network_opsec.py:294` | `def connection_jitter_schedule(self, beacon_interval)` |
-| `dns_over_https_config` | method | `modules/network_opsec.py:246` | `def dns_over_https_config(self)` |
-| `source_port_randomize` | method | `modules/network_opsec.py:269` | `def source_port_randomize(self)` |
-| `summary` | method | `modules/network_opsec.py:349` | `def summary(self)` |
-| `Host` | class | `modules/nmap2csv.py:176` | `class Host` |
-| `Port` | class | `modules/nmap2csv.py:282` | `class Port` |
-| `__init__` | method | `modules/nmap2csv.py:177` | `def __init__(self, ip, fqdn)` |
-| `__init__` | method | `modules/nmap2csv.py:283` | `def __init__(self, number, protocol, service, version, script)` |
-| `add_port` | method | `modules/nmap2csv.py:188` | `def add_port(self, port)` |
-| `dottedquad_to_num` | function | `modules/nmap2csv.py:126` | `def dottedquad_to_num(ip)` |
-| `extract_matching_pattern` | function | `modules/nmap2csv.py:156` | `def extract_matching_pattern(regex, group_name, unfiltered_list)` |
-| `formatted_item` | function | `modules/nmap2csv.py:606` | `def formatted_item(host, format_item)` |
-| `generate_csv` | function | `modules/nmap2csv.py:653` | `def generate_csv(fd, results, options)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

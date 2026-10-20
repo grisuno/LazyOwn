@@ -2141,11 +2141,11 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_trigger(self, line):
-        """Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync. Usage: lazy_trigger ... [--task T]"""
+        """Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]"""
         args = shlex.split(line) if line.strip() else []
         task_id = self._task_id(args)
         if not args:
-            print_error("Usage: lazy_trigger list|add|remove|addons|sync ... [--task T]")
+            print_error("Usage: lazy_trigger list|add|remove|on|off|seed|policy|addons|sync ... [--task T]")
             return
         from modules.lazy_engine import TriggerStore
 
@@ -2166,6 +2166,34 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg(f"[+] trigger [{item['id']}] kind={item['kind']} (fires inside lazy_loop rounds).")
         elif args[0] == "remove" and len(args) >= 2:
             print_msg("[+] removed." if table.remove(int(args[1])) else "[-] unknown trigger.")
+        elif args[0] in ("on", "off") and len(args) >= 2:
+            try:
+                wanted = int(args[1])
+            except ValueError:
+                print_error("[-] trigger id must be an integer.")
+                return
+            if table.set_enabled(wanted, args[0] == "on"):
+                print_msg(f"[+] trigger {wanted} is now {args[0]}.")
+            else:
+                print_error("[-] unknown trigger.")
+        elif args[0] == "seed":
+            from modules import trigger_policy
+
+            result = trigger_policy.seed_store(store=table)
+            print_msg(f"[+] YAML seeds merged into{' task ' + task_id if task_id else ' global'} store: "
+                      f"+{result['added']} (total {result['total']}).")
+        elif args[0] == "policy":
+            from modules import trigger_policy
+
+            policy = trigger_policy.read_policy()
+            seeds = policy.get("seeds") or []
+            if not seeds:
+                print_msg("[*] no declarative triggers in config/orchestrator.yaml.")
+                return
+            print_msg("[*] declarative triggers (config/orchestrator.yaml):")
+            for item in seeds:
+                state = "on" if item["enabled"] else "off"
+                print_msg(f"  {item['kind']} every={item['every_sec']} arg={item['arg'] or '-'} [{state}]")
         elif args[0] in ("addons", "sync"):
             from modules.auto_registry import addon_hits_for
 

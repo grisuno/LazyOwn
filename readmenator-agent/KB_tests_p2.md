@@ -1,5 +1,30 @@
-# Subsystem: tests (page 2 of 17)
+# Subsystem: tests (page 2 of 18)
 Previous: [KB_tests.md](KB_tests.md)
+
+## tests/test_ai_commands_llm.py
+- Doc: Behavioural tests for the resurrected ``ask``/``groq`` commands.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_command_set` (function, line 17) `def _command_set()`
+  - `TestDoAsk` (class, line 26) `class TestDoAsk`
+  - `TestDoGroq` (class, line 53) `class TestDoGroq`
+  - `test_empty_question_prints_usage` (method, line 27) `def test_empty_question_prints_usage(self, monkeypatch)`
+  - `test_question_forwarded_with_session_context` (method, line 33) `def test_question_forwarded_with_session_context(self, monkeypatch)`
+  - `test_backend_error_surfaces_as_message` (method, line 45) `def test_backend_error_surfaces_as_message(self, monkeypatch)`
+  - `test_unavailable_backend_prints_actionable_error` (method, line 54) `def test_unavailable_backend_prints_actionable_error(self, monkeypatch)`
+  - `test_success_completes_oneliner_and_prints` (method, line 66) `def test_success_completes_oneliner_and_prints(self, monkeypatch)`
+  - `test_completion_failure_prints_error` (method, line 90) `def test_completion_failure_prints_error(self, monkeypatch)`
+  - `test_empty_line_falls_back_to_shell_prompt` (method, line 103) `def test_empty_line_falls_back_to_shell_prompt(self, monkeypatch)`
+  - `_raise` (function, line 57) `def _raise()`
+  - `_Backend` (class, line 71) `class _Backend`
+  - `_factory` (function, line 77) `def _factory()`
+  - `_Backend` (class, line 93) `class _Backend`
+  - `_Backend` (class, line 106) `class _Backend`
+  - `complete` (method, line 72) `def complete(self, system, user)`
+  - `complete` (method, line 94) `def complete(self, system, user)`
+  - `complete` (method, line 107) `def complete(self, system, user)`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
 
 ## tests/test_api_authz.py
 - Doc: Tests for ``core.api_authz`` — tenant-bound API authorization.

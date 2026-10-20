@@ -412,6 +412,18 @@ Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_r
 - `LoopProgress.refresh` (method) `modules/loop_progress.py:246` `def refresh(self, snapshot)` -- Re-render milestones from a fresh snapshot (thread-safe).
 - `LoopProgress.emit` (method) `modules/loop_progress.py:268` `def emit(self, line)` -- Print a transcript line above the live panel, colors preserved.
 
+## modules/loop_triggers.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+- `TriggerStore.__init__` (method) `modules/loop_triggers.py:26` `def __init__(self, task_id)` -- Bind trigger table (global when task_id empty).
+- `TriggerStore.add` (method) `modules/loop_triggers.py:36` `def add(self, kind, arg, every_sec)` -- Register a trigger; interval needs every_sec, events fire on new rows.
+- `TriggerStore.upsert_defaults` (method) `modules/loop_triggers.py:58` `def upsert_defaults(self, seeds)` -- Merge declarative seeds without duplicating or re-enabling.
+- `TriggerStore.remove` (method) `modules/loop_triggers.py:100` `def remove(self, trigger_id)` -- Delete a trigger.
+- `TriggerStore.set_enabled` (method) `modules/loop_triggers.py:111` `def set_enabled(self, trigger_id, enabled)` -- Flip one trigger's enabled flag in place.
+- `TriggerStore.list` (method) `modules/loop_triggers.py:125` `def list(self)` -- Return all triggers.
+- `TriggerStore.ensure_service_trigger` (method) `modules/loop_triggers.py:129` `def ensure_service_trigger(self)` -- Register the catalog trigger once so services fire the loop.
+- `TriggerStore.due` (method) `modules/loop_triggers.py:142` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
+
 ## modules/macos_payloads.py
 Imported by: `cli/commands/payload_arsenal.py`
 - `MacOSPayloadFactory.__init__` (method) `modules/macos_payloads.py:111` `def __init__(self, config, output_dir)`
@@ -458,38 +470,6 @@ Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
 - `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
 - `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
 - `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
-
-## modules/memory_store.py
-Depends on: `modules/memory_embeddings.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
-- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
-- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
-- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
-- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
-- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
-- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
-- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
-- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
-- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
-- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
-- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
-- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
-- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
-- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
-- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
-- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
-- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
-- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
-- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
-- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
-- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
-- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
-- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
-- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
-- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
-- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
-- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
-- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
 
 
 Next: [API_p15.md](API_p15.md)

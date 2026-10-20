@@ -64,7 +64,7 @@ FINDING_STATUSES = (
     "duplicate",
     "risk_accepted",
 )
-TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create")
+from modules.loop_triggers import TRIGGER_KINDS
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
 DEFAULT_MAX_ROUNDS = 10
@@ -6015,6 +6015,14 @@ def build_prompt_context(
             parts.append(skill_text)
     except Exception:
         pass
+    try:
+        from modules.lazy_cli_bridge import catalog_cli_for_phase
+
+        allowed = catalog_cli_for_phase()
+        if allowed:
+            parts.append(f"Allowed commands: {allowed}")
+    except Exception:
+        pass
     return _mask_prompt_context("\n".join(parts)[: max(200, int(budget))])
 
 
@@ -6589,153 +6597,7 @@ class Notifier:
         return delivered
 
 
-class TriggerStore:
-    """Persistent event/interval triggers like server/scheduler (P3)."""
-
-    def __init__(self, task_id: str = "") -> None:
-        """Bind trigger table (global when task_id empty)."""
-        name = f"triggers_{task_id}.json" if task_id else "triggers.json"
-        self._path = _store_path(name)
-
-    def _load(self) -> dict:
-        """Load trigger payload."""
-        return _load_json(self._path, {"seq": 0, "items": []})
-
-    def add(self, kind: str, arg: str = "", every_sec: float = 0.0) -> dict:
-        """Register a trigger; interval needs every_sec, events fire on new rows."""
-        if kind not in TRIGGER_KINDS:
-            raise ValueError(f"kind must be one of {TRIGGER_KINDS}")
-        payload = self._load()
-        payload["seq"] = int(payload.get("seq", 0)) + 1
-        item = {
-            "id": payload["seq"],
-            "kind": kind,
-            "arg": (arg or "")[:300],
-            "every_sec": float(every_sec or 0.0),
-            "last_fire": 0.0,
-            "watermark": 0,
-            "enabled": True,
-        }
-        payload.setdefault("items", []).append(item)
-        _save_json(self._path, payload)
-        return item
-
-    def remove(self, trigger_id: int) -> bool:
-        """Delete a trigger."""
-        payload = self._load()
-        before = len(payload.get("items", []))
-        payload["items"] = [i for i in payload["items"] if int(i.get("id", 0)) != int(trigger_id)]
-        if len(payload["items"]) != before:
-            _save_json(self._path, payload)
-            return True
-        return False
-
-    def list(self) -> list[dict]:
-        """Return all triggers."""
-        return list(self._load().get("items", []))
-
-    def ensure_service_trigger(self) -> bool:
-        """Register the catalog trigger once so services fire the loop.
-
-        The trigger is what turns ``lazyaddons`` / ``tools`` service
-        metadata into an orchestrator event: whenever a new service
-        asset lands, the next round fires with the matching addon and
-        tool names attached.
-        """
-        if any(item.get("kind") == "service" for item in self.list()):
-            return False
-        self.add("service")
-        return True
-
-    def due(
-        self,
-        task_id: str,
-        graph: ExplorationGraph,
-        activity: ActivityLog,
-        assets: AssetGraph | None = None,
-        store: TaskStore | None = None,
-    ) -> list[dict]:
-        """Evaluate triggers like the scheduler tick; fires at most once each.
-
-        The ``service`` and ``task_create`` kinds need the asset graph /
-        task store: pass them to enable those events, the rest stay
-        graph/activity driven.
-        """
-        payload = self._load()
-        fired: list[dict] = []
-        now = _now()
-        for item in payload.get("items", []):
-            if not item.get("enabled"):
-                continue
-            kind = item.get("kind")
-            if kind == "interval":
-                if now - float(item.get("last_fire", 0.0)) >= max(5.0, float(item.get("every_sec", 60.0))):
-                    item["last_fire"] = now
-                    fired.append({"kind": "interval", "id": item["id"]})
-            elif kind == "finding":
-                current = [n.node_id for n in graph.list("finding")]
-                new = [i for i in current if i > int(item.get("watermark", 0))]
-                if new:
-                    item["watermark"] = max(new)
-                    fired.append({"kind": "finding", "ids": new, "id": item["id"]})
-            elif kind == "goal":
-                met = [n.node_id for n in graph.list("goal", "done")]
-                seen = set(item.get("fired_goals", []))
-                new = [i for i in met if i not in seen]
-                if new:
-                    item["fired_goals"] = sorted(seen | set(new))
-                    fired.append({"kind": "goal", "ids": new, "id": item["id"]})
-            elif kind == "hint":
-                pending = [n.node_id for n in graph.list("hint", "pending")]
-                new = [i for i in pending if i > int(item.get("watermark", 0))]
-                if new:
-                    item["watermark"] = max(new)
-                    fired.append({"kind": "hint", "ids": new, "id": item["id"]})
-            elif kind == "toolcall":
-                total = len(activity.read(2000))
-                if total > int(item.get("watermark", 0)):
-                    item["watermark"] = total
-                    fired.append({"kind": "toolcall", "total": total, "id": item["id"]})
-            elif kind == "service":
-                if assets is None:
-                    continue
-                fresh = [a for a in assets.list("service") if a.asset_id > int(item.get("watermark", 0))]
-                if fresh:
-                    item["watermark"] = max(a.asset_id for a in fresh)
-                    hits: list[str] = []
-                    try:
-                        from modules.auto_registry import addon_hits_for
-
-                        for asset in fresh[:8]:
-                            for name, source in addon_hits_for(asset.value, limit=3):
-                                label = f"{name}:{source}"
-                                if label not in hits:
-                                    hits.append(label)
-                    except Exception:
-                        hits = []
-                    fired.append(
-                        {
-                            "kind": "service",
-                            "ids": [a.asset_id for a in fresh],
-                            "services": [a.value for a in fresh[:8]],
-                            "addons": hits[:8],
-                            "id": item["id"],
-                        }
-                    )
-            elif kind == "task_create":
-                if store is None:
-                    continue
-                current = [str(task.get("task_id", "")) for task in store.list()]
-                seen = set(item.get("fired_tasks", []))
-                fresh = [task_id_value for task_id_value in current if task_id_value not in seen]
-                if fresh:
-                    item["fired_tasks"] = sorted(seen | set(fresh))
-                    fired.append({"kind": "task_create", "ids": fresh, "id": item["id"]})
-            elif kind == "timeout":
-                fired.append({"kind": "timeout", "id": item["id"]})
-        if fired:
-            _save_json(self._path, payload)
-        return fired
+from modules.loop_triggers import TriggerStore
 
 
 class LlmPool:
@@ -8489,6 +8351,12 @@ class LazyLoopEngine:
         )
         trigger_store = TriggerStore(task_id)
         scheduler_hits: list[dict] = []
+        try:
+            from modules.trigger_policy import seed_store
+
+            seed_store(store=trigger_store)
+        except Exception:
+            pass
         if stage_enabled("scheduler"):
             try:
                 trigger_store.ensure_service_trigger()

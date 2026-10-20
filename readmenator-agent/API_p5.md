@@ -1,6 +1,39 @@
 # API (page 5 of 23)
 Previous: [API_p4.md](API_p4.md)
 
+## cli/recon_plan.py
+Depends on: `cli/exploration.py`, `modules/killchain.py`
+Imported by: `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
+- `ReconPlan.is_empty` (method) `cli/recon_plan.py:139` `def is_empty(self)` -- Return ``True`` when the plan carries no actionable items.
+- `build_recon_plan` (function) `cli/recon_plan.py:144` `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)` -- Assemble a :class:`ReconPlan` for ``target`` using ``engine``.
+- `render_markdown` (function) `cli/recon_plan.py:207` `def render_markdown(plan)` -- Render ``plan`` as a Markdown document suitable for sessions/.
+- `write_plan` (function) `cli/recon_plan.py:257` `def write_plan(plan, sessions_dir, config)` -- Persist ``plan`` to ``sessions/recon_plan_<target>.md`` atomically.
+- `render_rich` (function) `cli/recon_plan.py:299` `def render_rich(plan, console)` -- Render ``plan`` to the supplied Rich console.
+
+## cli/registry.py
+Depends on: `cli/commands/_dormancy.py`
+Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- `iter_command_sets` (function) `cli/registry.py:41` `def iter_command_sets(include_pending)` -- Yield every ``CommandSet`` subclass found under ``cli.commands.*``.
+- `register_command_sets` (function) `cli/registry.py:77` `def register_command_sets(shell)` -- Instantiate and register every active ``CommandSet`` on ``shell``.
+
+## cli/scope_guard.py
+Depends on: `cli/commands/enum.py`
+Imported by: `lazyown.py`, `tests/test_scope_guard.py`
+- `ScopeMode.from_value` (method) `cli/scope_guard.py:105` `def from_value(cls, value)` -- Coerce an arbitrary payload value into a :class:`ScopeMode`.
+- `build_offensive_commands` (function) `cli/scope_guard.py:147` `def build_offensive_commands(command_categories)` -- Select the command names whose category is offensive.
+- `normalize_scope` (function) `cli/scope_guard.py:163` `def normalize_scope(entries)` -- Coerce a scope specification into a tuple of entry strings.
+- `target_in_scope` (function) `cli/scope_guard.py:218` `def target_in_scope(target, entries)` -- Return whether *target* falls within any of the scope *entries*.
+- `ScopeGuard.__init__` (method) `cli/scope_guard.py:263` `def __init__(self, scope_entries, mode, is_offensive)` -- Initialise the guard.
+- `ScopeGuard.evaluate` (method) `cli/scope_guard.py:283` `def evaluate(self, command, target)` -- Evaluate a single command against the active target.
+
+## cli/session_brief.py
+Depends on: `cli/themes.py`, `modules/__init__.py`, `modules/lazy_engine.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
+Imported by: `lazyown.py`, `tests/test_session_brief.py`
+- `brief_enabled` (function) `cli/session_brief.py:47` `def brief_enabled(payload)` -- Return False when the UI hints continuity suppresses the brief.
+- `fetch_task_rows` (function) `cli/session_brief.py:84` `def fetch_task_rows()` -- Read the full task rows from the loop store, never raising.
+- `build_session_brief` (function) `cli/session_brief.py:135` `def build_session_brief(payload, tasks)` -- Build the one-startup campaign brief panel.
+- `print_session_brief` (function) `cli/session_brief.py:171` `def print_session_brief(console, payload)` -- Render the brief through ``console`` when UI hints allow.
+
 ## cli/session_hud.py
 Depends on: `cli/engagement_hooks.py`
 Imported by: `cli/commands/ux.py`
@@ -119,7 +152,7 @@ Imported by: `cli/commands/recon_migrated.py`
 - `SurfaceExplorer.on_tree_node_selected` (method) `cli/surface_tui.py:176` `def on_tree_node_selected(self, event)`
 
 ## cli/themes.py
-Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
+Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/session_brief.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 - `get_theme` (function) `cli/themes.py:222` `def get_theme(name)` -- Return the registered :class:`Theme` for ``name`` with safe fallback.
 - `theme_from_payload` (function) `cli/themes.py:238` `def theme_from_payload(payload)` -- Return the theme selected by ``payload["tui_theme"]``.
 
@@ -157,37 +190,41 @@ Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain
 
 ## cli/toast_bus.py
 Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
-- `ToastState.__init__` (method) `cli/toast_bus.py:129` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
-- `ToastState.path` (method) `cli/toast_bus.py:144` `def path(self)` -- Return the resolved state-file path.
-- `ToastState.get` (method) `cli/toast_bus.py:148` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
-- `ToastState.set` (method) `cli/toast_bus.py:153` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
-- `ToastState.reset` (method) `cli/toast_bus.py:159` `def reset(self)` -- Forget every persisted offset (force replay on next read).
-- `ToastState.flush` (method) `cli/toast_bus.py:164` `def flush(self)` -- Persist the current offsets atomically.
-- `ToastReader.__init__` (method) `cli/toast_bus.py:206` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
-- `ToastReader.root` (method) `cli/toast_bus.py:217` `def root(self)` -- Return the resolved events root directory.
-- `ToastReader.read_unseen` (method) `cli/toast_bus.py:221` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
-- `ToastFormatter.__init__` (method) `cli/toast_bus.py:333` `def __init__(self, config, theme)` -- Bind to config and the active theme.
-- `ToastFormatter.format` (method) `cli/toast_bus.py:338` `def format(self, event)` -- Return a single themed line for ``event``.
-- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:350` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
-- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:360` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
-- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:377` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
-- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:405` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
-- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:430` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
-- `ToastFormatter.format_many` (method) `cli/toast_bus.py:438` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
-- `ToastBus.__init__` (method) `cli/toast_bus.py:518` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
-- `ToastBus.collect` (method) `cli/toast_bus.py:533` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
-- `ToastBus.render` (method) `cli/toast_bus.py:545` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
-- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:574` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
-- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:581` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
-- `toasts_enabled` (function) `cli/toast_bus.py:679` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
-- `build_default_bus` (function) `cli/toast_bus.py:702` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
-- `render_toasts` (function) `cli/toast_bus.py:731` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
-- `ephemeral_enabled` (function) `cli/toast_bus.py:755` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
-- `render_ephemeral_toasts` (function) `cli/toast_bus.py:771` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
-- `emit_toast` (function) `cli/toast_bus.py:801` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
-- `read_recent_toasts` (function) `cli/toast_bus.py:846` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
-- `build_toast_renderable` (function) `cli/toast_bus.py:890` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazy_sentinel4.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`, `tests/test_toastr_unify.py`
+- `ToastState.__init__` (method) `cli/toast_bus.py:130` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
+- `ToastState.path` (method) `cli/toast_bus.py:145` `def path(self)` -- Return the resolved state-file path.
+- `ToastState.get` (method) `cli/toast_bus.py:149` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
+- `ToastState.set` (method) `cli/toast_bus.py:154` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
+- `ToastState.reset` (method) `cli/toast_bus.py:160` `def reset(self)` -- Forget every persisted offset (force replay on next read).
+- `ToastState.flush` (method) `cli/toast_bus.py:165` `def flush(self)` -- Persist the current offsets atomically.
+- `ToastReader.__init__` (method) `cli/toast_bus.py:207` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
+- `ToastReader.root` (method) `cli/toast_bus.py:218` `def root(self)` -- Return the resolved events root directory.
+- `ToastReader.read_unseen` (method) `cli/toast_bus.py:222` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
+- `toastr_severity_style` (function) `cli/toast_bus.py:375` `def toastr_severity_style(severity)` -- Resolve one severity into the shared border/text style pair.
+- `rich_toastr_panel` (function) `cli/toast_bus.py:382` `def rich_toastr_panel(message, severity, terminal_width, config)` -- Build the adaptive toastr panel used by the cmd2 shell.
+- `shell_hint_bypass` (function) `cli/toast_bus.py:435` `def shell_hint_bypass(console, message, severity)` -- Print the flat bypass line used when UI hints are off.
+- `sentinel_toast_panel` (function) `cli/toast_bus.py:454` `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` -- Build the yara sentinel popup with the shared styling.
+- `ToastFormatter.__init__` (method) `cli/toast_bus.py:492` `def __init__(self, config, theme)` -- Bind to config and the active theme.
+- `ToastFormatter.format` (method) `cli/toast_bus.py:497` `def format(self, event)` -- Return a single themed line for ``event``.
+- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:509` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
+- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:519` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
+- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:536` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
+- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:564` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
+- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:589` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
+- `ToastFormatter.format_many` (method) `cli/toast_bus.py:597` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
+- `ToastBus.__init__` (method) `cli/toast_bus.py:677` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
+- `ToastBus.collect` (method) `cli/toast_bus.py:692` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
+- `ToastBus.render` (method) `cli/toast_bus.py:704` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
+- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:733` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
+- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:740` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
+- `toasts_enabled` (function) `cli/toast_bus.py:838` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
+- `build_default_bus` (function) `cli/toast_bus.py:861` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
+- `render_toasts` (function) `cli/toast_bus.py:890` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
+- `ephemeral_enabled` (function) `cli/toast_bus.py:914` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
+- `render_ephemeral_toasts` (function) `cli/toast_bus.py:930` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
+- `emit_toast` (function) `cli/toast_bus.py:960` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
+- `read_recent_toasts` (function) `cli/toast_bus.py:1005` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
+- `build_toast_renderable` (function) `cli/toast_bus.py:1049` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
 
 ## cli/tui_forms.py
 Depends on: `cli/commands/containers.py`
@@ -456,42 +493,6 @@ Depends on: `modules/lazyencoder_decoder.py`
 - `ensure_http_prefix` (function) `contrib/legacy/lazylogpoisoning.py:39` `def ensure_http_prefix(url)`
 - `signal_handler` (function) `contrib/legacy/lazylogpoisoning.py:45` `def signal_handler(sig, frame)`
 - `main` (function) `contrib/legacy/lazylogpoisoning.py:53` `def main()`
-
-## contrib/legacy/lazymariadb_rce_cve_2016-662.py
-- `info` (function) `contrib/legacy/lazymariadb_rce_cve_2016-662.py:59` `def info(str)`
-- `errmsg` (function) `contrib/legacy/lazymariadb_rce_cve_2016-662.py:63` `def errmsg(str)`
-- `shutdown` (function) `contrib/legacy/lazymariadb_rce_cve_2016-662.py:67` `def shutdown(code)`
-
-## contrib/legacy/lazymidm.py
-- `get_mac` (function) `contrib/legacy/lazymidm.py:12` `def get_mac(ip)`
-- `spoof` (function) `contrib/legacy/lazymidm.py:18` `def spoof(target_ip, spoof_ip)`
-- `restore` (function) `contrib/legacy/lazymidm.py:27` `def restore(target_ip, spoof_ip)`
-- `mitm` (function) `contrib/legacy/lazymidm.py:37` `def mitm(target_ip, gateway_ip)`
-- `start_sslstrip` (function) `contrib/legacy/lazymidm.py:50` `def start_sslstrip(port)`
-- `start_tcpdump` (function) `contrib/legacy/lazymidm.py:54` `def start_tcpdump(interface, output_file)`
-- `setup_monitor_mode` (function) `contrib/legacy/lazymidm.py:58` `def setup_monitor_mode(interface)`
-- `main` (function) `contrib/legacy/lazymidm.py:68` `def main()`
-
-## contrib/legacy/lazymitmap.py
-- `print_header` (function) `contrib/legacy/lazymitmap.py:45` `def print_header()`
-- `run_cmd_write` (function) `contrib/legacy/lazymitmap.py:49` `def run_cmd_write(cmd_args, s)` -- Write a file using sudo.
-- `write_file` (function) `contrib/legacy/lazymitmap.py:63` `def write_file(path, s)`
-- `append_file` (function) `contrib/legacy/lazymitmap.py:67` `def append_file(path, s)` -- Append to the file, don't overwrite.
-- `create_dir` (function) `contrib/legacy/lazymitmap.py:72` `def create_dir(directory)` -- Create directory with sudo if it does not exist.
-- `set_permissions` (function) `contrib/legacy/lazymitmap.py:77` `def set_permissions(directory, permissions)` -- Set directory permissions with sudo.
-- `install_dependencies` (function) `contrib/legacy/lazymitmap.py:84` `def install_dependencies()` -- Install required dependencies.
-- `backup_file` (function) `contrib/legacy/lazymitmap.py:121` `def backup_file(filepath)` -- Backup a given file.
-- `restore_file` (function) `contrib/legacy/lazymitmap.py:128` `def restore_file(filepath)` -- Restore a backed-up file.
-- `restart_service` (function) `contrib/legacy/lazymitmap.py:138` `def restart_service(service)` -- Restart a given service.
-- `flush_iptables` (function) `contrib/legacy/lazymitmap.py:145` `def flush_iptables()` -- Flush iptables rules.
-- `setup_network_manager` (function) `contrib/legacy/lazymitmap.py:153` `def setup_network_manager(ap_iface)` -- Setup NetworkManager configuration for the AP interface.
-- `configure_dnsmasq` (function) `contrib/legacy/lazymitmap.py:163` `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)` -- Configure dnsmasq based on SSLSTRIP usage.
-- `configure_hostapd` (function) `contrib/legacy/lazymitmap.py:195` `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)` -- Configure hostapd based on user input.
-- `setup_iptables` (function) `contrib/legacy/lazymitmap.py:228` `def setup_iptables(ap_iface, ap_ip, net_iface)` -- Setup iptables rules.
-- `set_speed_limit` (function) `contrib/legacy/lazymitmap.py:248` `def set_speed_limit(ap_iface, speed_up, speed_down)` -- Set speed limit for the clients.
-- `start_services` (function) `contrib/legacy/lazymitmap.py:254` `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)` -- Start necessary services based on user input.
-- `cleanup` (function) `contrib/legacy/lazymitmap.py:315` `def cleanup()` -- Cleanup actions to restore system state.
-- `signal_handler` (function) `contrib/legacy/lazymitmap.py:324` `def signal_handler(sig, frame)`
 
 
 Next: [API_p6.md](API_p6.md)

@@ -1,0 +1,5291 @@
+version: 1
+verbs:
+  EOF:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Handle the end-of-file (EOF) condition.
+    source: cli
+  acknowledgearp:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Configures the system to acknowledge ARP requests by setting a kernel
+      parameter.
+    source: cli
+  acknowledgeicmp:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Configures the system to respond to ICMP echo requests by setting
+      a kernel parameter.
+    source: cli
+  aclpwn_py:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Executes the aclpwn.py tool to find and exploit ACL paths for privilege
+      escalation in an Active Directory environment.
+    source: cli
+  ad_ldap_enum:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes ad-ldap-enum to enumerate Active Directory objects (users,
+      groups, computers)
+    source: cli
+  adcs_check:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
+    source: cli
+  adcs_esc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Check Active Directory Certificate Services for ESC1-ESC13 vulnerabilities.
+    source: cli
+  add2find:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Add a new custom command to the 'find' system, saved in user_commands.json.
+    source: cli
+  addalias:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Add a new alias with support for placeholders like {rhost}, {lhost},
+      {lport}, etc.
+    source: cli
+  addcli:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Add a client to execute c2 commands
+    source: cli
+  addhosts:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Adds an entry to the `/etc/hosts` file, mapping an IP address to
+      a domain name.
+    source: cli
+  addspn_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the addspn.py tool to manage Service Principal Names (SPNs)
+      on Active Directory accounts via LDAP.
+    source: cli
+  addusers:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Opens or creates the users.txt file in the sessions directory for
+      editing using nano.
+    source: cli
+  adgetpass:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Generate a PowerShell script to extract Azure AD Connect credentials.
+    source: cli
+  adsso_spray:
+    enabled: false
+    phase: cred
+    risk: exploit
+    description: Performs a password spray attack on Azure Active Directory Seamless
+      Single Sign-On (SSO) using a specified list of users.
+    source: cli
+  adversary:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries
+      in adversary.json
+    source: cli
+  adversary_yaml:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Execute adversary from YAML in lazyadversaries/*.yaml
+    source: cli
+  aes_pe:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Encrypt with AES and random key to PE EXE file, to usage with loaders.
+    source: cli
+  ai_playbook:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an offensive playbook from Nmap CSV + KB + Ollama.
+    source: cli
+  ai_toggle:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Toggle the in-process AI assistant on or off.
+    source: cli
+  aliass:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Prints all configured aliases and their associated commands.
+    source: cli
+  allin:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Execute the AlliN.py tool with various scan modes and parameters.
+    source: cli
+  alterx:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the 'alterx' command for subdomain enumeration on the provided
+      self.params['domain']. If 'alterx'
+    source: cli
+  amass:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes Amass to perform a passive enumeration on a given domain.
+    source: cli
+  android_apk:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a malicious APK with reverse shell payload.
+    source: cli
+  android_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate an Android device connected via ADB.
+    source: cli
+  apache_users:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs enumeration of users from a target system using `apache-users`.
+    source: cli
+  applocker_csc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a csc.exe compile-and-execute AppLocker bypass.
+    source: cli
+  applocker_installutil:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an InstallUtil.exe AppLocker bypass payload.
+    source: cli
+  applocker_msbuild:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an MSBuild.exe AppLocker bypass payload.
+    source: cli
+  applocker_mshta:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an mshta.exe AppLocker bypass payload.
+    source: cli
+  applocker_presentation:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a PresentationHost.exe AppLocker bypass reference.
+    source: cli
+  applocker_regsvcs:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a Regsvcs.exe/Regasm.exe AppLocker bypass payload.
+    source: cli
+  applocker_rundll32:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a rundll32.exe AppLocker bypass via SCT scriptlet.
+    source: cli
+  apropos:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Search for commands matching the given parameter in the cmd interface
+      and optionally extend the search using the system's `apropos` command.
+    source: cli
+  apt_chain:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Run a fully YAML-administered APT chain with one command.
+    source: builtin
+  apt_playbook:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: List, validate, and run APT playbooks based on public threat reports.
+    source: builtin
+  apt_proxy:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Configures the local machine with internet access to act as an APT
+      proxy for a machine without internet access.
+    source: cli
+  apt_repo:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Creates a comprehensive local APT repository with enhanced dependency
+      resolution.
+    source: cli
+  arjun:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes an Arjun scan on the specified URL for parameter discovery.
+    source: cli
+  arpscan:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes an ARP scan using `arp-scan`.
+    source: cli
+  arsenal_show:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show payload arsenal items.
+    source: cli
+  ask:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Ask the AI a question with current session context pre-loaded.
+    source: cli
+  asprevbase64:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates a base64 encoded ASP reverse shell payload and copies it
+      to the clipboard.
+    source: cli
+  assign:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: assign a parameter value, persist to payload.json and refresh aliases.
+    source: cli
+  atomic_agent:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generates and synchronizes atomic agent scripts.
+    source: cli
+  atomic_clean:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Clean up engagement artefacts (soft) or tear down the gym (hard).
+    source: builtin
+  atomic_emulate:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Execute emulation tests on the target through a working shell.
+    source: cli
+  atomic_gen:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Generate test + cleanup scripts for a MITRE ID or GUID.
+    source: builtin
+  atomic_lazyown:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Execute atomic red-team tests via LazyOwn.
+    source: cli
+  atomic_shell:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Open an interactive root shell on the target when possible.
+    source: builtin
+  atomic_tests:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Stage an Atomic Red Team test by MITRE technique ID or GUID.
+    source: builtin
+  attack_plan:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Execute a multi-step APT simulation plan.
+    source: cli
+  attack_surface:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an attack surface summary from recon data.
+    source: cli
+  audit_complete_keys:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Print payload-aware completion suggestions for a partial command.
+    source: cli
+  auditd_disable:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Generate commands to disable Linux auditd.
+    source: cli
+  auto_loop:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
+    source: cli
+  auto_populate:
+    enabled: true
+    phase: uncategorized
+    risk: safe
+    description: Parse the latest nmap XML scan and auto-populate payload context.
+    source: builtin
+  auto_pwn:
+    enabled: true
+    phase: exploit
+    risk: exploit
+    description: Run the full autonomous exploitation chain against the target.
+    source: builtin
+  autoblody:
+    enabled: true
+    phase: exploit
+    risk: safe
+    description: Executes the autobloody tool for automating Active Directory privilege
+      escalation paths.
+    source: builtin
+  automsf:
+    enabled: true
+    phase: c2
+    risk: exploit
+    description: Try to check if Vulnerable using the module passed by argument of
+      lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use in
+      metasploit
+    source: builtin
+  autopivot:
+    enabled: true
+    phase: uncategorized
+    risk: safe
+    description: Auto-detect internal networks and set up pivot tunnels.
+    source: builtin
+  aws_privesc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: AWS privilege escalation and enumeration.
+    source: cli
+  back:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Leave the current module context.
+    source: cli
+  backdoor_factory:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates a backdoored executable using `backdoor-factory`.
+    source: cli
+  banner:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the banner
+    source: cli
+  banners:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Manage custom banners for the framework.
+    source: cli
+  base64decode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Decodes a Base64 encoded string.
+    source: cli
+  base64encode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Encodes a given string into Base64 format.
+    source: cli
+  batchnmap:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Runs the internal module `modules/lazynmap.sh` for multiple Nmap
+      scans.
+    source: cli
+  bbot:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes a BBOT scan to perform various reconnaissance tasks.
+    source: cli
+  beaconcfg:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Generate a C2 beacon profile with traffic morphing and domain fronting.
+    source: cli
+  bin2shellcode:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Converts a binary file to a shellcode string in C or Nim format.
+    source: cli
+  binarycheck:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs various checks on a selected binary to gather information
+      and protections.
+    source: cli
+  bitm:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Browser-in-the-Middle attack manager.
+    source: cli
+  blazy:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command blazy: Installs and runs blazy for multi-vulnerability web
+      application scanning.'
+    source: cli
+  bloodhound:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Perform LDAP enumeration using bloodhound-python with credentials
+      from a file.
+    source: cli
+  bloodyAD:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Execute the bloodyAD.py command for a specific user or all users
+      listed in the users.txt file.
+    source: cli
+  bof_catalog:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List all BOFs available in the curated catalog.
+    source: cli
+  bof_info:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show detailed information about a BOF.
+    source: cli
+  bof_install:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Install and compile a BOF, staging it for beacon delivery.
+    source: cli
+  bof_list:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List all installed and staged BOFs.
+    source: cli
+  bof_run:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Execute a BOF on a connected beacon.
+    source: cli
+  bof_search:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Search the BOF catalog by keyword.
+    source: cli
+  bof_uninstall:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Uninstall a BOF and remove its staged file.
+    source: cli
+  breacher:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command breacher: Installs and runs Breacher for finding admin login
+      pages and EAR vulnerabilities.'
+    source: cli
+  browse:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open the sessions/ TUI browser.
+    source: cli
+  c2:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Handle C2 server setup and agent compilation.
+    source: cli
+  c2_beacon_cmd:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Queue a command for execution on a connected beacon.
+    source: cli
+  c2_beacons:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: List all active beacon sessions with their last-seen timestamps.
+    source: cli
+  c2_deploy:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Deploy the malleable agent to a lab target (needs root shell primitive).
+    source: cli
+  c2_dns:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Configure or display the DNS beacon profile.
+    source: cli
+  c2_exec:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Run one command on a live C2 session and print its answer.
+    source: cli
+  c2_implant:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generate a compiled implant payload for the target platform.
+    source: cli
+  c2_keygen:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generate a fresh AES-256 key for beacon encryption.
+    source: cli
+  c2_loot:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Exfiltrate a remote file through a live C2 session into sessions/loot/.
+    source: cli
+  c2_profiles:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List all available C2 transport profiles.
+    source: cli
+  c2_quickstart:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: 'Quick C2 setup: generate key, prepare implant dir, print beacon
+      commands.'
+    source: cli
+  c2_reboot:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Restart the headless C2 server with ROTATED operator credentials.
+    source: cli
+  c2_rotate:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Rotate to the next C2 transport profile in the rotation queue.
+    source: cli
+  c2_server:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Manage the headless C2 server (lab use).
+    source: cli
+  c2_status:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: 'Show consolidated C2 status: listeners, beacons, implants, and sessions.'
+    source: cli
+  c2_tls:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Display the current TLS C2 profile.
+    source: cli
+  c2asm:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Display C and ASM code side by side in a curses-based interface.
+    source: cli
+  cacti_exploit:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Automates the exploitation of the Cacti version 1.2.26 vulnerability
+    source: cli
+  caldera:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Installs and starts the Caldera server.
+    source: cli
+  caldera_export:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Export a LazyOwn playbook to CALDERA ability YAML.
+    source: cli
+  caldera_import:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Import CALDERA abilities into LazyOwn playbooks.
+    source: cli
+  campaign:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Export or import an entire campaign as a portable package.
+    source: cli
+  campaign_sitrep:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+    source: cli
+  camphish:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Executes the camphish tool for Grab cam shots from target's phone
+      front camera or PC webcam just sending a link.
+    source: cli
+  catalog:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Browse the command catalog.
+    source: cli
+  certipy:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the Certipy tool to interact with Active Directory Certificate
+      Services.
+    source: cli
+  certipy_ad:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Run certipy-ad against Active Directory Certificate Services.
+    source: cli
+  cewl:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate a wordlist from a website with cewl.
+    source: cli
+  chain:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: 'Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.'
+    source: cli
+  chainmode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Toggle interactive kill-chain chaining after every command.
+    source: cli
+  changeme:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes a changeme scan on a specified target URL or host.
+    source: cli
+  cheat:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Render a cheatsheet section inside the shell.
+    source: cli
+  check_update:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Checks for updates by comparing the local version with the remote
+      version.
+    source: cli
+  chisel:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Run chisel for quick tunneling.
+    source: cli
+  cicd_scan:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Scan CI/CD platform for security misconfigurations.
+    source: cli
+  cicd_secrets:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Scan build log for leaked secrets.
+    source: cli
+  clean:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Deletes files and directories in the `sessions` directory, excluding
+      specified files and directories.
+    source: cli
+  clean_ad:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Clear Active Directory event logs and cached Kerberos tickets.
+    source: cli
+  clock:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Displays the current date and time, and runs a custom shell script.
+    source: cli
+  clone_site:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Clone a website and serve the files in sessions/{url_cloned}.
+    source: cli
+  cloud_buckets:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate cloud storage buckets for a given prefix.
+    source: cli
+  cloud_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate cloud provider metadata, storage, and IAM.
+    source: cli
+  cloud_iam:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate cloud IAM roles and policies.
+    source: cli
+  cloud_metadata:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Harvest cloud instance metadata (AWS IMDS, Azure, GCP).
+    source: cli
+  cloud_scan:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Full cloud security scan: metadata + buckets + IAM enumeration.'
+    source: cli
+  cme:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Execute CrackMapExec (CME) for SMB enumeration and authentication
+      attempts against a target.
+    source: cli
+  collab_join:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Print the multi-operator collaboration join URL and SSE endpoint.
+    source: cli
+  command_explorer:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Interactive command explorer organized by goals and phases.
+    source: cli
+  commix:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Runs commix for command injection testing.
+    source: cli
+  config_banner:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open a Powerlevel10k-style wizard to toggle prompt segments.
+    source: cli
+  config_diff:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show what changed since the session started.
+    source: cli
+  config_status:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show configuration status grouped by category with set/missing indicators.
+    source: cli
+  conptyshell:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Download ConPtyShell and prepare a PowerShell run command.
+    source: cli
+  container_detect:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Auto-detect container runtime and escape primitives.
+    source: cli
+  container_escape:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Check current container for known escape vectors.
+    source: cli
+  convert_remcomsvc_from_file:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: "Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang\
+      \ byte slice format, prints a sample, and saves it to sessions/remcomsvc.go.\
+      \ see lazyaddon \u2026"
+    source: cli
+  cover_tracks:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Run all anti-forensics operations in sequence.
+    source: cli
+  cp:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Copies a file from the ExploitDB directory to the sessions directory.
+    source: cli
+  cports:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Generates a command to display TCP and UDP ports and copies it to
+      the clipboard.
+    source: cli
+  crack_cisco_7_password:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Crack a Cisco Type 7 password hash and display the plaintext.
+    source: cli
+  crack_hashes:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Crack password hashes from a file using John the Ripper or Hashcat.
+    source: cli
+  create_session_json:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Create the session JSON report file.
+    source: cli
+  create_synthetic:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Create a basic synthetic playbook from Nmap CSV when LLM fails.
+    source: cli
+  createcookie:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Creates a `cookie.txt` file in the `sessions` directory with the
+      specified cookie value.
+    source: cli
+  createcredentials:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Creates a `credentials.txt` file in the `sessions` directory with
+      the specified username and password.
+    source: cli
+  createdll:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
+    source: cli
+  createhash:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Creates a `hash.txt` file in the `sessions` directory with the specified
+      hash value and analyzes it using `Name-the-hash`.
+    source: cli
+  createjsonmachine:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Create a new JSON payload file based on the template provided in
+      payload.json.
+    source: cli
+  createjsonmachine_batch:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Create multiple JSON payload files based on a CSV input file from
+      HackerOne.
+    source: cli
+  createmail:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate email permutations based on a full name and self.params['domain'],
+      then save them to a file.
+    source: cli
+  createpayload:
+    enabled: false
+    phase: postexp
+    risk: exploit
+    description: Generates an obfuscated payload to evade AV detection using the payloadGenerator
+      tool. thanks to smokeme
+    source: cli
+  createrevshell:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create a bash reverse shell script in sessions/.
+    source: cli
+  createtargets:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Create targets file from nmap scan.
+    source: cli
+  createusers_and_hashs:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: 'Command createusers_and_hashs: Extracts usernames and hashes from
+      a dump file.'
+    source: cli
+  createwebshell:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create web shells (JPG-disguised PHP, p0wny-shell, ASP).
+    source: cli
+  createwinrevshell:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create a Windows reverse shell (PowerShell).
+    source: cli
+  cred:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Display the credentials stored in the `credentials.txt` file and
+      copy the password to the clipboard.
+    source: cli
+  cred_mark_failed:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Mark a credential as failed against a host.
+    source: cli
+  cred_reuse:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Analyze captured credentials and suggest spray targets.
+    source: cli
+  creds_py:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Extract credentials from a file or command output.
+    source: cli
+  cron:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Schedules a command to run at a specified time.
+    source: cli
+  cross_cloud:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Cross-cloud identity federation attacks.
+    source: cli
+  crunch:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate wordlists with crunch.
+    source: cli
+  crystal_ball:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Analyze linpeas/winpeas output and rank privesc vectors with exact
+      commands.
+    source: cli
+  ctx:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Print a single-line operator context: rhost, lhost, domain, phase,
+      os, creds.'
+    source: cli
+  ctx_help:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Show contextual help for a command: description, phase, requirements,
+      tips.'
+    source: cli
+  cubespraying:
+    enabled: false
+    phase: cred
+    risk: exploit
+    description: 'Command cubespraying: Automates the installation and usage of CubeSpraying
+      for performing credential spraying attacks.'
+    source: cli
+  cve:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Search for a CVE using the CIRCL API.
+    source: cli
+  d3monizedshell:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Executes the D3m0n1z3dShell tool for persistence in Linux.
+    source: cli
+  dacl_abuse:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate and exploit dangerous AD DACL/SACL entries.
+    source: cli
+  dacledit:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Execute the dacledit.py command for a specific user or all users
+      listed in the users.txt file.
+    source: cli
+  daemon_approve:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Approve or veto the daemon's currently-pending action.
+    source: cli
+  daemon_focus:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Restrict the autonomous daemon to a set of focus targets.
+    source: cli
+  daemon_mode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Switch the autonomous daemon between auto, approval and paused modes.
+    source: cli
+  daemon_pause:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Pause the autonomous daemon before its next step.
+    source: cli
+  daemon_resume:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Resume the autonomous daemon (switch mode to auto).
+    source: cli
+  daemon_veto:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Add or clear vetoed command first-tokens for the autonomous daemon.
+    source: cli
+  darkarmour:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Uses the darkarmour tool to generate an undetectable version of a
+      PE executable.
+    source: cli
+  dashboard:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+    source: cli
+  davtest:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Tests WebDAV server configurations using `davtest`.
+    source: cli
+  db_creds:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List or add credentials.
+    source: cli
+  db_export:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Export database table to CSV.
+    source: cli
+  db_hosts:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List or add hosts in the active workspace.
+    source: cli
+  db_import:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Import scan results into the database.
+    source: cli
+  db_init:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Initialize the database (creates schema if not exists).
+    source: cli
+  db_loot:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List or add loot items.
+    source: cli
+  db_notes:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List or add notes.
+    source: cli
+  db_services:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all services in the active workspace.
+    source: cli
+  db_status:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show entity counts for the active workspace.
+    source: cli
+  db_vulns:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List or add vulnerabilities.
+    source: cli
+  db_workspace:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manage workspaces (list, create, switch, delete).
+    source: cli
+  dcomexec:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Executes the Impacket dcomexec tool to run commands on a remote system
+      using DCOM.
+    source: cli
+  decode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Decode a string using the specified shift value and substitution
+      key.
+    source: cli
+  decrypt:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Decrypt an XOR-encrypted file using the matching key.
+    source: cli
+  defaults:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show or override build-time defaults (TOML + payload.json).
+    source: cli
+  delegation_attack:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Display computed delegation attack paths with exploitation commands.
+    source: cli
+  delegation_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate Kerberos delegation configurations.
+    source: cli
+  demo:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Run the end-to-end demo: MCP registration, session init, recommend,
+      scan.'
+    source: cli
+  depconfuse:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Scan a requirements.txt for dependency confusion candidates.
+    source: cli
+  depscan:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Scan a directory tree for dependency files and flag risks.
+    source: cli
+  detect_edr:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate commands to detect EDR/AV on the target.
+    source: cli
+  dig:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the `dig` command to query DNS information.
+    source: cli
+  digdug:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes Dig Dug to inflate the size of an executable file, leveraging
+      pre-configured settings
+    source: cli
+  dirsearch:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Runs the `dirsearch` tool to perform directory and file enumeration
+      on a specified URL.
+    source: cli
+  disableav:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Create a VBS script to attempt disabling Windows Defender.
+    source: cli
+  dmitry:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: This function constructs and executes a command for the 'dmitry'
+      tool.
+    source: cli
+  dns_beacon:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Start a DNS tunneling beacon.
+    source: cli
+  dns_beacon_status:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Show status of all DNS beacons.
+    source: cli
+  dns_exfil_listen:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Start a DNS exfiltration listener on UDP port 53.
+    source: cli
+  dnschef:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the DNSChef tool to monitor DNS queries and intercept responses.
+    source: cli
+  dnsenum:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs DNS enumeration using `dnsenum` to identify subdomains for
+      a given domain.
+    source: cli
+  dnsmap:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs DNS enumeration using `dnsmap` to discover subdomains for
+      a specified domain.
+    source: cli
+  dnstool_py:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the dnstool.py tool to modify Active Directory-integrated
+      DNS records.
+    source: cli
+  docker_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Enumerate Docker host: containers, images, privileges, mounts.'
+    source: cli
+  doctor:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Preflight environment health check \u2014 verify the install is\
+      \ ready."
+    source: cli
+  dominion:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Execute a fully automated Active Directory domain takeover.
+    source: cli
+  dotnet_payload:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Generate a .NET/C# payload.
+    source: cli
+  download_c2:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Download a file from the C2 implant via the upload command.
+    source: cli
+  download_exploit:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Downloads and sets up an exploit, optionally serving via HTTP.
+    source: cli
+  download_malwarebazar:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Download a malware sample from MalwareBazaar using its SHA256 hash.
+    source: cli
+  download_resources:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Downloads resources into the `sessions` directory.
+    source: cli
+  downloader:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Generate a downloader command for files in the sessions directory.
+    source: cli
+  dpapi_blob:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Decrypt a DPAPI blob offline.
+    source: cli
+  dpapi_harvest:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Harvest all DPAPI-protected credentials from the local machine.
+    source: cli
+  dpapi_masterkeys:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: List and extract DPAPI master keys.
+    source: cli
+  dploot:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run dploot to loot DPAPI-protected secrets.
+    source: cli
+  dr0p1t:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Execute the Dr0p1t tool to create a stealthy malware dropper.
+    source: cli
+  duckyspark:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: duckyspark Compiles and uploads an .ino sketch to a Digispark device
+      using Arduino CLI and Micronucleus.
+    source: cli
+  edr_detect:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Detect EDR/AV products on the target.
+    source: cli
+  edr_profile:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate an evasion profile based on detected EDR.
+    source: cli
+  edr_script:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a PowerShell EDR detection script.
+    source: cli
+  emp3r0r:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Command emp3r0r Downloads and sets up the Emperor server for local
+      exploitation.
+    source: cli
+  empire:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generates payloads using PowerShell Empire with various options.
+    source: cli
+  encode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Encodes a string using the specified shift value and substitution
+      key.
+    source: cli
+  encoderpayload:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Applies various obfuscations to a given command line string to create
+      multiple obfuscated versions.
+    source: cli
+  encodewinbase64:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Encodes a given payload into a Base64 encoded string suitable for
+      Windows PowerShell execution.
+    source: cli
+  encrypt:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Encrypt a file with XOR using a caller-supplied key.
+    source: cli
+  engage:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Drive a single target through the full kill-chain in one command.
+    source: cli
+  entra_attack:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Microsoft Entra ID / Azure AD attack operations.
+    source: cli
+  enum4linux:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs enumeration of information from a target Linux/Unix system
+      using `enum4linux`.
+    source: cli
+  enum4linux_ng:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs enumeration of information from a target system using `enum4linux-ng`.
+    source: cli
+  estorides_import:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Import Estorides-discovered entities into LazyOwn database and scope.
+    source: cli
+  estorides_intel:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Fuse estorides OSINT entities into the campaign intel graphs.
+    source: cli
+  estorides_loop:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Run the bidirectional Estorides <-> LazyOwn feedback loop.
+    source: cli
+  estorides_seed:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Feed LazyOwn hosts/domains into Estorides for passive OSINT discovery.
+    source: cli
+  estorides_surface:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Show the combined active + passive attack surface.
+    source: cli
+  eternal:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+    source: cli
+  evasion:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate and manage C2 evasion profiles.
+    source: cli
+  evasive:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate detection-evading payloads with multiple obfuscation strategies.
+    source: cli
+  evasive_payload:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Generate an evasive payload with automatic AV/EDR bypass.
+    source: cli
+  event_log:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Show recent EventBus events. Usage: event_log [N] [category]'
+    source: cli
+  evidence:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Encode the ``sessions/`` tree into a video file or decode one back.
+    source: cli
+  evil_ssdp:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Runs evil-ssdp with various options and user-selected templates.
+    source: cli
+  evilwinrm:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Drive Evil-WinRM through password, hash or kerberos-only auth.
+    source: cli
+  excelntdonut:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Generates an Excel 4.0 (XLM) macro from a provided C# source file
+      using EXCELntDonut.
+    source: cli
+  exe2bin:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Trasnform file .exe into binary file.
+    source: cli
+  exe2donutbin:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Trasnform file .exe into donut binary file.
+    source: cli
+  exfil_auto:
+    enabled: true
+    phase: exfil
+    risk: safe
+    description: Auto-detect flags and sensitive files, then exfiltrate.
+    source: builtin
+  exfil_discord:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Exfiltrate a file via Discord webhook.
+    source: cli
+  exfil_dns:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Exfiltrate data via DNS tunneling.
+    source: cli
+  exfil_gcs:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Upload a file to Google Cloud Storage.
+    source: cli
+  exfil_http:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Exfiltrate a file via HTTP POST to a controlled server.
+    source: cli
+  exfil_s3:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Upload a file to an AWS S3 bucket.
+    source: cli
+  exfil_start_server:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Start all required exfiltration listeners.
+    source: cli
+  exfil_telegram:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Exfiltrate a file via Telegram Bot API.
+    source: cli
+  exit:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Exit the command line interface.
+    source: cli
+  exploit_chain:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: AI-driven multi-step exploit chaining with fallback strategies.
+    source: cli
+  exploit_recommend:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: "AI-powered exploit recommendation \u2014 matches discovered services\
+      \ to CVEs."
+    source: cli
+  exploitgym:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: "ExploitGym \u2014 real-world exploit benchmark via containerised\
+      \ tasks."
+    source: cli
+  explore:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show exploration coverage and addon/tool suggestions per service.
+    source: cli
+  extract_ports:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Extracts open ports and IP address information from a specified file.
+    source: cli
+  extract_yaml:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Extract YAML from an existing debug file and try to create a playbook.
+    source: cli
+  eyewitness:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Run EyeWitness for web screenshot capture.
+    source: cli
+  eyewitness_py:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Automates EyeWitness installation and execution without requiring
+      user input.
+    source: cli
+  facts_show:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show structured facts extracted from nmap scans and tool output.
+    source: cli
+  feroxbuster:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command feroxbuster: Installs and runs Feroxbuster for performing
+      forced browsing and directory brute-forcing.'
+    source: cli
+  filtering:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Applies various filtering techniques to the given command line by
+      modifying each character or word appropriately.
+    source: cli
+  finalrecon:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Runs the `finalrecon` tool to perform a web server vulnerability
+      scan against the specified target host.
+    source: cli
+  find:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Automates command execution based on a list of aliases and commands.
+    source: cli
+  finger_user_enum:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the `finger-user-enum` tool for enumerating users on the
+      target host.
+    source: cli
+  fixel:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Fixes file permissions and line endings in the project directories.
+    source: cli
+  fixperm:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Fix permissions for LazyOwn shell scripts.
+    source: cli
+  follina:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Run the Follina (CVE-2022-30190) exploit setup.
+    source: cli
+  forensic_clean:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Clean forensic artifacts \u2014 Prefetch, Shimcache, Amcache, Jump\
+      \ Lists, etc."
+    source: cli
+  form:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Open an interactive form for a known command. Usage: form <command>.'
+    source: cli
+  frontier:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Preview the planner intents the autonomous loops would run next.
+    source: cli
+  ftp:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Connects to an ftp host using credentials from a file and a specified
+      port.
+    source: cli
+  fuzz:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes a web server fuzzing script with user-provided parameters.
+    source: cli
+  fz:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Fuzzy command finder. Usage: fz [query]. Empty lists every command.'
+    source: cli
+  gatecheck:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Dry-run the safety gate against one command line.
+    source: cli
+  gcp_privesc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: GCP privilege escalation and enumeration.
+    source: cli
+  gen_report:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Generate enhanced professional penetration test reports.
+    source: cli
+  gencert:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Generates a certificate authority (CA), client certificate, and client
+      key.
+    source: cli
+  generate:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Generate a payload.
+    source: cli
+  generate_playbook:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generates a playbook that integrates Atomic Red Team tests and MITRE
+      ATT&CK techniques.
+    source: cli
+  generate_revshell:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Generate a reverse shell in various programming languages.
+    source: cli
+  generatedic:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generates a wordlist based on a target name and a list of characters,
+      with various combinations.
+    source: cli
+  getTGT:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
+      provided credentials.
+    source: cli
+  get_avaible_actions:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Get list de supported acctions.
+    source: cli
+  getadusers:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run impacket-GetADUsers to enumerate AD accounts on the DC.
+    source: cli
+  getcap:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Retrieve and display file capabilities on the system.
+    source: cli
+  getnpusers:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt
+    source: cli
+  getnthash_py:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Recover the NT hash from a Kerberos U2U TGS via PKINITtools.
+    source: cli
+  gets4uticket_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the gets4uticket.py tool from PKINITtools to request an
+      S4U2Self service ticket using Kerberos.
+    source: cli
+  getseclist:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Get the SecLists wordlist from GitHub.
+    source: cli
+  gettgtpkinit_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the gettgtpkinit.py tool from PKINITtools to request a TGT
+      using Kerberos PKINIT with a PFX or PEM certificate.
+    source: cli
+  getuserspns:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run impacket-GetUserSPNs to request roastable service tickets.
+    source: cli
+  gitdumper:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Install ``git-dumper`` if missing and pull a remote ``.git`` tree.
+    source: cli
+  gitlab_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate a GitLab instance.
+    source: cli
+  gmsadumper:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run gMSADumper to read gMSA password blobs visible to the user.
+    source: cli
+  gobuster:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Uses `gobuster` for directory and virtual host fuzzing based on provided
+      parameters. Supports directory enumeration and virtual host discovery.
+    source: cli
+  god_nodes:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the most-connected nodes ("god nodes") from the graph.
+    source: cli
+  gospherus:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: 'Command gospherus: Clones and uses the Gopherus tool to generate
+      gopher payloads for various services.'
+    source: cli
+  gospider:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Try gospider for web spidering.
+    source: cli
+  gowitness:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Run gowitness for web screenshot capture.
+    source: cli
+  gpo_abuse:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate and exploit Group Policy Objects.
+    source: cli
+  gpt:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Query GPT/Groq AI for analysis and reporting.
+    source: cli
+  graph:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Generates a graph from JSON payload files containing URL, RHOST,
+      and RPORT.
+    source: cli
+  graph_overlay:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open the graph overlay over the graphify knowledge graph.
+    source: cli
+  graph_search:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Fuzzy search the graphify knowledge graph for nodes by label.
+    source: cli
+  graudit:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the graudit command to perform a static code analysis with
+      the specified options.
+    source: cli
+  greatSCT:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the GreatSCT tool for generating payloads that bypass antivirus
+      and application whitelisting solutions.
+    source: cli
+  grep_log:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Grep recent command outputs. Usage: grep_log <pattern> [--cmd <name>].'
+    source: cli
+  grisun0:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates and copies a shell command to add a new user, assign a password,
+      add the user to the sudo group, and switch to the user.
+    source: cli
+  grisun0w:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates and copies a PowerShell command to add a new user, assign
+      a password, add the user to the Administrators group, and switch to the user.
+    source: cli
+  groq:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a single-line command through the Groq backend.
+    source: cli
+  gtfo:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Look up a binary in GTFOBins and LOLBas parquet knowledge bases.
+    source: cli
+  gym:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Red Team Gym \u2014 gamified pentest training with ELO scoring."
+    source: cli
+  gym_ms2:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain
+      <vuln>.'
+    source: cli
+  h:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open a new window within a tmux session using the LazyOwn RedTeam
+      Framework.
+    source: cli
+  hashcat:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Run hashcat password cracking.
+    source: cli
+  help_phase:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all commands for a given kill-chain phase.
+    source: cli
+  help_status:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show which session requirements are met (rhost, creds, domain, OS).
+    source: cli
+  hex2shellcode:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Convert raw hex payload from msfvenom into NASM-compatible shellcode
+      format.
+    source: cli
+  hex_to_plaintext:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Converts hexadecimal data from a file to plain text.
+    source: cli
+  hooks:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Conditional hooks management \u2014 list, enable, disable, add,\
+      \ remove rules."
+    source: cli
+  hooks_add:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Add a new conditional hook rule (JSON string).
+    source: cli
+  hooks_enable:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Enable or disable a hook rule.
+    source: cli
+  hooks_fire:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manually fire a hook event for testing.
+    source: cli
+  hooks_list:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all conditional hook rules.
+    source: cli
+  hooks_remove:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Remove a hook rule by name.
+    source: cli
+  hostdiscover:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Discover active hosts in a subnet by performing a ping sweep.
+    source: cli
+  hound:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the hound tool for Hound is a simple and light tool for
+      information gathering and capture exact GPS coordinates
+    source: cli
+  http_exfil_server:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Start a minimal HTTP exfiltration receiver.
+    source: cli
+  httprobe:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the httprobe tool to probe domains for working HTTP and
+      HTTPS servers.
+    source: cli
+  hud:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Session counters: elapsed time, commands run, material captured.'
+    source: cli
+  hunt:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Run an autonomous exploitation chain against a target.
+    source: cli
+  hydra:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Run Hydra for online password attacks.
+    source: cli
+  id_rsa:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Create an SSH private key file and connect to a remote host using
+      SSH.
+    source: cli
+  ignorearp:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Configures the system to ignore ARP requests by setting a kernel
+      parameter.
+    source: cli
+  ignoreicmp:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Configures the system to ignore ICMP echo requests by setting a kernel
+      parameter.
+    source: cli
+  iis_webdav_upload_asp:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp
+      of metasploit
+    source: cli
+  img2cookie:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Generates an XSS payload that steals cookies via an image tag.
+    source: cli
+  img2vid:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Generates an MP4 video from PNG images found in the sessions/captured_images
+      directory.
+    source: cli
+  infra:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Manage disposable C2 infrastructure.
+    source: cli
+  internet_proxy:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Configures the local machine with internet access to act as a proxy
+      for a machine without internet access.
+    source: cli
+  ip:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Displays IP addresses of network interfaces and copies the IP address
+      from the `tun0` interface to the clipboard.
+    source: cli
+  ip2asn:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Command to get ASN for a given IP address.
+    source: cli
+  ip2hex:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Convert an IPv4 address into its hexadecimal representation.
+    source: cli
+  ipinfo:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Retrieves detailed information about an IP address using the ARIN
+      API.
+    source: cli
+  ipp:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Displays IP addresses of network interfaces and prints the IP address
+      from the `tun0` interface.
+    source: cli
+  issue_command_to_c2:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: 'Exec command in the client using the C2. download: command you must
+      put the file in sessions/temp_upload or use download_c2 command'
+    source: cli
+  ivy:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: "Generates payloads using Ivy with various options. Ivy is a payload\
+      \ creation framework for the execution of arbitrary VBA (macro) source code\
+      \ directly in memor\u2026"
+    source: cli
+  jenkins_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Enumerate a Jenkins instance.
+    source: cli
+  john2hash:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Convert a hash to John the Ripper format.
+    source: cli
+  john2keepas:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: List all .kdbx files in the 'sessions' directory, let the user select
+      one, and run the
+    source: cli
+  john2zip:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: List all .zip files in the 'sessions' directory, let the user select
+      one, and run the command
+    source: cli
+  juicypotato:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Serve JuicyPotato over HTTP for Windows privilege escalation.
+    source: cli
+  jwt_tool:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens
+      (JWTs).
+    source: cli
+  k8s_attack:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Kubernetes attack \u2014 RBAC enumeration, pod escape, etcd, persistence."
+    source: cli
+  k8s_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.'
+    source: cli
+  k8s_pods:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List Kubernetes pods with security-relevant details.
+    source: cli
+  k8s_secrets:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List and decode Kubernetes secrets.
+    source: cli
+  karma:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show ELO score, karma rank and exploration progress for this operator.
+    source: cli
+  keepass:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Open a .kdbx file and print the titles and contents of all entries.
+      The password can be provided through
+    source: cli
+  kerberoast:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Advanced Kerberoasting \u2014 AES-only mode, targeted SPN enumeration."
+    source: cli
+  kerberos_ticket:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Forge Kerberos tickets for persistence and lateral movement.
+    source: cli
+  kerbrute:
+    enabled: false
+    phase: enum
+    risk: exploit
+    description: Executes the Kerbrute tool to enumerate user accounts against a specified
+      target self.params['domain'] controller.
+    source: cli
+  kick:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Handles the process of sending a spoofed ARP packet to a specified
+      IP address with a given MAC address.
+    source: cli
+  killchain:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the unified kill-chain progress and control auto-refresh.
+    source: cli
+  knokknok:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Send special string to trigger a reverse shell, with the command
+      'c2 client_name'
+    source: cli
+  krbrelayx_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the krbrelayx.py tool for Kerberos relaying or unconstrained
+      delegation abuse.
+    source: cli
+  kusa:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Runs the Kusanagi payload generator.
+    source: cli
+  l00t:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Unified loot: show, search, reuse, graph, and mark credentials.'
+    source: cli
+  lab:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manage local CTF practice labs.
+    source: cli
+  lateral_mov_lin:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Perform lateral movement by downloading and installing LazyOwn on
+      a remote Linux machine.
+    source: cli
+  launchpad:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: "Searches for packages on Launchpad based on the provided search\
+      \ term and extracts codenames from the results. The distribution is extracted\
+      \ from the search ter\u2026"
+    source: cli
+  lazy_addon:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Addon trigger runner: list [service]|run <name> [--target T]|update
+      [name|--all] [--dry-run].'
+    source: cli
+  lazy_agent:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Main agent with full tool calling (native backend or opencode).\
+      \ Usage: lazy_agent new [--title T]|list|show <sid>|say <prompt...> [--session\
+      \ S] [--continue] [-\u2026"
+    source: cli
+  lazy_approve:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: List engine guard reviews filtered by decision and source.
+    source: cli
+  lazy_archive:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Task snapshots: save [--task T]|list|stats|restore <path>. Usage:
+      lazy_archive ...'
+    source: cli
+  lazy_ask:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Bounded side question over task context. Usage: lazy_ask <question>
+      [--task T] [--session S] | lazy_ask history [--task T] [--session S]'
+    source: cli
+  lazy_asset:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage
+      | untested. Usage: lazy_asset ...'
+    source: cli
+  lazy_broadcast:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Exploration timeline. Usage: lazy_broadcast [--task T] [--kind K]
+      [--q Q] [--asc] [--page N] [--limit N]'
+    source: cli
+  lazy_category:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Task labels: set <name> [--task T]|list [name]. Usage: lazy_category
+      ...'
+    source: cli
+  lazy_chat:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat
+      ... [--task T] [--session S]'
+    source: cli
+  lazy_compact:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand
+      <digest>. Usage: lazy_compact ... [--task T]'
+    source: cli
+  lazy_company:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Company scope: add <name> [scope]|list|match <value>. Usage: lazy_company
+      ...'
+    source: cli
+  lazy_constraint:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Constraints: add <allow|deny> <text> | list. Usage: lazy_constraint
+      ... [--task T]'
+    source: cli
+  lazy_context:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Render the bounded prompt context the planner/worker LLMs receive.
+      Usage: lazy_context [--task T] [--budget N]'
+    source: cli
+  lazy_delete:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Delete an engine intent; soft keeps outputs, hard cascades.
+    source: cli
+  lazy_dispatch:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Dispatch one detached task to an external agent: opencode|hermes\
+      \ [--in DIR] [--resume S] [--max-turns N] [--run-budget S] [--timeout S] <task...>.\
+      \ Usage: lazy_\u2026"
+    source: cli
+  lazy_enrich:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Enrich asset with DNS/HTTP. Usage: lazy_enrich <host-or-url>'
+    source: cli
+  lazy_evidence:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Evidence vault and frozen package.
+    source: cli
+  lazy_fact:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Facts: list [query] [--hot|--cold]|add <text>. Usage: lazy_fact
+      ... [--task T]'
+    source: cli
+  lazy_finding:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Findings: list [--full] [--limit N]|report <name> :: <summary>|status\
+      \ <id> <st>|update <id> <text>|context <id>. Usage: lazy_finding ... [--task\
+      \ T] [--severity\u2026"
+    source: cli
+  lazy_findings:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: List engine findings for a task, optionally filtered by status.
+    source: cli
+  lazy_fleet:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: "Cross-task fleet: list | graph <task> | findings <task> | traces\
+      \ <task> [query] | node <task> <id> | pause <task> | resume <task> | report\
+      \ <task> <finding> <te\u2026"
+    source: cli
+  lazy_frontier:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Show pending intent queue. Usage: lazy_frontier [--task T]'
+    source: cli
+  lazy_gate:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del\
+      \ <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ...\
+      \ [--task\u2026"
+    source: cli
+  lazy_goal:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal>
+      <evidence> <reason>|met <reason>. Usage: lazy_goal ... [--task T]'
+    source: cli
+  lazy_graph:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Show planner-facing graph overview. Usage: lazy_graph [--task T]'
+    source: cli
+  lazy_guard:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason]\
+      \ | rule-del <p> | judge on|off [--fail allow|deny] | judge fail <allow|deny>\
+      \ | judge | au\u2026"
+    source: cli
+  lazy_hint:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Inject steering hint. Usage: lazy_hint <text> [--task T]'
+    source: cli
+  lazy_install:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install
+      ...'
+    source: cli
+  lazy_intent:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Inject high-priority intent. Usage: lazy_intent <summary> [--task
+      T] [--priority N]'
+    source: cli
+  lazy_intent_delete:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Delete an intent. Usage: lazy_intent_delete <id> --reason <text>
+      [--hard] [--task T] [--yes]'
+    source: cli
+  lazy_intents:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: List engine intents for a task, optionally filtered by state.
+    source: cli
+  lazy_kill:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Terminate running intent. Usage: lazy_kill <intent> [--task T]'
+    source: cli
+  lazy_llm:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "LLM chain: list|add <name> [model] [--priority N]|priority <name>\
+      \ <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance\
+      \ [--rol\u2026"
+    source: cli
+  lazy_loop:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.\
+      \ Usage: lazy_loop [--task T] [-\u2026"
+    source: cli
+  lazy_mention:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Search @ mention candidates with scroll pagination.
+    source: cli
+  lazy_node:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Full node detail. Usage: lazy_node <id> [--task T]'
+    source: cli
+  lazy_notify:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Notify channels: list|add <log|webhook|file|slack|email> <target>\
+      \ [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test\
+      \ [severity]. Us\u2026"
+    source: cli
+  lazy_orchestrator:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Admin console for the loop (Textual TUI).
+    source: cli
+  lazy_overview:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Alias of lazy_graph. Usage: lazy_overview [--task T]'
+    source: cli
+  lazy_pause:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Pause task loops. Usage: lazy_pause [--task T]'
+    source: cli
+  lazy_payload_keys:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: 'Show worker tool defaults injected into every probe. Usage: lazy_payload_keys
+      [tool]'
+    source: cli
+  lazy_planner:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Run one planner wakeup (emits 0..N intents). Usage: lazy_planner
+      [--task T]'
+    source: cli
+  lazy_report:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Export severity-ranked report. Usage: lazy_report [--task T] [--format
+      md|json|csv] [--out PATH]'
+    source: cli
+  lazy_resume:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Resume paused task. Usage: lazy_resume [--task T]'
+    source: cli
+  lazy_retest:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Retest finding to reproduced/fixed/inconclusive. Usage: lazy_retest
+      <finding_id> [--task T] [--note TEXT]'
+    source: cli
+  lazy_runtime:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Show/set loop runtime: budgets, deadline, abort cause, heartbeat,\
+      \ settlement text. Usage: lazy_runtime show [--task T] | lazy_runtime budget\
+      \ <max_toolcalls> <m\u2026"
+    source: cli
+  lazy_sandbox:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Per-task Docker sandbox: status [--task T]|up --task T [--image
+      I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...'
+    source: cli
+  lazy_scheduler:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]'
+    source: cli
+  lazy_scope:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Scope: add <kind> <value> [reason] | list. Usage: lazy_scope ...
+      [--task T]'
+    source: cli
+  lazy_selfupdate:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Self-update: check [--branch B]|apply [--yes] [--branch B]. Usage:
+      lazy_selfupdate ...'
+    source: cli
+  lazy_skill:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror
+      [name]|register-hermes. Usage: lazy_skill ... [--task T]'
+    source: cli
+  lazy_stage:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Loop stage admin: list|enable|disable <stage>|reset. Usage: lazy_stage
+      ...'
+    source: cli
+  lazy_status:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Full task status. Usage: lazy_status [--task T]'
+    source: cli
+  lazy_steer:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Mid-run correction. Usage: lazy_steer <intent> <message> [--task
+      T]'
+    source: cli
+  lazy_sync:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Run bidirectional LAZY sync into world model and objectives.
+    source: cli
+  lazy_task:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.\
+      \ Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete\
+      \ [--tas\u2026"
+    source: cli
+  lazy_template:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+      Usage: lazy_template ...'
+    source: cli
+  lazy_todo:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Serial chain todos: add <text> | done <id> | list. Usage: lazy_todo
+      ... [--task T]'
+    source: cli
+  lazy_tool:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add\
+      \ <name> <command|script|http> <target> [--desc D] [--method M] [--body B] [--timeout\
+      \ S] [--trig\u2026"
+    source: cli
+  lazy_trace:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Worker trace exchange. Usage: lazy_trace list|search <q>|search-all
+      <q>|get <intent>|steps <intent> [--q Q]|step <intent> <n> [--task T]'
+    source: cli
+  lazy_traffic:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body\
+      \ <digest>|blob <digest> [--part req|resp] [--offset N] [--length N]|search-body\
+      \ <q>|tem\u2026"
+    source: cli
+  lazy_trigger:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Scheduler triggers: list|add <kind> [every_sec]|remove <id>|addons|sync.
+      Usage: lazy_trigger ... [--task T]'
+    source: cli
+  lazy_verb:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add\
+      \ <verb> --keywords K [--phase P] [--no-target] [--desc D]|remove <verb>|full-cli\
+      \ [on|off]. U\u2026"
+    source: cli
+  lazy_verdict:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Record a manual retest verdict on an engine finding.
+    source: cli
+  lazy_view:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Attach the live worker monitor to a task (or the newest task).
+    source: cli
+  lazy_worker:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Claim ONE intent and execute it with real tools. Usage: lazy_worker
+      [--task T] [--intent N]'
+    source: cli
+  lazy_workspace:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir
+      <path>|rm <path>|path. Usage: lazy_workspace ...'
+    source: cli
+  lazynmap:
+    enabled: true
+    phase: enum
+    risk: safe
+    description: Runs the internal module `modules/lazynmap.sh` with target mode.
+    source: builtin
+  lazypwn:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Executes the LazyPwn automated exploitation script.
+    source: cli
+  lazyreport:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Generate a professional red team report from session data.
+    source: cli
+  lazyscript:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Executes commands defined in a lazyscript file.
+    source: cli
+  lazywebshell:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Run LazyOwn webshell server on port 8888.
+    source: cli
+  ldapdomaindump:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Dumps LDAP information using `ldapdomaindump` with credentials from
+      a file.
+    source: cli
+  ldapsearch:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes an LDAP search against a target remote host (self.params['rhost'])
+      and saves the results.
+    source: cli
+  les:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Run Linux Exploit Suggester against a kernel version.
+    source: cli
+  lfi:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Exploits a potential Local File Inclusion (LFI) vulnerability by
+      crafting
+    source: cli
+  ligolo:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Run Ligolo-ng for advanced pivoting.
+    source: cli
+  links:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Displays a list of useful links and allows the user to select and
+      copy a link to the clipboard.
+    source: cli
+  linpeas:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Serve ``linpeas.sh`` over HTTP and print the target one-liner.
+    source: cli
+  linux_advanced_payload:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Generate advanced Linux payloads (LD_PRELOAD, eBPF, PAM, kernel module).
+    source: cli
+  list:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Lists all available scripts in the modules directory.
+    source: cli
+  listaliases:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all available aliases.
+    source: cli
+  listener:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: 'Manage C2 listeners: list, add, start, stop, remove.'
+    source: cli
+  listener_go:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Configures and starts a listener for a specified victim.
+    source: cli
+  listener_py:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Configures and starts a listener for a specified victim.
+    source: cli
+  llm_budget:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show the LLM daily cost budget, per call token cap, and current spend.
+    source: cli
+  load_session:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Load the session from the sessionLazyOwn.json file and display the
+      status of various parameters.
+    source: cli
+  lock_target:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Acquire an advisory lock on a target to prevent tool collisions.
+    source: cli
+  log_tamper:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Cross-platform log clearing commands.
+    source: cli
+  login:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Authenticate against users.json (same users as lazyc2.py).
+    source: cli
+  logout:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Log out the current CLI operator and clear the remember-me token.
+    source: cli
+  lol:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Exploits a target by injecting a malicious payload and collecting
+      admin information.
+    source: cli
+  lolbas_list:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List available LOLBAS (Living Off The Land) techniques from plugins.
+    source: cli
+  lolbas_use:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Execute a specific LOLBAS technique.
+    source: cli
+  lookupsid:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the Impacket lookupsid tool to enumerate SIDs on a target
+      system.
+    source: cli
+  lookupsid_py:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the LookupSID tool to perform SID enumeration on a target
+      system.
+    source: cli
+  loot:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Alias for ``l00t`` \u2014 unified loot (show/search/reuse/graph/mark)."
+    source: cli
+  loxs:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command loxs: Installs and runs Loxs for multi-vulnerability web
+      application scanning.'
+    source: cli
+  lynis:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs a Lynis audit on the specified remote system.
+    source: cli
+  macos_keychain:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Extract secrets from the macOS Keychain.
+    source: cli
+  macos_payload:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Generate macOS payloads (.app bundles, persistence, TCC bypass).
+    source: cli
+  macos_persist:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate macOS persistence via LaunchAgent.
+    source: cli
+  macos_tcc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate macOS TCC (Transparency, Consent, Control) bypass.
+    source: cli
+  magicrecon:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command magicrecon: Automates the setup and usage of MagicRecon
+      to perform various types of reconnaissance and vulnerability scanning on specified
+      targets.'
+    source: cli
+  makerc:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Record session commands to a resource script.
+    source: cli
+  malwarebazar:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Search Malware Bazaar for malware samples.
+    source: cli
+  marketplace:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Discover and install community plugins, addons, and tools.
+    source: cli
+  marketplace_config:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Interactive marketplace manager (Textual TUI).
+    source: cli
+  medusa:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Run Medusa for online password attacks.
+    source: cli
+  memory_clean:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Clean memory artifacts \u2014 Kerberos tickets, clipboard, env vars,\
+      \ credentials."
+    source: cli
+  metabigor:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes Metabigor commands for OSINT and scanning tasks with guided
+      input or predefined arguments.
+    source: cli
+  mfa_bypass:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: Enumerate and test MFA bypass techniques.
+    source: cli
+  mimikatzpy:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Run Mimikatz over Python (impacket style).
+    source: cli
+  mitre_test:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+    source: cli
+  mkrc:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Alias for makerc \u2014 record commands to a script."
+    source: cli
+  morse:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Interactive Morse Code Converter.
+    source: cli
+  mqtt_check_py:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the MQTT check tool to verify credentials on a target system
+      with optional SSL.
+    source: cli
+  ms08_067_netapi:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of
+      metasploit
+    source: cli
+  msf:
+    enabled: false
+    phase: c2
+    risk: exploit
+    description: Automates various Metasploit tasks including scanning for vulnerabilities,
+      setting up reverse shells, and creating payloads.
+    source: cli
+  msfpc:
+    enabled: false
+    phase: persist
+    risk: exploit
+    description: Generates payloads using MSFvenom Payload Creator (MSFPC).
+    source: cli
+  msfrpc:
+    enabled: false
+    phase: c2
+    risk: exploit
+    description: Connects to the msfrpcd daemon and allows remote control of Metasploit.
+    source: cli
+  msfshellcoder:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Generate shellcode in C format using msfvenom for either a custom
+      command or a reverse shell payload.
+    source: cli
+  mssqlcli:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Attempts to connect to an MSSQL server using the mssqlclient.py tool
+      with Windows authentication.
+    source: cli
+  mutate_shellcode:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Apply polymorphic mutation to shellcode for signature evasion.
+    source: cli
+  my_playbook:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Generates a playbook from your custom technique database.
+    source: cli
+  name_the_hash:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Identify hash type using nth after retrieving it with get_hash().
+    source: cli
+  nano:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Opens or creates the file using line in the sessions directory for
+      editing using nano.
+    source: cli
+  nbtscan:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs network scanning using `nbtscan` to discover NetBIOS names
+      and addresses in a specified range.
+    source: cli
+  nc:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Netcat listener or connect.
+    source: cli
+  neighbors:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show graph neighbors of a node or command from the graphify graph.
+    source: cli
+  net_rpc_addmem:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the net rpc group addmem command to add a user to a specified
+      group in Active Directory.
+    source: cli
+  netexec:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes netexec with various options for network protocol operations.
+    source: cli
+  netview:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the Impacket netview tool to list network shares on a specified
+      target.
+    source: cli
+  network_opsec:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Network OPSEC \u2014 proxy chains, DoH, canary detection, traffic\
+      \ analysis."
+    source: cli
+  news:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the Hacker News in the terminal.
+    source: cli
+  next:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show next-step recommendations or execute the active autosuggest.
+    source: cli
+  ngrok:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Start ngrok tunnel.
+    source: cli
+  nikto:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Runs the `nikto` tool to perform a web server vulnerability scan
+      against the specified target host.
+    source: cli
+  nmapscript:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Perform an Nmap scan using a specified script and port.
+    source: cli
+  nmapscripthelp:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Provides help to find and display information about Nmap scripts.
+    source: cli
+  note:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Capture a quick operator note attached to the current target and
+      phase.
+    source: cli
+  notify:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Command to trigger a toastr-like notification.
+    source: cli
+  ntpdate:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Synchronizes the system clock with a specified NTP server.
+    source: cli
+  nuclei:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes a Nuclei scan on a specified target URL or host.
+    source: cli
+  odat:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs
+      on a target Oracle database.'
+    source: cli
+  ofuscate_payload:
+    enabled: false
+    phase: postexp
+    risk: exploit
+    description: Obfuscates a shell script by encoding it in Base64 and prepares a
+      command to decode and execute it.
+    source: cli
+  ofuscate_string:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Ofuscate a string into Go code.
+    source: cli
+  ofuscatesh:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Obfuscates a shell script by encoding it in Base64 and prepares a
+      command to decode and execute it.
+    source: cli
+  ofuscatorps1:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Obfuscate a PowerShell script.
+    source: cli
+  op_create:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Create a new planned operation.
+    source: cli
+  op_list:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all operations.
+    source: cli
+  op_pause:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Pause a running operation.
+    source: cli
+  op_plan:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Populate operation steps from a playbook YAML or via MITRE derive.
+    source: cli
+  op_report:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Generate a full report for an operation.
+    source: cli
+  op_resume:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Resume a paused operation.
+    source: cli
+  op_start:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Start (or resume) an operation.
+    source: cli
+  op_status:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the status of an operation.
+    source: cli
+  op_stop:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Stop a running operation.
+    source: cli
+  op_timeline:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the event timeline of an operation.
+    source: cli
+  openredirex:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command openredirex: Clones, installs, and runs OpenRedirex for
+      testing open redirection vulnerabilities.'
+    source: cli
+  openssl_sclient:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Uses `openssl s_client` to connect to a specified host and port,
+      allowing for testing and debugging of SSL/TLS connections.
+    source: cli
+  operator_create:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Create a new operator profile.
+    source: cli
+  operator_delete:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Delete an operator profile.
+    source: cli
+  operator_load:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Load effective config for an operator (team baseline + overrides).
+    source: cli
+  operators:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List all operator profiles.
+    source: cli
+  opsec:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Score OPSEC risk for a LazyOwn command before execution.
+    source: cli
+  opsec_score:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Real-time OPSEC risk assessment with contextual action gating (v2).
+    source: cli
+  orchestrate:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Route a goal through the unified orchestrator and print the result.
+    source: cli
+  osmedeus:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes Osmedeus scans with guided input for various scanning scenarios.
+    source: cli
+  owneredit:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the Impacket owneredit tool for manipulating ownership of
+      Active Directory objects.
+    source: cli
+  package_squat:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a malicious PyPI package for dependency confusion.
+    source: cli
+  padbuster:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Execute the PadBuster command for padding oracle attacks.
+    source: cli
+  palette:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Browse the operator command catalogue grouped by kill-chain phase.
+    source: cli
+  palette_k:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open the fuzzy Command-K palette overlay.
+    source: cli
+  paranoid_meterpreter:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates and deploys a paranoid Meterpreter payload and listener with
+      SSL/TLS pinning and UUID tracking.
+    source: cli
+  parquet_query:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
+    source: cli
+  parsero:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes a parsero scan on a specified target URL or host.
+    source: cli
+  parth:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command parth: Installs and runs Parth for discovering vulnerable
+      URLs and parameters.'
+    source: cli
+  passtightvnc:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Decrypts TightVNC passwords using Metasploit.
+    source: cli
+  passwordspray:
+    enabled: false
+    phase: cred
+    risk: exploit
+    description: Perform password spraying using crackmapexec with the provided parameters.
+    source: cli
+  path2hex:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Convert a binary path to x64 little-endian hex code for shellcode
+      injection.
+    source: cli
+  payload:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Load parameters from a specified payload JSON file.
+    source: cli
+  penelope:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: 'Command penelope: Installs and runs Penelope for handling reverse
+      and bind shells.'
+    source: cli
+  pentest_report:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a professional penetration test report.
+    source: cli
+  pezorsh:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Executes the PEzor tool to pack executables or shellcode with custom
+      configurations.
+    source: cli
+  phase:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Get or set the current kill-chain phase.
+    source: cli
+  phish_report:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show campaign results and captured credentials.
+    source: cli
+  phish_serve:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Start a lightweight HTTP server for phishing landing pages.
+    source: cli
+  phish_wizard:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Interactive end-to-end phishing campaign wizard.
+    source: cli
+  ping:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Perform a ping to check host availability and infer the operating
+      system based on TTL values.
+    source: cli
+  pip_proxy:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Configures the local machine with internet access to act as a pip
+      proxy for a machine without internet access.
+    source: cli
+  pip_repo:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Sets up a local pip repository to serve Python packages for installation
+      on a compromised machine without internet access.
+    source: cli
+  pipeline:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Declarative composition layer: run a YAML pipeline of LazyOwn commands.'
+    source: cli
+  pivot:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Record a newly discovered pivot target or show the pivot chain.
+    source: cli
+  pivot_kill:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Kill all pivot tunnels and clean up.
+    source: cli
+  pivot_proxy:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Start a local SOCKS proxy through the pivot chain.
+    source: cli
+  pivot_scan:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Scan internal networks through the current pivot chain.
+    source: cli
+  pivot_status:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show the current pivot chain state.
+    source: cli
+  plan:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Pick the next best technique to run for a target.
+    source: cli
+  plan_apply:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Run the planner, then auto-create and start an operation.
+    source: cli
+  plan_detail:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the full ranked plan (all candidates) for a target.
+    source: cli
+  playbook_run:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Execute a generated YAML playbook step by step through the shell.
+    source: cli
+  polymorphic:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Apply polymorphic mutation to shellcode.
+    source: cli
+  poolcheck:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Prove the LLM failover pool order with one live prompt.
+    source: cli
+  pop:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open a centered popup in the current tmux session to execute a shell
+      command.
+    source: cli
+  portdiscover:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Scan all ports on a specified host to identify open ports.
+    source: cli
+  ports:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Lists all open TCP and UDP ports on the local system.
+    source: cli
+  portservicediscover:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Scan all ports on a specified host to identify open ports and associated
+      services.
+    source: cli
+  powerserver:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: This function generates a PowerShell script that retrieves reverse
+      shell over http on a Windows system.
+    source: cli
+  powershell_cmd_stager:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Generate and execute a PowerShell command stager to run a .ps1 script.
+    source: cli
+  pre2k:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the pre2k tool to query the self.params['domain'] for pre-Windows
+      2000 machine accounts or to pass a list of hostnames to test authentication.
+    source: cli
+  prev:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+    source: cli
+  printerbug_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the printerbug.py tool to trigger the SpoolService bug via
+      RPC backconnect.
+    source: cli
+  printspoofer:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Serve PrintSpoofer over HTTP for Windows privilege escalation.
+    source: cli
+  privesc_cmd_by_os:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Prepare and send a linpeas/winpeas command to a C2 client.
+    source: cli
+  privesc_suggest:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Quick alias for crystal_ball --auto.
+    source: cli
+  process_scans:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Processes CSV files with scan results and vulnerability data to generate
+      a Shodan-like JSON database.
+    source: cli
+  proxy:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Runs a small proxy server to modify HTTP requests on the fly.
+    source: cli
+  psexec:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the Impacket PSExec tool to attempt remote execution on
+      the specified target.
+    source: cli
+  psexec_py:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the Impacket PSExec tool to attempt remote execution on
+      the specified target.
+    source: cli
+  pspy:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Serve the ``pspy`` process monitor over HTTP.
+    source: cli
+  pth_net:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Executes the Pass-the-Hash (PTH) Net tool to change the password
+      of an Active Directory account.
+    source: cli
+  pup:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Processes HTML content from a specified URL using the pup utility
+      and a default CSS selector.
+    source: cli
+  purple_config:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show or update purple team configuration (payload.json).
+    source: cli
+  purple_dashboard:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Launch the Purple Team TUI dashboard.
+    source: cli
+  purple_exec:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Execute a red action and measure if LazyOwnBT detects it.
+    source: cli
+  purple_history:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show recent purple team action results.
+    source: cli
+  purple_methods:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List available LazyOwnBT detection methods.
+    source: cli
+  purple_report:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate full engagement report with datasets.
+    source: cli
+  purple_score:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show current engagement detection score.
+    source: cli
+  purple_test:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Test if LazyOwnBT would detect a command (no execution).
+    source: cli
+  pwd:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Displays the current working directory and lists files, and copies
+      the current directory path to the clipboard.
+    source: cli
+  pwncat:
+    enabled: false
+    phase: persist
+    risk: exploit
+    description: Runs `pwncat` with the specified port for listening. SELFINJECT
+    source: cli
+  pwncatcs:
+    enabled: false
+    phase: persist
+    risk: exploit
+    description: Start a pwncat-cs reverse shell listener.
+    source: cli
+  py3ttyup:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Copies a Python reverse shell command to the clipboard.
+    source: cli
+  pyautomate:
+    enabled: true
+    phase: exploit
+    risk: safe
+    description: Automates the execution of pwntomate tools on XML configuration files.
+    source: builtin
+  pykerbrute:
+    enabled: false
+    phase: enum
+    risk: exploit
+    description: 'Command pykerbrute: Automates the installation and execution of
+      PyKerbrute for bruteforcing Active Directory accounts using Kerberos pre-authentication.'
+    source: cli
+  pyoracle2:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the pyOracle2 tool for performing padding oracle attacks.
+    source: cli
+  pywhisker:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink
+      attribute of a target user or computer.
+    source: cli
+  qa:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Exits the application quickly without confirmation.
+    source: cli
+  rag_query:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Semantic search over session artefacts (scans, logs, notes).
+    source: cli
+  rdp:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Reads credentials from a file, encrypts the password, and executes
+      the RDP connection command.
+    source: cli
+  rdp_check_py:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the RDP check tool to verify credentials or hash-based authentication
+      on a target system.
+    source: cli
+  recommend_next:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Recommend the next action via the unified recommendation engine.
+    source: cli
+  recon:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs reconnaissance on a specified self.params['domain'] using
+      crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.
+    source: cli
+  refill_password:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate a list of possible passwords by filling each asterisk in
+      the input with user-specified characters.
+    source: cli
+  reg_py:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Query a remote registry hive with impacket-reg.py over hash auth.
+    source: cli
+  regeorg:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.
+    source: cli
+  register:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Register a new operator account in users.json.
+    source: cli
+  rejetto_hfs_exec:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec
+      of metasploit
+    source: cli
+  reload_addons:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.
+    source: cli
+  resource:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Run an enhanced resource script.
+    source: cli
+  responder:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Run Responder on the configured ``device`` with elevated privileges.
+    source: cli
+  resume:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Browse previous sessions and load a target from a past engagement.
+    source: cli
+  retest:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Re-verify a finding in an isolated session (LAZY retester).
+    source: cli
+  rev:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Copies a reverse shell one-liner to the clipboard.
+    source: cli
+  revwin:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create a Windows reverse shell executable.
+    source: cli
+  rhost:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Copies the remote host (self.params['rhost']) to the clipboard and
+      updates the command prompt.
+    source: cli
+  rich_tui:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Launch the Rich-based live dashboard TUI.
+    source: cli
+  rmfromfind:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Remove a custom command by index (as shown in 'find').
+    source: cli
+  rnc:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Runs `nc` with rlwrap  the specified port for listening.
+    source: cli
+  rocky:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Reduces a wordlist based on the specified password length.
+    source: cli
+  rot:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Apply a ROT (rotation) substitution cipher to the given string.
+    source: cli
+  rotate_aes:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate a new AES key and re-encrypt all sealed credentials.
+    source: cli
+  rotf:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Apply a ROT (rotation) substitution cipher to the given extension.
+    source: cli
+  route:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Route a natural-language prompt to a LazyOwn tool. Usage: route
+      <prompt>'
+    source: cli
+  rpcclient:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the `rpcclient` command to interact with a remote Windows
+      system over RPC (Remote Procedure Call) using anonymous credentials.
+    source: cli
+  rpcdump:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the `rpcdump.py` script to dump RPC services from a target
+      host.
+    source: cli
+  rpcmap_py:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC
+      interfaces.'
+    source: cli
+  rrhost:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Updates the command prompt to include the remote host (self.params['rhost'])
+      and current working directory.
+    source: cli
+  rsync:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Push the ``sessions/`` tree to ``rhost`` over SCP with sshpass.
+    source: cli
+  rubeus:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Copies a command to the clipboard for downloading and running Rubeus.
+    source: cli
+  run:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Runs a specific LazyOwn script or active module.
+    source: cli
+  saas_enum:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Enumerate SaaS platforms \u2014 M365, Google Workspace, Salesforce,\
+      \ Slack, ServiceNow."
+    source: cli
+  samdump2:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run samdump2 against ``sessions/SYSTEM`` and ``sessions/SAM``.
+    source: cli
+  samrdump:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Run `impacket-samrdump` to dump SAM data from specified ports.
+    source: cli
+  sandbox:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Toggle or query Docker sandbox mode.
+    source: cli
+  sawks:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Executes the Swaks (Swiss Army Knife for SMTP) tool to send test
+      emails for phishing simulations.
+    source: cli
+  scandiscovery:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Scan every discovery IP with operator confirmation.
+    source: cli
+  scans:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: List nmap scan files in sessions/ with age, size, and open ports.
+    source: cli
+  scarecrow:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Executes ScareCrow with various options for bypassing EDR solutions
+      and executing shellcode.
+    source: cli
+  scavenger:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Run the Scavenger post-exploitation data collector.
+    source: cli
+  scope:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manage the authorized engagement scope and the scope-guard posture.
+    source: cli
+  scp:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Copies the local "sessions" directory to a remote host using scp,
+      leveraging sshpass for automated authentication.
+    source: cli
+  seal_credentials:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Encrypt all sensitive values in payload.json using AES-256-GCM.
+    source: cli
+  search:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Search for modules by name, description, or author.
+    source: cli
+  searchhash:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Helps to find hash types in Hashcat by searching through its help
+      output.
+    source: cli
+  secretsdump:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Run impacket-secretsdump for SAM, credentials, or NTDS payloads.
+    source: cli
+  seo:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Performs a web seo fingerprinting scan using `lazyseo.py`.
+    source: cli
+  serveralive2:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: 'Command serveralive2: Uses Impacket to connect to a remote MSRPC
+      interface and retrieves the server bindings.'
+    source: cli
+  service:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Creates a systemd service file for a specified binary and generates
+      a script to enable and start the service.
+    source: cli
+  service_ssh:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Creates a systemd service file for a specified binary and generates
+      a script to enable and start the service.
+    source: cli
+  session_state:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+    source: cli
+  sessionssh:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Execute a command to list active SSH connections.
+    source: cli
+  sessionsshstrace:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Attach strace to a running process and log output to a file.
+    source: cli
+  set:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: "Set a parameter \u2014 the unified ``set``/``assign`` surface."
+    source: cli
+  set_proxychains:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Configure proxychains for the current session.
+    source: cli
+  setoolKits:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Executes the SEToolKit workflow to generate a Meterpreter payload
+    source: cli
+  sh:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Executes a shell command directly from the LazyOwn interface.
+    source: cli
+  shadowsocks:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Execute the Shadowsocks tool to create a secure tunnel for network
+      traffic.
+    source: cli
+  share_finding:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Share a finding or credential discovery with the team.
+    source: cli
+  sharpshooter:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes a payload creation framework for the retrieval and execution
+      of arbitrary CSharp source code.
+    source: cli
+  shellcode:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Generate and manage shellcode.
+    source: cli
+  shellcode2elf:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Convert shellcode into an ELF file and infect it.
+    source: cli
+  shellcode2sylk:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Converts shellcode to SYLK format and saves the result to a file.
+    source: cli
+  shellcode_search:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Search the shell-storm API for shellcodes using the provided keywords.
+    source: cli
+  shellfire:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Runs Shellfire with various options and allows generating payloads.
+    source: cli
+  shellshock:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes a Shellshock attack against a target.
+    source: cli
+  sherlock:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes the Sherlock tool to find usernames across social networks.
+    source: cli
+  show:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show params, modules, payloads, or active module options.
+    source: cli
+  shred:
+    enabled: false
+    phase: uncategorized
+    risk: high
+    description: Securely delete files by overwriting before removal.
+    source: cli
+  sireprat:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: 'Command sireprat: Automates the setup and usage of SirepRAT to perform
+      various attacks on a Windows IoT Core device.'
+    source: cli
+  sitrep:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Print a unified operational situation report.
+    source: cli
+  skipfish:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: This function executes the web security scanning tool Skipfish
+    source: cli
+  sleep_configure:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Configure the active sleep obfuscation technique.
+    source: cli
+  sleep_info:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show detailed information about a sleep obfuscation technique.
+    source: cli
+  sleep_list:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List available sleep obfuscation techniques.
+    source: cli
+  sliver_server:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Starts the Sliver server and generates a client configuration file
+      for connecting clients.
+    source: cli
+  smalldic:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Handles the creation of temporary files for users and passwords based
+      on a small dictionary.
+    source: cli
+  smb_exfil:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Exfiltrate files to an SMB share on the attacker machine.
+    source: cli
+  smbattack:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Scans for hosts with SMB service open on port 445 in the specified
+      target network.
+    source: cli
+  smbclient:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Interacts with SMB shares using the `smbclient` command to perform
+      the following operations:'
+    source: cli
+  smbclient_impacket:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Interacts with SMB shares using the `smbclient` command to perform
+      the following operations:'
+    source: cli
+  smbclient_py:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Interacts with SMB shares using the `smbclient.py` command to perform
+      the following operations:'
+    source: cli
+  smbmap:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: smbmap -H 10.10.10.3 [OPTIONS]
+    source: cli
+  smbserver:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Stand up an Impacket SMB server with three relay variants.
+    source: cli
+  smtpuserenum:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY
+      method.
+    source: cli
+  snmpcheck:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs an SNMP check on the specified target host.
+    source: cli
+  snmpwalk:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Performs an SNMP check on the specified target host.
+    source: cli
+  socat:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Run socat for port forwarding.
+    source: cli
+  socks_config:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show or configure the SOCKS5 proxy.
+    source: cli
+  socks_export:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Export SOCKS5 proxy specification for beacon delivery.
+    source: cli
+  socks_sessions:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List active SOCKS proxy sessions.
+    source: cli
+  spool:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Log session output to a file.
+    source: cli
+  spraykatz:
+    enabled: false
+    phase: cred
+    risk: exploit
+    description: Run SprayKatz for credential spraying.
+    source: cli
+  sqli:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Asks the user for the URL, database, table, and columns, and then
+      executes the Python script
+    source: cli
+  sqli_mssql_test:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Initiates a reverse MSSQL shell by starting an HTTP server to handle
+      incoming connections and exfiltrate data.
+    source: cli
+  sqlmap:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Runs SQLMap against the target URL for SQL injection testing.
+    source: cli
+  sqsh:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the Impacket sqsh tool for manipulating ownership of Active
+      Directory objects.
+    source: cli
+  ss:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Search all exploit sources and map findings to the next LazyOwn command.
+    source: cli
+  ssh:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: SSH to a remote host (custom port).
+    source: cli
+  ssh_cmd:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Perform Remote Execution Command through SSH using configured start_user.
+      See help grisun0 for backdoor user configuration.
+    source: cli
+  sshd:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Starts the SSH service and displays its status.
+    source: cli
+  sshexploit:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature
+      of the ssh-agent.
+    source: cli
+  sshkey:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate an SSH key pair.
+    source: cli
+  sslscan:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Run an SSL scan on the specified remote host.
+    source: cli
+  stage:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: 'Stage data for exfiltration: compress, encrypt, and split.'
+    source: cli
+  staged_delivery:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate staged delivery artifacts (HTA, VBA, LNK, ISO, VHD).
+    source: cli
+  state_snapshot:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Show unified StateManager snapshot (DB + JSON caches).
+    source: cli
+  status_bar:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Inspect, toggle and refresh the prompt status bar.
+    source: cli
+  status_tail:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Print live progress from the latest sessions/scan_*.partial file.
+    source: cli
+  stealth_off:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Disable stealth mode.
+    source: cli
+  stealth_on:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Enable stealth mode for subsequent operations.
+    source: cli
+  stormbreaker:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: 'Command stormbreaker: Automates the installation and usage of Storm-Breaker
+      for performing various network attacks.'
+    source: cli
+  sudo:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Re-launch the framework with root privileges when missing.
+    source: cli
+  sudo_privesc:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Analyse sudo -l output and cross-reference with GTFOBins.
+    source: cli
+  suggest:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Fuzzy command suggestion for typos and fragments.
+    source: cli
+  suggest_next:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Suggest next commands by walking the graph from recent activity.
+    source: cli
+  suid_check:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Print SUID/SGID enumeration commands ready to paste on the target.
+    source: cli
+  surface:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Render the network surface graph in the terminal.
+    source: cli
+  swaks:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Sends an email using `swaks` (Swiss Army Knife for SMTP).
+    source: cli
+  sys:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Executes a shell command directly from the LazyOwn interface.
+    source: cli
+  sys_payload_keys:
+    enabled: false
+    phase: diagnostics
+    risk: exploit
+    description: List the keys currently present in the parent shell's payload.
+    source: cli
+  sys_runtime:
+    enabled: false
+    phase: diagnostics
+    risk: safe
+    description: Print interpreter, platform and core LazyOwn paths.
+    source: cli
+  sysmon_disable:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Generate commands to disable Windows Sysmon.
+    source: cli
+  tab:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Executes the `lazypyautogui.py` script with optional arguments.
+    source: cli
+  targetedKerberoas:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Executes the targetedKerberoast tool for extracting Kerberos service
+      tickets.
+    source: cli
+  tasks:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: View and manage the task queue from sessions/tasks.json.
+    source: cli
+  tcpdump_capture:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Starts packet capture using `tcpdump` on the specified interface.
+    source: cli
+  tcpdump_icmp:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Starts `tcpdump` to capture ICMP traffic on the specified interface.
+    source: cli
+  team_chat:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Send a message to all connected operators.
+    source: cli
+  team_status:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show active operators and target locks.
+    source: cli
+  template_helper_serializer:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Handles the creation and serialization of a template helper.
+    source: cli
+  tenant:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: 'Manage multi-tenancy: list, switch, or create engagement tenants.'
+    source: cli
+  tgrep:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Search across all previous command outputs and session logs.
+    source: cli
+  threat_model:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Build or inspect the threat model derived from session events.
+    source: cli
+  ticketer:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Runs Impacket ticketer for golden/silver ticket creation.
+    source: cli
+  timeline:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
+    source: cli
+  timeline_browser:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open the timeline scrubber over the session report CSV.
+    source: cli
+  timestomp:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Manipulate file MACB timestamps to evade forensic timeline analysis.
+    source: cli
+  toast:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Raise a toast notification inside the cmd2 shell.
+    source: cli
+  toast_clear:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Mark every pending toast event as seen without printing them.
+    source: cli
+  toctoc:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Sends a magic packet to the Chinese malware.
+    source: cli
+  tord:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Execute the tor.sh script with the specified port or default to port
+      80 if no port is provided.
+    source: cli
+  trace:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Traces the DNS information for a given self.params['domain'] using
+      the FreeDNS service. (using freedns IP Not your IP)
+    source: cli
+  traces:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show recent autonomous step traces with evidence and traffic ids.
+    source: cli
+  transform:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Transforms the input string based on user-defined casing style.
+    source: cli
+  trufflehog:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Executes trufflehog to search for secrets in a given Git repository
+      URL.
+    source: cli
+  tshark_analyze:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Analyzes a packet capture file using `tshark` based on the provided
+      remote host IP.
+    source: cli
+  ttp_matrix:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Render the MITRE ATT&CK coverage matrix across all operations.
+    source: cli
+  ttp_rebuild:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Re-walk the operations directory to refresh the coverage matrix.
+    source: cli
+  ttp_show:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show details for a single MITRE technique.
+    source: cli
+  tui_theme:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Switch the TUI colour theme used by the splash and styled output.
+    source: cli
+  tutorial:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Interactive tutorial that walks you through the golden path.
+    source: cli
+  undo:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Revert the last assign/set configuration change.
+    source: cli
+  unicode_WAFbypass:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: We open a Netcat listener on port 443 and attempt to exploit NodeJS
+      deserialization by sending the
+    source: cli
+  unlock_target:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Release an advisory lock on a target.
+    source: cli
+  unseal_credentials:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Decrypt sealed credential values in payload.json for inspection.
+    source: cli
+  unzip:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Extract a zip archive located under ``sessions/``.
+    source: cli
+  upload_bypass:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: 'Command upload_bypass: Automates the installation and execution
+      of Upload_Bypass for performing file upload bypass tests.'
+    source: cli
+  upload_c2:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: upload command in the client using the C2 to upload a file
+    source: cli
+  upload_gofile:
+    enabled: false
+    phase: exfil
+    risk: safe
+    description: Upload a file from ``sessions/`` to Gofile via its HTTP API.
+    source: cli
+  urldecode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Decode a URL-encoded string.
+    source: cli
+  urlencode:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Encode a string for URL.
+    source: cli
+  use:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Select a module to work with.
+    source: cli
+  username_anarchy:
+    enabled: false
+    phase: cred
+    risk: safe
+    description: Generate usernames using the username-anarchy tool based on user
+      input.
+    source: cli
+  utf:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Encode a given payload into UTF-16 escape sequences.
+    source: cli
+  v:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Open a new window within a tmux session using the LazyOwn RedTeam
+      Framework.
+    source: cli
+  veil:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Generates payloads using Veil-Evasion with various options. Veil-Evasion
+      is a payload creation framework
+    source: cli
+  verb:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manage the autonomous-loop verb catalog.
+    source: cli
+  vpn:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Connect to a VPN by selecting from available .ovpn files.
+    source: cli
+  vscan:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Perform port scanning using vscan with the provided parameters.
+    source: cli
+  vuln_list:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: List discovered vulnerabilities from the sessions database.
+    source: cli
+  vulns:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Display or manage vulnerabilities.
+    source: cli
+  waybackmachine:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Fetch URLs from the Wayback Machine for a given website.
+    source: cli
+  weevely:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Connect to PHP backdoor using Weevely, protected with the given password.
+    source: cli
+  weevelygen:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Generate a PHP backdoor using Weevely, protected with the given password.
+    source: cli
+  wfuzz:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Uses `wfuzz` to perform fuzzing based on provided parameters. This
+      function supports various options for directory and file fuzzing.
+    source: cli
+  whatweb:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Performs a web technology fingerprinting scan using `whatweb`.
+    source: cli
+  whoami:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Show the currently logged-in CLI operator.
+    source: cli
+  whoami_priv:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Print privilege enumeration commands for the target OS.
+    source: cli
+  wifipass:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: This function generates a PowerShell script that retrieves saved
+      Wi-Fi passwords on a Windows system.
+    source: cli
+  winbase64payload:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Creates a base64 encoded payload specifically for Windows to execute
+      a PowerShell command or download a file using `self.params['lhost']`.
+    source: cli
+  windapsearch:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Execute the windapsearch tool to perform Active Directory Domain
+      enumeration through LDAP queries.
+    source: cli
+  windapsearchscrapeusers:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: Extracts usernames from a JSON output generated by go-windapsearch
+      and appends them
+    source: cli
+  winpeas:
+    enabled: false
+    phase: privesc
+    risk: safe
+    description: Serve a winPEAS variant over HTTP and print the target one-liner.
+    source: cli
+  wipe_free:
+    enabled: false
+    phase: uncategorized
+    risk: high
+    description: Wipe free disk space to prevent forensic file recovery.
+    source: cli
+  wipe_logs:
+    enabled: false
+    phase: uncategorized
+    risk: high
+    description: Clear system log files on the remote target.
+    source: cli
+  wipe_timeline:
+    enabled: false
+    phase: uncategorized
+    risk: high
+    description: Scrub file timestamps and shell history on the target.
+    source: cli
+  wizard:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: "Guided first-run setup wizard \u2014 configure rhost, lhost, domain,\
+      \ wordlists and more."
+    source: cli
+  wmi_lateral:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Execute a command on a remote host via WMI.
+    source: cli
+  wmi_persist:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create WMI Event Subscription persistence (fileless, no disk write).
+    source: cli
+  wmi_scheduled_task:
+    enabled: false
+    phase: persist
+    risk: safe
+    description: Create a scheduled task for persistence via WMI.
+    source: cli
+  wmiexec:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Execute commands via WMI.
+    source: cli
+  wmiexecpro:
+    enabled: false
+    phase: lateral
+    risk: safe
+    description: Executes wmiexec-pro with various options for WMI operations.
+    source: cli
+  wpscan:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: 'Command wpscan: Installs and runs WPScan to perform WordPress vulnerability
+      scanning.'
+    source: cli
+  wrapper:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Copies LFI php-wrapper payloads to the clipboard.
+    source: cli
+  www:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Starts a simple HTTP server on the configured port to serve payloads.
+    source: cli
+  xss:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Executes the XSS (Cross-Site Scripting) vulnerability testing procedure
+    source: cli
+  xsstrike:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: 'Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.'
+    source: cli
+  yara_scan:
+    enabled: false
+    phase: postexp
+    risk: safe
+    description: Scan files or directories with YARA rules for malware/IOCs.
+    source: cli

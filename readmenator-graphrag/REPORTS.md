@@ -159,7 +159,7 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - Hotspot `skills/autonomous_daemon.py`: 150 symbols, 259 connections (score 0.10).
 - Dependency cycle: auto_registry.py -> orchestrator_config.py -> trigger_policy.py -> loop_triggers.py -> lazy_loop.py -> loop_ai_bridge.py -> hive_mind.py -> lazyown_groq_agents.py -> lazyown_mcp.py -> auto_registry.py.
 - 17 layer violations, e.g. integration_autonomous_flow.py (testing) -> moe_router.py (presentation).
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 6 paths reach this group via subprocess.
 - Key entities: file:skills/lazyown_mcp.py, file:skills/autonomous_daemon.py, file:skills/lazyown_policy.py, file:skills/hive_mind.py, file:core/logging.py, file:tests/test_core_modules.py, file:skills/tests/test_hive_mind.py, file:skills/tests/test_autonomous_daemon.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 954.
 
@@ -203,7 +203,7 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - Hotspot `tests/test_improvements_spec.py`: 160 symbols, 48 connections (score 0.09).
 - Dependency cycle: engagement_hooks.py -> cli_auth.py -> engagement_hooks.py.
 - 1 layer violations, e.g. test_exploration_and_addons.py (testing) -> exploration_view.py (presentation).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Key entities: sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, file:tests/test_command_palette.py, sym:core/console.py::print_warn@149, file:tests/test_improvements_spec.py, file:lazyown.py, file:cli/dashboard_tui.py, file:tests/test_tips_engine.py
 - Rating 3.2/10 = 7 x PageRank share 0.45 + 3 x risk 0.00. Internal imports: 475.
 
@@ -244,7 +244,7 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - `core/llm_budget.py` ranks 3 by PageRank, 20 importers, 45 symbols: LLM budget cap and per call token counter.
 - Hotspot `static/js/html2pdf.bundle.min.js`: 738 symbols, 4927 connections (score 0.78).
 - Hotspot `static/js/3d-force-graph-1.73.4.min.js`: 176 symbols, 7838 connections (score 0.70).
-- Taint: 2 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Dataflow: 8 INFERRED issues (first: UNCHECKED_ALLOC in handle_request).
 - Surprising bridge: kerberos_core.py <-> search.py (9 hops across communities).
 - Key entities: file:static/js/html2pdf.bundle.min.js, file:static/js/3d-force-graph-1.73.4.min.js, file:static/js/vis-network-9.1.2.min.js, file:static/js/vis-network.min.js, file:modules/exp.c, file:static/js/chart.min.js, file:static/js/quill-2.0.3.js, file:tests/test_payload_schema.py
@@ -288,7 +288,6 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - Hotspot `skills/claude_md_orchestrator/models.py`: 32 symbols, 23 connections (score 0.02).
 - Hotspot `skills/claude_md_orchestrator/orchestrator.py`: 21 symbols, 23 connections (score 0.01).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
-- Taint: 1 paths reach this group via subprocess.
 - Key entities: sym:skills/claude_md_orchestrator/validators.py::group@69, file:skills/claude_md_orchestrator/models.py, file:skills/claude_md_orchestrator/validators.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py, file:skills/claude_md_orchestrator/parser.py, file:skills/claude_md_orchestrator/reviewer_agent.py, sym:skills/claude_md_orchestrator/validators.py::finditer@81
 - Rating 0.4/10 = 7 x PageRank share 0.05 + 3 x risk 0.00. Internal imports: 33.
 
@@ -313,7 +312,6 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - `skills/hermes-lazyown/claudemd_rules.py` ranks 3 by PageRank, 1 importers, 14 symbols: Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
 - Hotspot `skills/hermes-lazyown/mcp_server.py`: 28 symbols, 26 connections (score 0.02).
 - Hotspot `skills/hermes-lazyown/output_compactor.py`: 20 symbols, 5 connections (score 0.01).
-- Taint: 1 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in main).
 - Key entities: file:skills/hermes-lazyown/mcp_server.py, file:skills/hermes-lazyown/output_compactor.py, file:cli/commands/phishing_wizard.py, file:skills/hermes-lazyown/constants.py, file:skills/hermes-lazyown/executor.py, file:skills/hermes-lazyown/config_bridge.py, file:skills/hermes-lazyown/hermes_sync.py, file:modules/backdoor/server.c
 - Rating 0.3/10 = 7 x PageRank share 0.04 + 3 x risk 0.00. Internal imports: 16.
@@ -389,7 +387,6 @@ Theme of 1 communities and 2 files: scripts: migrate_lazyown (2 files, rating 0.
 - `contrib/legacy/lazylogpoisoning.py` ranks 3 by PageRank, 0 importers, 3 symbols.
 - Hotspot `modules/lazyencoder_decoder.py`: 10 symbols, 6 connections (score 0.01).
 - Hotspot `contrib/legacy/lazylogpoisoning.py`: 3 symbols, 7 connections (score 0.00).
-- Taint: 1 paths reach this group via subprocess.
 - Key entities: file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py, file:contrib/legacy/lazyreversentlmv2.py, sym:modules/lazyencoder_decoder.py::decode_string@94, sym:modules/lazyencoder_decoder.py::encode_string@75, sym:modules/lazyencoder_decoder.py::base64_encode@4, sym:modules/lazyencoder_decoder.py::decode@82, sym:modules/lazyencoder_decoder.py::caesar_cipher@13
 - Rating 0.1/10 = 7 x PageRank share 0.02 + 3 x risk 0.00. Internal imports: 4.
 

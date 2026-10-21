@@ -1,4 +1,4 @@
-# API (page 2 of 23)
+# API (page 2 of 24)
 Previous: [API.md](API.md)
 
 ## cli/commands/cred_migrated.py

@@ -1,8 +1,10 @@
-# Symbols (page 8 of 43)
+# Symbols (page 8 of 44)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_ConsoleFormatter` | class | `core/logging.py:121` | `class _ConsoleFormatter(Formatter)` |
+| `_JsonLineFormatter` | class | `core/logging.py:71` | `class _JsonLineFormatter(Formatter)` |
 | `__init__` | method | `core/logging.py:74` | `def __init__(self, redacted_fields)` |
 | `_log_factory` | function | `core/logging.py:180` | `def _log_factory(name, config)` |
 | `format` | method | `core/logging.py:78` | `def format(self, record)` |
@@ -40,13 +42,13 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
 | `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
 | `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:1745` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:1587` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:1737` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:1582` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:1719` | `def format_issue(issue)` |
-| `validate_payload` | function | `core/payload_schema.py:1684` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:1610` | `def validate_value(key, value)` |
+| `categories` | function | `core/payload_schema.py:1779` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:1621` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:1771` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:1616` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:1753` | `def format_issue(issue)` |
+| `validate_payload` | function | `core/payload_schema.py:1718` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:1644` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `save_note` | function | `lazyc2.py:1142` | `def save_note(content)` |
 | `save_routes` | function | `lazyc2.py:492` | `def save_routes(routes)` |
 | `save_short_urls` | function | `lazyc2.py:2270` | `def save_short_urls(data)` |
-| `save_tasks` | function | `lazyc2.py:1089` | `def save_tasks(tasks)` |
-| `save_to_log` | function | `lazyc2.py:2170` | `def save_to_log(data)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

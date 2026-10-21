@@ -1,8 +1,10 @@
-# Symbols (page 15 of 43)
+# Symbols (page 15 of 44)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_build_golden_pac` | method | `modules/kerberos_tickets.py:339` | `def _build_golden_pac(self, config)` |
+| `_build_kirbi` | method | `modules/kerberos_tickets.py:235` | `def _build_kirbi(self, ticket, enc_part, etype)` |
 | `_build_silver_pac` | method | `modules/kerberos_tickets.py:200` | `def _build_silver_pac(self, config, start, end)` |
 | `_build_ticket_structure` | method | `modules/kerberos_tickets.py:225` | `def _build_ticket_structure(self, config, flags, enc_part)` |
 | `_impacket_command` | method | `modules/kerberos_tickets.py:254` | `def _impacket_command(self, config)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `raw_entries` | method | `modules/lazy_loop.py:6977` | `def raw_entries(self, limit)` |
 | `read` | method | `modules/lazy_loop.py:1457` | `def read(self, limit)` |
 | `read` | method | `modules/lazy_loop.py:1587` | `def read(self, limit)` |
-| `read` | method | `modules/lazy_loop.py:6389` | `def read(self, evidence_id, offset, length)` |
-| `rebind` | method | `modules/lazy_loop.py:3532` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -1,5 +1,112 @@
-# API (page 20 of 23)
+# API (page 20 of 24)
 Previous: [API_p19.md](API_p19.md)
+
+## skills/lazyown_facts.py
+Depends on: `core/logging.py`, `modules/logging_config.py`
+Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+- `Config.default` (method) `skills/lazyown_facts.py:45` `def default(cls)`
+- `HostFacts.highest_access` (method) `skills/lazyown_facts.py:145` `def highest_access(self)`
+- `HostFacts.open_ports` (method) `skills/lazyown_facts.py:156` `def open_ports(self)`
+- `HostFacts.services_by_name` (method) `skills/lazyown_facts.py:159` `def services_by_name(self, name)`
+- `INmapXmlParser.parse` (method) `skills/lazyown_facts.py:169` `def parse(self, xml_path)`
+- `ITextOutputParser.can_parse` (method) `skills/lazyown_facts.py:217` `def can_parse(self, filename, content)`
+- `ITextOutputParser.parse` (method) `skills/lazyown_facts.py:220` `def parse(self, host, content, source_file)`
+- `ITextOutputParser.parse_extended` (method) `skills/lazyown_facts.py:228` `def parse_extended(self, host, content, source_file, port)` -- Extended parse including vulnerabilities and web paths.
+- `CrackMapExecParser.can_parse` (method) `skills/lazyown_facts.py:250` `def can_parse(self, filename, content)`
+- `CrackMapExecParser.parse` (method) `skills/lazyown_facts.py:257` `def parse(self, host, content, source_file)`
+- `Enum4linuxParser.can_parse` (method) `skills/lazyown_facts.py:301` `def can_parse(self, filename, content)`
+- `Enum4linuxParser.parse` (method) `skills/lazyown_facts.py:304` `def parse(self, host, content, source_file)`
+- `SecretsdumpParser.can_parse` (method) `skills/lazyown_facts.py:341` `def can_parse(self, filename, content)`
+- `SecretsdumpParser.parse` (method) `skills/lazyown_facts.py:346` `def parse(self, host, content, source_file)`
+- `LdapParser.can_parse` (method) `skills/lazyown_facts.py:374` `def can_parse(self, filename, content)`
+- `LdapParser.parse` (method) `skills/lazyown_facts.py:377` `def parse(self, host, content, source_file)`
+- `KerbruteParser.can_parse` (method) `skills/lazyown_facts.py:403` `def can_parse(self, filename, content)`
+- `KerbruteParser.parse` (method) `skills/lazyown_facts.py:406` `def parse(self, host, content, source_file)`
+- `RpcclientParser.can_parse` (method) `skills/lazyown_facts.py:424` `def can_parse(self, filename, content)`
+- `RpcclientParser.parse` (method) `skills/lazyown_facts.py:427` `def parse(self, host, content, source_file)`
+- `GobusterFfufParser.can_parse` (method) `skills/lazyown_facts.py:447` `def can_parse(self, filename, content)`
+- `GobusterFfufParser.parse` (method) `skills/lazyown_facts.py:450` `def parse(self, host, content, source_file)`
+- `GobusterFfufParser.parse_extended` (method) `skills/lazyown_facts.py:453` `def parse_extended(self, host, content, source_file, port)`
+- `NiktoParser.can_parse` (method) `skills/lazyown_facts.py:502` `def can_parse(self, filename, content)`
+- `NiktoParser.parse` (method) `skills/lazyown_facts.py:505` `def parse(self, host, content, source_file)`
+- `NiktoParser.parse_extended` (method) `skills/lazyown_facts.py:508` `def parse_extended(self, host, content, source_file, port)`
+- `NucleiParser.can_parse` (method) `skills/lazyown_facts.py:545` `def can_parse(self, filename, content)`
+- `NucleiParser.parse` (method) `skills/lazyown_facts.py:548` `def parse(self, host, content, source_file)`
+- `NucleiParser.parse_extended` (method) `skills/lazyown_facts.py:551` `def parse_extended(self, host, content, source_file, port)`
+- `SslscanParser.can_parse` (method) `skills/lazyown_facts.py:581` `def can_parse(self, filename, content)`
+- `SslscanParser.parse` (method) `skills/lazyown_facts.py:584` `def parse(self, host, content, source_file)`
+- `SslscanParser.parse_extended` (method) `skills/lazyown_facts.py:587` `def parse_extended(self, host, content, source_file, port)`
+- `GenericOutputParser.can_parse` (method) `skills/lazyown_facts.py:635` `def can_parse(self, filename, content)`
+- `GenericOutputParser.parse` (method) `skills/lazyown_facts.py:638` `def parse(self, host, content, source_file)`
+- `FactStore.__init__` (method) `skills/lazyown_facts.py:677` `def __init__(self, cfg)`
+- `FactStore.save` (method) `skills/lazyown_facts.py:727` `def save(self)`
+- `FactStore.ingest_xml` (method) `skills/lazyown_facts.py:791` `def ingest_xml(self, xml_path)` -- Parse one nmap XML file, merge results, return count of new facts.
+- `FactStore.ingest_text` (method) `skills/lazyown_facts.py:803` `def ingest_text(self, txt_path, host_hint)` -- Parse one tool output file, merge credential/share/access facts.
+- `FactStore.parse_all` (method) `skills/lazyown_facts.py:859` `def parse_all(self, target)` -- Scan sessions/ for all nmap XML and txt files.
+- `FactStore.get_host` (method) `skills/lazyown_facts.py:890` `def get_host(self, host)`
+- `FactStore.all_hosts` (method) `skills/lazyown_facts.py:893` `def all_hosts(self)`
+- `FactStore.context_for_command` (method) `skills/lazyown_facts.py:896` `def context_for_command(self, host, category)` -- Return a dict of substitution parameters for a command in the given attack category.
+- `FactStore.summary` (method) `skills/lazyown_facts.py:986` `def summary(self, host)` -- Return a human-readable summary of stored facts.
+- `create_tool_file` (function) `skills/lazyown_facts.py:1025` `def create_tool_file(toolname, command, trigger, active, tools_dir)` -- Write a new pwntomate .tool JSON file.
+- `main` (function) `skills/lazyown_facts.py:1074` `def main()`
+
+## skills/lazyown_groq_agents.py
+Depends on: `modules/atomic_enricher.py`, `modules/lazyown_bridge.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`
+Imported by: `skills/hive_mind.py`, `skills/lazyown_mcp.py`, `skills/swan_agent.py`, `tests/test_bridge_catalog_filtered.py`
+- `GroqAgentPool.__init__` (method) `skills/lazyown_groq_agents.py:702` `def __init__(self)`
+- `GroqAgentPool.spawn` (method) `skills/lazyown_groq_agents.py:706` `def spawn(self, goal, tools_filter, api_key, backend, max_iterations, system_prompt, block)` -- Spawn a new agent.
+- `GroqAgentPool.status` (method) `skills/lazyown_groq_agents.py:778` `def status(self, agent_id)`
+- `GroqAgentPool.result` (method) `skills/lazyown_groq_agents.py:794` `def result(self, agent_id)`
+- `GroqAgentPool.list_all` (method) `skills/lazyown_groq_agents.py:807` `def list_all(self, limit)`
+- `get_pool` (function) `skills/lazyown_groq_agents.py:829` `def get_pool()`
+- `spawn_agent` (function) `skills/lazyown_groq_agents.py:838` `def spawn_agent(goal, tools_filter, api_key, backend, max_iterations, block)` -- Spawn a new Groq/Ollama agent.
+- `agent_status` (function) `skills/lazyown_groq_agents.py:857` `def agent_status(agent_id)`
+- `agent_result` (function) `skills/lazyown_groq_agents.py:861` `def agent_result(agent_id)`
+- `list_agents` (function) `skills/lazyown_groq_agents.py:865` `def list_agents(limit)`
+- `main` (function) `skills/lazyown_groq_agents.py:872` `def main()`
+
+## skills/lazyown_hooks.py
+Depends on: `cli/commands/enum.py`
+Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
+- `HookRegistry.__init__` (method) `skills/lazyown_hooks.py:47` `def __init__(self)`
+- `HookRegistry.register` (method) `skills/lazyown_hooks.py:56` `def register(self, event, handler)`
+- `HookRegistry.run` (method) `skills/lazyown_hooks.py:59` `def run(self, event, context)` -- Run all handlers for event, chaining modified contexts.
+- `HookRegistry.metrics` (method) `skills/lazyown_hooks.py:79` `def metrics(self)` -- Return aggregate hook execution counts.
+- `sandbox_hook` (function) `skills/lazyown_hooks.py:101` `def sandbox_hook(context)` -- PRE_TOOL_USE: block catastrophic shell commands before permission evaluation.
+- `rate_limit_hook` (function) `skills/lazyown_hooks.py:116` `def rate_limit_hook(context, window, limit)` -- PRE_TOOL_USE: prevent rapid-fire C2 commands (>5 per 2s).
+- `audit_hook` (function) `skills/lazyown_hooks.py:139` `def audit_hook(context, audit_path)` -- AUDIT: append a one-line JSON record of every tool call to the audit log.
+- `timing_hook` (function) `skills/lazyown_hooks.py:161` `def timing_hook(context)` -- POST_TOOL_USE: annotate result with wall-clock execution time.
+- `start_timer_hook` (function) `skills/lazyown_hooks.py:176` `def start_timer_hook(context)` -- PRE_TOOL_USE: record start time for timing_hook.
+- `build_default_registry` (function) `skills/lazyown_hooks.py:187` `def build_default_registry(sessions_dir)` -- Create a HookRegistry with the built-in safety hooks wired up.
+- `get_registry` (function) `skills/lazyown_hooks.py:224` `def get_registry(sessions_dir)`
+
+## skills/lazyown_llm.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`
+Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`
+- `LLMTool.openai_schema` (method) `skills/lazyown_llm.py:79` `def openai_schema(self)`
+- `LLMBridge.__init__` (method) `skills/lazyown_llm.py:104` `def __init__(self, backend, model, api_key)`
+- `LLMBridge.register_tool` (method) `skills/lazyown_llm.py:118` `def register_tool(self, name, description, parameters, func)`
+- `LLMBridge.ask` (method) `skills/lazyown_llm.py:127` `def ask(self, goal, context, max_iterations, system_prompt)`
+- `run_command` (function) `skills/lazyown_llm.py:346` `def run_command(command)` -- Execute a LazyOwn shell command and return its output.
+- `read_nmap` (function) `skills/lazyown_llm.py:352` `def read_nmap(target)` -- Read the nmap scan file for the given target IP.
+- `read_plan` (function) `skills/lazyown_llm.py:369` `def read_plan()` -- Read the current attack plan from sessions/plan.txt.
+- `read_facts` (function) `skills/lazyown_llm.py:376` `def read_facts(target)` -- Return FactStore structured facts for a target (or all targets).
+- `read_objectives` (function) `skills/lazyown_llm.py:389` `def read_objectives(limit)` -- List the next N pending attack objectives.
+- `build_bridge` (function) `skills/lazyown_llm.py:438` `def build_bridge(backend, model, api_key, with_default_tools)` -- Create a ready-to-use LLMBridge with optional default LazyOwn tools.
+- `llm_ask` (function) `skills/lazyown_llm.py:468` `def llm_ask(goal, context, backend, model, api_key, max_iterations, system_prompt, extra_tools)` -- Single-call entry point for lazyown_mcp.py.
+- `main` (function) `skills/lazyown_llm.py:493` `def main()`
+
+## skills/lazyown_mcp.py
+Depends on: `cli/command_chain.py`, `cli/graph_advisor.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/hardening.py`, `core/llm_budget.py`, `core/logging.py`, `core/payload_schema.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_loop_memory.py`, `modules/auto_pivot.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/backdoor/server.c`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_engine.py`, `modules/db.py`, `modules/digest.py`, `modules/evasion_engine.py`, `modules/event_engine.py`, `modules/evidence.py`, `modules/exploit_recommender.py`, `modules/exploitgym_gym.py`, `modules/goals.py`, `modules/integrations/misp_export.py`, `modules/intelligence_engine.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazyown_bridge.py`, `modules/llm_client.py`, `modules/llm_evaluator.py`, `modules/llm_pool.py`, `modules/mcp_agent_bridge.py`, `modules/memory_store.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/recommender.py`, `modules/selector_manager.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/session_state.py`, `modules/sinks/routing.py`, `modules/threat_model.py`, `modules/timeline_narrator.py`, `modules/traffic_recorder.py`, `modules/ttpscope_bridge.py`, `modules/unified_dashboard.py`, `modules/world_model.py`, `scripts/lazy_opencode_config.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/daemon_control.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/swan_agent.py`
+Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
+- `register_handler` (function) `skills/lazyown_mcp.py:634` `def register_handler(tool_name)` -- Decorator that registers an async handler for *tool_name*.
+- `coerce_value` (function) `skills/lazyown_mcp.py:884` `def coerce_value(k, v)`
+- `list_tools` (function) `skills/lazyown_mcp.py:2131` `def list_tools()`
+- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:6478` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
+- `call_tool` (function) `skills/lazyown_mcp.py:6496` `def call_tool(name, arguments)`
+- `text` (function) `skills/lazyown_mcp.py:6510` `def text(content)`
+- `_Proposal.__init__` (method) `skills/lazyown_mcp.py:8948` `def __init__(self, command, args, source, reason, priority)`
+- `main` (function) `skills/lazyown_mcp.py:13113` `def main()`
 
 ## skills/lazyown_mcp_helpers.py
 Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_mcp_improvements.py`
@@ -377,99 +484,6 @@ Depends on: `cli/show.py`
 - `d` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
 - `h` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
 - `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-
-## static/js/bootstrap-5.3.0.bundle.min.js
-Depends on: `cli/assign.py`, `cli/show.py`
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `o` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `a` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `r` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `h` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `M` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-
-## static/js/chart.min.js
-Depends on: `cli/assign.py`, `cli/show.py`, `lazyown-docker/init.sh`, `modules/notify.py`
-- `i` (function) `static/js/chart.min.js:7` -- !
-- `h` (function) `static/js/chart.min.js:7` -- !
-- `r` (function) `static/js/chart.min.js:7` -- !
-- `it` (function) `static/js/chart.min.js:7` -- !
-- `yt` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `ye` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `m` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Ue` (function) `static/js/chart.min.js:13`
-- `Ge` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `Xs` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `bn` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `l` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `t` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Se` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `r` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `d` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `g` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-
-## static/js/force-graph-1.43.5.min.js
-Depends on: `cli/assign.py`, `cli/style.py`, `modules/exp.c`
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Cn` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Tr` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `o` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `ti` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `e` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `t` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `u` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `y` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `l` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `b` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `s` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `f` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `i` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `Fi` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `sa` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `ha` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `v` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `o` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `c` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
 
 
 Next: [API_p21.md](API_p21.md)

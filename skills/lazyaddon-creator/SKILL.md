@@ -116,6 +116,8 @@ topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme ui_hint
 url_traffic_2 url_traffic_3 user user_agent_1 user_agent_2 user_agent_3 user_agent_lin
 user_agent_win username usrwordlist wordlist orchestrator
 local_llm llamacpp_host llm_model_llamacpp agent_model_timeout
+android_serial dirtyinit_device_path
+wifi_ssid
 ```
 
 ## Step 5 — Runtime order (design against this, not against wishes)

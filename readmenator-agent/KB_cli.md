@@ -52,7 +52,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Symbols:
-  - `apply_assign` (function, line 36) `def apply_assign(params, key, value)`
+  - `apply_assign` (function, line 42) `def apply_assign(params, key, value)`
 - Depends on: `core/payload_schema.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/js/3d-force-graph-1.73.4.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/force-graph-1.43.5.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
 

@@ -37,6 +37,32 @@ from utils import (
 )
 
 
+WINDOWS_PLATFORM = "windows"
+
+
+def select_agent_flavour(run_tests: list[str], platform: str) -> str:
+    """Pick the agent script extension from the tests of the current run.
+
+    Args:
+        run_tests: Test scripts generated during this run.
+        platform: Normalised plan platform ("" when the plan declares none).
+
+    Returns:
+        ".ps1" or ".sh".
+    """
+    sh_scripts = [p for p in run_tests if p.endswith(".sh")]
+    ps_scripts = [p for p in run_tests if p.endswith(".ps1")]
+    if platform == WINDOWS_PLATFORM:
+        return ".ps1"
+    if platform:
+        return ".sh"
+    if sh_scripts and not ps_scripts:
+        return ".sh"
+    if ps_scripts and not sh_scripts:
+        return ".ps1"
+    return ".sh" if len(sh_scripts) >= len(ps_scripts) else ".ps1"
+
+
 class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
     phase = "command_and_control"
     category = "10. Command & Control"
@@ -1439,7 +1465,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_warn("No test or clean test scripts found in the sessions directory.")
             return
 
-        extension = ".sh" if test_scripts[0].endswith(".sh") else ".ps1"
+        extension = ".sh" if max(test_scripts, key=os.path.getmtime).endswith(".sh") else ".ps1"
         win_drop_path = str(self.params.get("backdoor_win_service_path", "") or "").replace("/", "\\").rstrip("\\")
         if not win_drop_path:
             print_warn("backdoor_win_service_path unset: assign it before deploying Windows agents.")
@@ -1606,6 +1632,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         if auto_mode:
             print_warn("AUTO MODE: scripts execute on THIS host. Only use when target IS this host.")
 
+        uploads = os.path.join(os.getcwd(), "sessions", "temp_uploads")
+        run_started = time.time()
+
         for i, step in enumerate(steps):
             atomic_id = step.get("atomic_id")
             if not atomic_id:
@@ -1628,16 +1657,31 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 else:
                     print_warn(f"[auto] No generated script found for {atomic_id}")
 
-        # After generation, build ordered super-agent
+        # After generation, build ordered super-agent limited to the scripts
+        # written during THIS run: reused staging from earlier plans must not
+        # leak into the agent or flip its shell/powershell flavour.
         sessions_path = os.path.join(os.getcwd(), "sessions")
         tmp_path = "/tmp/lazyown_atomic_test"
         os.makedirs(tmp_path, exist_ok=True)
-        uploads = os.path.join(sessions_path, "temp_uploads")
-        sh_count = len(glob.glob(os.path.join(uploads, "atomic_test_*.sh")))
-        ps_count = len(glob.glob(os.path.join(uploads, "atomic_test_*.ps1")))
-        extension = ".sh" if sh_count >= ps_count else ".ps1"
-        test_scripts = sorted(glob.glob(os.path.join(uploads, f"atomic_test_*.{extension[1:]}")))
-        clean_scripts = sorted(glob.glob(os.path.join(uploads, f"atomic_clean_test_*.{extension[1:]}")))
+
+        fresh = [
+            os.path.join(root, name)
+            for root, _, files in os.walk(uploads)
+            for name in files
+            if os.path.getmtime(os.path.join(root, name)) >= run_started
+        ]
+        run_tests = sorted(p for p in fresh if os.path.basename(p).startswith("atomic_test_"))
+        run_cleans = sorted(p for p in fresh if os.path.basename(p).startswith("atomic_clean_test_"))
+        if not run_tests:
+            print_warn("No test scripts were generated for this plan; agent not built.")
+            return
+
+        extension = select_agent_flavour(run_tests, platform)
+        if not platform and any(p.endswith(".ps1") for p in run_tests) and any(p.endswith(".sh") for p in run_tests):
+            print_warn(f"Plan mixes .sh and .ps1 tests; building the {extension} agent anyway.")
+
+        test_scripts = [p for p in run_tests if p.endswith(extension)]
+        clean_scripts = [p for p in run_cleans if p.endswith(extension)]
 
         if extension == ".sh":
             agent_lines = [

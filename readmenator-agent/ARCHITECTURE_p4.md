@@ -1,4 +1,4 @@
-# Architecture (page 4 of 7)
+# Architecture (page 4 of 8)
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
@@ -413,6 +413,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_chain_v24_core.py` -> `modules/chain_state.py`
 - `tests/test_cli_assign.py` -> `cli/assign.py`
 - `tests/test_cli_assign.py` -> `cli/commands/mcp_bridge.py`
+- `tests/test_cli_assign.py` -> `cli/commands/session_ops.py`
 - `tests/test_cli_assign.py` -> `cli/show.py`
 - `tests/test_cli_assign.py` -> `core/config.py`
 - `tests/test_cli_auth_remember.py` -> `modules/cli_auth.py`
@@ -430,6 +431,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_command_allowlist_behavior.py` -> `lazyc2/security/command_allowlist.py`
 - `tests/test_command_chain.py` -> `cli/command_chain.py`
 - `tests/test_command_chain.py` -> `cli/exploration.py`
+- `tests/test_command_control_agent.py` -> `cli/commands/command_and_control_migrated.py`
 - `tests/test_command_form.py` -> `cli/command_form.py`
 - `tests/test_command_palette.py` -> `cli/__init__.py`
 - `tests/test_command_palette.py` -> `cli/palette.py`
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_db.py` -> `modules/db.py`
 - `tests/test_dependencies.py` -> `core/dependencies.py`
 - `tests/test_detection_feed.py` -> `modules/detection_feed.py`
-- `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
-- `tests/test_doctor.py` -> `cli/__init__.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

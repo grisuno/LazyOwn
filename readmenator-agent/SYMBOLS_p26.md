@@ -1,8 +1,63 @@
-# Symbols (page 26 of 43)
+# Symbols (page 26 of 44)
 Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_rubeus` | function | `skills/mcp_generated_tools.py:4674` | `def _gen_rubeus(arguments, tool_name, _cmd)` |
+| `_gen_run` | function | `skills/mcp_generated_tools.py:4682` | `def _gen_run(arguments, tool_name, _cmd)` |
+| `_gen_samdump2` | function | `skills/mcp_generated_tools.py:4690` | `def _gen_samdump2(arguments, tool_name, _cmd)` |
+| `_gen_samrdump` | function | `skills/mcp_generated_tools.py:4698` | `def _gen_samrdump(arguments, tool_name, _cmd)` |
+| `_gen_sandbox` | function | `skills/mcp_generated_tools.py:4706` | `def _gen_sandbox(arguments, tool_name, _cmd)` |
+| `_gen_sawks` | function | `skills/mcp_generated_tools.py:4714` | `def _gen_sawks(arguments, tool_name, _cmd)` |
+| `_gen_scans` | function | `skills/mcp_generated_tools.py:4722` | `def _gen_scans(arguments, tool_name, _cmd)` |
+| `_gen_scarecrow` | function | `skills/mcp_generated_tools.py:4730` | `def _gen_scarecrow(arguments, tool_name, _cmd)` |
+| `_gen_scavenger` | function | `skills/mcp_generated_tools.py:4738` | `def _gen_scavenger(arguments, tool_name, _cmd)` |
+| `_gen_scope` | function | `skills/mcp_generated_tools.py:4746` | `def _gen_scope(arguments, tool_name, _cmd)` |
+| `_gen_scp` | function | `skills/mcp_generated_tools.py:4754` | `def _gen_scp(arguments, tool_name, _cmd)` |
+| `_gen_seal_credentials` | function | `skills/mcp_generated_tools.py:4762` | `def _gen_seal_credentials(arguments, tool_name, _cmd)` |
+| `_gen_search` | function | `skills/mcp_generated_tools.py:4770` | `def _gen_search(arguments, tool_name, _cmd)` |
+| `_gen_searchhash` | function | `skills/mcp_generated_tools.py:4778` | `def _gen_searchhash(arguments, tool_name, _cmd)` |
+| `_gen_secretsdump` | function | `skills/mcp_generated_tools.py:4786` | `def _gen_secretsdump(arguments, tool_name, _cmd)` |
+| `_gen_seo` | function | `skills/mcp_generated_tools.py:4794` | `def _gen_seo(arguments, tool_name, _cmd)` |
+| `_gen_serveralive2` | function | `skills/mcp_generated_tools.py:4802` | `def _gen_serveralive2(arguments, tool_name, _cmd)` |
+| `_gen_service` | function | `skills/mcp_generated_tools.py:4810` | `def _gen_service(arguments, tool_name, _cmd)` |
+| `_gen_service_ssh` | function | `skills/mcp_generated_tools.py:4818` | `def _gen_service_ssh(arguments, tool_name, _cmd)` |
+| `_gen_sessionssh` | function | `skills/mcp_generated_tools.py:4826` | `def _gen_sessionssh(arguments, tool_name, _cmd)` |
+| `_gen_sessionsshstrace` | function | `skills/mcp_generated_tools.py:4834` | `def _gen_sessionsshstrace(arguments, tool_name, _cmd)` |
+| `_gen_set` | function | `skills/mcp_generated_tools.py:4842` | `def _gen_set(arguments, tool_name, _cmd)` |
+| `_gen_set_proxychains` | function | `skills/mcp_generated_tools.py:4850` | `def _gen_set_proxychains(arguments, tool_name, _cmd)` |
+| `_gen_setoolKits` | function | `skills/mcp_generated_tools.py:4858` | `def _gen_setoolKits(arguments, tool_name, _cmd)` |
+| `_gen_sh` | function | `skills/mcp_generated_tools.py:4866` | `def _gen_sh(arguments, tool_name, _cmd)` |
+| `_gen_shadowsocks` | function | `skills/mcp_generated_tools.py:4874` | `def _gen_shadowsocks(arguments, tool_name, _cmd)` |
+| `_gen_share_finding` | function | `skills/mcp_generated_tools.py:4882` | `def _gen_share_finding(arguments, tool_name, _cmd)` |
+| `_gen_sharpshooter` | function | `skills/mcp_generated_tools.py:4890` | `def _gen_sharpshooter(arguments, tool_name, _cmd)` |
+| `_gen_shellcode` | function | `skills/mcp_generated_tools.py:4898` | `def _gen_shellcode(arguments, tool_name, _cmd)` |
+| `_gen_shellcode2elf` | function | `skills/mcp_generated_tools.py:4906` | `def _gen_shellcode2elf(arguments, tool_name, _cmd)` |
+| `_gen_shellcode2sylk` | function | `skills/mcp_generated_tools.py:4914` | `def _gen_shellcode2sylk(arguments, tool_name, _cmd)` |
+| `_gen_shellcode_search` | function | `skills/mcp_generated_tools.py:4922` | `def _gen_shellcode_search(arguments, tool_name, _cmd)` |
+| `_gen_shellfire` | function | `skills/mcp_generated_tools.py:4930` | `def _gen_shellfire(arguments, tool_name, _cmd)` |
+| `_gen_shellshock` | function | `skills/mcp_generated_tools.py:4938` | `def _gen_shellshock(arguments, tool_name, _cmd)` |
+| `_gen_sherlock` | function | `skills/mcp_generated_tools.py:4946` | `def _gen_sherlock(arguments, tool_name, _cmd)` |
+| `_gen_show` | function | `skills/mcp_generated_tools.py:4954` | `def _gen_show(arguments, tool_name, _cmd)` |
+| `_gen_shred` | function | `skills/mcp_generated_tools.py:4962` | `def _gen_shred(arguments, tool_name, _cmd)` |
+| `_gen_sireprat` | function | `skills/mcp_generated_tools.py:4970` | `def _gen_sireprat(arguments, tool_name, _cmd)` |
+| `_gen_sitrep` | function | `skills/mcp_generated_tools.py:4978` | `def _gen_sitrep(arguments, tool_name, _cmd)` |
+| `_gen_skipfish` | function | `skills/mcp_generated_tools.py:4986` | `def _gen_skipfish(arguments, tool_name, _cmd)` |
+| `_gen_sliver_server` | function | `skills/mcp_generated_tools.py:4994` | `def _gen_sliver_server(arguments, tool_name, _cmd)` |
+| `_gen_smalldic` | function | `skills/mcp_generated_tools.py:5002` | `def _gen_smalldic(arguments, tool_name, _cmd)` |
+| `_gen_smb_exfil` | function | `skills/mcp_generated_tools.py:5010` | `def _gen_smb_exfil(arguments, tool_name, _cmd)` |
+| `_gen_smbattack` | function | `skills/mcp_generated_tools.py:5018` | `def _gen_smbattack(arguments, tool_name, _cmd)` |
+| `_gen_smbclient` | function | `skills/mcp_generated_tools.py:5026` | `def _gen_smbclient(arguments, tool_name, _cmd)` |
+| `_gen_smbclient_impacket` | function | `skills/mcp_generated_tools.py:5034` | `def _gen_smbclient_impacket(arguments, tool_name, _cmd)` |
+| `_gen_smbclient_py` | function | `skills/mcp_generated_tools.py:5042` | `def _gen_smbclient_py(arguments, tool_name, _cmd)` |
+| `_gen_smbmap` | function | `skills/mcp_generated_tools.py:5050` | `def _gen_smbmap(arguments, tool_name, _cmd)` |
+| `_gen_smbserver` | function | `skills/mcp_generated_tools.py:5058` | `def _gen_smbserver(arguments, tool_name, _cmd)` |
+| `_gen_smtpuserenum` | function | `skills/mcp_generated_tools.py:5066` | `def _gen_smtpuserenum(arguments, tool_name, _cmd)` |
+| `_gen_snmpcheck` | function | `skills/mcp_generated_tools.py:5074` | `def _gen_snmpcheck(arguments, tool_name, _cmd)` |
+| `_gen_snmpwalk` | function | `skills/mcp_generated_tools.py:5082` | `def _gen_snmpwalk(arguments, tool_name, _cmd)` |
+| `_gen_socat` | function | `skills/mcp_generated_tools.py:5090` | `def _gen_socat(arguments, tool_name, _cmd)` |
+| `_gen_spool` | function | `skills/mcp_generated_tools.py:5098` | `def _gen_spool(arguments, tool_name, _cmd)` |
+| `_gen_spraykatz` | function | `skills/mcp_generated_tools.py:5106` | `def _gen_spraykatz(arguments, tool_name, _cmd)` |
 | `_gen_sqli` | function | `skills/mcp_generated_tools.py:5114` | `def _gen_sqli(arguments, tool_name, _cmd)` |
 | `_gen_sqli_mssql_test` | function | `skills/mcp_generated_tools.py:5122` | `def _gen_sqli_mssql_test(arguments, tool_name, _cmd)` |
 | `_gen_sqlmap` | function | `skills/mcp_generated_tools.py:5130` | `def _gen_sqlmap(arguments, tool_name, _cmd)` |
@@ -441,60 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `TestParquetDBQuerySession` | class | `skills/tests/test_parquet_db.py:276` | `class TestParquetDBQuerySession` |
 | `TestParquetDBSync` | class | `skills/tests/test_parquet_db.py:91` | `class TestParquetDBSync` |
 | `TestStableId` | class | `skills/tests/test_parquet_db.py:401` | `class TestStableId` |
-| `_make_db` | function | `skills/tests/test_parquet_db.py:67` | `def _make_db(tmp_path)` |
-| `_setup_two_phases` | method | `skills/tests/test_parquet_db.py:277` | `def _setup_two_phases(self, tmp_path)` |
-| `_setup_with_one_row` | method | `skills/tests/test_parquet_db.py:178` | `def _setup_with_one_row(self, tmp_path)` |
-| `_write_csv` | function | `skills/tests/test_parquet_db.py:56` | `def _write_csv(path, rows)` |
-| `test_annotate` | method | `skills/tests/test_parquet_db.py:198` | `def test_annotate(self, tmp_path)` |
-| `test_annotate_category` | method | `skills/tests/test_parquet_db.py:208` | `def test_annotate_category(self, tmp_path)` |
-| `test_annotate_missing_id` | method | `skills/tests/test_parquet_db.py:217` | `def test_annotate_missing_id(self, tmp_path)` |
-| `test_annotate_rich_explicit_finding_type` | method | `skills/tests/test_parquet_db.py:265` | `def test_annotate_rich_explicit_finding_type(self, tmp_path)` |
-| `test_annotate_rich_finding_type_credential` | method | `skills/tests/test_parquet_db.py:223` | `def test_annotate_rich_finding_type_credential(self, tmp_path)` |
-| `test_annotate_rich_finding_type_hash` | method | `skills/tests/test_parquet_db.py:243` | `def test_annotate_rich_finding_type_hash(self, tmp_path)` |
-| `test_annotate_rich_finding_type_vulnerability` | method | `skills/tests/test_parquet_db.py:233` | `def test_annotate_rich_finding_type_vulnerability(self, tmp_path)` |
-| `test_annotate_rich_output_snippet_truncated` | method | `skills/tests/test_parquet_db.py:256` | `def test_annotate_rich_output_snippet_truncated(self, tmp_path)` |
-| `test_query_knowledge_keyword_binarios` | method | `skills/tests/test_parquet_db.py:390` | `def test_query_knowledge_keyword_binarios(self, tmp_path)` |
-| `test_query_knowledge_no_match` | method | `skills/tests/test_parquet_db.py:370` | `def test_query_knowledge_no_match(self, tmp_path)` |
-| `test_query_knowledge_session_parquet` | method | `skills/tests/test_parquet_db.py:352` | `def test_query_knowledge_session_parquet(self, tmp_path)` |
-| `test_query_session_empty` | method | `skills/tests/test_parquet_db.py:328` | `def test_query_session_empty(self, tmp_path)` |
-| `test_query_session_filter` | method | `skills/tests/test_parquet_db.py:306` | `def test_query_session_filter(self, tmp_path)` |
-| `test_query_session_no_filter` | method | `skills/tests/test_parquet_db.py:322` | `def test_query_session_no_filter(self, tmp_path)` |
-| `test_query_session_scanning_filter` | method | `skills/tests/test_parquet_db.py:314` | `def test_query_session_scanning_filter(self, tmp_path)` |
-| `test_query_session_target_filter` | method | `skills/tests/test_parquet_db.py:334` | `def test_query_session_target_filter(self, tmp_path)` |
-| `test_schema_cols` | method | `skills/tests/test_parquet_db.py:155` | `def test_schema_cols(self, tmp_path)` |
-| `test_stable_id_deterministic` | method | `skills/tests/test_parquet_db.py:402` | `def test_stable_id_deterministic(self)` |
-| `test_stable_id_different_inputs` | method | `skills/tests/test_parquet_db.py:408` | `def test_stable_id_different_inputs(self)` |
-| `test_stable_id_length` | method | `skills/tests/test_parquet_db.py:414` | `def test_stable_id_length(self)` |
-| `test_sync_from_csv` | method | `skills/tests/test_parquet_db.py:92` | `def test_sync_from_csv(self, tmp_path)` |
-| `test_sync_idempotent` | method | `skills/tests/test_parquet_db.py:140` | `def test_sync_idempotent(self, tmp_path)` |
-| `test_sync_missing_csv` | method | `skills/tests/test_parquet_db.py:170` | `def test_sync_missing_csv(self, tmp_path)` |
-| `test_sync_skips_empty_command` | method | `skills/tests/test_parquet_db.py:121` | `def test_sync_skips_empty_command(self, tmp_path)` |
-| `AutonomousAgent` | class | `skills/toposwarm_autonomous.py:309` | `class AutonomousAgent` |
-| `PentestState` | class | `skills/toposwarm_autonomous.py:127` | `class PentestState` |
-| `__init__` | method | `skills/toposwarm_autonomous.py:310` | `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)` |
-| `_enum_goals` | function | `skills/toposwarm_autonomous.py:286` | `def _enum_goals(state)` |
-| `_execute_goal` | method | `skills/toposwarm_autonomous.py:347` | `def _execute_goal(self, goal, phase_name)` |
-| `_load_payload` | function | `skills/toposwarm_autonomous.py:479` | `def _load_payload()` |
-| `_parse_output` | function | `skills/toposwarm_autonomous.py:181` | `def _parse_output(output, state, phase_name)` |
-| `_phase_goals` | function | `skills/toposwarm_autonomous.py:233` | `def _phase_goals(phase_idx, state, effort)` |
-| `_run_phase` | method | `skills/toposwarm_autonomous.py:386` | `def _run_phase(self, phase_idx)` |
-| `_save_state` | method | `skills/toposwarm_autonomous.py:418` | `def _save_state(self)` |
-| `add_finding` | method | `skills/toposwarm_autonomous.py:145` | `def add_finding(self, phase_name, text)` |
-| `main` | function | `skills/toposwarm_autonomous.py:489` | `def main(argv)` |
-| `run` | method | `skills/toposwarm_autonomous.py:432` | `def run(self, start_phase)` |
-| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
-| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
-| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
-| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
-| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
-| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
-| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
-| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
-| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
-| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
-| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
-| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
-| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
-| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

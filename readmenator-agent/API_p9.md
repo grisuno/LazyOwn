@@ -1,4 +1,4 @@
-# API (page 9 of 23)
+# API (page 9 of 24)
 Previous: [API_p8.md](API_p8.md)
 
 ## lazygui/widgets/status_badge.py

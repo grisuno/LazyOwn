@@ -1,21 +1,23 @@
-# Symbols (page 4 of 43)
+# Symbols (page 4 of 44)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `do_payload` | method | `cli/commands/session_ops.py:600` | `def do_payload(self, line)` |
-| `do_pipeline` | method | `cli/commands/session_ops.py:998` | `def do_pipeline(self, line)` |
-| `do_pivot` | method | `cli/commands/session_ops.py:161` | `def do_pivot(self, line)` |
-| `do_qa` | method | `cli/commands/session_ops.py:1385` | `def do_qa(self, line)` |
-| `do_resume` | method | `cli/commands/session_ops.py:1212` | `def do_resume(self, line)` |
-| `do_run` | method | `cli/commands/session_ops.py:561` | `def do_run(self, line)` |
-| `do_scans` | method | `cli/commands/session_ops.py:219` | `def do_scans(self, line)` |
-| `do_scope` | method | `cli/commands/session_ops.py:390` | `def do_scope(self, line)` |
-| `do_show` | method | `cli/commands/session_ops.py:456` | `def do_show(self, line)` |
-| `do_sitrep` | method | `cli/commands/session_ops.py:236` | `def do_sitrep(self, line)` |
-| `do_tasks` | method | `cli/commands/session_ops.py:186` | `def do_tasks(self, line)` |
-| `do_tenant` | method | `cli/commands/session_ops.py:317` | `def do_tenant(self, line)` |
-| `do_traces` | method | `cli/commands/session_ops.py:739` | `def do_traces(self, line)` |
+| `do_next` | method | `cli/commands/session_ops.py:666` | `def do_next(self, line)` |
+| `do_note` | method | `cli/commands/session_ops.py:93` | `def do_note(self, line)` |
+| `do_payload` | method | `cli/commands/session_ops.py:615` | `def do_payload(self, line)` |
+| `do_pipeline` | method | `cli/commands/session_ops.py:1013` | `def do_pipeline(self, line)` |
+| `do_pivot` | method | `cli/commands/session_ops.py:175` | `def do_pivot(self, line)` |
+| `do_qa` | method | `cli/commands/session_ops.py:1400` | `def do_qa(self, line)` |
+| `do_resume` | method | `cli/commands/session_ops.py:1227` | `def do_resume(self, line)` |
+| `do_run` | method | `cli/commands/session_ops.py:576` | `def do_run(self, line)` |
+| `do_scans` | method | `cli/commands/session_ops.py:233` | `def do_scans(self, line)` |
+| `do_scope` | method | `cli/commands/session_ops.py:405` | `def do_scope(self, line)` |
+| `do_show` | method | `cli/commands/session_ops.py:471` | `def do_show(self, line)` |
+| `do_sitrep` | method | `cli/commands/session_ops.py:250` | `def do_sitrep(self, line)` |
+| `do_tasks` | method | `cli/commands/session_ops.py:200` | `def do_tasks(self, line)` |
+| `do_tenant` | method | `cli/commands/session_ops.py:332` | `def do_tenant(self, line)` |
+| `do_traces` | method | `cli/commands/session_ops.py:754` | `def do_traces(self, line)` |
 | `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
 | `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
 | `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
 | `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
-| `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
-| `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

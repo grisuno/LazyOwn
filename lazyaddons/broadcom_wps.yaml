@@ -1,0 +1,44 @@
+name: broadcom_wps
+description: |
+  Broadcom 802.11 SDK detector by qkaiser. Fingerprints a live access point
+  (Broadcom WPS Monitor vs patched hostapd) from a monitor-mode adapter, or
+  triages extracted firmware with the upstream YARA rules.
+  Needs a monitor-mode adapter (mt76, ath9k, rtl8812au work, iwlwifi does
+  not), iw, scapy and root or passwordless sudo.
+  Flow: broadcom_wps doctor, monitor, fingerprint, yara <firmware-dir>.
+  Scope: assign device <iface> and assign wifi_ssid <ssid>; free args are
+  --ssid, --interface, --target.
+author: qkaiser
+version: "1.0"
+enabled: true
+update: true
+params:
+  - name: device
+    type: string
+    required: false
+    default: "wlan0"
+    description: Wireless adapter driven in monitor mode. Set with assign device <iface>.
+  - name: wifi_ssid
+    type: string
+    required: false
+    default: ""
+    description: SSID of the access point to fingerprint. Set with assign wifi_ssid <ssid>.
+  - name: target_path
+    type: string
+    required: false
+    default: ""
+    description: Firmware tree for the YARA pass. Set with assign target_path <dir>.
+os: any
+trigger: []
+module_type: scanner
+category: "02. Scanning & Enumeration"
+tool:
+  name: Broadcom WPS Detection
+  repo_url: https://github.com/qkaiser/broadcom-wps.git
+  install_path: external/.exploit/broadcom_wps
+  install_command: python3 -m pip install scapy || pip install --user scapy || true
+  execute_command: >
+    env BROADCOM_SSID={wifi_ssid}
+    BROADCOM_INTERFACE={device}
+    BROADCOM_TARGET={target_path}
+    bash ../../../scripts/broadcom_wps_drive.sh

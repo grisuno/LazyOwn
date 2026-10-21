@@ -1,40 +1,40 @@
 # skills/hermes-lazyown
 
-skills/hermes-lazyown groups 12 files (c, py) around main, ConfigKeys, EnvKeys, Defaults, PhaseNames. Phishing Wizard command set.
+skills/hermes-lazyown groups 13 files (py) around KillChainConfig, world_model_path, phase_index, is_valid_phase, PhaseStatus. Self-populating kill-chain progress derived from the daemon event stream.
 
 ```mermaid
 graph LR
     cli["cli"]
-    contrib["contrib"]
     modules["modules"]
     skills["skills"]
-    cli -- "depends on" --> modules
-    contrib -- "depends on" --> modules
-    skills -- "depends on" --> modules
+    tests["tests"]
+    cli -- "calls into" --> modules
+    skills -- "calls into" --> modules
+    tests -- "calls into" --> cli
+    tests -- "calls into" --> modules
 ```
 
-## cli (12.1)
+## cli (13.1)
 
-cli groups 1 files (py) around PhishingWizardCommandSet, do_phish_wizard, do_phish_serve, PhishingHandler, log_message. Phishing Wizard command set.
+cli groups 1 files (py) around PhaseProgress, _phase_from_event, _detect_current_phase, compute_killchain. Self-populating kill-chain progress derived from the daemon event stream.
 
-## contrib (12.2)
+## modules (13.2)
 
-contrib groups 2 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, launch_html, exploit_js.
+modules groups 2 files (py) around KillChainConfig, world_model_path, phase_index, is_valid_phase, PhaseStatus. SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
 
-## modules (12.3)
+## skills (13.3)
 
-modules groups 1 files (c) around main.
+skills groups 7 files (py) around ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths. Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
 
-## skills (12.4)
+## tests (13.4)
 
-skills groups 8 files (py) around ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths. Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
+tests groups 3 files (py) around _states, test_empty_events_all_pending_without_world, test_current_phase_from_step_events, test_phase_advance_event_sets_current, test_activity_and_reward_accumulate. Tests for cli/killchain.py.
 
 **Files**:
 
-- cli/commands/phishing_wizard.py
-- contrib/legacy/lazygalazy.py
-- contrib/legacy/lazyhttpreverseshell.py
-- modules/backdoor/server.c
+- cli/killchain.py
+- modules/kill_chain_viz.py
+- modules/killchain.py
 - skills/hermes-lazyown/claudemd_rules.py
 - skills/hermes-lazyown/config_bridge.py
 - skills/hermes-lazyown/constants.py
@@ -42,4 +42,6 @@ skills groups 8 files (py) around ConfigKeys, EnvKeys, Defaults, PhaseNames, Pat
 - skills/hermes-lazyown/hermes_sync.py
 - skills/hermes-lazyown/mcp_server.py
 - skills/hermes-lazyown/output_compactor.py
-- skills/lazyown_mcp_opencode.py
+- tests/test_killchain.py
+- tests/test_killchain_snapshot.py
+- tests/test_killchain_unified_v2.py

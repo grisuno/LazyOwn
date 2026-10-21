@@ -1,6 +1,6 @@
 # modules: surface_graph
 
-*Community 8 | 16 files | cohesion 0.50*
+*Community 11 | 16 files | cohesion 0.50*
 
 ## Definition
 
@@ -67,9 +67,7 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 
 ## Connections
 
-- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
-- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
+- [EXTRACTED] depends_on community 11 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
 
 ## Risks
 

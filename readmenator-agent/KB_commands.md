@@ -341,41 +341,42 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CommandAndControlMigratedCommandSet` (class, line 40) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_msf` (method, line 45) `def do_msf(self, line)`
-  - `do_c2` (method, line 395) `def do_c2(self, line)`
-  - `do_listener` (method, line 517) `def do_listener(self, line)`
-  - `do_sandbox` (method, line 645) `def do_sandbox(self, line)`
-  - `do_msfrpc` (method, line 687) `def do_msfrpc(self, line)`
-  - `do_sliver_server` (method, line 711) `def do_sliver_server(self, line)`
-  - `do_empire` (method, line 828) `def do_empire(self, line)`
-  - `do_automsf` (method, line 878) `def do_automsf(self, line)`
-  - `do_iis_webdav_upload_asp` (method, line 923) `def do_iis_webdav_upload_asp(self, line)`
-  - `do_duckyspark` (method, line 958) `def do_duckyspark(self, line)`
-  - `do_emp3r0r` (method, line 1159) `def do_emp3r0r(self, line)`
-  - `do_atomic_tests` (method, line 1223) `def do_atomic_tests(self, line)`
-  - `do_atomic_gen` (method, line 1244) `def do_atomic_gen(self, line)`
-  - `_latest_sweep_evidence` (method, line 1259) `def _latest_sweep_evidence(self, target)`
-  - `do_atomic_shell` (method, line 1288) `def do_atomic_shell(self, line)`
-  - `do_atomic_clean` (method, line 1327) `def do_atomic_clean(self, line)`
-  - `do_atomic_emulate` (method, line 1364) `def do_atomic_emulate(self, line)`
-  - `do_atomic_agent` (method, line 1421) `def do_atomic_agent(self, line)`
-  - `do_attack_plan` (method, line 1524) `def do_attack_plan(self, line)`
-  - `do_apt_chain` (method, line 1683) `def do_apt_chain(self, line)`
-  - `do_chain_distill` (method, line 1955) `def do_chain_distill(self, line)`
-  - `do_apt_playbook` (method, line 2005) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 2125) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 2228) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2407) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2464) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2513) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2605) `def do_caldera_export(self, line)`
-  - `_api` (function, line 544) `def _api(method, endpoint, payload)`
-  - `chain_file_exists` (function, line 1721) `def chain_file_exists(name)`
-  - `_load_ability` (function, line 2537) `def _load_ability(ability_file)`
-  - `_ability_to_step` (function, line 2544) `def _ability_to_step(ability)`
+  - `select_agent_flavour` (function, line 43) `def select_agent_flavour(run_tests, platform)`
+  - `CommandAndControlMigratedCommandSet` (class, line 66) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_msf` (method, line 71) `def do_msf(self, line)`
+  - `do_c2` (method, line 421) `def do_c2(self, line)`
+  - `do_listener` (method, line 543) `def do_listener(self, line)`
+  - `do_sandbox` (method, line 671) `def do_sandbox(self, line)`
+  - `do_msfrpc` (method, line 713) `def do_msfrpc(self, line)`
+  - `do_sliver_server` (method, line 737) `def do_sliver_server(self, line)`
+  - `do_empire` (method, line 854) `def do_empire(self, line)`
+  - `do_automsf` (method, line 904) `def do_automsf(self, line)`
+  - `do_iis_webdav_upload_asp` (method, line 949) `def do_iis_webdav_upload_asp(self, line)`
+  - `do_duckyspark` (method, line 984) `def do_duckyspark(self, line)`
+  - `do_emp3r0r` (method, line 1185) `def do_emp3r0r(self, line)`
+  - `do_atomic_tests` (method, line 1249) `def do_atomic_tests(self, line)`
+  - `do_atomic_gen` (method, line 1270) `def do_atomic_gen(self, line)`
+  - `_latest_sweep_evidence` (method, line 1285) `def _latest_sweep_evidence(self, target)`
+  - `do_atomic_shell` (method, line 1314) `def do_atomic_shell(self, line)`
+  - `do_atomic_clean` (method, line 1353) `def do_atomic_clean(self, line)`
+  - `do_atomic_emulate` (method, line 1390) `def do_atomic_emulate(self, line)`
+  - `do_atomic_agent` (method, line 1447) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1550) `def do_attack_plan(self, line)`
+  - `do_apt_chain` (method, line 1727) `def do_apt_chain(self, line)`
+  - `do_chain_distill` (method, line 1999) `def do_chain_distill(self, line)`
+  - `do_apt_playbook` (method, line 2049) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 2169) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2272) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2451) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2508) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2557) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2649) `def do_caldera_export(self, line)`
+  - `_api` (function, line 570) `def _api(method, endpoint, payload)`
+  - `chain_file_exists` (function, line 1765) `def chain_file_exists(name)`
+  - `_load_ability` (function, line 2581) `def _load_ability(ability_file)`
+  - `_ability_to_step` (function, line 2588) `def _ability_to_step(ability)`
 - Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_distill.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
-- Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
+- Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
 
 ## cli/commands/containers.py
 - Doc: Container and Kubernetes attack command set.

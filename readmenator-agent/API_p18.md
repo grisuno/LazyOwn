@@ -1,4 +1,4 @@
-# API (page 18 of 23)
+# API (page 18 of 24)
 Previous: [API_p17.md](API_p17.md)
 
 ## modules/world_model.py
@@ -258,6 +258,33 @@ Depends on: `poc_tui/app.py`
 - `patch` (function) `scripts/backfill_addon_os_trigger.py:141` `def patch(path)` -- Return the new file content with ``os`` and ``trigger`` inserted.
 - `main` (function) `scripts/backfill_addon_os_trigger.py:175` `def main()` -- Walk every addon and rewrite files that need backfilling.
 
+## scripts/broadcom_wps_drive.sh
+- `log` (function) `scripts/broadcom_wps_drive.sh:53`
+- `warn` (function) `scripts/broadcom_wps_drive.sh:54`
+- `die` (function) `scripts/broadcom_wps_drive.sh:55`
+- `usage` (function) `scripts/broadcom_wps_drive.sh:57`
+- `payload_value` (function) `scripts/broadcom_wps_drive.sh:61`
+- `parse_flags` (function) `scripts/broadcom_wps_drive.sh:81`
+- `detect_interface` (function) `scripts/broadcom_wps_drive.sh:151`
+- `is_wireless` (function) `scripts/broadcom_wps_drive.sh:162`
+- `apply_interface` (function) `scripts/broadcom_wps_drive.sh:166`
+- `resolve_interface` (function) `scripts/broadcom_wps_drive.sh:170`
+- `is_root` (function) `scripts/broadcom_wps_drive.sh:190`
+- `have_sudo` (function) `scripts/broadcom_wps_drive.sh:194`
+- `elevate` (function) `scripts/broadcom_wps_drive.sh:200`
+- `interface_mode` (function) `scripts/broadcom_wps_drive.sh:210`
+- `interface_up` (function) `scripts/broadcom_wps_drive.sh:216`
+- `python_bin` (function) `scripts/broadcom_wps_drive.sh:227`
+- `has_scapy` (function) `scripts/broadcom_wps_drive.sh:231`
+- `do_monitor` (function) `scripts/broadcom_wps_drive.sh:235`
+- `do_unmonitor` (function) `scripts/broadcom_wps_drive.sh:247`
+- `ensure_monitor_mode` (function) `scripts/broadcom_wps_drive.sh:259`
+- `run_fingerprint` (function) `scripts/broadcom_wps_drive.sh:268`
+- `run_yara` (function) `scripts/broadcom_wps_drive.sh:308`
+- `do_status` (function) `scripts/broadcom_wps_drive.sh:325`
+- `do_doctor` (function) `scripts/broadcom_wps_drive.sh:348`
+- `main` (function) `scripts/broadcom_wps_drive.sh:404`
+
 ## scripts/check_contract_manifest.py
 Imported by: `tests/test_contract_manifest.py`
 - `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
@@ -274,6 +301,36 @@ Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `mod
 - `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
 - `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
 - `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
+
+## scripts/dirtyinit_drive.sh
+- `log` (function) `scripts/dirtyinit_drive.sh:65`
+- `warn` (function) `scripts/dirtyinit_drive.sh:66`
+- `die` (function) `scripts/dirtyinit_drive.sh:67`
+- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
+- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
+- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
+- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
+- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
+- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
+- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
+- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
+- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
+- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
+- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
+- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
+- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
+- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
+- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
+- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
+- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
+- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
+- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
+- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
+- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
+- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
+- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
+- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
+- `main` (function) `scripts/dirtyinit_drive.sh:529`
 
 ## scripts/generate_sbom.py
 - `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
@@ -398,102 +455,6 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
 - `mcp_aci_status` (function) `skills/aci_planner.py:923` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
 - `mcp_aci_replan` (function) `skills/aci_planner.py:940` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
 - `main` (function) `skills/aci_planner.py:1003` `def main(argv)` -- Entry point for CLI usage.
-
-## skills/autonomous_daemon.py
-Depends on: `core/logging.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
-Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
-- `compute_decision_seed` (function) `skills/autonomous_daemon.py:394` `def compute_decision_seed(objective_id, step_n, source)` -- Return a deterministic identifier for a daemon decision.
-- `ICommandRunner.run` (method) `skills/autonomous_daemon.py:426` `def run(self, command, timeout)` -- Execute command within timeout seconds.
-- `ICommandRunner.name` (method) `skills/autonomous_daemon.py:431` `def name(self)` -- Human-readable identifier for this runner.
-- `MCPCommandRunner.name` (method) `skills/autonomous_daemon.py:482` `def name(self)`
-- `MCPCommandRunner.run` (method) `skills/autonomous_daemon.py:485` `def run(self, command, timeout)` -- Try to import and call the MCP runner.
-- `PTYCommandRunner.name` (method) `skills/autonomous_daemon.py:502` `def name(self)`
-- `PTYCommandRunner.run` (method) `skills/autonomous_daemon.py:505` `def run(self, command, timeout)` -- Execute command via PTY.
-- `CommandRunnerChain.__init__` (method) `skills/autonomous_daemon.py:592` `def __init__(self, runners)`
-- `CommandRunnerChain.name` (method) `skills/autonomous_daemon.py:598` `def name(self)`
-- `CommandRunnerChain.run` (method) `skills/autonomous_daemon.py:601` `def run(self, command, timeout)` -- Try each runner in sequence.
-- `ICommandSelector.select` (method) `skills/autonomous_daemon.py:689` `def select(self, target, phase, context)` -- Return a CommandDecision or None if this selector has no suggestion.
-- `ReactiveSelector.__init__` (method) `skills/autonomous_daemon.py:704` `def __init__(self, reactive_engine)`
-- `ReactiveSelector.register_output` (method) `skills/autonomous_daemon.py:708` `def register_output(self, output, command, platform)` -- Feed reactive engine with last command output to generate new decisions.
-- `ReactiveSelector.select` (method) `skills/autonomous_daemon.py:735` `def select(self, target, phase, context)` -- Pop and return the pending reactive decision if present.
-- `ParquetSelector.__init__` (method) `skills/autonomous_daemon.py:750` `def __init__(self, pdb, fail_counts)`
-- `ParquetSelector.select` (method) `skills/autonomous_daemon.py:754` `def select(self, target, phase, context)` -- Return the most-frequent successful command for this phase.
-- `BridgeSelector.__init__` (method) `skills/autonomous_daemon.py:796` `def __init__(self, dispatcher, fail_counts)`
-- `BridgeSelector.select` (method) `skills/autonomous_daemon.py:800` `def select(self, target, phase, context)` -- Return a bridge catalog suggestion for this phase.
-- `LLMSelector.select` (method) `skills/autonomous_daemon.py:866` `def select(self, target, phase, context)` -- Return an LLM-suggested command with catalog context, or None if disabled.
-- `SWANSelector.select` (method) `skills/autonomous_daemon.py:988` `def select(self, target, phase, context)` -- Ask the best MoE expert for a command recommendation.
-- `FallbackSelector.select` (method) `skills/autonomous_daemon.py:1034` `def select(self, target, phase, context)` -- Return the static fallback command for this phase.
-- `MetricsAwareSelector.__init__` (method) `skills/autonomous_daemon.py:1071` `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` -- Initialise the decorator.
-- `MetricsAwareSelector.wrapped` (method) `skills/autonomous_daemon.py:1117` `def wrapped(self)` -- Return the underlying selector for introspection in tests.
-- `MetricsAwareSelector.select` (method) `skills/autonomous_daemon.py:1203` `def select(self, target, phase, context)` -- Honour the :class:`ICommandSelector` contract.
-- `CredentialSpraySelector.__init__` (method) `skills/autonomous_daemon.py:1304` `def __init__(self, fail_counts)`
-- `CredentialSpraySelector.select` (method) `skills/autonomous_daemon.py:1308` `def select(self, target, phase, context)` -- Return a spray command when credentials + matching service are available.
-- `CascadeStrategy.__init__` (method) `skills/autonomous_daemon.py:1344` `def __init__(self, selectors)`
-- `CascadeStrategy.next_command` (method) `skills/autonomous_daemon.py:1347` `def next_command(self, target, phase, context)` -- Try each selector in order.
-- `StrategyEngine.__init__` (method) `skills/autonomous_daemon.py:1382` `def __init__(self, runner, selectors)`
-- `StrategyEngine.register_output` (method) `skills/autonomous_daemon.py:1409` `def register_output(self, output, command, platform, success)` -- Feed the reactive selector with the last command output.
-- `StrategyEngine.next_command` (method) `skills/autonomous_daemon.py:1423` `def next_command(self, target, phase, services, os_hint)` -- Select the next command for target/phase using the cascade.
-- `IObjectiveHandler.handle` (method) `skills/autonomous_daemon.py:1457` `def handle(self, objective_id, objective_text, target, context)` -- Execute objective and return a list of step results.
-- `ExecutionEngine.__init__` (method) `skills/autonomous_daemon.py:1479` `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
-- `ExecutionEngine.handle` (method) `skills/autonomous_daemon.py:1495` `def handle(self, objective_id, objective_text, target, context)` -- Synchronous entry point.
-- `ExecutionEngine.run_async` (method) `skills/autonomous_daemon.py:1505` `def run_async(self, objective_id, objective_text, target)` -- Asyncio entry point used by objective_loop.
-- `DroneCoordinator.__init__` (method) `skills/autonomous_daemon.py:2814` `def __init__(self)`
-- `DroneCoordinator.process_findings` (method) `skills/autonomous_daemon.py:2819` `def process_findings(self, findings, target, objective_id, payload_key)` -- Launch drones for relevant findings.
-- `EnginePhaseResult.did_switch` (method) `skills/autonomous_daemon.py:3120` `def did_switch(self)` -- True when the orchestrator used a fallback tool.
-- `IToolFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3129` `def next_tool(self, failed_command, phase, attempt)` -- Return the next candidate command or None when exhausted.
-- `StaticFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3146` `def next_tool(self, failed_command, phase, attempt)`
-- `BridgeFallbackResolver.__init__` (method) `skills/autonomous_daemon.py:3168` `def __init__(self, dispatcher)`
-- `BridgeFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3193` `def next_tool(self, failed_command, phase, attempt)`
-- `_ShellDetector.__init__` (method) `skills/autonomous_daemon.py:3220` `def __init__(self, narrator)`
-- `_ShellDetector.poll` (method) `skills/autonomous_daemon.py:3225` `def poll(self, target)` -- Return the newly-detected client_ids since the previous poll.
-- `_ShellDetector.detect_in_output` (method) `skills/autonomous_daemon.py:3266` `def detect_in_output(self, output, target)` -- Return True when a shell/root-shell signal appears in command output.
-- `EngageOrchestrator.__init__` (method) `skills/autonomous_daemon.py:3312` `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
-- `EngageOrchestrator.engagement_id` (method) `skills/autonomous_daemon.py:3357` `def engagement_id(self)` -- Stable id for this engagement (correlates events in logs).
-- `EngageOrchestrator.run` (method) `skills/autonomous_daemon.py:3361` `def run(self)` -- Drive the full plan against the configured target.
-- `mcp_engage_target` (function) `skills/autonomous_daemon.py:4005` `def mcp_engage_target(target, max_switches_per_step, detach, auto)` -- Public MCP / CLI entry point for the engage verb.
-- `mcp_engage_status` (function) `skills/autonomous_daemon.py:4095` `def mcp_engage_status(last_n)` -- Return the last N lines of sessions/engagement.log plus pending approvals.
-- `mcp_engage_approve` (function) `skills/autonomous_daemon.py:4121` `def mcp_engage_approve(approval_id, decision, operator)` -- Resolve a pending approval. decision must be 'approved' or 'denied'.
-- `mcp_engage_list_pending` (function) `skills/autonomous_daemon.py:4146` `def mcp_engage_list_pending()` -- List every pending approval awaiting an operator decision.
-- `cmd_engage` (function) `skills/autonomous_daemon.py:4164` `def cmd_engage(target, max_switches_per_step, detach)` -- CLI helper bound to the `engage <ip>` daemon subcommand.
-- `objective_loop` (function) `skills/autonomous_daemon.py:4203` `def objective_loop(max_steps, loop)` -- Root autonomous loop: takes pending objectives from objectives.jsonl and executes them without waiting for Claude...
-- `world_model_watcher` (function) `skills/autonomous_daemon.py:4346` `def world_model_watcher(loop)` -- Watch world_model.json.
-- `heartbeat_loop` (function) `skills/autonomous_daemon.py:4537` `def heartbeat_loop()` -- Emit heartbeat and write status every HEARTBEAT_S seconds.
-- `cmd_run` (function) `skills/autonomous_daemon.py:4664` `def cmd_run(max_steps)` -- Run daemon in foreground (debug mode).
-- `cmd_start` (function) `skills/autonomous_daemon.py:4673` `def cmd_start(max_steps)` -- Fork, detach, and run daemon in background.
-- `cmd_stop` (function) `skills/autonomous_daemon.py:4703` `def cmd_stop()` -- Send SIGTERM to the running daemon.
-- `cmd_status` (function) `skills/autonomous_daemon.py:4720` `def cmd_status()` -- Print current daemon status to stdout.
-- `cmd_inject` (function) `skills/autonomous_daemon.py:4736` `def cmd_inject(text, priority)` -- Inject an objective from the CLI, split into verifiable sub-goals.
-- `mcp_autonomous_start` (function) `skills/autonomous_daemon.py:4770` `def mcp_autonomous_start(max_steps, backend)` -- Start the autonomous daemon in a background thread (for MCP calls).
-- `mcp_autonomous_stop` (function) `skills/autonomous_daemon.py:4812` `def mcp_autonomous_stop()` -- Stop the autonomous daemon.
-- `mcp_autonomous_status` (function) `skills/autonomous_daemon.py:4828` `def mcp_autonomous_status()` -- Current daemon state: objectives, steps, drones, phase.
-- `mcp_autonomous_inject` (function) `skills/autonomous_daemon.py:4841` `def mcp_autonomous_inject(text, priority, target)` -- Inject an objective into the daemon queue and into sessions/tasks.json.
-- `mcp_autonomous_events` (function) `skills/autonomous_daemon.py:4885` `def mcp_autonomous_events(last_n)` -- Read the last N events from autonomous_events.jsonl.
-
-## skills/autonomous_replay.py
-Depends on: `core/logging.py`, `skills/autonomous_daemon.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_autonomous_replay.py`
-- `ReplayReport.to_dict` (method) `skills/autonomous_replay.py:114` `def to_dict(self)` -- Return the report as a JSON-serialisable dictionary.
-- `EventLogReader.__init__` (method) `skills/autonomous_replay.py:136` `def __init__(self, path)` -- Initialise the reader.
-- `EventLogReader.path` (method) `skills/autonomous_replay.py:147` `def path(self)` -- Return the source path.
-- `EventLogReader.read` (method) `skills/autonomous_replay.py:152` `def read(self)` -- Return every event in the log, oldest first.
-- `EventLogReader.slice` (method) `skills/autonomous_replay.py:177` `def slice(self, events, from_event_id, to_event_id)` -- Return the inclusive subrange of *events* by ``id``.
-- `ReplayDispatcher.__init__` (method) `skills/autonomous_replay.py:221` `def __init__(self, reader, seed_fn)` -- Initialise the dispatcher.
-- `ReplayDispatcher.trace` (method) `skills/autonomous_replay.py:325` `def trace(self, from_event_id, to_event_id)` -- Replay the recorded decision sequence without executing it.
-- `ReplayDispatcher.execute` (method) `skills/autonomous_replay.py:357` `def execute(self, from_event_id, to_event_id, runner, timeout)` -- Replay the recorded sequence and re-run each command.
-- `replay` (function) `skills/autonomous_replay.py:473` `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` -- Convenience entry point used by the MCP tool layer.
-
-## skills/claude_md_orchestrator/bdd_agent.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
-- `run` (function) `skills/claude_md_orchestrator/bdd_agent.py:151` `def run(contract, spec, suite, config)` -- Run the implementation agent for one contract.
-
-## skills/claude_md_orchestrator/boy_scout.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
-- `run` (function) `skills/claude_md_orchestrator/boy_scout.py:90` `def run(state, config)` -- Run the boy scout pass for one contract.
-- `write_report` (function) `skills/claude_md_orchestrator/boy_scout.py:110` `def write_report(report, config)` -- Persist the boy scout proposal to disk.
-
-## skills/claude_md_orchestrator/cicd_agent.py
-Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-- `run` (function) `skills/claude_md_orchestrator/cicd_agent.py:177` `def run(contract, spec, report, config)` -- Run the CI and CD agent for one contract.
 
 
 Next: [API_p19.md](API_p19.md)

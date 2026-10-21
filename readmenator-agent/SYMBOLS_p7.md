@@ -1,8 +1,10 @@
-# Symbols (page 7 of 43)
+# Symbols (page 7 of 44)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_relevant_knowledge` | function | `contrib/legacy/lazygptcli.py:133` | `def get_relevant_knowledge(prompt)` |
+| `load_knowledge_base` | function | `contrib/legacy/lazygptcli.py:118` | `def load_knowledge_base(file_path)` |
 | `main` | function | `contrib/legacy/lazygptcli.py:177` | `def main()` |
 | `parse_args` | function | `contrib/legacy/lazygptcli.py:87` | `def parse_args()` |
 | `save_knowledge_base` | function | `contrib/legacy/lazygptcli.py:124` | `def save_knowledge_base(knowledge_base, file_path)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `wrap_backend_with_budget` | function | `core/llm_budget.py:657` | `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` |
 | `StructuredLogConfig` | class | `core/logging.py:42` | `class StructuredLogConfig` |
 | `StructuredLogger` | class | `core/logging.py:139` | `class StructuredLogger(Logger)` |
-| `_ConsoleFormatter` | class | `core/logging.py:121` | `class _ConsoleFormatter(Formatter)` |
-| `_JsonLineFormatter` | class | `core/logging.py:71` | `class _JsonLineFormatter(Formatter)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

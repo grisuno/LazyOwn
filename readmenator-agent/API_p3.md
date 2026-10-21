@@ -1,4 +1,4 @@
-# API (page 3 of 23)
+# API (page 3 of 24)
 Previous: [API_p2.md](API_p2.md)
 
 ## cli/commands/orchestration.py
@@ -325,40 +325,40 @@ Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/
 
 ## cli/commands/session_ops.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
-Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
-- `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:79` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
-- `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:104` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
-- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:153` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
-- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:161` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
-- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:186` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
-- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:219` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
-- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:236` `def do_sitrep(self, line)` -- Print a unified operational situation report.
-- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:253` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
-- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:317` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
-- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:390` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
-- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:456` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
-- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:532` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
-- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:561` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
-- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:600` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
-- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:651` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
-- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:695` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
-- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:739` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
-- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:820` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
-- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:871` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
-- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:998` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
-- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1089` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
-- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1121` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
-- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1212` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
-- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1234` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
-- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1272` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
-- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1305` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
-- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1336` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
-- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1385` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
-- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1447` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
-- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1495` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
-- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1507` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
-- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1557` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
-- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1603` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
+- `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:93` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
+- `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:118` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
+- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:167` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:175` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
+- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:200` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
+- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:233` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
+- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:250` `def do_sitrep(self, line)` -- Print a unified operational situation report.
+- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:267` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
+- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:332` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
+- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:405` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
+- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:471` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
+- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:547` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
+- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:576` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
+- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:615` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
+- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:666` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
+- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:710` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:754` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:835` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:886` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:1013` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1104` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1136` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1227` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1249` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1287` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1320` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1351` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1400` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1462` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1510` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1522` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1572` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1618` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`

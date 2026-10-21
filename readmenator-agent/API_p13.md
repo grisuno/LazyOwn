@@ -1,4 +1,4 @@
-# API (page 13 of 23)
+# API (page 13 of 24)
 Previous: [API_p12.md](API_p12.md)
 
 ## modules/lazy_loop.py

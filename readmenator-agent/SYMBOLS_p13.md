@@ -1,8 +1,10 @@
-# Symbols (page 13 of 43)
+# Symbols (page 13 of 44)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
+| `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
 | `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
 | `DetectionOracle` | class | `modules/detection_oracle.py:317` | `class DetectionOracle(IDetectionOracle)` |
 | `IDetectionOracle` | class | `modules/detection_oracle.py:90` | `class IDetectionOracle(ABC)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
 | `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
 | `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
-| `_run` | function | `modules/exploitgym_gym.py:274` | `def _run(name, cmd, cwd, timeout)` |
-| `_run_agent` | function | `modules/exploitgym_gym.py:378` | `def _run_agent(task_id, model, mitigations, root, params, timeout)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

@@ -1,4 +1,4 @@
-# Architecture (page 2 of 7)
+# Architecture (page 2 of 8)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)

@@ -1,8 +1,10 @@
-# Symbols (page 21 of 43)
+# Symbols (page 21 of 44)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `route_prompt` | function | `modules/unified_bridge.py:483` | `def route_prompt(prompt, context)` |
+| `set_publish_callback` | method | `modules/unified_bridge.py:230` | `def set_publish_callback(self, cb)` |
 | `UnifiedDashboard` | class | `modules/unified_dashboard.py:37` | `class UnifiedDashboard` |
 | `__init__` | method | `modules/unified_dashboard.py:44` | `def __init__(self, sessions_dir)` |
 | `_collect_daemon_status` | method | `modules/unified_dashboard.py:124` | `def _collect_daemon_status(self)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
 | `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
 | `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
-| `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
-| `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

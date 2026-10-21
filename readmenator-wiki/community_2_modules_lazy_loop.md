@@ -1,10 +1,10 @@
 # modules: lazy_loop
 
-*Community 3 | 110 files | cohesion 0.58*
+*Community 2 | 112 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 110 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (453 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 112 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (453 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
@@ -12,17 +12,25 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `tests/conftest.py` | py | testing | 10 | yes |
+| `tests/test_aes_key_propagation.py` | py | testing | 12 | yes |
 | `tests/test_auto_registry.py` | py | testing | 20 | yes |
-| `tests/test_chain_list_command.py` | py | testing | 2 | yes |
-| `tests/test_gym_cli.py` | py | testing | 8 | yes |
 
-### `modules` (39 files)
+### `modules` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/__init__.py` | py | utility | 0 | no |
 | `modules/adcs_attacks.py` | py | utility | 14 | yes |
 | `modules/atomic_exploit_bridge.py` | py | utility | 37 | yes |
+
+### `cli/commands` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
+| `cli/commands/exploit_migrated.py` | py | utility | 52 | yes |
+| `cli/commands/lazyloop.py` | py | utility | 12 | yes |
 
 ### `modules/sinks` (7 files)
 
@@ -32,21 +40,20 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 | `modules/sinks/c2_surfaces.py` | py | utility | 1 | yes |
 | `modules/sinks/intel_graph.py` | py | utility | 1 | yes |
 
-### `cli/commands` (6 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
-| `cli/commands/exploit_migrated.py` | py | utility | 52 | yes |
-| `cli/commands/lazyloop.py` | py | utility | 12 | yes |
-
-### `cli` (5 files)
+### `cli` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/lazy_monitor.py` | py | utility | 46 | yes |
 | `cli/lazy_orchestrator.py` | py | utility | 36 | yes |
 | `cli/orchestrator_assets_tabs.py` | py | utility | 56 | yes |
+
+### `core` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/autonomous.py` | py | utility | 3 | yes |
+| `core/config.py` | py | infrastructure | 18 | yes |
 
 ### `modules/tools` (3 files)
 
@@ -55,20 +62,13 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 | `modules/tools/__init__.py` | py | utility | 0 | yes |
 | `modules/tools/loop_smoke.py` | py | utility | 10 | yes |
 
-### `core` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/autonomous.py` | py | utility | 3 | yes |
-| `core/terminal_guard.py` | py | utility | 8 | yes |
-
 ### `lazyc2/blueprints` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/orchestrator.py` | py | presentation | 17 | yes |
 
-*... and 90 more files in this community.*
+*... and 92 more files in this community.*
 
 
 ## Key Symbols
@@ -106,18 +106,19 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 778
-- Cross-boundary resolved imports (EXTRACTED): 394
+- Internal resolved imports (EXTRACTED): 784
+- Cross-boundary resolved imports (EXTRACTED): 437
 
 ## Connections
 
-- [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
-- [EXTRACTED] depends_on community 5 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
-- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/containers.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
+- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
+- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
 
 ## Risks
 
+- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
@@ -132,7 +133,6 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/custom_tools.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/auto_registry.py`
-- [cycle] `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py`
 
 ## Open Questions
 
@@ -147,20 +147,20 @@ This community groups 110 file(s) rooted at `tests` with dominant language py (c
 - `cli/commands/exploit_migrated.py`
 - `cli/commands/lazyloop.py`
 - `cli/commands/lazyops.py`
+- `cli/commands/purple_team.py`
 - `cli/commands/redteam_gym.py`
 - `cli/commands/retry_ops.py`
 - `cli/lazy_monitor.py`
 - `cli/lazy_orchestrator.py`
 - `cli/orchestrator_assets_tabs.py`
+- `cli/purple_tui.py`
 - `cli/session_brief.py`
 - `cli/tui_forms.py`
 - `core/autonomous.py`
+- `core/config.py`
 - `core/terminal_guard.py`
 - `lazyc2/blueprints/orchestrator.py`
 - `modules/__init__.py`
 - `modules/adcs_attacks.py`
 - `modules/atomic_exploit_bridge.py`
-- `modules/auto_registry.py`
-- `modules/custom_tools.py`
-- `modules/exploit_chain.py`
-- *... and 90 more*
+- *... and 92 more*

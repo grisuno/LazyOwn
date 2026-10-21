@@ -1,8 +1,10 @@
-# Symbols (page 19 of 43)
+# Symbols (page 19 of 44)
 Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
+| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
 | `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
 | `pop` | method | `modules/planner.py:551` | `def pop(self)` |
 | `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:163` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
 | `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:130` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
 | `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
-| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
-| `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

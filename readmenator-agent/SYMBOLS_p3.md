@@ -1,8 +1,9 @@
-# Symbols (page 3 of 43)
+# Symbols (page 3 of 44)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_planner` | method | `cli/commands/lazyops.py:484` | `def do_lazy_planner(self, line)` |
 | `do_lazy_report` | method | `cli/commands/lazyops.py:1323` | `def do_lazy_report(self, line)` |
 | `do_lazy_resume` | method | `cli/commands/lazyops.py:1313` | `def do_lazy_resume(self, line)` |
 | `do_lazy_retest` | method | `cli/commands/lazyops.py:1260` | `def do_lazy_retest(self, line)` |
@@ -473,28 +474,27 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_rotate_aes` | method | `cli/commands/security.py:127` | `def do_rotate_aes(self, _line)` |
 | `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
 | `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
-| `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:72` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:935` | `def _flag_value(flag_name)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:1047` | `def _flag_value(flag_name)` |
-| `do_assign` | method | `cli/commands/session_ops.py:253` | `def do_assign(self, line)` |
-| `do_chainmode` | method | `cli/commands/session_ops.py:820` | `def do_chainmode(self, line)` |
-| `do_clock` | method | `cli/commands/session_ops.py:1447` | `def do_clock(self, line)` |
-| `do_clone_site` | method | `cli/commands/session_ops.py:1557` | `def do_clone_site(self, line)` |
-| `do_collab_join` | method | `cli/commands/session_ops.py:1305` | `def do_collab_join(self, line)` |
-| `do_download_resources` | method | `cli/commands/session_ops.py:1272` | `def do_download_resources(self, line)` |
-| `do_engage` | method | `cli/commands/session_ops.py:871` | `def do_engage(self, line)` |
-| `do_frontier` | method | `cli/commands/session_ops.py:695` | `def do_frontier(self, line)` |
-| `do_gencert` | method | `cli/commands/session_ops.py:1495` | `def do_gencert(self, line)` |
-| `do_getseclist` | method | `cli/commands/session_ops.py:1234` | `def do_getseclist(self, line)` |
-| `do_hunt` | method | `cli/commands/session_ops.py:1121` | `def do_hunt(self, line)` |
-| `do_kick` | method | `cli/commands/session_ops.py:1336` | `def do_kick(self, line)` |
-| `do_l00t` | method | `cli/commands/session_ops.py:104` | `def do_l00t(self, line)` |
-| `do_lazyscript` | method | `cli/commands/session_ops.py:1089` | `def do_lazyscript(self, line)` |
-| `do_list` | method | `cli/commands/session_ops.py:532` | `def do_list(self, line)` |
-| `do_load_session` | method | `cli/commands/session_ops.py:1507` | `def do_load_session(self, line)` |
-| `do_loot` | method | `cli/commands/session_ops.py:153` | `def do_loot(self, line)` |
-| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1603` | `def do_msfshellcoder(self, line)` |
-| `do_next` | method | `cli/commands/session_ops.py:651` | `def do_next(self, line)` |
-| `do_note` | method | `cli/commands/session_ops.py:79` | `def do_note(self, line)` |
+| `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:86` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
+| `_flag_value` | function | `cli/commands/session_ops.py:950` | `def _flag_value(flag_name)` |
+| `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
+| `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
+| `do_assign` | method | `cli/commands/session_ops.py:267` | `def do_assign(self, line)` |
+| `do_chainmode` | method | `cli/commands/session_ops.py:835` | `def do_chainmode(self, line)` |
+| `do_clock` | method | `cli/commands/session_ops.py:1462` | `def do_clock(self, line)` |
+| `do_clone_site` | method | `cli/commands/session_ops.py:1572` | `def do_clone_site(self, line)` |
+| `do_collab_join` | method | `cli/commands/session_ops.py:1320` | `def do_collab_join(self, line)` |
+| `do_download_resources` | method | `cli/commands/session_ops.py:1287` | `def do_download_resources(self, line)` |
+| `do_engage` | method | `cli/commands/session_ops.py:886` | `def do_engage(self, line)` |
+| `do_frontier` | method | `cli/commands/session_ops.py:710` | `def do_frontier(self, line)` |
+| `do_gencert` | method | `cli/commands/session_ops.py:1510` | `def do_gencert(self, line)` |
+| `do_getseclist` | method | `cli/commands/session_ops.py:1249` | `def do_getseclist(self, line)` |
+| `do_hunt` | method | `cli/commands/session_ops.py:1136` | `def do_hunt(self, line)` |
+| `do_kick` | method | `cli/commands/session_ops.py:1351` | `def do_kick(self, line)` |
+| `do_l00t` | method | `cli/commands/session_ops.py:118` | `def do_l00t(self, line)` |
+| `do_lazyscript` | method | `cli/commands/session_ops.py:1104` | `def do_lazyscript(self, line)` |
+| `do_list` | method | `cli/commands/session_ops.py:547` | `def do_list(self, line)` |
+| `do_load_session` | method | `cli/commands/session_ops.py:1522` | `def do_load_session(self, line)` |
+| `do_loot` | method | `cli/commands/session_ops.py:167` | `def do_loot(self, line)` |
+| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1618` | `def do_msfshellcoder(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

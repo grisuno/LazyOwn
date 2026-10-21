@@ -1,8 +1,10 @@
-# Symbols (page 22 of 43)
+# Symbols (page 22 of 44)
 Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
+| `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
 | `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
 | `extract_functions_from_file` | function | `readmeneitor.py:209` | `def extract_functions_from_file(filepath)` |
 | `group_commands_by_phase` | function | `readmeneitor.py:187` | `def group_commands_by_phase(cmd_map)` |
@@ -25,6 +27,31 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `main` | function | `scripts/backfill_addon_os_trigger.py:175` | `def main()` |
 | `patch` | function | `scripts/backfill_addon_os_trigger.py:141` | `def patch(path)` |
 | `render_trigger` | function | `scripts/backfill_addon_os_trigger.py:127` | `def render_trigger(trigger)` |
+| `apply_interface` | function | `scripts/broadcom_wps_drive.sh:166` | `` |
+| `detect_interface` | function | `scripts/broadcom_wps_drive.sh:151` | `` |
+| `die` | function | `scripts/broadcom_wps_drive.sh:55` | `` |
+| `do_doctor` | function | `scripts/broadcom_wps_drive.sh:348` | `` |
+| `do_monitor` | function | `scripts/broadcom_wps_drive.sh:235` | `` |
+| `do_status` | function | `scripts/broadcom_wps_drive.sh:325` | `` |
+| `do_unmonitor` | function | `scripts/broadcom_wps_drive.sh:247` | `` |
+| `elevate` | function | `scripts/broadcom_wps_drive.sh:200` | `` |
+| `ensure_monitor_mode` | function | `scripts/broadcom_wps_drive.sh:259` | `` |
+| `has_scapy` | function | `scripts/broadcom_wps_drive.sh:231` | `` |
+| `have_sudo` | function | `scripts/broadcom_wps_drive.sh:194` | `` |
+| `interface_mode` | function | `scripts/broadcom_wps_drive.sh:210` | `` |
+| `interface_up` | function | `scripts/broadcom_wps_drive.sh:216` | `` |
+| `is_root` | function | `scripts/broadcom_wps_drive.sh:190` | `` |
+| `is_wireless` | function | `scripts/broadcom_wps_drive.sh:162` | `` |
+| `log` | function | `scripts/broadcom_wps_drive.sh:53` | `` |
+| `main` | function | `scripts/broadcom_wps_drive.sh:404` | `` |
+| `parse_flags` | function | `scripts/broadcom_wps_drive.sh:81` | `` |
+| `payload_value` | function | `scripts/broadcom_wps_drive.sh:61` | `` |
+| `python_bin` | function | `scripts/broadcom_wps_drive.sh:227` | `` |
+| `resolve_interface` | function | `scripts/broadcom_wps_drive.sh:170` | `` |
+| `run_fingerprint` | function | `scripts/broadcom_wps_drive.sh:268` | `` |
+| `run_yara` | function | `scripts/broadcom_wps_drive.sh:308` | `` |
+| `usage` | function | `scripts/broadcom_wps_drive.sh:57` | `` |
+| `warn` | function | `scripts/broadcom_wps_drive.sh:54` | `` |
 | `ManifestConfig` | class | `scripts/check_contract_manifest.py:34` | `class ManifestConfig` |
 | `__post_init__` | method | `scripts/check_contract_manifest.py:53` | `def __post_init__(self)` |
 | `_collect_doc_imports` | function | `scripts/check_contract_manifest.py:163` | `def _collect_doc_imports(text)` |
@@ -46,6 +73,34 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `check_calls` | function | `scripts/devtools/core_smoke.py:81` | `def check_calls()` |
 | `check_surfaces` | function | `scripts/devtools/core_smoke.py:64` | `def check_surfaces(config)` |
 | `main` | function | `scripts/devtools/core_smoke.py:118` | `def main()` |
+| `compile_activity` | function | `scripts/dirtyinit_drive.sh:255` | `` |
+| `die` | function | `scripts/dirtyinit_drive.sh:67` | `` |
+| `do_auto` | function | `scripts/dirtyinit_drive.sh:382` | `` |
+| `do_build` | function | `scripts/dirtyinit_drive.sh:265` | `` |
+| `do_doctor` | function | `scripts/dirtyinit_drive.sh:468` | `` |
+| `do_extract` | function | `scripts/dirtyinit_drive.sh:393` | `` |
+| `do_help` | function | `scripts/dirtyinit_drive.sh:525` | `` |
+| `do_install` | function | `scripts/dirtyinit_drive.sh:329` | `` |
+| `do_launch` | function | `scripts/dirtyinit_drive.sh:340` | `` |
+| `do_logs` | function | `scripts/dirtyinit_drive.sh:418` | `` |
+| `do_run` | function | `scripts/dirtyinit_drive.sh:412` | `` |
+| `do_stage` | function | `scripts/dirtyinit_drive.sh:402` | `` |
+| `do_status` | function | `scripts/dirtyinit_drive.sh:423` | `` |
+| `find_android_jar` | function | `scripts/dirtyinit_drive.sh:173` | `` |
+| `find_build_tools` | function | `scripts/dirtyinit_drive.sh:166` | `` |
+| `find_java_tool` | function | `scripts/dirtyinit_drive.sh:201` | `` |
+| `find_ndk` | function | `scripts/dirtyinit_drive.sh:152` | `` |
+| `find_ndk_clang` | function | `scripts/dirtyinit_drive.sh:185` | `` |
+| `find_sdk` | function | `scripts/dirtyinit_drive.sh:141` | `` |
+| `log` | function | `scripts/dirtyinit_drive.sh:65` | `` |
+| `main` | function | `scripts/dirtyinit_drive.sh:529` | `` |
+| `pack_apk` | function | `scripts/dirtyinit_drive.sh:211` | `` |
+| `parse_flags` | function | `scripts/dirtyinit_drive.sh:89` | `` |
+| `payload_value` | function | `scripts/dirtyinit_drive.sh:69` | `` |
+| `require_adb` | function | `scripts/dirtyinit_drive.sh:130` | `` |
+| `require_device` | function | `scripts/dirtyinit_drive.sh:134` | `` |
+| `tap_button` | function | `scripts/dirtyinit_drive.sh:348` | `` |
+| `warn` | function | `scripts/dirtyinit_drive.sh:66` | `` |
 | `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
 | `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
 | `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
@@ -441,60 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_seed_state` | function | `skills/claude_md_orchestrator/orchestrator.py:89` | `def _seed_state(contracts, state)` |
 | `main` | function | `skills/claude_md_orchestrator/orchestrator.py:393` | `def main(argv)` |
 | `run` | function | `skills/claude_md_orchestrator/orchestrator.py:275` | `def run(config, options)` |
-| `summary_to_dict` | function | `skills/claude_md_orchestrator/orchestrator.py:306` | `def summary_to_dict(summary)` |
-| `_Section` | class | `skills/claude_md_orchestrator/parser.py:34` | `class _Section` |
-| `__post_init__` | method | `skills/claude_md_orchestrator/parser.py:51` | `def __post_init__(self)` |
-| `_coerce_seed_contract` | function | `skills/claude_md_orchestrator/parser.py:205` | `def _coerce_seed_contract(seed)` |
-| `_collect_bullets` | function | `skills/claude_md_orchestrator/parser.py:123` | `def _collect_bullets(text)` |
-| `_collect_paragraphs` | function | `skills/claude_md_orchestrator/parser.py:141` | `def _collect_paragraphs(text)` |
-| `_derive_contract_id` | function | `skills/claude_md_orchestrator/parser.py:56` | `def _derive_contract_id(title, fallback_index)` |
-| `_flatten_actionable` | function | `skills/claude_md_orchestrator/parser.py:159` | `def _flatten_actionable(root)` |
-| `_is_actionable` | function | `skills/claude_md_orchestrator/parser.py:146` | `def _is_actionable(heading)` |
-| `_strip_contract_marker` | function | `skills/claude_md_orchestrator/parser.py:73` | `def _strip_contract_marker(title)` |
-| `_walk_sections` | function | `skills/claude_md_orchestrator/parser.py:85` | `def _walk_sections(lines)` |
-| `flush_body` | function | `skills/claude_md_orchestrator/parser.py:97` | `def flush_body()` |
-| `load_contracts` | function | `skills/claude_md_orchestrator/parser.py:225` | `def load_contracts(config, seeds)` |
-| `parse_claude_md` | function | `skills/claude_md_orchestrator/parser.py:167` | `def parse_claude_md(path)` |
-| `AnalyzerResult` | class | `skills/claude_md_orchestrator/reviewer_agent.py:30` | `class AnalyzerResult` |
-| `_parse_tool_findings` | function | `skills/claude_md_orchestrator/reviewer_agent.py:88` | `def _parse_tool_findings(result, path_prefix)` |
-| `_resolve_targets` | function | `skills/claude_md_orchestrator/reviewer_agent.py:72` | `def _resolve_targets(state, config)` |
-| `_run` | function | `skills/claude_md_orchestrator/reviewer_agent.py:46` | `def _run(cmd, cwd)` |
-| `_run_bandit` | function | `skills/claude_md_orchestrator/reviewer_agent.py:147` | `def _run_bandit(targets, cwd)` |
-| `_run_mypy` | function | `skills/claude_md_orchestrator/reviewer_agent.py:134` | `def _run_mypy(targets, cwd)` |
-| `_run_pytest` | function | `skills/claude_md_orchestrator/reviewer_agent.py:160` | `def _run_pytest(targets, cwd)` |
-| `_run_ruff` | function | `skills/claude_md_orchestrator/reviewer_agent.py:121` | `def _run_ruff(targets, cwd)` |
-| `run` | function | `skills/claude_md_orchestrator/reviewer_agent.py:171` | `def run(state, config)` |
-| `write_report` | function | `skills/claude_md_orchestrator/reviewer_agent.py:225` | `def write_report(report, config)` |
-| `SddResult` | class | `skills/claude_md_orchestrator/sdd_agent.py:40` | `class SddResult` |
-| `_ask_llm` | function | `skills/claude_md_orchestrator/sdd_agent.py:148` | `def _ask_llm(contract, backend)` |
-| `_coerce_scope` | function | `skills/claude_md_orchestrator/sdd_agent.py:56` | `def _coerce_scope(scope)` |
-| `_compose_spec` | function | `skills/claude_md_orchestrator/sdd_agent.py:81` | `def _compose_spec(contract, min_sad_paths)` |
-| `_render_yaml` | function | `skills/claude_md_orchestrator/sdd_agent.py:130` | `def _render_yaml(spec)` |
-| `run` | function | `skills/claude_md_orchestrator/sdd_agent.py:204` | `def run(contract, config)` |
-| `TddResult` | class | `skills/claude_md_orchestrator/tdd_agent.py:90` | `class TddResult` |
-| `_compose_tests` | function | `skills/claude_md_orchestrator/tdd_agent.py:110` | `def _compose_tests(spec, contract)` |
-| `_module_name` | function | `skills/claude_md_orchestrator/tdd_agent.py:105` | `def _module_name(contract)` |
-| `_run_pytest` | function | `skills/claude_md_orchestrator/tdd_agent.py:154` | `def _run_pytest(test_path, cwd)` |
-| `_slug` | function | `skills/claude_md_orchestrator/tdd_agent.py:79` | `def _slug(value)` |
-| `read_test_source` | function | `skills/claude_md_orchestrator/tdd_agent.py:228` | `def read_test_source(test_path)` |
-| `run` | function | `skills/claude_md_orchestrator/tdd_agent.py:175` | `def run(contract, spec, config)` |
-| `config` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:54` | `def config(tmp_run_dir, tmp_path)` |
-| `test_bdd_agent_lands_green` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:116` | `def test_bdd_agent_lands_green(config)` |
-| `test_boy_scout_returns_report` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:237` | `def test_boy_scout_returns_report(config)` |
-| `test_cicd_agent_writes_pipeline` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:260` | `def test_cicd_agent_writes_pipeline(config)` |
-| `test_cicd_deploy_gate_checks_secret` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:310` | `def test_cicd_deploy_gate_checks_secret(config)` |
-| `test_cicd_deploy_gate_is_timing_safe` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:332` | `def test_cicd_deploy_gate_is_timing_safe()` |
-| `test_documentation_agent_emits_fenced_markdown` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:221` | `def test_documentation_agent_emits_fenced_markdown(config)` |
-| `test_dod_validators_block_absolute_paths` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:152` | `def test_dod_validators_block_absolute_paths()` |
-| `test_dod_validators_block_emoji` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:131` | `def test_dod_validators_block_emoji()` |
-| `test_dod_validators_block_inline_comments` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:138` | `def test_dod_validators_block_inline_comments()` |
-| `test_dod_validators_block_todo_markers` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:145` | `def test_dod_validators_block_todo_markers()` |
-| `test_dod_validators_require_docstrings` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:159` | `def test_dod_validators_require_docstrings()` |
-| `test_models_spec_round_trip` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:294` | `def test_models_spec_round_trip()` |
-| `test_orchestrator_blocks_on_missing_contracts` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:204` | `def test_orchestrator_blocks_on_missing_contracts(tmp_run_dir, tmp_path)` |
-| `test_orchestrator_blocks_on_sad_path_shortage` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:188` | `def test_orchestrator_blocks_on_sad_path_shortage(config)` |
-| `test_orchestrator_full_cycle` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:166` | `def test_orchestrator_full_cycle(config)` |
-| `test_parser_extracts_contract` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:78` | `def test_parser_extracts_contract(config)` |
-| `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

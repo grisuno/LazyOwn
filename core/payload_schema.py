@@ -1575,6 +1575,35 @@ SCHEMA: dict[str, FieldSpec] = {
             category="network",
         ),
         _spec(
+            "php2shell_url",
+            FieldKind.URL,
+            "http://127.0.0.1:8088/index.php",
+            "Target PHP page URL used by the php2shell session.upload_progress exploit.",
+            long_help=(
+                "Absolute http(s) URL of the PHP page to attack. The default points "
+                "at the docker lab shipped with the php2shell repository. Set the "
+                "real target with 'assign php2shell_url http://host/index.php' "
+                "before running the addon."
+            ),
+            example="http://10.10.11.5/index.php",
+            category="network",
+        ),
+        _spec(
+            "php2shell_profile",
+            FieldKind.STRING,
+            "bookworm",
+            "Target build profile for the php2shell exploit calibration.",
+            long_help=(
+                "bookworm matches the official php:8.4.26-apache image, lab "
+                "matches the original Apache 2.4.68 minimal build. Switch it "
+                "with 'assign php2shell_profile lab' when the target was not "
+                "built from the official image."
+            ),
+            allowed=("bookworm", "lab"),
+            example="bookworm",
+            category="network",
+        ),
+        _spec(
             "action",
             FieldKind.STRING,
             "search",

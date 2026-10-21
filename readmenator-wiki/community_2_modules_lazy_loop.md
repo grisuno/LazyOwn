@@ -1,14 +1,14 @@
 # modules: lazy_loop
 
-*Community 2 | 112 files | cohesion 0.58*
+*Community 2 | 115 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 112 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (453 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 115 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ADCSCertipyWrapper`, `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `CertificateAuthority`. Core file: `modules/lazy_loop.py` (456 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
-### `tests` (47 files)
+### `tests` (49 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,7 +16,7 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_aes_key_propagation.py` | py | testing | 12 | yes |
 | `tests/test_auto_registry.py` | py | testing | 20 | yes |
 
-### `modules` (38 files)
+### `modules` (39 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -68,7 +68,7 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/orchestrator.py` | py | presentation | 17 | yes |
 
-*... and 92 more files in this community.*
+*... and 95 more files in this community.*
 
 
 ## Key Symbols
@@ -106,21 +106,20 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 784
-- Cross-boundary resolved imports (EXTRACTED): 437
+- Internal resolved imports (EXTRACTED): 788
+- Cross-boundary resolved imports (EXTRACTED): 439
 
 ## Connections
 
 - [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/lazy_loop.py.
 - [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
 - [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
@@ -129,15 +128,16 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/lazy_installer.py` -> `modules/auto_registry.py`
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/custom_tools.py` -> `modules/auto_registry.py`
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/auto_registry.py`
-- [cycle] `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/auto_registry.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py` -> `modules/auto_registry.py`
 
 ## Open Questions
 
 - Why do 2 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
-- Can the cycle `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` be broken with an interface?
+- Can the cycle `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` be broken with an interface?
 - What would break if the most connected file in modules: lazy_loop changed?
 - Should modules: lazy_loop be split, given cohesion 0.58?
 
@@ -163,4 +163,4 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 - `modules/__init__.py`
 - `modules/adcs_attacks.py`
 - `modules/atomic_exploit_bridge.py`
-- *... and 92 more*
+- *... and 95 more*

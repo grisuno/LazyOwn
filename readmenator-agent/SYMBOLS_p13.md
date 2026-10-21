@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_extract_mitre` | method | `modules/detection_feed.py:180` | `def _extract_mitre(self, doc)` |
+| `_parse_sigma_feed` | method | `modules/detection_feed.py:125` | `def _parse_sigma_feed(self, text)` |
+| `adjust_from_feedback` | method | `modules/detection_feed.py:270` | `def adjust_from_feedback(self, feedback_file)` |
+| `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
 | `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
 | `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
 | `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
 | `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
 | `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
-| `_load_records` | function | `modules/exploitgym_gym.py:500` | `def _load_records()` |
-| `_read_task_ids` | function | `modules/exploitgym_gym.py:75` | `def _read_task_ids(root)` |
-| `_record` | function | `modules/exploitgym_gym.py:523` | `def _record(task_id, success, elapsed, flag)` |
-| `_resolve_root` | function | `modules/exploitgym_gym.py:61` | `def _resolve_root(params)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

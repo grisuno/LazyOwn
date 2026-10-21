@@ -363,18 +363,18 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_atomic_agent` (method, line 1447) `def do_atomic_agent(self, line)`
   - `do_attack_plan` (method, line 1550) `def do_attack_plan(self, line)`
   - `do_apt_chain` (method, line 1727) `def do_apt_chain(self, line)`
-  - `do_chain_distill` (method, line 1999) `def do_chain_distill(self, line)`
-  - `do_apt_playbook` (method, line 2049) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 2169) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 2272) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2451) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2508) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2557) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2649) `def do_caldera_export(self, line)`
+  - `do_chain_distill` (method, line 2019) `def do_chain_distill(self, line)`
+  - `do_apt_playbook` (method, line 2069) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 2189) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2292) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2471) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2528) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2577) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2669) `def do_caldera_export(self, line)`
   - `_api` (function, line 570) `def _api(method, endpoint, payload)`
   - `chain_file_exists` (function, line 1765) `def chain_file_exists(name)`
-  - `_load_ability` (function, line 2581) `def _load_ability(ability_file)`
-  - `_ability_to_step` (function, line 2588) `def _ability_to_step(ability)`
+  - `_load_ability` (function, line 2601) `def _load_ability(ability_file)`
+  - `_ability_to_step` (function, line 2608) `def _ability_to_step(ability)`
 - Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_distill.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
 - Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
 

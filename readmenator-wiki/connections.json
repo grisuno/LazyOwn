@@ -24,6 +24,14 @@
     "confidence": "EXTRACTED"
   },
   {
+    "community_a": 7,
+    "community_b": 2,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/lazy_loop.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
     "community_a": 6,
     "community_b": 0,
     "connection_type": "depends_on",
@@ -140,14 +148,6 @@
     "community_b": 1,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 7,
-    "community_b": 2,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },

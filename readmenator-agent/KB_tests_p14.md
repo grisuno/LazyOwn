@@ -1,6 +1,34 @@
 # Subsystem: tests (page 14 of 19)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
+## tests/test_nuclei_parser.py
+- Doc: Tests for modules/integrations/nuclei_parser.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestNucleiFinding` (class, line 13) `class TestNucleiFinding`
+  - `TestNucleiParserText` (class, line 58) `class TestNucleiParserText`
+  - `TestNucleiParserJson` (class, line 73) `class TestNucleiParserJson`
+  - `TestSeverityMap` (class, line 120) `class TestSeverityMap`
+  - `TestMitreTactics` (class, line 128) `class TestMitreTactics`
+  - `TestRecommendations` (class, line 134) `class TestRecommendations`
+  - `test_fields` (method, line 14) `def test_fields(self)`
+  - `test_exploit_probability_map` (method, line 28) `def test_exploit_probability_map(self)`
+  - `test_mitre_tactic` (method, line 46) `def test_mitre_tactic(self)`
+  - `test_parse_empty` (method, line 59) `def test_parse_empty(self)`
+  - `test_parse_nuclei_line` (method, line 64) `def test_parse_nuclei_line(self)`
+  - `test_parse_empty` (method, line 74) `def test_parse_empty(self)`
+  - `test_parse_json_single_finding` (method, line 78) `def test_parse_json_single_finding(self)`
+  - `test_parse_json_multiple_findings` (method, line 90) `def test_parse_json_multiple_findings(self)`
+  - `test_parse_json_array` (method, line 99) `def test_parse_json_array(self)`
+  - `test_parse_with_cve_classification` (method, line 108) `def test_parse_with_cve_classification(self)`
+  - `test_critical_is_10` (method, line 121) `def test_critical_is_10(self)`
+  - `test_info_is_1` (method, line 124) `def test_info_is_1(self)`
+  - `test_all_tactics_have_ta_prefix` (method, line 129) `def test_all_tactics_have_ta_prefix(self)`
+  - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
+  - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
+- Depends on: `modules/integrations/nuclei_parser.py`
+
 ## tests/test_ops_loot_phase.py
 - Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
 - Layer: testing

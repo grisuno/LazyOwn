@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_process_scans` | function | `skills/mcp_generated_tools.py:4330` | `def _gen_process_scans(arguments, tool_name, _cmd)` |
+| `_gen_proxy` | function | `skills/mcp_generated_tools.py:4338` | `def _gen_proxy(arguments, tool_name, _cmd)` |
+| `_gen_psexec` | function | `skills/mcp_generated_tools.py:4346` | `def _gen_psexec(arguments, tool_name, _cmd)` |
+| `_gen_psexec_py` | function | `skills/mcp_generated_tools.py:4354` | `def _gen_psexec_py(arguments, tool_name, _cmd)` |
+| `_gen_pspy` | function | `skills/mcp_generated_tools.py:4362` | `def _gen_pspy(arguments, tool_name, _cmd)` |
+| `_gen_pth_net` | function | `skills/mcp_generated_tools.py:4370` | `def _gen_pth_net(arguments, tool_name, _cmd)` |
+| `_gen_pup` | function | `skills/mcp_generated_tools.py:4378` | `def _gen_pup(arguments, tool_name, _cmd)` |
+| `_gen_pwd` | function | `skills/mcp_generated_tools.py:4386` | `def _gen_pwd(arguments, tool_name, _cmd)` |
+| `_gen_pwncat` | function | `skills/mcp_generated_tools.py:4394` | `def _gen_pwncat(arguments, tool_name, _cmd)` |
+| `_gen_pwncatcs` | function | `skills/mcp_generated_tools.py:4402` | `def _gen_pwncatcs(arguments, tool_name, _cmd)` |
+| `_gen_py3ttyup` | function | `skills/mcp_generated_tools.py:4410` | `def _gen_py3ttyup(arguments, tool_name, _cmd)` |
+| `_gen_pyautomate` | function | `skills/mcp_generated_tools.py:4418` | `def _gen_pyautomate(arguments, tool_name, _cmd)` |
+| `_gen_pykerbrute` | function | `skills/mcp_generated_tools.py:4426` | `def _gen_pykerbrute(arguments, tool_name, _cmd)` |
+| `_gen_pyoracle2` | function | `skills/mcp_generated_tools.py:4434` | `def _gen_pyoracle2(arguments, tool_name, _cmd)` |
+| `_gen_pywhisker` | function | `skills/mcp_generated_tools.py:4442` | `def _gen_pywhisker(arguments, tool_name, _cmd)` |
+| `_gen_qa` | function | `skills/mcp_generated_tools.py:4450` | `def _gen_qa(arguments, tool_name, _cmd)` |
+| `_gen_rdp` | function | `skills/mcp_generated_tools.py:4458` | `def _gen_rdp(arguments, tool_name, _cmd)` |
+| `_gen_rdp_check_py` | function | `skills/mcp_generated_tools.py:4466` | `def _gen_rdp_check_py(arguments, tool_name, _cmd)` |
+| `_gen_recon` | function | `skills/mcp_generated_tools.py:4474` | `def _gen_recon(arguments, tool_name, _cmd)` |
+| `_gen_refill_password` | function | `skills/mcp_generated_tools.py:4482` | `def _gen_refill_password(arguments, tool_name, _cmd)` |
+| `_gen_reg_py` | function | `skills/mcp_generated_tools.py:4490` | `def _gen_reg_py(arguments, tool_name, _cmd)` |
+| `_gen_regeorg` | function | `skills/mcp_generated_tools.py:4498` | `def _gen_regeorg(arguments, tool_name, _cmd)` |
+| `_gen_rejetto_hfs_exec` | function | `skills/mcp_generated_tools.py:4506` | `def _gen_rejetto_hfs_exec(arguments, tool_name, _cmd)` |
+| `_gen_reload_addons` | function | `skills/mcp_generated_tools.py:4514` | `def _gen_reload_addons(arguments, tool_name, _cmd)` |
+| `_gen_report` | function | `skills/mcp_generated_tools.py:4522` | `def _gen_report(arguments, tool_name, _cmd)` |
+| `_gen_resource` | function | `skills/mcp_generated_tools.py:4530` | `def _gen_resource(arguments, tool_name, _cmd)` |
+| `_gen_responder` | function | `skills/mcp_generated_tools.py:4538` | `def _gen_responder(arguments, tool_name, _cmd)` |
+| `_gen_rev` | function | `skills/mcp_generated_tools.py:4546` | `def _gen_rev(arguments, tool_name, _cmd)` |
+| `_gen_revwin` | function | `skills/mcp_generated_tools.py:4554` | `def _gen_revwin(arguments, tool_name, _cmd)` |
+| `_gen_rhost` | function | `skills/mcp_generated_tools.py:4562` | `def _gen_rhost(arguments, tool_name, _cmd)` |
+| `_gen_rich_tui` | function | `skills/mcp_generated_tools.py:4570` | `def _gen_rich_tui(arguments, tool_name, _cmd)` |
+| `_gen_rmfromfind` | function | `skills/mcp_generated_tools.py:4578` | `def _gen_rmfromfind(arguments, tool_name, _cmd)` |
+| `_gen_rnc` | function | `skills/mcp_generated_tools.py:4586` | `def _gen_rnc(arguments, tool_name, _cmd)` |
+| `_gen_rocky` | function | `skills/mcp_generated_tools.py:4594` | `def _gen_rocky(arguments, tool_name, _cmd)` |
+| `_gen_rot` | function | `skills/mcp_generated_tools.py:4602` | `def _gen_rot(arguments, tool_name, _cmd)` |
+| `_gen_rotate_aes` | function | `skills/mcp_generated_tools.py:4610` | `def _gen_rotate_aes(arguments, tool_name, _cmd)` |
+| `_gen_rotf` | function | `skills/mcp_generated_tools.py:4618` | `def _gen_rotf(arguments, tool_name, _cmd)` |
+| `_gen_route` | function | `skills/mcp_generated_tools.py:4626` | `def _gen_route(arguments, tool_name, _cmd)` |
+| `_gen_rpcclient` | function | `skills/mcp_generated_tools.py:4634` | `def _gen_rpcclient(arguments, tool_name, _cmd)` |
+| `_gen_rpcdump` | function | `skills/mcp_generated_tools.py:4642` | `def _gen_rpcdump(arguments, tool_name, _cmd)` |
+| `_gen_rpcmap_py` | function | `skills/mcp_generated_tools.py:4650` | `def _gen_rpcmap_py(arguments, tool_name, _cmd)` |
+| `_gen_rrhost` | function | `skills/mcp_generated_tools.py:4658` | `def _gen_rrhost(arguments, tool_name, _cmd)` |
+| `_gen_rsync` | function | `skills/mcp_generated_tools.py:4666` | `def _gen_rsync(arguments, tool_name, _cmd)` |
 | `_gen_rubeus` | function | `skills/mcp_generated_tools.py:4674` | `def _gen_rubeus(arguments, tool_name, _cmd)` |
 | `_gen_run` | function | `skills/mcp_generated_tools.py:4682` | `def _gen_run(arguments, tool_name, _cmd)` |
 | `_gen_samdump2` | function | `skills/mcp_generated_tools.py:4690` | `def _gen_samdump2(arguments, tool_name, _cmd)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `test_stats_counts_rows` | method | `skills/tests/test_hive_mind.py:112` | `def test_stats_counts_rows(self)` |
 | `test_status_contains_expected_fields` | method | `skills/tests/test_hive_mind.py:549` | `def test_status_contains_expected_fields(self)` |
 | `test_store_and_recall` | method | `skills/tests/test_hive_mind.py:236` | `def test_store_and_recall(self)` |
-| `test_store_returns_id` | method | `skills/tests/test_hive_mind.py:169` | `def test_store_returns_id(self)` |
-| `test_store_returns_nonempty_id` | method | `skills/tests/test_hive_mind.py:82` | `def test_store_returns_nonempty_id(self)` |
-| `test_synthesize_structure` | method | `skills/tests/test_hive_mind.py:489` | `def test_synthesize_structure(self)` |
-| `test_upsert_and_load_all` | method | `skills/tests/test_hive_mind.py:700` | `def test_upsert_and_load_all(self)` |
-| `test_upsert_updates_existing` | method | `skills/tests/test_hive_mind.py:709` | `def test_upsert_updates_existing(self)` |
-| `check` | function | `skills/tests/test_mcp_smoke.py:23` | `def check(label, cond, hint)` |
-| `main` | function | `skills/tests/test_mcp_smoke.py:96` | `def main()` |
-| `test_list_tools_returns_tools` | function | `skills/tests/test_mcp_smoke.py:61` | `def test_list_tools_returns_tools(mcp)` |
-| `test_mcp_module_imports` | function | `skills/tests/test_mcp_smoke.py:34` | `def test_mcp_module_imports()` |
-| `test_mcp_wellknown_symbols` | function | `skills/tests/test_mcp_smoke.py:47` | `def test_mcp_wellknown_symbols(mcp)` |
-| `TestObjectiveStore` | class | `skills/tests/test_objectives.py:51` | `class TestObjectiveStore` |
-| `TestSoulUpdater` | class | `skills/tests/test_objectives.py:204` | `class TestSoulUpdater` |
-| `_soul_updater` | function | `skills/tests/test_objectives.py:36` | `def _soul_updater(tmp_path)` |
-| `_store` | function | `skills/tests/test_objectives.py:31` | `def _store(tmp_path)` |
-| `test_block` | method | `skills/tests/test_objectives.py:129` | `def test_block(self, tmp_path)` |
-| `test_cleanup_critical_never_expires` | method | `skills/tests/test_objectives.py:182` | `def test_cleanup_critical_never_expires(self, tmp_path)` |
-| `test_cleanup_medium_72h_ttl` | method | `skills/tests/test_objectives.py:166` | `def test_cleanup_medium_72h_ttl(self, tmp_path)` |
-| `test_complete` | method | `skills/tests/test_objectives.py:119` | `def test_complete(self, tmp_path)` |
-| `test_dedup` | method | `skills/tests/test_objectives.py:62` | `def test_dedup(self, tmp_path)` |
-| `test_inject_basic` | method | `skills/tests/test_objectives.py:52` | `def test_inject_basic(self, tmp_path)` |
-| `test_inject_invalid_priority_defaults_medium` | method | `skills/tests/test_objectives.py:140` | `def test_inject_invalid_priority_defaults_medium(self, tmp_path)` |
-| `test_list_pending_empty` | method | `skills/tests/test_objectives.py:146` | `def test_list_pending_empty(self, tmp_path)` |
-| `test_next_pending_fifo_same_priority` | method | `skills/tests/test_objectives.py:109` | `def test_next_pending_fifo_same_priority(self, tmp_path)` |
-| `test_next_pending_none_when_empty` | method | `skills/tests/test_objectives.py:151` | `def test_next_pending_none_when_empty(self, tmp_path)` |
-| `test_next_pending_priority` | method | `skills/tests/test_objectives.py:99` | `def test_next_pending_priority(self, tmp_path)` |
-| `test_objectives_persist_on_disk` | method | `skills/tests/test_objectives.py:156` | `def test_objectives_persist_on_disk(self, tmp_path)` |
-| `test_soul_updater_appends_new_section` | method | `skills/tests/test_objectives.py:293` | `def test_soul_updater_appends_new_section(self, tmp_path)` |
-| `test_soul_updater_credentials_hash` | method | `skills/tests/test_objectives.py:231` | `def test_soul_updater_credentials_hash(self, tmp_path)` |
-| `test_soul_updater_credentials_username_only` | method | `skills/tests/test_objectives.py:241` | `def test_soul_updater_credentials_username_only(self, tmp_path)` |
-| `test_soul_updater_empty_creds_noop` | method | `skills/tests/test_objectives.py:285` | `def test_soul_updater_empty_creds_noop(self, tmp_path)` |
-| `test_soul_updater_patch_line` | method | `skills/tests/test_objectives.py:205` | `def test_soul_updater_patch_line(self, tmp_path)` |
-| `test_soul_updater_patch_replaces_existing` | method | `skills/tests/test_objectives.py:274` | `def test_soul_updater_patch_replaces_existing(self, tmp_path)` |
-| `test_soul_updater_section` | method | `skills/tests/test_objectives.py:223` | `def test_soul_updater_section(self, tmp_path)` |
-| `test_soul_updater_section_access` | method | `skills/tests/test_objectives.py:257` | `def test_soul_updater_section_access(self, tmp_path)` |
-| `test_soul_updater_section_os` | method | `skills/tests/test_objectives.py:249` | `def test_soul_updater_section_os(self, tmp_path)` |
-| `test_soul_updater_target_line` | method | `skills/tests/test_objectives.py:216` | `def test_soul_updater_target_line(self, tmp_path)` |
-| `test_soul_updater_vulnerabilities` | method | `skills/tests/test_objectives.py:265` | `def test_soul_updater_vulnerabilities(self, tmp_path)` |
-| `test_ttl_expiry` | method | `skills/tests/test_objectives.py:74` | `def test_ttl_expiry(self, tmp_path)` |
-| `TestParquetDBAnnotate` | class | `skills/tests/test_parquet_db.py:177` | `class TestParquetDBAnnotate` |
-| `TestParquetDBQueryKnowledge` | class | `skills/tests/test_parquet_db.py:351` | `class TestParquetDBQueryKnowledge` |
-| `TestParquetDBQuerySession` | class | `skills/tests/test_parquet_db.py:276` | `class TestParquetDBQuerySession` |
-| `TestParquetDBSync` | class | `skills/tests/test_parquet_db.py:91` | `class TestParquetDBSync` |
-| `TestStableId` | class | `skills/tests/test_parquet_db.py:401` | `class TestStableId` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

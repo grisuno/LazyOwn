@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `poc_tui/__main__.py` -> `poc_tui/app.py`
+- `poc_tui/app.py` -> `cli/commands/containers.py`
+- `poc_tui/app.py` -> `lazyown.py`
+- `poc_tui/plugin_loader.py` -> `poc_tui/config.py`
 - `poc_tui/run.py` -> `poc_tui/app.py`
 - `poc_tui/test_app.py` -> `poc_tui/app.py`
 - `pwntomate.py` -> `modules/security_sanitizers.py`
@@ -404,6 +408,8 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_chain_distill.py` -> `modules/chain_registry.py`
 - `tests/test_chain_list_command.py` -> `cli/commands/exploit_migrated.py`
 - `tests/test_chain_mode.py` -> `cli/chain_mode.py`
+- `tests/test_chain_parallel_fallback.py` -> `modules/chain_registry.py`
+- `tests/test_chain_parallel_fallback.py` -> `modules/chain_runner.py`
 - `tests/test_chain_registry.py` -> `modules/chain_registry.py`
 - `tests/test_chain_runner.py` -> `modules/chain_registry.py`
 - `tests/test_chain_runner.py` -> `modules/chain_runner.py`
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_daemon_loop.py` -> `modules/obs_parser.py`
 - `tests/test_daemon_loop.py` -> `modules/planner.py`
 - `tests/test_daemon_loop.py` -> `skills/autonomous_daemon.py`
-- `tests/test_daemon_loop.py` -> `skills/lazyown_objective.py`
-- `tests/test_dashboard_routes.py` -> `modules/dashboard_bp.py`
-- `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
-- `tests/test_db.py` -> `modules/db.py`
-- `tests/test_dependencies.py` -> `core/dependencies.py`
-- `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

@@ -1,6 +1,6 @@
 # modules: lazyown_facts
 
-modules: lazyown_facts groups 31 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 32 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -30,7 +30,7 @@ skills groups 2 files (py) around Config, default, ServiceFact, CredentialFact, 
 
 ## tests (8.4)
 
-tests groups 13 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 14 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
@@ -57,6 +57,7 @@ tests groups 13 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_atomic_loop.py
 - tests/test_atomic_resolver.py
 - tests/test_chain_distill.py
+- tests/test_chain_parallel_fallback.py
 - tests/test_chain_registry.py
 - tests/test_chain_runner.py
 - tests/test_chain_synth.py

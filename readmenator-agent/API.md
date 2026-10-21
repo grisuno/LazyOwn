@@ -39,7 +39,7 @@ Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, 
 - `load_aliases` (function) `cli/aliases.py:100` `def load_aliases(payload, path, lazy)` -- Return the cmd2 alias map.
 
 ## cli/apt_chain_support.py
-Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/reactive_engine.py`
+Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/lazy_loop.py`, `modules/reactive_engine.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`
 - `parse_chain_args` (function) `cli/apt_chain_support.py:72` `def parse_chain_args(line)` -- Parse one ``apt_chain`` command line into structured args.
 - `resolve_admin` (function) `cli/apt_chain_support.py:169` `def resolve_admin(args)` -- Execute an admin action against the registry and checkpoint store.
@@ -50,6 +50,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.
 - `approve` (function) `cli/apt_chain_support.py:329` `def approve(step_id, command)`
 - `build_reactive_replanner` (function) `cli/apt_chain_support.py:343` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
 - `replan` (function) `cli/apt_chain_support.py:346` `def replan(context)`
+- `build_llm_recovery_chain` (function) `cli/apt_chain_support.py:399` `def build_llm_recovery_chain(result, target, task_id)` -- Ask the LLM pool for a temporary recovery chain after a failed run.
 
 ## cli/assign.py
 Depends on: `core/payload_schema.py`
@@ -455,14 +456,14 @@ Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.
 - `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1550` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
 - `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1727` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
 - `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1765` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
-- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:1999` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2049` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2169` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2272` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2451` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2508` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2557` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2649` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2019` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2069` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2189` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2292` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2471` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2528` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2577` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2669` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 ## cli/commands/containers.py
 Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`

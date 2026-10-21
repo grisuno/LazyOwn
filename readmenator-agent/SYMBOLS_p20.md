@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde3.c:40` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:45` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_USER` |
+| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:51` | `#define IO_URING_BUFFER_SIZE` |
+| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:50` | `#define IO_URING_QUEUE_DEPTH` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
+| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
+| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:76` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
+| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
+| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:73` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
+| `fopen` | function | `modules/rootkit/mrhyde3.c:407` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde3.c:535` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:297` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde3.c:569` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde3.c:605` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
+| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:176` | `static int init_root_ring(void)` |
+| `io_uring` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
+| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
+| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:57` | `` |
+| `kill` | function | `modules/rootkit/mrhyde3.c:373` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:560` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:282` | `void load_hidden_files(void)` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:268` | `void load_hidden_pids(void)` |
+| `lstat` | function | `modules/rootkit/mrhyde3.c:511` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `open` | function | `modules/rootkit/mrhyde3.c:430` | `int open(const char *pathname, int flags, ...)` |
+| `openat` | function | `modules/rootkit/mrhyde3.c:458` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:312` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde3.c:336` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde3.c:383` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:329` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:320` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde3.c:487` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:253` | `static char *traditional_read_file(const char *path)` |
+| `unlink` | function | `modules/rootkit/mrhyde3.c:367` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde3.c:389` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:163` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
+| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:130` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
+| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
 | `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
 | `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
 | `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_notes_dir` | function | `modules/ttpscope_bridge.py:415` | `def _notes_dir()` |
 | `_run_ttpscope` | function | `modules/ttpscope_bridge.py:129` | `def _run_ttpscope(args)` |
 | `_slug` | function | `modules/ttpscope_bridge.py:123` | `def _slug(text)` |
-| `_stage` | function | `modules/ttpscope_bridge.py:485` | `def _stage(action, slug, stdout, extra)` |
-| `_stix_external_id` | function | `modules/ttpscope_bridge.py:211` | `def _stix_external_id(obj)` |
-| `_stix_index` | function | `modules/ttpscope_bridge.py:219` | `def _stix_index(bundle)` |
-| `do_chain` | function | `modules/ttpscope_bridge.py:582` | `def do_chain(object_id, platform, limit)` |
-| `do_matrix` | function | `modules/ttpscope_bridge.py:535` | `def do_matrix(platform)` |
-| `do_note` | function | `modules/ttpscope_bridge.py:551` | `def do_note(object_id, text)` |
-| `do_notes` | function | `modules/ttpscope_bridge.py:570` | `def do_notes(object_id)` |
-| `do_search` | function | `modules/ttpscope_bridge.py:508` | `def do_search(query)` |
-| `do_show` | function | `modules/ttpscope_bridge.py:520` | `def do_show(object_id)` |
-| `do_sync` | function | `modules/ttpscope_bridge.py:497` | `def do_sync()` |
-| `locate_binary` | function | `modules/ttpscope_bridge.py:82` | `def locate_binary()` |
-| `main` | function | `modules/ttpscope_bridge.py:679` | `def main()` |
-| `run_action` | function | `modules/ttpscope_bridge.py:652` | `def run_action(action)` |
-| `validate_object_id` | function | `modules/ttpscope_bridge.py:92` | `def validate_object_id(raw)` |
-| `validate_platform` | function | `modules/ttpscope_bridge.py:112` | `def validate_platform(raw)` |
-| `validate_query` | function | `modules/ttpscope_bridge.py:100` | `def validate_query(raw)` |
-| `DelegateResult` | class | `modules/unified_bridge.py:59` | `class DelegateResult` |
-| `KeywordBackend` | class | `modules/unified_bridge.py:75` | `class KeywordBackend(RouteBackend)` |
-| `LazyownBridgeBackend` | class | `modules/unified_bridge.py:123` | `class LazyownBridgeBackend(RouteBackend)` |
-| `RouteBackend` | class | `modules/unified_bridge.py:67` | `class RouteBackend(ABC)` |
-| `RouteResult` | class | `modules/unified_bridge.py:46` | `class RouteResult` |
-| `TopoSwarmBackend` | class | `modules/unified_bridge.py:161` | `class TopoSwarmBackend(RouteBackend)` |
-| `UnifiedBridge` | class | `modules/unified_bridge.py:195` | `class UnifiedBridge` |
-| `__init__` | method | `modules/unified_bridge.py:214` | `def __init__(self)` |
-| `_await_agent` | method | `modules/unified_bridge.py:355` | `def _await_agent(self, get_status, agent_id, timeout)` |
-| `_detect_phase` | method | `modules/unified_bridge.py:464` | `def _detect_phase(self)` |
-| `_get_active_target` | method | `modules/unified_bridge.py:473` | `def _get_active_target(self)` |
-| `_init_backends` | method | `modules/unified_bridge.py:219` | `def _init_backends(self)` |
-| `_publish` | method | `modules/unified_bridge.py:233` | `def _publish(self, category, event_type, payload)` |
-| `_run_agent_command` | method | `modules/unified_bridge.py:384` | `def _run_agent_command(self, command)` |
-| `available` | method | `modules/unified_bridge.py:69` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:102` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:126` | `def available(self)` |
-| `available` | method | `modules/unified_bridge.py:164` | `def available(self)` |
-| `delegate` | method | `modules/unified_bridge.py:300` | `def delegate(self, goal, backend, timeout, max_iterations)` |
-| `delegate_task` | function | `modules/unified_bridge.py:488` | `def delegate_task(goal, backend)` |
-| `get` | method | `modules/unified_bridge.py:225` | `def get(cls)` |
-| `list_backends` | method | `modules/unified_bridge.py:461` | `def list_backends(self)` |
-| `route` | method | `modules/unified_bridge.py:72` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:105` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:134` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:173` | `def route(self, prompt, context)` |
-| `route` | method | `modules/unified_bridge.py:253` | `def route(self, prompt, context)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

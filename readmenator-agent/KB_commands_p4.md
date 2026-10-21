@@ -248,44 +248,45 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SessionOpsCommandSet` (class, line 72) `class SessionOpsCommandSet(LazyOwnCommandSet)`
-  - `do_note` (method, line 79) `def do_note(self, line)`
-  - `do_l00t` (method, line 104) `def do_l00t(self, line)`
-  - `do_loot` (method, line 153) `def do_loot(self, line)`
-  - `do_pivot` (method, line 161) `def do_pivot(self, line)`
-  - `do_tasks` (method, line 186) `def do_tasks(self, line)`
-  - `do_scans` (method, line 219) `def do_scans(self, line)`
-  - `do_sitrep` (method, line 236) `def do_sitrep(self, line)`
-  - `do_assign` (method, line 253) `def do_assign(self, line)`
-  - `do_tenant` (method, line 317) `def do_tenant(self, line)`
-  - `do_scope` (method, line 390) `def do_scope(self, line)`
-  - `do_show` (method, line 456) `def do_show(self, line)`
-  - `do_list` (method, line 532) `def do_list(self, line)`
-  - `do_run` (method, line 561) `def do_run(self, line)`
-  - `do_payload` (method, line 600) `def do_payload(self, line)`
-  - `do_next` (method, line 651) `def do_next(self, line)`
-  - `do_frontier` (method, line 695) `def do_frontier(self, line)`
-  - `do_traces` (method, line 739) `def do_traces(self, line)`
-  - `do_chainmode` (method, line 820) `def do_chainmode(self, line)`
-  - `do_engage` (method, line 871) `def do_engage(self, line)`
-  - `do_pipeline` (method, line 998) `def do_pipeline(self, line)`
-  - `do_lazyscript` (method, line 1089) `def do_lazyscript(self, line)`
-  - `do_hunt` (method, line 1121) `def do_hunt(self, line)`
-  - `do_resume` (method, line 1212) `def do_resume(self, line)`
-  - `do_getseclist` (method, line 1234) `def do_getseclist(self, line)`
-  - `do_download_resources` (method, line 1272) `def do_download_resources(self, line)`
-  - `do_collab_join` (method, line 1305) `def do_collab_join(self, line)`
-  - `do_kick` (method, line 1336) `def do_kick(self, line)`
-  - `do_qa` (method, line 1385) `def do_qa(self, line)`
-  - `do_clock` (method, line 1447) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1495) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1507) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1557) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1603) `def do_msfshellcoder(self, line)`
-  - `_flag_value` (function, line 935) `def _flag_value(flag_name)`
-  - `_flag_value` (function, line 1047) `def _flag_value(flag_name)`
+  - `_strip_shell_quotes` (function, line 72) `def _strip_shell_quotes(value)`
+  - `SessionOpsCommandSet` (class, line 86) `class SessionOpsCommandSet(LazyOwnCommandSet)`
+  - `do_note` (method, line 93) `def do_note(self, line)`
+  - `do_l00t` (method, line 118) `def do_l00t(self, line)`
+  - `do_loot` (method, line 167) `def do_loot(self, line)`
+  - `do_pivot` (method, line 175) `def do_pivot(self, line)`
+  - `do_tasks` (method, line 200) `def do_tasks(self, line)`
+  - `do_scans` (method, line 233) `def do_scans(self, line)`
+  - `do_sitrep` (method, line 250) `def do_sitrep(self, line)`
+  - `do_assign` (method, line 267) `def do_assign(self, line)`
+  - `do_tenant` (method, line 332) `def do_tenant(self, line)`
+  - `do_scope` (method, line 405) `def do_scope(self, line)`
+  - `do_show` (method, line 471) `def do_show(self, line)`
+  - `do_list` (method, line 547) `def do_list(self, line)`
+  - `do_run` (method, line 576) `def do_run(self, line)`
+  - `do_payload` (method, line 615) `def do_payload(self, line)`
+  - `do_next` (method, line 666) `def do_next(self, line)`
+  - `do_frontier` (method, line 710) `def do_frontier(self, line)`
+  - `do_traces` (method, line 754) `def do_traces(self, line)`
+  - `do_chainmode` (method, line 835) `def do_chainmode(self, line)`
+  - `do_engage` (method, line 886) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 1013) `def do_pipeline(self, line)`
+  - `do_lazyscript` (method, line 1104) `def do_lazyscript(self, line)`
+  - `do_hunt` (method, line 1136) `def do_hunt(self, line)`
+  - `do_resume` (method, line 1227) `def do_resume(self, line)`
+  - `do_getseclist` (method, line 1249) `def do_getseclist(self, line)`
+  - `do_download_resources` (method, line 1287) `def do_download_resources(self, line)`
+  - `do_collab_join` (method, line 1320) `def do_collab_join(self, line)`
+  - `do_kick` (method, line 1351) `def do_kick(self, line)`
+  - `do_qa` (method, line 1400) `def do_qa(self, line)`
+  - `do_clock` (method, line 1462) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1510) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1522) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1572) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1618) `def do_msfshellcoder(self, line)`
+  - `_flag_value` (function, line 950) `def _flag_value(flag_name)`
+  - `_flag_value` (function, line 1062) `def _flag_value(flag_name)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
-- Imported by: `tests/test_auto_crypto.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
+- Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
 
 ## cli/commands/shellsys.py
 - Doc: Local shell and system extracted from the miscellaneous cluster.

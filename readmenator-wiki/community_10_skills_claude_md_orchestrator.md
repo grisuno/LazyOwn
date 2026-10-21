@@ -1,15 +1,20 @@
 # skills/claude_md_orchestrator
 
-*Community 10 | 13 files | cohesion 0.78*
+*Community 10 | 19 files | cohesion 0.75*
 
 ## Definition
 
-This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.78). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `skills/claude_md_orchestrator/models.py` (32 symbols). Documented purpose: Public API for the claude_md_orchestrator skill.  The package re-exports the classes and the helper functions the CLI and the tests share. The orchestrator modu.
+This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.75). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `static/js/xterm.js` (62 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Assistente de consola  .
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
+| `contrib/legacy/lazygptcli_unified.py` | py | utility | 29 | yes |
+| `contrib/legacy/lazyproxy.py` | py | utility | 9 | no |
+| `contrib/legacy/lazyseo.py` | py | utility | 9 | no |
+| `modules/colors.py` | py | utility | 3 | no |
 | `skills/claude_md_orchestrator/__init__.py` | py | utility | 0 | yes |
 | `skills/claude_md_orchestrator/bdd_agent.py` | py | utility | 8 | yes |
 | `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
@@ -23,44 +28,45 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/claude_md_orchestrator/sdd_agent.py` | py | utility | 6 | yes |
 | `skills/claude_md_orchestrator/tdd_agent.py` | py | utility | 7 | yes |
 | `skills/claude_md_orchestrator/validators.py` | py | utility | 21 | yes |
+| `static/js/xterm.js` | js | utility | 62 | no |
 
 ## Key Symbols
 
-- `_module_name` (function, `skills/claude_md_orchestrator/bdd_agent.py:80`) `def _module_name(contract)` - Return the python module name the implementation will use.
-- `_module_path` (function, `skills/claude_md_orchestrator/bdd_agent.py:85`) `def _module_path(contract, config)` - Return the absolute path of the implementation module.
-- `_package_init` (function, `skills/claude_md_orchestrator/bdd_agent.py:90`) `def _package_init(config)` - Return the absolute path of the implementation package init file.
-- `_compose_implementation` (function, `skills/claude_md_orchestrator/bdd_agent.py:95`) `def _compose_implementation(spec, contract)` - Render the python source of the implementation module.
-- `BddResult` (class, `skills/claude_md_orchestrator/bdd_agent.py:113`) `class BddResult` - Outcome of running the implementation agent.
-- `_ensure_init` (function, `skills/claude_md_orchestrator/bdd_agent.py:130`) `def _ensure_init(config)` - Write the package init file the tests import from.
-- `_run_pytest` (function, `skills/claude_md_orchestrator/bdd_agent.py:138`) `def _run_pytest(test_path, cwd)` - Run pytest and return the exit code plus the duration.
-- `run` (function, `skills/claude_md_orchestrator/bdd_agent.py:151`) `def run(contract, spec, suite, config)` - Run the implementation agent for one contract.
-- `ScoutReport` (class, `skills/claude_md_orchestrator/boy_scout.py:30`) `class ScoutReport` - Outcome of a boy scout pass.
-- `_inspect` (function, `skills/claude_md_orchestrator/boy_scout.py:45`) `def _inspect(path)` - Run a deeper inspection on one source file.
-- `_render_proposal` (function, `skills/claude_md_orchestrator/boy_scout.py:73`) `def _render_proposal(contract, findings)` - Render the human facing proposal text.
-- `run` (function, `skills/claude_md_orchestrator/boy_scout.py:90`) `def run(state, config)` - Run the boy scout pass for one contract.
-- `write_report` (function, `skills/claude_md_orchestrator/boy_scout.py:110`) `def write_report(report, config)` - Persist the boy scout proposal to disk.
-- `CicdResult` (class, `skills/claude_md_orchestrator/cicd_agent.py:71`) `class CicdResult` - Outcome of the CI and CD agent.
-- `_slug` (function, `skills/claude_md_orchestrator/cicd_agent.py:91`) `def _slug(contract)` - Return a safe slug for the branch name.
-- `_git` (function, `skills/claude_md_orchestrator/cicd_agent.py:97`) `def _git()` - Run a git command and return the captured output.
-- `_ensure_branch` (function, `skills/claude_md_orchestrator/cicd_agent.py:108`) `def _ensure_branch(contract, config)` - Create the feature branch from the base branch.
-- `_render_pipeline` (function, `skills/claude_md_orchestrator/cicd_agent.py:134`) `def _render_pipeline(contract, spec, config)` - Render the workflow body the agent writes to disk.
-- `_render_pr_body` (function, `skills/claude_md_orchestrator/cicd_agent.py:144`) `def _render_pr_body(contract, spec, report)` - Render the PR body the agent writes to disk.
-- `run` (function, `skills/claude_md_orchestrator/cicd_agent.py:177`) `def run(contract, spec, report, config)` - Run the CI and CD agent for one contract.
-- `_repo_root` (function, `skills/claude_md_orchestrator/config.py:22`) `def _repo_root()` - Return the absolute path of the LazyOwn repository root.
-- `_default_run_dir` (function, `skills/claude_md_orchestrator/config.py:37`) `def _default_run_dir()` - Return the absolute path of the orchestrator run directory.
-- `_default_claude_md` (function, `skills/claude_md_orchestrator/config.py:52`) `def _default_claude_md()` - Return the absolute path of the CLAUDE.md that the parser consumes.
-- `Config` (class, `skills/claude_md_orchestrator/config.py:67`) `class Config` - Runtime configuration for the orchestrator.
-- `ensure` (method, `skills/claude_md_orchestrator/config.py:112`) `def ensure(self)` - Create the run subdirectories if they do not exist.
-- `state_path` (method, `skills/claude_md_orchestrator/config.py:122`) `def state_path(self)` - Return the absolute path of the cycle state file.
-- `specs_dir` (method, `skills/claude_md_orchestrator/config.py:126`) `def specs_dir(self)` - Return the absolute path of the spec directory.
-- `tests_dir` (method, `skills/claude_md_orchestrator/config.py:130`) `def tests_dir(self)` - Return the absolute path of the test directory.
-- `src_dir` (method, `skills/claude_md_orchestrator/config.py:134`) `def src_dir(self)` - Return the absolute path of the implementation directory.
-- `review_dir` (method, `skills/claude_md_orchestrator/config.py:138`) `def review_dir(self)` - Return the absolute path of the review directory.
+- `signal_handler` (function, `contrib/legacy/lazygptcli.py:66`) `def signal_handler(sig, frame)`
+- `show_help` (function, `contrib/legacy/lazygptcli.py:73`) `def show_help(message)`
+- `check_api_key` (function, `contrib/legacy/lazygptcli.py:77`) `def check_api_key()`
+- `configure_logging` (function, `contrib/legacy/lazygptcli.py:83`) `def configure_logging(debug)`
+- `parse_args` (function, `contrib/legacy/lazygptcli.py:87`) `def parse_args()`
+- `create_complex_prompt` (function, `contrib/legacy/lazygptcli.py:94`) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+- `execute_command` (function, `contrib/legacy/lazygptcli.py:108`) `def execute_command(command)`
+- `load_knowledge_base` (function, `contrib/legacy/lazygptcli.py:118`) `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function, `contrib/legacy/lazygptcli.py:124`) `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function, `contrib/legacy/lazygptcli.py:128`) `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function, `contrib/legacy/lazygptcli.py:133`) `def get_relevant_knowledge(prompt)`
+- `transform_knowledge_base` (function, `contrib/legacy/lazygptcli.py:141`) `def transform_knowledge_base(client)`
+- `cleanup_temp_files` (function, `contrib/legacy/lazygptcli.py:164`) `def cleanup_temp_files()`
+- `main` (function, `contrib/legacy/lazygptcli.py:177`) `def main()`
+- `_ret_model` (function, `contrib/legacy/lazygptcli_unified.py:45`) `def _ret_model()`
+- `truncate_message` (function, `contrib/legacy/lazygptcli_unified.py:53`) `def truncate_message(message, max_chars)`
+- `_configure_logging` (function, `contrib/legacy/lazygptcli_unified.py:57`) `def _configure_logging(debug)`
+- `_load_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:62`) `def _load_knowledge_base(file_path)`
+- `_save_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:70`) `def _save_knowledge_base(knowledge_base, file_path)`
+- `_add_to_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:76`) `def _add_to_knowledge_base(prompt, response, file_path)`
+- `_get_relevant_knowledge` (function, `contrib/legacy/lazygptcli_unified.py:82`) `def _get_relevant_knowledge(prompt, file_path)`
+- `_transform_knowledge_base` (function, `contrib/legacy/lazygptcli_unified.py:95`) `def _transform_knowledge_base(client, kb_file, improved_file)`
+- `_groq_chat` (function, `contrib/legacy/lazygptcli_unified.py:115`) `def _groq_chat(client, messages, model, max_tokens)`
+- `_load_payload_kv` (function, `contrib/legacy/lazygptcli_unified.py:129`) `def _load_payload_kv()`
+- `_load_event_config` (function, `contrib/legacy/lazygptcli_unified.py:147`) `def _load_event_config()`
+- `_prompt_oneliner` (function, `contrib/legacy/lazygptcli_unified.py:159`) `def _prompt_oneliner(base_prompt, history, knowledge_base)`
+- `_prompt_script` (function, `contrib/legacy/lazygptcli_unified.py:175`) `def _prompt_script(base_prompt, history, knowledge_base)`
+- `_prompt_adversary` (function, `contrib/legacy/lazygptcli_unified.py:190`) `def _prompt_adversary(base_prompt, history, knowledge_base)`
+- `_prompt_general` (function, `contrib/legacy/lazygptcli_unified.py:206`) `def _prompt_general(base_prompt, history, knowledge_base)`
+- `_prompt_search` (function, `contrib/legacy/lazygptcli_unified.py:225`) `def _prompt_search(base_prompt, history, knowledge_base)`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 33
-- Cross-boundary resolved imports (EXTRACTED): 8
+- Internal resolved imports (EXTRACTED): 41
+- Cross-boundary resolved imports (EXTRACTED): 14
 
 ## Connections
 
@@ -70,15 +76,24 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyproxy.py:153` `handle_request` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyproxy.py:184` `start_proxy` `proxy_socket`: Result of allocator stored in `proxy_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyseo.py:50` `results` `content`: Result of allocator stored in `content` is never checked against NULL.
 
 ## Open Questions
 
+- Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazyproxy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.78?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.75?
 
 ## Sources
 
+- `contrib/legacy/lazygptcli.py`
+- `contrib/legacy/lazygptcli_unified.py`
+- `contrib/legacy/lazyproxy.py`
+- `contrib/legacy/lazyseo.py`
+- `modules/colors.py`
 - `skills/claude_md_orchestrator/__init__.py`
 - `skills/claude_md_orchestrator/bdd_agent.py`
 - `skills/claude_md_orchestrator/boy_scout.py`
@@ -92,3 +107,4 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `skills/claude_md_orchestrator/sdd_agent.py`
 - `skills/claude_md_orchestrator/tdd_agent.py`
 - `skills/claude_md_orchestrator/validators.py`
+- `static/js/xterm.js`

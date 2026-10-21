@@ -1,5 +1,133 @@
-# Subsystem: tests (page 4 of 18)
+# Subsystem: tests (page 4 of 19)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
+
+## tests/test_c2_agent.py
+- Doc: Malleable C2 agent: template safety, key ownership, record reading.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_client_id_derivation` (function, line 17) `def test_client_id_derivation()`
+  - `test_template_renders_without_tokens` (function, line 29) `def test_template_renders_without_tokens()`
+  - `test_template_rejects_bad_inputs` (function, line 37) `def test_template_rejects_bad_inputs()`
+  - `test_template_is_py25_safe` (function, line 51) `def test_template_is_py25_safe()`
+  - `test_template_drops_inherited_fds` (function, line 60) `def test_template_drops_inherited_fds()`
+  - `test_key_never_generated_silently` (function, line 68) `def test_key_never_generated_silently(tmp_path, monkeypatch)`
+  - `test_key_snapshot_roundtrip` (function, line 79) `def test_key_snapshot_roundtrip(tmp_path, monkeypatch)`
+  - `test_read_records_newest_last` (function, line 91) `def test_read_records_newest_last(tmp_path, monkeypatch)`
+  - `test_c2_addon_contract` (function, line 104) `def test_c2_addon_contract()`
+  - `test_credentials_file_sync_writes_live_creds` (function, line 117) `def test_credentials_file_sync_writes_live_creds(tmp_path)`
+  - `test_shell_sync_runs_after_params_exist` (function, line 136) `def test_shell_sync_runs_after_params_exist()`
+  - `test_shell_sync_adopts_file_creds` (function, line 148) `def test_shell_sync_adopts_file_creds(tmp_path, monkeypatch)`
+  - `test_sync_refuses_keyless_payload` (function, line 172) `def test_sync_refuses_keyless_payload(tmp_path, monkeypatch)`
+  - `test_c2_session_commands_are_non_interactive` (function, line 194) `def test_c2_session_commands_are_non_interactive()`
+  - `test_c2_reboot_registered` (function, line 207) `def test_c2_reboot_registered()`
+  - `test_fresh_lab_creds_rotate_and_shape` (function, line 216) `def test_fresh_lab_creds_rotate_and_shape()`
+  - `_Stub` (class, line 156) `class _Stub`
+  - `_Stub` (class, line 179) `class _Stub`
+  - `__init__` (method, line 160) `def __init__(self)`
+  - `__init__` (method, line 183) `def __init__(self)`
+- Depends on: `lazyown.py`, `modules/__init__.py`
+
+## tests/test_c2_profile_engine.py
+- Doc: Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestTlsProfile` (class, line 34) `class TestTlsProfile`
+  - `TestDnsProfile` (class, line 99) `class TestDnsProfile`
+  - `TestSmbProfile` (class, line 154) `class TestSmbProfile`
+  - `TestWebSocketProfile` (class, line 183) `class TestWebSocketProfile`
+  - `TestProfileRotator` (class, line 214) `class TestProfileRotator`
+  - `TestProfileValidator` (class, line 291) `class TestProfileValidator`
+  - `TestProfileEngine` (class, line 397) `class TestProfileEngine`
+  - `test_default_construction` (method, line 35) `def test_default_construction(self)`
+  - `test_get_cipher_suites_returns_library_defaults` (method, line 44) `def test_get_cipher_suites_returns_library_defaults(self)`
+  - `test_get_cipher_suites_returns_custom_when_set` (method, line 50) `def test_get_cipher_suites_returns_custom_when_set(self)`
+  - `test_get_cipher_suites_unknown_library_falls_back_to_generic` (method, line 55) `def test_get_cipher_suites_unknown_library_falls_back_to_generic(self)`
+  - `test_get_ja3_hash_produces_stable_output` (method, line 61) `def test_get_ja3_hash_produces_stable_output(self)`
+  - `test_get_ja3_hash_with_grease_produces_variable_output` (method, line 72) `def test_get_ja3_hash_with_grease_produces_variable_output(self)`
+  - `test_serialization_roundtrip` (method, line 77) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 90) `def test_from_dict_empty(self)`
+  - `test_disabled_profile` (method, line 94) `def test_disabled_profile(self)`
+  - `test_default_construction` (method, line 100) `def test_default_construction(self)`
+  - `test_build_query_subdomain_base64` (method, line 107) `def test_build_query_subdomain_base64(self)`
+  - `test_build_query_subdomain_base32` (method, line 113) `def test_build_query_subdomain_base32(self)`
+  - `test_build_query_subdomain_hex` (method, line 119) `def test_build_query_subdomain_hex(self)`
+  - `test_build_query_subdomain_truncates_to_max_length` (method, line 124) `def test_build_query_subdomain_truncates_to_max_length(self)`
+  - `test_build_query_subdomain_ttl_cache_bypass_disabled` (method, line 130) `def test_build_query_subdomain_ttl_cache_bypass_disabled(self)`
+  - `test_serialization_roundtrip` (method, line 135) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 148) `def test_from_dict_empty(self)`
+  - `test_default_construction` (method, line 155) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 161) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 178) `def test_from_dict_empty(self)`
+  - `test_default_construction` (method, line 184) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 191) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 208) `def test_from_dict_empty(self)`
+  - `test_requires_at_least_one_slot` (method, line 215) `def test_requires_at_least_one_slot(self)`
+  - `test_single_slot_always_active` (method, line 219) `def test_single_slot_always_active(self)`
+  - `test_rotation_cycles_through_slots` (method, line 226) `def test_rotation_cycles_through_slots(self)`
+  - `test_rotation_skips_cooldown_slots` (method, line 238) `def test_rotation_skips_cooldown_slots(self)`
+  - `test_rotation_resets_all_cooldowns_when_all_busy` (method, line 252) `def test_rotation_resets_all_cooldowns_when_all_busy(self)`
+  - `test_list_slots` (method, line 263) `def test_list_slots(self)`
+  - `test_is_available_fresh_slot` (method, line 274) `def test_is_available_fresh_slot(self)`
+  - `test_is_available_after_touch` (method, line 278) `def test_is_available_after_touch(self)`
+  - `test_current_slot_identity` (method, line 283) `def test_current_slot_identity(self)`
+  - `test_validate_tls_valid` (method, line 292) `def test_validate_tls_valid(self)`
+  - `test_validate_tls_disabled_skips` (method, line 297) `def test_validate_tls_disabled_skips(self)`
+  - `test_validate_tls_invalid_version` (method, line 302) `def test_validate_tls_invalid_version(self)`
+  - `test_validate_tls_missing_key_with_cert` (method, line 308) `def test_validate_tls_missing_key_with_cert(self)`
+  - `test_validate_tls_unknown_library` (method, line 318) `def test_validate_tls_unknown_library(self)`
+  - `test_validate_dns_enabled_missing_domain` (method, line 327) `def test_validate_dns_enabled_missing_domain(self)`
+  - `test_validate_dns_invalid_encoding` (method, line 333) `def test_validate_dns_invalid_encoding(self)`
+  - `test_validate_dns_disabled_skips` (method, line 339) `def test_validate_dns_disabled_skips(self)`
+  - `test_validate_dns_invalid_domain_format` (method, line 344) `def test_validate_dns_invalid_domain_format(self)`
+  - `test_validate_smb_missing_pipe_name` (method, line 350) `def test_validate_smb_missing_pipe_name(self)`
+  - `test_validate_smb_disabled_skips` (method, line 356) `def test_validate_smb_disabled_skips(self)`
+  - `test_validate_smb_username_without_domain` (method, line 361) `def test_validate_smb_username_without_domain(self)`
+  - `test_validate_websocket_invalid_protocol` (method, line 372) `def test_validate_websocket_invalid_protocol(self)`
+  - `test_validate_websocket_disabled_skips` (method, line 378) `def test_validate_websocket_disabled_skips(self)`
+  - `test_validate_all_returns_dict` (method, line 383) `def test_validate_all_returns_dict(self)`
+  - `test_default_engine_has_http_slot` (method, line 398) `def test_default_engine_has_http_slot(self)`
+  - `test_engine_with_all_transports` (method, line 402) `def test_engine_with_all_transports(self)`
+  - `test_engine_validate_returns_errors_for_invalid_dns` (method, line 412) `def test_engine_validate_returns_errors_for_invalid_dns(self)`
+  - `test_engine_rotate_through_transports` (method, line 420) `def test_engine_rotate_through_transports(self)`
+  - `test_engine_get_active_profile_dict` (method, line 427) `def test_engine_get_active_profile_dict(self)`
+  - `test_engine_get_all_profiles_dict` (method, line 433) `def test_engine_get_all_profiles_dict(self)`
+  - `test_engine_from_dict` (method, line 442) `def test_engine_from_dict(self)`
+  - `test_engine_from_payload` (method, line 455) `def test_engine_from_payload(self)`
+  - `test_engine_empty_payload_falls_back_to_defaults` (method, line 465) `def test_engine_empty_payload_falls_back_to_defaults(self)`
+- Depends on: `modules/c2_profile_engine.py`
+
+## tests/test_c2_route_auth.py
+- Doc: Guard the C2 route-level auth boundaries.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_route_decorators` (function, line 75) `def _route_decorators()`
+  - `routes` (function, line 106) `def routes()`
+  - `test_protected_endpoints_require_auth` (function, line 110) `def test_protected_endpoints_require_auth(routes)`
+  - `test_public_endpoints_stay_open` (function, line 115) `def test_public_endpoints_stay_open(routes)`
+  - `test_all_protected_endpoints_exist` (function, line 120) `def test_all_protected_endpoints_exist(routes)`
+
+## tests/test_c2_shell_lazy.py
+- Doc: The C2 must not build the CLI shell at module load.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_module_tree` (function, line 21) `def _module_tree()`
+  - `_load_proxy_class` (function, line 25) `def _load_proxy_class()`
+  - `TestNoEagerCliBuild` (class, line 62) `class TestNoEagerCliBuild`
+  - `TestLazyShellProxy` (class, line 103) `class TestLazyShellProxy`
+  - `_FakeShell` (class, line 40) `class _FakeShell`
+  - `_init_shell` (function, line 51) `def _init_shell()`
+  - `test_no_lazyown_import_at_top_level` (method, line 63) `def test_no_lazyown_import_at_top_level(self)`
+  - `test_no_eager_shell_build` (method, line 76) `def test_no_eager_shell_build(self)`
+  - `test_lazy_accessor_with_boot_sequence` (method, line 88) `def test_lazy_accessor_with_boot_sequence(self)`
+  - `test_reads_forward_and_share_target` (method, line 104) `def test_reads_forward_and_share_target(self)`
+  - `test_writes_forward` (method, line 111) `def test_writes_forward(self)`
+  - `test_shell_output_attribute` (method, line 118) `def test_shell_output_attribute(self)`
+  - `__init__` (method, line 41) `def __init__(self)`
+  - `one_cmd` (method, line 45) `def one_cmd(self, command)`
 
 ## tests/test_c2_surfaces.py
 - Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
@@ -319,126 +447,49 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
 - Symbols:
   - `_add_repo_root_to_syspath` (function, line 29) `def _add_repo_root_to_syspath()`
   - `TestApplyAssign` (class, line 34) `class TestApplyAssign`
-  - `TestFormatPayload` (class, line 105) `class TestFormatPayload`
-  - `TestLazyOwnAssignWiring` (class, line 163) `class TestLazyOwnAssignWiring`
-  - `TestCompleteAssignBehaviour` (class, line 230) `class TestCompleteAssignBehaviour`
+  - `TestAssignLineParsing` (class, line 101) `class TestAssignLineParsing`
+  - `TestFormatPayload` (class, line 139) `class TestFormatPayload`
+  - `TestLazyOwnAssignWiring` (class, line 197) `class TestLazyOwnAssignWiring`
+  - `TestCompleteAssignBehaviour` (class, line 264) `class TestCompleteAssignBehaviour`
   - `test_returns_true_when_key_exists` (method, line 35) `def test_returns_true_when_key_exists(self)`
   - `test_returns_false_when_key_missing` (method, line 42) `def test_returns_false_when_key_missing(self)`
   - `test_does_not_invoke_save_on_failure` (method, line 49) `def test_does_not_invoke_save_on_failure(self)`
   - `test_invokes_save_on_success` (method, line 57) `def test_invokes_save_on_success(self)`
   - `test_save_receives_mutated_dict` (method, line 66) `def test_save_receives_mutated_dict(self)`
   - `test_save_optional` (method, line 78) `def test_save_optional(self)`
-  - `test_persists_to_disk_via_save_payload` (method, line 85) `def test_persists_to_disk_via_save_payload(self, tmp_path)`
-  - `test_empty_payload_returns_empty_string` (method, line 106) `def test_empty_payload_returns_empty_string(self)`
-  - `test_renders_keys_sorted` (method, line 111) `def test_renders_keys_sorted(self)`
-  - `test_aligns_column_to_widest_key` (method, line 120) `def test_aligns_column_to_widest_key(self)`
-  - `test_none_values_render_as_empty` (method, line 130) `def test_none_values_render_as_empty(self)`
-  - `test_keys_whitelist_filters_output` (method, line 136) `def test_keys_whitelist_filters_output(self)`
-  - `test_missing_whitelist_keys_render_as_empty` (method, line 143) `def test_missing_whitelist_keys_render_as_empty(self)`
-  - `test_int_value_rendered_as_string` (method, line 150) `def test_int_value_rendered_as_string(self)`
-  - `test_no_ansi_codes` (method, line 156) `def test_no_ansi_codes(self)`
-  - `src` (method, line 165) `def src(self)`
-  - `migrated_src` (method, line 169) `def migrated_src(self)`
-  - `test_imports_apply_assign` (method, line 177) `def test_imports_apply_assign(self, migrated_src)`
-  - `test_imports_save_payload_from_core` (method, line 180) `def test_imports_save_payload_from_core(self, migrated_src)`
-  - `test_imports_format_payload` (method, line 183) `def test_imports_format_payload(self, migrated_src)`
-  - `test_do_assign_calls_apply_assign` (method, line 186) `def test_do_assign_calls_apply_assign(self, migrated_src)`
-  - `test_do_assign_refreshes_aliases` (method, line 191) `def test_do_assign_refreshes_aliases(self, migrated_src)`
-  - `test_do_assign_no_longer_directly_mutates_params` (method, line 196) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
-  - `test_complete_assign_defined` (method, line 202) `def test_complete_assign_defined(self, src)`
-  - `test_complete_assign_reads_self_params` (method, line 205) `def test_complete_assign_reads_self_params(self, src)`
-  - `test_do_show_uses_format_payload` (method, line 209) `def test_do_show_uses_format_payload(self, migrated_src)`
-  - `test_do_payload_refreshes_aliases` (method, line 213) `def test_do_payload_refreshes_aliases(self, migrated_src)`
-  - `_extract_method_body` (method, line 219) `def _extract_method_body(src, name)`
-  - `test_returns_keys_starting_with_text` (method, line 233) `def test_returns_keys_starting_with_text(self)`
-  - `test_no_completion_for_value_position` (method, line 250) `def test_no_completion_for_value_position(self)`
-  - `test_refuses_null_on_required` (method, line 259) `def test_refuses_null_on_required(self)`
-  - `test_warn_saves_invalid_but_present` (method, line 268) `def test_warn_saves_invalid_but_present(self)`
-  - `test_auto_populate_refuses_shell_less_save` (method, line 276) `def test_auto_populate_refuses_shell_less_save(self)`
+  - `test_allows_windows_path_backslashes` (method, line 85) `def test_allows_windows_path_backslashes(self)`
+  - `test_rejects_shell_operators_and_escapes` (method, line 92) `def test_rejects_shell_operators_and_escapes(self)`
+  - `test_posix_false_parses_preserve_backslashes` (method, line 102) `def test_posix_false_parses_preserve_backslashes(self)`
+  - `test_strip_shell_quotes_variants` (method, line 111) `def test_strip_shell_quotes_variants(self)`
+  - `test_persists_to_disk_via_save_payload` (method, line 119) `def test_persists_to_disk_via_save_payload(self, tmp_path)`
+  - `test_empty_payload_returns_empty_string` (method, line 140) `def test_empty_payload_returns_empty_string(self)`
+  - `test_renders_keys_sorted` (method, line 145) `def test_renders_keys_sorted(self)`
+  - `test_aligns_column_to_widest_key` (method, line 154) `def test_aligns_column_to_widest_key(self)`
+  - `test_none_values_render_as_empty` (method, line 164) `def test_none_values_render_as_empty(self)`
+  - `test_keys_whitelist_filters_output` (method, line 170) `def test_keys_whitelist_filters_output(self)`
+  - `test_missing_whitelist_keys_render_as_empty` (method, line 177) `def test_missing_whitelist_keys_render_as_empty(self)`
+  - `test_int_value_rendered_as_string` (method, line 184) `def test_int_value_rendered_as_string(self)`
+  - `test_no_ansi_codes` (method, line 190) `def test_no_ansi_codes(self)`
+  - `src` (method, line 199) `def src(self)`
+  - `migrated_src` (method, line 203) `def migrated_src(self)`
+  - `test_imports_apply_assign` (method, line 211) `def test_imports_apply_assign(self, migrated_src)`
+  - `test_imports_save_payload_from_core` (method, line 214) `def test_imports_save_payload_from_core(self, migrated_src)`
+  - `test_imports_format_payload` (method, line 217) `def test_imports_format_payload(self, migrated_src)`
+  - `test_do_assign_calls_apply_assign` (method, line 220) `def test_do_assign_calls_apply_assign(self, migrated_src)`
+  - `test_do_assign_refreshes_aliases` (method, line 225) `def test_do_assign_refreshes_aliases(self, migrated_src)`
+  - `test_do_assign_no_longer_directly_mutates_params` (method, line 230) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
+  - `test_complete_assign_defined` (method, line 236) `def test_complete_assign_defined(self, src)`
+  - `test_complete_assign_reads_self_params` (method, line 239) `def test_complete_assign_reads_self_params(self, src)`
+  - `test_do_show_uses_format_payload` (method, line 243) `def test_do_show_uses_format_payload(self, migrated_src)`
+  - `test_do_payload_refreshes_aliases` (method, line 247) `def test_do_payload_refreshes_aliases(self, migrated_src)`
+  - `_extract_method_body` (method, line 253) `def _extract_method_body(src, name)`
+  - `test_returns_keys_starting_with_text` (method, line 267) `def test_returns_keys_starting_with_text(self)`
+  - `test_no_completion_for_value_position` (method, line 284) `def test_no_completion_for_value_position(self)`
+  - `test_refuses_null_on_required` (method, line 293) `def test_refuses_null_on_required(self)`
+  - `test_warn_saves_invalid_but_present` (method, line 302) `def test_warn_saves_invalid_but_present(self)`
+  - `test_auto_populate_refuses_shell_less_save` (method, line 310) `def test_auto_populate_refuses_shell_less_save(self)`
   - `saver` (function, line 72) `def saver(p)`
-- Depends on: `cli/assign.py`, `cli/commands/mcp_bridge.py`, `cli/show.py`, `core/config.py`
-
-## tests/test_cli_auth_remember.py
-- Doc: Remember-me token comparison must be timing-safe.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `isolated_auth` (function, line 24) `def isolated_auth(tmp_path, monkeypatch)`
-  - `TestRememberMeComparison` (class, line 48) `class TestRememberMeComparison`
-  - `test_valid_token_logs_in` (method, line 49) `def test_valid_token_logs_in(self, isolated_auth)`
-  - `test_wrong_token_rejected` (method, line 63) `def test_wrong_token_rejected(self, isolated_auth)`
-  - `test_comparison_is_timing_safe` (method, line 76) `def test_comparison_is_timing_safe(self)`
-  - `test_save_delegates_to_canonical_writer` (method, line 92) `def test_save_delegates_to_canonical_writer(self)`
-  - `test_save_writes_valid_json_and_audits` (method, line 109) `def test_save_writes_valid_json_and_audits(self, isolated_auth)`
-- Depends on: `modules/cli_auth.py`
-
-## tests/test_cli_command_sets.py
-- Doc: ``cli`` package declarativeness and ``CommandSet`` registration tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 24) `def _add_repo_root_to_syspath()`
-  - `_load_yaml` (function, line 29) `def _load_yaml()`
-  - `_legacy_alias_keys_from_lazyown` (function, line 34) `def _legacy_alias_keys_from_lazyown()`
-  - `TestAliasYamlIntegrity` (class, line 178) `class TestAliasYamlIntegrity`
-  - `TestAliasLoaderSubstitution` (class, line 209) `class TestAliasLoaderSubstitution`
-  - `TestLazyOwnRefactor` (class, line 298) `class TestLazyOwnRefactor`
-  - `TestCommandSetDiscovery` (class, line 325) `class TestCommandSetDiscovery`
-  - `TestRegisterCommandSets` (class, line 357) `class TestRegisterCommandSets`
-  - `TestLazyOwnStillParses` (class, line 395) `class TestLazyOwnStillParses`
-  - `TestPrivateHelperForwarding` (class, line 400) `class TestPrivateHelperForwarding`
-  - `test_rm_wm_host_alias_appends_the_ip_parameter` (function, line 464) `def test_rm_wm_host_alias_appends_the_ip_parameter()`
-  - `test_alias_with_trailing_args_keeps_operator_parameters` (function, line 484) `def test_alias_with_trailing_args_keeps_operator_parameters()`
-  - `test_yaml_loads` (method, line 179) `def test_yaml_loads(self)`
-  - `test_yaml_keys_match_legacy_set` (method, line 184) `def test_yaml_keys_match_legacy_set(self)`
-  - `test_yaml_count_is_125` (method, line 192) `def test_yaml_count_is_125(self)`
-  - `test_all_values_are_strings` (method, line 195) `def test_all_values_are_strings(self)`
-  - `test_vuln_alias_carries_ansi_escape` (method, line 199) `def test_vuln_alias_carries_ansi_escape(self)`
-  - `test_ls_is_unchanged` (method, line 202) `def test_ls_is_unchanged(self)`
-  - `test_q_is_exit` (method, line 205) `def test_q_is_exit(self)`
-  - `test_load_aliases_substitutes_payload_values` (method, line 215) `def test_load_aliases_substitutes_payload_values(self)`
-  - `test_missing_keys_substitute_to_empty_string` (method, line 237) `def test_missing_keys_substitute_to_empty_string(self)`
-  - `test_none_values_substitute_to_empty_string` (method, line 244) `def test_none_values_substitute_to_empty_string(self)`
-  - `test_aliases_with_no_placeholders_unchanged` (method, line 250) `def test_aliases_with_no_placeholders_unchanged(self)`
-  - `test_loader_rejects_non_mapping` (method, line 258) `def test_loader_rejects_non_mapping(self, tmp_path)`
-  - `test_loader_rejects_non_string_value` (method, line 266) `def test_loader_rejects_non_string_value(self, tmp_path)`
-  - `test_loader_handles_empty_file` (method, line 274) `def test_loader_handles_empty_file(self, tmp_path)`
-  - `test_real_yaml_loads_with_real_payload` (method, line 281) `def test_real_yaml_loads_with_real_payload(self)`
-  - `test_lazy_default_preserves_placeholders` (method, line 290) `def test_lazy_default_preserves_placeholders(self)`
-  - `lazyown_text` (method, line 300) `def lazyown_text(self)`
-  - `test_no_inline_aliases_dict_with_entries` (method, line 303) `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)`
-  - `test_imports_cli_aliases_loader` (method, line 312) `def test_imports_cli_aliases_loader(self, lazyown_text)`
-  - `test_imports_cli_registry` (method, line 315) `def test_imports_cli_registry(self, lazyown_text)`
-  - `test_init_populates_aliases_at_runtime` (method, line 318) `def test_init_populates_aliases_at_runtime(self, lazyown_text)`
-  - `test_init_registers_command_sets` (method, line 321) `def test_init_registers_command_sets(self, lazyown_text)`
-  - `test_discovery_excludes_underscore_modules` (method, line 326) `def test_discovery_excludes_underscore_modules(self)`
-  - `test_discovers_diagnostics_pilot` (method, line 332) `def test_discovers_diagnostics_pilot(self)`
-  - `test_pilot_commandset_subclasses_base` (method, line 338) `def test_pilot_commandset_subclasses_base(self)`
-  - `test_pilot_commandset_declares_phase` (method, line 344) `def test_pilot_commandset_declares_phase(self)`
-  - `test_pilot_commandset_has_do_methods` (method, line 349) `def test_pilot_commandset_has_do_methods(self)`
-  - `test_registers_on_a_minimal_cmd2_instance` (method, line 358) `def test_registers_on_a_minimal_cmd2_instance(self)`
-  - `test_register_skips_failing_commandset_without_aborting` (method, line 370) `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)`
-  - `test_ast_parse` (method, line 396) `def test_ast_parse(self)`
-  - `_probe_class` (method, line 410) `def _probe_class(self)`
-  - `_shell_class` (method, line 425) `def _shell_class(self)`
-  - `test_private_helper_inert_before_registration` (method, line 438) `def test_private_helper_inert_before_registration(self)`
-  - `test_private_helper_forwards_after_registration` (method, line 443) `def test_private_helper_forwards_after_registration(self)`
-  - `test_dunder_still_refused_after_registration` (method, line 449) `def test_dunder_still_refused_after_registration(self)`
-  - `test_missing_private_raises_not_utils_fallback` (method, line 456) `def test_missing_private_raises_not_utils_fallback(self)`
-  - `Shell` (class, line 470) `class Shell(Cmd)`
-  - `_Bare` (class, line 363) `class _Bare(Cmd)`
-  - `_ExplosiveCommandSet` (class, line 375) `class _ExplosiveCommandSet(CommandSet)`
-  - `fake_iter` (function, line 379) `def fake_iter()`
-  - `_Bare` (class, line 387) `class _Bare(Cmd)`
-  - `_Probe` (class, line 415) `class _Probe(LazyOwnCommandSet)`
-  - `_Shell` (class, line 428) `class _Shell(Cmd)`
-  - `__init__` (method, line 471) `def __init__(self)`
-  - `do_sh` (method, line 476) `def do_sh(self, line)`
-  - `__init__` (method, line 376) `def __init__(self)`
-  - `do_probe` (method, line 420) `def do_probe(self, line)`
-  - `__init__` (method, line 429) `def __init__(self)`
-  - `_scope_helper` (method, line 433) `def _scope_helper(self)`
-- Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
+- Depends on: `cli/assign.py`, `cli/commands/mcp_bridge.py`, `cli/commands/session_ops.py`, `cli/show.py`, `core/config.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

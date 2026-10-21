@@ -1,4 +1,4 @@
-# API (page 12 of 23)
+# API (page 12 of 24)
 Previous: [API_p11.md](API_p11.md)
 
 ## modules/forensic_cleaner.py

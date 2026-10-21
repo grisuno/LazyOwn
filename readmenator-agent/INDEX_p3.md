@@ -3,6 +3,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
+| `tests/test_lazynmap_sudo_branches.py` | LazyNmap sudo branches: unattended abort vs interactive prompt. | tests | 4 | 0 |
+| `tests/test_legacy_shims.py` | Legacy shim contract plus referenced-script existence. | tests | 5 | 0 |
+| `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
+| `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
+| `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
 | `tests/test_llm_adapter_parity.py` | Parity contract tests for the self-contained Groq adapter family. | tests | 41 | 0 |
 | `tests/test_llm_budget.py` | Contract tests for the LLM budget cap. | tests | 27 | 0 |
 | `tests/test_llm_contract.py` | LLM subsystem contract tests. | tests | 23 | 0 |

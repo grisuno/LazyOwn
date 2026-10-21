@@ -1,8 +1,63 @@
-# Symbols (page 27 of 43)
+# Symbols (page 27 of 44)
 Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_make_db` | function | `skills/tests/test_parquet_db.py:67` | `def _make_db(tmp_path)` |
+| `_setup_two_phases` | method | `skills/tests/test_parquet_db.py:277` | `def _setup_two_phases(self, tmp_path)` |
+| `_setup_with_one_row` | method | `skills/tests/test_parquet_db.py:178` | `def _setup_with_one_row(self, tmp_path)` |
+| `_write_csv` | function | `skills/tests/test_parquet_db.py:56` | `def _write_csv(path, rows)` |
+| `test_annotate` | method | `skills/tests/test_parquet_db.py:198` | `def test_annotate(self, tmp_path)` |
+| `test_annotate_category` | method | `skills/tests/test_parquet_db.py:208` | `def test_annotate_category(self, tmp_path)` |
+| `test_annotate_missing_id` | method | `skills/tests/test_parquet_db.py:217` | `def test_annotate_missing_id(self, tmp_path)` |
+| `test_annotate_rich_explicit_finding_type` | method | `skills/tests/test_parquet_db.py:265` | `def test_annotate_rich_explicit_finding_type(self, tmp_path)` |
+| `test_annotate_rich_finding_type_credential` | method | `skills/tests/test_parquet_db.py:223` | `def test_annotate_rich_finding_type_credential(self, tmp_path)` |
+| `test_annotate_rich_finding_type_hash` | method | `skills/tests/test_parquet_db.py:243` | `def test_annotate_rich_finding_type_hash(self, tmp_path)` |
+| `test_annotate_rich_finding_type_vulnerability` | method | `skills/tests/test_parquet_db.py:233` | `def test_annotate_rich_finding_type_vulnerability(self, tmp_path)` |
+| `test_annotate_rich_output_snippet_truncated` | method | `skills/tests/test_parquet_db.py:256` | `def test_annotate_rich_output_snippet_truncated(self, tmp_path)` |
+| `test_query_knowledge_keyword_binarios` | method | `skills/tests/test_parquet_db.py:390` | `def test_query_knowledge_keyword_binarios(self, tmp_path)` |
+| `test_query_knowledge_no_match` | method | `skills/tests/test_parquet_db.py:370` | `def test_query_knowledge_no_match(self, tmp_path)` |
+| `test_query_knowledge_session_parquet` | method | `skills/tests/test_parquet_db.py:352` | `def test_query_knowledge_session_parquet(self, tmp_path)` |
+| `test_query_session_empty` | method | `skills/tests/test_parquet_db.py:328` | `def test_query_session_empty(self, tmp_path)` |
+| `test_query_session_filter` | method | `skills/tests/test_parquet_db.py:306` | `def test_query_session_filter(self, tmp_path)` |
+| `test_query_session_no_filter` | method | `skills/tests/test_parquet_db.py:322` | `def test_query_session_no_filter(self, tmp_path)` |
+| `test_query_session_scanning_filter` | method | `skills/tests/test_parquet_db.py:314` | `def test_query_session_scanning_filter(self, tmp_path)` |
+| `test_query_session_target_filter` | method | `skills/tests/test_parquet_db.py:334` | `def test_query_session_target_filter(self, tmp_path)` |
+| `test_schema_cols` | method | `skills/tests/test_parquet_db.py:155` | `def test_schema_cols(self, tmp_path)` |
+| `test_stable_id_deterministic` | method | `skills/tests/test_parquet_db.py:402` | `def test_stable_id_deterministic(self)` |
+| `test_stable_id_different_inputs` | method | `skills/tests/test_parquet_db.py:408` | `def test_stable_id_different_inputs(self)` |
+| `test_stable_id_length` | method | `skills/tests/test_parquet_db.py:414` | `def test_stable_id_length(self)` |
+| `test_sync_from_csv` | method | `skills/tests/test_parquet_db.py:92` | `def test_sync_from_csv(self, tmp_path)` |
+| `test_sync_idempotent` | method | `skills/tests/test_parquet_db.py:140` | `def test_sync_idempotent(self, tmp_path)` |
+| `test_sync_missing_csv` | method | `skills/tests/test_parquet_db.py:170` | `def test_sync_missing_csv(self, tmp_path)` |
+| `test_sync_skips_empty_command` | method | `skills/tests/test_parquet_db.py:121` | `def test_sync_skips_empty_command(self, tmp_path)` |
+| `AutonomousAgent` | class | `skills/toposwarm_autonomous.py:309` | `class AutonomousAgent` |
+| `PentestState` | class | `skills/toposwarm_autonomous.py:127` | `class PentestState` |
+| `__init__` | method | `skills/toposwarm_autonomous.py:310` | `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)` |
+| `_enum_goals` | function | `skills/toposwarm_autonomous.py:286` | `def _enum_goals(state)` |
+| `_execute_goal` | method | `skills/toposwarm_autonomous.py:347` | `def _execute_goal(self, goal, phase_name)` |
+| `_load_payload` | function | `skills/toposwarm_autonomous.py:479` | `def _load_payload()` |
+| `_parse_output` | function | `skills/toposwarm_autonomous.py:181` | `def _parse_output(output, state, phase_name)` |
+| `_phase_goals` | function | `skills/toposwarm_autonomous.py:233` | `def _phase_goals(phase_idx, state, effort)` |
+| `_run_phase` | method | `skills/toposwarm_autonomous.py:386` | `def _run_phase(self, phase_idx)` |
+| `_save_state` | method | `skills/toposwarm_autonomous.py:418` | `def _save_state(self)` |
+| `add_finding` | method | `skills/toposwarm_autonomous.py:145` | `def add_finding(self, phase_name, text)` |
+| `main` | function | `skills/toposwarm_autonomous.py:489` | `def main(argv)` |
+| `run` | method | `skills/toposwarm_autonomous.py:432` | `def run(self, start_phase)` |
+| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
+| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
+| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
+| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
+| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
+| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
+| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
+| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
+| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
+| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
+| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
+| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
+| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
+| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
 | `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
 | `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
 | `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
@@ -441,60 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `R` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 | `RadialGradient` | function | `static/js/html2pdf.bundle.min.js:5102` | `` |
 | `Renderer` | function | `static/js/html2pdf.bundle.min.js:5525` | `` |
-| `Renderer` | function | `static/js/html2pdf.bundle.min.js:5526` | `` |
-| `ResourceLoader` | function | `static/js/html2pdf.bundle.min.js:5908` | `` |
-| `ResourceLoader` | function | `static/js/html2pdf.bundle.min.js:5909` | `` |
-| `ResourceStore` | function | `static/js/html2pdf.bundle.min.js:6093` | `` |
-| `SUPPORT_BASE64_DRAWING` | method | `static/js/html2pdf.bundle.min.js:2845` | `` |
-| `SUPPORT_CORS_IMAGES` | method | `static/js/html2pdf.bundle.min.js:2861` | `` |
-| `SUPPORT_CORS_XHR` | method | `static/js/html2pdf.bundle.min.js:2873` | `` |
-| `SUPPORT_FOREIGNOBJECT_DRAWING` | method | `static/js/html2pdf.bundle.min.js:2855` | `` |
-| `SUPPORT_RANGE_BOUNDS` | method | `static/js/html2pdf.bundle.min.js:2833` | `` |
-| `SUPPORT_RESPONSE_TYPE` | method | `static/js/html2pdf.bundle.min.js:2867` | `` |
-| `SUPPORT_SVG_DRAWING` | method | `static/js/html2pdf.bundle.min.js:2839` | `` |
-| `Size` | function | `static/js/html2pdf.bundle.min.js:1014` | `` |
-| `Size` | function | `static/js/html2pdf.bundle.min.js:1014` | `` |
-| `St` | function | `static/js/html2pdf.bundle.min.js:217` | `` |
-| `StackingContext` | function | `static/js/html2pdf.bundle.min.js:4775` | `` |
-| `StackingContext` | function | `static/js/html2pdf.bundle.min.js:4776` | `` |
-| `T` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `T` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
-| `TextBounds` | function | `static/js/html2pdf.bundle.min.js:3914` | `` |
-| `TextContainer` | function | `static/js/html2pdf.bundle.min.js:3990` | `` |
-| `TextContainer` | function | `static/js/html2pdf.bundle.min.js:3991` | `` |
-| `Trie` | function | `static/js/html2pdf.bundle.min.js:3100` | `` |
-| `U` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Vector` | function | `static/js/html2pdf.bundle.min.js:1035` | `` |
-| `Vector` | function | `static/js/html2pdf.bundle.min.js:1035` | `` |
-| `Worker` | function | `static/js/html2pdf.bundle.min.js:8566` | `` |
-| `Worker` | function | `static/js/html2pdf.bundle.min.js:8566` | `` |
-| `_catch` | function | `static/js/html2pdf.bundle.min.js:8440` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:248` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:587` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:841` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:942` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:1012` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:1033` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:1064` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:1125` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:1382` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:2626` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:3018` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:3211` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:3912` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:3988` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:4046` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:4582` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:4773` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:4931` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5068` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5523` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:5906` | `` |
-| `_classCallCheck` | function | `static/js/html2pdf.bundle.min.js:6518` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:246` | `` |
-| `_createClass` | method | `static/js/html2pdf.bundle.min.js:312` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:581` | `` |
-| `_createClass` | method | `static/js/html2pdf.bundle.min.js:606` | `` |
-| `_createClass` | function | `static/js/html2pdf.bundle.min.js:839` | `` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

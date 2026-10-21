@@ -1,4 +1,4 @@
-# API (page 8 of 23)
+# API (page 8 of 24)
 Previous: [API_p7.md](API_p7.md)
 
 ## lazyc2/blueprints/api.py

@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `StructuredLogger` | class | `core/logging.py:139` | `class StructuredLogger(Logger)` |
 | `_ConsoleFormatter` | class | `core/logging.py:121` | `class _ConsoleFormatter(Formatter)` |
 | `_JsonLineFormatter` | class | `core/logging.py:71` | `class _JsonLineFormatter(Formatter)` |
 | `__init__` | method | `core/logging.py:74` | `def __init__(self, redacted_fields)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `save_cves` | function | `lazyc2.py:1078` | `def save_cves(cves)` |
 | `save_note` | function | `lazyc2.py:1142` | `def save_note(content)` |
 | `save_routes` | function | `lazyc2.py:492` | `def save_routes(routes)` |
-| `save_short_urls` | function | `lazyc2.py:2270` | `def save_short_urls(data)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

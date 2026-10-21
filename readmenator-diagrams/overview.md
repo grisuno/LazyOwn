@@ -96,6 +96,7 @@ graph LR
     modules_polymorphic_engine -- "calls into" --> modules_lazyc2
     modules_polymorphic_engine -- "calls into" --> lazygui_panels
     contrib_legacy -- "calls into" --> poc_tui
+    contrib_legacy -- "calls into" --> modules_lazy_loop
     tests -- "calls into" --> poc_tui
     tests -- "calls into" --> modules_lazy_loop
     scripts_journal -- "calls into" --> poc_tui
@@ -239,7 +240,7 @@ graph LR
 
 ## Details
 
-Static architecture map of 1130 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 24 components: modules: autonomous_daemon, cli/commands: utils, modules: lazy_loop, cli, modules: lazyc2, lazygui/panels, static/js, modules: lazyown_facts. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 1134 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 24 components: modules: autonomous_daemon, cli/commands: utils, modules: lazy_loop, cli, modules: lazyc2, lazygui/panels, static/js, modules: lazyown_facts. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### modules: autonomous_daemon (1)
 
@@ -273,7 +274,7 @@ cli/commands: utils groups 146 files (c, py) around needs_sudo, sudo_available, 
 
 ### modules: lazy_loop (3)
 
-modules: lazy_loop groups 112 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
+modules: lazy_loop groups 115 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 **Related Classes/Methods**:
 
@@ -348,18 +349,18 @@ static/js groups 39 files (c, js, py, sh) around FieldKind, Severity, FieldSpec,
 
 ### modules: lazyown_facts (8)
 
-modules: lazyown_facts groups 31 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 32 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 **Related Classes/Methods**:
 
-- <a href="../modules/chain_registry.py#L55-L81">modules/chain_registry.py::ChainStep</a>
-- <a href="../modules/chain_registry.py#L82-L87">modules/chain_registry.py::identifier</a>
-- <a href="../modules/chain_registry.py#L88-L103">modules/chain_registry.py::Chain</a>
-- <a href="../modules/chain_registry.py#L104-L158">modules/chain_registry.py::resolve</a>
-- <a href="../modules/chain_registry.py#L159-L187">modules/chain_registry.py::_render</a>
-- <a href="../modules/chain_registry.py#L188-L214">modules/chain_registry.py::_when_tree</a>
-- <a href="../modules/chain_registry.py#L215-L236">modules/chain_registry.py::evaluate_when</a>
-- <a href="../modules/chain_registry.py#L237-L279">modules/chain_registry.py::_eval</a>
+- <a href="../modules/chain_registry.py#L55-L83">modules/chain_registry.py::ChainStep</a>
+- <a href="../modules/chain_registry.py#L84-L89">modules/chain_registry.py::identifier</a>
+- <a href="../modules/chain_registry.py#L90-L106">modules/chain_registry.py::Chain</a>
+- <a href="../modules/chain_registry.py#L107-L163">modules/chain_registry.py::resolve</a>
+- <a href="../modules/chain_registry.py#L164-L192">modules/chain_registry.py::_render</a>
+- <a href="../modules/chain_registry.py#L193-L219">modules/chain_registry.py::_when_tree</a>
+- <a href="../modules/chain_registry.py#L220-L241">modules/chain_registry.py::evaluate_when</a>
+- <a href="../modules/chain_registry.py#L242-L284">modules/chain_registry.py::_eval</a>
 
 ### cli/commands: c2_profile_engine (9)
 

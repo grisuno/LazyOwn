@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_propose_and_steps_skip_unavailable_verbs` | function | `tests/test_auto_registry.py:144` | `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)` |
+| `test_propose_and_translate_roundtrip` | function | `tests/test_auto_registry.py:63` | `def test_propose_and_translate_roundtrip()` |
+| `test_registry_covers_auto_family` | function | `tests/test_auto_registry.py:28` | `def test_registry_covers_auto_family()` |
+| `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
+| `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
+| `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
+| `boom` | function | `tests/test_autonomous_ops.py:101` | `def boom(_prompt)` |
+| `test_c04_dedup_anchor_coverage` | function | `tests/test_autonomous_ops.py:11` | `def test_c04_dedup_anchor_coverage()` |
+| `test_c04_mirror_to_campaign_db` | function | `tests/test_autonomous_ops.py:26` | `def test_c04_mirror_to_campaign_db(tmp_path)` |
+| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:43` | `def test_c05_frontier_emits_once_then_empty()` |
+| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:58` | `def test_c05_todo_blocks_lateral_until_creds()` |
+| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:70` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
+| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:98` | `def test_c07_pool_failover_and_exhaustion()` |
+| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:116` | `def test_c08_notify_filter_and_redact()` |
+| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:128` | `def test_c09_side_question_isolated()` |
+| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:159` | `def test_c10_rollback_restores_previous(tmp_path)` |
+| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:143` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
+| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:186` | `def test_i2_pool_hard_trips_on_auth_errors()` |
+| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:171` | `def test_i2_shared_registry_survives_rebuilds()` |
+| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:194` | `def test_i3_classify_retest_verdicts()` |
+| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:203` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
+| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:224` | `def test_i4_shared_engine_cooldown()` |
+| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:232` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
+| `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
+| `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
+| `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
+| `_event` | function | `tests/test_autonomous_replay.py:40` | `def _event(event_id, objective_id, step, command, source, seed_override)` |
+| `_write_jsonl` | function | `tests/test_autonomous_replay.py:65` | `def _write_jsonl(path, events)` |
+| `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
+| `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
+| `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
+| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
+| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
+| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
+| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
+| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
+| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
+| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
+| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
+| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
+| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
+| `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
+| `_FakeAdvisor` | class | `tests/test_autosuggest.py:203` | `class _FakeAdvisor` |
 | `_RaisingProvider` | class | `tests/test_autosuggest.py:52` | `class _RaisingProvider` |
 | `_SequenceProvider` | class | `tests/test_autosuggest.py:339` | `class _SequenceProvider` |
 | `_StaticProvider` | class | `tests/test_autosuggest.py:42` | `class _StaticProvider` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:191` | `def test_serialization_roundtrip(self)` |
 | `test_single_slot_always_active` | method | `tests/test_c2_profile_engine.py:219` | `def test_single_slot_always_active(self)` |
 | `test_validate_all_returns_dict` | method | `tests/test_c2_profile_engine.py:383` | `def test_validate_all_returns_dict(self)` |
-| `test_validate_dns_disabled_skips` | method | `tests/test_c2_profile_engine.py:339` | `def test_validate_dns_disabled_skips(self)` |
-| `test_validate_dns_enabled_missing_domain` | method | `tests/test_c2_profile_engine.py:327` | `def test_validate_dns_enabled_missing_domain(self)` |
-| `test_validate_dns_invalid_domain_format` | method | `tests/test_c2_profile_engine.py:344` | `def test_validate_dns_invalid_domain_format(self)` |
-| `test_validate_dns_invalid_encoding` | method | `tests/test_c2_profile_engine.py:333` | `def test_validate_dns_invalid_encoding(self)` |
-| `test_validate_smb_disabled_skips` | method | `tests/test_c2_profile_engine.py:356` | `def test_validate_smb_disabled_skips(self)` |
-| `test_validate_smb_missing_pipe_name` | method | `tests/test_c2_profile_engine.py:350` | `def test_validate_smb_missing_pipe_name(self)` |
-| `test_validate_smb_username_without_domain` | method | `tests/test_c2_profile_engine.py:361` | `def test_validate_smb_username_without_domain(self)` |
-| `test_validate_tls_disabled_skips` | method | `tests/test_c2_profile_engine.py:297` | `def test_validate_tls_disabled_skips(self)` |
-| `test_validate_tls_invalid_version` | method | `tests/test_c2_profile_engine.py:302` | `def test_validate_tls_invalid_version(self)` |
-| `test_validate_tls_missing_key_with_cert` | method | `tests/test_c2_profile_engine.py:308` | `def test_validate_tls_missing_key_with_cert(self)` |
-| `test_validate_tls_unknown_library` | method | `tests/test_c2_profile_engine.py:318` | `def test_validate_tls_unknown_library(self)` |
-| `test_validate_tls_valid` | method | `tests/test_c2_profile_engine.py:292` | `def test_validate_tls_valid(self)` |
-| `test_validate_websocket_disabled_skips` | method | `tests/test_c2_profile_engine.py:378` | `def test_validate_websocket_disabled_skips(self)` |
-| `test_validate_websocket_invalid_protocol` | method | `tests/test_c2_profile_engine.py:372` | `def test_validate_websocket_invalid_protocol(self)` |
-| `_route_decorators` | function | `tests/test_c2_route_auth.py:75` | `def _route_decorators()` |
-| `routes` | function | `tests/test_c2_route_auth.py:106` | `def routes()` |
-| `test_all_protected_endpoints_exist` | function | `tests/test_c2_route_auth.py:120` | `def test_all_protected_endpoints_exist(routes)` |
-| `test_protected_endpoints_require_auth` | function | `tests/test_c2_route_auth.py:110` | `def test_protected_endpoints_require_auth(routes)` |
-| `test_public_endpoints_stay_open` | function | `tests/test_c2_route_auth.py:115` | `def test_public_endpoints_stay_open(routes)` |
-| `TestLazyShellProxy` | class | `tests/test_c2_shell_lazy.py:103` | `class TestLazyShellProxy` |
-| `TestNoEagerCliBuild` | class | `tests/test_c2_shell_lazy.py:62` | `class TestNoEagerCliBuild` |
-| `_FakeShell` | class | `tests/test_c2_shell_lazy.py:40` | `class _FakeShell` |
-| `__init__` | method | `tests/test_c2_shell_lazy.py:41` | `def __init__(self)` |
-| `_init_shell` | function | `tests/test_c2_shell_lazy.py:51` | `def _init_shell()` |
-| `_load_proxy_class` | function | `tests/test_c2_shell_lazy.py:25` | `def _load_proxy_class()` |
-| `_module_tree` | function | `tests/test_c2_shell_lazy.py:21` | `def _module_tree()` |
-| `one_cmd` | method | `tests/test_c2_shell_lazy.py:45` | `def one_cmd(self, command)` |
-| `test_lazy_accessor_with_boot_sequence` | method | `tests/test_c2_shell_lazy.py:88` | `def test_lazy_accessor_with_boot_sequence(self)` |
-| `test_no_eager_shell_build` | method | `tests/test_c2_shell_lazy.py:76` | `def test_no_eager_shell_build(self)` |
-| `test_no_lazyown_import_at_top_level` | method | `tests/test_c2_shell_lazy.py:63` | `def test_no_lazyown_import_at_top_level(self)` |
-| `test_reads_forward_and_share_target` | method | `tests/test_c2_shell_lazy.py:104` | `def test_reads_forward_and_share_target(self)` |
-| `test_shell_output_attribute` | method | `tests/test_c2_shell_lazy.py:118` | `def test_shell_output_attribute(self)` |
-| `test_writes_forward` | method | `tests/test_c2_shell_lazy.py:111` | `def test_writes_forward(self)` |
-| `_StubWM` | class | `tests/test_c2_surfaces.py:103` | `class _StubWM` |
-| `_refused` | function | `tests/test_c2_surfaces.py:132` | `def _refused()` |
-| `_sandbox` | function | `tests/test_c2_surfaces.py:23` | `def _sandbox(tmp_path)` |
-| `_slow` | function | `tests/test_c2_surfaces.py:141` | `def _slow()` |
-| `test_append_note_never_clobbers` | function | `tests/test_c2_surfaces.py:56` | `def test_append_note_never_clobbers(tmp_path)` |
-| `test_group_tasks_unique_hits` | function | `tests/test_c2_surfaces.py:77` | `def test_group_tasks_unique_hits(tmp_path)` |
-| `test_lazyreport_errors_are_actionable` | function | `tests/test_c2_surfaces.py:122` | `def test_lazyreport_errors_are_actionable(monkeypatch)` |
-| `test_publish_banner_dedupes` | function | `tests/test_c2_surfaces.py:30` | `def test_publish_banner_dedupes(tmp_path)` |
-| `test_publish_cve_validates_and_dedupes` | function | `tests/test_c2_surfaces.py:42` | `def test_publish_cve_validates_and_dedupes(tmp_path)` |
-| `test_record_outcome_feeds_c2_surfaces` | function | `tests/test_c2_surfaces.py:95` | `def test_record_outcome_feeds_c2_surfaces(tmp_path, monkeypatch)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

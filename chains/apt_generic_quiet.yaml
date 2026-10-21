@@ -1,0 +1,39 @@
+name: apt_generic_quiet
+version: 2
+description: Quieter fallback for apt_generic (text-mode scans, conservative timings)
+enabled: true
+tags:
+  - generic
+  - fallback
+platforms:
+  - linux
+  - windows
+  - macos
+  - bsd
+total_timeout: 2400
+steps:
+  - id: reach_quiet
+    run: ping -c 1 {target}
+    phase: recon
+    description: single echo before the quiet scan
+    timeout: 60
+  - id: scan_quiet
+    run: nmap -Pn -sT -T2 --top-ports 100 {target}
+    phase: recon
+    description: timing-2 bulk scan, no service probes
+    timeout: 1800
+    pre_check: ping -c 1 {target}
+  - id: smb_quiet
+    run: nmap -Pn -sT -p 445 --script smb-protocols.nse {target}
+    phase: recon
+    description: independent quiet SMB probe (parallel with web_quiet)
+    timeout: 300
+    continue_on_error: true
+    parallel: true
+  - id: web_quiet
+    run: whatweb http://{target}
+    phase: recon
+    description: independent quiet web fingerprint (parallel with smb_quiet)
+    timeout: 300
+    continue_on_error: true
+    parallel: true

@@ -1,6 +1,13 @@
 # API (page 15 of 24)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/memory_embeddings.py
+Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
+- `embed` (function) `modules/memory_embeddings.py:50` `def embed(text)` -- Map text to a normalised 512-float histogram BLOB.
+- `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
+- `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
+- `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
+
 ## modules/memory_store.py
 Depends on: `modules/memory_embeddings.py`
 Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`

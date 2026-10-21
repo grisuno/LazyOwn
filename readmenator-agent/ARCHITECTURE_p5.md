@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_daemon_loop.py` -> `skills/lazyown_objective.py`
+- `tests/test_dashboard_routes.py` -> `modules/dashboard_bp.py`
+- `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
+- `tests/test_db.py` -> `modules/db.py`
+- `tests/test_dependencies.py` -> `core/dependencies.py`
+- `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 - `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
 - `tests/test_doctor.py` -> `cli/__init__.py`
 - `tests/test_doctor.py` -> `cli/wizard.py`
@@ -230,12 +236,14 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_loop_force_graph.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_guard_audit.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_guard_audit.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_guardrails.py` -> `modules/loop_guardrails.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`
 - `tests/test_loop_mentions.py` -> `modules/__init__.py`
+- `tests/test_loop_multi_target.py` -> `modules/lazy_runner.py`
 - `tests/test_loop_nmap_guard.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_nmap_guard.py` -> `modules/lazy_runner.py`
 - `tests/test_loop_progress.py` -> `core/console.py`

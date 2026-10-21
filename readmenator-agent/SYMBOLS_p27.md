@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_store_returns_id` | method | `skills/tests/test_hive_mind.py:169` | `def test_store_returns_id(self)` |
+| `test_store_returns_nonempty_id` | method | `skills/tests/test_hive_mind.py:82` | `def test_store_returns_nonempty_id(self)` |
+| `test_synthesize_structure` | method | `skills/tests/test_hive_mind.py:489` | `def test_synthesize_structure(self)` |
+| `test_upsert_and_load_all` | method | `skills/tests/test_hive_mind.py:700` | `def test_upsert_and_load_all(self)` |
+| `test_upsert_updates_existing` | method | `skills/tests/test_hive_mind.py:709` | `def test_upsert_updates_existing(self)` |
+| `check` | function | `skills/tests/test_mcp_smoke.py:23` | `def check(label, cond, hint)` |
+| `main` | function | `skills/tests/test_mcp_smoke.py:96` | `def main()` |
+| `test_list_tools_returns_tools` | function | `skills/tests/test_mcp_smoke.py:61` | `def test_list_tools_returns_tools(mcp)` |
+| `test_mcp_module_imports` | function | `skills/tests/test_mcp_smoke.py:34` | `def test_mcp_module_imports()` |
+| `test_mcp_wellknown_symbols` | function | `skills/tests/test_mcp_smoke.py:47` | `def test_mcp_wellknown_symbols(mcp)` |
+| `TestObjectiveStore` | class | `skills/tests/test_objectives.py:51` | `class TestObjectiveStore` |
+| `TestSoulUpdater` | class | `skills/tests/test_objectives.py:204` | `class TestSoulUpdater` |
+| `_soul_updater` | function | `skills/tests/test_objectives.py:36` | `def _soul_updater(tmp_path)` |
+| `_store` | function | `skills/tests/test_objectives.py:31` | `def _store(tmp_path)` |
+| `test_block` | method | `skills/tests/test_objectives.py:129` | `def test_block(self, tmp_path)` |
+| `test_cleanup_critical_never_expires` | method | `skills/tests/test_objectives.py:182` | `def test_cleanup_critical_never_expires(self, tmp_path)` |
+| `test_cleanup_medium_72h_ttl` | method | `skills/tests/test_objectives.py:166` | `def test_cleanup_medium_72h_ttl(self, tmp_path)` |
+| `test_complete` | method | `skills/tests/test_objectives.py:119` | `def test_complete(self, tmp_path)` |
+| `test_dedup` | method | `skills/tests/test_objectives.py:62` | `def test_dedup(self, tmp_path)` |
+| `test_inject_basic` | method | `skills/tests/test_objectives.py:52` | `def test_inject_basic(self, tmp_path)` |
+| `test_inject_invalid_priority_defaults_medium` | method | `skills/tests/test_objectives.py:140` | `def test_inject_invalid_priority_defaults_medium(self, tmp_path)` |
+| `test_list_pending_empty` | method | `skills/tests/test_objectives.py:146` | `def test_list_pending_empty(self, tmp_path)` |
+| `test_next_pending_fifo_same_priority` | method | `skills/tests/test_objectives.py:109` | `def test_next_pending_fifo_same_priority(self, tmp_path)` |
+| `test_next_pending_none_when_empty` | method | `skills/tests/test_objectives.py:151` | `def test_next_pending_none_when_empty(self, tmp_path)` |
+| `test_next_pending_priority` | method | `skills/tests/test_objectives.py:99` | `def test_next_pending_priority(self, tmp_path)` |
+| `test_objectives_persist_on_disk` | method | `skills/tests/test_objectives.py:156` | `def test_objectives_persist_on_disk(self, tmp_path)` |
+| `test_soul_updater_appends_new_section` | method | `skills/tests/test_objectives.py:293` | `def test_soul_updater_appends_new_section(self, tmp_path)` |
+| `test_soul_updater_credentials_hash` | method | `skills/tests/test_objectives.py:231` | `def test_soul_updater_credentials_hash(self, tmp_path)` |
+| `test_soul_updater_credentials_username_only` | method | `skills/tests/test_objectives.py:241` | `def test_soul_updater_credentials_username_only(self, tmp_path)` |
+| `test_soul_updater_empty_creds_noop` | method | `skills/tests/test_objectives.py:285` | `def test_soul_updater_empty_creds_noop(self, tmp_path)` |
+| `test_soul_updater_patch_line` | method | `skills/tests/test_objectives.py:205` | `def test_soul_updater_patch_line(self, tmp_path)` |
+| `test_soul_updater_patch_replaces_existing` | method | `skills/tests/test_objectives.py:274` | `def test_soul_updater_patch_replaces_existing(self, tmp_path)` |
+| `test_soul_updater_section` | method | `skills/tests/test_objectives.py:223` | `def test_soul_updater_section(self, tmp_path)` |
+| `test_soul_updater_section_access` | method | `skills/tests/test_objectives.py:257` | `def test_soul_updater_section_access(self, tmp_path)` |
+| `test_soul_updater_section_os` | method | `skills/tests/test_objectives.py:249` | `def test_soul_updater_section_os(self, tmp_path)` |
+| `test_soul_updater_target_line` | method | `skills/tests/test_objectives.py:216` | `def test_soul_updater_target_line(self, tmp_path)` |
+| `test_soul_updater_vulnerabilities` | method | `skills/tests/test_objectives.py:265` | `def test_soul_updater_vulnerabilities(self, tmp_path)` |
+| `test_ttl_expiry` | method | `skills/tests/test_objectives.py:74` | `def test_ttl_expiry(self, tmp_path)` |
+| `TestParquetDBAnnotate` | class | `skills/tests/test_parquet_db.py:177` | `class TestParquetDBAnnotate` |
+| `TestParquetDBQueryKnowledge` | class | `skills/tests/test_parquet_db.py:351` | `class TestParquetDBQueryKnowledge` |
+| `TestParquetDBQuerySession` | class | `skills/tests/test_parquet_db.py:276` | `class TestParquetDBQuerySession` |
+| `TestParquetDBSync` | class | `skills/tests/test_parquet_db.py:91` | `class TestParquetDBSync` |
+| `TestStableId` | class | `skills/tests/test_parquet_db.py:401` | `class TestStableId` |
 | `_make_db` | function | `skills/tests/test_parquet_db.py:67` | `def _make_db(tmp_path)` |
 | `_setup_two_phases` | method | `skills/tests/test_parquet_db.py:277` | `def _setup_two_phases(self, tmp_path)` |
 | `_setup_with_one_row` | method | `skills/tests/test_parquet_db.py:178` | `def _setup_with_one_row(self, tmp_path)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `v` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
 | `y` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
 | `B` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
-| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
-| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1070` | `` |
-| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1071` | `` |
-| `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:78` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:599` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:600` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:295` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:296` | `` |
-| `D` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `DocumentCloner` | function | `static/js/html2pdf.bundle.min.js:6523` | `` |
-| `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
-| `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2629` | `` |
-| `I` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Length` | function | `static/js/html2pdf.bundle.min.js:949` | `` |
-| `Length` | function | `static/js/html2pdf.bundle.min.js:950` | `` |
-| `LineBreaker` | function | `static/js/html2pdf.bundle.min.js:3766` | `` |
-| `LinearGradient` | function | `static/js/html2pdf.bundle.min.js:5094` | `` |
-| `Logger` | function | `static/js/html2pdf.bundle.min.js:843` | `` |
-| `Logger` | function | `static/js/html2pdf.bundle.min.js:844` | `` |
-| `M` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `NodeContainer` | function | `static/js/html2pdf.bundle.min.js:4586` | `` |
-| `NodeContainer` | function | `static/js/html2pdf.bundle.min.js:4587` | `` |
-| `NodeParser` | function | `static/js/html2pdf.bundle.min.js:4832` | `` |
-| `O` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `P` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Promise` | class | `static/js/html2pdf.bundle.min.js:8236` | `` |
-| `Promise` | function | `static/js/html2pdf.bundle.min.js:8243` | `` |
-| `Proxy` | function | `static/js/html2pdf.bundle.min.js:5833` | `` |
-| `R` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `RadialGradient` | function | `static/js/html2pdf.bundle.min.js:5102` | `` |
-| `Renderer` | function | `static/js/html2pdf.bundle.min.js:5525` | `` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

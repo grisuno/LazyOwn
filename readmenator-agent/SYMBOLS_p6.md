@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `SessionsBrowserState` | class | `cli/sessions_browser.py:225` | `class SessionsBrowserState` |
 | `SessionsIndex` | class | `cli/sessions_browser.py:85` | `class SessionsIndex` |
 | `_SessionsBrowserApp` | class | `cli/sessions_browser.py:325` | `class _SessionsBrowserApp(App)` |
 | `__init__` | method | `cli/sessions_browser.py:88` | `def __init__(self, config, root)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `cleanup_temp_files` | function | `contrib/legacy/lazygptcli.py:164` | `def cleanup_temp_files()` |
 | `configure_logging` | function | `contrib/legacy/lazygptcli.py:83` | `def configure_logging(debug)` |
 | `create_complex_prompt` | function | `contrib/legacy/lazygptcli.py:94` | `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)` |
-| `execute_command` | function | `contrib/legacy/lazygptcli.py:108` | `def execute_command(command)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

@@ -14,7 +14,7 @@ import shlex
 from dataclasses import dataclass, field
 from typing import Any
 
-from modules.chain_registry import Chain
+from modules.chain_registry import Chain, ChainStep
 from modules.chain_runner import ChainRunResult, ReplanContext
 from modules.chain_state import list_checkpoints
 
@@ -396,6 +396,77 @@ def _step_from_decision(command: str, outcome: Any, executed_count: int):
     )
 
 
+def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: str = "") -> Chain | None:
+    """Ask the LLM pool for a temporary recovery chain after a failed run.
+
+    The prompt carries the original objective shape (chain name and
+    target), the steps that already succeeded and the failed steps with
+    their last errors. The model proposes up to three alternative shell
+    commands; each becomes a ``continue_on_error`` step so one bad
+    suggestion cannot abort the whole recovery. Returns None when the
+    pool is unavailable or replies nothing usable.
+    """
+    failed = [outcome for outcome in result.steps if not outcome.ok]
+    if not failed:
+        return None
+    try:
+        from modules.lazy_loop import LlmPool
+
+        pool = LlmPool()
+        if not pool.members():
+            return None
+    except Exception:
+        return None
+    ok_ids = [outcome.id for outcome in result.steps if outcome.ok][:8]
+    failed_lines = "\n".join(
+        f"- {outcome.id}: {outcome.run[:160]} ({outcome.status}: {outcome.reason[:120]})"
+        for outcome in failed[:5]
+    )
+    prompt = (
+        f"The APT chain '{result.name}' against {target or result.target} failed.\n"
+        f"Steps already ok: {', '.join(ok_ids) or 'none'}.\n"
+        f"Failed steps:\n{failed_lines}\n"
+        "Propose up to 3 alternative shell commands that recover the objective, "
+        "one per line, no numbering, no explanations. Use only tools installed "
+        "on this host. Never leave the authorized target. Never use sudo."
+    )
+    try:
+        reply = pool.complete(prompt, max_tokens=300, task_id=task_id) or ""
+    except Exception:
+        return None
+    commands: list[str] = []
+    for raw in reply.splitlines():
+        command = raw.strip().strip("`").strip()
+        head = command.split(maxsplit=1)[0].lower() if command else ""
+        if len(command) < 4 or len(command) > 300 or command.startswith("#"):
+            continue
+        if head in ("sudo", "apt_chain"):
+            continue
+        if command not in commands:
+            commands.append(command)
+        if len(commands) >= 3:
+            break
+    if not commands:
+        return None
+    steps = [
+        ChainStep(
+            run=command,
+            id=f"recovery_{index + 1}",
+            phase="replan",
+            description=f"LLM recovery step {index + 1}",
+            timeout=300,
+            continue_on_error=True,
+        )
+        for index, command in enumerate(commands)
+    ]
+    return Chain(
+        name=f"{result.name}_recovery",
+        description=f"LLM-generated recovery for {result.name}",
+        defaults={"target": target or result.target},
+        steps=steps,
+    )
+
+
 def _platform() -> str:
     """Guess the loop platform from the payload configuration."""
     import json
@@ -412,6 +483,7 @@ def _platform() -> str:
 __all__ = [
     "ChainArgs",
     "build_cli_approver",
+    "build_llm_recovery_chain",
     "build_reactive_replanner",
     "parse_chain_args",
     "render_result",

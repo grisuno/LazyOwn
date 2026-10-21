@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/graph_overlay.py` -> `core/text_utils.py`
 - `cli/killchain.py` -> `modules/killchain.py`
 - `cli/lazy_monitor.py` -> `cli/commands/containers.py`
 - `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/windows/main_window.py` -> `lazygui/services/event_log.py`
 - `lazygui/windows/main_window.py` -> `lazygui/services/models.py`
 - `lazygui/windows/main_window.py` -> `lazygui/theme/manager.py`
-- `lazygui/windows/main_window.py` -> `lazygui/theme/tokens.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

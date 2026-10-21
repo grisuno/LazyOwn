@@ -61,6 +61,45 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`
 
+## modules/loop_guardrails.py
+- Doc: Adaptive guardrails for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Fact` (class, line 73) `class Fact`
+  - `RepeatDetector` (class, line 82) `class RepeatDetector`
+  - `EdrPacer` (class, line 126) `class EdrPacer`
+  - `TargetLimiter` (class, line 208) `class TargetLimiter`
+  - `FactVectorStore` (class, line 278) `class FactVectorStore`
+  - `__init__` (method, line 89) `def __init__(self, window)`
+  - `record` (method, line 93) `def record(self, command)`
+  - `stuck` (method, line 110) `def stuck(self)`
+  - `last_commands` (method, line 117) `def last_commands(self)`
+  - `reset` (method, line 121) `def reset(self)`
+  - `__init__` (method, line 135) `def __init__(self, duration_threshold)`
+  - `observe` (method, line 141) `def observe(self, command, duration_sec, output)`
+  - `decay` (method, line 163) `def decay(self, factor)`
+  - `level` (method, line 169) `def level(self)`
+  - `signal` (method, line 179) `def signal(self)`
+  - `inter_step_delay` (method, line 184) `def inter_step_delay(self)`
+  - `quieten` (method, line 192) `def quieten(self, command)`
+  - `__init__` (method, line 216) `def __init__(self, max_concurrent)`
+  - `max_concurrent` (method, line 223) `def max_concurrent(self)`
+  - `active_targets` (method, line 228) `def active_targets(self)`
+  - `slot` (method, line 234) `def slot(self, target)`
+  - `__init__` (method, line 286) `def __init__(self, path, max_facts)`
+  - `path` (method, line 294) `def path(self)`
+  - `__len__` (method, line 298) `def __len__(self)`
+  - `_tokenize` (method, line 302) `def _tokenize(text)`
+  - `_vectorize` (method, line 307) `def _vectorize(tokens)`
+  - `add` (method, line 315) `def add(self, text, meta)`
+  - `search` (method, line 349) `def search(self, query, k)`
+  - `search_block` (method, line 379) `def search_block(self, query, k, max_chars)`
+  - `clear` (method, line 388) `def clear(self)`
+  - `save` (method, line 394) `def save(self)`
+  - `_load` (method, line 415) `def _load(self)`
+- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
+
 ## modules/loop_progress.py
 - Doc: Rich Live milestone panel for the autonomous loop.
 - Layer: utility

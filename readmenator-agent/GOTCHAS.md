@@ -6,7 +6,7 @@ These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 289.20, imported by 144 files)
 - `utils.py` (score: 224.50, imported by 94 files)
-- `modules/lazy_loop.py` (score: 209.30, imported by 54 files)
+- `modules/lazy_loop.py` (score: 213.60, imported by 55 files)
 - `skills/lazyown_mcp.py` (score: 200.60, imported by 8 files)
 - `cli/commands/_base.py` (score: 188.70, imported by 92 files)
 - `lazyc2.py` (score: 126.80)
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 144 total dependents
-- `core/crypto.py` -- 10 direct, 121 total dependents
 - `core/host_policy.py` -- 3 direct, 119 total dependents
-- `core/process.py` -- 12 direct, 110 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 110 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 108 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 106 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 106 total dependents
-- `cli/banner_config.py` -- 6 direct, 105 total dependents
-- `core/parsers.py` -- 9 direct, 103 total dependents
+- `core/validators.py` -- 12 direct, 105 total dependents
+- `core/crypto.py` -- 10 direct, 103 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 103 total dependents
+- `core/process.py` -- 12 direct, 102 total dependents
+- `core/parsers.py` -- 9 direct, 100 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 100 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -47,8 +47,7 @@ Editing these files can break the listed number of dependents. Run their tests a
 
 Circular dependencies. Refactor to break the cycle.
 
-- `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
-- `modules/auto_registry.py` -> `modules/orchestrator_config.py` -> `modules/trigger_policy.py` -> `modules/loop_triggers.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/auto_registry.py`
+- `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
@@ -57,6 +56,7 @@ Circular dependencies. Refactor to break the cycle.
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
+- `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 
 ## Layer Violations
 

@@ -105,6 +105,49 @@ instead of triggering another full scan every round. The stall watchdog
 derives its warning/dump thresholds from the configured verb timeout, so
 a long but bounded scan is not reported as a dead loop.
 
+## Adaptive guardrails (`modules/loop_guardrails`)
+
+Four stdlib-only primitives ride along on every worker round. They only
+recommend and observe: none of them blocks a command outright.
+
+- **Repeat detector**: a sliding window over the last five executed
+  commands. When the window fills with one identical command, the worker
+  emits a `stalled` activity line, settles the intent and returns
+  control to the operator instead of burning rounds in circles.
+- **EDR-aware pacer**: watches per-command wall clock and output
+  anomalies (latency over 30s on scans, `connection reset` / `timed
+  out` markers). Level 1 inserts a 2-5s quiet period between steps and
+  downgrades noisy verbs (`nmap -sS` -> `nmap -sT -T2`); level 2
+  extends the quiet period to 5-15s and demotes `-A`/`-T4` scans. The
+  score decays once per completed step, so calm operations stay calm.
+- **Target limiter**: a semaphore capping how many distinct targets
+  hold a live worker slot (default 3). Per-thread re-entrant, so one
+  worker sequencing many commands against one target never blocks on
+  itself. The multi-target runner uses the same limiter.
+- **Vector fact memory**: after every successful step the worker embeds
+  a `command :: output` digest into a task-scoped TF-IDF store under
+  `sessions/lazy/vector_facts_<task>.json`. Before asking the LLM for
+  step suggestions it retrieves the facts most similar to the current
+  goal/intent/target, so the prompt carries relevant history instead of
+  the whole transcript. No chromadb, no FAISS, no embedding service.
+
+## Multi-target runs
+
+One loop per target, capped concurrency, one summary:
+
+```bash
+cat scope.txt
+# 10.10.10.5
+# 10.10.10.7        # comments and blank lines are skipped
+auto_loop --targets-from-file scope.txt --max-concurrent 3 "gain initial access"
+```
+
+Each line is validated (IPs, CIDR or hostnames), deduplicated and capped
+at 16 targets. `--max-concurrent` (default 3) limits how many targets
+are active at once so the operator uplink is never saturated; every
+target gets its own task and the final summary reports per-target
+results.
+
 ## Observability
 
 
@@ -138,7 +181,8 @@ one profile, and the Config tab keeps editing the payload knobs the
 runner reads (heartbeat seconds, verb timeout, agentic flags, NOA
 archiving, proxy settings, agent backend). Additional per-run flags:
 `--profile`, `--rounds`, `--workers`, `--timeout`, `--step-delay`,
-`--no-bootstrap`, `--view`, `--plain`.
+`--targets-from-file`, `--max-concurrent`, `--no-bootstrap`, `--view`,
+`--plain`.
 
 Explicit `--rounds` and `--workers` win over the profile. Without them,
 the active profile supplies both values.
@@ -313,6 +357,55 @@ Output chains are plain `ChainRunner` YAML — run them again with
 `apt_chain <name> <target>` or schedule them as playbooks. Implementation:
 `modules/chain_distill.py`; CLI in
 `cli/commands/command_and_control_migrated.py`.
+
+## Adaptive chain execution
+
+Three schema fields make `apt_chain` self-recovering; all optional,
+backwards compatible with v1/v2 files:
+
+- **`parallel: true` (per step)** — consecutive parallel steps execute
+  concurrently through a thread pool and the runner waits for the whole
+  group before the next sequential step. Typical use: independent scans
+  of different ranges. Parallel steps cannot capture output or declare
+  `on_fail`/`on_success` branches (the registry rejects the file), and
+  a failed parallel step aborts the chain unless it sets
+  `continue_on_error: true`.
+- **`pre_check: "<command>"` (per step)** — runs a cheap predictor
+  before the real command (any executable, including an
+  LLM-backed verb). A non-zero exit or error skips the step with reason
+  `pre_check failed: ...` instead of burning its retries against a
+  target that is plainly not ready (`check if port 445 is open`).
+- **`fallback: <chain_name>` (per chain)** — when the primary chain
+  finishes failed, the fallback chain runs automatically with the same
+  tokens and run id; its outcomes merge into one
+  `ChainRunResult` (`fallback_used`, `fallback_depth` in JSON mode).
+  Depth is capped at one hop and a chain cannot name itself as its own
+  fallback, so fallback loops are impossible. A `total_timeout` budget
+  carries over: when it is exhausted, the fallback is skipped instead
+  of overrunning the engagement.
+
+```yaml
+name: apt_generic
+version: 2
+fallback: apt_generic_quiet
+steps:
+  - id: scan_smb
+    run: nmap -sT -p 445 {target}
+    pre_check: ping -c1 {target}
+  - id: scan_web
+    run: nmap -sT -p 80,443 {target}
+    parallel: true
+```
+
+- **LLM recovery on repeated failure** — with `apt_chain ... --replan`,
+  a failed run hands the model the objective, the steps that already
+  succeeded and the failed steps with their last errors; the model
+  proposes up to three alternative commands that run immediately as a
+  `continue_on_error` recovery chain. Without a configured LLM pool the
+  flag degrades to plain failure output — never an execution error.
+  Together with `--continue` (every step continues on error) and the
+  reactive per-step replanner, this closes the loop between a failing
+  chain and the adaptive engine: attempt, detect, replan, recover.
 
 ## Verb catalog and lazyaddon verbs
 

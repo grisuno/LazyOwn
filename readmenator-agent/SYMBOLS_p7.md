@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `execute_command` | function | `contrib/legacy/lazygptcli.py:108` | `def execute_command(command)` |
 | `get_relevant_knowledge` | function | `contrib/legacy/lazygptcli.py:133` | `def get_relevant_knowledge(prompt)` |
 | `load_knowledge_base` | function | `contrib/legacy/lazygptcli.py:118` | `def load_knowledge_base(file_path)` |
 | `main` | function | `contrib/legacy/lazygptcli.py:177` | `def main()` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `stream_generate` | method | `core/llm_budget.py:430` | `def stream_generate(self, prompt)` |
 | `wrap_backend_with_budget` | function | `core/llm_budget.py:657` | `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` |
 | `StructuredLogConfig` | class | `core/logging.py:42` | `class StructuredLogConfig` |
-| `StructuredLogger` | class | `core/logging.py:139` | `class StructuredLogger(Logger)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

@@ -68,8 +68,8 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_scheduler` (method, line 2586) `def do_lazy_scheduler(self, line)`
   - `do_lazy_gate` (method, line 2613) `def do_lazy_gate(self, line)`
   - `do_lazy_loop` (method, line 2658) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2682) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2745) `def do_lazy_install(self, line)`
+  - `do_lazy_sandbox` (method, line 2683) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2746) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`
@@ -125,11 +125,11 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_threat_model` (method, line 378) `def do_threat_model(self, args)`
   - `do_playbook_run` (method, line 431) `def do_playbook_run(self, args)`
   - `do_auto_loop` (method, line 489) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 529) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 534) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 539) `def do_timeline(self, line)`
-  - `_delegate` (method, line 543) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 551) `def _refresh_aliases(self)`
+  - `do_session_state` (method, line 530) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 535) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 540) `def do_timeline(self, line)`
+  - `_delegate` (method, line 544) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 552) `def _refresh_aliases(self)`
   - `_executor` (function, line 475) `def _executor(command, host)`
 - Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 - Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`

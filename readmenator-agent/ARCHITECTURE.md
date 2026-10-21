@@ -11,6 +11,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
 - `cli/apt_chain_support.py` -> `modules/chain_state.py`
 - `cli/apt_chain_support.py` -> `modules/chain_synth.py`
+- `cli/apt_chain_support.py` -> `modules/lazy_loop.py`
 - `cli/apt_chain_support.py` -> `modules/reactive_engine.py`
 - `cli/assign.py` -> `core/payload_schema.py`
 - `cli/auto_crypto.py` -> `core/crypto.py`
@@ -495,6 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/graph_overlay.py` -> `cli/commands/enum.py`
 - `cli/graph_overlay.py` -> `cli/graph_advisor.py`
 - `cli/graph_overlay.py` -> `cli/themes.py`
-- `cli/graph_overlay.py` -> `core/text_utils.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

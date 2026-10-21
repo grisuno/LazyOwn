@@ -289,6 +289,39 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `broken` (function, line 212) `def broken(cmd, phase)`
 - Depends on: `cli/chain_mode.py`
 
+## tests/test_chain_parallel_fallback.py
+- Doc: Chain v2 adaptive execution: parallel groups, fallback, pre-checks.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `test_parallel_steps_execute_concurrently` (function, line 21) `def test_parallel_steps_execute_concurrently()`
+  - `test_parallel_failure_without_continue_aborts` (function, line 79) `def test_parallel_failure_without_continue_aborts()`
+  - `test_parallel_failure_with_continue_keeps_going` (function, line 103) `def test_parallel_failure_with_continue_keeps_going()`
+  - `test_pre_check_failure_skips_step` (function, line 126) `def test_pre_check_failure_skips_step()`
+  - `test_pre_check_success_executes_step` (function, line 150) `def test_pre_check_success_executes_step()`
+  - `test_fallback_chain_runs_on_failure` (function, line 165) `def test_fallback_chain_runs_on_failure()`
+  - `test_fallback_skipped_when_primary_succeeds` (function, line 192) `def test_fallback_skipped_when_primary_succeeds()`
+  - `test_fallback_depth_is_capped` (function, line 208) `def test_fallback_depth_is_capped()`
+  - `test_registry_validation_rejects_parallel_with_capture` (function, line 230) `def test_registry_validation_rejects_parallel_with_capture()`
+  - `test_registry_validation_rejects_unknown_fallback` (function, line 241) `def test_registry_validation_rejects_unknown_fallback()`
+  - `test_registry_parses_parallel_and_pre_check` (function, line 257) `def test_registry_parses_parallel_and_pre_check()`
+  - `test_dry_run_treats_parallel_steps_sequentially` (function, line 274) `def test_dry_run_treats_parallel_steps_sequentially()`
+  - `executor` (function, line 29) `def executor(command)`
+  - `_SlowFirst` (class, line 48) `class _SlowFirst`
+  - `_run` (function, line 60) `def _run()`
+  - `executor` (function, line 84) `def executor(command)`
+  - `executor` (function, line 108) `def executor(command)`
+  - `executor` (function, line 131) `def executor(command)`
+  - `executor` (function, line 154) `def executor(command)`
+  - `executor` (function, line 169) `def executor(command)`
+  - `loader` (function, line 180) `def loader(name)`
+  - `loader` (function, line 197) `def loader(name)`
+  - `executor` (function, line 212) `def executor(command)`
+  - `loader` (function, line 220) `def loader(name)`
+  - `__call__` (method, line 51) `def __call__(self, command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
 ## tests/test_chain_registry.py
 - Doc: Chain registry: orchestration from chains/*.yaml, never hardcoded steps.
 - Layer: testing
@@ -439,57 +472,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
 - Language: py
 - Symbols:
   - `test_claude_md_under_size_budget` (function, line 22) `def test_claude_md_under_size_budget()`
-
-## tests/test_cli_assign.py
-- Doc: ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 29) `def _add_repo_root_to_syspath()`
-  - `TestApplyAssign` (class, line 34) `class TestApplyAssign`
-  - `TestAssignLineParsing` (class, line 101) `class TestAssignLineParsing`
-  - `TestFormatPayload` (class, line 139) `class TestFormatPayload`
-  - `TestLazyOwnAssignWiring` (class, line 197) `class TestLazyOwnAssignWiring`
-  - `TestCompleteAssignBehaviour` (class, line 264) `class TestCompleteAssignBehaviour`
-  - `test_returns_true_when_key_exists` (method, line 35) `def test_returns_true_when_key_exists(self)`
-  - `test_returns_false_when_key_missing` (method, line 42) `def test_returns_false_when_key_missing(self)`
-  - `test_does_not_invoke_save_on_failure` (method, line 49) `def test_does_not_invoke_save_on_failure(self)`
-  - `test_invokes_save_on_success` (method, line 57) `def test_invokes_save_on_success(self)`
-  - `test_save_receives_mutated_dict` (method, line 66) `def test_save_receives_mutated_dict(self)`
-  - `test_save_optional` (method, line 78) `def test_save_optional(self)`
-  - `test_allows_windows_path_backslashes` (method, line 85) `def test_allows_windows_path_backslashes(self)`
-  - `test_rejects_shell_operators_and_escapes` (method, line 92) `def test_rejects_shell_operators_and_escapes(self)`
-  - `test_posix_false_parses_preserve_backslashes` (method, line 102) `def test_posix_false_parses_preserve_backslashes(self)`
-  - `test_strip_shell_quotes_variants` (method, line 111) `def test_strip_shell_quotes_variants(self)`
-  - `test_persists_to_disk_via_save_payload` (method, line 119) `def test_persists_to_disk_via_save_payload(self, tmp_path)`
-  - `test_empty_payload_returns_empty_string` (method, line 140) `def test_empty_payload_returns_empty_string(self)`
-  - `test_renders_keys_sorted` (method, line 145) `def test_renders_keys_sorted(self)`
-  - `test_aligns_column_to_widest_key` (method, line 154) `def test_aligns_column_to_widest_key(self)`
-  - `test_none_values_render_as_empty` (method, line 164) `def test_none_values_render_as_empty(self)`
-  - `test_keys_whitelist_filters_output` (method, line 170) `def test_keys_whitelist_filters_output(self)`
-  - `test_missing_whitelist_keys_render_as_empty` (method, line 177) `def test_missing_whitelist_keys_render_as_empty(self)`
-  - `test_int_value_rendered_as_string` (method, line 184) `def test_int_value_rendered_as_string(self)`
-  - `test_no_ansi_codes` (method, line 190) `def test_no_ansi_codes(self)`
-  - `src` (method, line 199) `def src(self)`
-  - `migrated_src` (method, line 203) `def migrated_src(self)`
-  - `test_imports_apply_assign` (method, line 211) `def test_imports_apply_assign(self, migrated_src)`
-  - `test_imports_save_payload_from_core` (method, line 214) `def test_imports_save_payload_from_core(self, migrated_src)`
-  - `test_imports_format_payload` (method, line 217) `def test_imports_format_payload(self, migrated_src)`
-  - `test_do_assign_calls_apply_assign` (method, line 220) `def test_do_assign_calls_apply_assign(self, migrated_src)`
-  - `test_do_assign_refreshes_aliases` (method, line 225) `def test_do_assign_refreshes_aliases(self, migrated_src)`
-  - `test_do_assign_no_longer_directly_mutates_params` (method, line 230) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
-  - `test_complete_assign_defined` (method, line 236) `def test_complete_assign_defined(self, src)`
-  - `test_complete_assign_reads_self_params` (method, line 239) `def test_complete_assign_reads_self_params(self, src)`
-  - `test_do_show_uses_format_payload` (method, line 243) `def test_do_show_uses_format_payload(self, migrated_src)`
-  - `test_do_payload_refreshes_aliases` (method, line 247) `def test_do_payload_refreshes_aliases(self, migrated_src)`
-  - `_extract_method_body` (method, line 253) `def _extract_method_body(src, name)`
-  - `test_returns_keys_starting_with_text` (method, line 267) `def test_returns_keys_starting_with_text(self)`
-  - `test_no_completion_for_value_position` (method, line 284) `def test_no_completion_for_value_position(self)`
-  - `test_refuses_null_on_required` (method, line 293) `def test_refuses_null_on_required(self)`
-  - `test_warn_saves_invalid_but_present` (method, line 302) `def test_warn_saves_invalid_but_present(self)`
-  - `test_auto_populate_refuses_shell_less_save` (method, line 310) `def test_auto_populate_refuses_shell_less_save(self)`
-  - `saver` (function, line 72) `def saver(p)`
-- Depends on: `cli/assign.py`, `cli/commands/mcp_bridge.py`, `cli/commands/session_ops.py`, `cli/show.py`, `core/config.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

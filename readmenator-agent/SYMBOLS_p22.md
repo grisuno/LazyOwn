@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_t` | function | `poc_tui/test_app.py:291` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:307` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:321` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:342` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:361` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:374` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:399` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:414` | `def _t()` |
+| `test_app_creates` | method | `poc_tui/test_app.py:101` | `def test_app_creates(self)` |
+| `test_app_starts_stops` | method | `poc_tui/test_app.py:105` | `def test_app_starts_stops(self)` |
+| `test_backend_ready` | method | `poc_tui/test_app.py:234` | `def test_backend_ready(self)` |
+| `test_buffer_cleared` | method | `poc_tui/test_app.py:86` | `def test_buffer_cleared(self)` |
+| `test_busy_command_shows_running_indicator` | method | `poc_tui/test_app.py:373` | `def test_busy_command_shows_running_indicator(self)` |
+| `test_command_output_visible_in_screenshot` | method | `poc_tui/test_app.py:411` | `def test_command_output_visible_in_screenshot(self)` |
+| `test_commands_queue_serialized` | method | `poc_tui/test_app.py:318` | `def test_commands_queue_serialized(self)` |
+| `test_execute_help` | method | `poc_tui/test_app.py:135` | `def test_execute_help(self)` |
+| `test_focus_returns_after_command` | method | `poc_tui/test_app.py:341` | `def test_focus_returns_after_command(self)` |
+| `test_get_aliases` | method | `poc_tui/test_app.py:71` | `def test_get_aliases(self)` |
+| `test_get_commands` | method | `poc_tui/test_app.py:62` | `def test_get_commands(self)` |
+| `test_history_down` | method | `poc_tui/test_app.py:181` | `def test_history_down(self)` |
+| `test_history_up` | method | `poc_tui/test_app.py:164` | `def test_history_up(self)` |
+| `test_init_sets_base_dir` | method | `poc_tui/test_app.py:33` | `def test_init_sets_base_dir(self)` |
+| `test_input_cleared_after_submit` | method | `poc_tui/test_app.py:151` | `def test_input_cleared_after_submit(self)` |
+| `test_input_has_focus` | method | `poc_tui/test_app.py:125` | `def test_input_has_focus(self)` |
+| `test_layout_all_panels_render_in_screenshot` | method | `poc_tui/test_app.py:392` | `def test_layout_all_panels_render_in_screenshot(self)` |
+| `test_output_renders_ansi_codes` | method | `poc_tui/test_app.py:358` | `def test_output_renders_ansi_codes(self)` |
+| `test_panels_visible` | method | `poc_tui/test_app.py:114` | `def test_panels_visible(self)` |
+| `test_q_is_quit_not_shell_alias` | method | `poc_tui/test_app.py:288` | `def test_q_is_quit_not_shell_alias(self)` |
+| `test_quit` | method | `poc_tui/test_app.py:224` | `def test_quit(self)` |
+| `test_quit_word_not_sent_to_backend` | method | `poc_tui/test_app.py:304` | `def test_quit_word_not_sent_to_backend(self)` |
+| `test_run_before_start` | method | `poc_tui/test_app.py:37` | `def test_run_before_start(self)` |
+| `test_run_help` | method | `poc_tui/test_app.py:55` | `def test_run_help(self)` |
+| `test_run_show` | method | `poc_tui/test_app.py:48` | `def test_run_show(self)` |
+| `test_set_and_show` | method | `poc_tui/test_app.py:78` | `def test_set_and_show(self)` |
+| `test_set_updates_dashboard` | method | `poc_tui/test_app.py:247` | `def test_set_updates_dashboard(self)` |
+| `test_show_command_output_in_log` | method | `poc_tui/test_app.py:269` | `def test_show_command_output_in_log(self)` |
+| `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
+| `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
+| `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
+| `_build_substitutions` | function | `pwntomate.py:113` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
+| `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
+| `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
+| `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
 | `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
 | `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
 | `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `Severity` | class | `skills/claude_md_orchestrator/models.py:50` | `class Severity(StrEnum)` |
 | `Spec` | class | `skills/claude_md_orchestrator/models.py:134` | `class Spec` |
 | `Stage` | class | `skills/claude_md_orchestrator/models.py:28` | `class Stage(StrEnum)` |
-| `TestSuite` | class | `skills/claude_md_orchestrator/models.py:217` | `class TestSuite` |
-| `_now_iso` | function | `skills/claude_md_orchestrator/models.py:19` | `def _now_iso()` |
-| `blockers` | method | `skills/claude_md_orchestrator/models.py:315` | `def blockers(self)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:96` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:125` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:173` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:243` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:280` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:333` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:402` | `def from_dict(cls, data)` |
-| `from_dict` | method | `skills/claude_md_orchestrator/models.py:450` | `def from_dict(cls, data)` |
-| `load` | method | `skills/claude_md_orchestrator/models.py:467` | `def load(cls, path)` |
-| `save` | method | `skills/claude_md_orchestrator/models.py:459` | `def save(self, path)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:91` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:120` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:166` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:236` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:270` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:319` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:383` | `def to_dict(self)` |
-| `to_dict` | method | `skills/claude_md_orchestrator/models.py:440` | `def to_dict(self)` |
-| `validate` | method | `skills/claude_md_orchestrator/models.py:189` | `def validate(self, min_sad_paths)` |
-| `write_jsonl` | function | `skills/claude_md_orchestrator/models.py:480` | `def write_jsonl(path, event)` |
-| `CycleSummary` | class | `skills/claude_md_orchestrator/orchestrator.py:34` | `class CycleSummary` |
-| `_advance` | function | `skills/claude_md_orchestrator/orchestrator.py:234` | `def _advance(state, contract_id, config, options)` |
-| `_banner` | function | `skills/claude_md_orchestrator/orchestrator.py:52` | `def _banner(message, config)` |
-| `_build_parser` | function | `skills/claude_md_orchestrator/orchestrator.py:324` | `def _build_parser()` |
-| `_halt` | function | `skills/claude_md_orchestrator/orchestrator.py:59` | `def _halt(summary, contract_id, reason)` |
-| `_load_seed_contracts` | function | `skills/claude_md_orchestrator/orchestrator.py:365` | `def _load_seed_contracts(args, options)` |
-| `_load_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:217` | `def _load_spec(path)` |
-| `_load_state` | function | `skills/claude_md_orchestrator/orchestrator.py:84` | `def _load_state(config)` |
-| `_persist` | function | `skills/claude_md_orchestrator/orchestrator.py:66` | `def _persist(state, config)` |
-| `_print_summary` | function | `skills/claude_md_orchestrator/orchestrator.py:301` | `def _print_summary(summary)` |
-| `_run_cicd` | function | `skills/claude_md_orchestrator/orchestrator.py:182` | `def _run_cicd(state, config)` |
-| `_run_documentation` | function | `skills/claude_md_orchestrator/orchestrator.py:158` | `def _run_documentation(state, config)` |
-| `_run_implementation` | function | `skills/claude_md_orchestrator/orchestrator.py:125` | `def _run_implementation(state, config)` |
-| `_run_review` | function | `skills/claude_md_orchestrator/orchestrator.py:146` | `def _run_review(state, config)` |
-| `_run_scout` | function | `skills/claude_md_orchestrator/orchestrator.py:174` | `def _run_scout(state, config)` |
-| `_run_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:97` | `def _run_spec(state, config)` |
-| `_run_test` | function | `skills/claude_md_orchestrator/orchestrator.py:110` | `def _run_test(state, config)` |
-| `_seed_state` | function | `skills/claude_md_orchestrator/orchestrator.py:89` | `def _seed_state(contracts, state)` |
-| `main` | function | `skills/claude_md_orchestrator/orchestrator.py:393` | `def main(argv)` |
-| `run` | function | `skills/claude_md_orchestrator/orchestrator.py:275` | `def run(config, options)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

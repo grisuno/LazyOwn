@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_stage` | function | `modules/ttpscope_bridge.py:485` | `def _stage(action, slug, stdout, extra)` |
+| `_stix_external_id` | function | `modules/ttpscope_bridge.py:211` | `def _stix_external_id(obj)` |
+| `_stix_index` | function | `modules/ttpscope_bridge.py:219` | `def _stix_index(bundle)` |
+| `do_chain` | function | `modules/ttpscope_bridge.py:582` | `def do_chain(object_id, platform, limit)` |
+| `do_matrix` | function | `modules/ttpscope_bridge.py:535` | `def do_matrix(platform)` |
+| `do_note` | function | `modules/ttpscope_bridge.py:551` | `def do_note(object_id, text)` |
+| `do_notes` | function | `modules/ttpscope_bridge.py:570` | `def do_notes(object_id)` |
+| `do_search` | function | `modules/ttpscope_bridge.py:508` | `def do_search(query)` |
+| `do_show` | function | `modules/ttpscope_bridge.py:520` | `def do_show(object_id)` |
+| `do_sync` | function | `modules/ttpscope_bridge.py:497` | `def do_sync()` |
+| `locate_binary` | function | `modules/ttpscope_bridge.py:82` | `def locate_binary()` |
+| `main` | function | `modules/ttpscope_bridge.py:679` | `def main()` |
+| `run_action` | function | `modules/ttpscope_bridge.py:652` | `def run_action(action)` |
+| `validate_object_id` | function | `modules/ttpscope_bridge.py:92` | `def validate_object_id(raw)` |
+| `validate_platform` | function | `modules/ttpscope_bridge.py:112` | `def validate_platform(raw)` |
+| `validate_query` | function | `modules/ttpscope_bridge.py:100` | `def validate_query(raw)` |
+| `DelegateResult` | class | `modules/unified_bridge.py:59` | `class DelegateResult` |
+| `KeywordBackend` | class | `modules/unified_bridge.py:75` | `class KeywordBackend(RouteBackend)` |
+| `LazyownBridgeBackend` | class | `modules/unified_bridge.py:123` | `class LazyownBridgeBackend(RouteBackend)` |
+| `RouteBackend` | class | `modules/unified_bridge.py:67` | `class RouteBackend(ABC)` |
+| `RouteResult` | class | `modules/unified_bridge.py:46` | `class RouteResult` |
+| `TopoSwarmBackend` | class | `modules/unified_bridge.py:161` | `class TopoSwarmBackend(RouteBackend)` |
+| `UnifiedBridge` | class | `modules/unified_bridge.py:195` | `class UnifiedBridge` |
+| `__init__` | method | `modules/unified_bridge.py:214` | `def __init__(self)` |
+| `_await_agent` | method | `modules/unified_bridge.py:355` | `def _await_agent(self, get_status, agent_id, timeout)` |
+| `_detect_phase` | method | `modules/unified_bridge.py:464` | `def _detect_phase(self)` |
+| `_get_active_target` | method | `modules/unified_bridge.py:473` | `def _get_active_target(self)` |
+| `_init_backends` | method | `modules/unified_bridge.py:219` | `def _init_backends(self)` |
+| `_publish` | method | `modules/unified_bridge.py:233` | `def _publish(self, category, event_type, payload)` |
+| `_run_agent_command` | method | `modules/unified_bridge.py:384` | `def _run_agent_command(self, command)` |
+| `available` | method | `modules/unified_bridge.py:69` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:102` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:126` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:164` | `def available(self)` |
+| `delegate` | method | `modules/unified_bridge.py:300` | `def delegate(self, goal, backend, timeout, max_iterations)` |
+| `delegate_task` | function | `modules/unified_bridge.py:488` | `def delegate_task(goal, backend)` |
+| `get` | method | `modules/unified_bridge.py:225` | `def get(cls)` |
+| `list_backends` | method | `modules/unified_bridge.py:461` | `def list_backends(self)` |
+| `route` | method | `modules/unified_bridge.py:72` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:105` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:134` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:173` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:253` | `def route(self, prompt, context)` |
 | `route_prompt` | function | `modules/unified_bridge.py:483` | `def route_prompt(prompt, context)` |
 | `set_publish_callback` | method | `modules/unified_bridge.py:230` | `def set_publish_callback(self, cb)` |
 | `UnifiedDashboard` | class | `modules/unified_dashboard.py:37` | `class UnifiedDashboard` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_t` | function | `poc_tui/test_app.py:235` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:248` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:270` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:291` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:307` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:321` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:342` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:361` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:374` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:399` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:414` | `def _t()` |
-| `test_app_creates` | method | `poc_tui/test_app.py:101` | `def test_app_creates(self)` |
-| `test_app_starts_stops` | method | `poc_tui/test_app.py:105` | `def test_app_starts_stops(self)` |
-| `test_backend_ready` | method | `poc_tui/test_app.py:234` | `def test_backend_ready(self)` |
-| `test_buffer_cleared` | method | `poc_tui/test_app.py:86` | `def test_buffer_cleared(self)` |
-| `test_busy_command_shows_running_indicator` | method | `poc_tui/test_app.py:373` | `def test_busy_command_shows_running_indicator(self)` |
-| `test_command_output_visible_in_screenshot` | method | `poc_tui/test_app.py:411` | `def test_command_output_visible_in_screenshot(self)` |
-| `test_commands_queue_serialized` | method | `poc_tui/test_app.py:318` | `def test_commands_queue_serialized(self)` |
-| `test_execute_help` | method | `poc_tui/test_app.py:135` | `def test_execute_help(self)` |
-| `test_focus_returns_after_command` | method | `poc_tui/test_app.py:341` | `def test_focus_returns_after_command(self)` |
-| `test_get_aliases` | method | `poc_tui/test_app.py:71` | `def test_get_aliases(self)` |
-| `test_get_commands` | method | `poc_tui/test_app.py:62` | `def test_get_commands(self)` |
-| `test_history_down` | method | `poc_tui/test_app.py:181` | `def test_history_down(self)` |
-| `test_history_up` | method | `poc_tui/test_app.py:164` | `def test_history_up(self)` |
-| `test_init_sets_base_dir` | method | `poc_tui/test_app.py:33` | `def test_init_sets_base_dir(self)` |
-| `test_input_cleared_after_submit` | method | `poc_tui/test_app.py:151` | `def test_input_cleared_after_submit(self)` |
-| `test_input_has_focus` | method | `poc_tui/test_app.py:125` | `def test_input_has_focus(self)` |
-| `test_layout_all_panels_render_in_screenshot` | method | `poc_tui/test_app.py:392` | `def test_layout_all_panels_render_in_screenshot(self)` |
-| `test_output_renders_ansi_codes` | method | `poc_tui/test_app.py:358` | `def test_output_renders_ansi_codes(self)` |
-| `test_panels_visible` | method | `poc_tui/test_app.py:114` | `def test_panels_visible(self)` |
-| `test_q_is_quit_not_shell_alias` | method | `poc_tui/test_app.py:288` | `def test_q_is_quit_not_shell_alias(self)` |
-| `test_quit` | method | `poc_tui/test_app.py:224` | `def test_quit(self)` |
-| `test_quit_word_not_sent_to_backend` | method | `poc_tui/test_app.py:304` | `def test_quit_word_not_sent_to_backend(self)` |
-| `test_run_before_start` | method | `poc_tui/test_app.py:37` | `def test_run_before_start(self)` |
-| `test_run_help` | method | `poc_tui/test_app.py:55` | `def test_run_help(self)` |
-| `test_run_show` | method | `poc_tui/test_app.py:48` | `def test_run_show(self)` |
-| `test_set_and_show` | method | `poc_tui/test_app.py:78` | `def test_set_and_show(self)` |
-| `test_set_updates_dashboard` | method | `poc_tui/test_app.py:247` | `def test_set_updates_dashboard(self)` |
-| `test_show_command_output_in_log` | method | `poc_tui/test_app.py:269` | `def test_show_command_output_in_log(self)` |
-| `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
-| `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
-| `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
-| `_build_substitutions` | function | `pwntomate.py:113` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
-| `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
-| `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
-| `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

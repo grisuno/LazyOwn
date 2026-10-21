@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
+| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
+| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
+| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
+| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
+| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
+| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
+| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
+| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
+| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
+| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
+| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
+| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
+| `path` | method | `modules/metrics.py:201` | `def path(self)` |
+| `path` | method | `modules/metrics.py:350` | `def path(self)` |
+| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
+| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
+| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
+| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
+| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
+| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
+| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
+| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
+| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
+| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
+| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
+| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
+| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
+| `generate_phishing_templates` | method | `modules/mfa_bypass.py:153` | `def generate_phishing_templates(self, target)` |
+| `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
+| `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
+| `saml_golden_ticket_check` | method | `modules/mfa_bypass.py:278` | `def saml_golden_ticket_check(self, adfs_server)` |
+| `ModuleInfo` | class | `modules/module_registry.py:150` | `class ModuleInfo` |
+| `ModuleRegistry` | class | `modules/module_registry.py:223` | `class ModuleRegistry` |
+| `__contains__` | method | `modules/module_registry.py:536` | `def __contains__(self, name)` |
+| `__init__` | method | `modules/module_registry.py:172` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
+| `__init__` | method | `modules/module_registry.py:235` | `def __init__(self, base_dir)` |
+| `__iter__` | method | `modules/module_registry.py:531` | `def __iter__(self)` |
+| `__len__` | method | `modules/module_registry.py:526` | `def __len__(self)` |
+| `__repr__` | method | `modules/module_registry.py:219` | `def __repr__(self)` |
+| `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
+| `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
+| `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
 | `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
 | `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
 | `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
 | `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
 | `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
-| `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
-| `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
-| `mcp_pipeline_run` | function | `modules/pipeline_engine.py:1314` | `def mcp_pipeline_run(name, target, background, onecmd)` |
-| `mcp_pipeline_status` | function | `modules/pipeline_engine.py:1414` | `def mcp_pipeline_status(last_n)` |
-| `mcp_pipeline_validate` | function | `modules/pipeline_engine.py:1385` | `def mcp_pipeline_validate(name)` |
-| `narrate` | method | `modules/pipeline_engine.py:852` | `def narrate(self, kind, target, message, payload, severity)` |
-| `narrate` | method | `modules/pipeline_engine.py:864` | `def narrate(self)` |
-| `narrate` | method | `modules/pipeline_engine.py:881` | `def narrate(self, kind, target, message, payload, severity)` |
-| `open_run` | method | `modules/pipeline_engine.py:785` | `def open_run(self, pipeline_name, run_id)` |
-| `pipelines_dir` | method | `modules/pipeline_engine.py:642` | `def pipelines_dir(self)` |
-| `register` | method | `modules/pipeline_engine.py:389` | `def register(cls, command, deriver)` |
-| `render` | method | `modules/pipeline_engine.py:278` | `def render(self, template)` |
-| `resolve` | method | `modules/pipeline_engine.py:289` | `def resolve(self, dotted_path)` |
-| `resolve_path` | method | `modules/pipeline_engine.py:658` | `def resolve_path(self, name)` |
-| `run` | method | `modules/pipeline_engine.py:513` | `def run(self, command, args, target, timeout_s)` |
-| `run` | method | `modules/pipeline_engine.py:548` | `def run(self, command, args, target, timeout_s)` |
-| `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
-| `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
-| `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
-| `to_dict` | method | `modules/pipeline_engine.py:213` | `def to_dict(self)` |
-| `validate` | method | `modules/pipeline_engine.py:352` | `def validate(predicate, output)` |
-| `validate` | method | `modules/pipeline_engine.py:945` | `def validate(self, name)` |
-| `write_plan` | method | `modules/pipeline_engine.py:797` | `def write_plan(self, run_dir, spec)` |
-| `write_step` | method | `modules/pipeline_engine.py:814` | `def write_step(self, run_dir, result)` |
-| `write_summary` | method | `modules/pipeline_engine.py:828` | `def write_summary(self, run_dir, run)` |
-| `Frontier` | class | `modules/planner.py:505` | `class Frontier` |
-| `PlanCandidate` | class | `modules/planner.py:41` | `class PlanCandidate` |
-| `PlanResult` | class | `modules/planner.py:54` | `class PlanResult` |
-| `Planner` | class | `modules/planner.py:260` | `class Planner` |
-| `TodoItem` | class | `modules/planner.py:452` | `class TodoItem` |
-| `TodoList` | class | `modules/planner.py:460` | `class TodoList` |
-| `__init__` | method | `modules/planner.py:269` | `def __init__(self, world_model, obs_parser, api_key)` |
-| `__init__` | method | `modules/planner.py:468` | `def __init__(self)` |
-| `__init__` | method | `modules/planner.py:514` | `def __init__(self, planner, todos)` |
-| `__len__` | method | `modules/planner.py:560` | `def __len__(self)` |
-| `_build_rationale` | method | `modules/planner.py:374` | `def _build_rationale(chosen, facts, target)` |
-| `_gather_facts` | function | `modules/planner.py:64` | `def _gather_facts(world_model, obs_parser)` |
-| `_llm_tiebreak` | method | `modules/planner.py:387` | `def _llm_tiebreak(self, target, facts, candidates)` |
-| `_parser` | method | `modules/planner.py:294` | `def _parser(self)` |
-| `_risk_for` | function | `modules/planner.py:160` | `def _risk_for(technique_id)` |
-| `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
-| `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
-| `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

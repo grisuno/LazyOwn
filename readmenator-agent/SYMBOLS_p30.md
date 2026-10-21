@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `h` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `has` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `i` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ik` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `in` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `kk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ku` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `kw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `l` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `l` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `lE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `lO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `lk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `mw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `nE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `nc` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `nk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `np` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `or` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ov` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `qw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `qx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `rO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
 | `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
 | `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
-| `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:758` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
-| `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:747` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
-| `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:769` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
-| `test_mcp_aci_replan_with_plan` | method | `tests/test_aci_planner.py:780` | `def test_mcp_aci_replan_with_plan(self, tmp_path)` |
-| `test_mcp_aci_status_after_plan` | method | `tests/test_aci_planner.py:793` | `def test_mcp_aci_status_after_plan(self, tmp_path)` |
-| `test_mcp_aci_status_no_plan` | method | `tests/test_aci_planner.py:724` | `def test_mcp_aci_status_no_plan(self, tmp_path)` |
-| `test_no_subcommand_returns_nonzero` | method | `tests/test_aci_planner.py:954` | `def test_no_subcommand_returns_nonzero(self, tmp_path)` |
-| `test_objective_source_is_aci_planner` | method | `tests/test_aci_planner.py:293` | `def test_objective_source_is_aci_planner(self, tmp_path)` |
-| `test_objectives_contain_target_in_text` | method | `tests/test_aci_planner.py:323` | `def test_objectives_contain_target_in_text(self, tmp_path)` |
-| `test_objectives_ids_match_phase_objectives` | method | `tests/test_aci_planner.py:276` | `def test_objectives_ids_match_phase_objectives(self, tmp_path)` |
-| `test_objectives_injected_into_file` | method | `tests/test_aci_planner.py:268` | `def test_objectives_injected_into_file(self, tmp_path)` |
-| `test_phase_filter_restricts_phases` | method | `tests/test_aci_planner.py:287` | `def test_phase_filter_restricts_phases(self, tmp_path)` |
-| `test_plan_command` | method | `tests/test_aci_planner.py:915` | `def test_plan_command(self, tmp_path)` |
-| `test_plan_creates_file` | method | `tests/test_aci_planner.py:245` | `def test_plan_creates_file(self, tmp_path)` |
-| `test_plan_domain_stored` | method | `tests/test_aci_planner.py:318` | `def test_plan_domain_stored(self, tmp_path)` |
-| `test_plan_has_phases` | method | `tests/test_aci_planner.py:252` | `def test_plan_has_phases(self, tmp_path)` |
-| `test_plan_id_is_unique` | method | `tests/test_aci_planner.py:307` | `def test_plan_id_is_unique(self, tmp_path)` |
-| `test_plan_roundtrip_from_disk` | method | `tests/test_aci_planner.py:330` | `def test_plan_roundtrip_from_disk(self, tmp_path)` |
-| `test_plan_status_is_active` | method | `tests/test_aci_planner.py:302` | `def test_plan_status_is_active(self, tmp_path)` |
-| `test_plan_target_stored` | method | `tests/test_aci_planner.py:313` | `def test_plan_target_stored(self, tmp_path)` |
-| `test_reflect_blocked_phase_generates_lesson` | method | `tests/test_aci_planner.py:655` | `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)` |
-| `test_reflect_command_no_plan` | method | `tests/test_aci_planner.py:960` | `def test_reflect_command_no_plan(self, tmp_path, capsys)` |
-| `test_reflect_done_after_replan_generates_lesson` | method | `tests/test_aci_planner.py:665` | `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)` |
-| `test_reflect_lesson_has_required_fields` | method | `tests/test_aci_planner.py:698` | `def test_reflect_lesson_has_required_fields(self, tmp_path)` |
-| `test_reflect_no_lessons_clean_plan` | method | `tests/test_aci_planner.py:674` | `def test_reflect_no_lessons_clean_plan(self, tmp_path)` |
-| `test_reflect_persists_to_file` | method | `tests/test_aci_planner.py:683` | `def test_reflect_persists_to_file(self, tmp_path)` |
-| `test_replan_command_no_plan` | method | `tests/test_aci_planner.py:940` | `def test_replan_command_no_plan(self, tmp_path, capsys)` |
-| `test_replan_increments_count` | method | `tests/test_aci_planner.py:529` | `def test_replan_increments_count(self, tmp_path)` |
-| `test_replan_injects_new_objectives` | method | `tests/test_aci_planner.py:543` | `def test_replan_injects_new_objectives(self, tmp_path)` |
-| `test_replan_no_plan` | method | `tests/test_aci_planner.py:523` | `def test_replan_no_plan(self, tmp_path)` |
-| `test_replan_records_reason` | method | `tests/test_aci_planner.py:536` | `def test_replan_records_reason(self, tmp_path)` |
-| `test_replan_status_returns_to_active` | method | `tests/test_aci_planner.py:553` | `def test_replan_status_returns_to_active(self, tmp_path)` |
-| `test_replan_twice_counts_two` | method | `tests/test_aci_planner.py:560` | `def test_replan_twice_counts_two(self, tmp_path)` |
-| `test_replan_with_llm` | method | `tests/test_aci_planner.py:568` | `def test_replan_with_llm(self, tmp_path)` |
-| `test_round_trip` | method | `tests/test_aci_planner.py:231` | `def test_round_trip(self)` |
-| `test_save_load_plan_roundtrip` | method | `tests/test_aci_planner.py:830` | `def test_save_load_plan_roundtrip(self, tmp_path)` |
-| `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:487` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
-| `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:507` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
-| `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:483` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
-| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:496` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
-| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
-| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
-| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

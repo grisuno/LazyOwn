@@ -335,6 +335,8 @@ class AddonCreatorConfig:
             "android_serial",
             "dirtyinit_device_path",
             "wifi_ssid",
+            "php2shell_url",
+            "php2shell_profile",
         }
     )
 

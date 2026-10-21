@@ -1,0 +1,34 @@
+name: php2shell
+description: >
+  One-shot RCE for PHP 8.4.26 session.upload_progress (ASLR bypass, pure HTTP).
+  Needs a php:8.4.26-apache target with display_errors=1, memory_limit=8M,
+  max_input_vars=1000, session.use_cookies=1, session.use_strict_mode=0, single
+  prefork worker. First run clones to external/.exploit/php2shell (stdlib only).
+  Set the target with 'assign php2shell_url http://host/index.php', then run
+  'php2shell'. Free args append to exploit.py: 'php2shell -c "id>/tmp/p1" --fetch
+  /p1'. Payload max 14 bytes.
+author: 9bie
+version: "1.0"
+enabled: true
+update: true
+params:
+  - name: php2shell_url
+    type: string
+    required: true
+    description: "Target PHP page URL. Set with 'assign php2shell_url <url>' before running the addon."
+  - name: php2shell_profile
+    type: string
+    required: false
+    description: "Target build profile: bookworm (official php:8.4.26-apache image) or lab (Apache 2.4.68 minimal build)."
+os: linux
+trigger:
+  - http
+  - https
+category: "03. Exploitation"
+module_type: exploit
+tool:
+  name: php2shell
+  repo_url: https://github.com/9bie/php2shell-bypass-aslr-exp.git
+  install_path: external/.exploit/php2shell
+  install_command: mkdir -p out
+  execute_command: python3 exploit.py -u {php2shell_url} --profile {php2shell_profile}

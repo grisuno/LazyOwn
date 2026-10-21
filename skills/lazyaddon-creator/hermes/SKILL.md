@@ -125,6 +125,7 @@ user_agent_win username usrwordlist wordlist orchestrator
 local_llm llamacpp_host llm_model_llamacpp agent_model_timeout
 android_serial dirtyinit_device_path
 wifi_ssid
+php2shell_url php2shell_profile
 ```
 
 ## Step 5 — Runtime order (design against this, not against wishes)

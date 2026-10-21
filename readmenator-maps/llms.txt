@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 23 communities, 1124 files, 10856 imports, 10 languages, 21004 symbols.
+> Static analysis knowledge base for LazyOwn: 24 communities, 1130 files, 10889 imports, 10 languages, 21225 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -18,12 +18,13 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: modules/pipelineengine.py
 - [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: cli/commands/enum.py, core/logging.py
 - [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: cli/commands/enum.py, core/logging.py, modules/cliauth.py
-- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Imported by: skills/claudemdorchestrator/init.py, skills/claudemdorchestrator/bddagent.py, skills/claudemdorchestrator/boyscout.py...
+- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: core/logging.py, modules/assetgraph.py, modules/db.py, modules/detectionoracle.py, modules/enrich.py, modules/eventconsumers.py...
 - [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, core/defaults.py, utils.py
-- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Imported by: modules/c2surfaces.py, skills/autonomousdaemon.py, skills/lazyownmcp.py, tests/testmcpimprovements.py
-- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
-- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
-- [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: core/logging.py, modules/loggingconfig.py
+- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): Depends on: cli/assign.py, cli/show.py
+- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
+- [readmenator-agent/API_p24.md](md/readmenator-agent/API_p24.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
 - [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): Depends on: cli/commands/base.py, cli/reasoningstream.py, core/console.py
 - [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Depends on: cli/wizard.py, core/console.py, core/profiles.py
 - [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): Depends on: cli/exploration.py, modules/killchain.py
@@ -35,9 +36,10 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/killchain.py -> modules/killchain.py
 - [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/windows/mainwindow.py -> lazygui/widgets/beaconcommandmodal.py
 - [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): poctui/run.py -> poctui/app.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testdoctor.py -> cli/wizard.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testdetectionfeed.py -> modules/detectionoracle.py
 - [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): cli/aliases.py -> future, pathlib, string, typing, yaml
 - [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/ooficesod0woodo.py -> uno
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tools/setlazyaddonupdates.py -> future, argparse, pathlib, re, yaml
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)
@@ -61,8 +63,6 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_devtools.md](md/readmenator-agent/KB_devtools.md): Doc: Audit every registered shell command for dispatch and parser errors.
 - [readmenator-agent/KB_extensions.md](md/readmenator-agent/KB_extensions.md): Doc: Shared C2 extension modules.
 - [readmenator-agent/KB_hermes-lazyown.md](md/readmenator-agent/KB_hermes-lazyown.md): Doc: Hermes-LazyOwn integration package.
-- [readmenator-agent/KB_integrations.md](md/readmenator-agent/KB_integrations.md): Doc: LazyOwn integrations — bridges to external platforms and tools.
-- [readmenator-agent/KB_js.md](md/readmenator-agent/KB_js.md): Doc: Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
 ## Project Docs
 

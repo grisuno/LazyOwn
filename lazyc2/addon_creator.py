@@ -332,6 +332,9 @@ class AddonCreatorConfig:
             "llamacpp_host",
             "llm_model_llamacpp",
             "agent_model_timeout",
+            "android_serial",
+            "dirtyinit_device_path",
+            "wifi_ssid",
         }
     )
 

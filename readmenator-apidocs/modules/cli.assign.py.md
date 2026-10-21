@@ -24,6 +24,10 @@ Schema integration (additive, backwards compatible):
   optional ``on_issue`` callback. The assignment still proceeds (legacy
   lenient contract) except when the value contains shell metacharacters —
   those are rejected fail-closed so injection payloads never persist.
+  The backslash is deliberately allowed: on its own it cannot form a shell
+  operator and Windows paths such as ``C:\ProgramData`` need it; targeted
+  injection surfaces quote payload values with ``shlex.quote`` in
+  ``modules/conditional_hooks.py``.
 
 ## Contents
 
@@ -50,7 +54,7 @@ flowchart LR
 
 ### `apply_assign`
 
-`function` | [cli/assign.py:36](../../cli/assign.py#L36)
+`function` | [cli/assign.py:42](../../cli/assign.py#L42)
 
 ```python
 def apply_assign(params: dict[str, Any], key: str, value: Any, *, save: SaveFn | None = None, on_issue: IssueFn | None = None, history: Any | None = None) -> bool

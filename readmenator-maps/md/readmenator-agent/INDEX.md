@@ -42,7 +42,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/cloud_attacks.py` | Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS. | commands | 7 | 0 |
 | `cli/commands/collaboration.py` | Collaboration CLI commands — multi-operator teamwork from the shell. | commands | 8 | 0 |
 | `cli/commands/command_and_control.py` | Command & Control command set. | commands | 7 | 0 |
-| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 33 | 3 |
+| `cli/commands/command_and_control_migrated.py` | command_and_control commands migrated from lazyown.py. | commands | 34 | 4 |
 | `cli/commands/containers.py` | Container and Kubernetes attack command set. | commands | 7 | 12 |
 | `cli/commands/cred.py` | Credential Access command set (pending). | commands | 10 | 0 |
 | `cli/commands/cred_migrated.py` | cred commands migrated from lazyown.py. | commands | 33 | 1 |
@@ -97,7 +97,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/scan.py` | Scanning command set. | commands | 17 | 0 |
 | `cli/commands/scan_migrated.py` | scan commands migrated from lazyown.py. | commands | 52 | 0 |
 | `cli/commands/security.py` | OPSEC and security commands — risk scoring, credential sealing, rotation. | commands | 8 | 0 |
-| `cli/commands/session_ops.py` | Session and campaign operations extracted from the miscellaneous cluster. | commands | 36 | 3 |
+| `cli/commands/session_ops.py` | Session and campaign operations extracted from the miscellaneous cluster. | commands | 37 | 4 |
 | `cli/commands/shellsys.py` | Local shell and system extracted from the miscellaneous cluster. | commands | 12 | 1 |
 | `cli/commands/sleep_obfuscation.py` | Sleep obfuscation CommandSet — beacon memory evasion technique management. | commands | 4 | 0 |
 | `cli/commands/socks_proxy.py` | SOCKS proxy CommandSet — beacon tunneling configuration. | commands | 4 | 0 |

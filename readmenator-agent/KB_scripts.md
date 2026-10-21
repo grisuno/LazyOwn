@@ -29,6 +29,37 @@
   - `patch` (function, line 141) `def patch(path)`
   - `main` (function, line 175) `def main()`
 
+## scripts/broadcom_wps_drive.sh
+- Doc: operator-side driver for the Broadcom 802.11 SDK detection toolkit.
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `log` (function, line 53)
+  - `warn` (function, line 54)
+  - `die` (function, line 55)
+  - `usage` (function, line 57)
+  - `payload_value` (function, line 61)
+  - `parse_flags` (function, line 81)
+  - `detect_interface` (function, line 151)
+  - `is_wireless` (function, line 162)
+  - `apply_interface` (function, line 166)
+  - `resolve_interface` (function, line 170)
+  - `is_root` (function, line 190)
+  - `have_sudo` (function, line 194)
+  - `elevate` (function, line 200)
+  - `interface_mode` (function, line 210)
+  - `interface_up` (function, line 216)
+  - `python_bin` (function, line 227)
+  - `has_scapy` (function, line 231)
+  - `do_monitor` (function, line 235)
+  - `do_unmonitor` (function, line 247)
+  - `ensure_monitor_mode` (function, line 259)
+  - `run_fingerprint` (function, line 268)
+  - `run_yara` (function, line 308)
+  - `do_status` (function, line 325)
+  - `do_doctor` (function, line 348)
+  - `main` (function, line 404)
+
 ## scripts/check_contract_manifest.py
 - Doc: Verify that documented contracts still exist on disk.
 - Layer: utility
@@ -48,6 +79,40 @@
   - `__post_init__` (method, line 53) `def __post_init__(self)`
   - `_resolve` (method, line 58) `def _resolve(self, path)`
 - Imported by: `tests/test_contract_manifest.py`
+
+## scripts/dirtyinit_drive.sh
+- Doc: operator-side driver for the DirtyInit Android root chain.
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `log` (function, line 65)
+  - `warn` (function, line 66)
+  - `die` (function, line 67)
+  - `payload_value` (function, line 69)
+  - `parse_flags` (function, line 89)
+  - `require_adb` (function, line 130)
+  - `require_device` (function, line 134)
+  - `find_sdk` (function, line 141)
+  - `find_ndk` (function, line 152)
+  - `find_build_tools` (function, line 166)
+  - `find_android_jar` (function, line 173)
+  - `find_ndk_clang` (function, line 185)
+  - `find_java_tool` (function, line 201)
+  - `pack_apk` (function, line 211)
+  - `compile_activity` (function, line 255)
+  - `do_build` (function, line 265)
+  - `do_install` (function, line 329)
+  - `do_launch` (function, line 340)
+  - `tap_button` (function, line 348)
+  - `do_auto` (function, line 382)
+  - `do_extract` (function, line 393)
+  - `do_stage` (function, line 402)
+  - `do_run` (function, line 412)
+  - `do_logs` (function, line 418)
+  - `do_status` (function, line 423)
+  - `do_doctor` (function, line 468)
+  - `do_help` (function, line 525)
+  - `main` (function, line 529)
 
 ## scripts/fix_migrated_classes.py
 - Layer: utility

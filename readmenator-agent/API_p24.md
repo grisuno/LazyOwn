@@ -1,0 +1,374 @@
+# API (page 24 of 24)
+Previous: [API_p23.md](API_p23.md)
+
+## static/js/vis-network.min.js
+Depends on: `cli/show.py`, `core/process.py`, `lazyown-docker/init.sh`
+- `C` (function) `static/js/vis-network.min.js:26` -- @license vis.js is dual licensed under both  1.
+- `g` (function) `static/js/vis-network.min.js:26` -- @license vis.js is dual licensed under both  1.
+- `t` (function) `static/js/vis-network.min.js:26` -- @license vis.js is dual licensed under both  1.
+- `zo` (function) `static/js/vis-network.min.js:26` -- @license vis.js is dual licensed under both  1.
+- `nc` (function) `static/js/vis-network.min.js:26` -- @license vis.js is dual licensed under both  1.
+- `Pc` (function) `static/js/vis-network.min.js:33` -- !
+- `or` (function) `static/js/vis-network.min.js:33` -- !
+- `in` (function) `static/js/vis-network.min.js:33` -- !
+- `does` (function) `static/js/vis-network.min.js:33` -- !
+- `s` (function) `static/js/vis-network.min.js:33` -- !
+- `e` (function) `static/js/vis-network.min.js:33` -- !
+- `e` (function) `static/js/vis-network.min.js:33` -- !
+- `f` (function) `static/js/vis-network.min.js:33` -- !
+- `s` (function) `static/js/vis-network.min.js:33` -- !
+- `d` (function) `static/js/vis-network.min.js:33` -- !
+- `h` (function) `static/js/vis-network.min.js:33` -- !
+- `i` (function) `static/js/vis-network.min.js:33` -- !
+- `f` (function) `static/js/vis-network.min.js:33` -- !
+- `v` (function) `static/js/vis-network.min.js:33` -- !
+- `su` (function) `static/js/vis-network.min.js:33` -- !
+- `ku` (function) `static/js/vis-network.min.js:33` -- !
+- `Nu` (function) `static/js/vis-network.min.js:33` -- !
+- `Wu` (function) `static/js/vis-network.min.js:33` -- !
+- `Xu` (function) `static/js/vis-network.min.js:33` -- !
+- `gp` (function) `static/js/vis-network.min.js:33` -- !
+- `np` (function) `static/js/vis-network.min.js:33` -- !
+- `vp` (function) `static/js/vis-network.min.js:33` -- !
+- `g` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `g` (function) `static/js/vis-network.min.js:33` -- !
+- `I` (function) `static/js/vis-network.min.js:33` -- !
+- `o` (function) `static/js/vis-network.min.js:33` -- !
+- `o` (function) `static/js/vis-network.min.js:33` -- !
+- `A` (function) `static/js/vis-network.min.js:33` -- !
+- `ov` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `mw` (function) `static/js/vis-network.min.js:33` -- !
+- `kw` (function) `static/js/vis-network.min.js:33` -- !
+- `Ew` (function) `static/js/vis-network.min.js:33` -- !
+- `Ow` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `qw` (function) `static/js/vis-network.min.js:33` -- !
+- `e` (function) `static/js/vis-network.min.js:33` -- !
+- `C` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `ik` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `nk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `sk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `dk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `lk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `fk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `yk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `bk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `kk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Ek` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Tk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Nk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Pk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Bk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Zk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Fk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Lk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Vk` (function) `static/js/vis-network.min.js:33` -- !
+- `Qk` (function) `static/js/vis-network.min.js:33` -- !
+- `Hk` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `dx` (function) `static/js/vis-network.min.js:33` -- !
+- `Tx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Px` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Bx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Zx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Fx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Lx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `Vx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `qx` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `gE` (function) `static/js/vis-network.min.js:33` -- !
+- `t` (function) `static/js/vis-network.min.js:33` -- !
+- `CE` (function) `static/js/vis-network.min.js:33` -- !
+- `l` (function) `static/js/vis-network.min.js:33` -- !
+- `f` (function) `static/js/vis-network.min.js:33` -- !
+- `nE` (function) `static/js/vis-network.min.js:33` -- !
+- `dE` (function) `static/js/vis-network.min.js:33` -- !
+- `lE` (function) `static/js/vis-network.min.js:33` -- !
+- `o` (function) `static/js/vis-network.min.js:33` -- !
+- `uE` (function) `static/js/vis-network.min.js:33` -- !
+- `vE` (function) `static/js/vis-network.min.js:33` -- !
+- `A` (function) `static/js/vis-network.min.js:33` -- !
+- `rO` (function) `static/js/vis-network.min.js:48`
+- `g` (function) `static/js/vis-network.min.js:48`
+- `g` (function) `static/js/vis-network.min.js:48`
+- `has` (function) `static/js/vis-network.min.js:48`
+- `does` (function) `static/js/vis-network.min.js:48`
+- `I` (function) `static/js/vis-network.min.js:48`
+- `v` (function) `static/js/vis-network.min.js:48`
+- `lO` (function) `static/js/vis-network.min.js:48`
+- `cO` (function) `static/js/vis-network.min.js:48`
+- `fO` (function) `static/js/vis-network.min.js:48`
+- `l` (function) `static/js/vis-network.min.js:48`
+- `t` (function) `static/js/vis-network.min.js:48`
+- `bO` (function) `static/js/vis-network.min.js:48`
+- `a` (function) `static/js/vis-network.min.js:48`
+- `ZO` (function) `static/js/vis-network.min.js:48`
+- `u` (function) `static/js/vis-network.min.js:48`
+- `LO` (function) `static/js/vis-network.min.js:48`
+- `e` (function) `static/js/vis-network.min.js:48`
+
+## static/js/xterm-addon-web-links-0.5.0.js
+- `i` (function) `static/js/xterm-addon-web-links-0.5.0.js:1`
+- `i` (function) `static/js/xterm-addon-web-links-0.5.0.js:1`
+- `r` (function) `static/js/xterm-addon-web-links-0.5.0.js:1`
+- `a` (function) `static/js/xterm-addon-web-links-0.5.0.js:1`
+
+## static/js/xterm.js
+Depends on: `lazyown-docker/init.sh`, `modules/colors.py`, `skills/claude_md_orchestrator/parser.py`
+- `r` (function) `static/js/xterm.js:1`
+- `i` (function) `static/js/xterm.js:1`
+- `i` (function) `static/js/xterm.js:1`
+- `t` (function) `static/js/xterm.js:1`
+- `e` (function) `static/js/xterm.js:1`
+- `t` (function) `static/js/xterm.js:1`
+- `e` (function) `static/js/xterm.js:1`
+- `s` (function) `static/js/xterm.js:1`
+- `e` (function) `static/js/xterm.js:1`
+- `i` (function) `static/js/xterm.js:1`
+- `s` (function) `static/js/xterm.js:1`
+- `i` (function) `static/js/xterm.js:1`
+- `i` (function) `static/js/xterm.js:1`
+- `r` (function) `static/js/xterm.js:1`
+
+## telegram_c2.py
+Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
+- `SecureSessionManager.__init__` (method) `telegram_c2.py:19` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `telegram_c2.py:24` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `telegram_c2.py:31` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `telegram_c2.py:40` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `telegram_c2.py:53` `def create_session(self, user_id, client_id)`
+- `SecureSessionManager.validate_session` (method) `telegram_c2.py:61` `def validate_session(self, user_id)`
+- `Config.__init__` (method) `telegram_c2.py:78` `def __init__(self, config_dict)`
+- `load_payload` (function) `telegram_c2.py:87` `def load_payload()`
+- `start` (function) `telegram_c2.py:93` `def start(update, context)`
+- `exce_cmd` (function) `telegram_c2.py:116` `def exce_cmd(update, context)`
+- `add_cli` (function) `telegram_c2.py:191` `def add_cli(update, context)`
+- `handle_file` (function) `telegram_c2.py:203` `def handle_file(update, context)`
+- `download_c2` (function) `telegram_c2.py:230` `def download_c2(update, context)` -- Handle the /download_c2 command to download a file from the C2.
+- `send_connected_clients` (function) `telegram_c2.py:271` `def send_connected_clients(update, context)`
+- `main` (function) `telegram_c2.py:286` `def main()`
+
+## telegram_hermes.py
+Depends on: `core/parsers.py`
+- `run_lazyown_command` (function) `telegram_hermes.py:61` `def run_lazyown_command(command, timeout)` -- Execute one or more LazyOwn shell commands non-interactively via PTY.
+- `c2_request` (function) `telegram_hermes.py:145` `def c2_request(path, method, body)`
+- `load_payload` (function) `telegram_hermes.py:177` `def load_payload()`
+- `SecureSessionManager.__init__` (method) `telegram_hermes.py:187` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `telegram_hermes.py:192` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `telegram_hermes.py:199` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `telegram_hermes.py:208` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `telegram_hermes.py:221` `def create_session(self, user_id, client_id)`
+- `SecureSessionManager.validate_session` (method) `telegram_hermes.py:229` `def validate_session(self, user_id)`
+- `SecureSessionManager.get_client_id` (method) `telegram_hermes.py:241` `def get_client_id(self, user_id)`
+- `SecureSessionManager.set_client_id` (method) `telegram_hermes.py:245` `def set_client_id(self, user_id, client_id)`
+- `start` (function) `telegram_hermes.py:255` `def start(update, context)`
+- `help_cmd` (function) `telegram_hermes.py:278` `def help_cmd(update, context)`
+- `execute_command` (function) `telegram_hermes.py:306` `def execute_command(update, context)`
+- `sitrep` (function) `telegram_hermes.py:337` `def sitrep(update, context)`
+- `config_cmd` (function) `telegram_hermes.py:373` `def config_cmd(update, context)`
+- `add_cli` (function) `telegram_hermes.py:422` `def add_cli(update, context)`
+- `list_clients` (function) `telegram_hermes.py:437` `def list_clients(update, context)`
+- `c2_command` (function) `telegram_hermes.py:464` `def c2_command(update, context)`
+- `run_agent` (function) `telegram_hermes.py:504` `def run_agent(update, context)`
+- `delegate_task_cmd` (function) `telegram_hermes.py:533` `def delegate_task_cmd(update, context)`
+- `cron_schedule_cmd` (function) `telegram_hermes.py:564` `def cron_schedule_cmd(update, context)`
+- `status_cmd` (function) `telegram_hermes.py:597` `def status_cmd(update, context)`
+- `stop_daemon_cmd` (function) `telegram_hermes.py:630` `def stop_daemon_cmd(update, context)`
+- `download_file_cmd` (function) `telegram_hermes.py:647` `def download_file_cmd(update, context)`
+- `handle_file_upload` (function) `telegram_hermes.py:675` `def handle_file_upload(update, context)`
+- `text_command` (function) `telegram_hermes.py:712` `def text_command(update, context)` -- Handle any text message as a direct LazyOwn command.
+- `main` (function) `telegram_hermes.py:772` `def main()`
+
+## tests/run_mutation_api_authz.py
+- `run` (function) `tests/run_mutation_api_authz.py:83` `def run()` -- Run all mutations.
+
+## tests/run_mutation_c2_route_auth.py
+- `main` (function) `tests/run_mutation_c2_route_auth.py:40` `def main()`
+
+## tests/run_mutation_outcome_bus.py
+- `backup_files` (function) `tests/run_mutation_outcome_bus.py:47` `def backup_files(mutations, base_dir)` -- Snapshot original file contents.
+- `restore_files` (function) `tests/run_mutation_outcome_bus.py:57` `def restore_files(backups, base_dir, mutations)` -- Restore original file contents.
+- `run_tests` (function) `tests/run_mutation_outcome_bus.py:64` `def run_tests()` -- Run the scoped suite and return True on success.
+- `main` (function) `tests/run_mutation_outcome_bus.py:76` `def main()` -- Execute baseline, every mutant and restore the source.
+
+## tests/run_mutation_trigger_policy.py
+Depends on: `tests/mutation_common.py`
+- `main` (function) `tests/run_mutation_trigger_policy.py:52` `def main()` -- Execute baseline, every mutant and restore the source.
+
+## tools/contract_check.py
+- `check_file` (function) `tools/contract_check.py:19` `def check_file(path)` -- Validate one module and return human readable violations.
+- `main` (function) `tools/contract_check.py:46` `def main(argv)` -- Check each file argument and report violations.
+
+## tools/extract_cluster.py
+- `fragment_name` (function) `tools/extract_cluster.py:29` `def fragment_name(fragment)` -- Return the function name defined by an extracted source fragment.
+- `collect_methods` (function) `tools/extract_cluster.py:41` `def collect_methods(source_text, wanted)` -- Collect verbatim source of wanted methods in class-definition order.
+- `build_module` (function) `tools/extract_cluster.py:66` `def build_module(target_class, phase, category, title, methods, extra_imports)` -- Render the new pending CommandSet module source.
+- `main` (function) `tools/extract_cluster.py:141` `def main()` -- Extract the requested cluster and write the target module.
+
+## tools/gen_demo_gifs.py
+Imported by: `tools/gen_demo_gifs_extra.py`
+- `font` (function) `tools/gen_demo_gifs.py:14` `def font(size)` -- Resolve a monospace font with stdlib fallback.
+- `render` (function) `tools/gen_demo_gifs.py:22` `def render(lines, path, hold)` -- Render terminal line-by-line frames.
+- `main` (function) `tools/gen_demo_gifs.py:70` `def main()` -- Render the three core GIFs.
+
+## tools/gen_demo_gifs_extra.py
+Depends on: `tools/gen_demo_gifs.py`
+- `main` (function) `tools/gen_demo_gifs_extra.py:49` `def main()` -- Render the four extended GIFs.
+
+## tools/generate_metasploitable_gym.py
+- `exploit_document` (function) `tools/generate_metasploitable_gym.py:919` `def exploit_document(item)` -- Build one exploit YAML document.
+- `chain_document` (function) `tools/generate_metasploitable_gym.py:942` `def chain_document(item)` -- Build one per-vulnerability chain.
+- `base_chain_document` (function) `tools/generate_metasploitable_gym.py:961` `def base_chain_document()` -- Build the shared gym chain with scrape, exploit and sync stages.
+- `index_document` (function) `tools/generate_metasploitable_gym.py:1034` `def index_document()` -- Build the gym index consumed by the loader and the operator.
+- `write` (function) `tools/generate_metasploitable_gym.py:1074` `def write()` -- Write every generated YAML file.
+
+## tools/set_lazyaddon_updates.py
+- `set_flag` (function) `tools/set_lazyaddon_updates.py:22` `def set_flag(path, value)` -- Set the root update flag, returning True when the file changed.
+- `read_flag` (function) `tools/set_lazyaddon_updates.py:45` `def read_flag(path)` -- Return the root update flag, or None when absent.
+- `main` (function) `tools/set_lazyaddon_updates.py:55` `def main()`
+
+## utils.py
+Depends on: `cli/banner_config.py`, `core/config.py`, `core/console.py`, `core/crypto.py`, `core/dependencies.py`, `core/parsers.py`, `core/process.py`, `core/safe_subprocess.py`, `core/validators.py`, `modules/backdoor/server.c`, `modules/lazyencoder_decoder.py`, `skills/claude_md_orchestrator/parser.py`
+Imported by: `banner.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/retry_ops.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `cli/commands/verb_admin.py`, `cli/retry_support.py`, `contrib/legacy/lazysmbrelay.py`, `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/c2_builder.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/listener_manager.py`, `slack_c2_bot.py`, `tests/test_api_key_resolution.py`, `tests/test_boyscout_contracts.py`, `tests/test_fuzzy_picker.py`, `tests/test_lazy_worker_safety.py`, `tests/test_retry_session.py`, `tests/test_scope_guard.py`, `tests/test_security_hardening_v5.py`, `tests/test_single_implementation.py`
+- `needs_sudo` (function) `utils.py:323` `def needs_sudo(command)` -- Return True when any shell segment of the command runs sudo/doas.
+- `sudo_available` (function) `utils.py:347` `def sudo_available()` -- Return whether sudo can run unattended right now.
+- `redact_secrets` (function) `utils.py:399` `def redact_secrets(text)` -- Mask API keys and credentials embedded in a command line.
+- `parse_ip_mac` (function) `utils.py:419` `def parse_ip_mac(input_string)` -- Extracts IP and MAC addresses from a formatted input string using a regular expression.
+- `create_arp_packet` (function) `utils.py:441` `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)` -- Constructs an ARP packet with the given source and destination IP and MAC addresses.
+- `send_packet` (function) `utils.py:476` `def send_packet(packet, iface)` -- Sends a raw ARP packet over the specified network interface.
+- `load_version` (function) `utils.py:494` `def load_version()` -- Load the version number from the 'version.json' file.
+- `parse_bool` (function) `utils.py:520` `def parse_bool(value)` -- Interpret a configuration value as a boolean.
+- `signal_handler` (function) `utils.py:538` `def signal_handler(sig, frame)` -- Handles signals such as Control + C and shows a message on how to exit.
+- `activate_virtualenv` (function) `utils.py:563` `def activate_virtualenv(venv_path)` -- Activates a virtual environment and starts an interactive shell.
+- `parse_proc_net_file` (function) `utils.py:588` `def parse_proc_net_file(file_path)` -- Internal function to parse a /proc/net file and extract network ports.
+- `get_open_ports` (function) `utils.py:632` `def get_open_ports()` -- Internal function to get open TCP and UDP ports on the operating system.
+- `rotate_char` (function) `utils.py:651` `def rotate_char(c, shift)` -- Internal function to rotate characters for ROT cipher.
+- `get_network_info` (function) `utils.py:673` `def get_network_info()` -- Retrieves network interface information with their associated IP addresses.
+- `get_git_info` (function) `utils.py:708` `def get_git_info()`
+- `get_venv_info` (function) `utils.py:727` `def get_venv_info()`
+- `getprompt` (function) `utils.py:748` `def getprompt()` -- Render the configurable Neon Box prompt for the cmd2 shell.
+- `copy2clip` (function) `utils.py:766` `def copy2clip(text)` -- Copia el texto proporcionado al portapapeles usando xclip.
+- `clean_output` (function) `utils.py:786` `def clean_output(output)` -- Removes color escape sequences and other non-printable characters.
+- `teclado_usuario` (function) `utils.py:799` `def teclado_usuario(filename)` -- Processes a file to extract and display characters from specific write sequences.
+- `salida_strace` (function) `utils.py:835` `def salida_strace(filename)` -- Lee un archivo, extrae texto desde secuencias de escritura y muestra el contenido reconstruido.
+- `exploitalert` (function) `utils.py:871` `def exploitalert(content)` -- Process and display results from ExploitAlert.
+- `packetstormsecurity` (function) `utils.py:910` `def packetstormsecurity(content)` -- Process and display results from PacketStorm Security.
+- `nvddb` (function) `utils.py:948` `def nvddb(content)` -- Process and display results from the National Vulnerability Database.
+- `find_ss` (function) `utils.py:994` `def find_ss(keyword)` -- Find CVEs in the National Vulnerability Database based on a keyword.
+- `find_ea` (function) `utils.py:1056` `def find_ea(keyword)` -- Find exploits in ExploitAlert based on a keyword.
+- `find_ps` (function) `utils.py:1106` `def find_ps(keyword)` -- Find exploits in PacketStorm Security based on a keyword.
+- `run` (function) `utils.py:1138` `def run(command)` -- Executes a shell command using the subprocess module, capturing its output.
+- `is_exist` (function) `utils.py:1197` `def is_exist(file)` -- Check if a file exists.
+- `get_domain` (function) `utils.py:1226` `def get_domain(url)` -- Extracts the domain from a given URL.
+- `generate_random_cve_id` (function) `utils.py:1243` `def generate_random_cve_id()` -- Generate a random CVE identifier in the form CVE-{year}-{code}.
+- `generate_certificates` (function) `utils.py:1255` `def generate_certificates()` -- Generates a certificate authority (CA), client certificate, and client key.
+- `generate_emails` (function) `utils.py:1338` `def generate_emails(full_name, domain)` -- Generate email permutations based on the provided full name and domain.
+- `clean_url` (function) `utils.py:1398` `def clean_url(host)` -- Checks if the last character is a slash and removes it if so.
+- `random_string` (function) `utils.py:1405` `def random_string(length)` -- Generates a random alphanumeric string.
+- `generate_http_req` (function) `utils.py:1411` `def generate_http_req(host, port, uri, custom_header, cmd)` -- Generates an HTTP request with the Shellshock payload.
+- `format_openssh_key` (function) `utils.py:1435` `def format_openssh_key(raw_key)` -- Formats a raw OpenSSH private key string to the correct OpenSSH format.
+- `format_rsa_key` (function) `utils.py:1467` `def format_rsa_key(raw_key)` -- Formats a raw RSA private key string to the correct PEM format.
+- `is_package_installed` (function) `utils.py:1498` `def is_package_installed(package_name)` -- Check if a Python package is installed.
+- `extract` (function) `utils.py:1509` `def extract(string, extract_flag)` -- Extracts and processes specific hexadecimal sequences from a string based on a flag.
+- `clean_html` (function) `utils.py:1533` `def clean_html(html_string)` -- Remove HTML tags from a string.
+- `get_credentials` (function) `utils.py:1560` `def get_credentials(file, ncred)` -- Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
+- `obfuscate_payload` (function) `utils.py:1616` `def obfuscate_payload(payload)` -- Obfuscates a payload string by converting its characters into hexadecimal format, with additional comments for every...
+- `read_payloads` (function) `utils.py:1641` `def read_payloads(file_path)` -- Reads a file containing payloads and returns a list of properly formatted strings.
+- `inject_payloads` (function) `utils.py:1663` `def inject_payloads(urls, payload_url, request_timeout)` -- Sends HTTP requests to a list of URLs with injected payloads for testing XSS vulnerabilities.
+- `send_request` (function) `utils.py:1688` `def send_request(raw_url)`
+- `handle_forms` (function) `utils.py:1725` `def handle_forms(content, url)`
+- `prompt` (function) `utils.py:1763` `def prompt(label, default)` -- Return the prompt in the function do_xss
+- `add` (function) `utils.py:1771` `def add(str_part, delimiter, i)` -- Adds a delimiter between string parts if it's not the first part.
+- `detect_delimiter` (function) `utils.py:1788` `def detect_delimiter(foo_bar)` -- Detects the delimiter used in the input string (e.g., "-", "_", ".").
+- `transform` (function) `utils.py:1807` `def transform(parts, delimiter, casing)` -- Transforms a list of string parts based on the chosen casing style.
+- `handle` (function) `utils.py:1837` `def handle(input_str)` -- Splits the input string into parts based on delimiters or mixed casing.
+- `get_users_dic` (function) `utils.py:1867` `def get_users_dic(txt)` -- List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
+- `get_hash` (function) `utils.py:1902` `def get_hash(dir)` -- Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
+- `is_digit` (function) `utils.py:1943` `def is_digit(the_digit)` -- Check if the given character is a digit.
+- `crack_password` (function) `utils.py:1955` `def crack_password(crypttext)` -- Crack a Cisco Type 7 password.
+- `get_terminal_size` (function) `utils.py:1995` `def get_terminal_size()`
+- `halp` (function) `utils.py:2004` `def halp()` -- Display the help panel for the LazyOwn RedTeam Framework.
+- `ensure_tmux_session` (function) `utils.py:2059` `def ensure_tmux_session(session_name)` -- Ensure that a tmux session is active.
+- `get_xml` (function) `utils.py:2095` `def get_xml(directory)` -- Retrieves a list of XML files from the specified directory.
+- `get_domain_from_xml` (function) `utils.py:2108` `def get_domain_from_xml(xml_file)` -- Extracts the first domain or IP address from an Nmap scan XML file.
+- `shellcode_to_sylk` (function) `utils.py:2138` `def shellcode_to_sylk(shellcode_path)`
+- `get_banner` (function) `utils.py:2163` `def get_banner(ip, port)`
+- `list_binaries` (function) `utils.py:2180` `def list_binaries(directory)` -- List all executable binaries in the specified directory.
+- `select_binary` (function) `utils.py:2200` `def select_binary(binaries)` -- Prompt the user to select a binary from a list.
+- `decode` (function) `utils.py:2225` `def decode(data)` -- Decodes base64 data received from the server output.
+- `get_command` (function) `utils.py:2243` `def get_command(url, lhost)` -- Reads a command from standard input and initiates a thread to send the command to the target server.
+- `send_command` (function) `utils.py:2254` `def send_command(cmd, url, lhost)` -- Constructs and sends an SQL payload with xp_cmdshell and certutil for command execution and exfiltration.
+- `activate_server` (function) `utils.py:2282` `def activate_server(httpd, url, lhost)` -- Activates the HTTP server and fetches the first command from the user.
+- `Spray` (function) `utils.py:2293` `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
+- `ProcessResults` (function) `utils.py:2340` `def ProcessResults(results, outfile)`
+- `generate_index` (function) `utils.py:2355` `def generate_index(repo_dir)` -- Generates an APT repository structure and index files for proper compatibility.
+- `replace_variables` (function) `utils.py:2405` `def replace_variables(command, variables)` -- Replace variables in a command string with their corresponding values.
+- `create_caldera_config` (function) `utils.py:2426` `def create_caldera_config(file_path)` -- Creates a Caldera configuration file with the specified content at the given file path.
+- `extract_banners` (function) `utils.py:2522` `def extract_banners(xml_file)` -- Extract banner information from an XML file.
+- `scrape_news` (function) `utils.py:2571` `def scrape_news()` -- Makes a request to the Hacker News page and extracts titles, links, and scores.
+- `display_news` (function) `utils.py:2606` `def display_news(titles, links, scores)` -- Creates a pandas DataFrame and prints it, showing titles, links, and scores.
+- `htmlify` (function) `utils.py:2620` `def htmlify(data)` -- Wrap C2 comms in html and html2 code to make requests look more legitimate
+- `de_htmlify` (function) `utils.py:2631` `def de_htmlify(data)` -- Cleant wrap C2 comms of html and html2 code to get the command from request
+- `is_port_in_use` (function) `utils.py:2643` `def is_port_in_use(port, host)`
+- `return_creds` (function) `utils.py:2652` `def return_creds()`
+- `query_arin_ip` (function) `utils.py:2666` `def query_arin_ip(ip)` -- Queries ARIN whois API for organization information of an IP address.
+- `get_org` (function) `utils.py:2685` `def get_org(data)` -- Extracts organization name from ARIN whois response data.
+- `load_adversary` (function) `utils.py:2702` `def load_adversary()`
+- `replace_placeholders` (function) `utils.py:2708` `def replace_placeholders(template, replacements)` -- Replace placeholders in a template string with values from a dictionary.
+- `replace_command_placeholders` (function) `utils.py:2726` `def replace_command_placeholders(command, params)` -- Replace placeholders in a command string with values from a params dictionary.
+- `replace_match` (function) `utils.py:2744` `def replace_match(match)`
+- `parse_nmap_csv` (function) `utils.py:2752` `def parse_nmap_csv(csv_path)`
+- `query_ollama` (function) `utils.py:2766` `def query_ollama(prompt, model)` -- Sends query to Ollama and returns model response.
+- `preprocess_llm_response` (function) `utils.py:2781` `def preprocess_llm_response(response)` -- Pre-process LLM response to handle common issues before YAML parsing
+- `manual_yaml_extraction` (function) `utils.py:2816` `def manual_yaml_extraction(content)` -- Fallback method to manually extract YAML data from malformed content
+- `create_synthetic_yaml` (function) `utils.py:2882` `def create_synthetic_yaml(nmap_services)` -- Create a basic synthetic YAML playbook when all else fails
+- `parse_yaml_response` (function) `utils.py:2955` `def parse_yaml_response(content)` -- Improved function to extract and parse YAML content from LLM response with better error handling and recovery attempts
+- `fix_common_yaml_issues` (function) `utils.py:2990` `def fix_common_yaml_issues(yaml_content)` -- Fixes common YAML formatting issues
+- `aggressive_yaml_fix` (function) `utils.py:3030` `def aggressive_yaml_fix(yaml_content)` -- More aggressive YAML fixing for recovery attempts
+- `save_playbook` (function) `utils.py:3061` `def save_playbook(playbook_data, playbook_name)` -- Guarda el playbook generado en disco
+- `load_knowledge_base` (function) `utils.py:3073` `def load_knowledge_base(knowledge_file)` -- Carga la base de conocimientos personalizada.
+- `anti_debug` (function) `utils.py:3081` `def anti_debug()`
+- `create_msfshellcoder_parser` (function) `utils.py:3090` `def create_msfshellcoder_parser()`
+- `load_user_aliases` (function) `utils.py:3110` `def load_user_aliases()` -- Carga los aliases del archivo JSON si existe.
+- `SimpleHTTPRequestHandler.log_request` (method) `utils.py:3135` `def log_request(self)`
+- `SimpleHTTPRequestHandler.log_message` (method) `utils.py:3138` `def log_message(self)`
+- `SimpleHTTPRequestHandler.do_GET` (method) `utils.py:3141` `def do_GET(self)` -- Serve certutil callback using centralized payload config.
+- `IP2ASN.__init__` (method) `utils.py:3161` `def __init__(self)`
+- `IP2ASN.open_file` (method) `utils.py:3166` `def open_file(self, filename)` -- Open and parse the IP-to-ASN file.
+- `IP2ASN.open_reader` (method) `utils.py:3171` `def open_reader(self, reader)` -- Parse the reader stream, handling both regular and gzipped files.
+- `IP2ASN.as_of_ip` (method) `utils.py:3211` `def as_of_ip(self, ip)` -- Return the ASN associated with the given IP address.
+- `IP2ASN.as_name` (method) `utils.py:3226` `def as_name(self, asn)` -- Get the AS name by ASN.
+- `IP2ASN.as_country` (method) `utils.py:3230` `def as_country(self, asn)` -- Get the country by ASN.
+- `VulnerabilityScanner.__init__` (method) `utils.py:3267` `def __init__(self, user_agent, max_workers, sessions_dir, description_language)` -- Initialize the scanner with configurable network and storage knobs.
+- `VulnerabilityScanner.search_cves` (method) `utils.py:3293` `def search_cves(self, service)` -- Return CVE records matching the supplied service banner.
+- `VulnerabilityScanner.persist` (method) `utils.py:3363` `def persist(self, service, target, cves)` -- Persist ``cves`` to ``sessions/vulns_<target>.json``.
+- `VulnerabilityScanner.pretty_print` (method) `utils.py:3400` `def pretty_print(self, cves_details)` -- Render ``cves_details`` as semicolon-separated rows in the shell.
+

@@ -69,6 +69,20 @@ from utils import (
 __all__ = ["SessionOpsCommandSet"]
 
 
+def _strip_shell_quotes(value: str) -> str:
+    """Drop one pair of matching wrapping quotes kept by ``posix=False`` parsing.
+
+    Args:
+        value: Token produced by ``shlex.split(..., posix=False)``.
+
+    Returns:
+        The token without a single wrapping pair of quotes.
+    """
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "'\"":
+        return value[1:-1]
+    return value
+
+
 class SessionOpsCommandSet(LazyOwnCommandSet):
     """Session and campaign operations."""
 
@@ -263,12 +277,13 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         :type line: str
         :return: None
         """
-        args = shlex.split(line)
+        args = shlex.split(line, posix=False)
         if len(args) != 2:
             print_error(f"{YELLOW} Usage: assign <parameter> <value>{RESET}")
             return
 
         param, value = args
+        value = _strip_shell_quotes(value)
         issues: list = []
         shell = self._resolve_shell() or self
         try:

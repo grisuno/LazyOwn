@@ -1,5 +1,5 @@
-# API (page 1 of 23)
-Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md), [API_p23.md](API_p23.md)
+# API (page 1 of 24)
+Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md), [API_p23.md](API_p23.md), [API_p24.md](API_p24.md)
 
 ## DEPLOY.sh
 - `increment_version` (function) `DEPLOY.sh:19`
@@ -54,7 +54,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.
 ## cli/assign.py
 Depends on: `core/payload_schema.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/js/3d-force-graph-1.73.4.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/force-graph-1.43.5.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
-- `apply_assign` (function) `cli/assign.py:36` `def apply_assign(params, key, value)` -- Validate, mutate and persist a single payload assignment.
+- `apply_assign` (function) `cli/assign.py:42` `def apply_assign(params, key, value)` -- Validate, mutate and persist a single payload assignment.
 
 ## cli/auto_crypto.py
 Depends on: `core/crypto.py`, `core/logging.py`, `modules/cli_auth.py`
@@ -433,35 +433,36 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/command_and_control_migrated.py
 Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_distill.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
-Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_gym_cli.py`
-- `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:45` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
-- `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:395` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
-- `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:517` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
-- `CommandAndControlMigratedCommandSet.do_sandbox` (method) `cli/commands/command_and_control_migrated.py:645` `def do_sandbox(self, line)` -- Toggle or query Docker sandbox mode.
-- `CommandAndControlMigratedCommandSet.do_msfrpc` (method) `cli/commands/command_and_control_migrated.py:687` `def do_msfrpc(self, line)` -- Connects to the msfrpcd daemon and allows remote control of Metasploit.
-- `CommandAndControlMigratedCommandSet.do_sliver_server` (method) `cli/commands/command_and_control_migrated.py:711` `def do_sliver_server(self, line)` -- Starts the Sliver server and generates a client configuration file for connecting clients.
-- `CommandAndControlMigratedCommandSet.do_empire` (method) `cli/commands/command_and_control_migrated.py:828` `def do_empire(self, line)` -- Generates payloads using PowerShell Empire with various options.
-- `CommandAndControlMigratedCommandSet.do_automsf` (method) `cli/commands/command_and_control_migrated.py:878` `def do_automsf(self, line)` -- Try to check if Vulnerable using the module passed by argument of lazyown example automsf...
-- `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp` (method) `cli/commands/command_and_control_migrated.py:923` `def do_iis_webdav_upload_asp(self, line)` -- (CVE-2017-7269).
-- `CommandAndControlMigratedCommandSet.do_duckyspark` (method) `cli/commands/command_and_control_migrated.py:958` `def do_duckyspark(self, line)` -- duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
-- `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1159` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
-- `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1223` `def do_atomic_tests(self, line)` -- Stage an Atomic Red Team test by MITRE technique ID or GUID.
-- `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1244` `def do_atomic_gen(self, line)` -- Generate test + cleanup scripts for a MITRE ID or GUID.
-- `CommandAndControlMigratedCommandSet.do_atomic_shell` (method) `cli/commands/command_and_control_migrated.py:1288` `def do_atomic_shell(self, line)` -- Open an interactive root shell on the target when possible.
-- `CommandAndControlMigratedCommandSet.do_atomic_clean` (method) `cli/commands/command_and_control_migrated.py:1327` `def do_atomic_clean(self, line)` -- Clean up engagement artefacts (soft) or tear down the gym (hard).
-- `CommandAndControlMigratedCommandSet.do_atomic_emulate` (method) `cli/commands/command_and_control_migrated.py:1364` `def do_atomic_emulate(self, line)` -- Execute emulation tests on the target through a working shell.
-- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1421` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
-- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1524` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
-- `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1683` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
-- `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1721` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
-- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:1955` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2005` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2125` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2228` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2407` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2464` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2513` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2605` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
+- `select_agent_flavour` (function) `cli/commands/command_and_control_migrated.py:43` `def select_agent_flavour(run_tests, platform)` -- Pick the agent script extension from the tests of the current run.
+- `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:71` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
+- `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:421` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
+- `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:543` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
+- `CommandAndControlMigratedCommandSet.do_sandbox` (method) `cli/commands/command_and_control_migrated.py:671` `def do_sandbox(self, line)` -- Toggle or query Docker sandbox mode.
+- `CommandAndControlMigratedCommandSet.do_msfrpc` (method) `cli/commands/command_and_control_migrated.py:713` `def do_msfrpc(self, line)` -- Connects to the msfrpcd daemon and allows remote control of Metasploit.
+- `CommandAndControlMigratedCommandSet.do_sliver_server` (method) `cli/commands/command_and_control_migrated.py:737` `def do_sliver_server(self, line)` -- Starts the Sliver server and generates a client configuration file for connecting clients.
+- `CommandAndControlMigratedCommandSet.do_empire` (method) `cli/commands/command_and_control_migrated.py:854` `def do_empire(self, line)` -- Generates payloads using PowerShell Empire with various options.
+- `CommandAndControlMigratedCommandSet.do_automsf` (method) `cli/commands/command_and_control_migrated.py:904` `def do_automsf(self, line)` -- Try to check if Vulnerable using the module passed by argument of lazyown example automsf...
+- `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp` (method) `cli/commands/command_and_control_migrated.py:949` `def do_iis_webdav_upload_asp(self, line)` -- (CVE-2017-7269).
+- `CommandAndControlMigratedCommandSet.do_duckyspark` (method) `cli/commands/command_and_control_migrated.py:984` `def do_duckyspark(self, line)` -- duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+- `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1185` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
+- `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1249` `def do_atomic_tests(self, line)` -- Stage an Atomic Red Team test by MITRE technique ID or GUID.
+- `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1270` `def do_atomic_gen(self, line)` -- Generate test + cleanup scripts for a MITRE ID or GUID.
+- `CommandAndControlMigratedCommandSet.do_atomic_shell` (method) `cli/commands/command_and_control_migrated.py:1314` `def do_atomic_shell(self, line)` -- Open an interactive root shell on the target when possible.
+- `CommandAndControlMigratedCommandSet.do_atomic_clean` (method) `cli/commands/command_and_control_migrated.py:1353` `def do_atomic_clean(self, line)` -- Clean up engagement artefacts (soft) or tear down the gym (hard).
+- `CommandAndControlMigratedCommandSet.do_atomic_emulate` (method) `cli/commands/command_and_control_migrated.py:1390` `def do_atomic_emulate(self, line)` -- Execute emulation tests on the target through a working shell.
+- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1447` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
+- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1550` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
+- `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1727` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
+- `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1765` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
+- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:1999` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2049` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2169` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2272` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2451` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2508` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2557` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2649` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 ## cli/commands/containers.py
 Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`

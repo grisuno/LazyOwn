@@ -1,8 +1,10 @@
-# Symbols (page 18 of 43)
+# Symbols (page 18 of 44)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
+| `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
 | `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
 | `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
 | `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
 | `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
 | `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
-| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
-| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

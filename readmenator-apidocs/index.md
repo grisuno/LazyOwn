@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 790 modules, 14956 documented entities, documentation coverage 74.2% (6993/9420 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 792 modules, 15011 documented entities, documentation coverage 73.8% (6995/9475 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (679), sh (59)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (679), sh (61)
 
 ## Modules
 
@@ -868,7 +868,9 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`scripts`](modules/scripts.__init__.py.md) | Repository-side maintenance scripts. | 0 | 0 | 100.0% |
 | [`scripts.activate_migrations`](modules/scripts.activate_migrations.py.md) | Activate dormant CommandSet migrations. | 1 | 6 | 75.0% |
 | [`scripts.backfill_addon_os_trigger`](modules/scripts.backfill_addon_os_trigger.py.md) | One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon. | 0 | 5 | 100.0% |
+| [`scripts/broadcom_wps_drive.sh`](modules/scripts.broadcom_wps_drive.sh.md) | broadcom_wps_drive.sh - operator-side driver for the Broadcom 802.11 SDK detection toolkit. | 0 | 25 | 3.8% |
 | [`scripts.check_contract_manifest`](modules/scripts.check_contract_manifest.py.md) | Verify that documented contracts still exist on disk. | 1 | 3 | 100.0% |
+| [`scripts/dirtyinit_drive.sh`](modules/scripts.dirtyinit_drive.sh.md) | dirtyinit_drive.sh - operator-side driver for the DirtyInit Android root chain. | 0 | 28 | 3.4% |
 | [`scripts.fix_migrated_classes`](modules/scripts.fix_migrated_classes.py.md) |  | 0 | 0 | 0.0% |
 | [`scripts.generate_sbom`](modules/scripts.generate_sbom.py.md) | Generate a minimal CycloneDX SBOM from the pinned requirements files. | 0 | 5 | 100.0% |
 | [`scripts.journal`](modules/scripts.journal.py.md) | Read-before-you-write journal over GitHub Discussions. | 3 | 6 | 100.0% |

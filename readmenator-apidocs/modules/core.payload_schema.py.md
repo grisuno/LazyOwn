@@ -239,7 +239,7 @@ Severity of a [`ValidationIssue`](#validationissue).
 
 ### `field_for`
 
-`function` | [core/payload_schema.py:1582](../../core/payload_schema.py#L1582)
+`function` | [core/payload_schema.py:1616](../../core/payload_schema.py#L1616)
 
 ```python
 def field_for(key: str) -> FieldSpec | None
@@ -261,7 +261,7 @@ Return the [`FieldSpec`](#fieldspec) for `[`key`](key.py.md)` or ``None`` if it 
 
 ### `coerce_value`
 
-`function` | [core/payload_schema.py:1587](../../core/payload_schema.py#L1587)
+`function` | [core/payload_schema.py:1621](../../core/payload_schema.py#L1621)
 
 ```python
 def coerce_value(key: str, raw: Any) -> Any
@@ -292,7 +292,7 @@ defined for the field's kind.
 
 ### `validate_value`
 
-`function` | [core/payload_schema.py:1610](../../core/payload_schema.py#L1610)
+`function` | [core/payload_schema.py:1644](../../core/payload_schema.py#L1644)
 
 ```python
 def validate_value(key: str, value: Any) -> ValidationIssue | None
@@ -324,7 +324,7 @@ caller knows the value will not be type-checked.
 
 ### `validate_payload`
 
-`function` | [core/payload_schema.py:1684](../../core/payload_schema.py#L1684)
+`function` | [core/payload_schema.py:1718](../../core/payload_schema.py#L1718)
 
 ```python
 def validate_payload(payload: Mapping[str, Any]) -> list[ValidationIssue]
@@ -358,7 +358,7 @@ that are missing from the payload entirely are reported with
 
 ### `format_issue`
 
-`function` | [core/payload_schema.py:1719](../../core/payload_schema.py#L1719)
+`function` | [core/payload_schema.py:1753](../../core/payload_schema.py#L1753)
 
 ```python
 def format_issue(issue: ValidationIssue) -> str
@@ -384,7 +384,7 @@ diagnostics (``key: severity: message``) so it grep-friendly.
 
 ### `default_payload`
 
-`function` | [core/payload_schema.py:1737](../../core/payload_schema.py#L1737)
+`function` | [core/payload_schema.py:1771](../../core/payload_schema.py#L1771)
 
 ```python
 def default_payload() -> dict[str, Any]
@@ -402,7 +402,7 @@ Useful for tests and for the wizard when no ``payload.json`` exists.
 
 ### `categories`
 
-`function` | [core/payload_schema.py:1745](../../core/payload_schema.py#L1745)
+`function` | [core/payload_schema.py:1779](../../core/payload_schema.py#L1779)
 
 ```python
 def categories() -> dict[str, list[FieldSpec]]

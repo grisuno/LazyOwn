@@ -294,7 +294,7 @@ Report whether the framework is running inside its virtual environment.
 | `base_prefix` | `str \| None` | `getattr(sys, 'base_prefix', None)` | System interpreter prefix (``sys.base_prefix``). ``None`` collapses to ``prefix`` for ancient interpreters. |
 | `root` | `Path` |  | Repository root used to locate the ``env/`` directory. |
 
-**Returns:** `CheckResult` - `[`ok`](scripts.top_tier_check.py.md#ok)` when an isolated environment is active; `[`warn`](skills.setup.sh.md#warn)` otherwise so the
+**Returns:** `CheckResult` - `[`ok`](scripts.top_tier_check.py.md#ok)` when an isolated environment is active; ``warn`` otherwise so the
 operator is nudged to activate ``env/`` without blocking the session.
 
 *Calls:* [`CheckResult`](#checkresult)
@@ -352,7 +352,7 @@ Verify the self-signed C2 certificate pair exists.
 |---|---|---|---|
 | `root` | `Path` |  | Repository root containing ``cert.pem`` / ``key.pem``. |
 
-**Returns:** `CheckResult` - `[`warn`](skills.setup.sh.md#warn)` when either file is missing because the certificates are only
+**Returns:** `CheckResult` - ``warn`` when either file is missing because the certificates are only
 needed once the C2 starts, not for CLI-only recon.
 
 *Calls:* [`CheckResult`](#checkresult)
@@ -406,7 +406,7 @@ Verify a SecLists installation is discoverable on disk.
 |---|---|---|---|
 | `finder` | `Callable[[], str \| None]` | `_find_seclists_root` | Callable returning the SecLists root or ``None``. Defaults to `cli.wizard._find_seclists_root` so the candidate paths are defined once. |
 
-**Returns:** `CheckResult` - `[`warn`](skills.setup.sh.md#warn)` when not found because wordlist paths can be set manually.
+**Returns:** `CheckResult` - ``warn`` when not found because wordlist paths can be set manually.
 
 *Calls:* [`CheckResult`](#checkresult)
 
@@ -450,7 +450,7 @@ def check_external_tools(checker: Callable[[], list[BinaryStatus]] = check_binar
 
 Adapt [`cli.wizard.check_binaries`](cli.wizard.py.md#check_binaries) into preflight check results.
 
-Missing external tools are reported as `[`warn`](skills.setup.sh.md#warn)` rather than ``fail`` because
+Missing external tools are reported as ``warn`` rather than ``fail`` because
 each tool only powers a subset of the kill-chain; recon can proceed while,
 for example, ``evil-winrm`` is absent.
 

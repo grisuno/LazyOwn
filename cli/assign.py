@@ -20,6 +20,10 @@ Schema integration (additive, backwards compatible):
   optional ``on_issue`` callback. The assignment still proceeds (legacy
   lenient contract) except when the value contains shell metacharacters —
   those are rejected fail-closed so injection payloads never persist.
+  The backslash is deliberately allowed: on its own it cannot form a shell
+  operator and Windows paths such as ``C:\\ProgramData`` need it; targeted
+  injection surfaces quote payload values with ``shlex.quote`` in
+  ``modules/conditional_hooks.py``.
 """
 
 from __future__ import annotations
@@ -31,6 +35,8 @@ from core.payload_schema import Severity, ValidationIssue, coerce_value, validat
 
 SaveFn = Callable[[dict[str, Any]], None]
 IssueFn = Callable[[ValidationIssue], None]
+
+REJECTED_SHELL_CHARS = ";|&$()`{}!><*?~#'\"\n\r"
 
 
 def apply_assign(
@@ -65,7 +71,7 @@ def apply_assign(
     if key not in params:
         return False
     coerced = coerce_value(key, value)
-    if isinstance(coerced, str) and any(ch in coerced for ch in ";|&$()`{}!><*?~#\\'\"\n\r"):
+    if isinstance(coerced, str) and any(ch in coerced for ch in REJECTED_SHELL_CHARS):
         if on_issue is not None:
             on_issue(
                 ValidationIssue(

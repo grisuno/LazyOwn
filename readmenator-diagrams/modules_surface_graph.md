@@ -13,15 +13,15 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (9.1)
+## cli (12.1)
 
 cli groups 4 files (py) around _slug_host, _slug_port, SurfaceNode, to_dict, SurfaceEdge. Database commands — workspace isolation, host/service/vuln management, nmap import...
 
-## modules (9.2)
+## modules (12.2)
 
 modules groups 6 files (py) around _cache_path, _cache_load, _cache_save, _cached, _store. Attack-surface 3D intel module: C2-centred campaign graph.
 
-## tests (9.3)
+## tests (12.3)
 
 tests groups 6 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 

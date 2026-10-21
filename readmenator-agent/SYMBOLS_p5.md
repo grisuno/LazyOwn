@@ -1,8 +1,10 @@
-# Symbols (page 5 of 43)
+# Symbols (page 5 of 44)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
+| `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
 | `_enabled` | function | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
 | `_safe_log` | function | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
 | `_update_world_model_phase` | function | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `SessionPreview` | class | `cli/sessions_browser.py:185` | `class SessionPreview` |
 | `SessionsBrowserConfig` | class | `cli/sessions_browser.py:49` | `class SessionsBrowserConfig` |
 | `SessionsBrowserState` | class | `cli/sessions_browser.py:225` | `class SessionsBrowserState` |
-| `SessionsIndex` | class | `cli/sessions_browser.py:85` | `class SessionsIndex` |
-| `_SessionsBrowserApp` | class | `cli/sessions_browser.py:325` | `class _SessionsBrowserApp(App)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

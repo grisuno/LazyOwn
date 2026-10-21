@@ -232,7 +232,7 @@ Return the ordered list of prerequisite commands for `[`cmd`](lazyown.py.md#lazy
 
 **Returns:** `list[str]`
 
-*Called by:* [`PrerequisiteRegistry.missing`](#prerequisiteregistry-missing)
+*Called by:* [`PrerequisiteRegistry.missing`](#prerequisiteregistry-missing), [`do_doctor`](scripts.broadcom_wps_drive.sh.md#do_doctor), [`do_doctor`](scripts.dirtyinit_drive.sh.md#do_doctor)
 
 <a id="prerequisiteregistry-missing"></a>
 

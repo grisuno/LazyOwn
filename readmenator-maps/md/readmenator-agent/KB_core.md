@@ -439,13 +439,13 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `_coerce_int` (function, line 301) `def _coerce_int(raw)`
   - `_coerce_bool` (function, line 316) `def _coerce_bool(raw)`
   - `_spec` (function, line 335) `def _spec(name, kind, default, description)`
-  - `field_for` (function, line 1582) `def field_for(key)`
-  - `coerce_value` (function, line 1587) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 1610) `def validate_value(key, value)`
-  - `validate_payload` (function, line 1684) `def validate_payload(payload)`
-  - `format_issue` (function, line 1719) `def format_issue(issue)`
-  - `default_payload` (function, line 1737) `def default_payload()`
-  - `categories` (function, line 1745) `def categories()`
+  - `field_for` (function, line 1616) `def field_for(key)`
+  - `coerce_value` (function, line 1621) `def coerce_value(key, raw)`
+  - `validate_value` (function, line 1644) `def validate_value(key, value)`
+  - `validate_payload` (function, line 1718) `def validate_payload(payload)`
+  - `format_issue` (function, line 1753) `def format_issue(issue)`
+  - `default_payload` (function, line 1771) `def default_payload()`
+  - `categories` (function, line 1779) `def categories()`
 - Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 

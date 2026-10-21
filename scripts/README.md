@@ -23,6 +23,8 @@ LazyOwn CLI.
 | `activate_migrations.py` | Enables the migrated CommandSet modules. |
 | `migrate_commandsets.py`, `migrate_lazyown.py`, `fix_migrated_classes.py` | One-off migration tooling for the command split. |
 | `setup_hermes_mcp.sh` | Registers the MCP server with Hermes, resolving the repo path at runtime. |
+| `dirtyinit_drive.sh` | Drives the DirtyInit Android root chain: NDK/SDK build of the exploit APK, ADB install, uiautomator-driven app buttons, client extraction, staging and init-namespace execution. |
+| `broadcom_wps_drive.sh` | Drives the Broadcom 802.11 SDK detection toolkit: monitor-mode adapter setup, live WPS fingerprinting with evidence capture, and the upstream YARA pass over extracted firmware. |
 | `validate_agent_contract.sh` | Checks the agent contract file. |
 | `devtools/` | Reusable development tools. See `devtools/README.md`. |
 | `__init__.py` | Makes the directory importable as a package. |

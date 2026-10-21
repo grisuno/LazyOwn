@@ -99,7 +99,7 @@ flowchart LR
 
 ### `SessionOpsCommandSet`
 
-`class` | [cli/commands/session_ops.py:72](../../cli/commands/session_ops.py#L72)
+`class` | [cli/commands/session_ops.py:86](../../cli/commands/session_ops.py#L86)
 
 ```python
 class SessionOpsCommandSet(LazyOwnCommandSet)
@@ -158,7 +158,7 @@ Session and campaign operations.
 
 #### `SessionOpsCommandSet.do_note`
 
-`method` | [cli/commands/session_ops.py:79](../../cli/commands/session_ops.py#L79)
+`method` | [cli/commands/session_ops.py:93](../../cli/commands/session_ops.py#L93)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -188,7 +188,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_l00t`
 
-`method` | [cli/commands/session_ops.py:104](../../cli/commands/session_ops.py#L104)
+`method` | [cli/commands/session_ops.py:118](../../cli/commands/session_ops.py#L118)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -232,7 +232,7 @@ Subcommands:
 
 #### `SessionOpsCommandSet.do_loot`
 
-`method` | [cli/commands/session_ops.py:153](../../cli/commands/session_ops.py#L153)
+`method` | [cli/commands/session_ops.py:167](../../cli/commands/session_ops.py#L167)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -256,7 +256,7 @@ See ``help l00t`` for the full subcommand reference.
 
 #### `SessionOpsCommandSet.do_pivot`
 
-`method` | [cli/commands/session_ops.py:161](../../cli/commands/session_ops.py#L161)
+`method` | [cli/commands/session_ops.py:175](../../cli/commands/session_ops.py#L175)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -287,7 +287,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_tasks`
 
-`method` | [cli/commands/session_ops.py:186](../../cli/commands/session_ops.py#L186)
+`method` | [cli/commands/session_ops.py:200](../../cli/commands/session_ops.py#L200)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -320,7 +320,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_scans`
 
-`method` | [cli/commands/session_ops.py:219](../../cli/commands/session_ops.py#L219)
+`method` | [cli/commands/session_ops.py:233](../../cli/commands/session_ops.py#L233)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -348,7 +348,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_sitrep`
 
-`method` | [cli/commands/session_ops.py:236](../../cli/commands/session_ops.py#L236)
+`method` | [cli/commands/session_ops.py:250](../../cli/commands/session_ops.py#L250)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -379,7 +379,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_assign`
 
-`method` | [cli/commands/session_ops.py:253](../../cli/commands/session_ops.py#L253)
+`method` | [cli/commands/session_ops.py:267](../../cli/commands/session_ops.py#L267)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -409,7 +409,7 @@ reflect the new value without a shell restart.
 
 #### `SessionOpsCommandSet.do_tenant`
 
-`method` | [cli/commands/session_ops.py:317](../../cli/commands/session_ops.py#L317)
+`method` | [cli/commands/session_ops.py:332](../../cli/commands/session_ops.py#L332)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -443,7 +443,7 @@ in ``sessions/<id>/``. The default tenant always exists.
 
 #### `SessionOpsCommandSet.do_scope`
 
-`method` | [cli/commands/session_ops.py:390](../../cli/commands/session_ops.py#L390)
+`method` | [cli/commands/session_ops.py:405](../../cli/commands/session_ops.py#L405)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -468,7 +468,7 @@ Usage:
 
 Modes:
     ``off``      guard disabled.
-    `[`warn`](skills.setup.sh.md#warn)`     out-of-scope offensive commands run but warn (default).
+    ``warn``     out-of-scope offensive commands run but warn (default).
     ``enforce``  out-of-scope offensive commands are blocked pending
                  interactive confirmation.
 
@@ -484,7 +484,7 @@ Modes:
 
 #### `SessionOpsCommandSet.do_show`
 
-`method` | [cli/commands/session_ops.py:456](../../cli/commands/session_ops.py#L456)
+`method` | [cli/commands/session_ops.py:471](../../cli/commands/session_ops.py#L471)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -517,7 +517,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_list`
 
-`method` | [cli/commands/session_ops.py:532](../../cli/commands/session_ops.py#L532)
+`method` | [cli/commands/session_ops.py:547](../../cli/commands/session_ops.py#L547)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -544,7 +544,7 @@ them into columns. It shows each script with sufficient spacing for readability.
 
 #### `SessionOpsCommandSet.do_run`
 
-`method` | [cli/commands/session_ops.py:561](../../cli/commands/session_ops.py#L561)
+`method` | [cli/commands/session_ops.py:576](../../cli/commands/session_ops.py#L576)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -571,7 +571,7 @@ Otherwise it runs a script from the toolkit by name.
 
 #### `SessionOpsCommandSet.do_payload`
 
-`method` | [cli/commands/session_ops.py:600](../../cli/commands/session_ops.py#L600)
+`method` | [cli/commands/session_ops.py:615](../../cli/commands/session_ops.py#L615)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -619,7 +619,7 @@ Note:
 
 #### `SessionOpsCommandSet.do_next`
 
-`method` | [cli/commands/session_ops.py:651](../../cli/commands/session_ops.py#L651)
+`method` | [cli/commands/session_ops.py:666](../../cli/commands/session_ops.py#L666)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -654,7 +654,7 @@ Two modes share the same verb:
 
 #### `SessionOpsCommandSet.do_frontier`
 
-`method` | [cli/commands/session_ops.py:695](../../cli/commands/session_ops.py#L695)
+`method` | [cli/commands/session_ops.py:710](../../cli/commands/session_ops.py#L710)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -687,7 +687,7 @@ read-only view of the loop's next direction.
 
 #### `SessionOpsCommandSet.do_traces`
 
-`method` | [cli/commands/session_ops.py:739](../../cli/commands/session_ops.py#L739)
+`method` | [cli/commands/session_ops.py:754](../../cli/commands/session_ops.py#L754)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -722,7 +722,7 @@ state, reason). Optional substring filters by command.
 
 #### `SessionOpsCommandSet.do_chainmode`
 
-`method` | [cli/commands/session_ops.py:820](../../cli/commands/session_ops.py#L820)
+`method` | [cli/commands/session_ops.py:835](../../cli/commands/session_ops.py#L835)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -758,7 +758,7 @@ persisted to ``sessions/chain_mode.json``.
 
 #### `SessionOpsCommandSet.do_engage`
 
-`method` | [cli/commands/session_ops.py:871](../../cli/commands/session_ops.py#L871)
+`method` | [cli/commands/session_ops.py:886](../../cli/commands/session_ops.py#L886)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -809,7 +809,7 @@ kill-chain finishes a client-ready report is written to ``sessions/``.
 
 #### `SessionOpsCommandSet.do_pipeline`
 
-`method` | [cli/commands/session_ops.py:998](../../cli/commands/session_ops.py#L998)
+`method` | [cli/commands/session_ops.py:1013](../../cli/commands/session_ops.py#L1013)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -848,7 +848,7 @@ is broadcast through the same fabric used by ``engage``.
 
 #### `SessionOpsCommandSet.do_lazyscript`
 
-`method` | [cli/commands/session_ops.py:1089](../../cli/commands/session_ops.py#L1089)
+`method` | [cli/commands/session_ops.py:1104](../../cli/commands/session_ops.py#L1104)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -882,7 +882,7 @@ This would execute all commands listed in 'lazyscripts/example_script.ls'.
 
 #### `SessionOpsCommandSet.do_hunt`
 
-`method` | [cli/commands/session_ops.py:1121](../../cli/commands/session_ops.py#L1121)
+`method` | [cli/commands/session_ops.py:1136](../../cli/commands/session_ops.py#L1136)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -918,7 +918,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_resume`
 
-`method` | [cli/commands/session_ops.py:1212](../../cli/commands/session_ops.py#L1212)
+`method` | [cli/commands/session_ops.py:1227](../../cli/commands/session_ops.py#L1227)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -946,7 +946,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_getseclist`
 
-`method` | [cli/commands/session_ops.py:1234](../../cli/commands/session_ops.py#L1234)
+`method` | [cli/commands/session_ops.py:1249](../../cli/commands/session_ops.py#L1249)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -995,7 +995,7 @@ Note:
 
 #### `SessionOpsCommandSet.do_download_resources`
 
-`method` | [cli/commands/session_ops.py:1272](../../cli/commands/session_ops.py#L1272)
+`method` | [cli/commands/session_ops.py:1287](../../cli/commands/session_ops.py#L1287)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1039,7 +1039,7 @@ Note:
 
 #### `SessionOpsCommandSet.do_collab_join`
 
-`method` | [cli/commands/session_ops.py:1305](../../cli/commands/session_ops.py#L1305)
+`method` | [cli/commands/session_ops.py:1320](../../cli/commands/session_ops.py#L1320)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1072,7 +1072,7 @@ Usage:
 
 #### `SessionOpsCommandSet.do_kick`
 
-`method` | [cli/commands/session_ops.py:1336](../../cli/commands/session_ops.py#L1336)
+`method` | [cli/commands/session_ops.py:1351](../../cli/commands/session_ops.py#L1351)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1107,7 +1107,7 @@ This function performs the following steps:
 
 #### `SessionOpsCommandSet.do_qa`
 
-`method` | [cli/commands/session_ops.py:1385](../../cli/commands/session_ops.py#L1385)
+`method` | [cli/commands/session_ops.py:1400](../../cli/commands/session_ops.py#L1400)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1156,7 +1156,7 @@ Note:
 
 #### `SessionOpsCommandSet.do_clock`
 
-`method` | [cli/commands/session_ops.py:1447](../../cli/commands/session_ops.py#L1447)
+`method` | [cli/commands/session_ops.py:1462](../../cli/commands/session_ops.py#L1462)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1201,7 +1201,7 @@ Dependencies:
 
 #### `SessionOpsCommandSet.do_gencert`
 
-`method` | [cli/commands/session_ops.py:1495](../../cli/commands/session_ops.py#L1495)
+`method` | [cli/commands/session_ops.py:1510](../../cli/commands/session_ops.py#L1510)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1225,7 +1225,7 @@ Generates a certificate authority (CA), client certificate, and client key.
 
 #### `SessionOpsCommandSet.do_load_session`
 
-`method` | [cli/commands/session_ops.py:1507](../../cli/commands/session_ops.py#L1507)
+`method` | [cli/commands/session_ops.py:1522](../../cli/commands/session_ops.py#L1522)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1250,7 +1250,7 @@ of parameters, credentials, hashes, notes, plan, id_rsa, implants, and redop.
 
 #### `SessionOpsCommandSet.do_clone_site`
 
-`method` | [cli/commands/session_ops.py:1557](../../cli/commands/session_ops.py#L1557)
+`method` | [cli/commands/session_ops.py:1572](../../cli/commands/session_ops.py#L1572)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -1274,7 +1274,7 @@ Clone a website and serve the files in sessions/{url_cloned}.
 
 #### `SessionOpsCommandSet.do_msfshellcoder`
 
-`method` | [cli/commands/session_ops.py:1603](../../cli/commands/session_ops.py#L1603)
+`method` | [cli/commands/session_ops.py:1618](../../cli/commands/session_ops.py#L1618)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 

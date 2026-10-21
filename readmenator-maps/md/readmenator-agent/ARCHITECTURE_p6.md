@@ -1,4 +1,4 @@
-# Architecture (page 6 of 7)
+# Architecture (page 6 of 8)
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## External Imports

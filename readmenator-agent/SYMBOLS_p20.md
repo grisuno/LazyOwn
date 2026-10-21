@@ -1,8 +1,10 @@
-# Symbols (page 20 of 43)
+# Symbols (page 20 of 44)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
+| `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
 | `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
 | `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
 | `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `route` | method | `modules/unified_bridge.py:134` | `def route(self, prompt, context)` |
 | `route` | method | `modules/unified_bridge.py:173` | `def route(self, prompt, context)` |
 | `route` | method | `modules/unified_bridge.py:253` | `def route(self, prompt, context)` |
-| `route_prompt` | function | `modules/unified_bridge.py:483` | `def route_prompt(prompt, context)` |
-| `set_publish_callback` | method | `modules/unified_bridge.py:230` | `def set_publish_callback(self, cb)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

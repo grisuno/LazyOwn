@@ -27,6 +27,7 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 | `c2-session/` | Skill definition for live malleable C2 sessions (`/c2-session`): server lifecycle, deploy, exec, loot, key discipline |
 | `loop-llm/` | Skill definition for one-shot loop-mode LLM legs (`/loop-llm`): pool contract, factory prefix, priorities |
 | `marketplace-contributor/` | Skill definition for one-shot marketplace contributions from a GitHub URL: YARA rules (`yara_rules/`), Nuclei wrappers (`lazyaddons/` + `tools/*.tool`), pwntomate tools |
+| `awesome-windows-security/` | Skill definition for the Windows offensive router (`/awesome-windows-security`): ATT&CK classification from the awesome-windows-security catalogue, legacy-ID normalisation, MITRE-to-Atomic GUID translation, artefact generation, in-scope execution, `apt_chain` and the autonomous loop |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `lazyown_objective.py` | Objective queue + soul.md management |

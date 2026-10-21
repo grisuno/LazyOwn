@@ -1,8 +1,10 @@
-# Symbols (page 12 of 43)
+# Symbols (page 12 of 44)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get` | method | `modules/c2_profile.py:473` | `def get(self, name)` |
+| `get_beacon_config` | method | `modules/c2_profile.py:567` | `def get_beacon_config(profile)` |
 | `get_profile` | function | `modules/c2_profile.py:620` | `def get_profile(name)` |
 | `get_registry` | function | `modules/c2_profile.py:595` | `def get_registry()` |
 | `get_uri` | method | `modules/c2_profile.py:117` | `def get_uri(self, method)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_parse_sigma_feed` | method | `modules/detection_feed.py:125` | `def _parse_sigma_feed(self, text)` |
 | `adjust_from_feedback` | method | `modules/detection_feed.py:270` | `def adjust_from_feedback(self, feedback_file)` |
 | `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
-| `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
-| `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

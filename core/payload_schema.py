@@ -1541,6 +1541,40 @@ SCHEMA: dict[str, FieldSpec] = {
             category="network",
         ),
         _spec(
+            "android_serial",
+            FieldKind.STRING,
+            "",
+            "ADB serial of the Android device driven by the mobile addons.",
+            long_help=(
+                "Serial reported by 'adb devices'. Leave empty to target the only "
+                "connected device, otherwise set it with 'assign android_serial "
+                "<serial>' before running a device-scoped addon."
+            ),
+            example="R5CT30ABCDE",
+            category="misc",
+        ),
+        _spec(
+            "dirtyinit_device_path",
+            FieldKind.STRING,
+            "/data/local/tmp/dirtyinit",
+            "Device path where the dirtyinit init-namespace client is staged.",
+            example="/data/local/tmp/dirtyinit",
+            category="misc",
+        ),
+        _spec(
+            "wifi_ssid",
+            FieldKind.STRING,
+            "",
+            "SSID of the wireless access point targeted by the radio tooling.",
+            long_help=(
+                "Exact SSID the wireless fingerprinters look for on the air. "
+                "Set it with 'assign wifi_ssid <ssid>' before running a radio "
+                "scanner so the target access point is unambiguous."
+            ),
+            example="MyAccessPoint",
+            category="network",
+        ),
+        _spec(
             "action",
             FieldKind.STRING,
             "search",

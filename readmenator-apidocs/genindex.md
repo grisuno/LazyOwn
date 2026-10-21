@@ -517,6 +517,7 @@
 - [`apply_env`](modules/modules.lazy_proxy.py.md#apply_env) function in `modules.lazy_proxy`
 - [`apply_filter`](modules/lazygui.widgets.command_palette_list.py.md#commandpalettelist-apply_filter) method of `CommandPaletteList` in `lazygui.widgets.command_palette_list`
 - [`apply_initial`](modules/lazygui.theme.manager.py.md#thememanager-apply_initial) method of `ThemeManager` in `lazygui.theme.manager`
+- [`apply_interface`](modules/scripts.broadcom_wps_drive.sh.md#apply_interface) function in `scripts/broadcom_wps_drive.sh`
 - [`apply_migrations`](modules/modules.metasploitable_migrations.py.md#apply_migrations) function in `modules.metasploitable_migrations`
 - [`apply_profile`](modules/modules.lazy_loop.py.md#lazyloopengine-apply_profile) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`apply_profile`](modules/cli.headless.py.md#apply_profile) function in `cli.headless`
@@ -2012,6 +2013,7 @@
 - [`comparison`](modules/modules.LazyOwnExplorer.py.md#autocompleteentry-comparison) method of `AutocompleteEntry` in `modules.LazyOwnExplorer`
 - [`compile`](modules/modules.dotnet_payload.py.md#dotnetpayloadfactory-compile) method of `DotNetPayloadFactory` in `modules.dotnet_payload`
 - [`compile`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedconfig-compile) attribute of `LinuxAdvancedConfig` in `modules.linux_advanced_payloads`
+- [`compile_activity`](modules/scripts.dirtyinit_drive.sh.md#compile_activity) function in `scripts/dirtyinit_drive.sh`
 - [`compile_all`](modules/modules.yara_scanner.py.md#yarascanner-compile_all) method of `YaraScanner` in `modules.yara_scanner`
 - [`compile_c_source`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory-compile_c_source) method of `LinuxAdvancedPayloadFactory` in `modules.linux_advanced_payloads`
 - [`COMPILE_TARGETS`](modules/modules.dotnet_payload.py.md#compile_targets) constant in `modules.dotnet_payload`
@@ -2976,6 +2978,7 @@
 - [`detect_dangerous_capabilities`](modules/modules.lazyk8s.py.md#containerruntimedetector-detect_dangerous_capabilities) staticmethod of `ContainerRuntimeDetector` in `modules.lazyk8s`
 - [`detect_delimiter`](modules/utils.py.md#detect_delimiter) function in `utils`
 - [`detect_external_sharing`](modules/modules.saas_attacks.py.md#saasattackengine-detect_external_sharing) method of `SaaSAttackEngine` in `modules.saas_attacks`
+- [`detect_interface`](modules/scripts.broadcom_wps_drive.sh.md#detect_interface) function in `scripts/broadcom_wps_drive.sh`
 - [`detect_kerberoasting_activity`](modules/modules.kerberoasting.py.md#kerberoastingengine-detect_kerberoasting_activity) method of `KerberoastingEngine` in `modules.kerberoasting`
 - [`detect_local`](modules/modules.edr_detector.py.md#edrdetector-detect_local) staticmethod of `EDRDetector` in `modules.edr_detector`
 - [`detect_mounts`](modules/modules.lazyk8s.py.md#containerruntimedetector-detect_mounts) staticmethod of `ContainerRuntimeDetector` in `modules.lazyk8s`
@@ -3021,6 +3024,8 @@
 - [`did_switch`](modules/skills.autonomous_daemon.py.md#enginephaseresult-did_switch) property of `EnginePhaseResult` in `skills.autonomous_daemon`
 - [`did_you_mean`](modules/cli.graph_advisor.py.md#graphadvisor-did_you_mean) method of `GraphAdvisor` in `cli.graph_advisor`
 - [`did_you_mean`](modules/cli.fuzzy_match.py.md#did_you_mean) function in `cli.fuzzy_match`
+- [`die`](modules/scripts.broadcom_wps_drive.sh.md#die) function in `scripts/broadcom_wps_drive.sh`
+- [`die`](modules/scripts.dirtyinit_drive.sh.md#die) function in `scripts/dirtyinit_drive.sh`
 - [`die`](modules/skills.setup.sh.md#die) function in `skills/setup.sh`
 - [`diff`](modules/cli.config_history.py.md#confighistory-diff) method of `ConfigHistory` in `cli.config_history`
 - [`diff_snapshot`](modules/skills.lazyown_mcp_helpers.py.md#diff_snapshot) function in `skills.lazyown_mcp_helpers`
@@ -3154,6 +3159,7 @@
 - [`do_attack_plan`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_attack_plan) method of `CommandAndControlMigratedCommandSet` in `cli.commands.command_and_control_migrated`
 - [`do_audit_complete_keys`](modules/cli.commands.audit.py.md#auditcommandset-do_audit_complete_keys) method of `AuditCommandSet` in `cli.commands.audit`
 - [`do_auditd_disable`](modules/cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_auditd_disable) method of `OpsecCleanupCommandSet` in `cli.commands.opsec_cleanup`
+- [`do_auto`](modules/scripts.dirtyinit_drive.sh.md#do_auto) function in `scripts/dirtyinit_drive.sh`
 - [`do_auto_loop`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop) method of `McpBridgeCommandSet` in `cli.commands.mcp_bridge`
 - [`do_auto_populate`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate) method of `McpBridgeCommandSet` in `cli.commands.mcp_bridge`
 - [`do_auto_pwn`](modules/cli.commands.pwn.py.md#pwncommandset-do_auto_pwn) method of `PwnCommandSet` in `cli.commands.pwn`
@@ -3184,6 +3190,7 @@
 - [`do_bof_uninstall`](modules/cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_uninstall) method of `BofMarketplaceCommandSet` in `cli.commands.bof_registry`
 - [`do_breacher`](modules/cli.commands.scan_migrated.py.md#scanmigratedcommandset-do_breacher) method of `ScanMigratedCommandSet` in `cli.commands.scan_migrated`
 - [`do_browse`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_browse) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
+- [`do_build`](modules/scripts.dirtyinit_drive.sh.md#do_build) function in `scripts/dirtyinit_drive.sh`
 - [`do_c2`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_c2) method of `CommandAndControlMigratedCommandSet` in `cli.commands.command_and_control_migrated`
 - [`do_c2_beacon_cmd`](modules/cli.commands.command_and_control.py.md#commandandcontrolcommandset-do_c2_beacon_cmd) method of `CommandAndControlCommandSet` in `cli.commands.command_and_control`
 - [`do_c2_beacons`](modules/cli.commands.command_and_control.py.md#commandandcontrolcommandset-do_c2_beacons) method of `CommandAndControlCommandSet` in `cli.commands.command_and_control`
@@ -3318,6 +3325,8 @@
 - [`do_dnstool_py`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset-do_dnstool_py) method of `ReconMigratedCommandSet` in `cli.commands.recon_migrated`
 - [`do_docker_enum`](modules/cli.commands.containers.py.md#containercommandset-do_docker_enum) method of `ContainerCommandSet` in `cli.commands.containers`
 - [`do_doctor`](modules/cli.commands.help_ui.py.md#helpuicommandset-do_doctor) method of `HelpUiCommandSet` in `cli.commands.help_ui`
+- [`do_doctor`](modules/scripts.broadcom_wps_drive.sh.md#do_doctor) function in `scripts/broadcom_wps_drive.sh`
+- [`do_doctor`](modules/scripts.dirtyinit_drive.sh.md#do_doctor) function in `scripts/dirtyinit_drive.sh`
 - [`do_dominion`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-do_dominion) method of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`do_dotnet_payload`](modules/cli.commands.payload_arsenal.py.md#payloadarsenalcommandset-do_dotnet_payload) method of `PayloadArsenalCommandSet` in `cli.commands.payload_arsenal`
 - [`do_download_c2`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_download_c2) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
@@ -3374,6 +3383,7 @@
 - [`do_exploit_recommend`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_exploit_recommend) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`do_exploitgym`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset-do_exploitgym) method of `ExploitGymCommandSet` in `cli.commands.exploitgym`
 - [`do_explore`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_explore) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
+- [`do_extract`](modules/scripts.dirtyinit_drive.sh.md#do_extract) function in `scripts/dirtyinit_drive.sh`
 - [`do_extract_yaml`](modules/cli.commands.postexp_migrated.py.md#postexpmigratedcommandset-do_extract_yaml) method of `PostexpMigratedCommandSet` in `cli.commands.postexp_migrated`
 - [`do_facts_show`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show) method of `McpBridgeCommandSet` in `cli.commands.mcp_bridge`
 - [`do_feroxbuster`](modules/cli.commands.scan.py.md#scancommandset-do_feroxbuster) method of `ScanCommandSet` in `cli.commands.scan`
@@ -3431,6 +3441,7 @@
 - [`do_gym_ms2`](modules/cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2) method of `RedTeamGymCommandSet` in `cli.commands.redteam_gym`
 - [`do_h`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_h) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
 - [`do_hashcat`](modules/cli.commands.cred.py.md#credentialaccesscommandset-do_hashcat) method of `CredentialAccessCommandSet` in `cli.commands.cred`
+- [`do_help`](modules/scripts.dirtyinit_drive.sh.md#do_help) function in `scripts/dirtyinit_drive.sh`
 - [`do_help_phase`](modules/cli.commands.help_ui.py.md#helpuicommandset-do_help_phase) method of `HelpUiCommandSet` in `cli.commands.help_ui`
 - [`do_help_status`](modules/cli.commands.help_ui.py.md#helpuicommandset-do_help_status) method of `HelpUiCommandSet` in `cli.commands.help_ui`
 - [`do_hex2shellcode`](modules/cli.commands.postexp_migrated.py.md#postexpmigratedcommandset-do_hex2shellcode) method of `PostexpMigratedCommandSet` in `cli.commands.postexp_migrated`
@@ -3454,6 +3465,7 @@
 - [`do_iis_webdav_upload_asp`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_iis_webdav_upload_asp) method of `CommandAndControlMigratedCommandSet` in `cli.commands.command_and_control_migrated`
 - [`do_img2cookie`](modules/cli.commands.exploit.py.md#exploitcommandset-do_img2cookie) method of `ExploitCommandSet` in `cli.commands.exploit`
 - [`do_infra`](modules/cli.commands.infra.py.md#infracommandset-do_infra) method of `InfraCommandSet` in `cli.commands.infra`
+- [`do_install`](modules/scripts.dirtyinit_drive.sh.md#do_install) function in `scripts/dirtyinit_drive.sh`
 - [`do_internet_proxy`](modules/cli.commands.postexp_migrated.py.md#postexpmigratedcommandset-do_internet_proxy) method of `PostexpMigratedCommandSet` in `cli.commands.postexp_migrated`
 - [`do_ip`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset-do_ip) method of `NetworkHelpersCommandSet` in `cli.commands.nethelpers`
 - [`do_ip2asn`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset-do_ip2asn) method of `NetworkHelpersCommandSet` in `cli.commands.nethelpers`
@@ -3485,6 +3497,7 @@
 - [`do_l00t`](modules/cli.commands.session_ops.py.md#sessionopscommandset-do_l00t) method of `SessionOpsCommandSet` in `cli.commands.session_ops`
 - [`do_lab`](modules/cli.commands.lab.py.md#labcommandset-do_lab) method of `LabCommandSet` in `cli.commands.lab`
 - [`do_lateral_mov_lin`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-do_lateral_mov_lin) method of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
+- [`do_launch`](modules/scripts.dirtyinit_drive.sh.md#do_launch) function in `scripts/dirtyinit_drive.sh`
 - [`do_launchpad`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset-do_launchpad) method of `ReconMigratedCommandSet` in `cli.commands.recon_migrated`
 - [`do_lazy_addon`](modules/cli.commands.lazyops.py.md#lazycommandset-do_lazy_addon) method of `LazyCommandSet` in `cli.commands.lazyops`
 - [`do_lazy_agent`](modules/cli.commands.lazyops.py.md#lazycommandset-do_lazy_agent) method of `LazyCommandSet` in `cli.commands.lazyops`
@@ -3577,6 +3590,7 @@
 - [`do_log_tamper`](modules/cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_log_tamper) method of `OpsecCleanupCommandSet` in `cli.commands.opsec_cleanup`
 - [`do_login`](modules/cli.commands.cli_auth.py.md#cliauthcommandset-do_login) method of `CliAuthCommandSet` in `cli.commands.cli_auth`
 - [`do_logout`](modules/cli.commands.cli_auth.py.md#cliauthcommandset-do_logout) method of `CliAuthCommandSet` in `cli.commands.cli_auth`
+- [`do_logs`](modules/scripts.dirtyinit_drive.sh.md#do_logs) function in `scripts/dirtyinit_drive.sh`
 - [`do_lol`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_lol) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`do_lolbas_list`](modules/cli.commands.pwn.py.md#pwncommandset-do_lolbas_list) method of `PwnCommandSet` in `cli.commands.pwn`
 - [`do_lolbas_use`](modules/cli.commands.pwn.py.md#pwncommandset-do_lolbas_use) method of `PwnCommandSet` in `cli.commands.pwn`
@@ -3601,6 +3615,7 @@
 - [`do_mimikatzpy`](modules/cli.commands.postexp.py.md#postexploitationcommandset-do_mimikatzpy) method of `PostExploitationCommandSet` in `cli.commands.postexp`
 - [`do_mitre_test`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_mitre_test) method of `CommandAndControlMigratedCommandSet` in `cli.commands.command_and_control_migrated`
 - [`do_mkrc`](modules/cli.commands.resource_scripting.py.md#resourcecommandset-do_mkrc) method of `ResourceCommandSet` in `cli.commands.resource_scripting`
+- [`do_monitor`](modules/scripts.broadcom_wps_drive.sh.md#do_monitor) function in `scripts/broadcom_wps_drive.sh`
 - [`do_mqtt_check_py`](modules/cli.commands.scan_migrated.py.md#scanmigratedcommandset-do_mqtt_check_py) method of `ScanMigratedCommandSet` in `cli.commands.scan_migrated`
 - [`do_ms08_067_netapi`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_ms08_067_netapi) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`do_msf`](modules/cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_msf) method of `CommandAndControlMigratedCommandSet` in `cli.commands.command_and_control_migrated`
@@ -3763,6 +3778,7 @@
 - [`do_rsync`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_rsync) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
 - [`do_rubeus`](modules/cli.commands.postexp_migrated.py.md#postexpmigratedcommandset-do_rubeus) method of `PostexpMigratedCommandSet` in `cli.commands.postexp_migrated`
 - [`do_run`](modules/cli.commands.session_ops.py.md#sessionopscommandset-do_run) method of `SessionOpsCommandSet` in `cli.commands.session_ops`
+- [`do_run`](modules/scripts.dirtyinit_drive.sh.md#do_run) function in `scripts/dirtyinit_drive.sh`
 - [`do_saas_enum`](modules/cli.commands.cloud_attacks.py.md#cloudattackcommandset-do_saas_enum) method of `CloudAttackCommandSet` in `cli.commands.cloud_attacks`
 - [`do_samdump2`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_samdump2) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
 - [`do_samrdump`](modules/cli.commands.scan_migrated.py.md#scanmigratedcommandset-do_samrdump) method of `ScanMigratedCommandSet` in `cli.commands.scan_migrated`
@@ -3839,8 +3855,11 @@
 - [`do_sshkey`](modules/cli.commands.cred.py.md#credentialaccesscommandset-do_sshkey) method of `CredentialAccessCommandSet` in `cli.commands.cred`
 - [`do_sslscan`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset-do_sslscan) method of `ReconMigratedCommandSet` in `cli.commands.recon_migrated`
 - [`do_stage`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_stage) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
+- [`do_stage`](modules/scripts.dirtyinit_drive.sh.md#do_stage) function in `scripts/dirtyinit_drive.sh`
 - [`do_staged_delivery`](modules/cli.commands.payload_arsenal.py.md#payloadarsenalcommandset-do_staged_delivery) method of `PayloadArsenalCommandSet` in `cli.commands.payload_arsenal`
 - [`do_state_snapshot`](modules/lazyown.py.md#lazyownshell-do_state_snapshot) method of `LazyOwnShell` in `lazyown`
+- [`do_status`](modules/scripts.broadcom_wps_drive.sh.md#do_status) function in `scripts/broadcom_wps_drive.sh`
+- [`do_status`](modules/scripts.dirtyinit_drive.sh.md#do_status) function in `scripts/dirtyinit_drive.sh`
 - [`do_status_bar`](modules/cli.commands.orchestration.py.md#orchestrationcommandset-do_status_bar) method of `OrchestrationCommandSet` in `cli.commands.orchestration`
 - [`do_status_tail`](modules/cli.commands.audit.py.md#auditcommandset-do_status_tail) method of `AuditCommandSet` in `cli.commands.audit`
 - [`do_stealth_off`](modules/cli.commands.pwn.py.md#pwncommandset-do_stealth_off) method of `PwnCommandSet` in `cli.commands.pwn`
@@ -3890,6 +3909,7 @@
 - [`do_undo`](modules/cli.commands.ux.py.md#uxcommandset-do_undo) method of `UxCommandSet` in `cli.commands.ux`
 - [`do_unicode_WAFbypass`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_unicode_wafbypass) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`do_unlock_target`](modules/cli.commands.collaboration.py.md#collaborationcommandset-do_unlock_target) method of `CollaborationCommandSet` in `cli.commands.collaboration`
+- [`do_unmonitor`](modules/scripts.broadcom_wps_drive.sh.md#do_unmonitor) function in `scripts/broadcom_wps_drive.sh`
 - [`do_unseal_credentials`](modules/cli.commands.security.py.md#securitycommandset-do_unseal_credentials) method of `SecurityCommandSet` in `cli.commands.security`
 - [`do_unzip`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_unzip) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
 - [`do_upload_bypass`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_upload_bypass) method of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
@@ -4108,6 +4128,7 @@
 - [`elapsed`](modules/cli.session_hud.py.md#hudsnapshot-elapsed) attribute of `HudSnapshot` in `cli.session_hud`
 - [`elapsed_sec`](modules/modules.loop_progress.py.md#loopsnapshot-elapsed_sec) attribute of `LoopSnapshot` in `modules.loop_progress`
 - [`elapsed_seconds`](modules/modules.socks_proxy.py.md#sockssession-elapsed_seconds) property of `SocksSession` in `modules.socks_proxy`
+- [`elevate`](modules/scripts.broadcom_wps_drive.sh.md#elevate) function in `scripts/broadcom_wps_drive.sh`
 - [`elevate_perms`](modules/modules.macos_payloads.py.md#macospayloadconfig-elevate_perms) attribute of `MacOSPayloadConfig` in `modules.macos_payloads`
 - [`eliminar_archivos`](modules/modules.lazyatack.sh.md#eliminar_archivos) function in `modules/lazyatack.sh`
 - [`eliminar_contenedores_docker`](modules/modules.lazyatack.sh.md#eliminar_contenedores_docker) function in `modules/lazyatack.sh`
@@ -4299,6 +4320,7 @@
 - [`ensure_key_file_exists`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#ensure_key_file_exists) function in `modules/win_rootkit/win_ring3_rootkit.c`
 - [`ensure_ld_preload`](modules/modules.rootkit.mr.c.md#ensure_ld_preload) function in `modules/rootkit/mr.c`
 - [`ensure_log_file`](modules/modules.fast_run_service.sh.md#ensure_log_file) function in `modules/fast_run_service.sh`
+- [`ensure_monitor_mode`](modules/scripts.broadcom_wps_drive.sh.md#ensure_monitor_mode) function in `scripts/broadcom_wps_drive.sh`
 - [`ensure_optional`](modules/skills.mcp_lazy.py.md#ensure_optional) function in `skills.mcp_lazy`
 - [`ensure_pid_file_exists`](modules/modules.rootkit.mr.c.md#ensure_pid_file_exists) function in `modules/rootkit/mr.c`
 - [`ensure_pid_file_exists`](modules/modules.win_rootkit.backup.c.md#ensure_pid_file_exists) function in `modules/win_rootkit/backup.c`
@@ -4957,7 +4979,9 @@
 - [`final_len`](modules/skills.lazyown_context.py.md#compactionresult-final_len) attribute of `CompactionResult` in `skills.lazyown_context`
 - [`finalize`](modules/modules.lazy_loop.py.md#planner-finalize) method of `Planner` in `modules.lazy_loop`
 - [`find_and_extract_metadata`](modules/modules.lazyown_metaextract0r.py.md#find_and_extract_metadata) function in `modules.lazyown_metaextract0r`
+- [`find_android_jar`](modules/scripts.dirtyinit_drive.sh.md#find_android_jar) function in `scripts/dirtyinit_drive.sh`
 - [`find_block_comments`](modules/skills.claude_md_orchestrator.validators.py.md#find_block_comments) function in `skills.claude_md_orchestrator.validators`
+- [`find_build_tools`](modules/scripts.dirtyinit_drive.sh.md#find_build_tools) function in `scripts/dirtyinit_drive.sh`
 - [`find_by_hash`](modules/core.api_authz.py.md#apikeystore-find_by_hash) method of `ApiKeyStore` in `core.api_authz`
 - [`find_by_id`](modules/modules.lazy_rbac.py.md#rbacstore-find_by_id) method of `RBACStore` in `modules.lazy_rbac`
 - [`find_by_username`](modules/modules.lazy_rbac.py.md#rbacstore-find_by_username) method of `RBACStore` in `modules.lazy_rbac`
@@ -4973,12 +4997,16 @@
 - [`find_export`](modules/modules.estorides_fusion.py.md#find_export) function in `modules.estorides_fusion`
 - [`find_in_lazyown`](modules/scripts.activate_migrations.py.md#find_in_lazyown) function in `scripts.activate_migrations`
 - [`find_inline_comments`](modules/skills.claude_md_orchestrator.validators.py.md#find_inline_comments) function in `skills.claude_md_orchestrator.validators`
+- [`find_java_tool`](modules/scripts.dirtyinit_drive.sh.md#find_java_tool) function in `scripts/dirtyinit_drive.sh`
 - [`find_lan_bundle`](modules/modules.estorides_fusion.py.md#find_lan_bundle) function in `modules.estorides_fusion`
 - [`find_lan_bundle_files`](modules/modules.estorides_importer.py.md#find_lan_bundle_files) function in `modules.estorides_importer`
 - [`find_migrated_sets`](modules/scripts.activate_migrations.py.md#find_migrated_sets) function in `scripts.activate_migrations`
+- [`find_ndk`](modules/scripts.dirtyinit_drive.sh.md#find_ndk) function in `scripts/dirtyinit_drive.sh`
+- [`find_ndk_clang`](modules/scripts.dirtyinit_drive.sh.md#find_ndk_clang) function in `scripts/dirtyinit_drive.sh`
 - [`find_nmap_xml`](modules/cli.exploit_advisor.py.md#find_nmap_xml) function in `cli.exploit_advisor`
 - [`find_ps`](modules/utils.py.md#find_ps) function in `utils`
 - [`find_rbcd_targets`](modules/modules.delegation_attacks.py.md#delegationenumerator-find_rbcd_targets) method of `DelegationEnumerator` in `modules.delegation_attacks`
+- [`find_sdk`](modules/scripts.dirtyinit_drive.sh.md#find_sdk) function in `scripts/dirtyinit_drive.sh`
 - [`find_specific_name_binaries`](modules/contrib.legacy.lazypwn.py.md#binaryfinder-find_specific_name_binaries) method of `BinaryFinder` in `contrib.legacy.lazypwn`
 - [`find_ss`](modules/utils.py.md#find_ss) function in `utils`
 - [`find_suid_binaries`](modules/contrib.legacy.lazypwn.py.md#binaryfinder-find_suid_binaries) method of `BinaryFinder` in `contrib.legacy.lazypwn`
@@ -5934,6 +5962,7 @@
 - [`has_permission`](modules/core.api_authz.py.md#apikey-has_permission) method of `ApiKey` in `core.api_authz`
 - [`has_permission`](modules/modules.lazy_rbac.py.md#rbacuser-has_permission) method of `RBACUser` in `modules.lazy_rbac`
 - [`has_running_retest`](modules/modules.finding_lifecycle.py.md#has_running_retest) function in `modules.finding_lifecycle`
+- [`has_scapy`](modules/scripts.broadcom_wps_drive.sh.md#has_scapy) function in `scripts/broadcom_wps_drive.sh`
 - [`HASH`](modules/modules.obs_parser.py.md#findingtype-hash) attribute of `FindingType` in `modules.obs_parser`
 - [`hash_bytes`](modules/modules.evidence.py.md#hash_bytes) function in `modules.evidence`
 - [`HASH_PATTERNS`](modules/modules.hash_cracker.py.md#hash_patterns) constant in `modules.hash_cracker`
@@ -5952,6 +5981,7 @@
 - [`hashes_glob`](modules/cli.status_bar.py.md#statusbarconfig-hashes_glob) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`HashIdentifier`](modules/modules.hash_cracker.py.md#hashidentifier) class in `modules.hash_cracker`
 - [`HashMapper`](modules/modules.integrations.misp_export.py.md#hashmapper) class in `modules.integrations.misp_export`
+- [`have_sudo`](modules/scripts.broadcom_wps_drive.sh.md#have_sudo) function in `scripts/broadcom_wps_drive.sh`
 - [`header`](modules/lazyc2.security.csrf.py.md#csrfpolicy-header) property of `CSRFPolicy` in `lazyc2.security.csrf`
 - [`header_height`](modules/cli.fuzzy_picker.py.md#pickerconfig-header_height) attribute of `PickerConfig` in `cli.fuzzy_picker`
 - [`header_label`](modules/cli.fuzzy_picker.py.md#pickerconfig-header_label) attribute of `PickerConfig` in `cli.fuzzy_picker`
@@ -6985,6 +7015,8 @@
 - [`interesting_acls`](modules/modules.gpo_abuse.py.md#gpoinfo-interesting_acls) attribute of `GPOInfo` in `modules.gpo_abuse`
 - [`interface`](modules/modules.bitm_engine.py.md#bitmstate-interface) attribute of `BitMState` in `modules.bitm_engine`
 - [`INTERFACE`](modules/core.payload_schema.py.md#fieldkind-interface) attribute of `FieldKind` in `core.payload_schema`
+- [`interface_mode`](modules/scripts.broadcom_wps_drive.sh.md#interface_mode) function in `scripts/broadcom_wps_drive.sh`
+- [`interface_up`](modules/scripts.broadcom_wps_drive.sh.md#interface_up) function in `scripts/broadcom_wps_drive.sh`
 - [`interiorAngleDegrees`](modules/static.js.particles.js.md#interiorangledegrees) function in `static/js/particles.js`
 - [`INTERNAL_ERROR`](modules/core.errors.py.md#errorcode-internal_error) attribute of `ErrorCode` in `core.errors`
 - [`internal_server_error`](modules/lazyc2.py.md#internal_server_error) function in `lazyc2`
@@ -7098,6 +7130,7 @@
 - [`is_recent`](modules/cli.palette_overlay.py.md#paletterow-is_recent) attribute of `PaletteRow` in `cli.palette_overlay`
 - [`is_regex`](modules/modules.intercept.py.md#interceptrule-is_regex) attribute of `InterceptRule` in `modules.intercept`
 - [`is_retired`](modules/core.api_authz.py.md#apikey-is_retired) method of `ApiKey` in `core.api_authz`
+- [`is_root`](modules/scripts.broadcom_wps_drive.sh.md#is_root) function in `scripts/broadcom_wps_drive.sh`
 - [`is_routable_command`](modules/modules.auto_registry.py.md#is_routable_command) function in `modules.auto_registry`
 - [`is_running`](modules/skills.heartbeat.py.md#is_running) function in `skills.heartbeat`
 - [`is_safe_dir_path`](modules/core.hardening.py.md#is_safe_dir_path) function in `core.hardening`
@@ -7125,6 +7158,7 @@
 - [`is_vetoed`](modules/skills.daemon_control.py.md#daemoncontrol-is_vetoed) method of `DaemonControl` in `skills.daemon_control`
 - [`is_video`](modules/modules.stego_video.py.md#is_video) function in `modules.stego_video`
 - [`is_wild`](modules/modules.verb_manifest.py.md#factpredicate-is_wild) method of `FactPredicate` in `modules.verb_manifest`
+- [`is_wireless`](modules/scripts.broadcom_wps_drive.sh.md#is_wireless) function in `scripts/broadcom_wps_drive.sh`
 - [`is_zip`](modules/modules.stego_video.py.md#is_zip) function in `modules.stego_video`
 - [`isInArray`](modules/static.js.particles.js.md#isinarray) function in `static/js/particles.js`
 - [`ISO_BLOCK_SIZE`](modules/modules.staged_delivery.py.md#iso_block_size) constant in `modules.staged_delivery`
@@ -7904,6 +7938,8 @@
 - [`log`](modules/install.sh.md#log) function in `install.sh`
 - [`log`](modules/lazyc2.py.md#log) function in `lazyc2`
 - [`log`](modules/lazyown-docker.mkdocker.sh.md#log) function in `lazyown-docker/mkdocker.sh`
+- [`log`](modules/scripts.broadcom_wps_drive.sh.md#log) function in `scripts/broadcom_wps_drive.sh`
+- [`log`](modules/scripts.dirtyinit_drive.sh.md#log) function in `scripts/dirtyinit_drive.sh`
 - [`log`](modules/scripts.publish_wiki.sh.md#log) function in `scripts/publish_wiki.sh`
 - [`log_action`](modules/modules.operator_profiles.py.md#operatorprofilemanager-log_action) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`log_command`](modules/lazyown.py.md#lazyownshell-log_command) method of `LazyOwnShell` in `lazyown`
@@ -8070,9 +8106,11 @@
 - [`main`](modules/readmeneitor.py.md#main) function in `readmeneitor`
 - [`main`](modules/scripts.activate_migrations.py.md#main) function in `scripts.activate_migrations`
 - [`main`](modules/scripts.backfill_addon_os_trigger.py.md#main) function in `scripts.backfill_addon_os_trigger`
+- [`main`](modules/scripts.broadcom_wps_drive.sh.md#main) function in `scripts/broadcom_wps_drive.sh`
 - [`main`](modules/scripts.check_contract_manifest.py.md#main) function in `scripts.check_contract_manifest`
 - [`main`](modules/scripts.devtools.command_audit.py.md#main) function in `scripts.devtools.command_audit`
 - [`main`](modules/scripts.devtools.core_smoke.py.md#main) function in `scripts.devtools.core_smoke`
+- [`main`](modules/scripts.dirtyinit_drive.sh.md#main) function in `scripts/dirtyinit_drive.sh`
 - [`main`](modules/scripts.generate_sbom.py.md#main) function in `scripts.generate_sbom`
 - [`main`](modules/scripts.journal.py.md#main) function in `scripts.journal`
 - [`main`](modules/scripts.mcp_call.py.md#main) function in `scripts.mcp_call`
@@ -9181,6 +9219,7 @@
 - [`PA_DATA_TYPES`](modules/modules.kerberos_core.py.md#pa_data_types) constant in `modules.kerberos_core`
 - [`PAC_SIGNATURE_TYPES`](modules/modules.kerberos_core.py.md#pac_signature_types) constant in `modules.kerberos_core`
 - [`PACInfo`](modules/modules.kerberos_core.py.md#pacinfo) class in `modules.kerberos_core`
+- [`pack_apk`](modules/scripts.dirtyinit_drive.sh.md#pack_apk) function in `scripts/dirtyinit_drive.sh`
 - [`PACKAGE_NAME`](modules/cli.registry.py.md#package_name) constant in `cli.registry`
 - [`PACKAGE_VERSION`](modules/cli.commands.campaign.py.md#package_version) constant in `cli.commands.campaign`
 - [`PackageSpec`](modules/cli.doctor.py.md#packagespec) class in `cli.doctor`
@@ -9307,6 +9346,8 @@
 - [`parse_extended`](modules/skills.lazyown_facts.py.md#sslscanparser-parse_extended) method of `SslscanParser` in `skills.lazyown_facts`
 - [`parse_file`](modules/modules.integrations.nuclei_parser.py.md#nucleiparser-parse_file) method of `NucleiParser` in `modules.integrations.nuclei_parser`
 - [`parse_file_header`](modules/modules.reflective_dll.py.md#peparser-parse_file_header) method of `PEParser` in `modules.reflective_dll`
+- [`parse_flags`](modules/scripts.broadcom_wps_drive.sh.md#parse_flags) function in `scripts/broadcom_wps_drive.sh`
+- [`parse_flags`](modules/scripts.dirtyinit_drive.sh.md#parse_flags) function in `scripts/dirtyinit_drive.sh`
 - [`parse_github_url`](modules/contrib.legacy.lazyaddon_creator.py.md#parse_github_url) function in `contrib.legacy.lazyaddon_creator`
 - [`parse_gpo_list`](modules/modules.gpo_abuse.py.md#gpoabuseengine-parse_gpo_list) method of `GPOAbuseEngine` in `modules.gpo_abuse`
 - [`parse_hash_file`](modules/contrib.legacy.lazyntlrelayx.py.md#parse_hash_file) function in `contrib.legacy.lazyntlrelayx`
@@ -9457,6 +9498,8 @@
 - [`payload_type`](modules/modules.macos_payloads.py.md#macospayloadconfig-payload_type) attribute of `MacOSPayloadConfig` in `modules.macos_payloads`
 - [`payload_type`](modules/modules.staged_delivery.py.md#stagedeliveryconfig-payload_type) attribute of `StageDeliveryConfig` in `modules.staged_delivery`
 - [`payload_url`](modules/modules.staged_delivery.py.md#stagedeliveryconfig-payload_url) attribute of `StageDeliveryConfig` in `modules.staged_delivery`
+- [`payload_value`](modules/scripts.broadcom_wps_drive.sh.md#payload_value) function in `scripts/broadcom_wps_drive.sh`
+- [`payload_value`](modules/scripts.dirtyinit_drive.sh.md#payload_value) function in `scripts/dirtyinit_drive.sh`
 - [`PayloadArsenalCommandSet`](modules/cli.commands.payload_arsenal.py.md#payloadarsenalcommandset) class in `cli.commands.payload_arsenal`
 - [`PayloadAwareCompleter`](modules/cli.cli_enhancements.py.md#payloadawarecompleter) class in `cli.cli_enhancements`
 - [`PayloadCommandSet`](modules/cli.commands.payload_generation.py.md#payloadcommandset) class in `cli.commands.payload_generation`
@@ -10140,6 +10183,7 @@
 - [`put`](modules/core.protocols.py.md#memorystore-put) method of `MemoryStore` in `core.protocols`
 - [`PwnCommandSet`](modules/cli.commands.pwn.py.md#pwncommandset) class in `cli.commands.pwn`
 - [`pytest_exit`](modules/skills.claude_md_orchestrator.models.py.md#reviewreport-pytest_exit) attribute of `ReviewReport` in `skills.claude_md_orchestrator.models`
+- [`python_bin`](modules/scripts.broadcom_wps_drive.sh.md#python_bin) function in `scripts/broadcom_wps_drive.sh`
 
 <a id="q"></a>
 
@@ -10796,10 +10840,12 @@
 - [`request_world_model`](modules/lazygui.services.backend.py.md#backend-request_world_model) method of `Backend` in `lazygui.services.backend`
 - [`request_world_model`](modules/lazygui.services.teamserver_backend.py.md#teamserverbackend-request_world_model) method of `TeamserverBackend` in `lazygui.services.teamserver_backend`
 - [`requeue_interrupted`](modules/skills.hive_mind.py.md#dronepool-requeue_interrupted) method of `DronePool` in `skills.hive_mind`
+- [`require_adb`](modules/scripts.dirtyinit_drive.sh.md#require_adb) function in `scripts/dirtyinit_drive.sh`
 - [`require_api_auth`](modules/core.api_authz.py.md#require_api_auth) function in `core.api_authz`
 - [`require_api_auth_with_store`](modules/lazyc2.blueprints.api.py.md#require_api_auth_with_store) function in `lazyc2.blueprints.api`
 - [`require_approval`](modules/skills.daemon_control.py.md#daemoncontrol-require_approval) method of `DaemonControl` in `skills.daemon_control`
 - [`require_deps`](modules/modules.fast_run_service.sh.md#require_deps) function in `modules/fast_run_service.sh`
+- [`require_device`](modules/scripts.dirtyinit_drive.sh.md#require_device) function in `scripts/dirtyinit_drive.sh`
 - [`require_encryption_key`](modules/core.hardening.py.md#require_encryption_key) function in `core.hardening`
 - [`require_mfa`](modules/modules.lazy_rbac.py.md#require_mfa) function in `modules.lazy_rbac`
 - [`require_operator_session`](modules/lazyc2.blueprints.session_auth.py.md#require_operator_session) function in `lazyc2.blueprints.session_auth`
@@ -10900,6 +10946,7 @@
 - [`resolve_current_os`](modules/cli.exploration.py.md#resolve_current_os) function in `cli.exploration`
 - [`resolve_dns`](modules/modules.enrich.py.md#resolve_dns) function in `modules.enrich`
 - [`resolve_existing_path`](modules/lazyc2.addon_creator.py.md#addonstore-resolve_existing_path) method of `AddonStore` in `lazyc2.addon_creator`
+- [`resolve_interface`](modules/scripts.broadcom_wps_drive.sh.md#resolve_interface) function in `scripts/broadcom_wps_drive.sh`
 - [`resolve_loop_defaults`](modules/modules.lazy_runner.py.md#resolve_loop_defaults) function in `modules.lazy_runner`
 - [`resolve_model`](modules/modules.llm_prompts.py.md#resolve_model) function in `modules.llm_prompts`
 - [`resolve_newest_as`](modules/modules.chain_registry.py.md#chainstep-resolve_newest_as) attribute of `ChainStep` in `modules.chain_registry`
@@ -11195,6 +11242,7 @@
 - [`run_estorides_run`](modules/modules.estorides_importer.py.md#run_estorides_run) function in `modules.estorides_importer`
 - [`run_export`](modules/modules.estorides_fusion.py.md#run_export) function in `modules.estorides_fusion`
 - [`run_external_opencode`](modules/modules.lazy_agent.py.md#run_external_opencode) function in `modules.lazy_agent`
+- [`run_fingerprint`](modules/scripts.broadcom_wps_drive.sh.md#run_fingerprint) function in `scripts/broadcom_wps_drive.sh`
 - [`run_for_findings`](modules/modules.integrations.nuclei_bridge.py.md#nucleirunner-run_for_findings) method of `NucleiRunner` in `modules.integrations.nuclei_bridge`
 - [`run_full_cycle`](modules/modules.intelligence_engine.py.md#intelligenceengine-run_full_cycle) method of `IntelligenceEngine` in `modules.intelligence_engine`
 - [`run_id`](modules/modules.chain_runner.py.md#chainrunresult-run_id) attribute of `ChainRunResult` in `modules.chain_runner`
@@ -11264,6 +11312,7 @@
 - [`run_update_db`](modules/lazyown.py.md#lazyownshell-run_update_db) method of `LazyOwnShell` in `lazyown`
 - [`run_with_tee`](modules/modules.command_executor.py.md#commandexecutor-run_with_tee) method of `CommandExecutor` in `modules.command_executor`
 - [`run_worker_session`](modules/modules.lazy_agent.py.md#run_worker_session) function in `modules.lazy_agent`
+- [`run_yara`](modules/scripts.broadcom_wps_drive.sh.md#run_yara) function in `scripts/broadcom_wps_drive.sh`
 - [`RunArtifactStore`](modules/modules.pipeline_engine.py.md#runartifactstore) class in `modules.pipeline_engine`
 - [`RunExperiment`](modules/modules.win_rootkit.mrhyde.c.md#runexperiment) function in `modules/win_rootkit/mrhyde.c`
 - [`runner`](modules/scripts.journal.py.md#journal-runner) attribute of `Journal` in `scripts.journal`
@@ -12949,6 +12998,7 @@
 - [`TagSelector`](modules/modules.lazyown_bridge.py.md#tagselector) class in `modules.lazyown_bridge`
 - [`tail`](modules/modules.metrics.py.md#metricsrecorder-tail) method of `MetricsRecorder` in `modules.metrics`
 - [`take_snapshot`](modules/skills.lazyown_mcp_helpers.py.md#take_snapshot) function in `skills.lazyown_mcp_helpers`
+- [`tap_button`](modules/scripts.dirtyinit_drive.sh.md#tap_button) function in `scripts/dirtyinit_drive.sh`
 - [`target`](modules/skills.aci_planner.py.md#acigoal-target) attribute of `ACIGoal` in `skills.aci_planner`
 - [`target`](modules/skills.aci_planner.py.md#aciplan-target) attribute of `ACIPlan` in `skills.aci_planner`
 - [`target`](modules/skills.lazyown_policy.py.md#approvalrequest-target) attribute of `ApprovalRequest` in `skills.lazyown_policy`
@@ -13777,6 +13827,7 @@
 - [`usage`](modules/install.sh.md#usage) function in `install.sh`
 - [`usage`](modules/lazyown-docker.mkdocker.sh.md#usage) function in `lazyown-docker/mkdocker.sh`
 - [`usage`](modules/modules.fast_run_service.sh.md#usage) function in `modules/fast_run_service.sh`
+- [`usage`](modules/scripts.broadcom_wps_drive.sh.md#usage) function in `scripts/broadcom_wps_drive.sh`
 - [`usage`](modules/scripts.mutate.sh.md#usage) function in `scripts/mutate.sh`
 - [`use_compression`](modules/modules.c2_profile_engine.py.md#websocketprofile-use_compression) attribute of `WebSocketProfile` in `modules.c2_profile_engine`
 - [`use_masking`](modules/modules.c2_profile_engine.py.md#websocketprofile-use_masking) attribute of `WebSocketProfile` in `modules.c2_profile_engine`
@@ -14077,6 +14128,8 @@
 - [`WARN`](modules/modules.opsec_scorer.py.md#gateaction-warn) attribute of `GateAction` in `modules.opsec_scorer`
 - [`WARN`](modules/cli.scope_guard.py.md#scopemode-warn) attribute of `ScopeMode` in `cli.scope_guard`
 - [`WARN`](modules/skills.claude_md_orchestrator.models.py.md#severity-warn) attribute of `Severity` in `skills.claude_md_orchestrator.models`
+- [`warn`](modules/scripts.broadcom_wps_drive.sh.md#warn) function in `scripts/broadcom_wps_drive.sh`
+- [`warn`](modules/scripts.dirtyinit_drive.sh.md#warn) function in `scripts/dirtyinit_drive.sh`
 - [`warn`](modules/skills.setup.sh.md#warn) function in `skills/setup.sh`
 - [`WARNING`](modules/lazygui.services.models.py.md#eventlevel-warning) attribute of `EventLevel` in `lazygui.services.models`
 - [`WARNING`](modules/modules.event_bus.py.md#eventseverity-warning) attribute of `EventSeverity` in `modules.event_bus`

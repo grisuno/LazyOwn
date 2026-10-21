@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 98 files (js, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 96 files (js, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -47,7 +47,7 @@ core groups 2 files (py) around load_defaults, clear_cache, get, default_lport, 
 
 ## lazyc2 (5.4)
 
-lazyc2 groups 28 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. LazyAddon creator contract for the LazyOwn C2 web interface.
+lazyc2 groups 27 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. LazyAddon creator contract for the LazyOwn C2 web interface.
 
 ## modules (5.5)
 
@@ -67,7 +67,7 @@ static groups 2 files (js) around as, as, as, as, as. as: !
 
 ## tests (5.9)
 
-tests groups 29 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
+tests groups 28 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
 
 **Files**:
 
@@ -100,7 +100,6 @@ tests groups 29 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - lazyc2/extensions/users.py
 - lazyc2/models.py
 - lazyc2/security/__init__.py
-- lazyc2/security/command_allowlist.py
 - lazyc2/security/constants.py
 - lazyc2/security/cors.py
 - lazyc2/security/csrf.py
@@ -125,7 +124,7 @@ tests groups 29 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - modules/lazy_mentions.py
 - modules/lazy_rbac.py
 - modules/lazyown_bprfuzzer.py
-- modules/listener_manager.py
+- modules/live_surface.py
 - modules/log_tamper.py
 - modules/memory_cleaner.py
 - modules/network_opsec.py
@@ -146,8 +145,6 @@ tests groups 29 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - tests/test_beacon_history.py
 - tests/test_c2_surfaces.py
 - tests/test_collab_and_onboarding.py
-- tests/test_command_allowlist.py
-- tests/test_command_allowlist_behavior.py
 - tests/test_conditional_hooks_extended.py
 - tests/test_core_defaults.py
 - tests/test_cors_behavior.py
@@ -160,6 +157,7 @@ tests groups 29 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - tests/test_hash_cracker.py
 - tests/test_html_sanitizer.py
 - tests/test_https_redirect.py
+- tests/test_live_surface.py
 - tests/test_mutation_verification.py
 - tests/test_opsec_scorer.py
 - tests/test_opsec_scorer_consolidated.py

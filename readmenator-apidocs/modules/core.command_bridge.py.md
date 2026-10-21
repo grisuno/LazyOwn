@@ -79,6 +79,8 @@ Whether the bridge has been successfully initialized.
 
 **Returns:** `bool`
 
+*Called by:* [`require_device`](scripts.dirtyinit_drive.sh.md#require_device)
+
 <a id="commandbridge-error"></a>
 
 #### `CommandBridge.error`

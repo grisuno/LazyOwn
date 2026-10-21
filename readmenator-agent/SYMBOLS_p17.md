@@ -1,8 +1,10 @@
-# Symbols (page 17 of 43)
+# Symbols (page 17 of 44)
 Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
+| `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
 | `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
 | `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
 | `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
 | `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
 | `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
-| `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
-| `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

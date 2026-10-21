@@ -2372,7 +2372,7 @@ scope declared in ``payload.json``:
 - scope empty OR `[`scope_enforcement`](lazyown.py.md#lazyownshell-scope_enforcement)` is ``off`` : APPROVED. The scope
   guard is dormant, so unattended autonomy runs unconstrained.
 - target inside scope                             : APPROVED.
-- target outside scope, enforcement `[`warn`](skills.setup.sh.md#warn)`      : APPROVED, with a
+- target outside scope, enforcement ``warn``      : APPROVED, with a
   rationale flagging the out-of-scope target for the narrator/audit log.
 - target outside scope, enforcement ``enforce``   : DENIED. This is the
   single fail-closed boundary unattended autonomy must keep — the

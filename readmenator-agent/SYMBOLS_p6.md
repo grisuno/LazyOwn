@@ -1,8 +1,10 @@
-# Symbols (page 6 of 43)
+# Symbols (page 6 of 44)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `SessionsIndex` | class | `cli/sessions_browser.py:85` | `class SessionsIndex` |
+| `_SessionsBrowserApp` | class | `cli/sessions_browser.py:325` | `class _SessionsBrowserApp(App)` |
 | `__init__` | method | `cli/sessions_browser.py:88` | `def __init__(self, config, root)` |
 | `__init__` | method | `cli/sessions_browser.py:188` | `def __init__(self, config, root)` |
 | `__init__` | method | `cli/sessions_browser.py:340` | `def __init__(self)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `configure_logging` | function | `contrib/legacy/lazygptcli.py:83` | `def configure_logging(debug)` |
 | `create_complex_prompt` | function | `contrib/legacy/lazygptcli.py:94` | `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)` |
 | `execute_command` | function | `contrib/legacy/lazygptcli.py:108` | `def execute_command(command)` |
-| `get_relevant_knowledge` | function | `contrib/legacy/lazygptcli.py:133` | `def get_relevant_knowledge(prompt)` |
-| `load_knowledge_base` | function | `contrib/legacy/lazygptcli.py:118` | `def load_knowledge_base(file_path)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.2%** (6993 of 9420 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,10 +13,10 @@ Overall: **74.2%** (6993 of 9420 public modules, types, and callables). Data mem
 | constructor | 193 | 513 | 37.6% |
 | enum | 29 | 38 | 76.3% |
 | exception | 35 | 37 | 94.6% |
-| function | 1761 | 2656 | 66.3% |
+| function | 1761 | 2709 | 65.0% |
 | macro | 3 | 113 | 2.7% |
 | method | 2808 | 3487 | 80.5% |
-| module | 668 | 790 | 84.6% |
+| module | 670 | 792 | 84.6% |
 | property | 146 | 190 | 76.8% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -115,6 +115,8 @@ Overall: **74.2%** (6993 of 9420 public modules, types, and callables). Data mem
 | [`modules/exp.c`](modules/modules.exp.c.md) | 1 | 55 | 1.8% |
 | [`modules/rootkit/mrhyde.c`](modules/modules.rootkit.mrhyde.c.md) | 1 | 39 | 2.6% |
 | [`modules/rootkit/mrhyde2.c`](modules/modules.rootkit.mrhyde2.c.md) | 1 | 36 | 2.8% |
+| [`scripts/dirtyinit_drive.sh`](modules/scripts.dirtyinit_drive.sh.md) | 1 | 29 | 3.4% |
+| [`scripts/broadcom_wps_drive.sh`](modules/scripts.broadcom_wps_drive.sh.md) | 1 | 26 | 3.8% |
 | [`modules.llm_evaluator`](modules/modules.llm_evaluator.py.md) | 1 | 24 | 4.2% |
 | [`modules.LazyOwnExplorer`](modules/modules.LazyOwnExplorer.py.md) | 1 | 21 | 4.8% |
 | [`telegram_c2`](modules/telegram_c2.py.md) | 1 | 18 | 5.6% |
@@ -822,7 +824,7 @@ Overall: **74.2%** (6993 of 9420 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
+DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -924,7 +926,7 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 - DOC001 `cli/cli_enhancements.py:644` method DictPayloadProvider.keys is not documented
 - DOC001 `cli/cli_enhancements.py:647` method DictPayloadProvider.update is not documented
 - DOC001 `cli/cli_enhancements.py:657` method StaticCommandLister.commands is not documented
-- DOC001 `cli/commands/command_and_control_migrated.py:40` class CommandAndControlMigratedCommandSet is not documented
+- DOC001 `cli/commands/command_and_control_migrated.py:66` class CommandAndControlMigratedCommandSet is not documented
 - DOC001 `cli/commands/cred_migrated.py:30` class CredMigratedCommandSet is not documented
 - DOC005 `cli/commands/encoding.py:173` EncodingCommandSet.do_rot raises ValueError but does not document it
 - DOC005 `cli/commands/encoding.py:213` EncodingCommandSet.do_rotf raises ValueError but does not document it
@@ -1324,4 +1326,4 @@ DOC001: 2146, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 - DOC001 `install.sh:128` function ensure_gum is not documented
 - DOC001 `install.sh:139` function install_system_packages is not documented
 - DOC001 `install.sh:150` function install_external_tools is not documented
-- ... 1759 more in `api/warnings.jsonl`
+- ... 1812 more in `api/warnings.jsonl`

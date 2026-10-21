@@ -1,14 +1,14 @@
 # modules: lazyc2
 
-*Community 4 | 98 files | cohesion 0.50*
+*Community 4 | 96 files | cohesion 0.50*
 
 ## Definition
 
-This community groups 98 file(s) rooted at `tests` with dominant language py (cohesion 0.50). Central symbols: `AESKeyManager`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `ApiAuthzConfig`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 96 file(s) rooted at `tests` with dominant language py (cohesion 0.50). Central symbols: `AESKeyManager`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `ApiAuthzConfig`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `tests` (29 files)
+### `tests` (28 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -22,19 +22,19 @@ This community groups 98 file(s) rooted at `tests` with dominant language py (co
 | `modules/beacon_history.py` | py | utility | 7 | yes |
 | `modules/c2_agent.py` | py | utility | 20 | yes |
 
-### `lazyc2/security` (10 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2/security/__init__.py` | py | utility | 0 | no |
-| `lazyc2/security/command_allowlist.py` | py | utility | 8 | yes |
-
 ### `lazyc2/blueprints` (9 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
 | `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
+
+### `lazyc2/security` (9 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/security/__init__.py` | py | utility | 0 | no |
+| `lazyc2/security/constants.py` | py | utility | 0 | yes |
 
 ### `cli/commands` (6 files)
 
@@ -93,7 +93,7 @@ This community groups 98 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
-*... and 78 more files in this community.*
+*... and 76 more files in this community.*
 
 
 ## Key Symbols
@@ -131,15 +131,12 @@ This community groups 98 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 231
-- Cross-boundary resolved imports (EXTRACTED): 217
+- Internal resolved imports (EXTRACTED): 229
+- Cross-boundary resolved imports (EXTRACTED): 218
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/listener_manager.py.
-- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
-- [EXTRACTED] depends_on community 4 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -188,4 +185,4 @@ This community groups 98 file(s) rooted at `tests` with dominant language py (co
 - `lazyc2/blueprints/auth.py`
 - `lazyc2/blueprints/beacon.py`
 - `lazyc2/blueprints/operations.py`
-- *... and 78 more*
+- *... and 76 more*

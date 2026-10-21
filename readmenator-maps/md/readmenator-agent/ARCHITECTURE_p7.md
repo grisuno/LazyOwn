@@ -1,4 +1,4 @@
-# Architecture (page 7 of 7)
+# Architecture (page 7 of 8)
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
@@ -234,6 +234,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_autonomous_ops.py` -> __future__
 - `tests/test_autonomous_replay.py` -> __future__, json, pathlib, pytest, sys, typing
 - `tests/test_autosuggest.py` -> __future__, pathlib, sys
+- `tests/test_awesome_windows_security_skill.py` -> __future__, json, pathlib, pytest, re, yaml
 - `tests/test_backdoor_random.py` -> __future__, pathlib, sys, types
 - `tests/test_banner_config.py` -> __future__, pathlib, pytest, sys, unittest
 - `tests/test_bdd_infra_range_report.py` -> __future__, json, pathlib, tempfile, unittest.mock
@@ -244,6 +245,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_bootstrap_installer.py` -> __future__, os, pathlib, pytest, shutil, stat, subprocess
 - `tests/test_boyscout_contracts.py` -> __future__, ast, pathlib, pytest, re, sys, types
 - `tests/test_bridge_catalog_filtered.py` -> __future__, pathlib, pytest, sys
+- `tests/test_broadcom_wps_addon.py` -> __future__, json, os, pathlib, pytest, re, subprocess, yaml
 - `tests/test_c2_agent.py` -> __future__, ast, importlib, inspect, json, os, pathlib, re, stat, sys
 - `tests/test_c2_profile_engine.py` -> __future__, pytest
 - `tests/test_c2_route_auth.py` -> __future__, ast, pathlib, pytest
@@ -269,6 +271,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_command_allowlist.py` -> __future__, json, pathlib, pytest
 - `tests/test_command_allowlist_behavior.py` -> __future__, json, pathlib
 - `tests/test_command_chain.py` -> __future__, pathlib, pytest, sys
+- `tests/test_command_control_agent.py` -> __future__, pathlib, pytest, re, sys
 - `tests/test_command_form.py` -> __future__, pathlib, sys
 - `tests/test_command_namespace_uniqueness.py` -> __future__, ast, collections, pathlib
 - `tests/test_command_palette.py` -> __future__, ast, builtins, collections.abc, dataclasses, json, pathlib, pytest, re, scripts.build_command_index, sys, typing
@@ -297,6 +300,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_db.py` -> __future__, csv, io, pathlib, pytest, tempfile
 - `tests/test_dependencies.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_detection_feed.py` -> __future__, json
+- `tests/test_dirtyinit_addon.py` -> __future__, json, os, pathlib, pytest, re, subprocess, yaml
 - `tests/test_docs_drift_contract.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_doctor.py` -> __future__, pathlib, sys
 - `tests/test_emulation_runner.py` -> __future__, dataclasses, json, pathlib, pytest
@@ -492,6 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tools/gen_demo_gifs.py` -> PIL, os
 - `tools/gen_demo_gifs_extra.py` -> os, sys
 - `tools/generate_metasploitable_gym.py` -> __future__, pathlib, yaml
-- `tools/set_lazyaddon_updates.py` -> __future__, argparse, pathlib, re, yaml
-- `utils.py` -> argparse, base64, binascii, bisect, bs4, concurrent.futures, csv, ctypes, curses, datetime, glob, gzip, hashlib, importlib.util, io, itertools, json, os, pathlib, random, re, readline, requests, requests.exceptions, rich.panel, rich.text, secrets, shlex, shutil, signal, socket, ssl, string, struct, subprocess, sys, tempfile, threading, time, urllib.parse, urllib.request, uuid, xml.etree.ElementTree, yaml
 
+Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

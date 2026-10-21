@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 110 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
+modules: lazy_loop groups 112 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -22,25 +22,25 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (4.1)
+## cli (3.1)
 
-cli groups 11 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 13 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
-## core (4.2)
+## core (3.2)
 
-core groups 2 files (py) around is_autonomous, autonomous_mode, _guarded_input, _tty_fd, emit_restore_sequences. Autonomous-run mode for the loop engine.
+core groups 3 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Autonomous-run mode for the loop engine.
 
-## lazyc2 (4.3)
+## lazyc2 (3.3)
 
 lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _status_payload, status. Orchestrator REST + web panel for the LazyOwn C2 dashboard.
 
-## modules (4.4)
+## modules (3.4)
 
-modules groups 49 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 48 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
 
-## tests (4.5)
+## tests (3.5)
 
-tests groups 47 files (py) around test_registry_covers_auto_family, test_build_command_binds_target, test_is_shell_verb_matches_first_token, test_verbs_for_matches_keywords, test_propose_and_translate_roundtrip. Auto-verb registry: loop-ready automation commands.
+tests groups 47 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
@@ -48,26 +48,29 @@ tests groups 47 files (py) around test_registry_covers_auto_family, test_build_c
 - cli/commands/exploit_migrated.py
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
+- cli/commands/purple_team.py
 - cli/commands/redteam_gym.py
 - cli/commands/retry_ops.py
 - cli/lazy_monitor.py
 - cli/lazy_orchestrator.py
 - cli/orchestrator_assets_tabs.py
+- cli/purple_tui.py
 - cli/session_brief.py
 - cli/tui_forms.py
 - core/autonomous.py
+- core/config.py
 - core/terminal_guard.py
 - lazyc2/blueprints/orchestrator.py
 - modules/__init__.py
 - modules/adcs_attacks.py
 - modules/atomic_exploit_bridge.py
+- modules/auto_purple.py
 - modules/auto_registry.py
 - modules/custom_tools.py
 - modules/exploit_chain.py
 - modules/gym_registry.py
 - modules/jsonl_tail.py
-- modules/kill_chain_viz.py
-- modules/killchain.py
+- modules/lazy_agent.py
 - modules/lazy_bridge.py
 - modules/lazy_cli_bridge.py
 - modules/lazy_engine.py
@@ -85,7 +88,6 @@ tests groups 47 files (py) around test_registry_covers_auto_family, test_build_c
 - modules/loop_progress.py
 - modules/loop_triggers.py
 - modules/metasploitable_gym.py
-- modules/notify.py
 - modules/orchestrator_config.py
 - modules/outcome_bus.py
 - modules/playbook_admin.py
@@ -107,13 +109,13 @@ tests groups 47 files (py) around test_registry_covers_auto_family, test_build_c
 - modules/verb_catalog.py
 - modules/workspace.py
 - modules/world_model.py
+- tests/conftest.py
+- tests/test_aes_key_propagation.py
 - tests/test_auto_registry.py
 - tests/test_chain_list_command.py
 - tests/test_gym_cli.py
 - tests/test_gym_ms2_cli.py
 - tests/test_gym_registry.py
-- tests/test_killchain_snapshot.py
-- tests/test_killchain_unified_v2.py
 - tests/test_lazy_agent.py
 - tests/test_lazy_bridge_traffic.py
 - tests/test_lazy_engine.py

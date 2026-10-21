@@ -23,7 +23,7 @@ existing workflow:
 * When the target is empty it allows it (nothing to check).
 
 Only when an *offensive* command targets a host *outside* a *defined* scope does
-the guard react, and even then `[`warn`](skills.setup.sh.md#warn)` mode merely annotates the decision
+the guard react, and even then ``warn`` mode merely annotates the decision
 while ``enforce`` mode blocks pending operator confirmation.
 
 Design contract:

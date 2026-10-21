@@ -1,8 +1,10 @@
-# Symbols (page 16 of 43)
+# Symbols (page 16 of 44)
 Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read` | method | `modules/lazy_loop.py:6389` | `def read(self, evidence_id, offset, length)` |
+| `rebind` | method | `modules/lazy_loop.py:3532` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
 | `record` | method | `modules/lazy_loop.py:1565` | `def record(self, kind, command, output, meta)` |
 | `record_fact` | method | `modules/lazy_loop.py:1374` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
 | `record_fact` | function | `modules/lazy_loop.py:4353` | `def record_fact(text)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `build_command` | method | `modules/lazyown_bridge.py:63` | `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` |
 | `by_mitre` | method | `modules/lazyown_bridge.py:3952` | `def by_mitre(self, technique_id)` |
 | `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
-| `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
-| `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

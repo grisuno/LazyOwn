@@ -1,6 +1,6 @@
 # cli
 
-cli groups 113 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 109 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -10,7 +10,6 @@ graph LR
     poc_tui["poc_tui"]
     root["root"]
     scripts["scripts"]
-    skills["skills"]
     tests["tests"]
     cli -- "calls into" --> core
     cli -- "calls into" --> modules
@@ -22,60 +21,51 @@ graph LR
     root -- "calls into" --> cli
     root -- "calls into" --> core
     root -- "calls into" --> modules
-    root -- "depends on" --> skills
     scripts -- "calls into" --> root
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
     tests -- "calls into" --> modules
     tests -- "calls into" --> root
-    tests -- "calls into" --> skills
 ```
 
-## cli (3.1)
+## cli (4.1)
 
-cli groups 50 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
+cli groups 47 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
 
-## core (3.2)
+## core (4.2)
 
 core groups 6 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell.
 
-## modules (3.3)
+## modules (4.3)
 
 modules groups 1 files (py) around _load_users, _save_users, _load_payload, _save_payload, user_exists. CLI authentication module — login against users.json with remember-me.
 
-## poc_tui (3.4)
+## poc_tui (4.4)
 
 poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
 
-## root (3.5)
+## root (4.5)
 
 root groups 2 files (py) around _ux_debug, _parse_bool_setting, _PayloadSettableProxy, __init__, __getattr__. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## scripts (3.6)
+## scripts (4.6)
 
 scripts groups 1 files (py) around AuditConfig, argparser_commands, audit, main. Audit every registered shell command for dispatch and parser errors.
 
-## skills (3.7)
+## tests (4.7)
 
-skills groups 1 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. Unified orchestrator facade collapsing daemon, hive and SWAN into one surface.
-
-## tests (3.8)
-
-tests groups 48 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
 - cli/__init__.py
-- cli/auto_crypto.py
 - cli/autosuggest.py
 - cli/chain_mode.py
 - cli/command_chain.py
 - cli/command_explorer.py
 - cli/command_form.py
-- cli/commands/__init__.py
 - cli/commands/cli_auth.py
 - cli/commands/help_ui.py
-- cli/commands/orchestration.py
 - cli/commands/recon.py
 - cli/config_status.py
 - cli/contextual_help.py
@@ -89,7 +79,6 @@ tests groups 48 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/graph_advisor.py
 - cli/graph_overlay.py
 - cli/headless.py
-- cli/killchain.py
 - cli/lazynmap_post.py
 - cli/noise_verbs.py
 - cli/ops_commands.py
@@ -102,8 +91,9 @@ tests groups 48 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/protips.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
+- cli/recommendation.py
+- cli/recommendation_signals.py
 - cli/recon_plan.py
-- cli/session_resumer.py
 - cli/sessions_browser.py
 - cli/splash.py
 - cli/status_bar.py
@@ -129,8 +119,6 @@ tests groups 48 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - poc_tui/run.py
 - poc_tui/test_app.py
 - scripts/devtools/command_audit.py
-- skills/unified_orchestrator.py
-- tests/test_auto_crypto.py
 - tests/test_autosuggest.py
 - tests/test_c2_agent.py
 - tests/test_chain_mode.py
@@ -149,19 +137,20 @@ tests groups 48 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - tests/test_exploration_and_addons.py
 - tests/test_graph_advisor.py
 - tests/test_graph_overlay.py
-- tests/test_improvements_spec.py
-- tests/test_killchain.py
 - tests/test_killchain_auto_refresh.py
+- tests/test_killchain_gap_signal.py
 - tests/test_killchain_unified.py
 - tests/test_lazynmap_post.py
 - tests/test_marketplace_config.py
 - tests/test_ops_loot_phase.py
 - tests/test_palette_overlay.py
+- tests/test_phase1_data_gaps.py
 - tests/test_phase_labels.py
 - tests/test_profiles.py
 - tests/test_reactive_hints.py
 - tests/test_reactive_hints_expanded.py
 - tests/test_reasoning_stream.py
+- tests/test_recommendation.py
 - tests/test_recon_plan.py
 - tests/test_safe_console.py
 - tests/test_scope_guard_integration.py

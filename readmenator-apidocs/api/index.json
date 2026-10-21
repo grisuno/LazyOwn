@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 790,
-  "entities": 14956,
+  "modules": 792,
+  "entities": 15011,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -14,7 +14,7 @@
    "lua": 26,
    "php": 1,
    "py": 679,
-   "sh": 59
+   "sh": 61
   },
   "kinds": {
    "attribute": 4258,
@@ -24,10 +24,10 @@
    "constructor": 513,
    "enum": 38,
    "exception": 37,
-   "function": 2656,
+   "function": 2709,
    "macro": 113,
    "method": 3487,
-   "module": 790,
+   "module": 792,
    "property": 190,
    "protocol": 14,
    "staticmethod": 91,
@@ -36,14 +36,14 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 334,
+  "skipped_files": 338,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6993,
-   "total": 9420,
-   "percent": 74.2
+   "documented": 6995,
+   "total": 9475,
+   "percent": 73.8
   },
   "by_kind": {
    "class": {
@@ -73,8 +73,8 @@
    },
    "function": {
     "documented": 1761,
-    "total": 2656,
-    "percent": 66.3
+    "total": 2709,
+    "percent": 65.0
    },
    "macro": {
     "documented": 3,
@@ -87,8 +87,8 @@
     "percent": 80.5
    },
    "module": {
-    "documented": 668,
-    "total": 790,
+    "documented": 670,
+    "total": 792,
     "percent": 84.6
    },
    "property": {
@@ -3563,6 +3563,11 @@
     "total": 6,
     "percent": 100.0
    },
+   "scripts/broadcom_wps_drive.sh": {
+    "documented": 1,
+    "total": 26,
+    "percent": 3.8
+   },
    "scripts/check_contract_manifest.py": {
     "documented": 5,
     "total": 5,
@@ -3577,6 +3582,11 @@
     "documented": 5,
     "total": 5,
     "percent": 100.0
+   },
+   "scripts/dirtyinit_drive.sh": {
+    "documented": 1,
+    "total": 29,
+    "percent": 3.4
    },
    "scripts/fix_migrated_classes.py": {
     "documented": 0,
@@ -7517,6 +7527,11 @@
    "entities": 14
   },
   {
+   "uid": "scripts/broadcom_wps_drive.sh",
+   "path": "modules/scripts.broadcom_wps_drive.sh.jsonl",
+   "entities": 26
+  },
+  {
    "uid": "scripts/check_contract_manifest.py",
    "path": "modules/scripts.check_contract_manifest.py.jsonl",
    "entities": 16
@@ -7530,6 +7545,11 @@
    "uid": "scripts/devtools/core_smoke.py",
    "path": "modules/scripts.devtools.core_smoke.py.jsonl",
    "entities": 6
+  },
+  {
+   "uid": "scripts/dirtyinit_drive.sh",
+   "path": "modules/scripts.dirtyinit_drive.sh.jsonl",
+   "entities": 29
   },
   {
    "uid": "scripts/fix_migrated_classes.py",
@@ -8024,7 +8044,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2259
+  "total": 2312
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

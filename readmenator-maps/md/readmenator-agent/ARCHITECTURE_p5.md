@@ -1,7 +1,9 @@
-# Architecture (page 5 of 7)
+# Architecture (page 5 of 8)
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
+- `tests/test_doctor.py` -> `cli/__init__.py`
 - `tests/test_doctor.py` -> `cli/wizard.py`
 - `tests/test_emulation_runner.py` -> `modules/apt_playbooks.py`
 - `tests/test_emulation_runner.py` -> `modules/atomic_exploit_bridge.py`

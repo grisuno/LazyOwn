@@ -82,6 +82,40 @@ class TestApplyAssign:
         assert apply_assign(params, "rhost", "x") is True
         assert params["rhost"] == "x"
 
+    def test_allows_windows_path_backslashes(self):
+        from cli.assign import apply_assign
+
+        params = {"backdoor_win_service_path": "C:/Users/lazyown/Documents"}
+        assert apply_assign(params, "backdoor_win_service_path", "C:\\ProgramData") is True
+        assert params["backdoor_win_service_path"] == "C:\\ProgramData"
+
+    def test_rejects_shell_operators_and_escapes(self):
+        from cli.assign import apply_assign
+
+        for value in ("x;y", "x|y", "x&y", "x`y`", "$(id)", "${HOME}", "x\ny", "x\\;y"):
+            params = {"rhost": "1.1.1.1"}
+            assert apply_assign(params, "rhost", value) is False, value
+            assert params["rhost"] == "1.1.1.1"
+
+
+class TestAssignLineParsing:
+    def test_posix_false_parses_preserve_backslashes(self):
+        import shlex
+
+        from cli.commands.session_ops import _strip_shell_quotes
+
+        args = shlex.split("backdoor_win_service_path C:\\ProgramData", posix=False)
+        assert len(args) == 2
+        assert _strip_shell_quotes(args[1]) == "C:\\ProgramData"
+
+    def test_strip_shell_quotes_variants(self):
+        from cli.commands.session_ops import _strip_shell_quotes
+
+        assert _strip_shell_quotes('"x y"') == "x y"
+        assert _strip_shell_quotes("'x y'") == "x y"
+        assert _strip_shell_quotes("plain") == "plain"
+        assert _strip_shell_quotes("C:\\Path") == "C:\\Path"
+
     def test_persists_to_disk_via_save_payload(self, tmp_path):
         """End-to-end with the real ``core.config.save_payload``."""
         from cli.assign import apply_assign

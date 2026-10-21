@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 167 files in 'cli/commands' related to each other?
+### Q: How are the 164 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 

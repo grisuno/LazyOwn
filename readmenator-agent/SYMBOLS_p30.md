@@ -1,8 +1,63 @@
-# Symbols (page 30 of 43)
+# Symbols (page 30 of 44)
 Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `u` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `uE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `vE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `vp` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `yk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `zo` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bx` | function | `static/js/vis-network.min.js:33` | `` |
+| `C` | function | `static/js/vis-network.min.js:26` | `` |
+| `C` | function | `static/js/vis-network.min.js:33` | `` |
+| `CE` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ek` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ew` | function | `static/js/vis-network.min.js:33` | `` |
+| `Fk` | function | `static/js/vis-network.min.js:33` | `` |
 | `Fx` | function | `static/js/vis-network.min.js:33` | `` |
 | `Hk` | function | `static/js/vis-network.min.js:33` | `` |
 | `I` | function | `static/js/vis-network.min.js:33` | `` |
@@ -441,60 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
 | `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
 | `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
-| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:437` | `def test_status_has_active_phase(self, tmp_path)` |
-| `test_status_no_plan` | method | `tests/test_aci_planner.py:422` | `def test_status_no_plan(self, tmp_path)` |
-| `test_status_with_plan` | method | `tests/test_aci_planner.py:427` | `def test_status_with_plan(self, tmp_path)` |
-| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:262` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
-| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:225` | `def test_to_dict_has_completion_pct(self)` |
-| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:135` | `def test_to_dict_round_trip(self)` |
-| `TestAddonStore` | class | `tests/test_addon_creator.py:328` | `class TestAddonStore` |
-| `TestBlueprint` | class | `tests/test_addon_creator.py:591` | `class TestBlueprint` |
-| `TestConfig` | class | `tests/test_addon_creator.py:86` | `class TestConfig` |
-| `TestParseAddonForm` | class | `tests/test_addon_creator.py:460` | `class TestParseAddonForm` |
-| `TestTemplateSanity` | class | `tests/test_addon_creator.py:805` | `class TestTemplateSanity` |
-| `TestValidator` | class | `tests/test_addon_creator.py:117` | `class TestValidator` |
-| `TestYamlRenderer` | class | `tests/test_addon_creator.py:263` | `class TestYamlRenderer` |
-| `_FakeOperator` | class | `tests/test_addon_creator.py:570` | `class _FakeOperator(UserMixin)` |
-| `_build_test_app` | function | `tests/test_addon_creator.py:521` | `def _build_test_app(tmp_path)` |
-| `_csrf_token` | method | `tests/test_addon_creator.py:650` | `def _csrf_token(self, client)` |
-| `_form_data` | method | `tests/test_addon_creator.py:626` | `def _form_data(self)` |
-| `_load_user` | function | `tests/test_addon_creator.py:577` | `def _load_user(user_id)` |
-| `_login` | function | `tests/test_addon_creator.py:585` | `def _login(client)` |
-| `_valid_draft` | function | `tests/test_addon_creator.py:45` | `def _valid_draft()` |
-| `test_bad_repo_url_reports_issue` | method | `tests/test_addon_creator.py:205` | `def test_bad_repo_url_reports_issue(self)` |
-| `test_boolean_default_whitelist` | method | `tests/test_addon_creator.py:232` | `def test_boolean_default_whitelist(self)` |
-| `test_create_form_issues_csrf_cookie` | method | `tests/test_addon_creator.py:602` | `def test_create_form_issues_csrf_cookie(self, tmp_path)` |
-| `test_creator_template_forbids_emojis_and_console_spam` | method | `tests/test_addon_creator.py:816` | `def test_creator_template_forbids_emojis_and_console_spam(self)` |
-| `test_creator_template_has_help_affordances` | method | `tests/test_addon_creator.py:808` | `def test_creator_template_has_help_affordances(self)` |
-| `test_declared_param_placeholder_is_allowed` | method | `tests/test_addon_creator.py:186` | `def test_declared_param_placeholder_is_allowed(self)` |
-| `test_default_author_and_version_applied` | method | `tests/test_addon_creator.py:315` | `def test_default_author_and_version_applied(self)` |
-| `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
-| `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
-| `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
-| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
-| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
-| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
-| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
-| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
-| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
-| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
-| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
-| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
-| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
-| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
-| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
-| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
-| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
-| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
-| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
-| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
-| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
-| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
-| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
-| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
-| `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
-| `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
-| `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
-| `test_missing_optional_fields_become_empty` | method | `tests/test_addon_creator.py:509` | `def test_missing_optional_fields_become_empty(self)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

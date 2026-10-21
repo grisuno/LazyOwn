@@ -1,8 +1,10 @@
-# Symbols (page 10 of 43)
+# Symbols (page 10 of 44)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `stop` | method | `lazygui/services/local_backend.py:87` | `def stop(self)` |
+| `BackendKind` | class | `lazygui/services/models.py:17` | `class BackendKind(StrEnum)` |
 | `BeaconResult` | class | `lazygui/services/models.py:164` | `class BeaconResult` |
 | `CampaignSummary` | class | `lazygui/services/models.py:151` | `class CampaignSummary` |
 | `DashboardPayload` | class | `lazygui/services/models.py:139` | `class DashboardPayload` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `stream_generate` | method | `modules/ai_model.py:382` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:455` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:515` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:574` | `def stream_generate(self, prompt)` |
-| `AMS1patch_E_ACCESSDENIED` | function | `modules/amsi.c:274` | `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

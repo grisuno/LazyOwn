@@ -202,9 +202,11 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/__init__.py` | Repository-side maintenance scripts. | scripts | 0 | 0 |
 | `scripts/activate_migrations.py` | Activate dormant CommandSet migrations. | scripts | 7 | 0 |
 | `scripts/backfill_addon_os_trigger.py` | One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon. | scripts | 5 | 0 |
+| `scripts/broadcom_wps_drive.sh` | operator-side driver for the Broadcom 802.11 SDK detection toolkit. | scripts | 25 | 0 |
 | `scripts/check_contract_manifest.py` | Verify that documented contracts still exist on disk. | scripts | 13 | 1 |
 | `scripts/devtools/command_audit.py` | Audit every registered shell command for dispatch and parser errors. | devtools | 4 | 0 |
 | `scripts/devtools/core_smoke.py` | Smoke check for the public surfaces documented in CORE.md. | devtools | 4 | 0 |
+| `scripts/dirtyinit_drive.sh` | operator-side driver for the DirtyInit Android root chain. | scripts | 28 | 0 |
 | `scripts/fix_migrated_classes.py` | - | scripts | 0 | 0 |
 | `scripts/generate_sbom.py` | Generate a minimal CycloneDX SBOM from the pinned requirements files. | scripts | 5 | 0 |
 | `scripts/journal.py` | Read-before-you-write journal over GitHub Discussions. | scripts | 14 | 2 |
@@ -372,6 +374,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_autonomous_ops.py` | BDD scoped tests for integrated autonomous operations C04-C10. | tests | 17 | 0 |
 | `tests/test_autonomous_replay.py` | Tests for ``skills/autonomous_replay.py``. | tests | 18 | 0 |
 | `tests/test_autosuggest.py` | Unit tests for cli.autosuggest. | tests | 41 | 0 |
+| `tests/test_awesome_windows_security_skill.py` | tests/test_awesome_windows_security_skill.py  Contract suite for the... | tests | 51 | 0 |
 | `tests/test_backdoor_random.py` | Backdoor credentials: random like C2 operators, persisted via assign. | tests | 5 | 0 |
 | `tests/test_banner_config.py` | Tests for cli/banner_config.py — registry, settings, renderer, wizard. | tests | 45 | 0 |
 | `tests/test_bdd_infra_range_report.py` | BDD scenarios for disposable infra, range, and executive reporting. | tests | 5 | 0 |
@@ -382,6 +385,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_bootstrap_installer.py` | Integration tests for the installer scripts (no network, no apt). | tests | 14 | 0 |
 | `tests/test_boyscout_contracts.py` | Boy-scout contracts for critical shared surfaces. | tests | 15 | 0 |
 | `tests/test_bridge_catalog_filtered.py` | tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``... | tests | 20 | 0 |
+| `tests/test_broadcom_wps_addon.py` | tests/test_broadcom_wps_addon.py  Validation suite for the broadcom_wps lazyaddon and its... | tests | 50 | 0 |
 | `tests/test_c2_agent.py` | Malleable C2 agent: template safety, key ownership, record reading. | tests | 20 | 0 |
 | `tests/test_c2_profile_engine.py` | Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile... | tests | 63 | 0 |
 | `tests/test_c2_route_auth.py` | Guard the C2 route-level auth boundaries. | tests | 5 | 0 |
@@ -399,7 +403,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_ci_strict.py` | Contract tests for the strict CI workflow. | tests | 10 | 0 |
 | `tests/test_claudemd_consistency.py` | Guard against drift between CLAUDE.md numeric claims and reality. | tests | 3 | 0 |
 | `tests/test_claudemd_size.py` | Enforce a hard cap on ``CLAUDE.md`` size. | tests | 1 | 0 |
-| `tests/test_cli_assign.py` | ``do_assign`` / ``do_show`` behaviour and shell wiring tests. | tests | 39 | 0 |
+| `tests/test_cli_assign.py` | ``do_assign`` / ``do_show`` behaviour and shell wiring tests. | tests | 44 | 0 |
 | `tests/test_cli_auth_remember.py` | Remember-me token comparison must be timing-safe. | tests | 7 | 0 |
 | `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 61 | 0 |
 | `tests/test_cli_enhancements.py` | Tests for cli/cli_enhancements.py and the audit CommandSet. | tests | 50 | 0 |
@@ -407,6 +411,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_command_allowlist.py` | TDD tests for the command allowlist contract. | tests | 14 | 0 |
 | `tests/test_command_allowlist_behavior.py` | BDD behavior scenarios for the command allowlist contract. | tests | 3 | 0 |
 | `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 24 | 0 |
+| `tests/test_command_control_agent.py` | Agent flavour selection and agent-staging regression tests. | tests | 12 | 0 |
 | `tests/test_command_form.py` | Tests for cli/command_form.py. | tests | 13 | 0 |
 | `tests/test_command_namespace_uniqueness.py` | Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second... | tests | 3 | 0 |
 | `tests/test_command_palette.py` | Command palette test suite. | tests | 238 | 0 |
@@ -435,6 +440,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
 | `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
 | `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
+| `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
 | `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
 | `tests/test_doctor.py` | tests/test_doctor.py  Tests for the preflight environment health check in ``cli.doctor``. | tests | 34 | 0 |
 | `tests/test_emulation_runner.py` | Emulation runner BDD contract: resolve, execute, normalize, publish. | tests | 22 | 0 |
@@ -490,11 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
 | `tests/test_lazygui_models.py` | Tests for lazygui domain models. | tests | 42 | 0 |
-| `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
-| `tests/test_lazynmap_sudo_branches.py` | LazyNmap sudo branches: unattended abort vs interactive prompt. | tests | 4 | 0 |
-| `tests/test_legacy_shims.py` | Legacy shim contract plus referenced-script existence. | tests | 5 | 0 |
-| `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
-| `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
-| `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

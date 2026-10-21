@@ -1,0 +1,38 @@
+name: dirtyinit
+description: |
+  DirtyInit - one-touch root for Samsung devices as u:r:init:s0 (DirtyFrag).
+  Clones upstream, cross-compiles the init client and the exploit APK with the
+  Android NDK/SDK, installs it over ADB, drives the app buttons, stages the
+  client on the device.
+  Setup: platform-tools, JDK 17, Android SDK, NDK; export ANDROID_SDK_ROOT and
+  ANDROID_NDK_HOME.
+  Flow: dirtyinit doctor, build, install, auto, stage, run ls -la /system/bin.
+  Scope: assign android_serial <serial> or pass --serial <serial>.
+author: combeng6th
+version: "1.0"
+enabled: true
+update: true
+params:
+  - name: android_serial
+    type: string
+    required: false
+    default: ""
+    description: ADB serial of the target device. Set with assign android_serial <serial>.
+  - name: dirtyinit_device_path
+    type: string
+    required: false
+    default: "/data/local/tmp/dirtyinit"
+    description: Device path where the init-namespace client is staged. Set with assign dirtyinit_device_path <path>.
+os: any
+trigger: []
+module_type: exploit
+category: "03. Exploitation"
+tool:
+  name: DirtyInit
+  repo_url: https://github.com/combeng6th/DirtyInit.git
+  install_path: external/.exploit/dirtyinit
+  install_command: bash ../../../scripts/dirtyinit_drive.sh doctor || true
+  execute_command: >
+    env ANDROID_SERIAL={android_serial}
+    DIRTYINIT_DEVICE_PATH={dirtyinit_device_path}
+    bash ../../../scripts/dirtyinit_drive.sh

@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `save_short_urls` | function | `lazyc2.py:2270` | `def save_short_urls(data)` |
 | `save_tasks` | function | `lazyc2.py:1089` | `def save_tasks(tasks)` |
 | `save_to_log` | function | `lazyc2.py:2170` | `def save_to_log(data)` |
 | `save_users` | function | `lazyc2.py:3006` | `def save_users(users)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `refresh` | method | `lazygui/services/local_backend.py:117` | `def refresh(self)` |
 | `resize_terminal` | method | `lazygui/services/local_backend.py:121` | `def resize_terminal(self, columns, rows)` |
 | `send_command` | method | `lazygui/services/local_backend.py:112` | `def send_command(self, command, target_session)` |
-| `start` | method | `lazygui/services/local_backend.py:62` | `def start(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

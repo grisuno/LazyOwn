@@ -313,7 +313,8 @@ Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
 
 Usage:
     auto_loop [--target T] [--task T] [--rounds N] [--workers N]
-              [--timeout S] [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
+              [--timeout S] [--targets-from-file F] [--max-concurrent N]
+              [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
               [--budget-confirm] [--no-bootstrap]
               [--view|--plain] <goal>
 
@@ -337,7 +338,7 @@ start behind an interactive confirmation unless
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:529](../../cli/commands/mcp_bridge.py#L529)
+`method` | [cli/commands/mcp_bridge.py:530](../../cli/commands/mcp_bridge.py#L530)
 
 Decorators: `@with_category(ai_category)`
 
@@ -357,7 +358,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:534](../../cli/commands/mcp_bridge.py#L534)
+`method` | [cli/commands/mcp_bridge.py:535](../../cli/commands/mcp_bridge.py#L535)
 
 Decorators: `@with_category(ai_category)`
 
@@ -377,7 +378,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:539](../../cli/commands/mcp_bridge.py#L539)
+`method` | [cli/commands/mcp_bridge.py:540](../../cli/commands/mcp_bridge.py#L540)
 
 Decorators: `@with_category(ai_category)`
 

@@ -1,6 +1,20 @@
 # Subsystem: modules (page 10 of 16)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/lazynmap.sh
+- Doc: Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `cleanup` (function, line 29)
+  - `fix_sessions_owner` (function, line 74)
+  - `nmaptest` (function, line 129)
+  - `discover_network` (function, line 149)
+  - `extract_ports_info` (function, line 818)
+  - `run_nmap_script` (function, line 844)
+  - `print_row` (function, line 877)
+  - `ctrl_c` (function, line 38)
+
 ## modules/lazyown_bprfuzzer.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility

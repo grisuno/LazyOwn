@@ -72,6 +72,8 @@ class ChainStep:
     expect: str = ""
     expect_exit: list[int] = field(default_factory=list)
     verify: str = ""
+    pre_check: str = ""
+    parallel: bool = False
     on_fail: str = ""
     on_success: str = ""
     confirm: bool = False
@@ -99,6 +101,7 @@ class Chain:
     source: str = ""
     enabled: bool = True
     extends: str = ""
+    fallback: str = ""
     total_timeout: int = 0
 
     def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]:
@@ -125,6 +128,8 @@ class Chain:
                 "expect": step.expect,
                 "expect_exit": list(step.expect_exit),
                 "verify": step.verify,
+                "pre_check": step.pre_check,
+                "parallel": step.parallel,
                 "on_fail": step.on_fail,
                 "on_success": step.on_success,
                 "confirm": step.confirm,
@@ -307,6 +312,16 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         parent_file = Path(chains_dir) / f"{extends}.yaml"
         if not parent_file.is_file():
             errors.append(f"unknown parent chain file: {parent_file.name}")
+    fallback = str(data.get("fallback", "") or "")
+    if fallback:
+        if not _NAME_RE.match(fallback):
+            errors.append(f"invalid fallback: {fallback!r}")
+        elif fallback == str(data.get("name", "")):
+            errors.append("a chain cannot be its own fallback")
+        elif chains_dir is not None:
+            fallback_file = Path(chains_dir) / f"{fallback}.yaml"
+            if not fallback_file.is_file():
+                errors.append(f"unknown fallback chain file: {fallback_file.name}")
     total_timeout = data.get("total_timeout", 0)
     if isinstance(total_timeout, bool) or not isinstance(total_timeout, int) or not 0 <= total_timeout <= _MAX_TOTAL_TIMEOUT:
         errors.append(f"total_timeout must be 0-{_MAX_TOTAL_TIMEOUT} seconds")
@@ -369,6 +384,18 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             verify = str(step.get("verify", "") or "")
             if verify and len(verify) > _MAX_VERIFY_CHARS:
                 errors.append(f"step {step_label}: verify exceeds {_MAX_VERIFY_CHARS} chars")
+            pre_check = str(step.get("pre_check", "") or "")
+            if pre_check and len(pre_check) > _MAX_VERIFY_CHARS:
+                errors.append(f"step {step_label}: pre_check exceeds {_MAX_VERIFY_CHARS} chars")
+            if "parallel" in step and not isinstance(step["parallel"], bool):
+                errors.append(f"step {step_label}: parallel must be true or false")
+            elif step.get("parallel") is True:
+                for forbidden in ("capture", "capture_regex", "capture_json", "resolve_newest", "on_fail", "on_success"):
+                    if step.get(forbidden):
+                        errors.append(
+                            f"step {step_label}: parallel steps cannot declare {forbidden} "
+                            "(parallel outcomes merge after the group, in declaration order)"
+                        )
             expect_exit = step.get("expect_exit", [])
             if expect_exit and not isinstance(expect_exit, (int, list)):
                 errors.append(f"step {step_label}: expect_exit must be an int or a list of ints")
@@ -480,6 +507,7 @@ def _materialize(name: str, raw: dict[str, dict[str, Any]], stack: tuple[str, ..
         source=entry["source"],
         enabled=True,
         extends=parent_name,
+        fallback=str(data.get("fallback", "") or ""),
         total_timeout=int(data.get("total_timeout", 0) or 0),
     )
 
@@ -509,6 +537,8 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
         expect=str(item.get("expect", "") or ""),
         expect_exit=codes,
         verify=str(item.get("verify", "") or ""),
+        pre_check=str(item.get("pre_check", "") or ""),
+        parallel=bool(item.get("parallel", False)),
         on_fail=str(item.get("on_fail", "") or ""),
         on_success=str(item.get("on_success", "") or ""),
         confirm=bool(item.get("confirm", False)),
@@ -568,6 +598,7 @@ def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
                 "enabled": bool(data.get("enabled", True)) if isinstance(data, dict) else False,
                 "version": int(data.get("version", 1) or 1) if isinstance(data, dict) else 1,
                 "extends": str(data.get("extends", "") or "") if isinstance(data, dict) else "",
+                "fallback": str(data.get("fallback", "") or "") if isinstance(data, dict) else "",
                 "steps": len(steps) if isinstance(steps, list) else 0,
                 "playbook": str((data.get("defaults", {}) or {}).get("playbook", "")) if isinstance(data, dict) else "",
                 "tags": list(data.get("tags") or []) if isinstance(data, dict) else [],

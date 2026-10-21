@@ -41,10 +41,11 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `build_reactive_replanner` (function, line 343) `def build_reactive_replanner()`
   - `_decision_command` (function, line 368) `def _decision_command(decision)`
   - `_step_from_decision` (function, line 377) `def _step_from_decision(command, outcome, executed_count)`
-  - `_platform` (function, line 399) `def _platform()`
+  - `build_llm_recovery_chain` (function, line 399) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 470) `def _platform()`
   - `approve` (function, line 329) `def approve(step_id, command)`
   - `replan` (function, line 346) `def replan(context)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/reactive_engine.py`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/lazy_loop.py`, `modules/reactive_engine.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`
 
 ## cli/assign.py

@@ -1769,6 +1769,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         from cli.apt_chain_support import (
             adversarial_continue,
             build_cli_approver,
+            build_llm_recovery_chain,
             build_reactive_replanner,
             parse_chain_args,
             render_result,
@@ -1961,6 +1962,25 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 print_warn(
                     "[apt_chain] --sudo authorizes elevated reruns (root-level effects); it prompts with the destructive-steps warning"
                 )
+            if args.replan and not result.ok and not args.dry_run:
+                recovery = build_llm_recovery_chain(
+                    result,
+                    target=target,
+                    task_id=str(self.params.get("task_id", "") or ""),
+                )
+                if recovery is not None:
+                    print_msg(f"[apt_chain] LLM recovery: running {len(recovery.steps)} model-proposed step(s)")
+                    recovery_runner = ChainRunner(
+                        recovery,
+                        tokens=tokens_map,
+                        shell=shell,
+                        total_timeout=300.0,
+                        approver=build_cli_approver(print_msg),
+                        checkpoint_dir=checkpoint_path,
+                    )
+                    recovery_result = recovery_runner.run()
+                    for output_line in render_result(recovery_result):
+                        print_msg(output_line)
         if not args.dry_run:
             try:
                 from modules.outcome_bus import record_event

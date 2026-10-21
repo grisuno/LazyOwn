@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Enum4linuxParser` | class | `skills/lazyown_facts.py:292` | `class Enum4linuxParser(ITextOutputParser)` |
+| `FactStore` | class | `skills/lazyown_facts.py:667` | `class FactStore` |
+| `GenericOutputParser` | class | `skills/lazyown_facts.py:625` | `class GenericOutputParser(ITextOutputParser)` |
+| `GobusterFfufParser` | class | `skills/lazyown_facts.py:435` | `class GobusterFfufParser(ITextOutputParser)` |
+| `HostFacts` | class | `skills/lazyown_facts.py:132` | `class HostFacts` |
+| `INmapXmlParser` | class | `skills/lazyown_facts.py:166` | `class INmapXmlParser` |
+| `ITextOutputParser` | class | `skills/lazyown_facts.py:212` | `class ITextOutputParser` |
+| `KerbruteParser` | class | `skills/lazyown_facts.py:395` | `class KerbruteParser(ITextOutputParser)` |
+| `LdapParser` | class | `skills/lazyown_facts.py:366` | `class LdapParser(ITextOutputParser)` |
+| `NiktoParser` | class | `skills/lazyown_facts.py:494` | `class NiktoParser(ITextOutputParser)` |
+| `NucleiParser` | class | `skills/lazyown_facts.py:537` | `class NucleiParser(ITextOutputParser)` |
+| `RpcclientParser` | class | `skills/lazyown_facts.py:416` | `class RpcclientParser(ITextOutputParser)` |
+| `SecretsdumpParser` | class | `skills/lazyown_facts.py:331` | `class SecretsdumpParser(ITextOutputParser)` |
+| `ServiceFact` | class | `skills/lazyown_facts.py:62` | `class ServiceFact` |
+| `ShareFact` | class | `skills/lazyown_facts.py:87` | `class ShareFact` |
+| `SslscanParser` | class | `skills/lazyown_facts.py:573` | `class SslscanParser(ITextOutputParser)` |
+| `ToolDefinition` | class | `skills/lazyown_facts.py:1016` | `class ToolDefinition` |
+| `VulnerabilityFact` | class | `skills/lazyown_facts.py:107` | `class VulnerabilityFact` |
+| `__init__` | method | `skills/lazyown_facts.py:677` | `def __init__(self, cfg)` |
+| `_cmd_clean` | function | `skills/lazyown_facts.py:1065` | `def _cmd_clean(_args)` |
+| `_cmd_parse` | function | `skills/lazyown_facts.py:1051` | `def _cmd_parse(args)` |
+| `_cmd_show` | function | `skills/lazyown_facts.py:1060` | `def _cmd_show(args)` |
+| `_dedup_creds` | method | `skills/lazyown_facts.py:759` | `def _dedup_creds(self, hf)` |
+| `_dedup_paths` | method | `skills/lazyown_facts.py:779` | `def _dedup_paths(self, hf)` |
+| `_dedup_services` | method | `skills/lazyown_facts.py:749` | `def _dedup_services(self, hf)` |
+| `_dedup_vulns` | method | `skills/lazyown_facts.py:769` | `def _dedup_vulns(self, hf)` |
+| `_guess_host_from_filename` | method | `skills/lazyown_facts.py:841` | `def _guess_host_from_filename(filename)` |
+| `_guess_port_from_path` | method | `skills/lazyown_facts.py:847` | `def _guess_port_from_path(txt_path)` |
+| `_host` | method | `skills/lazyown_facts.py:744` | `def _host(self, ip)` |
+| `_load` | method | `skills/lazyown_facts.py:702` | `def _load(self)` |
+| `all_hosts` | method | `skills/lazyown_facts.py:893` | `def all_hosts(self)` |
+| `can_parse` | method | `skills/lazyown_facts.py:217` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:250` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:301` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:341` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:374` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:403` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:424` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:447` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:502` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:545` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:581` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:635` | `def can_parse(self, filename, content)` |
 | `context_for_command` | method | `skills/lazyown_facts.py:896` | `def context_for_command(self, host, category)` |
 | `create_tool_file` | function | `skills/lazyown_facts.py:1025` | `def create_tool_file(toolname, command, trigger, active, tools_dir)` |
 | `default` | method | `skills/lazyown_facts.py:45` | `def default(cls)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `get_episode` | method | `skills/lazyown_policy.py:911` | `def get_episode(self, target)` |
 | `get_episode` | method | `skills/lazyown_policy.py:963` | `def get_episode(self, target)` |
 | `get_recommendations` | method | `skills/lazyown_policy.py:1318` | `def get_recommendations(self, target)` |
-| `infer_category` | function | `skills/lazyown_policy.py:267` | `def infer_category(command, args)` |
-| `is_approved` | method | `skills/lazyown_policy.py:1365` | `def is_approved(self)` |
-| `is_denied` | method | `skills/lazyown_policy.py:1370` | `def is_denied(self)` |
-| `is_high_risk` | method | `skills/lazyown_policy.py:746` | `def is_high_risk(self, command, args, category)` |
-| `load_all` | method | `skills/lazyown_policy.py:907` | `def load_all(self)` |
-| `load_all` | method | `skills/lazyown_policy.py:947` | `def load_all(self)` |
-| `main` | function | `skills/lazyown_policy.py:2036` | `def main()` |
-| `ollama_url` | method | `skills/lazyown_policy.py:123` | `def ollama_url(self)` |
-| `on_command_complete` | method | `skills/lazyown_policy.py:1307` | `def on_command_complete(self, target, command, args, output, exit_code)` |
-| `path` | method | `skills/lazyown_policy.py:1405` | `def path(self)` |
-| `process` | method | `skills/lazyown_policy.py:1210` | `def process(self, target, command, args, output, exit_code, timestamp)` |
-| `query` | method | `skills/lazyown_policy.py:1003` | `def query(self, from_state)` |
-| `read` | method | `skills/lazyown_policy.py:855` | `def read(self)` |
-| `recommend` | method | `skills/lazyown_policy.py:1111` | `def recommend(self, recent_steps)` |
-| `record` | method | `skills/lazyown_policy.py:993` | `def record(self, from_state, to_category, outcome)` |
-| `request` | method | `skills/lazyown_policy.py:1667` | `def request(self, target, phase, command, reason)` |
-| `request` | method | `skills/lazyown_policy.py:1866` | `def request(self, target, phase, command, reason)` |
-| `resolution_for` | method | `skills/lazyown_policy.py:1388` | `def resolution_for(self, approval_id)` |
-| `resolution_for` | method | `skills/lazyown_policy.py:1426` | `def resolution_for(self, approval_id)` |
-| `resolution_for` | method | `skills/lazyown_policy.py:1499` | `def resolution_for(self, approval_id)` |
-| `resolution_for` | method | `skills/lazyown_policy.py:1552` | `def resolution_for(self, approval_id)` |
-| `resolution_for` | method | `skills/lazyown_policy.py:1576` | `def resolution_for(self, approval_id)` |
-| `run` | method | `skills/lazyown_policy.py:1934` | `def run(self)` |
-| `to_dict` | method | `skills/lazyown_policy.py:357` | `def to_dict(self)` |
-| `unknown` | method | `skills/lazyown_policy.py:317` | `def unknown(cls, tier)` |
-| `SessionTranscript` | class | `skills/lazyown_session.py:71` | `class SessionTranscript` |
-| `__init__` | method | `skills/lazyown_session.py:82` | `def __init__(self, sessions_dir, session_id)` |
-| `_init_meta` | method | `skills/lazyown_session.py:90` | `def _init_meta(self)` |
-| `_redact_sensitive` | function | `skills/lazyown_session.py:47` | `def _redact_sensitive(value)` |
-| `add_compact_boundary` | method | `skills/lazyown_session.py:209` | `def add_compact_boundary(self, summary, preserved_uuids)` |
-| `append` | method | `skills/lazyown_session.py:106` | `def append(self, event_type, data)` |
-| `count` | method | `skills/lazyown_session.py:164` | `def count(self)` |
-| `fork` | method | `skills/lazyown_session.py:227` | `def fork(self, new_id)` |
-| `get_all` | method | `skills/lazyown_session.py:161` | `def get_all(self)` |
-| `get_recent` | method | `skills/lazyown_session.py:143` | `def get_recent(self, n)` |
-| `get_transcript` | function | `skills/lazyown_session.py:281` | `def get_transcript(sessions_dir, session_id)` |
-| `maybe_auto_compact` | method | `skills/lazyown_session.py:174` | `def maybe_auto_compact(self, threshold)` |
-| `reset_transcript` | function | `skills/lazyown_session.py:294` | `def reset_transcript(sessions_dir, session_id)` |
-| `status_text` | method | `skills/lazyown_session.py:257` | `def status_text(self)` |
-| `_gen_EOF` | function | `skills/mcp_generated_tools.py:696` | `def _gen_EOF(arguments, tool_name, _cmd)` |
-| `_gen_GET` | function | `skills/mcp_generated_tools.py:704` | `def _gen_GET(arguments, tool_name, _cmd)` |
-| `_gen_OPTIONS` | function | `skills/mcp_generated_tools.py:712` | `def _gen_OPTIONS(arguments, tool_name, _cmd)` |
-| `_gen_POST` | function | `skills/mcp_generated_tools.py:720` | `def _gen_POST(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

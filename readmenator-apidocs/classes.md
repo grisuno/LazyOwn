@@ -381,6 +381,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e) class in `static/js/xterm.js`(a.Disposable)
 - [`EDRDetector`](modules/modules.edr_detector.py.md#edrdetector) class in `modules.edr_detector`
 - [`EDRFinding`](modules/modules.edr_detector.py.md#edrfinding) class in `modules.edr_detector`
+- [`EdrPacer`](modules/modules.loop_guardrails.py.md#edrpacer) class in `modules.loop_guardrails`
 - [`EDRProfile`](modules/modules.edr_detector.py.md#edrprofile) class in `modules.edr_detector`
 - [`EmailEntry`](modules/modules.world_model.py.md#emailentry) class in `modules.world_model`
 - [`EmbeddingError`](modules/modules.memory_embeddings.py.md#embeddingerror) exception in `modules.memory_embeddings`(ValueError)
@@ -489,6 +490,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Extractor`](modules/modules.obs_parser.py.md#extractor) class in `modules.obs_parser`(ABC)
 - [`FactPredicate`](modules/modules.verb_manifest.py.md#factpredicate) class in `modules.verb_manifest`
 - [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
+- [`FactVectorStore`](modules/modules.loop_guardrails.py.md#factvectorstore) class in `modules.loop_guardrails`
 - [`FailureMemory`](modules/modules.auto_loop_memory.py.md#failurememory) class in `modules.auto_loop_memory`
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
 - [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
@@ -1171,6 +1173,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ReflectiveLoaderConfig`](modules/modules.reflective_dll.py.md#reflectiveloaderconfig) class in `modules.reflective_dll`
 - [`ReleaseArtifact`](modules/modules.selfupdate.py.md#releaseartifact) class in `modules.selfupdate`
 - [`RenderContext`](modules/cli.banner_config.py.md#rendercontext) class in `cli.banner_config`
+- [`RepeatDetector`](modules/modules.loop_guardrails.py.md#repeatdetector) class in `modules.loop_guardrails`
 - [`ReplanContext`](modules/modules.chain_runner.py.md#replancontext) class in `modules.chain_runner`
 - [`ReplayDispatcher`](modules/skills.autonomous_replay.py.md#replaydispatcher) class in `skills.autonomous_replay`
 - [`ReplayDivergence`](modules/skills.autonomous_replay.py.md#replaydivergence) class in `skills.autonomous_replay`
@@ -1378,6 +1381,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
+- [`TargetLimiter`](modules/modules.loop_guardrails.py.md#targetlimiter) class in `modules.loop_guardrails`
 - [`TargetLock`](modules/modules.collab_bp.py.md#targetlock) class in `modules.collab_bp`
 - [`TargetProfile`](modules/modules.autonomous_exploit_engine.py.md#targetprofile) class in `modules.autonomous_exploit_engine`
 - [`TaskArchive`](modules/modules.lazy_loop.py.md#taskarchive) class in `modules.lazy_loop`

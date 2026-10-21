@@ -35,13 +35,14 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
 | `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
 | `_decision_command` | function | `cli/apt_chain_support.py:368` | `def _decision_command(decision)` |
-| `_platform` | function | `cli/apt_chain_support.py:399` | `def _platform()` |
+| `_platform` | function | `cli/apt_chain_support.py:470` | `def _platform()` |
 | `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
 | `_step_from_decision` | function | `cli/apt_chain_support.py:377` | `def _step_from_decision(command, outcome, executed_count)` |
 | `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
 | `adversarial_continue` | function | `cli/apt_chain_support.py:289` | `def adversarial_continue(chain)` |
 | `approve` | function | `cli/apt_chain_support.py:329` | `def approve(step_id, command)` |
 | `build_cli_approver` | function | `cli/apt_chain_support.py:321` | `def build_cli_approver(printer, input_fn)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:399` | `def build_llm_recovery_chain(result, target, task_id)` |
 | `build_reactive_replanner` | function | `cli/apt_chain_support.py:343` | `def build_reactive_replanner()` |
 | `parse_chain_args` | function | `cli/apt_chain_support.py:72` | `def parse_chain_args(line)` |
 | `render_result` | function | `cli/apt_chain_support.py:297` | `def render_result(result)` |
@@ -495,6 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_gather_campaign_manifest` | method | `cli/commands/campaign.py:93` | `def _gather_campaign_manifest(self, name)` |
 | `do_campaign` | method | `cli/commands/campaign.py:44` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
-| `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

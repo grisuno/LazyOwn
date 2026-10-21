@@ -6,7 +6,7 @@
 
 37 components stacked in 10 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 35 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
 
-Upward dependencies to fix first: `modules: lazy_loop` -> `modules: autonomous_daemon` (42 imports); `modules: lazy_loop` -> `cli/commands: utils` (30 imports); `cli` -> `cli/commands: utils` (28 imports); `cli/commands: utils` -> `modules: autonomous_daemon` (19 imports); `modules: autonomous_daemon` -> `modules: lazyc2` (18 imports); `cli` -> `modules: autonomous_daemon` (16 imports); `cli` -> `modules: lazyc2` (15 imports); `cli/commands: utils` -> `static/js` (14 imports); `modules: lazy_loop` -> `modules: lazyown_facts` (13 imports); `cli/commands: c2_profile_engine` -> `cli/commands: utils` (11 imports); `modules: lazyown_facts` -> `modules: autonomous_daemon` (9 imports); `modules: lazy_loop` -> `cli` (7 imports); `cli` -> `static/js` (7 imports); `modules: lazy_loop` -> `static/js` (6 imports); `cli/commands: c2_profile_engine` -> `modules: autonomous_daemon` (5 imports); `core` -> `modules: autonomous_daemon` (5 imports); `cli/commands: utils` -> `modules: lazyc2` (4 imports); `modules: surface_graph` -> `cli/commands: utils` (4 imports); `modules: lazy_loop` -> `modules: lazyc2` (4 imports); `cli/commands: utils` -> `core` (3 imports); `skills/claude_md_orchestrator` -> `modules: autonomous_daemon` (3 imports); `skills/claude_md_orchestrator` -> `static/js` (3 imports); `skills/hermes-lazyown` -> `modules: lazy_loop` (3 imports); `core` -> `static/js` (3 imports); `modules: autonomous_daemon` -> `static/js` (1 imports); `cli/commands: utils` -> `modules: lazyown_facts` (1 imports); `skills/claude_md_orchestrator` -> `cli/commands: utils` (1 imports); `modules: surface_graph` -> `modules: autonomous_daemon` (1 imports); `modules: surface_graph` -> `modules: lazy_loop` (1 imports); `modules: surface_graph` -> `cli` (1 imports); `modules: surface_graph` -> `modules: lazyc2` (1 imports); `skills/hermes-lazyown` -> `modules: autonomous_daemon` (1 imports); `skills/hermes-lazyown` -> `cli/commands: utils` (1 imports); `modules: lazy_loop` -> `cli/commands: c2_profile_engine` (1 imports); `cli` -> `modules: lazyown_facts` (1 imports); `static/js` -> `modules: lazyc2` (1 imports); `modules: lazyown_facts` -> `static/js` (1 imports); `core` -> `modules: lazyc2` (1 imports)
+Upward dependencies to fix first: `modules: lazy_loop` -> `modules: autonomous_daemon` (42 imports); `modules: lazy_loop` -> `cli/commands: utils` (31 imports); `cli` -> `cli/commands: utils` (28 imports); `cli/commands: utils` -> `modules: autonomous_daemon` (19 imports); `modules: autonomous_daemon` -> `modules: lazyc2` (18 imports); `cli` -> `modules: autonomous_daemon` (16 imports); `cli` -> `modules: lazyc2` (15 imports); `cli/commands: utils` -> `static/js` (14 imports); `modules: lazy_loop` -> `modules: lazyown_facts` (13 imports); `cli/commands: c2_profile_engine` -> `cli/commands: utils` (11 imports); `modules: lazyown_facts` -> `modules: autonomous_daemon` (9 imports); `modules: lazy_loop` -> `cli` (7 imports); `cli` -> `static/js` (7 imports); `modules: lazy_loop` -> `static/js` (6 imports); `cli/commands: c2_profile_engine` -> `modules: autonomous_daemon` (5 imports); `core` -> `modules: autonomous_daemon` (5 imports); `cli/commands: utils` -> `modules: lazyc2` (4 imports); `modules: surface_graph` -> `cli/commands: utils` (4 imports); `modules: lazy_loop` -> `modules: lazyc2` (4 imports); `cli/commands: utils` -> `core` (3 imports); `skills/claude_md_orchestrator` -> `modules: autonomous_daemon` (3 imports); `skills/claude_md_orchestrator` -> `static/js` (3 imports); `skills/hermes-lazyown` -> `modules: lazy_loop` (3 imports); `core` -> `static/js` (3 imports); `modules: autonomous_daemon` -> `static/js` (1 imports); `cli/commands: utils` -> `modules: lazyown_facts` (1 imports); `skills/claude_md_orchestrator` -> `cli/commands: utils` (1 imports); `modules: surface_graph` -> `modules: autonomous_daemon` (1 imports); `modules: surface_graph` -> `modules: lazy_loop` (1 imports); `modules: surface_graph` -> `cli` (1 imports); `modules: surface_graph` -> `modules: lazyc2` (1 imports); `skills/hermes-lazyown` -> `modules: autonomous_daemon` (1 imports); `skills/hermes-lazyown` -> `cli/commands: utils` (1 imports); `modules: lazy_loop` -> `cli/commands: c2_profile_engine` (1 imports); `cli` -> `modules: lazyown_facts` (1 imports); `static/js` -> `modules: lazyc2` (1 imports); `modules: lazyown_facts` -> `static/js` (1 imports); `core` -> `modules: lazyc2` (1 imports)
 
 ```mermaid
 flowchart TB
@@ -54,7 +54,7 @@ flowchart TB
     end
     subgraph lane_4["Tier 5"]
         direction LR
-        n_c7["modules: lazyown_facts<br/>17 files, 344 symbols<br/>Core / utility"]:::cycle
+        n_c7["modules: lazyown_facts<br/>17 files, 348 symbols<br/>Core / utility"]:::cycle
         n_c9["core<br/>16 files, 266 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_5["Tier 6"]
@@ -73,7 +73,7 @@ flowchart TB
     end
     subgraph lane_8["Tier 9"]
         direction LR
-        n_c2["modules: lazy_loop<br/>65 files, 1616 symbols<br/>Core / utility"]:::cycle
+        n_c2["modules: lazy_loop<br/>66 files, 1655 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_9["Tier 10 - foundation"]
         direction LR
@@ -117,7 +117,7 @@ flowchart TB
     n_c1 <-.-|"1 upward"| n_c12
     n_c2 <-.-|"3 upward"| n_c12
     n_c0 <-.-|"42 upward"| n_c2
-    n_c1 <-.-|"30 upward"| n_c2
+    n_c1 <-.-|"31 upward"| n_c2
     n_c3 <-.-|"7 upward"| n_c2
     n_c4 <-.-|"4 upward"| n_c2
     n_c6 <-.-|"6 upward"| n_c2
@@ -165,9 +165,9 @@ flowchart LR
     classDef entry fill:#0e7490,stroke:#22d3ee,color:#ecfeff,stroke-width:2px;
     classDef external fill:#1a1530,stroke:#a78bfa,color:#ede9fe;
     n_modules_backdoor_server_c__main["server.main<br/>server.c:10"]:::entry
-    n_modules_lazy_loop_py__bind["lazy_loop.TrafficLog.bind<br/>Attach traffic digest to a finding like bind_...<br/>lazy_loop.py:1721"]:::external
-    n_modules_lazy_loop_py___normalize_refs["lazy_loop.TrafficLog._normalize_refs<br/>Upgrade legacy string refs to role/note dicts...<br/>lazy_loop.py:1752"]:::external
-    n_modules_lazy_loop_py___now["lazy_loop._now<br/>Return current epoch seconds.<br/>lazy_loop.py:738"]:::external
+    n_modules_lazy_loop_py__bind["lazy_loop.TrafficLog.bind<br/>Attach traffic digest to a finding like bind_...<br/>lazy_loop.py:1727"]:::external
+    n_modules_lazy_loop_py___normalize_refs["lazy_loop.TrafficLog._normalize_refs<br/>Upgrade legacy string refs to role/note dicts...<br/>lazy_loop.py:1758"]:::external
+    n_modules_lazy_loop_py___now["lazy_loop._now<br/>Return current epoch seconds.<br/>lazy_loop.py:744"]:::external
     n_cli_autosuggest_py__accept["autosuggest.AutoSuggestEngine.accept<br/>Return the active command string and clear th...<br/>autosuggest.py:309"]:::external
     n_modules_backdoor_backdoor_c__bzero["backdoor.bzero<br/>backdoor.c:14"]:::external
     n_modules_backdoor_server_c__main -.->|"recursion"| n_modules_backdoor_server_c__main

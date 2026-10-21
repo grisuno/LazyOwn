@@ -3,6 +3,49 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestSuite` | class | `skills/claude_md_orchestrator/models.py:217` | `class TestSuite` |
+| `_now_iso` | function | `skills/claude_md_orchestrator/models.py:19` | `def _now_iso()` |
+| `blockers` | method | `skills/claude_md_orchestrator/models.py:315` | `def blockers(self)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:96` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:125` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:173` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:243` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:280` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:333` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:402` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:450` | `def from_dict(cls, data)` |
+| `load` | method | `skills/claude_md_orchestrator/models.py:467` | `def load(cls, path)` |
+| `save` | method | `skills/claude_md_orchestrator/models.py:459` | `def save(self, path)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:91` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:120` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:166` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:236` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:270` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:319` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:383` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:440` | `def to_dict(self)` |
+| `validate` | method | `skills/claude_md_orchestrator/models.py:189` | `def validate(self, min_sad_paths)` |
+| `write_jsonl` | function | `skills/claude_md_orchestrator/models.py:480` | `def write_jsonl(path, event)` |
+| `CycleSummary` | class | `skills/claude_md_orchestrator/orchestrator.py:34` | `class CycleSummary` |
+| `_advance` | function | `skills/claude_md_orchestrator/orchestrator.py:234` | `def _advance(state, contract_id, config, options)` |
+| `_banner` | function | `skills/claude_md_orchestrator/orchestrator.py:52` | `def _banner(message, config)` |
+| `_build_parser` | function | `skills/claude_md_orchestrator/orchestrator.py:324` | `def _build_parser()` |
+| `_halt` | function | `skills/claude_md_orchestrator/orchestrator.py:59` | `def _halt(summary, contract_id, reason)` |
+| `_load_seed_contracts` | function | `skills/claude_md_orchestrator/orchestrator.py:365` | `def _load_seed_contracts(args, options)` |
+| `_load_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:217` | `def _load_spec(path)` |
+| `_load_state` | function | `skills/claude_md_orchestrator/orchestrator.py:84` | `def _load_state(config)` |
+| `_persist` | function | `skills/claude_md_orchestrator/orchestrator.py:66` | `def _persist(state, config)` |
+| `_print_summary` | function | `skills/claude_md_orchestrator/orchestrator.py:301` | `def _print_summary(summary)` |
+| `_run_cicd` | function | `skills/claude_md_orchestrator/orchestrator.py:182` | `def _run_cicd(state, config)` |
+| `_run_documentation` | function | `skills/claude_md_orchestrator/orchestrator.py:158` | `def _run_documentation(state, config)` |
+| `_run_implementation` | function | `skills/claude_md_orchestrator/orchestrator.py:125` | `def _run_implementation(state, config)` |
+| `_run_review` | function | `skills/claude_md_orchestrator/orchestrator.py:146` | `def _run_review(state, config)` |
+| `_run_scout` | function | `skills/claude_md_orchestrator/orchestrator.py:174` | `def _run_scout(state, config)` |
+| `_run_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:97` | `def _run_spec(state, config)` |
+| `_run_test` | function | `skills/claude_md_orchestrator/orchestrator.py:110` | `def _run_test(state, config)` |
+| `_seed_state` | function | `skills/claude_md_orchestrator/orchestrator.py:89` | `def _seed_state(contracts, state)` |
+| `main` | function | `skills/claude_md_orchestrator/orchestrator.py:393` | `def main(argv)` |
+| `run` | function | `skills/claude_md_orchestrator/orchestrator.py:275` | `def run(config, options)` |
 | `summary_to_dict` | function | `skills/claude_md_orchestrator/orchestrator.py:306` | `def summary_to_dict(summary)` |
 | `_Section` | class | `skills/claude_md_orchestrator/parser.py:34` | `class _Section` |
 | `__post_init__` | method | `skills/claude_md_orchestrator/parser.py:51` | `def __post_init__(self)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `CrackMapExecParser` | class | `skills/lazyown_facts.py:240` | `class CrackMapExecParser(ITextOutputParser)` |
 | `CredentialFact` | class | `skills/lazyown_facts.py:75` | `class CredentialFact` |
 | `DiscoveredPath` | class | `skills/lazyown_facts.py:120` | `class DiscoveredPath` |
-| `Enum4linuxParser` | class | `skills/lazyown_facts.py:292` | `class Enum4linuxParser(ITextOutputParser)` |
-| `FactStore` | class | `skills/lazyown_facts.py:667` | `class FactStore` |
-| `GenericOutputParser` | class | `skills/lazyown_facts.py:625` | `class GenericOutputParser(ITextOutputParser)` |
-| `GobusterFfufParser` | class | `skills/lazyown_facts.py:435` | `class GobusterFfufParser(ITextOutputParser)` |
-| `HostFacts` | class | `skills/lazyown_facts.py:132` | `class HostFacts` |
-| `INmapXmlParser` | class | `skills/lazyown_facts.py:166` | `class INmapXmlParser` |
-| `ITextOutputParser` | class | `skills/lazyown_facts.py:212` | `class ITextOutputParser` |
-| `KerbruteParser` | class | `skills/lazyown_facts.py:395` | `class KerbruteParser(ITextOutputParser)` |
-| `LdapParser` | class | `skills/lazyown_facts.py:366` | `class LdapParser(ITextOutputParser)` |
-| `NiktoParser` | class | `skills/lazyown_facts.py:494` | `class NiktoParser(ITextOutputParser)` |
-| `NucleiParser` | class | `skills/lazyown_facts.py:537` | `class NucleiParser(ITextOutputParser)` |
-| `RpcclientParser` | class | `skills/lazyown_facts.py:416` | `class RpcclientParser(ITextOutputParser)` |
-| `SecretsdumpParser` | class | `skills/lazyown_facts.py:331` | `class SecretsdumpParser(ITextOutputParser)` |
-| `ServiceFact` | class | `skills/lazyown_facts.py:62` | `class ServiceFact` |
-| `ShareFact` | class | `skills/lazyown_facts.py:87` | `class ShareFact` |
-| `SslscanParser` | class | `skills/lazyown_facts.py:573` | `class SslscanParser(ITextOutputParser)` |
-| `ToolDefinition` | class | `skills/lazyown_facts.py:1016` | `class ToolDefinition` |
-| `VulnerabilityFact` | class | `skills/lazyown_facts.py:107` | `class VulnerabilityFact` |
-| `__init__` | method | `skills/lazyown_facts.py:677` | `def __init__(self, cfg)` |
-| `_cmd_clean` | function | `skills/lazyown_facts.py:1065` | `def _cmd_clean(_args)` |
-| `_cmd_parse` | function | `skills/lazyown_facts.py:1051` | `def _cmd_parse(args)` |
-| `_cmd_show` | function | `skills/lazyown_facts.py:1060` | `def _cmd_show(args)` |
-| `_dedup_creds` | method | `skills/lazyown_facts.py:759` | `def _dedup_creds(self, hf)` |
-| `_dedup_paths` | method | `skills/lazyown_facts.py:779` | `def _dedup_paths(self, hf)` |
-| `_dedup_services` | method | `skills/lazyown_facts.py:749` | `def _dedup_services(self, hf)` |
-| `_dedup_vulns` | method | `skills/lazyown_facts.py:769` | `def _dedup_vulns(self, hf)` |
-| `_guess_host_from_filename` | method | `skills/lazyown_facts.py:841` | `def _guess_host_from_filename(filename)` |
-| `_guess_port_from_path` | method | `skills/lazyown_facts.py:847` | `def _guess_port_from_path(txt_path)` |
-| `_host` | method | `skills/lazyown_facts.py:744` | `def _host(self, ip)` |
-| `_load` | method | `skills/lazyown_facts.py:702` | `def _load(self)` |
-| `all_hosts` | method | `skills/lazyown_facts.py:893` | `def all_hosts(self)` |
-| `can_parse` | method | `skills/lazyown_facts.py:217` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:250` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:301` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:341` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:374` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:403` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:424` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:447` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:502` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:545` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:581` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:635` | `def can_parse(self, filename, content)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

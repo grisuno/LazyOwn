@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 112 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
+modules: lazy_loop groups 115 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -36,11 +36,11 @@ lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _st
 
 ## modules (3.4)
 
-modules groups 48 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 49 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
 
 ## tests (3.5)
 
-tests groups 47 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
@@ -85,6 +85,7 @@ tests groups 47 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
 - modules/lazyk8s.py
+- modules/loop_guardrails.py
 - modules/loop_progress.py
 - modules/loop_triggers.py
 - modules/metasploitable_gym.py
@@ -132,9 +133,11 @@ tests groups 47 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_loop_cold_overview.py
 - tests/test_loop_force_graph.py
 - tests/test_loop_guard_audit.py
+- tests/test_loop_guardrails.py
 - tests/test_loop_intent_delete.py
 - tests/test_loop_llm_resilience.py
 - tests/test_loop_mentions.py
+- tests/test_loop_multi_target.py
 - tests/test_loop_nmap_guard.py
 - tests/test_loop_progress.py
 - tests/test_loop_scope_traffic_evidence.py

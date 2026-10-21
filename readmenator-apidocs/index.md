@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 792 modules, 15011 documented entities, documentation coverage 73.8% (6995/9475 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 793 modules, 15050 documented entities, documentation coverage 73.9% (7023/9505 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (679), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (680), sh (61)
 
 ## Modules
 
@@ -50,7 +50,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 |---|---|---|---|---|
 | [`cli`](modules/cli.__init__.py.md) | LazyOwn CLI infrastructure. | 0 | 0 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | Declarative cmd2 alias loader. | 0 | 4 | 100.0% |
-| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 6 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 7 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | ``assign`` business logic. | 0 | 1 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | Automatic encryption of sensitive session data on app open/close. | 2 | 7 | 100.0% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | 7 | 18 | 96.2% |
@@ -599,7 +599,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
-| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 6 | 100.0% |
+| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 7 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | Mirror LazyOwn skills for Hermes discovery. | 0 | 4 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | Skill context injection for planner/worker prompts. | 0 | 4 | 100.0% |
@@ -643,6 +643,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.log_tamper`](modules/modules.log_tamper.py.md) | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | 2 | 7 | 90.0% |
 | [`modules.logging_config`](modules/modules.logging_config.py.md) | Centralized logging configuration for the LazyOwn framework. | 4 | 15 | 85.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 11 | 100.0% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 4 | 23 | 92.9% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
 | [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 8 | 100.0% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | 2 | 11 | 92.9% |

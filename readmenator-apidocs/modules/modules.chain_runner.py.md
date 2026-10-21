@@ -6,11 +6,12 @@ Single execution engine for YAML orchestration chains.
 
 ``chain_registry`` resolves and validates; this module executes. It owns
 step conditions, timeouts, retries, error policy, output capture (text,
-regex and JSON), post-step verification, branching, approval gates,
-checkpoints and the structured result every caller (CLI, loop, MCP)
-consumes. It never retries a successful step, never hides a failure
-unless the YAML asked for it, and never writes to the graph directly:
-sink tags travel in the result so the outcome bus can fan them out.
+regex and JSON), post-step verification, pre-step LLM-predicted
+pre-checks, parallel step groups, branching, approval gates, checkpoints
+and the structured result every caller (CLI, loop, MCP) consumes. It
+never retries a successful step, never hides a failure unless the YAML
+asked for it, and never writes to the graph directly: sink tags travel
+in the result so the outcome bus can fan them out.
 
 ## Contents
 
@@ -52,6 +53,8 @@ classDiagram
     ChainRunResult : float started_at
     ChainRunResult : float finished_at
     ChainRunResult : list[str] plan_warnings
+    ChainRunResult : str fallback_used
+    ChainRunResult : int fallback_depth
     ChainRunResult : to_dict()
     class ReplanContext
     ReplanContext : str chain_name
@@ -95,7 +98,7 @@ flowchart LR
 
 ### `StepOutcome`
 
-`class` `dataclass` | [modules/chain_runner.py:43](../../modules/chain_runner.py#L43)
+`class` `dataclass` | [modules/chain_runner.py:46](../../modules/chain_runner.py#L46)
 
 Decorators: `@dataclass`
 
@@ -133,7 +136,7 @@ One executed or skipped step.
 
 #### `StepOutcome.ok`
 
-`property` | [modules/chain_runner.py:60](../../modules/chain_runner.py#L60)
+`property` | [modules/chain_runner.py:63](../../modules/chain_runner.py#L63)
 
 Decorators: `@property`
 
@@ -149,7 +152,7 @@ Return True for success, dry-run and skipped steps.
 
 #### `StepOutcome.to_dict`
 
-`method` | [modules/chain_runner.py:64](../../modules/chain_runner.py#L64)
+`method` | [modules/chain_runner.py:67](../../modules/chain_runner.py#L67)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -165,7 +168,7 @@ Return a JSON-serializable view.
 
 ### `ChainRunResult`
 
-`class` `dataclass` | [modules/chain_runner.py:83](../../modules/chain_runner.py#L83)
+`class` `dataclass` | [modules/chain_runner.py:86](../../modules/chain_runner.py#L86)
 
 Decorators: `@dataclass`
 
@@ -193,6 +196,8 @@ Structured result of one chain execution.
 | [`started_at`](#chainrunresult-started_at) | `float` | `0.0` |  |
 | [`finished_at`](#chainrunresult-finished_at) | `float` | `0.0` |  |
 | [`plan_warnings`](#chainrunresult-plan_warnings) | `list[str]` | `field(default_factory=list)` |  |
+| [`fallback_used`](#chainrunresult-fallback_used) | `str` | `''` |  |
+| [`fallback_depth`](#chainrunresult-fallback_depth) | `int` | `0` |  |
 
 **Members**
 
@@ -204,7 +209,7 @@ Structured result of one chain execution.
 
 #### `ChainRunResult.to_dict`
 
-`method` | [modules/chain_runner.py:101](../../modules/chain_runner.py#L101)
+`method` | [modules/chain_runner.py:106](../../modules/chain_runner.py#L106)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -220,7 +225,7 @@ Return a JSON-serializable view.
 
 ### `ReplanContext`
 
-`class` `dataclass` | [modules/chain_runner.py:123](../../modules/chain_runner.py#L123)
+`class` `dataclass` | [modules/chain_runner.py:130](../../modules/chain_runner.py#L130)
 
 Decorators: `@dataclass`
 
@@ -259,7 +264,7 @@ source cannot break the chain invariants.
 
 #### `ReplanContext.set_var`
 
-`method` | [modules/chain_runner.py:140](../../modules/chain_runner.py#L140)
+`method` | [modules/chain_runner.py:147](../../modules/chain_runner.py#L147)
 
 ```python
 def set_var(self, name: str, value: str) -> None
@@ -278,7 +283,7 @@ Record a variable the next steps should see.
 
 #### `ReplanContext.insert_step`
 
-`method` | [modules/chain_runner.py:145](../../modules/chain_runner.py#L145)
+`method` | [modules/chain_runner.py:152](../../modules/chain_runner.py#L152)
 
 ```python
 def insert_step(self, step: ChainStep) -> None
@@ -298,7 +303,7 @@ Record one step to execute right after the finished step.
 
 #### `ReplanContext.skip_rest`
 
-`method` | [modules/chain_runner.py:150](../../modules/chain_runner.py#L150)
+`method` | [modules/chain_runner.py:157](../../modules/chain_runner.py#L157)
 
 ```python
 def skip_rest(self) -> None
@@ -310,7 +315,7 @@ Record that remaining steps must not execute.
 
 #### `ReplanContext.applied_vars`
 
-`property` | [modules/chain_runner.py:155](../../modules/chain_runner.py#L155)
+`property` | [modules/chain_runner.py:162](../../modules/chain_runner.py#L162)
 
 Decorators: `@property`
 
@@ -326,7 +331,7 @@ Return recorded variable changes.
 
 #### `ReplanContext.inserted`
 
-`property` | [modules/chain_runner.py:160](../../modules/chain_runner.py#L160)
+`property` | [modules/chain_runner.py:167](../../modules/chain_runner.py#L167)
 
 Decorators: `@property`
 
@@ -342,7 +347,7 @@ Return recorded steps to insert.
 
 #### `ReplanContext.skip_rest_flag`
 
-`property` | [modules/chain_runner.py:165](../../modules/chain_runner.py#L165)
+`property` | [modules/chain_runner.py:172](../../modules/chain_runner.py#L172)
 
 Decorators: `@property`
 
@@ -360,7 +365,7 @@ Return True when remaining steps should be skipped.
 
 ### `ChainRunner`
 
-`class` | [modules/chain_runner.py:178](../../modules/chain_runner.py#L178)
+`class` | [modules/chain_runner.py:185](../../modules/chain_runner.py#L185)
 
 ```python
 class ChainRunner
@@ -379,10 +384,10 @@ Execute one chain with per-step policy and structured outcomes.
 
 #### `ChainRunner.__init__`
 
-`constructor` | [modules/chain_runner.py:181](../../modules/chain_runner.py#L181)
+`constructor` | [modules/chain_runner.py:188](../../modules/chain_runner.py#L188)
 
 ```python
-def __init__(self, chain: Chain, tokens: dict[str, str] | None = None, shell: Any = None, executor: Callable[[str], str] | None = None, default_timeout: float = _DEFAULT_TIMEOUT, dry_run: bool = False, on_step: Callable[[StepOutcome], None] | None = None, retry_backoff: float = 0.5, total_timeout: float = 0.0, approver: Callable[[str, str], bool] | None = None, checkpoint_dir: str | os.PathLike | None = None, run_id: str = '', resume_state: dict[str, Any] | None = None, step_filter: set[str] | None = None, replanner: Callable[[ReplanContext], None] | None = None, command_filter: Callable[[str], str] | None = None) -> None
+def __init__(self, chain: Chain, tokens: dict[str, str] | None = None, shell: Any = None, executor: Callable[[str], str] | None = None, default_timeout: float = _DEFAULT_TIMEOUT, dry_run: bool = False, on_step: Callable[[StepOutcome], None] | None = None, retry_backoff: float = 0.5, total_timeout: float = 0.0, approver: Callable[[str, str], bool] | None = None, checkpoint_dir: str | os.PathLike | None = None, run_id: str = '', resume_state: dict[str, Any] | None = None, step_filter: set[str] | None = None, replanner: Callable[[ReplanContext], None] | None = None, command_filter: Callable[[str], str] | None = None, fallback_loader: Callable[[str], Chain | None] | None = None, max_fallback_depth: int = _MAX_FALLBACK_DEPTH, fallback_depth: int = 0) -> None
 ```
 
 Bind the chain, the execution primitive and operator switches.
@@ -407,6 +412,9 @@ Bind the chain, the execution primitive and operator switches.
 | `step_filter` | `set[str] \| None` | `None` | Restrict execution to these step ids. |
 | `replanner` | `Callable[[ReplanContext], None] \| None` | `None` | Optional after-step advice hook. |
 | `command_filter` | `Callable[[str], str] \| None` | `None` | Optional transform applied to every command (run and verify) right before execution, such as the retry-session ``sudo -A`` askpass rewrite. A filter error keeps the original command instead of aborting. |
+| `fallback_loader` | `Callable[[str], Chain \| None] \| None` | `None` | Resolver for the chain's `[`fallback`](modules.chain_registry.py.md#chain-fallback)` name (default: ``chain_registry.get``). |
+| `max_fallback_depth` | `int` | `_MAX_FALLBACK_DEPTH` | How many fallback hops one run may take. |
+| `fallback_depth` | `int` | `0` | Current fallback depth (internal). |
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
 
@@ -414,7 +422,7 @@ Bind the chain, the execution primitive and operator switches.
 
 #### `ChainRunner.run`
 
-`method` | [modules/chain_runner.py:241](../../modules/chain_runner.py#L241)
+`method` | [modules/chain_runner.py:258](../../modules/chain_runner.py#L258)
 
 ```python
 def run(self) -> ChainRunResult
@@ -436,7 +444,7 @@ Execute the chain in order and return every step outcome.
 
 ### `render_text`
 
-`function` | [modules/chain_runner.py:170](../../modules/chain_runner.py#L170)
+`function` | [modules/chain_runner.py:177](../../modules/chain_runner.py#L177)
 
 ```python
 def render_text(template: str, variables: dict[str, str]) -> str

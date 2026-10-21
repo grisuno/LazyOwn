@@ -2,11 +2,12 @@
 
 ``chain_registry`` resolves and validates; this module executes. It owns
 step conditions, timeouts, retries, error policy, output capture (text,
-regex and JSON), post-step verification, branching, approval gates,
-checkpoints and the structured result every caller (CLI, loop, MCP)
-consumes. It never retries a successful step, never hides a failure
-unless the YAML asked for it, and never writes to the graph directly:
-sink tags travel in the result so the outcome bus can fan them out.
+regex and JSON), post-step verification, pre-step LLM-predicted
+pre-checks, parallel step groups, branching, approval gates, checkpoints
+and the structured result every caller (CLI, loop, MCP) consumes. It
+never retries a successful step, never hides a failure unless the YAML
+asked for it, and never writes to the graph directly: sink tags travel
+in the result so the outcome bus can fan them out.
 """
 
 from __future__ import annotations
@@ -37,6 +38,8 @@ _MAX_STEP_RUNS = 3
 _MAX_REPLAN_INSERTS = 3
 _MAX_EXPECT_EXITS = 8
 _EXPECT_EXIT_MAX = 255
+_MAX_PARALLEL_GROUP = 8
+_MAX_FALLBACK_DEPTH = 1
 
 
 @dataclass
@@ -97,6 +100,8 @@ class ChainRunResult:
     started_at: float = 0.0
     finished_at: float = 0.0
     plan_warnings: list[str] = field(default_factory=list)
+    fallback_used: str = ""
+    fallback_depth: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
@@ -115,6 +120,8 @@ class ChainRunResult:
             "started_at": self.started_at,
             "finished_at": self.finished_at,
             "plan_warnings": list(self.plan_warnings),
+            "fallback_used": self.fallback_used,
+            "fallback_depth": self.fallback_depth,
             "duration_ms": round(max(0.0, self.finished_at - self.started_at) * 1000, 2),
         }
 
@@ -196,6 +203,9 @@ class ChainRunner:
         step_filter: set[str] | None = None,
         replanner: Callable[[ReplanContext], None] | None = None,
         command_filter: Callable[[str], str] | None = None,
+        fallback_loader: Callable[[str], Chain | None] | None = None,
+        max_fallback_depth: int = _MAX_FALLBACK_DEPTH,
+        fallback_depth: int = 0,
     ) -> None:
         """Bind the chain, the execution primitive and operator switches.
 
@@ -219,6 +229,10 @@ class ChainRunner:
                 (run and verify) right before execution, such as the
                 retry-session ``sudo -A`` askpass rewrite. A filter
                 error keeps the original command instead of aborting.
+            fallback_loader: Resolver for the chain's ``fallback``
+                name (default: ``chain_registry.get``).
+            max_fallback_depth: How many fallback hops one run may take.
+            fallback_depth: Current fallback depth (internal).
         """
         self.chain = chain
         self.tokens = {str(key): str(value) for key, value in (tokens or {}).items()}
@@ -235,6 +249,9 @@ class ChainRunner:
         self.step_filter = {str(item) for item in (step_filter or set()) if str(item)}
         self.replanner = replanner
         self.command_filter = command_filter
+        self.fallback_loader = fallback_loader
+        self.max_fallback_depth = max(0, int(max_fallback_depth))
+        self.fallback_depth = max(0, int(fallback_depth))
         self.resume_state = resume_state if isinstance(resume_state, dict) else None
         self._replan_inserts_total = 0
 
@@ -305,6 +322,34 @@ class ChainRunner:
                 self._notify(outcome)
                 index += 1
                 continue
+            if step.parallel and not self.dry_run:
+                group = [step]
+                cursor = index + 1
+                while cursor < len(steps) and steps[cursor].parallel and len(group) < _MAX_PARALLEL_GROUP:
+                    group.append(steps[cursor])
+                    cursor += 1
+                outcomes, group_failure = self._run_parallel_group(group, executions, resumed_ok, variables, captured_keys)
+                result.steps.extend(outcomes)
+                for group_outcome in outcomes:
+                    for artifact in group_outcome.artifacts:
+                        if artifact and artifact not in result.artifacts:
+                            result.artifacts.append(artifact)
+                    self._notify(group_outcome)
+                replan_skip = False
+                for group_outcome in outcomes:
+                    if self._apply_replanner(result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys):
+                        replan_skip = True
+                        break
+                self._save_checkpoint(result, variables, captured_keys, cursor, "running")
+                if replan_skip:
+                    break
+                if group_failure:
+                    result.ok = False
+                    result.aborted = True
+                    result.reason = group_failure
+                    break
+                index = cursor
+                continue
             outcome = self._run_step(step, variables, captured_keys)
             result.steps.append(outcome)
             for artifact in outcome.artifacts:
@@ -352,6 +397,21 @@ class ChainRunner:
             else:
                 index += 1
         result.ok = all(step.ok for step in result.steps) and not result.aborted
+        if (
+            not result.ok
+            and not self.dry_run
+            and self.chain.fallback
+            and self.chain.fallback != self.chain.name
+            and self.fallback_depth < self.max_fallback_depth
+        ):
+            pre_fallback_count = len(result.steps)
+            self._run_fallback_chain(result, variables, captured_keys, started)
+            fallback_outcomes = result.steps[pre_fallback_count:]
+            if result.fallback_used and fallback_outcomes:
+                if all(outcome.ok for outcome in fallback_outcomes):
+                    result.ok = True
+                    result.aborted = False
+                    result.reason = ""
         if self.dry_run:
             try:
                 from modules.verb_manifest import plan_check
@@ -379,6 +439,168 @@ class ChainRunner:
                 )
             )
         return skipped
+
+    def _run_parallel_group(
+        self,
+        group: list[ChainStep],
+        executions: dict[str, int],
+        resumed_ok: set[str],
+        variables: dict[str, str],
+        captured_keys: set[str],
+    ) -> tuple[list[StepOutcome], str]:
+        """Execute consecutive ``parallel`` steps concurrently.
+
+        Every step runs through the same ``_run_step`` policy path in its
+        own worker thread; the runner waits for the whole group before
+        the next sequential step. Outcomes come back in declaration
+        order. Parallel steps never capture or branch (registry
+        validation forbids it), so threads never race on shared state.
+
+        Args:
+            group: Consecutive parallel steps in declaration order.
+            executions: Per-step execution counters (loop guard).
+            resumed_ok: Step ids already completed in a resumed run.
+            variables: Shared variable map (read-only for the group).
+            captured_keys: Untrusted-capture key set (read-only).
+
+        Returns:
+            Tuple of (outcomes in declaration order, failure reason).
+            The failure reason is empty unless a step failed without
+            ``continue_on_error``.
+        """
+        outcomes: list[StepOutcome] = []
+        runnable: list[ChainStep] = []
+        for step in group:
+            executions[step.identifier] = executions.get(step.identifier, 0) + 1
+            if step.identifier in resumed_ok:
+                outcomes.append(
+                    StepOutcome(
+                        id=step.identifier,
+                        run=render_text(step.run, variables),
+                        phase=step.phase,
+                        status="skipped",
+                        reason="resumed (already completed)",
+                    )
+                )
+            else:
+                runnable.append(step)
+        exceeded = [step for step in runnable if executions[step.identifier] > _MAX_STEP_RUNS]
+        if exceeded:
+            for step in runnable:
+                outcomes.append(
+                    StepOutcome(
+                        id=step.identifier,
+                        run=render_text(step.run, variables),
+                        phase=step.phase,
+                        status="skipped",
+                        reason="loop guard: step already ran three times",
+                    )
+                )
+            return outcomes, f"loop guard: {exceeded[0].identifier} exceeded {_MAX_STEP_RUNS} runs"
+        thread_outcomes: dict[str, StepOutcome] = {}
+        if runnable:
+            pool = futures.ThreadPoolExecutor(max_workers=min(len(runnable), _MAX_PARALLEL_GROUP))
+            scheduled = [
+                (step, pool.submit(self._run_step, step, dict(variables), set(captured_keys)))
+                for step in runnable
+            ]
+            try:
+                for step, future in scheduled:
+                    try:
+                        thread_outcomes[step.identifier] = future.result()
+                    except Exception as exc:
+                        thread_outcomes[step.identifier] = StepOutcome(
+                            id=step.identifier,
+                            run=render_text(step.run, variables),
+                            phase=step.phase,
+                            status="failed",
+                            reason=str(exc)[:300],
+                        )
+            finally:
+                pool.shutdown(wait=False, cancel_futures=True)
+        by_id = {step.identifier: step for step in group}
+        for step in group:
+            executed = thread_outcomes.get(step.identifier)
+            if executed is not None:
+                outcomes.append(executed)
+        failure = ""
+        for outcome in outcomes:
+            step = by_id.get(outcome.id)
+            if outcome.ok or step is None or step.continue_on_error:
+                continue
+            failure = f"{outcome.id}: {outcome.reason or 'failed'}"
+            break
+        return outcomes, failure
+
+    def _run_fallback_chain(
+        self,
+        result: ChainRunResult,
+        variables: dict[str, str],
+        captured_keys: set[str],
+        started: float,
+    ) -> None:
+        """Execute the chain's ``fallback`` chain after a failed run.
+
+        The fallback runs with the same tokens and run id so
+        checkpoints, sinks and downstream correlation stay in one
+        bucket. Depth is capped by ``max_fallback_depth`` so a fallback
+        loop cannot recurse forever; a total-timeout overrun skips the
+        fallback entirely instead of exceeding the operator budget.
+        """
+        loader = self.fallback_loader
+        if loader is None:
+            try:
+                from modules.chain_registry import get as _registry_get
+
+                loader = _registry_get
+            except Exception:
+                return
+        name = (self.chain.fallback or "").strip()
+        if not name:
+            return
+        try:
+            fallback_chain = loader(name)
+        except Exception:
+            fallback_chain = None
+        if fallback_chain is None or fallback_chain.name == self.chain.name:
+            return
+        remaining = self.total_timeout - (time.time() - started) if self.total_timeout else 0.0
+        if self.total_timeout and remaining <= 0.0:
+            return
+        sub = ChainRunner(
+            fallback_chain,
+            tokens=self.tokens,
+            shell=self.shell,
+            executor=self.executor,
+            default_timeout=self.default_timeout,
+            dry_run=False,
+            on_step=self.on_step,
+            retry_backoff=self.retry_backoff,
+            total_timeout=max(0.0, remaining),
+            approver=self.approver,
+            checkpoint_dir=self.checkpoint_dir,
+            run_id=self.run_id,
+            replanner=self.replanner,
+            command_filter=self.command_filter,
+            fallback_loader=self.fallback_loader,
+            max_fallback_depth=self.max_fallback_depth,
+            fallback_depth=self.fallback_depth + 1,
+        )
+        try:
+            sub_result = sub.run()
+        except Exception:
+            return
+        result.fallback_used = fallback_chain.name
+        result.fallback_depth = self.fallback_depth + 1
+        result.branches.append(f"{self.chain.name} --fail--> {fallback_chain.name}")
+        result.steps.extend(sub_result.steps)
+        for artifact in sub_result.artifacts:
+            if artifact and artifact not in result.artifacts:
+                result.artifacts.append(artifact)
+        result.branches.extend(sub_result.branches)
+        result.variables.update(sub_result.variables)
+        if not result.reason:
+            result.reason = sub_result.reason
 
     def _notify(self, outcome: StepOutcome) -> None:
         """Invoke the on_step callback, swallowing its errors."""
@@ -515,6 +737,16 @@ class ChainRunner:
         if self.dry_run:
             outcome.status = "dry-run"
             return outcome
+        if step.pre_check:
+            pre_ok, pre_out, pre_reason = self._execute(
+                self._render_command(step.pre_check, variables, captured_keys),
+                self._pre_check_timeout(step),
+            )
+            if not pre_ok:
+                outcome.status = "skipped"
+                outcome.reason = f"pre_check failed: {pre_reason or 'no output'}"
+                outcome.verify_output = pre_out[:_MAX_CAPTURE_CHARS]
+                return outcome
         if step.confirm:
             if self.approver is None:
                 outcome.status = "denied"
@@ -573,6 +805,10 @@ class ChainRunner:
         if step.timeout:
             return float(step.timeout)
         return min(self.default_timeout, _VERIFY_TIMEOUT)
+
+    def _pre_check_timeout(self, step: ChainStep) -> float:
+        """Return the wall clock budget for one pre-check command."""
+        return self._verify_timeout(step)
 
     def _store_capture(
         self,

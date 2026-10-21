@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 792,
-  "entities": 15011,
+  "modules": 793,
+  "entities": 15050,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 679,
+   "py": 680,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4258,
-   "class": 1386,
+   "attribute": 4265,
+   "class": 1390,
    "classmethod": 81,
-   "constant": 1266,
-   "constructor": 513,
+   "constant": 1268,
+   "constructor": 517,
    "enum": 38,
    "exception": 37,
-   "function": 2709,
+   "function": 2711,
    "macro": 113,
-   "method": 3487,
-   "module": 792,
-   "property": 190,
+   "method": 3500,
+   "module": 793,
+   "property": 196,
    "protocol": 14,
    "staticmethod": 91,
    "struct": 20,
@@ -36,20 +36,20 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 338,
+  "skipped_files": 341,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 6995,
-   "total": 9475,
-   "percent": 73.8
+   "documented": 7023,
+   "total": 9505,
+   "percent": 73.9
   },
   "by_kind": {
    "class": {
-    "documented": 1198,
-    "total": 1386,
-    "percent": 86.4
+    "documented": 1202,
+    "total": 1390,
+    "percent": 86.5
    },
    "classmethod": {
     "documented": 55,
@@ -57,9 +57,9 @@
     "percent": 67.9
    },
    "constructor": {
-    "documented": 193,
-    "total": 513,
-    "percent": 37.6
+    "documented": 195,
+    "total": 517,
+    "percent": 37.7
    },
    "enum": {
     "documented": 29,
@@ -72,8 +72,8 @@
     "percent": 94.6
    },
    "function": {
-    "documented": 1761,
-    "total": 2709,
+    "documented": 1763,
+    "total": 2711,
     "percent": 65.0
    },
    "macro": {
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2808,
-    "total": 3487,
-    "percent": 80.5
+    "documented": 2821,
+    "total": 3500,
+    "percent": 80.6
    },
    "module": {
-    "documented": 670,
-    "total": 792,
+    "documented": 671,
+    "total": 793,
     "percent": 84.6
    },
    "property": {
-    "documented": 146,
-    "total": 190,
-    "percent": 76.8
+    "documented": 152,
+    "total": 196,
+    "percent": 77.6
    },
    "protocol": {
     "documented": 14,
@@ -154,8 +154,8 @@
     "percent": 100.0
    },
    "cli/apt_chain_support.py": {
-    "documented": 8,
-    "total": 8,
+    "documented": 9,
+    "total": 9,
     "percent": 100.0
    },
    "cli/assign.py": {
@@ -2539,8 +2539,8 @@
     "percent": 100.0
    },
    "modules/lazy_runner.py": {
-    "documented": 8,
-    "total": 8,
+    "documented": 9,
+    "total": 9,
     "percent": 100.0
    },
    "modules/lazy_sandbox.py": {
@@ -2762,6 +2762,11 @@
     "documented": 12,
     "total": 12,
     "percent": 100.0
+   },
+   "modules/loop_guardrails.py": {
+    "documented": 26,
+    "total": 28,
+    "percent": 92.9
    },
    "modules/loop_progress.py": {
     "documented": 12,
@@ -4119,7 +4124,7 @@
   {
    "uid": "cli/apt_chain_support.py",
    "path": "modules/cli.apt_chain_support.py.jsonl",
-   "entities": 27
+   "entities": 28
   },
   {
    "uid": "cli/assign.py",
@@ -5999,12 +6004,12 @@
   {
    "uid": "modules/chain_registry.py",
    "path": "modules/modules.chain_registry.py.jsonl",
-   "entities": 47
+   "entities": 50
   },
   {
    "uid": "modules/chain_runner.py",
    "path": "modules/modules.chain_runner.py.jsonl",
-   "entities": 48
+   "entities": 50
   },
   {
    "uid": "modules/chain_state.py",
@@ -6504,7 +6509,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 26
+   "entities": 29
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -6725,6 +6730,11 @@
    "uid": "modules/loop_ai_bridge.py",
    "path": "modules/modules.loop_ai_bridge.py.jsonl",
    "entities": 12
+  },
+  {
+   "uid": "modules/loop_guardrails.py",
+   "path": "modules/modules.loop_guardrails.py.jsonl",
+   "entities": 30
   },
   {
    "uid": "modules/loop_progress.py",
@@ -8044,7 +8054,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2312
+  "total": 2313
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

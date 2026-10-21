@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 24 communities, 1130 files, 10889 imports, 10 languages, 21225 symbols.
+> Static analysis knowledge base for LazyOwn: 24 communities, 1134 files, 10926 imports, 10 languages, 21312 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -14,7 +14,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Imported by: cli/commands/opseccleanup.py
 - [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/config.py, core/crypto.py, core/hardening.py, core/logging.py, core/process.py, modules/init.py, modules/autoregistry.py...
 - [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Imported by: cli/commands/cloud.py
-- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Depends on: modules/memoryembeddings.py
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Imported by: modules/memorystore.py, tests/testmemorysemantics.py
 - [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: modules/pipelineengine.py
 - [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: cli/commands/enum.py, core/logging.py
 - [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: cli/commands/enum.py, core/logging.py, modules/cliauth.py
@@ -33,13 +33,13 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/apiauthz.py, core/config.py, core/defaults.py, core/logging.py
 - [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/services/backend.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/killchain.py -> modules/killchain.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/windows/mainwindow.py -> lazygui/widgets/beaconcommandmodal.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): poctui/run.py -> poctui/app.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testdetectionfeed.py -> modules/detectionoracle.py
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/graphoverlay.py -> core/textutils.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/windows/mainwindow.py -> lazygui/theme/tokens.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): poctui/main.py -> poctui/app.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testdaemonloop.py -> skills/lazyownobjective.py
 - [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/ooficesod0woodo.py -> uno
-- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tools/setlazyaddonupdates.py -> future, argparse, pathlib, re, yaml
+- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/obsparser.py -> future, abc, argparse, dataclasses, re, sys, typing
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tools/extractcluster.py -> future, ast, pathlib, sys, textwrap
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)

@@ -33,63 +33,66 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Language: py
 - Symbols:
   - `ChainStep` (class, line 55) `class ChainStep`
-  - `Chain` (class, line 88) `class Chain`
-  - `_render` (function, line 159) `def _render(template, variables)`
-  - `_when_tree` (function, line 188) `def _when_tree(expression)`
-  - `evaluate_when` (function, line 215) `def evaluate_when(expression, variables)`
-  - `validate_chain` (function, line 280) `def validate_chain(data, filename, chains_dir)`
-  - `render_text_token_braces` (function, line 403) `def render_text_token_braces(text)`
-  - `load_all` (function, line 408) `def load_all(chains_dir)`
-  - `_materialize` (function, line 442) `def _materialize(name, raw, stack)`
-  - `_step_from_raw` (function, line 487) `def _step_from_raw(item)`
-  - `get` (function, line 520) `def get(name, chains_dir)`
-  - `scan_all` (function, line 525) `def scan_all(chains_dir)`
-  - `set_enabled` (function, line 584) `def set_enabled(name, enabled, chains_dir)`
-  - `generate_for_playbook` (function, line 607) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
-  - `identifier` (method, line 82) `def identifier(self)`
-  - `resolve` (method, line 104) `def resolve(self, tokens)`
-  - `_eval` (function, line 237) `def _eval(node)`
+  - `Chain` (class, line 90) `class Chain`
+  - `_render` (function, line 164) `def _render(template, variables)`
+  - `_when_tree` (function, line 193) `def _when_tree(expression)`
+  - `evaluate_when` (function, line 220) `def evaluate_when(expression, variables)`
+  - `validate_chain` (function, line 285) `def validate_chain(data, filename, chains_dir)`
+  - `render_text_token_braces` (function, line 430) `def render_text_token_braces(text)`
+  - `load_all` (function, line 435) `def load_all(chains_dir)`
+  - `_materialize` (function, line 469) `def _materialize(name, raw, stack)`
+  - `_step_from_raw` (function, line 515) `def _step_from_raw(item)`
+  - `get` (function, line 550) `def get(name, chains_dir)`
+  - `scan_all` (function, line 555) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 615) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 638) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `identifier` (method, line 84) `def identifier(self)`
+  - `resolve` (method, line 107) `def resolve(self, tokens)`
+  - `_eval` (function, line 242) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `StepOutcome` (class, line 43) `class StepOutcome`
-  - `ChainRunResult` (class, line 83) `class ChainRunResult`
-  - `ReplanContext` (class, line 123) `class ReplanContext`
-  - `render_text` (function, line 170) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 178) `class ChainRunner`
-  - `ok` (method, line 60) `def ok(self)`
-  - `to_dict` (method, line 64) `def to_dict(self)`
-  - `to_dict` (method, line 101) `def to_dict(self)`
-  - `set_var` (method, line 140) `def set_var(self, name, value)`
-  - `insert_step` (method, line 145) `def insert_step(self, step)`
-  - `skip_rest` (method, line 150) `def skip_rest(self)`
-  - `applied_vars` (method, line 155) `def applied_vars(self)`
-  - `inserted` (method, line 160) `def inserted(self)`
-  - `skip_rest_flag` (method, line 165) `def skip_rest_flag(self)`
-  - `__init__` (method, line 181) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
-  - `run` (method, line 241) `def run(self)`
-  - `_skip_remaining` (method, line 368) `def _skip_remaining(self, steps, start, reason)`
-  - `_notify` (method, line 383) `def _notify(self, outcome)`
-  - `_apply_replanner` (method, line 392) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
-  - `_save_checkpoint` (method, line 441) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)`
-  - `_run_step` (method, line 476) `def _run_step(self, step, variables, captured_keys)`
-  - `_ask_approval` (method, line 562) `def _ask_approval(self, step_id, command)`
-  - `_verify_timeout` (method, line 571) `def _verify_timeout(self, step)`
-  - `_store_capture` (method, line 577) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
-  - `_first_json` (method, line 629) `def _first_json(output)`
-  - `_render_command` (method, line 643) `def _render_command(self, template, variables, captured_keys)`
-  - `_execute` (method, line 658) `def _execute(self, command, timeout, expect_exits)`
-  - `_is_verb` (method, line 691) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 702) `def _run_shell_verb(self, command)`
-  - `_run_raw` (method, line 720) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 737) `def _call(callback, timeout)`
+  - `StepOutcome` (class, line 46) `class StepOutcome`
+  - `ChainRunResult` (class, line 86) `class ChainRunResult`
+  - `ReplanContext` (class, line 130) `class ReplanContext`
+  - `render_text` (function, line 177) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 185) `class ChainRunner`
+  - `ok` (method, line 63) `def ok(self)`
+  - `to_dict` (method, line 67) `def to_dict(self)`
+  - `to_dict` (method, line 106) `def to_dict(self)`
+  - `set_var` (method, line 147) `def set_var(self, name, value)`
+  - `insert_step` (method, line 152) `def insert_step(self, step)`
+  - `skip_rest` (method, line 157) `def skip_rest(self)`
+  - `applied_vars` (method, line 162) `def applied_vars(self)`
+  - `inserted` (method, line 167) `def inserted(self)`
+  - `skip_rest_flag` (method, line 172) `def skip_rest_flag(self)`
+  - `__init__` (method, line 188) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `run` (method, line 258) `def run(self)`
+  - `_skip_remaining` (method, line 428) `def _skip_remaining(self, steps, start, reason)`
+  - `_run_parallel_group` (method, line 443) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys)`
+  - `_run_fallback_chain` (method, line 535) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
+  - `_notify` (method, line 605) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 614) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_save_checkpoint` (method, line 663) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name)`
+  - `_run_step` (method, line 698) `def _run_step(self, step, variables, captured_keys)`
+  - `_ask_approval` (method, line 794) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 803) `def _verify_timeout(self, step)`
+  - `_pre_check_timeout` (method, line 809) `def _pre_check_timeout(self, step)`
+  - `_store_capture` (method, line 813) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 865) `def _first_json(output)`
+  - `_render_command` (method, line 879) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 894) `def _execute(self, command, timeout, expect_exits)`
+  - `_is_verb` (method, line 927) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 938) `def _run_shell_verb(self, command)`
+  - `_run_raw` (method, line 956) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 973) `def _call(callback, timeout)`
 - Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/verb_manifest.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 
 ## modules/chain_state.py
 - Doc: Durable chain checkpoints for pause, resume and audit.

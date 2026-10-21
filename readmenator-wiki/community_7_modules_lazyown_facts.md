@@ -1,12 +1,25 @@
 # modules: lazyown_facts
 
-*Community 7 | 31 files | cohesion 0.53*
+*Community 7 | 32 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 31 file(s) rooted at `modules` with dominant language py (cohesion 0.53). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `Broken`, `CalderaAbilityRef`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 32 file(s) rooted at `tests` with dominant language py (cohesion 0.53). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `Broken`, `CalderaAbilityRef`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
+
+### `tests` (14 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
+| `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
+| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
+| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
+| `tests/test_chain_distill.py` | py | testing | 15 | yes |
+| `tests/test_chain_parallel_fallback.py` | py | testing | 26 | yes |
+| `tests/test_chain_registry.py` | py | testing | 9 | yes |
+| `tests/test_chain_runner.py` | py | testing | 39 | yes |
 
 ### `modules` (13 files)
 
@@ -17,27 +30,14 @@ This community groups 31 file(s) rooted at `modules` with dominant language py (
 | `modules/atomic_resolver.py` | py | utility | 27 | yes |
 | `modules/chain_distill.py` | py | utility | 18 | yes |
 | `modules/chain_registry.py` | py | utility | 17 | yes |
-| `modules/chain_runner.py` | py | utility | 31 | yes |
+| `modules/chain_runner.py` | py | utility | 34 | yes |
 | `modules/chain_state.py` | py | utility | 5 | yes |
-| `modules/chain_synth.py` | py | utility | 6 | yes |
-
-### `tests` (13 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
-| `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
-| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
-| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
-| `tests/test_chain_distill.py` | py | testing | 15 | yes |
-| `tests/test_chain_registry.py` | py | testing | 9 | yes |
-| `tests/test_chain_runner.py` | py | testing | 39 | yes |
 
 ### `cli` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/apt_chain_support.py` | py | utility | 15 | yes |
+| `cli/apt_chain_support.py` | py | utility | 16 | yes |
 | `cli/retry_support.py` | py | utility | 10 | yes |
 
 ### `cli/commands` (1 files)
@@ -58,7 +58,7 @@ This community groups 31 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `skills/tests/test_facts.py` | py | testing | 37 | yes |
 
-*... and 11 more files in this community.*
+*... and 12 more files in this community.*
 
 
 ## Key Symbols
@@ -77,7 +77,8 @@ This community groups 31 file(s) rooted at `modules` with dominant language py (
 - `replan` (function, `cli/apt_chain_support.py:346`) `def replan(context)`
 - `_decision_command` (function, `cli/apt_chain_support.py:368`) `def _decision_command(decision)` - Extract one actionable command from a reactive decision.
 - `_step_from_decision` (function, `cli/apt_chain_support.py:377`) `def _step_from_decision(command, outcome, executed_count)` - Build one safe replan step from a suggested command.
-- `_platform` (function, `cli/apt_chain_support.py:399`) `def _platform()` - Guess the loop platform from the payload configuration.
+- `build_llm_recovery_chain` (function, `cli/apt_chain_support.py:399`) `def build_llm_recovery_chain(result, target, task_id)` - Ask the LLM pool for a temporary recovery chain after a failed run.
+- `_platform` (function, `cli/apt_chain_support.py:470`) `def _platform()` - Guess the loop platform from the payload configuration.
 - `select_agent_flavour` (function, `cli/commands/command_and_control_migrated.py:43`) `def select_agent_flavour(run_tests, platform)` - Pick the agent script extension from the tests of the current run.
 - `CommandAndControlMigratedCommandSet` (class, `cli/commands/command_and_control_migrated.py:66`) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
 - `do_msf` (method, `cli/commands/command_and_control_migrated.py:71`) `def do_msf(self, line)` - Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells
@@ -92,31 +93,26 @@ This community groups 31 file(s) rooted at `modules` with dominant language py (
 - `do_iis_webdav_upload_asp` (method, `cli/commands/command_and_control_migrated.py:949`) `def do_iis_webdav_upload_asp(self, line)` - (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
 - `do_duckyspark` (method, `cli/commands/command_and_control_migrated.py:984`) `def do_duckyspark(self, line)` - duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucl
 - `do_emp3r0r` (method, `cli/commands/command_and_control_migrated.py:1185`) `def do_emp3r0r(self, line)` - Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
-- `do_atomic_tests` (method, `cli/commands/command_and_control_migrated.py:1249`) `def do_atomic_tests(self, line)` - Stage an Atomic Red Team test by MITRE technique ID or GUID.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 103
-- Cross-boundary resolved imports (EXTRACTED): 82
+- Internal resolved imports (EXTRACTED): 107
+- Cross-boundary resolved imports (EXTRACTED): 83
 
 ## Connections
 
 - [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/lazy_loop.py.
 - [EXTRACTED] depends_on community 7 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 - [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
 
 ## Risks
 
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py`
 
 ## Open Questions
 
-- Can the cycle `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` be broken with an interface?
+- Can the cycle `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_facts changed?
 - Should modules: lazyown_facts be split, given cohesion 0.53?
 
@@ -142,4 +138,4 @@ This community groups 31 file(s) rooted at `modules` with dominant language py (
 - `skills/tests/test_facts.py`
 - `tests/test_apt_chain_admin.py`
 - `tests/test_apt_chain_integration.py`
-- *... and 11 more*
+- *... and 12 more*

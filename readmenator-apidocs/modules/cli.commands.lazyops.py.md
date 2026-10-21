@@ -1497,7 +1497,7 @@ def do_lazy_loop(self, line)
 
 Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
 
-Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]
+Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]
 
 **Parameters**
 
@@ -1511,7 +1511,7 @@ Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--budget r
 
 #### `LazyCommandSet.do_lazy_sandbox`
 
-`method` | [cli/commands/lazyops.py:2682](../../cli/commands/lazyops.py#L2682)
+`method` | [cli/commands/lazyops.py:2683](../../cli/commands/lazyops.py#L2683)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1535,7 +1535,7 @@ Usage: lazy_sandbox ...
 
 #### `LazyCommandSet.do_lazy_install`
 
-`method` | [cli/commands/lazyops.py:2745](../../cli/commands/lazyops.py#L2745)
+`method` | [cli/commands/lazyops.py:2746](../../cli/commands/lazyops.py#L2746)
 
 Decorators: `@cmd2.with_category(ai_category)`
 

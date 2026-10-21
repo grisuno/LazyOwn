@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## External Imports (continued)
+- `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
 - `modules/ooficesod0woodo.py` -> uno
 - `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
 - `modules/operator_profiles.py` -> __future__, dataclasses, datetime, json, os, pathlib, shutil, subprocess, threading, typing
@@ -256,6 +257,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_chain_distill.py` -> __future__, json, pathlib, pytest
 - `tests/test_chain_list_command.py` -> __future__
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
+- `tests/test_chain_parallel_fallback.py` -> __future__, pathlib, tempfile, threading, time
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
 - `tests/test_chain_runner.py` -> __future__, threading, time
 - `tests/test_chain_synth.py` -> __future__, pathlib, pytest, yaml
@@ -375,9 +377,11 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_cold_overview.py` -> __future__
 - `tests/test_loop_force_graph.py` -> __future__
 - `tests/test_loop_guard_audit.py` -> __future__
+- `tests/test_loop_guardrails.py` -> __future__, threading, time
 - `tests/test_loop_intent_delete.py` -> __future__, pytest
 - `tests/test_loop_llm_resilience.py` -> __future__
 - `tests/test_loop_mentions.py` -> __future__
+- `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
 - `tests/test_loop_scope_traffic_evidence.py` -> __future__
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
 - `tests/test_xss_sanitization.py` -> __future__, pathlib, re
 - `tools/contract_check.py` -> __future__, ast, pathlib, sys
-- `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
-- `tools/gen_demo_gifs.py` -> PIL, os
-- `tools/gen_demo_gifs_extra.py` -> os, sys
-- `tools/generate_metasploitable_gym.py` -> __future__, pathlib, yaml
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

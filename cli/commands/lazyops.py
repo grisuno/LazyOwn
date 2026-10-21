@@ -2656,7 +2656,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
-        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]"""
+        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]"""
         from modules.lazy_runner import parse_loop_line, run_loop
 
         try:
@@ -2667,8 +2667,9 @@ class LazyCommandSet(LazyOwnCommandSet):
             else:
                 print_error(
                     "Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] "
+                    "[--targets-from-file F] [--max-concurrent N] "
                     "[--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] "
-                    "[--view] [<goal>]"
+                    "[--view] [<goal>] "
                 )
             return
         if not config.target:

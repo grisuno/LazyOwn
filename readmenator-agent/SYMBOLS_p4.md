@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1618` | `def do_msfshellcoder(self, line)` |
 | `do_next` | method | `cli/commands/session_ops.py:666` | `def do_next(self, line)` |
 | `do_note` | method | `cli/commands/session_ops.py:93` | `def do_note(self, line)` |
 | `do_payload` | method | `cli/commands/session_ops.py:615` | `def do_payload(self, line)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `verb_candidates` | function | `cli/lazy_orchestrator.py:113` | `def verb_candidates()` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
-| `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

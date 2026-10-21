@@ -36,7 +36,7 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 |---|---|
 | ![C2 CLI](assets/demo/c2-cli.gif) | ![issue to C2](assets/demo/issue-c2.gif) |
 
-Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md) (5 min) · 80/20 guide: [`ESSENTIALS.md`](ESSENTIALS.md) · HTB end-to-end: [`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md) · Honest comparison: [`COMPARISON.md`](COMPARISON.md)
+First victory in 5 minutes: [`TUTORIAL_5_MINUTES.md`](TUTORIAL_5_MINUTES.md) · Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md) (5 min) · 80/20 guide: [`ESSENTIALS.md`](ESSENTIALS.md) · HTB end-to-end: [`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md) · Honest comparison: [`COMPARISON.md`](COMPARISON.md)
 
 ### Doc
 
@@ -136,6 +136,24 @@ cd lazyown-docker
 ```
 
 ### Autonomous loop and chains
+
+The generic golden path — no lab, no containers, one authorized target:
+
+```bash
+lazy_loop --target 10.10.10.5 --rounds 6 "gain initial access"
+apt_chain apt_generic 10.10.10.5              # auto-discovered fallback chain runs itself on failure
+apt_chain apt_generic 10.10.10.5 --dry-run    # plan check only
+# multi-target: one loop per line of scope.txt, max 3 in flight:
+auto_loop --targets-from-file scope.txt --max-concurrent 3 "gain initial access"
+```
+
+`apt_chain` is self-recovering by schema: steps accept
+`pre_check` (skip the step early when a cheap predictor fails), steps
+accept `parallel: true` (independent scans run concurrently), and
+chains accept `fallback: <chain>` (a failed chain re-runs its fallback
+with the same run id, reported as `fallback_used`). Repeated failures
+can hand the objective to the model: `apt_chain ... --replan`.
+Contract: [`docs/autonomous-loop.md`](docs/autonomous-loop.md).
 
 The loop reads `config/orchestrator.yaml`; explicit flags still win.
 

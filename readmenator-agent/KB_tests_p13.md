@@ -1,6 +1,34 @@
 # Subsystem: tests (page 13 of 19)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_loop_multi_target.py
+- Doc: Multi-target loop entry: scope-file parsing, validation and caps.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_parse_loop_line_accepts_targets_file` (function, line 10) `def test_parse_loop_line_accepts_targets_file(tmp_path)`
+  - `test_parse_loop_line_defaults_without_file` (function, line 20) `def test_parse_loop_line_defaults_without_file()`
+  - `test_load_targets_file_skips_comments_and_invalid` (function, line 27) `def test_load_targets_file_skips_comments_and_invalid(tmp_path)`
+  - `test_load_targets_file_caps_batch` (function, line 38) `def test_load_targets_file_caps_batch(tmp_path)`
+  - `test_load_targets_file_missing_raises` (function, line 46) `def test_load_targets_file_missing_raises(tmp_path)`
+  - `test_load_targets_file_empty_raises` (function, line 52) `def test_load_targets_file_empty_raises(tmp_path)`
+- Depends on: `modules/lazy_runner.py`
+
+## tests/test_loop_nmap_guard.py
+- Doc: Loop guardrails: command repair and bounded scanning retests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 8) `def _sandbox(tmp_path, monkeypatch)`
+  - `test_repair_rejects_target_in_port_slot` (function, line 13) `def test_repair_rejects_target_in_port_slot()`
+  - `test_repair_strips_binary_path_for_shell_verb` (function, line 20) `def test_repair_strips_binary_path_for_shell_verb()`
+  - `test_repair_keeps_valid_port_specs` (function, line 27) `def test_repair_keeps_valid_port_specs()`
+  - `test_repair_appends_missing_target` (function, line 35) `def test_repair_appends_missing_target()`
+  - `test_repair_drops_port_flag_without_value` (function, line 41) `def test_repair_drops_port_flag_without_value()`
+  - `test_stall_thresholds_follow_command_timeout` (function, line 48) `def test_stall_thresholds_follow_command_timeout()`
+  - `test_scan_commands_are_not_replayed` (function, line 58) `def test_scan_commands_are_not_replayed(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_loop.py`, `modules/lazy_runner.py`
+
 ## tests/test_loop_progress.py
 - Doc: Loop milestone panel: inferred stage states stay honest.
 - Layer: testing
@@ -462,34 +490,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_no_manual_stdout_reassignment` (function, line 130) `def test_no_manual_stdout_reassignment()`
   - `test_scanner_detects_a_synthetic_os_system` (function, line 136) `def test_scanner_detects_a_synthetic_os_system(tmp_path)`
   - `iter_files` (method, line 44) `def iter_files(self)`
-
-## tests/test_nuclei_parser.py
-- Doc: Tests for modules/integrations/nuclei_parser.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestNucleiFinding` (class, line 13) `class TestNucleiFinding`
-  - `TestNucleiParserText` (class, line 58) `class TestNucleiParserText`
-  - `TestNucleiParserJson` (class, line 73) `class TestNucleiParserJson`
-  - `TestSeverityMap` (class, line 120) `class TestSeverityMap`
-  - `TestMitreTactics` (class, line 128) `class TestMitreTactics`
-  - `TestRecommendations` (class, line 134) `class TestRecommendations`
-  - `test_fields` (method, line 14) `def test_fields(self)`
-  - `test_exploit_probability_map` (method, line 28) `def test_exploit_probability_map(self)`
-  - `test_mitre_tactic` (method, line 46) `def test_mitre_tactic(self)`
-  - `test_parse_empty` (method, line 59) `def test_parse_empty(self)`
-  - `test_parse_nuclei_line` (method, line 64) `def test_parse_nuclei_line(self)`
-  - `test_parse_empty` (method, line 74) `def test_parse_empty(self)`
-  - `test_parse_json_single_finding` (method, line 78) `def test_parse_json_single_finding(self)`
-  - `test_parse_json_multiple_findings` (method, line 90) `def test_parse_json_multiple_findings(self)`
-  - `test_parse_json_array` (method, line 99) `def test_parse_json_array(self)`
-  - `test_parse_with_cve_classification` (method, line 108) `def test_parse_with_cve_classification(self)`
-  - `test_critical_is_10` (method, line 121) `def test_critical_is_10(self)`
-  - `test_info_is_1` (method, line 124) `def test_info_is_1(self)`
-  - `test_all_tactics_have_ta_prefix` (method, line 129) `def test_all_tactics_have_ta_prefix(self)`
-  - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
-  - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
-- Depends on: `modules/integrations/nuclei_parser.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

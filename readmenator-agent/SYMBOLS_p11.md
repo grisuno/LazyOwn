@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `stream_generate` | method | `modules/ai_model.py:515` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:574` | `def stream_generate(self, prompt)` |
 | `AMS1patch_E_ACCESSDENIED` | function | `modules/amsi.c:274` | `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)` |
 | `AMS1patch_E_HANDLE` | function | `modules/amsi.c:326` | `void AMS1patch_E_HANDLE(HANDLE hproc)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `apply_to_session` | method | `modules/c2_profile.py:554` | `def apply_to_session(profile, session)` |
 | `build_headers` | method | `modules/c2_profile.py:128` | `def build_headers(self, method)` |
 | `from_dict` | method | `modules/c2_profile.py:215` | `def from_dict(d)` |
-| `from_yaml` | method | `modules/c2_profile.py:200` | `def from_yaml(path)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

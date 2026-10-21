@@ -491,7 +491,8 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
 
         Usage:
             auto_loop [--target T] [--task T] [--rounds N] [--workers N]
-                      [--timeout S] [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
+                      [--timeout S] [--targets-from-file F] [--max-concurrent N]
+                      [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
                       [--budget-confirm] [--no-bootstrap]
                       [--view|--plain] <goal>
 

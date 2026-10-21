@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TagSelector` | class | `modules/lazyown_bridge.py:4071` | `class TagSelector(AbstractSelector)` |
+| `__init__` | method | `modules/lazyown_bridge.py:118` | `def __init__(self)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4045` | `def __init__(self, technique_id)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4074` | `def __init__(self, tag)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4239` | `def __init__(self, catalog, selector, enricher, phase_mapper)` |
+| `_populate` | method | `modules/lazyown_bridge.py:122` | `def _populate(self)` |
+| `all_phases` | method | `modules/lazyown_bridge.py:3966` | `def all_phases(self)` |
+| `all_phases` | method | `modules/lazyown_bridge.py:4347` | `def all_phases(self)` |
+| `build_command` | method | `modules/lazyown_bridge.py:63` | `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` |
+| `by_mitre` | method | `modules/lazyown_bridge.py:3952` | `def by_mitre(self, technique_id)` |
+| `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
 | `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
 | `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
 | `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
@@ -321,6 +332,38 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `stream_enabled` | function | `modules/loop_ai_bridge.py:304` | `def stream_enabled()` |
 | `swan_available` | function | `modules/loop_ai_bridge.py:264` | `def swan_available()` |
 | `swan_consult` | function | `modules/loop_ai_bridge.py:277` | `def swan_consult(prompt, task_type, phase, timeout)` |
+| `EdrPacer` | class | `modules/loop_guardrails.py:126` | `class EdrPacer` |
+| `Fact` | class | `modules/loop_guardrails.py:73` | `class Fact` |
+| `FactVectorStore` | class | `modules/loop_guardrails.py:278` | `class FactVectorStore` |
+| `RepeatDetector` | class | `modules/loop_guardrails.py:82` | `class RepeatDetector` |
+| `TargetLimiter` | class | `modules/loop_guardrails.py:208` | `class TargetLimiter` |
+| `__init__` | method | `modules/loop_guardrails.py:89` | `def __init__(self, window)` |
+| `__init__` | method | `modules/loop_guardrails.py:135` | `def __init__(self, duration_threshold)` |
+| `__init__` | method | `modules/loop_guardrails.py:216` | `def __init__(self, max_concurrent)` |
+| `__init__` | method | `modules/loop_guardrails.py:286` | `def __init__(self, path, max_facts)` |
+| `__len__` | method | `modules/loop_guardrails.py:298` | `def __len__(self)` |
+| `_load` | method | `modules/loop_guardrails.py:415` | `def _load(self)` |
+| `_tokenize` | method | `modules/loop_guardrails.py:302` | `def _tokenize(text)` |
+| `_vectorize` | method | `modules/loop_guardrails.py:307` | `def _vectorize(tokens)` |
+| `active_targets` | method | `modules/loop_guardrails.py:228` | `def active_targets(self)` |
+| `add` | method | `modules/loop_guardrails.py:315` | `def add(self, text, meta)` |
+| `clear` | method | `modules/loop_guardrails.py:388` | `def clear(self)` |
+| `decay` | method | `modules/loop_guardrails.py:163` | `def decay(self, factor)` |
+| `inter_step_delay` | method | `modules/loop_guardrails.py:184` | `def inter_step_delay(self)` |
+| `last_commands` | method | `modules/loop_guardrails.py:117` | `def last_commands(self)` |
+| `level` | method | `modules/loop_guardrails.py:169` | `def level(self)` |
+| `max_concurrent` | method | `modules/loop_guardrails.py:223` | `def max_concurrent(self)` |
+| `observe` | method | `modules/loop_guardrails.py:141` | `def observe(self, command, duration_sec, output)` |
+| `path` | method | `modules/loop_guardrails.py:294` | `def path(self)` |
+| `quieten` | method | `modules/loop_guardrails.py:192` | `def quieten(self, command)` |
+| `record` | method | `modules/loop_guardrails.py:93` | `def record(self, command)` |
+| `reset` | method | `modules/loop_guardrails.py:121` | `def reset(self)` |
+| `save` | method | `modules/loop_guardrails.py:394` | `def save(self)` |
+| `search` | method | `modules/loop_guardrails.py:349` | `def search(self, query, k)` |
+| `search_block` | method | `modules/loop_guardrails.py:379` | `def search_block(self, query, k, max_chars)` |
+| `signal` | method | `modules/loop_guardrails.py:179` | `def signal(self)` |
+| `slot` | method | `modules/loop_guardrails.py:234` | `def slot(self, target)` |
+| `stuck` | method | `modules/loop_guardrails.py:110` | `def stuck(self)` |
 | `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
 | `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
 | `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
@@ -453,48 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
 | `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
 | `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
-| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
-| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
-| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
-| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
-| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
-| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
-| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
-| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
-| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
-| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
-| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
-| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
-| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
-| `path` | method | `modules/metrics.py:201` | `def path(self)` |
-| `path` | method | `modules/metrics.py:350` | `def path(self)` |
-| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
-| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
-| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
-| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
-| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
-| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
-| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
-| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
-| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
-| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
-| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
-| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
-| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
-| `generate_phishing_templates` | method | `modules/mfa_bypass.py:153` | `def generate_phishing_templates(self, target)` |
-| `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
-| `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
-| `saml_golden_ticket_check` | method | `modules/mfa_bypass.py:278` | `def saml_golden_ticket_check(self, adfs_server)` |
-| `ModuleInfo` | class | `modules/module_registry.py:150` | `class ModuleInfo` |
-| `ModuleRegistry` | class | `modules/module_registry.py:223` | `class ModuleRegistry` |
-| `__contains__` | method | `modules/module_registry.py:536` | `def __contains__(self, name)` |
-| `__init__` | method | `modules/module_registry.py:172` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
-| `__init__` | method | `modules/module_registry.py:235` | `def __init__(self, base_dir)` |
-| `__iter__` | method | `modules/module_registry.py:531` | `def __iter__(self)` |
-| `__len__` | method | `modules/module_registry.py:526` | `def __len__(self)` |
-| `__repr__` | method | `modules/module_registry.py:219` | `def __repr__(self)` |
-| `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
-| `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
-| `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

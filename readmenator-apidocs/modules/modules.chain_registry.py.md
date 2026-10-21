@@ -44,12 +44,13 @@ classDiagram
     ChainStep : str expect
     ChainStep : list[int] expect_exit
     ChainStep : str verify
+    ChainStep : str pre_check
+    ChainStep : bool parallel
     ChainStep : str on_fail
     ChainStep : str on_success
     ChainStep : bool confirm
     ChainStep : list[str] artifacts
     ChainStep : list[str] sinks
-    ChainStep : identifier()
     class Chain
     Chain : str name
     Chain : str description
@@ -62,6 +63,7 @@ classDiagram
     Chain : str source
     Chain : bool enabled
     Chain : str extends
+    Chain : str fallback
     Chain : int total_timeout
     Chain : resolve()
 ```
@@ -121,6 +123,8 @@ One ordered step: shell line plus optional guards and outcome policy.
 | [`expect`](#chainstep-expect) | `str` | `''` |  |
 | [`expect_exit`](#chainstep-expect_exit) | `list[int]` | `field(default_factory=list)` |  |
 | [`verify`](#chainstep-verify) | `str` | `''` |  |
+| [`pre_check`](#chainstep-pre_check) | `str` | `''` |  |
+| [`parallel`](#chainstep-parallel) | `bool` | `False` |  |
 | [`on_fail`](#chainstep-on_fail) | `str` | `''` |  |
 | [`on_success`](#chainstep-on_success) | `str` | `''` |  |
 | [`confirm`](#chainstep-confirm) | `bool` | `False` |  |
@@ -137,7 +141,7 @@ One ordered step: shell line plus optional guards and outcome policy.
 
 #### `ChainStep.identifier`
 
-`property` | [modules/chain_registry.py:82](../../modules/chain_registry.py#L82)
+`property` | [modules/chain_registry.py:84](../../modules/chain_registry.py#L84)
 
 Decorators: `@property`
 
@@ -155,7 +159,7 @@ Return the declared id or a stable generated one.
 
 ### `Chain`
 
-`class` `dataclass` | [modules/chain_registry.py:88](../../modules/chain_registry.py#L88)
+`class` `dataclass` | [modules/chain_registry.py:90](../../modules/chain_registry.py#L90)
 
 Decorators: `@dataclass`
 
@@ -180,6 +184,7 @@ A validated chain with defaults, variables and ordered steps.
 | [`source`](#chain-source) | `str` | `''` |  |
 | [`enabled`](#chain-enabled) | `bool` | `True` |  |
 | [`extends`](#chain-extends) | `str` | `''` |  |
+| [`fallback`](#chain-fallback) | `str` | `''` |  |
 | [`total_timeout`](#chain-total_timeout) | `int` | `0` |  |
 
 **Members**
@@ -192,7 +197,7 @@ A validated chain with defaults, variables and ordered steps.
 
 #### `Chain.resolve`
 
-`method` | [modules/chain_registry.py:104](../../modules/chain_registry.py#L104)
+`method` | [modules/chain_registry.py:107](../../modules/chain_registry.py#L107)
 
 ```python
 def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]
@@ -222,7 +227,7 @@ resolution after every capture so later steps see earlier output.
 
 ### `evaluate_when`
 
-`function` | [modules/chain_registry.py:215](../../modules/chain_registry.py#L215)
+`function` | [modules/chain_registry.py:220](../../modules/chain_registry.py#L220)
 
 ```python
 def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
@@ -251,7 +256,7 @@ arithmetic are rejected. Undefined names resolve to an empty string.
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:280](../../modules/chain_registry.py#L280)
+`function` | [modules/chain_registry.py:285](../../modules/chain_registry.py#L285)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -277,7 +282,7 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:408](../../modules/chain_registry.py#L408)
+`function` | [modules/chain_registry.py:435](../../modules/chain_registry.py#L435)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
@@ -307,7 +312,7 @@ Load every valid, enabled chain file (skips the rest loudly).
 
 ### `get`
 
-`function` | [modules/chain_registry.py:520](../../modules/chain_registry.py#L520)
+`function` | [modules/chain_registry.py:550](../../modules/chain_registry.py#L550)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -332,7 +337,7 @@ Return one chain by name, or None.
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:525](../../modules/chain_registry.py#L525)
+`function` | [modules/chain_registry.py:555](../../modules/chain_registry.py#L555)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
@@ -362,7 +367,7 @@ List every chain file including disabled ones (for administration).
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:584](../../modules/chain_registry.py#L584)
+`function` | [modules/chain_registry.py:615](../../modules/chain_registry.py#L615)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
@@ -392,7 +397,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:607](../../modules/chain_registry.py#L607)
+`function` | [modules/chain_registry.py:638](../../modules/chain_registry.py#L638)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path

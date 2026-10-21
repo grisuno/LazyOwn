@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1198 | 1386 | 86.4% |
+| class | 1202 | 1390 | 86.5% |
 | classmethod | 55 | 81 | 67.9% |
-| constructor | 193 | 513 | 37.6% |
+| constructor | 195 | 517 | 37.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 35 | 37 | 94.6% |
-| function | 1761 | 2709 | 65.0% |
+| function | 1763 | 2711 | 65.0% |
 | macro | 3 | 113 | 2.7% |
-| method | 2808 | 3487 | 80.5% |
-| module | 670 | 792 | 84.6% |
-| property | 146 | 190 | 76.8% |
+| method | 2821 | 3500 | 80.6% |
+| module | 671 | 793 | 84.6% |
+| property | 152 | 196 | 77.6% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
@@ -369,6 +369,7 @@ Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data mem
 | [`modules.c2_agent`](modules/modules.c2_agent.py.md) | 13 | 14 | 92.9% |
 | [`modules.c2_profile`](modules/modules.c2_profile.py.md) | 26 | 28 | 92.9% |
 | [`modules.detection_oracle`](modules/modules.detection_oracle.py.md) | 13 | 14 | 92.9% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | 26 | 28 | 92.9% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | 13 | 14 | 92.9% |
 | [`modules.sleep_obfuscation`](modules/modules.sleep_obfuscation.py.md) | 26 | 28 | 92.9% |
 | [`contrib.legacy.lazyaddon_creator`](modules/contrib.legacy.lazyaddon_creator.py.md) | 14 | 15 | 93.3% |
@@ -398,7 +399,7 @@ Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data mem
 | [`.claude/skills/run-lazyown/driver.sh`](modules/claude.skills.run-lazyown.driver.sh.md) | 1 | 1 | 100.0% |
 | [`cli`](modules/cli.__init__.py.md) | 1 | 1 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | 5 | 5 | 100.0% |
-| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | 8 | 8 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | 9 | 9 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | 2 | 2 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | 10 | 10 | 100.0% |
 | [`cli.chain_mode`](modules/cli.chain_mode.py.md) | 15 | 15 | 100.0% |
@@ -693,7 +694,7 @@ Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data mem
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
-| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 8 | 8 | 100.0% |
+| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | 5 | 5 | 100.0% |
@@ -824,7 +825,7 @@ Overall: **73.8%** (6995 of 9475 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
+DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 42
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1326,4 +1327,4 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 42, DOC005: 42
 - DOC001 `install.sh:128` function ensure_gum is not documented
 - DOC001 `install.sh:139` function install_system_packages is not documented
 - DOC001 `install.sh:150` function install_external_tools is not documented
-- ... 1812 more in `api/warnings.jsonl`
+- ... 1813 more in `api/warnings.jsonl`

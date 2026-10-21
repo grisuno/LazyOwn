@@ -3,6 +3,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
 | `_index` | method | `cli/commands/catalog.py:25` | `def _index(self)` |
 | `_print_hits` | method | `cli/commands/catalog.py:95` | `def _print_hits(self, hits, label)` |
 | `do_catalog` | method | `cli/commands/catalog.py:33` | `def do_catalog(self, line)` |
@@ -49,13 +50,13 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_c2_quickstart` | method | `cli/commands/command_and_control.py:151` | `def do_c2_quickstart(self, _line)` |
 | `do_c2_status` | method | `cli/commands/command_and_control.py:41` | `def do_c2_status(self, _line)` |
 | `CommandAndControlMigratedCommandSet` | class | `cli/commands/command_and_control_migrated.py:66` | `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)` |
-| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2588` | `def _ability_to_step(ability)` |
+| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2608` | `def _ability_to_step(ability)` |
 | `_api` | function | `cli/commands/command_and_control_migrated.py:570` | `def _api(method, endpoint, payload)` |
 | `_latest_sweep_evidence` | method | `cli/commands/command_and_control_migrated.py:1285` | `def _latest_sweep_evidence(self, target)` |
-| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2581` | `def _load_ability(ability_file)` |
+| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2601` | `def _load_ability(ability_file)` |
 | `chain_file_exists` | function | `cli/commands/command_and_control_migrated.py:1765` | `def chain_file_exists(name)` |
 | `do_apt_chain` | method | `cli/commands/command_and_control_migrated.py:1727` | `def do_apt_chain(self, line)` |
-| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2049` | `def do_apt_playbook(self, line)` |
+| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2069` | `def do_apt_playbook(self, line)` |
 | `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1447` | `def do_atomic_agent(self, line)` |
 | `do_atomic_clean` | method | `cli/commands/command_and_control_migrated.py:1353` | `def do_atomic_clean(self, line)` |
 | `do_atomic_emulate` | method | `cli/commands/command_and_control_migrated.py:1390` | `def do_atomic_emulate(self, line)` |
@@ -65,20 +66,20 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1550` | `def do_attack_plan(self, line)` |
 | `do_automsf` | method | `cli/commands/command_and_control_migrated.py:904` | `def do_automsf(self, line)` |
 | `do_c2` | method | `cli/commands/command_and_control_migrated.py:421` | `def do_c2(self, line)` |
-| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2508` | `def do_caldera(self, line)` |
-| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2649` | `def do_caldera_export(self, line)` |
-| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2557` | `def do_caldera_import(self, line)` |
-| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:1999` | `def do_chain_distill(self, line)` |
+| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2528` | `def do_caldera(self, line)` |
+| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2669` | `def do_caldera_export(self, line)` |
+| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2577` | `def do_caldera_import(self, line)` |
+| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:2019` | `def do_chain_distill(self, line)` |
 | `do_duckyspark` | method | `cli/commands/command_and_control_migrated.py:984` | `def do_duckyspark(self, line)` |
 | `do_emp3r0r` | method | `cli/commands/command_and_control_migrated.py:1185` | `def do_emp3r0r(self, line)` |
 | `do_empire` | method | `cli/commands/command_and_control_migrated.py:854` | `def do_empire(self, line)` |
-| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2272` | `def do_generate_playbook(self, line)` |
+| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2292` | `def do_generate_playbook(self, line)` |
 | `do_iis_webdav_upload_asp` | method | `cli/commands/command_and_control_migrated.py:949` | `def do_iis_webdav_upload_asp(self, line)` |
 | `do_listener` | method | `cli/commands/command_and_control_migrated.py:543` | `def do_listener(self, line)` |
-| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2169` | `def do_mitre_test(self, line)` |
+| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2189` | `def do_mitre_test(self, line)` |
 | `do_msf` | method | `cli/commands/command_and_control_migrated.py:71` | `def do_msf(self, line)` |
 | `do_msfrpc` | method | `cli/commands/command_and_control_migrated.py:713` | `def do_msfrpc(self, line)` |
-| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2451` | `def do_my_playbook(self, line)` |
+| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2471` | `def do_my_playbook(self, line)` |
 | `do_sandbox` | method | `cli/commands/command_and_control_migrated.py:671` | `def do_sandbox(self, line)` |
 | `do_sliver_server` | method | `cli/commands/command_and_control_migrated.py:737` | `def do_sliver_server(self, line)` |
 | `select_agent_flavour` | function | `cli/commands/command_and_control_migrated.py:43` | `def select_agent_flavour(run_tests, platform)` |
@@ -485,7 +486,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_graph` | method | `cli/commands/lazyops.py:269` | `def do_lazy_graph(self, line)` |
 | `do_lazy_guard` | method | `cli/commands/lazyops.py:1094` | `def do_lazy_guard(self, line)` |
 | `do_lazy_hint` | method | `cli/commands/lazyops.py:643` | `def do_lazy_hint(self, line)` |
-| `do_lazy_install` | method | `cli/commands/lazyops.py:2745` | `def do_lazy_install(self, line)` |
+| `do_lazy_install` | method | `cli/commands/lazyops.py:2746` | `def do_lazy_install(self, line)` |
 | `do_lazy_intent` | method | `cli/commands/lazyops.py:655` | `def do_lazy_intent(self, line)` |
 | `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:680` | `def do_lazy_intent_delete(self, line)` |
 | `do_lazy_kill` | method | `cli/commands/lazyops.py:1291` | `def do_lazy_kill(self, line)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_notify` | method | `cli/commands/lazyops.py:2095` | `def do_lazy_notify(self, line)` |
 | `do_lazy_overview` | method | `cli/commands/lazyops.py:2465` | `def do_lazy_overview(self, line)` |
 | `do_lazy_pause` | method | `cli/commands/lazyops.py:1303` | `def do_lazy_pause(self, line)` |
-| `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1387` | `def do_lazy_payload_keys(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

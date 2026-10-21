@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
 | `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
 | `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
 | `_enabled` | function | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `SessionEntry` | class | `cli/sessions_browser.py:76` | `class SessionEntry` |
 | `SessionPreview` | class | `cli/sessions_browser.py:185` | `class SessionPreview` |
 | `SessionsBrowserConfig` | class | `cli/sessions_browser.py:49` | `class SessionsBrowserConfig` |
-| `SessionsBrowserState` | class | `cli/sessions_browser.py:225` | `class SessionsBrowserState` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

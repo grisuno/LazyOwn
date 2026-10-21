@@ -14,7 +14,7 @@ summary.
 ## Contents
 
 - **Classes:** [`LoopRunConfig`](#looprunconfig)
-- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`run_loop`](#run_loop)
+- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop)
 
 ## Call Graph
 
@@ -40,12 +40,12 @@ flowchart LR
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_msg["console.print_msg"]
     n_core_console_py__print_warn["console.print_warn"]
+    n_modules_lazy_runner_py__load_targets_file(["load_targets_file"])
+    n_core_hardening_py__validate_host["hardening.validate_host"]
     n_cli_lazy_monitor_py__run_monitor_session["lazy_monitor.run_monitor_session"]
     n_core_autonomous_py__autonomous_mode["autonomous.autonomous_mode"]
     n_core_terminal_guard_py__TerminalGuard___init__["terminal_guard.TerminalGuard.__init__"]
     n_modules_lazy_engine_py__LazyEngine["lazy_engine.LazyEngine"]
-    n_modules_lazy_loop_py__LazyLoopEngine_apply_profile["lazy_loop.LazyLoopEngine.apply_profile"]
-    n_modules_lazy_loop_py__LazyLoopEngine_create_task["lazy_loop.LazyLoopEngine.create_task"]
     n_modules_lazy_runner_py__parse_loop_line --> n_modules_lazy_runner_py__LoopRunConfig
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__LoopRunConfig_clamped
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__report_result
@@ -61,6 +61,8 @@ flowchart LR
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_error
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_msg
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_warn
+    n_modules_lazy_runner_py__load_targets_file -.-> n_core_console_py__print_warn
+    n_modules_lazy_runner_py__load_targets_file -.-> n_core_hardening_py__validate_host
     n_modules_lazy_runner_py__run_loop -.-> n_cli_lazy_monitor_py__run_monitor_session
     n_modules_lazy_runner_py__run_loop -.-> n_core_autonomous_py__autonomous_mode
     n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_error
@@ -68,8 +70,6 @@ flowchart LR
     n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_warn
     n_modules_lazy_runner_py__run_loop -.-> n_core_terminal_guard_py__TerminalGuard___init__
     n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_engine_py__LazyEngine
-    n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_loop_py__LazyLoopEngine_apply_profile
-    n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_loop_py__LazyLoopEngine_create_task
 ```
 
 ## Classes
@@ -78,7 +78,7 @@ flowchart LR
 
 ### `LoopRunConfig`
 
-`class` `dataclass` | [modules/lazy_runner.py:91](../../modules/lazy_runner.py#L91)
+`class` `dataclass` | [modules/lazy_runner.py:94](../../modules/lazy_runner.py#L94)
 
 Decorators: `@dataclass`
 
@@ -110,6 +110,8 @@ Everything one loop invocation needs, parsed by the command sets.
 | [`budget`](#looprunconfig-budget) | `dict` | `field(default_factory=dict)` |  |
 | [`budget_confirm`](#looprunconfig-budget_confirm) | `bool` | `False` |  |
 | [`extra`](#looprunconfig-extra) | `dict` | `field(default_factory=dict)` |  |
+| [`targets_file`](#looprunconfig-targets_file) | `str` | `''` |  |
+| [`max_concurrent`](#looprunconfig-max_concurrent) | `int` | `0` |  |
 
 **Members**
 
@@ -121,7 +123,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:113](../../modules/lazy_runner.py#L113)
+`method` | [modules/lazy_runner.py:118](../../modules/lazy_runner.py#L118)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -141,7 +143,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:145](../../modules/lazy_runner.py#L145)
+`function` | [modules/lazy_runner.py:163](../../modules/lazy_runner.py#L163)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -174,7 +176,7 @@ same flags and defaults.
 
 ### `resolve_loop_defaults`
 
-`function` | [modules/lazy_runner.py:256](../../modules/lazy_runner.py#L256)
+`function` | [modules/lazy_runner.py:282](../../modules/lazy_runner.py#L282)
 
 ```python
 def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig
@@ -200,7 +202,7 @@ Fill unset rounds and workers from the selected orchestrator profile.
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:292](../../modules/lazy_runner.py#L292)
+`function` | [modules/lazy_runner.py:318](../../modules/lazy_runner.py#L318)
 
 ```python
 def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '') -> Callable[[str], str]
@@ -239,7 +241,7 @@ operator host; custom tools and raw bash stay local.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:423](../../modules/lazy_runner.py#L423)
+`function` | [modules/lazy_runner.py:449](../../modules/lazy_runner.py#L449)
 
 ```python
 def report_result(result: dict) -> None
@@ -263,11 +265,44 @@ the elevated ``--sudo`` mode when the failure was a sudo gate.
 
 ---
 
+<a id="load_targets_file"></a>
+
+### `load_targets_file`
+
+`function` | [modules/lazy_runner.py:847](../../modules/lazy_runner.py#L847)
+
+```python
+def load_targets_file(path: str) -> list[str]
+```
+
+Read and validate one target per line from a scope file.
+
+Numeric dotted entries must parse as real IPs (``999.999.1.1`` is
+rejected even though the hostname regex would accept it); anything
+else goes through the shared host policy.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` |  | Plain-text file; blank lines and ``#`` comments skipped. |
+
+**Returns:** `list[str]` - Deduplicated valid hosts or CIDR blocks, capped at
+``_MAX_BATCH_TARGETS``.
+
+**Raises**
+
+- `ValueError`: Missing file or no valid target inside.
+
+*Calls:* [`print_warn`](core.console.py.md#print_warn), [`validate_host`](core.hardening.py.md#validate_host)
+
+---
+
 <a id="run_loop"></a>
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:821](../../modules/lazy_runner.py#L821)
+`function` | [modules/lazy_runner.py:902](../../modules/lazy_runner.py#L902)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

@@ -428,6 +428,25 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_lookup_jumps_to_execution` (function, line 48) `def test_lookup_jumps_to_execution(tmp_path, monkeypatch)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
 
+## tests/test_loop_guardrails.py
+- Doc: Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_repeat_detector_flags_identical_window` (function, line 12) `def test_repeat_detector_flags_identical_window()`
+  - `test_repeat_detector_recovery_on_variation` (function, line 21) `def test_repeat_detector_recovery_on_variation()`
+  - `test_edr_pacer_slow_scan_raises_level` (function, line 35) `def test_edr_pacer_slow_scan_raises_level()`
+  - `test_edr_pacer_connection_reset_raises_and_decays` (function, line 47) `def test_edr_pacer_connection_reset_raises_and_decays()`
+  - `test_edr_pacer_calm_level_returns_command_unchanged` (function, line 59) `def test_edr_pacer_calm_level_returns_command_unchanged()`
+  - `test_target_limiter_caps_concurrency` (function, line 67) `def test_target_limiter_caps_concurrency()`
+  - `test_target_limiter_is_reentrant_per_thread` (function, line 93) `def test_target_limiter_is_reentrant_per_thread()`
+  - `test_target_limiter_empty_target_bypasses` (function, line 112) `def test_target_limiter_empty_target_bypasses()`
+  - `test_fact_vector_store_roundtrip_and_search` (function, line 121) `def test_fact_vector_store_roundtrip_and_search(tmp_path)`
+  - `test_fact_vector_store_search_block_rendering` (function, line 141) `def test_fact_vector_store_search_block_rendering(tmp_path)`
+  - `_work` (function, line 75) `def _work()`
+  - `_work` (function, line 99) `def _work()`
+- Depends on: `modules/loop_guardrails.py`
+
 ## tests/test_loop_intent_delete.py
 - Doc: Intent delete modes regression tests (lazy 0.3.12 parity).
 - Layer: testing
@@ -472,21 +491,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_mentions_search_and_cursor` (function, line 6) `def test_mentions_search_and_cursor(tmp_path, monkeypatch)`
   - `test_mentions_parse_caps_and_trusts_ids` (function, line 16) `def test_mentions_parse_caps_and_trusts_ids()`
 - Depends on: `modules/__init__.py`
-
-## tests/test_loop_nmap_guard.py
-- Doc: Loop guardrails: command repair and bounded scanning retests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 8) `def _sandbox(tmp_path, monkeypatch)`
-  - `test_repair_rejects_target_in_port_slot` (function, line 13) `def test_repair_rejects_target_in_port_slot()`
-  - `test_repair_strips_binary_path_for_shell_verb` (function, line 20) `def test_repair_strips_binary_path_for_shell_verb()`
-  - `test_repair_keeps_valid_port_specs` (function, line 27) `def test_repair_keeps_valid_port_specs()`
-  - `test_repair_appends_missing_target` (function, line 35) `def test_repair_appends_missing_target()`
-  - `test_repair_drops_port_flag_without_value` (function, line 41) `def test_repair_drops_port_flag_without_value()`
-  - `test_stall_thresholds_follow_command_timeout` (function, line 48) `def test_stall_thresholds_follow_command_timeout()`
-  - `test_scan_commands_are_not_replayed` (function, line 58) `def test_scan_commands_are_not_replayed(tmp_path, monkeypatch)`
-- Depends on: `modules/lazy_loop.py`, `modules/lazy_runner.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

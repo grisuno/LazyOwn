@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `start` | method | `lazygui/services/local_backend.py:62` | `def start(self)` |
 | `stop` | method | `lazygui/services/local_backend.py:87` | `def stop(self)` |
 | `BackendKind` | class | `lazygui/services/models.py:17` | `class BackendKind(StrEnum)` |
 | `BeaconResult` | class | `lazygui/services/models.py:164` | `class BeaconResult` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `stream_generate` | method | `modules/ai_model.py:281` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:382` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:455` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `modules/ai_model.py:515` | `def stream_generate(self, prompt)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

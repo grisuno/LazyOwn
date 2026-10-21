@@ -12,7 +12,7 @@ unknown flag fails loudly instead of being silently swallowed.
 ## Contents
 
 - **Classes:** [`ChainArgs`](#chainargs)
-- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`build_cli_approver`](#build_cli_approver), [`build_reactive_replanner`](#build_reactive_replanner)
+- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`build_cli_approver`](#build_cli_approver), [`build_reactive_replanner`](#build_reactive_replanner), [`build_llm_recovery_chain`](#build_llm_recovery_chain)
 
 ## Call Graph
 
@@ -30,9 +30,17 @@ flowchart LR
     n_modules_chain_synth_py__facts_for_target["chain_synth.facts_for_target"]
     n_modules_chain_synth_py__synth_chain_data["chain_synth.synth_chain_data"]
     n_modules_chain_synth_py__write_generated_chain["chain_synth.write_generated_chain"]
+    n_cli_apt_chain_support_py__build_cli_approver(["build_cli_approver"])
+    n_modules_lazy_loop_py__SideQuestions_ask["lazy_loop.SideQuestions.ask"]
     n_cli_apt_chain_support_py__build_reactive_replanner(["build_reactive_replanner"])
     n_modules_chain_runner_py__ReplanContext_insert_step["chain_runner.ReplanContext.insert_step"]
     n_modules_reactive_engine_py__get_engine["reactive_engine.get_engine"]
+    n_cli_apt_chain_support_py__build_llm_recovery_chain(["build_llm_recovery_chain"])
+    n_modules_chain_registry_py__Chain["chain_registry.Chain"]
+    n_modules_chain_registry_py__ChainStep["chain_registry.ChainStep"]
+    n_modules_lazy_loop_py__LlmPool___init__["lazy_loop.LlmPool.__init__"]
+    n_modules_lazy_loop_py__LlmPool_complete["lazy_loop.LlmPool.complete"]
+    n_modules_lazy_loop_py__LlmPool_members["lazy_loop.LlmPool.members"]
     n_cli_apt_chain_support_py__parse_chain_args --> n_cli_apt_chain_support_py__ChainArgs
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__scan_all
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__set_enabled
@@ -41,8 +49,14 @@ flowchart LR
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__facts_for_target
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__synth_chain_data
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__write_generated_chain
+    n_cli_apt_chain_support_py__build_cli_approver -.-> n_modules_lazy_loop_py__SideQuestions_ask
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_chain_runner_py__ReplanContext_insert_step
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_reactive_engine_py__get_engine
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__Chain
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__ChainStep
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool___init__
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool_complete
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool_members
 ```
 
 ## Classes
@@ -215,6 +229,8 @@ the decision; interactive mode asks the operator failure-closed.
 | `printer` |  |  |  |
 | `input_fn` |  | `None` |  |
 
+*Calls:* [`SideQuestions.ask`](modules.lazy_loop.py.md#sidequestions-ask)
+
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
 
 ---
@@ -232,6 +248,41 @@ def build_reactive_replanner()
 Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engine.py.md)`.
 
 *Calls:* [`ReplanContext.insert_step`](modules.chain_runner.py.md#replancontext-insert_step), [`get_engine`](modules.reactive_engine.py.md#get_engine)
+
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+
+---
+
+<a id="build_llm_recovery_chain"></a>
+
+### `build_llm_recovery_chain`
+
+`function` | [cli/apt_chain_support.py:399](../../cli/apt_chain_support.py#L399)
+
+```python
+def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None
+```
+
+Ask the LLM pool for a temporary recovery chain after a failed run.
+
+The prompt carries the original objective shape (chain name and
+target), the steps that already succeeded and the failed steps with
+their last errors. The model proposes up to three alternative shell
+commands; each becomes a `[`continue_on_error`](modules.chain_registry.py.md#chainstep-continue_on_error)` step so one bad
+suggestion cannot abort the whole recovery. Returns None when the
+pool is unavailable or replies nothing usable.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `result` | `ChainRunResult` |  |  |
+| `target` | `str` | `''` |  |
+| `task_id` | `str` | `''` |  |
+
+**Returns:** `Chain | None`
+
+*Calls:* [`Chain`](modules.chain_registry.py.md#chain), [`ChainStep`](modules.chain_registry.py.md#chainstep), [`LlmPool.__init__`](modules.lazy_loop.py.md#llmpool-__init__), [`LlmPool.complete`](modules.lazy_loop.py.md#llmpool-complete), [`LlmPool.members`](modules.lazy_loop.py.md#llmpool-members)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 

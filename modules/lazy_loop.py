@@ -36,6 +36,8 @@ import urllib.request
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from modules.loop_guardrails import EdrPacer, FactVectorStore, RepeatDetector, TargetLimiter
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORE_DIR = BASE_DIR / "sessions" / "lazy"
 STORE_LOCK = threading.RLock()
@@ -89,6 +91,10 @@ LLM_CONNECT_BACKOFF_SEC = 0.5
 PLAN_HEARTBEAT_SEC = 600.0
 WAKE_DEBOUNCE_SEC = 0.8
 INTEL_SYNC_INTERVAL_SEC = 15.0
+
+DEFAULT_TARGET_CONCURRENCY = 3
+
+_TARGET_LIMITER = TargetLimiter(max_concurrent=DEFAULT_TARGET_CONCURRENCY)
 
 NMAP_LONG_FLAGS = frozenset(
     {
@@ -3527,6 +3533,9 @@ class Worker:
         self._jobs: dict[str, dict] = {}
         self._shell_session = None
         self._shell_queue = None
+        self._pacer = EdrPacer()
+        self._repeats = RepeatDetector()
+        self._fact_store: FactVectorStore | None = None
         register_worker(self)
 
     def rebind(
@@ -3805,7 +3814,24 @@ class Worker:
             if steer:
                 self.activity.emit(self.name, "steer", f"course correction: {steer}", intent_id=intent.node_id)
                 self.store.clear_steer(self.task_id, intent.node_id)
-            output, status, detail = self._guard_step(intent, command, executor, budget, intercept, retry_state)
+            quiet = self._pacer.quieten(command)
+            if quiet != command:
+                self.activity.emit(
+                    self.name,
+                    "pacing",
+                    f"defense-aware downgrade: {command[:80]} -> {quiet[:80]} ({self._pacer.signal})",
+                    intent_id=intent.node_id,
+                )
+                command = quiet
+            step_started = _now()
+            with _TARGET_LIMITER.slot(self._target_for(intent)):
+                output, status, detail = self._guard_step(intent, command, executor, budget, intercept, retry_state)
+            step_duration = max(0.0, _now() - step_started)
+            try:
+                self._pacer.observe(command, step_duration, output)
+                self._pacer.decay()
+            except Exception:
+                pass
             if status == "blocked":
                 outcome["state"] = "blocked"
                 continue
@@ -3814,6 +3840,31 @@ class Worker:
                 continue
             transcripts.append((command, output))
             self._absorb_reaction(intent, command, output)
+            try:
+                self._repeats.record(command)
+            except Exception:
+                pass
+            if self._repeats.stuck:
+                self.activity.emit(
+                    self.name,
+                    "stalled",
+                    f"worker {self.name} ran the same command {self._repeats.last_commands()[0][:100]!r} "
+                    f"{len(self._repeats.last_commands())}x with no progress; pausing for operator review",
+                    intent_id=intent.node_id,
+                )
+                self.activity.emit(self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id)
+                self._settle_partial(intent, transcripts, reason="stalled")
+                outcome["state"] = "exhausted"
+                break
+            delay = self._pacer.inter_step_delay()
+            if delay > 0:
+                self.activity.emit(
+                    self.name,
+                    "pacing",
+                    f"inserting {delay:.1f}s quiet period after {command[:80]} ({self._pacer.signal})",
+                    intent_id=intent.node_id,
+                )
+                time.sleep(delay)
         return self._finish(intent, outcome, transcripts, worker_tools, skipped_tools)
 
     def _finish(
@@ -3891,10 +3942,33 @@ class Worker:
 
     _ABSORB_OUTPUT_LIMIT = 4000
 
+    def _fact_memory_store(self) -> FactVectorStore:
+        """Task-scoped vector memory, created on first use."""
+        if self._fact_store is None:
+            self._fact_store = FactVectorStore(_store_path(f"vector_facts_{self.task_id}.json"))
+        return self._fact_store
+
+    def _remember_fact(self, intent: ExplorationNode, command: str, output: str) -> None:
+        """Embed one successful step into the task's vector memory."""
+        try:
+            target = self._target_for(intent)
+            digest = f"{command} :: target {target} :: {output[:600]}"
+            self._fact_memory_store().add(digest, meta={"intent": intent.node_id, "target": target})
+        except Exception:
+            pass
+
+    def _recall_facts(self, query: str, k: int = 4) -> str:
+        """Retrieve the facts most relevant to the current step, prompt-ready."""
+        try:
+            return self._fact_memory_store().search_block(query, k=k)
+        except Exception:
+            return ""
+
     def _absorb_reaction(self, intent: ExplorationNode, command: str, output: str) -> None:
         """Park reactive decisions and reuse captured credentials in-session."""
         if not output or len(output) < 20:
             return
+        self._remember_fact(intent, command, output)
         target = self._target_for(intent)
         try:
             from modules.reaction_bridge import find_credentials
@@ -4747,12 +4821,19 @@ class Worker:
                 if prior_text
                 else ""
             )
+            memory_block = self._recall_facts(f"{str(record.get('goal', ''))[:200]} {intent.text[:200]} {target}")
+            memory_section = (
+                f"Known facts similar to the current step (vector memory):\n{memory_block}\n"
+                if memory_block
+                else ""
+            )
             prompt = (
                 f"Task goal: {str(record.get('goal', ''))[:300]}\n"
                 f"Intent: {intent.text[:300]}\n"
                 f"Target: {target or 'unknown'}\n"
                 f"{context}\n"
                 f"{prior_block}"
+                f"{memory_section}"
                 f"Constraints: {constraints}\n"
                 "Propose up to 3 shell commands to advance this intent, one per line, "
                 "no numbering, no explanations. Use only tools installed on this host. "

@@ -14,6 +14,7 @@ import contextlib
 import io
 import os
 import queue
+import re
 import shlex
 import threading
 import time
@@ -37,6 +38,8 @@ WORKER_JOIN_SEC = 5.0
 TRANSCRIPT_DRAIN_CAP = 500
 STALL_WARN_SEC = 45.0
 STALL_DUMP_SEC = 120.0
+DEFAULT_TARGET_CONCURRENCY = 3
+_MAX_BATCH_TARGETS = 16
 
 
 class ThreadStdoutRouter(io.TextIOBase):
@@ -109,6 +112,8 @@ class LoopRunConfig:
     budget: dict = field(default_factory=dict)
     budget_confirm: bool = False
     extra: dict = field(default_factory=dict)
+    targets_file: str = ""
+    max_concurrent: int = 0
 
     def clamped(self) -> LoopRunConfig:
         """Clamp numeric knobs to the supported operating range."""
@@ -117,10 +122,23 @@ class LoopRunConfig:
         self.timeout = max(0.0, float(self.timeout or 0.0))
         self.step_delay = max(0.0, float(self.step_delay or 0.0))
         self.verb_timeout = max(30.0, float(self.verb_timeout or DEFAULT_VERB_TIMEOUT_SEC))
+        self.max_concurrent = max(0, int(self.max_concurrent or 0))
         return self
 
 
-FLAG_VALUES = ("--target", "--task", "--profile", "--rounds", "--max-steps", "--workers", "--timeout", "--step-delay", "--budget")
+FLAG_VALUES = (
+    "--target",
+    "--task",
+    "--profile",
+    "--rounds",
+    "--max-steps",
+    "--workers",
+    "--timeout",
+    "--step-delay",
+    "--budget",
+    "--targets-from-file",
+    "--max-concurrent",
+)
 FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm")
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
@@ -171,6 +189,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     timeout = 0.0
     step_delay = 0.0
     sandbox = ""
+    targets_file = ""
+    max_concurrent = 0
     no_bootstrap = False
     progress = True
     view = False
@@ -199,6 +219,10 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 task_id = value
             elif token == "--profile":
                 profile = value
+            elif token == "--targets-from-file":
+                targets_file = value
+            elif token == "--max-concurrent":
+                max_concurrent = _to_int(value, 0)
             elif token in ("--rounds", "--max-steps"):
                 rounds = _to_int(value, DEFAULT_ROUNDS)
                 rounds_set = True
@@ -250,6 +274,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         view=view,
         budget=budget,
         budget_confirm=budget_confirm,
+        targets_file=targets_file,
+        max_concurrent=max_concurrent,
     )
 
 
@@ -818,6 +844,61 @@ def _run_plain(engine, config: LoopRunConfig) -> dict:
         return {"task_id": config.task_id, "cancelled": True, "overview": _overview(config.task_id)}
 
 
+def load_targets_file(path: str) -> list[str]:
+    """Read and validate one target per line from a scope file.
+
+    Numeric dotted entries must parse as real IPs (``999.999.1.1`` is
+    rejected even though the hostname regex would accept it); anything
+    else goes through the shared host policy.
+
+    Args:
+        path: Plain-text file; blank lines and ``#`` comments skipped.
+
+    Returns:
+        Deduplicated valid hosts or CIDR blocks, capped at
+        ``_MAX_BATCH_TARGETS``.
+
+    Raises:
+        ValueError: Missing file or no valid target inside.
+    """
+    import ipaddress
+
+    from core.hardening import validate_host
+
+    file_path = Path(str(path or "").strip())
+    if not file_path.is_file():
+        raise ValueError(f"targets file not found: {file_path}")
+    targets: list[str] = []
+    for raw_line in file_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        candidate = raw_line.strip()
+        if not candidate or candidate.startswith("#"):
+            continue
+        host = candidate.split()[0]
+        numeric = all(re.fullmatch(r"[\d.]+(?:/\d{1,2})?", token) for token in host.split("/"))
+        valid = False
+        if numeric and host[:1].isdigit():
+            for parser in (ipaddress.ip_address, lambda value: ipaddress.ip_network(value, strict=False)):
+                try:
+                    parser(host)
+                    valid = True
+                    break
+                except ValueError:
+                    continue
+        else:
+            valid = validate_host(host)
+        if not valid:
+            print_warn(f"[!] targets file skipped invalid entry: {candidate[:60]}")
+            continue
+        if host not in targets:
+            targets.append(host)
+        if len(targets) >= _MAX_BATCH_TARGETS:
+            print_warn(f"[!] targets file capped at {_MAX_BATCH_TARGETS} targets")
+            break
+    if not targets:
+        raise ValueError(f"no valid targets in file: {file_path}")
+    return targets
+
+
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
     """Execute one complete loop run and return its summary.
 
@@ -831,6 +912,8 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
     """
     resolve_loop_defaults(config)
     config.clamped()
+    if config.targets_file and not config.task_id:
+        return _run_targets_file(shell, params, config)
     raw_verb_timeout = (params or {}).get("verb_timeout", 0)
     try:
         if raw_verb_timeout:
@@ -930,9 +1013,62 @@ def _tty_available() -> bool:
     return False
 
 
+def _run_targets_file(shell, params: dict, config: LoopRunConfig) -> dict:
+    """Run one loop per target from a scope file with a concurrency cap.
+
+    Each target gets its own task and worker pool; the semaphore shared
+    through :class:`~modules.loop_guardrails.TargetLimiter` keeps at
+    most ``--max-concurrent`` (default 3) targets active at once so the
+    operator uplink is never saturated.
+    """
+    try:
+        targets = load_targets_file(config.targets_file)
+    except ValueError as exc:
+        print_error(f"lazy_loop: {exc}")
+        return {"error": str(exc)}
+    from dataclasses import replace
+
+    from modules.loop_guardrails import TargetLimiter
+
+    max_concurrent = config.max_concurrent or DEFAULT_TARGET_CONCURRENCY
+    limiter = TargetLimiter(max_concurrent=max_concurrent)
+    print_msg(f"[*] multi-target run: {len(targets)} target(s), max {max_concurrent} concurrent")
+    results: dict[str, dict] = {}
+    lock = threading.Lock()
+
+    def _work_one(target: str) -> None:
+        single = replace(config, targets_file="", target=target, task_id="")
+
+        def _limited() -> dict:
+            with limiter.slot(target):
+                return run_loop(shell, params, single)
+
+        try:
+            summary = _limited()
+        except Exception as exc:
+            summary = {"target": target, "error": str(exc)}
+        with lock:
+            results[target] = summary
+
+    threads = [threading.Thread(target=_work_one, args=(target,), daemon=True) for target in targets]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    ok = sum(1 for summary in results.values() if summary.get("task_id") and not summary.get("error"))  # type: ignore[union-attr]
+    return {
+        "mode": "multi-target",
+        "targets": targets,
+        "ok": ok,
+        "failed": len(results) - ok,
+        "results": results,
+    }
+
+
 __all__ = [
     "LoopRunConfig",
     "build_executor",
+    "load_targets_file",
     "parse_loop_line",
     "report_result",
     "resolve_loop_defaults",

@@ -496,7 +496,7 @@ int main()
 
 **Returns:** `int`
 
-*Calls:* [`AutoSuggestEngine.accept`](cli.autosuggest.py.md#autosuggestengine-accept), [`TrafficLog.bind`](modules.lazy_loop.py.md#trafficlog-bind), [`ensure_ld_preload`](#ensure_ld_preload), [`SessionTranscript.fork`](skills.lazyown_session.py.md#sessiontranscript-fork)
+*Calls:* [`AutoSuggestEngine.accept`](cli.autosuggest.py.md#autosuggestengine-accept), [`TrafficLog.bind`](modules.lazy_loop.py.md#trafficlog-bind), [`EdrPacer.signal`](modules.loop_guardrails.py.md#edrpacer-signal), [`ensure_ld_preload`](#ensure_ld_preload), [`SessionTranscript.fork`](skills.lazyown_session.py.md#sessiontranscript-fork)
 
 ---
 

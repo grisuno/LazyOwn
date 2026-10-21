@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/windows/main_window.py` -> `lazygui/theme/tokens.py`
 - `lazygui/windows/main_window.py` -> `lazygui/widgets/beacon_command_modal.py`
 - `lazygui/windows/main_window.py` -> `lazygui/widgets/command_palette_list.py`
 - `lazygui/windows/main_window.py` -> `lazygui/widgets/status_badge.py`
@@ -269,6 +270,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/llm_factory.py`
 - `modules/lazy_loop.py` -> `modules/llm_pool.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py`
+- `modules/lazy_loop.py` -> `modules/loop_guardrails.py`
 - `modules/lazy_loop.py` -> `modules/loop_triggers.py`
 - `modules/lazy_loop.py` -> `modules/notify.py`
 - `modules/lazy_loop.py` -> `modules/orchestrator_config.py`
@@ -293,6 +295,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_roles.py` -> `modules/lazy_loop.py`
 - `modules/lazy_runner.py` -> `cli/lazy_monitor.py`
 - `modules/lazy_runner.py` -> `core/autonomous.py`
+- `modules/lazy_runner.py` -> `core/hardening.py`
 - `modules/lazy_runner.py` -> `core/terminal_guard.py`
 - `modules/lazy_runner.py` -> `modules/__init__.py`
 - `modules/lazy_runner.py` -> `modules/auto_registry.py`
@@ -301,6 +304,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_runner.py` -> `modules/lazy_engine.py`
 - `modules/lazy_runner.py` -> `modules/lazy_loop.py`
 - `modules/lazy_runner.py` -> `modules/lazy_sandbox.py`
+- `modules/lazy_runner.py` -> `modules/loop_guardrails.py`
 - `modules/lazy_runner.py` -> `modules/loop_progress.py`
 - `modules/lazy_runner.py` -> `utils.py`
 - `modules/lazy_sandbox.py` -> `core/config.py`
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/world_model.py` -> `modules/cli_auth.py`
 - `modules/yaml_generator.py` -> `modules/ai_model.py`
 - `modules/yaml_generator.py` -> `modules/llm_factory.py`
-- `poc_tui/__main__.py` -> `poc_tui/app.py`
-- `poc_tui/app.py` -> `cli/commands/containers.py`
-- `poc_tui/app.py` -> `lazyown.py`
-- `poc_tui/plugin_loader.py` -> `poc_tui/config.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

@@ -12,7 +12,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (82 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (84 connections)
 
 - Status: unanswered
 

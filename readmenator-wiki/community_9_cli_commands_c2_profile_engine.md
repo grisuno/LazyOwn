@@ -1,6 +1,6 @@
 # cli/commands: c2_profile_engine
 
-*Community 8 | 26 files | cohesion 0.41*
+*Community 9 | 26 files | cohesion 0.41*
 
 ## Definition
 
@@ -106,8 +106,8 @@ This community groups 26 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
 
 ## Risks
 

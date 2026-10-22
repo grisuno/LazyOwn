@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_rc4_encrypt` | method | `modules/kerberos_core.py:667` | `def _rc4_encrypt(key, data, usage)` |
+| `aes_decrypt` | method | `modules/kerberos_core.py:361` | `def aes_decrypt(self, key, ciphertext, usage)` |
+| `aes_encrypt` | method | `modules/kerberos_core.py:329` | `def aes_encrypt(self, key, plaintext, usage)` |
+| `build_as_req` | method | `modules/kerberos_core.py:435` | `def build_as_req(self, username, domain, password, etype)` |
+| `build_tgs_req` | method | `modules/kerberos_core.py:489` | `def build_tgs_req(self, params)` |
+| `compute_checksum` | method | `modules/kerberos_core.py:389` | `def compute_checksum(key, data, etype)` |
+| `decrypt_ticket` | method | `modules/kerberos_core.py:563` | `def decrypt_ticket(self, ticket_data, key, etype)` |
+| `derive_aes_key` | method | `modules/kerberos_core.py:282` | `def derive_aes_key(password, salt, etype)` |
+| `derive_rc4_key` | method | `modules/kerberos_core.py:318` | `def derive_rc4_key(password)` |
+| `get_supported_etypes` | method | `modules/kerberos_core.py:427` | `def get_supported_etypes(self)` |
+| `has_flag` | method | `modules/kerberos_core.py:207` | `def has_flag(self, flag_name)` |
+| `is_expired` | method | `modules/kerberos_core.py:706` | `def is_expired(endtime, grace_period)` |
+| `parse_as_rep` | method | `modules/kerberos_core.py:534` | `def parse_as_rep(self, as_rep_data, key, etype)` |
+| `parse_error` | method | `modules/kerberos_core.py:687` | `def parse_error(error_data)` |
+| `parse_pac` | method | `modules/kerberos_core.py:588` | `def parse_pac(self, pac_data)` |
+| `parse_tgs_rep` | method | `modules/kerberos_core.py:550` | `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` |
+| `to_string` | method | `modules/kerberos_core.py:152` | `def to_string(self)` |
+| `validate_flags` | method | `modules/kerberos_core.py:719` | `def validate_flags(ticket, required_flags)` |
+| `validate_pac_checksums` | method | `modules/kerberos_core.py:735` | `def validate_pac_checksums(pac)` |
+| `DiamondTicketConfig` | class | `modules/kerberos_tickets.py:94` | `class DiamondTicketConfig` |
+| `DiamondTicketForger` | class | `modules/kerberos_tickets.py:397` | `class DiamondTicketForger` |
+| `GoldenTicketConfig` | class | `modules/kerberos_tickets.py:65` | `class GoldenTicketConfig` |
+| `GoldenTicketForger` | class | `modules/kerberos_tickets.py:265` | `class GoldenTicketForger` |
+| `SapphireTicketForger` | class | `modules/kerberos_tickets.py:462` | `class SapphireTicketForger` |
+| `SilverTicketConfig` | class | `modules/kerberos_tickets.py:36` | `class SilverTicketConfig` |
+| `SilverTicketForger` | class | `modules/kerberos_tickets.py:124` | `class SilverTicketForger` |
+| `SkeletonKeyInjector` | class | `modules/kerberos_tickets.py:567` | `class SkeletonKeyInjector` |
+| `__init__` | method | `modules/kerberos_tickets.py:131` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:272` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:405` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
 | `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
 | `_build_diamond_pac` | method | `modules/kerberos_tickets.py:446` | `def _build_diamond_pac(self, config)` |
 | `_build_enc_ticket_part` | method | `modules/kerberos_tickets.py:206` | `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `list` | method | `modules/lazy_loop.py:7276` | `def list(self)` |
 | `list` | method | `modules/lazy_loop.py:7382` | `def list(self)` |
 | `list` | method | `modules/lazy_loop.py:7433` | `def list(self, category)` |
-| `list_facts` | method | `modules/lazy_loop.py:1364` | `def list_facts(self, query, limit, hot_full)` |
-| `list_tasks` | method | `modules/lazy_loop.py:7777` | `def list_tasks(self)` |
-| `llm_state` | method | `modules/lazy_loop.py:2738` | `def llm_state(self, task_id)` |
-| `load_intel_scores` | function | `modules/lazy_loop.py:2943` | `def load_intel_scores()` |
-| `log` | method | `modules/lazy_loop.py:7491` | `def log(self, task_id, limit, session)` |
-| `lookup` | method | `modules/lazy_loop.py:1972` | `def lookup(self, tool_use_id)` |
-| `loop_exiting` | function | `modules/lazy_loop.py:408` | `def loop_exiting()` |
-| `loop_graph` | method | `modules/lazy_loop.py:9832` | `def loop_graph(self, task_id)` |
-| `mark_tested` | method | `modules/lazy_loop.py:1025` | `def mark_tested(self, asset_id)` |
-| `match` | method | `modules/lazy_loop.py:7246` | `def match(self, value)` |
-| `members` | method | `modules/lazy_loop.py:6736` | `def members(self)` |
-| `next_pending` | method | `modules/lazy_loop.py:2598` | `def next_pending(self)` |
-| `noa_archives` | method | `modules/lazy_loop.py:5523` | `def noa_archives(self, limit)` |
-| `node_detail` | method | `modules/lazy_loop.py:1348` | `def node_detail(self, node_id)` |
-| `note_trigger` | method | `modules/lazy_loop.py:2396` | `def note_trigger(self, task_id, trigger_id)` |
-| `on_planner_round` | method | `modules/lazy_loop.py:5701` | `def on_planner_round(self)` |
-| `orchestrate` | method | `modules/lazy_loop.py:7670` | `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` |
-| `overview` | method | `modules/lazy_loop.py:1257` | `def overview(self)` |
-| `parents` | method | `modules/lazy_loop.py:1250` | `def parents(self, node_id, kind)` |
-| `parse_judge_output` | function | `modules/lazy_loop.py:841` | `def parse_judge_output(raw)` |
-| `pause` | method | `modules/lazy_loop.py:2653` | `def pause(self, task_id)` |
-| `pause_intent` | method | `modules/lazy_loop.py:8162` | `def pause_intent(self, task_id, intent_id)` |
-| `pause_task` | method | `modules/lazy_loop.py:7805` | `def pause_task(self, task_id, reason)` |
-| `pending` | method | `modules/lazy_loop.py:1410` | `def pending(self)` |
-| `pending` | method | `modules/lazy_loop.py:2469` | `def pending(self)` |
-| `plan` | method | `modules/lazy_loop.py:3072` | `def plan(self, triggers)` |
-| `plausible_command` | function | `modules/lazy_loop.py:157` | `def plausible_command(command)` |
-| `preview_delete_intent` | method | `modules/lazy_loop.py:7994` | `def preview_delete_intent(self, task_id, intent_id)` |
-| `prove_goal` | method | `modules/lazy_loop.py:9070` | `def prove_goal(self, task_id, goal_id, evidence_id, reason)` |
-| `proxy_env` | method | `modules/lazy_loop.py:9200` | `def proxy_env(self)` |
-| `proxy_start` | method | `modules/lazy_loop.py:9150` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `validate_triggers` | function | `modules/trigger_policy.py:40` | `def validate_triggers(raw)` |
+| `TTPCoverage` | class | `modules/ttp_coverage.py:65` | `class TTPCoverage` |
+| `TTPRow` | class | `modules/ttp_coverage.py:55` | `class TTPRow` |
+| `__init__` | method | `modules/ttp_coverage.py:68` | `def __init__(self)` |
+| `_blocking_facts` | method | `modules/ttp_coverage.py:168` | `def _blocking_facts(self, tactic)` |
+| `_load_state` | method | `modules/ttp_coverage.py:248` | `def _load_state(self)` |
+| `_save_state` | method | `modules/ttp_coverage.py:241` | `def _save_state(self)` |
+| `add` | method | `modules/ttp_coverage.py:125` | `def add(self, technique_id, name, tactic, status, operation_id)` |
+| `compute_ready` | method | `modules/ttp_coverage.py:149` | `def compute_ready(self, available_facts)` |
+| `get_coverage` | function | `modules/ttp_coverage.py:260` | `def get_coverage()` |
+| `matrix` | method | `modules/ttp_coverage.py:190` | `def matrix(self)` |
+| `rebuild_from_operations` | method | `modules/ttp_coverage.py:76` | `def rebuild_from_operations(self)` |
+| `status_by_id` | method | `modules/ttp_coverage.py:231` | `def status_by_id(self, technique_id)` |
+| `to_dict` | method | `modules/ttp_coverage.py:234` | `def to_dict(self)` |
+| `_as_list` | function | `modules/ttpscope_bridge.py:460` | `def _as_list(value)` |
+| `_cache_dataset_path` | function | `modules/ttpscope_bridge.py:146` | `def _cache_dataset_path()` |
+| `_fallback_matrix_bundle` | function | `modules/ttpscope_bridge.py:384` | `def _fallback_matrix_bundle(platform)` |
+| `_fallback_matrix_parquet` | function | `modules/ttpscope_bridge.py:453` | `def _fallback_matrix_parquet(platform)` |
+| `_fallback_note` | function | `modules/ttpscope_bridge.py:422` | `def _fallback_note(object_id, text)` |
+| `_fallback_notes` | function | `modules/ttpscope_bridge.py:442` | `def _fallback_notes(object_id)` |
+| `_fallback_search_bundle` | function | `modules/ttpscope_bridge.py:235` | `def _fallback_search_bundle(query, limit)` |
+| `_fallback_search_parquet` | function | `modules/ttpscope_bridge.py:282` | `def _fallback_search_parquet(query, limit)` |
+| `_fallback_show_bundle` | function | `modules/ttpscope_bridge.py:303` | `def _fallback_show_bundle(object_id)` |
+| `_fallback_show_parquet` | function | `modules/ttpscope_bridge.py:350` | `def _fallback_show_parquet(object_id)` |
+| `_fallback_sync` | function | `modules/ttpscope_bridge.py:153` | `def _fallback_sync()` |
+| `_load_atomic_parquet` | function | `modules/ttpscope_bridge.py:273` | `def _load_atomic_parquet()` |
+| `_load_parquet` | function | `modules/ttpscope_bridge.py:259` | `def _load_parquet(name)` |
+| `_load_stix_bundle` | function | `modules/ttpscope_bridge.py:193` | `def _load_stix_bundle()` |
+| `_notes_dir` | function | `modules/ttpscope_bridge.py:415` | `def _notes_dir()` |
+| `_run_ttpscope` | function | `modules/ttpscope_bridge.py:129` | `def _run_ttpscope(args)` |
+| `_slug` | function | `modules/ttpscope_bridge.py:123` | `def _slug(text)` |
 | `_stage` | function | `modules/ttpscope_bridge.py:485` | `def _stage(action, slug, stdout, extra)` |
 | `_stix_external_id` | function | `modules/ttpscope_bridge.py:211` | `def _stix_external_id(obj)` |
 | `_stix_index` | function | `modules/ttpscope_bridge.py:219` | `def _stix_index(bundle)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:223` | `def _load_lua_plugins(self)` |
 | `_load_tool_files` | method | `poc_tui/plugin_loader.py:248` | `def _load_tool_files(self)` |
 | `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:148` | `def _load_yaml_addons(self)` |
-| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
-| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
-| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
-| `_replace_placeholders` | function | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
-| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
-| `_subst` | function | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
-| `_validate_clone_url` | function | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
-| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
-| `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
-| `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:172` | `def wrapper(arg)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:269` | `def wrapper(arg)` |
-| `main` | function | `poc_tui/run.py:9` | `def main()` |
-| `TestLazyOwnTUIApp` | class | `poc_tui/test_app.py:100` | `class TestLazyOwnTUIApp` |
-| `TestShellBackend` | class | `poc_tui/test_app.py:32` | `class TestShellBackend` |
-| `_make_backend` | function | `poc_tui/test_app.py:26` | `def _make_backend()` |
-| `_run_async` | function | `poc_tui/test_app.py:17` | `def _run_async(coro)` |
-| `_t` | function | `poc_tui/test_app.py:106` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:115` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:126` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:136` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:152` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:165` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:182` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:198` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:210` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:225` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:235` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:248` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:270` | `def _t()` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

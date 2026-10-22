@@ -8,6 +8,11 @@ Imported by: `tests/test_improvements_spec.py`
 - `OrchestrationCommandSet.do_status_bar` (method) `cli/commands/orchestration.py:190` `def do_status_bar(self, args)` -- Inspect, toggle and refresh the prompt status bar.
 - `OrchestrationCommandSet.do_orchestrate` (method) `cli/commands/orchestration.py:216` `def do_orchestrate(self, args)` -- Route a goal through the unified orchestrator and print the result.
 
+## cli/commands/params_ops.py
+Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/param_registry.py`, `core/payload_schema.py`, `utils.py`
+Imported by: `tests/test_param_registry.py`
+- `ParamCommandSet.do_param` (method) `cli/commands/params_ops.py:38` `def do_param(self, line)` -- Manage the shared parameter catalog used by addons and aliases.
+
 ## cli/commands/payload_arsenal.py
 Depends on: `cli/commands/_base.py`, `modules/dotnet_payload.py`, `modules/linux_advanced_payloads.py`, `modules/macos_payloads.py`, `modules/polymorphic_engine.py`, `modules/staged_delivery.py`
 - `PayloadArsenalCommandSet.do_dotnet_payload` (method) `cli/commands/payload_arsenal.py:29` `def do_dotnet_payload(self, line)` -- Generate a .NET/C# payload.

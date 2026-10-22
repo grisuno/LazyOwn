@@ -1,12 +1,13 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 164 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 163 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
     cli["cli"]
     contrib["contrib"]
     core["core"]
+    lazyc2["lazyc2"]
     lazygui["lazygui"]
     modules["modules"]
     scripts["scripts"]
@@ -17,6 +18,7 @@ graph LR
     contrib -- "depends on" --> cli
     contrib -- "depends on" --> core
     contrib -- "calls into" --> modules
+    lazyc2 -- "depends on" --> core
     modules -- "depends on" --> core
     modules -- "depends on" --> lazygui
     modules -- "calls into" --> skills
@@ -42,25 +44,29 @@ contrib groups 9 files (py) around parse_github_url, github_api_get, fetch_repo_
 
 core groups 4 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Centralised subprocess wrapper for the LazyOwn framework.
 
-## lazygui (1.4)
+## lazyc2 (1.4)
+
+lazyc2 groups 2 files (py) around configure, load_short_urls, save_short_urls, _get_safe_file_path, is_valid_url. Phishing blueprint for the LazyOwn C2 server.
+
+## lazygui (1.5)
 
 lazygui groups 2 files (py). LazyOwn Operator Console.
 
-## modules (1.5)
+## modules (1.6)
 
-modules groups 78 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
+modules groups 76 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
-## scripts (1.6)
+## scripts (1.7)
 
 scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## skills (1.7)
+## skills (1.8)
 
 skills groups 27 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
 
-## tests (1.8)
+## tests (1.9)
 
-tests groups 38 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -82,6 +88,8 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _make_goal, 
 - core/logging.py
 - core/scheduler.py
 - core/security.py
+- lazyc2/blueprints/phishing.py
+- lazyc2/extensions/short_urls.py
 - lazygui/__init__.py
 - lazygui/version.py
 - modules/agent_runner.py
@@ -127,7 +135,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/llm_client.py
 - modules/llm_evaluator.py
 - modules/llm_factory.py
-- modules/llm_pool.py
 - modules/logging_config.py
 - modules/loop_ai_bridge.py
 - modules/mcp_agent_bridge.py
@@ -135,7 +142,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/memory_store.py
 - modules/metrics.py
 - modules/moe_router.py
-- modules/notify.py
 - modules/obs_parser.py
 - modules/operation.py
 - modules/pipeline_engine.py
@@ -193,7 +199,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/integration_autonomous_flow.py
 - tests/test_aci_planner.py
 - tests/test_auto_loop_memory.py
-- tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
 - tests/test_boyscout_contracts.py
 - tests/test_bridge_catalog_filtered.py

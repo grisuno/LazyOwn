@@ -10,40 +10,48 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `command_descriptions` (function, line 99) `def command_descriptions()`
   - `verb_candidates` (function, line 113) `def verb_candidates()`
   - `LazyOrchestratorApp` (class, line 144) `class LazyOrchestratorApp(OrchestratorAssetsMixin)`
-  - `run_orchestrator_console` (function, line 765) `def run_orchestrator_console(task_id)`
-  - `__init__` (method, line 174) `def __init__(self, payload_path, task_id)`
-  - `compose` (method, line 186) `def compose(self)`
-  - `on_mount` (method, line 231) `def on_mount(self)`
-  - `toggle_stage` (method, line 246) `def toggle_stage(self, name)`
-  - `toggle_verb` (method, line 255) `def toggle_verb(self, name)`
-  - `add_auto_verb` (method, line 271) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
-  - `remove_auto_verb` (method, line 294) `def remove_auto_verb(self, name)`
-  - `_resolve_task` (method, line 302) `def _resolve_task(self)`
-  - `_poll_now` (method, line 320) `def _poll_now(self)`
-  - `on_button_pressed` (method, line 355) `def on_button_pressed(self, event)`
-  - `action_refresh` (method, line 373) `def action_refresh(self)`
-  - `_selected_row` (method, line 386) `def _selected_row(self, table_id)`
-  - `action_toggle_item` (method, line 395) `def action_toggle_item(self)`
-  - `action_save_config` (method, line 425) `def action_save_config(self)`
-  - `_active_tab` (method, line 435) `def _active_tab(self)`
-  - `action_add_item` (method, line 442) `def action_add_item(self)`
-  - `action_edit_item` (method, line 644) `def action_edit_item(self)`
-  - `action_delete_item` (method, line 689) `def action_delete_item(self)`
-  - `_done` (function, line 668) `def _done(values)`
-  - `_picked_kind` (function, line 447) `def _picked_kind(value)`
-  - `_done_trigger` (function, line 451) `def _done_trigger(values)`
-  - `_done` (function, line 476) `def _done(values)`
-  - `_done_rule` (function, line 493) `def _done_rule(values)`
-  - `_picked` (function, line 510) `def _picked(value)`
-  - `_confirmed` (function, line 717) `def _confirmed(answer)`
-  - `_done_verb` (function, line 514) `def _done_verb(values)`
-  - `_done_new` (function, line 556) `def _done_new(values)`
-  - `_confirmed_gym` (function, line 730) `def _confirmed_gym(answer)`
-  - `_done_new_gym` (function, line 584) `def _done_new_gym(values)`
-  - `_done_chain` (function, line 631) `def _done_chain(playbook)`
-  - `_confirmed_trigger` (function, line 755) `def _confirmed_trigger(answer)`
-- Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`
+  - `run_orchestrator_console` (function, line 994) `def run_orchestrator_console(task_id, shell)`
+  - `__init__` (method, line 174) `def __init__(self, payload_path, task_id, shell, param_root)`
+  - `_param_root` (method, line 204) `def _param_root(self)`
+  - `compose` (method, line 208) `def compose(self)`
+  - `on_mount` (method, line 260) `def on_mount(self)`
+  - `toggle_stage` (method, line 276) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 285) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 301) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
+  - `remove_auto_verb` (method, line 324) `def remove_auto_verb(self, name)`
+  - `_resolve_task` (method, line 332) `def _resolve_task(self)`
+  - `_poll_now` (method, line 350) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 385) `def on_button_pressed(self, event)`
+  - `action_refresh` (method, line 403) `def action_refresh(self)`
+  - `_refresh_params` (method, line 417) `def _refresh_params(self)`
+  - `create_param` (method, line 440) `def create_param(self, name, kind, default, description, category)`
+  - `update_param` (method, line 480) `def update_param(self, name, default, description)`
+  - `delete_param` (method, line 512) `def delete_param(self, name)`
+  - `_selected_row` (method, line 535) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 544) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 574) `def action_save_config(self)`
+  - `_active_tab` (method, line 584) `def _active_tab(self)`
+  - `action_add_item` (method, line 591) `def action_add_item(self)`
+  - `action_edit_item` (method, line 823) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 902) `def action_delete_item(self)`
+  - `_done` (function, line 881) `def _done(values)`
+  - `_picked_kind` (function, line 596) `def _picked_kind(value)`
+  - `_done_param` (function, line 854) `def _done_param(values)`
+  - `_done_trigger` (function, line 600) `def _done_trigger(values)`
+  - `_done` (function, line 625) `def _done(values)`
+  - `_done_param` (function, line 642) `def _done_param(values)`
+  - `_done_rule` (function, line 672) `def _done_rule(values)`
+  - `_confirmed` (function, line 930) `def _confirmed(answer)`
+  - `_picked` (function, line 689) `def _picked(value)`
+  - `_confirmed_gym` (function, line 943) `def _confirmed_gym(answer)`
+  - `_done_verb` (function, line 693) `def _done_verb(values)`
+  - `_done_new` (function, line 735) `def _done_new(values)`
+  - `_done_new_gym` (function, line 763) `def _done_new_gym(values)`
+  - `_confirmed_param` (function, line 967) `def _confirmed_param(answer)`
+  - `_done_chain` (function, line 810) `def _done_chain(playbook)`
+  - `_confirmed_trigger` (function, line 984) `def _confirmed_trigger(answer)`
+- Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/param_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
+- Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
 
 ## cli/lazynmap_post.py
 - Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.

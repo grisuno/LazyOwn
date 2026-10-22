@@ -72,9 +72,38 @@ tool:
   aborts with a warning before executing. Declaring a param with a `default:` does
   NOT make it resolve — the default is documentation only.
 - Consequence: every `{token}` in `execute_command`, `install_command`,
-  `remote_command`, `lazycommand`, `upload_file` or `download_file` MUST be either
-  a key from the list below (all present in `payload.json` or `params/extended.yaml`)
-  or a param you register yourself in **all four** places:
+  `remote_command`, `lazycommand`, `upload_file` or `download_file` MUST resolve
+  from one of three places:
+  1. a **builtin** key (the documented list below),
+  2. a **shared** parameter declared in the operator registry
+     (`params/operator.yaml`),
+  3. a parameter declared in the addon YAML itself (`params:`), which then
+     belongs to that addon only.
+- **Declare once, reuse everywhere.** A knob more than one addon could use
+  does NOT go into the addon YAML and does NOT get a payload key of its own.
+  Declare it in the shared registry and it becomes substitutable in every
+  addon, alias and pipeline, and settable with `assign`, without touching a
+  single source file:
+
+  ```bash
+  param create c2_profile --kind string --default "default" --desc "C2 profile name"
+  # or: lazy_orchestrator -> Params tab -> a
+  ```
+
+  The registry writes `params/operator.yaml`; `core/payload_schema.py` and the
+  addon-creator validator pick the key up automatically. **Never** hand-edit
+  `core/payload_schema.py`, `lazyc2/addon_creator.py` or the key list below
+  for an operator parameter: the registry is the single source of truth.
+- **Generic names only — no branding.** A token named after the tool that
+  first needed it (`php2shell_url`, `commix_target`, `foo_profile`) is a
+  defect: it burns one payload key per addon and the repository ends up with
+  thousands of single-consumer keys. Name the concept, not the tool:
+  `url`, `target`, `path`, `profile`, `exploit_profile`, `outputdir`, `data`.
+  When no generic name fits, create a generic one in the registry and let
+  every addon share it.
+- **Builtin keys are the exception.** A key that belongs to the framework
+  itself (routing, C2 wiring, session state) may still be hardcoded, but it
+  is registered in **all four** places:
   1. `params/extended.yaml` (runtime value + makes `assign <key>` work; never edit
      `payload.json` by hand — use `assign` / `lazyown_set_config`),
   2. `core/payload_schema.py` SCHEMA (type coercion + validation),
@@ -95,7 +124,9 @@ tool:
     and the description must say so.
 - The default command must be complete and useful with zero free args.
 
-Known `payload.json` keys (no declaration needed beyond the `params` entry):
+Known builtin `payload.json` keys (no declaration needed beyond the `params`
+entry). Operator parameters are declared at runtime in `params/operator.yaml`
+and are therefore not listed here.
 
 ```
 aes_key api_key action backdoor_linux_home backdoor_password backdoor_username backdoor_win_home
@@ -118,7 +149,6 @@ user_agent_win username usrwordlist wordlist orchestrator
 local_llm llamacpp_host llm_model_llamacpp agent_model_timeout
 android_serial dirtyinit_device_path
 wifi_ssid
-php2shell_url php2shell_profile
 ```
 
 ## Step 5 — Runtime order (design against this, not against wishes)
@@ -177,12 +207,19 @@ python3 -m pytest tests/test_placeholder_coverage.py -q
 This locks all of the above across the whole repo: validator allowlist ⊇ live keys,
 schema ⊇ live keys, skill list ⊇ validator, every addon token declared-or-known,
 every enabled-addon token present in live shell params, every `required: true`
-param without `default:` present in live params. If it fails, register the missing
-key in the four places from Step 4 — do not paper over it with a YAML `default:`.
+param without `default:` present in live params. If it fails, do NOT paper over it
+with a YAML `default:`. Fix it the right way:
+
+- missing key that other addons could use → declare it once in the shared
+  registry: `param create <generic_name> --kind string --default "" --desc "..."`
+  (or `lazy_orchestrator` → Params tab). The schema and the validator pick it
+  up automatically; no source edit.
+- missing key that belongs to the framework itself → register it in the four
+  places from Step 4.
 
 Plus these manual assertions — every one must hold:
 
-1. `enabled: true` present. 2. `name` matches `^[a-z][a-z0-9_]{0,63}$` and file is `lazyaddons/<name>.yaml`. 3. `version` is digits-and-dots. 4. `repo_url` ends with `.git` (unless archetype E, which omits `repo_url` + `install_path`). 5. No `{{`/`}}` anywhere. 6. Every `{token}` resolves from live shell params (`payload.json` ∪ `params/*.yaml`) — verify with `python3 -c "import json,yaml,glob; live=set(json.load(open('payload.json'))); [live.update((yaml.safe_load(open(f)) or {}).keys()) for f in glob.glob('params/*.yaml')]; print('cloud_region' in live)"`. 7. Every `required: true` param without `default:` exists in live params. 8. `execute_command` is the tool's primary usage, complete without free args. 9. No commas inside any single `lazycommand`/`upload_file`/`download_file` entry. 10. `description` documents first-time setup + the `assign <key>` flow (only for keys that exist) + free-args examples. 11. `install_command` is non-interactive and idempotent enough for a fresh clone. 12. `category`/`os`/`trigger` match the Step 8 tables. 13. No secrets as placeholders — env vars or free args only.
+1. `enabled: true` present. 2. `name` matches `^[a-z][a-z0-9_]{0,63}$` and file is `lazyaddons/<name>.yaml`. 3. `version` is digits-and-dots. 4. `repo_url` ends with `.git` (unless archetype E, which omits `repo_url` + `install_path`). 5. No `{{`/`}}` anywhere. 6. Every `{token}` resolves from live shell params (`payload.json` ∪ `params/*.yaml`) — verify with `python3 -c "import json,yaml,glob; live=set(json.load(open('payload.json'))); [live.update((yaml.safe_load(open(f)) or {}).keys()) for f in glob.glob('params/*.yaml')]; print('cloud_region' in live)"`. 7. Every `required: true` param without `default:` exists in live params. 8. `execute_command` is the tool's primary usage, complete without free args. 9. No commas inside any single `lazycommand`/`upload_file`/`download_file` entry. 10. `description` documents first-time setup + the `assign <key>` flow (only for keys that exist) + free-args examples. 11. `install_command` is non-interactive and idempotent enough for a fresh clone. 12. `category`/`os`/`trigger` match the Step 8 tables. 13. No secrets as placeholders — env vars or free args only. 14. No branded placeholder: every token is a builtin key, a shared registry parameter, or a concept name (`url`, `target`, `profile`) — never a tool name.
 
 ## Step 10 — Write and register
 

@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 115 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
+modules: lazy_loop groups 115 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. exploit commands migrated from lazyown.py.
 
 ```mermaid
 graph LR
@@ -22,39 +22,36 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (3.1)
+## cli (4.1)
 
-cli groups 13 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 10 files (py) around filter_candidates, FormModal, __init__, compose, _values. exploit commands migrated from lazyown.py.
 
-## core (3.2)
+## core (4.2)
 
 core groups 3 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Autonomous-run mode for the loop engine.
 
-## lazyc2 (3.3)
+## lazyc2 (4.3)
 
 lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _status_payload, status. Orchestrator REST + web panel for the LazyOwn C2 dashboard.
 
-## modules (3.4)
+## modules (4.4)
 
-modules groups 49 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 50 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
 
-## tests (3.5)
+## tests (4.5)
 
-tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
-- cli/commands/containers.py
 - cli/commands/exploit_migrated.py
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
-- cli/commands/purple_team.py
 - cli/commands/redteam_gym.py
 - cli/commands/retry_ops.py
 - cli/lazy_monitor.py
 - cli/lazy_orchestrator.py
 - cli/orchestrator_assets_tabs.py
-- cli/purple_tui.py
 - cli/session_brief.py
 - cli/tui_forms.py
 - core/autonomous.py
@@ -64,7 +61,6 @@ tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/__init__.py
 - modules/adcs_attacks.py
 - modules/atomic_exploit_bridge.py
-- modules/auto_purple.py
 - modules/auto_registry.py
 - modules/custom_tools.py
 - modules/exploit_chain.py
@@ -77,6 +73,7 @@ tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_installer.py
 - modules/lazy_intel.py
 - modules/lazy_loop.py
+- modules/lazy_mentions.py
 - modules/lazy_orchestrator_feedback.py
 - modules/lazy_proxy.py
 - modules/lazy_roles.py
@@ -84,11 +81,12 @@ tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_sandbox.py
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
-- modules/lazyk8s.py
+- modules/llm_pool.py
 - modules/loop_guardrails.py
 - modules/loop_progress.py
 - modules/loop_triggers.py
 - modules/metasploitable_gym.py
+- modules/notify.py
 - modules/orchestrator_config.py
 - modules/outcome_bus.py
 - modules/playbook_admin.py
@@ -113,6 +111,7 @@ tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/conftest.py
 - tests/test_aes_key_propagation.py
 - tests/test_auto_registry.py
+- tests/test_autonomous_ops.py
 - tests/test_chain_list_command.py
 - tests/test_gym_cli.py
 - tests/test_gym_ms2_cli.py
@@ -153,6 +152,7 @@ tests groups 49 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_pi_leg.py
 - tests/test_playbook_admin.py
 - tests/test_reaction_bridge.py
+- tests/test_security_codeql_batch.py
 - tests/test_session_brief.py
 - tests/test_trigger_policy.py
 - tests/test_ttpscope_bridge.py

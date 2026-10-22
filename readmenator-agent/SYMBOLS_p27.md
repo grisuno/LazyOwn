@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_mcp_hive_collect_no_ids` | method | `skills/tests/test_hive_mind.py:660` | `def test_mcp_hive_collect_no_ids(self)` |
+| `test_mcp_hive_forget_returns_pruned_count` | method | `skills/tests/test_hive_mind.py:636` | `def test_mcp_hive_forget_returns_pruned_count(self)` |
+| `test_mcp_hive_plan_returns_parseable_string` | method | `skills/tests/test_hive_mind.py:610` | `def test_mcp_hive_plan_returns_parseable_string(self)` |
+| `test_mcp_hive_recall_no_results` | method | `skills/tests/test_hive_mind.py:629` | `def test_mcp_hive_recall_no_results(self)` |
+| `test_mcp_hive_recover_no_interrupted` | method | `skills/tests/test_hive_mind.py:862` | `def test_mcp_hive_recover_no_interrupted(self)` |
+| `test_mcp_hive_result_unknown_drone` | method | `skills/tests/test_hive_mind.py:652` | `def test_mcp_hive_result_unknown_drone(self)` |
+| `test_mcp_hive_spawn_single` | method | `skills/tests/test_hive_mind.py:643` | `def test_mcp_hive_spawn_single(self)` |
+| `test_mcp_hive_status_contains_fields` | method | `skills/tests/test_hive_mind.py:619` | `def test_mcp_hive_status_contains_fields(self)` |
+| `test_pending_count_after_publish` | method | `skills/tests/test_hive_mind.py:321` | `def test_pending_count_after_publish(self)` |
+| `test_plan_ad_goal` | method | `skills/tests/test_hive_mind.py:461` | `def test_plan_ad_goal(self)` |
+| `test_plan_enum_returns_multiple_tasks` | method | `skills/tests/test_hive_mind.py:446` | `def test_plan_enum_returns_multiple_tasks(self)` |
+| `test_plan_exploit_goal` | method | `skills/tests/test_hive_mind.py:454` | `def test_plan_exploit_goal(self)` |
+| `test_plan_generic_goal` | method | `skills/tests/test_hive_mind.py:468` | `def test_plan_generic_goal(self)` |
+| `test_plan_n_drones_pads_to_requested` | method | `skills/tests/test_hive_mind.py:474` | `def test_plan_n_drones_pads_to_requested(self)` |
+| `test_publish_and_receive` | method | `skills/tests/test_hive_mind.py:301` | `def test_publish_and_receive(self)` |
+| `test_recall_deduplication` | method | `skills/tests/test_hive_mind.py:244` | `def test_recall_deduplication(self)` |
+| `test_recall_from_memory_after_store` | method | `skills/tests/test_hive_mind.py:542` | `def test_recall_from_memory_after_store(self)` |
+| `test_recall_fts_multiple_hits` | method | `skills/tests/test_hive_mind.py:104` | `def test_recall_fts_multiple_hits(self)` |
+| `test_recall_keyword_found` | method | `skills/tests/test_hive_mind.py:89` | `def test_recall_keyword_found(self)` |
+| `test_recall_keyword_not_found` | method | `skills/tests/test_hive_mind.py:97` | `def test_recall_keyword_not_found(self)` |
+| `test_recall_with_mock_chroma` | method | `skills/tests/test_hive_mind.py:192` | `def test_recall_with_mock_chroma(self)` |
+| `test_receive_drains_direct_mailbox` | method | `skills/tests/test_hive_mind.py:329` | `def test_receive_drains_direct_mailbox(self)` |
+| `test_recover_from_store_marks_interrupted` | method | `skills/tests/test_hive_mind.py:798` | `def test_recover_from_store_marks_interrupted(self)` |
+| `test_requeue_interrupted_respawns_drones` | method | `skills/tests/test_hive_mind.py:825` | `def test_requeue_interrupted_respawns_drones(self)` |
+| `test_spawn_persists_initial_state` | method | `skills/tests/test_hive_mind.py:789` | `def test_spawn_persists_initial_state(self)` |
+| `test_spawn_returns_drone_id` | method | `skills/tests/test_hive_mind.py:365` | `def test_spawn_returns_drone_id(self)` |
+| `test_spawn_single_drone` | method | `skills/tests/test_hive_mind.py:534` | `def test_spawn_single_drone(self)` |
+| `test_stats_contains_expected_keys` | method | `skills/tests/test_hive_mind.py:269` | `def test_stats_contains_expected_keys(self)` |
+| `test_stats_counts_rows` | method | `skills/tests/test_hive_mind.py:112` | `def test_stats_counts_rows(self)` |
+| `test_status_contains_expected_fields` | method | `skills/tests/test_hive_mind.py:549` | `def test_status_contains_expected_fields(self)` |
+| `test_store_and_recall` | method | `skills/tests/test_hive_mind.py:236` | `def test_store_and_recall(self)` |
 | `test_store_returns_id` | method | `skills/tests/test_hive_mind.py:169` | `def test_store_returns_id(self)` |
 | `test_store_returns_nonempty_id` | method | `skills/tests/test_hive_mind.py:82` | `def test_store_returns_nonempty_id(self)` |
 | `test_synthesize_structure` | method | `skills/tests/test_hive_mind.py:489` | `def test_synthesize_structure(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `ye` | function | `static/js/chart.min.js:13` | `` |
 | `yt` | function | `static/js/chart.min.js:13` | `` |
 | `Cn` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `Fi` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Ho` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Jo` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `Tr` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `as` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `as` | class | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `b` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `c` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `e` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `e` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `f` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `h` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `ha` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `i` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `l` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `n` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `o` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `o` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `or` | class | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `r` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `s` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `sa` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `t` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `ti` | function | `static/js/force-graph-1.43.5.min.js:2` | `` |
-| `u` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `v` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `y` | function | `static/js/force-graph-1.43.5.min.js:5` | `` |
-| `B` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

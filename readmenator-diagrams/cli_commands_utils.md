@@ -1,6 +1,6 @@
 # cli/commands: utils
 
-cli/commands: utils groups 146 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands: utils groups 148 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -38,7 +38,7 @@ graph LR
 
 ## cli (2.1)
 
-cli groups 63 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 64 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
 ## contrib (2.2)
 
@@ -46,7 +46,7 @@ contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, 
 
 ## core (2.3)
 
-core groups 7 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Centralized security hardening utilities for the LazyOwn framework.
+core groups 8 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
 
 ## modules (2.4)
 
@@ -89,6 +89,7 @@ tests groups 41 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
+- cli/commands/defaults.py
 - cli/commands/demo.py
 - cli/commands/diagnostics.py
 - cli/commands/dns_exfil.py
@@ -137,6 +138,7 @@ tests groups 41 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - contrib/legacy/lazygalazy.py
 - contrib/legacy/lazyhttpreverseshell.py
 - contrib/legacy/lazysmbrelay.py
+- core/defaults.py
 - core/hardening.py
 - core/host_policy.py
 - core/reverse_shell_secret.py

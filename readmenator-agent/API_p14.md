@@ -1,6 +1,38 @@
 # API (page 14 of 24)
 Previous: [API_p13.md](API_p13.md)
 
+## modules/lazyatack.sh
+- `mostrar_ayuda` (function) `modules/lazyatack.sh:21` -- Función para mostrar ayuda
+- `validar_ip` (function) `modules/lazyatack.sh:33` -- Función para validar una dirección IP
+- `validar_url` (function) `modules/lazyatack.sh:49` -- Función para validar URL
+- `descargar_seclists` (function) `modules/lazyatack.sh:107` -- Función para descargar y extraer SecLists
+- `escanear_puertos` (function) `modules/lazyatack.sh:115` -- Función para ejecutar escaneo de puertos con nmap
+- `escanear_puertos_especificos` (function) `modules/lazyatack.sh:121` -- Función para escanear puertos específicos
+- `enumerar_http` (function) `modules/lazyatack.sh:127` -- Función para enumerar servicios HTTP
+- `iniciar_servidor_http` (function) `modules/lazyatack.sh:133` -- Función para iniciar servidor HTTP con Python
+- `configurar_netcat` (function) `modules/lazyatack.sh:139` -- Función para configurar netcat
+- `enviar_archivo_netcat` (function) `modules/lazyatack.sh:145` -- Función para enviar archivo mediante bash a netcat
+- `verificar_conectividad` (function) `modules/lazyatack.sh:151` -- Función para verificar conectividad con ping y tcpdump
+- `verificar_curl` (function) `modules/lazyatack.sh:158` -- Función para verificar conectividad con curl
+- `configurar_shell_reversa` (function) `modules/lazyatack.sh:165` -- Función para configurar una shell reversa
+- `escuchar_shell` (function) `modules/lazyatack.sh:171` -- Función para escuchar shell con netcat
+- `monitorear_procesos` (function) `modules/lazyatack.sh:177` -- Función para monitorear procesos
+- `ejecutar_wfuzz` (function) `modules/lazyatack.sh:188` -- Función para ejecutar wfuzz
+- `comprobar_sudo` (function) `modules/lazyatack.sh:194` -- Función para comprobar permisos sudo
+- `explotar_lfi` (function) `modules/lazyatack.sh:200` -- Función para explotar LFI
+- `configurar_tty` (function) `modules/lazyatack.sh:206` -- Función para configurar TTY
+- `eliminar_archivos` (function) `modules/lazyatack.sh:217` -- Función para eliminar archivos de forma segura
+- `obtener_root_shell` (function) `modules/lazyatack.sh:223` -- Función para obtener root shell mediante Docker
+- `enumerar_suid` (function) `modules/lazyatack.sh:230` -- Función para enumerar archivos con SUID
+- `listar_timers` (function) `modules/lazyatack.sh:236` -- Función para listar timers de systemd
+- `comprobar_rutas` (function) `modules/lazyatack.sh:242` -- Función para comprobar rutas de comandos
+- `abusar_tar` (function) `modules/lazyatack.sh:248` -- Función para abusar de tar
+- `enumerar_puertos` (function) `modules/lazyatack.sh:254` -- Función para enumerar puertos abiertos
+- `eliminar_contenedores_docker` (function) `modules/lazyatack.sh:260` -- Función para eliminar contenedores Docker
+- `escanear_red` (function) `modules/lazyatack.sh:266` -- Función para escanear red
+- `menu_servidor` (function) `modules/lazyatack.sh:272` -- Función para mostrar menú en modo servidor
+- `menu_cliente` (function) `modules/lazyatack.sh:307` -- Función para mostrar menú en modo cliente
+
 ## modules/lazycloud.py
 Imported by: `cli/commands/cloud.py`
 - `CloudMetadataHarvester.__init__` (method) `modules/lazycloud.py:111` `def __init__(self, timeout)`
@@ -463,32 +495,6 @@ Imported by: `cli/commands/payload_arsenal.py`
 - `MacOSPayloadFactory.generate_all` (method) `modules/macos_payloads.py:470` `def generate_all(self)` -- Generate all macOS payload artifacts.
 - `MacOSPayloadFactory.list_tcc_services` (method) `modules/macos_payloads.py:517` `def list_tcc_services()` -- Return the list of known TCC service identifiers.
 - `MacOSPayloadFactory.list_persistence_methods` (method) `modules/macos_payloads.py:522` `def list_persistence_methods()` -- Return the list of available persistence methods for macOS.
-
-## modules/mario.py
-- `check_collision` (function) `modules/mario.py:105` `def check_collision(x, y, layer)`
-
-## modules/mcp_agent_bridge.py
-Depends on: `core/logging.py`, `modules/llm_factory.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
-- `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
-- `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
-- `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
-- `GroqAgentWorker.__init__` (method) `modules/mcp_agent_bridge.py:235` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `GroqAgentWorker.run` (method) `modules/mcp_agent_bridge.py:264` `def run(self)`
-- `OllamaReActWorker.__init__` (method) `modules/mcp_agent_bridge.py:368` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `OllamaReActWorker.run` (method) `modules/mcp_agent_bridge.py:389` `def run(self)`
-- `AgentBridgeWorker.__init__` (method) `modules/mcp_agent_bridge.py:471` `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)`
-- `AgentBridgeWorker.run` (method) `modules/mcp_agent_bridge.py:478` `def run(self)`
-- `start_agent` (function) `modules/mcp_agent_bridge.py:508` `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` -- Start an agent in a background thread.
-- `dummy_runner` (function) `modules/mcp_agent_bridge.py:531` `def dummy_runner(cmd)`
-
-## modules/memory_cleaner.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `MemoryCleaner.__init__` (method) `modules/memory_cleaner.py:61` `def __init__(self, config)`
-- `MemoryCleaner.windows_memory_cleanup` (method) `modules/memory_cleaner.py:64` `def windows_memory_cleanup(self)` -- Generate Windows memory artifact cleanup commands.
-- `MemoryCleaner.linux_memory_cleanup` (method) `modules/memory_cleaner.py:151` `def linux_memory_cleanup(self)` -- Generate Linux memory artifact cleanup commands.
-- `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
-- `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
 
 
 Next: [API_p15.md](API_p15.md)

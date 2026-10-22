@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `PayloadConfigAdapter` | class | `modules/c2_messaging_base.py:117` | `class PayloadConfigAdapter` |
+| `SecureSessionManager` | class | `modules/c2_messaging_base.py:9` | `class SecureSessionManager` |
+| `__getitem__` | method | `modules/c2_messaging_base.py:129` | `def __getitem__(self, key)` |
+| `__init__` | method | `modules/c2_messaging_base.py:22` | `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)` |
+| `__init__` | method | `modules/c2_messaging_base.py:124` | `def __init__(self, config_dict)` |
+| `check_lockout` | method | `modules/c2_messaging_base.py:46` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `modules/c2_messaging_base.py:61` | `def check_rate_limit(self, user_id)` |
+| `create_session` | method | `modules/c2_messaging_base.py:79` | `def create_session(self, user_id, client_id)` |
+| `get` | method | `modules/c2_messaging_base.py:132` | `def get(self, key, default)` |
+| `get_client` | method | `modules/c2_messaging_base.py:111` | `def get_client(self, user_id)` |
+| `register_failed_attempt` | method | `modules/c2_messaging_base.py:37` | `def register_failed_attempt(self, user_id)` |
+| `set_client` | method | `modules/c2_messaging_base.py:106` | `def set_client(self, user_id, client_id)` |
+| `validate_session` | method | `modules/c2_messaging_base.py:89` | `def validate_session(self, user_id)` |
+| `C2Profile` | class | `modules/c2_profile.py:81` | `class C2Profile` |
+| `HttpConfig` | class | `modules/c2_profile.py:62` | `class HttpConfig` |
+| `ProfileApplier` | class | `modules/c2_profile.py:520` | `class ProfileApplier` |
+| `ProfileLoader` | class | `modules/c2_profile.py:187` | `class ProfileLoader` |
+| `ProfileRegistry` | class | `modules/c2_profile.py:449` | `class ProfileRegistry` |
+| `ProfileValidator` | class | `modules/c2_profile.py:155` | `class ProfileValidator` |
+| `SleepConfig` | class | `modules/c2_profile.py:54` | `class SleepConfig` |
+| `StagerConfig` | class | `modules/c2_profile.py:72` | `class StagerConfig` |
+| `__init__` | method | `modules/c2_profile.py:457` | `def __init__(self)` |
+| `_config_for` | method | `modules/c2_profile.py:144` | `def _config_for(self, method)` |
+| `_make_aggressive_profile` | function | `modules/c2_profile.py:385` | `def _make_aggressive_profile()` |
+| `_make_debug_profile` | function | `modules/c2_profile.py:410` | `def _make_debug_profile()` |
+| `_make_default_profile` | function | `modules/c2_profile.py:308` | `def _make_default_profile()` |
+| `_make_stealth_profile` | function | `modules/c2_profile.py:339` | `def _make_stealth_profile()` |
+| `apply_to_response` | method | `modules/c2_profile.py:529` | `def apply_to_response(profile, response)` |
+| `apply_to_session` | method | `modules/c2_profile.py:554` | `def apply_to_session(profile, session)` |
+| `build_headers` | method | `modules/c2_profile.py:128` | `def build_headers(self, method)` |
+| `from_dict` | method | `modules/c2_profile.py:215` | `def from_dict(d)` |
 | `from_yaml` | method | `modules/c2_profile.py:200` | `def from_yaml(path)` |
 | `get` | method | `modules/c2_profile.py:473` | `def get(self, name)` |
 | `get_beacon_config` | method | `modules/c2_profile.py:567` | `def get_beacon_config(profile)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `migration_status` | method | `modules/db.py:222` | `def migration_status(self)` |
 | `note_add` | method | `modules/db.py:631` | `def note_add(self, workspace_id, data, note_type, host_id)` |
 | `note_list` | method | `modules/db.py:648` | `def note_list(self, workspace_id)` |
-| `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
-| `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
-| `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
-| `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
-| `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
-| `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
-| `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
-| `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
-| `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
-| `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
-| `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
-| `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
-| `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
-| `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
-| `__init__` | method | `modules/delegation_attacks.py:98` | `def __init__(self, domain, raw_ldap_output)` |
-| `compute_attack_paths` | method | `modules/delegation_attacks.py:215` | `def compute_attack_paths(self)` |
-| `enumerate_from_uac_flags` | method | `modules/delegation_attacks.py:104` | `def enumerate_from_uac_flags(self, accounts)` |
-| `find_constrained_targets` | method | `modules/delegation_attacks.py:189` | `def find_constrained_targets(self)` |
-| `find_dc_targets` | method | `modules/delegation_attacks.py:205` | `def find_dc_targets(self)` |
-| `find_rbcd_targets` | method | `modules/delegation_attacks.py:197` | `def find_rbcd_targets(self)` |
-| `find_unconstrained_targets` | method | `modules/delegation_attacks.py:181` | `def find_unconstrained_targets(self)` |
-| `parse_bloodhound_output` | method | `modules/delegation_attacks.py:151` | `def parse_bloodhound_output(self, bloodhound_json)` |
-| `summary` | method | `modules/delegation_attacks.py:296` | `def summary(self)` |
-| `obtener_informacion` | function | `modules/detailed_search.py:40` | `def obtener_informacion(url)` |
-| `DetectionFeed` | class | `modules/detection_feed.py:73` | `class DetectionFeed` |
-| `FeedResult` | class | `modules/detection_feed.py:64` | `class FeedResult` |
-| `__init__` | method | `modules/detection_feed.py:83` | `def __init__(self, cache_dir, sources)` |
-| `_cache_rules` | method | `modules/detection_feed.py:219` | `def _cache_rules(self, rules, source)` |
-| `_extract_categories` | method | `modules/detection_feed.py:206` | `def _extract_categories(self, doc)` |
-| `_extract_keywords` | method | `modules/detection_feed.py:189` | `def _extract_keywords(self, doc)` |
-| `_extract_log_source` | method | `modules/detection_feed.py:172` | `def _extract_log_source(self, doc)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

@@ -1,6 +1,66 @@
 # API (page 12 of 24)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/fast_run_service.sh
+- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
+- `log_info` (function) `modules/fast_run_service.sh:73`
+- `log_warn` (function) `modules/fast_run_service.sh:77`
+- `log_error` (function) `modules/fast_run_service.sh:81`
+- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
+- `require_deps` (function) `modules/fast_run_service.sh:97`
+- `require_paths` (function) `modules/fast_run_service.sh:113`
+- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
+- `load_config` (function) `modules/fast_run_service.sh:139`
+- `config_truthy` (function) `modules/fast_run_service.sh:155`
+- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
+- `log_file_for` (function) `modules/fast_run_service.sh:171`
+- `read_pid_value` (function) `modules/fast_run_service.sh:176`
+- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
+- `is_service_running` (function) `modules/fast_run_service.sh:194`
+- `write_pid_file` (function) `modules/fast_run_service.sh:201`
+- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
+- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
+- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
+- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
+- `stop_named_service` (function) `modules/fast_run_service.sh:292`
+- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
+- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
+- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
+- `start_www_service` (function) `modules/fast_run_service.sh:356`
+- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
+- `start_discord_service` (function) `modules/fast_run_service.sh:380`
+- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
+- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
+- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
+- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
+- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
+- `cmd_stop` (function) `modules/fast_run_service.sh:465`
+- `cmd_restart` (function) `modules/fast_run_service.sh:480`
+- `cmd_status` (function) `modules/fast_run_service.sh:486`
+- `cmd_logs` (function) `modules/fast_run_service.sh:505`
+- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
+- `usage` (function) `modules/fast_run_service.sh:528`
+- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
+
+## modules/finding_lifecycle.py
+Depends on: `modules/osint_enrich.py`
+Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+- `confirm` (function) `modules/finding_lifecycle.py:61` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
+- `reject` (function) `modules/finding_lifecycle.py:90` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
+- `add_dead_end` (function) `modules/finding_lifecycle.py:104` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
+- `is_dead_end` (function) `modules/finding_lifecycle.py:116` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
+- `suppressed_values` (function) `modules/finding_lifecycle.py:123` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
+- `resolve` (function) `modules/finding_lifecycle.py:129` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
+- `apply_confirmation` (function) `modules/finding_lifecycle.py:154` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+- `record` (function) `modules/finding_lifecycle.py:234` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
+- `findings_for` (function) `modules/finding_lifecycle.py:259` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
+- `set_status` (function) `modules/finding_lifecycle.py:264` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
+- `has_running_retest` (function) `modules/finding_lifecycle.py:310` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
+- `request_retest` (function) `modules/finding_lifecycle.py:318` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
+- `resolve_retest` (function) `modules/finding_lifecycle.py:338` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
+- `classify_retest` (function) `modules/finding_lifecycle.py:384` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
+- `render_markdown` (function) `modules/finding_lifecycle.py:403` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
+
 ## modules/forensic_cleaner.py
 Imported by: `cli/commands/opsec_cleanup.py`
 - `ForensicCleaner.__init__` (method) `modules/forensic_cleaner.py:67` `def __init__(self, config)`
@@ -424,44 +484,6 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown
 - `push_objective_to_lazy` (function) `modules/lazy_bridge.py:429` `def push_objective_to_lazy(goal, scope)` -- Export a LazyOwn objective as an LAZY-compatible task draft.
 - `push_tasks_to_c2` (function) `modules/lazy_bridge.py:454` `def push_tasks_to_c2(only)` -- Mirror loop tasks into the lazyc2 Kanban board (sessions/tasks.json).
 - `sync_all` (function) `modules/lazy_bridge.py:519` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
-
-## modules/lazy_cli_bridge.py
-Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
-- `cli_verbs` (function) `modules/lazy_cli_bridge.py:106` `def cli_verbs()` -- Return every discovered shell verb, cached by source mtime.
-- `is_cli_verb` (function) `modules/lazy_cli_bridge.py:125` `def is_cli_verb(name)` -- Return True when name is a real shell command.
-- `phase_for` (function) `modules/lazy_cli_bridge.py:131` `def phase_for(verb)` -- Map a verb to its kill-chain phase via keyword affinity.
-- `risk_for` (function) `modules/lazy_cli_bridge.py:140` `def risk_for(verb)` -- Classify a verb as safe, exploit or high risk.
-- `needs_target_for` (function) `modules/lazy_cli_bridge.py:150` `def needs_target_for(verb)` -- Return whether the verb usually carries a target argument.
-- `build_cli_command` (function) `modules/lazy_cli_bridge.py:158` `def build_cli_command(verb, target)` -- Build a shell line for any CLI verb bound to target.
-- `search_cli_verbs` (function) `modules/lazy_cli_bridge.py:185` `def search_cli_verbs(query, phase, limit)` -- Search the full CLI catalog by keyword and phase.
-- `cli_catalog_for_phase` (function) `modules/lazy_cli_bridge.py:211` `def cli_catalog_for_phase(phase, limit)` -- Return a compact verb list for LLM prompt injection.
-- `catalog_cli_for_phase` (function) `modules/lazy_cli_bridge.py:219` `def catalog_cli_for_phase(limit)` -- Return enabled catalog commands for the current kill-chain phase.
-- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:253` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
-- `set_full_cli` (function) `modules/lazy_cli_bridge.py:276` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
-
-## modules/lazy_installer.py
-Depends on: `core/config.py`, `modules/auto_registry.py`
-Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`
-- `installer_enabled` (function) `modules/lazy_installer.py:41` `def installer_enabled()` -- Return whether the loop may resolve install intents.
-- `set_installer_enabled` (function) `modules/lazy_installer.py:58` `def set_installer_enabled(enabled)` -- Persist the installer flag and return the stored value.
-- `install_command_for` (function) `modules/lazy_installer.py:70` `def install_command_for(tool)` -- Return the allowlisted install recipe for one tool, or None.
-- `intent_for` (function) `modules/lazy_installer.py:75` `def intent_for(tool)` -- Build the canonical install intent summary for one tool.
-- `tool_from_intent` (function) `modules/lazy_installer.py:80` `def tool_from_intent(text)` -- Extract the tool name from an install intent, else empty string.
-- `steps_for_install` (function) `modules/lazy_installer.py:88` `def steps_for_install(text)` -- Resolve an install intent to its recipe, or None.
-
-## modules/lazy_intel.py
-Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/world_model.py`, `utils.py`
-Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/sinks/routing.py`, `tests/test_loop_supervision.py`
-- `infer_source` (function) `modules/lazy_intel.py:79` `def infer_source(command, intent_text)` -- Classify where a resolved step likely came from.
-- `describe_command` (function) `modules/lazy_intel.py:105` `def describe_command(command)` -- Describe a command with phase and risk.
-- `record_routing_decision` (function) `modules/lazy_intel.py:120` `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` -- Record which verb the loop chose for one intent.
-- `record_routing_outcome` (function) `modules/lazy_intel.py:160` `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` -- Record the terminal outcome of one executed command.
-- `read_decisions` (function) `modules/lazy_intel.py:202` `def read_decisions(task_id, limit)` -- Read routing records, optionally filtered by task.
-- `mask_configured` (function) `modules/lazy_intel.py:228` `def mask_configured(text)` -- Mask only operator-configured credential values in live text.
-- `stack_signature` (function) `modules/lazy_intel.py:254` `def stack_signature(assets)` -- Fingerprint the target stack from service assets.
-- `fuse_routing_decisions` (function) `modules/lazy_intel.py:285` `def fuse_routing_decisions(task_id)` -- Fuse routing records into the world model as host notes.
-- `export_spans` (function) `modules/lazy_intel.py:324` `def export_spans(task_id, out)` -- Export activity records as trace spans for observability.
 
 
 Next: [API_p13.md](API_p13.md)

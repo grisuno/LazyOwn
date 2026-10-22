@@ -1,33 +1,26 @@
 # modules: lazyc2
 
-*Community 4 | 96 files | cohesion 0.50*
+*Community 4 | 72 files | cohesion 0.48*
 
 ## Definition
 
-This community groups 96 file(s) rooted at `tests` with dominant language py (cohesion 0.50). Central symbols: `AESKeyManager`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `ApiAuthzConfig`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 72 file(s) rooted at `tests` with dominant language py (cohesion 0.48). Central symbols: `AESKeyManager`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `BeaconHistoryConfig`, `C2Server`. Core file: `lazyc2.py` (288 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `tests` (28 files)
+### `tests` (22 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_addon_creator.py` | py | testing | 86 | yes |
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
 
-### `modules` (25 files)
+### `modules` (15 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/beacon_history.py` | py | utility | 7 | yes |
 | `modules/c2_agent.py` | py | utility | 20 | yes |
-
-### `lazyc2/blueprints` (9 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
-| `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
 ### `lazyc2/security` (9 files)
 
@@ -36,38 +29,33 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
 | `lazyc2/security/constants.py` | py | utility | 0 | yes |
 
-### `cli/commands` (6 files)
+### `lazyc2/blueprints` (8 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/automation.py` | py | utility | 13 | yes |
-| `cli/commands/c2_session.py` | py | utility | 10 | yes |
+| `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
+| `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
-### `lazyc2/extensions` (5 files)
+### `lazyc2/extensions` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/extensions/__init__.py` | py | infrastructure | 0 | yes |
 | `lazyc2/extensions/decoy.py` | py | presentation | 1 | yes |
 
-### `lazyc2` (4 files)
+### `cli/commands` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/automation.py` | py | utility | 13 | yes |
+| `cli/commands/c2_session.py` | py | utility | 10 | yes |
+
+### `lazyc2` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/__init__.py` | py | utility | 0 | no |
-| `lazyc2/addon_creator.py` | py | utility | 38 | yes |
-
-### `.` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 288 | no |
-
-### `core` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/api_authz.py` | py | presentation | 31 | yes |
+| `lazyc2/app_factory.py` | py | presentation | 12 | yes |
 
 ### `modules/sinks` (2 files)
 
@@ -81,11 +69,23 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
 
+### `.` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2.py` | py | presentation | 288 | no |
+
 ### `contrib/legacy` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
+
+### `core` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/api_authz.py` | py | presentation | 31 | yes |
 
 ### `skills` (1 files)
 
@@ -93,7 +93,7 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
-*... and 76 more files in this community.*
+*... and 52 more files in this community.*
 
 
 ## Key Symbols
@@ -131,8 +131,8 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 229
-- Cross-boundary resolved imports (EXTRACTED): 218
+- Internal resolved imports (EXTRACTED): 193
+- Cross-boundary resolved imports (EXTRACTED): 167
 
 ## Connections
 
@@ -141,15 +141,15 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
@@ -159,24 +159,18 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `lazyc2.py`)? What purpose do they serve?
-- Can the cycle `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.50?
+- Should modules: lazyc2 be split, given cohesion 0.48?
 
 ## Sources
 
 - `cli/commands/automation.py`
 - `cli/commands/c2_session.py`
 - `cli/commands/collaboration.py`
-- `cli/commands/defaults.py`
-- `cli/commands/opsec_cleanup.py`
-- `cli/commands/security.py`
 - `contrib/legacy/lazydeepseekcli.py`
 - `core/api_authz.py`
-- `core/defaults.py`
 - `lazyc2.py`
 - `lazyc2/__init__.py`
-- `lazyc2/addon_creator.py`
 - `lazyc2/app_factory.py`
 - `lazyc2/blueprints/__init__.py`
 - `lazyc2/blueprints/addons.py`
@@ -185,4 +179,9 @@ This community groups 96 file(s) rooted at `tests` with dominant language py (co
 - `lazyc2/blueprints/auth.py`
 - `lazyc2/blueprints/beacon.py`
 - `lazyc2/blueprints/operations.py`
-- *... and 76 more*
+- `lazyc2/blueprints/session_auth.py`
+- `lazyc2/extensions/__init__.py`
+- `lazyc2/extensions/decoy.py`
+- `lazyc2/extensions/storage.py`
+- `lazyc2/extensions/users.py`
+- *... and 52 more*

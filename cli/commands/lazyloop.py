@@ -285,9 +285,10 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
         persistent active runs; space starts or stops the selected gym),
         Chains (APT chain YAML administration: preview, enable/disable,
         generate from playbook, delete), Profiles (activate orchestration
-        profiles), Models (LLM failover chain add/remove), Guard
-        (intercept rules add/remove). Keys: r refresh, s save config,
-        a add, e edit, d delete, space toggle, q quit.
+        profiles), Models (LLM failover chain add/remove), Params (shared
+        parameter catalog: declare a reusable parameter once and use it in
+        every addon), Guard (intercept rules add/remove). Keys: r refresh,
+        s save config, a add, e edit, d delete, space toggle, q quit.
 
         Usage:
             lazy_orchestrator [task_id]
@@ -299,7 +300,7 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
         except ImportError as exc:
             print_error(f"Failed to load orchestrator console (textual installed?): {exc}")
             return
-        run_orchestrator_console(task_id)
+        run_orchestrator_console(task_id, shell=self._resolve_shell())
 
     @cmd2.with_category(exploitation_category)
     def do_lazy_view(self, line):

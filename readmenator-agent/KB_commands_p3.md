@@ -263,6 +263,16 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
 - Imported by: `tests/test_improvements_spec.py`
 
+## cli/commands/params_ops.py
+- Doc: Operator administration of the shared parameter catalog.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ParamCommandSet` (class, line 31) `class ParamCommandSet(LazyOwnCommandSet)`
+  - `do_param` (method, line 38) `def do_param(self, line)`
+- Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/param_registry.py`, `core/payload_schema.py`, `utils.py`
+- Imported by: `tests/test_param_registry.py`
+
 ## cli/commands/payload_arsenal.py
 - Doc: Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic, macOS/Linux...
 - Layer: utility

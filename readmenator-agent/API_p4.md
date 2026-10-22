@@ -191,26 +191,29 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tool
 - `run_monitor_session` (function) `cli/lazy_monitor.py:589` `def run_monitor_session(engine, config, params)` -- Run the loop inside the monitor (``lazy_loop --view``).
 
 ## cli/lazy_orchestrator.py
-Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`
+Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/param_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
 - `discover_shell_commands` (function) `cli/lazy_orchestrator.py:66` `def discover_shell_commands()` -- Return every routable shell command name.
 - `command_descriptions` (function) `cli/lazy_orchestrator.py:99` `def command_descriptions()` -- Return ``{command: summary}`` from the palette index when available.
 - `verb_candidates` (function) `cli/lazy_orchestrator.py:113` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
-- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:174` `def __init__(self, payload_path, task_id)` -- Bind the console to a payload file and an optional task.
-- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:186` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:231` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:246` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:255` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:271` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:294` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:355` `def on_button_pressed(self, event)` -- Handle the config save button.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:373` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:395` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:425` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:442` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:644` `def action_edit_item(self)` -- Edit the selected playbook YAML or LLM member priority.
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:689` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:765` `def run_orchestrator_console(task_id)` -- Launch the admin console (attach mode).
+- `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:174` `def __init__(self, payload_path, task_id, shell, param_root)` -- Bind the console to a payload file and an optional task.
+- `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:208` `def compose(self)` -- Build the four panes.
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:260` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:276` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:285` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:301` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:324` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:385` `def on_button_pressed(self, event)` -- Handle the config save button.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:403` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.create_param` (method) `cli/lazy_orchestrator.py:440` `def create_param(self, name, kind, default, description, category)` -- Declare a reusable parameter and publish it to the live shell.
+- `LazyOrchestratorApp.update_param` (method) `cli/lazy_orchestrator.py:480` `def update_param(self, name, default, description)` -- Update a declared parameter and repaint the table.
+- `LazyOrchestratorApp.delete_param` (method) `cli/lazy_orchestrator.py:512` `def delete_param(self, name)` -- Delete an operator parameter and drop it from the live shell.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:544` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:574` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:591` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:823` `def action_edit_item(self)` -- Edit the selected playbook YAML, LLM member priority or parameter.
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:902` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:994` `def run_orchestrator_console(task_id, shell)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`

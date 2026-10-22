@@ -540,6 +540,13 @@ verbs:
       and stages the BOF runtime loader, then delivers a position-independent ELF
       shared object (.so) to an active BlackSandBeacon session.
     source: addon
+  addon:broadcom_wps:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Broadcom 802.11 SDK detector by qkaiser. Fingerprints a live access
+      point
+    source: addon
   addon:cPanelScanner:
     enabled: false
     phase: enum
@@ -737,6 +744,12 @@ verbs:
       and Copy Fail belong. Because it is a deterministic logic bug that does not
       depend on a timing window, no race condition is required, the kernel does not
       panic when the exploit fails, and the success rate is very high.
+    source: addon
+  addon:dirtyinit:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: DirtyInit - one-touch root for Samsung devices as u:r:init:s0 (DirtyFrag).
     source: addon
   addon:dns_beacon:
     enabled: false
@@ -1368,6 +1381,18 @@ verbs:
       for asynchronous I/O, encrypted command and control (C2) communication, persistence
       mechanisms, and a keylogger. It is intended for educational and authorized penetration
       testing purposes only. USAGE: ./c2-server serve --https=0.0.0.0:4444'
+    source: addon
+  addon:php2shell:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: 'One-shot RCE for PHP 8.4.26 session.upload_progress (ASLR bypass,
+      pure HTTP). Needs php:8.4.26-apache with display_errors=1, memory_limit=8M,
+      max_input_vars=1000, use_cookies=1, use_strict_mode=0, one prefork worker. Clones
+      to external/.exploit/php2shell (no build). Set the target with ''assign url
+      http://host/index.php'', then ''php2shell''. Profile: ''assign exploit_profile
+      bookworm|lab''. Free args append to exploit.py, e.g. ''php2shell -c "id>/tmp/p1"
+      --fetch /p1''. Payload max 14 bytes.'
     source: addon
   addon:pi_qwen:
     enabled: false
@@ -5185,6 +5210,12 @@ verbs:
     phase: misc
     risk: safe
     description: Open the fuzzy Command-K palette overlay.
+    source: cli
+  param:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Manage the shared parameter catalog used by addons and aliases.
     source: cli
   paranoid_meterpreter:
     enabled: false

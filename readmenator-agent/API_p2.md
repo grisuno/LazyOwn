@@ -331,7 +331,7 @@ Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 - `LazyQueueCommandSet.do_lazy_approve` (method) `cli/commands/lazyloop.py:190` `def do_lazy_approve(self, line)` -- List engine guard reviews filtered by decision and source.
 - `LazyQueueCommandSet.do_lazy_fleet` (method) `cli/commands/lazyloop.py:212` `def do_lazy_fleet(self, line)` -- Cross-task fleet: list | graph <task> | findings <task> | traces <task> [query] | node <task> <id> | pause <task> |...
 - `LazyQueueCommandSet.do_lazy_orchestrator` (method) `cli/commands/lazyloop.py:277` `def do_lazy_orchestrator(self, line)` -- Admin console for the loop (Textual TUI).
-- `LazyQueueCommandSet.do_lazy_view` (method) `cli/commands/lazyloop.py:305` `def do_lazy_view(self, line)` -- Attach the live worker monitor to a task (or the newest task).
+- `LazyQueueCommandSet.do_lazy_view` (method) `cli/commands/lazyloop.py:306` `def do_lazy_view(self, line)` -- Attach the live worker monitor to a task (or the newest task).
 
 ## cli/commands/lazyops.py
 Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`

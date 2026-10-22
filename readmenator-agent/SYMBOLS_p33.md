@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_disabled_profile` | method | `tests/test_c2_profile_engine.py:94` | `def test_disabled_profile(self)` |
+| `test_engine_empty_payload_falls_back_to_defaults` | method | `tests/test_c2_profile_engine.py:465` | `def test_engine_empty_payload_falls_back_to_defaults(self)` |
+| `test_engine_from_dict` | method | `tests/test_c2_profile_engine.py:442` | `def test_engine_from_dict(self)` |
+| `test_engine_from_payload` | method | `tests/test_c2_profile_engine.py:455` | `def test_engine_from_payload(self)` |
+| `test_engine_get_active_profile_dict` | method | `tests/test_c2_profile_engine.py:427` | `def test_engine_get_active_profile_dict(self)` |
+| `test_engine_get_all_profiles_dict` | method | `tests/test_c2_profile_engine.py:433` | `def test_engine_get_all_profiles_dict(self)` |
+| `test_engine_rotate_through_transports` | method | `tests/test_c2_profile_engine.py:420` | `def test_engine_rotate_through_transports(self)` |
+| `test_engine_validate_returns_errors_for_invalid_dns` | method | `tests/test_c2_profile_engine.py:412` | `def test_engine_validate_returns_errors_for_invalid_dns(self)` |
+| `test_engine_with_all_transports` | method | `tests/test_c2_profile_engine.py:402` | `def test_engine_with_all_transports(self)` |
+| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:90` | `def test_from_dict_empty(self)` |
+| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:148` | `def test_from_dict_empty(self)` |
+| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:178` | `def test_from_dict_empty(self)` |
+| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:208` | `def test_from_dict_empty(self)` |
+| `test_get_cipher_suites_returns_custom_when_set` | method | `tests/test_c2_profile_engine.py:50` | `def test_get_cipher_suites_returns_custom_when_set(self)` |
+| `test_get_cipher_suites_returns_library_defaults` | method | `tests/test_c2_profile_engine.py:44` | `def test_get_cipher_suites_returns_library_defaults(self)` |
+| `test_get_cipher_suites_unknown_library_falls_back_to_generic` | method | `tests/test_c2_profile_engine.py:55` | `def test_get_cipher_suites_unknown_library_falls_back_to_generic(self)` |
+| `test_get_ja3_hash_produces_stable_output` | method | `tests/test_c2_profile_engine.py:61` | `def test_get_ja3_hash_produces_stable_output(self)` |
+| `test_get_ja3_hash_with_grease_produces_variable_output` | method | `tests/test_c2_profile_engine.py:72` | `def test_get_ja3_hash_with_grease_produces_variable_output(self)` |
+| `test_is_available_after_touch` | method | `tests/test_c2_profile_engine.py:278` | `def test_is_available_after_touch(self)` |
+| `test_is_available_fresh_slot` | method | `tests/test_c2_profile_engine.py:274` | `def test_is_available_fresh_slot(self)` |
+| `test_list_slots` | method | `tests/test_c2_profile_engine.py:263` | `def test_list_slots(self)` |
+| `test_requires_at_least_one_slot` | method | `tests/test_c2_profile_engine.py:215` | `def test_requires_at_least_one_slot(self)` |
+| `test_rotation_cycles_through_slots` | method | `tests/test_c2_profile_engine.py:226` | `def test_rotation_cycles_through_slots(self)` |
+| `test_rotation_resets_all_cooldowns_when_all_busy` | method | `tests/test_c2_profile_engine.py:252` | `def test_rotation_resets_all_cooldowns_when_all_busy(self)` |
+| `test_rotation_skips_cooldown_slots` | method | `tests/test_c2_profile_engine.py:238` | `def test_rotation_skips_cooldown_slots(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:77` | `def test_serialization_roundtrip(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:135` | `def test_serialization_roundtrip(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:161` | `def test_serialization_roundtrip(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:191` | `def test_serialization_roundtrip(self)` |
+| `test_single_slot_always_active` | method | `tests/test_c2_profile_engine.py:219` | `def test_single_slot_always_active(self)` |
+| `test_validate_all_returns_dict` | method | `tests/test_c2_profile_engine.py:383` | `def test_validate_all_returns_dict(self)` |
 | `test_validate_dns_disabled_skips` | method | `tests/test_c2_profile_engine.py:339` | `def test_validate_dns_disabled_skips(self)` |
 | `test_validate_dns_enabled_missing_domain` | method | `tests/test_c2_profile_engine.py:327` | `def test_validate_dns_enabled_missing_domain(self)` |
 | `test_validate_dns_invalid_domain_format` | method | `tests/test_c2_profile_engine.py:344` | `def test_validate_dns_invalid_domain_format(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `_make_app` | function | `tests/test_collab_and_onboarding.py:33` | `def _make_app()` |
 | `bus` | method | `tests/test_collab_and_onboarding.py:222` | `def bus(self)` |
 | `client` | method | `tests/test_collab_and_onboarding.py:373` | `def client(self)` |
-| `command_src` | method | `tests/test_collab_and_onboarding.py:474` | `def command_src(self)` |
-| `html` | method | `tests/test_collab_and_onboarding.py:432` | `def html(self)` |
-| `lm` | method | `tests/test_collab_and_onboarding.py:283` | `def lm(self)` |
-| `reg` | method | `tests/test_collab_and_onboarding.py:334` | `def reg(self)` |
-| `test_acquire_grants_first_operator` | method | `tests/test_collab_and_onboarding.py:288` | `def test_acquire_grants_first_operator(self, lm)` |
-| `test_all_locks_returns_list` | method | `tests/test_collab_and_onboarding.py:313` | `def test_all_locks_returns_list(self, lm)` |
-| `test_collab_join_defined` | method | `tests/test_collab_and_onboarding.py:483` | `def test_collab_join_defined(self, command_src)` |
-| `test_collab_join_has_docstring` | method | `tests/test_collab_and_onboarding.py:495` | `def test_collab_join_has_docstring(self, command_src)` |
-| `test_collab_join_prints_ui_url` | method | `tests/test_collab_and_onboarding.py:492` | `def test_collab_join_prints_ui_url(self, command_src)` |
-| `test_collab_join_uses_c2_port` | method | `tests/test_collab_and_onboarding.py:489` | `def test_collab_join_uses_c2_port(self, command_src)` |
-| `test_collab_join_uses_lhost` | method | `tests/test_collab_and_onboarding.py:486` | `def test_collab_join_uses_lhost(self, command_src)` |
-| `test_expired_lock_releases_automatically` | method | `tests/test_collab_and_onboarding.py:308` | `def test_expired_lock_releases_automatically(self, lm)` |
-| `test_extends_base` | method | `tests/test_collab_and_onboarding.py:435` | `def test_extends_base(self, html)` |
-| `test_file_present` | method | `tests/test_collab_and_onboarding.py:88` | `def test_file_present(self)` |
-| `test_five_minutes_promise` | method | `tests/test_collab_and_onboarding.py:124` | `def test_five_minutes_promise(self, text)` |
-| `test_full_queue_drops_stale_subscriber` | method | `tests/test_collab_and_onboarding.py:263` | `def test_full_queue_drops_stale_subscriber(self, bus)` |
-| `test_has_c2_step` | method | `tests/test_collab_and_onboarding.py:109` | `def test_has_c2_step(self, text)` |
-| `test_has_chat_input` | method | `tests/test_collab_and_onboarding.py:450` | `def test_has_chat_input(self, html)` |
-| `test_has_collab_step` | method | `tests/test_collab_and_onboarding.py:112` | `def test_has_collab_step(self, text)` |
-| `test_has_event_bus` | method | `tests/test_collab_and_onboarding.py:186` | `def test_has_event_bus(self, tree)` |
-| `test_has_event_log` | method | `tests/test_collab_and_onboarding.py:447` | `def test_has_event_log(self, html)` |
-| `test_has_install_section` | method | `tests/test_collab_and_onboarding.py:100` | `def test_has_install_section(self, text)` |
-| `test_has_join_url_display` | method | `tests/test_collab_and_onboarding.py:456` | `def test_has_join_url_display(self, html)` |
-| `test_has_lock_manager` | method | `tests/test_collab_and_onboarding.py:190` | `def test_has_lock_manager(self, tree)` |
-| `test_has_lock_route` | method | `tests/test_collab_and_onboarding.py:210` | `def test_has_lock_route(self)` |
-| `test_has_lock_ui` | method | `tests/test_collab_and_onboarding.py:444` | `def test_has_lock_ui(self, html)` |
-| `test_has_operator_list` | method | `tests/test_collab_and_onboarding.py:441` | `def test_has_operator_list(self, html)` |
-| `test_has_operator_registry` | method | `tests/test_collab_and_onboarding.py:194` | `def test_has_operator_registry(self, tree)` |
-| `test_has_publish_route` | method | `tests/test_collab_and_onboarding.py:206` | `def test_has_publish_route(self)` |
-| `test_has_recon_step` | method | `tests/test_collab_and_onboarding.py:106` | `def test_has_recon_step(self, text)` |
-| `test_has_refresh_operators` | method | `tests/test_collab_and_onboarding.py:453` | `def test_has_refresh_operators(self, html)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

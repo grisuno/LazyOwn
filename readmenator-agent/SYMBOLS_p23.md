@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
+| `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
+| `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
+| `_repo_root` | function | `skills/claude_md_orchestrator/config.py:22` | `def _repo_root()` |
+| `docs_dir` | method | `skills/claude_md_orchestrator/config.py:142` | `def docs_dir(self)` |
+| `ensure` | method | `skills/claude_md_orchestrator/config.py:112` | `def ensure(self)` |
+| `load_config` | function | `skills/claude_md_orchestrator/config.py:155` | `def load_config()` |
+| `log_path` | method | `skills/claude_md_orchestrator/config.py:150` | `def log_path(self)` |
+| `logs_dir` | method | `skills/claude_md_orchestrator/config.py:146` | `def logs_dir(self)` |
+| `resolve_optional` | function | `skills/claude_md_orchestrator/config.py:164` | `def resolve_optional(config, key)` |
+| `review_dir` | method | `skills/claude_md_orchestrator/config.py:138` | `def review_dir(self)` |
+| `specs_dir` | method | `skills/claude_md_orchestrator/config.py:126` | `def specs_dir(self)` |
+| `src_dir` | method | `skills/claude_md_orchestrator/config.py:134` | `def src_dir(self)` |
+| `state_path` | method | `skills/claude_md_orchestrator/config.py:122` | `def state_path(self)` |
+| `tests_dir` | method | `skills/claude_md_orchestrator/config.py:130` | `def tests_dir(self)` |
+| `DocResult` | class | `skills/claude_md_orchestrator/documentation_agent.py:28` | `class DocResult` |
+| `_format_inputs` | function | `skills/claude_md_orchestrator/documentation_agent.py:40` | `def _format_inputs(spec)` |
+| `_format_review` | function | `skills/claude_md_orchestrator/documentation_agent.py:54` | `def _format_review(report)` |
+| `_format_sad_paths` | function | `skills/claude_md_orchestrator/documentation_agent.py:47` | `def _format_sad_paths(spec)` |
+| `_render` | function | `skills/claude_md_orchestrator/documentation_agent.py:68` | `def _render(contract, spec, report)` |
+| `_wrap` | function | `skills/claude_md_orchestrator/documentation_agent.py:118` | `def _wrap(body)` |
+| `run` | function | `skills/claude_md_orchestrator/documentation_agent.py:123` | `def run(contract, spec, report, config)` |
+| `CicleState` | class | `skills/claude_md_orchestrator/models.py:348` | `class CicleState` |
+| `CicleStateFile` | class | `skills/claude_md_orchestrator/models.py:424` | `class CicleStateFile` |
+| `Contract` | class | `skills/claude_md_orchestrator/models.py:68` | `class Contract` |
+| `Finding` | class | `skills/claude_md_orchestrator/models.py:255` | `class Finding` |
+| `ReviewReport` | class | `skills/claude_md_orchestrator/models.py:291` | `class ReviewReport` |
+| `SadPath` | class | `skills/claude_md_orchestrator/models.py:109` | `class SadPath` |
+| `Severity` | class | `skills/claude_md_orchestrator/models.py:50` | `class Severity(StrEnum)` |
+| `Spec` | class | `skills/claude_md_orchestrator/models.py:134` | `class Spec` |
+| `Stage` | class | `skills/claude_md_orchestrator/models.py:28` | `class Stage(StrEnum)` |
 | `TestSuite` | class | `skills/claude_md_orchestrator/models.py:217` | `class TestSuite` |
 | `_now_iso` | function | `skills/claude_md_orchestrator/models.py:19` | `def _now_iso()` |
 | `blockers` | method | `skills/claude_md_orchestrator/models.py:315` | `def blockers(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `compact` | method | `skills/lazyown_context.py:203` | `def compact(self, content, tool_name)` |
 | `compact_output` | function | `skills/lazyown_context.py:237` | `def compact_output(content, tool_name)` |
 | `microcompact` | method | `skills/lazyown_context.py:120` | `def microcompact(self, content)` |
-| `snip` | method | `skills/lazyown_context.py:99` | `def snip(self, content)` |
-| `summary` | method | `skills/lazyown_context.py:57` | `def summary(self)` |
-| `_Handler` | class | `skills/lazyown_daemon.py:197` | `class _Handler(FileSystemEventHandler)` |
-| `_append_event` | function | `skills/lazyown_daemon.py:111` | `def _append_event(ev)` |
-| `_clear_pid` | function | `skills/lazyown_daemon.py:427` | `def _clear_pid()` |
-| `_dispatch` | function | `skills/lazyown_daemon.py:95` | `def _dispatch(path)` |
-| `_is_running` | function | `skills/lazyown_daemon.py:439` | `def _is_running()` |
-| `_main_async` | function | `skills/lazyown_daemon.py:390` | `def _main_async()` |
-| `_poll_watcher_loop` | function | `skills/lazyown_daemon.py:163` | `def _poll_watcher_loop(queue)` |
-| `_push` | method | `skills/lazyown_daemon.py:198` | `def _push(self, src)` |
-| `_read_pid` | function | `skills/lazyown_daemon.py:432` | `def _read_pid()` |
-| `_scan` | function | `skills/lazyown_daemon.py:167` | `def _scan()` |
-| `_watchdog_async` | function | `skills/lazyown_daemon.py:193` | `def _watchdog_async(queue)` |
-| `_write_pid` | function | `skills/lazyown_daemon.py:422` | `def _write_pid()` |
-| `cmd_run` | function | `skills/lazyown_daemon.py:453` | `def cmd_run()` |
-| `cmd_start` | function | `skills/lazyown_daemon.py:462` | `def cmd_start()` |
-| `cmd_status` | function | `skills/lazyown_daemon.py:513` | `def cmd_status()` |
-| `cmd_stop` | function | `skills/lazyown_daemon.py:495` | `def cmd_stop()` |
-| `event_engine_loop` | function | `skills/lazyown_daemon.py:240` | `def event_engine_loop()` |
-| `file_event_consumer` | function | `skills/lazyown_daemon.py:223` | `def file_event_consumer(queue)` |
-| `file_watcher_loop` | function | `skills/lazyown_daemon.py:150` | `def file_watcher_loop(queue)` |
-| `heartbeat_loop` | function | `skills/lazyown_daemon.py:280` | `def heartbeat_loop()` |
-| `on_created` | method | `skills/lazyown_daemon.py:201` | `def on_created(self, event)` |
-| `on_modified` | method | `skills/lazyown_daemon.py:205` | `def on_modified(self, event)` |
-| `process_new_rows` | function | `skills/lazyown_daemon.py:108` | `def process_new_rows()` |
-| `toposwarm_keepalive_loop` | function | `skills/lazyown_daemon.py:332` | `def toposwarm_keepalive_loop()` |
-| `AccessFact` | class | `skills/lazyown_facts.py:97` | `class AccessFact` |
-| `Config` | class | `skills/lazyown_facts.py:34` | `class Config` |
-| `CrackMapExecParser` | class | `skills/lazyown_facts.py:240` | `class CrackMapExecParser(ITextOutputParser)` |
-| `CredentialFact` | class | `skills/lazyown_facts.py:75` | `class CredentialFact` |
-| `DiscoveredPath` | class | `skills/lazyown_facts.py:120` | `class DiscoveredPath` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

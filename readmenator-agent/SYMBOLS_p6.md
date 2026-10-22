@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `SessionResumer` | class | `cli/session_resumer.py:51` | `class SessionResumer` |
+| `SessionResumerConfig` | class | `cli/session_resumer.py:41` | `class SessionResumerConfig` |
+| `SessionSummary` | class | `cli/session_resumer.py:29` | `class SessionSummary` |
+| `__init__` | method | `cli/session_resumer.py:58` | `def __init__(self, config)` |
+| `_discover_targets` | method | `cli/session_resumer.py:62` | `def _discover_targets(self)` |
+| `render_startup_panel` | method | `cli/session_resumer.py:129` | `def render_startup_panel(self)` |
+| `CategorySpec` | class | `cli/sessions_browser.py:33` | `class CategorySpec` |
+| `SessionEntry` | class | `cli/sessions_browser.py:76` | `class SessionEntry` |
+| `SessionPreview` | class | `cli/sessions_browser.py:185` | `class SessionPreview` |
+| `SessionsBrowserConfig` | class | `cli/sessions_browser.py:49` | `class SessionsBrowserConfig` |
 | `SessionsBrowserState` | class | `cli/sessions_browser.py:225` | `class SessionsBrowserState` |
 | `SessionsIndex` | class | `cli/sessions_browser.py:85` | `class SessionsIndex` |
 | `_SessionsBrowserApp` | class | `cli/sessions_browser.py:325` | `class _SessionsBrowserApp(App)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `sniffer_ftp` | function | `contrib/legacy/lazyftpsniff.py:56` | `def sniffer_ftp(pkt)` |
 | `SamsungKnoxExploitServer` | class | `contrib/legacy/lazygalazy.py:8` | `class SamsungKnoxExploitServer(BaseHTTPRequestHandler)` |
 | `apk_bytes` | method | `contrib/legacy/lazygalazy.py:33` | `def apk_bytes(self)` |
-| `do_GET` | method | `contrib/legacy/lazygalazy.py:11` | `def do_GET(self)` |
-| `exploit_js` | method | `contrib/legacy/lazygalazy.py:49` | `def exploit_js(self)` |
-| `launch_html` | method | `contrib/legacy/lazygalazy.py:36` | `def launch_html(self)` |
-| `main` | function | `contrib/legacy/lazygalazy.py:97` | `def main()` |
-| `rand_word` | method | `contrib/legacy/lazygalazy.py:93` | `def rand_word(self)` |
-| `add_to_knowledge_base` | function | `contrib/legacy/lazygptcli.py:128` | `def add_to_knowledge_base(prompt, command, file_path)` |
-| `check_api_key` | function | `contrib/legacy/lazygptcli.py:77` | `def check_api_key()` |
-| `cleanup_temp_files` | function | `contrib/legacy/lazygptcli.py:164` | `def cleanup_temp_files()` |
-| `configure_logging` | function | `contrib/legacy/lazygptcli.py:83` | `def configure_logging(debug)` |
-| `create_complex_prompt` | function | `contrib/legacy/lazygptcli.py:94` | `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

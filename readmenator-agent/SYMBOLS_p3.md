@@ -155,6 +155,8 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_orchestrate` | method | `cli/commands/orchestration.py:216` | `def do_orchestrate(self, args)` |
 | `do_status_bar` | method | `cli/commands/orchestration.py:190` | `def do_status_bar(self, args)` |
 | `run_with_spinner` | function | `cli/commands/orchestration.py:94` | `def run_with_spinner(execute)` |
+| `ParamCommandSet` | class | `cli/commands/params_ops.py:31` | `class ParamCommandSet(LazyOwnCommandSet)` |
+| `do_param` | method | `cli/commands/params_ops.py:38` | `def do_param(self, line)` |
 | `PayloadArsenalCommandSet` | class | `cli/commands/payload_arsenal.py:23` | `class PayloadArsenalCommandSet(LazyOwnCommandSet)` |
 | `do_arsenal_show` | method | `cli/commands/payload_arsenal.py:114` | `def do_arsenal_show(self, line)` |
 | `do_dotnet_payload` | method | `cli/commands/payload_arsenal.py:29` | `def do_dotnet_payload(self, line)` |
@@ -494,7 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_l00t` | method | `cli/commands/session_ops.py:118` | `def do_l00t(self, line)` |
 | `do_lazyscript` | method | `cli/commands/session_ops.py:1104` | `def do_lazyscript(self, line)` |
 | `do_list` | method | `cli/commands/session_ops.py:547` | `def do_list(self, line)` |
-| `do_load_session` | method | `cli/commands/session_ops.py:1522` | `def do_load_session(self, line)` |
-| `do_loot` | method | `cli/commands/session_ops.py:167` | `def do_loot(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

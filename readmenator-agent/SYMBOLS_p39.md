@@ -3,6 +3,41 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_FakeClient` | class | `tests/test_llm_adapter_parity.py:37` | `class _FakeClient` |
+| `_FakeCompletions` | class | `tests/test_llm_adapter_parity.py:23` | `class _FakeCompletions` |
+| `__init__` | method | `tests/test_llm_adapter_parity.py:24` | `def __init__(self, content)` |
+| `__init__` | method | `tests/test_llm_adapter_parity.py:38` | `def __init__(self, content)` |
+| `__init__` | method | `tests/test_llm_adapter_parity.py:192` | `def __init__(self, result)` |
+| `_write` | function | `tests/test_llm_adapter_parity.py:60` | `def _write(path, text)` |
+| `cfg` | function | `tests/test_llm_adapter_parity.py:44` | `def cfg(tmp_path)` |
+| `complete` | method | `tests/test_llm_adapter_parity.py:197` | `def complete(self, system, user)` |
+| `create` | method | `tests/test_llm_adapter_parity.py:30` | `def create(self, model, messages, max_tokens)` |
+| `patched` | function | `tests/test_llm_adapter_parity.py:55` | `def patched(monkeypatch, cfg)` |
+| `test_appends_event_tool_output` | method | `tests/test_llm_adapter_parity.py:148` | `def test_appends_event_tool_output(self, patched, cfg, tmp_path)` |
+| `test_appends_plan_history` | method | `tests/test_llm_adapter_parity.py:161` | `def test_appends_plan_history(self, patched, cfg, tmp_path)` |
+| `test_backend_error_string_not_remembered` | method | `tests/test_llm_adapter_parity.py:237` | `def test_backend_error_string_not_remembered(self, patched, cfg, monkeypatch)` |
+| `test_backend_exception_reports_error` | method | `tests/test_llm_adapter_parity.py:230` | `def test_backend_exception_reports_error(self, patched, monkeypatch)` |
+| `test_complete_error_handled` | method | `tests/test_llm_adapter_parity.py:89` | `def test_complete_error_handled(self, patched)` |
+| `test_completion_received_single_user_message` | method | `tests/test_llm_adapter_parity.py:100` | `def test_completion_received_single_user_message(self, patched)` |
+| `test_default_max_tokens_applied` | method | `tests/test_llm_adapter_parity.py:107` | `def test_default_max_tokens_applied(self, patched)` |
+| `test_direct_variants_report_missing_key` | method | `tests/test_llm_adapter_parity.py:76` | `def test_direct_variants_report_missing_key(self, patched, name)` |
+| `test_error_response_not_remembered` | method | `tests/test_llm_adapter_parity.py:122` | `def test_error_response_not_remembered(self, patched, cfg)` |
+| `test_exported` | method | `tests/test_llm_adapter_parity.py:257` | `def test_exported(self)` |
+| `test_file_variants_report_missing_key` | method | `tests/test_llm_adapter_parity.py:81` | `def test_file_variants_report_missing_key(self, patched, name, tmp_path)` |
+| `test_groq_family_exports_present` | method | `tests/test_llm_adapter_parity.py:172` | `def test_groq_family_exports_present(self)` |
+| `test_missing_backend_reports_error` | method | `tests/test_llm_adapter_parity.py:223` | `def test_missing_backend_reports_error(self, patched, monkeypatch)` |
+| `test_receives_system_and_rendered_user` | method | `tests/test_llm_adapter_parity.py:213` | `def test_receives_system_and_rendered_user(self, patched, monkeypatch)` |
+| `test_redop_reads_file_content` | method | `tests/test_llm_adapter_parity.py:141` | `def test_redop_reads_file_content(self, patched, tmp_path)` |
+| `test_safe_groq_client_none_without_key` | method | `tests/test_llm_adapter_parity.py:186` | `def test_safe_groq_client_none_without_key(self)` |
+| `test_sends_user_message_and_returns_content` | method | `tests/test_llm_adapter_parity.py:95` | `def test_sends_user_message_and_returns_content(self, patched)` |
+| `test_successful_answer_remembered` | method | `tests/test_llm_adapter_parity.py:246` | `def test_successful_answer_remembered(self, patched, cfg, monkeypatch)` |
+| `test_successful_response_is_remembered` | method | `tests/test_llm_adapter_parity.py:114` | `def test_successful_response_is_remembered(self, patched, cfg)` |
+| `test_task_missing_file_returns_error` | method | `tests/test_llm_adapter_parity.py:137` | `def test_task_missing_file_returns_error(self, patched, tmp_path)` |
+| `test_task_reads_file_content` | method | `tests/test_llm_adapter_parity.py:130` | `def test_task_reads_file_content(self, patched, tmp_path)` |
+| `test_uses_configured_backend` | method | `tests/test_llm_adapter_parity.py:206` | `def test_uses_configured_backend(self, patched, monkeypatch)` |
+| `_StubBackend` | class | `tests/test_llm_budget.py:316` | `class _StubBackend` |
+| `_StubBackend` | class | `tests/test_llm_budget.py:356` | `class _StubBackend` |
+| `complete` | method | `tests/test_llm_budget.py:323` | `def complete(self, system, user, max_tokens, temperature)` |
 | `complete` | method | `tests/test_llm_budget.py:363` | `def complete(self, system, user, max_tokens, temperature)` |
 | `generate` | method | `tests/test_llm_budget.py:317` | `def generate(self, prompt)` |
 | `generate` | method | `tests/test_llm_budget.py:357` | `def generate(self, prompt)` |
@@ -461,40 +496,5 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `test_outcome_evaluator_high_value_category_bonus` | method | `tests/test_moe_rl_swan.py:417` | `def test_outcome_evaluator_high_value_category_bonus(self)` |
 | `test_outcome_evaluator_success_reward` | method | `tests/test_moe_rl_swan.py:380` | `def test_outcome_evaluator_success_reward(self)` |
 | `test_performance_bonus_penalises_high_detection` | method | `tests/test_moe_rl_swan.py:173` | `def test_performance_bonus_penalises_high_detection(self, tmp_path)` |
-| `test_performance_bonus_positive_after_success` | method | `tests/test_moe_rl_swan.py:164` | `def test_performance_bonus_positive_after_success(self, tmp_path)` |
-| `test_pivot_candidates_sorted_by_centrality` | method | `tests/test_moe_rl_swan.py:656` | `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)` |
-| `test_record_outcome_updates_ema` | method | `tests/test_moe_rl_swan.py:154` | `def test_record_outcome_updates_ema(self, tmp_path)` |
-| `test_route_returns_expert_or_raises_gracefully` | method | `tests/test_moe_rl_swan.py:130` | `def test_route_returns_expert_or_raises_gracefully(self)` |
-| `test_save_and_reload_persistence` | method | `tests/test_moe_rl_swan.py:318` | `def test_save_and_reload_persistence(self, tmp_path)` |
-| `test_select_action_returns_valid_candidate` | method | `tests/test_moe_rl_swan.py:236` | `def test_select_action_returns_valid_candidate(self)` |
-| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:83` | `def test_singleton_returns_same_instance(self)` |
-| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:122` | `def test_singleton_returns_same_instance(self)` |
-| `test_softmax_deterministic_picks_highest_weight` | method | `tests/test_moe_rl_swan.py:193` | `def test_softmax_deterministic_picks_highest_weight(self)` |
-| `test_status_report_contains_experts` | method | `tests/test_moe_rl_swan.py:184` | `def test_status_report_contains_experts(self)` |
-| `test_swan_result_dataclass_fields` | method | `tests/test_moe_rl_swan.py:341` | `def test_swan_result_dataclass_fields(self)` |
-| `test_swan_result_failed_is_not_success` | method | `tests/test_moe_rl_swan.py:364` | `def test_swan_result_failed_is_not_success(self)` |
-| `test_swan_selector_disabled_by_default` | method | `tests/test_moe_rl_swan.py:494` | `def test_swan_selector_disabled_by_default(self)` |
-| `test_swan_selector_phase_mapping_coverage` | method | `tests/test_moe_rl_swan.py:503` | `def test_swan_selector_phase_mapping_coverage(self)` |
-| `test_swan_tools_registered_in_mcp` | method | `tests/test_moe_rl_swan.py:676` | `def test_swan_tools_registered_in_mcp(self)` |
-| `test_update_changes_qvalue` | method | `tests/test_moe_rl_swan.py:246` | `def test_update_changes_qvalue(self, tmp_path)` |
-| `test_check_groq_reads_env_when_arg_empty` | function | `tests/test_moe_router_check_regression.py:65` | `def test_check_groq_reads_env_when_arg_empty(monkeypatch)` |
-| `test_check_groq_returns_false_without_api_key` | function | `tests/test_moe_router_check_regression.py:27` | `def test_check_groq_returns_false_without_api_key(monkeypatch)` |
-| `test_check_groq_returns_true_with_explicit_key` | function | `tests/test_moe_router_check_regression.py:47` | `def test_check_groq_returns_true_with_explicit_key()` |
-| `test_check_toposwarm_returns_false_when_dir_absent` | function | `tests/test_moe_router_check_regression.py:110` | `def test_check_toposwarm_returns_false_when_dir_absent(tmp_path, monkeypatch)` |
-| `test_check_toposwarm_uses_module_level_os_and_path` | function | `tests/test_moe_router_check_regression.py:85` | `def test_check_toposwarm_uses_module_level_os_and_path(tmp_path, monkeypatch)` |
-| `test_check_unknown_backend_is_unavailable` | function | `tests/test_moe_router_check_regression.py:131` | `def test_check_unknown_backend_is_unavailable()` |
-| `test_hmac_compare_digest_used` | function | `tests/test_mutation_verification.py:27` | `def test_hmac_compare_digest_used()` |
-| `test_no_hardcoded_secrets` | function | `tests/test_mutation_verification.py:63` | `def test_no_hardcoded_secrets()` |
-| `test_pickle_removed` | function | `tests/test_mutation_verification.py:56` | `def test_pickle_removed()` |
-| `test_shell_false_in_safe_runner` | function | `tests/test_mutation_verification.py:41` | `def test_shell_false_in_safe_runner()` |
-| `test_sql_injection_blocked` | function | `tests/test_mutation_verification.py:19` | `def test_sql_injection_blocked()` |
-| `NethelpersSuiteConfig` | class | `tests/test_nethelpers_command_set.py:38` | `class NethelpersSuiteConfig` |
-| `_add_repo_root_to_syspath` | function | `tests/test_nethelpers_command_set.py:32` | `def _add_repo_root_to_syspath()` |
-| `_methods_of` | function | `tests/test_nethelpers_command_set.py:61` | `def _methods_of(path, class_name)` |
-| `test_no_command_collisions_with_source` | function | `tests/test_nethelpers_command_set.py:108` | `def test_no_command_collisions_with_source()` |
-| `test_registry_registers_target` | function | `tests/test_nethelpers_command_set.py:101` | `def test_registry_registers_target()` |
-| `test_source_no_longer_defines_cluster` | function | `tests/test_nethelpers_command_set.py:95` | `def test_source_no_longer_defines_cluster()` |
-| `test_target_exposes_full_nethelpers_cluster` | function | `tests/test_nethelpers_command_set.py:82` | `def test_target_exposes_full_nethelpers_cluster()` |
-| `test_target_is_active_command_set` | function | `tests/test_nethelpers_command_set.py:73` | `def test_target_is_active_command_set()` |
 
 Next: [SYMBOLS_p40.md](SYMBOLS_p40.md)

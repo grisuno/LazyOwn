@@ -203,7 +203,7 @@ commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
 (34 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
-<li><a href="#12-miscellaneous">12. Miscellaneous</a> (191
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (192
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
 <li><a href="#uncategorized">Uncategorized</a> (204 commands)</li>
@@ -2818,6 +2818,10 @@ phase.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
 <p>Open the fuzzy Command-K palette overlay.</p>
+<h3 id="param"><code>param</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/params_ops.py</code></p>
+<p>Manage the shared parameter catalog used by addons and aliases.</p>
 <h3 id="payload"><code>payload</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/session_ops.py</code></p>
@@ -3572,8 +3576,9 @@ T|failover –task T. Usage: lazy_llm …</p>
 <p>Run the single orchestrator: auto-invokes
 scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
 Usage: lazy_loop [–task T] [–rounds N] [–workers N] [–timeout S]
-[–budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
-[–budget-confirm] [–sandbox [image]] [–view|–plain] [<goal>]</p>
+[–targets-from-file F] [–max-concurrent N] [–budget
+rounds=N,toolcalls=N,findings=N,timeout_sec=N] [–budget-confirm]
+[–sandbox [image]] [–view|–plain] [<goal>]</p>
 <h3 id="lazy_node"><code>lazy_node</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>

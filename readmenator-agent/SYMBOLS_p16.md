@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `list_facts` | method | `modules/lazy_loop.py:1364` | `def list_facts(self, query, limit, hot_full)` |
+| `list_tasks` | method | `modules/lazy_loop.py:7777` | `def list_tasks(self)` |
+| `llm_state` | method | `modules/lazy_loop.py:2738` | `def llm_state(self, task_id)` |
+| `load_intel_scores` | function | `modules/lazy_loop.py:2943` | `def load_intel_scores()` |
+| `log` | method | `modules/lazy_loop.py:7491` | `def log(self, task_id, limit, session)` |
+| `lookup` | method | `modules/lazy_loop.py:1972` | `def lookup(self, tool_use_id)` |
+| `loop_exiting` | function | `modules/lazy_loop.py:408` | `def loop_exiting()` |
+| `loop_graph` | method | `modules/lazy_loop.py:9832` | `def loop_graph(self, task_id)` |
+| `mark_tested` | method | `modules/lazy_loop.py:1025` | `def mark_tested(self, asset_id)` |
+| `match` | method | `modules/lazy_loop.py:7246` | `def match(self, value)` |
+| `members` | method | `modules/lazy_loop.py:6736` | `def members(self)` |
+| `next_pending` | method | `modules/lazy_loop.py:2598` | `def next_pending(self)` |
+| `noa_archives` | method | `modules/lazy_loop.py:5523` | `def noa_archives(self, limit)` |
+| `node_detail` | method | `modules/lazy_loop.py:1348` | `def node_detail(self, node_id)` |
+| `note_trigger` | method | `modules/lazy_loop.py:2396` | `def note_trigger(self, task_id, trigger_id)` |
+| `on_planner_round` | method | `modules/lazy_loop.py:5701` | `def on_planner_round(self)` |
+| `orchestrate` | method | `modules/lazy_loop.py:7670` | `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` |
+| `overview` | method | `modules/lazy_loop.py:1257` | `def overview(self)` |
+| `parents` | method | `modules/lazy_loop.py:1250` | `def parents(self, node_id, kind)` |
+| `parse_judge_output` | function | `modules/lazy_loop.py:841` | `def parse_judge_output(raw)` |
+| `pause` | method | `modules/lazy_loop.py:2653` | `def pause(self, task_id)` |
+| `pause_intent` | method | `modules/lazy_loop.py:8162` | `def pause_intent(self, task_id, intent_id)` |
+| `pause_task` | method | `modules/lazy_loop.py:7805` | `def pause_task(self, task_id, reason)` |
+| `pending` | method | `modules/lazy_loop.py:1410` | `def pending(self)` |
+| `pending` | method | `modules/lazy_loop.py:2469` | `def pending(self)` |
+| `plan` | method | `modules/lazy_loop.py:3072` | `def plan(self, triggers)` |
+| `plausible_command` | function | `modules/lazy_loop.py:157` | `def plausible_command(command)` |
+| `preview_delete_intent` | method | `modules/lazy_loop.py:7994` | `def preview_delete_intent(self, task_id, intent_id)` |
+| `prove_goal` | method | `modules/lazy_loop.py:9070` | `def prove_goal(self, task_id, goal_id, evidence_id, reason)` |
+| `proxy_env` | method | `modules/lazy_loop.py:9200` | `def proxy_env(self)` |
+| `proxy_start` | method | `modules/lazy_loop.py:9150` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
 | `proxy_status` | method | `modules/lazy_loop.py:9194` | `def proxy_status(self)` |
 | `proxy_stop` | method | `modules/lazy_loop.py:9186` | `def proxy_stop(self)` |
 | `queue` | method | `modules/lazy_loop.py:2679` | `def queue(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `extract_ports_info` | function | `modules/lazymasscan.sh:74` | `` |
 | `print_row` | function | `modules/lazymasscan.sh:117` | `` |
 | `run_masscan_script` | function | `modules/lazymasscan.sh:94` | `` |
-| `cleanup` | function | `modules/lazynmap.sh:29` | `` |
-| `ctrl_c` | function | `modules/lazynmap.sh:38` | `` |
-| `discover_network` | function | `modules/lazynmap.sh:149` | `` |
-| `extract_ports_info` | function | `modules/lazynmap.sh:818` | `` |
-| `fix_sessions_owner` | function | `modules/lazynmap.sh:74` | `` |
-| `nmaptest` | function | `modules/lazynmap.sh:129` | `` |
-| `print_row` | function | `modules/lazynmap.sh:877` | `` |
-| `run_nmap_script` | function | `modules/lazynmap.sh:844` | `` |
-| `ProxyHandler` | class | `modules/lazyown_bprfuzzer.py:114` | `class ProxyHandler(BaseHTTPRequestHandler)` |
-| `_handle_request` | method | `modules/lazyown_bprfuzzer.py:121` | `def _handle_request(self, method)` |
-| `_load_security_config` | function | `modules/lazyown_bprfuzzer.py:45` | `def _load_security_config()` |
-| `do_GET` | method | `modules/lazyown_bprfuzzer.py:115` | `def do_GET(self)` |
-| `do_POST` | method | `modules/lazyown_bprfuzzer.py:118` | `def do_POST(self)` |
-| `edit_file_with_nano` | function | `modules/lazyown_bprfuzzer.py:169` | `def edit_file_with_nano(content)` |
-| `lazyfuzz` | function | `modules/lazyown_bprfuzzer.py:233` | `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` |
-| `load_data_from_file` | function | `modules/lazyown_bprfuzzer.py:99` | `def load_data_from_file(file_path)` |
-| `load_headers_from_file` | function | `modules/lazyown_bprfuzzer.py:93` | `def load_headers_from_file(file_path)` |
-| `main` | function | `modules/lazyown_bprfuzzer.py:302` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_bprfuzzer.py:278` | `def parse_arguments()` |
-| `repeater` | function | `modules/lazyown_bprfuzzer.py:203` | `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` |
-| `run_proxy` | function | `modules/lazyown_bprfuzzer.py:162` | `def run_proxy(port)` |
-| `send_request` | function | `modules/lazyown_bprfuzzer.py:179` | `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` |
-| `signal_handler` | function | `modules/lazyown_bprfuzzer.py:105` | `def signal_handler(sig, frame)` |
-| `AbstractSelector` | class | `modules/lazyown_bridge.py:3984` | `class AbstractSelector(ABC)` |
-| `BridgeDispatcher` | class | `modules/lazyown_bridge.py:4233` | `class BridgeDispatcher` |
-| `CatalogEntry` | class | `modules/lazyown_bridge.py:48` | `class CatalogEntry` |
-| `CommandCatalog` | class | `modules/lazyown_bridge.py:115` | `class CommandCatalog` |
-| `ContextEnricher` | class | `modules/lazyown_bridge.py:4103` | `class ContextEnricher` |
-| `MitreAlignedSelector` | class | `modules/lazyown_bridge.py:4042` | `class MitreAlignedSelector(AbstractSelector)` |
-| `PhaseMapper` | class | `modules/lazyown_bridge.py:4153` | `class PhaseMapper` |
-| `ServiceAwareSelector` | class | `modules/lazyown_bridge.py:4002` | `class ServiceAwareSelector(AbstractSelector)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

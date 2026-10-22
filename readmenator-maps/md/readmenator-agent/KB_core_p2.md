@@ -1,6 +1,52 @@
 # Subsystem: core (page 2 of 2)
 Previous: [KB_core.md](KB_core.md)
 
+## core/process.py
+- Doc: Process and subprocess utilities for the LazyOwn framework.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `check_go_tool_installed` (function, line 34) `def check_go_tool_installed(tool_name)`
+  - `is_binary_present` (function, line 54) `def is_binary_present(binary_name)`
+  - `handle_multiple_rhosts` (function, line 68) `def handle_multiple_rhosts(func)`
+  - `check_sudo` (function, line 97) `def check_sudo()`
+  - `run` (function, line 108) `def run(command)`
+  - `is_package_installed` (function, line 143) `def is_package_installed(package_name)`
+  - `_print_run_command_status` (function, line 159) `def _print_run_command_status(command, elapsed, exit_code)`
+  - `run_command` (function, line 183) `def run_command(command, timeout)`
+  - `ensure_tmux_session` (function, line 253) `def ensure_tmux_session(session_name)`
+  - `activate_server` (function, line 271) `def activate_server(httpd, url, lhost)`
+  - `wrapper` (function, line 82) `def wrapper(self)`
+  - `_drain_stderr` (function, line 220) `def _drain_stderr()`
+- Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
+
+## core/profiles.py
+- Doc: Runtime profiles: ``light`` vs ``full`` installations.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `active_profile` (function, line 40) `def active_profile()`
+  - `is_light` (function, line 59) `def is_light()`
+  - `specs_for_profile` (function, line 64) `def specs_for_profile(specs)`
+- Imported by: `cli/doctor.py`, `cli/wizard.py`, `tests/test_profiles.py`
+
+## core/prompt.py
+- Doc: Prompt builder for LazyOwn CLI and C2 dashboard banner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_prompt_payload` (function, line 17) `def _load_prompt_payload()`
+  - `get_git_info` (function, line 35) `def get_git_info()`
+  - `get_venv_info` (function, line 60) `def get_venv_info()`
+  - `get_kernel` (function, line 68) `def get_kernel()`
+  - `get_terminal_size` (function, line 78) `def get_terminal_size()`
+  - `get_local_ips` (function, line 87) `def get_local_ips()`
+  - `copy2clip` (function, line 109) `def copy2clip(text)`
+  - `getprompt` (function, line 127) `def getprompt()`
+- Depends on: `core/config.py`
+- Imported by: `contrib/legacy/lazybinenc.py`, `key.py`, `static/js/quill-2.0.3.js`
+
 ## core/protocols.py
 - Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.
 - Layer: utility

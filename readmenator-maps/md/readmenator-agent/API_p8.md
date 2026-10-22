@@ -1,6 +1,22 @@
 # API (page 8 of 24)
 Previous: [API_p7.md](API_p7.md)
 
+## lazyc2/app_factory.py
+Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`, `modules/lazy_rbac.py`
+- `create_app` (function) `lazyc2/app_factory.py:90` `def create_app()` -- Create and return a fully configured C2 Flask application.
+- `_FactoryUser.__init__` (method) `lazyc2/app_factory.py:142` `def __init__(self, data)`
+
+## lazyc2/blueprints/addons.py
+Depends on: `core/logging.py`, `lazyc2/addon_creator.py`, `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/security/csrf.py`
+Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_addon_creator.py`, `tests/test_security_hardening_v5.py`
+- `init_addons_bp` (function) `lazyc2/blueprints/addons.py:69` `def init_addons_bp(base_dir)` -- Configure the blueprint state before registration.
+- `csrf_protect` (function) `lazyc2/blueprints/addons.py:96` `def csrf_protect(view)` -- Decorate a view so mutating requests must echo the CSRF token.
+- `wrapper` (function) `lazyc2/blueprints/addons.py:110` `def wrapper()`
+- `list_addons` (function) `lazyc2/blueprints/addons.py:263` `def list_addons()` -- Render the addon dashboard list page with a fresh CSRF token.
+- `create_addon` (function) `lazyc2/blueprints/addons.py:277` `def create_addon()` -- Render the creation form and persist valid addon submissions.
+- `view_addon` (function) `lazyc2/blueprints/addons.py:321` `def view_addon(name)` -- Render the persisted YAML document for an addon.
+- `delete_addon` (function) `lazyc2/blueprints/addons.py:345` `def delete_addon(name)` -- Delete an addon file.
+
 ## lazyc2/blueprints/api.py
 Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
 Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
@@ -468,32 +484,6 @@ Imported by: `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel
 - `FilterBar.__init__` (method) `lazygui/widgets/filter_bar.py:16` `def __init__(self, constants, placeholder_text, label_text, parent)` -- Lay out a label + line edit and wire up debounce timing.
 - `FilterBar.text` (method) `lazygui/widgets/filter_bar.py:42` `def text(self)` -- Current filter text.
 - `FilterBar.clear` (method) `lazygui/widgets/filter_bar.py:46` `def clear(self)` -- Reset the filter to an empty string.
-
-## lazygui/widgets/graph_view.py
-Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
-Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
-- `GraphNodeItem.__init__` (method) `lazygui/widgets/graph_view.py:143` `def __init__(self, node, radius, color, pixmap, on_selected, on_context_menu, label_visible, parent)`
-- `GraphNodeItem.node_data` (method) `lazygui/widgets/graph_view.py:186` `def node_data(self)` -- Return the immutable node data associated with this item.
-- `GraphNodeItem.paint` (method) `lazygui/widgets/graph_view.py:190` `def paint(self, painter, option, widget)`
-- `GraphNodeItem.mousePressEvent` (method) `lazygui/widgets/graph_view.py:248` `def mousePressEvent(self, event)`
-- `GraphNodeItem.mouseReleaseEvent` (method) `lazygui/widgets/graph_view.py:259` `def mouseReleaseEvent(self, event)`
-- `GraphNodeItem.hoverEnterEvent` (method) `lazygui/widgets/graph_view.py:266` `def hoverEnterEvent(self, event)`
-- `GraphNodeItem.hoverLeaveEvent` (method) `lazygui/widgets/graph_view.py:273` `def hoverLeaveEvent(self, event)`
-- `GraphNodeItem.itemChange` (method) `lazygui/widgets/graph_view.py:279` `def itemChange(self, change, value)`
-- `GraphEdgeItem.__init__` (method) `lazygui/widgets/graph_view.py:288` `def __init__(self, edge, source_item, target_item, parent)`
-- `GraphEdgeItem.update_position` (method) `lazygui/widgets/graph_view.py:324` `def update_position(self)` -- Recalculate the line endpoints from source and target positions.
-- `GraphEdgeItem.edge_data` (method) `lazygui/widgets/graph_view.py:329` `def edge_data(self)` -- Return the immutable edge data.
-- `GraphScene.__init__` (method) `lazygui/widgets/graph_view.py:340` `def __init__(self, constants, parent)`
-- `GraphScene.set_topology` (method) `lazygui/widgets/graph_view.py:349` `def set_topology(self, topology)` -- Replace the current graph with a new topology using force layout.
-- `GraphScene.step_physics` (method) `lazygui/widgets/graph_view.py:419` `def step_physics(self)` -- Run one iteration of force-directed layout.
-- `GraphScene.selected_node_id` (method) `lazygui/widgets/graph_view.py:491` `def selected_node_id(self)` -- Return the identifier of the first selected node, or None.
-- `GraphView.__init__` (method) `lazygui/widgets/graph_view.py:509` `def __init__(self, constants, parent)`
-- `GraphView.set_theme_colors` (method) `lazygui/widgets/graph_view.py:527` `def set_theme_colors(self, bg_color, edge_color)` -- Update graph background and default edge colour from theme tokens.
-- `GraphView.set_topology` (method) `lazygui/widgets/graph_view.py:535` `def set_topology(self, topology)` -- Render a new graph topology.
-- `GraphView.wheelEvent` (method) `lazygui/widgets/graph_view.py:551` `def wheelEvent(self, event)`
-- `GraphView.selected_node_id` (method) `lazygui/widgets/graph_view.py:561` `def selected_node_id(self)` -- Return the identifier of the currently selected node.
-- `GraphView.fit_to_content` (method) `lazygui/widgets/graph_view.py:565` `def fit_to_content(self)` -- Zoom to fit all graph content.
-- `GraphView.scene_handle` (method) `lazygui/widgets/graph_view.py:570` `def scene_handle(self)` -- Return the underlying graph scene.
 
 
 Next: [API_p9.md](API_p9.md)

@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cleanup` | function | `modules/lazynmap.sh:29` | `` |
+| `ctrl_c` | function | `modules/lazynmap.sh:38` | `` |
+| `discover_network` | function | `modules/lazynmap.sh:149` | `` |
+| `extract_ports_info` | function | `modules/lazynmap.sh:818` | `` |
+| `fix_sessions_owner` | function | `modules/lazynmap.sh:74` | `` |
+| `nmaptest` | function | `modules/lazynmap.sh:129` | `` |
+| `print_row` | function | `modules/lazynmap.sh:877` | `` |
+| `run_nmap_script` | function | `modules/lazynmap.sh:844` | `` |
+| `ProxyHandler` | class | `modules/lazyown_bprfuzzer.py:114` | `class ProxyHandler(BaseHTTPRequestHandler)` |
+| `_handle_request` | method | `modules/lazyown_bprfuzzer.py:121` | `def _handle_request(self, method)` |
+| `_load_security_config` | function | `modules/lazyown_bprfuzzer.py:45` | `def _load_security_config()` |
+| `do_GET` | method | `modules/lazyown_bprfuzzer.py:115` | `def do_GET(self)` |
+| `do_POST` | method | `modules/lazyown_bprfuzzer.py:118` | `def do_POST(self)` |
+| `edit_file_with_nano` | function | `modules/lazyown_bprfuzzer.py:169` | `def edit_file_with_nano(content)` |
+| `lazyfuzz` | function | `modules/lazyown_bprfuzzer.py:233` | `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` |
+| `load_data_from_file` | function | `modules/lazyown_bprfuzzer.py:99` | `def load_data_from_file(file_path)` |
+| `load_headers_from_file` | function | `modules/lazyown_bprfuzzer.py:93` | `def load_headers_from_file(file_path)` |
+| `main` | function | `modules/lazyown_bprfuzzer.py:302` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_bprfuzzer.py:278` | `def parse_arguments()` |
+| `repeater` | function | `modules/lazyown_bprfuzzer.py:203` | `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` |
+| `run_proxy` | function | `modules/lazyown_bprfuzzer.py:162` | `def run_proxy(port)` |
+| `send_request` | function | `modules/lazyown_bprfuzzer.py:179` | `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` |
+| `signal_handler` | function | `modules/lazyown_bprfuzzer.py:105` | `def signal_handler(sig, frame)` |
+| `AbstractSelector` | class | `modules/lazyown_bridge.py:3984` | `class AbstractSelector(ABC)` |
+| `BridgeDispatcher` | class | `modules/lazyown_bridge.py:4233` | `class BridgeDispatcher` |
+| `CatalogEntry` | class | `modules/lazyown_bridge.py:48` | `class CatalogEntry` |
+| `CommandCatalog` | class | `modules/lazyown_bridge.py:115` | `class CommandCatalog` |
+| `ContextEnricher` | class | `modules/lazyown_bridge.py:4103` | `class ContextEnricher` |
+| `MitreAlignedSelector` | class | `modules/lazyown_bridge.py:4042` | `class MitreAlignedSelector(AbstractSelector)` |
+| `PhaseMapper` | class | `modules/lazyown_bridge.py:4153` | `class PhaseMapper` |
+| `ServiceAwareSelector` | class | `modules/lazyown_bridge.py:4002` | `class ServiceAwareSelector(AbstractSelector)` |
 | `TagSelector` | class | `modules/lazyown_bridge.py:4071` | `class TagSelector(AbstractSelector)` |
 | `__init__` | method | `modules/lazyown_bridge.py:118` | `def __init__(self)` |
 | `__init__` | method | `modules/lazyown_bridge.py:4045` | `def __init__(self, technique_id)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `export_finetuning_dataset` | method | `modules/memory_store.py:300` | `def export_finetuning_dataset(self, path)` |
 | `get_memory_store` | function | `modules/memory_store.py:339` | `def get_memory_store()` |
 | `recall` | method | `modules/memory_store.py:270` | `def recall(self, query, top_k)` |
-| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
-| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
-| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
-| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
-| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
-| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
-| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
-| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
-| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
-| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
-| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
-| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
-| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
-| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
-| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
-| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
-| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
-| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
-| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
-| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
-| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
-| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
-| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
-| `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
-| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
-| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
-| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

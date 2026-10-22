@@ -3,6 +3,137 @@ Previous: [SYMBOLS_p43.md](SYMBOLS_p43.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_log_handler_returns_generic_message` | method | `tests/test_vuln_mitigations.py:102` | `def test_log_handler_returns_generic_message(self, lazyc2_src)` |
+| `test_no_forbidden_response_substrings_remain` | method | `tests/test_vuln_mitigations.py:154` | `def test_no_forbidden_response_substrings_remain(self, lazyc2_src, phishingai_src, mitigation_config)` |
+| `test_no_redundant_character_range_in_sanitise` | method | `tests/test_vuln_mitigations.py:188` | `def test_no_redundant_character_range_in_sanitise(self, src)` |
+| `test_palette_api_keeps_server_side_logging` | method | `tests/test_vuln_mitigations.py:131` | `def test_palette_api_keeps_server_side_logging(self, lazyc2_src)` |
+| `test_palette_api_returns_generic_message` | method | `tests/test_vuln_mitigations.py:121` | `def test_palette_api_returns_generic_message(self, lazyc2_src)` |
+| `test_pattern_does_not_strip_brackets` | method | `tests/test_vuln_mitigations.py:217` | `def test_pattern_does_not_strip_brackets(self, src)` |
+| `test_pattern_keeps_printable_ascii` | method | `tests/test_vuln_mitigations.py:197` | `def test_pattern_keeps_printable_ascii(self, src)` |
+| `test_pattern_keeps_tab_and_newline` | method | `tests/test_vuln_mitigations.py:203` | `def test_pattern_keeps_tab_and_newline(self, src)` |
+| `test_pattern_matches_simplified_form` | method | `tests/test_vuln_mitigations.py:193` | `def test_pattern_matches_simplified_form(self, src)` |
+| `test_pattern_strips_control_bytes` | method | `tests/test_vuln_mitigations.py:209` | `def test_pattern_strips_control_bytes(self, src)` |
+| `test_phishing_ai_returns_generic_message` | method | `tests/test_vuln_mitigations.py:149` | `def test_phishing_ai_returns_generic_message(self, phishingai_src)` |
+| `test_sentinel_function_exposed` | method | `tests/test_vuln_mitigations.py:236` | `def test_sentinel_function_exposed(self, mitigation_config)` |
+| `test_sentinel_module_exists` | method | `tests/test_vuln_mitigations.py:232` | `def test_sentinel_module_exists(self, mitigation_config)` |
+| `TestBinaryNameRegex` | class | `tests/test_wizard_binary_check.py:58` | `class TestBinaryNameRegex` |
+| `TestBinarySpecRegistry` | class | `tests/test_wizard_binary_check.py:32` | `class TestBinarySpecRegistry` |
+| `TestCheckBinariesContract` | class | `tests/test_wizard_binary_check.py:92` | `class TestCheckBinariesContract` |
+| `TestGroupByCategory` | class | `tests/test_wizard_binary_check.py:143` | `class TestGroupByCategory` |
+| `TestPublicSurface` | class | `tests/test_wizard_binary_check.py:199` | `class TestPublicSurface` |
+| `TestRunIntegratesBinaryCheck` | class | `tests/test_wizard_binary_check.py:156` | `class TestRunIntegratesBinaryCheck` |
+| `_fail` | function | `tests/test_wizard_binary_check.py:127` | `def _fail()` |
+| `fake_check` | function | `tests/test_wizard_binary_check.py:160` | `def fake_check()` |
+| `fake_check` | function | `tests/test_wizard_binary_check.py:179` | `def fake_check()` |
+| `test_accepts_known_safe_names` | method | `tests/test_wizard_binary_check.py:72` | `def test_accepts_known_safe_names(self, name)` |
+| `test_check_binaries_in_dunder_all` | method | `tests/test_wizard_binary_check.py:200` | `def test_check_binaries_in_dunder_all(self)` |
+| `test_check_does_not_invoke_subprocess` | method | `tests/test_wizard_binary_check.py:122` | `def test_check_does_not_invoke_subprocess(self, monkeypatch)` |
+| `test_default_registry_is_not_empty` | method | `tests/test_wizard_binary_check.py:33` | `def test_default_registry_is_not_empty(self)` |
+| `test_default_specs_used_when_omitted` | method | `tests/test_wizard_binary_check.py:138` | `def test_default_specs_used_when_omitted(self)` |
+| `test_every_name_matches_safety_regex` | method | `tests/test_wizard_binary_check.py:44` | `def test_every_name_matches_safety_regex(self)` |
+| `test_every_spec_has_required_fields` | method | `tests/test_wizard_binary_check.py:36` | `def test_every_spec_has_required_fields(self)` |
+| `test_groups_preserve_order` | method | `tests/test_wizard_binary_check.py:144` | `def test_groups_preserve_order(self)` |
+| `test_kill_chain_categories_covered` | method | `tests/test_wizard_binary_check.py:52` | `def test_kill_chain_categories_covered(self)` |
+| `test_marks_missing_when_which_returns_none` | method | `tests/test_wizard_binary_check.py:103` | `def test_marks_missing_when_which_returns_none(self)` |
+| `test_marks_present_when_which_returns_path` | method | `tests/test_wizard_binary_check.py:109` | `def test_marks_present_when_which_returns_path(self)` |
+| `test_no_duplicate_binary_names` | method | `tests/test_wizard_binary_check.py:48` | `def test_no_duplicate_binary_names(self)` |
+| `test_rejects_unsafe_names` | method | `tests/test_wizard_binary_check.py:88` | `def test_rejects_unsafe_names(self, name)` |
+| `test_returns_one_status_per_spec` | method | `tests/test_wizard_binary_check.py:93` | `def test_returns_one_status_per_spec(self)` |
+| `test_run_populates_binaries_after_updates` | method | `tests/test_wizard_binary_check.py:176` | `def test_run_populates_binaries_after_updates(self, monkeypatch)` |
+| `test_run_populates_binaries_when_nothing_changes` | method | `tests/test_wizard_binary_check.py:157` | `def test_run_populates_binaries_when_nothing_changes(self, monkeypatch)` |
+| `test_skips_specs_with_unsafe_names` | method | `tests/test_wizard_binary_check.py:115` | `def test_skips_specs_with_unsafe_names(self)` |
+| `TestAskLlm` | class | `tests/test_wizard_llm.py:59` | `class TestAskLlm` |
+| `TestMaskSecret` | class | `tests/test_wizard_llm.py:45` | `class TestMaskSecret` |
+| `TestNormalizeProviderAnswer` | class | `tests/test_wizard_llm.py:23` | `class TestNormalizeProviderAnswer` |
+| `TestReadinessLlm` | class | `tests/test_wizard_llm.py:121` | `class TestReadinessLlm` |
+| `_fake` | function | `tests/test_wizard_llm.py:17` | `def _fake(message)` |
+| `_fake` | function | `tests/test_wizard_llm.py:92` | `def _fake(message)` |
+| `_fake` | function | `tests/test_wizard_llm.py:109` | `def _fake(message)` |
+| `_row` | method | `tests/test_wizard_llm.py:122` | `def _row(self, params, label)` |
+| `_scripted_prompt` | function | `tests/test_wizard_llm.py:14` | `def _scripted_prompt(answers)` |
+| `test_blank_answers_keep_everything` | method | `tests/test_wizard_llm.py:60` | `def test_blank_answers_keep_everything(self, monkeypatch)` |
+| `test_blank_returns_none` | method | `tests/test_wizard_llm.py:24` | `def test_blank_returns_none(self)` |
+| `test_cloud_with_key_ok` | method | `tests/test_wizard_llm.py:126` | `def test_cloud_with_key_ok(self)` |
+| `test_cloud_without_key_missing` | method | `tests/test_wizard_llm.py:131` | `def test_cloud_without_key_missing(self)` |
+| `test_empty_returns_not_set` | method | `tests/test_wizard_llm.py:46` | `def test_empty_returns_not_set(self)` |
+| `test_existing_key_prompt_shows_mask` | method | `tests/test_wizard_llm.py:106` | `def test_existing_key_prompt_shows_mask(self, monkeypatch)` |
+| `test_invalid_backend_missing_with_fix_hint` | method | `tests/test_wizard_llm.py:141` | `def test_invalid_backend_missing_with_fix_hint(self)` |
+| `test_invalid_provider_keeps_current` | method | `tests/test_wizard_llm.py:76` | `def test_invalid_provider_keeps_current(self, monkeypatch)` |
+| `test_key_kept_when_blank` | method | `tests/test_wizard_llm.py:102` | `def test_key_kept_when_blank(self, monkeypatch)` |
+| `test_long_value_masked_with_tail` | method | `tests/test_wizard_llm.py:50` | `def test_long_value_masked_with_tail(self)` |
+| `test_model_override_stored_in_provider_slot` | method | `tests/test_wizard_llm.py:80` | `def test_model_override_stored_in_provider_slot(self, monkeypatch)` |
+| `test_model_shown_in_value` | method | `tests/test_wizard_llm.py:146` | `def test_model_shown_in_value(self)` |
+| `test_name_case_insensitive` | method | `tests/test_wizard_llm.py:28` | `def test_name_case_insensitive(self)` |
+| `test_number_selects_backend` | method | `tests/test_wizard_llm.py:32` | `def test_number_selects_backend(self)` |
+| `test_ollama_keyless_ok` | method | `tests/test_wizard_llm.py:136` | `def test_ollama_keyless_ok(self)` |
+| `test_ollama_skips_key_prompt` | method | `tests/test_wizard_llm.py:89` | `def test_ollama_skips_key_prompt(self, monkeypatch)` |
+| `test_out_of_range_number_returns_none` | method | `tests/test_wizard_llm.py:37` | `def test_out_of_range_number_returns_none(self)` |
+| `test_provider_change_by_name` | method | `tests/test_wizard_llm.py:65` | `def test_provider_change_by_name(self, monkeypatch)` |
+| `test_provider_change_by_number` | method | `tests/test_wizard_llm.py:70` | `def test_provider_change_by_number(self, monkeypatch)` |
+| `test_sensitive_values_masked` | method | `tests/test_wizard_llm.py:150` | `def test_sensitive_values_masked(self)` |
+| `test_short_value_never_shown_clear` | method | `tests/test_wizard_llm.py:53` | `def test_short_value_never_shown_clear(self)` |
+| `test_unknown_name_returns_none` | method | `tests/test_wizard_llm.py:41` | `def test_unknown_name_returns_none(self)` |
+| `TestAdvanceHostEdgeCases` | class | `tests/test_world_model_extended.py:73` | `class TestAdvanceHostEdgeCases` |
+| `TestGetHost` | class | `tests/test_world_model_extended.py:43` | `class TestGetHost` |
+| `TestGetHostsSummary` | class | `tests/test_world_model_extended.py:61` | `class TestGetHostsSummary` |
+| `TestGetPhaseAfterStateChanges` | class | `tests/test_world_model_extended.py:90` | `class TestGetPhaseAfterStateChanges` |
+| `TestSetOsHint` | class | `tests/test_world_model_extended.py:22` | `class TestSetOsHint` |
+| `test_advance_host_skips_on_lower_state` | method | `tests/test_world_model_extended.py:79` | `def test_advance_host_skips_on_lower_state(self, world_model)` |
+| `test_advance_host_skips_on_same_state` | method | `tests/test_world_model_extended.py:74` | `def test_advance_host_skips_on_same_state(self, world_model)` |
+| `test_advance_host_to_owned_is_allowed_from_exploited` | method | `tests/test_world_model_extended.py:84` | `def test_advance_host_to_owned_is_allowed_from_exploited(self, world_model)` |
+| `test_empty_summary` | method | `tests/test_world_model_extended.py:62` | `def test_empty_summary(self, world_model)` |
+| `test_get_host_is_thread_safe` | method | `tests/test_world_model_extended.py:53` | `def test_get_host_is_thread_safe(self, world_model)` |
+| `test_get_host_returns_entry_for_known` | method | `tests/test_world_model_extended.py:47` | `def test_get_host_returns_entry_for_known(self, world_model)` |
+| `test_get_host_returns_none_for_unknown` | method | `tests/test_world_model_extended.py:44` | `def test_get_host_returns_none_for_unknown(self, world_model)` |
+| `test_phase_complete_when_all_owned` | method | `tests/test_world_model_extended.py:100` | `def test_phase_complete_when_all_owned(self, world_model)` |
+| `test_phase_derived_from_host_state` | method | `tests/test_world_model_extended.py:91` | `def test_phase_derived_from_host_state(self, world_model)` |
+| `test_phase_post_exploitation_on_owned` | method | `tests/test_world_model_extended.py:95` | `def test_phase_post_exploitation_on_owned(self, world_model)` |
+| `test_phase_recon_when_no_hosts` | method | `tests/test_world_model_extended.py:105` | `def test_phase_recon_when_no_hosts(self, world_model)` |
+| `test_populated_summary` | method | `tests/test_world_model_extended.py:65` | `def test_populated_summary(self, world_model)` |
+| `test_remove_host` | function | `tests/test_world_model_extended.py:110` | `def test_remove_host(tmp_path, monkeypatch)` |
+| `test_set_os_hint_empty_string_is_stored` | method | `tests/test_world_model_extended.py:36` | `def test_set_os_hint_empty_string_is_stored(self, world_model)` |
+| `test_set_os_hint_on_existing_host` | method | `tests/test_world_model_extended.py:29` | `def test_set_os_hint_on_existing_host(self, world_model)` |
+| `test_set_os_hint_on_new_host` | method | `tests/test_world_model_extended.py:23` | `def test_set_os_hint_on_new_host(self, world_model)` |
+| `world_model` | function | `tests/test_world_model_extended.py:14` | `def world_model()` |
+| `TestXssSinks` | class | `tests/test_xss_sanitization.py:22` | `class TestXssSinks` |
+| `_src` | function | `tests/test_xss_sanitization.py:18` | `def _src(name)` |
+| `test_collab_events_escaped` | method | `tests/test_xss_sanitization.py:23` | `def test_collab_events_escaped(self)` |
+| `test_index_lazyos_response_sanitized` | method | `tests/test_xss_sanitization.py:47` | `def test_index_lazyos_response_sanitized(self)` |
+| `test_new_campaign_chunks_sanitized` | method | `tests/test_xss_sanitization.py:37` | `def test_new_campaign_chunks_sanitized(self)` |
+| `test_surface_labels_escaped` | method | `tests/test_xss_sanitization.py:42` | `def test_surface_labels_escaped(self)` |
+| `test_yaml_view_chatbot_sanitized` | method | `tests/test_xss_sanitization.py:32` | `def test_yaml_view_chatbot_sanitized(self)` |
+| `test_yaml_view_loads_purify` | method | `tests/test_xss_sanitization.py:28` | `def test_yaml_view_loads_purify(self)` |
+| `check_file` | function | `tools/contract_check.py:19` | `def check_file(path)` |
+| `main` | function | `tools/contract_check.py:46` | `def main(argv)` |
+| `build_module` | function | `tools/extract_cluster.py:66` | `def build_module(target_class, phase, category, title, methods, extra_imports)` |
+| `collect_methods` | function | `tools/extract_cluster.py:41` | `def collect_methods(source_text, wanted)` |
+| `fragment_name` | function | `tools/extract_cluster.py:29` | `def fragment_name(fragment)` |
+| `main` | function | `tools/extract_cluster.py:141` | `def main()` |
+| `font` | function | `tools/gen_demo_gifs.py:14` | `def font(size)` |
+| `main` | function | `tools/gen_demo_gifs.py:70` | `def main()` |
+| `render` | function | `tools/gen_demo_gifs.py:22` | `def render(lines, path, hold)` |
+| `main` | function | `tools/gen_demo_gifs_extra.py:49` | `def main()` |
+| `_normalize_dvwa` | function | `tools/generate_metasploitable_gym.py:1061` | `def _normalize_dvwa()` |
+| `base_chain_document` | function | `tools/generate_metasploitable_gym.py:961` | `def base_chain_document()` |
+| `chain_document` | function | `tools/generate_metasploitable_gym.py:942` | `def chain_document(item)` |
+| `exploit_document` | function | `tools/generate_metasploitable_gym.py:919` | `def exploit_document(item)` |
+| `index_document` | function | `tools/generate_metasploitable_gym.py:1034` | `def index_document()` |
+| `write` | function | `tools/generate_metasploitable_gym.py:1074` | `def write()` |
+| `main` | function | `tools/set_lazyaddon_updates.py:55` | `def main()` |
+| `read_flag` | function | `tools/set_lazyaddon_updates.py:45` | `def read_flag(path)` |
+| `set_flag` | function | `tools/set_lazyaddon_updates.py:22` | `def set_flag(path, value)` |
+| `IP2ASN` | class | `utils.py:3160` | `class IP2ASN` |
+| `MyServer` | class | `utils.py:3122` | `class MyServer(HTTPServer)` |
+| `ProcessResults` | function | `utils.py:2340` | `def ProcessResults(results, outfile)` |
+| `SimpleHTTPRequestHandler` | class | `utils.py:3130` | `class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)` |
+| `Spray` | function | `utils.py:2293` | `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` |
+| `VulnerabilityScanner` | class | `utils.py:3249` | `class VulnerabilityScanner` |
+| `__init__` | method | `utils.py:3161` | `def __init__(self)` |
+| `__init__` | method | `utils.py:3267` | `def __init__(self, user_agent, max_workers, sessions_dir, description_language)` |
+| `_build_startup_parser` | function | `utils.py:3426` | `def _build_startup_parser()` |
+| `_cvss_sort_key` | function | `utils.py:3413` | `def _cvss_sort_key(record)` |
+| `_enrich_cve` | method | `utils.py:3342` | `def _enrich_cve(self, cve_info)` |
+| `_load_prompt_payload` | function | `utils.py:734` | `def _load_prompt_payload()` |
 | `_parse_file` | method | `utils.py:3181` | `def _parse_file(self, reader)` |
 | `_rec_index_has_ip` | method | `utils.py:3217` | `def _rec_index_has_ip(self, idx, ip)` |
 | `_redact` | function | `utils.py:1165` | `def _redact(text)` |

@@ -1,7 +1,20 @@
-# Architecture (page 5 of 8)
+# Architecture (page 5 of 9)
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_credentials_rotation.py` -> `cli/commands/cred_migrated.py`
+- `tests/test_csrf_behavior.py` -> `lazyc2/security/csrf.py`
+- `tests/test_csrf_policy.py` -> `lazyc2/security/csrf.py`
+- `tests/test_daemon_control.py` -> `skills/daemon_control.py`
+- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_base.py`
+- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_dormancy.py`
+- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/daemon_ctl.py`
+- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/misc_migrated.py`
+- `tests/test_daemon_ctl_command_set.py` -> `cli/registry.py`
+- `tests/test_daemon_loop.py` -> `modules/db.py`
+- `tests/test_daemon_loop.py` -> `modules/obs_parser.py`
+- `tests/test_daemon_loop.py` -> `modules/planner.py`
+- `tests/test_daemon_loop.py` -> `skills/autonomous_daemon.py`
 - `tests/test_daemon_loop.py` -> `skills/lazyown_objective.py`
 - `tests/test_dashboard_routes.py` -> `modules/dashboard_bp.py`
 - `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
@@ -139,6 +152,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_orchestrator.py` -> `cli/lazy_orchestrator.py`
 - `tests/test_lazy_orchestrator.py` -> `cli/tui_forms.py`
 - `tests/test_lazy_orchestrator.py` -> `core/config.py`
+- `tests/test_lazy_orchestrator.py` -> `core/param_registry.py`
 - `tests/test_lazy_orchestrator.py` -> `modules/__init__.py`
 - `tests/test_lazy_orchestrator.py` -> `modules/gym_registry.py`
 - `tests/test_lazy_orchestrator.py` -> `modules/lazy_engine.py`
@@ -319,6 +333,12 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_outcome_bus.py` -> `modules/sinks/killchain.py`
 - `tests/test_outcome_bus.py` -> `modules/sinks/objectives.py`
 - `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
+- `tests/test_param_registry.py` -> `cli/commands/params_ops.py`
+- `tests/test_param_registry.py` -> `cli/lazy_orchestrator.py`
+- `tests/test_param_registry.py` -> `cli/registry.py`
+- `tests/test_param_registry.py` -> `core/param_registry.py`
+- `tests/test_param_registry.py` -> `core/payload_schema.py`
+- `tests/test_param_registry.py` -> `lazyc2/addon_creator.py`
 - `tests/test_payload_factory.py` -> `modules/payload_factory.py`
 - `tests/test_payload_schema.py` -> `cli/assign.py`
 - `tests/test_payload_schema.py` -> `core/payload_schema.py`
@@ -330,6 +350,10 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_phase_labels.py` -> `cli/contextual_help.py`
 - `tests/test_phase_labels.py` -> `cli/phase_labels.py`
 - `tests/test_phase_labels.py` -> `cli/tips_engine.py`
+- `tests/test_php2shell_addon.py` -> `core/param_registry.py`
+- `tests/test_php2shell_addon.py` -> `core/payload_schema.py`
+- `tests/test_php2shell_addon.py` -> `lazyc2/addon_creator.py`
+- `tests/test_php2shell_addon.py` -> `utils.py`
 - `tests/test_pi_leg.py` -> `modules/__init__.py`
 - `tests/test_pi_leg.py` -> `modules/lazy_loop.py`
 - `tests/test_pipeline_engine.py` -> `modules/pipeline_engine.py`
@@ -472,17 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_world_model_extended.py` -> `modules/world_model.py`
 - `tools/gen_demo_gifs_extra.py` -> `tools/gen_demo_gifs.py`
 - `utils.py` -> `cli/banner_config.py`
-- `utils.py` -> `core/config.py`
-- `utils.py` -> `core/console.py`
-- `utils.py` -> `core/crypto.py`
-- `utils.py` -> `core/dependencies.py`
-- `utils.py` -> `core/parsers.py`
-- `utils.py` -> `core/process.py`
-- `utils.py` -> `core/safe_subprocess.py`
-- `utils.py` -> `core/validators.py`
-- `utils.py` -> `modules/backdoor/server.c`
-- `utils.py` -> `modules/lazyencoder_decoder.py`
-- `utils.py` -> `skills/claude_md_orchestrator/parser.py`
-
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

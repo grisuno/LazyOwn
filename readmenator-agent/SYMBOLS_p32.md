@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestFailureMemorySanctioned` | class | `tests/test_auto_loop_memory.py:71` | `class TestFailureMemorySanctioned` |
+| `TestSelectorManager` | class | `tests/test_auto_loop_memory.py:121` | `class TestSelectorManager` |
+| `test_all_blocked_returns_none` | method | `tests/test_auto_loop_memory.py:144` | `def test_all_blocked_returns_none(self)` |
+| `test_blocked_after_threshold_by_base` | method | `tests/test_auto_loop_memory.py:25` | `def test_blocked_after_threshold_by_base(self, tmp_path)` |
+| `test_blocked_proposal_skipped_with_trace` | method | `tests/test_auto_loop_memory.py:130` | `def test_blocked_proposal_skipped_with_trace(self)` |
+| `test_clear_target_forgets_records` | method | `tests/test_auto_loop_memory.py:53` | `def test_clear_target_forgets_records(self, tmp_path)` |
+| `test_counts_persist_across_reload` | method | `tests/test_auto_loop_memory.py:16` | `def test_counts_persist_across_reload(self, tmp_path)` |
+| `test_duplicates_deduped` | method | `tests/test_auto_loop_memory.py:149` | `def test_duplicates_deduped(self)` |
+| `test_empty_command_rejected` | method | `tests/test_auto_loop_memory.py:155` | `def test_empty_command_rejected(self)` |
+| `test_invalid_key_raises` | method | `tests/test_auto_loop_memory.py:63` | `def test_invalid_key_raises(self, tmp_path)` |
+| `test_newest_First_and_persisted` | method | `tests/test_auto_loop_memory.py:99` | `def test_newest_First_and_persisted(self, tmp_path)` |
+| `test_priority_order_wins` | method | `tests/test_auto_loop_memory.py:124` | `def test_priority_order_wins(self)` |
+| `test_push_ignores_empty_and_caps` | method | `tests/test_auto_loop_memory.py:110` | `def test_push_ignores_empty_and_caps(self, tmp_path)` |
+| `test_push_pop_round_trip` | method | `tests/test_auto_loop_memory.py:89` | `def test_push_pop_round_trip(self, tmp_path)` |
+| `test_sanctioned_lists_sorted_rows` | method | `tests/test_auto_loop_memory.py:74` | `def test_sanctioned_lists_sorted_rows(self, tmp_path)` |
+| `test_trims_to_capacity` | method | `tests/test_auto_loop_memory.py:43` | `def test_trims_to_capacity(self, tmp_path)` |
+| `test_veto_blocks_immediately_and_persists` | method | `tests/test_auto_loop_memory.py:35` | `def test_veto_blocks_immediately_and_persists(self, tmp_path)` |
+| `_FakeShell` | class | `tests/test_auto_registry.py:73` | `class _FakeShell` |
+| `_HangingShell` | class | `tests/test_auto_registry.py:86` | `class _HangingShell` |
+| `__init__` | method | `tests/test_auto_registry.py:76` | `def __init__(self, output)` |
+| `_run` | function | `tests/test_auto_registry.py:169` | `def _run()` |
+| `onecmd` | method | `tests/test_auto_registry.py:89` | `def onecmd(self, command)` |
+| `onecmd_plus_hooks` | method | `tests/test_auto_registry.py:80` | `def onecmd_plus_hooks(self, command)` |
+| `test_build_command_binds_target` | function | `tests/test_auto_registry.py:38` | `def test_build_command_binds_target()` |
+| `test_cancel_running_commands_kills_streaming` | function | `tests/test_auto_registry.py:160` | `def test_cancel_running_commands_kills_streaming()` |
+| `test_execute_shell_verb_captures_output` | function | `tests/test_auto_registry.py:96` | `def test_execute_shell_verb_captures_output()` |
+| `test_execute_shell_verb_rejects_non_verbs` | function | `tests/test_auto_registry.py:104` | `def test_execute_shell_verb_rejects_non_verbs()` |
+| `test_execute_shell_verb_timeout_never_hangs` | function | `tests/test_auto_registry.py:112` | `def test_execute_shell_verb_timeout_never_hangs()` |
+| `test_execute_shell_verb_without_shell` | function | `tests/test_auto_registry.py:118` | `def test_execute_shell_verb_without_shell()` |
+| `test_is_shell_verb_matches_first_token` | function | `tests/test_auto_registry.py:47` | `def test_is_shell_verb_matches_first_token()` |
+| `test_missing_binary_skips_builtins_paths_and_scripts` | function | `tests/test_auto_registry.py:134` | `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)` |
 | `test_propose_and_steps_skip_unavailable_verbs` | function | `tests/test_auto_registry.py:144` | `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)` |
 | `test_propose_and_translate_roundtrip` | function | `tests/test_auto_registry.py:63` | `def test_propose_and_translate_roundtrip()` |
 | `test_registry_covers_auto_family` | function | `tests/test_auto_registry.py:28` | `def test_registry_covers_auto_family()` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_default_construction` | method | `tests/test_c2_profile_engine.py:155` | `def test_default_construction(self)` |
 | `test_default_construction` | method | `tests/test_c2_profile_engine.py:184` | `def test_default_construction(self)` |
 | `test_default_engine_has_http_slot` | method | `tests/test_c2_profile_engine.py:398` | `def test_default_engine_has_http_slot(self)` |
-| `test_disabled_profile` | method | `tests/test_c2_profile_engine.py:94` | `def test_disabled_profile(self)` |
-| `test_engine_empty_payload_falls_back_to_defaults` | method | `tests/test_c2_profile_engine.py:465` | `def test_engine_empty_payload_falls_back_to_defaults(self)` |
-| `test_engine_from_dict` | method | `tests/test_c2_profile_engine.py:442` | `def test_engine_from_dict(self)` |
-| `test_engine_from_payload` | method | `tests/test_c2_profile_engine.py:455` | `def test_engine_from_payload(self)` |
-| `test_engine_get_active_profile_dict` | method | `tests/test_c2_profile_engine.py:427` | `def test_engine_get_active_profile_dict(self)` |
-| `test_engine_get_all_profiles_dict` | method | `tests/test_c2_profile_engine.py:433` | `def test_engine_get_all_profiles_dict(self)` |
-| `test_engine_rotate_through_transports` | method | `tests/test_c2_profile_engine.py:420` | `def test_engine_rotate_through_transports(self)` |
-| `test_engine_validate_returns_errors_for_invalid_dns` | method | `tests/test_c2_profile_engine.py:412` | `def test_engine_validate_returns_errors_for_invalid_dns(self)` |
-| `test_engine_with_all_transports` | method | `tests/test_c2_profile_engine.py:402` | `def test_engine_with_all_transports(self)` |
-| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:90` | `def test_from_dict_empty(self)` |
-| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:148` | `def test_from_dict_empty(self)` |
-| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:178` | `def test_from_dict_empty(self)` |
-| `test_from_dict_empty` | method | `tests/test_c2_profile_engine.py:208` | `def test_from_dict_empty(self)` |
-| `test_get_cipher_suites_returns_custom_when_set` | method | `tests/test_c2_profile_engine.py:50` | `def test_get_cipher_suites_returns_custom_when_set(self)` |
-| `test_get_cipher_suites_returns_library_defaults` | method | `tests/test_c2_profile_engine.py:44` | `def test_get_cipher_suites_returns_library_defaults(self)` |
-| `test_get_cipher_suites_unknown_library_falls_back_to_generic` | method | `tests/test_c2_profile_engine.py:55` | `def test_get_cipher_suites_unknown_library_falls_back_to_generic(self)` |
-| `test_get_ja3_hash_produces_stable_output` | method | `tests/test_c2_profile_engine.py:61` | `def test_get_ja3_hash_produces_stable_output(self)` |
-| `test_get_ja3_hash_with_grease_produces_variable_output` | method | `tests/test_c2_profile_engine.py:72` | `def test_get_ja3_hash_with_grease_produces_variable_output(self)` |
-| `test_is_available_after_touch` | method | `tests/test_c2_profile_engine.py:278` | `def test_is_available_after_touch(self)` |
-| `test_is_available_fresh_slot` | method | `tests/test_c2_profile_engine.py:274` | `def test_is_available_fresh_slot(self)` |
-| `test_list_slots` | method | `tests/test_c2_profile_engine.py:263` | `def test_list_slots(self)` |
-| `test_requires_at_least_one_slot` | method | `tests/test_c2_profile_engine.py:215` | `def test_requires_at_least_one_slot(self)` |
-| `test_rotation_cycles_through_slots` | method | `tests/test_c2_profile_engine.py:226` | `def test_rotation_cycles_through_slots(self)` |
-| `test_rotation_resets_all_cooldowns_when_all_busy` | method | `tests/test_c2_profile_engine.py:252` | `def test_rotation_resets_all_cooldowns_when_all_busy(self)` |
-| `test_rotation_skips_cooldown_slots` | method | `tests/test_c2_profile_engine.py:238` | `def test_rotation_skips_cooldown_slots(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:77` | `def test_serialization_roundtrip(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:135` | `def test_serialization_roundtrip(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:161` | `def test_serialization_roundtrip(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_c2_profile_engine.py:191` | `def test_serialization_roundtrip(self)` |
-| `test_single_slot_always_active` | method | `tests/test_c2_profile_engine.py:219` | `def test_single_slot_always_active(self)` |
-| `test_validate_all_returns_dict` | method | `tests/test_c2_profile_engine.py:383` | `def test_validate_all_returns_dict(self)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

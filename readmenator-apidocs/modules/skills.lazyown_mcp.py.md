@@ -26,6 +26,9 @@ Solid arrows stay in this module, dashed arrows leave it.
 ```mermaid
 flowchart LR
     n_skills_lazyown_mcp_py__call_tool(["call_tool"])
+    n_core_param_registry_py__create_param["param_registry.create_param"]
+    n_core_param_registry_py__delete_param["param_registry.delete_param"]
+    n_core_param_registry_py__list_params["param_registry.list_params"]
     n_lazygui_widgets_filter_bar_py__FilterBar_text["filter_bar.FilterBar.text"]
     n_modules_event_engine_py__add_rule["event_engine.add_rule"]
     n_modules_event_engine_py__load_rules["event_engine.load_rules"]
@@ -42,6 +45,9 @@ flowchart LR
     n_skills_lazyown_mcp_helpers_py__evidence_grep["lazyown_mcp_helpers.evidence_grep"]
     n_skills_lazyown_mcp_helpers_py__needs_confirmation["lazyown_mcp_helpers.needs_confirmation"]
     n_skills_lazyown_mcp_helpers_py__take_snapshot["lazyown_mcp_helpers.take_snapshot"]
+    n_skills_lazyown_mcp_py__call_tool -.-> n_core_param_registry_py__create_param
+    n_skills_lazyown_mcp_py__call_tool -.-> n_core_param_registry_py__delete_param
+    n_skills_lazyown_mcp_py__call_tool -.-> n_core_param_registry_py__list_params
     n_skills_lazyown_mcp_py__call_tool -.-> n_lazygui_widgets_filter_bar_py__FilterBar_text
     n_skills_lazyown_mcp_py__call_tool -.-> n_modules_event_engine_py__add_rule
     n_skills_lazyown_mcp_py__call_tool -.-> n_modules_event_engine_py__load_rules
@@ -105,7 +111,7 @@ async def list_tools() -> list[types.Tool]
 
 ### `substitute_playbook_target`
 
-`function` | [skills/lazyown_mcp.py:6478](../../skills/lazyown_mcp.py#L6478)
+`function` | [skills/lazyown_mcp.py:6553](../../skills/lazyown_mcp.py#L6553)
 
 ```python
 def substitute_playbook_target(command: str, target: str) -> str
@@ -132,7 +138,7 @@ preserved because only the substituted value is quoted.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp.py:6496](../../skills/lazyown_mcp.py#L6496)
+`function` `async` | [skills/lazyown_mcp.py:6571](../../skills/lazyown_mcp.py#L6571)
 
 Decorators: `@server.call_tool()`
 
@@ -149,7 +155,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 **Returns:** `list[types.TextContent]`
 
-*Calls:* [`FilterBar.text`](lazygui.widgets.filter_bar.py.md#filterbar-text), [`add_rule`](modules.event_engine.py.md#add_rule), [`load_rules`](modules.event_engine.py.md#load_rules), [`read_events`](modules.event_engine.py.md#read_events), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`get_agent_result`](modules.mcp_agent_bridge.py.md#get_agent_result), [`get_agent_status`](modules.mcp_agent_bridge.py.md#get_agent_status), [`list_agents`](modules.mcp_agent_bridge.py.md#list_agents), [`start_agent`](modules.mcp_agent_bridge.py.md#start_agent), [`audit_tasks`](skills.lazyown_mcp_helpers.py.md#audit_tasks), [`build_target_context`](skills.lazyown_mcp_helpers.py.md#build_target_context), [`diff_snapshot`](skills.lazyown_mcp_helpers.py.md#diff_snapshot) and 4 more
+*Calls:* [`create_param`](core.param_registry.py.md#create_param), [`delete_param`](core.param_registry.py.md#delete_param), [`list_params`](core.param_registry.py.md#list_params), [`FilterBar.text`](lazygui.widgets.filter_bar.py.md#filterbar-text), [`add_rule`](modules.event_engine.py.md#add_rule), [`load_rules`](modules.event_engine.py.md#load_rules), [`read_events`](modules.event_engine.py.md#read_events), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`get_agent_result`](modules.mcp_agent_bridge.py.md#get_agent_result), [`get_agent_status`](modules.mcp_agent_bridge.py.md#get_agent_status), [`list_agents`](modules.mcp_agent_bridge.py.md#list_agents), [`start_agent`](modules.mcp_agent_bridge.py.md#start_agent) and 7 more
 
 ---
 
@@ -157,7 +163,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:13113](../../skills/lazyown_mcp.py#L13113)
+`function` `async` | [skills/lazyown_mcp.py:13247](../../skills/lazyown_mcp.py#L13247)
 
 ```python
 async def main()

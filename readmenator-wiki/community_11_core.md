@@ -1,6 +1,6 @@
 # core
 
-*Community 9 | 22 files | cohesion 0.43*
+*Community 11 | 22 files | cohesion 0.43*
 
 ## Definition
 
@@ -101,14 +101,15 @@ This community groups 22 file(s) rooted at `core` with dominant language py (coh
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
-- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
-- [EXTRACTED] depends_on community 9 <-> 12 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 1 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
+- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
+- [EXTRACTED] depends_on community 11 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 11 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
 
 ## Open Questions
 

@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 793,
-  "entities": 15050,
+  "modules": 795,
+  "entities": 15086,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 680,
+   "py": 682,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4265,
-   "class": 1390,
-   "classmethod": 81,
-   "constant": 1268,
+   "attribute": 4273,
+   "class": 1392,
+   "classmethod": 82,
+   "constant": 1271,
    "constructor": 517,
    "enum": 38,
    "exception": 37,
-   "function": 2711,
+   "function": 2725,
    "macro": 113,
-   "method": 3500,
-   "module": 793,
+   "method": 3506,
+   "module": 795,
    "property": 196,
    "protocol": 14,
    "staticmethod": 91,
@@ -36,25 +36,25 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 341,
+  "skipped_files": 343,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7023,
-   "total": 9505,
-   "percent": 73.9
+   "documented": 7048,
+   "total": 9530,
+   "percent": 74.0
   },
   "by_kind": {
    "class": {
-    "documented": 1202,
-    "total": 1390,
+    "documented": 1204,
+    "total": 1392,
     "percent": 86.5
    },
    "classmethod": {
-    "documented": 55,
-    "total": 81,
-    "percent": 67.9
+    "documented": 56,
+    "total": 82,
+    "percent": 68.3
    },
    "constructor": {
     "documented": 195,
@@ -72,9 +72,9 @@
     "percent": 94.6
    },
    "function": {
-    "documented": 1763,
-    "total": 2711,
-    "percent": 65.0
+    "documented": 1777,
+    "total": 2725,
+    "percent": 65.2
    },
    "macro": {
     "documented": 3,
@@ -82,14 +82,14 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2821,
-    "total": 3500,
+    "documented": 2827,
+    "total": 3506,
     "percent": 80.6
    },
    "module": {
-    "documented": 671,
-    "total": 793,
-    "percent": 84.6
+    "documented": 673,
+    "total": 795,
+    "percent": 84.7
    },
    "property": {
     "documented": 152,
@@ -493,6 +493,11 @@
     "total": 5,
     "percent": 100.0
    },
+   "cli/commands/params_ops.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
    "cli/commands/payload_arsenal.py": {
     "documented": 8,
     "total": 8,
@@ -719,8 +724,8 @@
     "percent": 100.0
    },
    "cli/lazy_orchestrator.py": {
-    "documented": 17,
-    "total": 17,
+    "documented": 20,
+    "total": 20,
     "percent": 100.0
    },
    "cli/lazynmap_post.py": {
@@ -1248,14 +1253,19 @@
     "total": 9,
     "percent": 100.0
    },
+   "core/param_registry.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
    "core/parsers.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
    },
    "core/payload_schema.py": {
-    "documented": 12,
-    "total": 12,
+    "documented": 14,
+    "total": 14,
     "percent": 100.0
    },
    "core/process.py": {
@@ -1374,9 +1384,9 @@
     "percent": 0.0
    },
    "lazyc2/addon_creator.py": {
-    "documented": 25,
-    "total": 26,
-    "percent": 96.2
+    "documented": 26,
+    "total": 27,
+    "percent": 96.3
    },
    "lazyc2/app_factory.py": {
     "documented": 2,
@@ -4462,6 +4472,11 @@
    "entities": 19
   },
   {
+   "uid": "cli/commands/params_ops.py",
+   "path": "modules/cli.commands.params_ops.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "cli/commands/payload_arsenal.py",
    "path": "modules/cli.commands.payload_arsenal.py.jsonl",
    "entities": 10
@@ -4689,7 +4704,7 @@
   {
    "uid": "cli/lazy_orchestrator.py",
    "path": "modules/cli.lazy_orchestrator.py.jsonl",
-   "entities": 19
+   "entities": 22
   },
   {
    "uid": "cli/lazynmap_post.py",
@@ -5217,6 +5232,11 @@
    "entities": 9
   },
   {
+   "uid": "core/param_registry.py",
+   "path": "modules/core.param_registry.py.jsonl",
+   "entities": 25
+  },
+  {
    "uid": "core/parsers.py",
    "path": "modules/core.parsers.py.jsonl",
    "entities": 2
@@ -5224,7 +5244,7 @@
   {
    "uid": "core/payload_schema.py",
    "path": "modules/core.payload_schema.py.jsonl",
-   "entities": 46
+   "entities": 48
   },
   {
    "uid": "core/process.py",
@@ -5344,7 +5364,7 @@
   {
    "uid": "lazyc2/addon_creator.py",
    "path": "modules/lazyc2.addon_creator.py.jsonl",
-   "entities": 86
+   "entities": 87
   },
   {
    "uid": "lazyc2/app_factory.py",

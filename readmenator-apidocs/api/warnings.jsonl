@@ -695,7 +695,7 @@
 {"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":7905,"message":"function create_multivector_campaign is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8057,"message":"function serve_landing_page is not documented"}
 {"code":"DOC001","uid":"lazyc2/__init__.py","file":"lazyc2/__init__.py","line":1,"message":"module lazyc2/__init__.py is not documented"}
-{"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":899,"message":"return value of AddonStore.exists is not documented"}
+{"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":921,"message":"return value of AddonStore.exists is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::register","file":"lazyc2/blueprints/auth.py","line":128,"message":"function register is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::login","file":"lazyc2/blueprints/auth.py","line":187,"message":"function login is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::mfa_setup","file":"lazyc2/blueprints/auth.py","line":232,"message":"function mfa_setup is not documented"}
@@ -735,10 +735,10 @@
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_ips_from_arp","file":"lazyown-docker/hostdiscover.sh","line":21,"message":"function extract_ips_from_arp is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_listening_ips_from_netstat","file":"lazyown-docker/hostdiscover.sh","line":26,"message":"function extract_listening_ips_from_netstat is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/init.sh","file":"lazyown-docker/init.sh","line":1,"message":"module lazyown-docker/init.sh is not documented"}
-{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1323,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
-{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1323,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
-{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2263,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4940,"message":"function main is not documented"}
+{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1329,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
+{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1329,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
+{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2269,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4946,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -2097,8 +2097,8 @@
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.ask","file":"skills/lazyown_llm.py","line":127,"message":"method LLMBridge.ask is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::main","file":"skills/lazyown_llm.py","line":493,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":2131,"message":"function list_tools is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6496,"message":"function call_tool is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":13113,"message":"function main is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6571,"message":"function call_tool is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":13247,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.status","file":"skills/lazyown_mcp_helpers.py","line":727,"message":"method JobStore.status is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.list","file":"skills/lazyown_mcp_helpers.py","line":732,"message":"method JobStore.list is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_opencode.py::main","file":"skills/lazyown_mcp_opencode.py","line":89,"message":"function main is not documented"}

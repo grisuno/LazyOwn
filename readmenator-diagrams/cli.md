@@ -1,6 +1,6 @@
 # cli
 
-cli groups 109 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 117 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -17,6 +17,7 @@ graph LR
     core -- "calls into" --> root
     core -- "calls into" --> tests
     modules -- "calls into" --> cli
+    poc_tui -- "depends on" --> cli
     poc_tui -- "calls into" --> root
     root -- "calls into" --> cli
     root -- "calls into" --> core
@@ -28,33 +29,33 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (4.1)
+## cli (3.1)
 
-cli groups 47 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
+cli groups 52 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
 
-## core (4.2)
+## core (3.2)
 
 core groups 6 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell.
 
-## modules (4.3)
+## modules (3.3)
 
-modules groups 1 files (py) around _load_users, _save_users, _load_payload, _save_payload, user_exists. CLI authentication module — login against users.json with remember-me.
+modules groups 3 files (py) around _load_users, _save_users, _load_payload, _save_payload, user_exists. Purple Team Closed-Loop — honest measurement of offensive detection.
 
-## poc_tui (4.4)
+## poc_tui (3.4)
 
 poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
 
-## root (4.5)
+## root (3.5)
 
 root groups 2 files (py) around _ux_debug, _parse_bool_setting, _PayloadSettableProxy, __init__, __getattr__. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## scripts (4.6)
+## scripts (3.6)
 
 scripts groups 1 files (py) around AuditConfig, argparser_commands, audit, main. Audit every registered shell command for dispatch and parser errors.
 
-## tests (4.7)
+## tests (3.7)
 
-tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
+tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
@@ -65,7 +66,9 @@ tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/command_explorer.py
 - cli/command_form.py
 - cli/commands/cli_auth.py
+- cli/commands/containers.py
 - cli/commands/help_ui.py
+- cli/commands/purple_team.py
 - cli/commands/recon.py
 - cli/config_status.py
 - cli/contextual_help.py
@@ -89,6 +92,7 @@ tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/palette_telemetry.py
 - cli/phase_labels.py
 - cli/protips.py
+- cli/purple_tui.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
 - cli/recommendation.py
@@ -97,6 +101,8 @@ tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/sessions_browser.py
 - cli/splash.py
 - cli/status_bar.py
+- cli/surface_graph.py
+- cli/surface_tui.py
 - cli/themes.py
 - cli/timeline_browser.py
 - cli/tips_engine.py
@@ -113,7 +119,9 @@ tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - core/text_utils.py
 - lazy_sentinel4.py
 - lazyown.py
+- modules/auto_purple.py
 - modules/cli_auth.py
+- modules/lazyk8s.py
 - poc_tui/__main__.py
 - poc_tui/app.py
 - poc_tui/run.py
@@ -156,6 +164,7 @@ tests groups 48 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_scope_guard_integration.py
 - tests/test_sessions_browser.py
 - tests/test_status_bar_operators.py
+- tests/test_surface_graph.py
 - tests/test_themes.py
 - tests/test_timeline_browser.py
 - tests/test_tips_engine.py

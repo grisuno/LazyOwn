@@ -461,7 +461,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
   - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
   - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
-  - `do_lazy_view` (method, line 305) `def do_lazy_view(self, line)`
+  - `do_lazy_view` (method, line 306) `def do_lazy_view(self, line)`
 - Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
 - Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 

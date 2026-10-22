@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_save_payload_creates_parent_dirs` | method | `tests/test_core.py:147` | `def test_save_payload_creates_parent_dirs(self, tmp_path)` |
+| `test_save_payload_is_atomic` | method | `tests/test_core.py:136` | `def test_save_payload_is_atomic(self, tmp_path)` |
+| `test_selector_protocol_accepts_conforming_object` | method | `tests/test_core.py:246` | `def test_selector_protocol_accepts_conforming_object(self)` |
+| `test_surrogate_chars_are_stripped` | method | `tests/test_core.py:100` | `def test_surrogate_chars_are_stripped(self, capsys)` |
+| `test_symbol_is_re_exported` | method | `tests/test_core.py:303` | `def test_symbol_is_re_exported(self, name)` |
+| `test_utils_imports_from_core` | method | `tests/test_core.py:344` | `def test_utils_imports_from_core(self)` |
+| `test_utils_no_inline_config_class` | method | `tests/test_core.py:309` | `def test_utils_no_inline_config_class(self)` |
+| `test_utils_no_inline_load_payload` | method | `tests/test_core.py:315` | `def test_utils_no_inline_load_payload(self)` |
+| `test_utils_no_inline_print_helpers` | method | `tests/test_core.py:335` | `def test_utils_no_inline_print_helpers(self)` |
+| `test_utils_no_inline_validators` | method | `tests/test_core.py:326` | `def test_utils_no_inline_validators(self)` |
+| `test_utils_no_inline_xor` | method | `tests/test_core.py:321` | `def test_utils_no_inline_xor(self)` |
+| `TestCommandBridgeInitialization` | class | `tests/test_core_command_bridge.py:25` | `class TestCommandBridgeInitialization` |
+| `TestCommandBridgeOneCmdAlias` | class | `tests/test_core_command_bridge.py:96` | `class TestCommandBridgeOneCmdAlias` |
+| `TestCommandBridgeOnecmd` | class | `tests/test_core_command_bridge.py:51` | `class TestCommandBridgeOnecmd` |
+| `_reset_bridge_singleton` | function | `tests/test_core_command_bridge.py:16` | `def _reset_bridge_singleton()` |
+| `call_onecmd` | function | `tests/test_core_command_bridge.py:81` | `def call_onecmd()` |
+| `test_empty_command_returns_empty` | method | `tests/test_core_command_bridge.py:99` | `def test_empty_command_returns_empty(self)` |
+| `test_empty_command_returns_empty_string` | method | `tests/test_core_command_bridge.py:54` | `def test_empty_command_returns_empty_string(self)` |
+| `test_error_is_none_initially` | method | `tests/test_core_command_bridge.py:35` | `def test_error_is_none_initially(self)` |
+| `test_execute_alias_returns_string` | method | `tests/test_core_command_bridge.py:107` | `def test_execute_alias_returns_string(self)` |
+| `test_get_bridge_returns_same_singleton` | method | `tests/test_core_command_bridge.py:42` | `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)` |
+| `test_nonexistent_command_returns_error_string` | method | `tests/test_core_command_bridge.py:62` | `def test_nonexistent_command_returns_error_string(self)` |
+| `test_nonexistent_lazy_loaded_cmd_returns_error` | method | `tests/test_core_command_bridge.py:116` | `def test_nonexistent_lazy_loaded_cmd_returns_error(self)` |
+| `test_ready_is_false_initially` | method | `tests/test_core_command_bridge.py:28` | `def test_ready_is_false_initially(self)` |
+| `test_thread_safety_multiple_threads` | method | `tests/test_core_command_bridge.py:74` | `def test_thread_safety_multiple_threads(self)` |
+| `TestConfig` | class | `tests/test_core_config.py:99` | `class TestConfig` |
+| `TestLoadAndValidate` | class | `tests/test_core_config.py:149` | `class TestLoadAndValidate` |
+| `TestLoadPayload` | class | `tests/test_core_config.py:15` | `class TestLoadPayload` |
+| `TestSavePayload` | class | `tests/test_core_config.py:76` | `class TestSavePayload` |
+| `test_aes_key_is_resolved_and_hex` | method | `tests/test_core_config.py:137` | `def test_aes_key_is_resolved_and_hex(self)` |
+| `test_as_params_returns_shallow_copy` | method | `tests/test_core_config.py:126` | `def test_as_params_returns_shallow_copy(self)` |
 | `test_atomic_write_no_leftover_tmp` | method | `tests/test_core_config.py:79` | `def test_atomic_write_no_leftover_tmp(self, tmp_path)` |
 | `test_attribute_access_for_known_keys` | method | `tests/test_core_config.py:102` | `def test_attribute_access_for_known_keys(self)` |
 | `test_copies_from_example_when_payload_missing` | method | `tests/test_core_config.py:54` | `def test_copies_from_example_when_payload_missing(self, tmp_path)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_tool_has_key` | method | `tests/test_dirtyinit_addon.py:105` | `def test_tool_has_key(self, addon, key)` |
 | `test_version_pattern` | method | `tests/test_dirtyinit_addon.py:75` | `def test_version_pattern(self, addon)` |
 | `_runs_command` | function | `tests/test_docs_drift_contract.py:38` | `def _runs_command(step, command)` |
-| `test_diffs_command_index` | function | `tests/test_docs_drift_contract.py:65` | `def test_diffs_command_index(workflow_steps)` |
-| `test_diffs_commands_reference` | function | `tests/test_docs_drift_contract.py:71` | `def test_diffs_commands_reference(workflow_steps)` |
-| `test_diffs_utils_reference` | function | `tests/test_docs_drift_contract.py:77` | `def test_diffs_utils_reference(workflow_steps)` |
-| `test_regenerates_command_index` | function | `tests/test_docs_drift_contract.py:47` | `def test_regenerates_command_index(workflow_steps)` |
-| `test_regenerates_commands_reference` | function | `tests/test_docs_drift_contract.py:53` | `def test_regenerates_commands_reference(workflow_steps)` |
-| `test_regenerates_utils_reference` | function | `tests/test_docs_drift_contract.py:59` | `def test_regenerates_utils_reference(workflow_steps)` |
-| `test_trigger_watches_generator_inputs` | function | `tests/test_docs_drift_contract.py:81` | `def test_trigger_watches_generator_inputs(workflow_text)` |
-| `test_workflow_exists` | function | `tests/test_docs_drift_contract.py:43` | `def test_workflow_exists()` |
-| `workflow_steps` | function | `tests/test_docs_drift_contract.py:27` | `def workflow_steps(workflow_text)` |
-| `workflow_text` | function | `tests/test_docs_drift_contract.py:22` | `def workflow_text()` |
-| `TestFileChecks` | class | `tests/test_doctor.py:107` | `class TestFileChecks` |
-| `TestGatherAndRun` | class | `tests/test_doctor.py:184` | `class TestGatherAndRun` |
-| `TestPackages` | class | `tests/test_doctor.py:72` | `class TestPackages` |
-| `TestPythonVersion` | class | `tests/test_doctor.py:32` | `class TestPythonVersion` |
-| `TestReportAggregation` | class | `tests/test_doctor.py:155` | `class TestReportAggregation` |
-| `TestSecListsAndTools` | class | `tests/test_doctor.py:129` | `class TestSecListsAndTools` |
-| `TestVirtualEnv` | class | `tests/test_doctor.py:51` | `class TestVirtualEnv` |
-| `boom` | function | `tests/test_doctor.py:90` | `def boom(name)` |
-| `test_active_venv_is_ok` | method | `tests/test_doctor.py:52` | `def test_active_venv_is_ok(self, tmp_path)` |
-| `test_certificates_partial_warns` | method | `tests/test_doctor.py:122` | `def test_certificates_partial_warns(self, tmp_path)` |
-| `test_certificates_present_is_ok` | method | `tests/test_doctor.py:117` | `def test_certificates_present_is_ok(self, tmp_path)` |
-| `test_default_registry_has_core_packages` | method | `tests/test_doctor.py:97` | `def test_default_registry_has_core_packages(self)` |
-| `test_exact_minimum_is_ok` | method | `tests/test_doctor.py:37` | `def test_exact_minimum_is_ok(self)` |
-| `test_external_tools_present_and_missing` | method | `tests/test_doctor.py:139` | `def test_external_tools_present_and_missing(self)` |
-| `test_finder_exception_treated_as_missing` | method | `tests/test_doctor.py:89` | `def test_finder_exception_treated_as_missing(self)` |
-| `test_gather_report_populates_all_sections` | method | `tests/test_doctor.py:185` | `def test_gather_report_populates_all_sections(self, tmp_path)` |
-| `test_import_name_differs_from_pip_name_where_expected` | method | `tests/test_doctor.py:101` | `def test_import_name_differs_from_pip_name_where_expected(self)` |
-| `test_inactive_with_env_dir_warns_to_activate` | method | `tests/test_doctor.py:56` | `def test_inactive_with_env_dir_warns_to_activate(self, tmp_path)` |
-| `test_missing_optional_package_warns` | method | `tests/test_doctor.py:84` | `def test_missing_optional_package_warns(self)` |
-| `test_missing_required_package_fails` | method | `tests/test_doctor.py:78` | `def test_missing_required_package_fails(self)` |
-| `test_no_venv_anywhere_warns_to_install` | method | `tests/test_doctor.py:62` | `def test_no_venv_anywhere_warns_to_install(self, tmp_path)` |
 
 Next: [SYMBOLS_p36.md](SYMBOLS_p36.md)

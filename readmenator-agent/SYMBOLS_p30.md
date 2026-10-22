@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Lx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Nk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Nu` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Ow` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Pc` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Pk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Px` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Qk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Tk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Tx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Vk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Vx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Wu` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Xu` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ZO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `Zk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Zx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `a` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `as` | class | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `as` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `bO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `cO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `d` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `dE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `did` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `did` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `does` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `does` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `TestPersistenceHelpers` | class | `tests/test_aci_planner.py:829` | `class TestPersistenceHelpers` |
 | `_llm_response` | method | `tests/test_aci_planner.py:346` | `def _llm_response(self, phases)` |
 | `_make_engine` | function | `tests/test_aci_planner.py:94` | `def _make_engine(tmp_path, api_key)` |
-| `_make_goal` | function | `tests/test_aci_planner.py:33` | `def _make_goal()` |
-| `_make_plan` | method | `tests/test_aci_planner.py:178` | `def _make_plan(self, phase_statuses)` |
-| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:627` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
-| `_make_planner` | function | `tests/test_aci_planner.py:82` | `def _make_planner(tmp_path, api_key)` |
-| `_patched_paths` | function | `tests/test_aci_planner.py:47` | `def _patched_paths(tmp_path)` |
-| `_start_patches` | function | `tests/test_aci_planner.py:60` | `def _start_patches(tmp_path)` |
-| `_stop_patches` | function | `tests/test_aci_planner.py:77` | `def _stop_patches(patchers)` |
-| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:463` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
-| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:221` | `def test_active_phase_none_when_all_done(self)` |
-| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:216` | `def test_active_phase_returns_first_pending_or_active(self)` |
-| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:859` | `def test_archive_plan_appends(self, tmp_path)` |
-| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:597` | `def test_complete_archives_plan(self, tmp_path)` |
-| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:607` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
-| `test_complete_no_plan` | method | `tests/test_aci_planner.py:617` | `def test_complete_no_plan(self, tmp_path)` |
-| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:204` | `def test_completion_pct_all_done(self)` |
-| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:208` | `def test_completion_pct_none_done(self)` |
-| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:212` | `def test_completion_pct_partial(self)` |
-| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:876` | `def test_count_objectives_by_status(self, tmp_path)` |
-| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:904` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
-| `test_defaults` | method | `tests/test_aci_planner.py:122` | `def test_defaults(self)` |
-| `test_fields` | method | `tests/test_aci_planner.py:112` | `def test_fields(self)` |
-| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:257` | `def test_first_phase_is_active(self, tmp_path)` |
-| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:154` | `def test_from_dict_ignores_extra_keys(self)` |
-| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:407` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
-| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:399` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
-| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:380` | `def test_llm_objectives_injected(self, tmp_path)` |
-| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:355` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
-| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:851` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
-| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
-| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
-| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

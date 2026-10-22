@@ -1,5 +1,5 @@
-# Architecture (page 1 of 8)
-Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
+# Architecture (page 1 of 9)
+Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 
 ## Internal Dependencies
 
@@ -337,6 +337,12 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/orchestration.py` -> `cli/commands/_base.py`
 - `cli/commands/orchestration.py` -> `cli/reasoning_stream.py`
 - `cli/commands/orchestration.py` -> `core/console.py`
+- `cli/commands/params_ops.py` -> `cli/assign.py`
+- `cli/commands/params_ops.py` -> `cli/commands/_base.py`
+- `cli/commands/params_ops.py` -> `core/config.py`
+- `cli/commands/params_ops.py` -> `core/param_registry.py`
+- `cli/commands/params_ops.py` -> `core/payload_schema.py`
+- `cli/commands/params_ops.py` -> `utils.py`
 - `cli/commands/payload_arsenal.py` -> `cli/commands/_base.py`
 - `cli/commands/payload_arsenal.py` -> `modules/dotnet_payload.py`
 - `cli/commands/payload_arsenal.py` -> `modules/linux_advanced_payloads.py`
@@ -490,11 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/engagement_hooks.py` -> `modules/lazy_rbac.py`
 - `cli/exploit_advisor.py` -> `core/console.py`
 - `cli/exploration_view.py` -> `cli/exploration.py`
-- `cli/exploration_view.py` -> `core/console.py`
-- `cli/fuzzy_match.py` -> `cli/fuzzy_picker.py`
-- `cli/graph_overlay.py` -> `cli/commands/containers.py`
-- `cli/graph_overlay.py` -> `cli/commands/enum.py`
-- `cli/graph_overlay.py` -> `cli/graph_advisor.py`
-- `cli/graph_overlay.py` -> `cli/themes.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

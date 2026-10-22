@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
+| `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
+| `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
+| `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
+| `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
+| `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
+| `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
+| `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
+| `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
+| `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
+| `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
+| `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
+| `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
+| `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
+| `__init__` | method | `modules/delegation_attacks.py:98` | `def __init__(self, domain, raw_ldap_output)` |
+| `compute_attack_paths` | method | `modules/delegation_attacks.py:215` | `def compute_attack_paths(self)` |
+| `enumerate_from_uac_flags` | method | `modules/delegation_attacks.py:104` | `def enumerate_from_uac_flags(self, accounts)` |
+| `find_constrained_targets` | method | `modules/delegation_attacks.py:189` | `def find_constrained_targets(self)` |
+| `find_dc_targets` | method | `modules/delegation_attacks.py:205` | `def find_dc_targets(self)` |
+| `find_rbcd_targets` | method | `modules/delegation_attacks.py:197` | `def find_rbcd_targets(self)` |
+| `find_unconstrained_targets` | method | `modules/delegation_attacks.py:181` | `def find_unconstrained_targets(self)` |
+| `parse_bloodhound_output` | method | `modules/delegation_attacks.py:151` | `def parse_bloodhound_output(self, bloodhound_json)` |
+| `summary` | method | `modules/delegation_attacks.py:296` | `def summary(self)` |
+| `obtener_informacion` | function | `modules/detailed_search.py:40` | `def obtener_informacion(url)` |
+| `DetectionFeed` | class | `modules/detection_feed.py:73` | `class DetectionFeed` |
+| `FeedResult` | class | `modules/detection_feed.py:64` | `class FeedResult` |
+| `__init__` | method | `modules/detection_feed.py:83` | `def __init__(self, cache_dir, sources)` |
+| `_cache_rules` | method | `modules/detection_feed.py:219` | `def _cache_rules(self, rules, source)` |
+| `_extract_categories` | method | `modules/detection_feed.py:206` | `def _extract_categories(self, doc)` |
+| `_extract_keywords` | method | `modules/detection_feed.py:189` | `def _extract_keywords(self, doc)` |
+| `_extract_log_source` | method | `modules/detection_feed.py:172` | `def _extract_log_source(self, doc)` |
 | `_extract_mitre` | method | `modules/detection_feed.py:180` | `def _extract_mitre(self, doc)` |
 | `_parse_sigma_feed` | method | `modules/detection_feed.py:125` | `def _parse_sigma_feed(self, text)` |
 | `adjust_from_feedback` | method | `modules/detection_feed.py:270` | `def adjust_from_feedback(self, feedback_file)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
 | `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
 | `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
-| `_is_richer` | method | `modules/exploit_chain.py:361` | `def _is_richer(new_svc, existing)` |
-| `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:346` | `def _parse_all_nmap_xml(self)` |
-| `_parse_nmap_text` | method | `modules/exploit_chain.py:404` | `def _parse_nmap_text(self, output)` |
-| `_parse_single_xml` | method | `modules/exploit_chain.py:367` | `def _parse_single_xml(self, xml_path)` |
-| `fingerprint_services` | method | `modules/exploit_chain.py:311` | `def fingerprint_services(self, nmap_output)` |
-| `generate_exploit_plan` | method | `modules/exploit_chain.py:499` | `def generate_exploit_plan(self)` |
-| `generate_report` | method | `modules/exploit_chain.py:531` | `def generate_report(self)` |
-| `get_post_exploit_commands` | method | `modules/exploit_chain.py:519` | `def get_post_exploit_commands(self, platform)` |
-| `map_vulnerabilities` | method | `modules/exploit_chain.py:446` | `def map_vulnerabilities(self)` |
-| `save_report` | method | `modules/exploit_chain.py:566` | `def save_report(self, path)` |
-| `ExploitMatch` | class | `modules/exploit_recommender.py:37` | `class ExploitMatch` |
-| `ExploitRecommender` | class | `modules/exploit_recommender.py:50` | `class ExploitRecommender` |
-| `__init__` | method | `modules/exploit_recommender.py:120` | `def __init__(self, world_model)` |
-| `_compare_versions` | method | `modules/exploit_recommender.py:165` | `def _compare_versions(version, max_vulnerable)` |
-| `_extract_cve_ids` | method | `modules/exploit_recommender.py:161` | `def _extract_cve_ids(text)` |
-| `_generate_lazyown_commands` | method | `modules/exploit_recommender.py:214` | `def _generate_lazyown_commands(self, cve_id, service, host_ip)` |
-| `_load_exploitdb` | method | `modules/exploit_recommender.py:135` | `def _load_exploitdb(self)` |
-| `_query_nvd` | method | `modules/exploit_recommender.py:175` | `def _query_nvd(self, cve_id)` |
-| `_try_nvd` | method | `modules/exploit_recommender.py:211` | `def _try_nvd(self, cve_id)` |
-| `format_for_llm` | method | `modules/exploit_recommender.py:390` | `def format_for_llm(self, matches, max_items)` |
-| `match_services` | method | `modules/exploit_recommender.py:244` | `def match_services(self, hosts)` |
-| `parse_version` | function | `modules/exploit_recommender.py:25` | `def parse_version(v)` |
-| `persist_recommendations` | method | `modules/exploit_recommender.py:370` | `def persist_recommendations(self, matches)` |
-| `recommend` | method | `modules/exploit_recommender.py:337` | `def recommend(self, hosts, top_n)` |
-| `set_nvd_api_key` | method | `modules/exploit_recommender.py:132` | `def set_nvd_api_key(self, key)` |
-| `set_world_model` | method | `modules/exploit_recommender.py:129` | `def set_world_model(self, world_model)` |
-| `_detect_domain` | function | `modules/exploitgym_gym.py:96` | `def _detect_domain(task_id)` |
-| `_ensure_clone` | function | `modules/exploitgym_gym.py:232` | `def _ensure_clone(root, timeout)` |
-| `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
-| `_env_for_run` | function | `modules/exploitgym_gym.py:315` | `def _env_for_run(params)` |
-| `_extract_flag` | function | `modules/exploitgym_gym.py:487` | `def _extract_flag(output)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

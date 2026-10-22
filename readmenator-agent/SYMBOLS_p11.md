@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `OpenAIModel` | class | `modules/ai_model.py:434` | `class OpenAIModel(AIModel)` |
+| `_LazyImporter` | class | `modules/ai_model.py:97` | `class _LazyImporter` |
+| `__init__` | method | `modules/ai_model.py:137` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:252` | `def __init__(self, model, host)` |
+| `__init__` | method | `modules/ai_model.py:324` | `def __init__(self, model, host)` |
+| `__init__` | method | `modules/ai_model.py:440` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:499` | `def __init__(self, api_key, model)` |
+| `__init__` | method | `modules/ai_model.py:556` | `def __init__(self, api_key, model)` |
+| `_chat` | method | `modules/ai_model.py:341` | `def _chat(self, messages, max_tokens, stream)` |
+| `_model_chain` | method | `modules/ai_model.py:141` | `def _model_chain(self)` |
+| `anthropic` | method | `modules/ai_model.py:121` | `def anthropic(cls)` |
+| `complete` | method | `modules/ai_model.py:63` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:216` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:413` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:470` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:529` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:589` | `def complete(self, system, user, max_tokens, temperature)` |
+| `generate` | method | `modules/ai_model.py:56` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:155` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:260` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:362` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:444` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:503` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:563` | `def generate(self, prompt)` |
+| `groq` | method | `modules/ai_model.py:105` | `def groq(cls)` |
+| `openai` | method | `modules/ai_model.py:113` | `def openai(cls)` |
+| `stream_generate` | method | `modules/ai_model.py:60` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:183` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:281` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:382` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `modules/ai_model.py:455` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:515` | `def stream_generate(self, prompt)` |
 | `stream_generate` | method | `modules/ai_model.py:574` | `def stream_generate(self, prompt)` |
 | `AMS1patch_E_ACCESSDENIED` | function | `modules/amsi.c:274` | `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_resolve_go_bin` | function | `modules/c2_builder.py:44` | `def _resolve_go_bin()` |
 | `_write` | function | `modules/c2_builder.py:652` | `def _write(path_, content)` |
 | `run` | method | `modules/c2_builder.py:453` | `def run(self, line, choice, use_tunnel)` |
-| `PayloadConfigAdapter` | class | `modules/c2_messaging_base.py:117` | `class PayloadConfigAdapter` |
-| `SecureSessionManager` | class | `modules/c2_messaging_base.py:9` | `class SecureSessionManager` |
-| `__getitem__` | method | `modules/c2_messaging_base.py:129` | `def __getitem__(self, key)` |
-| `__init__` | method | `modules/c2_messaging_base.py:22` | `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)` |
-| `__init__` | method | `modules/c2_messaging_base.py:124` | `def __init__(self, config_dict)` |
-| `check_lockout` | method | `modules/c2_messaging_base.py:46` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `modules/c2_messaging_base.py:61` | `def check_rate_limit(self, user_id)` |
-| `create_session` | method | `modules/c2_messaging_base.py:79` | `def create_session(self, user_id, client_id)` |
-| `get` | method | `modules/c2_messaging_base.py:132` | `def get(self, key, default)` |
-| `get_client` | method | `modules/c2_messaging_base.py:111` | `def get_client(self, user_id)` |
-| `register_failed_attempt` | method | `modules/c2_messaging_base.py:37` | `def register_failed_attempt(self, user_id)` |
-| `set_client` | method | `modules/c2_messaging_base.py:106` | `def set_client(self, user_id, client_id)` |
-| `validate_session` | method | `modules/c2_messaging_base.py:89` | `def validate_session(self, user_id)` |
-| `C2Profile` | class | `modules/c2_profile.py:81` | `class C2Profile` |
-| `HttpConfig` | class | `modules/c2_profile.py:62` | `class HttpConfig` |
-| `ProfileApplier` | class | `modules/c2_profile.py:520` | `class ProfileApplier` |
-| `ProfileLoader` | class | `modules/c2_profile.py:187` | `class ProfileLoader` |
-| `ProfileRegistry` | class | `modules/c2_profile.py:449` | `class ProfileRegistry` |
-| `ProfileValidator` | class | `modules/c2_profile.py:155` | `class ProfileValidator` |
-| `SleepConfig` | class | `modules/c2_profile.py:54` | `class SleepConfig` |
-| `StagerConfig` | class | `modules/c2_profile.py:72` | `class StagerConfig` |
-| `__init__` | method | `modules/c2_profile.py:457` | `def __init__(self)` |
-| `_config_for` | method | `modules/c2_profile.py:144` | `def _config_for(self, method)` |
-| `_make_aggressive_profile` | function | `modules/c2_profile.py:385` | `def _make_aggressive_profile()` |
-| `_make_debug_profile` | function | `modules/c2_profile.py:410` | `def _make_debug_profile()` |
-| `_make_default_profile` | function | `modules/c2_profile.py:308` | `def _make_default_profile()` |
-| `_make_stealth_profile` | function | `modules/c2_profile.py:339` | `def _make_stealth_profile()` |
-| `apply_to_response` | method | `modules/c2_profile.py:529` | `def apply_to_response(profile, response)` |
-| `apply_to_session` | method | `modules/c2_profile.py:554` | `def apply_to_session(profile, session)` |
-| `build_headers` | method | `modules/c2_profile.py:128` | `def build_headers(self, method)` |
-| `from_dict` | method | `modules/c2_profile.py:215` | `def from_dict(d)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

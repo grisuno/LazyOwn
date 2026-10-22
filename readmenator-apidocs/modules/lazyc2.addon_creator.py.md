@@ -1,6 +1,6 @@
 # `lazyc2.addon_creator`
 
-> Source: [lazyc2/addon_creator.py:1](../../lazyc2/addon_creator.py#L1) | language `py` | coverage 96.2% | [API index](../index.md)
+> Source: [lazyc2/addon_creator.py:1](../../lazyc2/addon_creator.py#L1) | language `py` | coverage 96.3% | [API index](../index.md)
 
 LazyAddon creator contract for the LazyOwn C2 web interface.
 
@@ -168,6 +168,8 @@ flowchart LR
     n_lazyc2_addon_creator_py__AddonStore_delete(["AddonStore.delete"])
     n_lazyc2_addon_creator_py__parse_addon_form(["parse_addon_form"])
     n_lazyc2_addon_creator_py__AddonDraft(["AddonDraft"])
+    n_lazyc2_addon_creator_py__AddonCreatorConfig_live_placeholders(["AddonCreatorConfig.live_placeholders"])
+    n_core_param_registry_py__load_entries["param_registry.load_entries"]
     n_lazyc2_addon_creator_py__AddonValidator___init__ --> n_lazyc2_addon_creator_py__AddonCreatorConfig
     n_lazyc2_addon_creator_py__AddonValidator_is_valid --> n_lazyc2_addon_creator_py__AddonValidator_validate
     n_lazyc2_addon_creator_py__AddonYamlRenderer___init__ --> n_lazyc2_addon_creator_py__AddonCreatorConfig
@@ -178,6 +180,7 @@ flowchart LR
     n_lazyc2_addon_creator_py__AddonStore_load --> n_lazyc2_addon_creator_py__AddonStore_resolve_existing_path
     n_lazyc2_addon_creator_py__AddonStore_delete --> n_lazyc2_addon_creator_py__AddonStore_resolve_existing_path
     n_lazyc2_addon_creator_py__parse_addon_form --> n_lazyc2_addon_creator_py__AddonDraft
+    n_lazyc2_addon_creator_py__AddonCreatorConfig_live_placeholders -.-> n_core_param_registry_py__load_entries
 ```
 
 ## Classes
@@ -235,13 +238,43 @@ collaborators below.
 | [`default_os`](#addoncreatorconfig-default_os) | `str` | `'any'` |  |
 | [`default_install_type`](#addoncreatorconfig-default_install_type) | `str` | `'git'` |  |
 
+**Members**
+
+| Member | Kind | Summary |
+|---|---|---|
+| [`live_placeholders`](#addoncreatorconfig-live_placeholders) | classmethod | Return the documented placeholders plus the operator parameters. |
+
+<a id="addoncreatorconfig-live_placeholders"></a>
+
+#### `AddonCreatorConfig.live_placeholders`
+
+`classmethod` | [lazyc2/addon_creator.py:347](../../lazyc2/addon_creator.py#L347)
+
+Decorators: `@classmethod`
+
+```python
+def live_placeholders(cls) -> frozenset[str]
+```
+
+Return the documented placeholders plus the operator parameters.
+
+The builtin catalog above is the documented contract and stays
+stable. The operator parameter registry (``params/operator.yaml``)
+adds keys at runtime; those are valid placeholders too, so an
+addon may reuse a parameter declared from the orchestrator instead
+of inventing an addon-branded key.
+
+**Returns:** `frozenset[str]` - Every placeholder token the addon creator accepts.
+
+*Calls:* [`load_entries`](core.param_registry.py.md#load_entries)
+
 ---
 
 <a id="paramspec"></a>
 
 ### `ParamSpec`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:348](../../lazyc2/addon_creator.py#L348)
+`class` `dataclass` | [lazyc2/addon_creator.py:370](../../lazyc2/addon_creator.py#L370)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -271,7 +304,7 @@ One addon parameter declared under the `[`params`](#addondraft-params)` key.
 
 #### `ParamSpec.to_dict`
 
-`method` | [lazyc2/addon_creator.py:366](../../lazyc2/addon_creator.py#L366)
+`method` | [lazyc2/addon_creator.py:388](../../lazyc2/addon_creator.py#L388)
 
 ```python
 def to_dict(self) -> dict[str, object]
@@ -287,7 +320,7 @@ Return the param as a schema-ordered mapping.
 
 ### `AddonDraft`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:381](../../lazyc2/addon_creator.py#L381)
+`class` `dataclass` | [lazyc2/addon_creator.py:403](../../lazyc2/addon_creator.py#L403)
 
 Decorators: `@dataclass`
 
@@ -329,7 +362,7 @@ Complete addon form state collected from the web layer.
 
 ### `ValidationIssue`
 
-`class` `dataclass` | [lazyc2/addon_creator.py:408](../../lazyc2/addon_creator.py#L408)
+`class` `dataclass` | [lazyc2/addon_creator.py:430](../../lazyc2/addon_creator.py#L430)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -352,7 +385,7 @@ One field-specific validation finding for the form.
 
 ### `AddonValidator`
 
-`class` | [lazyc2/addon_creator.py:428](../../lazyc2/addon_creator.py#L428)
+`class` | [lazyc2/addon_creator.py:450](../../lazyc2/addon_creator.py#L450)
 
 ```python
 class AddonValidator
@@ -375,7 +408,7 @@ web layer because they require store state.
 
 #### `AddonValidator.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:435](../../lazyc2/addon_creator.py#L435)
+`constructor` | [lazyc2/addon_creator.py:457](../../lazyc2/addon_creator.py#L457)
 
 ```python
 def __init__(self, draft: AddonDraft, config: AddonCreatorConfig | None = None) -> None
@@ -398,7 +431,7 @@ Store the draft and configuration used by every check.
 
 #### `AddonValidator.validate`
 
-`method` | [lazyc2/addon_creator.py:449](../../lazyc2/addon_creator.py#L449)
+`method` | [lazyc2/addon_creator.py:471](../../lazyc2/addon_creator.py#L471)
 
 ```python
 def validate(self) -> list[ValidationIssue]
@@ -415,7 +448,7 @@ is valid.
 
 #### `AddonValidator.is_valid`
 
-`method` | [lazyc2/addon_creator.py:463](../../lazyc2/addon_creator.py#L463)
+`method` | [lazyc2/addon_creator.py:485](../../lazyc2/addon_creator.py#L485)
 
 ```python
 def is_valid(self) -> bool
@@ -433,7 +466,7 @@ Return True when the draft passes every rule.
 
 ### `AddonYamlRenderer`
 
-`class` | [lazyc2/addon_creator.py:731](../../lazyc2/addon_creator.py#L731)
+`class` | [lazyc2/addon_creator.py:753](../../lazyc2/addon_creator.py#L753)
 
 ```python
 class AddonYamlRenderer
@@ -453,7 +486,7 @@ Render an AddonDraft as canonical LazyAddon YAML.
 
 #### `AddonYamlRenderer.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:734](../../lazyc2/addon_creator.py#L734)
+`constructor` | [lazyc2/addon_creator.py:756](../../lazyc2/addon_creator.py#L756)
 
 ```python
 def __init__(self, config: AddonCreatorConfig | None = None) -> None
@@ -475,7 +508,7 @@ Store the configuration used for defaults.
 
 #### `AddonYamlRenderer.render`
 
-`method` | [lazyc2/addon_creator.py:742](../../lazyc2/addon_creator.py#L742)
+`method` | [lazyc2/addon_creator.py:764](../../lazyc2/addon_creator.py#L764)
 
 ```python
 def render(self, draft: AddonDraft) -> str
@@ -499,7 +532,7 @@ Return the YAML document for the draft.
 
 #### `AddonYamlRenderer.to_document`
 
-`method` | [lazyc2/addon_creator.py:760](../../lazyc2/addon_creator.py#L760)
+`method` | [lazyc2/addon_creator.py:782](../../lazyc2/addon_creator.py#L782)
 
 ```python
 def to_document(self, draft: AddonDraft) -> dict[str, object]
@@ -524,7 +557,7 @@ CLI loader in ``lazyown.register_yaml_plugin``.
 
 ### `AddonStore`
 
-`class` | [lazyc2/addon_creator.py:816](../../lazyc2/addon_creator.py#L816)
+`class` | [lazyc2/addon_creator.py:838](../../lazyc2/addon_creator.py#L838)
 
 ```python
 class AddonStore
@@ -554,7 +587,7 @@ crashed request can never leave a partial document behind.
 
 #### `AddonStore.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:825](../../lazyc2/addon_creator.py#L825)
+`constructor` | [lazyc2/addon_creator.py:847](../../lazyc2/addon_creator.py#L847)
 
 ```python
 def __init__(self, config: AddonCreatorConfig | None = None, base_dir: str | None = None) -> None
@@ -575,7 +608,7 @@ Configure the store.
 
 #### `AddonStore.resolve_path`
 
-`method` | [lazyc2/addon_creator.py:840](../../lazyc2/addon_creator.py#L840)
+`method` | [lazyc2/addon_creator.py:862](../../lazyc2/addon_creator.py#L862)
 
 ```python
 def resolve_path(self, name: str) -> Path
@@ -601,7 +634,7 @@ Return the safe absolute path for a newly created addon name.
 
 #### `AddonStore.resolve_existing_path`
 
-`method` | [lazyc2/addon_creator.py:855](../../lazyc2/addon_creator.py#L855)
+`method` | [lazyc2/addon_creator.py:877](../../lazyc2/addon_creator.py#L877)
 
 ```python
 def resolve_existing_path(self, name: str) -> Path
@@ -635,7 +668,7 @@ directory.
 
 #### `AddonStore.exists`
 
-`method` | [lazyc2/addon_creator.py:899](../../lazyc2/addon_creator.py#L899)
+`method` | [lazyc2/addon_creator.py:921](../../lazyc2/addon_creator.py#L921)
 
 ```python
 def exists(self, name: str) -> bool
@@ -657,7 +690,7 @@ Return True when an addon file already exists for the name.
 
 #### `AddonStore.save`
 
-`method` | [lazyc2/addon_creator.py:910](../../lazyc2/addon_creator.py#L910)
+`method` | [lazyc2/addon_creator.py:932](../../lazyc2/addon_creator.py#L932)
 
 ```python
 def save(self, name: str, yaml_text: str) -> Path
@@ -690,7 +723,7 @@ into place, and any failure removes the temp file.
 
 #### `AddonStore.load`
 
-`method` | [lazyc2/addon_creator.py:964](../../lazyc2/addon_creator.py#L964)
+`method` | [lazyc2/addon_creator.py:986](../../lazyc2/addon_creator.py#L986)
 
 ```python
 def load(self, name: str) -> dict[str, Any]
@@ -719,7 +752,7 @@ Return the parsed addon document for a name.
 
 #### `AddonStore.delete`
 
-`method` | [lazyc2/addon_creator.py:987](../../lazyc2/addon_creator.py#L987)
+`method` | [lazyc2/addon_creator.py:1009](../../lazyc2/addon_creator.py#L1009)
 
 ```python
 def delete(self, name: str) -> bool
@@ -741,7 +774,7 @@ Delete the addon file for a name.
 
 #### `AddonStore.list_all`
 
-`method` | [lazyc2/addon_creator.py:1003](../../lazyc2/addon_creator.py#L1003)
+`method` | [lazyc2/addon_creator.py:1025](../../lazyc2/addon_creator.py#L1025)
 
 ```python
 def list_all(self) -> list[dict[str, Any]]
@@ -763,7 +796,7 @@ skipped so the dashboard keeps working.
 
 ### `AddonValidationError`
 
-`exception` | [lazyc2/addon_creator.py:415](../../lazyc2/addon_creator.py#L415)
+`exception` | [lazyc2/addon_creator.py:437](../../lazyc2/addon_creator.py#L437)
 
 ```python
 class AddonValidationError(ValueError)
@@ -783,7 +816,7 @@ Raised when an AddonDraft cannot be persisted.
 
 #### `AddonValidationError.__init__`
 
-`constructor` | [lazyc2/addon_creator.py:422](../../lazyc2/addon_creator.py#L422)
+`constructor` | [lazyc2/addon_creator.py:444](../../lazyc2/addon_creator.py#L444)
 
 ```python
 def __init__(self, issues: list[ValidationIssue]) -> None
@@ -803,7 +836,7 @@ def __init__(self, issues: list[ValidationIssue]) -> None
 
 ### `parse_addon_form`
 
-`function` | [lazyc2/addon_creator.py:1083](../../lazyc2/addon_creator.py#L1083)
+`function` | [lazyc2/addon_creator.py:1105](../../lazyc2/addon_creator.py#L1105)
 
 ```python
 def parse_addon_form(form: Mapping[str, Any]) -> AddonDraft

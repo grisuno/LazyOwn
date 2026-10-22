@@ -1,7 +1,13 @@
-# Architecture (page 2 of 8)
+# Architecture (page 2 of 9)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/exploration_view.py` -> `core/console.py`
+- `cli/fuzzy_match.py` -> `cli/fuzzy_picker.py`
+- `cli/graph_overlay.py` -> `cli/commands/containers.py`
+- `cli/graph_overlay.py` -> `cli/commands/enum.py`
+- `cli/graph_overlay.py` -> `cli/graph_advisor.py`
+- `cli/graph_overlay.py` -> `cli/themes.py`
 - `cli/graph_overlay.py` -> `core/text_utils.py`
 - `cli/killchain.py` -> `modules/killchain.py`
 - `cli/lazy_monitor.py` -> `cli/commands/containers.py`
@@ -13,6 +19,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/lazy_orchestrator.py` -> `cli/orchestrator_assets_tabs.py`
 - `cli/lazy_orchestrator.py` -> `cli/palette.py`
 - `cli/lazy_orchestrator.py` -> `cli/tui_forms.py`
+- `cli/lazy_orchestrator.py` -> `core/param_registry.py`
 - `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
@@ -179,7 +186,10 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/hardening.py` -> `core/logging.py`
 - `core/http.py` -> `core/console.py`
 - `core/network.py` -> `core/console.py`
+- `core/param_registry.py` -> `core/logging.py`
+- `core/param_registry.py` -> `core/payload_schema.py`
 - `core/payload_schema.py` -> `cli/commands/enum.py`
+- `core/payload_schema.py` -> `core/param_registry.py`
 - `core/payload_schema.py` -> `modules/llm_factory.py`
 - `core/process.py` -> `core/console.py`
 - `core/process.py` -> `core/hardening.py`
@@ -254,6 +264,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `skills/daemon_health.py`
 - `lazyc2.py` -> `skills/lazyown_facts.py`
 - `lazyc2.py` -> `utils.py`
+- `lazyc2/addon_creator.py` -> `core/param_registry.py`
 - `lazyc2/app_factory.py` -> `core/api_authz.py`
 - `lazyc2/app_factory.py` -> `lazyc2/blueprints/__init__.py`
 - `lazyc2/app_factory.py` -> `lazyc2/blueprints/orchestrator.py`
@@ -485,16 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/windows/command_palette_window.py` -> `lazygui/widgets/command_palette_list.py`
 - `lazygui/windows/connect_dialog.py` -> `lazygui/config/c2_credentials.py`
 - `lazygui/windows/connect_dialog.py` -> `lazygui/config/constants.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/config/paths.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/config/settings.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/services/models.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/services/teamserver_backend.py`
-- `lazygui/windows/main_window.py` -> `lazygui/config/constants.py`
-- `lazygui/windows/main_window.py` -> `lazygui/config/settings.py`
-- `lazygui/windows/main_window.py` -> `lazygui/panels/registry.py`
-- `lazygui/windows/main_window.py` -> `lazygui/services/backend.py`
-- `lazygui/windows/main_window.py` -> `lazygui/services/event_log.py`
-- `lazygui/windows/main_window.py` -> `lazygui/services/models.py`
-- `lazygui/windows/main_window.py` -> `lazygui/theme/manager.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

@@ -101,7 +101,33 @@ only declare services the addon genuinely operates against.
 | `{rport}` | `payload.json["rport"]` |
 | `{domain}` | `payload.json["domain"]` |
 | `{c2_port}` | `payload.json["c2_port"]` |
-| `{<key>}` | Any key present in `payload.json` |
+| `{<key>}` | Any key present in `payload.json` or `params/*.yaml` |
+
+### Shared parameters: declare once, reuse everywhere
+
+Never brand a token after the tool that first needed it. A knob that more
+than one addon could use is declared **once** in the shared parameter
+registry and then referenced by every addon:
+
+```bash
+param create c2_profile --kind string --default "default" --desc "C2 profile name"
+# or: lazy_orchestrator -> Params tab -> a
+```
+
+The registry stores the declaration as data in `params/operator.yaml`
+(`core/param_registry.py` owns the CRUD), so the payload schema and the
+addon-creator validator pick the key up automatically — no edit to
+`core/payload_schema.py`, `lazyc2/addon_creator.py` or the skill key list.
+The same registry backs the `param` shell command and the orchestrator tab.
+
+Naming rules:
+
+- Name the **concept**, not the tool: `url`, `target`, `path`, `profile`,
+  `exploit_profile`, `outputdir`, `data`.
+- `php2shell_url` is a defect; `url` (builtin) or a shared `exploit_profile`
+  is the fix.
+- A parameter that only one addon understands may stay in that addon's
+  `params:` block.
 
 ### Install path convention
 

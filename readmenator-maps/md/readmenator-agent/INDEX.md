@@ -11,7 +11,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/__init__.py` | LazyOwn CLI infrastructure. | cli | 0 | 9 |
 | `cli/aliases.py` | Declarative cmd2 alias loader. | cli | 8 | 10 |
 | `cli/apt_chain_support.py` | Parsing, printing and replanning support for the ``apt_chain`` CLI. | cli | 16 | 3 |
-| `cli/assign.py` | ``assign`` business logic. | cli | 1 | 16 |
+| `cli/assign.py` | ``assign`` business logic. | cli | 1 | 17 |
 | `cli/auto_crypto.py` | Automatic encryption of sensitive session data on app open/close. | cli | 13 | 3 |
 | `cli/autosuggest.py` | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | cli | 27 | 5 |
 | `cli/banner_config.py` | Configurable Neon Box banner for the LazyOwn interactive shell. | cli | 120 | 6 |
@@ -21,7 +21,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/command_explorer.py` | Interactive command explorer by phase and goal for the LazyOwn shell. | cli | 7 | 1 |
 | `cli/command_form.py` | Textual form-mode launcher for LazyOwn commands. | cli | 31 | 1 |
 | `cli/commands/__init__.py` | Phase-scoped CommandSet modules. | commands | 0 | 1 |
-| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 92 |
+| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 93 |
 | `cli/commands/_dormancy.py` | Dormancy marker for incrementally migrated command sets. | commands | 2 | 9 |
 | `cli/commands/active_directory.py` | Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting. | commands | 8 | 0 |
 | `cli/commands/ai.py` | Artificial Intelligence command set. | commands | 8 | 1 |
@@ -78,6 +78,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/nethelpers.py` | Network helpers extracted from the miscellaneous cluster. | commands | 11 | 1 |
 | `cli/commands/opsec_cleanup.py` | OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network. | commands | 9 | 0 |
 | `cli/commands/orchestration.py` | Orchestration CommandSet: operator-facing surface for the new modules. | commands | 15 | 1 |
+| `cli/commands/params_ops.py` | Operator administration of the shared parameter catalog. | commands | 2 | 1 |
 | `cli/commands/payload_arsenal.py` | Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic, macOS/Linux... | commands | 7 | 0 |
 | `cli/commands/payload_generation.py` | Payload generation commands — list payloads and generate. | commands | 3 | 0 |
 | `cli/commands/persist.py` | Persistence command set (pending). | commands | 11 | 0 |
@@ -123,7 +124,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/headless.py` | Headless / non-interactive runner for automated pipelines. | cli | 6 | 1 |
 | `cli/killchain.py` | Self-populating kill-chain progress derived from the daemon event stream. | cli | 4 | 2 |
 | `cli/lazy_monitor.py` | Live worker-visibility monitor for the autonomous loop. | cli | 46 | 3 |
-| `cli/lazy_orchestrator.py` | Orchestrator admin console for the autonomous loop. | cli | 36 | 4 |
+| `cli/lazy_orchestrator.py` | Orchestrator admin console for the autonomous loop. | cli | 44 | 5 |
 | `cli/lazynmap_post.py` | Post-scan side effects executed at the tail of ``do_lazynmap``. | cli | 9 | 3 |
 | `cli/marketplace_config.py` | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | cli | 66 | 2 |
 | `cli/noise_verbs.py` | Canonical non-actionable verb registry for post-command surfaces. | cli | 0 | 4 |
@@ -144,7 +145,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/recommendation.py` | Unified next-best-action engine: the single source of truth for "what next". | cli | 22 | 5 |
 | `cli/recommendation_signals.py` | Concrete :class:`cli.recommendation.RecommendationSignal` adapters. | cli | 37 | 9 |
 | `cli/recon_plan.py` | Reconnaissance plan generator built on top of :mod:`cli.exploration`. | cli | 18 | 4 |
-| `cli/registry.py` | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | cli | 2 | 11 |
+| `cli/registry.py` | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | cli | 2 | 12 |
 | `cli/retry_support.py` | Retry support - resume logic shared by the ``retry`` CLI surface. | cli | 10 | 2 |
 | `cli/scope_guard.py` | Authorization scope guard for offensive command execution. | cli | 12 | 2 |
 | `cli/session_brief.py` | Consolidated session-start brief for the LazyOwn shell. | cli | 10 | 2 |
@@ -214,7 +215,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/api_authz.py` | Tenant-bound API authorization for the LazyOwn C2 dashboard. | core | 31 | 5 |
 | `core/autonomous.py` | Autonomous-run mode for the loop engine. | core | 3 | 5 |
 | `core/command_bridge.py` | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | core | 9 | 1 |
-| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 51 |
+| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 52 |
 | `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 52 |
 | `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 4 |
 | `core/crypto.py` | Symmetric primitives used by the framework. | core | 7 | 10 |
@@ -227,10 +228,11 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
-| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 144 |
+| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 145 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
+| `core/param_registry.py` | Operator-managed parameter registry. | core | 17 | 9 |
 | `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
-| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 12 |
+| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 30 | 16 |
 | `core/process.py` | Process and subprocess utilities for the LazyOwn framework. | core | 12 | 12 |
 | `core/profiles.py` | Runtime profiles: ``light`` vs ``full`` installations. | core | 3 | 3 |
 | `core/prompt.py` | Prompt builder for LazyOwn CLI and C2 dashboard banner. | core | 8 | 3 |
@@ -255,7 +257,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `lazy_sentinel4.py` | RAGManager: Manages RAG functionality with CAG caching for document processing and querying. | root | 47 | 0 |
 | `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 288 | 0 |
 | `lazyc2/__init__.py` | - | lazyc2 | 0 | 2 |
-| `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 38 | 3 |
+| `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 39 | 5 |
 | `lazyc2/app_factory.py` | Flask application factory for the LazyOwn C2 server. | lazyc2 | 12 | 0 |
 | `lazyc2/blueprints/__init__.py` | Flask Blueprints for lazydown C2. | blueprints | 0 | 3 |
 | `lazyc2/blueprints/addons.py` | LazyAddon creator blueprint for the C2 dashboard. | blueprints | 14 | 3 |
@@ -494,7 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
 | `modules/lazy_summarizer.py` | Bounded chain summarizer for the Lazy autonomous loop. | modules | 5 | 0 |
 | `modules/lazyatack.sh` | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico... | modules | 30 | 0 |
-| `modules/lazybrutesshuserenum.sh` | Función para manejar el interruptor de señal Ctrl+C | modules | 0 | 0 |
-| `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 39 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
+static/js groups 43 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -16,6 +16,7 @@ graph LR
     cli -- "calls into" --> core
     cli -- "calls into" --> static
     contrib -- "depends on" --> core
+    lazyc2 -- "calls into" --> core
     modules -- "depends on" --> core
     modules -- "depends on" --> lazyown_docker
     root -- "depends on" --> core
@@ -26,11 +27,12 @@ graph LR
     static -- "depends on" --> modules
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
+    tests -- "calls into" --> lazyc2
 ```
 
 ## cli (7.1)
 
-cli groups 6 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
+cli groups 7 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
 
 ## contrib (7.2)
 
@@ -38,11 +40,11 @@ contrib groups 1 files (py) around generate_key_iv, main.
 
 ## core (7.3)
 
-core groups 6 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Credential vault — AES-256-GCM encryption for sensitive config values.
+core groups 6 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Symmetric primitives used by the framework.
 
 ## lazyc2 (7.4)
 
-lazyc2 groups 1 files (py). Global C2 server state — namespace for shared mutable objects.
+lazyc2 groups 2 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
 
 ## lazyown-docker (7.5)
 
@@ -62,24 +64,26 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 
 ## tests (7.9)
 
-tests groups 6 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 8 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
 
 **Files**:
 
 - cli/assign.py
 - cli/auto_crypto.py
+- cli/commands/params_ops.py
 - cli/commands/session_ops.py
 - cli/session_resumer.py
 - cli/show.py
 - cli/style.py
 - contrib/legacy/lazybinenc.py
-- core/credential_vault.py
 - core/crypto.py
+- core/param_registry.py
 - core/payload_schema.py
 - core/process.py
 - core/prompt.py
 - core/protocols.py
 - key.py
+- lazyc2/addon_creator.py
 - lazyc2/state.py
 - lazyown-docker/init.sh
 - modules/exp.c
@@ -103,5 +107,7 @@ tests groups 6 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConf
 - tests/test_cli_assign.py
 - tests/test_core.py
 - tests/test_core_config.py
-- tests/test_credential_vault.py
+- tests/test_param_registry.py
 - tests/test_payload_schema.py
+- tests/test_php2shell_addon.py
+- tests/test_placeholder_coverage.py

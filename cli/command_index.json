@@ -57,6 +57,7 @@
     "cli/commands/nethelpers.py",
     "cli/commands/opsec_cleanup.py",
     "cli/commands/orchestration.py",
+    "cli/commands/params_ops.py",
     "cli/commands/payload_arsenal.py",
     "cli/commands/payload_generation.py",
     "cli/commands/persist.py",
@@ -90,7 +91,7 @@
     "cli/commands/verb_admin.py"
   ],
   "source_sha256": {
-    "lazyown.py": "e624ab219e546d6e456fa9f2695b03fb514981ee3822984c7acd6ee1a45e0fa1",
+    "lazyown.py": "781a3dc2972f6808ef18ab661e4ad196220d547488a64c4b0d26aee35af9dfbc",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -136,7 +137,7 @@
     "cli/commands/lab.py": "6c51f9b0c95f9442ea230885f959c9c878a3b6e634912aba66ef7875c8f0dcc8",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
-    "cli/commands/lazyloop.py": "cbd9d58d2eeb5cda512b70346b13f1f722fdbc7626e8e9d0d3f42bcb5e159626",
+    "cli/commands/lazyloop.py": "b970cbecd518d47d3e9fe56fddc1314701d6122df905fe192ffbdcac2a6431e2",
     "cli/commands/lazyops.py": "65fa6f7e67387942ebd85c9ec27c7700468d4392698ca9af145dac8b11ba69ea",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "a7ba23709ceae0f50703852939774b8fe9bb15c66551a7b66f03f355b034b278",
@@ -146,6 +147,7 @@
     "cli/commands/nethelpers.py": "efc1d3058f62230dfa06d91e2ead8ba8f3ef445a41697d2f3ca4dcb5055d931b",
     "cli/commands/opsec_cleanup.py": "9e178c8acf8c55a23f8dcd5ce33768f25c02ca04106b4e1d285a9ad78336d878",
     "cli/commands/orchestration.py": "1ebcfecbcf754ef6b94ffd463d55f3a7156e67c71f07d5308adc61f26c051ce9",
+    "cli/commands/params_ops.py": "9537157228ea5cf191e981c032c5cf49ab92d98f04ad717f6b27284a2e8b767a",
     "cli/commands/payload_arsenal.py": "194cb64b3a2aea266ebc4a5312fc49710a173f174e822940870b914142a7bf92",
     "cli/commands/payload_generation.py": "21682bd07aa0915faf5c2657bdd810e09601817c57f6aa1417738a7b7372f242",
     "cli/commands/persist.py": "890f81693f4cf2910b1733348c9ad11b20db1276e65665560a19102981917e47",
@@ -179,8 +181,8 @@
     "cli/commands/verb_admin.py": "a8a3e29349b6f9d0d73250858e06852d1c0bc337ecd94bba5170f97846ded898"
   },
   "totals": {
-    "method_definitions": 837,
-    "unique_commands": 837,
+    "method_definitions": 838,
+    "unique_commands": 838,
     "duplicates": 0,
     "phases": 14,
     "categories": 17
@@ -526,6 +528,7 @@
       "do_operators",
       "do_palette",
       "do_palette_k",
+      "do_param",
       "do_payload",
       "do_phase",
       "do_pipeline",
@@ -1195,6 +1198,7 @@
       "do_operators",
       "do_palette",
       "do_palette_k",
+      "do_param",
       "do_payload",
       "do_phase",
       "do_pipeline",
@@ -5936,7 +5940,7 @@
     },
     {
       "name": "do_lazy_view",
-      "line": 305,
+      "line": 306,
       "summary": "Attach the live worker monitor to a task (or the newest task).",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -7317,6 +7321,17 @@
       "phase": "uncategorized",
       "source_file": "cli/commands/orchestration.py",
       "class_name": "OrchestrationCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_param",
+      "line": 38,
+      "summary": "Manage the shared parameter catalog used by addons and aliases.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/params_ops.py",
+      "class_name": "ParamCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -10897,7 +10912,7 @@
     },
     {
       "name": "do_set",
-      "line": 901,
+      "line": 907,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -10908,7 +10923,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4848,
+      "line": 4854,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -10919,7 +10934,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4878,
+      "line": 4884,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -10930,7 +10945,7 @@
     },
     {
       "name": "do_route",
-      "line": 4917,
+      "line": 4923,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

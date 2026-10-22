@@ -804,6 +804,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`NetworkHelpersCommandSet`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset) class in `cli.commands.nethelpers`
   - [`OpsecCleanupCommandSet`](modules/cli.commands.opsec_cleanup.py.md#opseccleanupcommandset) class in `cli.commands.opsec_cleanup`
   - [`OrchestrationCommandSet`](modules/cli.commands.orchestration.py.md#orchestrationcommandset) class in `cli.commands.orchestration`
+  - [`ParamCommandSet`](modules/cli.commands.params_ops.py.md#paramcommandset) class in `cli.commands.params_ops`
   - [`PayloadArsenalCommandSet`](modules/cli.commands.payload_arsenal.py.md#payloadarsenalcommandset) class in `cli.commands.payload_arsenal`
   - [`PayloadCommandSet`](modules/cli.commands.payload_generation.py.md#payloadcommandset) class in `cli.commands.payload_generation`
   - [`PersistenceCommandSet`](modules/cli.commands.persist.py.md#persistencecommandset) class in `cli.commands.persist`
@@ -979,6 +980,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`OperationStep`](modules/modules.operation.py.md#operationstep) class in `modules.operation`
 - [`Operator`](modules/lazygui.services.models.py.md#operator) class in `lazygui.services.models`
 - [`OperatorInfo`](modules/modules.collab_bp.py.md#operatorinfo) class in `modules.collab_bp`
+- [`OperatorParam`](modules/core.param_registry.py.md#operatorparam) class in `core.param_registry`
 - [`OperatorProfile`](modules/modules.operator_profiles.py.md#operatorprofile) class in `modules.operator_profiles`
 - [`OperatorProfileManager`](modules/modules.operator_profiles.py.md#operatorprofilemanager) class in `modules.operator_profiles`
 - [`OperatorRegistry`](modules/modules.collab_bp.py.md#operatorregistry) class in `modules.collab_bp`

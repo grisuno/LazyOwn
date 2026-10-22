@@ -1,6 +1,89 @@
 # Subsystem: tests (page 18 of 19)
 Previous: [KB_tests_p17.md](KB_tests_p17.md)
 
+## tests/test_short_url_file_containment.py
+- Doc: Containment contract for short-URL file serving.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 26) `def sessions_dir(tmp_path, monkeypatch)`
+  - `TestContainedPaths` (class, line 36) `class TestContainedPaths`
+  - `TestRejectedPaths` (class, line 51) `class TestRejectedPaths`
+  - `TestRouteStatusContract` (class, line 78) `class TestRouteStatusContract`
+  - `TestBlueprintRouteContainment` (class, line 105) `class TestBlueprintRouteContainment`
+  - `test_bare_relative_inside_base` (method, line 37) `def test_bare_relative_inside_base(self, sessions_dir)`
+  - `test_absolute_inside_base` (method, line 41) `def test_absolute_inside_base(self, sessions_dir)`
+  - `test_file_scheme_inside_base` (method, line 45) `def test_file_scheme_inside_base(self, sessions_dir)`
+  - `test_remote_url_rejected` (method, line 52) `def test_remote_url_rejected(self, sessions_dir)`
+  - `test_absolute_outside_rejected` (method, line 55) `def test_absolute_outside_rejected(self, sessions_dir)`
+  - `test_file_scheme_outside_rejected` (method, line 58) `def test_file_scheme_outside_rejected(self, sessions_dir)`
+  - `test_traversal_rejected` (method, line 61) `def test_traversal_rejected(self, sessions_dir)`
+  - `test_symlink_escape_rejected` (method, line 64) `def test_symlink_escape_rejected(self, sessions_dir, tmp_path)`
+  - `test_empty_rejected` (method, line 74) `def test_empty_rejected(self, sessions_dir)`
+  - `test_abort_propagates` (method, line 86) `def test_abort_propagates(self)`
+  - `test_blueprint_redirect_uses_contained_resolver` (method, line 112) `def test_blueprint_redirect_uses_contained_resolver(self)`
+- Depends on: `lazyc2/security/validators.py`
+
+## tests/test_single_implementation.py
+- Doc: Single-implementation rule for extracted helpers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestDeadForkRemoved` (class, line 54) `class TestDeadForkRemoved`
+  - `test_no_divergent_copies_in_core_parsers` (method, line 55) `def test_no_divergent_copies_in_core_parsers(self)`
+  - `test_no_divergent_copies_in_core_namespace` (method, line 59) `def test_no_divergent_copies_in_core_namespace(self)`
+  - `test_shared_kernel_still_available` (method, line 63) `def test_shared_kernel_still_available(self)`
+  - `test_live_utils_implementations_intact` (method, line 68) `def test_live_utils_implementations_intact(self)`
+- Depends on: `core/__init__.py`, `core/parsers.py`, `utils.py`
+
+## tests/test_sleep_obfuscation.py
+- Doc: Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSleepTechnique` (class, line 33) `class TestSleepTechnique`
+  - `TestSleepObfuscationConfig` (class, line 71) `class TestSleepObfuscationConfig`
+  - `TestSleepTechniqueCatalog` (class, line 114) `class TestSleepTechniqueCatalog`
+  - `TestSleepTechniqueValidator` (class, line 164) `class TestSleepTechniqueValidator`
+  - `TestSleepObfuscationEngine` (class, line 212) `class TestSleepObfuscationEngine`
+  - `TestBedEnumValues` (class, line 307) `class TestBedEnumValues`
+  - `test_construction_and_properties` (method, line 34) `def test_construction_and_properties(self)`
+  - `test_defaults` (method, line 48) `def test_defaults(self)`
+  - `test_immutability` (method, line 60) `def test_immutability(self)`
+  - `test_default_construction` (method, line 72) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 79) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 102) `def test_from_dict_empty(self)`
+  - `test_from_dict_partial` (method, line 107) `def test_from_dict_partial(self)`
+  - `test_default_catalog_has_techniques` (method, line 115) `def test_default_catalog_has_techniques(self)`
+  - `test_register_and_get` (method, line 120) `def test_register_and_get(self)`
+  - `test_get_missing_raises_keyerror` (method, line 131) `def test_get_missing_raises_keyerror(self)`
+  - `test_list_all_sorted_by_resistance` (method, line 136) `def test_list_all_sorted_by_resistance(self)`
+  - `test_list_by_platform_windows` (method, line 142) `def test_list_by_platform_windows(self)`
+  - `test_list_by_platform_linux` (method, line 149) `def test_list_by_platform_linux(self)`
+  - `test_list_names` (method, line 156) `def test_list_names(self)`
+  - `test_valid_config_passes` (method, line 165) `def test_valid_config_passes(self)`
+  - `test_ekko_requires_rop_gadgets` (method, line 173) `def test_ekko_requires_rop_gadgets(self)`
+  - `test_excessive_rop_gadget_count` (method, line 181) `def test_excessive_rop_gadget_count(self)`
+  - `test_negative_sleep_delay` (method, line 189) `def test_negative_sleep_delay(self)`
+  - `test_excessive_sleep_delay` (method, line 197) `def test_excessive_sleep_delay(self)`
+  - `test_validate_config_enabled_without_name` (method, line 205) `def test_validate_config_enabled_without_name(self)`
+  - `test_default_engine` (method, line 213) `def test_default_engine(self)`
+  - `test_select_existing_technique` (method, line 219) `def test_select_existing_technique(self)`
+  - `test_select_missing_technique` (method, line 225) `def test_select_missing_technique(self)`
+  - `test_configure_updates_config` (method, line 230) `def test_configure_updates_config(self)`
+  - `test_configure_without_overrides` (method, line 239) `def test_configure_without_overrides(self)`
+  - `test_validate_valid_config` (method, line 246) `def test_validate_valid_config(self)`
+  - `test_validate_unknown_technique` (method, line 251) `def test_validate_unknown_technique(self)`
+  - `test_recommend_windows` (method, line 257) `def test_recommend_windows(self)`
+  - `test_recommend_linux` (method, line 263) `def test_recommend_linux(self)`
+  - `test_to_dict` (method, line 270) `def test_to_dict(self)`
+  - `test_from_dict_roundtrip` (method, line 278) `def test_from_dict_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 288) `def test_from_dict_empty(self)`
+  - `test_custom_catalog` (method, line 293) `def test_custom_catalog(self)`
+  - `test_os_platform_values` (method, line 308) `def test_os_platform_values(self)`
+  - `test_technique_risk_values` (method, line 312) `def test_technique_risk_values(self)`
+- Depends on: `modules/sleep_obfuscation.py`
+
 ## tests/test_socks_proxy.py
 - Doc: Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator...
 - Layer: testing
@@ -393,101 +476,6 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `test_theme_order_covers_every_registered_theme` (method, line 106) `def test_theme_order_covers_every_registered_theme(self)`
   - `test_theme_order_has_no_duplicates` (method, line 109) `def test_theme_order_has_no_duplicates(self)`
 - Depends on: `cli/__init__.py`, `cli/themes.py`
-
-## tests/test_tui_themes.py
-- Doc: Tests for the four new themes added on top of the original four.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `NewThemeRegistrationTests` (class, line 39) `class NewThemeRegistrationTests(TestCase)`
-  - `NewThemeRenderTests` (class, line 86) `class NewThemeRenderTests(TestCase)`
-  - `ThemeOrderTests` (class, line 130) `class ThemeOrderTests(TestCase)`
-  - `test_every_new_theme_is_registered` (method, line 40) `def test_every_new_theme_is_registered(self)`
-  - `test_original_themes_remain_registered` (method, line 45) `def test_original_themes_remain_registered(self)`
-  - `test_get_theme_resolves_every_new_name` (method, line 50) `def test_get_theme_resolves_every_new_name(self)`
-  - `test_get_theme_uses_case_insensitive_lookup` (method, line 55) `def test_get_theme_uses_case_insensitive_lookup(self)`
-  - `test_unknown_name_falls_back_to_default` (method, line 59) `def test_unknown_name_falls_back_to_default(self)`
-  - `test_theme_from_payload_picks_each_new_theme` (method, line 64) `def test_theme_from_payload_picks_each_new_theme(self)`
-  - `test_new_themes_have_unique_color_palettes` (method, line 72) `def test_new_themes_have_unique_color_palettes(self)`
-  - `test_new_themes_have_non_empty_token_values` (method, line 76) `def test_new_themes_have_non_empty_token_values(self)`
-  - `test_every_token_renders_with_ansi_escapes` (method, line 95) `def test_every_token_renders_with_ansi_escapes(self)`
-  - `test_every_token_renders_with_ansi_escapes_in_256color` (method, line 112) `def test_every_token_renders_with_ansi_escapes_in_256color(self)`
-  - `test_order_covers_every_registered_theme_exactly_once` (method, line 131) `def test_order_covers_every_registered_theme_exactly_once(self)`
-  - `test_order_is_reexported_by_tui_theme_command` (method, line 135) `def test_order_is_reexported_by_tui_theme_command(self)`
-- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
-
-## tests/test_unified_bridge_delegate.py
-- Doc: Contract tests for UnifiedBridge.delegate agent polling.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `unified_bridge` (function, line 16) `def unified_bridge(monkeypatch)`
-  - `_patch_bridge_api` (function, line 25) `def _patch_bridge_api(monkeypatch, statuses, result)`
-  - `test_delegate_polls_until_completion` (function, line 40) `def test_delegate_polls_until_completion(monkeypatch, unified_bridge)`
-  - `test_delegate_times_out_when_agent_never_finishes` (function, line 55) `def test_delegate_times_out_when_agent_never_finishes(monkeypatch, unified_bridge)`
-  - `test_delegate_reports_agent_failure` (function, line 66) `def test_delegate_reports_agent_failure(monkeypatch, unified_bridge)`
-  - `test_delegate_surfaces_missing_agent` (function, line 77) `def test_delegate_surfaces_missing_agent(monkeypatch, unified_bridge)`
-  - `test_delegate_wraps_start_errors` (function, line 87) `def test_delegate_wraps_start_errors(monkeypatch, unified_bridge)`
-  - `fake_start` (function, line 30) `def fake_start(goal, backend, runner, max_iterations)`
-  - `boom` (function, line 90) `def boom()`
-- Depends on: `modules/__init__.py`
-
-## tests/test_unified_dashboard.py
-- Doc: Tests for modules/unified_dashboard.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestUnifiedDashboardInit` (class, line 10) `class TestUnifiedDashboardInit`
-  - `TestWorldModelCollection` (class, line 21) `class TestWorldModelCollection`
-  - `TestDaemonStatus` (class, line 36) `class TestDaemonStatus`
-  - `TestUnifiedSnapshot` (class, line 51) `class TestUnifiedSnapshot`
-  - `TestRenderUnified` (class, line 74) `class TestRenderUnified`
-  - `TestExportJson` (class, line 95) `class TestExportJson`
-  - `test_default_init` (method, line 11) `def test_default_init(self, tmp_path)`
-  - `test_get_unified_dashboard_singleton` (method, line 15) `def test_get_unified_dashboard_singleton(self, tmp_path)`
-  - `test_collect_world_model_exists` (method, line 22) `def test_collect_world_model_exists(self, tmp_path)`
-  - `test_collect_world_model_missing` (method, line 30) `def test_collect_world_model_missing(self, tmp_path)`
-  - `test_collect_daemon_status_exists` (method, line 37) `def test_collect_daemon_status_exists(self, tmp_path)`
-  - `test_collect_daemon_status_missing` (method, line 45) `def test_collect_daemon_status_missing(self, tmp_path)`
-  - `test_snapshot_keys` (method, line 52) `def test_snapshot_keys(self, tmp_path)`
-  - `test_snapshot_timestamp` (method, line 67) `def test_snapshot_timestamp(self, tmp_path)`
-  - `test_render_contains_header` (method, line 75) `def test_render_contains_header(self, tmp_path)`
-  - `test_render_contains_sections` (method, line 80) `def test_render_contains_sections(self, tmp_path)`
-  - `test_render_contains_timestamp` (method, line 89) `def test_render_contains_timestamp(self, tmp_path)`
-  - `test_export_json` (method, line 96) `def test_export_json(self, tmp_path)`
-- Depends on: `modules/unified_dashboard.py`
-
-## tests/test_utils_import_silent.py
-- Doc: utils as a library: importing it must never parse the importer's argv.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_import_with_foreign_argv_is_silent` (function, line 12) `def test_import_with_foreign_argv_is_silent()`
-  - `test_lazy_import_chains_stay_silent` (function, line 34) `def test_lazy_import_chains_stay_silent()`
-
-## tests/test_verb_catalog.py
-- Doc: BDD contract tests for the operator verb catalog.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sandbox` (function, line 19) `def sandbox(tmp_path)`
-  - `test_sync_generates_catalog_with_builtins_on_and_new_off` (function, line 32) `def test_sync_generates_catalog_with_builtins_on_and_new_off(sandbox)`
-  - `test_sync_preserves_operator_choices` (function, line 41) `def test_sync_preserves_operator_choices(sandbox)`
-  - `test_sync_prunes_stale_commands` (function, line 51) `def test_sync_prunes_stale_commands(sandbox)`
-  - `test_load_returns_empty_on_missing_invalid_or_oversize` (function, line 64) `def test_load_returns_empty_on_missing_invalid_or_oversize(sandbox, tmp_path)`
-  - `test_set_enabled_unknown_command_raises` (function, line 73) `def test_set_enabled_unknown_command_raises(sandbox)`
-  - `test_set_enabled_persists_atomically` (function, line 79) `def test_set_enabled_persists_atomically(sandbox)`
-  - `test_validate_catalog_rejects_bad_documents` (function, line 88) `def test_validate_catalog_rejects_bad_documents(sandbox)`
-  - `test_effective_verbs_include_catalog_entries` (function, line 97) `def test_effective_verbs_include_catalog_entries(sandbox, monkeypatch)`
-  - `test_loop_refuses_disabled_cli_verb_and_allows_enabled` (function, line 111) `def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox, monkeypatch)`
-  - `test_stats_reports_on_off_counts` (function, line 133) `def test_stats_reports_on_off_counts(sandbox)`
-  - `test_search_filters_catalog` (function, line 141) `def test_search_filters_catalog(sandbox)`
-  - `_addon_sandbox` (function, line 150) `def _addon_sandbox(tmp_path, enabled)`
-  - `test_sync_indexes_enabled_lazyaddons_disabled_by_default` (function, line 169) `def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path)`
-  - `test_sync_prunes_renamed_or_disabled_addons` (function, line 187) `def test_sync_prunes_renamed_or_disabled_addons(tmp_path)`
-  - `test_operator_can_turn_addon_verb_on` (function, line 202) `def test_operator_can_turn_addon_verb_on(tmp_path)`
-  - `test_steps_for_addon_verb_runs_lazy_addon` (function, line 215) `def test_steps_for_addon_verb_runs_lazy_addon(tmp_path, monkeypatch)`
-- Depends on: `modules/__init__.py`
 
 
 Next: [KB_tests_p19.md](KB_tests_p19.md)

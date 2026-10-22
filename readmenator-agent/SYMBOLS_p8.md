@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_budget_config` | function | `core/llm_budget.py:552` | `def load_budget_config(payload, sessions_dir)` |
+| `price_for` | method | `core/llm_budget.py:329` | `def price_for(self, model)` |
+| `read_budget_status` | function | `core/llm_budget.py:585` | `def read_budget_status(payload, sessions_dir)` |
+| `record` | method | `core/llm_budget.py:232` | `def record(self, entry)` |
+| `reset` | method | `core/llm_budget.py:261` | `def reset(self)` |
+| `spent_today` | method | `core/llm_budget.py:251` | `def spent_today(self)` |
+| `stream_generate` | method | `core/llm_budget.py:63` | `def stream_generate(self, prompt)` |
+| `stream_generate` | method | `core/llm_budget.py:430` | `def stream_generate(self, prompt)` |
+| `wrap_backend_with_budget` | function | `core/llm_budget.py:657` | `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` |
+| `StructuredLogConfig` | class | `core/logging.py:42` | `class StructuredLogConfig` |
 | `StructuredLogger` | class | `core/logging.py:139` | `class StructuredLogger(Logger)` |
 | `_ConsoleFormatter` | class | `core/logging.py:121` | `class _ConsoleFormatter(Formatter)` |
 | `_JsonLineFormatter` | class | `core/logging.py:71` | `class _JsonLineFormatter(Formatter)` |
@@ -22,34 +32,54 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `parse_ip_mac` | function | `core/network.py:18` | `def parse_ip_mac(input_string)` |
 | `parse_proc_net_file` | function | `core/network.py:78` | `def parse_proc_net_file(file_path)` |
 | `send_packet` | function | `core/network.py:66` | `def send_packet(packet, iface)` |
+| `OperatorParam` | class | `core/param_registry.py:114` | `class OperatorParam` |
+| `_entry_to_param` | function | `core/param_registry.py:204` | `def _entry_to_param(name, entry)` |
+| `_write` | function | `core/param_registry.py:482` | `def _write(entries, root)` |
+| `apply_to_schema` | function | `core/param_registry.py:437` | `def apply_to_schema(root)` |
+| `as_entry` | method | `core/param_registry.py:133` | `def as_entry(self)` |
+| `create_param` | function | `core/param_registry.py:291` | `def create_param(name, kind, default, description, category, root)` |
+| `delete_param` | function | `core/param_registry.py:387` | `def delete_param(name, root)` |
+| `effective_value` | function | `core/param_registry.py:187` | `def effective_value(entry)` |
+| `list_params` | function | `core/param_registry.py:256` | `def list_params(root, include_builtin, keyword)` |
+| `load_entries` | function | `core/param_registry.py:226` | `def load_entries(root)` |
+| `normalise_kind` | function | `core/param_registry.py:172` | `def normalise_kind(kind)` |
+| `operator_specs` | function | `core/param_registry.py:425` | `def operator_specs(root)` |
+| `param_value` | function | `core/param_registry.py:411` | `def param_value(name, root)` |
+| `registry_path` | function | `core/param_registry.py:158` | `def registry_path(root)` |
+| `sync_shell_params` | function | `core/param_registry.py:459` | `def sync_shell_params(shell, root)` |
+| `to_spec` | method | `core/param_registry.py:142` | `def to_spec(self)` |
+| `update_param` | function | `core/param_registry.py:341` | `def update_param(name, default, description, kind, category, root)` |
 | `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
-| `FieldKind` | class | `core/payload_schema.py:73` | `class FieldKind(StrEnum)` |
-| `FieldSpec` | class | `core/payload_schema.py:100` | `class FieldSpec` |
-| `Severity` | class | `core/payload_schema.py:91` | `class Severity(StrEnum)` |
-| `ValidationIssue` | class | `core/payload_schema.py:142` | `class ValidationIssue` |
-| `_coerce_bool` | function | `core/payload_schema.py:316` | `def _coerce_bool(raw)` |
-| `_coerce_int` | function | `core/payload_schema.py:301` | `def _coerce_int(raw)` |
-| `_spec` | function | `core/payload_schema.py:335` | `def _spec(name, kind, default, description)` |
-| `_validate_bool` | function | `core/payload_schema.py:195` | `def _validate_bool(value)` |
-| `_validate_hex` | function | `core/payload_schema.py:254` | `def _validate_hex(value)` |
-| `_validate_hostname` | function | `core/payload_schema.py:220` | `def _validate_hostname(value)` |
-| `_validate_int` | function | `core/payload_schema.py:171` | `def _validate_int(value)` |
-| `_validate_interface` | function | `core/payload_schema.py:246` | `def _validate_interface(value)` |
-| `_validate_ip` | function | `core/payload_schema.py:212` | `def _validate_ip(value)` |
-| `_validate_json_blob` | function | `core/payload_schema.py:268` | `def _validate_json_blob(value)` |
-| `_validate_opaque` | function | `core/payload_schema.py:280` | `def _validate_opaque(_value)` |
-| `_validate_os_id` | function | `core/payload_schema.py:262` | `def _validate_os_id(value)` |
-| `_validate_path` | function | `core/payload_schema.py:240` | `def _validate_path(value)` |
-| `_validate_port` | function | `core/payload_schema.py:185` | `def _validate_port(value)` |
-| `_validate_string` | function | `core/payload_schema.py:165` | `def _validate_string(value)` |
-| `_validate_url` | function | `core/payload_schema.py:232` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:1779` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:1621` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:1771` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:1616` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:1753` | `def format_issue(issue)` |
-| `validate_payload` | function | `core/payload_schema.py:1718` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:1644` | `def validate_value(key, value)` |
+| `FieldKind` | class | `core/payload_schema.py:77` | `class FieldKind(StrEnum)` |
+| `FieldSpec` | class | `core/payload_schema.py:104` | `class FieldSpec` |
+| `Severity` | class | `core/payload_schema.py:95` | `class Severity(StrEnum)` |
+| `ValidationIssue` | class | `core/payload_schema.py:146` | `class ValidationIssue` |
+| `_coerce_bool` | function | `core/payload_schema.py:320` | `def _coerce_bool(raw)` |
+| `_coerce_int` | function | `core/payload_schema.py:305` | `def _coerce_int(raw)` |
+| `_load_operator_specs` | function | `core/payload_schema.py:1840` | `def _load_operator_specs()` |
+| `_spec` | function | `core/payload_schema.py:339` | `def _spec(name, kind, default, description)` |
+| `_validate_bool` | function | `core/payload_schema.py:199` | `def _validate_bool(value)` |
+| `_validate_hex` | function | `core/payload_schema.py:258` | `def _validate_hex(value)` |
+| `_validate_hostname` | function | `core/payload_schema.py:224` | `def _validate_hostname(value)` |
+| `_validate_int` | function | `core/payload_schema.py:175` | `def _validate_int(value)` |
+| `_validate_interface` | function | `core/payload_schema.py:250` | `def _validate_interface(value)` |
+| `_validate_ip` | function | `core/payload_schema.py:216` | `def _validate_ip(value)` |
+| `_validate_json_blob` | function | `core/payload_schema.py:272` | `def _validate_json_blob(value)` |
+| `_validate_opaque` | function | `core/payload_schema.py:284` | `def _validate_opaque(_value)` |
+| `_validate_os_id` | function | `core/payload_schema.py:266` | `def _validate_os_id(value)` |
+| `_validate_path` | function | `core/payload_schema.py:244` | `def _validate_path(value)` |
+| `_validate_port` | function | `core/payload_schema.py:189` | `def _validate_port(value)` |
+| `_validate_string` | function | `core/payload_schema.py:169` | `def _validate_string(value)` |
+| `_validate_url` | function | `core/payload_schema.py:236` | `def _validate_url(value)` |
+| `categories` | function | `core/payload_schema.py:1828` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:1670` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:1820` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:1665` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:1802` | `def format_issue(issue)` |
+| `register_specs` | function | `core/payload_schema.py:1624` | `def register_specs(specs)` |
+| `unregister_specs` | function | `core/payload_schema.py:1647` | `def unregister_specs(keys)` |
+| `validate_payload` | function | `core/payload_schema.py:1767` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:1693` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
@@ -466,35 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `mfa_setup` | function | `lazyc2.py:5871` | `def mfa_setup()` |
 | `mfa_verify` | function | `lazyc2.py:5967` | `def mfa_verify()` |
 | `mitre` | function | `lazyc2.py:6295` | `def mitre()` |
-| `on_any_event` | method | `lazyc2.py:730` | `def on_any_event(event)` |
-| `orchestrate_campaign` | function | `lazyc2.py:7858` | `def orchestrate_campaign(campaign_id)` |
-| `page_not_found` | function | `lazyc2.py:6987` | `def page_not_found(e)` |
-| `palette_api` | function | `lazyc2.py:4297` | `def palette_api()` |
-| `palette_view` | function | `lazyc2.py:4269` | `def palette_view()` |
-| `parse_access_log_for_short_url` | function | `lazyc2.py:2192` | `def parse_access_log_for_short_url(short_url)` |
-| `parse_execution_log` | function | `lazyc2.py:2214` | `def parse_execution_log(implante)` |
-| `process_bloodhound_zip` | function | `lazyc2.py:942` | `def process_bloodhound_zip(zip_filepath)` |
-| `profile` | function | `lazyc2.py:6138` | `def profile()` |
-| `pty_connect` | function | `lazyc2.py:6788` | `def pty_connect()` |
-| `pty_input` | function | `lazyc2.py:6761` | `def pty_input(data)` |
-| `push_notification` | function | `lazyc2.py:5453` | `def push_notification()` |
-| `read_and_forward_pty_output` | function | `lazyc2.py:1982` | `def read_and_forward_pty_output()` |
-| `receive_result` | function | `lazyc2.py:3352` | `def receive_result(client_id)` |
-| `redirect_to_file` | function | `lazyc2.py:4560` | `def redirect_to_file(short_url)` |
-| `redop` | function | `lazyc2.py:5093` | `def redop()` |
-| `register` | function | `lazyc2.py:5765` | `def register()` |
-| `report` | function | `lazyc2.py:6548` | `def report()` |
-| `requires_auth` | function | `lazyc2.py:1393` | `def requires_auth(f)` |
-| `requires_auth_or_session` | function | `lazyc2.py:1372` | `def requires_auth_or_session(f)` |
-| `resize` | function | `lazyc2.py:6775` | `def resize(data)` |
-| `resolve` | method | `lazyc2.py:1729` | `def resolve(self, request, handler)` |
-| `run_command` | function | `lazyc2.py:4754` | `def run_command()` |
-| `run_shell` | function | `lazyc2.py:776` | `def run_shell()` |
-| `run_shellcode` | function | `lazyc2.py:4850` | `def run_shellcode()` |
-| `sanitize_input` | function | `lazyc2.py:4149` | `def sanitize_input(input_str)` |
-| `sanitize_json` | function | `lazyc2.py:2074` | `def sanitize_json(data)` |
-| `save_cves` | function | `lazyc2.py:1078` | `def save_cves(cves)` |
-| `save_note` | function | `lazyc2.py:1142` | `def save_note(content)` |
-| `save_routes` | function | `lazyc2.py:492` | `def save_routes(routes)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

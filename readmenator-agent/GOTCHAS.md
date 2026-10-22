@@ -4,14 +4,14 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 289.20, imported by 144 files)
-- `utils.py` (score: 224.50, imported by 94 files)
+- `core/logging.py` (score: 291.20, imported by 145 files)
+- `utils.py` (score: 228.50, imported by 96 files)
 - `modules/lazy_loop.py` (score: 213.60, imported by 55 files)
-- `skills/lazyown_mcp.py` (score: 200.60, imported by 8 files)
-- `cli/commands/_base.py` (score: 188.70, imported by 92 files)
+- `skills/lazyown_mcp.py` (score: 202.60, imported by 8 files)
+- `cli/commands/_base.py` (score: 190.70, imported by 93 files)
 - `lazyc2.py` (score: 126.80)
-- `lazyown.py` (score: 120.70, imported by 9 files)
-- `core/config.py` (score: 107.80, imported by 51 files)
+- `lazyown.py` (score: 122.70, imported by 9 files)
+- `core/config.py` (score: 109.80, imported by 52 files)
 - `core/console.py` (score: 105.10, imported by 52 files)
 - `skills/autonomous_daemon.py` (score: 99.00, imported by 15 files)
 
@@ -19,16 +19,16 @@ These files have the most connections. Changes here have high blast radius.
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `core/logging.py` -- 50 direct, 144 total dependents
-- `core/host_policy.py` -- 3 direct, 119 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 110 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 108 total dependents
-- `core/validators.py` -- 12 direct, 105 total dependents
-- `core/crypto.py` -- 10 direct, 103 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 103 total dependents
-- `core/process.py` -- 12 direct, 102 total dependents
-- `core/parsers.py` -- 9 direct, 100 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 100 total dependents
+- `core/logging.py` -- 50 direct, 145 total dependents
+- `core/host_policy.py` -- 3 direct, 117 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 112 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 111 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 110 total dependents
+- `core/process.py` -- 12 direct, 105 total dependents
+- `core/crypto.py` -- 10 direct, 104 total dependents
+- `core/validators.py` -- 12 direct, 103 total dependents
+- `core/parsers.py` -- 9 direct, 102 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 102 total dependents
 
 ## Hotspots (complexity + centrality)
 

@@ -1,22 +1,21 @@
 # modules: autonomous_daemon
 
-*Community 0 | 164 files | cohesion 0.58*
+*Community 0 | 163 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 164 file(s) rooted at `modules` with dominant language py (cohesion 0.58). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIModel`, `AIResult`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 163 file(s) rooted at `modules` with dominant language py (cohesion 0.58). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIModel`, `AIResult`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `modules` (73 files)
+### `modules` (71 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/agent_runner.py` | py | utility | 38 | yes |
 | `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
-| `modules/ai_fallback.py` | py | utility | 8 | yes |
 
-### `tests` (38 files)
+### `tests` (37 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -70,7 +69,18 @@ This community groups 164 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazygui/__init__.py` | py | utility | 0 | yes |
-| `lazygui/version.py` | py | utility | 0 | yes |
+
+### `lazyc2/blueprints` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/blueprints/phishing.py` | py | presentation | 7 | yes |
+
+### `lazyc2/extensions` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/extensions/short_urls.py` | py | infrastructure | 5 | yes |
 
 ### `scripts` (1 files)
 
@@ -78,7 +88,7 @@ This community groups 164 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 144 more files in this community.*
+*... and 143 more files in this community.*
 
 
 ## Key Symbols
@@ -116,24 +126,21 @@ This community groups 164 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 942
-- Cross-boundary resolved imports (EXTRACTED): 388
+- Internal resolved imports (EXTRACTED): 921
+- Cross-boundary resolved imports (EXTRACTED): 391
 
 ## Connections
 
 - [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
 - [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
-- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
+- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
+- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
 - [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
@@ -143,6 +150,9 @@ This community groups 164 file(s) rooted at `modules` with dominant language py 
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - [cycle] `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `skills/swan_agent.py` -> `skills/hive_mind.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/lazy_loop.py`
 
 ## Open Questions
@@ -172,6 +182,6 @@ This community groups 164 file(s) rooted at `modules` with dominant language py 
 - `core/logging.py`
 - `core/scheduler.py`
 - `core/security.py`
-- `lazygui/__init__.py`
-- `lazygui/version.py`
-- *... and 144 more*
+- `lazyc2/blueprints/phishing.py`
+- `lazyc2/extensions/short_urls.py`
+- *... and 143 more*

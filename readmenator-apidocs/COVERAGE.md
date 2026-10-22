@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1202 | 1390 | 86.5% |
-| classmethod | 55 | 81 | 67.9% |
+| class | 1204 | 1392 | 86.5% |
+| classmethod | 56 | 82 | 68.3% |
 | constructor | 195 | 517 | 37.7% |
 | enum | 29 | 38 | 76.3% |
 | exception | 35 | 37 | 94.6% |
-| function | 1763 | 2711 | 65.0% |
+| function | 1777 | 2725 | 65.2% |
 | macro | 3 | 113 | 2.7% |
-| method | 2821 | 3500 | 80.6% |
-| module | 671 | 793 | 84.6% |
+| method | 2827 | 3506 | 80.6% |
+| module | 673 | 795 | 84.7% |
 | property | 152 | 196 | 77.6% |
 | protocol | 14 | 14 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -384,7 +384,7 @@ Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data mem
 | [`modules.c2_profile_engine`](modules/modules.c2_profile_engine.py.md) | 45 | 47 | 95.7% |
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | 23 | 24 | 95.8% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
-| [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 25 | 26 | 96.2% |
+| [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 26 | 27 | 96.3% |
 | [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 28 | 29 | 96.6% |
 | [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 57 | 59 | 96.6% |
 | [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 28 | 29 | 96.6% |
@@ -457,6 +457,7 @@ Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data mem
 | [`cli.commands.nethelpers`](modules/cli.commands.nethelpers.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.opsec_cleanup`](modules/cli.commands.opsec_cleanup.py.md) | 10 | 10 | 100.0% |
 | [`cli.commands.orchestration`](modules/cli.commands.orchestration.py.md) | 5 | 5 | 100.0% |
+| [`cli.commands.params_ops`](modules/cli.commands.params_ops.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.payload_arsenal`](modules/cli.commands.payload_arsenal.py.md) | 8 | 8 | 100.0% |
 | [`cli.commands.payload_generation`](modules/cli.commands.payload_generation.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.persist`](modules/cli.commands.persist.py.md) | 11 | 11 | 100.0% |
@@ -491,7 +492,7 @@ Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data mem
 | [`cli.graph_overlay`](modules/cli.graph_overlay.py.md) | 11 | 11 | 100.0% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | 3 | 3 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | 19 | 19 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 17 | 17 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | 20 | 20 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | 4 | 4 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | 46 | 46 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
@@ -546,8 +547,9 @@ Overall: **73.9%** (7023 of 9505 public modules, types, and callables). Data mem
 | [`core.host_policy`](modules/core.host_policy.py.md) | 4 | 4 | 100.0% |
 | [`core.http`](modules/core.http.py.md) | 11 | 11 | 100.0% |
 | [`core.network`](modules/core.network.py.md) | 9 | 9 | 100.0% |
+| [`core.param_registry`](modules/core.param_registry.py.md) | 16 | 16 | 100.0% |
 | [`core.parsers`](modules/core.parsers.py.md) | 2 | 2 | 100.0% |
-| [`core.payload_schema`](modules/core.payload_schema.py.md) | 12 | 12 | 100.0% |
+| [`core.payload_schema`](modules/core.payload_schema.py.md) | 14 | 14 | 100.0% |
 | [`core.process`](modules/core.process.py.md) | 10 | 10 | 100.0% |
 | [`core.profiles`](modules/core.profiles.py.md) | 4 | 4 | 100.0% |
 | [`core.prompt`](modules/core.prompt.py.md) | 8 | 8 | 100.0% |

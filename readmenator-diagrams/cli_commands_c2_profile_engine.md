@@ -18,23 +18,23 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (9.1)
+## cli (10.1)
 
 cli groups 6 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, install, and execution.
 
-## lazyc2 (9.2)
+## lazyc2 (10.2)
 
 lazyc2 groups 1 files (py) around CommandRejectionReason, CommandDecision, to_dict, CommandAllowlist, __init__. Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.
 
-## modules (9.3)
+## modules (10.3)
 
 modules groups 5 files (py) around TlsProfile, get_cipher_suites, get_ja3_hash, from_dict, to_dict. Beacon configuration builder — wires profile engines into beacon compile-time config.
 
-## skills (9.4)
+## skills (10.4)
 
 skills groups 6 files (py) around CompactionResult, summary, ContextCompactor, __init__, apply_budget. LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest...
 
-## tests (9.5)
+## tests (10.5)
 
 tests groups 8 files (py) around TestBeaconConfig, test_default_construction, test_to_gen_beacon_args, test_to_go_implant_vars, test_to_config_json. Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
 

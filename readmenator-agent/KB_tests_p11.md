@@ -97,6 +97,7 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_orchestrator_playbooks_tab_renders` (function, line 325) `def test_orchestrator_playbooks_tab_renders(tmp_path)`
   - `test_verb_add_opens_searchable_picker` (function, line 351) `def test_verb_add_opens_searchable_picker(payload_store)`
   - `test_orchestrator_gyms_tab_starts_and_stops` (function, line 377) `def test_orchestrator_gyms_tab_starts_and_stops(tmp_path, monkeypatch)`
+  - `test_orchestrator_params_tab_renders_and_creates` (function, line 413) `def test_orchestrator_params_tab_renders_and_creates(sandbox, tmp_path)`
   - `_drive` (function, line 36) `def _drive()`
   - `_drive` (function, line 81) `def _drive()`
   - `_load` (function, line 103) `def _load(target)`
@@ -105,7 +106,10 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `_drive` (function, line 237) `def _drive()`
   - `_drive` (function, line 337) `def _drive()`
   - `_drive` (function, line 359) `def _drive()`
-- Depends on: `cli/commands/lazyloop.py`, `cli/lazy_orchestrator.py`, `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
+  - `_Shell` (class, line 419) `class _Shell`
+  - `_drive` (function, line 425) `def _drive()`
+  - `__init__` (method, line 420) `def __init__(self)`
+- Depends on: `cli/commands/lazyloop.py`, `cli/lazy_orchestrator.py`, `cli/tui_forms.py`, `core/config.py`, `core/param_registry.py`, `modules/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
 
 ## tests/test_lazy_parity.py
 - Doc: LAZY parity proof tests: every ported subsystem must behave, not just exist.

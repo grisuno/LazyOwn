@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_load` | method | `skills/lazyown_policy.py:1024` | `def _load(self)` |
+| `_load_scope_guard` | function | `skills/lazyown_policy.py:1739` | `def _load_scope_guard()` |
+| `_normalize_scope` | function | `skills/lazyown_policy.py:1800` | `def _normalize_scope(entries)` |
+| `_parse_response` | method | `skills/lazyown_policy.py:540` | `def _parse_response(self, data, fallback)` |
+| `_read_payload` | method | `skills/lazyown_policy.py:1859` | `def _read_payload(self)` |
+| `_save` | method | `skills/lazyown_policy.py:1032` | `def _save(self)` |
+| `_setup_logging` | function | `skills/lazyown_policy.py:1960` | `def _setup_logging(cfg)` |
+| `_write_all` | method | `skills/lazyown_policy.py:970` | `def _write_all(self, episodes)` |
+| `advise` | method | `skills/lazyown_policy.py:1272` | `def advise(self, target)` |
+| `announce` | method | `skills/lazyown_policy.py:1384` | `def announce(self, request)` |
+| `announce` | method | `skills/lazyown_policy.py:1409` | `def announce(self, request)` |
+| `announce` | method | `skills/lazyown_policy.py:1471` | `def announce(self, request)` |
+| `announce` | method | `skills/lazyown_policy.py:1523` | `def announce(self, request)` |
+| `announce` | method | `skills/lazyown_policy.py:1569` | `def announce(self, request)` |
+| `append_step` | method | `skills/lazyown_policy.py:903` | `def append_step(self, step)` |
+| `append_step` | method | `skills/lazyown_policy.py:927` | `def append_step(self, step)` |
+| `assess_probability` | method | `skills/lazyown_policy.py:733` | `def assess_probability(self, command, args, category)` |
+| `calculate` | method | `skills/lazyown_policy.py:783` | `def calculate(self, category, outcome)` |
+| `calculate_with_detection` | method | `skills/lazyown_policy.py:798` | `def calculate_with_detection(self, category, outcome, command, args)` |
+| `classify` | method | `skills/lazyown_policy.py:376` | `def classify(self, command, args, output, exit_code)` |
+| `classify` | method | `skills/lazyown_policy.py:401` | `def classify(self, command, args, output, exit_code)` |
+| `classify` | method | `skills/lazyown_policy.py:444` | `def classify(self, command, args, output, exit_code)` |
+| `classify` | method | `skills/lazyown_policy.py:570` | `def classify(self, command, args, output, exit_code)` |
+| `classify` | method | `skills/lazyown_policy.py:616` | `def classify(self, command, args, output, exit_code)` |
+| `classify` | method | `skills/lazyown_policy.py:677` | `def classify(self, command, args, output, exit_code)` |
+| `default` | method | `skills/lazyown_policy.py:82` | `def default(cls)` |
+| `episode_summary` | method | `skills/lazyown_policy.py:1277` | `def episode_summary(self, target)` |
+| `from_dict` | method | `skills/lazyown_policy.py:362` | `def from_dict(cls, d)` |
+| `get_episode` | method | `skills/lazyown_policy.py:911` | `def get_episode(self, target)` |
+| `get_episode` | method | `skills/lazyown_policy.py:963` | `def get_episode(self, target)` |
+| `get_recommendations` | method | `skills/lazyown_policy.py:1318` | `def get_recommendations(self, target)` |
 | `infer_category` | function | `skills/lazyown_policy.py:267` | `def infer_category(command, args)` |
 | `is_approved` | method | `skills/lazyown_policy.py:1365` | `def is_approved(self)` |
 | `is_denied` | method | `skills/lazyown_policy.py:1370` | `def is_denied(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `_gen_parsero` | function | `skills/mcp_generated_tools.py:4058` | `def _gen_parsero(arguments, tool_name, _cmd)` |
 | `_gen_parth` | function | `skills/mcp_generated_tools.py:4066` | `def _gen_parth(arguments, tool_name, _cmd)` |
 | `_gen_passtightvnc` | function | `skills/mcp_generated_tools.py:4074` | `def _gen_passtightvnc(arguments, tool_name, _cmd)` |
-| `_gen_passwordspray` | function | `skills/mcp_generated_tools.py:4082` | `def _gen_passwordspray(arguments, tool_name, _cmd)` |
-| `_gen_path2hex` | function | `skills/mcp_generated_tools.py:4090` | `def _gen_path2hex(arguments, tool_name, _cmd)` |
-| `_gen_payload` | function | `skills/mcp_generated_tools.py:4098` | `def _gen_payload(arguments, tool_name, _cmd)` |
-| `_gen_penelope` | function | `skills/mcp_generated_tools.py:4106` | `def _gen_penelope(arguments, tool_name, _cmd)` |
-| `_gen_pentest_report` | function | `skills/mcp_generated_tools.py:4114` | `def _gen_pentest_report(arguments, tool_name, _cmd)` |
-| `_gen_pezorsh` | function | `skills/mcp_generated_tools.py:4122` | `def _gen_pezorsh(arguments, tool_name, _cmd)` |
-| `_gen_phase` | function | `skills/mcp_generated_tools.py:4130` | `def _gen_phase(arguments, tool_name, _cmd)` |
-| `_gen_phish_report` | function | `skills/mcp_generated_tools.py:4138` | `def _gen_phish_report(arguments, tool_name, _cmd)` |
-| `_gen_phish_serve` | function | `skills/mcp_generated_tools.py:4146` | `def _gen_phish_serve(arguments, tool_name, _cmd)` |
-| `_gen_phish_wizard` | function | `skills/mcp_generated_tools.py:4154` | `def _gen_phish_wizard(arguments, tool_name, _cmd)` |
-| `_gen_ping` | function | `skills/mcp_generated_tools.py:4162` | `def _gen_ping(arguments, tool_name, _cmd)` |
-| `_gen_pip_proxy` | function | `skills/mcp_generated_tools.py:4170` | `def _gen_pip_proxy(arguments, tool_name, _cmd)` |
-| `_gen_pip_repo` | function | `skills/mcp_generated_tools.py:4178` | `def _gen_pip_repo(arguments, tool_name, _cmd)` |
-| `_gen_pipeline` | function | `skills/mcp_generated_tools.py:4186` | `def _gen_pipeline(arguments, tool_name, _cmd)` |
-| `_gen_pivot` | function | `skills/mcp_generated_tools.py:4194` | `def _gen_pivot(arguments, tool_name, _cmd)` |
-| `_gen_pivot_kill` | function | `skills/mcp_generated_tools.py:4202` | `def _gen_pivot_kill(arguments, tool_name, _cmd)` |
-| `_gen_pivot_proxy` | function | `skills/mcp_generated_tools.py:4210` | `def _gen_pivot_proxy(arguments, tool_name, _cmd)` |
-| `_gen_pivot_scan` | function | `skills/mcp_generated_tools.py:4218` | `def _gen_pivot_scan(arguments, tool_name, _cmd)` |
-| `_gen_plan` | function | `skills/mcp_generated_tools.py:4226` | `def _gen_plan(arguments, tool_name, _cmd)` |
-| `_gen_plan_apply` | function | `skills/mcp_generated_tools.py:4234` | `def _gen_plan_apply(arguments, tool_name, _cmd)` |
-| `_gen_plan_detail` | function | `skills/mcp_generated_tools.py:4242` | `def _gen_plan_detail(arguments, tool_name, _cmd)` |
-| `_gen_pop` | function | `skills/mcp_generated_tools.py:4250` | `def _gen_pop(arguments, tool_name, _cmd)` |
-| `_gen_portdiscover` | function | `skills/mcp_generated_tools.py:4258` | `def _gen_portdiscover(arguments, tool_name, _cmd)` |
-| `_gen_ports` | function | `skills/mcp_generated_tools.py:4266` | `def _gen_ports(arguments, tool_name, _cmd)` |
-| `_gen_portservicediscover` | function | `skills/mcp_generated_tools.py:4274` | `def _gen_portservicediscover(arguments, tool_name, _cmd)` |
-| `_gen_powerserver` | function | `skills/mcp_generated_tools.py:4282` | `def _gen_powerserver(arguments, tool_name, _cmd)` |
-| `_gen_powershell_cmd_stager` | function | `skills/mcp_generated_tools.py:4290` | `def _gen_powershell_cmd_stager(arguments, tool_name, _cmd)` |
-| `_gen_pre2k` | function | `skills/mcp_generated_tools.py:4298` | `def _gen_pre2k(arguments, tool_name, _cmd)` |
-| `_gen_prev` | function | `skills/mcp_generated_tools.py:4306` | `def _gen_prev(arguments, tool_name, _cmd)` |
-| `_gen_printerbug_py` | function | `skills/mcp_generated_tools.py:4314` | `def _gen_printerbug_py(arguments, tool_name, _cmd)` |
-| `_gen_privesc_suggest` | function | `skills/mcp_generated_tools.py:4322` | `def _gen_privesc_suggest(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

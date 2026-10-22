@@ -453,7 +453,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_orchestrator` | method | `cli/commands/lazyloop.py:277` | `def do_lazy_orchestrator(self, line)` |
 | `do_lazy_sync` | method | `cli/commands/lazyloop.py:36` | `def do_lazy_sync(self, line)` |
 | `do_lazy_verdict` | method | `cli/commands/lazyloop.py:132` | `def do_lazy_verdict(self, line)` |
-| `do_lazy_view` | method | `cli/commands/lazyloop.py:305` | `def do_lazy_view(self, line)` |
+| `do_lazy_view` | method | `cli/commands/lazyloop.py:306` | `def do_lazy_view(self, line)` |
 | `LazyCommandSet` | class | `cli/commands/lazyops.py:35` | `class LazyCommandSet(LazyOwnCommandSet)` |
 | `_agent_main_prompt` | method | `cli/commands/lazyops.py:1657` | `def _agent_main_prompt(self, task_id)` |
 | `_agent_main_tools` | method | `cli/commands/lazyops.py:1540` | `def _agent_main_tools(self, task_id)` |

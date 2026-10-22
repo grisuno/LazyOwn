@@ -335,8 +335,6 @@ class AddonCreatorConfig:
             "android_serial",
             "dirtyinit_device_path",
             "wifi_ssid",
-            "php2shell_url",
-            "php2shell_profile",
         }
     )
 
@@ -344,6 +342,28 @@ class AddonCreatorConfig:
     default_version: str = "1.0"
     default_os: str = "any"
     default_install_type: str = "git"
+
+    @classmethod
+    def live_placeholders(cls) -> frozenset[str]:
+        """Return the documented placeholders plus the operator parameters.
+
+        The builtin catalog above is the documented contract and stays
+        stable. The operator parameter registry (``params/operator.yaml``)
+        adds keys at runtime; those are valid placeholders too, so an
+        addon may reuse a parameter declared from the orchestrator instead
+        of inventing an addon-branded key.
+
+        Returns:
+            Every placeholder token the addon creator accepts.
+        """
+        extra: set[str] = set()
+        try:
+            from core.param_registry import load_entries
+
+            extra = set(load_entries())
+        except Exception:
+            extra = set()
+        return frozenset(cls.payload_placeholders | extra)
 
 
 @dataclass(frozen=True)
@@ -709,7 +729,7 @@ class AddonValidator:
             token = raw_token.strip()
             if not token or "{" in token or "}" in token:
                 continue
-            if token in param_names or token in self.config.payload_placeholders:
+            if token in param_names or token in self.config.live_placeholders():
                 continue
             issues.append(
                 ValidationIssue(

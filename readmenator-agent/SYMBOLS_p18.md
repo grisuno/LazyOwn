@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
+| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
+| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
+| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
+| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
+| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
+| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
+| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
+| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
+| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
+| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
+| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
+| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
+| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
+| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
+| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
+| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
+| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
+| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
+| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
+| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
+| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
+| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
+| `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
+| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
+| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
+| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
 | `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
 | `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
 | `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `__init__` | method | `modules/pipeline_engine.py:537` | `def __init__(self, runner, onecmd)` |
 | `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
 | `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
-| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
-| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
-| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
-| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
-| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
-| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
-| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
-| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
-| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
-| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
-| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
-| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
-| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
-| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
-| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
-| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
-| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
-| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
-| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
-| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
-| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
-| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
-| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
-| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
-| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
-| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
-| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
-| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
-| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
-| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
-| `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

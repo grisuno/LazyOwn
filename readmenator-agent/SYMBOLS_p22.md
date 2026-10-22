@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
+| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
+| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
+| `_replace_placeholders` | function | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
+| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
+| `_subst` | function | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
+| `_validate_clone_url` | function | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
+| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
+| `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
+| `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
+| `wrapper` | function | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
+| `wrapper` | function | `poc_tui/plugin_loader.py:172` | `def wrapper(arg)` |
+| `wrapper` | function | `poc_tui/plugin_loader.py:269` | `def wrapper(arg)` |
+| `main` | function | `poc_tui/run.py:9` | `def main()` |
+| `TestLazyOwnTUIApp` | class | `poc_tui/test_app.py:100` | `class TestLazyOwnTUIApp` |
+| `TestShellBackend` | class | `poc_tui/test_app.py:32` | `class TestShellBackend` |
+| `_make_backend` | function | `poc_tui/test_app.py:26` | `def _make_backend()` |
+| `_run_async` | function | `poc_tui/test_app.py:17` | `def _run_async(coro)` |
+| `_t` | function | `poc_tui/test_app.py:106` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:115` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:126` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:136` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:152` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:165` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:182` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:198` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:210` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:225` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:235` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:248` | `def _t()` |
+| `_t` | function | `poc_tui/test_app.py:270` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:291` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:307` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:321` | `def _t()` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_render_pr_body` | function | `skills/claude_md_orchestrator/cicd_agent.py:144` | `def _render_pr_body(contract, spec, report)` |
 | `_slug` | function | `skills/claude_md_orchestrator/cicd_agent.py:91` | `def _slug(contract)` |
 | `run` | function | `skills/claude_md_orchestrator/cicd_agent.py:177` | `def run(contract, spec, report, config)` |
-| `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
-| `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
-| `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
-| `_repo_root` | function | `skills/claude_md_orchestrator/config.py:22` | `def _repo_root()` |
-| `docs_dir` | method | `skills/claude_md_orchestrator/config.py:142` | `def docs_dir(self)` |
-| `ensure` | method | `skills/claude_md_orchestrator/config.py:112` | `def ensure(self)` |
-| `load_config` | function | `skills/claude_md_orchestrator/config.py:155` | `def load_config()` |
-| `log_path` | method | `skills/claude_md_orchestrator/config.py:150` | `def log_path(self)` |
-| `logs_dir` | method | `skills/claude_md_orchestrator/config.py:146` | `def logs_dir(self)` |
-| `resolve_optional` | function | `skills/claude_md_orchestrator/config.py:164` | `def resolve_optional(config, key)` |
-| `review_dir` | method | `skills/claude_md_orchestrator/config.py:138` | `def review_dir(self)` |
-| `specs_dir` | method | `skills/claude_md_orchestrator/config.py:126` | `def specs_dir(self)` |
-| `src_dir` | method | `skills/claude_md_orchestrator/config.py:134` | `def src_dir(self)` |
-| `state_path` | method | `skills/claude_md_orchestrator/config.py:122` | `def state_path(self)` |
-| `tests_dir` | method | `skills/claude_md_orchestrator/config.py:130` | `def tests_dir(self)` |
-| `DocResult` | class | `skills/claude_md_orchestrator/documentation_agent.py:28` | `class DocResult` |
-| `_format_inputs` | function | `skills/claude_md_orchestrator/documentation_agent.py:40` | `def _format_inputs(spec)` |
-| `_format_review` | function | `skills/claude_md_orchestrator/documentation_agent.py:54` | `def _format_review(report)` |
-| `_format_sad_paths` | function | `skills/claude_md_orchestrator/documentation_agent.py:47` | `def _format_sad_paths(spec)` |
-| `_render` | function | `skills/claude_md_orchestrator/documentation_agent.py:68` | `def _render(contract, spec, report)` |
-| `_wrap` | function | `skills/claude_md_orchestrator/documentation_agent.py:118` | `def _wrap(body)` |
-| `run` | function | `skills/claude_md_orchestrator/documentation_agent.py:123` | `def run(contract, spec, report, config)` |
-| `CicleState` | class | `skills/claude_md_orchestrator/models.py:348` | `class CicleState` |
-| `CicleStateFile` | class | `skills/claude_md_orchestrator/models.py:424` | `class CicleStateFile` |
-| `Contract` | class | `skills/claude_md_orchestrator/models.py:68` | `class Contract` |
-| `Finding` | class | `skills/claude_md_orchestrator/models.py:255` | `class Finding` |
-| `ReviewReport` | class | `skills/claude_md_orchestrator/models.py:291` | `class ReviewReport` |
-| `SadPath` | class | `skills/claude_md_orchestrator/models.py:109` | `class SadPath` |
-| `Severity` | class | `skills/claude_md_orchestrator/models.py:50` | `class Severity(StrEnum)` |
-| `Spec` | class | `skills/claude_md_orchestrator/models.py:134` | `class Spec` |
-| `Stage` | class | `skills/claude_md_orchestrator/models.py:28` | `class Stage(StrEnum)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

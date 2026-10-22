@@ -274,6 +274,67 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `runner` (function, line 83) `def runner(context)`
 - Depends on: `cli/palette_overlay.py`
 
+## tests/test_param_registry.py
+- Doc: tests/test_param_registry.py  Contract suite for the shared parameter registry.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `root` (function, line 42) `def root(tmp_path)`
+  - `FakeShell` (class, line 48) `class FakeShell`
+  - `TestRegistryFileFormat` (class, line 56) `class TestRegistryFileFormat`
+  - `TestRegistryCrud` (class, line 93) `class TestRegistryCrud`
+  - `TestRegistryProjections` (class, line 151) `class TestRegistryProjections`
+  - `TestSchemaProjection` (class, line 188) `class TestSchemaProjection`
+  - `TestShellIntegration` (class, line 222) `class TestShellIntegration`
+  - `TestParamCommand` (class, line 247) `class TestParamCommand`
+  - `TestOrchestratorParamsTab` (class, line 267) `class TestOrchestratorParamsTab`
+  - `TestSkillPolicy` (class, line 303) `class TestSkillPolicy`
+  - `TestSharedCatalogMigration` (class, line 313) `class TestSharedCatalogMigration`
+  - `__init__` (method, line 51) `def __init__(self)`
+  - `test_registry_path_is_under_params` (method, line 57) `def test_registry_path_is_under_params(self, root)`
+  - `test_create_writes_the_declared_entry` (method, line 60) `def test_create_writes_the_declared_entry(self, root)`
+  - `test_registry_keeps_the_documentation_header` (method, line 73) `def test_registry_keeps_the_documentation_header(self, root)`
+  - `test_missing_registry_reads_as_empty` (method, line 78) `def test_missing_registry_reads_as_empty(self, root)`
+  - `test_illegal_keys_are_skipped` (method, line 81) `def test_illegal_keys_are_skipped(self, root)`
+  - `test_broken_registry_does_not_raise` (method, line 88) `def test_broken_registry_does_not_raise(self, root)`
+  - `test_create_returns_the_parameter` (method, line 94) `def test_create_returns_the_parameter(self, root)`
+  - `test_create_rejects_illegal_names` (method, line 100) `def test_create_rejects_illegal_names(self, root)`
+  - `test_create_rejects_duplicates` (method, line 105) `def test_create_rejects_duplicates(self, root)`
+  - `test_create_rejects_long_description` (method, line 110) `def test_create_rejects_long_description(self, root)`
+  - `test_update_changes_default_and_description` (method, line 114) `def test_update_changes_default_and_description(self, root)`
+  - `test_update_keeps_untouched_fields` (method, line 121) `def test_update_keeps_untouched_fields(self, root)`
+  - `test_update_unknown_raises` (method, line 126) `def test_update_unknown_raises(self, root)`
+  - `test_delete_removes_the_entry` (method, line 130) `def test_delete_removes_the_entry(self, root)`
+  - `test_delete_unknown_raises` (method, line 135) `def test_delete_unknown_raises(self, root)`
+  - `test_normalise_kind` (method, line 139) `def test_normalise_kind(self)`
+  - `test_effective_value_rules` (method, line 145) `def test_effective_value_rules(self)`
+  - `test_operator_specs_carry_kind_and_default` (method, line 152) `def test_operator_specs_carry_kind_and_default(self, root)`
+  - `test_list_params_marks_the_source` (method, line 159) `def test_list_params_marks_the_source(self, root)`
+  - `test_list_params_filters_by_keyword` (method, line 166) `def test_list_params_filters_by_keyword(self, root)`
+  - `test_sync_shell_params_publishes_the_default` (method, line 171) `def test_sync_shell_params_publishes_the_default(self, root)`
+  - `test_sync_shell_params_keeps_a_live_value` (method, line 177) `def test_sync_shell_params_keeps_a_live_value(self, root)`
+  - `test_sync_shell_params_without_shell_is_a_noop` (method, line 184) `def test_sync_shell_params_without_shell_is_a_noop(self, root)`
+  - `test_operator_param_lands_in_the_schema` (method, line 189) `def test_operator_param_lands_in_the_schema(self, root)`
+  - `test_builtin_keys_are_never_overridden` (method, line 201) `def test_builtin_keys_are_never_overridden(self)`
+  - `test_validator_allowlist_includes_operator_params` (method, line 212) `def test_validator_allowlist_includes_operator_params(self, root)`
+  - `test_flat_param_entries_keep_their_value` (method, line 223) `def test_flat_param_entries_keep_their_value(self)`
+  - `test_repo_registry_file_is_valid_yaml` (method, line 229) `def test_repo_registry_file_is_valid_yaml(self)`
+  - `test_live_params_do_not_drift_from_the_registry` (method, line 236) `def test_live_params_do_not_drift_from_the_registry(self)`
+  - `test_command_set_is_discovered` (method, line 248) `def test_command_set_is_discovered(self)`
+  - `test_command_exposes_do_param` (method, line 254) `def test_command_exposes_do_param(self)`
+  - `test_command_documents_the_verbs` (method, line 259) `def test_command_documents_the_verbs(self)`
+  - `test_app_exposes_the_param_tab` (method, line 268) `def test_app_exposes_the_param_tab(self)`
+  - `test_app_create_publishes_to_the_shell` (method, line 277) `def test_app_create_publishes_to_the_shell(self, root)`
+  - `test_app_delete_removes_the_parameter` (method, line 286) `def test_app_delete_removes_the_parameter(self, root)`
+  - `test_app_refuses_to_delete_a_builtin` (method, line 296) `def test_app_refuses_to_delete_a_builtin(self, root)`
+  - `test_skill_documents_the_registry` (method, line 304) `def test_skill_documents_the_registry(self)`
+  - `test_skill_forbids_branded_placeholders` (method, line 308) `def test_skill_forbids_branded_placeholders(self)`
+  - `test_exploit_profile_is_an_operator_parameter` (method, line 316) `def test_exploit_profile_is_an_operator_parameter(self)`
+  - `test_exploit_profile_is_not_a_hardcoded_builtin` (method, line 323) `def test_exploit_profile_is_not_a_hardcoded_builtin(self)`
+  - `test_exploit_profile_is_declared_once` (method, line 331) `def test_exploit_profile_is_declared_once(self)`
+  - `test_skill_key_list_drops_the_migrated_parameter` (method, line 339) `def test_skill_key_list_drops_the_migrated_parameter(self)`
+- Depends on: `cli/commands/params_ops.py`, `cli/lazy_orchestrator.py`, `cli/registry.py`, `core/param_registry.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`
+
 ## tests/test_payload_factory.py
 - Doc: Tests for modules.payload_factory — PayloadFactory, PayloadTemplate, format conversion.
 - Layer: testing
@@ -434,40 +495,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_credential_aware_rank_handles_empty_creds` (method, line 543) `def test_credential_aware_rank_handles_empty_creds(self)`
   - `test_recon_to_world_model_to_recommendation` (method, line 563) `def test_recon_to_world_model_to_recommendation(self, world_model, parser)`
 - Depends on: `cli/recommendation_signals.py`, `modules/autonomous_exploit_engine.py`, `modules/obs_parser.py`, `modules/world_model.py`
-
-## tests/test_phase_labels.py
-- Doc: Tests for cli.phase_labels — canonical phase display labels contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_known_phase_labels` (function, line 13) `def test_known_phase_labels()`
-  - `test_phase_label_falls_back_to_title_case` (function, line 19) `def test_phase_label_falls_back_to_title_case()`
-  - `test_phase_label_keys_cover_command_index_phases` (function, line 26) `def test_phase_label_keys_cover_command_index_phases()`
-  - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
-  - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
-- Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
-
-## tests/test_pi_leg.py
-- Doc: pi loop-leg contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Proc` (class, line 20) `class _Proc`
-  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
-  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
-  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
-  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
-  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
-  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
-  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
-  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
-  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
-  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
-  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
-  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
-  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
-  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
-- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

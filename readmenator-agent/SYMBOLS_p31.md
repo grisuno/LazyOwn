@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_make_goal` | function | `tests/test_aci_planner.py:33` | `def _make_goal()` |
+| `_make_plan` | method | `tests/test_aci_planner.py:178` | `def _make_plan(self, phase_statuses)` |
+| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:627` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
+| `_make_planner` | function | `tests/test_aci_planner.py:82` | `def _make_planner(tmp_path, api_key)` |
+| `_patched_paths` | function | `tests/test_aci_planner.py:47` | `def _patched_paths(tmp_path)` |
+| `_start_patches` | function | `tests/test_aci_planner.py:60` | `def _start_patches(tmp_path)` |
+| `_stop_patches` | function | `tests/test_aci_planner.py:77` | `def _stop_patches(patchers)` |
+| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:463` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
+| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:221` | `def test_active_phase_none_when_all_done(self)` |
+| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:216` | `def test_active_phase_returns_first_pending_or_active(self)` |
+| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:859` | `def test_archive_plan_appends(self, tmp_path)` |
+| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:597` | `def test_complete_archives_plan(self, tmp_path)` |
+| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:607` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
+| `test_complete_no_plan` | method | `tests/test_aci_planner.py:617` | `def test_complete_no_plan(self, tmp_path)` |
+| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:204` | `def test_completion_pct_all_done(self)` |
+| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:208` | `def test_completion_pct_none_done(self)` |
+| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:212` | `def test_completion_pct_partial(self)` |
+| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:876` | `def test_count_objectives_by_status(self, tmp_path)` |
+| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:904` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
+| `test_defaults` | method | `tests/test_aci_planner.py:122` | `def test_defaults(self)` |
+| `test_fields` | method | `tests/test_aci_planner.py:112` | `def test_fields(self)` |
+| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:257` | `def test_first_phase_is_active(self, tmp_path)` |
+| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:154` | `def test_from_dict_ignores_extra_keys(self)` |
+| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:407` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
+| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:399` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
+| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:380` | `def test_llm_objectives_injected(self, tmp_path)` |
+| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:355` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
+| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:851` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
+| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
+| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
+| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
 | `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:758` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
 | `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:747` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
 | `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:769` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `tmp_sessions` | function | `tests/test_auto_crypto.py:28` | `def tmp_sessions()` |
 | `TestDecisionPersistence` | class | `tests/test_auto_loop_memory.py:86` | `class TestDecisionPersistence` |
 | `TestFailureMemory` | class | `tests/test_auto_loop_memory.py:13` | `class TestFailureMemory` |
-| `TestFailureMemorySanctioned` | class | `tests/test_auto_loop_memory.py:71` | `class TestFailureMemorySanctioned` |
-| `TestSelectorManager` | class | `tests/test_auto_loop_memory.py:121` | `class TestSelectorManager` |
-| `test_all_blocked_returns_none` | method | `tests/test_auto_loop_memory.py:144` | `def test_all_blocked_returns_none(self)` |
-| `test_blocked_after_threshold_by_base` | method | `tests/test_auto_loop_memory.py:25` | `def test_blocked_after_threshold_by_base(self, tmp_path)` |
-| `test_blocked_proposal_skipped_with_trace` | method | `tests/test_auto_loop_memory.py:130` | `def test_blocked_proposal_skipped_with_trace(self)` |
-| `test_clear_target_forgets_records` | method | `tests/test_auto_loop_memory.py:53` | `def test_clear_target_forgets_records(self, tmp_path)` |
-| `test_counts_persist_across_reload` | method | `tests/test_auto_loop_memory.py:16` | `def test_counts_persist_across_reload(self, tmp_path)` |
-| `test_duplicates_deduped` | method | `tests/test_auto_loop_memory.py:149` | `def test_duplicates_deduped(self)` |
-| `test_empty_command_rejected` | method | `tests/test_auto_loop_memory.py:155` | `def test_empty_command_rejected(self)` |
-| `test_invalid_key_raises` | method | `tests/test_auto_loop_memory.py:63` | `def test_invalid_key_raises(self, tmp_path)` |
-| `test_newest_First_and_persisted` | method | `tests/test_auto_loop_memory.py:99` | `def test_newest_First_and_persisted(self, tmp_path)` |
-| `test_priority_order_wins` | method | `tests/test_auto_loop_memory.py:124` | `def test_priority_order_wins(self)` |
-| `test_push_ignores_empty_and_caps` | method | `tests/test_auto_loop_memory.py:110` | `def test_push_ignores_empty_and_caps(self, tmp_path)` |
-| `test_push_pop_round_trip` | method | `tests/test_auto_loop_memory.py:89` | `def test_push_pop_round_trip(self, tmp_path)` |
-| `test_sanctioned_lists_sorted_rows` | method | `tests/test_auto_loop_memory.py:74` | `def test_sanctioned_lists_sorted_rows(self, tmp_path)` |
-| `test_trims_to_capacity` | method | `tests/test_auto_loop_memory.py:43` | `def test_trims_to_capacity(self, tmp_path)` |
-| `test_veto_blocks_immediately_and_persists` | method | `tests/test_auto_loop_memory.py:35` | `def test_veto_blocks_immediately_and_persists(self, tmp_path)` |
-| `_FakeShell` | class | `tests/test_auto_registry.py:73` | `class _FakeShell` |
-| `_HangingShell` | class | `tests/test_auto_registry.py:86` | `class _HangingShell` |
-| `__init__` | method | `tests/test_auto_registry.py:76` | `def __init__(self, output)` |
-| `_run` | function | `tests/test_auto_registry.py:169` | `def _run()` |
-| `onecmd` | method | `tests/test_auto_registry.py:89` | `def onecmd(self, command)` |
-| `onecmd_plus_hooks` | method | `tests/test_auto_registry.py:80` | `def onecmd_plus_hooks(self, command)` |
-| `test_build_command_binds_target` | function | `tests/test_auto_registry.py:38` | `def test_build_command_binds_target()` |
-| `test_cancel_running_commands_kills_streaming` | function | `tests/test_auto_registry.py:160` | `def test_cancel_running_commands_kills_streaming()` |
-| `test_execute_shell_verb_captures_output` | function | `tests/test_auto_registry.py:96` | `def test_execute_shell_verb_captures_output()` |
-| `test_execute_shell_verb_rejects_non_verbs` | function | `tests/test_auto_registry.py:104` | `def test_execute_shell_verb_rejects_non_verbs()` |
-| `test_execute_shell_verb_timeout_never_hangs` | function | `tests/test_auto_registry.py:112` | `def test_execute_shell_verb_timeout_never_hangs()` |
-| `test_execute_shell_verb_without_shell` | function | `tests/test_auto_registry.py:118` | `def test_execute_shell_verb_without_shell()` |
-| `test_is_shell_verb_matches_first_token` | function | `tests/test_auto_registry.py:47` | `def test_is_shell_verb_matches_first_token()` |
-| `test_missing_binary_skips_builtins_paths_and_scripts` | function | `tests/test_auto_registry.py:134` | `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

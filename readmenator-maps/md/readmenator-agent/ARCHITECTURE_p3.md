@@ -1,7 +1,18 @@
-# Architecture (page 3 of 8)
+# Architecture (page 3 of 9)
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/windows/connect_dialog.py` -> `lazygui/config/paths.py`
+- `lazygui/windows/connect_dialog.py` -> `lazygui/config/settings.py`
+- `lazygui/windows/connect_dialog.py` -> `lazygui/services/models.py`
+- `lazygui/windows/connect_dialog.py` -> `lazygui/services/teamserver_backend.py`
+- `lazygui/windows/main_window.py` -> `lazygui/config/constants.py`
+- `lazygui/windows/main_window.py` -> `lazygui/config/settings.py`
+- `lazygui/windows/main_window.py` -> `lazygui/panels/registry.py`
+- `lazygui/windows/main_window.py` -> `lazygui/services/backend.py`
+- `lazygui/windows/main_window.py` -> `lazygui/services/event_log.py`
+- `lazygui/windows/main_window.py` -> `lazygui/services/models.py`
+- `lazygui/windows/main_window.py` -> `lazygui/theme/manager.py`
 - `lazygui/windows/main_window.py` -> `lazygui/theme/tokens.py`
 - `lazygui/windows/main_window.py` -> `lazygui/widgets/beacon_command_modal.py`
 - `lazygui/windows/main_window.py` -> `lazygui/widgets/command_palette_list.py`
@@ -38,6 +49,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `lazyown.py` -> `core/defaults.py`
 - `lazyown.py` -> `core/hardening.py`
 - `lazyown.py` -> `core/logging.py`
+- `lazyown.py` -> `core/param_registry.py`
 - `lazyown.py` -> `modules/cli_auth.py`
 - `lazyown.py` -> `modules/command_executor.py`
 - `lazyown.py` -> `modules/event_bus.py`
@@ -484,17 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/verb_manifest.py` -> `core/logging.py`
 - `modules/verb_manifest.py` -> `modules/chain_registry.py`
 - `modules/verb_manifest.py` -> `modules/world_model.py`
-- `modules/vuln_bot_cli.py` -> `modules/vulnbot.py`
-- `modules/vulnbot.py` -> `core/logging.py`
-- `modules/vulnbot.py` -> `modules/agent_runner.py`
-- `modules/vulnbot.py` -> `modules/ai_model.py`
-- `modules/vulnbot.py` -> `modules/llm_factory.py`
-- `modules/vulnbot.py` -> `modules/logging_config.py`
-- `modules/websocket_beacon.py` -> `core/hardening.py`
-- `modules/world_model.py` -> `cli/commands/enum.py`
-- `modules/world_model.py` -> `core/logging.py`
-- `modules/world_model.py` -> `modules/cli_auth.py`
-- `modules/yaml_generator.py` -> `modules/ai_model.py`
-- `modules/yaml_generator.py` -> `modules/llm_factory.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

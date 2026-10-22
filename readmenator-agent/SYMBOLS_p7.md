@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_GET` | method | `contrib/legacy/lazygalazy.py:11` | `def do_GET(self)` |
+| `exploit_js` | method | `contrib/legacy/lazygalazy.py:49` | `def exploit_js(self)` |
+| `launch_html` | method | `contrib/legacy/lazygalazy.py:36` | `def launch_html(self)` |
+| `main` | function | `contrib/legacy/lazygalazy.py:97` | `def main()` |
+| `rand_word` | method | `contrib/legacy/lazygalazy.py:93` | `def rand_word(self)` |
+| `add_to_knowledge_base` | function | `contrib/legacy/lazygptcli.py:128` | `def add_to_knowledge_base(prompt, command, file_path)` |
+| `check_api_key` | function | `contrib/legacy/lazygptcli.py:77` | `def check_api_key()` |
+| `cleanup_temp_files` | function | `contrib/legacy/lazygptcli.py:164` | `def cleanup_temp_files()` |
+| `configure_logging` | function | `contrib/legacy/lazygptcli.py:83` | `def configure_logging(debug)` |
+| `create_complex_prompt` | function | `contrib/legacy/lazygptcli.py:94` | `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)` |
 | `execute_command` | function | `contrib/legacy/lazygptcli.py:108` | `def execute_command(command)` |
 | `get_relevant_knowledge` | function | `contrib/legacy/lazygptcli.py:133` | `def get_relevant_knowledge(prompt)` |
 | `load_knowledge_base` | function | `contrib/legacy/lazygptcli.py:118` | `def load_knowledge_base(file_path)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `from_mapping` | method | `core/llm_budget.py:81` | `def from_mapping(cls, data)` |
 | `generate` | method | `core/llm_budget.py:61` | `def generate(self, prompt)` |
 | `generate` | method | `core/llm_budget.py:422` | `def generate(self, prompt)` |
-| `load_budget_config` | function | `core/llm_budget.py:552` | `def load_budget_config(payload, sessions_dir)` |
-| `price_for` | method | `core/llm_budget.py:329` | `def price_for(self, model)` |
-| `read_budget_status` | function | `core/llm_budget.py:585` | `def read_budget_status(payload, sessions_dir)` |
-| `record` | method | `core/llm_budget.py:232` | `def record(self, entry)` |
-| `reset` | method | `core/llm_budget.py:261` | `def reset(self)` |
-| `spent_today` | method | `core/llm_budget.py:251` | `def spent_today(self)` |
-| `stream_generate` | method | `core/llm_budget.py:63` | `def stream_generate(self, prompt)` |
-| `stream_generate` | method | `core/llm_budget.py:430` | `def stream_generate(self, prompt)` |
-| `wrap_backend_with_budget` | function | `core/llm_budget.py:657` | `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` |
-| `StructuredLogConfig` | class | `core/logging.py:42` | `class StructuredLogConfig` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

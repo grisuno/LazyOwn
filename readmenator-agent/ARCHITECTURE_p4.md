@@ -1,7 +1,19 @@
-# Architecture (page 4 of 8)
+# Architecture (page 4 of 9)
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/vuln_bot_cli.py` -> `modules/vulnbot.py`
+- `modules/vulnbot.py` -> `core/logging.py`
+- `modules/vulnbot.py` -> `modules/agent_runner.py`
+- `modules/vulnbot.py` -> `modules/ai_model.py`
+- `modules/vulnbot.py` -> `modules/llm_factory.py`
+- `modules/vulnbot.py` -> `modules/logging_config.py`
+- `modules/websocket_beacon.py` -> `core/hardening.py`
+- `modules/world_model.py` -> `cli/commands/enum.py`
+- `modules/world_model.py` -> `core/logging.py`
+- `modules/world_model.py` -> `modules/cli_auth.py`
+- `modules/yaml_generator.py` -> `modules/ai_model.py`
+- `modules/yaml_generator.py` -> `modules/llm_factory.py`
 - `poc_tui/__main__.py` -> `poc_tui/app.py`
 - `poc_tui/app.py` -> `cli/commands/containers.py`
 - `poc_tui/app.py` -> `lazyown.py`
@@ -142,6 +154,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `skills/lazyown_mcp.py` -> `core/hardening.py`
 - `skills/lazyown_mcp.py` -> `core/llm_budget.py`
 - `skills/lazyown_mcp.py` -> `core/logging.py`
+- `skills/lazyown_mcp.py` -> `core/param_registry.py`
 - `skills/lazyown_mcp.py` -> `core/payload_schema.py`
 - `skills/lazyown_mcp.py` -> `modules/__init__.py`
 - `skills/lazyown_mcp.py` -> `modules/ai_exploit_chain.py`
@@ -483,18 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_cors_policy.py` -> `lazyc2/security/cors.py`
 - `tests/test_cors_socketio_regression.py` -> `lazyc2/security/cors.py`
 - `tests/test_credential_vault.py` -> `core/credential_vault.py`
-- `tests/test_credentials_rotation.py` -> `cli/commands/cred_migrated.py`
-- `tests/test_csrf_behavior.py` -> `lazyc2/security/csrf.py`
-- `tests/test_csrf_policy.py` -> `lazyc2/security/csrf.py`
-- `tests/test_daemon_control.py` -> `skills/daemon_control.py`
-- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_base.py`
-- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_dormancy.py`
-- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/daemon_ctl.py`
-- `tests/test_daemon_ctl_command_set.py` -> `cli/commands/misc_migrated.py`
-- `tests/test_daemon_ctl_command_set.py` -> `cli/registry.py`
-- `tests/test_daemon_loop.py` -> `modules/db.py`
-- `tests/test_daemon_loop.py` -> `modules/obs_parser.py`
-- `tests/test_daemon_loop.py` -> `modules/planner.py`
-- `tests/test_daemon_loop.py` -> `skills/autonomous_daemon.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

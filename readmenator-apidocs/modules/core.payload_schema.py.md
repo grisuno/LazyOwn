@@ -31,6 +31,10 @@ Design rules:
 
 - Adding a new well-known key means adding a [`FieldSpec`](#fieldspec) here; no
   other module needs to change to surface the documentation.
+- Keys that several addons share do NOT belong here: declare them once in
+  the operator registry (``params/operator.yaml``, see
+  [`core.param_registry`](core.param_registry.py.md)) and the schema picks them up automatically.
+  Hardcoding them here would re-introduce one payload key per addon.
 - Validation is intentionally non-fatal: unknown keys are warnings (so
   operator-private extensions keep working), and bad values are warnings
   by default. Callers that need hard failures (e.g. the wizard) inspect
@@ -42,7 +46,7 @@ Design rules:
 
 - **Classes:** [`FieldSpec`](#fieldspec), [`ValidationIssue`](#validationissue)
 - **Enums:** [`FieldKind`](#fieldkind), [`Severity`](#severity)
-- **Functions:** [`field_for`](#field_for), [`coerce_value`](#coerce_value), [`validate_value`](#validate_value), [`validate_payload`](#validate_payload), [`format_issue`](#format_issue), [`default_payload`](#default_payload), [`categories`](#categories)
+- **Functions:** [`register_specs`](#register_specs), [`unregister_specs`](#unregister_specs), [`field_for`](#field_for), [`coerce_value`](#coerce_value), [`validate_value`](#validate_value), [`validate_payload`](#validate_payload), [`format_issue`](#format_issue), [`default_payload`](#default_payload), [`categories`](#categories)
 - **Constants:** [`SCHEMA`](#schema)
 
 ## Type Diagram
@@ -113,7 +117,7 @@ flowchart LR
 
 ### `FieldSpec`
 
-`class` `dataclass` | [core/payload_schema.py:100](../../core/payload_schema.py#L100)
+`class` `dataclass` | [core/payload_schema.py:104](../../core/payload_schema.py#L104)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -147,7 +151,7 @@ Declarative description of a payload field.
 
 ### `ValidationIssue`
 
-`class` `dataclass` | [core/payload_schema.py:142](../../core/payload_schema.py#L142)
+`class` `dataclass` | [core/payload_schema.py:146](../../core/payload_schema.py#L146)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -179,7 +183,7 @@ which must be addressed before the value can be used.
 
 ### `FieldKind`
 
-`enum` | [core/payload_schema.py:73](../../core/payload_schema.py#L73)
+`enum` | [core/payload_schema.py:77](../../core/payload_schema.py#L77)
 
 ```python
 class FieldKind(StrEnum)
@@ -213,7 +217,7 @@ Categorical type of a payload field used by validators and the wizard.
 
 ### `Severity`
 
-`enum` | [core/payload_schema.py:91](../../core/payload_schema.py#L91)
+`enum` | [core/payload_schema.py:95](../../core/payload_schema.py#L95)
 
 ```python
 class Severity(StrEnum)
@@ -235,11 +239,64 @@ Severity of a [`ValidationIssue`](#validationissue).
 
 ## Functions
 
+<a id="register_specs"></a>
+
+### `register_specs`
+
+`function` | [core/payload_schema.py:1624](../../core/payload_schema.py#L1624)
+
+```python
+def register_specs(specs: Mapping[str, FieldSpec]) -> int
+```
+
+Register (or replace) field specs at runtime.
+
+The operator parameter registry (`[`core.param_registry`](core.param_registry.py.md)`) declares
+parameters as data, so the schema has to learn about them without a
+source edit. Builtin specs always win: an operator entry never
+overrides a hardcoded key.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `specs` | `Mapping[str, FieldSpec]` |  | Mapping of payload key to its spec. |
+
+**Returns:** `int` - Number of specs actually registered.
+
+*Called by:* [`apply_to_schema`](core.param_registry.py.md#apply_to_schema)
+
+---
+
+<a id="unregister_specs"></a>
+
+### `unregister_specs`
+
+`function` | [core/payload_schema.py:1647](../../core/payload_schema.py#L1647)
+
+```python
+def unregister_specs(keys: Iterable[str]) -> int
+```
+
+Remove runtime-registered specs from the schema.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `keys` | `Iterable[str]` |  | Payload keys to drop. |
+
+**Returns:** `int` - Number of specs actually removed.
+
+*Called by:* [`apply_to_schema`](core.param_registry.py.md#apply_to_schema)
+
+---
+
 <a id="field_for"></a>
 
 ### `field_for`
 
-`function` | [core/payload_schema.py:1616](../../core/payload_schema.py#L1616)
+`function` | [core/payload_schema.py:1665](../../core/payload_schema.py#L1665)
 
 ```python
 def field_for(key: str) -> FieldSpec | None
@@ -261,7 +318,7 @@ Return the [`FieldSpec`](#fieldspec) for `[`key`](key.py.md)` or ``None`` if it 
 
 ### `coerce_value`
 
-`function` | [core/payload_schema.py:1621](../../core/payload_schema.py#L1621)
+`function` | [core/payload_schema.py:1670](../../core/payload_schema.py#L1670)
 
 ```python
 def coerce_value(key: str, raw: Any) -> Any
@@ -292,7 +349,7 @@ defined for the field's kind.
 
 ### `validate_value`
 
-`function` | [core/payload_schema.py:1644](../../core/payload_schema.py#L1644)
+`function` | [core/payload_schema.py:1693](../../core/payload_schema.py#L1693)
 
 ```python
 def validate_value(key: str, value: Any) -> ValidationIssue | None
@@ -324,7 +381,7 @@ caller knows the value will not be type-checked.
 
 ### `validate_payload`
 
-`function` | [core/payload_schema.py:1718](../../core/payload_schema.py#L1718)
+`function` | [core/payload_schema.py:1767](../../core/payload_schema.py#L1767)
 
 ```python
 def validate_payload(payload: Mapping[str, Any]) -> list[ValidationIssue]
@@ -358,7 +415,7 @@ that are missing from the payload entirely are reported with
 
 ### `format_issue`
 
-`function` | [core/payload_schema.py:1753](../../core/payload_schema.py#L1753)
+`function` | [core/payload_schema.py:1802](../../core/payload_schema.py#L1802)
 
 ```python
 def format_issue(issue: ValidationIssue) -> str
@@ -384,7 +441,7 @@ diagnostics (``key: severity: message``) so it grep-friendly.
 
 ### `default_payload`
 
-`function` | [core/payload_schema.py:1771](../../core/payload_schema.py#L1771)
+`function` | [core/payload_schema.py:1820](../../core/payload_schema.py#L1820)
 
 ```python
 def default_payload() -> dict[str, Any]
@@ -402,7 +459,7 @@ Useful for tests and for the wizard when no ``payload.json`` exists.
 
 ### `categories`
 
-`function` | [core/payload_schema.py:1779](../../core/payload_schema.py#L1779)
+`function` | [core/payload_schema.py:1828](../../core/payload_schema.py#L1828)
 
 ```python
 def categories() -> dict[str, list[FieldSpec]]
@@ -423,7 +480,7 @@ documentation generators.
 
 ### `SCHEMA`
 
-`constant` | [core/payload_schema.py:368](../../core/payload_schema.py#L368)
+`constant` | [core/payload_schema.py:372](../../core/payload_schema.py#L372)
 
 ```python
 SCHEMA: dict[str, FieldSpec]

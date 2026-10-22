@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:385` | `def on_button_pressed(self, event)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:260` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:324` | `def remove_auto_verb(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:994` | `def run_orchestrator_console(task_id, shell)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:276` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:285` | `def toggle_verb(self, name)` |
+| `update_param` | method | `cli/lazy_orchestrator.py:480` | `def update_param(self, name, default, description)` |
+| `verb_candidates` | function | `cli/lazy_orchestrator.py:113` | `def verb_candidates()` |
+| `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
+| `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
 | `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
 | `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
 | `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `format_elapsed` | function | `cli/session_hud.py:100` | `def format_elapsed(seconds)` |
 | `phase_bar` | function | `cli/session_hud.py:115` | `def phase_bar(phase, width)` |
 | `render_snapshot` | function | `cli/session_hud.py:180` | `def render_snapshot(snapshot, config)` |
-| `SessionResumer` | class | `cli/session_resumer.py:51` | `class SessionResumer` |
-| `SessionResumerConfig` | class | `cli/session_resumer.py:41` | `class SessionResumerConfig` |
-| `SessionSummary` | class | `cli/session_resumer.py:29` | `class SessionSummary` |
-| `__init__` | method | `cli/session_resumer.py:58` | `def __init__(self, config)` |
-| `_discover_targets` | method | `cli/session_resumer.py:62` | `def _discover_targets(self)` |
-| `render_startup_panel` | method | `cli/session_resumer.py:129` | `def render_startup_panel(self)` |
-| `CategorySpec` | class | `cli/sessions_browser.py:33` | `class CategorySpec` |
-| `SessionEntry` | class | `cli/sessions_browser.py:76` | `class SessionEntry` |
-| `SessionPreview` | class | `cli/sessions_browser.py:185` | `class SessionPreview` |
-| `SessionsBrowserConfig` | class | `cli/sessions_browser.py:49` | `class SessionsBrowserConfig` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

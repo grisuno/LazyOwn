@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 24 communities, 1134 files, 10926 imports, 10 languages, 21312 symbols.
+> Static analysis knowledge base for LazyOwn: 24 communities, 1138 files, 10992 imports, 10 languages, 21443 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -9,13 +9,13 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/INDEX.md](md/readmenator-agent/INDEX.md)
 - [readmenator-agent/GOTCHAS.md](md/readmenator-agent/GOTCHAS.md): These files have the most connections. Changes here have high blast radius.
 - [readmenator-agent/API.md](md/readmenator-agent/API.md): incrementversion (function) DEPLOY.sh:19
-- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Imported by: cli/commands/cloudattacks.py
-- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Imported by: cli/commands/pwn.py, modules/richtui.py, modules/unifieddashboard.py, skills/lazyownmcp.py
-- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Imported by: cli/commands/opseccleanup.py
-- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/config.py, core/crypto.py, core/hardening.py, core/logging.py, core/process.py, modules/init.py, modules/autoregistry.py...
-- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Imported by: cli/commands/cloud.py
-- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Imported by: modules/memorystore.py, tests/testmemorysemantics.py
-- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: modules/pipelineengine.py
+- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Depends on: modules/commandexecutor.py, modules/lazyclibridge.py, modules/lazyinstaller.py, modules/lazyorchestratorfeedback.py, modules/orchestratorconfig.py
+- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Depends on: modules/autoregistry.py, modules/lazyloop.py, modules/notify.py
+- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): logtimestamp (function) modules/fastrunservice.sh:69 -- # # Logging primitives.
+- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/config.py, modules/killchain.py, modules/verbcatalog.py
+- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): mostrarayuda (function) modules/lazyatack.sh:21 -- Función para mostrar ayuda
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): checkcollision (function) modules/mario.py:105 def checkcollision(x, y, layer)
+- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Imported by: cli/orchestratorassetstabs.py, tests/testplaybookadmin.py
 - [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: cli/commands/enum.py, core/logging.py
 - [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: cli/commands/enum.py, core/logging.py, modules/cliauth.py
 - [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: core/logging.py, modules/assetgraph.py, modules/db.py, modules/detectionoracle.py, modules/enrich.py, modules/eventconsumers.py...
@@ -29,17 +29,18 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Depends on: cli/wizard.py, core/console.py, core/profiles.py
 - [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): Depends on: cli/exploration.py, modules/killchain.py
 - [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: modules/aimodel.py, modules/llmfactory.py
-- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/config.py
-- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/apiauthz.py, core/config.py, core/defaults.py, core/logging.py
-- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/services/backend.py
+- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/console.py, core/hardening.py, core/safeexec.py, core/safesubprocess.py, core/validators.py
+- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/apiauthz.py, lazyc2/blueprints/init.py, lazyc2/blueprints/orchestrator.py, lazyc2/extensions/init.py, lazyc2/security/services.py...
+- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/config/constants.py, lazygui/services/models.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/graphoverlay.py -> core/textutils.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/windows/mainwindow.py -> lazygui/theme/tokens.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): poctui/main.py -> poctui/app.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testdaemonloop.py -> skills/lazyownobjective.py
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): modules/obsparser.py -> future, abc, argparse, dataclasses, re, sys, typing
-- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tools/extractcluster.py -> future, ast, pathlib, sys, textwrap
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/explorationview.py -> core/console.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/windows/connectdialog.py -> lazygui/config/paths.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/vulnbotcli.py -> modules/vulnbot.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testcredentialsrotation.py -> cli/commands/credmigrated.py
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): utils.py -> core/config.py
+- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): cli/aliases.py -> future, pathlib, string, typing, yaml
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): modules/notify.py -> future, dataclasses, ipaddress, os, re, socket, time, urllib.parse, urllib.request
+- [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): tests/testwizardllm.py -> future
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)
@@ -59,10 +60,9 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_config.md](md/readmenator-agent/KB_config.md): Doc: Configuration layer.
 - [readmenator-agent/KB_contract.md](md/readmenator-agent/KB_contract.md): Doc: SDD suite homologation contract for LazyOwn tests.
 - [readmenator-agent/KB_core.md](md/readmenator-agent/KB_core.md): Doc: Core primitives for the LazyOwn framework.
-- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Stable structural interfaces (PEP 544 Protocol) for high-level orchestration.
+- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Process and subprocess utilities for the LazyOwn framework.
 - [readmenator-agent/KB_devtools.md](md/readmenator-agent/KB_devtools.md): Doc: Audit every registered shell command for dispatch and parser errors.
 - [readmenator-agent/KB_extensions.md](md/readmenator-agent/KB_extensions.md): Doc: Shared C2 extension modules.
-- [readmenator-agent/KB_hermes-lazyown.md](md/readmenator-agent/KB_hermes-lazyown.md): Doc: Hermes-LazyOwn integration package.
 
 ## Project Docs
 

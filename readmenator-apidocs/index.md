@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 793 modules, 15050 documented entities, documentation coverage 73.9% (7023/9505 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 795 modules, 15086 documented entities, documentation coverage 74.0% (7048/9530 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (680), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (682), sh (61)
 
 ## Modules
 
@@ -78,7 +78,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.headless`](modules/cli.headless.py.md) | Headless / non-interactive runner for automated pipelines. | 1 | 5 | 85.7% |
 | [`cli.killchain`](modules/cli.killchain.py.md) | Self-populating kill-chain progress derived from the daemon event stream. | 1 | 1 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | Live worker-visibility monitor for the autonomous loop. | 1 | 17 | 100.0% |
-| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 1 | 15 | 100.0% |
+| [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 1 | 18 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | Post-scan side effects executed at the tail of ``do_lazynmap``. | 2 | 1 | 100.0% |
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 40 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
@@ -184,6 +184,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.nethelpers`](modules/cli.commands.nethelpers.py.md) | Network helpers extracted from the miscellaneous cluster. | 1 | 10 | 100.0% |
 | [`cli.commands.opsec_cleanup`](modules/cli.commands.opsec_cleanup.py.md) | OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network. | 1 | 8 | 100.0% |
 | [`cli.commands.orchestration`](modules/cli.commands.orchestration.py.md) | Orchestration CommandSet: operator-facing surface for the new modules. | 2 | 2 | 100.0% |
+| [`cli.commands.params_ops`](modules/cli.commands.params_ops.py.md) | Operator administration of the shared parameter catalog. | 1 | 1 | 100.0% |
 | [`cli.commands.payload_arsenal`](modules/cli.commands.payload_arsenal.py.md) | Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic, macOS/Linux payloads. | 1 | 6 | 100.0% |
 | [`cli.commands.payload_generation`](modules/cli.commands.payload_generation.py.md) | Payload generation commands — list payloads and generate. | 1 | 1 | 100.0% |
 | [`cli.commands.persist`](modules/cli.commands.persist.py.md) | Persistence command set (pending). | 1 | 9 | 100.0% |
@@ -284,8 +285,9 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`core.llm_budget`](modules/core.llm_budget.py.md) | LLM budget cap and per call token counter. | 9 | 24 | 82.4% |
 | [`core.logging`](modules/core.logging.py.md) | Structured JSON-lines logging for the LazyOwn framework. | 2 | 4 | 85.7% |
 | [`core.network`](modules/core.network.py.md) | Network primitives for the LazyOwn framework. | 0 | 8 | 100.0% |
+| [`core.param_registry`](modules/core.param_registry.py.md) | Operator-managed parameter registry. | 1 | 14 | 100.0% |
 | [`core.parsers`](modules/core.parsers.py.md) | Shared text kernel for the LazyOwn framework. | 0 | 1 | 100.0% |
-| [`core.payload_schema`](modules/core.payload_schema.py.md) | Declarative schema and validation for ``payload.json``. | 4 | 7 | 100.0% |
+| [`core.payload_schema`](modules/core.payload_schema.py.md) | Declarative schema and validation for ``payload.json``. | 4 | 9 | 100.0% |
 | [`core.process`](modules/core.process.py.md) | Process and subprocess utilities for the LazyOwn framework. | 0 | 9 | 100.0% |
 | [`core.profiles`](modules/core.profiles.py.md) | Runtime profiles: ``light`` vs ``full`` installations. | 0 | 3 | 100.0% |
 | [`core.prompt`](modules/core.prompt.py.md) | Prompt builder for LazyOwn CLI and C2 dashboard banner. | 0 | 7 | 100.0% |
@@ -312,7 +314,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`lazyc2`](modules/lazyc2.__init__.py.md) |  | 0 | 0 | 0.0% |
-| [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | LazyAddon creator contract for the LazyOwn C2 web interface. | 8 | 17 | 96.2% |
+| [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | LazyAddon creator contract for the LazyOwn C2 web interface. | 8 | 18 | 96.3% |
 | [`lazyc2.app_factory`](modules/lazyc2.app_factory.py.md) | Flask application factory for the LazyOwn C2 server. | 0 | 1 | 100.0% |
 | [`lazyc2.models`](modules/lazyc2.models.py.md) | C2 data models extracted from lazyc2.py. | 1 | 1 | 33.3% |
 | [`lazyc2.state`](modules/lazyc2.state.py.md) | Global C2 server state — namespace for shared mutable objects. | 0 | 0 | 100.0% |

@@ -27,6 +27,10 @@ Design rules:
 
 - Adding a new well-known key means adding a :class:`FieldSpec` here; no
   other module needs to change to surface the documentation.
+- Keys that several addons share do NOT belong here: declare them once in
+  the operator registry (``params/operator.yaml``, see
+  :mod:`core.param_registry`) and the schema picks them up automatically.
+  Hardcoding them here would re-introduce one payload key per addon.
 - Validation is intentionally non-fatal: unknown keys are warnings (so
   operator-private extensions keep working), and bad values are warnings
   by default. Callers that need hard failures (e.g. the wizard) inspect
@@ -1575,35 +1579,6 @@ SCHEMA: dict[str, FieldSpec] = {
             category="network",
         ),
         _spec(
-            "php2shell_url",
-            FieldKind.URL,
-            "http://127.0.0.1:8088/index.php",
-            "Target PHP page URL used by the php2shell session.upload_progress exploit.",
-            long_help=(
-                "Absolute http(s) URL of the PHP page to attack. The default points "
-                "at the docker lab shipped with the php2shell repository. Set the "
-                "real target with 'assign php2shell_url http://host/index.php' "
-                "before running the addon."
-            ),
-            example="http://10.10.11.5/index.php",
-            category="network",
-        ),
-        _spec(
-            "php2shell_profile",
-            FieldKind.STRING,
-            "bookworm",
-            "Target build profile for the php2shell exploit calibration.",
-            long_help=(
-                "bookworm matches the official php:8.4.26-apache image, lab "
-                "matches the original Apache 2.4.68 minimal build. Switch it "
-                "with 'assign php2shell_profile lab' when the target was not "
-                "built from the official image."
-            ),
-            allowed=("bookworm", "lab"),
-            example="bookworm",
-            category="network",
-        ),
-        _spec(
             "action",
             FieldKind.STRING,
             "search",
@@ -1640,6 +1615,51 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
     )
 }
+
+# Snapshot of the hardcoded specs. Runtime-registered operator parameters
+# never override a builtin key.
+_BUILTIN_SPECS: frozenset[str] = frozenset(SCHEMA)
+
+
+def register_specs(specs: Mapping[str, FieldSpec]) -> int:
+    """Register (or replace) field specs at runtime.
+
+    The operator parameter registry (``core.param_registry``) declares
+    parameters as data, so the schema has to learn about them without a
+    source edit. Builtin specs always win: an operator entry never
+    overrides a hardcoded key.
+
+    Args:
+        specs: Mapping of payload key to its spec.
+
+    Returns:
+        Number of specs actually registered.
+    """
+    registered = 0
+    for key, spec in specs.items():
+        if key in _BUILTIN_SPECS:
+            continue
+        SCHEMA[key] = spec
+        registered += 1
+    return registered
+
+
+def unregister_specs(keys: Iterable[str]) -> int:
+    """Remove runtime-registered specs from the schema.
+
+    Args:
+        keys: Payload keys to drop.
+
+    Returns:
+        Number of specs actually removed.
+    """
+    removed = 0
+    for key in list(keys):
+        if key in _BUILTIN_SPECS:
+            continue
+        if SCHEMA.pop(key, None) is not None:
+            removed += 1
+    return removed
 
 
 def field_for(key: str) -> FieldSpec | None:
@@ -1817,6 +1837,27 @@ def categories() -> dict[str, list[FieldSpec]]:
     return grouped
 
 
+def _load_operator_specs() -> int:
+    """Register the parameters declared in ``params/operator.yaml``.
+
+    The operator registry stores parameters as data, so the schema learns
+    about them at import time without a source edit. A missing or broken
+    registry file is not an error: the builtin schema stays authoritative.
+
+    Returns:
+        Number of operator parameters registered.
+    """
+    try:
+        from core.param_registry import apply_to_schema
+
+        return apply_to_schema()
+    except Exception:  # pragma: no cover - defensive: never break the import
+        return 0
+
+
+_load_operator_specs()
+
+
 __all__ = [
     "FieldKind",
     "FieldSpec",
@@ -1828,6 +1869,8 @@ __all__ = [
     "default_payload",
     "field_for",
     "format_issue",
+    "register_specs",
+    "unregister_specs",
     "validate_payload",
     "validate_value",
 ]

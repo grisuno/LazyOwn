@@ -4,11 +4,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (144 connections)
+### Q: What does logging.py depend on, and what depends on it? (145 connections)
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (106 connections)
+### Q: What does utils.py depend on, and what depends on it? (108 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 164 files in 'modules: autonomous_daemon' related to each other?
+### Q: How are the 163 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 

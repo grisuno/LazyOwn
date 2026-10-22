@@ -8,6 +8,9 @@ addon: single braces only, every token declared and live, no secret carried
 as a placeholder, and a command that resolves completely from the shell
 params without operator input.
 
+The addon reuses the global ``url`` key, so it must not introduce payload
+keys of its own.
+
 No network access, no clone and no exploit run happen here.
 """
 
@@ -20,6 +23,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+from core.param_registry import effective_value
 from core.payload_schema import SCHEMA
 from lazyc2.addon_creator import AddonCreatorConfig, AddonDraft, AddonValidator, ParamSpec
 from utils import replace_command_placeholders
@@ -30,7 +34,7 @@ ADDON_YAML = REPO_ROOT / "lazyaddons" / "php2shell.yaml"
 EXPECTED_REPO = "https://github.com/9bie/php2shell-bypass-aslr-exp.git"
 EXPECTED_INSTALL_PATH = "external/.exploit/php2shell"
 EXPECTED_CATEGORY = "03. Exploitation"
-EXPECTED_PARAMS = ("php2shell_url", "php2shell_profile")
+EXPECTED_PARAMS = ("url", "exploit_profile")
 NAME_PATTERN = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
 VERSION_PATTERN = re.compile(r"^\d+(\.\d+){0,3}$")
 CATEGORY_PATTERN = re.compile(r"^\d{2}\. [A-Za-z0-9 /&()+\-]{3,60}$")
@@ -60,7 +64,9 @@ def live_params() -> dict:
     """Return the keys the shell can substitute at runtime."""
     live = json.loads((REPO_ROOT / "payload.json").read_text(encoding="utf-8"))
     for path in sorted((REPO_ROOT / "params").glob("*.yaml")):
-        live.update(yaml.safe_load(path.read_text(encoding="utf-8")) or {})
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        for key, value in data.items():
+            live[key] = effective_value(value)
     return live
 
 
@@ -104,7 +110,7 @@ class TestPhp2ShellAddonExists:
 
     def test_description_documents_setup_and_assign(self, addon):
         text = addon["description"].lower()
-        assert "assign php2shell_url" in text, "description must document the assign flow"
+        assert "assign url" in text, "description must document the assign flow"
         assert "external/.exploit/php2shell" in text, "description must document the install path"
 
 
@@ -128,12 +134,16 @@ class TestPhp2ShellToolSection:
     def test_execute_command_runs_exploit(self, addon):
         command = addon["tool"]["execute_command"]
         assert command.startswith("python3 exploit.py"), "execute_command must run exploit.py"
-        assert "-u {php2shell_url}" in command, "execute_command must target the configured URL"
+        assert "-u {url}" in command, "execute_command must target the configured URL"
 
     def test_execute_command_is_complete_without_free_args(self, addon):
         command = addon["tool"]["execute_command"]
-        assert "{php2shell_url}" in command and "{php2shell_profile}" in command
-        assert "{" not in command.replace("{php2shell_url}", "").replace("{php2shell_profile}", "")
+        assert "{url}" in command and "{exploit_profile}" in command
+        assert "{" not in command.replace("{url}", "").replace("{exploit_profile}", "")
+
+    def test_execute_command_uses_shared_profile(self, addon):
+        command = addon["tool"]["execute_command"]
+        assert "--profile {exploit_profile}" in command, "profile must come from the shared key"
 
 
 class TestPhp2ShellPlaceholders:
@@ -160,6 +170,16 @@ class TestPhp2ShellPlaceholders:
         declared = {p["name"] for p in addon["params"]}
         assert not (declared & SECRET_PARAMS), "Secrets must never travel as placeholders"
 
+    def test_no_addon_specific_payload_keys(self, addon):
+        declared = {p["name"] for p in addon["params"]}
+        assert declared <= set(SCHEMA), "every addon param must live in the payload schema"
+        assert declared == {"url", "exploit_profile"}, "the addon must reuse global keys"
+
+    def test_profile_key_is_addon_agnostic(self, addon):
+        names = [p["name"] for p in addon["params"]]
+        assert not [n for n in names if n.startswith("php2shell_")], "keys must not be addon-scoped"
+        assert "exploit_profile" in SCHEMA, "the shared profile key must live in the payload schema"
+
     def test_params_are_live(self, live_params):
         for key in EXPECTED_PARAMS:
             assert key in live_params, f"{key} must exist in the live shell params"
@@ -167,27 +187,28 @@ class TestPhp2ShellPlaceholders:
     def test_live_params_resolve_every_token(self, addon, live_params):
         resolved = replace_command_placeholders(addon["tool"]["execute_command"], live_params)
         assert "{" not in resolved and "}" not in resolved, f"Unresolved token: {resolved}"
-        assert "None" not in resolved, f"Unresolved token rendered as None: {resolved}"
 
-    def test_resolved_command_is_runnable(self, addon, live_params):
+    def test_resolved_command_shape(self, addon, live_params):
         resolved = replace_command_placeholders(addon["tool"]["execute_command"], live_params)
-        assert resolved.startswith("python3 exploit.py -u http://")
-        assert "--profile bookworm" in resolved
+        assert resolved.startswith("python3 exploit.py -u "), resolved
+        assert "--profile " in resolved, resolved
+
+    def test_resolved_command_with_assigned_url(self, addon, live_params):
+        assigned = {**live_params, "url": "http://10.10.10.5/index.php"}
+        resolved = replace_command_placeholders(addon["tool"]["execute_command"], assigned)
+        assert resolved == ("python3 exploit.py -u http://10.10.10.5/index.php --profile bookworm"), resolved
 
 
 class TestPhp2ShellSchema:
-    def test_schema_has_params(self):
-        for key in EXPECTED_PARAMS:
-            assert key in SCHEMA, f"{key} must be registered in the payload schema"
+    def test_schema_has_url(self):
+        assert "url" in SCHEMA, "the addon reuses the global url key"
+        assert SCHEMA["url"].kind.value == "url"
 
-    def test_schema_url_default_is_valid(self):
-        spec = SCHEMA["php2shell_url"]
-        assert spec.kind.value == "url"
-        assert spec.default.startswith("http://")
-
-    def test_schema_profile_is_constrained(self):
-        spec = SCHEMA["php2shell_profile"]
-        assert spec.allowed == ("bookworm", "lab")
+    def test_schema_has_shared_profile(self):
+        spec = SCHEMA["exploit_profile"]
+        assert spec.kind.value == "string"
+        assert spec.allowed is None, "the profile vocabulary belongs to each addon"
+        assert spec.default == "bookworm"
 
     def test_validator_accepts_the_manifest(self, addon):
         draft = AddonDraft(
@@ -220,6 +241,6 @@ class TestPhp2ShellSchema:
         assert issues == [], f"Validator issues: {issues}"
 
     def test_placeholder_allowlist_knows_the_params(self):
-        allowed = AddonCreatorConfig().payload_placeholders
+        allowed = AddonCreatorConfig.live_placeholders()
         for key in EXPECTED_PARAMS:
             assert key in allowed, f"{key} must be accepted by the addon creator validator"

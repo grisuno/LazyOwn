@@ -384,6 +384,14 @@ lazyown_command_help(command="secretsdump")
 | `lazyown_create_addon` | Create a new YAML addon — integrates any GitHub tool into LazyOwn immediately |
 | `lazyown_create_tool` | Create a new pwntomate `.tool` file — applied automatically to matching services |
 
+### Parameters
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_list_params` | List the shared parameter catalog: builtin payload keys + operator parameters |
+| `lazyown_create_param` | Declare a reusable parameter once (generic name, no source edit) |
+| `lazyown_delete_param` | Remove an operator parameter from the shared catalog |
+
 ### Scheduling & Automation
 
 | Tool | Purpose |

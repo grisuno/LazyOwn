@@ -171,17 +171,39 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         Binding("d", "delete_item", "Delete"),
     ]
 
-    def __init__(self, payload_path: str | Path | None = None, task_id: str = "") -> None:
-        """Bind the console to a payload file and an optional task."""
+    def __init__(
+        self,
+        payload_path: str | Path | None = None,
+        task_id: str = "",
+        shell: object | None = None,
+        param_root: str | Path | None = None,
+    ) -> None:
+        """Bind the console to a payload file and an optional task.
+
+        Args:
+            payload_path: Optional payload file override (tests).
+            task_id: Task identifier the console attaches to.
+            shell: Optional parent shell, used to push newly declared
+                parameters into the live ``params`` dict so they are
+                substitutable in the same session.
+            param_root: Optional repository root override for the
+                parameter registry (sandboxed tests).
+        """
         super().__init__()
         self._payload_path = Path(payload_path) if payload_path else None
         self._chains_dir_override: Path | None = None
         self._playbooks_dir_override: Path | None = None
+        self._param_root_override: Path | None = Path(param_root) if param_root else None
         self.task_id = task_id
+        self.shell = shell
         self._tail: JsonlTail | None = None
         self._tail_task = ""
         self._now_lines: list[str] = []
         self._worker_command: dict[str, str] = {}
+
+    def _param_root(self) -> Path | None:
+        """Return the parameter registry root override, if any."""
+        return self._param_root_override
 
     def compose(self) -> ComposeResult:
         """Build the four panes."""
@@ -224,6 +246,13 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                     yield Static("select a profile to activate it", id="profiles-detail")
             with TabPane("Models", id="tab-models"):
                 yield DataTable(id="models-table")
+            with TabPane("Params", id="tab-params"):
+                with Vertical():
+                    yield DataTable(id="params-table")
+                    yield Static(
+                        "operator parameters are reusable by every addon: name them generically",
+                        id="params-detail",
+                    )
             with TabPane("Guard", id="tab-guard"):
                 yield DataTable(id="guard-table")
         yield Footer()
@@ -240,6 +269,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_chains()
         self._refresh_profiles()
         self._refresh_models()
+        self._refresh_params()
         self._refresh_guard()
         self.set_interval(POLL_SEC, self._poll_now)
 
@@ -380,8 +410,127 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_chains()
         self._refresh_profiles()
         self._refresh_models()
+        self._refresh_params()
         self._refresh_guard()
         self._load_payload_into_form()
+
+    def _refresh_params(self) -> None:
+        """Render the shared parameter catalog into the params table."""
+        try:
+            table = self.query_one("#params-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("name", "kind", "default", "source", "description")
+        try:
+            from core.param_registry import list_params
+
+            for param in list_params(include_builtin=True):
+                table.add_row(
+                    param.name,
+                    param.kind,
+                    str(param.default)[:40],
+                    param.source,
+                    param.description[:80],
+                    key=param.name,
+                )
+        except Exception:
+            return
+
+    def create_param(
+        self,
+        name: str,
+        kind: str = "string",
+        default: str = "",
+        description: str = "",
+        category: str = "general",
+    ) -> dict:
+        """Declare a reusable parameter and publish it to the live shell.
+
+        Args:
+            name: Parameter name; generic names only.
+            kind: Payload field kind.
+            default: Default value.
+            description: Help text shown to the operator.
+            category: Payload schema category.
+
+        Returns:
+            Mapping describing the created parameter.
+        """
+        from core.param_registry import create_param, sync_shell_params
+
+        param = create_param(
+            name,
+            kind=kind,
+            default=default,
+            description=description,
+            category=category,
+            root=self._param_root(),
+        )
+        if self.shell is not None:
+            sync_shell_params(self.shell, root=self._param_root())
+        self._refresh_params()
+        return {
+            "name": param.name,
+            "kind": param.kind,
+            "default": param.default,
+            "description": param.description,
+        }
+
+    def update_param(
+        self,
+        name: str,
+        default: str | None = None,
+        description: str | None = None,
+    ) -> dict:
+        """Update a declared parameter and repaint the table.
+
+        Args:
+            name: Parameter name.
+            default: New default value; ``None`` keeps the current one.
+            description: New description; ``None`` keeps the current one.
+
+        Returns:
+            Mapping describing the updated parameter.
+        """
+        from core.param_registry import update_param
+
+        param = update_param(
+            name,
+            default=default,
+            description=description,
+            root=self._param_root(),
+        )
+        self._refresh_params()
+        return {
+            "name": param.name,
+            "kind": param.kind,
+            "default": param.default,
+            "description": param.description,
+        }
+
+    def delete_param(self, name: str) -> bool:
+        """Delete an operator parameter and drop it from the live shell.
+
+        Args:
+            name: Parameter name.
+
+        Returns:
+            ``True`` when the parameter was removed.
+        """
+        from core.param_registry import delete_param
+
+        try:
+            delete_param(name, root=self._param_root())
+        except KeyError:
+            self.notify(f"{name} is a builtin parameter and cannot be deleted", severity="warning")
+            return False
+        shell = self.shell
+        params = getattr(shell, "params", None) if shell is not None else None
+        if isinstance(params, dict):
+            params.pop(name, None)
+        self._refresh_params()
+        return True
 
     def _selected_row(self, table_id: str) -> str:
         """Return the row key of the selected row, or empty string."""
@@ -487,6 +636,36 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                     ],
                 ),
                 _done,
+            )
+        elif tab == "tab-params":
+
+            def _done_param(values: dict | None) -> None:
+                if not (values and values.get("name")):
+                    return
+                try:
+                    self.create_param(
+                        values["name"],
+                        values.get("kind", "string"),
+                        values.get("default", ""),
+                        values.get("description", ""),
+                        values.get("category", "general"),
+                    )
+                except ValueError as exc:
+                    self.notify(f"parameter not created: {exc}", severity="error")
+
+            self.push_screen(
+                FormModal(
+                    "New shared parameter",
+                    [
+                        ("name", "Name (generic, reusable)", "c2_profile"),
+                        ("kind", "Kind (string|integer|boolean|url)", "string"),
+                        ("default", "Default value", ""),
+                        ("description", "Description", "operator-declared parameter"),
+                        ("category", "Category", "general"),
+                    ],
+                    defaults={"kind": "string", "category": "general"},
+                ),
+                _done_param,
             )
         elif tab == "tab-guard":
 
@@ -642,7 +821,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             )
 
     def action_edit_item(self) -> None:
-        """Edit the selected playbook YAML or LLM member priority."""
+        """Edit the selected playbook YAML, LLM member priority or parameter."""
         tab = self._active_tab()
         if tab == "tab-playbooks":
             filename = self._selected_row("playbooks-table")
@@ -653,6 +832,40 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             gym_id = self._selected_row("gyms-table")
             if gym_id:
                 self._edit_gym(gym_id)
+            return
+        if tab == "tab-params":
+            name = self._selected_row("params-table")
+            if not name:
+                return
+            current = ""
+            current_desc = ""
+            try:
+                from core.param_registry import load_entries
+
+                entry = load_entries().get(name)
+                if entry is None:
+                    self.notify(f"{name} is a builtin parameter and cannot be edited", severity="warning")
+                    return
+                current = str(entry.default)
+                current_desc = entry.description
+            except Exception:
+                return
+
+            def _done_param(values: dict | None) -> None:
+                if values is None:
+                    return
+                self.update_param(name, values.get("default", current), values.get("description", current_desc))
+
+            self.push_screen(
+                FormModal(
+                    f"Edit parameter {name}",
+                    [
+                        ("default", "Default value", current),
+                        ("description", "Description", current_desc),
+                    ],
+                ),
+                _done_param,
+            )
             return
         if tab != "tab-models":
             return
@@ -746,6 +959,22 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             name = self._selected_row("chains-table")
             if name:
                 self.remove_chain(name)
+        elif tab == "tab-params":
+            name = self._selected_row("params-table")
+            if not name:
+                return
+
+            def _confirmed_param(answer: bool | None) -> None:
+                if answer:
+                    self.delete_param(name)
+
+            self.push_screen(
+                ConfirmModal(
+                    f"Delete parameter {name}?",
+                    "The declaration is removed from params/operator.yaml.",
+                ),
+                _confirmed_param,
+            )
         elif tab == "tab-triggers":
             try:
                 trigger_id = int(self._selected_row("triggers-table"))
@@ -762,9 +991,15 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             )
 
 
-def run_orchestrator_console(task_id: str = "") -> None:
-    """Launch the admin console (attach mode)."""
-    app = LazyOrchestratorApp(task_id=task_id)
+def run_orchestrator_console(task_id: str = "", shell: object | None = None) -> None:
+    """Launch the admin console (attach mode).
+
+    Args:
+        task_id: Task identifier the console attaches to.
+        shell: Optional parent shell, used to publish newly declared
+            parameters into the live ``params`` dict.
+    """
+    app = LazyOrchestratorApp(task_id=task_id, shell=shell)
     app.run()
 
 

@@ -61,6 +61,7 @@ cat readmenator-agent/KB_<subsystem>.md
 | Grounded task steps | `readmenator-agent/recipes/*.md` |
 | Subsystem overview | `readmenator-wiki/community_*.md` |
 | Question answering context | `readmenator . ask "<question>"` |
+| Release evidence (observed vs predicted) | `readmenator-releases/ RELEASES.md`, `release-edges.json` (see `readmenator-receipts` skill) |
 | Everything, for humans | `KNOWLEDGE_BASE.md`, `readmenator-maps/index.html` |
 
 MCP clients can call `readmenator.memory`, `readmenator.graphrag`, `readmenator.summary`,

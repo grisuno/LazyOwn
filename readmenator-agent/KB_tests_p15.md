@@ -1,6 +1,89 @@
 # Subsystem: tests (page 15 of 19)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
+## tests/test_phase_labels.py
+- Doc: Tests for cli.phase_labels — canonical phase display labels contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_known_phase_labels` (function, line 13) `def test_known_phase_labels()`
+  - `test_phase_label_falls_back_to_title_case` (function, line 19) `def test_phase_label_falls_back_to_title_case()`
+  - `test_phase_label_keys_cover_command_index_phases` (function, line 26) `def test_phase_label_keys_cover_command_index_phases()`
+  - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
+  - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
+- Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
+
+## tests/test_php2shell_addon.py
+- Doc: tests/test_php2shell_addon.py  Validation suite for the php2shell lazyaddon.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `addon` (function, line 57) `def addon()`
+  - `live_params` (function, line 63) `def live_params()`
+  - `TestPhp2ShellAddonExists` (class, line 73) `class TestPhp2ShellAddonExists`
+  - `TestPhp2ShellToolSection` (class, line 117) `class TestPhp2ShellToolSection`
+  - `TestPhp2ShellPlaceholders` (class, line 149) `class TestPhp2ShellPlaceholders`
+  - `TestPhp2ShellSchema` (class, line 202) `class TestPhp2ShellSchema`
+  - `test_addon_present` (method, line 74) `def test_addon_present(self)`
+  - `test_addon_parses` (method, line 77) `def test_addon_parses(self, addon)`
+  - `test_name_matches_file` (method, line 80) `def test_name_matches_file(self, addon)`
+  - `test_name_pattern` (method, line 83) `def test_name_pattern(self, addon)`
+  - `test_version_pattern` (method, line 86) `def test_version_pattern(self, addon)`
+  - `test_description_length` (method, line 89) `def test_description_length(self, addon)`
+  - `test_enabled` (method, line 92) `def test_enabled(self, addon)`
+  - `test_category` (method, line 95) `def test_category(self, addon)`
+  - `test_category_pattern` (method, line 98) `def test_category_pattern(self, addon)`
+  - `test_os_is_known` (method, line 101) `def test_os_is_known(self, addon)`
+  - `test_module_type_is_known` (method, line 104) `def test_module_type_is_known(self, addon)`
+  - `test_triggers_are_service_names` (method, line 107) `def test_triggers_are_service_names(self, addon)`
+  - `test_description_documents_setup_and_assign` (method, line 111) `def test_description_documents_setup_and_assign(self, addon)`
+  - `test_repo_url` (method, line 118) `def test_repo_url(self, addon)`
+  - `test_repo_url_ends_with_git` (method, line 121) `def test_repo_url_ends_with_git(self, addon)`
+  - `test_install_path` (method, line 124) `def test_install_path(self, addon)`
+  - `test_install_path_no_traversal` (method, line 127) `def test_install_path_no_traversal(self, addon)`
+  - `test_install_command_creates_out_dir` (method, line 131) `def test_install_command_creates_out_dir(self, addon)`
+  - `test_execute_command_runs_exploit` (method, line 134) `def test_execute_command_runs_exploit(self, addon)`
+  - `test_execute_command_is_complete_without_free_args` (method, line 139) `def test_execute_command_is_complete_without_free_args(self, addon)`
+  - `test_execute_command_uses_shared_profile` (method, line 144) `def test_execute_command_uses_shared_profile(self, addon)`
+  - `test_no_double_braces` (method, line 150) `def test_no_double_braces(self)`
+  - `test_declared_params` (method, line 154) `def test_declared_params(self, addon)`
+  - `test_param_names_are_valid` (method, line 157) `def test_param_names_are_valid(self, addon)`
+  - `test_tokens_are_declared` (method, line 164) `def test_tokens_are_declared(self, addon)`
+  - `test_no_secret_placeholders` (method, line 169) `def test_no_secret_placeholders(self, addon)`
+  - `test_no_addon_specific_payload_keys` (method, line 173) `def test_no_addon_specific_payload_keys(self, addon)`
+  - `test_profile_key_is_addon_agnostic` (method, line 178) `def test_profile_key_is_addon_agnostic(self, addon)`
+  - `test_params_are_live` (method, line 183) `def test_params_are_live(self, live_params)`
+  - `test_live_params_resolve_every_token` (method, line 187) `def test_live_params_resolve_every_token(self, addon, live_params)`
+  - `test_resolved_command_shape` (method, line 191) `def test_resolved_command_shape(self, addon, live_params)`
+  - `test_resolved_command_with_assigned_url` (method, line 196) `def test_resolved_command_with_assigned_url(self, addon, live_params)`
+  - `test_schema_has_url` (method, line 203) `def test_schema_has_url(self)`
+  - `test_schema_has_shared_profile` (method, line 207) `def test_schema_has_shared_profile(self)`
+  - `test_validator_accepts_the_manifest` (method, line 213) `def test_validator_accepts_the_manifest(self, addon)`
+  - `test_placeholder_allowlist_knows_the_params` (method, line 243) `def test_placeholder_allowlist_knows_the_params(self)`
+- Depends on: `core/param_registry.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`, `utils.py`
+
+## tests/test_pi_leg.py
+- Doc: pi loop-leg contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Proc` (class, line 20) `class _Proc`
+  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
+  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
+  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
+  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
+  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
+  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
+  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
+  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
+  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
+  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
+  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
+  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
+  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
+  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
+
 ## tests/test_pipeline_engine.py
 - Doc: tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)...
 - Layer: testing
@@ -83,9 +166,9 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_validator_covers_live_keys` (function, line 57) `def test_validator_covers_live_keys()`
   - `test_schema_covers_live_keys` (function, line 63) `def test_schema_covers_live_keys()`
   - `test_skill_documents_validator_keys` (function, line 68) `def test_skill_documents_validator_keys()`
-  - `test_addon_tokens_resolve` (function, line 74) `def test_addon_tokens_resolve()`
-  - `test_addon_tokens_resolve_at_runtime` (function, line 94) `def test_addon_tokens_resolve_at_runtime()`
-  - `test_required_params_exist_live` (function, line 118) `def test_required_params_exist_live()`
+  - `test_addon_tokens_resolve` (function, line 78) `def test_addon_tokens_resolve()`
+  - `test_addon_tokens_resolve_at_runtime` (function, line 98) `def test_addon_tokens_resolve_at_runtime()`
+  - `test_required_params_exist_live` (function, line 122) `def test_required_params_exist_live()`
 - Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
 
 ## tests/test_playbook_admin.py
@@ -386,90 +469,6 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_truncate_adds_ellipsis` (function, line 122) `def test_truncate_adds_ellipsis()`
   - `test_latest_reasoning_end_to_end` (function, line 127) `def test_latest_reasoning_end_to_end(tmp_path)`
 - Depends on: `cli/reasoning_stream.py`
-
-## tests/test_recommendation.py
-- Doc: Behaviour tests for the unified recommendation engine and its signals.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_ctx` (function, line 36) `def _ctx(limit, recent, phase)`
-  - `_StubSignal` (class, line 46) `class _StubSignal`
-  - `_BoomSignal` (class, line 55) `class _BoomSignal`
-  - `_engine` (function, line 62) `def _engine(signals, resolver, weights)`
-  - `TestFusionCore` (class, line 70) `class TestFusionCore`
-  - `TestAdapters` (class, line 158) `class TestAdapters`
-  - `TestContextAndFactory` (class, line 216) `class TestContextAndFactory`
-  - `__init__` (method, line 47) `def __init__(self, name, proposals)`
-  - `propose` (method, line 51) `def propose(self, ctx)`
-  - `propose` (method, line 58) `def propose(self, ctx)`
-  - `test_single_signal_normalises_to_peak` (method, line 71) `def test_single_signal_normalises_to_peak(self)`
-  - `test_cross_signal_merge_sums_and_records_provenance` (method, line 85) `def test_cross_signal_merge_sums_and_records_provenance(self)`
-  - `test_category_prior_boosts_matching_action` (method, line 98) `def test_category_prior_boosts_matching_action(self)`
-  - `test_uncovered_category_surfaces_as_recommendation` (method, line 115) `def test_uncovered_category_surfaces_as_recommendation(self)`
-  - `test_covered_category_not_duplicated_as_standalone` (method, line 123) `def test_covered_category_not_duplicated_as_standalone(self)`
-  - `test_deterministic_ordering_on_score_tie` (method, line 131) `def test_deterministic_ordering_on_score_tie(self)`
-  - `test_limit_is_honoured` (method, line 139) `def test_limit_is_honoured(self)`
-  - `test_failing_signal_is_isolated` (method, line 147) `def test_failing_signal_is_isolated(self)`
-  - `test_zero_weight_signal_contributes_nothing` (method, line 152) `def test_zero_weight_signal_contributes_nothing(self)`
-  - `test_graph_signal_extracts_label_and_score` (method, line 159) `def test_graph_signal_extracts_label_and_score(self)`
-  - `test_policy_signal_emits_categories` (method, line 167) `def test_policy_signal_emits_categories(self)`
-  - `test_recon_signal_maps_items_with_descending_weight` (method, line 177) `def test_recon_signal_maps_items_with_descending_weight(self)`
-  - `test_killchain_signal_uses_adjacency_then_phase` (method, line 196) `def test_killchain_signal_uses_adjacency_then_phase(self)`
-  - `test_killchain_signal_filters_already_run` (method, line 206) `def test_killchain_signal_filters_already_run(self)`
-  - `test_read_recent_commands_orders_and_windows` (method, line 217) `def test_read_recent_commands_orders_and_windows(self, tmp_path)`
-  - `test_read_recent_commands_missing_file` (method, line 226) `def test_read_recent_commands_missing_file(self, tmp_path)`
-  - `test_build_context_resolves_target_and_phase` (method, line 229) `def test_build_context_resolves_target_and_phase(self, tmp_path)`
-  - `test_build_default_engine_always_returns_engine` (method, line 234) `def test_build_default_engine_always_returns_engine(self, tmp_path)`
-  - `_Advisor` (class, line 160) `class _Advisor`
-  - `_Policy` (class, line 168) `class _Policy`
-  - `_Item` (class, line 178) `class _Item`
-  - `_Plan` (class, line 185) `class _Plan`
-  - `_builder` (function, line 188) `def _builder(target, engine, payload)`
-  - `suggest_next` (method, line 161) `def suggest_next(self, recent_commands, limit)`
-  - `get_recommendations` (method, line 169) `def get_recommendations(self, target)`
-  - `__init__` (method, line 179) `def __init__(self, kind, name, reason)`
-- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
-
-## tests/test_recon_plan.py
-- Doc: Spec coverage for :mod:`cli.recon_plan`.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_addon` (function, line 68) `def _seed_addon(addons_dir, name, os_value, triggers)`
-  - `_seed_tool` (function, line 90) `def _seed_tool(tools_dir, name, triggers, command, os_value)`
-  - `_seed_command_index` (function, line 110) `def _seed_command_index(path)`
-  - `_seed_engine` (function, line 130) `def _seed_engine(sessions, addons, tools, nmap_xml, history_rows, current_os)`
-  - `BuildReconPlanContractSpec` (class, line 149) `class BuildReconPlanContractSpec(TestCase)`
-  - `RenderMarkdownSpec` (class, line 289) `class RenderMarkdownSpec(TestCase)`
-  - `WritePlanSpec` (class, line 338) `class WritePlanSpec(TestCase)`
-  - `RenderRichSpec` (class, line 379) `class RenderRichSpec(TestCase)`
-  - `setUp` (method, line 152) `def setUp(self)`
-  - `tearDown` (method, line 176) `def tearDown(self)`
-  - `_build` (method, line 179) `def _build(self, current_os, payload)`
-  - `test_plan_includes_addons_matching_open_service` (method, line 193) `def test_plan_includes_addons_matching_open_service(self)`
-  - `test_plan_filters_os_incompatible_addons_on_linux` (method, line 199) `def test_plan_filters_os_incompatible_addons_on_linux(self)`
-  - `test_plan_includes_tools_matching_open_service` (method, line 204) `def test_plan_includes_tools_matching_open_service(self)`
-  - `test_tool_preview_substitutes_payload_placeholders` (method, line 210) `def test_tool_preview_substitutes_payload_placeholders(self)`
-  - `test_plan_excludes_already_executed_addons` (method, line 216) `def test_plan_excludes_already_executed_addons(self)`
-  - `test_plan_includes_phase_priority_command_suggestions` (method, line 237) `def test_plan_includes_phase_priority_command_suggestions(self)`
-  - `test_plan_skips_command_layer_when_index_missing` (method, line 243) `def test_plan_skips_command_layer_when_index_missing(self)`
-  - `test_plan_uses_payload_target_when_argument_missing` (method, line 259) `def test_plan_uses_payload_target_when_argument_missing(self)`
-  - `test_empty_scan_returns_empty_plan` (method, line 273) `def test_empty_scan_returns_empty_plan(self)`
-  - `_plan_with_items` (method, line 292) `def _plan_with_items(self)`
-  - `test_markdown_starts_with_target_header` (method, line 311) `def test_markdown_starts_with_target_header(self)`
-  - `test_markdown_renders_services_table` (method, line 315) `def test_markdown_renders_services_table(self)`
-  - `test_markdown_renders_command_preview_block` (method, line 320) `def test_markdown_renders_command_preview_block(self)`
-  - `test_markdown_handles_empty_plan` (method, line 325) `def test_markdown_handles_empty_plan(self)`
-  - `_plan` (method, line 341) `def _plan(self, target)`
-  - `test_write_creates_expected_filename` (method, line 351) `def test_write_creates_expected_filename(self)`
-  - `test_write_sanitises_target_for_filename` (method, line 358) `def test_write_sanitises_target_for_filename(self)`
-  - `test_write_sets_restrictive_permissions` (method, line 364) `def test_write_sets_restrictive_permissions(self)`
-  - `test_write_overwrites_existing_plan` (method, line 370) `def test_write_overwrites_existing_plan(self)`
-  - `_Recorder` (class, line 383) `class _Recorder`
-  - `test_renders_one_line_per_item` (method, line 389) `def test_renders_one_line_per_item(self)`
-  - `test_renders_friendly_message_when_empty` (method, line 406) `def test_renders_friendly_message_when_empty(self)`
-  - `print` (method, line 386) `def print(self, line)`
-- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
 
 
 Next: [KB_tests_p16.md](KB_tests_p16.md)

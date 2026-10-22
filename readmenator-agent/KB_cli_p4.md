@@ -173,7 +173,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `iter_command_sets` (function, line 41) `def iter_command_sets(include_pending)`
   - `register_command_sets` (function, line 77) `def register_command_sets(shell)`
 - Depends on: `cli/commands/_dormancy.py`
-- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/retry_support.py
 - Doc: Retry support - resume logic shared by the ``retry`` CLI surface.

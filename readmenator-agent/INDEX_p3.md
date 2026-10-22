@@ -3,6 +3,8 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 12 | 0 |
+| `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
 | `tests/test_lazygui_models.py` | Tests for lazygui domain models. | tests | 42 | 0 |
 | `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
@@ -64,10 +66,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_outcome_bus.py` | Outcome bus BDD contract: one event, every surface, failure isolation. | tests | 18 | 0 |
 | `tests/test_packaging.py` | Packaging and project-foundation tests. | tests | 67 | 0 |
 | `tests/test_palette_overlay.py` | Tests for cli/palette_overlay.py. | tests | 10 | 0 |
+| `tests/test_param_registry.py` | tests/test_param_registry.py  Contract suite for the shared parameter registry. | tests | 54 | 0 |
 | `tests/test_payload_factory.py` | Tests for modules.payload_factory — PayloadFactory, PayloadTemplate, format conversion. | tests | 32 | 0 |
 | `tests/test_payload_schema.py` | Tests for the ``core.payload_schema`` validation layer. | tests | 53 | 0 |
 | `tests/test_phase1_data_gaps.py` | Phase 1 data-gap closure: SDD + TDD + BDD tests. | tests | 55 | 0 |
 | `tests/test_phase_labels.py` | Tests for cli.phase_labels — canonical phase display labels contract. | tests | 5 | 0 |
+| `tests/test_php2shell_addon.py` | tests/test_php2shell_addon.py  Validation suite for the php2shell lazyaddon. | tests | 42 | 0 |
 | `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
 | `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
 | `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
@@ -150,5 +154,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 125 | 94 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 125 | 96 |
 

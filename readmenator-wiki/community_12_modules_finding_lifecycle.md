@@ -1,10 +1,10 @@
-# modules: surface_graph
+# modules: finding_lifecycle
 
-*Community 11 | 16 files | cohesion 0.50*
+*Community 12 | 13 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 16 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `DatabaseCommandSet`, `FindingRecord`, `RetestRecord`, `SurfaceCommandSet`, `SurfaceEdge`, `SurfaceExplorer`, `SurfaceGraph`, `SurfaceGraphBuilder`. Core file: `cli/surface_graph.py` (33 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
+This community groups 13 file(s) rooted at `modules` with dominant language py (cohesion 0.49). Central symbols: `DatabaseCommandSet`, `FindingRecord`, `RetestRecord`, `SurfaceCommandSet`, `_active_workspace`, `_base_nodes`, `_boom`, `_cache_load`. Core file: `modules/finding_lifecycle.py` (26 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
 
 ## Files
 
@@ -12,8 +12,6 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `cli/commands/database.py` | py | data_access | 16 | yes |
 | `cli/commands/surface.py` | py | utility | 3 | yes |
-| `cli/surface_graph.py` | py | utility | 33 | yes |
-| `cli/surface_tui.py` | py | utility | 19 | yes |
 | `modules/attack_surface3d.py` | py | utility | 11 | yes |
 | `modules/estorides_fusion.py` | py | utility | 11 | yes |
 | `modules/finding_lifecycle.py` | py | utility | 26 | yes |
@@ -25,7 +23,6 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 | `tests/test_estorides_fusion.py` | py | testing | 12 | yes |
 | `tests/test_finding_lifecycle.py` | py | testing | 10 | yes |
 | `tests/test_intel_fusion.py` | py | testing | 7 | yes |
-| `tests/test_surface_graph.py` | py | testing | 13 | yes |
 
 ## Key Symbols
 
@@ -48,26 +45,26 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 - `SurfaceCommandSet` (class, `cli/commands/surface.py:36`) `class SurfaceCommandSet(LazyOwnCommandSet)` - Discovery scans and OSINT fusion for the attack surface.
 - `do_scandiscovery` (method, `cli/commands/surface.py:43`) `def do_scandiscovery(self, line)` - Scan every discovery IP with operator confirmation.
 - `do_estorides_intel` (method, `cli/commands/surface.py:86`) `def do_estorides_intel(self, line)` - Fuse estorides OSINT entities into the campaign intel graphs.
-- `_slug_host` (function, `cli/surface_graph.py:75`) `def _slug_host(ip)` - Return the canonical ``host-<dotted-ip>`` id used by the web graph.
-- `_slug_port` (function, `cli/surface_graph.py:80`) `def _slug_port(host_id, port, protocol)` - Return a stable port-node id rooted at ``host_id``.
-- `SurfaceNode` (class, `cli/surface_graph.py:87`) `class SurfaceNode` - A node in the network surface graph.
-- `to_dict` (method, `cli/surface_graph.py:102`) `def to_dict(self)` - Return a JSON-serialisable view of the node.
-- `SurfaceEdge` (class, `cli/surface_graph.py:113`) `class SurfaceEdge` - A directed edge between two surface nodes.
-- `to_dict` (method, `cli/surface_graph.py:120`) `def to_dict(self)` - Return a JSON-serialisable view of the edge.
-- `SurfaceGraph` (class, `cli/surface_graph.py:126`) `class SurfaceGraph` - Aggregate snapshot of nodes + edges discovered on disk.
-- `to_dict` (method, `cli/surface_graph.py:135`) `def to_dict(self)` - Return a JSON-serialisable view (mirrors the web UI payload).
-- `stats` (method, `cli/surface_graph.py:146`) `def stats(self)` - Return per-kind node counts plus edge count.
-- `children_of` (method, `cli/surface_graph.py:153`) `def children_of(self, node_id)` - Return nodes that ``node_id`` points to via an outgoing edge.
-- `get` (method, `cli/surface_graph.py:165`) `def get(self, node_id)` - Return the node with ``node_id`` or ``None``.
+- `_family_color` (function, `modules/attack_surface3d.py:100`) `def _family_color(name)` - Stable dusty HSL color from a community name (djb2, ReadMenator).
+- `_pagerank` (function, `modules/attack_surface3d.py:111`) `def _pagerank(ids, pairs, alpha, max_iter, tol)` - PageRank over node ids (same contract as ReadMenator rank).
+- `_host_of` (function, `modules/attack_surface3d.py:141`) `def _host_of(node)` - Return the dotted IP a surface node belongs to, or "".
+- `build_attack_graph` (function, `modules/attack_surface3d.py:147`) `def build_attack_graph(sessions_dir, payload_path, est_cap)` - Fuse surface scans with campaign intel into one C2-centred graph.
+- `add_edge` (function, `modules/attack_surface3d.py:155`) `def add_edge(src, dst, kind, evidence, weight)` - Append one provenance-tagged relation between known nodes.
+- `tag` (function, `modules/attack_surface3d.py:166`) `def tag(nid, source)` - Record a corroborating artefact on a node, deduped.
+- `_intel_id_map` (function, `modules/attack_surface3d.py:315`) `def _intel_id_map(intel, key_to_id)` - Map every intel node id to its merged attack-graph id.
+- `_doc` (function, `modules/attack_surface3d.py:327`) `def _doc(node)` - Bounded purpose string for the inspector.
+- `_symbols` (function, `modules/attack_surface3d.py:346`) `def _symbols(node)` - Compact symbol records for the inspector (max 40).
+- `_enrich` (function, `modules/attack_surface3d.py:365`) `def _enrich(nodes, edges)` - Add ReadMenator explorer fields in place (type/layer/rank/doc).
+- `refresh_summary` (function, `modules/attack_surface3d.py:460`) `def refresh_summary(graph, sessions_dir)` - Score exposure into intel_summary.json for the autonomous loop.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 31
-- Cross-boundary resolved imports (EXTRACTED): 33
+- Internal resolved imports (EXTRACTED): 28
+- Cross-boundary resolved imports (EXTRACTED): 28
 
 ## Connections
 
-- [EXTRACTED] depends_on community 11 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 12 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -75,15 +72,13 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 
 ## Open Questions
 
-- What would break if the most connected file in modules: surface_graph changed?
-- Should modules: surface_graph be split, given cohesion 0.50?
+- What would break if the most connected file in modules: finding_lifecycle changed?
+- Should modules: finding_lifecycle be split, given cohesion 0.49?
 
 ## Sources
 
 - `cli/commands/database.py`
 - `cli/commands/surface.py`
-- `cli/surface_graph.py`
-- `cli/surface_tui.py`
 - `modules/attack_surface3d.py`
 - `modules/estorides_fusion.py`
 - `modules/finding_lifecycle.py`
@@ -95,4 +90,3 @@ This community groups 16 file(s) rooted at `modules` with dominant language py (
 - `tests/test_estorides_fusion.py`
 - `tests/test_finding_lifecycle.py`
 - `tests/test_intel_fusion.py`
-- `tests/test_surface_graph.py`

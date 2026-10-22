@@ -1,6 +1,43 @@
 # API (page 11 of 24)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/custom_tools.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
+- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
+- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
+- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
+- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
+- `run_tool` (function) `modules/custom_tools.py:151` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
+
+## modules/cve_matcher.py
+Depends on: `core/logging.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
+- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
+- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
+
+## modules/dacl_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
+- `DACLAbuseEngine.parse_bloodhound_acls` (method) `modules/dacl_abuse.py:143` `def parse_bloodhound_acls(self, edges)` -- Parse BloodHound edge data to extract exploitable ACLs.
+- `DACLAbuseEngine.parse_raw_aces` (method) `modules/dacl_abuse.py:182` `def parse_raw_aces(self, raw_nthashes)` -- Parse raw ACE data from ntSecurityDescriptor parsing.
+- `DACLAbuseEngine.compute_attack_chains` (method) `modules/dacl_abuse.py:224` `def compute_attack_chains(self)` -- Generate exploitation plans for all discovered ACL targets.
+- `DACLAbuseEngine.adminsdholder_abuse_plan` (method) `modules/dacl_abuse.py:291` `def adminsdholder_abuse_plan(self, target_sid)` -- Generate an AdminSDHolder abuse plan.
+- `DACLAbuseEngine.dcsync_rights_assignment_plan` (method) `modules/dacl_abuse.py:318` `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` -- Generate a DCSync rights assignment plan.
+- `DACLAbuseEngine.owner_takeover_plan` (method) `modules/dacl_abuse.py:348` `def owner_takeover_plan(self, target_dn, attacker_sid)` -- Generate an ownership takeover plan.
+- `DACLAbuseEngine.summary` (method) `modules/dacl_abuse.py:418` `def summary(self)` -- Return a summary of all DACL/SACL abuse findings.
+
+## modules/dashboard_bp.py
+Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
+- `dashboard_index` (function) `modules/dashboard_bp.py:778` `def dashboard_index()` -- Render the main SOC dashboard HTML page.
+- `dashboard_api_data` (function) `modules/dashboard_bp.py:784` `def dashboard_api_data()` -- JSON snapshot of all dashboard data.
+- `dashboard_loot` (function) `modules/dashboard_bp.py:902` `def dashboard_loot()` -- Render the loot browser: captured credentials, hashes and files.
+- `dashboard_timeline` (function) `modules/dashboard_bp.py:1017` `def dashboard_timeline()` -- Render the campaign timeline: commands and events, newest first.
+
 ## modules/dashboard_engine.py
 Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
 - `DashboardEngine.__init__` (method) `modules/dashboard_engine.py:139` `def __init__(self, world_model)`
@@ -429,66 +466,6 @@ Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_
 - `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
 - `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
 - `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
-
-## modules/fast_run_service.sh
-- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
-- `log_info` (function) `modules/fast_run_service.sh:73`
-- `log_warn` (function) `modules/fast_run_service.sh:77`
-- `log_error` (function) `modules/fast_run_service.sh:81`
-- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
-- `require_deps` (function) `modules/fast_run_service.sh:97`
-- `require_paths` (function) `modules/fast_run_service.sh:113`
-- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
-- `load_config` (function) `modules/fast_run_service.sh:139`
-- `config_truthy` (function) `modules/fast_run_service.sh:155`
-- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
-- `log_file_for` (function) `modules/fast_run_service.sh:171`
-- `read_pid_value` (function) `modules/fast_run_service.sh:176`
-- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
-- `is_service_running` (function) `modules/fast_run_service.sh:194`
-- `write_pid_file` (function) `modules/fast_run_service.sh:201`
-- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
-- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
-- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
-- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
-- `stop_named_service` (function) `modules/fast_run_service.sh:292`
-- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
-- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
-- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
-- `start_www_service` (function) `modules/fast_run_service.sh:356`
-- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
-- `start_discord_service` (function) `modules/fast_run_service.sh:380`
-- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
-- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
-- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
-- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
-- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
-- `cmd_stop` (function) `modules/fast_run_service.sh:465`
-- `cmd_restart` (function) `modules/fast_run_service.sh:480`
-- `cmd_status` (function) `modules/fast_run_service.sh:486`
-- `cmd_logs` (function) `modules/fast_run_service.sh:505`
-- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
-- `usage` (function) `modules/fast_run_service.sh:528`
-- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
-
-## modules/finding_lifecycle.py
-Depends on: `modules/osint_enrich.py`
-Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-- `confirm` (function) `modules/finding_lifecycle.py:61` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
-- `reject` (function) `modules/finding_lifecycle.py:90` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
-- `add_dead_end` (function) `modules/finding_lifecycle.py:104` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
-- `is_dead_end` (function) `modules/finding_lifecycle.py:116` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
-- `suppressed_values` (function) `modules/finding_lifecycle.py:123` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
-- `resolve` (function) `modules/finding_lifecycle.py:129` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
-- `apply_confirmation` (function) `modules/finding_lifecycle.py:154` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
-- `record` (function) `modules/finding_lifecycle.py:234` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
-- `findings_for` (function) `modules/finding_lifecycle.py:259` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
-- `set_status` (function) `modules/finding_lifecycle.py:264` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
-- `has_running_retest` (function) `modules/finding_lifecycle.py:310` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
-- `request_retest` (function) `modules/finding_lifecycle.py:318` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
-- `resolve_retest` (function) `modules/finding_lifecycle.py:338` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
-- `classify_retest` (function) `modules/finding_lifecycle.py:384` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
-- `render_markdown` (function) `modules/finding_lifecycle.py:403` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
 
 
 Next: [API_p12.md](API_p12.md)

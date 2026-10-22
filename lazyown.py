@@ -752,6 +752,10 @@ class LazyOwnShell(cmd2.Cmd):
         aliases, and pipelines without modifying ``payload.json`` or
         Python source.
 
+        A mapping entry contributes its ``default`` value (the operator
+        parameter registry format); a flat entry contributes its value
+        as-is.
+
         Files are loaded in alphabetical order; later files override
         earlier ones. ``payload.json`` keys are *not* overwritten.
         """
@@ -759,6 +763,8 @@ class LazyOwnShell(cmd2.Cmd):
         from pathlib import Path as _Path
 
         import yaml as _yaml
+
+        from core.param_registry import effective_value as _param_effective_value
 
         params_dir = _Path(__file__).resolve().parent / "params"
         if not params_dir.is_dir():
@@ -772,7 +778,7 @@ class LazyOwnShell(cmd2.Cmd):
                     continue
                 for key, value in overrides.items():
                     if key not in self.params:
-                        self.params[key] = value
+                        self.params[key] = _param_effective_value(value)
             except Exception as exc:
                 print_warn(f"params/{_Path(yaml_path).name}: {exc}")
 

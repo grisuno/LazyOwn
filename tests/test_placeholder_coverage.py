@@ -49,14 +49,14 @@ def _live_keys() -> set[str]:
 def _skill_keys() -> set[str]:
     """Known-keys list from the lazyaddon-creator skill Step 4."""
     text = (REPO_ROOT / "skills" / "lazyaddon-creator" / "SKILL.md").read_text()
-    block = re.search(r"Known `payload\.json` keys.*?\n```\n(.*?)\n```", text, re.S)
+    block = re.search(r"Known .*`payload\.json` keys.*?\n```\n(.*?)\n```", text, re.S)
     assert block, "skill known-keys block not found"
     return set(block.group(1).split())
 
 
 def test_validator_covers_live_keys() -> None:
     """Validator allowlist must accept every key the shell can substitute."""
-    allowed = AddonCreatorConfig().payload_placeholders
+    allowed = AddonCreatorConfig().live_placeholders()
     assert _live_keys() <= allowed
 
 
@@ -66,14 +66,18 @@ def test_schema_covers_live_keys() -> None:
 
 
 def test_skill_documents_validator_keys() -> None:
-    """Skill doc must document every key the validator accepts."""
+    """Skill doc must document every builtin key the validator accepts.
+
+    Operator parameters live in ``params/operator.yaml`` and are added at
+    runtime, so they are deliberately absent from the static skill list.
+    """
     allowed = AddonCreatorConfig().payload_placeholders
     assert allowed <= _skill_keys()
 
 
 def test_addon_tokens_resolve() -> None:
     """Every tool token is declared in params or globally known."""
-    allowed = AddonCreatorConfig().payload_placeholders
+    allowed = AddonCreatorConfig().live_placeholders()
     offenders = []
     for path in sorted((REPO_ROOT / "lazyaddons").glob("*.yaml")):
         data = yaml.safe_load(path.read_text())

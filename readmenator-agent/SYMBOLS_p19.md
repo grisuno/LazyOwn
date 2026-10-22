@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
+| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
+| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
+| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
+| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
+| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
+| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
+| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
+| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
+| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
+| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
+| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
+| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
+| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
+| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
+| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
+| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
+| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
+| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
+| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
+| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
+| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
+| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
+| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
+| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
+| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
+| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
+| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
+| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
+| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
+| `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
 | `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
 | `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
 | `mcp_pipeline_run` | function | `modules/pipeline_engine.py:1314` | `def mcp_pipeline_run(name, target, background, onecmd)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_USER` |
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:46` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:47` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde2.c:238` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde2.c:423` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:148` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde2.c:470` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde2.c:527` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde2.c:95` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:461` | `` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:63` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde2.c:386` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde2.c:583` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde2.c:275` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde2.c:312` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:48` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde2.c:182` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde2.c:115` | `int remove(const char *pathname)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:167` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde2.c:349` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde2.c:83` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde2.c:127` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:53` | `#define C2_PORT` |
-| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:52` | `#define C2_SERVER_IP` |
-| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:54` | `#define CQE_TIMEOUT_MS` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:49` | `#define FILE_HIDE_PATH` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde3.c:36` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde3.c:37` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde3.c:38` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde3.c:39` | `#define HIDDEN_FILE5` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

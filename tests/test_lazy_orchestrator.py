@@ -408,3 +408,34 @@ def test_orchestrator_gyms_tab_starts_and_stops(tmp_path, monkeypatch):
     stopped = app.stop_gym("first_blood_web")
     assert stopped["count"] == 1
     assert next(row for row in app.gym_rows() if row["id"] == "first_blood_web")["active"] == 0
+
+
+def test_orchestrator_params_tab_renders_and_creates(sandbox, tmp_path):
+    """Params tab: rows render, a parameter is declared and published."""
+    import asyncio
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    class _Shell:
+        def __init__(self):
+            self.params = {}
+
+    shell = _Shell()
+
+    async def _drive():
+        app = LazyOrchestratorApp(shell=shell, param_root=tmp_path)
+        async with app.run_test() as pilot:
+            await pilot.pause(0.4)
+            table = app.query_one("#params-table")
+            rows = table.row_count
+            created = app.create_param("tui_shared_param", "string", "v", "shared demo")
+        return rows, created
+
+    rows, created = asyncio.run(_drive())
+    assert rows > 0, "the params table must list the catalog"
+    assert created["name"] == "tui_shared_param"
+    assert shell.params["tui_shared_param"] == "v"
+
+    from core.param_registry import load_entries
+
+    assert "tui_shared_param" in load_entries(tmp_path)

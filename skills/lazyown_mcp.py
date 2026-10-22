@@ -2509,6 +2509,81 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={"type": "object", "properties": {}},
         ),
         types.Tool(
+            name="lazyown_list_params",
+            description=(
+                "List the shared parameter catalog: every builtin payload key plus the "
+                "operator parameters declared in params/operator.yaml. Parameters are the "
+                "tokens every addon, alias and pipeline can substitute, so reuse them "
+                "instead of inventing addon-branded keys."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "keyword": {
+                        "type": "string",
+                        "description": "Case-insensitive filter over name and description.",
+                    },
+                    "source": {
+                        "type": "string",
+                        "description": "Filter by origin: builtin, operator or all (default).",
+                        "enum": ["all", "builtin", "operator"],
+                        "default": "all",
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_create_param",
+            description=(
+                "Declare a shared parameter once and reuse it in every addon. The "
+                "declaration is stored as data in params/operator.yaml; the payload "
+                "schema and the addon creator pick it up automatically, so no source "
+                "edit is needed. Use a generic name (url, target, profile), never a "
+                "tool name."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Parameter name: lowercase, letters/digits/underscores, max 48 chars.",
+                    },
+                    "kind": {
+                        "type": "string",
+                        "description": "Payload kind: string, integer, boolean, url, path, ip, port, hostname.",
+                        "default": "string",
+                    },
+                    "default": {
+                        "type": "string",
+                        "description": "Default value used when the parameter is not set.",
+                        "default": "",
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Short help text shown to the operator.",
+                        "default": "",
+                    },
+                },
+                "required": ["name"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_delete_param",
+            description=(
+                "Delete an operator parameter from the shared catalog. Builtin payload keys cannot be deleted."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the operator parameter to remove.",
+                    },
+                },
+                "required": ["name"],
+            },
+        ),
+        types.Tool(
             name="lazyown_poll_events",
             description=(
                 "Read events emitted by the LazyOwn Event Engine. "
@@ -6852,6 +6927,58 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         return text(f"Lua plugins ({len(lines)}):\n" + "\n".join(lines) if lines else "No plugins found.")
 
+    # ── param registry ─────────────────────────────────────────────────────────
+    elif name == "lazyown_list_params":
+        try:
+            from core.param_registry import list_params
+
+            keyword = str(arguments.get("keyword") or "")
+            source = str(arguments.get("source") or "all").strip().lower()
+            params = list_params(include_builtin=source in ("all", "builtin"), keyword=keyword)
+            if source == "operator":
+                params = [p for p in params if p.source == "operator"]
+            lines = [
+                f"{'*' if p.source == 'operator' else ' '} {p.name:<28} {p.kind:<10} "
+                f"{str(p.default)[:30]:<32} {p.description[:70]}"
+                for p in params
+            ]
+        except Exception as e:
+            return text(f"error listing parameters: {e}")
+        return text(f"Parameters ({len(lines)}):\n" + "\n".join(lines) if lines else "No parameters matched.")
+
+    elif name == "lazyown_create_param":
+        try:
+            from core.param_registry import create_param
+
+            param = create_param(
+                str(arguments["name"]),
+                kind=str(arguments.get("kind") or "string"),
+                default=arguments.get("default", ""),
+                description=str(arguments.get("description") or ""),
+            )
+        except KeyError:
+            return text("error: name is required")
+        except ValueError as e:
+            return text(f"error: {e}")
+        except Exception as e:
+            return text(f"error creating parameter: {e}")
+        return text(
+            f"[+] parameter '{param.name}' created (kind={param.kind}, default={param.default!r}).\n"
+            f"Usable now as {{{param.name}}} in any addon, alias or pipeline. "
+            f"Set it with 'assign {param.name} <value>'."
+        )
+
+    elif name == "lazyown_delete_param":
+        try:
+            from core.param_registry import delete_param
+
+            delete_param(str(arguments["name"]))
+        except KeyError as e:
+            return text(f"error: {e} (builtin parameters cannot be deleted)")
+        except Exception as e:
+            return text(f"error deleting parameter: {e}")
+        return text(f"[+] parameter '{arguments['name']}' deleted")
+
     # ── run_agent ─────────────────────────────────────────────────────────────
     elif name == "lazyown_run_agent":
         if not _ensure_bridge():
@@ -8945,7 +9072,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             class _Proposal:
                 """Fallback proposal object when selector_manager is unavailable."""
 
-                def __init__(self, command: str, args: str = "", source: str = "unknown", reason: str = "", priority: int = 100):
+                def __init__(
+                    self, command: str, args: str = "", source: str = "unknown", reason: str = "", priority: int = 100
+                ):
                     self.command = command
                     self.args = args
                     self.source = source
@@ -9853,7 +9982,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if _bridge_result is not None:
                     _bridge_cmd, _bridge_entry = _bridge_result
                     proposals.append(
-                        _Proposal(command=_bridge_cmd, source="bridge", reason=f"catalog match for {category}", priority=30)
+                        _Proposal(
+                            command=_bridge_cmd, source="bridge", reason=f"catalog match for {category}", priority=30
+                        )
                     )
             except Exception:
                 pass
@@ -10345,7 +10476,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     h = _loop_history
                     if h[-6] == h[-4] == h[-2] and h[-5] == h[-3] == h[-1] and h[-6] != h[-5]:
                         _osc_a, _osc_b = h[-6], h[-5]
-                        _veto_base = _cmd_base if s["outcome"] != "success" else (_osc_a if _osc_a != _cmd_base else _osc_b)
+                        _veto_base = (
+                            _cmd_base if s["outcome"] != "success" else (_osc_a if _osc_a != _cmd_base else _osc_b)
+                        )
                         _blocked_cmds.add(_veto_base)
                         if _fail_mem is not None:
                             try:
@@ -11076,8 +11209,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 sys.path.insert(0, str(MODULES_DIR))
                 from atomic_enricher import query_atomic as _qa
 
-                rows = _qa(mitre_id=ar_query, platform=ar_platform, limit=ar_limit,
-                           include_command=ar_incl_cmd)
+                rows = _qa(mitre_id=ar_query, platform=ar_platform, limit=ar_limit, include_command=ar_incl_cmd)
                 if not rows:
                     return text(
                         "[atomic_resolve] Atomic repo unavailable and no parquet "
@@ -11153,10 +11285,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             stamp = _dt.datetime.now(_dt.UTC).strftime("%Y%m%d_%H%M%S")
             out_path = SESSIONS_DIR / f"ttp_chain_{tc_platform}_{stamp}.json"
-            out_path.write_text(json.dumps(
-                {"platform": tc_platform, "generated_at": stamp, "steps": plan},
-                indent=2, ensure_ascii=False,
-            ), encoding="utf-8")
+            out_path.write_text(
+                json.dumps(
+                    {"platform": tc_platform, "generated_at": stamp, "steps": plan},
+                    indent=2,
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
             covered = sum(1 for s in plan if s["atomic"] is not None)
             lines = [f"TTP chain ({tc_platform}): {covered}/{len(plan)} techniques resolved\n"]
             for i, s in enumerate(plan, 1):
@@ -11198,9 +11334,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if isinstance(ch_vars, dict) and ch_vars:
             for var_name, var_value in list(ch_vars.items())[:16]:
                 if str(var_name).isidentifier():
-                    cmd_parts.append(
-                        f"--var {str(var_name)}={shlex.quote(str(var_value))}"
-                    )
+                    cmd_parts.append(f"--var {str(var_name)}={shlex.quote(str(var_value))}")
         if arguments.get("dry_run"):
             cmd_parts.append("--dry-run")
         if arguments.get("json"):
@@ -11222,9 +11356,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             cmd_parts.append("--no-checkpoint")
         cmd = " ".join(cmd_parts)
         try:
-            output = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: _run_lazyown_command(cmd, ch_timeout)
-            )
+            output = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_lazyown_command(cmd, ch_timeout))
         except Exception as exc:
             return text(f"[apt_chain error] {exc}")
         return text(f"[apt_chain {ch_chain} {ch_target}]\n{str(output)[-8000:]}")
@@ -11268,7 +11400,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[atomic_clean error] {exc}")
         lines = [f"[atomic_clean {report.get('mode')}] target={cl_target}"]
         for step in report.get("remote", []):
-            lines.append(f"  remote/{'ok' if step.get('ok') else 'FAIL'}: {step.get('step')}: {str(step.get('detail', ''))[:120]}")
+            lines.append(
+                f"  remote/{'ok' if step.get('ok') else 'FAIL'}: {step.get('step')}: {str(step.get('detail', ''))[:120]}"
+            )
         for path in report.get("local", [])[:10]:
             lines.append(f"  local: removed {path}")
         if report.get("gym"):

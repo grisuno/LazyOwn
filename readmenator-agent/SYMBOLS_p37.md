@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_helper_is_defined_exactly_once` | method | `tests/test_gui_xss_sinks.py:27` | `def test_helper_is_defined_exactly_once(self)` |
+| `test_helper_prefers_dompurify_with_text_fallback` | method | `tests/test_gui_xss_sinks.py:31` | `def test_helper_prefers_dompurify_with_text_fallback(self)` |
+| `test_no_raw_error_interpolation` | method | `tests/test_gui_xss_sinks.py:50` | `def test_no_raw_error_interpolation(self)` |
+| `test_no_raw_html_interpolation` | method | `tests/test_gui_xss_sinks.py:43` | `def test_no_raw_html_interpolation(self)` |
+| `test_no_raw_output_interpolation` | method | `tests/test_gui_xss_sinks.py:61` | `def test_no_raw_output_interpolation(self)` |
+| `test_no_raw_response_interpolation` | method | `tests/test_gui_xss_sinks.py:38` | `def test_no_raw_response_interpolation(self)` |
+| `sandbox` | function | `tests/test_gym_cli.py:11` | `def sandbox(tmp_path, monkeypatch)` |
+| `test_atomic_shell_marks_target_compromised` | function | `tests/test_gym_cli.py:123` | `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)` |
+| `test_gym_start_status_stop_lifecycle` | function | `tests/test_gym_cli.py:39` | `def test_gym_start_status_stop_lifecycle(sandbox, capsys)` |
+| `test_gym_status_explains_live_shell_without_gym` | function | `tests/test_gym_cli.py:82` | `def test_gym_status_explains_live_shell_without_gym(sandbox, monkeypatch, capsys)` |
+| `test_gym_status_filters_hosts_by_current_target` | function | `tests/test_gym_cli.py:103` | `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)` |
+| `test_gym_stop_all_and_by_name` | function | `tests/test_gym_cli.py:65` | `def test_gym_stop_all_and_by_name(sandbox, capsys)` |
+| `test_gym_stop_without_active_is_clean` | function | `tests/test_gym_cli.py:32` | `def test_gym_stop_without_active_is_clean(sandbox, capsys)` |
+| `test_gym_top_aliases_leaderboard` | function | `tests/test_gym_cli.py:97` | `def test_gym_top_aliases_leaderboard(sandbox, capsys)` |
+| `test_gym_ms2_chains_lists_index` | function | `tests/test_gym_ms2_cli.py:4` | `def test_gym_ms2_chains_lists_index(capsys)` |
+| `_write_definition` | function | `tests/test_gym_registry.py:34` | `def _write_definition(directory, gym_id)` |
+| `sandbox` | function | `tests/test_gym_registry.py:13` | `def sandbox(tmp_path, monkeypatch)` |
+| `test_definition_crud_is_confined` | function | `tests/test_gym_registry.py:70` | `def test_definition_crud_is_confined(sandbox, tmp_path)` |
+| `test_delete_refuses_active_definition` | function | `tests/test_gym_registry.py:144` | `def test_delete_refuses_active_definition(sandbox)` |
+| `test_legacy_active_files_are_imported_once` | function | `tests/test_gym_registry.py:155` | `def test_legacy_active_files_are_imported_once(sandbox, monkeypatch)` |
+| `test_shipped_catalogue_loads` | function | `tests/test_gym_registry.py:62` | `def test_shipped_catalogue_loads()` |
+| `test_start_status_stop_all_persists` | function | `tests/test_gym_registry.py:92` | `def test_start_status_stop_all_persists(sandbox)` |
+| `test_stop_by_id_and_name` | function | `tests/test_gym_registry.py:115` | `def test_stop_by_id_and_name(sandbox)` |
+| `test_submit_requires_disambiguation` | function | `tests/test_gym_registry.py:128` | `def test_submit_requires_disambiguation(sandbox)` |
+| `TestCrackResult` | class | `tests/test_hash_cracker.py:91` | `class TestCrackResult` |
+| `TestFileIdentification` | class | `tests/test_hash_cracker.py:66` | `class TestFileIdentification` |
+| `TestHashIdentification` | class | `tests/test_hash_cracker.py:14` | `class TestHashIdentification` |
+| `TestHashIdentifier` | class | `tests/test_hash_cracker.py:129` | `class TestHashIdentifier` |
+| `TestHashPatterns` | class | `tests/test_hash_cracker.py:114` | `class TestHashPatterns` |
+| `TestWordlists` | class | `tests/test_hash_cracker.py:122` | `class TestWordlists` |
+| `test_all_patterns_exist` | method | `tests/test_hash_cracker.py:115` | `def test_all_patterns_exist(self)` |
 | `test_crack_result_cracked` | method | `tests/test_hash_cracker.py:102` | `def test_crack_result_cracked(self)` |
 | `test_crack_result_defaults` | method | `tests/test_hash_cracker.py:92` | `def test_crack_result_defaults(self)` |
 | `test_hash_identifier_fields` | method | `tests/test_hash_cracker.py:130` | `def test_hash_identifier_fields(self)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `login` | method | `tests/test_lazy_loop.py:364` | `def login(self, user, password)` |
 | `send_message` | method | `tests/test_lazy_loop.py:367` | `def send_message(self, message)` |
 | `starttls` | method | `tests/test_lazy_loop.py:361` | `def starttls(self)` |
-| `test_admission_queue_fifo_and_drain` | function | `tests/test_lazy_loop.py:417` | `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)` |
-| `test_bridge_reads_engine_store_fixture` | function | `tests/test_lazy_loop.py:510` | `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)` |
-| `test_broadcast_rows_and_worker_traces` | function | `tests/test_lazy_loop.py:483` | `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)` |
-| `test_build_prompt_context_bounded_with_digests` | function | `tests/test_lazy_loop.py:442` | `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)` |
-| `test_c2_board_bridge_upserts` | function | `tests/test_lazy_loop.py:266` | `def test_c2_board_bridge_upserts(tmp_path, monkeypatch)` |
-| `test_custom_tools_run_and_loop_wiring` | function | `tests/test_lazy_loop.py:177` | `def test_custom_tools_run_and_loop_wiring(tmp_path, monkeypatch)` |
-| `test_delete_task_sweeps_store_files` | function | `tests/test_lazy_loop.py:542` | `def test_delete_task_sweeps_store_files(tmp_path, monkeypatch)` |
-| `test_finding_evidence_version_and_report` | function | `tests/test_lazy_loop.py:134` | `def test_finding_evidence_version_and_report(tmp_path, monkeypatch)` |
-| `test_guard_judge_gates_when_enabled` | function | `tests/test_lazy_loop.py:90` | `def test_guard_judge_gates_when_enabled(tmp_path, monkeypatch)` |
-| `test_guard_judge_parse_and_fail_policy` | function | `tests/test_lazy_loop.py:73` | `def test_guard_judge_parse_and_fail_policy(tmp_path, monkeypatch)` |
-| `test_guard_set_judge_persists_and_gates` | function | `tests/test_lazy_loop.py:110` | `def test_guard_set_judge_persists_and_gates(tmp_path, monkeypatch)` |
-| `test_intent_priority_claim_pause_resume` | function | `tests/test_lazy_loop.py:31` | `def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch)` |
-| `test_intent_soft_and_hard_delete` | function | `tests/test_lazy_loop.py:50` | `def test_intent_soft_and_hard_delete(tmp_path, monkeypatch)` |
-| `test_lazy_command_set_registered` | function | `tests/test_lazy_loop.py:555` | `def test_lazy_command_set_registered()` |
-| `test_mcp_lazy_handlers_registered` | function | `tests/test_lazy_loop.py:575` | `def test_mcp_lazy_handlers_registered()` |
-| `test_mcp_lazy_tools_declared_for_every_handler` | function | `tests/test_lazy_loop.py:585` | `def test_mcp_lazy_tools_declared_for_every_handler()` |
-| `test_notifier_channels_slack_email_file` | function | `tests/test_lazy_loop.py:333` | `def test_notifier_channels_slack_email_file(tmp_path, monkeypatch)` |
-| `test_record_verdict_manual` | function | `tests/test_lazy_loop.py:460` | `def test_record_verdict_manual(tmp_path, monkeypatch)` |
-| `test_report_export_md_csv_and_terminal_trigger` | function | `tests/test_lazy_loop.py:289` | `def test_report_export_md_csv_and_terminal_trigger(tmp_path, monkeypatch)` |
-| `test_selfupdate_check_and_apply` | function | `tests/test_lazy_loop.py:226` | `def test_selfupdate_check_and_apply(tmp_path, monkeypatch)` |
-| `test_settlement_prompt_variants` | function | `tests/test_lazy_loop.py:18` | `def test_settlement_prompt_variants()` |
-| `test_skills_match_inject_and_prompt_context` | function | `tests/test_lazy_loop.py:152` | `def test_skills_match_inject_and_prompt_context(tmp_path, monkeypatch)` |
-| `test_task_status_notification_on_terminal` | function | `tests/test_lazy_loop.py:404` | `def test_task_status_notification_on_terminal(tmp_path, monkeypatch)` |
-| `test_trigger_task_create_fires_once` | function | `tests/test_lazy_loop.py:313` | `def test_trigger_task_create_fires_once(tmp_path, monkeypatch)` |
-| `test_workspace_confined_io` | function | `tests/test_lazy_loop.py:203` | `def test_workspace_confined_io(tmp_path, monkeypatch)` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:36` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:81` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:183` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:237` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:337` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:359` | `def _drive()` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

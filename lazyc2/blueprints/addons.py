@@ -184,7 +184,7 @@ def _form_context(
         "trigger_options": _BP_CONFIG.trigger_options,
         "param_types": _BP_CONFIG.param_types,
         "max_params": _BP_CONFIG.max_params,
-        "payload_placeholders": sorted(_BP_CONFIG.payload_placeholders),
+        "payload_placeholders": sorted(_BP_CONFIG.live_placeholders()),
         "default_author": _BP_CONFIG.default_author,
         "default_version": _BP_CONFIG.default_version,
     }

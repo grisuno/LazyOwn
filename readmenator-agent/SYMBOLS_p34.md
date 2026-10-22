@@ -3,6 +3,37 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `command_src` | method | `tests/test_collab_and_onboarding.py:474` | `def command_src(self)` |
+| `html` | method | `tests/test_collab_and_onboarding.py:432` | `def html(self)` |
+| `lm` | method | `tests/test_collab_and_onboarding.py:283` | `def lm(self)` |
+| `reg` | method | `tests/test_collab_and_onboarding.py:334` | `def reg(self)` |
+| `test_acquire_grants_first_operator` | method | `tests/test_collab_and_onboarding.py:288` | `def test_acquire_grants_first_operator(self, lm)` |
+| `test_all_locks_returns_list` | method | `tests/test_collab_and_onboarding.py:313` | `def test_all_locks_returns_list(self, lm)` |
+| `test_collab_join_defined` | method | `tests/test_collab_and_onboarding.py:483` | `def test_collab_join_defined(self, command_src)` |
+| `test_collab_join_has_docstring` | method | `tests/test_collab_and_onboarding.py:495` | `def test_collab_join_has_docstring(self, command_src)` |
+| `test_collab_join_prints_ui_url` | method | `tests/test_collab_and_onboarding.py:492` | `def test_collab_join_prints_ui_url(self, command_src)` |
+| `test_collab_join_uses_c2_port` | method | `tests/test_collab_and_onboarding.py:489` | `def test_collab_join_uses_c2_port(self, command_src)` |
+| `test_collab_join_uses_lhost` | method | `tests/test_collab_and_onboarding.py:486` | `def test_collab_join_uses_lhost(self, command_src)` |
+| `test_expired_lock_releases_automatically` | method | `tests/test_collab_and_onboarding.py:308` | `def test_expired_lock_releases_automatically(self, lm)` |
+| `test_extends_base` | method | `tests/test_collab_and_onboarding.py:435` | `def test_extends_base(self, html)` |
+| `test_file_present` | method | `tests/test_collab_and_onboarding.py:88` | `def test_file_present(self)` |
+| `test_five_minutes_promise` | method | `tests/test_collab_and_onboarding.py:124` | `def test_five_minutes_promise(self, text)` |
+| `test_full_queue_drops_stale_subscriber` | method | `tests/test_collab_and_onboarding.py:263` | `def test_full_queue_drops_stale_subscriber(self, bus)` |
+| `test_has_c2_step` | method | `tests/test_collab_and_onboarding.py:109` | `def test_has_c2_step(self, text)` |
+| `test_has_chat_input` | method | `tests/test_collab_and_onboarding.py:450` | `def test_has_chat_input(self, html)` |
+| `test_has_collab_step` | method | `tests/test_collab_and_onboarding.py:112` | `def test_has_collab_step(self, text)` |
+| `test_has_event_bus` | method | `tests/test_collab_and_onboarding.py:186` | `def test_has_event_bus(self, tree)` |
+| `test_has_event_log` | method | `tests/test_collab_and_onboarding.py:447` | `def test_has_event_log(self, html)` |
+| `test_has_install_section` | method | `tests/test_collab_and_onboarding.py:100` | `def test_has_install_section(self, text)` |
+| `test_has_join_url_display` | method | `tests/test_collab_and_onboarding.py:456` | `def test_has_join_url_display(self, html)` |
+| `test_has_lock_manager` | method | `tests/test_collab_and_onboarding.py:190` | `def test_has_lock_manager(self, tree)` |
+| `test_has_lock_route` | method | `tests/test_collab_and_onboarding.py:210` | `def test_has_lock_route(self)` |
+| `test_has_lock_ui` | method | `tests/test_collab_and_onboarding.py:444` | `def test_has_lock_ui(self, html)` |
+| `test_has_operator_list` | method | `tests/test_collab_and_onboarding.py:441` | `def test_has_operator_list(self, html)` |
+| `test_has_operator_registry` | method | `tests/test_collab_and_onboarding.py:194` | `def test_has_operator_registry(self, tree)` |
+| `test_has_publish_route` | method | `tests/test_collab_and_onboarding.py:206` | `def test_has_publish_route(self)` |
+| `test_has_recon_step` | method | `tests/test_collab_and_onboarding.py:106` | `def test_has_recon_step(self, text)` |
+| `test_has_refresh_operators` | method | `tests/test_collab_and_onboarding.py:453` | `def test_has_refresh_operators(self, html)` |
 | `test_has_sse_connect` | method | `tests/test_collab_and_onboarding.py:438` | `def test_has_sse_connect(self, html)` |
 | `test_has_stream_route` | method | `tests/test_collab_and_onboarding.py:202` | `def test_has_stream_route(self, tree)` |
 | `test_has_troubleshooting` | method | `tests/test_collab_and_onboarding.py:115` | `def test_has_troubleshooting(self, text)` |
@@ -465,36 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_protocols_importable` | method | `tests/test_core.py:239` | `def test_protocols_importable(self)` |
 | `test_returns_bytearray` | method | `tests/test_core.py:168` | `def test_returns_bytearray(self)` |
 | `test_roundtrip` | method | `tests/test_core.py:159` | `def test_roundtrip(self)` |
-| `test_save_payload_creates_parent_dirs` | method | `tests/test_core.py:147` | `def test_save_payload_creates_parent_dirs(self, tmp_path)` |
-| `test_save_payload_is_atomic` | method | `tests/test_core.py:136` | `def test_save_payload_is_atomic(self, tmp_path)` |
-| `test_selector_protocol_accepts_conforming_object` | method | `tests/test_core.py:246` | `def test_selector_protocol_accepts_conforming_object(self)` |
-| `test_surrogate_chars_are_stripped` | method | `tests/test_core.py:100` | `def test_surrogate_chars_are_stripped(self, capsys)` |
-| `test_symbol_is_re_exported` | method | `tests/test_core.py:303` | `def test_symbol_is_re_exported(self, name)` |
-| `test_utils_imports_from_core` | method | `tests/test_core.py:344` | `def test_utils_imports_from_core(self)` |
-| `test_utils_no_inline_config_class` | method | `tests/test_core.py:309` | `def test_utils_no_inline_config_class(self)` |
-| `test_utils_no_inline_load_payload` | method | `tests/test_core.py:315` | `def test_utils_no_inline_load_payload(self)` |
-| `test_utils_no_inline_print_helpers` | method | `tests/test_core.py:335` | `def test_utils_no_inline_print_helpers(self)` |
-| `test_utils_no_inline_validators` | method | `tests/test_core.py:326` | `def test_utils_no_inline_validators(self)` |
-| `test_utils_no_inline_xor` | method | `tests/test_core.py:321` | `def test_utils_no_inline_xor(self)` |
-| `TestCommandBridgeInitialization` | class | `tests/test_core_command_bridge.py:25` | `class TestCommandBridgeInitialization` |
-| `TestCommandBridgeOneCmdAlias` | class | `tests/test_core_command_bridge.py:96` | `class TestCommandBridgeOneCmdAlias` |
-| `TestCommandBridgeOnecmd` | class | `tests/test_core_command_bridge.py:51` | `class TestCommandBridgeOnecmd` |
-| `_reset_bridge_singleton` | function | `tests/test_core_command_bridge.py:16` | `def _reset_bridge_singleton()` |
-| `call_onecmd` | function | `tests/test_core_command_bridge.py:81` | `def call_onecmd()` |
-| `test_empty_command_returns_empty` | method | `tests/test_core_command_bridge.py:99` | `def test_empty_command_returns_empty(self)` |
-| `test_empty_command_returns_empty_string` | method | `tests/test_core_command_bridge.py:54` | `def test_empty_command_returns_empty_string(self)` |
-| `test_error_is_none_initially` | method | `tests/test_core_command_bridge.py:35` | `def test_error_is_none_initially(self)` |
-| `test_execute_alias_returns_string` | method | `tests/test_core_command_bridge.py:107` | `def test_execute_alias_returns_string(self)` |
-| `test_get_bridge_returns_same_singleton` | method | `tests/test_core_command_bridge.py:42` | `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)` |
-| `test_nonexistent_command_returns_error_string` | method | `tests/test_core_command_bridge.py:62` | `def test_nonexistent_command_returns_error_string(self)` |
-| `test_nonexistent_lazy_loaded_cmd_returns_error` | method | `tests/test_core_command_bridge.py:116` | `def test_nonexistent_lazy_loaded_cmd_returns_error(self)` |
-| `test_ready_is_false_initially` | method | `tests/test_core_command_bridge.py:28` | `def test_ready_is_false_initially(self)` |
-| `test_thread_safety_multiple_threads` | method | `tests/test_core_command_bridge.py:74` | `def test_thread_safety_multiple_threads(self)` |
-| `TestConfig` | class | `tests/test_core_config.py:99` | `class TestConfig` |
-| `TestLoadAndValidate` | class | `tests/test_core_config.py:149` | `class TestLoadAndValidate` |
-| `TestLoadPayload` | class | `tests/test_core_config.py:15` | `class TestLoadPayload` |
-| `TestSavePayload` | class | `tests/test_core_config.py:76` | `class TestSavePayload` |
-| `test_aes_key_is_resolved_and_hex` | method | `tests/test_core_config.py:137` | `def test_aes_key_is_resolved_and_hex(self)` |
-| `test_as_params_returns_shallow_copy` | method | `tests/test_core_config.py:126` | `def test_as_params_returns_shallow_copy(self)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

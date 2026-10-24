@@ -776,27 +776,53 @@ class ComplianceEngine:
             counts[cat] = counts.get(cat, 0) + 1
         return counts
 
+    @staticmethod
+    def _compliance_finding(fact: dict[str, Any]) -> ComplianceFinding:
+        fact_type = str(fact.get("type", "general"))
+        severity = "MEDIUM"
+        description = str(fact.get("value") or fact.get("observable") or "")
+        if fact_type == "vulnerability":
+            severity = str(fact.get("severity", "MEDIUM") or "MEDIUM").upper()
+            description = (
+                f"{fact.get('vuln_id', '')} {fact.get('title', '')}".strip() or description
+            )
+        elif fact_type == "credential":
+            severity = "HIGH"
+            description = f"credential used on host: {description}"
+        elif fact_type == "service":
+            description = (
+                f"{fact.get('service', '') or fact.get('name', '')} "
+                f"{fact.get('product', '')} {fact.get('version', '')}".strip()
+                or description
+            )
+        return ComplianceFinding(
+            category=fact_type,
+            host=str(fact.get("host", "")),
+            port=str(fact.get("port", "") or ""),
+            service=str(fact.get("service", "") or fact.get("name", "")),
+            description=description,
+            severity=severity,
+            operator="FactStore",
+        )
+
     def _load_findings(self) -> list[ComplianceFinding]:
         findings: list[ComplianceFinding] = []
         facts_path = self._sessions_dir / "policy_facts.json"
         if facts_path.exists():
             try:
-                data = json.loads(facts_path.read_text(encoding="utf-8"))
-                facts = data.get("facts", []) if isinstance(data, dict) else data
-                if isinstance(facts, list):
-                    for fact in facts:
-                        if isinstance(fact, dict):
-                            findings.append(
-                                ComplianceFinding(
-                                    category=fact.get("type", "general"),
-                                    host=fact.get("host", ""),
-                                    port=str(fact.get("port", "")),
-                                    service=fact.get("service", ""),
-                                    description=fact.get("value", ""),
-                                    severity="MEDIUM",
-                                    operator=fact.get("operator", "system"),
-                                )
-                            )
+                from modules.factsio import iter_flat_facts, load_policy_facts
+
+                raw_data = json.loads(facts_path.read_text(encoding="utf-8"))
+                legacy_facts = raw_data.get("facts", []) if isinstance(raw_data, dict) else []
+                if legacy_facts and isinstance(legacy_facts, list):
+                    host_keyed: dict[str, dict[str, Any]] = {}
+                else:
+                    host_keyed = load_policy_facts(facts_path)
+                for fact in iter_flat_facts(host_keyed):
+                    findings.append(self._compliance_finding(fact))
+                for fact in legacy_facts:
+                    if isinstance(fact, dict):
+                        findings.append(self._compliance_finding(fact))
             except Exception as exc:
                 log.warning("Failed to load facts: %s", exc)
 

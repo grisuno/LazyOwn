@@ -51,6 +51,7 @@ class ToastConfig:
     event_files: tuple[str, ...] = (
         "events.jsonl",
         "autonomous_events.jsonl",
+        "activity_*.jsonl",
     )
     enabled_default: bool = True
     max_per_tick_default: int = 5
@@ -223,7 +224,8 @@ class ToastReader:
         """Return events emitted past ``start_offset`` plus the new end offset.
 
         Args:
-            name: Filename relative to the sessions root.
+            name: Filename relative to the sessions root (call
+                :meth:`resolve_sources` first for glob patterns).
             start_offset: Last persisted byte offset for this file.
 
         Returns:
@@ -250,6 +252,34 @@ class ToastReader:
         events = self._parse(text, name, base_offset=start_offset)
         return events, size
 
+    def resolve_sources(self, names: tuple[str, ...]) -> tuple[tuple[str, ...], bool]:
+        """Expand glob source entries against the sessions root.
+
+        Args:
+            names: Configured source names, possibly glob patterns.
+
+        Returns:
+            ``(resolved_names, changed)`` where ``changed`` is True when
+            expansion produced anything different from the input tree.
+        """
+        resolved: list[str] = []
+        changed = False
+        for name in names:
+            if not any(glob_char in name for glob_char in "*?["):
+                resolved.append(name)
+                continue
+            try:
+                matches = sorted(p.name for p in self._root.glob(name) if p.is_file())
+            except (OSError, ValueError):
+                matches = []
+            if sorted(matches) != [name]:
+                changed = True
+            resolved.extend(matches)
+        tuple_resolved = tuple(resolved) if resolved else names
+        if list(tuple_resolved) != list(names):
+            return tuple_resolved, True
+        return tuple_resolved, changed
+
     def _parse(self, text: str, source: str, base_offset: int) -> list[ToastEvent]:
         out: list[ToastEvent] = []
         cursor = base_offset
@@ -272,9 +302,15 @@ class ToastReader:
             return None
         if not isinstance(record, dict):
             return None
-        event_type = self._coerce_str(
-            record.get("type") or record.get("kind") or record.get("event") or record.get("event_type") or ""
-        )
+        worker = self._coerce_str(record.get("worker") or "")
+        if record.get("type"):
+            event_type = self._coerce_str(record["type"])
+        elif worker:
+            event_type = worker
+        else:
+            event_type = self._coerce_str(
+                record.get("kind") or record.get("event") or record.get("event_type") or ""
+            )
         severity = self._coerce_str(record.get("severity") or record.get("status") or record.get("level") or "info")
         timestamp = self._coerce_str(record.get("ts") or record.get("timestamp") or "")
         summary = self._summary(record)
@@ -298,22 +334,62 @@ class ToastReader:
     @staticmethod
     def _summary(record: Mapping[str, Any]) -> str:
         payload = record.get("payload") if isinstance(record.get("payload"), dict) else {}
-        for source in (record, payload):
+        sources: list[Mapping[str, Any]] = [record, payload]
+        for source in list(sources):
+            if isinstance(source, Mapping):
+                nested = source.get("metadata")
+                if isinstance(nested, Mapping):
+                    sources.append(nested)
+        first_values: dict[str, str] = {}
+        for source in sources:
             for key in ("message", "summary", "detail", "text", "goal"):
                 value = source.get(key) if isinstance(source, Mapping) else None
                 if isinstance(value, str) and value.strip():
                     return value.strip()
                 if isinstance(value, (int, float, bool)):
                     return str(value)
+            for key in ("title", "description"):
+                if key not in first_values:
+                    value = source.get(key) if isinstance(source, Mapping) else None
+                    if isinstance(value, str) and value.strip():
+                        first_values[key] = value.strip()
+        if "description" in first_values:
+            return (
+                f"{first_values['title']} — {first_values['description']}"
+                if "title" in first_values
+                else first_values["description"]
+            )
+        if "title" in first_values:
+            return first_values["title"]
+        title = ""
+        for source in sources:
+            if not isinstance(source, Mapping):
+                continue
+            slug = str(source.get("vuln_id") or "").strip()
+            cve = str(source.get("cve") or "").strip()
+            raw_artifact = source.get("artifacts")
+            if isinstance(raw_artifact, (list, tuple)) and raw_artifact:
+                artifact = str(raw_artifact[0]).rsplit("/", 1)[-1]
+            else:
+                artifact = str(raw_artifact or "").strip()
+            if slug or cve:
+                title = " · ".join(
+                    part for part in (f"capture {slug}" if slug else "", cve, f"artifact {artifact}" if artifact else "") if part
+                )
+                break
+        if title:
+            return title
         command = ""
         args = ""
-        for source in (record, payload):
+        for source in sources:
             if isinstance(source, Mapping):
                 command = command or str(source.get("command") or "").strip()
                 args = args or str(source.get("args") or "").strip()
+        if args and command and (args == command or command.endswith(f" {args}")):
+            args = ""
         if command:
             return f"{command} {args}".strip()
-        for source in (record, payload):
+        for source in sources:
             value = source.get("target") if isinstance(source, Mapping) else None
             if isinstance(value, str) and value.strip():
                 return value.strip()
@@ -696,7 +772,8 @@ class ToastBus:
     def collect(self) -> list[ToastEvent]:
         """Return every unseen event across :attr:`ToastConfig.event_files`."""
         out: list[ToastEvent] = []
-        for name in self._config.event_files:
+        resolved, _ = self._reader.resolve_sources(self._config.event_files)
+        for name in resolved:
             start = self._state.get(name)
             events, end = self._reader.read_unseen(name, start)
             if events:
@@ -736,7 +813,8 @@ class ToastBus:
 
     def mark_all_seen(self) -> None:
         """Advance the offset for every configured file to its current size."""
-        for name in self._config.event_files:
+        resolved, _ = self._reader.resolve_sources(self._config.event_files)
+        for name in resolved:
             _, end = self._reader.read_unseen(name, 0)
             self._state.set(name, end)
         self._state.flush()

@@ -264,3 +264,93 @@ def summary(sessions_dir: str | Path | None = None) -> dict:
         "cves": sorted(set(cves)),
         "records": records,
     }
+
+
+def _gather_evidence(candidates: list[Path]) -> str:
+    """Concatenate candidate evidence files for checker verification.
+
+    Args:
+        candidates: Text files to scan.
+
+    Returns:
+        The concatenated text (capped) for :func:`capture`.
+    """
+    import itertools
+
+    parts: list[str] = []
+    budget = 200_000
+    for path in itertools.islice(sorted(candidates, key=lambda p: p.stat().st_mtime if p.exists() else 0.0, reverse=True), 50):
+        try:
+            if path.is_file() and path.stat().st_size <= budget:
+                parts.append(path.read_text(errors="replace"))
+        except OSError:
+            continue
+    return "\n".join(parts)
+
+
+def _cli_capture(argv: list[str]) -> int:
+    """CLI entry: verify a vector from staged evidence files.
+
+    Usage:
+        python3 modules/ctf_capture.py capture <vuln_id> <target>
+               [--output-file PATH] [--search-base DIR ...]
+
+    Without ``--output-file`` the command scans ``--search-base`` trees
+    (default ``sessions/``) for text files and verifies the aggregate.
+
+    Args:
+        argv: Raw CLI arguments after the script name.
+
+    Returns:
+        Process exit code (0 captured, 1 failed, 2 usage error).
+    """
+    import argparse
+
+    parser = argparse.ArgumentParser(prog="ctf_capture")
+    sub = parser.add_subparsers(dest="action", required=True)
+    cap = sub.add_parser("capture", help="Verify and record one gym vector")
+    cap.add_argument("vuln_id")
+    cap.add_argument("target")
+    cap.add_argument("--output-file", default="", help="Direct evidence text file")
+    cap.add_argument("--search-base", action="append", default=[], help="Directory trees to scan")
+    cap.add_argument("--sessions-dir", default="sessions")
+    cap.add_argument("--json-out", action="store_true")
+    rep = sub.add_parser("report", help="Print the capture summary")
+    rep.add_argument("--sessions-dir", default="sessions")
+
+    args_parsed = parser.parse_args(argv)
+    if args_parsed.action == "report":
+        print(json.dumps(summary(args_parsed.sessions_dir), indent=2))
+        return 0
+    bases = args_parsed.search_base or [args_parsed.sessions_dir]
+    output_dir(args_parsed.sessions_dir).mkdir(parents=True, exist_ok=True)
+    if args_parsed.output_file:
+        blob = (Path(args_parsed.output_file).read_text(errors="replace") if Path(args_parsed.output_file).is_file() else "")
+    else:
+        candidates: list[Path] = []
+        for base in bases:
+            tree = Path(base)
+            if tree.is_file():
+                candidates.append(tree)
+                continue
+            candidates.extend(tree.glob("**/*.txt") if tree.is_dir() else [])
+        blob = _gather_evidence(candidates)
+    record = capture(
+        args_parsed.vuln_id,
+        args_parsed.target,
+        output=blob,
+        sessions_dir=args_parsed.sessions_dir,
+    )
+    if args_parsed.json_out:
+        print(json.dumps(record, indent=2))
+    print(f"ctf_capture: {args_parsed.vuln_id} -> {record['status']}")
+    return 0 if record["status"] == "captured" else 1
+
+
+if __name__ == "__main__":
+    import sys
+
+    _REPO_ROOT = str(Path(__file__).resolve().parent.parent)
+    if _REPO_ROOT not in sys.path:
+        sys.path.insert(0, _REPO_ROOT)
+    sys.exit(_cli_capture(sys.argv[1:]))

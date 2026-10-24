@@ -919,7 +919,9 @@ class ChainRunner:
             return False, "", "no executor or shell"
         if self._is_verb(command):
             try:
-                return True, self._run_shell_verb(command), ""
+                return True, self._run_shell_verb(command, limit), ""
+            except TimeoutError as exc:
+                return False, (str(exc) or "verb timeout")[:200], "timeout"
             except Exception as exc:
                 return False, "", str(exc)[:300]
         return self._call(lambda: self._run_raw(command, limit, allowed), limit)
@@ -935,19 +937,56 @@ class ChainRunner:
             return False
         return callable(getattr(self.shell, f"do_{token}", None)) or token in aliases
 
-    def _run_shell_verb(self, command: str) -> str:
+    def _run_shell_verb(self, command: str, timeout: float = 0.0) -> str:
         """Run a cmd2 verb on the calling thread and capture its stdout.
+
+        Verbs stay on the operator thread (cmd2 is not thread-safe). The
+        step timeout is enforced with a ``SIGALRM`` watchdog on the main
+        thread when available; a hung verb raises ``TimeoutError`` so
+        :meth:`_execute` can fail the step instead of stalling the chain.
 
         LazyOwn ``do_*`` methods print through Rich and usually return
         ``None``; capturing the buffer is what makes ``capture:`` and
         ``expect:`` work for verb steps.
+
+        Args:
+            command: The rendered verb line to execute.
+            timeout: Wall-clock limit in seconds (0 disables).
+
+        Returns:
+            The captured stdout/stderr text.
+
+        Raises:
+            TimeoutError: When the watchdog fires before completion.
         """
         import contextlib
         import io
+        import math
+        import signal
+        import threading
+
+        alarm_seconds = max(0, int(math.ceil(float(timeout or 0.0))))
+        use_alarm = (
+            alarm_seconds > 0
+            and threading.current_thread() is threading.main_thread()
+            and hasattr(signal, "SIGALRM")
+        )
+
+        def _raise_timeout(_signum: int, _frame: Any) -> None:
+            raise TimeoutError(f"verb timeout after {alarm_seconds}s: {command[:80]}")
 
         buffer = io.StringIO()
-        with contextlib.redirect_stdout(buffer), contextlib.redirect_stderr(buffer):
-            result = self.shell.onecmd(command)
+        previous_handler = None
+        if use_alarm:
+            previous_handler = signal.signal(signal.SIGALRM, _raise_timeout)
+            signal.alarm(alarm_seconds)
+        try:
+            with contextlib.redirect_stdout(buffer), contextlib.redirect_stderr(buffer):
+                result = self.shell.onecmd(command)
+        finally:
+            if use_alarm:
+                signal.alarm(0)
+                signal.signal(signal.SIGALRM, previous_handler or signal.SIG_DFL)
         text = buffer.getvalue()
         if not text.strip() and result not in (None, True, False):
             text = str(result)

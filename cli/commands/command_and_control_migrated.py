@@ -1949,6 +1949,15 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             replanner=build_reactive_replanner() if args.replan else None,
         )
         result = runner.run()
+        if not args.dry_run:
+            try:
+                from modules.chain_facts import spool_chain_outputs
+
+                spooled = spool_chain_outputs(result)
+                if spooled:
+                    print_msg(f"[apt_chain] spooled {spooled} new fact(s) from captured output")
+            except Exception as spool_exc:
+                print_msg(f"[apt_chain] fact spool skip: {spool_exc}")
         if args.json_out:
             print(json.dumps(result.to_dict(), indent=2, default=str))
         else:

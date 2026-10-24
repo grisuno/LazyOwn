@@ -166,6 +166,15 @@ def run_matrix(
             record_run["capture"] = "dry-run"
         else:
             try:
+                from modules.chain_facts import spool_chain_outputs
+
+                record_run["spooled_facts"] = spool_chain_outputs(
+                    result,
+                    sessions_dir=sessions_dir,
+                )
+            except Exception as exc:
+                log.debug("chain facts spool failed: %s", exc)
+            try:
                 capture = ctf_capture.capture(
                     vuln_id,
                     target,

@@ -15,6 +15,7 @@ defaults:
   port: '21'
   exploit: ''
   vuln: ''
+  privilege: lowpriv
 steps:
 - id: scope
   phase: recon
@@ -43,7 +44,7 @@ steps:
 - id: deploy_agent
   phase: post
   description: Drop the malleable C2 client (F5 upgrades lowpriv/root profile).
-  run: c2_deploy {target} --sleep 10
+  run: c2_deploy {target} --sleep 10 --privilege {privilege}
   timeout: 90
   continue_on_error: true
 - id: beacon_settle

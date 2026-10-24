@@ -250,19 +250,25 @@ class C2SessionCommandSet(LazyOwnCommandSet):
         """Deploy the malleable agent to a lab target (needs root shell primitive).
 
         Usage:
-            c2_deploy <target> [--sleep 10]
+            c2_deploy <target> [--sleep 10] [--privilege lowpriv|root]
         """
         parts = (line or "").strip().split()
         target = parts[0] if parts else (self.params.get("rhost", "") or "")
         sleep = 25
+        privilege = "lowpriv"
         for i, part in enumerate(parts):
             if part == "--sleep" and i + 1 < len(parts):
                 try:
                     sleep = max(10, min(int(parts[i + 1]), 120))
                 except ValueError:
                     pass
+            if part == "--privilege" and i + 1 < len(parts):
+                privilege = str(parts[i + 1]).strip().lower()
+        if privilege not in ("lowpriv", "root"):
+            print_error(f"Unknown privilege: {privilege} (use lowpriv|root)")
+            return
         if not target:
-            print_error("Usage: c2_deploy <target> [--sleep 10]")
+            print_error("Usage: c2_deploy <target> [--sleep 10] [--privilege lowpriv|root]")
             return
         import sys
 
@@ -282,10 +288,11 @@ class C2SessionCommandSet(LazyOwnCommandSet):
             route=str(payload.get("c2_malleable_route", "/") or "/"),
             lhost="172.17.0.1",
             sleep=sleep,
+            privilege=privilege,
         )
         print_msg(
-            f"Deploy: client={result.get('client_id')} via={result.get('via')} "
-            f"size_ok={result.get('size_ok')} running={result.get('agent_running')}"
+            f"Deploy: client={result.get('client_id')} privilege={result.get('privilege', privilege)} "
+            f"via={result.get('via')} size_ok={result.get('size_ok')} running={result.get('agent_running')}"
         )
 
     @cmd2.with_category(CATEGORY)

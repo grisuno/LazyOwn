@@ -205,6 +205,8 @@ def _merge_profile(parent: dict, child: dict) -> dict:
     for key in ("chain", "playbook"):
         if child.get(key) is not None:
             merged[key] = str(child.get(key) or "")
+    if child.get("harness") is not None:
+        merged["harness"] = bool(child.get("harness"))
     return merged
 
 

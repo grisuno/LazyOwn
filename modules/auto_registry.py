@@ -761,6 +761,19 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
     default bash probes) or when the verb's tooling is unavailable.
     """
     lowered = (text or "").strip().lower()
+    if lowered.startswith("auto chain "):
+        parts = lowered.split()
+        chain_name = parts[2] if len(parts) > 2 else ""
+        tail = " ".join(parts[3:]).strip() if len(parts) > 3 else (target or "").strip()
+        try:
+            from modules.chain_registry import get as _get_chain
+
+            resolved = _get_chain(chain_name)
+        except Exception:
+            resolved = None
+        if resolved is None or not chain_name:
+            return None
+        return [f"apt_chain {chain_name} {tail or (target or '')}".strip()]
     if lowered.startswith("auto "):
         parts = lowered.split()
         verb = parts[1] if len(parts) > 1 else ""

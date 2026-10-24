@@ -199,3 +199,45 @@ profiles:
       max_rounds: 15
       max_toolcalls: 300
       max_findings: 80
+  harness:
+    description: Deterministic-only loop (no planner/worker LLM, no SWAN); objectives and chains drive everything.
+    extends: default
+    harness: true
+    stages:
+      swan_ensemble:
+        enabled: false
+      llm_stream:
+        enabled: false
+      planner:
+        params:
+          max_intents: 3
+    limits:
+      rounds: 8
+      workers: 2
+      worker_parallel_cap: 2
+      heartbeat_sec: 600
+      wake_debounce_sec: 1.0
+      intel_sync_sec: 15
+      enrich_limit: 2
+      enrich_cooldown_sec: 300
+      retest_limit: 2
+      max_intents_per_round: 3
+      max_worker_steps: 6
+      verb_timeout_sec: 300
+      step_delay_sec: 0.8
+    budget:
+      max_rounds: 8
+      max_toolcalls: 150
+      max_findings: 40
+    chain: gym_ms2_foothold
+    playbook: rocke
+    sinks:
+      world_model: true
+      killchain: true
+      intel_graph: true
+      attack_graph: true
+      c2_surfaces: true
+      campaign_db: true
+      objectives: true
+      event_bus: true
+      report: true

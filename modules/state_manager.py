@@ -571,7 +571,6 @@ class StateManager:
                             "protocol": s.get("protocol", "tcp"),
                             "name": s.get("name", ""),
                             "version": s.get("version", ""),
-                            "product": s.get("product", ""),
                             "state": s.get("state", "open"),
                         }
                         for s in services
@@ -579,29 +578,90 @@ class StateManager:
                 }
             all_creds = self.db.cred_list(self.workspace_id)
             all_vulns = self.db.vuln_list(self.workspace_id)
-            cache = {
-                "hosts": hosts_data,
-                "credentials": [
-                    {
-                        "value": f"{c.get('username', '')}:{c.get('password', '')}",
-                        "host": c.get("address", ""),
-                        "confirmed": bool(c.get("cracked")),
-                    }
-                    for c in all_creds
-                ],
-                "vulnerabilities": [
-                    {
-                        "description": v.get("name", ""),
-                        "cve": v.get("refs", ""),
-                        "severity": v.get("severity", "unknown"),
-                        "host": v.get("address", ""),
-                    }
-                    for v in all_vulns
-                ],
-                "saved_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            existing = self._load_existing_world_model()
+            merged = self._merge_world_model(existing, hosts_data, all_creds, all_vulns)
+            self._write_world_model(merged)
+            return merged
+
+    def _load_existing_world_model(self) -> dict[str, Any]:
+        try:
+            from world_model import read_state_dict
+
+            data = read_state_dict(self._world_model_path)
+            return data if isinstance(data, dict) else {}
+        except ImportError:
+            return _load_json(self._world_model_path)
+        except Exception:
+            log.exception("_load_existing_world_model failed")
+            return _load_json(self._world_model_path)
+
+    @staticmethod
+    def _merge_world_model(
+        existing: dict[str, Any],
+        hosts_data: dict[str, Any],
+        all_creds: list[dict[str, Any]],
+        all_vulns: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        merged = dict(existing) if existing else {}
+        campaign_hosts = merged.get("hosts") if isinstance(merged.get("hosts"), dict) else {}
+        synced_hosts: dict[str, Any] = {}
+        for ip, db_host in hosts_data.items():
+            prior = campaign_hosts.get(ip) if isinstance(campaign_hosts.get(ip), dict) else {}
+            entry = {key: value for key, value in prior.items() if key not in ("services",)}
+            for scalar in ("hostname", "os", "state"):
+                if not entry.get(scalar):
+                    entry[scalar] = db_host.get(scalar, "")
+            if "state" not in prior:
+                db_state = str(db_host.get("state", "")).strip().lower()
+                if db_state not in ("unscanned", "scanned", "enumerated", "exploited", "owned"):
+                    entry["state"] = ""
+            entry["ip"] = entry.get("ip") or db_host["ip"]
+            prior_services = prior.get("services") if isinstance(prior.get("services"), dict) else {}
+            merged_services = {port: db_svc for port, db_svc in db_host["services"].items()}
+            for port, prior_svc in prior_services.items():
+                if port not in merged_services:
+                    merged_services[port] = prior_svc
+            entry["services"] = merged_services
+            synced_hosts[ip] = entry
+        merged["hosts"] = synced_hosts
+
+        creds: list[dict[str, Any]] = list(merged.get("credentials") or []) if isinstance(merged.get("credentials"), list) else []
+        credited = {(str(c.get("value", "")), str(c.get("host", ""))) for c in creds}
+        for c in all_creds:
+            record = {
+                "value": f"{c.get('username', '')}:{c.get('password', '')}",
+                "host": c.get("address", ""),
+                "confirmed": bool(c.get("cracked")),
             }
-            _save_json(self._world_model_path, cache)
-            return cache
+            if (record["value"], record["host"]) not in credited:
+                creds.append(record)
+        merged["credentials"] = creds
+
+        vulns: list[dict[str, Any]] = list(merged.get("vulnerabilities") or []) if isinstance(merged.get("vulnerabilities"), list) else []
+        vuln_keys = {(str(v.get("description", "")), str(v.get("cve", "")), str(v.get("host", ""))) for v in vulns}
+        for v in all_vulns:
+            record = {
+                "description": v.get("name", ""),
+                "cve": v.get("refs", ""),
+                "severity": v.get("severity", "unknown"),
+                "host": v.get("address", ""),
+            }
+            key = (record["description"], record["cve"], record["host"])
+            if key not in vuln_keys:
+                vulns.append(record)
+        merged["vulnerabilities"] = vulns
+
+        merged["saved_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        return merged
+
+    def _write_world_model(self, data: dict[str, Any]) -> None:
+        try:
+            from world_model import write_state_dict
+
+            write_state_dict(self._world_model_path, data)
+        except Exception:
+            log.exception("_write_world_model fallback")
+            _save_json(self._world_model_path, data)
 
     def get_world_model_cache(self) -> dict[str, Any]:
         with self._lock:

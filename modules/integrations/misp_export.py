@@ -417,6 +417,11 @@ class MISPExporter:
             findings.append(_DictFinding(data))
             return findings
 
+        # FactStore fact records (service / credential / vulnerability)
+        findings.extend(MISPExporter._dict_to_fact_records(data))
+        if findings:
+            return findings
+
         # Direct CVE extraction from vulnerability record: {"id": "CVE-...", "cvss": 9.8}
         if "id" in data and isinstance(data["id"], str) and data["id"].upper().startswith("CVE-"):
             findings.append(_DictFinding({"type": "cve", "value": data["id"], "host": ""}))
@@ -434,9 +439,51 @@ class MISPExporter:
         # If no known keys matched, this may be a host-map {"<ip>": {...}} or similar.
         # Recurse into all dict values so we do not silently drop nested records.
         if not matched_any:
-            for val in data.values():
-                if isinstance(val, (list, dict)):
-                    findings.extend(MISPExporter._dict_to_findings(val))
+            for key, val in data.items():
+                if isinstance(val, list):
+                    for item in val:
+                        findings.extend(MISPExporter._dict_to_findings(
+                            item if isinstance(item, dict) else {"value": item, "host": key}
+                        ))
+                elif isinstance(val, dict):
+                    nested = dict(val)
+                    nested.setdefault("host", nested.get("host") or key)
+                    findings.extend(MISPExporter._dict_to_findings(nested))
+                    matched_any = True
+
+        return findings
+
+    @staticmethod
+    def _dict_to_fact_records(data: dict) -> list:
+        """Recognise FactStore fact records (Service/Credential/Vulnerability)."""
+        findings: list = []
+        host = str(data.get("host", "") or "")
+
+        vuln_id = str(data.get("vuln_id", "") or data.get("cve", "") or "")
+        if vuln_id:
+            findings.append(
+                _DictFinding(
+                    {
+                        "type": "cve" if vuln_id.upper().startswith("CVE-") else "vulnerability",
+                        "value": vuln_id,
+                        "host": host or data.get("id", ""),
+                    }
+                )
+            )
+            return findings
+
+        username = str(data.get("username", "") or "")
+        password = str(data.get("password", "") or "")
+        hash_value = str(data.get("hash_value", "") or "")
+        if username or password or hash_value:
+            value = f"{username}:{password}" if password else (hash_value or username)
+            findings.append(_DictFinding({"type": "credential", "value": value, "host": host}))
+            return findings
+
+        service = str(data.get("service", "") or data.get("name", "") or "")
+        if service and ("port" in data or "protocol" in data):
+            findings.append(_DictFinding({"type": "service", "value": service, "host": host}))
+            return findings
 
         return findings
 

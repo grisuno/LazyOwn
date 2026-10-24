@@ -22,8 +22,10 @@ from __future__ import annotations
 import datetime
 import logging
 import os
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 from modules.world_model import read_state_dict, write_state_dict
 
@@ -252,6 +254,7 @@ class KillChain:
         new_phase: str,
         world_model_path: Path | None = None,
         host: str | None = None,
+        extras: Mapping[str, Any] | None = None,
     ) -> bool:
         """Advance the kill-chain phase for connected surfaces.
 
@@ -268,6 +271,10 @@ class KillChain:
             world_model_path: Optional override path for the world model file.
             host: Host that produced the outcome; ``None`` advances all
                 hosts and ``""`` advances none.
+            extras: Optional extra top-level keys to persist alongside the
+                phase (caller-scoped metadata such as ``target`` or
+                ``phase_updated_at``). Existing keys are overwritten by
+                the same values in ``extras`` only.
 
         Returns:
             True when the write succeeded, False otherwise.
@@ -286,6 +293,8 @@ class KillChain:
 
         raw["phase"] = new_phase
         raw["current_phase"] = new_phase
+        for key, value in (extras or {}).items():
+            raw[str(key)] = value
 
         completed: list[str] = list(raw.get("completed_phases", []) or [])
         if old_phase and _DEFAULT_CONFIG.is_valid_phase(old_phase):
@@ -321,6 +330,26 @@ class KillChain:
                     wm.advance_host(ip, HostState(target_state))
             except Exception as exc:
                 _log.warning("WorldModel host advance failed: %s", exc)
+
+        if extras:
+            try:
+                raw = read_state_dict(wm_path)
+                mutated = False
+                for key, value in extras.items():
+                    if str(key) in raw:
+                        continue
+                    raw[str(key)] = value
+                    mutated = True
+                # WorldModel._save only re-emits PASSTHROUGH_KEYS, so the
+                # single-writer seam re-applies extras the host-advance
+                # snapshot may have swept away.
+                if not mutated:
+                    for key, value in extras.items():
+                        raw[str(key)] = value
+                write_state_dict(wm_path, raw)
+            except Exception as exc:
+                _log.warning("Failed to re-apply extras after host advance: %s", exc)
+                return False
 
         return True
 

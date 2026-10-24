@@ -64,6 +64,8 @@ _CATEGORY = {
     "report": "report",
     "loot": "loot",
     "credential": "credential",
+    "discovery": "recon",
+    "ctf_capture": "exploit",
 }
 
 

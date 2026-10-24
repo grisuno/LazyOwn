@@ -781,6 +781,31 @@ class OrchestratorAssetsMixin:
         self._refresh_models()
         return bool(touched)
 
+    def set_harness(self, enabled: bool) -> dict:
+        """Toggle the deterministic harness from the orchestrator UI.
+
+        Wired through :func:`modules.orchestrator_config.set_harness`
+        so payload.json, the active profile and the loop gates stay in
+        sync.
+
+        Args:
+            enabled: True engages the harness, False disables it.
+
+        Returns:
+            The ``{"harness", "profile", "chain"}`` summary or an error
+            form with ``{"error": "..."}`` when persistence fails.
+        """
+        try:
+            from modules.orchestrator_config import set_harness as _set_harness
+
+            summary = _set_harness(bool(enabled))
+            on_off = "on" if summary.get("harness") else "off"
+            self.notify(f"Harness {on_off} (profile={summary.get('profile')})", severity="information")
+            return summary
+        except Exception as exc:
+            self.notify(f"Harness toggle failed: {exc}", severity="error")
+            return {"error": str(exc)}
+
     def add_guard_rule(self, pattern: str, action: str = "ask", reason: str = "") -> bool:
         """Register one guard intercept rule."""
         from modules.lazy_engine import Guard

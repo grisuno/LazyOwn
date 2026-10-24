@@ -407,6 +407,48 @@ def _normalize_backend(backend: str | None) -> str:
     return candidate
 
 
+_CLOUD_BACKENDS: frozenset[str] = frozenset(
+    {
+        BACKEND_GROQ,
+        BACKEND_OPENAI,
+        BACKEND_ANTHROPIC,
+        BACKEND_DEEPSEEK,
+    }
+)
+
+
+def _require_cloud_allowed(normalized: str) -> None:
+    """Reject cloud backends while the deterministic harness is active.
+
+    The development harness is local-only: Ollama and llama.cpp stay
+    available and every other backend raises the same error a missing
+    key would produce so existing graceful-degradation fallbacks keep
+    working unchanged.
+
+    Args:
+        normalized: Normalized backend identifier.
+
+    Raises:
+        LLMBackendUnavailableError: Under the harness for cloud ids.
+    """
+    if normalized not in _CLOUD_BACKENDS:
+        return
+    try:
+        from modules.harness import harness_enabled
+
+        if harness_enabled():
+            raise LLMBackendUnavailableError(
+                f"Cloud backend '{normalized}' blocked by the deterministic harness "
+                "(local-only development mode). Configure a local "
+                f"'{CONFIG_KEY_BACKEND}' ({BACKEND_OLLAMA}/{BACKEND_LLAMACPP}) "
+                "or disable the harness."
+            )
+    except LLMBackendUnavailableError:
+        raise
+    except Exception:
+        return
+
+
 def _build_groq(config: Mapping[str, Any]) -> AIModel:
     """Instantiate a Groq backend or raise when no API key is available.
 
@@ -657,20 +699,28 @@ def _build_backend(
             be constructed from the current environment.
     """
     if normalized == BACKEND_GROQ:
+        _require_cloud_allowed(normalized)
         return _build_groq(resolved_config)
     if normalized == BACKEND_OLLAMA:
         return _build_ollama(resolved_config)
     if normalized == BACKEND_OPENAI:
+        _require_cloud_allowed(normalized)
         return _build_openai(resolved_config)
     if normalized == BACKEND_ANTHROPIC:
+        _require_cloud_allowed(normalized)
         return _build_anthropic(resolved_config)
     if normalized == BACKEND_DEEPSEEK:
+        _require_cloud_allowed(normalized)
         return _build_deepseek(resolved_config)
     if normalized == BACKEND_LLAMACPP:
         return _build_llamacpp(resolved_config)
     if _resolve_api_key(resolved_config):
         try:
-            return _build_groq(resolved_config)
+            _require_cloud_allowed(BACKEND_GROQ)
+            try:
+                return _build_groq(resolved_config)
+            except LLMBackendUnavailableError:
+                pass
         except LLMBackendUnavailableError:
             pass
     return _build_ollama(resolved_config)

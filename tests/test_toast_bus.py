@@ -250,3 +250,89 @@ def test_over_budget_events_collapse_into_digest() -> None:
     text = captured.export_text()
     assert "line-3" in text and "line-4" in text
     assert "+3 more" in text and "STEP_DONE" in text
+
+
+def _cli_record(event_type: str, payload: dict, target: str = "10.0.0.5") -> dict:
+    return {
+        "id": "x",
+        "ts": "21:14:02",
+        "event_type": event_type,
+        "source": "cli",
+        "severity": "info",
+        "payload": payload,
+        "session_id": "",
+        "target": target,
+        "operator": "autonomous_loop",
+    }
+
+
+def test_summary_prefers_title_then_description() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "exploit",
+        {"title": "DVWA SQL injection", "description": "confidence=50%", "cve": "", "mitre_id": "T1190"},
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert event.summary == "DVWA SQL injection — confidence=50%"
+
+
+def test_summary_falls_back_to_capture_metadata() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "ctf_capture",
+        {
+            "title": "",
+            "description": "",
+            "artifacts": [],
+            "metadata": {"vuln_id": "vsftpd_backdoor", "cve": "CVE-2011-2523", "artifacts": ["ctf/vsftpd_backdoor/record.json"]},
+        },
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert "vsftpd_backdoor" in event.summary
+    assert "CVE-2011-2523" in event.summary
+    assert "record.json" in event.summary
+
+
+def test_summary_deduplicates_command_args_tail() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "echo",
+        {"command": "tmux kill-session -t lab 2>/dev/null", "args": "kill-session -t lab 2>/dev/null"},
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert event.summary == "tmux kill-session -t lab 2>/dev/null"
+
+
+def test_activity_trigger_sources_expand_and_render() -> None:
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        _write_jsonl(
+            Path(tmp) / "activity_t0001.jsonl",
+            [{"ts": "2026-10-21T22:11:54", "task": "t0001", "worker": "scheduler", "kind": "fire", "text": "trigger #1 kind=service addons=hellbird:lazyaddon"}],
+        )
+        reader = ToastReader(ToastConfig(), root=Path(tmp))
+        sources, _ = reader.resolve_sources(ToastConfig().event_files)
+        assert "activity_t0001.jsonl" in sources
+        all_events: list = []
+        for name in sources:
+            events, end = reader.read_unseen(name, 0)
+            all_events.extend(events)
+            if name == "activity_t0001.jsonl":
+                assert end > 0
+        trigger_events = [e for e in all_events if e.event_type == "scheduler"]
+        assert len(trigger_events) == 1
+        assert "trigger #1 kind=service addons=hellbird:lazyaddon" in trigger_events[0].summary
+
+
+def test_collect_includes_activity_sources() -> None:
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        _write_jsonl(
+            Path(tmp) / "activity_t0002.jsonl",
+            [{"ts": "21:14:02", "task": "t0002", "worker": "scheduler", "kind": "fire", "text": "trigger #2 kind=service"}],
+        )
+        bus = build_default_bus({"enable_toasts": True}, sessions_dir=tmp)
+        events = bus.collect()
+        assert any(e.event_type == "scheduler" and "trigger #2" in e.summary for e in events)

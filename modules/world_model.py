@@ -41,7 +41,7 @@ import json
 import logging
 import os
 import threading
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields as dataclass_fields
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
@@ -61,6 +61,8 @@ PASSTHROUGH_KEYS: tuple[str, ...] = (
     "current_phase",
     "notes",
     "gyms",
+    "target",
+    "phase_updated_at",
 )
 
 
@@ -424,16 +426,20 @@ class HostEntry:
 
     @classmethod
     def from_dict(cls, d: dict) -> HostEntry:
+        raw_state = str(d.get("state", "")).strip().lower()
+        if raw_state not in {item.value for item in HostState}:
+            raw_state = HostState.UNSCANNED.value
         h = cls(
             ip=d["ip"],
-            state=HostState(d.get("state", HostState.UNSCANNED.value)),
+            state=HostState(raw_state),
             os_hint=d.get("os_hint", ""),
             notes=d.get("notes", []),
             cloud_metadata=d.get("cloud_metadata", {}),
             last_updated=d.get("last_updated", ""),
         )
+        service_fields = {f.name for f in dataclass_fields(ServiceInfo)}
         for port_str, svc in d.get("services", {}).items():
-            h.services[int(port_str)] = ServiceInfo(**svc)
+            h.services[int(port_str)] = ServiceInfo(**{k: v for k, v in svc.items() if k in service_fields})
         return h
 
 
@@ -904,11 +910,24 @@ class WorldModel:
             log.warning("consume_policy_facts: failed to read %s: %s", facts_file, exc)
             return 0
 
+        try:
+            from modules.factsio import canonical_policy_facts
+
+            hosts_cell = canonical_policy_facts(data)
+        except ImportError:
+            legacy_hosts = data.get("hosts") if isinstance(data, dict) else None
+            legacy_hosts = legacy_hosts if isinstance(legacy_hosts, dict) else {}
+            hosts_cell = legacy_hosts or {
+                key: value
+                for key, value in (data.items() if isinstance(data, dict) else [])
+                if isinstance(value, dict)
+            }
+        legacy_credentials = data.get("credentials", []) if isinstance(data, dict) else []
+        legacy_credentials = legacy_credentials if isinstance(legacy_credentials, list) else []
+
         ingested = 0
         with self._lock:
-            for host_ip, host_data in data.get("hosts", {}).items():
-                if not isinstance(host_data, dict):
-                    continue
+            for host_ip, host_data in hosts_cell.items():
                 self.add_host(host_ip)
 
                 for svc in host_data.get("services", []):
@@ -916,7 +935,7 @@ class WorldModel:
                         self.add_service(
                             ip=host_ip,
                             port=int(svc.get("port", 0)),
-                            name=str(svc.get("name", "")),
+                            name=str(svc.get("service", "") or svc.get("name", "")),
                             version=str(svc.get("version", "")),
                             protocol=str(svc.get("protocol", "tcp")),
                         )
@@ -925,22 +944,33 @@ class WorldModel:
                 if host_data.get("os_hint"):
                     self.set_os_hint(host_ip, str(host_data["os_hint"]))
 
-            for cred in data.get("credentials", []):
+                for cred in host_data.get("credentials", []):
+                    if isinstance(cred, dict) and self._cred_value(cred):
+                        self.add_credential(
+                            value=self._cred_value(cred),
+                            host=str(cred.get("host", "") or host_ip),
+                            service=str(cred.get("service", "")),
+                        )
+                        ingested += 1
+
+                for vuln in host_data.get("vulnerabilities", []):
+                    if isinstance(vuln, dict) and (vuln.get("vuln_id") or vuln.get("description")):
+                        self.add_vulnerability(
+                            description=str(
+                                vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")
+                            ),
+                            host=str(vuln.get("host", "") or host_ip),
+                            cve=str(vuln.get("vuln_id", "") or vuln.get("cve", "")),
+                            severity=str(vuln.get("severity", "UNKNOWN")),
+                        )
+                        ingested += 1
+
+            for cred in legacy_credentials:
                 if isinstance(cred, dict) and cred.get("value"):
                     self.add_credential(
                         value=str(cred["value"]),
                         host=str(cred.get("host", "")),
                         service=str(cred.get("service", "")),
-                    )
-                    ingested += 1
-
-            for vuln in data.get("vulnerabilities", []):
-                if isinstance(vuln, dict) and vuln.get("description"):
-                    self.add_vulnerability(
-                        description=str(vuln["description"]),
-                        host=str(vuln.get("host", "")),
-                        cve=str(vuln.get("cve", "")),
-                        severity=str(vuln.get("severity", "UNKNOWN")),
                     )
                     ingested += 1
 
@@ -950,6 +980,7 @@ class WorldModel:
                         domain=str(domain["domain"]),
                         host=str(domain.get("host", "")),
                     )
+                    ingested += 1
                 elif isinstance(domain, str):
                     self.add_domain(domain)
                     ingested += 1
@@ -960,12 +991,24 @@ class WorldModel:
                         address=str(email["address"]),
                         host=str(email.get("host", "")),
                     )
+                    ingested += 1
                 elif isinstance(email, str):
                     self.add_email(email)
                     ingested += 1
 
         log.info("consume_policy_facts: ingested %d facts from %s", ingested, facts_file)
         return ingested
+
+    @staticmethod
+    def _cred_value(cred: dict) -> str:
+        username = str(cred.get("username", "") or "")
+        password = str(cred.get("password", "") or "")
+        hash_value = str(cred.get("hash_value", "") or "")
+        if password:
+            return f"{username}:{password}"
+        if hash_value:
+            return hash_value
+        return username
 
     # ── Network graph ─────────────────────────────────────────────────────────
 

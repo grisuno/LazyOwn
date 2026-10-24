@@ -40,7 +40,7 @@ BTrees==6.4
 CacheControl==0.14.4
 cachetools==7.0.6
 capstone==6.0.0a7
-certifi==2026.7.22
+certifi==2026.10.19
 # NOTE: certipy-ad is intentionally NOT pinned here. It is used only as
 # an external executable (auto-detected, see modules/adcs_attacks.py),
 # and every release requires cryptography~=42, which ships known HIGH

@@ -32,6 +32,8 @@ CRED_PREFIX = "cred:"
 
 ARTIFACT_NAME = "attack_paths.json"
 
+DEFAULT_CHAIN = "gym_ms2_foothold"
+
 SEVERITY_COST: dict[str, float] = {
     "CRITICAL": 1.0,
     "HIGH": 2.0,
@@ -454,12 +456,12 @@ def push_objectives(
         if not target:
             continue
         summary = str(path.get("summary") or "")
-        text = f"Obtain foothold on {target} via {summary} (cost {cost})"
+        text = f"auto chain {DEFAULT_CHAIN} {target} :: foothold path ({summary}) cost {cost}"
         objective = store.inject(
             text,
             priority=priority_for(cost),
             source="golden_path",
-            context={"target": target, "cost": cost, "steps": path.get("steps") or []},
+            context={"target": target, "cost": cost, "steps": path.get("steps") or [], "chain": DEFAULT_CHAIN},
         )
         injected.append(objective)
     return injected

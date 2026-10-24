@@ -3406,6 +3406,13 @@ class Planner:
     def _llm_candidates(self, existing: set[str]) -> list[tuple[str, list[int], list[int], int]]:
         """Ask the configured LLM chain for extra intents; empty without members."""
         try:
+            from modules.harness import gate as _harness_gate
+
+            if not _harness_gate("plan_llm"):
+                return []
+        except Exception:
+            pass
+        try:
             from modules.lazy_loop import LlmPool as _Pool
 
             pool = _Pool()
@@ -3658,7 +3665,15 @@ class Worker:
         transcripts: list[tuple[str, str]] = []
         retry_state = {"model_errors": 0}
         intercept = InterceptQueue(self.task_id)
-        if self._agentic_try(intent, outcome, transcripts, executor, budget, intercept, retry_state):
+        try:
+            from modules.harness import gate as _harness_gate
+
+            agentic_allowed = _harness_gate("worker_agentic")
+        except Exception:
+            agentic_allowed = True
+        if agentic_allowed and self._agentic_try(
+            intent, outcome, transcripts, executor, budget, intercept, retry_state
+        ):
             return self._finish(intent, outcome, transcripts, worker_tools)
         prior_commands, prior_text = self._prior_steps(intent)
         steps = self._with_llm_steps(intent, self._steps_for(intent), prior_text)
@@ -4790,7 +4805,14 @@ class Worker:
 
     def _with_llm_steps(self, intent: ExplorationNode, steps: list[str], prior_text: str = "") -> list[str]:
         """Prefix pool-suggested commands while keeping the deterministic fallback."""
-        suggested = self._llm_steps(intent, prior_text)
+        suggested = []
+        try:
+            from modules.harness import gate as _harness_gate
+
+            if _harness_gate("worker_llm_steps"):
+                suggested = self._llm_steps(intent, prior_text)
+        except Exception:
+            suggested = []
         if not suggested:
             return steps
         merged: list[str] = []

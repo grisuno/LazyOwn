@@ -15,6 +15,8 @@ sys.path.insert(0, str(_REPO / "modules"))
 from modules import atomic_exploit_bridge as bridge  # noqa: E402
 from modules import c2_agent as agent  # noqa: E402
 
+sys.modules.setdefault("atomic_exploit_bridge", bridge)
+
 _KEY = "ab" * 32
 
 

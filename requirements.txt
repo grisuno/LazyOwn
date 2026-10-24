@@ -73,7 +73,7 @@ donut==0.2.2
 encutils==1.0.0
 executing==2.2.1
 ExifRead==3.5.1
-filelock==3.29.0
+filelock==4.2.1
 fire==0.7.1
 Flask-Limiter==4.1.1
 Flask-Login==0.6.3

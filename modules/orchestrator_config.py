@@ -293,6 +293,38 @@ def set_profile(name: str) -> dict:
     return profile_config(wanted)
 
 
+def set_harness(enabled: bool) -> dict:
+    """Persist the deterministic-harness toggle in the payload.
+
+    When enabled, the harness profile is also selected so the loop and
+    the factory agree on a local-only, deterministic regime.
+
+    Args:
+        enabled: True engages the harness; False disables the flag and
+            restores the previous profile selection.
+
+    Returns:
+        A ``{"harness": bool, "profile": str}`` summary after persisting.
+    """
+    payload = _payload()
+    section = dict(payload.get("orchestrator") or {})
+    section["harness"] = bool(enabled)
+    if enabled and section.get("profile") != "default":
+        section.setdefault("profile", active_profile())
+        section["profile"] = "harness"
+    payload["orchestrator"] = section
+    _save(payload)
+    try:
+        current = profile_config() if not bool(enabled) else profile_config("harness")
+    except Exception:
+        current = {}
+    return {
+        "harness": bool(enabled),
+        "profile": str(section.get("profile", "") or ""),
+        "chain": str(current.get("chain", "") or ""),
+    }
+
+
 def limits() -> dict:
     """Return resolved numeric limits for the active profile."""
     merged = dict(FALLBACK_LIMITS)

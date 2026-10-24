@@ -16,6 +16,7 @@ The stdio transport is used (default), matching OpenCode local MCP config.
 """
 
 import asyncio
+import json
 import sys
 from pathlib import Path
 from typing import Any
@@ -57,6 +58,121 @@ CURATED_TOOLS: dict[str, str] = {
     "atomic_clean": "lazyown_atomic_clean",
 }
 
+HARNESS_TOOLS: dict[str, dict[str, str]] = {
+    "harness_status": {
+        "description": (
+            "Report the deterministic-harness state: env/payload/profile flags, "
+            "active profile, default chain and whether cloud LLM backends are "
+            "blocked. Read-only."
+        ),
+        "schema": {"type": "object", "properties": {}},
+    },
+    "golden_paths_show": {
+        "description": (
+            "Build the deterministic golden-path attack plan from the live "
+            "world model (severity-weighted exploits, confirmed credentials, "
+            "graph relations) and show the ranked paths. Read-only: writes "
+            "sessions/attack_paths.json only."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {"top_k": {"type": "integer", "default": 5}},
+        },
+    },
+    "golden_paths_push": {
+        "description": (
+            "Inject every solved golden path into sessions/objectives.jsonl "
+            "as an 'auto chain <chain> <target>' directive so the autonomous "
+            "loop executes them in cost order."
+        ),
+        "schema": {"type": "object", "properties": {}},
+    },
+    "ctf_report": {
+        "description": (
+            "Summarise the verified CTF path captures under sessions/ctf/ "
+            "plus the gym matrix run: totals, status counts, CVE list and "
+            "per-vector records."
+        ),
+        "schema": {"type": "object", "properties": {}},
+    },
+}
+
+
+def _sync_harness() -> list[types.Tool]:
+    """Render tools wrapping the harness/golden-path/CTF module APIs.
+
+    Returns:
+        One :class:`types.Tool` per curated harness helper.
+    """
+    tools: list[types.Tool] = []
+    for short_name, spec in HARNESS_TOOLS.items():
+        tools.append(
+            types.Tool(
+                name=short_name,
+                description=str(spec.get("description") or short_name),
+                inputSchema=spec.get("schema") or {"type": "object"},
+            )
+        )
+    return tools
+
+
+def _harness_result(payload: Any) -> list[types.TextContent]:
+    return [types.TextContent(type="text", text=json.dumps(payload, indent=2, default=str))]
+
+
+def _call_harness_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
+    sys_path_root = str(_mcp_root.parent)
+    if sys_path_root not in sys.path:
+        sys.path.insert(0, sys_path_root)
+    if name == "harness_status":
+        from modules.harness import gate, harness_enabled
+        from modules.orchestrator_config import active_profile, chain_defaults
+
+        return _harness_result(
+            {
+                "harness_enabled": harness_enabled(),
+                "active_profile": active_profile(),
+                "chain": chain_defaults(),
+                "plan_llm_allowed": gate("plan_llm"),
+                "worker_agentic_allowed": gate("worker_agentic"),
+                "worker_llm_steps_allowed": gate("worker_llm_steps"),
+            }
+        )
+    if name == "golden_paths_show":
+        from modules import golden_path as _solver
+
+        top_k = int(arguments.get("top_k", 5) or 5)
+        result = _solver.build(top_k=max(1, min(top_k, 50)))
+        return _harness_result(result)
+    if name == "golden_paths_push":
+        from modules import golden_path as _solver
+
+        stored = _solver.load_artifact()
+        paths = stored.get("paths") or []
+        if not paths:
+            paths = _solver.build().get("paths") or []
+        objectives = _solver.push_objectives(paths)
+        return _harness_result(
+            {
+                "pushed": len(objectives),
+                "objectives": [
+                    {"id": obj.id, "priority": obj.priority, "text": obj.text[:140]}
+                    for obj in objectives
+                ],
+            }
+        )
+    if name == "ctf_report":
+        from modules import ctf_capture as _ctf
+        from modules import gym_matrix_runner as _matrix
+
+        return _harness_result(
+            {
+                "ctf": _ctf.summary(),
+                "matrix": _matrix.load_matrix(),
+            }
+        )
+    raise ValueError(f"Unknown harness tool '{name}'")
+
 
 @server.list_tools()
 async def list_tools() -> list[types.Tool]:
@@ -74,12 +190,15 @@ async def list_tools() -> list[types.Tool]:
                     inputSchema=original.inputSchema,
                 )
             )
+    curated.extend(_sync_harness())
     return curated
 
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
     """Proxy the short name to the full LazyOwn MCP handler."""
+    if name in HARNESS_TOOLS:
+        return _call_harness_tool(name, arguments or {})
     full_name = CURATED_TOOLS.get(name)
     if full_name is None:
         raise ValueError(f"Unknown curated tool '{name}'")

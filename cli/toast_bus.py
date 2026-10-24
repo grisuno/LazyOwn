@@ -496,10 +496,11 @@ class ToastFormatter:
         """Return a single themed line for ``event``."""
         role = self._role_for(event.severity)
         style = getattr(self._theme, role, getattr(self._theme, self._config.default_role))
+        icon = self._config.ephemeral_icons.get(str(event.severity or "").lower(), "\u2139")
         text = Text()
         text.append(f"  {self._config.prefix_glyph} ", style=self._theme.hint)
         if event.event_type:
-            text.append(f"{event.event_type} ", style=style)
+            text.append(f"{icon} {event.event_type} ", style=style)
         summary = self._truncate(event.summary or "(no detail)")
         text.append(summary, style=self._theme.muted)
         return text
@@ -518,11 +519,16 @@ class ToastFormatter:
         """Render an event as a toastr panel with the complete summary."""
         role = self._role_for(event.severity)
         border = _BORDER_BY_ROLE.get(role, "dim")
+        icon = self._config.ephemeral_icons.get(str(event.severity or "").lower(), "\u2139")
         summary = (event.summary or "(no detail)").strip()
         limit = max(1, self._config.prominent_max_chars)
         if len(summary) > limit:
-            summary = summary[:limit] + "… (truncated, see sessions log)"
-        body = Text(summary, style="default")
+            summary = summary[:limit] + "\u2026 (truncated, see sessions log)"
+        body = Text()
+        body.append(f"{icon} ", style=border)
+        body.append(summary, style="default")
+        if event.timestamp:
+            body.append(f"  ·  {event.timestamp}", style="dim")
         title = f"{event.severity.upper()} · {event.event_type}" if event.event_type else event.severity.upper()
         return Panel(
             body,

@@ -202,6 +202,8 @@ class RedTeamReportGenerator:
             if session_data:
                 data["sessions"].append(session_data)
 
+        data["ctf"] = self._collect_ctf_captures()
+
         for scan_file in sorted(SESSIONS_DIR.glob("scan_*.nmap")):
             data["scan_files"].append(str(scan_file))
 
@@ -235,6 +237,7 @@ class RedTeamReportGenerator:
         findings.extend(self._classify_vulnerabilities(data.get("vulnerabilities", []), hosts))
         findings.extend(self._classify_credentials(data.get("credentials", []), hosts))
         findings.extend(self._classify_sessions(data.get("sessions", []), hosts))
+        findings.extend(self._classify_ctf_captures(data.get("ctf", [])))
 
         findings.sort(key=lambda f: self.SEVERITY_ORDER.get(f.severity.lower(), 99))
 
@@ -755,6 +758,51 @@ class RedTeamReportGenerator:
 
         return findings
 
+    def _classify_ctf_captures(
+        self,
+        captures: list[dict[str, Any]],
+    ) -> list[ReportFinding]:
+        """Classify verified CTF captures into findings.
+
+        Args:
+            captures: Captured CTF records (status == captured).
+
+        Returns:
+            List of ReportFinding objects, one per captured path.
+        """
+        findings: list[ReportFinding] = []
+        for record in captures:
+            vuln_id = str(record.get("vuln_id") or "unknown")
+            title = f"Captured attack path: {record.get('name') or vuln_id} ({vuln_id})"
+            checks = record.get("checks") or []
+            evidence = "; ".join(
+                f"{check.get('name')}: {check.get('evidence')}"
+                for check in checks
+                if check.get("matched") and check.get("evidence")
+            )
+            findings.append(
+                ReportFinding(
+                    title=title,
+                    severity=str(record.get("severity") or "medium").lower(),
+                    description=(
+                        "Verified deterministic capture of the "
+                        f"{vuln_id} path on {record.get('target') or 'unknown'} "
+                        f"(service {record.get('service') or '-'}:{record.get('port') or '-'})."
+                    ),
+                    cve_id=str(record.get("cve") or ""),
+                    evidence=evidence or "capture verified",
+                    remediation=self.REMEDIATION_TEMPLATES.get(
+                        "unpatched_service",
+                        "Apply vendor security patches.",
+                    ),
+                    affected_hosts=[str(record.get("target") or "unknown")],
+                    references=[
+                        record.get("mitre") or "",
+                    ],
+                )
+            )
+        return findings
+
     def _classify_sessions(
         self,
         sessions: list[dict[str, Any]],
@@ -801,6 +849,25 @@ class RedTeamReportGenerator:
             )
 
         return findings
+
+    def _collect_ctf_captures(self) -> list[dict[str, Any]]:
+        """Read verified gym CTF captures per attack path.
+
+        Returns:
+            List of CTF record dicts with ``status`` == ``captured``.
+        """
+        import json as _json
+
+        captures: list[dict[str, Any]] = []
+        ctf_root = SESSIONS_DIR / "ctf"
+        for record_file in sorted(ctf_root.glob("*/record.json")):
+            try:
+                record = _json.loads(record_file.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if isinstance(record, dict) and record.get("status") == "captured":
+                captures.append(record)
+        return captures
 
     def _load_json(self, filename: str) -> dict[str, Any]:
         """Safely load a JSON file from sessions.

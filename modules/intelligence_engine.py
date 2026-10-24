@@ -415,6 +415,10 @@ class IntelligenceEngine:
     def collect_from_factstore(self) -> list[CollectedFact]:
         """Ingest structured facts from FactStore policy_facts.json.
 
+        Reads the canonical host-keyed document (legacy wrapped files are
+        resolved transparently) and collects service, OS, credential, and
+        vulnerability facts.
+
         Returns:
             List of collected facts.
         """
@@ -425,16 +429,17 @@ class IntelligenceEngine:
         new_facts: list[CollectedFact] = []
         try:
             data = json.loads(facts_path.read_text(encoding="utf-8"))
-            for host_ip, host_data in data.get("hosts", {}).items():
-                if not isinstance(host_data, dict):
-                    continue
+            from modules.factsio import canonical_policy_facts
+
+            host_records = canonical_policy_facts(data)
+            for host_ip, host_data in host_records.items():
                 for svc in host_data.get("services", []):
                     if isinstance(svc, dict):
                         new_facts.append(
                             CollectedFact(
                                 source="factstore",
                                 fact_type="service",
-                                value=svc.get("name", ""),
+                                value=str(svc.get("service", "") or svc.get("name", "")),
                                 host=host_ip,
                                 port=int(svc.get("port", 0)),
                                 confidence=0.9,
@@ -451,19 +456,53 @@ class IntelligenceEngine:
                             confidence=0.7,
                         )
                     )
-            for cred in data.get("credentials", []):
-                if isinstance(cred, dict) and cred.get("value"):
-                    val = str(cred["value"])
-                    if not self._is_placeholder(val):
+                for cred in host_data.get("credentials", []):
+                    if not isinstance(cred, dict):
+                        continue
+                    username = str(cred.get("username", "") or "")
+                    password = str(cred.get("password", "") or "")
+                    hash_value = str(cred.get("hash_value", "") or "")
+                    val = f"{username}:{password}" if password else (hash_value or username)
+                    if val and not self._is_placeholder(val):
                         new_facts.append(
                             CollectedFact(
                                 source="factstore",
                                 fact_type="credential",
                                 value=val,
-                                host=str(cred.get("host", "")),
+                                host=str(cred.get("host", "") or host_ip),
                                 confidence=0.8,
                             )
                         )
+                for vuln in host_data.get("vulnerabilities", []):
+                    if not isinstance(vuln, dict):
+                        continue
+                    vuln_id = str(vuln.get("vuln_id", "") or "")
+                    title = str(vuln.get("title", "") or "")
+                    if vuln_id or title:
+                        new_facts.append(
+                            CollectedFact(
+                                source="factstore",
+                                fact_type="vulnerability",
+                                value=vuln_id or title,
+                                host=str(vuln.get("host", "") or host_ip),
+                                confidence=0.75,
+                                metadata=vuln,
+                            )
+                        )
+            for cred in data.get("credentials", []):
+                if not isinstance(cred, dict) or not cred.get("value"):
+                    continue
+                val = str(cred["value"])
+                if not self._is_placeholder(val):
+                    new_facts.append(
+                        CollectedFact(
+                            source="factstore",
+                            fact_type="credential",
+                            value=val,
+                            host=str(cred.get("host", "")),
+                            confidence=0.8,
+                        )
+                    )
         except Exception as exc:
             self._warnings.append(f"Factstore ingestion failed: {exc}")
 

@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `set_target_session` | method | `lazygui/panels/terminal_panel.py:82` | `def set_target_session(self, session_id)` |
+| `Backend` | class | `lazygui/services/backend.py:52` | `class Backend(QObject)` |
+| `BackendDescriptor` | class | `lazygui/services/backend.py:44` | `class BackendDescriptor` |
+| `BackendStatus` | class | `lazygui/services/backend.py:33` | `class BackendStatus(StrEnum)` |
+| `__init__` | method | `lazygui/services/backend.py:81` | `def __init__(self, descriptor, parent)` |
+| `_set_status` | method | `lazygui/services/backend.py:97` | `def _set_status(self, new_status)` |
+| `descriptor` | method | `lazygui/services/backend.py:88` | `def descriptor(self)` |
+| `feed_terminal_input` | method | `lazygui/services/backend.py:124` | `def feed_terminal_input(self, data)` |
+| `known_campaigns` | method | `lazygui/services/backend.py:140` | `def known_campaigns(self)` |
+| `known_listeners` | method | `lazygui/services/backend.py:132` | `def known_listeners(self)` |
+| `known_sessions` | method | `lazygui/services/backend.py:128` | `def known_sessions(self)` |
 | `known_topology` | method | `lazygui/services/backend.py:136` | `def known_topology(self)` |
 | `refresh` | method | `lazygui/services/backend.py:116` | `def refresh(self)` |
 | `request_beacon_history` | method | `lazygui/services/backend.py:154` | `def request_beacon_history(self, client_id)` |
@@ -485,16 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
 | `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
 | `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
-| `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
-| `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
-| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
-| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
-| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
-| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
-| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
-| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
-| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
-| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
-| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

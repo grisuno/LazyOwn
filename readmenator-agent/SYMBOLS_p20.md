@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
+| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
+| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
+| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
+| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
+| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
 | `suggest` | method | `modules/reactive_engine.py:734` | `def suggest(self, output, command, platform, context)` |
 | `technique_commands_for` | method | `modules/reactive_engine.py:448` | `def technique_commands_for(self, platform, keyword)` |
 | `top_decision` | method | `modules/reactive_engine.py:958` | `def top_decision(self, output, command, platform, context)` |
@@ -180,7 +194,7 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `unload_rootkit` | function | `modules/rootkit/mr.c:314` | `void unload_rootkit()` |
 | `write_file` | function | `modules/rootkit/mr.c:145` | `void write_file(const char *path, const char *content, mode_t mode)` |
 | `xdg` | function | `modules/rootkit/mr.c:178` | `void xdg(const char *path, int admin)` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:50` | `#define FILE_HIDE_PATH` |
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:54` | `#define FILE_HIDE_PATH` |
 | `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:33` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde.c:34` | `#define HIDDEN_FILE` |
 | `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde.c:35` | `#define HIDDEN_FILE1` |
@@ -192,32 +206,32 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
 | `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:46` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:48` | `#define MAX_HIDE_PIDS` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:50` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:52` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:49` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde.c:283` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde.c:503` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:178` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde.c:557` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde.c:618` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde.c:125` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:548` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:93` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:73` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde.c:459` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde.c:678` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde.c:327` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde.c:371` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:51` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde.c:222` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde.c:145` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde.c:212` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:197` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde.c:415` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde.c:113` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde.c:157` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:53` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde.c:287` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde.c:507` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:77` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde.c:149` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde.c:216` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:201` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde.c:419` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde.c:117` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde.c:161` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
 | `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
 | `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
@@ -229,34 +243,34 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
 | `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:44` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:46` | `#define MAX_HIDE_PIDS` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:48` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:50` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:47` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde2.c:238` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde2.c:423` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:148` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde2.c:470` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde2.c:527` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde2.c:95` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:461` | `` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:63` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde2.c:386` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde2.c:583` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde2.c:275` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde2.c:312` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:48` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde2.c:182` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde2.c:115` | `int remove(const char *pathname)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:167` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde2.c:349` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde2.c:83` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde2.c:127` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:53` | `#define C2_PORT` |
-| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:52` | `#define C2_SERVER_IP` |
-| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:54` | `#define CQE_TIMEOUT_MS` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:49` | `#define FILE_HIDE_PATH` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:51` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde2.c:242` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde2.c:427` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:152` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde2.c:474` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde2.c:531` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde2.c:99` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:465` | `` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:67` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde2.c:390` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde2.c:587` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde2.c:279` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde2.c:316` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:52` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde2.c:186` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde2.c:119` | `int remove(const char *pathname)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:171` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde2.c:353` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde2.c:87` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde2.c:131` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:57` | `#define C2_PORT` |
+| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:56` | `#define C2_SERVER_IP` |
+| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:58` | `#define CQE_TIMEOUT_MS` |
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:53` | `#define FILE_HIDE_PATH` |
 | `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
 | `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
@@ -268,62 +282,62 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
 | `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:45` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_USER` |
-| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:51` | `#define IO_URING_BUFFER_SIZE` |
-| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:50` | `#define IO_URING_QUEUE_DEPTH` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:49` | `#define HIDE_USER` |
+| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:55` | `#define IO_URING_BUFFER_SIZE` |
+| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:54` | `#define IO_URING_QUEUE_DEPTH` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:51` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:52` | `#define PID_FILE_PATH` |
 | `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
-| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:76` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
-| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
-| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:73` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
-| `fopen` | function | `modules/rootkit/mrhyde3.c:407` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde3.c:535` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:297` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde3.c:569` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde3.c:605` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
-| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:176` | `static int init_root_ring(void)` |
-| `io_uring` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
-| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
-| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:57` | `` |
-| `kill` | function | `modules/rootkit/mrhyde3.c:373` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:560` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:282` | `void load_hidden_files(void)` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:268` | `void load_hidden_pids(void)` |
-| `lstat` | function | `modules/rootkit/mrhyde3.c:511` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `open` | function | `modules/rootkit/mrhyde3.c:430` | `int open(const char *pathname, int flags, ...)` |
-| `openat` | function | `modules/rootkit/mrhyde3.c:458` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:312` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde3.c:336` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde3.c:383` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:329` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:320` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde3.c:487` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:253` | `static char *traditional_read_file(const char *path)` |
-| `unlink` | function | `modules/rootkit/mrhyde3.c:367` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde3.c:389` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:163` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
-| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:130` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
-| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
-| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
-| `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
-| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
+| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
+| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:84` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
+| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:77` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
+| `fopen` | function | `modules/rootkit/mrhyde3.c:411` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde3.c:539` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:301` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde3.c:573` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde3.c:609` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
+| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:180` | `static int init_root_ring(void)` |
+| `io_uring` | struct | `modules/rootkit/mrhyde3.c:69` | `` |
+| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
+| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
+| `kill` | function | `modules/rootkit/mrhyde3.c:377` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:564` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:286` | `void load_hidden_files(void)` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:272` | `void load_hidden_pids(void)` |
+| `lstat` | function | `modules/rootkit/mrhyde3.c:515` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `open` | function | `modules/rootkit/mrhyde3.c:434` | `int open(const char *pathname, int flags, ...)` |
+| `openat` | function | `modules/rootkit/mrhyde3.c:462` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:316` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde3.c:340` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde3.c:387` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:333` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:324` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde3.c:491` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:257` | `static char *traditional_read_file(const char *path)` |
+| `unlink` | function | `modules/rootkit/mrhyde3.c:371` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde3.c:393` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:167` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
+| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:134` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
+| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:89` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
+| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:201` | `static char *uring_read_whole_file(const char *path)` |
+| `uring_submit` | function | `modules/rootkit/mrhyde3.c:145` | `static int uring_submit(struct io_uring *ring)` |
+| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:153` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
 | `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
-| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
-| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:26` | `#define HIDDEN_PROCESS_NAME` |
-| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:28` | `#define LISTENER_IP` |
-| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:29` | `#define LISTENER_PORT` |
-| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:31` | `#define SPECIAL_STRING` |
-| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:34` | `#define SPECIAL_STRING_PORT` |
-| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:181` | `static void disable_module_signature_verification(void)` |
-| `hook_syscalls` | function | `modules/rootkit/rootkit.c:195` | `static int __init hook_syscalls(void)` |
-| `hooked_getdents` | function | `modules/rootkit/rootkit.c:75` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:101` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_read` | function | `modules/rootkit/rootkit.c:127` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `regs_override_return` | function | `modules/rootkit/rootkit.c:43` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
-| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:208` | `static void __exit unhook_syscalls(void)` |
+| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:33` | `#define HIDDEN_FILE_NAME` |
+| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:30` | `#define HIDDEN_PROCESS_NAME` |
+| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:36` | `#define LISTENER_IP` |
+| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:39` | `#define LISTENER_PORT` |
+| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:42` | `#define SPECIAL_STRING` |
+| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:45` | `#define SPECIAL_STRING_PORT` |
+| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:192` | `static void disable_module_signature_verification(void)` |
+| `hook_syscalls` | function | `modules/rootkit/rootkit.c:206` | `static int __init hook_syscalls(void)` |
+| `hooked_getdents` | function | `modules/rootkit/rootkit.c:86` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:112` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `hooked_read` | function | `modules/rootkit/rootkit.c:138` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
+| `regs_override_return` | function | `modules/rootkit/rootkit.c:54` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
+| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:219` | `static void __exit unhook_syscalls(void)` |
 | `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
 | `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
 | `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
 | `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
 | `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
-| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
-| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
-| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
-| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
-| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
-| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
-| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
-| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
-| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
-| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
-| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
-| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

@@ -1,6 +1,56 @@
 # Subsystem: tests (page 9 of 20)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
+## tests/test_engagement_elo_and_methodology.py
+- Doc: Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_no_cli_operator` (function, line 31) `def _no_cli_operator(monkeypatch)`
+  - `_redirect_paths` (function, line 48) `def _redirect_paths(tmp_path)`
+  - `_restore_paths` (function, line 76) `def _restore_paths(saved)`
+  - `TestGetKarmaName` (class, line 88) `class TestGetKarmaName`
+  - `TestAwardElo` (class, line 119) `class TestAwardElo`
+  - `TestSyncUserElo` (class, line 179) `class TestSyncUserElo`
+  - `TestPersistNotification` (class, line 252) `class TestPersistNotification`
+  - `TestMethodologyRewards` (class, line 313) `class TestMethodologyRewards`
+  - `TestKarmaUp` (class, line 425) `class TestKarmaUp`
+  - `TestRenderEngagementHookIntegration` (class, line 463) `class TestRenderEngagementHookIntegration`
+  - `TestStateSnapshot` (class, line 524) `class TestStateSnapshot`
+  - `test_thresholds` (method, line 110) `def test_thresholds(self, elo, expected)`
+  - `test_base_only_for_unknown_command_and_phase` (method, line 120) `def test_base_only_for_unknown_command_and_phase(self)`
+  - `test_high_value_bonus_applied` (method, line 125) `def test_high_value_bonus_applied(self)`
+  - `test_phase_bonus_applied` (method, line 131) `def test_phase_bonus_applied(self)`
+  - `test_first_time_bonus` (method, line 137) `def test_first_time_bonus(self)`
+  - `test_new_phase_bonus` (method, line 143) `def test_new_phase_bonus(self)`
+  - `test_all_bonuses_stack` (method, line 149) `def test_all_bonuses_stack(self)`
+  - `test_do_prefix_is_stripped` (method, line 169) `def test_do_prefix_is_stripped(self)`
+  - `test_patches_matching_username` (method, line 180) `def test_patches_matching_username(self, tmp_path)`
+  - `test_silent_when_payload_missing` (method, line 199) `def test_silent_when_payload_missing(self, tmp_path)`
+  - `test_silent_when_username_not_found` (method, line 211) `def test_silent_when_username_not_found(self, tmp_path)`
+  - `test_ignores_non_positive_delta` (method, line 224) `def test_ignores_non_positive_delta(self, tmp_path)`
+  - `test_atomic_rename_leaves_no_tmp` (method, line 234) `def test_atomic_rename_leaves_no_tmp(self, tmp_path)`
+  - `test_creates_file_on_first_call` (method, line 253) `def test_creates_file_on_first_call(self, tmp_path)`
+  - `test_appends_to_existing_file` (method, line 264) `def test_appends_to_existing_file(self, tmp_path)`
+  - `test_ring_cap_drops_oldest` (method, line 277) `def test_ring_cap_drops_oldest(self, tmp_path)`
+  - `test_recovers_from_corrupt_file` (method, line 297) `def test_recovers_from_corrupt_file(self, tmp_path)`
+  - `test_task_reward_silent_when_no_file` (method, line 314) `def test_task_reward_silent_when_no_file(self, tmp_path, capsys)`
+  - `test_task_reward_renders_pending_match` (method, line 324) `def test_task_reward_renders_pending_match(self, tmp_path, capsys)`
+  - `test_task_reward_silent_when_all_done` (method, line 344) `def test_task_reward_silent_when_all_done(self, tmp_path, capsys)`
+  - `test_objective_reward_uses_phase_to_next_cmd` (method, line 361) `def test_objective_reward_uses_phase_to_next_cmd(self, tmp_path, capsys)`
+  - `test_objective_reward_silent_when_no_pending` (method, line 379) `def test_objective_reward_silent_when_no_pending(self, tmp_path, capsys)`
+  - `test_note_reward_renders_latest` (method, line 391) `def test_note_reward_renders_latest(self, tmp_path, capsys)`
+  - `test_note_reward_silent_when_empty` (method, line 412) `def test_note_reward_silent_when_empty(self, tmp_path, capsys)`
+  - `test_fires_on_threshold_crossing` (method, line 426) `def test_fires_on_threshold_crossing(self, tmp_path, capsys)`
+  - `test_idempotent_when_no_threshold_cross` (method, line 440) `def test_idempotent_when_no_threshold_cross(self, capsys)`
+  - `test_persists_notification` (method, line 447) `def test_persists_notification(self, tmp_path)`
+  - `test_elo_accumulates_across_commands` (method, line 464) `def test_elo_accumulates_across_commands(self, tmp_path)`
+  - `test_first_time_bonus_only_once_per_command` (method, line 479) `def test_first_time_bonus_only_once_per_command(self, tmp_path)`
+  - `test_users_json_syncd_when_payload_present` (method, line 493) `def test_users_json_syncd_when_payload_present(self, tmp_path)`
+  - `test_disabled_flag_is_noop` (method, line 508) `def test_disabled_flag_is_noop(self, tmp_path, capsys)`
+  - `test_returns_required_keys` (method, line 525) `def test_returns_required_keys(self, tmp_path)`
+- Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
+
 ## tests/test_estorides_fusion.py
 - Doc: Estorides OSINT fusion: load, merge, surface readers.
 - Layer: testing
@@ -430,52 +480,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `__call__` (method, line 45) `def __call__(self)`
   - `__init__` (method, line 54) `def __init__(self, returncode, stdout, stderr)`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-
-## tests/test_gym_matrix_ctf.py
-- Doc: Contract tests for gym matrix runner and CTF capture.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `CtfCaptureSpec` (class, line 13) `class CtfCaptureSpec(TestCase)`
-  - `GymMatrixRunnerSpec` (class, line 62) `class GymMatrixRunnerSpec(TestCase)`
-  - `ReportIntegrationSpec` (class, line 120) `class ReportIntegrationSpec(TestCase)`
-  - `test_root_shell_capture` (method, line 16) `def test_root_shell_capture(self)`
-  - `test_failed_capture_without_evidence` (method, line 29) `def test_failed_capture_without_evidence(self)`
-  - `test_unknown_vuln_rejected` (method, line 39) `def test_unknown_vuln_rejected(self)`
-  - `test_shadow_evidence_masked` (method, line 44) `def test_shadow_evidence_masked(self)`
-  - `test_load_artifact` (method, line 57) `def test_load_artifact(self)`
-  - `test_plan_ordered_by_severity` (method, line 65) `def test_plan_ordered_by_severity(self)`
-  - `test_plan_isolates_only_filter` (method, line 72) `def test_plan_isolates_only_filter(self)`
-  - `test_plan_rejects_empty_target` (method, line 76) `def test_plan_rejects_empty_target(self)`
-  - `test_run_matrix_dry_run_writes_no_capture` (method, line 80) `def test_run_matrix_dry_run_writes_no_capture(self)`
-  - `test_run_matrix_executes_and_captures` (method, line 91) `def test_run_matrix_executes_and_captures(self)`
-  - `test_run_matrix_flags_missing_chain` (method, line 110) `def test_run_matrix_flags_missing_chain(self)`
-  - `test_captured_findings_enter_report` (method, line 123) `def test_captured_findings_enter_report(self)`
-  - `executor` (function, line 92) `def executor(cmd)`
-- Depends on: `modules/__init__.py`, `modules/professional_report.py`
-
-## tests/test_gym_ms2_cli.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_gym_ms2_chains_lists_index` (function, line 4) `def test_gym_ms2_chains_lists_index(capsys)`
-- Depends on: `cli/commands/redteam_gym.py`
-
-## tests/test_gym_registry.py
-- Doc: Gym YAML catalogue and persistent world-model run state.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sandbox` (function, line 14) `def sandbox(tmp_path, monkeypatch)`
-  - `_write_definition` (function, line 35) `def _write_definition(directory, gym_id)`
-  - `test_shipped_catalogue_loads` (function, line 63) `def test_shipped_catalogue_loads()`
-  - `test_definition_crud_is_confined` (function, line 71) `def test_definition_crud_is_confined(sandbox, tmp_path)`
-  - `test_start_status_stop_all_persists` (function, line 93) `def test_start_status_stop_all_persists(sandbox)`
-  - `test_stop_by_id_and_name` (function, line 116) `def test_stop_by_id_and_name(sandbox)`
-  - `test_submit_requires_disambiguation` (function, line 129) `def test_submit_requires_disambiguation(sandbox)`
-  - `test_delete_refuses_active_definition` (function, line 145) `def test_delete_refuses_active_definition(sandbox)`
-  - `test_legacy_active_files_are_imported_once` (function, line 156) `def test_legacy_active_files_are_imported_once(sandbox, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

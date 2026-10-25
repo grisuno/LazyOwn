@@ -3,6 +3,48 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestNotificationBroadcaster` | class | `tests/test_engage_orchestrator.py:139` | `class TestNotificationBroadcaster` |
+| `TestShellObtainedPublisher` | class | `tests/test_engage_orchestrator.py:191` | `class TestShellObtainedPublisher` |
+| `TestStaticFallbackResolver` | class | `tests/test_engage_orchestrator.py:451` | `class TestStaticFallbackResolver` |
+| `TestStdinApprovalSink` | class | `tests/test_engage_orchestrator.py:431` | `class TestStdinApprovalSink` |
+| `TestWiring` | class | `tests/test_engage_orchestrator.py:676` | `class TestWiring` |
+| `_BoomSink` | class | `tests/test_engage_orchestrator.py:165` | `class _BoomSink(INotificationSink)` |
+| `_CountingSink` | class | `tests/test_engage_orchestrator.py:145` | `class _CountingSink(INotificationSink)` |
+| `_GoodSink` | class | `tests/test_engage_orchestrator.py:173` | `class _GoodSink(INotificationSink)` |
+| `_NoOpGate` | class | `tests/test_engage_orchestrator.py:497` | `class _NoOpGate` |
+| `_RecordingSink` | class | `tests/test_engage_orchestrator.py:280` | `class _RecordingSink` |
+| `_RejectingGate` | class | `tests/test_engage_orchestrator.py:508` | `class _RejectingGate` |
+| `_ScriptedRunner` | class | `tests/test_engage_orchestrator.py:473` | `class _ScriptedRunner` |
+| `__init__` | method | `tests/test_engage_orchestrator.py:146` | `def __init__(self, name)` |
+| `__init__` | method | `tests/test_engage_orchestrator.py:283` | `def __init__(self)` |
+| `__init__` | method | `tests/test_engage_orchestrator.py:481` | `def __init__(self, scripted)` |
+| `__init__` | method | `tests/test_engage_orchestrator.py:509` | `def __init__(self, rejected_phase)` |
+| `_injected_sleep` | function | `tests/test_engage_orchestrator.py:330` | `def _injected_sleep(_seconds)` |
+| `announce` | method | `tests/test_engage_orchestrator.py:287` | `def announce(self, request)` |
+| `deliver` | method | `tests/test_engage_orchestrator.py:153` | `def deliver(self, event)` |
+| `deliver` | method | `tests/test_engage_orchestrator.py:170` | `def deliver(self, event)` |
+| `deliver` | method | `tests/test_engage_orchestrator.py:178` | `def deliver(self, event)` |
+| `name` | method | `tests/test_engage_orchestrator.py:150` | `def name(self)` |
+| `name` | method | `tests/test_engage_orchestrator.py:167` | `def name(self)` |
+| `name` | method | `tests/test_engage_orchestrator.py:175` | `def name(self)` |
+| `name` | method | `tests/test_engage_orchestrator.py:493` | `def name(self)` |
+| `policy_module` | function | `tests/test_engage_orchestrator.py:270` | `def policy_module(temp_sessions, monkeypatch)` |
+| `request` | method | `tests/test_engage_orchestrator.py:498` | `def request(self, target, phase, command, reason)` |
+| `request` | method | `tests/test_engage_orchestrator.py:512` | `def request(self, target, phase, command, reason)` |
+| `resolution_for` | method | `tests/test_engage_orchestrator.py:290` | `def resolution_for(self, approval_id)` |
+| `run` | method | `tests/test_engage_orchestrator.py:485` | `def run(self, command, timeout)` |
+| `temp_sessions` | function | `tests/test_engage_orchestrator.py:47` | `def temp_sessions(tmp_path, monkeypatch)` |
+| `test_accepts_hostname` | method | `tests/test_engage_orchestrator.py:248` | `def test_accepts_hostname(self)` |
+| `test_accepts_ipv4` | method | `tests/test_engage_orchestrator.py:242` | `def test_accepts_ipv4(self)` |
+| `test_announce_writes_pending_record` | method | `tests/test_engage_orchestrator.py:386` | `def test_announce_writes_pending_record(self, policy_module, temp_sessions)` |
+| `test_approval_gate_defaults_to_true_when_key_missing` | method | `tests/test_engage_orchestrator.py:708` | `def test_approval_gate_defaults_to_true_when_key_missing(self, tmp_path)` |
+| `test_auto_approve_true_returns_approved_for_gated_phase` | method | `tests/test_engage_orchestrator.py:295` | `def test_auto_approve_true_returns_approved_for_gated_phase(self, policy_module, temp_sessions)` |
+| `test_client_id_is_sanitised` | method | `tests/test_engage_orchestrator.py:223` | `def test_client_id_is_sanitised(self, temp_sessions)` |
+| `test_daemon_has_engage_subcommand` | method | `tests/test_engage_orchestrator.py:698` | `def test_daemon_has_engage_subcommand(self)` |
+| `test_denied_step_is_skipped` | method | `tests/test_engage_orchestrator.py:585` | `def test_denied_step_is_skipped(self, temp_sessions, policy_module)` |
+| `test_do_engage_method_exists_in_lazyown` | method | `tests/test_engage_orchestrator.py:677` | `def test_do_engage_method_exists_in_lazyown(self)` |
+| `test_engage_approve_accepts_valid_decision` | method | `tests/test_engage_orchestrator.py:662` | `def test_engage_approve_accepts_valid_decision(self, temp_sessions, policy_module)` |
+| `test_engage_approve_rejects_bad_decision` | method | `tests/test_engage_orchestrator.py:656` | `def test_engage_approve_rejects_bad_decision(self, temp_sessions, policy_module)` |
 | `test_engage_status_returns_pending_approvals_structure` | method | `tests/test_engage_orchestrator.py:648` | `def test_engage_status_returns_pending_approvals_structure(self, temp_sessions, policy_module)` |
 | `test_engage_target_rejects_invalid` | method | `tests/test_engage_orchestrator.py:633` | `def test_engage_target_rejects_invalid(self, temp_sessions, policy_module)` |
 | `test_engage_target_returns_engagement_id` | method | `tests/test_engage_orchestrator.py:639` | `def test_engage_target_returns_engagement_id(self, temp_sessions, policy_module)` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_gym_status_explains_live_shell_without_gym` | function | `tests/test_gym_cli.py:82` | `def test_gym_status_explains_live_shell_without_gym(sandbox, monkeypatch, capsys)` |
 | `test_gym_status_filters_hosts_by_current_target` | function | `tests/test_gym_cli.py:103` | `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)` |
 | `test_gym_stop_all_and_by_name` | function | `tests/test_gym_cli.py:65` | `def test_gym_stop_all_and_by_name(sandbox, capsys)` |
-| `test_gym_stop_without_active_is_clean` | function | `tests/test_gym_cli.py:32` | `def test_gym_stop_without_active_is_clean(sandbox, capsys)` |
-| `test_gym_top_aliases_leaderboard` | function | `tests/test_gym_cli.py:97` | `def test_gym_top_aliases_leaderboard(sandbox, capsys)` |
-| `_FakeDocker` | class | `tests/test_gym_lifecycle.py:38` | `class _FakeDocker` |
-| `__call__` | method | `tests/test_gym_lifecycle.py:45` | `def __call__(self)` |
-| `__init__` | method | `tests/test_gym_lifecycle.py:41` | `def __init__(self, responses)` |
-| `__init__` | method | `tests/test_gym_lifecycle.py:54` | `def __init__(self, returncode, stdout, stderr)` |
-| `_result` | class | `tests/test_gym_lifecycle.py:53` | `class _result` |
-| `sandbox` | function | `tests/test_gym_lifecycle.py:20` | `def sandbox(tmp_path, monkeypatch)` |
-| `test_cleanup_gym_machines_stops_all` | function | `tests/test_gym_lifecycle.py:162` | `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)` |
-| `test_start_removes_stale_container_first` | function | `tests/test_gym_lifecycle.py:107` | `def test_start_removes_stale_container_first(sandbox, monkeypatch)` |
-| `test_start_spins_scenario_and_resolves_ip` | function | `tests/test_gym_lifecycle.py:60` | `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)` |
-| `test_start_without_docker_degrades_gracefully` | function | `tests/test_gym_lifecycle.py:99` | `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)` |
-| `test_start_without_lab_flag_still_registers` | function | `tests/test_gym_lifecycle.py:89` | `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)` |
-| `test_stop_keeps_scenario_with_active_runs` | function | `tests/test_gym_lifecycle.py:142` | `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)` |
-| `test_stop_teardowns_scenario_container` | function | `tests/test_gym_lifecycle.py:122` | `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)` |
-| `CtfCaptureSpec` | class | `tests/test_gym_matrix_ctf.py:13` | `class CtfCaptureSpec(TestCase)` |
-| `GymMatrixRunnerSpec` | class | `tests/test_gym_matrix_ctf.py:62` | `class GymMatrixRunnerSpec(TestCase)` |
-| `ReportIntegrationSpec` | class | `tests/test_gym_matrix_ctf.py:120` | `class ReportIntegrationSpec(TestCase)` |
-| `executor` | function | `tests/test_gym_matrix_ctf.py:92` | `def executor(cmd)` |
-| `test_captured_findings_enter_report` | method | `tests/test_gym_matrix_ctf.py:123` | `def test_captured_findings_enter_report(self)` |
-| `test_failed_capture_without_evidence` | method | `tests/test_gym_matrix_ctf.py:29` | `def test_failed_capture_without_evidence(self)` |
-| `test_load_artifact` | method | `tests/test_gym_matrix_ctf.py:57` | `def test_load_artifact(self)` |
-| `test_plan_isolates_only_filter` | method | `tests/test_gym_matrix_ctf.py:72` | `def test_plan_isolates_only_filter(self)` |
-| `test_plan_ordered_by_severity` | method | `tests/test_gym_matrix_ctf.py:65` | `def test_plan_ordered_by_severity(self)` |
-| `test_plan_rejects_empty_target` | method | `tests/test_gym_matrix_ctf.py:76` | `def test_plan_rejects_empty_target(self)` |
-| `test_root_shell_capture` | method | `tests/test_gym_matrix_ctf.py:16` | `def test_root_shell_capture(self)` |
-| `test_run_matrix_dry_run_writes_no_capture` | method | `tests/test_gym_matrix_ctf.py:80` | `def test_run_matrix_dry_run_writes_no_capture(self)` |
-| `test_run_matrix_executes_and_captures` | method | `tests/test_gym_matrix_ctf.py:91` | `def test_run_matrix_executes_and_captures(self)` |
-| `test_run_matrix_flags_missing_chain` | method | `tests/test_gym_matrix_ctf.py:110` | `def test_run_matrix_flags_missing_chain(self)` |
-| `test_shadow_evidence_masked` | method | `tests/test_gym_matrix_ctf.py:44` | `def test_shadow_evidence_masked(self)` |
-| `test_unknown_vuln_rejected` | method | `tests/test_gym_matrix_ctf.py:39` | `def test_unknown_vuln_rejected(self)` |
-| `test_gym_ms2_chains_lists_index` | function | `tests/test_gym_ms2_cli.py:4` | `def test_gym_ms2_chains_lists_index(capsys)` |
-| `_write_definition` | function | `tests/test_gym_registry.py:35` | `def _write_definition(directory, gym_id)` |
-| `sandbox` | function | `tests/test_gym_registry.py:14` | `def sandbox(tmp_path, monkeypatch)` |
-| `test_definition_crud_is_confined` | function | `tests/test_gym_registry.py:71` | `def test_definition_crud_is_confined(sandbox, tmp_path)` |
-| `test_delete_refuses_active_definition` | function | `tests/test_gym_registry.py:145` | `def test_delete_refuses_active_definition(sandbox)` |
-| `test_legacy_active_files_are_imported_once` | function | `tests/test_gym_registry.py:156` | `def test_legacy_active_files_are_imported_once(sandbox, monkeypatch)` |
-| `test_shipped_catalogue_loads` | function | `tests/test_gym_registry.py:63` | `def test_shipped_catalogue_loads()` |
-| `test_start_status_stop_all_persists` | function | `tests/test_gym_registry.py:93` | `def test_start_status_stop_all_persists(sandbox)` |
-| `test_stop_by_id_and_name` | function | `tests/test_gym_registry.py:116` | `def test_stop_by_id_and_name(sandbox)` |
-| `test_submit_requires_disambiguation` | function | `tests/test_gym_registry.py:129` | `def test_submit_requires_disambiguation(sandbox)` |
-| `ChainDirectiveSpec` | class | `tests/test_harness_mode.py:123` | `class ChainDirectiveSpec(TestCase)` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

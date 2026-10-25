@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
+| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
+| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
 | `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
 | `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
 | `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
 | `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
 | `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
-| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
-| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
-| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
-| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
-| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
-| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

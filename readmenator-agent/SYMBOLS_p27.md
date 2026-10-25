@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_minimal_plan_from_nmap` | function | `skills/sessions_watcher.py:175` | `def _minimal_plan_from_nmap(content)` |
+| `_run_poll_loop` | function | `skills/sessions_watcher.py:402` | `def _run_poll_loop()` |
+| `_run_watchdog` | function | `skills/sessions_watcher.py:388` | `def _run_watchdog()` |
+| `_scan` | function | `skills/sessions_watcher.py:406` | `def _scan()` |
+| `main` | function | `skills/sessions_watcher.py:430` | `def main()` |
+| `on_created` | method | `skills/sessions_watcher.py:376` | `def on_created(self, event)` |
+| `on_modified` | method | `skills/sessions_watcher.py:380` | `def on_modified(self, event)` |
+| `add_nopasswd` | function | `skills/setup.sh:92` | `` |
+| `die` | function | `skills/setup.sh:17` | `` |
+| `info` | function | `skills/setup.sh:15` | `` |
+| `paths_for_sudo` | function | `skills/setup.sh:61` | `` |
+| `warn` | function | `skills/setup.sh:16` | `` |
+| `EnsembleResult` | class | `skills/swan_agent.py:183` | `class EnsembleResult` |
+| `ExpertExecutor` | class | `skills/swan_agent.py:332` | `class ExpertExecutor` |
 | `ExpertVote` | class | `skills/swan_agent.py:172` | `class ExpertVote` |
 | `IResultAggregator` | class | `skills/swan_agent.py:205` | `class IResultAggregator(ABC)` |
 | `ISwanOrchestrator` | class | `skills/swan_agent.py:222` | `class ISwanOrchestrator(ABC)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `Yi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `Ys` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `Zi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Zn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Zp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `_r` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `_s` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `a` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `ao` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `as` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `as` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `b` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `bi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `bp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `c` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `c` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `cf` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

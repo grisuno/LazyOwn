@@ -191,7 +191,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `from_payload` (method, line 403) `def from_payload(cls, payload)`
   - `from_payload_file` (method, line 408) `def from_payload_file(cls, path)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-- Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
+- Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
 
 ## modules/beacon_history.py
 - Doc: Persistent beacon command/result history storage.
@@ -314,23 +314,23 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_unverified_context` (function, line 78) `def _unverified_context()`
   - `client_id_for` (function, line 88) `def client_id_for(target, privilege)`
   - `validate_client_id` (function, line 113) `def validate_client_id(raw)`
-  - `build_agent` (function, line 376) `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)`
-  - `_ensure_key` (function, line 426) `def _ensure_key()`
-  - `_restore_key_from_snapshot` (function, line 457) `def _restore_key_from_snapshot()`
-  - `_snapshot_key` (function, line 480) `def _snapshot_key(aes_hex)`
-  - `read_aes_hex` (function, line 492) `def read_aes_hex()`
-  - `deploy` (function, line 497) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
-  - `read_records` (function, line 603) `def read_records(client_id, limit)`
-  - `wait_record` (function, line 620) `def wait_record(client_id, command, since, timeout)`
-  - `C2Server` (class, line 634) `class C2Server`
-  - `__init__` (method, line 637) `def __init__(self, port, user, password)`
-  - `_pid` (method, line 642) `def _pid(self)`
-  - `status` (method, line 654) `def status(self)`
-  - `start` (method, line 686) `def start(self)`
-  - `stop` (method, line 717) `def stop(self)`
-  - `ensure_http_listener` (method, line 740) `def ensure_http_listener(self, http_port, auth)`
-  - `_api` (function, line 748) `def _api(path, data)`
-- Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+  - `build_agent` (function, line 388) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
+  - `_ensure_key` (function, line 451) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 482) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 505) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 517) `def read_aes_hex()`
+  - `deploy` (function, line 522) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 642) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 659) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 673) `class C2Server`
+  - `__init__` (method, line 676) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 681) `def _pid(self)`
+  - `status` (method, line 693) `def status(self)`
+  - `start` (method, line 725) `def start(self)`
+  - `stop` (method, line 756) `def stop(self)`
+  - `ensure_http_listener` (method, line 779) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 787) `def _api(path, data)`
+- Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 - Imported by: `cli/commands/c2_session.py`
 
 ## modules/c2_builder.py
@@ -338,29 +338,31 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `_resolve_go_bin` (function, line 44) `def _resolve_go_bin()`
-  - `_ensure_go` (function, line 59) `def _ensure_go(cmd_fn)`
-  - `C2Profile` (class, line 76) `class C2Profile`
-  - `_preflight` (function, line 160) `def _preflight(profile)`
-  - `_render_template` (function, line 169) `def _render_template(content, context)`
-  - `_resolve_fallback_urls` (function, line 180) `def _resolve_fallback_urls(params)`
-  - `_go_string_list` (function, line 220) `def _go_string_list(urls)`
-  - `_parse_go_version` (function, line 234) `def _parse_go_version(text)`
-  - `_command_output` (function, line 249) `def _command_output(argv, timeout)`
-  - `_go_build_version` (function, line 268) `def _go_build_version(go_bin, target)`
-  - `_garble_matches_toolchain` (function, line 287) `def _garble_matches_toolchain(go_bin, garble_bin)`
-  - `_build_compile_commands` (function, line 310) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
-  - `_build_context` (function, line 361) `def _build_context(sessions_dir)`
-  - `C2Builder` (class, line 392) `class C2Builder`
-  - `_replacer` (function, line 173) `def _replacer(match)`
-  - `__init__` (method, line 395) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-  - `_ensure_garble_toolchain` (method, line 413) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
-  - `run` (method, line 453) `def run(self, line, choice, use_tunnel)`
-  - `_read` (function, line 641) `def _read(path_)`
-  - `_read_required` (function, line 648) `def _read_required(path_)`
-  - `_write` (function, line 652) `def _write(path_, content)`
-- Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+  - `_resolve_go_bin` (function, line 45) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 60) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 77) `class C2Profile`
+  - `_preflight` (function, line 161) `def _preflight(profile)`
+  - `_render_template` (function, line 170) `def _render_template(content, context)`
+  - `_resolve_fallback_urls` (function, line 181) `def _resolve_fallback_urls(params)`
+  - `_go_string_list` (function, line 221) `def _go_string_list(urls)`
+  - `_lkm_makefile_text` (function, line 238) `def _lkm_makefile_text(listener_ip, listener_port)`
+  - `_beacon_scan_ports_csv` (function, line 274) `def _beacon_scan_ports_csv(params)`
+  - `_parse_go_version` (function, line 291) `def _parse_go_version(text)`
+  - `_command_output` (function, line 306) `def _command_output(argv, timeout)`
+  - `_go_build_version` (function, line 325) `def _go_build_version(go_bin, target)`
+  - `_garble_matches_toolchain` (function, line 344) `def _garble_matches_toolchain(go_bin, garble_bin)`
+  - `_build_compile_commands` (function, line 367) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
+  - `_build_context` (function, line 418) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 449) `class C2Builder`
+  - `_replacer` (function, line 174) `def _replacer(match)`
+  - `__init__` (method, line 452) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `_ensure_garble_toolchain` (method, line 470) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
+  - `run` (method, line 510) `def run(self, line, choice, use_tunnel)`
+  - `_read` (function, line 713) `def _read(path_)`
+  - `_read_required` (function, line 720) `def _read_required(path_)`
+  - `_write` (function, line 724) `def _write(path_, content)`
+- Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
 
 ## modules/c2_messaging_base.py
 - Doc: SecureSessionManager: Unified session manager for C2 messaging bots.

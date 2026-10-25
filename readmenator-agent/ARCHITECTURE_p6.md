@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_param_registry.py` -> `cli/commands/params_ops.py`
+- `tests/test_param_registry.py` -> `cli/lazy_orchestrator.py`
+- `tests/test_param_registry.py` -> `cli/registry.py`
+- `tests/test_param_registry.py` -> `core/param_registry.py`
+- `tests/test_param_registry.py` -> `core/payload_schema.py`
+- `tests/test_param_registry.py` -> `lazyc2/addon_creator.py`
+- `tests/test_payload_factory.py` -> `modules/payload_factory.py`
+- `tests/test_payload_schema.py` -> `cli/assign.py`
+- `tests/test_payload_schema.py` -> `core/payload_schema.py`
+- `tests/test_payload_schema.py` -> `modules/llm_factory.py`
+- `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
+- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
+- `tests/test_phase1_data_gaps.py` -> `modules/obs_parser.py`
+- `tests/test_phase1_data_gaps.py` -> `modules/world_model.py`
+- `tests/test_phase_labels.py` -> `cli/contextual_help.py`
+- `tests/test_phase_labels.py` -> `cli/phase_labels.py`
 - `tests/test_phase_labels.py` -> `cli/tips_engine.py`
 - `tests/test_php2shell_addon.py` -> `core/param_registry.py`
 - `tests/test_php2shell_addon.py` -> `core/payload_schema.py`
@@ -95,6 +111,8 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_session_ops_command_set.py` -> `cli/commands/misc_migrated.py`
 - `tests/test_session_ops_command_set.py` -> `cli/commands/session_ops.py`
 - `tests/test_session_ops_command_set.py` -> `cli/registry.py`
+- `tests/test_session_secrets.py` -> `core/config.py`
+- `tests/test_session_secrets.py` -> `core/session_secrets.py`
 - `tests/test_sessions_browser.py` -> `cli/sessions_browser.py`
 - `tests/test_shell_semantics.py` -> `cli/commands/privilege_escalation.py`
 - `tests/test_shell_semantics.py` -> `core/hardening.py`
@@ -160,6 +178,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `utils.py` -> `core/console.py`
 - `utils.py` -> `core/crypto.py`
 - `utils.py` -> `core/dependencies.py`
+- `utils.py` -> `core/logging.py`
 - `utils.py` -> `core/parsers.py`
 - `utils.py` -> `core/process.py`
 - `utils.py` -> `core/safe_subprocess.py`

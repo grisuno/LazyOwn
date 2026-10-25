@@ -44,6 +44,21 @@ from cli.cli_enhancements import (
 )
 from cli.commands._base import LazyOwnCommandSet
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+_HYGIENE_REPORT_PATH = Path("sessions/hygiene_report.json")
+_HYGIENE_RAT_KEY_LEN = 64
+_HYGIENE_LEGACY_RAT_KEY = "82e672ae054aa4de6f042c888111686a"
+_HYGIENE_HMAC_KEY = "c2_require_beacon_hmac"
+_HYGIENE_FLAG_KEYS = ("auto_privesc_on_checkin", "auto_discover_on_checkin")
+_HYGIENE_ARTIFACT_FILES = (
+    "modules/rootkit/rootkit.c",
+    "modules/rootkit/rootkit.c.bkp.c",
+    "modules/backdoor/backdoor.c",
+    "sessions/implant/implant_crypt.go",
+)
+_HYGIENE_LEAK_MARKERS = ("10.10.14.10", 'TEXT("Hacked")', "Your Device Has Been Hacked")
+
 _FORM_SPECS: dict[str, FormSpec] = {
     "phishing": FormSpec(
         command="phishing",
@@ -299,6 +314,81 @@ class AuditCommandSet(LazyOwnCommandSet):
             return
         for s in completer.complete(command, partial):
             self._cmd.poutput(f"  {s.text:<30} {s.description[:60]}")
+
+    @with_category("Audit")
+    def do_hygiene_audit(self, statement) -> None:
+        """Audit local deployment hygiene. Usage: hygiene_audit.
+
+        Checks beacon HMAC enforcement, signing-key freshness, noisy
+        check-in pipeline flags and identity leaks in shipped artifact
+        sources, then writes sessions/hygiene_report.json.
+        """
+        findings = collect_hygiene_findings(dict(self.payload or {}))
+        report_path = _HYGIENE_REPORT_PATH
+        try:
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(json.dumps(findings, indent=2) + "\n")
+        except OSError as exc:
+            self._cmd.poutput(f"cannot write {report_path}: {exc}")
+        self._cmd.poutput(f"beacon_hmac_required : {findings['beacon_hmac_required']}")
+        self._cmd.poutput(f"rat_key_fresh        : {findings['rat_key_fresh']}")
+        for key, noisy in findings["noisy_flags"].items():
+            self._cmd.poutput(f"noisy_flag {key:<24}: {noisy}")
+        leaks = findings["artifact_leaks"]
+        if not any(leaks.values()):
+            self._cmd.poutput("artifact_leaks       : none")
+        else:
+            for path, markers in leaks.items():
+                if markers:
+                    self._cmd.poutput(f"artifact_leak {path}: {', '.join(markers)}")
+        self._cmd.poutput(f"findings_count       : {findings['findings_count']}")
+        self._cmd.poutput(f"report               : {report_path}")
+        self._cmd.last_result = findings
+
+
+def collect_hygiene_findings(payload: dict[str, Any]) -> dict[str, Any]:
+    """Collect audit-hygiene findings from payload and artifact sources.
+
+    Args:
+        payload: Live payload mapping (usually the shell params snapshot).
+
+    Returns:
+        Findings dict with keys ``beacon_hmac_required``, ``rat_key_fresh``,
+        ``noisy_flags``, ``artifact_leaks`` and ``findings_count``.
+    """
+
+    def _truthy(raw: Any) -> bool:
+        return str(raw).strip().lower() in ("true", "1", "yes", "on")
+
+    rat_key = str(payload.get("rat_key", "") or "")
+    rat_key_fresh = (
+        len(rat_key) == _HYGIENE_RAT_KEY_LEN
+        and all(c in "0123456789abcdef" for c in rat_key)
+        and rat_key != _HYGIENE_LEGACY_RAT_KEY
+    )
+    noisy_flags = {key: _truthy(payload.get(key, False)) for key in _HYGIENE_FLAG_KEYS}
+    artifact_leaks: dict[str, list[str]] = {}
+    for relative in _HYGIENE_ARTIFACT_FILES:
+        try:
+            text = (BASE_DIR / relative).read_text(errors="replace")
+        except OSError:
+            continue
+        leaks = [marker for marker in _HYGIENE_LEAK_MARKERS if marker in text]
+        if leaks:
+            artifact_leaks[relative] = leaks
+    findings_count = (
+        (0 if _truthy(payload.get(_HYGIENE_HMAC_KEY, True)) else 1)
+        + (0 if rat_key_fresh else 1)
+        + sum(1 for noisy in noisy_flags.values() if noisy)
+        + sum(len(markers) for markers in artifact_leaks.values())
+    )
+    return {
+        "beacon_hmac_required": _truthy(payload.get(_HYGIENE_HMAC_KEY, True)),
+        "rat_key_fresh": rat_key_fresh,
+        "noisy_flags": noisy_flags,
+        "artifact_leaks": artifact_leaks,
+        "findings_count": findings_count,
+    }
 
 
 def _read_credentials(shell: Any) -> list[str]:

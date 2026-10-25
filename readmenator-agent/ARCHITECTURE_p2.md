@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/dashboard_tui.py` -> `cli/toast_bus.py`
 - `cli/dashboard_tui.py` -> `modules/killchain.py`
 - `cli/dashboard_tui.py` -> `modules/world_model.py`
 - `cli/doctor.py` -> `cli/wizard.py`
@@ -218,6 +219,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `core/safe_subprocess.py` -> `core/safe_exec.py`
 - `core/scheduler.py` -> `core/logging.py`
 - `core/security.py` -> `core/logging.py`
+- `core/session_secrets.py` -> `core/config.py`
+- `core/session_secrets.py` -> `core/logging.py`
 - `core/validators.py` -> `core/console.py`
 - `core/validators.py` -> `core/host_policy.py`
 - `discord_c2.py` -> `core/parsers.py`
@@ -232,10 +235,12 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `cli/auto_crypto.py`
 - `lazyc2.py` -> `cli/palette.py`
 - `lazyc2.py` -> `cli/palette_command.py`
+- `lazyc2.py` -> `core/config.py`
 - `lazyc2.py` -> `core/hardening.py`
 - `lazyc2.py` -> `core/logging.py`
 - `lazyc2.py` -> `core/parsers.py`
 - `lazyc2.py` -> `core/reverse_shell_secret.py`
+- `lazyc2.py` -> `core/session_secrets.py`
 - `lazyc2.py` -> `lazyc2/blueprints/__init__.py`
 - `lazyc2.py` -> `lazyc2/extensions/users.py`
 - `lazyc2.py` -> `lazyc2/security/command_allowlist.py`
@@ -491,10 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/command_palette_list.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/event_log_view.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/status_badge.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/backend.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/models.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

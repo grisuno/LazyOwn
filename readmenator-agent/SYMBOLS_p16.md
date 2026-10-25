@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_missing_tool` | method | `modules/lazy_loop.py:4744` | `def _missing_tool(self, command)` |
+| `_noa_archive` | method | `modules/lazy_loop.py:5517` | `def _noa_archive(self, signature, members, anchors)` |
+| `_noa_enabled` | function | `modules/lazy_loop.py:702` | `def _noa_enabled()` |
+| `_normalize_refs` | method | `modules/lazy_loop.py:1758` | `def _normalize_refs(raw)` |
+| `_now` | function | `modules/lazy_loop.py:744` | `def _now()` |
+| `_open_shell_session` | method | `modules/lazy_loop.py:4311` | `def _open_shell_session(self, intent)` |
+| `_origin_fact` | method | `modules/lazy_loop.py:3224` | `def _origin_fact(self)` |
+| `_parts` | method | `modules/lazy_loop.py:7814` | `def _parts(self, task_id)` |
+| `_persist` | method | `modules/lazy_loop.py:976` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:1147` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:1843` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:2578` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:2618` | `def _persist(self)` |
+| `_prior_steps` | method | `modules/lazy_loop.py:3614` | `def _prior_steps(self, intent)` |
 | `_reader` | function | `modules/lazy_loop.py:4333` | `def _reader()` |
 | `_recall_facts` | method | `modules/lazy_loop.py:3979` | `def _recall_facts(self, query, k)` |
 | `_record` | method | `modules/lazy_loop.py:6803` | `def _record(self, member, ok, text)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `get_tenant_manager` | function | `modules/lazy_rbac.py:648` | `def get_tenant_manager()` |
 | `get_user_role` | function | `modules/lazy_rbac.py:672` | `def get_user_role(username)` |
 | `gf_mul` | function | `modules/lazy_rbac.py:927` | `def gf_mul(a, b)` |
-| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
-| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
-| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
-| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
-| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
-| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
-| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
-| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
-| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
-| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
-| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
-| `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
-| `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
-| `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

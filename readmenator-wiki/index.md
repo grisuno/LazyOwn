@@ -1,13 +1,13 @@
 # Second Brain
 
-*Last synthesized: 2026-10-25 | 1174 files | 26 concept pages | offline, zero tokens*
+*Last synthesized: 2026-10-25 | 1178 files | 26 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `logging.py`, `utils.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (693 files) across 26 import-based communities. Recorded risk surface: 0 security findings and 136 dependency cycles.
+The codebase centres on `logging.py`, `utils.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (694 files) across 26 import-based communities. Recorded risk surface: 0 security findings and 136 dependency cycles.
 
 Surprising tissue lives between modules: autonomous_daemon, cli/commands, cli: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
@@ -17,14 +17,14 @@ Open work clusters around documentation (89% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 1174 |
-| Symbols | 22021 |
-| Resolved imports | 5038 |
+| Files | 1178 |
+| Symbols | 22080 |
+| Resolved imports | 5064 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 26 |
-| Doc coverage | 89% (1050/1174 files) |
+| Doc coverage | 89% (1052/1178 files) |
 | Security findings | 0 |
-| Estimated read cost | ~841893 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~843796 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 9: `lazyc2.py`, `lazy_loop.py`, `lazyown_mcp.py`, `mcp_generated_tools.py`, `3d-force-graph-1.73.4.min.js` (+4 more) |
 
 ## Reading Order
@@ -41,10 +41,10 @@ readmenator query "<question>" --target LazyOwn
 ## Concept Wiki
 
 - [modules: autonomous_daemon (184 files, cohesion 0.57)](./community_0_modules_autonomous_daemon.md)
-- [cli/commands (158 files, cohesion 0.53)](./community_1_cli_commands.md)
+- [cli/commands (157 files, cohesion 0.52)](./community_1_cli_commands.md)
 - [cli (126 files, cohesion 0.55)](./community_2_cli.md)
-- [modules: lazy_loop (122 files, cohesion 0.58)](./community_3_modules_lazy_loop.md)
-- [modules: world_model (62 files, cohesion 0.41)](./community_4_modules_world_model.md)
+- [modules: lazy_loop (122 files, cohesion 0.57)](./community_3_modules_lazy_loop.md)
+- [modules: world_model (67 files, cohesion 0.41)](./community_4_modules_world_model.md)
 - [lazygui/panels (54 files, cohesion 0.94)](./community_5_lazygui_panels.md)
 - [lazyc2/security (52 files, cohesion 0.47)](./community_6_lazyc2_security.md)
 - [modules: lazyown_facts (38 files, cohesion 0.53)](./community_7_modules_lazyown_facts.md)
@@ -71,8 +71,8 @@ readmenator query "<question>" --target LazyOwn
 
 | File | Score |
 |------|-------|
-| `core/logging.py` | 307.2 |
-| `utils.py` | 232.5 |
+| `core/logging.py` | 311.2 |
+| `utils.py` | 236.6 |
 | `modules/lazy_loop.py` | 228.1 (large, maybe generated) |
 | `skills/lazyown_mcp.py` | 202.6 (large, maybe generated) |
 | `cli/commands/_base.py` | 194.7 |

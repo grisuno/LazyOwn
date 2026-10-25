@@ -4,7 +4,7 @@
 
 ## Definition
 
-This community groups 52 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AutoRecommender`, `AutomationCommandSet`, `CSRFPolicy`, `CollabBusSink`, `CommandAllowlist`, `CommandDecision`, `CommandRejectionReason`. Core file: `lazyc2.py` (298 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 52 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AutoRecommender`, `AutomationCommandSet`, `CSRFPolicy`, `CollabBusSink`, `CommandAllowlist`, `CommandDecision`, `CommandRejectionReason`. Core file: `lazyc2.py` (300 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
@@ -63,7 +63,7 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 298 | no |
+| `lazyc2.py` | py | presentation | 300 | no |
 
 ### `cli/commands` (1 files)
 
@@ -101,28 +101,28 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 - `do_operator_load` (method, `cli/commands/automation.py:264`) `def do_operator_load(self, line)` - Load effective config for an operator (team baseline + overrides).
 - `do_operator_delete` (method, `cli/commands/automation.py:292`) `def do_operator_delete(self, line)` - Delete an operator profile.
 - `do_hooks` (method, `cli/commands/automation.py:314`) `def do_hooks(self, line)` - Conditional hooks management — list, enable, disable, add, remove rules.
-- `_env_tag` (function, `lazyc2.py:192`) `def _env_tag()` - Return the runtime environment tag from ``payload.json``.
-- `is_insecure_credential` (function, `lazyc2.py:204`) `def is_insecure_credential(user, pwd)` - Check for weak or default credentials
-- `_listen_address` (function, `lazyc2.py:252`) `def _listen_address()` - Return the bind address chosen by :class:`BindAddressResolver`.
-- `_is_unspecified_bind_literal` (function, `lazyc2.py:279`) `def _is_unspecified_bind_literal(address)` - Return True when ``address`` is a wildcard bind literal.
-- `_select_specific_bind_address` (function, `lazyc2.py:298`) `def _select_specific_bind_address(candidate)` - Return a specific IP literal safe to pass to ``socket.bind``.
-- `_probe_bind` (function, `lazyc2.py:331`) `def _probe_bind(address, port, sock_type)` - Probe whether ``(address, port)`` can be bound for ``sock_type``.
-- `_resolve_bind_address` (function, `lazyc2.py:376`) `def _resolve_bind_address(preferred, port, sock_type)` - Return an address that can actually be bound to on this host.
-- `_JsonLogFormatter` (class, `lazyc2.py:441`) `class _JsonLogFormatter(Formatter)` - Optional structured JSON formatter for C2 access logs.
-- `format` (method, `lazyc2.py:444`) `def format(self, record)`
-- `ensure_sessions_dir` (function, `lazyc2.py:471`) `def ensure_sessions_dir()` - Ensure the sessions directory exists with safe permissions.
-- `load_routes` (function, `lazyc2.py:482`) `def load_routes()` - Load dynamic routes from JSON file.
-- `save_routes` (function, `lazyc2.py:492`) `def save_routes(routes)` - Save dynamic routes to JSON file with safe permissions.
-- `validate_route_path` (function, `lazyc2.py:506`) `def validate_route_path(route_path)` - Module-level boolean adapter for :func:`lazyc2.security.validators.validate_route_path`.
-- `validate_template_name` (function, `lazyc2.py:519`) `def validate_template_name(template_name)` - Module-level boolean adapter for :func:`lazyc2.security.validators.validate_template_name`.
-- `is_safe_template_path` (function, `lazyc2.py:529`) `def is_safe_template_path(template_path, template_name)` - Verify ``template_path`` resolves inside ``app.template_folder``.
-- `_sanitize_command_output` (function, `lazyc2.py:559`) `def _sanitize_command_output(value)` - Return a JSON-safe projection of ``value`` without exception details.
-- `is_binary` (function, `lazyc2.py:569`) `def is_binary(safe_filename)` - Check whether a session file is binary based on its header bytes.
+- `_env_tag` (function, `lazyc2.py:199`) `def _env_tag()` - Return the runtime environment tag from ``payload.json``.
+- `is_insecure_credential` (function, `lazyc2.py:211`) `def is_insecure_credential(user, pwd)` - Check for weak or default credentials
+- `_listen_address` (function, `lazyc2.py:259`) `def _listen_address()` - Return the bind address chosen by :class:`BindAddressResolver`.
+- `_is_unspecified_bind_literal` (function, `lazyc2.py:286`) `def _is_unspecified_bind_literal(address)` - Return True when ``address`` is a wildcard bind literal.
+- `_select_specific_bind_address` (function, `lazyc2.py:305`) `def _select_specific_bind_address(candidate)` - Return a specific IP literal safe to pass to ``socket.bind``.
+- `_probe_bind` (function, `lazyc2.py:338`) `def _probe_bind(address, port, sock_type)` - Probe whether ``(address, port)`` can be bound for ``sock_type``.
+- `_resolve_bind_address` (function, `lazyc2.py:383`) `def _resolve_bind_address(preferred, port, sock_type)` - Return an address that can actually be bound to on this host.
+- `_JsonLogFormatter` (class, `lazyc2.py:448`) `class _JsonLogFormatter(Formatter)` - Optional structured JSON formatter for C2 access logs.
+- `format` (method, `lazyc2.py:451`) `def format(self, record)`
+- `ensure_sessions_dir` (function, `lazyc2.py:478`) `def ensure_sessions_dir()` - Ensure the sessions directory exists with safe permissions.
+- `load_routes` (function, `lazyc2.py:489`) `def load_routes()` - Load dynamic routes from JSON file.
+- `save_routes` (function, `lazyc2.py:499`) `def save_routes(routes)` - Save dynamic routes to JSON file with safe permissions.
+- `validate_route_path` (function, `lazyc2.py:513`) `def validate_route_path(route_path)` - Module-level boolean adapter for :func:`lazyc2.security.validators.validate_route_path`.
+- `validate_template_name` (function, `lazyc2.py:526`) `def validate_template_name(template_name)` - Module-level boolean adapter for :func:`lazyc2.security.validators.validate_template_name`.
+- `is_safe_template_path` (function, `lazyc2.py:536`) `def is_safe_template_path(template_path, template_name)` - Verify ``template_path`` resolves inside ``app.template_folder``.
+- `_sanitize_command_output` (function, `lazyc2.py:566`) `def _sanitize_command_output(value)` - Return a JSON-safe projection of ``value`` without exception details.
+- `is_binary` (function, `lazyc2.py:576`) `def is_binary(safe_filename)` - Check whether a session file is binary based on its header bytes.
 
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 115
-- Cross-boundary resolved imports (EXTRACTED): 138
+- Cross-boundary resolved imports (EXTRACTED): 141
 
 ## Connections
 
@@ -140,9 +140,9 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 - [layer strict] `tests/test_dashboard_routes.py` (testing) -> `modules/dashboard_bp.py` (presentation)
 - [layer strict] `tests/test_https_redirect.py` (testing) -> `lazyc2/security/https_redirect.py` (presentation)
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
-- [dataflow UNCHECKED_ALLOC] `lazyc2.py:361` `_probe_bind` `probe`: Result of allocator stored in `probe` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `lazyc2.py:1981` `tcp_bridge` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `lazyc2.py:7156` `start_reverse_shell` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `lazyc2.py:368` `_probe_bind` `probe`: Result of allocator stored in `probe` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `lazyc2.py:1988` `tcp_bridge` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `lazyc2.py:7217` `start_reverse_shell` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
 
 ## Open Questions
 

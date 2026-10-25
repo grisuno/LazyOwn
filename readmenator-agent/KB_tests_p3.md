@@ -1,6 +1,55 @@
 # Subsystem: tests (page 3 of 20)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
+## tests/test_autonomous_ops.py
+- Doc: BDD scoped tests for integrated autonomous operations C04-C10.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_c04_dedup_anchor_coverage` (function, line 11) `def test_c04_dedup_anchor_coverage()`
+  - `test_c04_mirror_to_campaign_db` (function, line 26) `def test_c04_mirror_to_campaign_db(tmp_path)`
+  - `test_c05_frontier_emits_once_then_empty` (function, line 43) `def test_c05_frontier_emits_once_then_empty()`
+  - `test_c05_todo_blocks_lateral_until_creds` (function, line 58) `def test_c05_todo_blocks_lateral_until_creds()`
+  - `test_c06_finding_lifecycle_on_campaign_db` (function, line 70) `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)`
+  - `test_c07_pool_failover_and_exhaustion` (function, line 98) `def test_c07_pool_failover_and_exhaustion()`
+  - `test_c08_notify_filter_and_redact` (function, line 116) `def test_c08_notify_filter_and_redact()`
+  - `test_c09_side_question_isolated` (function, line 128) `def test_c09_side_question_isolated()`
+  - `test_c10_verify_rejects_bad_checksum` (function, line 143) `def test_c10_verify_rejects_bad_checksum(tmp_path)`
+  - `test_c10_rollback_restores_previous` (function, line 159) `def test_c10_rollback_restores_previous(tmp_path)`
+  - `test_i2_shared_registry_survives_rebuilds` (function, line 171) `def test_i2_shared_registry_survives_rebuilds()`
+  - `test_i2_pool_hard_trips_on_auth_errors` (function, line 186) `def test_i2_pool_hard_trips_on_auth_errors()`
+  - `test_i3_classify_retest_verdicts` (function, line 194) `def test_i3_classify_retest_verdicts()`
+  - `test_i3_retest_bumps_evidence_version` (function, line 203) `def test_i3_retest_bumps_evidence_version(tmp_path)`
+  - `test_i4_shared_engine_cooldown` (function, line 224) `def test_i4_shared_engine_cooldown()`
+  - `test_i4_should_rescan_honours_fresh_scans` (function, line 232) `def test_i4_should_rescan_honours_fresh_scans(tmp_path)`
+  - `boom` (function, line 101) `def boom(_prompt)`
+- Depends on: `modules/__init__.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/enrich.py`, `modules/finding_lifecycle.py`, `modules/llm_pool.py`, `modules/notify.py`, `modules/planner.py`, `modules/selfupdate.py`, `modules/sidequestion.py`, `modules/world_model.py`
+
+## tests/test_autonomous_replay.py
+- Doc: Tests for ``skills/autonomous_replay.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_event` (function, line 40) `def _event(event_id, objective_id, step, command, source, seed_override)`
+  - `_write_jsonl` (function, line 65) `def _write_jsonl(path, events)`
+  - `test_event_log_reader_returns_empty_when_missing` (function, line 71) `def test_event_log_reader_returns_empty_when_missing(tmp_path)`
+  - `test_event_log_reader_skips_malformed_lines` (function, line 78) `def test_event_log_reader_skips_malformed_lines(tmp_path)`
+  - `test_slice_is_inclusive_on_both_bounds` (function, line 96) `def test_slice_is_inclusive_on_both_bounds(tmp_path)`
+  - `test_trace_returns_one_step_per_event` (function, line 112) `def test_trace_returns_one_step_per_event(tmp_path)`
+  - `test_trace_detects_decision_seed_divergence` (function, line 131) `def test_trace_detects_decision_seed_divergence(tmp_path)`
+  - `test_execute_runs_commands_through_injected_runner` (function, line 149) `def test_execute_runs_commands_through_injected_runner(tmp_path)`
+  - `test_execute_marks_runner_errors_as_failure` (function, line 179) `def test_execute_marks_runner_errors_as_failure(tmp_path)`
+  - `test_replay_convenience_returns_dict` (function, line 195) `def test_replay_convenience_returns_dict(tmp_path)`
+  - `test_replay_rejects_unknown_mode` (function, line 206) `def test_replay_rejects_unknown_mode(tmp_path)`
+  - `test_supported_modes_constant` (function, line 215) `def test_supported_modes_constant()`
+  - `test_step_skips_events_without_command` (function, line 221) `def test_step_skips_events_without_command(tmp_path)`
+  - `_Runner` (class, line 161) `class _Runner`
+  - `_Runner` (class, line 185) `class _Runner`
+  - `__init__` (method, line 162) `def __init__(self)`
+  - `run` (method, line 165) `def run(self, command, timeout)`
+  - `run` (method, line 186) `def run(self, command, timeout)`
+- Depends on: `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`
+
 ## tests/test_autosuggest.py
 - Doc: Unit tests for cli.autosuggest.
 - Layer: testing
@@ -439,62 +488,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_unknown_phase_returns_friendly_no_match` (method, line 134) `def test_unknown_phase_returns_friendly_no_match(self)`
   - `test_registry_exposes_optional_phase_and_os` (method, line 140) `def test_registry_exposes_optional_phase_and_os(self)`
 - Depends on: `modules/lazyown_bridge.py`, `skills/lazyown_groq_agents.py`
-
-## tests/test_broadcom_wps_addon.py
-- Doc: tests/test_broadcom_wps_addon.py  Validation suite for the broadcom_wps lazyaddon and its...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load` (function, line 32) `def _load(path)`
-  - `addon` (function, line 38) `def addon()`
-  - `driver_text` (function, line 43) `def driver_text()`
-  - `TestBroadcomWpsAddonExists` (class, line 47) `class TestBroadcomWpsAddonExists`
-  - `TestBroadcomWpsRequiredFields` (class, line 63) `class TestBroadcomWpsRequiredFields`
-  - `TestBroadcomWpsToolSection` (class, line 102) `class TestBroadcomWpsToolSection`
-  - `TestBroadcomWpsPlaceholders` (class, line 137) `class TestBroadcomWpsPlaceholders`
-  - `TestBroadcomWpsDriverContract` (class, line 177) `class TestBroadcomWpsDriverContract`
-  - `test_addon_present` (method, line 48) `def test_addon_present(self)`
-  - `test_driver_present` (method, line 51) `def test_driver_present(self)`
-  - `test_addon_parses` (method, line 54) `def test_addon_parses(self, addon)`
-  - `test_driver_is_executable` (method, line 57) `def test_driver_is_executable(self)`
-  - `test_addon_has_field` (method, line 65) `def test_addon_has_field(self, addon, field)`
-  - `test_name_matches_file` (method, line 68) `def test_name_matches_file(self, addon)`
-  - `test_name_pattern` (method, line 71) `def test_name_pattern(self, addon)`
-  - `test_version_pattern` (method, line 74) `def test_version_pattern(self, addon)`
-  - `test_description_length` (method, line 77) `def test_description_length(self, addon)`
-  - `test_enabled` (method, line 80) `def test_enabled(self, addon)`
-  - `test_category` (method, line 83) `def test_category(self, addon)`
-  - `test_category_pattern` (method, line 86) `def test_category_pattern(self, addon)`
-  - `test_os_is_known` (method, line 89) `def test_os_is_known(self, addon)`
-  - `test_tool_has_key` (method, line 104) `def test_tool_has_key(self, addon, key)`
-  - `test_repo_url` (method, line 107) `def test_repo_url(self, addon)`
-  - `test_repo_url_ends_with_git` (method, line 110) `def test_repo_url_ends_with_git(self, addon)`
-  - `test_install_path` (method, line 113) `def test_install_path(self, addon)`
-  - `test_install_path_no_traversal` (method, line 116) `def test_install_path_no_traversal(self, addon)`
-  - `test_install_command_installs_scapy` (method, line 120) `def test_install_command_installs_scapy(self, addon)`
-  - `test_install_command_is_non_interactive` (method, line 123) `def test_install_command_is_non_interactive(self, addon)`
-  - `test_execute_command_runs_driver` (method, line 126) `def test_execute_command_runs_driver(self, addon)`
-  - `test_execute_command_uses_env_prefix` (method, line 129) `def test_execute_command_uses_env_prefix(self, addon)`
-  - `test_execute_command_is_complete` (method, line 133) `def test_execute_command_is_complete(self, addon)`
-  - `test_no_double_braces` (method, line 138) `def test_no_double_braces(self, addon)`
-  - `test_declared_params` (method, line 142) `def test_declared_params(self, addon)`
-  - `test_param_names_are_valid` (method, line 146) `def test_param_names_are_valid(self, addon)`
-  - `test_tokens_are_declared` (method, line 153) `def test_tokens_are_declared(self, addon)`
-  - `test_no_secret_placeholders` (method, line 158) `def test_no_secret_placeholders(self, addon)`
-  - `test_no_required_params` (method, line 163) `def test_no_required_params(self, addon)`
-  - `test_params_are_live` (method, line 167) `def test_params_are_live(self)`
-  - `test_driver_syntax` (method, line 178) `def test_driver_syntax(self)`
-  - `test_driver_resolves_repo_root` (method, line 187) `def test_driver_resolves_repo_root(self, driver_text)`
-  - `test_driver_exposes_action` (method, line 194) `def test_driver_exposes_action(self, driver_text, action)`
-  - `test_driver_manages_monitor_mode` (method, line 197) `def test_driver_manages_monitor_mode(self, driver_text)`
-  - `test_driver_uses_yara_rules` (method, line 201) `def test_driver_uses_yara_rules(self, driver_text)`
-  - `test_driver_archives_evidence` (method, line 204) `def test_driver_archives_evidence(self, driver_text)`
-  - `test_driver_falls_back_to_payload` (method, line 207) `def test_driver_falls_back_to_payload(self, driver_text)`
-  - `test_driver_has_no_hardcoded_host_paths` (method, line 212) `def test_driver_has_no_hardcoded_host_paths(self, driver_text)`
-  - `test_driver_help_runs` (method, line 216) `def test_driver_help_runs(self)`
-  - `test_driver_status_runs` (method, line 226) `def test_driver_status_runs(self)`
-  - `test_driver_rejects_unknown_action` (method, line 236) `def test_driver_rejects_unknown_action(self)`
-  - `test_driver_yara_requires_target` (method, line 245) `def test_driver_yara_requires_target(self)`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

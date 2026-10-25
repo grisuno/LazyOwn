@@ -1,0 +1,35 @@
+name: audit_hygiene
+description: Local audit-hygiene sweep — verifies beacon HMAC enforcement and
+  signing-key freshness, keeps the noisy auto-pipeline flags off, and reports
+  artifact identity leaks (rootkit/backdoor baked-in defaults) plus stale
+  scan/credential artefacts, without touching any target. Lab and local
+  hygiene only.
+version: 2
+tags:
+  - hygiene
+  - audit
+  - local
+platforms:
+  - local
+enabled: true
+defaults:
+  quiet_flags: "true"
+steps:
+  - id: hygiene_report
+    run: hygiene_audit
+    timeout: 120
+    description: Aggregate audit-hygiene findings into sessions/hygiene_report.json
+    artifacts:
+      - sessions/hygiene_report.json
+  - id: enforce_beacon_hmac
+    run: set c2_require_beacon_hmac true
+    when: quiet_flags == "true"
+    description: Require X-Signature HMAC verification on beacon GET and POST
+  - id: quiet_privesc_pipeline
+    run: set auto_privesc_on_checkin false
+    when: quiet_flags == "true"
+    description: Keep linpeas/winpeas off the silent check-in path
+  - id: quiet_discover_pipeline
+    run: set auto_discover_on_checkin false
+    when: quiet_flags == "true"
+    description: Keep host discovery off the silent check-in path

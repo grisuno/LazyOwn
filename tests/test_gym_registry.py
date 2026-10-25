@@ -7,6 +7,7 @@ import json
 import pytest
 
 from modules import gym_registry
+from modules.world_model import read_state_dict
 
 
 @pytest.fixture()
@@ -104,7 +105,7 @@ def test_start_status_stop_all_persists(sandbox):
     run = gym.get_active_challenge(first["run_id"])
     assert run and run["challenge_id"] == "first_blood_web" and run["target"] == "172.17.0.2"
 
-    state = json.loads((sandbox / "world_model.json").read_text(encoding="utf-8"))
+    state = read_state_dict(sandbox / "world_model.json")
     assert state["gyms"]["active"][first["run_id"]]["challenge_id"] == "first_blood_web"
 
     stopped = gym.stop_challenges()

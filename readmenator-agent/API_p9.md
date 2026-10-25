@@ -1,6 +1,20 @@
 # API (page 9 of 24)
 Previous: [API_p8.md](API_p8.md)
 
+## lazygui/widgets/event_log_view.py
+Depends on: `lazygui/config/constants.py`, `lazygui/services/event_log.py`, `lazygui/services/models.py`
+Imported by: `lazygui/panels/event_log_panel.py`, `lazygui/widgets/__init__.py`
+- `EventLogView.__init__` (method) `lazygui/widgets/event_log_view.py:23` `def __init__(self, constants, event_log, parent)` -- Bind the view to ``event_log`` and configure columns/headers.
+- `EventLogView.set_minimum_level` (method) `lazygui/widgets/event_log_view.py:51` `def set_minimum_level(self, level)` -- Filter view to records of severity >= ``level`` and reload.
+- `EventLogView.minimum_level` (method) `lazygui/widgets/event_log_view.py:61` `def minimum_level(self)` -- Currently active severity filter.
+
+## lazygui/widgets/filter_bar.py
+Depends on: `lazygui/config/constants.py`
+Imported by: `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/widgets/__init__.py`
+- `FilterBar.__init__` (method) `lazygui/widgets/filter_bar.py:16` `def __init__(self, constants, placeholder_text, label_text, parent)` -- Lay out a label + line edit and wire up debounce timing.
+- `FilterBar.text` (method) `lazygui/widgets/filter_bar.py:42` `def text(self)` -- Current filter text.
+- `FilterBar.clear` (method) `lazygui/widgets/filter_bar.py:46` `def clear(self)` -- Reset the filter to an empty string.
+
 ## lazygui/widgets/graph_view.py
 Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
 Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
@@ -350,32 +364,32 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/l
 ## modules/atomic_exploit_bridge.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
-- `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:103` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
-- `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:107` `def to_dict(self)` -- Return a JSON-serializable view.
-- `validate_spec` (function) `modules/atomic_exploit_bridge.py:136` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
-- `load_all` (function) `modules/atomic_exploit_bridge.py:212` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
-- `match_score` (function) `modules/atomic_exploit_bridge.py:267` `def match_score(spec, service, product, version)` -- Score a spec against one discovered service (0 when no match).
-- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:286` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
-- `auto` (function) `modules/atomic_exploit_bridge.py:323` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
-- `rank` (function) `modules/atomic_exploit_bridge.py:421` `def rank(services, exploits_dir)` -- Rank every spec against discovered services (severity, then confidence).
-- `build_commands` (function) `modules/atomic_exploit_bridge.py:452` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
-- `detect_shell` (function) `modules/atomic_exploit_bridge.py:470` `def detect_shell(spec, output)` -- Return True when output carries any shell indicator.
-- `run_spec` (function) `modules/atomic_exploit_bridge.py:512` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
-- `open_shell` (function) `modules/atomic_exploit_bridge.py:592` `def open_shell(target, services, lhost, exploits_dir, attempts)` -- Return the first exec-capable spec with a live multiplexed session.
-- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:635` `def __init__(self, target, port, sock, owner)`
-- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:645` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
-- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:652` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
-- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:694` `def close(self)` -- End the remote shell cleanly so its listener dies too.
-- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:745` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
-- `live_sessions` (function) `modules/atomic_exploit_bridge.py:774` `def live_sessions()` -- Return in-process shell sessions without probing the target.
-- `close_sessions` (function) `modules/atomic_exploit_bridge.py:793` `def close_sessions(target)` -- Close cached sessions (all, or one target).
-- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:831` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
-- `ensure_session` (function) `modules/atomic_exploit_bridge.py:907` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
-- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1003` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
-- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1021` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
-- `emulate` (function) `modules/atomic_exploit_bridge.py:1076` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
-- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1110` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
-- `main` (function) `modules/atomic_exploit_bridge.py:1198` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
+- `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:117` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
+- `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:121` `def to_dict(self)` -- Return a JSON-serializable view.
+- `validate_spec` (function) `modules/atomic_exploit_bridge.py:150` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
+- `load_all` (function) `modules/atomic_exploit_bridge.py:226` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
+- `match_score` (function) `modules/atomic_exploit_bridge.py:281` `def match_score(spec, service, product, version)` -- Score a spec against one discovered service (0 when no match).
+- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:300` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
+- `auto` (function) `modules/atomic_exploit_bridge.py:337` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
+- `rank` (function) `modules/atomic_exploit_bridge.py:435` `def rank(services, exploits_dir)` -- Rank every spec against discovered services (severity, then confidence).
+- `build_commands` (function) `modules/atomic_exploit_bridge.py:466` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
+- `detect_shell` (function) `modules/atomic_exploit_bridge.py:484` `def detect_shell(spec, output)` -- Return True when output carries any shell indicator.
+- `run_spec` (function) `modules/atomic_exploit_bridge.py:526` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
+- `open_shell` (function) `modules/atomic_exploit_bridge.py:606` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
+- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:670` `def __init__(self, target, port, sock, owner)`
+- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:680` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
+- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:687` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
+- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:729` `def close(self)` -- End the remote shell cleanly so its listener dies too.
+- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:780` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
+- `live_sessions` (function) `modules/atomic_exploit_bridge.py:809` `def live_sessions()` -- Return in-process shell sessions without probing the target.
+- `close_sessions` (function) `modules/atomic_exploit_bridge.py:828` `def close_sessions(target)` -- Close cached sessions (all, or one target).
+- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:866` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
+- `ensure_session` (function) `modules/atomic_exploit_bridge.py:942` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
+- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1038` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
+- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1056` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
+- `emulate` (function) `modules/atomic_exploit_bridge.py:1111` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
+- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1145` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
+- `main` (function) `modules/atomic_exploit_bridge.py:1233` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
 
 ## modules/atomic_resolver.py
 Depends on: `core/logging.py`, `core/safe_exec.py`

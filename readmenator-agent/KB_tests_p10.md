@@ -1,5 +1,107 @@
-# Subsystem: tests (page 10 of 19)
+# Subsystem: tests (page 10 of 20)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
+
+## tests/test_hash_cracker.py
+- Doc: Tests for modules/hash_cracker.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestHashIdentification` (class, line 14) `class TestHashIdentification`
+  - `TestFileIdentification` (class, line 66) `class TestFileIdentification`
+  - `TestCrackResult` (class, line 91) `class TestCrackResult`
+  - `TestHashPatterns` (class, line 114) `class TestHashPatterns`
+  - `TestWordlists` (class, line 122) `class TestWordlists`
+  - `TestHashIdentifier` (class, line 129) `class TestHashIdentifier`
+  - `test_identify_ntlm` (method, line 15) `def test_identify_ntlm(self)`
+  - `test_identify_ntlm_from_secretsdump` (method, line 22) `def test_identify_ntlm_from_secretsdump(self)`
+  - `test_identify_sha512crypt` (method, line 29) `def test_identify_sha512crypt(self)`
+  - `test_identify_unknown` (method, line 36) `def test_identify_unknown(self)`
+  - `test_identify_empty` (method, line 41) `def test_identify_empty(self)`
+  - `test_identify_kerberos_tgs` (method, line 46) `def test_identify_kerberos_tgs(self)`
+  - `test_identify_md5` (method, line 53) `def test_identify_md5(self)`
+  - `test_identify_sha1` (method, line 59) `def test_identify_sha1(self)`
+  - `test_identify_file_empty` (method, line 67) `def test_identify_file_empty(self, tmp_path)`
+  - `test_identify_file_with_hashes` (method, line 74) `def test_identify_file_with_hashes(self, tmp_path)`
+  - `test_identify_file_not_exists` (method, line 85) `def test_identify_file_not_exists(self)`
+  - `test_crack_result_defaults` (method, line 92) `def test_crack_result_defaults(self)`
+  - `test_crack_result_cracked` (method, line 102) `def test_crack_result_cracked(self)`
+  - `test_all_patterns_exist` (method, line 115) `def test_all_patterns_exist(self)`
+  - `test_wordlist_paths_are_strings` (method, line 123) `def test_wordlist_paths_are_strings(self)`
+  - `test_hash_identifier_fields` (method, line 130) `def test_hash_identifier_fields(self)`
+- Depends on: `modules/hash_cracker.py`
+
+## tests/test_help_ui_command_set.py
+- Doc: Help/UI command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
+  - `HelpUiSuiteConfig` (class, line 38) `class HelpUiSuiteConfig`
+  - `_methods_of` (function, line 65) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 77) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_help_cluster` (function, line 86) `def test_target_exposes_full_help_cluster()`
+  - `test_target_phase_metadata` (function, line 93) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 99) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 105) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 112) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/registry.py`
+
+## tests/test_host_policy.py
+- Doc: Single host-validation policy shared by CLI gates and hardening.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSharedPolicy` (class, line 51) `class TestSharedPolicy`
+  - `TestCliGatesDelegate` (class, line 73) `class TestCliGatesDelegate`
+  - `test_valid_hosts_accepted` (method, line 52) `def test_valid_hosts_accepted(self)`
+  - `test_invalid_hosts_rejected` (method, line 57) `def test_invalid_hosts_rejected(self)`
+  - `test_shell_meta_rejected` (method, line 62) `def test_shell_meta_rejected(self)`
+  - `test_pinned_quirks_unchanged` (method, line 67) `def test_pinned_quirks_unchanged(self)`
+  - `test_check_rhost_matches_policy` (method, line 74) `def test_check_rhost_matches_policy(self, capsys)`
+  - `test_check_lhost_matches_policy` (method, line 81) `def test_check_lhost_matches_policy(self, capsys)`
+  - `test_check_lport_unchanged` (method, line 88) `def test_check_lport_unchanged(self, capsys)`
+- Depends on: `core/hardening.py`, `core/host_policy.py`, `core/validators.py`
+
+## tests/test_html_sanitizer.py
+- Doc: TDD tests for the bleach-based HTML sanitizer contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestScriptStripping` (class, line 25) `class TestScriptStripping`
+  - `TestEventHandlerStripping` (class, line 49) `class TestEventHandlerStripping`
+  - `TestJavascriptUriStripping` (class, line 63) `class TestJavascriptUriStripping`
+  - `TestBenignTagsPreserved` (class, line 71) `class TestBenignTagsPreserved`
+  - `TestCustomAllowlist` (class, line 93) `class TestCustomAllowlist`
+  - `test_script_block_removed` (method, line 28) `def test_script_block_removed(self)`
+  - `test_iframe_removed` (method, line 33) `def test_iframe_removed(self)`
+  - `test_object_and_embed_removed` (method, line 38) `def test_object_and_embed_removed(self)`
+  - `test_style_removed` (method, line 43) `def test_style_removed(self)`
+  - `test_onclick_removed` (method, line 52) `def test_onclick_removed(self)`
+  - `test_onerror_removed` (method, line 57) `def test_onerror_removed(self)`
+  - `test_javascript_href_stripped` (method, line 66) `def test_javascript_href_stripped(self)`
+  - `test_basic_formatting_preserved` (method, line 74) `def test_basic_formatting_preserved(self)`
+  - `test_lists_preserved` (method, line 81) `def test_lists_preserved(self)`
+  - `test_headings_preserved` (method, line 86) `def test_headings_preserved(self)`
+  - `test_strict_allowlist_strips_more` (method, line 96) `def test_strict_allowlist_strips_more(self)`
+- Depends on: `lazyc2/security/html_sanitizer.py`
+
+## tests/test_https_redirect.py
+- Doc: TDD tests for the HTTPS redirect contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeRequest` (class, line 23) `class _FakeRequest`
+  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
+  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
+  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
+  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
+  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
+  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
+  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
+  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
+  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
+  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
+- Depends on: `lazyc2/security/https_redirect.py`
 
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
@@ -363,8 +465,10 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_snapshot_is_json_serialisable` (method, line 80) `def test_snapshot_is_json_serialisable(self, tmp_path)`
   - `test_advance_then_snapshot_is_consistent` (method, line 90) `def test_advance_then_snapshot_is_consistent(self, tmp_path)`
   - `test_read_state_dict_decrypts_at_rest` (method, line 103) `def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch)`
-  - `test_missing_file_reads_empty` (method, line 123) `def test_missing_file_reads_empty(self, tmp_path)`
-  - `test_encrypted_without_password_reads_empty` (method, line 131) `def test_encrypted_without_password_reads_empty(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_persists_fernet_token` (method, line 122) `def test_write_state_dict_persists_fernet_token(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_then_engine_encrypt_unwraps_nested` (method, line 138) `def test_write_state_dict_then_engine_encrypt_unwraps_nested(self, tmp_path, monkeypatch)`
+  - `test_missing_file_reads_empty` (method, line 157) `def test_missing_file_reads_empty(self, tmp_path)`
+  - `test_encrypted_without_password_reads_empty` (method, line 165) `def test_encrypted_without_password_reads_empty(self, tmp_path, monkeypatch)`
 - Depends on: `modules/killchain.py`, `modules/world_model.py`
 
 ## tests/test_killchain_unified.py
@@ -372,114 +476,16 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `TestPhaseMapping` (class, line 19) `class TestPhaseMapping`
-  - `TestWritePhaseWithWorldModel` (class, line 47) `class TestWritePhaseWithWorldModel`
-  - `test_engagement_phase_to_cli_maps_all` (method, line 20) `def test_engagement_phase_to_cli_maps_all(self)`
-  - `test_cli_phase_to_host_state_maps_correctly` (method, line 29) `def test_cli_phase_to_host_state_maps_correctly(self)`
-  - `test_phase_rank_returns_correct_index` (method, line 40) `def test_phase_rank_returns_correct_index(self)`
-  - `sessions_dir` (method, line 51) `def sessions_dir(self)`
-  - `test_write_phase_advances_hosts` (method, line 79) `def test_write_phase_advances_hosts(self, sessions_dir)`
-  - `test_write_phase_invalid_returns_false` (method, line 95) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
-  - `test_write_phase_completed_phases_tracks_progress` (method, line 99) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
+  - `TestPhaseMapping` (class, line 20) `class TestPhaseMapping`
+  - `TestWritePhaseWithWorldModel` (class, line 48) `class TestWritePhaseWithWorldModel`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 21) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_correctly` (method, line 30) `def test_cli_phase_to_host_state_maps_correctly(self)`
+  - `test_phase_rank_returns_correct_index` (method, line 41) `def test_phase_rank_returns_correct_index(self)`
+  - `sessions_dir` (method, line 52) `def sessions_dir(self)`
+  - `test_write_phase_advances_hosts` (method, line 80) `def test_write_phase_advances_hosts(self, sessions_dir)`
+  - `test_write_phase_invalid_returns_false` (method, line 96) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
+  - `test_write_phase_completed_phases_tracks_progress` (method, line 100) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
 - Depends on: `cli/ops_commands.py`, `modules/world_model.py`
-
-## tests/test_killchain_unified_v2.py
-- Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestKillChainConfig` (class, line 31) `class TestKillChainConfig`
-  - `TestKillChainCurrentPhase` (class, line 103) `class TestKillChainCurrentPhase`
-  - `TestKillChainAdvancePhase` (class, line 184) `class TestKillChainAdvancePhase`
-  - `TestKillChainGetProgress` (class, line 295) `class TestKillChainGetProgress`
-  - `TestKillChainHelpers` (class, line 363) `class TestKillChainHelpers`
-  - `TestPhaseStatusDataclass` (class, line 410) `class TestPhaseStatusDataclass`
-  - `test_phases_is_8_tuple` (method, line 34) `def test_phases_is_8_tuple(self)`
-  - `test_phases_are_in_correct_kill_chain_order` (method, line 40) `def test_phases_are_in_correct_kill_chain_order(self)`
-  - `test_compact_phases_are_in_correct_order` (method, line 44) `def test_compact_phases_are_in_correct_order(self)`
-  - `test_all_phases_have_labels` (method, line 48) `def test_all_phases_have_labels(self)`
-  - `test_all_phases_have_colors` (method, line 53) `def test_all_phases_have_colors(self)`
-  - `test_all_phases_have_rich_colors` (method, line 58) `def test_all_phases_have_rich_colors(self)`
-  - `test_engagement_to_cli_covers_all_engagement_phases` (method, line 62) `def test_engagement_to_cli_covers_all_engagement_phases(self)`
-  - `test_cli_to_host_state_returns_expected` (method, line 70) `def test_cli_to_host_state_returns_expected(self)`
-  - `test_phase_index_valid_and_invalid` (method, line 80) `def test_phase_index_valid_and_invalid(self)`
-  - `test_is_valid_phase` (method, line 86) `def test_is_valid_phase(self)`
-  - `test_compact_phases_and_labels` (method, line 91) `def test_compact_phases_and_labels(self)`
-  - `test_world_model_path` (method, line 96) `def test_world_model_path(self)`
-  - `_reset_wm_singleton` (method, line 107) `def _reset_wm_singleton(self)`
-  - `test_returns_recon_when_no_world_model_exists` (method, line 118) `def test_returns_recon_when_no_world_model_exists(self)`
-  - `test_reads_from_world_model_host_state` (method, line 125) `def test_reads_from_world_model_host_state(self)`
-  - `test_raw_json_override_wins_when_higher_rank` (method, line 140) `def test_raw_json_override_wins_when_higher_rank(self)`
-  - `test_raw_json_override_ignored_when_lower_rank` (method, line 156) `def test_raw_json_override_ignored_when_lower_rank(self)`
-  - `test_falls_back_to_legacy_phase_key` (method, line 172) `def test_falls_back_to_legacy_phase_key(self)`
-  - `_reset_wm_singleton` (method, line 188) `def _reset_wm_singleton(self)`
-  - `test_advance_writes_current_phase_and_phase_keys` (method, line 199) `def test_advance_writes_current_phase_and_phase_keys(self)`
-  - `test_advance_tracks_completed_phases` (method, line 215) `def test_advance_tracks_completed_phases(self)`
-  - `test_advance_invalid_phase_returns_false` (method, line 233) `def test_advance_invalid_phase_returns_false(self)`
-  - `test_advance_advances_world_model_hosts` (method, line 243) `def test_advance_advances_world_model_hosts(self)`
-  - `test_advance_with_host_does_not_touch_unrelated_hosts` (method, line 260) `def test_advance_with_host_does_not_touch_unrelated_hosts(self)`
-  - `test_advance_does_not_downgrade_cached_world_model_state` (method, line 276) `def test_advance_does_not_downgrade_cached_world_model_state(self)`
-  - `_reset_wm_singleton` (method, line 299) `def _reset_wm_singleton(self)`
-  - `test_all_pending_when_nothing_done` (method, line 310) `def test_all_pending_when_nothing_done(self)`
-  - `test_progress_reflects_completed_and_active` (method, line 323) `def test_progress_reflects_completed_and_active(self)`
-  - `test_progress_has_colors_and_labels` (method, line 347) `def test_progress_has_colors_and_labels(self)`
-  - `test_phases_for_display_returns_triples` (method, line 366) `def test_phases_for_display_returns_triples(self)`
-  - `test_compact_progress_returns_string` (method, line 376) `def test_compact_progress_returns_string(self)`
-  - `test_engagement_phase_to_cli_maps_all` (method, line 382) `def test_engagement_phase_to_cli_maps_all(self)`
-  - `test_cli_phase_to_host_state_maps_all` (method, line 391) `def test_cli_phase_to_host_state_maps_all(self)`
-  - `test_get_killchain_returns_class` (method, line 399) `def test_get_killchain_returns_class(self)`
-  - `test_phase_index_returns_correct` (method, line 403) `def test_phase_index_returns_correct(self)`
-  - `test_phase_status_is_immutable` (method, line 413) `def test_phase_status_is_immutable(self)`
-  - `test_phase_status_fields_match_config` (method, line 418) `def test_phase_status_fields_match_config(self)`
-- Depends on: `modules/killchain.py`, `modules/world_model.py`
-
-## tests/test_lab_target_visibility.py
-- Doc: Lab target visibility: start/status always show the container IP.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
-  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
-- Depends on: `cli/commands/lab.py`
-
-## tests/test_lazy_agent.py
-- Doc: Agentic tool-calling: worker agent path, resume and main sessions.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_tool_call` (function, line 13) `def _tool_call(tool_id, name, arguments)`
-  - `_message` (function, line 19) `def _message(content, tool_calls)`
-  - `_Completions` (class, line 23) `class _Completions`
-  - `fake_model` (function, line 37) `def fake_model(script)`
-  - `_sandbox` (function, line 43) `def _sandbox(tmp_path, monkeypatch)`
-  - `_worker` (function, line 50) `def _worker(loop, engine, task_id, graph)`
-  - `test_worker_agentic_tool_calling` (function, line 63) `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)`
-  - `test_worker_agentic_resume_seeds_prior_turns` (function, line 104) `def test_worker_agentic_resume_seeds_prior_turns(tmp_path, monkeypatch)`
-  - `test_main_session_persists_and_resumes` (function, line 138) `def test_main_session_persists_and_resumes(tmp_path, monkeypatch)`
-  - `test_model_keepalive_tick_while_waiting` (function, line 152) `def test_model_keepalive_tick_while_waiting(tmp_path, monkeypatch)`
-  - `test_tool_calling_flag_honors_payload` (function, line 175) `def test_tool_calling_flag_honors_payload(tmp_path, monkeypatch)`
-  - `test_external_opencode_degrades_without_binary` (function, line 184) `def test_external_opencode_degrades_without_binary(monkeypatch)`
-  - `test_lazy_agent_command_session_lifecycle` (function, line 194) `def test_lazy_agent_command_session_lifecycle(tmp_path, monkeypatch)`
-  - `__init__` (method, line 26) `def __init__(self, script)`
-  - `create` (method, line 30) `def create(self)`
-  - `_executor` (function, line 85) `def _executor(command)`
-  - `_Completions` (class, line 162) `class _Completions`
-  - `create` (method, line 163) `def create(self)`
-- Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_lazy_bridge_traffic.py
-- Doc: Incremental LAZY traffic mirroring (stall regression).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
-  - `_append` (function, line 29) `def _append(path, rows)`
-  - `_exchanges` (function, line 35) `def _exchanges(sessions_dir)`
-  - `test_traffic_mirror_is_incremental` (function, line 39) `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)`
-  - `test_partial_line_is_retried` (function, line 61) `def test_partial_line_is_retried(tmp_path, monkeypatch)`
-  - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
-  - `_boom` (function, line 83) `def _boom(_text)`
-- Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

@@ -1,8 +1,272 @@
-# Symbols (page 34 of 44)
+# Symbols (page 34 of 45)
 Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_runner_quotes_captured_values_in_raw_shell_steps` | function | `tests/test_chain_runner.py:323` | `def test_runner_quotes_captured_values_in_raw_shell_steps()` |
+| `test_runner_resolves_newest_and_skip_if_exists` | function | `tests/test_chain_runner.py:153` | `def test_runner_resolves_newest_and_skip_if_exists(tmp_path, monkeypatch)` |
+| `test_runner_retries_then_succeeds` | function | `tests/test_chain_runner.py:58` | `def test_runner_retries_then_succeeds()` |
+| `test_runner_routes_known_verb_through_shell` | function | `tests/test_chain_runner.py:280` | `def test_runner_routes_known_verb_through_shell()` |
+| `test_runner_skips_when_and_unresolved_and_checks_expect` | function | `tests/test_chain_runner.py:131` | `def test_runner_skips_when_and_unresolved_and_checks_expect()` |
+| `test_runner_timeout_marks_step_timeout` | function | `tests/test_chain_runner.py:300` | `def test_runner_timeout_marks_step_timeout()` |
+| `test_v2_schema_accepts_policy_and_rejects_bad_values` | function | `tests/test_chain_runner.py:180` | `def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path)` |
+| `test_validate_rejects_malformed_when` | function | `tests/test_chain_runner.py:315` | `def test_validate_rejects_malformed_when()` |
+| `test_when_evaluator_accepts_list_literals` | function | `tests/test_chain_runner.py:308` | `def test_when_evaluator_accepts_list_literals()` |
+| `test_when_evaluator_is_safe_and_expressive` | function | `tests/test_chain_runner.py:21` | `def test_when_evaluator_is_safe_and_expressive()` |
+| `TestFactsForTarget` | class | `tests/test_chain_synth.py:78` | `class TestFactsForTarget` |
+| `TestGeneratedFile` | class | `tests/test_chain_synth.py:58` | `class TestGeneratedFile` |
+| `TestSynthData` | class | `tests/test_chain_synth.py:12` | `class TestSynthData` |
+| `json_text` | function | `tests/test_chain_synth.py:52` | `def json_text(data)` |
+| `test_cred_reuse_and_c2_flags` | method | `tests/test_chain_synth.py:43` | `def test_cred_reuse_and_c2_flags(self)` |
+| `test_invalid_data_never_written` | method | `tests/test_chain_synth.py:69` | `def test_invalid_data_never_written(self, tmp_path)` |
+| `test_service_variants` | method | `tests/test_chain_synth.py:27` | `def test_service_variants(self)` |
+| `test_spine_steps_present` | method | `tests/test_chain_synth.py:15` | `def test_spine_steps_present(self)` |
+| `test_unknown_target_empty` | method | `tests/test_chain_synth.py:81` | `def test_unknown_target_empty(self)` |
+| `test_write_ok_then_registry_sees_it` | method | `tests/test_chain_synth.py:61` | `def test_write_ok_then_registry_sees_it(self, tmp_path)` |
+| `_chain` | function | `tests/test_chain_v24_core.py:20` | `def _chain(steps)` |
+| `executor` | function | `tests/test_chain_v24_core.py:29` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:51` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:72` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:89` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:117` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:142` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:164` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:184` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:231` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:275` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_v24_core.py:305` | `def executor(command)` |
+| `record` | function | `tests/test_chain_v24_core.py:217` | `def record(command)` |
+| `replanner` | function | `tests/test_chain_v24_core.py:279` | `def replanner(context)` |
+| `replanner` | function | `tests/test_chain_v24_core.py:308` | `def replanner(context)` |
+| `resumed_executor` | function | `tests/test_chain_v24_core.py:252` | `def resumed_executor(command)` |
+| `test_checkpoint_state_round_trip` | function | `tests/test_chain_v24_core.py:322` | `def test_checkpoint_state_round_trip(tmp_path)` |
+| `test_runner_captures_json_fields_from_output` | function | `tests/test_chain_v24_core.py:48` | `def test_runner_captures_json_fields_from_output()` |
+| `test_runner_captures_regex_named_groups_for_later_steps` | function | `tests/test_chain_v24_core.py:25` | `def test_runner_captures_regex_named_groups_for_later_steps()` |
+| `test_runner_checkpoints_enable_resume` | function | `tests/test_chain_v24_core.py:226` | `def test_runner_checkpoints_enable_resume(tmp_path, monkeypatch)` |
+| `test_runner_confirm_approval_grants_or_denies` | function | `tests/test_chain_v24_core.py:203` | `def test_runner_confirm_approval_grants_or_denies()` |
+| `test_runner_confirm_requires_approver_failure_closed` | function | `tests/test_chain_v24_core.py:195` | `def test_runner_confirm_requires_approver_failure_closed()` |
+| `test_runner_expect_exit_accepts_configured_codes_only` | function | `tests/test_chain_v24_core.py:106` | `def test_runner_expect_exit_accepts_configured_codes_only()` |
+| `test_runner_loop_guard_blocks_infinite_branching` | function | `tests/test_chain_v24_core.py:160` | `def test_runner_loop_guard_blocks_infinite_branching()` |
+| `test_runner_on_fail_routes_to_fallback_step` | function | `tests/test_chain_v24_core.py:113` | `def test_runner_on_fail_routes_to_fallback_step()` |
+| `test_runner_on_success_reorders_execution` | function | `tests/test_chain_v24_core.py:138` | `def test_runner_on_success_reorders_execution()` |
+| `test_runner_replanner_sets_vars_and_inserts_steps` | function | `tests/test_chain_v24_core.py:271` | `def test_runner_replanner_sets_vars_and_inserts_steps()` |
+| `test_runner_replanner_skip_rest_ends_early` | function | `tests/test_chain_v24_core.py:302` | `def test_runner_replanner_skip_rest_ends_early()` |
+| `test_runner_total_timeout_stops_pending_steps` | function | `tests/test_chain_v24_core.py:180` | `def test_runner_total_timeout_stops_pending_steps()` |
+| `test_runner_verify_fails_a_step_when_probe_fails` | function | `tests/test_chain_v24_core.py:68` | `def test_runner_verify_fails_a_step_when_probe_fails()` |
+| `test_runner_verify_may_consume_capture` | function | `tests/test_chain_v24_core.py:85` | `def test_runner_verify_may_consume_capture()` |
+| `test_schema_v24_accepts_and_rejects_new_fields` | function | `tests/test_chain_v24_core.py:333` | `def test_schema_v24_accepts_and_rejects_new_fields()` |
+| `test_validated_shipped_chains_still_load` | function | `tests/test_chain_v24_core.py:382` | `def test_validated_shipped_chains_still_load()` |
+| `test_ci_workflow_gates_severity_and_types` | function | `tests/test_ci_strict.py:91` | `def test_ci_workflow_gates_severity_and_types()` |
+| `test_ci_workflow_has_no_swallowed_quality_gate` | function | `tests/test_ci_strict.py:83` | `def test_ci_workflow_has_no_swallowed_quality_gate()` |
+| `test_old_swallow_workflow_is_removed` | function | `tests/test_ci_strict.py:68` | `def test_old_swallow_workflow_is_removed()` |
+| `test_strict_workflow_contains_no_swallow_flags` | function | `tests/test_ci_strict.py:26` | `def test_strict_workflow_contains_no_swallow_flags()` |
+| `test_strict_workflow_exists` | function | `tests/test_ci_strict.py:21` | `def test_strict_workflow_exists()` |
+| `test_strict_workflow_runs_lint` | function | `tests/test_ci_strict.py:38` | `def test_strict_workflow_runs_lint()` |
+| `test_strict_workflow_runs_pytest` | function | `tests/test_ci_strict.py:56` | `def test_strict_workflow_runs_pytest()` |
+| `test_strict_workflow_runs_security_scan` | function | `tests/test_ci_strict.py:50` | `def test_strict_workflow_runs_security_scan()` |
+| `test_strict_workflow_runs_type_check` | function | `tests/test_ci_strict.py:44` | `def test_strict_workflow_runs_type_check()` |
+| `test_strict_workflow_targets_main_branch` | function | `tests/test_ci_strict.py:62` | `def test_strict_workflow_targets_main_branch()` |
+| `claude_md_text` | function | `tests/test_claudemd_consistency.py:22` | `def claude_md_text()` |
+| `test_claude_md_does_not_reference_deduplicated_config` | function | `tests/test_claudemd_consistency.py:41` | `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)` |
+| `test_claude_md_reports_actual_test_file_count` | function | `tests/test_claudemd_consistency.py:28` | `def test_claude_md_reports_actual_test_file_count(claude_md_text)` |
+| `test_claude_md_under_size_budget` | function | `tests/test_claudemd_size.py:22` | `def test_claude_md_under_size_budget()` |
+| `TestApplyAssign` | class | `tests/test_cli_assign.py:34` | `class TestApplyAssign` |
+| `TestAssignLineParsing` | class | `tests/test_cli_assign.py:101` | `class TestAssignLineParsing` |
+| `TestCompleteAssignBehaviour` | class | `tests/test_cli_assign.py:264` | `class TestCompleteAssignBehaviour` |
+| `TestFormatPayload` | class | `tests/test_cli_assign.py:139` | `class TestFormatPayload` |
+| `TestLazyOwnAssignWiring` | class | `tests/test_cli_assign.py:197` | `class TestLazyOwnAssignWiring` |
+| `_add_repo_root_to_syspath` | function | `tests/test_cli_assign.py:29` | `def _add_repo_root_to_syspath()` |
+| `_extract_method_body` | method | `tests/test_cli_assign.py:253` | `def _extract_method_body(src, name)` |
+| `migrated_src` | method | `tests/test_cli_assign.py:203` | `def migrated_src(self)` |
+| `saver` | function | `tests/test_cli_assign.py:72` | `def saver(p)` |
+| `src` | method | `tests/test_cli_assign.py:199` | `def src(self)` |
+| `test_aligns_column_to_widest_key` | method | `tests/test_cli_assign.py:154` | `def test_aligns_column_to_widest_key(self)` |
+| `test_allows_windows_path_backslashes` | method | `tests/test_cli_assign.py:85` | `def test_allows_windows_path_backslashes(self)` |
+| `test_auto_populate_refuses_shell_less_save` | method | `tests/test_cli_assign.py:310` | `def test_auto_populate_refuses_shell_less_save(self)` |
+| `test_complete_assign_defined` | method | `tests/test_cli_assign.py:236` | `def test_complete_assign_defined(self, src)` |
+| `test_complete_assign_reads_self_params` | method | `tests/test_cli_assign.py:239` | `def test_complete_assign_reads_self_params(self, src)` |
+| `test_do_assign_calls_apply_assign` | method | `tests/test_cli_assign.py:220` | `def test_do_assign_calls_apply_assign(self, migrated_src)` |
+| `test_do_assign_no_longer_directly_mutates_params` | method | `tests/test_cli_assign.py:230` | `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)` |
+| `test_do_assign_refreshes_aliases` | method | `tests/test_cli_assign.py:225` | `def test_do_assign_refreshes_aliases(self, migrated_src)` |
+| `test_do_payload_refreshes_aliases` | method | `tests/test_cli_assign.py:247` | `def test_do_payload_refreshes_aliases(self, migrated_src)` |
+| `test_do_show_uses_format_payload` | method | `tests/test_cli_assign.py:243` | `def test_do_show_uses_format_payload(self, migrated_src)` |
+| `test_does_not_invoke_save_on_failure` | method | `tests/test_cli_assign.py:49` | `def test_does_not_invoke_save_on_failure(self)` |
+| `test_empty_payload_returns_empty_string` | method | `tests/test_cli_assign.py:140` | `def test_empty_payload_returns_empty_string(self)` |
+| `test_imports_apply_assign` | method | `tests/test_cli_assign.py:211` | `def test_imports_apply_assign(self, migrated_src)` |
+| `test_imports_format_payload` | method | `tests/test_cli_assign.py:217` | `def test_imports_format_payload(self, migrated_src)` |
+| `test_imports_save_payload_from_core` | method | `tests/test_cli_assign.py:214` | `def test_imports_save_payload_from_core(self, migrated_src)` |
+| `test_int_value_rendered_as_string` | method | `tests/test_cli_assign.py:184` | `def test_int_value_rendered_as_string(self)` |
+| `test_invokes_save_on_success` | method | `tests/test_cli_assign.py:57` | `def test_invokes_save_on_success(self)` |
+| `test_keys_whitelist_filters_output` | method | `tests/test_cli_assign.py:170` | `def test_keys_whitelist_filters_output(self)` |
+| `test_missing_whitelist_keys_render_as_empty` | method | `tests/test_cli_assign.py:177` | `def test_missing_whitelist_keys_render_as_empty(self)` |
+| `test_no_ansi_codes` | method | `tests/test_cli_assign.py:190` | `def test_no_ansi_codes(self)` |
+| `test_no_completion_for_value_position` | method | `tests/test_cli_assign.py:284` | `def test_no_completion_for_value_position(self)` |
+| `test_none_values_render_as_empty` | method | `tests/test_cli_assign.py:164` | `def test_none_values_render_as_empty(self)` |
+| `test_persists_to_disk_via_save_payload` | method | `tests/test_cli_assign.py:119` | `def test_persists_to_disk_via_save_payload(self, tmp_path)` |
+| `test_posix_false_parses_preserve_backslashes` | method | `tests/test_cli_assign.py:102` | `def test_posix_false_parses_preserve_backslashes(self)` |
+| `test_refuses_null_on_required` | method | `tests/test_cli_assign.py:293` | `def test_refuses_null_on_required(self)` |
+| `test_rejects_shell_operators_and_escapes` | method | `tests/test_cli_assign.py:92` | `def test_rejects_shell_operators_and_escapes(self)` |
+| `test_renders_keys_sorted` | method | `tests/test_cli_assign.py:145` | `def test_renders_keys_sorted(self)` |
+| `test_returns_false_when_key_missing` | method | `tests/test_cli_assign.py:42` | `def test_returns_false_when_key_missing(self)` |
+| `test_returns_keys_starting_with_text` | method | `tests/test_cli_assign.py:267` | `def test_returns_keys_starting_with_text(self)` |
+| `test_returns_true_when_key_exists` | method | `tests/test_cli_assign.py:35` | `def test_returns_true_when_key_exists(self)` |
+| `test_save_optional` | method | `tests/test_cli_assign.py:78` | `def test_save_optional(self)` |
+| `test_save_receives_mutated_dict` | method | `tests/test_cli_assign.py:66` | `def test_save_receives_mutated_dict(self)` |
+| `test_strip_shell_quotes_variants` | method | `tests/test_cli_assign.py:111` | `def test_strip_shell_quotes_variants(self)` |
+| `test_warn_saves_invalid_but_present` | method | `tests/test_cli_assign.py:302` | `def test_warn_saves_invalid_but_present(self)` |
+| `TestRememberMeComparison` | class | `tests/test_cli_auth_remember.py:48` | `class TestRememberMeComparison` |
+| `isolated_auth` | function | `tests/test_cli_auth_remember.py:24` | `def isolated_auth(tmp_path, monkeypatch)` |
+| `test_comparison_is_timing_safe` | method | `tests/test_cli_auth_remember.py:76` | `def test_comparison_is_timing_safe(self)` |
+| `test_save_delegates_to_canonical_writer` | method | `tests/test_cli_auth_remember.py:92` | `def test_save_delegates_to_canonical_writer(self)` |
+| `test_save_writes_valid_json_and_audits` | method | `tests/test_cli_auth_remember.py:109` | `def test_save_writes_valid_json_and_audits(self, isolated_auth)` |
+| `test_valid_token_logs_in` | method | `tests/test_cli_auth_remember.py:49` | `def test_valid_token_logs_in(self, isolated_auth)` |
+| `test_wrong_token_rejected` | method | `tests/test_cli_auth_remember.py:63` | `def test_wrong_token_rejected(self, isolated_auth)` |
+| `Shell` | class | `tests/test_cli_command_sets.py:470` | `class Shell(Cmd)` |
+| `TestAliasLoaderSubstitution` | class | `tests/test_cli_command_sets.py:209` | `class TestAliasLoaderSubstitution` |
+| `TestAliasYamlIntegrity` | class | `tests/test_cli_command_sets.py:178` | `class TestAliasYamlIntegrity` |
+| `TestCommandSetDiscovery` | class | `tests/test_cli_command_sets.py:325` | `class TestCommandSetDiscovery` |
+| `TestLazyOwnRefactor` | class | `tests/test_cli_command_sets.py:298` | `class TestLazyOwnRefactor` |
+| `TestLazyOwnStillParses` | class | `tests/test_cli_command_sets.py:395` | `class TestLazyOwnStillParses` |
+| `TestPrivateHelperForwarding` | class | `tests/test_cli_command_sets.py:400` | `class TestPrivateHelperForwarding` |
+| `TestRegisterCommandSets` | class | `tests/test_cli_command_sets.py:357` | `class TestRegisterCommandSets` |
+| `_Bare` | class | `tests/test_cli_command_sets.py:363` | `class _Bare(Cmd)` |
+| `_Bare` | class | `tests/test_cli_command_sets.py:387` | `class _Bare(Cmd)` |
+| `_ExplosiveCommandSet` | class | `tests/test_cli_command_sets.py:375` | `class _ExplosiveCommandSet(CommandSet)` |
+| `_Probe` | class | `tests/test_cli_command_sets.py:415` | `class _Probe(LazyOwnCommandSet)` |
+| `_Shell` | class | `tests/test_cli_command_sets.py:428` | `class _Shell(Cmd)` |
+| `__init__` | method | `tests/test_cli_command_sets.py:376` | `def __init__(self)` |
+| `__init__` | method | `tests/test_cli_command_sets.py:429` | `def __init__(self)` |
+| `__init__` | method | `tests/test_cli_command_sets.py:471` | `def __init__(self)` |
+| `_add_repo_root_to_syspath` | function | `tests/test_cli_command_sets.py:24` | `def _add_repo_root_to_syspath()` |
+| `_legacy_alias_keys_from_lazyown` | function | `tests/test_cli_command_sets.py:34` | `def _legacy_alias_keys_from_lazyown()` |
+| `_load_yaml` | function | `tests/test_cli_command_sets.py:29` | `def _load_yaml()` |
+| `_probe_class` | method | `tests/test_cli_command_sets.py:410` | `def _probe_class(self)` |
+| `_scope_helper` | method | `tests/test_cli_command_sets.py:433` | `def _scope_helper(self)` |
+| `_shell_class` | method | `tests/test_cli_command_sets.py:425` | `def _shell_class(self)` |
+| `do_probe` | method | `tests/test_cli_command_sets.py:420` | `def do_probe(self, line)` |
+| `do_sh` | method | `tests/test_cli_command_sets.py:476` | `def do_sh(self, line)` |
+| `fake_iter` | function | `tests/test_cli_command_sets.py:379` | `def fake_iter()` |
+| `lazyown_text` | method | `tests/test_cli_command_sets.py:300` | `def lazyown_text(self)` |
+| `test_alias_with_trailing_args_keeps_operator_parameters` | function | `tests/test_cli_command_sets.py:484` | `def test_alias_with_trailing_args_keeps_operator_parameters()` |
+| `test_aliases_with_no_placeholders_unchanged` | method | `tests/test_cli_command_sets.py:250` | `def test_aliases_with_no_placeholders_unchanged(self)` |
+| `test_all_values_are_strings` | method | `tests/test_cli_command_sets.py:195` | `def test_all_values_are_strings(self)` |
+| `test_ast_parse` | method | `tests/test_cli_command_sets.py:396` | `def test_ast_parse(self)` |
+| `test_discovers_diagnostics_pilot` | method | `tests/test_cli_command_sets.py:332` | `def test_discovers_diagnostics_pilot(self)` |
+| `test_discovery_excludes_underscore_modules` | method | `tests/test_cli_command_sets.py:326` | `def test_discovery_excludes_underscore_modules(self)` |
+| `test_dunder_still_refused_after_registration` | method | `tests/test_cli_command_sets.py:449` | `def test_dunder_still_refused_after_registration(self)` |
+| `test_imports_cli_aliases_loader` | method | `tests/test_cli_command_sets.py:312` | `def test_imports_cli_aliases_loader(self, lazyown_text)` |
+| `test_imports_cli_registry` | method | `tests/test_cli_command_sets.py:315` | `def test_imports_cli_registry(self, lazyown_text)` |
+| `test_init_populates_aliases_at_runtime` | method | `tests/test_cli_command_sets.py:318` | `def test_init_populates_aliases_at_runtime(self, lazyown_text)` |
+| `test_init_registers_command_sets` | method | `tests/test_cli_command_sets.py:321` | `def test_init_registers_command_sets(self, lazyown_text)` |
+| `test_lazy_default_preserves_placeholders` | method | `tests/test_cli_command_sets.py:290` | `def test_lazy_default_preserves_placeholders(self)` |
+| `test_load_aliases_substitutes_payload_values` | method | `tests/test_cli_command_sets.py:215` | `def test_load_aliases_substitutes_payload_values(self)` |
+| `test_loader_handles_empty_file` | method | `tests/test_cli_command_sets.py:274` | `def test_loader_handles_empty_file(self, tmp_path)` |
+| `test_loader_rejects_non_mapping` | method | `tests/test_cli_command_sets.py:258` | `def test_loader_rejects_non_mapping(self, tmp_path)` |
+| `test_loader_rejects_non_string_value` | method | `tests/test_cli_command_sets.py:266` | `def test_loader_rejects_non_string_value(self, tmp_path)` |
+| `test_ls_is_unchanged` | method | `tests/test_cli_command_sets.py:202` | `def test_ls_is_unchanged(self)` |
+| `test_missing_keys_substitute_to_empty_string` | method | `tests/test_cli_command_sets.py:237` | `def test_missing_keys_substitute_to_empty_string(self)` |
+| `test_missing_private_raises_not_utils_fallback` | method | `tests/test_cli_command_sets.py:456` | `def test_missing_private_raises_not_utils_fallback(self)` |
+| `test_no_inline_aliases_dict_with_entries` | method | `tests/test_cli_command_sets.py:303` | `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)` |
+| `test_none_values_substitute_to_empty_string` | method | `tests/test_cli_command_sets.py:244` | `def test_none_values_substitute_to_empty_string(self)` |
+| `test_pilot_commandset_declares_phase` | method | `tests/test_cli_command_sets.py:344` | `def test_pilot_commandset_declares_phase(self)` |
+| `test_pilot_commandset_has_do_methods` | method | `tests/test_cli_command_sets.py:349` | `def test_pilot_commandset_has_do_methods(self)` |
+| `test_pilot_commandset_subclasses_base` | method | `tests/test_cli_command_sets.py:338` | `def test_pilot_commandset_subclasses_base(self)` |
+| `test_private_helper_forwards_after_registration` | method | `tests/test_cli_command_sets.py:443` | `def test_private_helper_forwards_after_registration(self)` |
+| `test_private_helper_inert_before_registration` | method | `tests/test_cli_command_sets.py:438` | `def test_private_helper_inert_before_registration(self)` |
+| `test_q_is_exit` | method | `tests/test_cli_command_sets.py:205` | `def test_q_is_exit(self)` |
+| `test_real_yaml_loads_with_real_payload` | method | `tests/test_cli_command_sets.py:281` | `def test_real_yaml_loads_with_real_payload(self)` |
+| `test_register_skips_failing_commandset_without_aborting` | method | `tests/test_cli_command_sets.py:370` | `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)` |
+| `test_registers_on_a_minimal_cmd2_instance` | method | `tests/test_cli_command_sets.py:358` | `def test_registers_on_a_minimal_cmd2_instance(self)` |
+| `test_rm_wm_host_alias_appends_the_ip_parameter` | function | `tests/test_cli_command_sets.py:464` | `def test_rm_wm_host_alias_appends_the_ip_parameter()` |
+| `test_vuln_alias_carries_ansi_escape` | method | `tests/test_cli_command_sets.py:199` | `def test_vuln_alias_carries_ansi_escape(self)` |
+| `test_yaml_count_is_125` | method | `tests/test_cli_command_sets.py:192` | `def test_yaml_count_is_125(self)` |
+| `test_yaml_keys_match_legacy_set` | method | `tests/test_cli_command_sets.py:184` | `def test_yaml_keys_match_legacy_set(self)` |
+| `test_yaml_loads` | method | `tests/test_cli_command_sets.py:179` | `def test_yaml_loads(self)` |
+| `FakeIO` | class | `tests/test_cli_enhancements.py:297` | `class FakeIO` |
+| `_MiniShell` | class | `tests/test_cli_enhancements.py:371` | `class _MiniShell` |
+| `_ShellLike` | class | `tests/test_cli_enhancements.py:349` | `class _ShellLike` |
+| `__init__` | method | `tests/test_cli_enhancements.py:298` | `def __init__(self, replies)` |
+| `__init__` | method | `tests/test_cli_enhancements.py:374` | `def __init__(self, tmp)` |
+| `do_gobuster` | method | `tests/test_cli_enhancements.py:355` | `def do_gobuster(self, _)` |
+| `do_gobuster` | method | `tests/test_cli_enhancements.py:395` | `def do_gobuster(self, _)` |
+| `do_lazynmap` | method | `tests/test_cli_enhancements.py:352` | `def do_lazynmap(self, _)` |
+| `do_lazynmap` | method | `tests/test_cli_enhancements.py:392` | `def do_lazynmap(self, _)` |
+| `emit` | method | `tests/test_cli_enhancements.py:307` | `def emit(self, line)` |
+| `fixture_index` | function | `tests/test_cli_enhancements.py:39` | `def fixture_index()` |
+| `get_all_commands` | method | `tests/test_cli_enhancements.py:389` | `def get_all_commands(self)` |
+| `poutput` | method | `tests/test_cli_enhancements.py:386` | `def poutput(self, msg)` |
+| `prompt` | method | `tests/test_cli_enhancements.py:302` | `def prompt(self, message, default)` |
+| `test_audit_form_unknown_lists_known` | function | `tests/test_cli_enhancements.py:429` | `def test_audit_form_unknown_lists_known(tmp_path)` |
+| `test_audit_fz_command_emits_results` | function | `tests/test_cli_enhancements.py:399` | `def test_audit_fz_command_emits_results(tmp_path)` |
+| `test_audit_grep_log_handles_empty_store` | function | `tests/test_cli_enhancements.py:419` | `def test_audit_grep_log_handles_empty_store(tmp_path)` |
+| `test_audit_status_tail_reports_no_evidence` | function | `tests/test_cli_enhancements.py:409` | `def test_audit_status_tail_reports_no_evidence(tmp_path)` |
+| `test_commands_from_cmd2_shell_extracts_doc_and_aliases` | function | `tests/test_cli_enhancements.py:359` | `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()` |
+| `test_completer_addon_lister_used_for_run` | function | `tests/test_cli_enhancements.py:108` | `def test_completer_addon_lister_used_for_run()` |
+| `test_completer_filters_by_partial` | function | `tests/test_cli_enhancements.py:116` | `def test_completer_filters_by_partial()` |
+| `test_completer_ignores_unknown_command` | function | `tests/test_cli_enhancements.py:123` | `def test_completer_ignores_unknown_command()` |
+| `test_completer_set_lists_payload_keys` | function | `tests/test_cli_enhancements.py:80` | `def test_completer_set_lists_payload_keys()` |
+| `test_completer_target_lists_targets_and_rhost` | function | `tests/test_cli_enhancements.py:89` | `def test_completer_target_lists_targets_and_rhost()` |
+| `test_completer_wordlist_keys_only_when_set` | function | `tests/test_cli_enhancements.py:101` | `def test_completer_wordlist_keys_only_when_set()` |
+| `test_dynamic_resolver_missing_keys_become_empty` | function | `tests/test_cli_enhancements.py:140` | `def test_dynamic_resolver_missing_keys_become_empty()` |
+| `test_dynamic_resolver_passes_through_literal_braces` | function | `tests/test_cli_enhancements.py:155` | `def test_dynamic_resolver_passes_through_literal_braces()` |
+| `test_dynamic_resolver_payload_changes_propagate` | function | `tests/test_cli_enhancements.py:146` | `def test_dynamic_resolver_payload_changes_propagate()` |
+| `test_dynamic_resolver_renders_against_current_payload` | function | `tests/test_cli_enhancements.py:132` | `def test_dynamic_resolver_renders_against_current_payload()` |
+| `test_form_collects_values_with_defaults` | function | `tests/test_cli_enhancements.py:311` | `def test_form_collects_values_with_defaults()` |
+| `test_form_options_constraint_falls_back_to_default` | function | `tests/test_cli_enhancements.py:325` | `def test_form_options_constraint_falls_back_to_default()` |
+| `test_form_required_reprompted` | function | `tests/test_cli_enhancements.py:336` | `def test_form_required_reprompted()` |
+| `test_fuzzy_alias_resolves_to_command` | function | `tests/test_cli_enhancements.py:56` | `def test_fuzzy_alias_resolves_to_command(fixture_index)` |
+| `test_fuzzy_empty_query_lists_all` | function | `tests/test_cli_enhancements.py:67` | `def test_fuzzy_empty_query_lists_all(fixture_index)` |
+| `test_fuzzy_exact_match_scores_one` | function | `tests/test_cli_enhancements.py:50` | `def test_fuzzy_exact_match_scores_one(fixture_index)` |
+| `test_fuzzy_returns_empty_on_garbage` | function | `tests/test_cli_enhancements.py:72` | `def test_fuzzy_returns_empty_on_garbage(fixture_index)` |
+| `test_fuzzy_substring_match` | function | `tests/test_cli_enhancements.py:62` | `def test_fuzzy_substring_match(fixture_index)` |
+| `test_hot_reloader_detects_modification` | function | `tests/test_cli_enhancements.py:191` | `def test_hot_reloader_detects_modification(tmp_path)` |
+| `test_hot_reloader_detects_new_file` | function | `tests/test_cli_enhancements.py:179` | `def test_hot_reloader_detects_new_file(tmp_path)` |
+| `test_hot_reloader_ignores_non_addon_files` | function | `tests/test_cli_enhancements.py:208` | `def test_hot_reloader_ignores_non_addon_files(tmp_path)` |
+| `test_load_aliases_eager_substitutes` | function | `tests/test_cli_enhancements.py:169` | `def test_load_aliases_eager_substitutes(tmp_path)` |
+| `test_load_aliases_lazy_preserves_placeholders` | function | `tests/test_cli_enhancements.py:162` | `def test_load_aliases_lazy_preserves_placeholders(tmp_path)` |
+| `test_status_tail_extracts_open_ports` | function | `tests/test_cli_enhancements.py:221` | `def test_status_tail_extracts_open_ports()` |
+| `test_status_tail_handles_empty` | function | `tests/test_cli_enhancements.py:237` | `def test_status_tail_handles_empty()` |
+| `test_status_tail_no_ports_falls_back_to_stats` | function | `tests/test_cli_enhancements.py:244` | `def test_status_tail_no_ports_falls_back_to_stats()` |
+| `test_transcript_capacity` | function | `tests/test_cli_enhancements.py:285` | `def test_transcript_capacity(tmp_path)` |
+| `test_transcript_grep_command_filter` | function | `tests/test_cli_enhancements.py:262` | `def test_transcript_grep_command_filter(tmp_path)` |
+| `test_transcript_grep_invalid_regex` | function | `tests/test_cli_enhancements.py:270` | `def test_transcript_grep_invalid_regex(tmp_path)` |
+| `test_transcript_grep_matches_recent_output` | function | `tests/test_cli_enhancements.py:254` | `def test_transcript_grep_matches_recent_output(tmp_path)` |
+| `test_transcript_persists_and_reloads` | function | `tests/test_cli_enhancements.py:277` | `def test_transcript_persists_and_reloads(tmp_path)` |
+| `TestDocExampleDomainSanitize` | class | `tests/test_codeql_alert_fixes.py:104` | `class TestDocExampleDomainSanitize` |
+| `TestSudoSegmentRegexLinear` | class | `tests/test_codeql_alert_fixes.py:86` | `class TestSudoSegmentRegexLinear` |
+| `TestWorldModelEncryptedAtRest` | class | `tests/test_codeql_alert_fixes.py:12` | `class TestWorldModelEncryptedAtRest` |
+| `test_bare_mid_sentence_untouched` | method | `tests/test_codeql_alert_fixes.py:96` | `def test_bare_mid_sentence_untouched(self)` |
+| `test_device_secret_created_used_then_readable` | method | `tests/test_codeql_alert_fixes.py:67` | `def test_device_secret_created_used_then_readable(self, tmp_path, monkeypatch)` |
+| `test_env_prefix_sudo_rewrites` | method | `tests/test_codeql_alert_fixes.py:92` | `def test_env_prefix_sudo_rewrites(self)` |
+| `test_exact_and_subdomains_excluded` | method | `tests/test_codeql_alert_fixes.py:107` | `def test_exact_and_subdomains_excluded(self)` |
+| `test_goal_prefers_real_host_over_examples` | method | `tests/test_codeql_alert_fixes.py:117` | `def test_goal_prefers_real_host_over_examples(self)` |
+| `test_legacy_autocrypto_sibling_readable` | method | `tests/test_codeql_alert_fixes.py:36` | `def test_legacy_autocrypto_sibling_readable(self, tmp_path, monkeypatch)` |
+| `test_legacy_plain_json_still_readable` | method | `tests/test_codeql_alert_fixes.py:30` | `def test_legacy_plain_json_still_readable(self, tmp_path, monkeypatch)` |
+| `test_lookalikes_not_matched` | method | `tests/test_codeql_alert_fixes.py:112` | `def test_lookalikes_not_matched(self)` |
+| `test_refuses_persist_without_key_material` | method | `tests/test_codeql_alert_fixes.py:58` | `def test_refuses_persist_without_key_material(self, tmp_path, monkeypatch)` |
+| `test_restricted_mode_after_write` | method | `tests/test_codeql_alert_fixes.py:52` | `def test_restricted_mode_after_write(self, tmp_path, monkeypatch)` |
+| `test_rewrites_leading_sudo` | method | `tests/test_codeql_alert_fixes.py:89` | `def test_rewrites_leading_sudo(self)` |
+| `test_roundtrip_decrypt` | method | `tests/test_codeql_alert_fixes.py:23` | `def test_roundtrip_decrypt(self, tmp_path, monkeypatch)` |
+| `test_scored_marker_never_matched` | method | `tests/test_codeql_alert_fixes.py:99` | `def test_scored_marker_never_matched(self)` |
+| `test_write_is_fernet_not_json` | method | `tests/test_codeql_alert_fixes.py:15` | `def test_write_is_fernet_not_json(self, tmp_path, monkeypatch)` |
+| `TestCollabFlaskRoutes` | class | `tests/test_collab_and_onboarding.py:371` | `class TestCollabFlaskRoutes` |
+| `TestCollabJoinCLICommand` | class | `tests/test_collab_and_onboarding.py:472` | `class TestCollabJoinCLICommand` |
+| `TestCollabModuleClasses` | class | `tests/test_collab_and_onboarding.py:181` | `class TestCollabModuleClasses` |
+| `TestCollabModuleExists` | class | `tests/test_collab_and_onboarding.py:170` | `class TestCollabModuleExists` |
+| `TestCollabTemplate` | class | `tests/test_collab_and_onboarding.py:430` | `class TestCollabTemplate` |
+| `TestEventBus` | class | `tests/test_collab_and_onboarding.py:220` | `class TestEventBus` |
+| `TestLockManager` | class | `tests/test_collab_and_onboarding.py:281` | `class TestLockManager` |
+| `TestOperatorRegistry` | class | `tests/test_collab_and_onboarding.py:332` | `class TestOperatorRegistry` |
+| `TestQuickstartContent` | class | `tests/test_collab_and_onboarding.py:95` | `class TestQuickstartContent` |
+| `TestQuickstartExists` | class | `tests/test_collab_and_onboarding.py:87` | `class TestQuickstartExists` |
+| `TestWizardContract` | class | `tests/test_collab_and_onboarding.py:142` | `class TestWizardContract` |
+| `_TestOperator` | class | `tests/test_collab_and_onboarding.py:66` | `class _TestOperator(UserMixin)` |
+| `_auto_login` | function | `tests/test_collab_and_onboarding.py:78` | `def _auto_login()` |
+| `_install_test_login` | function | `tests/test_collab_and_onboarding.py:54` | `def _install_test_login(app)` |
+| `_load_user` | function | `tests/test_collab_and_onboarding.py:74` | `def _load_user(user_id)` |
+| `_make_app` | function | `tests/test_collab_and_onboarding.py:33` | `def _make_app()` |
+| `bus` | method | `tests/test_collab_and_onboarding.py:222` | `def bus(self)` |
+| `client` | method | `tests/test_collab_and_onboarding.py:373` | `def client(self)` |
 | `command_src` | method | `tests/test_collab_and_onboarding.py:474` | `def command_src(self)` |
 | `html` | method | `tests/test_collab_and_onboarding.py:432` | `def html(self)` |
 | `lm` | method | `tests/test_collab_and_onboarding.py:283` | `def lm(self)` |
@@ -232,269 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_complete_palette_uses_completer` | method | `tests/test_command_palette.py:1064` | `def test_complete_palette_uses_completer(self, src)` |
 | `test_completer_after_next_offers_phases` | method | `tests/test_command_palette.py:1861` | `def test_completer_after_next_offers_phases(self, synthetic_index)` |
 | `test_completer_is_data_driven` | method | `tests/test_command_palette.py:943` | `def test_completer_is_data_driven(self, completer)` |
-| `test_completer_offers_next_flag_at_first_position` | method | `tests/test_command_palette.py:1851` | `def test_completer_offers_next_flag_at_first_position(self, synthetic_index)` |
-| `test_cooccurrence_emits_top_followers` | method | `tests/test_command_palette.py:2070` | `def test_cooccurrence_emits_top_followers(self, synthetic_telemetry_path)` |
-| `test_cooccurrence_respects_min_count` | method | `tests/test_command_palette.py:2079` | `def test_cooccurrence_respects_min_count(self, tmp_path)` |
-| `test_custom_config_overrides_defaults` | method | `tests/test_command_palette.py:1005` | `def test_custom_config_overrides_defaults(self, synthetic_index)` |
-| `test_custom_view_config_overrides_labels` | method | `tests/test_command_palette.py:1313` | `def test_custom_view_config_overrides_labels(self, synthetic_index)` |
-| `test_description_mentions_calls_and_related` | method | `tests/test_command_palette.py:1964` | `def test_description_mentions_calls_and_related(self, src)` |
-| `test_description_mentions_next_mode` | method | `tests/test_command_palette.py:1960` | `def test_description_mentions_next_mode(self, src)` |
-| `test_detail_empty_returns_none` | method | `tests/test_command_palette.py:790` | `def test_detail_empty_returns_none(self, query)` |
-| `test_detail_missing_returns_configured_message` | method | `tests/test_command_palette.py:871` | `def test_detail_missing_returns_configured_message(self, renderer)` |
-| `test_detail_mode_returns_single_entry` | method | `tests/test_command_palette.py:1138` | `def test_detail_mode_returns_single_entry(self, synthetic_index, suite_config)` |
-| `test_detail_mode_unknown_returns_empty_results` | method | `tests/test_command_palette.py:1154` | `def test_detail_mode_unknown_returns_empty_results(self, synthetic_index)` |
-| `test_detail_renders_every_label` | method | `tests/test_command_palette.py:855` | `def test_detail_renders_every_label(self, renderer, suite_config)` |
-| `test_detail_unknown_returns_none` | method | `tests/test_command_palette.py:786` | `def test_detail_unknown_returns_none(self, query)` |
-| `test_detail_when_info_flag` | method | `tests/test_command_palette.py:996` | `def test_detail_when_info_flag(self, synthetic_index, suite_config)` |
-| `test_detail_with_prefix` | method | `tests/test_command_palette.py:772` | `def test_detail_with_prefix(self, query, suite_config)` |
-| `test_detail_without_prefix` | method | `tests/test_command_palette.py:779` | `def test_detail_without_prefix(self, query, suite_config)` |
-| `test_dispatcher_branch_calls_render_json` | method | `tests/test_command_palette.py:1374` | `def test_dispatcher_branch_calls_render_json(self, src, suite_config)` |
-| `test_dispatcher_branch_handles_missing_index` | method | `tests/test_command_palette.py:1367` | `def test_dispatcher_branch_handles_missing_index(self, src, suite_config)` |
-| `test_dispatcher_branch_imports_render_json` | method | `tests/test_command_palette.py:1360` | `def test_dispatcher_branch_imports_render_json(self, src, suite_config)` |
-| `test_dispatcher_branch_present` | method | `tests/test_command_palette.py:1356` | `def test_dispatcher_branch_present(self, src, suite_config)` |
-| `test_do_palette_handles_index_error` | method | `tests/test_command_palette.py:1059` | `def test_do_palette_handles_index_error(self, palette_src)` |
-| `test_do_palette_loads_index_and_renders` | method | `tests/test_command_palette.py:1053` | `def test_do_palette_loads_index_and_renders(self, palette_src)` |
-| `test_duplicate_lines_match` | method | `tests/test_command_palette.py:481` | `def test_duplicate_lines_match(self, index_document, suite_config)` |
-| `test_duplicate_marked_in_command_list` | method | `tests/test_command_palette.py:488` | `def test_duplicate_marked_in_command_list(self, index_document, suite_config)` |
-| `test_duplicate_names_listed` | method | `tests/test_command_palette.py:476` | `def test_duplicate_names_listed(self, index_document, suite_config)` |
-| `test_empty_index_yields_zero_totals` | method | `tests/test_command_palette.py:1325` | `def test_empty_index_yields_zero_totals(self, suite_config)` |
-| `test_empty_line_routes_to_overview` | method | `tests/test_command_palette.py:657` | `def test_empty_line_routes_to_overview(self, parser, suite_config)` |
-| `test_enrich_detail_attaches_calls_and_related` | method | `tests/test_command_palette.py:1616` | `def test_enrich_detail_attaches_calls_and_related(self, synthetic_graph, tmp_path, suite_config)` |
-| `test_enrich_detail_attaches_runs_and_runs_after` | method | `tests/test_command_palette.py:2110` | `def test_enrich_detail_attaches_runs_and_runs_after(self, synthetic_telemetry_path)` |
-| `test_enrich_detail_passes_through_none` | method | `tests/test_command_palette.py:1636` | `def test_enrich_detail_passes_through_none(self)` |
-| `test_enrich_detail_passes_through_none` | method | `tests/test_command_palette.py:2123` | `def test_enrich_detail_passes_through_none(self)` |
-| `test_enrichment_passes_through_none` | method | `tests/test_command_palette.py:2270` | `def test_enrichment_passes_through_none(self)` |
-| `test_enrichment_returns_entry_when_both_modules_missing` | method | `tests/test_command_palette.py:2252` | `def test_enrichment_returns_entry_when_both_modules_missing(self, monkeypatch)` |
-| `test_filter_by_phase_returns_only_matching_phase` | method | `tests/test_command_palette.py:604` | `def test_filter_by_phase_returns_only_matching_phase(self, suite_config)` |
-| `test_filter_by_phase_unknown_returns_empty` | method | `tests/test_command_palette.py:612` | `def test_filter_by_phase_unknown_returns_empty(self)` |
-| `test_first_position_offers_phases_and_flags` | method | `tests/test_command_palette.py:889` | `def test_first_position_offers_phases_and_flags(self, completer, synthetic_index, suite_config)` |
-| `test_first_position_prefix_filtering` | method | `tests/test_command_palette.py:903` | `def test_first_position_prefix_filtering(self, completer, synthetic_index, suite_config)` |
-| `test_flags_exposed_for_ui_chips` | method | `tests/test_command_palette.py:1301` | `def test_flags_exposed_for_ui_chips(self, synthetic_index)` |
-| `test_get_resolves_with_or_without_prefix` | method | `tests/test_command_palette.py:618` | `def test_get_resolves_with_or_without_prefix(self, suite_config)` |
-| `test_in_phase_filters_to_target` | method | `tests/test_command_palette.py:753` | `def test_in_phase_filters_to_target(self, query, suite_config)` |
-| `test_info_flag_routes_to_detail` | method | `tests/test_command_palette.py:700` | `def test_info_flag_routes_to_detail(self, suite_config, parser)` |
-| `test_input_schema_documents_line_property` | method | `tests/test_command_palette.py:1350` | `def test_input_schema_documents_line_property(self, src, suite_config)` |
-| `test_known_phase_token_routes_to_phase` | method | `tests/test_command_palette.py:664` | `def test_known_phase_token_routes_to_phase(self, suite_config, parser)` |
-| `test_load_graph_against_repo_artefact` | method | `tests/test_command_palette.py:1532` | `def test_load_graph_against_repo_artefact(self, suite_config)` |
-| `test_load_index_returns_document` | method | `tests/test_command_palette.py:575` | `def test_load_index_returns_document(self, suite_config)` |
-| `test_load_telemetry_counts_invocations` | method | `tests/test_command_palette.py:2028` | `def test_load_telemetry_counts_invocations(self, synthetic_telemetry_path)` |
-| `test_load_telemetry_normalises_prefix` | method | `tests/test_command_palette.py:2037` | `def test_load_telemetry_normalises_prefix(self, synthetic_telemetry_path)` |
-| `test_load_telemetry_raises_on_unreadable_path` | method | `tests/test_command_palette.py:2129` | `def test_load_telemetry_raises_on_unreadable_path(self, tmp_path)` |
-| `test_load_telemetry_records_last_seen` | method | `tests/test_command_palette.py:2053` | `def test_load_telemetry_records_last_seen(self, synthetic_telemetry_path)` |
-| `test_load_telemetry_skips_excluded_commands` | method | `tests/test_command_palette.py:2045` | `def test_load_telemetry_skips_excluded_commands(self, synthetic_telemetry_path)` |
-| `test_malformed_graph_raises_graph_index_error` | method | `tests/test_command_palette.py:1551` | `def test_malformed_graph_raises_graph_index_error(self, tmp_path)` |
-| `test_malformed_json_raises_command_index_error` | method | `tests/test_command_palette.py:636` | `def test_malformed_json_raises_command_index_error(self, tmp_path, suite_config)` |
-| `test_malformed_quote_does_not_raise` | method | `tests/test_command_palette.py:721` | `def test_malformed_quote_does_not_raise(self, suite_config, parser)` |
-| `test_methods_defined_on_lazyown_shell` | method | `tests/test_command_palette.py:1041` | `def test_methods_defined_on_lazyown_shell(self, src, suite_config)` |
-| `test_migrated_imports_present` | method | `tests/test_command_palette.py:1036` | `def test_migrated_imports_present(self, palette_src, suite_config)` |
-| `test_missing_graph_raises_graph_index_error` | method | `tests/test_command_palette.py:1543` | `def test_missing_graph_raises_graph_index_error(self, tmp_path)` |
-| `test_missing_index_raises_command_index_error` | method | `tests/test_command_palette.py:628` | `def test_missing_index_raises_command_index_error(self, tmp_path)` |
-| `test_next_flag_routes_to_next_mode` | method | `tests/test_command_palette.py:1761` | `def test_next_flag_routes_to_next_mode(self, parser, suite_config)` |
-| `test_next_flag_without_phase` | method | `tests/test_command_palette.py:1770` | `def test_next_flag_without_phase(self, parser, suite_config)` |
-| `test_no_command_lost_vs_ast` | method | `tests/test_command_palette.py:452` | `def test_no_command_lost_vs_ast(self, index_document, ast_command_names)` |
-| `test_one_canonical_per_duplicate` | method | `tests/test_command_palette.py:495` | `def test_one_canonical_per_duplicate(self, index_document, suite_config)` |
-| `test_overlay_escapes_command_strings` | method | `tests/test_command_palette.py:1942` | `def test_overlay_escapes_command_strings(self, base_src)` |
-| `test_overlay_is_authenticated_only` | method | `tests/test_command_palette.py:1935` | `def test_overlay_is_authenticated_only(self, base_src)` |
-| `test_overlay_links_to_full_palette` | method | `tests/test_command_palette.py:1947` | `def test_overlay_links_to_full_palette(self, base_src)` |
-| `test_overlay_markup_present` | method | `tests/test_command_palette.py:1930` | `def test_overlay_markup_present(self, base_src, suite_config)` |
-| `test_overview_empty_returns_only_header` | method | `tests/test_command_palette.py:812` | `def test_overview_empty_returns_only_header(self, renderer)` |
-| `test_overview_lists_every_phase` | method | `tests/test_command_palette.py:805` | `def test_overview_lists_every_phase(self, renderer, suite_config)` |
-| `test_overview_when_line_is_empty` | method | `tests/test_command_palette.py:968` | `def test_overview_when_line_is_empty(self, synthetic_index)` |
-| `test_overview_when_line_is_empty` | method | `tests/test_command_palette.py:1078` | `def test_overview_when_line_is_empty(self, synthetic_index, suite_config)` |
-| `test_palette_json_result_to_dict_matches_schema` | method | `tests/test_command_palette.py:1178` | `def test_palette_json_result_to_dict_matches_schema(self, suite_config)` |
-| `test_phase_buckets_match_commands` | method | `tests/test_command_palette.py:444` | `def test_phase_buckets_match_commands(self, index_document)` |
-| `test_phase_counts_match_phase_buckets` | method | `tests/test_command_palette.py:748` | `def test_phase_counts_match_phase_buckets(self, query, synthetic_index)` |
-| `test_phase_entries_carry_required_fields` | method | `tests/test_command_palette.py:1207` | `def test_phase_entries_carry_required_fields(self, synthetic_index, suite_config)` |
-| `test_phase_listing_empty_uses_empty_message` | method | `tests/test_command_palette.py:830` | `def test_phase_listing_empty_uses_empty_message(self, renderer, suite_config)` |
-| `test_phase_listing_includes_header` | method | `tests/test_command_palette.py:819` | `def test_phase_listing_includes_header(self, renderer, suite_config)` |
-| `test_phase_match_is_case_insensitive` | method | `tests/test_command_palette.py:712` | `def test_phase_match_is_case_insensitive(self, suite_config, parser)` |
-| `test_phase_mode_returns_filtered_rows` | method | `tests/test_command_palette.py:1094` | `def test_phase_mode_returns_filtered_rows(self, synthetic_index, suite_config)` |
-| `test_phase_mode_with_query_narrows_rows` | method | `tests/test_command_palette.py:1108` | `def test_phase_mode_with_query_narrows_rows(self, synthetic_index, suite_config)` |
-| `test_phase_when_token_is_known_phase` | method | `tests/test_command_palette.py:975` | `def test_phase_when_token_is_known_phase(self, synthetic_index, suite_config)` |
-| `test_phase_with_query_token` | method | `tests/test_command_palette.py:681` | `def test_phase_with_query_token(self, suite_config, parser)` |
-| `test_phases_ordered_by_kill_chain` | method | `tests/test_command_palette.py:1246` | `def test_phases_ordered_by_kill_chain(self, synthetic_index)` |
-| `test_phases_returns_sorted` | method | `tests/test_command_palette.py:744` | `def test_phases_returns_sorted(self, query, suite_config)` |
-| `test_query_next_phase_at_end_returns_none` | method | `tests/test_command_palette.py:1795` | `def test_query_next_phase_at_end_returns_none(self)` |
-| `test_query_next_phase_returns_following_phase` | method | `tests/test_command_palette.py:1779` | `def test_query_next_phase_returns_following_phase(self, synthetic_index)` |
-| `test_query_next_phase_unknown_returns_none` | method | `tests/test_command_palette.py:1787` | `def test_query_next_phase_unknown_returns_none(self, synthetic_index)` |
-| `test_rate_limit_constant_defined` | method | `tests/test_command_palette.py:2210` | `def test_rate_limit_constant_defined(self, src, suite_config)` |
-| `test_rate_limit_decorator_present` | method | `tests/test_command_palette.py:2206` | `def test_rate_limit_decorator_present(self, src, suite_config)` |
-| `test_rate_limit_falls_back_to_default` | method | `tests/test_command_palette.py:2216` | `def test_rate_limit_falls_back_to_default(self, src, suite_config)` |
-| `test_recent_order_is_most_recent_first_and_unique` | method | `tests/test_command_palette.py:2060` | `def test_recent_order_is_most_recent_first_and_unique(self, synthetic_telemetry_path)` |
-| `test_recents_section_renders_when_input_empty` | method | `tests/test_command_palette.py:2243` | `def test_recents_section_renders_when_input_empty(self, base_src)` |
-| `test_related_commands_uses_shared_helpers` | method | `tests/test_command_palette.py:1598` | `def test_related_commands_uses_shared_helpers(self, synthetic_graph, tmp_path)` |
-| `test_related_commands_with_none_graph_is_empty` | method | `tests/test_command_palette.py:1610` | `def test_related_commands_with_none_graph_is_empty(self)` |
-| `test_render_detail_shows_runs_and_runs_after` | method | `tests/test_command_palette.py:2143` | `def test_render_detail_shows_runs_and_runs_after(self)` |
-| `test_render_detail_skips_telemetry_rows_when_zero` | method | `tests/test_command_palette.py:2168` | `def test_render_detail_skips_telemetry_rows_when_zero(self)` |
-| `test_render_document_is_idempotent` | method | `tests/test_command_palette.py:508` | `def test_render_document_is_idempotent(self)` |
-| `test_render_json_detail_contains_neighbour_keys` | method | `tests/test_command_palette.py:1712` | `def test_render_json_detail_contains_neighbour_keys(self, synthetic_index, suite_config)` |
-| `test_render_json_next_mode` | method | `tests/test_command_palette.py:1841` | `def test_render_json_next_mode(self, synthetic_index)` |
-| `test_render_json_output_is_serialisable` | method | `tests/test_command_palette.py:1166` | `def test_render_json_output_is_serialisable(self, synthetic_index)` |
-| `test_render_next_empty_returns_message` | method | `tests/test_command_palette.py:1817` | `def test_render_next_empty_returns_message(self)` |
-| `test_render_next_returns_phase_listing` | method | `tests/test_command_palette.py:1808` | `def test_render_next_returns_phase_listing(self, synthetic_index)` |
-| `test_render_top_level_attaches_neighbour_lists` | method | `tests/test_command_palette.py:1701` | `def test_render_top_level_attaches_neighbour_lists(self, synthetic_index, suite_config)` |
-| `test_required_command_fields` | method | `tests/test_command_palette.py:435` | `def test_required_command_fields(self, index_document, suite_config)` |
-| `test_required_imports_present` | method | `tests/test_command_palette.py:1031` | `def test_required_imports_present(self, src, suite_config)` |
-| `test_required_imports_present` | method | `tests/test_command_palette.py:1420` | `def test_required_imports_present(self, src, suite_config)` |
-| `test_resolve_category_constant_name` | method | `tests/test_command_palette.py:544` | `def test_resolve_category_constant_name(self)` |
-| `test_resolve_category_missing` | method | `tests/test_command_palette.py:558` | `def test_resolve_category_missing(self)` |
-| `test_resolve_category_string_literal` | method | `tests/test_command_palette.py:551` | `def test_resolve_category_string_literal(self)` |
-| `test_returns_required_top_level_keys` | method | `tests/test_command_palette.py:1195` | `def test_returns_required_top_level_keys(self, synthetic_index, suite_config)` |
-| `test_route_decorator_present` | method | `tests/test_command_palette.py:1425` | `def test_route_decorator_present(self, src, suite_config)` |
-| `test_route_decorator_present` | method | `tests/test_command_palette.py:1881` | `def test_route_decorator_present(self, src, suite_config)` |
-| `test_route_function_defined` | method | `tests/test_command_palette.py:1429` | `def test_route_function_defined(self, src, suite_config)` |
-| `test_route_function_defined` | method | `tests/test_command_palette.py:1885` | `def test_route_function_defined(self, src, suite_config)` |
-| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1461` | `def test_route_handles_missing_index(self, src, suite_config)` |
-| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1913` | `def test_route_handles_missing_index(self, src, suite_config)` |
-| `test_route_loads_index_and_builds_view` | method | `tests/test_command_palette.py:1450` | `def test_route_loads_index_and_builds_view(self, src, suite_config)` |
-| `test_route_renders_palette_template` | method | `tests/test_command_palette.py:1456` | `def test_route_renders_palette_template(self, src, suite_config)` |
-| `test_route_returns_jsonified_view` | method | `tests/test_command_palette.py:1906` | `def test_route_returns_jsonified_view(self, src, suite_config)` |
-| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1435` | `def test_route_uses_requires_auth(self, src, suite_config)` |
-| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1891` | `def test_route_uses_requires_auth(self, src, suite_config)` |
-| `test_runs_after_handles_none_telemetry` | method | `tests/test_command_palette.py:2102` | `def test_runs_after_handles_none_telemetry(self)` |
-| `test_safe_load_graph_returns_none_when_missing` | method | `tests/test_command_palette.py:1561` | `def test_safe_load_graph_returns_none_when_missing(self, tmp_path)` |
-| `test_safe_load_returns_empty_index_when_csv_missing` | method | `tests/test_command_palette.py:2018` | `def test_safe_load_returns_empty_index_when_csv_missing(self, tmp_path)` |
-| `test_schema_version_matches_config` | method | `tests/test_command_palette.py:415` | `def test_schema_version_matches_config(self, index_document, suite_config)` |
-| `test_score_function_uses_runs_signal` | method | `tests/test_command_palette.py:2238` | `def test_score_function_uses_runs_signal(self, base_src)` |
-| `test_search_empty_uses_empty_message` | method | `tests/test_command_palette.py:847` | `def test_search_empty_uses_empty_message(self, renderer)` |
-| `test_search_flag_routes_to_search` | method | `tests/test_command_palette.py:691` | `def test_search_flag_routes_to_search(self, suite_config, parser)` |
-| `test_search_includes_query_in_header` | method | `tests/test_command_palette.py:838` | `def test_search_includes_query_in_header(self, renderer)` |
-| `test_search_mode_returns_query_and_hits` | method | `tests/test_command_palette.py:1123` | `def test_search_mode_returns_query_and_hits(self, synthetic_index)` |
-| `test_search_negative_limit_returns_empty` | method | `tests/test_command_palette.py:768` | `def test_search_negative_limit_returns_empty(self, query)` |
-| `test_search_substring_match` | method | `tests/test_command_palette.py:759` | `def test_search_substring_match(self, query, suite_config)` |
-| `test_search_when_token_is_unknown` | method | `tests/test_command_palette.py:986` | `def test_search_when_token_is_unknown(self, synthetic_index, suite_config)` |
-| `test_search_zero_limit_returns_empty` | method | `tests/test_command_palette.py:764` | `def test_search_zero_limit_returns_empty(self, query)` |
-| `test_second_position_after_info_lists_all_commands` | method | `tests/test_command_palette.py:924` | `def test_second_position_after_info_lists_all_commands(self, completer, synthetic_index)` |
-| `test_second_position_after_phase_lists_phase_commands` | method | `tests/test_command_palette.py:913` | `def test_second_position_after_phase_lists_phase_commands(self, completer, synthetic_index, suite_config)` |
-| `test_summary_first_line_only` | method | `tests/test_command_palette.py:537` | `def test_summary_first_line_only(self)` |
-| `test_summary_truncates_to_max_chars` | method | `tests/test_command_palette.py:527` | `def test_summary_truncates_to_max_chars(self, suite_config)` |
-| `test_telemetry_markers_present` | method | `tests/test_command_palette.py:2233` | `def test_telemetry_markers_present(self, base_src, suite_config)` |
-| `test_template_escapes_user_facing_strings` | method | `tests/test_command_palette.py:1472` | `def test_template_escapes_user_facing_strings(self, template_src)` |
-| `test_template_extends_base_layout` | method | `tests/test_command_palette.py:1467` | `def test_template_extends_base_layout(self, template_src, suite_config)` |
-| `test_text_detail_includes_calls` | method | `tests/test_command_palette.py:1659` | `def test_text_detail_includes_calls(self, suite_config)` |
-| `test_text_detail_includes_related` | method | `tests/test_command_palette.py:1668` | `def test_text_detail_includes_related(self, suite_config)` |
-| `test_text_detail_omits_calls_when_empty` | method | `tests/test_command_palette.py:1689` | `def test_text_detail_omits_calls_when_empty(self, suite_config)` |
-| `test_text_detail_truncates_neighbour_list` | method | `tests/test_command_palette.py:1678` | `def test_text_detail_truncates_neighbour_list(self, suite_config)` |
-| `test_third_position_returns_empty` | method | `tests/test_command_palette.py:934` | `def test_third_position_returns_empty(self, completer, synthetic_index, suite_config)` |
-| `test_tool_declared_in_list_tools` | method | `tests/test_command_palette.py:1346` | `def test_tool_declared_in_list_tools(self, src, suite_config)` |
-| `test_top_level_keys_present` | method | `tests/test_command_palette.py:421` | `def test_top_level_keys_present(self, index_document, suite_config)` |
-| `test_totals_match_canonical_command_count` | method | `tests/test_command_palette.py:1221` | `def test_totals_match_canonical_command_count(self, synthetic_index, suite_config)` |
-| `test_totals_match_command_list` | method | `tests/test_command_palette.py:426` | `def test_totals_match_command_list(self, index_document)` |
-| `test_unique_count_matches_ast` | method | `tests/test_command_palette.py:464` | `def test_unique_count_matches_ast(self, index_document, ast_command_names)` |
-| `test_unknown_phases_appear_after_known_ones` | method | `tests/test_command_palette.py:1260` | `def test_unknown_phases_appear_after_known_ones(self, suite_config)` |
-| `test_unknown_token_routes_to_search` | method | `tests/test_command_palette.py:673` | `def test_unknown_token_routes_to_search(self, suite_config, parser)` |
-| `TestDormancyMechanism` | class | `tests/test_command_set_migration.py:139` | `class TestDormancyMechanism` |
-| `TestMigratedSetsStructure` | class | `tests/test_command_set_migration.py:249` | `class TestMigratedSetsStructure` |
-| `TestParityWithLegacyShell` | class | `tests/test_command_set_migration.py:284` | `class TestParityWithLegacyShell` |
-| `TestProductionHygiene` | class | `tests/test_command_set_migration.py:312` | `class TestProductionHygiene` |
-| `TestShellForwarding` | class | `tests/test_command_set_migration.py:189` | `class TestShellForwarding` |
-| `_Bare` | class | `tests/test_command_set_migration.py:180` | `class _Bare(Cmd)` |
-| `_Probe` | class | `tests/test_command_set_migration.py:202` | `class _Probe(LazyOwnCommandSet)` |
-| `_Sample` | class | `tests/test_command_set_migration.py:157` | `class _Sample(PendingCommandSet)` |
-| `_Shell` | class | `tests/test_command_set_migration.py:219` | `class _Shell(Cmd)` |
-| `_Shell` | class | `tests/test_command_set_migration.py:234` | `class _Shell(Cmd)` |
-| `__init__` | method | `tests/test_command_set_migration.py:181` | `def __init__(self)` |
-| `__init__` | method | `tests/test_command_set_migration.py:220` | `def __init__(self)` |
-| `__init__` | method | `tests/test_command_set_migration.py:235` | `def __init__(self)` |
-| `_category_argument` | function | `tests/test_command_set_migration.py:82` | `def _category_argument(decorator)` |
-| `_collect_legacy_do_methods` | function | `tests/test_command_set_migration.py:110` | `def _collect_legacy_do_methods()` |
-| `_collect_migrated_modules` | function | `tests/test_command_set_migration.py:57` | `def _collect_migrated_modules()` |
-| `_discover_migrated_class_names` | function | `tests/test_command_set_migration.py:38` | `def _discover_migrated_class_names()` |
-| `_make_set` | method | `tests/test_command_set_migration.py:199` | `def _make_set(self)` |
-| `_module_path` | function | `tests/test_command_set_migration.py:134` | `def _module_path(module_name)` |
-| `_parse_class` | function | `tests/test_command_set_migration.py:62` | `def _parse_class(file_path, class_name)` |
-| `cmd` | method | `tests/test_command_set_migration.py:239` | `def cmd(self, line)` |
-| `migrated_modules` | method | `tests/test_command_set_migration.py:251` | `def migrated_modules(self)` |
-| `module_names` | method | `tests/test_command_set_migration.py:255` | `def module_names(self, migrated_modules)` |
-| `module_names` | method | `tests/test_command_set_migration.py:314` | `def module_names(self)` |
-| `test_active_sets_excluded_when_pending_skipped` | method | `tests/test_command_set_migration.py:169` | `def test_active_sets_excluded_when_pending_skipped(self)` |
-| `test_all_active_and_have_phase` | method | `tests/test_command_set_migration.py:261` | `def test_all_active_and_have_phase(self, migrated_modules)` |
-| `test_all_discovered_sets_are_active` | method | `tests/test_command_set_migration.py:162` | `def test_all_discovered_sets_are_active(self)` |
-| `test_all_modules_discoverable` | method | `tests/test_command_set_migration.py:258` | `def test_all_modules_discoverable(self, migrated_modules)` |
-| `test_each_module_has_do_methods` | method | `tests/test_command_set_migration.py:273` | `def test_each_module_has_do_methods(self, migrated_modules)` |
-| `test_every_module_is_parseable` | method | `tests/test_command_set_migration.py:345` | `def test_every_module_is_parseable(self, module_names)` |
-| `test_is_pending_helper` | method | `tests/test_command_set_migration.py:145` | `def test_is_pending_helper(self)` |
-| `test_migrated_methods_not_duplicated_on_shell` | method | `tests/test_command_set_migration.py:295` | `def test_migrated_methods_not_duplicated_on_shell(self)` |
-| `test_no_do_methods_remain_on_shell` | method | `tests/test_command_set_migration.py:285` | `def test_no_do_methods_remain_on_shell(self)` |
-| `test_no_emoji` | method | `tests/test_command_set_migration.py:325` | `def test_no_emoji(self, module_names)` |
-| `test_no_forbidden_markers` | method | `tests/test_command_set_migration.py:317` | `def test_no_forbidden_markers(self, module_names)` |
-| `test_pending_marker_attribute` | method | `tests/test_command_set_migration.py:140` | `def test_pending_marker_attribute(self)` |
-| `test_register_includes_migrated_sets` | method | `tests/test_command_set_migration.py:175` | `def test_register_includes_migrated_sets(self)` |
-| `test_registered_forwards_shell_methods` | method | `tests/test_command_set_migration.py:229` | `def test_registered_forwards_shell_methods(self)` |
-| `test_registered_params_reflect_shell` | method | `tests/test_command_set_migration.py:216` | `def test_registered_params_reflect_shell(self)` |
-| `test_subclass_inherits_pending_flag` | method | `tests/test_command_set_migration.py:154` | `def test_subclass_inherits_pending_flag(self)` |
-| `test_unregistered_forwarding_raises_attribute_error` | method | `tests/test_command_set_migration.py:211` | `def test_unregistered_forwarding_raises_attribute_error(self)` |
-| `test_unregistered_params_default_empty` | method | `tests/test_command_set_migration.py:207` | `def test_unregistered_params_default_empty(self)` |
-| `TestDefaultRuleAutoPrivesc` | class | `tests/test_conditional_hooks_extended.py:96` | `class TestDefaultRuleAutoPrivesc` |
-| `TestTriggerMatchCaseInsensitive` | class | `tests/test_conditional_hooks_extended.py:64` | `class TestTriggerMatchCaseInsensitive` |
-| `TestTriggerMatchContainsSuffix` | class | `tests/test_conditional_hooks_extended.py:30` | `class TestTriggerMatchContainsSuffix` |
-| `_load_default_rules` | function | `tests/test_conditional_hooks_extended.py:118` | `def _load_default_rules()` |
-| `_match_rule` | function | `tests/test_conditional_hooks_extended.py:90` | `def _match_rule(rule, event, context)` |
-| `engine` | function | `tests/test_conditional_hooks_extended.py:21` | `def engine()` |
-| `test_auto_crystal_ball_rule_exists` | method | `tests/test_conditional_hooks_extended.py:107` | `def test_auto_crystal_ball_rule_exists(self)` |
-| `test_auto_loot_on_owned_rule_exists` | method | `tests/test_conditional_hooks_extended.py:112` | `def test_auto_loot_on_owned_rule_exists(self)` |
-| `test_auto_privesc_linux_rule_exists` | method | `tests/test_conditional_hooks_extended.py:97` | `def test_auto_privesc_linux_rule_exists(self)` |
-| `test_auto_privesc_windows_rule_exists` | method | `tests/test_conditional_hooks_extended.py:102` | `def test_auto_privesc_windows_rule_exists(self)` |
-| `test_command_contains_case_insensitive` | method | `tests/test_conditional_hooks_extended.py:39` | `def test_command_contains_case_insensitive(self)` |
-| `test_command_contains_missing_key` | method | `tests/test_conditional_hooks_extended.py:55` | `def test_command_contains_missing_key(self)` |
-| `test_command_contains_no_match` | method | `tests/test_conditional_hooks_extended.py:47` | `def test_command_contains_no_match(self)` |
-| `test_command_contains_substring_match` | method | `tests/test_conditional_hooks_extended.py:31` | `def test_command_contains_substring_match(self)` |
-| `test_exact_match_case_insensitive` | method | `tests/test_conditional_hooks_extended.py:65` | `def test_exact_match_case_insensitive(self)` |
-| `test_exact_match_different_event` | method | `tests/test_conditional_hooks_extended.py:81` | `def test_exact_match_different_event(self)` |
-| `test_list_match_case_insensitive` | method | `tests/test_conditional_hooks_extended.py:73` | `def test_list_match_case_insensitive(self)` |
-| `_AlwaysFail` | class | `tests/test_console_stdio.py:42` | `class _AlwaysFail` |
-| `_FailOnce` | class | `tests/test_console_stdio.py:19` | `class _FailOnce` |
-| `__init__` | method | `tests/test_console_stdio.py:22` | `def __init__(self)` |
-| `fileno` | method | `tests/test_console_stdio.py:37` | `def fileno(self)` |
-| `fileno` | method | `tests/test_console_stdio.py:52` | `def fileno(self)` |
-| `flush` | method | `tests/test_console_stdio.py:34` | `def flush(self)` |
-| `flush` | method | `tests/test_console_stdio.py:49` | `def flush(self)` |
-| `test_ensure_blocking_stdio_never_raises` | function | `tests/test_console_stdio.py:86` | `def test_ensure_blocking_stdio_never_raises()` |
-| `test_print_error_survives_broken_stdout` | function | `tests/test_console_stdio.py:78` | `def test_print_error_survives_broken_stdout(monkeypatch, capsys)` |
-| `test_write_stdout_never_raises` | function | `tests/test_console_stdio.py:71` | `def test_write_stdout_never_raises(monkeypatch)` |
-| `test_write_stdout_normal_path` | function | `tests/test_console_stdio.py:57` | `def test_write_stdout_normal_path(capsys)` |
-| `test_write_stdout_recovers_after_blocking_error` | function | `tests/test_console_stdio.py:63` | `def test_write_stdout_recovers_after_blocking_error(monkeypatch)` |
-| `write` | method | `tests/test_console_stdio.py:26` | `def write(self, data)` |
-| `write` | method | `tests/test_console_stdio.py:45` | `def write(self, data)` |
-| `test_default_manifest_is_consistent` | function | `tests/test_contract_manifest.py:19` | `def test_default_manifest_is_consistent()` |
-| `test_dotted_symbol_exists_uses_ast_not_import` | function | `tests/test_contract_manifest.py:47` | `def test_dotted_symbol_exists_uses_ast_not_import(tmp_path)` |
-| `test_missing_module_reference_is_reported` | function | `tests/test_contract_manifest.py:24` | `def test_missing_module_reference_is_reported(tmp_path)` |
-| `test_missing_public_import_is_reported` | function | `tests/test_contract_manifest.py:38` | `def test_missing_public_import_is_reported(tmp_path)` |
-| `Bogus` | class | `tests/test_core.py:262` | `class Bogus` |
-| `Dummy` | class | `tests/test_core.py:250` | `class Dummy` |
-| `TestCoreConfig` | class | `tests/test_core.py:110` | `class TestCoreConfig` |
-| `TestCoreConsole` | class | `tests/test_core.py:50` | `class TestCoreConsole` |
-| `TestCoreCrypto` | class | `tests/test_core.py:156` | `class TestCoreCrypto` |
-| `TestCorePackageStructure` | class | `tests/test_core.py:37` | `class TestCorePackageStructure` |
-| `TestCoreProtocols` | class | `tests/test_core.py:236` | `class TestCoreProtocols` |
-| `TestCoreValidators` | class | `tests/test_core.py:190` | `class TestCoreValidators` |
-| `TestUtilsBackwardsCompat` | class | `tests/test_core.py:268` | `class TestUtilsBackwardsCompat` |
-| `TestUtilsParsesAndRunsAfterRefactor` | class | `tests/test_core.py:355` | `class TestUtilsParsesAndRunsAfterRefactor` |
-| `_run_in_subprocess` | function | `tests/test_core.py:23` | `def _run_in_subprocess(snippet)` |
-| `suggest` | method | `tests/test_core.py:253` | `def suggest(self, target, phase, context)` |
-| `test_ansi_constants_have_escape_prefix` | method | `tests/test_core.py:53` | `def test_ansi_constants_have_escape_prefix(self)` |
-| `test_ascii_glyphs_by_default_emoji_opt_in` | method | `tests/test_core.py:87` | `def test_ascii_glyphs_by_default_emoji_opt_in(self, capsys, monkeypatch)` |
-| `test_check_lhost_empty` | method | `tests/test_core.py:206` | `def test_check_lhost_empty(self, capsys)` |
-| `test_check_lport_zero_falsy` | method | `tests/test_core.py:213` | `def test_check_lport_zero_falsy(self, capsys)` |
-| `test_check_port_invalid` | method | `tests/test_core.py:227` | `def test_check_port_invalid(self, capsys)` |
-| `test_check_port_valid_range` | method | `tests/test_core.py:219` | `def test_check_port_valid_range(self)` |
-| `test_check_rhost_empty_returns_false` | method | `tests/test_core.py:199` | `def test_check_rhost_empty_returns_false(self, capsys)` |
-| `test_check_rhost_truthy` | method | `tests/test_core.py:193` | `def test_check_rhost_truthy(self)` |
-| `test_config_attribute_and_item_access` | method | `tests/test_core.py:113` | `def test_config_attribute_and_item_access(self)` |
-| `test_config_missing_key_returns_none` | method | `tests/test_core.py:121` | `def test_config_missing_key_returns_none(self)` |
-| `test_empty_key_raises` | method | `tests/test_core.py:175` | `def test_empty_key_raises(self)` |
-| `test_imports_in_clean_subprocess` | method | `tests/test_core.py:361` | `def test_imports_in_clean_subprocess(self)` |
-| `test_llm_backend_protocol_rejects_nonconforming` | method | `tests/test_core.py:258` | `def test_llm_backend_protocol_rejects_nonconforming(self)` |
-| `test_load_payload_reads_real_file` | method | `tests/test_core.py:127` | `def test_load_payload_reads_real_file(self, tmp_path, monkeypatch)` |
-| `test_load_payload_via_utils_returns_payload` | method | `tests/test_core.py:365` | `def test_load_payload_via_utils_returns_payload(self)` |
-| `test_matches_legacy_known_vector` | method | `tests/test_core.py:182` | `def test_matches_legacy_known_vector(self)` |
-| `test_module_exists_and_parses` | method | `tests/test_core.py:44` | `def test_module_exists_and_parses(self, module)` |
-| `test_parses` | method | `tests/test_core.py:358` | `def test_parses(self)` |
-| `test_print_error_writes_red_payload` | method | `tests/test_core.py:69` | `def test_print_error_writes_red_payload(self, capsys)` |
-| `test_print_msg_writes_green_payload` | method | `tests/test_core.py:60` | `def test_print_msg_writes_green_payload(self, capsys)` |
-| `test_print_warn_writes_warn_glyph` | method | `tests/test_core.py:78` | `def test_print_warn_writes_warn_glyph(self, capsys)` |
-| `test_protocols_importable` | method | `tests/test_core.py:239` | `def test_protocols_importable(self)` |
-| `test_returns_bytearray` | method | `tests/test_core.py:168` | `def test_returns_bytearray(self)` |
-| `test_roundtrip` | method | `tests/test_core.py:159` | `def test_roundtrip(self)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

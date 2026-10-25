@@ -1,0 +1,23 @@
+name: cloud_assessment
+description: >
+  Cloud infrastructure security assessment pipeline.
+
+  Runs ScoutSuite, Prowler, and CloudSploit against the configured
+  cloud provider (AWS, Azure, or GCP). Requires cloud credentials
+  configured via environment variables before running.
+
+steps:
+  - name: scoutsuite_scan
+    command: scoutsuite
+    args: ""
+    on_failure: continue
+
+  - name: prowler_scan
+    command: prowler
+    args: ""
+    on_failure: continue
+
+  - name: cloudsploit_scan
+    command: cloudsploit
+    args: ""
+    on_failure: continue

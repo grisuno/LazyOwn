@@ -50,72 +50,91 @@ import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 # ─── Paths ───────────────────────────────────────────────────────────────────
 
-BASE_DIR         = Path(__file__).parent.parent
-SESSIONS_DIR     = BASE_DIR / "sessions"
-ACI_PLAN_FILE    = SESSIONS_DIR / "aci_plan.json"
+BASE_DIR = Path(__file__).parent.parent
+SESSIONS_DIR = BASE_DIR / "sessions"
+ACI_PLAN_FILE = SESSIONS_DIR / "aci_plan.json"
 ACI_HISTORY_FILE = SESSIONS_DIR / "aci_history.jsonl"
-LESSONS_FILE     = SESSIONS_DIR / "campaign_lessons.jsonl"
-OBJECTIVES_FILE  = SESSIONS_DIR / "objectives.jsonl"
+LESSONS_FILE = SESSIONS_DIR / "campaign_lessons.jsonl"
+OBJECTIVES_FILE = SESSIONS_DIR / "objectives.jsonl"
 
 log = logging.getLogger("aci_planner")
 
 # ─── Constants ───────────────────────────────────────────────────────────────
 
-REPLAN_THRESHOLD        = 3    # blocked objectives in current phase → trigger replan
+REPLAN_THRESHOLD = 3  # blocked objectives in current phase → trigger replan
 MAX_OBJECTIVES_PER_PHASE = 5
-GROQ_API_URL            = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_DEFAULT_MODEL      = "llama-3.3-70b-versatile"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile"
 
 # MITRE ATT&CK tactic reference used in static fallback
-MITRE_KILL_CHAIN: List[Dict] = [
-    {"tactic": "TA0043", "tactic_name": "Reconnaissance",      "phase": "recon",    "techniques": ["T1595", "T1046", "T1592"]},
-    {"tactic": "TA0042", "tactic_name": "Resource Development", "phase": "setup",    "techniques": ["T1587", "T1583"]},
-    {"tactic": "TA0001", "tactic_name": "Initial Access",       "phase": "exploit",  "techniques": ["T1190", "T1566", "T1133"]},
-    {"tactic": "TA0002", "tactic_name": "Execution",            "phase": "exec",     "techniques": ["T1059", "T1203"]},
-    {"tactic": "TA0004", "tactic_name": "Privilege Escalation", "phase": "privesc",  "techniques": ["T1548", "T1134", "T1055"]},
-    {"tactic": "TA0006", "tactic_name": "Credential Access",    "phase": "cred",     "techniques": ["T1003", "T1558", "T1552"]},
-    {"tactic": "TA0008", "tactic_name": "Lateral Movement",     "phase": "lateral",  "techniques": ["T1021", "T1550", "T1570"]},
-    {"tactic": "TA0010", "tactic_name": "Exfiltration",         "phase": "exfil",    "techniques": ["T1048", "T1041"]},
-    {"tactic": "TA0040", "tactic_name": "Impact",               "phase": "impact",   "techniques": []},
+MITRE_KILL_CHAIN: list[dict] = [
+    {"tactic": "TA0043", "tactic_name": "Reconnaissance", "phase": "recon", "techniques": ["T1595", "T1046", "T1592"]},
+    {"tactic": "TA0042", "tactic_name": "Resource Development", "phase": "setup", "techniques": ["T1587", "T1583"]},
+    {
+        "tactic": "TA0001",
+        "tactic_name": "Initial Access",
+        "phase": "exploit",
+        "techniques": ["T1190", "T1566", "T1133"],
+    },
+    {"tactic": "TA0002", "tactic_name": "Execution", "phase": "exec", "techniques": ["T1059", "T1203"]},
+    {
+        "tactic": "TA0004",
+        "tactic_name": "Privilege Escalation",
+        "phase": "privesc",
+        "techniques": ["T1548", "T1134", "T1055"],
+    },
+    {
+        "tactic": "TA0006",
+        "tactic_name": "Credential Access",
+        "phase": "cred",
+        "techniques": ["T1003", "T1558", "T1552"],
+    },
+    {
+        "tactic": "TA0008",
+        "tactic_name": "Lateral Movement",
+        "phase": "lateral",
+        "techniques": ["T1021", "T1550", "T1570"],
+    },
+    {"tactic": "TA0010", "tactic_name": "Exfiltration", "phase": "exfil", "techniques": ["T1048", "T1041"]},
+    {"tactic": "TA0040", "tactic_name": "Impact", "phase": "impact", "techniques": []},
 ]
 
 # Phase → default objective templates (used when LLM is unavailable)
-PHASE_OBJECTIVE_TEMPLATES: Dict[str, List[str]] = {
-    "recon":   [
+PHASE_OBJECTIVE_TEMPLATES: dict[str, list[str]] = {
+    "recon": [
         "Run full port scan against {target} and record open services",
         "Identify OS version and service banners on {target}",
         "Enumerate DNS records for {domain}",
     ],
-    "setup":   [
+    "setup": [
         "Prepare listener on lport and verify C2 connectivity",
     ],
     "exploit": [
         "Identify exploitable vulnerabilities in discovered services on {target}",
         "Attempt initial access using discovered attack surface on {target}",
     ],
-    "exec":    [
+    "exec": [
         "Establish stable shell on {target} and verify execution context",
     ],
     "privesc": [
         "Enumerate local privilege escalation vectors on {target}",
         "Escalate to root/SYSTEM on {target}",
     ],
-    "cred":    [
-        "Dump credential material from {target} (hashes, tickets, cleartext)",
+    "cred": [
+        "Dump credential material from {target} (hashes, tickets, clelazyt)",
         "Attempt lateral movement with captured credentials",
     ],
     "lateral": [
         "Identify adjacent hosts reachable from {target}",
         "Pivot to highest-value asset in scope",
     ],
-    "exfil":   [
+    "exfil": [
         "Document all captured flags, credentials, and evidence from {target}",
     ],
-    "impact":  [
+    "impact": [
         "Generate final engagement report with risk ratings for {target}",
     ],
 }
@@ -129,7 +148,7 @@ class ACIGoal:
 
     text: str
     target: str
-    scope: List[str] = field(default_factory=list)
+    scope: list[str] = field(default_factory=list)
     domain: str = ""
     os_hint: str = "unknown"
 
@@ -142,11 +161,11 @@ class AttackPhase:
     phase: str
     tactic: str
     tactic_name: str
-    techniques: List[str]
-    objectives: List[str]          # objective IDs injected into ObjectiveStore
-    status: str = "pending"        # pending / active / done / blocked / skipped
-    started_at: Optional[str] = None
-    completed_at: Optional[str] = None
+    techniques: list[str]
+    objectives: list[str]  # objective IDs injected into ObjectiveStore
+    status: str = "pending"  # pending / active / done / blocked / skipped
+    started_at: str | None = None
+    completed_at: str | None = None
     block_reason: str = ""
 
     def to_dict(self) -> dict:
@@ -154,7 +173,7 @@ class AttackPhase:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: dict) -> "AttackPhase":
+    def from_dict(cls, d: dict) -> AttackPhase:
         """Deserialize from dict."""
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
@@ -166,18 +185,18 @@ class ACIPlan:
     id: str
     goal: str
     target: str
-    scope: List[str]
+    scope: list[str]
     created_at: str
     updated_at: str
-    status: str                    # draft / active / replanning / completed / abandoned
-    phases: List[AttackPhase]
+    status: str  # draft / active / replanning / completed / abandoned
+    phases: list[AttackPhase]
     replan_count: int = 0
-    replan_reasons: List[str] = field(default_factory=list)
+    replan_reasons: list[str] = field(default_factory=list)
     domain: str = ""
     os_hint: str = "unknown"
 
     @property
-    def active_phase(self) -> Optional[AttackPhase]:
+    def active_phase(self) -> AttackPhase | None:
         """Return the first phase that is active or pending."""
         for ph in self.phases:
             if ph.status in ("active", "pending"):
@@ -199,11 +218,10 @@ class ACIPlan:
         return d
 
     @classmethod
-    def from_dict(cls, d: dict) -> "ACIPlan":
+    def from_dict(cls, d: dict) -> ACIPlan:
         """Deserialize from dict."""
         phases = [AttackPhase.from_dict(p) for p in d.get("phases", [])]
-        fields = {k: v for k, v in d.items()
-                  if k in cls.__dataclass_fields__ and k != "phases"}
+        fields = {k: v for k, v in d.items() if k in cls.__dataclass_fields__ and k != "phases"}
         return cls(phases=phases, **fields)
 
 
@@ -211,10 +229,10 @@ class ACIPlan:
 
 
 def _now_iso() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _save_plan(plan: ACIPlan, plan_file: Optional[Path] = None) -> None:
+def _save_plan(plan: ACIPlan, plan_file: Path | None = None) -> None:
     """Atomically write plan to aci_plan.json."""
     if plan_file is None:
         plan_file = ACI_PLAN_FILE
@@ -224,7 +242,7 @@ def _save_plan(plan: ACIPlan, plan_file: Optional[Path] = None) -> None:
     tmp.replace(plan_file)
 
 
-def _load_plan(plan_file: Optional[Path] = None) -> Optional[ACIPlan]:
+def _load_plan(plan_file: Path | None = None) -> ACIPlan | None:
     """Load active plan from aci_plan.json, return None if absent/corrupt."""
     if plan_file is None:
         plan_file = ACI_PLAN_FILE
@@ -237,7 +255,7 @@ def _load_plan(plan_file: Optional[Path] = None) -> Optional[ACIPlan]:
         return None
 
 
-def _archive_plan(plan: ACIPlan, history_file: Optional[Path] = None) -> None:
+def _archive_plan(plan: ACIPlan, history_file: Path | None = None) -> None:
     """Append plan to aci_history.jsonl."""
     if history_file is None:
         history_file = ACI_HISTORY_FILE
@@ -259,16 +277,18 @@ def _load_world_model() -> dict:
     """Read sessions/world_model.json for live engagement context."""
     wm_file = SESSIONS_DIR / "world_model.json"
     try:
-        return json.loads(wm_file.read_text())
+        from modules.world_model import read_state_dict
+
+        return read_state_dict(wm_file)
     except Exception:
         return {}
 
 
-def _count_objectives_by_status(obj_ids: List[str], objectives_file: Path = OBJECTIVES_FILE) -> Dict[str, int]:
+def _count_objectives_by_status(obj_ids: list[str], objectives_file: Path = OBJECTIVES_FILE) -> dict[str, int]:
     """Count objectives in a list by their current status."""
     if not objectives_file.exists():
         return {}
-    counts: Dict[str, int] = {}
+    counts: dict[str, int] = {}
     try:
         for line in objectives_file.read_text().splitlines():
             line = line.strip()
@@ -314,7 +334,7 @@ Rules:
 """
 
 
-def _llm_decompose(goal: ACIGoal, api_key: str) -> Optional[List[dict]]:
+def _llm_decompose(goal: ACIGoal, api_key: str) -> list[dict] | None:
     """Call Groq to decompose goal into phases. Returns raw phase dicts or None."""
     if not api_key:
         return None
@@ -325,16 +345,18 @@ def _llm_decompose(goal: ACIGoal, api_key: str) -> Optional[List[dict]]:
         f"Domain: {goal.domain or 'none'}\n"
         f"OS hint: {goal.os_hint}\n"
     )
-    body = json.dumps({
-        "model": GROQ_DEFAULT_MODEL,
-        "messages": [
-            {"role": "system", "content": _DECOMPOSE_SYSTEM},
-            {"role": "user",   "content": prompt},
-        ],
-        "temperature": 0.1,
-        "max_tokens": 2048,
-        "response_format": {"type": "json_object"},
-    }).encode()
+    body = json.dumps(
+        {
+            "model": GROQ_DEFAULT_MODEL,
+            "messages": [
+                {"role": "system", "content": _DECOMPOSE_SYSTEM},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 2048,
+            "response_format": {"type": "json_object"},
+        }
+    ).encode()
     req = urllib.request.Request(
         GROQ_API_URL,
         data=body,
@@ -377,7 +399,7 @@ Prefer alternative techniques if the original approach was blocked.
 """
 
 
-def _llm_replan(plan: ACIPlan, reason: str, api_key: str) -> Optional[List[dict]]:
+def _llm_replan(plan: ACIPlan, reason: str, api_key: str) -> list[dict] | None:
     """Call Groq to generate replacement objectives for remaining phases."""
     if not api_key:
         return None
@@ -391,16 +413,18 @@ def _llm_replan(plan: ACIPlan, reason: str, api_key: str) -> Optional[List[dict]
         f"Blocked/pending phases: {[p.phase for p in remaining]}\n"
         f"Replan count so far: {plan.replan_count}\n"
     )
-    body = json.dumps({
-        "model": GROQ_DEFAULT_MODEL,
-        "messages": [
-            {"role": "system", "content": _REPLAN_SYSTEM},
-            {"role": "user",   "content": context},
-        ],
-        "temperature": 0.15,
-        "max_tokens": 2048,
-        "response_format": {"type": "json_object"},
-    }).encode()
+    body = json.dumps(
+        {
+            "model": GROQ_DEFAULT_MODEL,
+            "messages": [
+                {"role": "system", "content": _REPLAN_SYSTEM},
+                {"role": "user", "content": context},
+            ],
+            "temperature": 0.15,
+            "max_tokens": 2048,
+            "response_format": {"type": "json_object"},
+        }
+    ).encode()
     req = urllib.request.Request(
         GROQ_API_URL,
         data=body,
@@ -439,14 +463,14 @@ class ACIPlanner:
     def __init__(
         self,
         api_key: str = "",
-        objectives_file: Optional[Path] = None,
-        plan_file: Optional[Path] = None,
+        objectives_file: Path | None = None,
+        plan_file: Path | None = None,
     ) -> None:
         self._api_key = api_key
         self._objectives_file = objectives_file if objectives_file is not None else OBJECTIVES_FILE
         self._plan_file = plan_file if plan_file is not None else ACI_PLAN_FILE
 
-    def plan(self, goal: ACIGoal, phase_filter: Optional[List[str]] = None) -> ACIPlan:
+    def plan(self, goal: ACIGoal, phase_filter: list[str] | None = None) -> ACIPlan:
         """Decompose *goal* into an ACIPlan, inject objectives, persist.
 
         Args:
@@ -486,10 +510,10 @@ class ACIPlanner:
 
     def _build_phases_from_llm(
         self,
-        raw: List[dict],
+        raw: list[dict],
         goal: ACIGoal,
-        phase_filter: Optional[List[str]],
-    ) -> List[AttackPhase]:
+        phase_filter: list[str] | None,
+    ) -> list[AttackPhase]:
         phases = []
         for r in raw:
             slug = r.get("phase", "")
@@ -512,8 +536,8 @@ class ACIPlanner:
     def _build_phases_static(
         self,
         goal: ACIGoal,
-        phase_filter: Optional[List[str]],
-    ) -> List[AttackPhase]:
+        phase_filter: list[str] | None,
+    ) -> list[AttackPhase]:
         phases = []
         for entry in MITRE_KILL_CHAIN:
             slug = entry["phase"]
@@ -541,7 +565,7 @@ class ACIPlanner:
         """Inject objectives for every phase into the ObjectiveStore."""
         self._objectives_file.parent.mkdir(parents=True, exist_ok=True)
         for phase in plan.phases:
-            texts: List[str] = getattr(phase, "_obj_texts", [])
+            texts: list[str] = getattr(phase, "_obj_texts", [])
             for text in texts:
                 obj_id = self._write_objective(text, phase.phase, plan.target)
                 phase.objectives.append(obj_id)
@@ -582,9 +606,9 @@ class ACIEngine:
     def __init__(
         self,
         api_key: str = "",
-        plan_file: Optional[Path] = None,
-        objectives_file: Optional[Path] = None,
-        history_file: Optional[Path] = None,
+        plan_file: Path | None = None,
+        objectives_file: Path | None = None,
+        history_file: Path | None = None,
         replan_threshold: int = REPLAN_THRESHOLD,
     ) -> None:
         self._api_key = api_key
@@ -633,7 +657,7 @@ class ACIEngine:
             "should_replan": self.should_replan(plan),
         }
 
-    def should_replan(self, plan: Optional[ACIPlan] = None) -> bool:
+    def should_replan(self, plan: ACIPlan | None = None) -> bool:
         """Return True when the plan is stalled and a replan is warranted.
 
         Args:
@@ -646,7 +670,7 @@ class ACIEngine:
         blocked = self._count_blocked(plan)
         return blocked >= self._replan_threshold
 
-    def replan(self, reason: str = "") -> Tuple[Optional[ACIPlan], str]:
+    def replan(self, reason: str = "") -> tuple[ACIPlan | None, str]:
         """Generate a new set of objectives for blocked/remaining phases.
 
         Args:
@@ -772,10 +796,10 @@ class ACIReflector:
         lessons_file: Path override (tests).
     """
 
-    def __init__(self, lessons_file: Optional[Path] = None) -> None:
+    def __init__(self, lessons_file: Path | None = None) -> None:
         self._lessons_file = lessons_file if lessons_file is not None else LESSONS_FILE
 
-    def reflect(self, plan: ACIPlan) -> List[dict]:
+    def reflect(self, plan: ACIPlan) -> list[dict]:
         """Analyse *plan* and generate lessons.
 
         Args:
@@ -827,7 +851,7 @@ class ACIReflector:
         self._persist_lessons(lessons)
         return lessons
 
-    def _persist_lessons(self, lessons: List[dict]) -> None:
+    def _persist_lessons(self, lessons: list[dict]) -> None:
         """Append lessons to campaign_lessons.jsonl."""
         if not lessons:
             return
@@ -843,10 +867,10 @@ class ACIReflector:
 def mcp_aci_plan(
     goal: str,
     target: str,
-    scope: Optional[List[str]] = None,
+    scope: list[str] | None = None,
     domain: str = "",
     os_hint: str = "unknown",
-    phase_filter: Optional[List[str]] = None,
+    phase_filter: list[str] | None = None,
 ) -> str:
     """Plan an engagement goal and return a JSON summary.
 
@@ -862,10 +886,7 @@ def mcp_aci_plan(
         JSON string with plan summary.
     """
     payload = _load_payload()
-    api_key = (
-        os.environ.get("GROQ_API_KEY", "")
-        or payload.get("api_key", "")
-    )
+    api_key = os.environ.get("GROQ_API_KEY", "") or payload.get("api_key", "")
     aci_goal = ACIGoal(
         text=goal,
         target=target or payload.get("rhost", ""),
@@ -940,14 +961,17 @@ def mcp_aci_replan(reason: str = "") -> str:
         return json.dumps({"ok": False, "message": message})
     reflector = ACIReflector(lessons_file=LESSONS_FILE)
     lessons = reflector.reflect(plan)
-    return json.dumps({
-        "ok": True,
-        "plan_id": plan.id,
-        "replan_count": plan.replan_count,
-        "message": message,
-        "lessons_generated": len(lessons),
-        "phases_remaining": sum(1 for p in plan.phases if p.status not in ("done", "skipped")),
-    }, indent=2)
+    return json.dumps(
+        {
+            "ok": True,
+            "plan_id": plan.id,
+            "replan_count": plan.replan_count,
+            "message": message,
+            "lessons_generated": len(lessons),
+            "phases_remaining": sum(1 for p in plan.phases if p.status not in ("done", "skipped")),
+        },
+        indent=2,
+    )
 
 
 # ─── CLI entry point ──────────────────────────────────────────────────────────
@@ -978,21 +1002,25 @@ def _build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     """Entry point for CLI usage."""
-    logging.basicConfig(level=logging.WARNING, stream=sys.stderr)
+    from modules.logging_config import configure
+
+    configure(level=logging.WARNING, console=True, file=False)
     parser = _build_parser()
     args = parser.parse_args(argv)
 
     if args.cmd == "plan":
-        print(mcp_aci_plan(
-            goal=args.goal,
-            target=args.target,
-            scope=args.scope,
-            domain=args.domain,
-            os_hint=args.os_hint,
-            phase_filter=args.phases,
-        ))
+        print(
+            mcp_aci_plan(
+                goal=args.goal,
+                target=args.target,
+                scope=args.scope,
+                domain=args.domain,
+                os_hint=args.os_hint,
+                phase_filter=args.phases,
+            )
+        )
         return 0
 
     if args.cmd == "status":

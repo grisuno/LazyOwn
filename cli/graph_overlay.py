@@ -22,14 +22,15 @@ Design (SOLID):
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Callable, Mapping
+from enum import StrEnum
+from typing import Any
 
 from cli.themes import Theme, theme_from_payload
 
 
-class GraphOverlayView(str, Enum):
+class GraphOverlayView(StrEnum):
     """Two view modes the overlay toggles between."""
 
     GOD_NODES = "god_nodes"
@@ -166,10 +167,9 @@ class GraphOverlayState:
         return "link"
 
     def _truncate(self, value: str) -> str:
-        if len(value) <= self.config.summary_max_chars:
-            return value
-        keep = max(1, self.config.summary_max_chars - len(self.config.truncation_suffix))
-        return value[:keep] + self.config.truncation_suffix
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, self.config.summary_max_chars, marker=self.config.truncation_suffix)
 
     def _advisor(self) -> Any | None:
         try:

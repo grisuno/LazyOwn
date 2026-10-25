@@ -5,6 +5,7 @@ description: 'HTA encryption tool for RedTeams
 author: nccgroup
 version: '1.0'
 enabled: true
+update: true
 os: windows
 trigger: []
 tool:

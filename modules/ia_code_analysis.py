@@ -1,34 +1,42 @@
-import os
-import json
-import time
-import logging
-import requests
 import argparse
+import json
+import logging
+import os
+import subprocess
+import time
+
+import requests
 from rich.console import Console
 from rich.markdown import Markdown
 
-# Configuración de logging
-logging.basicConfig(filename='code_analyzer.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
 
 console = Console()
 
-# Lista de extensiones de archivos a monitorear
+# List of file extensions to monitor
 SOURCE_FILE_EXTENSIONS = [".py", ".c", ".go", ".rs"]
+
 
 class CodeAnalyzer:
     """
-    Analiza el código fuente en un directorio y sus subdirectorios.
+    Analyzes source code in a directory and its subdirectories.
     """
-    def __init__(self, mode='console'):
+
+    def __init__(self, mode="console"):
         self.mode = mode
-        self.processed_files = set()  # Rastrear archivos procesados para evitar duplicados
+        self.processed_files = set()  # Track processed files to avoid duplicates
 
     def analyze_directory(self, directory):
         """
-        Analiza recursivamente todos los archivos de código fuente en el directorio especificado.
+        Recursively analyzes all source code files in the specified directory.
         """
         for root, _, files in os.walk(directory):
             for file_name in files:
@@ -40,23 +48,24 @@ class CodeAnalyzer:
 
     def analyze_code_file(self, file_path):
         """
-        Analiza el contenido del archivo de código fuente.
+        Analyzes the content of the source code file.
         """
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 code_content = file.read()
                 logging.info(f"Analyzing code in {file_path}")
-                if self.mode == 'console':
+                if self.mode == "console":
                     console.print(f"Analyzing code in {file_path}")
                 analyze_with_deepseek(code_content, file_path, self.mode)
         except Exception as e:
             logging.error(f"Error reading code file {file_path}: {e}")
-            if self.mode == 'console':
+            if self.mode == "console":
                 console.print(f"Error reading code file {file_path}")
 
-def analyze_with_deepseek(code_content, file_path, mode='console'):
+
+def analyze_with_deepseek(code_content, file_path, mode="console"):
     """
-    Envía el contenido del código a DeepSeek para su análisis.
+    Sends the code content to DeepSeek for analysis.
     Devuelve la respuesta del modelo en fragmentos.
     """
     try:
@@ -76,10 +85,10 @@ def analyze_with_deepseek(code_content, file_path, mode='console'):
                 Code:
                 {code_content}
                 """,
-                "stream": True
+                "stream": True,
             },
             timeout=60,
-            stream=True
+            stream=True,
         )
 
         if response.status_code == 200:
@@ -87,21 +96,21 @@ def analyze_with_deepseek(code_content, file_path, mode='console'):
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     try:
-                        json_chunk = json.loads(chunk.decode('utf-8'))
+                        json_chunk = json.loads(chunk.decode("utf-8"))
                         chunk_response = json_chunk.get("response", "")
                         full_response += chunk_response
-                        if mode == 'console':
+                        if mode == "console":
                             console.print(chunk_response, end="")
                     except json.JSONDecodeError as e:
                         logging.error(f"Error decoding JSON: {e}")
 
-            if mode == 'console':
+            if mode == "console":
                 rich_markdown = Markdown(full_response)
-                os.system('clear')
+                subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
                 console.print(rich_markdown)
             logging.info(f"DeepSeek Analysis Results:\n{full_response}")
 
-            # Guardar los resultados en archivos JSON
+            # Save the results to JSON files
             save_results_to_json(full_response, file_path)
         else:
             logging.error(f"Error communicating with DeepSeek API: {response.status_code}")
@@ -110,9 +119,10 @@ def analyze_with_deepseek(code_content, file_path, mode='console'):
         logging.error(f"Error in request to DeepSeek: {e}")
         console.print("Error in request to DeepSeek")
 
+
 def save_results_to_json(results, file_path):
     """
-    Guarda los resultados del análisis en archivos JSON.
+    Saves the analysis results to JSON files.
     """
     try:
         results_data = json.loads(results)
@@ -125,14 +135,14 @@ def save_results_to_json(results, file_path):
             improved_function = result.get("improved_function")
             explanation = result.get("explanation")
 
-            # Guardar el código original y mejorado en archivos de texto
+            # Save the original and improved code to text files
             original_file_path = f"code_snippets/{os.path.basename(file_path)}_{function_name}_original.txt"
             improved_file_path = f"code_snippets/{os.path.basename(file_path)}_{function_name}_improved.txt"
 
-            with open(original_file_path, 'w') as original_file:
+            with open(original_file_path, "w") as original_file:
                 original_file.write(original_function)
 
-            with open(improved_file_path, 'w') as improved_file:
+            with open(improved_file_path, "w") as improved_file:
                 improved_file.write(improved_function)
 
             json_data = {
@@ -145,30 +155,36 @@ def save_results_to_json(results, file_path):
                 "score": None,
                 "created": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "modified": time.strftime("%Y-%m-%d %H:%M:%S"),
-                "explanation": explanation
+                "explanation": explanation,
             }
 
             json_file_path = f"results/{os.path.basename(file_path)}_{function_name}.json"
-            with open(json_file_path, 'w') as json_file:
+            with open(json_file_path, "w") as json_file:
                 json.dump(json_data, json_file, indent=4)
             logging.info(f"Results saved to {json_file_path}")
     except Exception as e:
         logging.error(f"Error saving results to JSON: {e}")
 
-def start_analysis(code_dir='/path/to/code', mode='console'):
+
+def start_analysis(code_dir="/path/to/code", mode="console"):
     """
-    Inicia el análisis del directorio de código especificado.
+    Starts the analysis of the specified code directory.
     """
     console.print(f"Starting code analysis in {code_dir}...")
     analyzer = CodeAnalyzer(mode)
     analyzer.analyze_directory(code_dir)
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Code Analyzer Bot')
-    parser.add_argument('--mode', type=str, choices=['console', 'web'], default='console', help='Output mode: console or web')
-    parser.add_argument('--code-dir', type=str, default='/path/to/code', help='Directory to analyze for code files')
+    parser = argparse.ArgumentParser(description="Code Analyzer Bot")
+    parser.add_argument(
+        "--mode", type=str, choices=["console", "web"], default="console", help="Output mode: console or web"
+    )
+    parser.add_argument("--code-dir", type=str, default="/path/to/code", help="Directory to analyze for code files")
     return parser.parse_args()
 
+
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
     start_analysis(code_dir=args.code_dir, mode=args.mode)

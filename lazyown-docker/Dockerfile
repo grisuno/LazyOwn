@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS builder
+FROM python:3.12-slim-bookworm AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 ARG REPO_URL
 ARG REPO_COMMIT
@@ -10,17 +10,11 @@ RUN apt-get update && \
         git \
         gnupg \
         golang-go \
-        python3 \
-        python3-pip \
-        python3-venv \
         build-essential && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://repo.charm.sh/apt/gpg.key \
-        | gpg --dearmor -o /etc/apt/keyrings/charm.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
-        > /etc/apt/sources.list.d/charm.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends gum && \
+    curl -fsSL https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb \
+        -o /tmp/gum.deb && \
+    dpkg -i /tmp/gum.deb && \
+    rm -f /tmp/gum.deb && \
     rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /bin/bash lazyown
@@ -34,31 +28,40 @@ RUN git clone "${REPO_URL}" LazyOwn && \
     . env/bin/activate && \
     pip install --no-cache-dir --upgrade pip && \
     if [ -f requirements.txt ]; then \
-        pip install --no-cache-dir -r requirements.txt; \
+        sed -i '/^certipy-ad==/d' requirements.txt && \
+        grep -v '^#' requirements.txt | grep -v '^$' | xargs -r -n 50 pip install --no-cache-dir --no-deps && \
+        pip install --no-cache-dir --no-deps certipy-ad==5.0.4 && \
+        pip install --no-cache-dir bleach; \
     fi && \
     if [ -f go.mod ]; then go mod download; fi
 
-FROM debian:bookworm-slim
+COPY --chown=lazyown:lazyown hostdiscover.sh /home/lazyown/LazyOwn/modules/hostdiscover.sh
+
+FROM python:3.12-slim-bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
+        iproute2 \
+        iputils-ping \
         jq \
+        net-tools \
         nmap \
         openssl \
-        python3 \
-        python3-pip \
-        python3-venv \
+        parallel \
         tmux && \
     rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m -s /bin/bash lazyown
+RUN useradd -m -s /bin/bash lazyown && \
+    mkdir -p /home/lazyown/LazyOwn/sessions /home/lazyown/LazyOwn/sessions/logs && \
+    ln -sf /home/lazyown/payload.json /home/lazyown/LazyOwn/payload.json
 
 COPY --from=builder --chown=lazyown:lazyown /home/lazyown/LazyOwn /home/lazyown/LazyOwn
 COPY --chown=lazyown:lazyown entrypoint.sh /home/lazyown/entrypoint.sh
-RUN chmod +x /home/lazyown/entrypoint.sh
+RUN chmod +x /home/lazyown/entrypoint.sh && \
+    chown -R lazyown:lazyown /home/lazyown
 
 USER lazyown
 WORKDIR /home/lazyown/LazyOwn

@@ -72,6 +72,22 @@ notes: Optional additional usage notes.
 | `generate_lateral_command` | Suggests lateral movement commands based on discovered credentials and OS. |
 | `generate_linux_asm_reverse_shell` | Generates an x86-64 Linux assembly reverse shell stub. |
 
+## `app` API (Lua global)
+
+The Lua runtime exposes a single global `app` with these properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `app.params` | table | Read/write access to `payload.json` config |
+| `app.params["rhost"]` | string | Current target IP/hostname |
+| `app.params["lhost"]` | string | Local attacker IP |
+| `app.params["lport"]` | number | Local port |
+| `app.params["domain"]` | string | Target domain |
+| `app.params["start_user"]` | string | Credential username |
+| `app.params["start_pass"]` | string | Credential password |
+
+All keys from `payload.json` are available via `app.params["<key>"]`.
+
 ## Running a plugin
 
 ```
@@ -104,3 +120,19 @@ loading. The lupa runtime logs load-time errors to `sessions/access.log`.
 
 **Parameter missing** — use `assign <key> <value>` from the CLI to set the
 required `payload.json` key.
+
+## Tiers and ratings
+
+Every plugin has a tier: `official` (maintained by the core team),
+`community` (default), or `experimental` (unvetted). Tiers resolve from
+`plugins/tiers.yaml` first, then an optional `tier:` field in the plugin's
+own YAML. Filter the marketplace with `marketplace list --tier official`
+and see the tier in `marketplace info <name>`.
+
+Rate plugins operator-locally (stored in `sessions/plugin_ratings.json`,
+never committed):
+
+```
+(LazyOwn) > marketplace rate amsi_bypass 5
+(LazyOwn) > marketplace ratings
+```

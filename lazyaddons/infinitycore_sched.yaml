@@ -1,0 +1,18 @@
+name: infinitycore_sched
+description: CVE-2026-98385 scheduler LPE by V4bel. mm_struct UAF in scheduler
+  cache accounting. Target Arch 7.2.4-arch1-2 with CONFIG_SCHED_CACHE and 4
+  vCPUs two LLC pairs. Stages to sessions/infinitycore_sched. Run on the lab
+  host only. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+update: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore Sched
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_sched sched/CVE-2026-98385-arch.c
+    && chmod +x ../../../sessions/infinitycore_sched && echo "staged at sessions/infinitycore_sched"
+category: 06. Privilege Escalation

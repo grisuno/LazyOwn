@@ -6,25 +6,31 @@ log_monitor_bot.py
 Author: Your Name
 Email: youremail@example.com
 Creation Date: 10/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: Real-time log monitoring bot for Linux systems.
              Monitors logs in /var/log (e.g., SSH, Apache2, Nginx) and uses DeepSeek to detect suspicious activity.
 """
 
-import time
+import argparse
 import json
 import logging
 import os
+import subprocess
+import time
+
 import requests
-import argparse
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 from rich.console import Console
 from rich.markdown import Markdown
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
-# Logging configuration
-logging.basicConfig(filename='log_monitor.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
@@ -33,22 +39,24 @@ console = Console()
 
 # List of known text-based log files to monitor
 TEXT_LOG_FILES = [
-    "auth.log",          # SSH and authentication logs
-    "syslog",            # General system logs
-    "kern.log",          # Kernel logs
+    "auth.log",  # SSH and authentication logs
+    "syslog",  # General system logs
+    "kern.log",  # Kernel logs
     "nginx/access.log",  # Nginx access logs
-    "nginx/error.log",   # Nginx error logs
-    "apache2/access.log",# Apache access logs
-    "apache2/error.log", # Apache error logs
-    "dpkg.log",          # Package manager logs
-    "boot.log",          # Boot logs
+    "nginx/error.log",  # Nginx error logs
+    "apache2/access.log",  # Apache access logs
+    "apache2/error.log",  # Apache error logs
+    "dpkg.log",  # Package manager logs
+    "boot.log",  # Boot logs
 ]
+
 
 class LogFileHandler(FileSystemEventHandler):
     """
     Handles file system events for log files.
     """
-    def __init__(self, mode='console'):
+
+    def __init__(self, mode="console"):
         super().__init__()
         self.mode = mode
         self.processed_files = set()  # Track processed files to avoid duplicates
@@ -69,20 +77,21 @@ class LogFileHandler(FileSystemEventHandler):
         Analyzes the content of the modified log file.
         """
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 new_lines = file.readlines()
                 if new_lines:
                     log_content = "".join(new_lines)
                     logging.info(f"New log entries detected in {file_path}:\n{log_content}")
-                    if self.mode == 'console':
+                    if self.mode == "console":
                         console.print(f"New log entries detected in {file_path}:\n{log_content}")
                     analyze_with_deepseek(log_content, self.mode)
         except Exception as e:
             logging.error(f"Error reading log file {file_path}: {e}")
-            if self.mode == 'console':
+            if self.mode == "console":
                 console.print(f"Error reading log file {file_path}")
 
-def analyze_with_deepseek(log_content, mode='console'):
+
+def analyze_with_deepseek(log_content, mode="console"):
     """
     Sends log content to DeepSeek for advanced analysis.
     Returns the model's response in chunks.
@@ -103,10 +112,10 @@ def analyze_with_deepseek(log_content, mode='console'):
                 Log entries:
                 {log_content}
                 """,
-                "stream": True  
+                "stream": True,
             },
             timeout=60,
-            stream=True
+            stream=True,
         )
 
         if response.status_code == 200:
@@ -114,17 +123,17 @@ def analyze_with_deepseek(log_content, mode='console'):
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     try:
-                        json_chunk = json.loads(chunk.decode('utf-8'))
+                        json_chunk = json.loads(chunk.decode("utf-8"))
                         chunk_response = json_chunk.get("response", "")
                         full_response += chunk_response
-                        if mode == 'console':
+                        if mode == "console":
                             console.print(chunk_response, end="")
                     except json.JSONDecodeError as e:
                         logging.error(f"Error decoding JSON: {e}")
 
-            if mode == 'console':
+            if mode == "console":
                 rich_markdown = Markdown(full_response)
-                os.system('clear')
+                subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
                 console.print(rich_markdown)
             logging.info(f"DeepSeek Analysis Results:\n{full_response}")
         else:
@@ -134,7 +143,8 @@ def analyze_with_deepseek(log_content, mode='console'):
         logging.error(f"Error in request to DeepSeek: {e}")
         console.print("Error in request to DeepSeek")
 
-def start_monitoring(log_dir='/var/log', mode='console'):
+
+def start_monitoring(log_dir="/var/log", mode="console"):
     """
     Starts monitoring the specified log directory.
     """
@@ -150,16 +160,21 @@ def start_monitoring(log_dir='/var/log', mode='console'):
     except KeyboardInterrupt:
         observer.stop()
         logging.info("Log monitoring stopped by the user.")
-        if mode == 'console':
+        if mode == "console":
             console.print("Log monitoring stopped by the user.")
     observer.join()
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Log Monitor Bot')
-    parser.add_argument('--mode', type=str, choices=['console', 'web'], default='console', help='Output mode: console or web')
-    parser.add_argument('--log-dir', type=str, default='/var/log', help='Directory to monitor for logs')
+    parser = argparse.ArgumentParser(description="Log Monitor Bot")
+    parser.add_argument(
+        "--mode", type=str, choices=["console", "web"], default="console", help="Output mode: console or web"
+    )
+    parser.add_argument("--log-dir", type=str, default="/var/log", help="Directory to monitor for logs")
     return parser.parse_args()
 
+
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
     start_monitoring(log_dir=args.log_dir, mode=args.mode)

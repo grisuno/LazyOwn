@@ -34,8 +34,7 @@ from typing import Any
 
 import yaml
 
-from core.console import print_error, print_msg, print_succ, print_warn
-from utils import copy2clip, is_binary_present, run_command
+from core.console import print_succ, print_warn
 
 
 @dataclass
@@ -72,24 +71,22 @@ class AptPlaybook:
     phases: list[PhaseStep] = field(default_factory=list)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "AptPlaybook":
+    def from_dict(cls, data: dict[str, Any]) -> AptPlaybook:
         phases = []
         for ph in data.get("phases", []):
-            atomic_tests = [
-                AtomicTestRef(**t) for t in ph.get("atomic_tests", [])
-            ]
-            caldera_abilities = [
-                CalderaAbilityRef(**a) for a in ph.get("caldera_abilities", [])
-            ]
-            phases.append(PhaseStep(
-                name=ph.get("name", ""),
-                technique_id=ph.get("technique_id", ""),
-                technique_name=ph.get("technique_name", ""),
-                description=ph.get("description", ""),
-                atomic_tests=atomic_tests,
-                caldera_abilities=caldera_abilities,
-                detection_hints=ph.get("detection_hints", []),
-            ))
+            atomic_tests = [AtomicTestRef(**t) for t in ph.get("atomic_tests", [])]
+            caldera_abilities = [CalderaAbilityRef(**a) for a in ph.get("caldera_abilities", [])]
+            phases.append(
+                PhaseStep(
+                    name=ph.get("name", ""),
+                    technique_id=ph.get("technique_id", ""),
+                    technique_name=ph.get("technique_name", ""),
+                    description=ph.get("description", ""),
+                    atomic_tests=atomic_tests,
+                    caldera_abilities=caldera_abilities,
+                    detection_hints=ph.get("detection_hints", []),
+                )
+            )
         return cls(
             apt_name=data["apt_name"],
             aliases=data.get("aliases", []),
@@ -139,28 +136,56 @@ class AptPlaybookEngine:
         return self._playbooks.get(key)
 
     def validate(self, pb: AptPlaybook, atomic_path: str | None = None) -> dict[str, Any]:
-        """Validate that all referenced atomic tests exist locally."""
+        """Validate that all referenced atomic tests exist locally.
+
+        Playbooks store MITRE technique IDs (``T1059.001``) or raw test
+        GUIDs in ``atomic_id``. Technique IDs resolve through
+        :mod:`modules.atomic_resolver`; GUIDs match against the local
+        Atomic index. Unknown formats are reported missing, never crash.
+        """
+        try:
+            from modules.atomic_resolver import get_resolver, is_guid, is_mitre_id
+        except ImportError:  # MCP context: only modules/ is on sys.path
+            from atomic_resolver import get_resolver, is_guid, is_mitre_id  # type: ignore[no-redef]
+
         missing_atomic: list[dict] = []
         found_atomic: list[dict] = []
         if atomic_path and os.path.exists(atomic_path):
             atomic_map = self._build_atomic_index(atomic_path)
         else:
             atomic_map = {}
+        resolver = get_resolver()
 
         for phase in pb.phases:
             for test in phase.atomic_tests:
-                if test.atomic_id in atomic_map:
-                    found_atomic.append({
-                        "phase": phase.name,
-                        "atomic_id": test.atomic_id,
-                        "name": atomic_map[test.atomic_id],
-                    })
+                ref = (test.atomic_id or "").strip()
+                if is_guid(ref) and ref.lower() in {k.lower() for k in atomic_map}:
+                    name = next(v for k, v in atomic_map.items() if k.lower() == ref.lower())
+                    found_atomic.append({"phase": phase.name, "atomic_id": ref, "name": name})
+                elif is_mitre_id(ref):
+                    candidates = resolver.list_for_technique(ref)
+                    if candidates:
+                        first = candidates[0]
+                        found_atomic.append(
+                            {
+                                "phase": phase.name,
+                                "atomic_id": ref,
+                                "name": first.name,
+                                "resolved_guid": first.guid,
+                                "resolved_tests": len(candidates),
+                            }
+                        )
+                    else:
+                        missing_atomic.append(
+                            {"phase": phase.name, "atomic_id": ref, "name": test.name, "reason": "no test indexed"}
+                        )
+                elif ref.lower() in {k.lower() for k in atomic_map}:
+                    name = next(v for k, v in atomic_map.items() if k.lower() == ref.lower())
+                    found_atomic.append({"phase": phase.name, "atomic_id": ref, "name": name})
                 else:
-                    missing_atomic.append({
-                        "phase": phase.name,
-                        "atomic_id": test.atomic_id,
-                        "name": test.name,
-                    })
+                    missing_atomic.append(
+                        {"phase": phase.name, "atomic_id": ref, "name": test.name, "reason": "unknown reference"}
+                    )
 
         return {
             "apt_name": pb.apt_name,
@@ -194,6 +219,8 @@ class AptPlaybookEngine:
         plan = {
             "apt_name": pb.apt_name,
             "description": pb.description,
+            "platforms": list(pb.platforms),
+            "platform": pb.platforms[0] if pb.platforms else "",
             "steps": steps,
         }
         with open(output_path, "w") as f:
@@ -216,13 +243,9 @@ class AptPlaybookEngine:
                     "technique_name": ph.technique_name,
                     "description": ph.description,
                     "atomic_tests": [
-                        {"atomic_id": t.atomic_id, "name": t.name, "manual": t.manual}
-                        for t in ph.atomic_tests
+                        {"atomic_id": t.atomic_id, "name": t.name, "manual": t.manual} for t in ph.atomic_tests
                     ],
-                    "caldera_abilities": [
-                        {"ability_id": a.ability_id, "name": a.name}
-                        for a in ph.caldera_abilities
-                    ],
+                    "caldera_abilities": [{"ability_id": a.ability_id, "name": a.name} for a in ph.caldera_abilities],
                     "detection_hints": ph.detection_hints,
                 }
                 for ph in pb.phases

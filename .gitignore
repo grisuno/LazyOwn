@@ -26,7 +26,6 @@ pwntools/
 __pycache__/
 build/
 .git/
-.github/
 modules/env
 include/
 report
@@ -47,9 +46,38 @@ firefox.dmp
 LazyOwn_history.dat
 */__pycache__
 cloudflared
+users.json
+.c2_credentials.txt
+.coverage
+.coverage.*
+*.egg-info/
 lazysentinel.db
 parquets/session_knowledge.parquet
+persistent_chroma_db/
+sessions/phishing/tracking.db
+modules/sessions/
+sessions/phishing/campaigns/
+sessions/routes_to_templates.json
 prompt.md
 knowledge_base_vuln.json
 graphify-out/cache/
 graphify-out/.graphify_*
+skills/claude_md_orchestrator/runs/
+graphify-out/
+.secrets.baseline
+
+# kernel build artifacts
+*.o
+*.ko
+*.mod
+*.mod.o
+modules.order
+Module.symvers
+**/.*.cmd
+
+# local editor and MCP configuration (copy the .example template)
+opencode.json
+.mcp.json
+
+# mutmut generated workspace
+mutants/

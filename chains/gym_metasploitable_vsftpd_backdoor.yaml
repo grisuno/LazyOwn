@@ -1,0 +1,15 @@
+name: gym_metasploitable_vsftpd_backdoor
+version: 2
+description: 'Metasploitable 2: vsftpd 2.3.4 backdoor (CVE-2011-2523).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- ftp
+platforms:
+- linux
+defaults:
+  exploit: vsftpd_backdoor
+  vuln: vsftpd_backdoor
+  port: '21'

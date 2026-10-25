@@ -41,14 +41,16 @@ Design contract:
 from __future__ import annotations
 
 import json
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Mapping, Protocol, Sequence, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 SOURCE_GRAPH = "graph"
 SOURCE_POLICY = "policy"
 SOURCE_RECON = "recon"
 SOURCE_KILLCHAIN = "killchain"
+SOURCE_GAP = "gap"
 
 KIND_COMMAND = "command"
 KIND_ADDON = "addon"
@@ -84,6 +86,7 @@ class EngineWeights:
     signal_weights: Mapping[str, float] = field(
         default_factory=lambda: {
             SOURCE_RECON: 1.0,
+            SOURCE_GAP: 0.8,
             SOURCE_GRAPH: 0.6,
             SOURCE_KILLCHAIN: 0.5,
         }

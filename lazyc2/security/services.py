@@ -24,7 +24,7 @@ class SecretKeyManager:
     load the persisted key. No fallback secrets are permitted.
     """
 
-    KEY_FILENAME = '.secret_key'
+    KEY_FILENAME = ".secret_key"
     KEY_SIZE_BYTES = 64
 
     def __init__(self, sessions_dir: Path):
@@ -41,14 +41,14 @@ class SecretKeyManager:
         """
         if self._key_file.exists():
             try:
-                key = self._key_file.read_text(encoding='utf-8').strip()
+                key = self._key_file.read_text(encoding="utf-8").strip()
                 if len(key) >= self.KEY_SIZE_BYTES * 2:
                     return key
             except OSError as exc:
                 raise RuntimeError(f"Cannot read secret key file: {exc}") from exc
 
         key = secrets.token_hex(self.KEY_SIZE_BYTES)
-        self._key_file.write_text(key, encoding='utf-8')
+        self._key_file.write_text(key, encoding="utf-8")
         os.chmod(self._key_file, FILE_PERMISSION_OWNER_RW)
         return key
 
@@ -99,7 +99,7 @@ class SafeFileService:
         safe_path = self._resolve_safe(relative_path)
         return safe_path.read_bytes()
 
-    def read_text(self, relative_path: str, encoding: str = 'utf-8') -> str:
+    def read_text(self, relative_path: str, encoding: str = "utf-8") -> str:
         """Read a file as text after path validation.
 
         Args:
@@ -199,6 +199,4 @@ class UploadSizeValidator:
             ValueError: If the content length exceeds the maximum.
         """
         if content_length is not None and content_length > self._max_size:
-            raise ValueError(
-                f"Upload size {content_length} exceeds maximum {self._max_size}"
-            )
+            raise ValueError(f"Upload size {content_length} exceeds maximum {self._max_size}")

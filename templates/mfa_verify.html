@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Verify MFA</h2>
+        <p class="text-center">Enter the TOTP code from your authenticator app, or use a recovery code.</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="mfa_code" class="form-label">TOTP Code:</label>
+                        <input type="text" id="mfa_code" name="mfa_code" class="form-control"
+                               placeholder="000000" maxlength="10" inputmode="numeric" required
+                               autocomplete="one-time-code" autofocus>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Verify</button>
+                </form>
+
+                {% if has_recovery %}
+                <hr>
+                <form method="POST">
+                    <input type="hidden" name="use_recovery" value="1">
+                    <div class="mb-3">
+                        <label for="recovery_code" class="form-label">Recovery Code:</label>
+                        <input type="text" id="recovery_code" name="mfa_code" class="form-control"
+                               placeholder="XXXXX-XXXXX" maxlength="15" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Use Recovery Code</button>
+                </form>
+                {% endif %}
+
+                <div class="mt-3 text-center">
+                    <a href="{{ url_for('login') }}" class="text-muted">Back to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

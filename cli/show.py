@@ -7,7 +7,8 @@ easy to test and reusable for logs, reports or the dashboard.
 
 from __future__ import annotations
 
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 
 def format_payload(

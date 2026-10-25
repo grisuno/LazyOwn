@@ -81,7 +81,7 @@ def test_reader_handles_malformed_lines(tmp_path: Path) -> None:
     """Non-JSON lines are skipped without raising."""
     config = ToastConfig(sessions_dir=str(tmp_path))
     events_path = tmp_path / "events.jsonl"
-    events_path.write_text("not-json\n{\"type\":\"ok\"}\n", encoding="utf-8")
+    events_path.write_text('not-json\n{"type":"ok"}\n', encoding="utf-8")
     reader = ToastReader(config, root=tmp_path)
     events, _ = reader.read_unseen("events.jsonl", 0)
     assert len(events) == 1
@@ -110,10 +110,7 @@ def test_bus_render_respects_per_tick_budget(tmp_path: Path) -> None:
     """At most ``max_per_tick_default`` events are printed in one call."""
     config = ToastConfig(sessions_dir=str(tmp_path), max_per_tick_default=2)
     events_path = tmp_path / "events.jsonl"
-    records = [
-        {"type": "ev", "severity": "info", "summary": f"line-{i}"}
-        for i in range(5)
-    ]
+    records = [{"type": "ev", "severity": "info", "summary": f"line-{i}"} for i in range(5)]
     _write_jsonl(events_path, records)
     captured = Console(file=io.StringIO(), record=True, highlight=False)
     bus = ToastBus(
@@ -197,3 +194,145 @@ def test_reader_picks_up_new_events_after_offset(tmp_path: Path) -> None:
     _append_jsonl(events_path, [{"type": "b"}])
     events, _ = reader.read_unseen("events.jsonl", offset_after_first)
     assert [event.event_type for event in events] == ["b"]
+
+
+def _toast_event(kind: str, severity: str, summary: str) -> ToastEvent:
+    """Build one toast event for formatter tests."""
+    return ToastEvent(
+        source="events.jsonl",
+        offset=0,
+        event_type=kind,
+        severity=severity,
+        summary=summary,
+        timestamp="2026-10-10T00:00:00Z",
+    )
+
+
+def test_prominent_completion_renders_full_text() -> None:
+    """ENGAGE_DONE keeps its complete message instead of a truncated line."""
+    config = ToastConfig()
+    formatter = ToastFormatter(config, THEMES["default"])
+    long_summary = "engagement dcbb4fa4 finished — 6 steps (5 ran, 1 skipped), shell=False skipped=[recon:lazynmap (scan_already_held)]"
+    assert len(long_summary) > config.max_line_chars
+    event = _toast_event("ENGAGE_DONE", "info", long_summary)
+    assert formatter.is_prominent(event) is True
+    rendered = formatter.format_many([event], width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    flat = " ".join(captured.export_text().split())
+    condensed = flat.replace("│", "").replace(" ", "")
+    assert "engagement dcbb4fa4 finished" in flat
+    assert "skipped=[recon:lazynmap(scan_already_held)]" in condensed
+    assert "..." not in flat
+
+
+def test_prominent_severity_renders_panel() -> None:
+    """Error events render as toastr panels with full text."""
+    config = ToastConfig()
+    formatter = ToastFormatter(config, THEMES["default"])
+    event = _toast_event("STEP_DENIED", "error", "rm -rf / blocked — destructive")
+    assert formatter.is_prominent(event) is True
+    assert formatter.is_prominent(_toast_event("STEP_DONE", "info", "ok")) is False
+    rendered = formatter.format_many([event], width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    assert "rm -rf / blocked — destructive" in captured.export_text()
+
+
+def test_over_budget_events_collapse_into_digest() -> None:
+    """Events beyond the tick budget surface as a digest, never silently."""
+    config = ToastConfig(max_per_tick_default=2)
+    formatter = ToastFormatter(config, THEMES["default"])
+    events = [_toast_event("STEP_DONE", "info", f"line-{i}") for i in range(5)]
+    rendered = formatter.format_many(events, width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    text = captured.export_text()
+    assert "line-3" in text and "line-4" in text
+    assert "+3 more" in text and "STEP_DONE" in text
+
+
+def _cli_record(event_type: str, payload: dict, target: str = "10.0.0.5") -> dict:
+    return {
+        "id": "x",
+        "ts": "21:14:02",
+        "event_type": event_type,
+        "source": "cli",
+        "severity": "info",
+        "payload": payload,
+        "session_id": "",
+        "target": target,
+        "operator": "autonomous_loop",
+    }
+
+
+def test_summary_prefers_title_then_description() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "exploit",
+        {"title": "DVWA SQL injection", "description": "confidence=50%", "cve": "", "mitre_id": "T1190"},
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert event.summary == "DVWA SQL injection — confidence=50%"
+
+
+def test_summary_falls_back_to_capture_metadata() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "ctf_capture",
+        {
+            "title": "",
+            "description": "",
+            "artifacts": [],
+            "metadata": {"vuln_id": "vsftpd_backdoor", "cve": "CVE-2011-2523", "artifacts": ["ctf/vsftpd_backdoor/record.json"]},
+        },
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert "vsftpd_backdoor" in event.summary
+    assert "CVE-2011-2523" in event.summary
+    assert "record.json" in event.summary
+
+
+def test_summary_deduplicates_command_args_tail() -> None:
+    reader = ToastReader(ToastConfig())
+    record = _cli_record(
+        "echo",
+        {"command": "tmux kill-session -t lab 2>/dev/null", "args": "kill-session -t lab 2>/dev/null"},
+    )
+    event = reader._build_event(json.dumps(record), "events.jsonl", 0)
+    assert event.summary == "tmux kill-session -t lab 2>/dev/null"
+
+
+def test_activity_trigger_sources_expand_and_render() -> None:
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        _write_jsonl(
+            Path(tmp) / "activity_t0001.jsonl",
+            [{"ts": "2026-10-21T22:11:54", "task": "t0001", "worker": "scheduler", "kind": "fire", "text": "trigger #1 kind=service addons=hellbird:lazyaddon"}],
+        )
+        reader = ToastReader(ToastConfig(), root=Path(tmp))
+        sources, _ = reader.resolve_sources(ToastConfig().event_files)
+        assert "activity_t0001.jsonl" in sources
+        all_events: list = []
+        for name in sources:
+            events, end = reader.read_unseen(name, 0)
+            all_events.extend(events)
+            if name == "activity_t0001.jsonl":
+                assert end > 0
+        trigger_events = [e for e in all_events if e.event_type == "scheduler"]
+        assert len(trigger_events) == 1
+        assert "trigger #1 kind=service addons=hellbird:lazyaddon" in trigger_events[0].summary
+
+
+def test_collect_includes_activity_sources() -> None:
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        _write_jsonl(
+            Path(tmp) / "activity_t0002.jsonl",
+            [{"ts": "21:14:02", "task": "t0002", "worker": "scheduler", "kind": "fire", "text": "trigger #2 kind=service"}],
+        )
+        bus = build_default_bus({"enable_toasts": True}, sessions_dir=tmp)
+        events = bus.collect()
+        assert any(e.event_type == "scheduler" and "trigger #2" in e.summary for e in events)

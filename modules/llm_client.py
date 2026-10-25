@@ -24,22 +24,21 @@ import logging
 import os
 import urllib.error
 import urllib.request
-from typing import Optional
 
 log = logging.getLogger("llm_client")
 
 # ── Defaults (overridable via env or constructor) ──────────────────────────────
 
-GROQ_API_URL     = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_DEFAULT_MODEL   = "llama3-8b-8192"
-GROQ_FAST_MODEL      = "llama-3.1-8b-instant"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama3-8b-8192"
+GROQ_FAST_MODEL = "llama-3.1-8b-instant"
 
-OLLAMA_HOST      = os.environ.get("OLLAMA_HOST", "127.0.0.1")
-OLLAMA_PORT      = int(os.environ.get("OLLAMA_PORT", "11434"))
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1")
+OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
 OLLAMA_DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:0.8b")
-OLLAMA_LARGE_MODEL   = os.environ.get("OLLAMA_LARGE_MODEL", "llama3.2")
+OLLAMA_LARGE_MODEL = os.environ.get("OLLAMA_LARGE_MODEL", "llama3.2")
 
-DEFAULT_TIMEOUT  = int(os.environ.get("LLM_TIMEOUT", "90"))
+DEFAULT_TIMEOUT = int(os.environ.get("LLM_TIMEOUT", "90"))
 DEFAULT_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "1024"))
 
 
@@ -69,11 +68,11 @@ class LLMClient:
         timeout: int = DEFAULT_TIMEOUT,
         max_tokens: int = DEFAULT_MAX_TOKENS,
     ) -> None:
-        self.api_key     = api_key or os.environ.get("GROQ_API_KEY", "")
-        self.groq_model  = groq_model
+        self.api_key = api_key or os.environ.get("GROQ_API_KEY", "")
+        self.groq_model = groq_model
         self.ollama_model = ollama_model
-        self.timeout     = timeout
-        self.max_tokens  = max_tokens
+        self.timeout = timeout
+        self.max_tokens = max_tokens
 
     # ── Public API ─────────────────────────────────────────────────────────────
 
@@ -82,7 +81,7 @@ class LLMClient:
         prompt: str,
         *,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
         system: str = "You are a helpful penetration testing assistant.",
         temperature: float = 0.7,
     ) -> str:
@@ -94,8 +93,8 @@ class LLMClient:
         prompt : str
             The user prompt.
         provider : str
-            One of: "groq", "ollama", "auto".
-            "auto" tries groq first, falls back to ollama, then returns static msg.
+            One of: "groq", "ollama", "llamacpp", "auto".
+            "auto" tries groq first, then ollama, then llamacpp, then returns static msg.
         model : str, optional
             Override the default model for the selected provider.
         system : str, optional
@@ -112,6 +111,8 @@ class LLMClient:
             return self._ask_groq(prompt, model or self.groq_model, system, temperature)
         if provider == "ollama":
             return self._ask_ollama(prompt, model or self.ollama_model)
+        if provider == "llamacpp":
+            return self._ask_llamacpp(prompt, model or None, system)
         if provider == "auto":
             if self.api_key:
                 result = self._ask_groq(prompt, model or self.groq_model, system, temperature)
@@ -120,8 +121,11 @@ class LLMClient:
             result = self._ask_ollama(prompt, model or self.ollama_model)
             if not result.startswith("[LLM error]"):
                 return result
-            return "[LLM error] No LLM provider available. Set GROQ_API_KEY or start Ollama."
-        return f"[LLM error] Unknown provider: {provider}. Use 'groq', 'ollama', or 'auto'."
+            result = self._ask_llamacpp(prompt, None, system)
+            if not result.startswith("[LLM error]"):
+                return result
+            return "[LLM error] No LLM provider available. Set GROQ_API_KEY, start Ollama or llama.cpp."
+        return f"[LLM error] Unknown provider: {provider}. Use 'groq', 'ollama', 'llamacpp' or 'auto'."
 
     def classify(
         self,
@@ -129,7 +133,7 @@ class LLMClient:
         *,
         question: str = "Did this command succeed? Answer only: success, failure, or partial.",
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         """
         Short classification prompt. Returns a single word: success / failure / partial.
@@ -158,7 +162,7 @@ class LLMClient:
         *,
         max_chars: int = 6000,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         """
         Summarize a block of text (e.g. nmap output, tool output).
@@ -181,20 +185,22 @@ class LLMClient:
     ) -> str:
         if not self.api_key:
             return "[LLM error] GROQ_API_KEY not set."
-        body = json.dumps({
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user",   "content": prompt},
-            ],
-            "max_tokens":  self.max_tokens,
-            "temperature": temperature,
-        }).encode()
+        body = json.dumps(
+            {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                "max_tokens": self.max_tokens,
+                "temperature": temperature,
+            }
+        ).encode()
         req = urllib.request.Request(
             GROQ_API_URL,
             data=body,
             headers={
-                "Content-Type":  "application/json",
+                "Content-Type": "application/json",
                 "Authorization": f"Bearer {self.api_key}",
             },
         )
@@ -212,12 +218,14 @@ class LLMClient:
     # ── Internal: Ollama ───────────────────────────────────────────────────────
 
     def _ask_ollama(self, prompt: str, model: str) -> str:
-        url  = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
-        body = json.dumps({
-            "model":  model,
-            "prompt": prompt,
-            "stream": False,
-        }).encode()
+        url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
+        body = json.dumps(
+            {
+                "model": model,
+                "prompt": prompt,
+                "stream": False,
+            }
+        ).encode()
         req = urllib.request.Request(
             url,
             data=body,
@@ -231,10 +239,30 @@ class LLMClient:
             log.warning(f"Ollama request failed: {exc}")
             return f"[LLM error] Ollama: {exc}"
 
+    def _ask_llamacpp(self, prompt: str, model: str | None, system: str = "") -> str:
+        """Ask the local llama.cpp server (OpenAI-compatible, keyless)."""
+        try:
+            try:
+                from modules.ai_model import LlamaCppModel
+            except ModuleNotFoundError:
+                from ai_model import LlamaCppModel  # type: ignore[no-redef]
+            backend = LlamaCppModel(model=model or "local-model")
+            text = backend.complete(
+                system or "You are a helpful penetration testing assistant.",
+                prompt,
+                max_tokens=self.max_tokens,
+            )
+            if not text.strip():
+                return "[LLM error] llama.cpp returned empty reply"
+            return text.strip()
+        except Exception as exc:
+            log.warning(f"llama.cpp request failed: {exc}")
+            return f"[LLM error] llama.cpp: {exc}"
+
 
 # ── Module-level singleton (lazy init) ────────────────────────────────────────
 
-_default_client: Optional[LLMClient] = None
+_default_client: LLMClient | None = None
 
 
 def get_client(api_key: str = "") -> LLMClient:
@@ -249,7 +277,7 @@ def ask(
     prompt: str,
     *,
     provider: str = "auto",
-    model: Optional[str] = None,
+    model: str | None = None,
     api_key: str = "",
     system: str = "You are a helpful penetration testing assistant.",
 ) -> str:
@@ -270,14 +298,15 @@ def summarize(text: str, *, provider: str = "auto", api_key: str = "") -> str:
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
+    import sys
 
     p = argparse.ArgumentParser(description="LazyOwn LLM Client CLI")
     p.add_argument("prompt", nargs="?", default="", help="Prompt text (or pipe via stdin)")
     p.add_argument("--provider", default="auto", choices=["groq", "ollama", "auto"])
-    p.add_argument("--model",    default=None)
+    p.add_argument("--model", default=None)
     p.add_argument("--classify", action="store_true", help="Run as classifier")
-    p.add_argument("--system",   default="You are a helpful penetration testing assistant.")
+    p.add_argument("--system", default="You are a helpful penetration testing assistant.")
     args = p.parse_args()
 
     prompt_text = args.prompt or sys.stdin.read()

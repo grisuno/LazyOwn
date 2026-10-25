@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev, pp]
+  pull_request:
+    branches: [main, dev, pp]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install "ruff==0.16.8"
+      - name: Ruff check
+        run: ruff check .
+      - name: Ruff format check
+        run: ruff format --check .
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install system deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq nmap libpcap-dev 2>/dev/null || true
+      - name: Install project
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+          pip install -e . --no-deps
+      - name: Run tests
+        run: python -m pytest tests/ -x --tb=short --timeout=300 -p no:cacheprovider
+  hygiene:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pyyaml
+        run: pip install pyyaml
+      - name: Top-tier hygiene audit
+        run: python3 scripts/top_tier_check.py
+      - name: Doc stats in sync
+        run: python3 scripts/sync_doc_stats.py --check
+      - name: Contract manifest drift
+        run: python3 scripts/check_contract_manifest.py
+
+  sbom:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate SBOM
+        run: python3 scripts/generate_sbom.py --out sbom.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+
+  security:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tools
+        run: pip install --upgrade pip setuptools bandit pip-audit
+      - name: Bandit security scan (high severity gate)
+        run: bandit -c pyproject.toml -r . --severity-level high -f json -o bandit-report.json
+      - name: Upload bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
+      - name: pip-audit dependency scan
+        run: pip-audit
+
+  mypy:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project + types
+        run: |
+          pip install -e ".[dev]"
+          pip install types-requests types-PyYAML types-tabulate 2>/dev/null || true
+      - name: mypy type check
+        run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli setup.py

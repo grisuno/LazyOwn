@@ -6,6 +6,7 @@ description: 'Ejecuta el script kivi.py que se encuentra en la carpeta modules. 
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 os: windows
 trigger: []
 tool:

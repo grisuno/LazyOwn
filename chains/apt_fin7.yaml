@@ -1,0 +1,6 @@
+name: apt_fin7
+description: Full APT chain for fin7 (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: fin7

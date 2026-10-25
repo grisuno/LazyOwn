@@ -1,12 +1,11 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_ 
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
-Licencia: GPL v3
+Licencia: AGPL v3
 
 Descripción: Lazy Burp-Like Fuzzer con Proxy y Repeater
 
@@ -18,23 +17,24 @@ Descripción: Lazy Burp-Like Fuzzer con Proxy y Repeater
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import argparse
 import json
-import re
-import requests
+import os
 import signal
 import subprocess
 import sys
 import tempfile
 import threading
-import os
+
+import requests
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_MODULE_DIR)
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
-from modules.security_sanitizers import (
+from modules.security_sanitizers import (  # noqa: E402
     HeaderValueSanitizer,
     build_default_config,
 )
@@ -62,67 +62,80 @@ _HEADER_SANITIZER = HeaderValueSanitizer(_SECURITY_CONFIG)
 # Forzar UTF-8 encoding
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer  # noqa: E402
 
 # Global flag for graceful shutdown
 should_exit = False
 BANNER = """
- _                           _____                                   
-(_)            _____        (_____)             _                    
-(_)      ____ (_____)_   _ (_)   (_) _   _   _ (_)__                 
-(_)     (____)  _(_)(_) (_)(_)   (_)(_) ( ) (_)(____)                
-(_)____( )_( ) (_)__(_)_(_)(_)___(_)(_)_(_)_(_)(_) (_)               
-(______)(__)_)(_____)(____) (_____)  (__) (__) (_) (_)               
-                      __(_)                                          
-                     (___)                                           
-                                                                     
- _____                          ______                               
-(_____)         _              (______)     _____  _____  ____  _    
-(_)__(_) _   _ (_)__  ____     (_)__  _   _(_____)(_____)(____)(_)__ 
+ _                           _____
+(_)            _____        (_____)             _
+(_)      ____ (_____)_   _ (_)   (_) _   _   _ (_)__
+(_)     (____)  _(_)(_) (_)(_)   (_)(_) ( ) (_)(____)
+(_)____( )_( ) (_)__(_)_(_)(_)___(_)(_)_(_)_(_)(_) (_)
+(______)(__)_)(_____)(____) (_____)  (__) (__) (_) (_)
+                      __(_)
+                     (___)
+
+ _____                          ______
+(_____)         _              (______)     _____  _____  ____  _
+(_)__(_) _   _ (_)__  ____     (_)__  _   _(_____)(_____)(____)(_)__
 (_____) (_) (_)(____)(____)    (____)(_) (_) _(_)   _(_)(_)_(_)(____)
-(_)__(_)(_)_(_)(_)   (_)_(_)   (_)   (_)_(_)(_)__  (_)__(__)__ (_)   
-(_____)  (___) (_)   (____)    (_)    (___)(_____)(_____)(____)(_)   
-                     (_)                                             
-                     (_) 
-                                                 
+(_)__(_)(_)_(_)(_)   (_)_(_)   (_)   (_)_(_)(_)__  (_)__(__)__ (_)
+(_____)  (___) (_)   (____)    (_)    (___)(_____)(_____)(____)(_)
+                     (_)
+                     (_)
+
 [*] Iniciando: LazyOwn Fuzzer and Repeater Cli Assistent [;,;]
 """
 print(BANNER)
+
+
 def load_headers_from_file(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         headers = json.load(file)
     return headers
 
+
 def load_data_from_file(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         data = json.load(file)
     return data
+
 
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] Saliendo...")
     should_exit = True
 
+
 signal.signal(signal.SIGINT, signal_handler)
+
 
 class ProxyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        self._handle_request('GET')
+        self._handle_request("GET")
 
     def do_POST(self):
-        self._handle_request('POST')
+        self._handle_request("POST")
 
     def _handle_request(self, method):
         url = self.path
         headers = dict(self.headers)
-        content_length = int(self.headers.get('Content-Length', 0))
+        content_length = int(self.headers.get("Content-Length", 0))
         body = self.rfile.read(content_length) if content_length else None
 
-        _HOP_BY_HOP = frozenset({
-            'connection', 'keep-alive', 'proxy-authenticate',
-            'proxy-authorization', 'te', 'trailer',
-            'transfer-encoding', 'upgrade',
-        })
+        _HOP_BY_HOP = frozenset(
+            {
+                "connection",
+                "keep-alive",
+                "proxy-authenticate",
+                "proxy-authorization",
+                "te",
+                "trailer",
+                "transfer-encoding",
+                "upgrade",
+            }
+        )
 
         try:
             response = requests.request(method, url, headers=headers, data=body)
@@ -143,33 +156,38 @@ class ProxyHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.content)
         except requests.RequestException:
-            self.send_error(500, 'Proxy Error')
+            self.send_error(500, "Proxy Error")
+
 
 def run_proxy(port):
-    server_address = ('', port)
+    server_address = ("", port)
     httpd = HTTPServer(server_address, ProxyHandler)
-    print(f'[P] Proxy ejecutándose en el puerto {port}')
+    print(f"[P] Proxy ejecutándose en el puerto {port}")
     httpd.serve_forever()
 
+
 def edit_file_with_nano(content):
-    with tempfile.NamedTemporaryFile(delete=False, mode='w+') as temp_file:
+    with tempfile.NamedTemporaryFile(delete=False, mode="w+") as temp_file:
         temp_file.write(content)
         temp_file.flush()
-        subprocess.run(['nano', temp_file.name])
+        subprocess.run(["nano", temp_file.name])
         temp_file.seek(0)
         edited_content = temp_file.read()
     return edited_content
 
-def send_request(url, method='GET', headers=None, params=None, data=None, json_data=None, proxies=None, hide_code=None):
+
+def send_request(url, method="GET", headers=None, params=None, data=None, json_data=None, proxies=None, hide_code=None):
     """
     Envía una solicitud HTTP y devuelve la respuesta.
     """
     try:
-        response = requests.request(method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies)
-        
+        response = requests.request(
+            method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies
+        )
+
         if hide_code and response.status_code == hide_code:
             return None
-        
+
         print(f"[S] Solicitud {method} a {url} enviada.")
         print(f"[C] Código de estado: {response.status_code}")
         print("[H] Encabezados de la respuesta:")
@@ -181,14 +199,14 @@ def send_request(url, method='GET', headers=None, params=None, data=None, json_d
         print(f"[E] Error en la solicitud: {e}")
         return None
 
+
 def repeater(url, method, headers, params, data, json_data, proxies, hide_code):
     """
     Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
     """
     while not should_exit:
-        
         print("[*] \n--- Nueva iteración del Repeater ---")
-        
+
         headers_json = json.dumps(headers, indent=4)
         edited_headers = edit_file_with_nano(headers_json)
         headers = json.loads(edited_headers)
@@ -198,30 +216,31 @@ def repeater(url, method, headers, params, data, json_data, proxies, hide_code):
         data = json.loads(edited_data)
 
         response = send_request(url, method, headers, params, data, json_data, proxies, hide_code)
-        if response is not None and response.headers.get('Content-Type') == 'application/json':
+        if response is not None and response.headers.get("Content-Type") == "application/json":
             try:
                 response_json = response.json()
                 print("[J] Contenido de la respuesta en JSON:")
                 print(json.dumps(response_json, indent=4))
             except ValueError:
                 print("[e] La respuesta no es un JSON válido")
-        
+
         repeat = input("[?] ¿Quieres repetir la solicitud? (s/n): ").strip().lower()
-        if repeat != 's':
+        if repeat != "s":
             print("[R] Finalizando el Repeater.")
             break
+
 
 def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code):
     """
     Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
     """
-    with open(wordlist_path, 'r') as f:
+    with open(wordlist_path, "r") as f:
         words = f.read().splitlines()
-    
+
     for word in words:
         if should_exit:
             break
-        
+
         # Convertir los encabezados, datos y parámetros a cadenas JSON
         headers_json = json.dumps(headers)
         data_json = json.dumps(data)
@@ -242,13 +261,12 @@ def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_pa
 
         # Reemplazar LAZYFUZZ en la URL
         fuzzed_url = url.replace("LAZYFUZZ", word)
-        
+
         response = send_request(fuzzed_url, method, headers, params, data, json_data, proxies, hide_code)
         if response is not None:
-           
             print(f"\n--- [*] Nueva iteración del Fuzzing con {word} ---")
-            
-            if response.headers.get('Content-Type') == 'application/json':
+
+            if response.headers.get("Content-Type") == "application/json":
                 try:
                     response_json = response.json()
                     print("[J] Contenido de la respuesta en JSON:")
@@ -256,26 +274,30 @@ def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_pa
                 except ValueError:
                     print("[e] La respuesta no es un JSON válido")
 
+
 def parse_arguments():
     """
     Parsear los argumentos de la línea de comandos.
     """
-    parser = argparse.ArgumentParser(description='Script HTTP Repeater y Fuzzer')
-    parser.add_argument('--url', required=True, help='URL a la que se enviará la solicitud')
-    parser.add_argument('--method', default='GET', help='Método HTTP (GET, POST, PUT, DELETE, etc.)')
-    parser.add_argument('--headers', type=json.loads, default='{}', help='Encabezados de la solicitud en formato JSON')
-    parser.add_argument('--params', type=json.loads, default='{}', help='Parámetros de la URL en formato JSON')
-    parser.add_argument('--data', type=json.loads, default='{}', help='Datos del formulario en formato JSON')
-    parser.add_argument('--json_data', type=json.loads, default='{}', help='Datos JSON para la solicitud en formato JSON')
-    parser.add_argument('--proxy_port', type=int, default=8080, help='Puerto del proxy interno')
-    parser.add_argument('--headers_file', help='Archivo JSON que contiene los encabezados')
-    parser.add_argument('--data_file', help='Archivo JSON que contiene los datos')
-    parser.add_argument('--params_file', help='Archivo JSON que contiene los parámetros de la URL')
-    parser.add_argument('--json_data_file', help='Archivo JSON que contiene los datos en formato JSON')
-    parser.add_argument('-w', '--wordlist', help='Ruta del diccionario para el modo fuzzing')
-    parser.add_argument('-hc', '--hide_code', type=int, help='Código de estado HTTP para ocultar en la salida')
+    parser = argparse.ArgumentParser(description="Script HTTP Repeater y Fuzzer")
+    parser.add_argument("--url", required=True, help="URL a la que se enviará la solicitud")
+    parser.add_argument("--method", default="GET", help="Método HTTP (GET, POST, PUT, DELETE, etc.)")
+    parser.add_argument("--headers", type=json.loads, default="{}", help="Encabezados de la solicitud en formato JSON")
+    parser.add_argument("--params", type=json.loads, default="{}", help="Parámetros de la URL en formato JSON")
+    parser.add_argument("--data", type=json.loads, default="{}", help="Datos del formulario en formato JSON")
+    parser.add_argument(
+        "--json_data", type=json.loads, default="{}", help="Datos JSON para la solicitud en formato JSON"
+    )
+    parser.add_argument("--proxy_port", type=int, default=8080, help="Puerto del proxy interno")
+    parser.add_argument("--headers_file", help="Archivo JSON que contiene los encabezados")
+    parser.add_argument("--data_file", help="Archivo JSON que contiene los datos")
+    parser.add_argument("--params_file", help="Archivo JSON que contiene los parámetros de la URL")
+    parser.add_argument("--json_data_file", help="Archivo JSON que contiene los datos en formato JSON")
+    parser.add_argument("-w", "--wordlist", help="Ruta del diccionario para el modo fuzzing")
+    parser.add_argument("-hc", "--hide_code", type=int, help="Código de estado HTTP para ocultar en la salida")
 
     return parser.parse_args()
+
 
 def main():
     args = parse_arguments()
@@ -290,10 +312,7 @@ def main():
     proxy_thread = threading.Thread(target=run_proxy, args=(args.proxy_port,), daemon=True)
     proxy_thread.start()
 
-    proxies = {
-        'http': f'http://localhost:{args.proxy_port}',
-        'https': f'http://localhost:{args.proxy_port}'
-    }
+    proxies = {"http": f"http://localhost:{args.proxy_port}", "https": f"http://localhost:{args.proxy_port}"}
 
     print(f"[P] Configuración del proxy: {proxies}")
 
@@ -301,6 +320,7 @@ def main():
         lazyfuzz(args.url, args.method, headers, params, data, json_data, proxies, args.wordlist, args.hide_code)
     else:
         repeater(args.url, args.method, headers, params, data, json_data, proxies, args.hide_code)
+
 
 if __name__ == "__main__":
     main()

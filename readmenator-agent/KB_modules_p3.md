@@ -1,0 +1,500 @@
+# Subsystem: modules (page 3 of 16)
+Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/cal.sh
+- Doc: Función para calcular si un año es bisiesto
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `is_leap_year` (function, line 4)
+  - `days_in_month` (function, line 14)
+  - `first_day_of_month` (function, line 31)
+
+## modules/categories.py
+- Doc: modules/categories.py
+- Layer: utility
+- Language: py
+- Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
+
+## modules/chain_distill.py
+- Doc: chain_distill - crystallise one autonomous-loop trace into a chain YAML.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 76) `def _slug(text)`
+  - `locate_traces` (function, line 89) `def locate_traces(task, sessions_dir)`
+  - `_load_traffic` (function, line 132) `def _load_traffic(path)`
+  - `_load_graph` (function, line 168) `def _load_graph(path)`
+  - `_is_prose` (function, line 194) `def _is_prose(command)`
+  - `_is_failed` (function, line 209) `def _is_failed(row)`
+  - `_command_verb` (function, line 225) `def _command_verb(command)`
+  - `_phase_for` (function, line 245) `def _phase_for(command, manifest_phase)`
+  - `_is_doc_example` (function, line 280) `def _is_doc_example(host)`
+  - `_infer_target` (function, line 297) `def _infer_target(rows, graph)`
+  - `StepDecision` (class, line 325) `class StepDecision`
+  - `DistillReport` (class, line 346) `class DistillReport`
+  - `build_chain_data` (function, line 441) `def build_chain_data(task, rows, graph, manifests)`
+  - `distill` (function, line 550) `def distill(task, sessions_dir, write, chains_dir)`
+  - `kept` (method, line 374) `def kept(self)`
+  - `dropped` (method, line 379) `def dropped(self)`
+  - `to_dict` (method, line 383) `def to_dict(self)`
+  - `render` (method, line 410) `def render(self, verbose)`
+  - `note` (function, line 465) `def note(row, kept, reason)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_codeql_alert_fixes.py`
+
+## modules/chain_facts.py
+- Doc: Bridge chain run outputs into the FactStore.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `spool_chain_outputs` (function, line 24) `def spool_chain_outputs(result, sessions_dir, fact_store_factory)`
+  - `_default_store` (function, line 73) `def _default_store()`
+  - `_host_hint` (function, line 84) `def _host_hint(output, phase, target_hint)`
+- Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
+
+## modules/chain_registry.py
+- Doc: Chain registry - ordered orchestration chains from ``chains/*.yaml``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ChainStep` (class, line 62) `class ChainStep`
+  - `Chain` (class, line 111) `class Chain`
+  - `_render` (function, line 191) `def _render(template, variables)`
+  - `_when_tree` (function, line 220) `def _when_tree(expression)`
+  - `evaluate_when` (function, line 247) `def evaluate_when(expression, variables)`
+  - `validate_chain` (function, line 312) `def validate_chain(data, filename, chains_dir)`
+  - `render_text_token_braces` (function, line 505) `def render_text_token_braces(text)`
+  - `load_all` (function, line 510) `def load_all(chains_dir)`
+  - `_materialize` (function, line 544) `def _materialize(name, raw, stack)`
+  - `_step_from_raw` (function, line 590) `def _step_from_raw(item)`
+  - `get` (function, line 644) `def get(name, chains_dir)`
+  - `scan_all` (function, line 649) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 709) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 732) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `identifier` (method, line 105) `def identifier(self)`
+  - `resolve` (method, line 128) `def resolve(self, tokens)`
+  - `_eval` (function, line 269) `def _eval(node)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+
+## modules/chain_runner.py
+- Doc: Single execution engine for YAML orchestration chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StepOutcome` (class, line 53) `class StepOutcome`
+  - `ChainRunResult` (class, line 109) `class ChainRunResult`
+  - `ReplanContext` (class, line 160) `class ReplanContext`
+  - `render_text` (function, line 207) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 215) `class ChainRunner`
+  - `_all_json_objects` (function, line 1184) `def _all_json_objects(text)`
+  - `_load_json_events` (function, line 1205) `def _load_json_events(path)`
+  - `ok` (method, line 81) `def ok(self)`
+  - `to_dict` (method, line 85) `def to_dict(self)`
+  - `to_dict` (method, line 130) `def to_dict(self)`
+  - `chain_proven` (method, line 154) `def chain_proven(self)`
+  - `set_var` (method, line 177) `def set_var(self, name, value)`
+  - `insert_step` (method, line 182) `def insert_step(self, step)`
+  - `skip_rest` (method, line 187) `def skip_rest(self)`
+  - `applied_vars` (method, line 192) `def applied_vars(self)`
+  - `inserted` (method, line 197) `def inserted(self)`
+  - `skip_rest_flag` (method, line 202) `def skip_rest_flag(self)`
+  - `__init__` (method, line 218) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `run` (method, line 288) `def run(self)`
+  - `_skip_remaining` (method, line 463) `def _skip_remaining(self, steps, start, reason)`
+  - `_run_parallel_group` (method, line 478) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
+  - `_run_fallback_chain` (method, line 572) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
+  - `_notify` (method, line 642) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 651) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_save_checkpoint` (method, line 700) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
+  - `_record_verdict` (method, line 738) `def _record_verdict(verdicts, outcome)`
+  - `_run_step` (method, line 745) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
+  - `_dependency_block` (method, line 879) `def _dependency_block(step, prior_verdicts)`
+  - `_verify_evidence` (method, line 901) `def _verify_evidence(self, step, outcome, variables)`
+  - `_ask_approval` (method, line 946) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 955) `def _verify_timeout(self, step)`
+  - `_pre_check_timeout` (method, line 961) `def _pre_check_timeout(self, step)`
+  - `_store_capture` (method, line 965) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 1017) `def _first_json(output)`
+  - `_render_command` (method, line 1031) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 1046) `def _execute(self, command, timeout, expect_exits)`
+  - `_is_verb` (method, line 1081) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 1092) `def _run_shell_verb(self, command, timeout)`
+  - `_run_raw` (method, line 1147) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 1164) `def _call(callback, timeout)`
+  - `_raise_timeout` (function, line 1127) `def _raise_timeout(_signum, _frame)`
+- Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/hunt_verify.py`, `modules/verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+
+## modules/chain_state.py
+- Doc: Durable chain checkpoints for pause, resume and audit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `checkpoint_dir` (function, line 26) `def checkpoint_dir(base_dir)`
+  - `new_run_id` (function, line 33) `def new_run_id(chain_name)`
+  - `write_checkpoint` (function, line 39) `def write_checkpoint(directory, state)`
+  - `load_checkpoint` (function, line 65) `def load_checkpoint(directory, run_id)`
+  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit, chain)`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+
+## modules/chain_synth.py
+- Doc: Runtime chain synthesis from fact-store evidence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 29) `def _slug(name)`
+  - `_wordlist` (function, line 33) `def _wordlist(param, fallback)`
+  - `_service_steps` (function, line 42) `def _service_steps(host, services)`
+  - `synth_chain_data` (function, line 89) `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)`
+  - `facts_for_target` (function, line 224) `def facts_for_target(target)`
+  - `write_generated_chain` (function, line 253) `def write_generated_chain(data, chains_dir)`
+- Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/apt_chain_support.py`, `tests/test_chain_synth.py`
+
+## modules/chain_tokens.py
+- Doc: Engagement-state tokens for YAML chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `token_keys` (function, line 24) `def token_keys()`
+  - `build_tokens` (function, line 29) `def build_tokens(target, params)`
+  - `_load_host_facts` (function, line 77) `def _load_host_facts(host)`
+  - `_newest_creds_file` (function, line 93) `def _newest_creds_file(host)`
+  - `_candidate_files` (function, line 120) `def _candidate_files()`
+  - `_mentions` (function, line 130) `def _mentions(path, needle)`
+- Depends on: `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+
+## modules/cicd_enumerator.py
+- Doc: CI/CD Pipeline Enumeration Module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDFinding` (class, line 33) `class CICDFinding`
+  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
+  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
+  - `scan` (method, line 60) `def scan(self)`
+  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
+- Imported by: `cli/commands/cicd.py`
+
+## modules/cli_auth.py
+- Doc: CLI authentication module — login against users.json with remember-me.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_users` (function, line 34) `def _load_users()`
+  - `_save_users` (function, line 52) `def _save_users(users)`
+  - `_load_payload` (function, line 85) `def _load_payload()`
+  - `_save_payload` (function, line 100) `def _save_payload(payload)`
+  - `user_exists` (function, line 122) `def user_exists(username)`
+  - `register` (function, line 145) `def register(username, password)`
+  - `verify_password` (function, line 214) `def verify_password(username, password)`
+  - `login` (function, line 240) `def login(username, password, remember)`
+  - `logout` (function, line 293) `def logout()`
+  - `try_auto_login` (function, line 328) `def try_auto_login()`
+  - `whoami` (function, line 366) `def whoami()`
+  - `get_current_operator` (function, line 396) `def get_current_operator()`
+  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
+  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
+  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
+  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
+  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
+  - `needs_login` (function, line 487) `def needs_login()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
+
+## modules/closedloop.py
+- Doc: Closed-loop detection rule tuning: baseline vs candidate comparison.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RuleMetrics` (class, line 32) `class RuleMetrics`
+  - `Comparison` (class, line 55) `class Comparison`
+  - `_metrics_for` (function, line 77) `def _metrics_for(result)`
+  - `compare_rules` (function, line 90) `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)`
+  - `suggest_tuning` (function, line 136) `def suggest_tuning(candidate, baseline)`
+  - `to_dict` (method, line 42) `def to_dict(self)`
+  - `to_dict` (method, line 66) `def to_dict(self)`
+- Depends on: `modules/defense_eval.py`
+- Imported by: `modules/defense_stages.py`, `tests/test_closedloop.py`
+
+## modules/cloud_enum.py
+- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
+  - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
+  - `detect_provider` (method, line 47) `def detect_provider(self)`
+  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
+  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
+  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
+  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
+  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
+  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
+  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
+  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
+  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
+  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
+  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
+  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
+  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
+- Imported by: `cli/commands/cloud.py`
+
+## modules/collab_bp.py
+- Doc: modules/collab_bp.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_authenticated_operator` (function, line 90) `def _authenticated_operator()`
+  - `_check_collab_permission` (function, line 100) `def _check_collab_permission(perm_name)`
+  - `_collab_login_required` (function, line 120) `def _collab_login_required(f)`
+  - `_collab_permission_required` (function, line 136) `def _collab_permission_required(perm_name)`
+  - `ColabEvent` (class, line 163) `class ColabEvent`
+  - `OperatorInfo` (class, line 176) `class OperatorInfo`
+  - `EventBus` (class, line 188) `class EventBus`
+  - `TargetLock` (class, line 250) `class TargetLock`
+  - `LockManager` (class, line 257) `class LockManager`
+  - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
+  - `get_event_bus` (function, line 370) `def get_event_bus()`
+  - `get_lock_manager` (function, line 374) `def get_lock_manager()`
+  - `get_operator_registry` (function, line 378) `def get_operator_registry()`
+  - `publish_event` (function, line 382) `def publish_event(type, payload, operator)`
+  - `collab_ui` (function, line 396) `def collab_ui()`
+  - `stream` (function, line 411) `def stream()`
+  - `operators` (function, line 458) `def operators()`
+  - `publish` (function, line 470) `def publish()`
+  - `lock` (function, line 483) `def lock()`
+  - `unlock` (function, line 504) `def unlock()`
+  - `locks` (function, line 522) `def locks()`
+  - `history` (function, line 537) `def history()`
+  - `decorated` (function, line 124) `def decorated()`
+  - `decorator` (function, line 139) `def decorator(f)`
+  - `to_sse` (method, line 170) `def to_sse(self)`
+  - `__init__` (method, line 198) `def __init__(self)`
+  - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
+  - `unsubscribe` (method, line 215) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 219) `def publish(self, event)`
+  - `recent` (method, line 234) `def recent(self, n)`
+  - `reset` (method, line 238) `def reset(self)`
+  - `__init__` (method, line 263) `def __init__(self)`
+  - `acquire` (method, line 267) `def acquire(self, target, operator, ttl_secs)`
+  - `release` (method, line 279) `def release(self, target, operator)`
+  - `status` (method, line 287) `def status(self, target)`
+  - `all_locks` (method, line 292) `def all_locks(self)`
+  - `_expire` (method, line 297) `def _expire(self)`
+  - `reset` (method, line 304) `def reset(self)`
+  - `__init__` (method, line 319) `def __init__(self)`
+  - `join` (method, line 323) `def join(self, name)`
+  - `heartbeat` (method, line 334) `def heartbeat(self, name)`
+  - `leave` (method, line 340) `def leave(self, name)`
+  - `active_operators` (method, line 345) `def active_operators(self)`
+  - `_expire` (method, line 350) `def _expire(self)`
+  - `reset` (method, line 356) `def reset(self)`
+  - `generate` (function, line 424) `def generate()`
+  - `login_required` (function, line 80) `def login_required(f)`
+  - `decorated` (function, line 141) `def decorated()`
+  - `decorated` (function, line 84) `def decorated()`
+- Depends on: `core/logging.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+
+## modules/colors.py
+- Doc: retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `retModel` (function, line 40) `def retModel()`
+  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
+  - `no_html` (function, line 74) `def no_html(content)`
+- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+
+## modules/command_executor.py
+- Doc: UnifiedCommandExecutor — shared shell command execution service.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `set_thread_timeout` (function, line 41) `def set_thread_timeout(seconds)`
+  - `clear_thread_timeout` (function, line 46) `def clear_thread_timeout()`
+  - `thread_timeout` (function, line 54) `def thread_timeout()`
+  - `set_thread_stdin_devnull` (function, line 59) `def set_thread_stdin_devnull(enabled)`
+  - `clear_thread_stdin_devnull` (function, line 64) `def clear_thread_stdin_devnull()`
+  - `thread_stdin_devnull` (function, line 72) `def thread_stdin_devnull()`
+  - `_kill_process_group` (function, line 77) `def _kill_process_group(proc)`
+  - `ExecutionResult` (class, line 97) `class ExecutionResult`
+  - `CommandExecutor` (class, line 106) `class CommandExecutor`
+  - `get_executor` (function, line 426) `def get_executor()`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `instance` (method, line 122) `def instance(cls)`
+  - `add_hook` (method, line 127) `def add_hook(self, hook)`
+  - `run` (method, line 131) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 165) `def _needs_shell(self, command)`
+  - `_argv` (method, line 173) `def _argv(self, command)`
+  - `run_passthrough` (method, line 179) `def run_passthrough(self, command, env)`
+  - `run_tee` (method, line 194) `def run_tee(self, command)`
+  - `_default_writer` (method, line 291) `def _default_writer(line)`
+  - `_run_capture` (method, line 296) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 321) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 358) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 394) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 401) `def _publish_event(self, result)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+- Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
+
+## modules/compliance.py
+- Doc: modules/compliance.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceEntry` (class, line 340) `class EvidenceEntry`
+  - `EvidenceChain` (class, line 349) `class EvidenceChain`
+  - `export_pdf` (function, line 449) `def export_pdf(report_md, output_path, title, classification)`
+  - `export_to_elastic_ndjson` (function, line 533) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
+  - `export_to_cef` (function, line 572) `def export_to_cef(findings, output_path, vendor, product, version)`
+  - `ComplianceFinding` (class, line 620) `class ComplianceFinding`
+  - `ComplianceEngine` (class, line 632) `class ComplianceEngine`
+  - `__init__` (method, line 357) `def __init__(self, sessions_dir)`
+  - `_load` (method, line 364) `def _load(self)`
+  - `_hash_entry` (method, line 379) `def _hash_entry(self, entry)`
+  - `add_file` (method, line 383) `def add_file(self, filepath, operator, description)`
+  - `_append_to_file` (method, line 403) `def _append_to_file(self, entry)`
+  - `verify` (method, line 410) `def verify(self)`
+  - `get_chain_digest` (method, line 429) `def get_chain_digest(self)`
+  - `to_report` (method, line 432) `def to_report(self)`
+  - `__init__` (method, line 635) `def __init__(self, sessions_dir)`
+  - `map_findings_to_compliance` (method, line 639) `def map_findings_to_compliance(self, findings, frameworks)`
+  - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
+  - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
+  - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
+  - `_compliance_finding` (method, line 780) `def _compliance_finding(fact)`
+  - `_load_findings` (method, line 808) `def _load_findings(self)`
+  - `export_pdf` (method, line 857) `def export_pdf(self, report, output_path)`
+  - `_format_compliance_report_md` (method, line 861) `def _format_compliance_report_md(self, report)`
+  - `add_evidence` (method, line 927) `def add_evidence(self, filepath, operator, description)`
+  - `verify_evidence_chain` (method, line 930) `def verify_evidence_chain(self)`
+- Depends on: `core/logging.py`, `modules/factsio.py`
+- Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
+
+## modules/conditional_hooks.py
+- Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `HookRule` (class, line 45) `class HookRule`
+  - `HookEngine` (class, line 258) `class HookEngine`
+  - `get_hook_engine` (function, line 586) `def get_hook_engine()`
+  - `can_fire` (method, line 56) `def can_fire(self, now)`
+  - `mark_fired` (method, line 65) `def mark_fired(self)`
+  - `to_dict` (method, line 69) `def to_dict(self)`
+  - `__init__` (method, line 270) `def __init__(self)`
+  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
+  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
+  - `load_rules` (method, line 290) `def load_rules(self, path)`
+  - `save_rules` (method, line 322) `def save_rules(self, path)`
+  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
+  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
+  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
+  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
+  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
+  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
+  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
+  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
+  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
+  - `fire` (method, line 516) `def fire(self, event, context)`
+  - `list_rules` (method, line 571) `def list_rules(self)`
+  - `get_rule` (method, line 575) `def get_rule(self, name)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+
+## modules/config_store.py
+- Doc: Thread-safe singleton facade over core.config for payload.json.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `init` (function, line 36) `def init(path, watch)`
+  - `get_config` (function, line 53) `def get_config(key, default)`
+  - `set_config` (function, line 66) `def set_config()`
+  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
+  - `reload_config` (function, line 90) `def reload_config()`
+  - `stop_watcher` (function, line 96) `def stop_watcher()`
+  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
+  - `_load` (function, line 113) `def _load()`
+  - `_persist` (function, line 131) `def _persist()`
+  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
+  - `_watch_loop` (function, line 148) `def _watch_loop()`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `tests/test_core_modules.py`
+
+## modules/credential_reuse.py
+- Doc: Credential Reuse Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
+  - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
+  - `get_credential_reuse_engine` (function, line 358) `def get_credential_reuse_engine()`
+  - `to_dict` (method, line 43) `def to_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self)`
+  - `_load_cache` (method, line 85) `def _load_cache(self)`
+  - `_save_cache` (method, line 95) `def _save_cache(self)`
+  - `mark_failed` (method, line 107) `def mark_failed(self, username, password, host)`
+  - `mark_confirmed` (method, line 112) `def mark_confirmed(self, username, password, host)`
+  - `_subnet_distance` (method, line 118) `def _subnet_distance(self, ip_a, ip_b)`
+  - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
+  - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
+  - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
+  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
+  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
+  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
+
+## modules/cross_cloud.py
+- Doc: Cross-cloud identity paths — multi-cloud identity federation abuse.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CrossCloudConfig` (class, line 30) `class CrossCloudConfig`
+  - `CrossCloudAttackEngine` (class, line 54) `class CrossCloudAttackEngine`
+  - `__init__` (method, line 64) `def __init__(self, config)`
+  - `azure_saml_to_aws` (method, line 67) `def azure_saml_to_aws(self)`
+  - `gcp_oidc_to_azure` (method, line 104) `def gcp_oidc_to_azure(self)`
+  - `aws_oidc_to_gcp` (method, line 133) `def aws_oidc_to_gcp(self)`
+  - `multi_cloud_imds_harvesting` (method, line 167) `def multi_cloud_imds_harvesting(self)`
+  - `entra_id_to_gcp_workforce_federation` (method, line 204) `def entra_id_to_gcp_workforce_federation(self)`
+  - `detect_cross_cloud_federation` (method, line 234) `def detect_cross_cloud_federation(self)`
+  - `summary` (method, line 258) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/ctf_capture.py
+- Doc: CTF capture verification for gym attack paths.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `output_dir` (function, line 28) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 41) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 54) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 74) `def _check_credentials(output)`
+  - `capture` (function, line 99) `def capture(vuln_id, target, output, sessions_dir)`
+  - `_publish_capture_outcome` (function, line 152) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 175) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 188) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 201) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 219) `def list_records(sessions_dir)`
+  - `summary` (function, line 242) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 269) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 291) `def _cli_capture(argv)`
+- Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+
+
+Next: [KB_modules_p4.md](KB_modules_p4.md)

@@ -1,0 +1,42 @@
+name: apt_generic
+version: 2
+description: Generic authorized-target golden path; falls back to quieter probes
+enabled: true
+tags:
+  - generic
+  - golden-path
+platforms:
+  - linux
+  - windows
+  - macos
+  - bsd
+total_timeout: 1800
+fallback: apt_generic_quiet
+steps:
+  - id: reach
+    run: ping -c 2 {target}
+    phase: recon
+    description: confirm the target responds before scanning
+    timeout: 60
+    retries: 1
+  - id: scan_all
+    run: nmap -Pn -sV -T2 --top-ports 200 {target}
+    phase: recon
+    description: service scan over the 200 most common ports
+    timeout: 1200
+    retries: 1
+    pre_check: ping -c 1 {target}
+  - id: smb_recon
+    run: nmap -Pn -sT -p 445,139 --script smb-os-discovery.nse {target}
+    phase: recon
+    description: independent SMB probe (runs concurrently with web_probe)
+    timeout: 300
+    continue_on_error: true
+    parallel: true
+  - id: web_probe
+    run: whatweb http://{target}
+    phase: recon
+    description: independent web fingerprint (runs concurrently with smb_recon)
+    timeout: 300
+    continue_on_error: true
+    parallel: true

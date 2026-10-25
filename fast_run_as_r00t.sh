@@ -19,11 +19,13 @@ SESSION="lazyown_sessions"
 VPN=1
 VENV_PATH="env"
 JSON_FILE="payload.json"
-NO_ATTACH=0   # set to 1 by --no-attach (MCP mode — skip tmux attach at the end)
-CERTPASS="LazyOwn"
+NO_ATTACH=0   # set to 1 by --no-attach (MCP mode -- skip tmux attach at the end)
 TARGET_UID=1000
 TARGET_GID=1000
 CHOWN_INTERVAL=30
+# Seconds to wait for the LazyOwn shell to finish loading plugins and reach
+# its prompt before typed follow-up commands are sent into the pane.
+STARTUP_WAIT=25
 
 # ── Read payload.json ─────────────────────────────────────────────────────────
 _jq() { jq -r ".$1" "$JSON_FILE"; }
@@ -37,9 +39,21 @@ OS_ID=$(_jq os_id)
 ENABLE_TELEGRAM_C2=$(_jq enable_telegram_c2)
 ENABLE_DISCORD_C2=$(_jq enable_discord_c2)
 ENABLE_DEEPSEEK=$(_jq enable_deepseek)
+LOCAL_LLM=$(_jq local_llm)
+[[ -z "$LOCAL_LLM" || "$LOCAL_LLM" == "null" ]] && LOCAL_LLM="none"
+# Legacy flag: enable_deepseek=true without local_llm means the ollama pane.
+[[ "$ENABLE_DEEPSEEK" == "true" && "$LOCAL_LLM" == "none" ]] && LOCAL_LLM="ollama"
 ENABLE_NC=$(_jq enable_nc)
 ENABLE_CF=$(_jq enable_cloudflare)
+CERTPASS=$(_jq cert_pass)
 TUNNEL=""
+
+if [[ -z "$CERTPASS" || "$CERTPASS" == "null" ]]; then
+    CERTPASS=$(openssl rand -hex 16)
+    log "Generated random cert password (stored in payload.json cert_pass)"
+    tmp=$(mktemp)
+    jq --arg v "$CERTPASS" '.cert_pass = $v' "$JSON_FILE" > "$tmp" && mv "$tmp" "$JSON_FILE"
+fi
 
 # ── Pretty-print helpers ──────────────────────────────────────────────────────
 log()    { gum log --time rfc822 --level info "    [+] $*"; }
@@ -108,7 +122,11 @@ t_lazyown() {
     local split=$1 delay=$2 flags=$3; shift 3
     tmux split-window "-${split}"
     t_send "sleep ${delay} && bash -c './run ${flags}'"
-    for cmd in "$@"; do t_send "$cmd"; done
+    [[ "$#" -gt 0 ]] && sleep "${STARTUP_WAIT}"
+    for cmd in "$@"; do
+        t_send "$cmd"
+        sleep 2
+    done
 }
 
 # Open a new pane running a command as unprivileged user 1000 (with venv).
@@ -172,28 +190,30 @@ log "Chown watcher armed (interval ${CHOWN_INTERVAL}s)."
 tmux new-session -d -s "$SESSION"
 
 # [0] Recon — full nmap scan
-t_send "sleep 5 && bash -c './run'" "nmap"
+t_send "sleep 5 && bash -c './run -c nmap'"
 
 # [1] Network — add hosts to /etc/hosts + ping sweep
 t_lazyown v 5 "-c ping" "addhosts $DOMAIN"
 
-# [opt] Local LLM inference (DeepSeek via Ollama)
-[[ "$ENABLE_DEEPSEEK" == "true" ]] && \
+# [opt] Local LLM inference (operator picks the leg in payload.json local_llm)
+[[ "$LOCAL_LLM" == "ollama" || "$LOCAL_LLM" == "both" ]] && \
     t_priv_user v "ollama run deepseek-r1:1.5b"
+[[ "$LOCAL_LLM" == "llamacpp" || "$LOCAL_LLM" == "both" ]] && \
+    t_priv_user v "bash scripts/lazy_llamacpp_serve.sh"
 
 # [opt] Discord C2 bot
 [[ "$ENABLE_DISCORD_C2" == "true" ]] && \
     t_priv_user v "python3 -W ignore discord_c2.py"
 
 # [2] C2 implant — generate credentials then launch implant
-t_lazyown v 5 "" "createcredentials" "$(printf 'c2 no_priv %s' "$OS_ID") $TUNNEL"
+t_lazyown v 5 "-c createcredentials" "c2 no_priv $OS_ID $TUNNEL"
 
 # [3] Auto-loop — waits SLEEP_START seconds so C2 server is up before starting
-t_lazyown h "$SLEEP_START" "" "auto"
+t_lazyown h "$SLEEP_START" "-c auto"
 
 # [4] lazyc2 — Flask C2 server (runs as unprivileged user 1000)
 tmux split-window -h
-t_send "sudo -u \#1000 bash -c \"sleep 5 && /bin/bash -c \
+t_send "chown 1000:1000 payload.json && chmod 644 payload.json && sudo -u \#1000 bash -c \"sleep 9 && /bin/bash -c \
 'source \\\"${VENV_PATH}/bin/activate\\\" && \
 python3 -W ignore lazyc2.py ${C2_PORT} ${C2_USER} ${C2_PASS}'\"" \
     "$CERTPASS"
@@ -203,11 +223,11 @@ tmux select-pane -t 0
 
 # [5] HTTP file server + certs (www)
 tmux split-window -h
-t_send "bash -c './run'" "www" "$CERTPASS"
+t_send "bash -c './run -c www'"
 
 # [6] VPN — bring up tun interface
 tmux split-window -h
-t_send "bash -c './run'" "vpn $VPN"
+t_send "bash -c './run -c \"vpn ${VPN}\"'"
 
 # [opt] Netcat reverse shell listener
 if [[ "$ENABLE_NC" == "true" ]]; then

@@ -18,9 +18,9 @@ from __future__ import annotations
 
 import ast
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
 
 import pytest
 
@@ -48,7 +48,7 @@ class MitigationSuiteConfig:
     handler_module_paths: dict[str, str] = field(
         default_factory=lambda: {
             "lazyc2.py": "lazyc2.py",
-            "lazyphishingai.py": "modules/lazyphishingai.py",
+            "lazyphishingai.py": "modules/legacy/lazyphishingai.py",
         }
     )
     sentinel_path: str = "lazy_sentinel4.py"
@@ -97,9 +97,7 @@ class TestStackTraceSanitisation:
     @pytest.fixture(scope="class")
     def phishingai_src(self, mitigation_config: MitigationSuiteConfig) -> str:
         """The full text of ``modules/lazyphishingai.py``."""
-        return _read_module(
-            mitigation_config, mitigation_config.handler_module_paths["lazyphishingai.py"]
-        )
+        return _read_module(mitigation_config, mitigation_config.handler_module_paths["lazyphishingai.py"])
 
     def test_log_handler_returns_generic_message(self, lazyc2_src: str) -> None:
         """``/log`` no longer returns the raw exception string."""
@@ -150,7 +148,7 @@ class TestStackTraceSanitisation:
 
     def test_phishing_ai_returns_generic_message(self, phishingai_src: str) -> None:
         """The phishing AI module no longer leaks ``str(ex)`` from the API call."""
-        assert "jsonify({\"error\": str(ex)})" not in phishingai_src
+        assert 'jsonify({"error": str(ex)})' not in phishingai_src
         assert "Upstream API communication error" in phishingai_src
 
     def test_no_forbidden_response_substrings_remain(
@@ -182,10 +180,10 @@ class TestSentinelRegexSafety:
 
     def _extract_sanitise_pattern(self, src: str) -> str:
         """Return the printable-ASCII pattern wired into ``sanitize_content``."""
-        match = re.search(r"re\.sub\(r'(\[\^[^']+)', ' ', text\)", src)
+        match = re.search(r"re\.sub\(r(['\"])(\[[^'\"]+)\1, (['\"]) \3, text\)", src)
         if match is None:
             pytest.fail("sanitize_content pattern not found in lazy_sentinel4.py")
-        return match.group(1)
+        return match.group(2)
 
     def test_no_redundant_character_range_in_sanitise(self, src: str) -> None:
         """The simplified character class is what landed."""
@@ -238,9 +236,5 @@ class TestMitigationConfigInvariants:
     def test_sentinel_function_exposed(self, mitigation_config: MitigationSuiteConfig) -> None:
         """``sanitize_content`` is importable for behavioural tests."""
         src = _read_module(mitigation_config, mitigation_config.sentinel_path)
-        names = {
-            node.name
-            for node in ast.walk(ast.parse(src))
-            if isinstance(node, ast.FunctionDef)
-        }
+        names = {node.name for node in ast.walk(ast.parse(src)) if isinstance(node, ast.FunctionDef)}
         assert mitigation_config.sentinel_function in names

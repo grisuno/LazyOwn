@@ -1,0 +1,296 @@
+# Subsystem: cli (page 5 of 5)
+Previous: [KB_cli_p4.md](KB_cli_p4.md)
+
+## cli/timeline_browser.py
+- Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TimelineColumn` (class, line 33) `class TimelineColumn`
+  - `TimelineConfig` (class, line 43) `class TimelineConfig`
+  - `TimelineEntry` (class, line 65) `class TimelineEntry`
+  - `TimelineReader` (class, line 72) `class TimelineReader`
+  - `TimelineState` (class, line 122) `class TimelineState`
+  - `build_state` (function, line 157) `def build_state(payload, sessions_dir, config)`
+  - `launch_scrubber` (function, line 169) `def launch_scrubber(payload, state, runner)`
+  - `_build_app` (function, line 202) `def _build_app(state, theme)`
+  - `__init__` (method, line 75) `def __init__(self, config, root)`
+  - `root` (method, line 81) `def root(self)`
+  - `read` (method, line 85) `def read(self)`
+  - `_coerce_row` (method, line 103) `def _coerce_row(self, row)`
+  - `reload` (method, line 130) `def reload(self)`
+  - `entries` (method, line 134) `def entries(self)`
+  - `column_value` (method, line 148) `def column_value(self, entry, column)`
+  - `_TimelineBrowserApp` (class, line 213) `class _TimelineBrowserApp(App)`
+  - `__init__` (method, line 228) `def __init__(self)`
+  - `compose` (method, line 234) `def compose(self)`
+  - `on_mount` (method, line 242) `def on_mount(self)`
+  - `on_input_changed` (method, line 249) `def on_input_changed(self, event)`
+  - `on_data_table_row_highlighted` (method, line 253) `def on_data_table_row_highlighted(self, event)`
+  - `action_refresh` (method, line 259) `def action_refresh(self)`
+  - `action_close` (method, line 263) `def action_close(self)`
+  - `_rebuild_rows` (method, line 266) `def _rebuild_rows(self)`
+  - `_refresh_detail` (method, line 278) `def _refresh_detail(self, row_index)`
+- Depends on: `cli/commands/containers.py`, `cli/themes.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
+
+## cli/tips_engine.py
+- Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_noop` (function, line 132) `def _noop()`
+  - `TipsConfig` (class, line 137) `class TipsConfig`
+  - `TipsEngine` (class, line 186) `class TipsEngine`
+  - `_render_streak` (function, line 1105) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (function, line 1126) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (function, line 1144) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (function, line 1162) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (function, line 1182) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (function, line 1242) `def build_default_tips_config()`
+  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 221) `def enabled(self)`
+  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
+  - `render` (method, line 229) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 344) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 355) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 378) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 388) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 408) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 440) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 455) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 460) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 475) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 492) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 505) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 529) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 575) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 605) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 616) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 633) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 672) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 683) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 707) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 713) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 726) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 750) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 767) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 808) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 819) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 836) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 840) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 869) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 879) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 909) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 928) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 934) `def _load_state(self)`
+  - `_save_state` (method, line 954) `def _save_state(self)`
+  - `_load_command_index` (method, line 979) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 989) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 993) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1007) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1012) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1030) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1041) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1047) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1053) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1057) `def _sync_user_elo(self, delta)`
+- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/world_model.py`
+- Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
+
+## cli/toast_bus.py
+- Doc: Non-blocking toast notification subsystem for the LazyOwn shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ToastConfig` (class, line 44) `class ToastConfig`
+  - `ToastEvent` (class, line 112) `class ToastEvent`
+  - `ToastState` (class, line 123) `class ToastState`
+  - `ToastReader` (class, line 205) `class ToastReader`
+  - `ToastrConfig` (class, line 433) `class ToastrConfig`
+  - `toastr_severity_style` (function, line 449) `def toastr_severity_style(severity)`
+  - `rich_toastr_panel` (function, line 456) `def rich_toastr_panel(message, severity, terminal_width, config)`
+  - `shell_hint_bypass` (function, line 509) `def shell_hint_bypass(console, message, severity)`
+  - `sentinel_toast_panel` (function, line 528) `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)`
+  - `ToastFormatter` (class, line 563) `class ToastFormatter`
+  - `ToastBus` (class, line 750) `class ToastBus`
+  - `_is_truthy` (function, line 886) `def _is_truthy(value, config, default)`
+  - `_is_dumb_stream` (function, line 900) `def _is_dumb_stream(stream)`
+  - `toasts_enabled` (function, line 920) `def toasts_enabled(payload, config)`
+  - `_budget` (function, line 928) `def _budget(payload, config)`
+  - `build_default_bus` (function, line 943) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (function, line 972) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ephemeral_enabled` (function, line 996) `def ephemeral_enabled(payload, config)`
+  - `render_ephemeral_toasts` (function, line 1012) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
+  - `emit_toast` (function, line 1042) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (function, line 1087) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (function, line 1131) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 131) `def __init__(self, config, root)`
+  - `path` (method, line 146) `def path(self)`
+  - `get` (method, line 150) `def get(self, name)`
+  - `set` (method, line 155) `def set(self, name, offset)`
+  - `reset` (method, line 161) `def reset(self)`
+  - `flush` (method, line 166) `def flush(self)`
+  - `_ensure_loaded` (method, line 184) `def _ensure_loaded(self)`
+  - `__init__` (method, line 208) `def __init__(self, config, root)`
+  - `root` (method, line 219) `def root(self)`
+  - `read_unseen` (method, line 223) `def read_unseen(self, name, start_offset)`
+  - `resolve_sources` (method, line 255) `def resolve_sources(self, names)`
+  - `_parse` (method, line 283) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 298) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 327) `def _coerce_str(value)`
+  - `_summary` (method, line 335) `def _summary(record)`
+  - `__init__` (method, line 566) `def __init__(self, config, theme)`
+  - `format` (method, line 571) `def format(self, event)`
+  - `is_prominent` (method, line 584) `def is_prominent(self, event)`
+  - `format_prominent` (method, line 594) `def format_prominent(self, event)`
+  - `format_ephemeral` (method, line 616) `def format_ephemeral(self, event)`
+  - `duration_for` (method, line 644) `def duration_for(self, event)`
+  - `digest_line` (method, line 669) `def digest_line(dropped)`
+  - `format_many` (method, line 677) `def format_many(self, events, width)`
+  - `_console_width` (method, line 731) `def _console_width(self)`
+  - `_role_for` (method, line 738) `def _role_for(self, severity)`
+  - `_truncate` (method, line 744) `def _truncate(self, value)`
+  - `__init__` (method, line 757) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 772) `def collect(self)`
+  - `render` (method, line 785) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 814) `def mark_all_seen(self)`
+  - `render_ephemeral` (method, line 822) `def render_ephemeral(self, enabled, duration)`
+  - `_schedule_erase` (method, line 855) `def _schedule_erase(self, delay)`
+  - `_erase_lines` (method, line 871) `def _erase_lines(stream, rows)`
+- Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazy_sentinel4.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`, `tests/test_toastr_unify.py`
+
+## cli/tui_forms.py
+- Doc: Reusable Textual modals shared by the LazyOwn operator consoles.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `filter_candidates` (function, line 27) `def filter_candidates(query, options, limit)`
+  - `FormModal` (class, line 63) `class FormModal`
+  - `SearchSelectModal` (class, line 112) `class SearchSelectModal`
+  - `ConfirmModal` (class, line 247) `class ConfirmModal`
+  - `TextEditorModal` (class, line 284) `class TextEditorModal`
+  - `__init__` (method, line 68) `def __init__(self, title, fields, defaults, save_label)`
+  - `compose` (method, line 82) `def compose(self)`
+  - `_values` (method, line 95) `def _values(self)`
+  - `on_button_pressed` (method, line 102) `def on_button_pressed(self, event)`
+  - `on_input_submitted` (method, line 107) `def on_input_submitted(self, event)`
+  - `__init__` (method, line 122) `def __init__(self, title, options, placeholder, allow_custom)`
+  - `compose` (method, line 136) `def compose(self)`
+  - `on_mount` (method, line 147) `def on_mount(self)`
+  - `_render_options` (method, line 155) `def _render_options(self, query)`
+  - `_hint` (method, line 172) `def _hint(self, text)`
+  - `_selected_value` (method, line 179) `def _selected_value(self)`
+  - `_accept` (method, line 191) `def _accept(self)`
+  - `on_input_changed` (method, line 201) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 206) `def on_input_submitted(self, event)`
+  - `on_option_list_option_selected` (method, line 211) `def on_option_list_option_selected(self, event)`
+  - `on_key` (method, line 220) `def on_key(self, event)`
+  - `on_button_pressed` (method, line 239) `def on_button_pressed(self, event)`
+  - `__init__` (method, line 256) `def __init__(self, title, body)`
+  - `compose` (method, line 262) `def compose(self)`
+  - `action_answer` (method, line 272) `def action_answer(self, answer)`
+  - `on_button_pressed` (method, line 276) `def on_button_pressed(self, event)`
+  - `__init__` (method, line 298) `def __init__(self, title, text, validator, language, save_label)`
+  - `compose` (method, line 314) `def compose(self)`
+  - `_current_text` (method, line 323) `def _current_text(self)`
+  - `_save` (method, line 327) `def _save(self)`
+  - `on_button_pressed` (method, line 338) `def on_button_pressed(self, event)`
+- Depends on: `cli/commands/containers.py`
+- Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_lazy_orchestrator.py`
+
+## cli/tui_theme.py
+- Doc: Operator-facing ``tui_theme`` command logic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_set_theme` (function, line 30) `def _set_theme(payload, name)`
+  - `_format_listing` (function, line 45) `def _format_listing(current)`
+  - `_cycle` (function, line 65) `def _cycle(payload, direction)`
+  - `run` (function, line 87) `def run(args, payload, save)`
+- Depends on: `cli/themes.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/tutorial.py
+- Doc: Interactive post-install tutorial for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TutorialConfig` (class, line 76) `class TutorialConfig`
+  - `is_done` (function, line 83) `def is_done(config)`
+  - `mark_done` (function, line 89) `def mark_done(config)`
+  - `render_header` (function, line 96) `def render_header()`
+  - `render_phase_table` (function, line 113) `def render_phase_table()`
+  - `run_step` (function, line 128) `def run_step(index, command, description, why, params, command_runner)`
+  - `run` (function, line 185) `def run(params, command_runner)`
+- Depends on: `core/console.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/wizard.py
+- Doc: Guided first-run setup wizard for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BinarySpec` (class, line 90) `class BinarySpec`
+  - `BinaryStatus` (class, line 141) `class BinaryStatus`
+  - `ReadinessItem` (class, line 150) `class ReadinessItem`
+  - `WizardResult` (class, line 160) `class WizardResult`
+  - `run` (function, line 169) `def run(params, save)`
+  - `run_non_interactive` (function, line 234) `def run_non_interactive(params, save, values)`
+  - `_rotate_default_secrets` (function, line 300) `def _rotate_default_secrets(params, save)`
+  - `_print_secret_rotation` (function, line 348) `def _print_secret_rotation(rotated)`
+  - `_print_header` (function, line 364) `def _print_header()`
+  - `_print_glossary_panel` (function, line 379) `def _print_glossary_panel()`
+  - `_spec_long_help` (function, line 404) `def _spec_long_help(key)`
+  - `_print_long_help` (function, line 412) `def _print_long_help(key)`
+  - `_collect_values` (function, line 419) `def _collect_values(params)`
+  - `_ask_rhost` (function, line 457) `def _ask_rhost(current)`
+  - `_ask_lhost` (function, line 484) `def _ask_lhost(current)`
+  - `_ask_domain` (function, line 515) `def _ask_domain(current)`
+  - `_ask_device` (function, line 537) `def _ask_device(current)`
+  - `_ask_os_id` (function, line 563) `def _ask_os_id(current)`
+  - `_normalize_provider_answer` (function, line 585) `def _normalize_provider_answer(raw)`
+  - `_mask_secret` (function, line 606) `def _mask_secret(value)`
+  - `_ask_llm` (function, line 621) `def _ask_llm(params)`
+  - `_ask_wordlists` (function, line 692) `def _ask_wordlists(params)`
+  - `_ask_operator_login` (function, line 724) `def _ask_operator_login(params)`
+  - `_wizard_login_flow` (function, line 786) `def _wizard_login_flow()`
+  - `_wizard_register_flow` (function, line 809) `def _wizard_register_flow()`
+  - `_ask_marketplace_config` (function, line 852) `def _ask_marketplace_config()`
+  - `_build_readiness` (function, line 875) `def _build_readiness(params)`
+  - `_print_readiness` (function, line 927) `def _print_readiness(items)`
+  - `check_binaries` (function, line 947) `def check_binaries(specs, which)`
+  - `_group_by_category` (function, line 988) `def _group_by_category(statuses)`
+  - `_print_binary_report` (function, line 997) `def _print_binary_report(statuses)`
+  - `_print_next_steps` (function, line 1035) `def _print_next_steps(params)`
+  - `_print_validation_summary` (function, line 1059) `def _print_validation_summary(params)`
+  - `_detect_lhost` (function, line 1098) `def _detect_lhost()`
+  - `_detect_device` (function, line 1120) `def _detect_device()`
+  - `_find_seclists_root` (function, line 1133) `def _find_seclists_root()`
+  - `_ping` (function, line 1141) `def _ping(ip)`
+  - `_prompt` (function, line 1154) `def _prompt(message)`
+  - `_ok` (function, line 1161) `def _ok(msg)`
+  - `_warn` (function, line 1165) `def _warn(msg)`
+  - `_info` (function, line 1169) `def _info(msg)`
+  - `_is_default` (function, line 322) `def _is_default(value)`
+  - `_is_weak` (function, line 325) `def _is_weak(value)`
+  - `_check` (function, line 878) `def _check(key, label, hint)`
+  - `_check_llm` (function, line 887) `def _check_llm()`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+## cli/wizard_scope.py
+- Doc: Partial wizard scope: show current state or edit selected fields only.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WizardScopeConfig` (class, line 17) `class WizardScopeConfig`
+  - `WizardScope` (class, line 31) `class WizardScope`
+  - `parse_scope` (function, line 38) `def parse_scope(tokens, config)`
+  - `status_rows` (function, line 64) `def status_rows(params)`
+- Imported by: `cli/commands/help_ui.py`
+

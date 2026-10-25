@@ -1,0 +1,500 @@
+# Subsystem: modules (page 2 of 16)
+Previous: [KB_modules.md](KB_modules.md)
+
+## modules/auto_purple.py
+- Doc: Purple Team Closed-Loop — honest measurement of offensive detection.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DetectionMethod` (class, line 72) `class DetectionMethod`
+  - `PurpleResult` (class, line 132) `class PurpleResult`
+  - `PurpleScore` (class, line 165) `class PurpleScore`
+  - `IPurpleLoop` (class, line 181) `class IPurpleLoop(ABC)`
+  - `IPurpleEvaluator` (class, line 210) `class IPurpleEvaluator(ABC)`
+  - `_run_bt_command` (function, line 225) `def _run_bt_command(bt_path, command, timeout)`
+  - `_parse_ai_test` (function, line 329) `def _parse_ai_test(output, command, args)`
+  - `_parse_keyword_match` (function, line 342) `def _parse_keyword_match(output, command, args)`
+  - `_parse_alert_check` (function, line 374) `def _parse_alert_check(output, command, args)`
+  - `_parse_fim_check` (function, line 388) `def _parse_fim_check(output, command, args)`
+  - `PurpleTeamLoop` (class, line 407) `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)`
+  - `get_loop` (function, line 772) `def get_loop(bt_path, detection_delay, methods, auto_feedback)`
+  - `load_config_from_payload` (function, line 790) `def load_config_from_payload(params)`
+  - `to_csv_row` (method, line 146) `def to_csv_row(self)`
+  - `to_dict` (method, line 160) `def to_dict(self)`
+  - `execute_and_measure` (method, line 185) `def execute_and_measure(self, command, args, category)`
+  - `measure_only` (method, line 193) `def measure_only(self, command, args, category)`
+  - `engagement_score` (method, line 201) `def engagement_score(self)`
+  - `export_dataset` (method, line 204) `def export_dataset(self)`
+  - `export_report` (method, line 207) `def export_report(self)`
+  - `last_results` (method, line 214) `def last_results(self, n)`
+  - `category_accuracy` (method, line 217) `def category_accuracy(self, category)`
+  - `__init__` (method, line 414) `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)`
+  - `_init_dataset` (method, line 433) `def _init_dataset(self)`
+  - `execute_and_measure` (method, line 443) `def execute_and_measure(self, command, args, category)`
+  - `measure_only` (method, line 493) `def measure_only(self, command, args, category)`
+  - `engagement_score` (method, line 529) `def engagement_score(self)`
+  - `export_dataset` (method, line 567) `def export_dataset(self)`
+  - `export_report` (method, line 571) `def export_report(self)`
+  - `last_results` (method, line 596) `def last_results(self, n)`
+  - `category_accuracy` (method, line 599) `def category_accuracy(self, category)`
+  - `_execute_red` (method, line 614) `def _execute_red(self, command, args)`
+  - `_query_blue` (method, line 635) `def _query_blue(self, command, args)`
+  - `_hash_output` (method, line 687) `def _hash_output(self, output)`
+  - `_write_audit` (method, line 693) `def _write_audit(self, result)`
+  - `_append_dataset` (method, line 698) `def _append_dataset(self, result)`
+  - `_write_feedback` (method, line 704) `def _write_feedback(self, result)`
+  - `_load_audit` (method, line 724) `def _load_audit(self)`
+  - `_compute_oracle_accuracy` (method, line 739) `def _compute_oracle_accuracy(self)`
+  - `_get_detection_methods` (method, line 759) `def _get_detection_methods(self)`
+- Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
+- Imported by: `cli/commands/purple_team.py`
+
+## modules/auto_registry.py
+- Doc: Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging verbs such...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_looks_like_target` (function, line 37) `def _looks_like_target(value)`
+  - `auto_verb_target` (function, line 66) `def auto_verb_target(command)`
+  - `AutoVerb` (class, line 102) `class AutoVerb`
+  - `_verb_rows` (function, line 243) `def _verb_rows()`
+  - `_verb_row` (function, line 287) `def _verb_row(name)`
+  - `verb_enabled` (function, line 296) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 371) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 399) `def _repo_base()`
+  - `binary_available` (function, line 406) `def binary_available(name)`
+  - `missing_binary` (function, line 422) `def missing_binary(command)`
+  - `verb_gap` (function, line 434) `def verb_gap(verb)`
+  - `verb_available` (function, line 446) `def verb_available(verb)`
+  - `service_tokens` (function, line 451) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 462) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 493) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 529) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 552) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 578) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 604) `def is_routable_command(line)`
+  - `verbs` (function, line 622) `def verbs()`
+  - `is_shell_verb` (function, line 627) `def is_shell_verb(token)`
+  - `build_command` (function, line 651) `def build_command(verb, target)`
+  - `verbs_for` (function, line 662) `def verbs_for(text)`
+  - `propose_intents` (function, line 668) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 692) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 711) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 726) `def _apt_chain_steps(embedded, target, strict)`
+  - `steps_for` (function, line 754) `def steps_for(text, target)`
+  - `ShellResult` (class, line 877) `class ShellResult`
+  - `_TeeCapture` (class, line 884) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 912) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1010) `def _register_process(process)`
+  - `_unregister_process` (function, line 1016) `def _unregister_process(process)`
+  - `track_process` (function, line 1022) `def track_process(process)`
+  - `untrack_process` (function, line 1027) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1032) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1055) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 894) `def __init__(self, observer)`
+  - `write` (method, line 899) `def write(self, data)`
+  - `_invoke` (function, line 935) `def _invoke()`
+  - `_target` (function, line 946) `def _target()`
+  - `_kill` (function, line 1087) `def _kill()`
+- Depends on: `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+
+## modules/autonomous_exploit_engine.py
+- Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TargetProfile` (class, line 59) `class TargetProfile`
+  - `ExploitCandidate` (class, line 74) `class ExploitCandidate`
+  - `ExploitResult` (class, line 89) `class ExploitResult`
+  - `AutonomousExploitEngine` (class, line 101) `class AutonomousExploitEngine`
+  - `__init__` (method, line 114) `def __init__(self)`
+  - `get_instance` (method, line 134) `def get_instance(cls)`
+  - `hunt` (method, line 145) `def hunt(self, target, max_exploits, profile)`
+  - `retry_with_credentials` (method, line 184) `def retry_with_credentials(self, target, credentials)`
+  - `_credential_aware_rank` (method, line 241) `def _credential_aware_rank(self, profile, credentials)`
+  - `_filter_placeholder_creds` (method, line 284) `def _filter_placeholder_creds(credentials)`
+  - `profile` (method, line 328) `def profile(self, target)`
+  - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
+  - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
+  - `_match_exploit_db` (method, line 474) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 512) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 1016) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1073) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1113) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1159) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1176) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1328) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1421) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1449) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1479) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1507) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1518) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1617) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1635) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1714) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1730) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1741) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1767) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1802) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1850) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 2030) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2056) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2084) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2153) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2196) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2386) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2486) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2551) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2612) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2657) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2676) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
+
+## modules/aws_attacks.py
+- Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AWSConfig` (class, line 58) `class AWSConfig`
+  - `AWSAttackEngine` (class, line 80) `class AWSAttackEngine`
+  - `__init__` (method, line 91) `def __init__(self, config)`
+  - `enumerate_iam_permissions` (method, line 95) `def enumerate_iam_permissions(self)`
+  - `lambda_backdoor` (method, line 127) `def lambda_backdoor(self, function_name)`
+  - `sts_role_chain` (method, line 155) `def sts_role_chain(self, target_role_arn)`
+  - `ec2_user_data_exfil` (method, line 181) `def ec2_user_data_exfil(self)`
+  - `s3_enumeration` (method, line 206) `def s3_enumeration(self)`
+  - `cloudformation_drift` (method, line 242) `def cloudformation_drift(self)`
+  - `ec2_ssm_session_abuse` (method, line 274) `def ec2_ssm_session_abuse(self)`
+  - `summary` (method, line 293) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/beacon_config_builder.py
+- Doc: Beacon configuration builder — wires profile engines into beacon compile-time config.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `BeaconConfig` (class, line 44) `class BeaconConfig`
+  - `BeaconConfigBuilder` (class, line 237) `class BeaconConfigBuilder`
+  - `generate_bof_execution_command` (function, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
+  - `to_gen_beacon_args` (method, line 117) `def to_gen_beacon_args(self)`
+  - `to_go_implant_vars` (method, line 137) `def to_go_implant_vars(self)`
+  - `to_config_json` (method, line 160) `def to_config_json(self)`
+  - `to_dict` (method, line 185) `def to_dict(self)`
+  - `__init__` (method, line 245) `def __init__(self, payload)`
+  - `build` (method, line 248) `def build(self, name)`
+  - `_inject_profile_engine` (method, line 318) `def _inject_profile_engine(self, config)`
+  - `_inject_sleep_engine` (method, line 366) `def _inject_sleep_engine(self, config)`
+  - `_inject_socks_engine` (method, line 385) `def _inject_socks_engine(self, config)`
+  - `from_payload` (method, line 403) `def from_payload(cls, payload)`
+  - `from_payload_file` (method, line 408) `def from_payload_file(cls, path)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
+- Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
+
+## modules/beacon_history.py
+- Doc: Persistent beacon command/result history storage.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
+  - `sanitize_client_id` (function, line 70) `def sanitize_client_id(client_id)`
+  - `append_record` (function, line 82) `def append_record(record, config)`
+  - `read_records` (function, line 116) `def read_records(client_id, config)`
+  - `records_path` (function, line 145) `def records_path(client_id, config)`
+  - `sessions_dir` (method, line 39) `def sessions_dir(self)`
+  - `records_path` (method, line 43) `def records_path(self, client_id)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+
+## modules/beacon_recon.py
+- Doc: Beacon recon ingest — post-foothold discovery feeds the world model.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_looks_like_ip` (function, line 42) `def _looks_like_ip(value)`
+  - `parse_discovered_ips` (function, line 50) `def parse_discovered_ips(raw)`
+  - `parse_beacon_portscan` (function, line 94) `def parse_beacon_portscan(raw, default_host)`
+  - `ingest_beacon_recon` (function, line 169) `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)`
+  - `_append_discovery_ledger` (function, line 264) `def _append_discovery_ledger(primary_ip, discovered, sessions_dir)`
+  - `_ports_from` (function, line 111) `def _ports_from(value)`
+- Depends on: `core/logging.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `lazyc2.py`, `tests/test_beacon_recon_sink.py`
+
+## modules/bin2img.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `binario_a_imagen` (function, line 7) `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
+  - `main` (function, line 54) `def main()`
+
+## modules/bitm_engine.py
+- Doc: Browser-in-the-Middle (BitM) attack engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BitMState` (class, line 85) `class BitMState`
+  - `_ensure_bitm_dir` (function, line 103) `def _ensure_bitm_dir()`
+  - `_save_state` (function, line 108) `def _save_state(state)`
+  - `_load_state` (function, line 134) `def _load_state()`
+  - `_build_js_payload` (function, line 151) `def _build_js_payload(payload_name, lhost, lport)`
+  - `_check_tool` (function, line 168) `def _check_tool(tool)`
+  - `_recommend_method` (function, line 180) `def _recommend_method()`
+  - `_get_default_interface` (function, line 195) `def _get_default_interface()`
+  - `_get_gateway_ip` (function, line 234) `def _get_gateway_ip()`
+  - `bitm_start` (function, line 257) `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)`
+  - `_start_bettercap` (function, line 354) `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `_start_arpspoof` (function, line 413) `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `bitm_stop` (function, line 481) `def bitm_stop()`
+  - `bitm_status` (function, line 539) `def bitm_status()`
+  - `bitm_inject` (function, line 572) `def bitm_inject(payload_name)`
+  - `bitm_harvest_stats` (function, line 607) `def bitm_harvest_stats()`
+  - `bitm_cleanup` (function, line 642) `def bitm_cleanup()`
+  - `main` (function, line 661) `def main()`
+- Imported by: `cli/commands/bitm.py`
+
+## modules/bof_registry.py
+- Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BofPlatform` (class, line 61) `class BofPlatform(str, Enum)`
+  - `BofCategory` (class, line 68) `class BofCategory(str, Enum)`
+  - `BofEntry` (class, line 85) `class BofEntry`
+  - `BofCatalog` (class, line 157) `class BofCatalog`
+  - `_build_default_catalog` (function, line 265) `def _build_default_catalog()`
+  - `BofValidator` (class, line 506) `class BofValidator`
+  - `BofRegistry` (class, line 552) `class BofRegistry`
+  - `BofMarketplace` (class, line 639) `class BofMarketplace`
+  - `to_dict` (method, line 118) `def to_dict(self)`
+  - `from_dict` (method, line 137) `def from_dict(cls, raw)`
+  - `register` (method, line 167) `def register(self, entry)`
+  - `register_many` (method, line 172) `def register_many(self, entries)`
+  - `get` (method, line 177) `def get(self, name)`
+  - `search` (method, line 188) `def search(self, query)`
+  - `list_by_category` (method, line 221) `def list_by_category(self, category)`
+  - `list_by_platform` (method, line 225) `def list_by_platform(self, platform)`
+  - `list_all` (method, line 229) `def list_all(self)`
+  - `to_dict` (method, line 233) `def to_dict(self)`
+  - `from_dict` (method, line 241) `def from_dict(cls, raw)`
+  - `load` (method, line 249) `def load(cls, path)`
+  - `save` (method, line 257) `def save(self, path)`
+  - `compute_sha256` (method, line 515) `def compute_sha256(filepath)`
+  - `verify_entry` (method, line 524) `def verify_entry(entry, filepath)`
+  - `validate_args` (method, line 540) `def validate_args(entry, args)`
+  - `__init__` (method, line 559) `def __init__(self, sessions_dir)`
+  - `install_dir` (method, line 565) `def install_dir(self)`
+  - `_load_manifest` (method, line 569) `def _load_manifest(self)`
+  - `_save_manifest` (method, line 580) `def _save_manifest(self, manifest)`
+  - `is_installed` (method, line 585) `def is_installed(self, name)`
+  - `install` (method, line 590) `def install(self, entry)`
+  - `uninstall` (method, line 611) `def uninstall(self, name, remove_files)`
+  - `list_installed` (method, line 628) `def list_installed(self)`
+  - `get_install_info` (method, line 633) `def get_install_info(self, name)`
+  - `__init__` (method, line 651) `def __init__(self, sessions_dir, catalog)`
+  - `catalog` (method, line 662) `def catalog(self)`
+  - `registry` (method, line 667) `def registry(self)`
+  - `search` (method, line 671) `def search(self, query)`
+  - `info` (method, line 690) `def info(self, name)`
+  - `install` (method, line 707) `def install(self, name)`
+  - `uninstall` (method, line 736) `def uninstall(self, name)`
+  - `list_installed` (method, line 749) `def list_installed(self)`
+  - `list_missing_dependencies` (method, line 761) `def list_missing_dependencies(self, name)`
+  - `bulk_install` (method, line 769) `def bulk_install(self, names)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
+
+## modules/c2_agent.py
+- Doc: Malleable C2 client lifecycle for lab targets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sync_credentials_file` (function, line 53) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 78) `def _unverified_context()`
+  - `client_id_for` (function, line 88) `def client_id_for(target, privilege)`
+  - `validate_client_id` (function, line 113) `def validate_client_id(raw)`
+  - `build_agent` (function, line 388) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
+  - `_ensure_key` (function, line 451) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 482) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 505) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 517) `def read_aes_hex()`
+  - `deploy` (function, line 522) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 642) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 659) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 673) `class C2Server`
+  - `__init__` (method, line 676) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 681) `def _pid(self)`
+  - `status` (method, line 693) `def status(self)`
+  - `start` (method, line 725) `def start(self)`
+  - `stop` (method, line 756) `def stop(self)`
+  - `ensure_http_listener` (method, line 779) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 787) `def _api(path, data)`
+- Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+- Imported by: `cli/commands/c2_session.py`
+
+## modules/c2_builder.py
+- Doc: C2 agent builder with profile-driven compilation and safe templating.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_resolve_go_bin` (function, line 45) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 60) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 77) `class C2Profile`
+  - `_preflight` (function, line 161) `def _preflight(profile)`
+  - `_render_template` (function, line 170) `def _render_template(content, context)`
+  - `_resolve_fallback_urls` (function, line 181) `def _resolve_fallback_urls(params)`
+  - `_go_string_list` (function, line 221) `def _go_string_list(urls)`
+  - `_lkm_makefile_text` (function, line 238) `def _lkm_makefile_text(listener_ip, listener_port)`
+  - `_beacon_scan_ports_csv` (function, line 274) `def _beacon_scan_ports_csv(params)`
+  - `_parse_go_version` (function, line 291) `def _parse_go_version(text)`
+  - `_command_output` (function, line 306) `def _command_output(argv, timeout)`
+  - `_go_build_version` (function, line 325) `def _go_build_version(go_bin, target)`
+  - `_garble_matches_toolchain` (function, line 344) `def _garble_matches_toolchain(go_bin, garble_bin)`
+  - `_build_compile_commands` (function, line 367) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
+  - `_build_context` (function, line 418) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 449) `class C2Builder`
+  - `_replacer` (function, line 174) `def _replacer(match)`
+  - `__init__` (method, line 452) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `_ensure_garble_toolchain` (method, line 470) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
+  - `run` (method, line 510) `def run(self, line, choice, use_tunnel)`
+  - `_read` (function, line 713) `def _read(path_)`
+  - `_read_required` (function, line 720) `def _read_required(path_)`
+  - `_write` (function, line 724) `def _write(path_, content)`
+- Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
+
+## modules/c2_messaging_base.py
+- Doc: SecureSessionManager: Unified session manager for C2 messaging bots.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SecureSessionManager` (class, line 9) `class SecureSessionManager`
+  - `PayloadConfigAdapter` (class, line 117) `class PayloadConfigAdapter`
+  - `__init__` (method, line 22) `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
+  - `register_failed_attempt` (method, line 37) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 46) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 61) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 79) `def create_session(self, user_id, client_id)`
+  - `validate_session` (method, line 89) `def validate_session(self, user_id)`
+  - `set_client` (method, line 106) `def set_client(self, user_id, client_id)`
+  - `get_client` (method, line 111) `def get_client(self, user_id)`
+  - `__init__` (method, line 124) `def __init__(self, config_dict)`
+  - `__getitem__` (method, line 129) `def __getitem__(self, key)`
+  - `get` (method, line 132) `def get(self, key, default)`
+
+## modules/c2_profile.py
+- Doc: modules/c2_profile.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SleepConfig` (class, line 54) `class SleepConfig`
+  - `HttpConfig` (class, line 62) `class HttpConfig`
+  - `StagerConfig` (class, line 72) `class StagerConfig`
+  - `C2Profile` (class, line 81) `class C2Profile`
+  - `ProfileValidator` (class, line 155) `class ProfileValidator`
+  - `ProfileLoader` (class, line 187) `class ProfileLoader`
+  - `_make_default_profile` (function, line 308) `def _make_default_profile()`
+  - `_make_stealth_profile` (function, line 339) `def _make_stealth_profile()`
+  - `_make_aggressive_profile` (function, line 385) `def _make_aggressive_profile()`
+  - `_make_debug_profile` (function, line 410) `def _make_debug_profile()`
+  - `ProfileRegistry` (class, line 449) `class ProfileRegistry`
+  - `ProfileApplier` (class, line 520) `class ProfileApplier`
+  - `get_registry` (function, line 595) `def get_registry()`
+  - `get_profile` (function, line 620) `def get_profile(name)`
+  - `list_profiles` (function, line 625) `def list_profiles()`
+  - `jitter_delay` (method, line 101) `def jitter_delay(self)`
+  - `get_uri` (method, line 117) `def get_uri(self, method)`
+  - `build_headers` (method, line 128) `def build_headers(self, method)`
+  - `_config_for` (method, line 144) `def _config_for(self, method)`
+  - `validate` (method, line 162) `def validate(self, profile)`
+  - `from_yaml` (method, line 200) `def from_yaml(path)`
+  - `from_dict` (method, line 215) `def from_dict(d)`
+  - `to_dict` (method, line 254) `def to_dict(profile)`
+  - `save` (method, line 282) `def save(profile, path)`
+  - `__init__` (method, line 457) `def __init__(self)`
+  - `register` (method, line 464) `def register(self, name, profile)`
+  - `get` (method, line 473) `def get(self, name)`
+  - `list_names` (method, line 485) `def list_names(self)`
+  - `load_from_directory` (method, line 493) `def load_from_directory(self, path)`
+  - `apply_to_response` (method, line 529) `def apply_to_response(profile, response)`
+  - `apply_to_session` (method, line 554) `def apply_to_session(profile, session)`
+  - `get_beacon_config` (method, line 567) `def get_beacon_config(profile)`
+- Depends on: `core/logging.py`
+
+## modules/c2_profile_engine.py
+- Doc: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TlsProfile` (class, line 117) `class TlsProfile`
+  - `DnsProfile` (class, line 205) `class DnsProfile`
+  - `SmbProfile` (class, line 289) `class SmbProfile`
+  - `WebSocketProfile` (class, line 349) `class WebSocketProfile`
+  - `TransportType` (class, line 404) `class TransportType(Enum)`
+  - `RotationSlot` (class, line 414) `class RotationSlot`
+  - `ProfileRotator` (class, line 441) `class ProfileRotator`
+  - `ProfileValidator` (class, line 503) `class ProfileValidator`
+  - `ProfileEngine` (class, line 611) `class ProfileEngine`
+  - `get_cipher_suites` (method, line 144) `def get_cipher_suites(self)`
+  - `get_ja3_hash` (method, line 155) `def get_ja3_hash(self)`
+  - `from_dict` (method, line 173) `def from_dict(raw)`
+  - `to_dict` (method, line 188) `def to_dict(self)`
+  - `build_query_subdomain` (method, line 231) `def build_query_subdomain(self, data, packet_id)`
+  - `from_dict` (method, line 261) `def from_dict(raw)`
+  - `to_dict` (method, line 274) `def to_dict(self)`
+  - `from_dict` (method, line 319) `def from_dict(raw)`
+  - `to_dict` (method, line 333) `def to_dict(self)`
+  - `from_dict` (method, line 375) `def from_dict(raw)`
+  - `to_dict` (method, line 389) `def to_dict(self)`
+  - `is_available` (method, line 429) `def is_available(self)`
+  - `touch` (method, line 436) `def touch(self)`
+  - `__init__` (method, line 453) `def __init__(self, slots)`
+  - `current_slot` (method, line 460) `def current_slot(self)`
+  - `transport` (method, line 465) `def transport(self)`
+  - `rotate` (method, line 469) `def rotate(self)`
+  - `list_slots` (method, line 487) `def list_slots(self)`
+  - `validate_tls` (method, line 511) `def validate_tls(profile)`
+  - `validate_dns` (method, line 536) `def validate_dns(profile)`
+  - `validate_smb` (method, line 556) `def validate_smb(profile)`
+  - `validate_websocket` (method, line 576) `def validate_websocket(profile)`
+  - `validate_all` (method, line 591) `def validate_all(self, tls, dns, smb, websocket)`
+  - `__init__` (method, line 627) `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
+  - `tls_profile` (method, line 643) `def tls_profile(self)`
+  - `dns_profile` (method, line 648) `def dns_profile(self)`
+  - `smb_profile` (method, line 653) `def smb_profile(self)`
+  - `websocket_profile` (method, line 658) `def websocket_profile(self)`
+  - `rotator` (method, line 663) `def rotator(self)`
+  - `active_transport` (method, line 668) `def active_transport(self)`
+  - `rotate` (method, line 672) `def rotate(self)`
+  - `validate` (method, line 676) `def validate(self)`
+  - `get_active_profile_dict` (method, line 685) `def get_active_profile_dict(self)`
+  - `get_all_profiles_dict` (method, line 699) `def get_all_profiles_dict(self)`
+  - `_default_slots` (method, line 709) `def _default_slots(self)`
+  - `from_dict` (method, line 747) `def from_dict(cls, raw)`
+  - `from_payload` (method, line 766) `def from_payload(cls, payload)`
+  - `from_config` (method, line 771) `def from_config(cls, config)`
+- Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
+- Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
+
+## modules/c2_surfaces.py
+- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_read_json` (function, line 42) `def _read_json(path, default)`
+  - `_write_json` (function, line 54) `def _write_json(path, data)`
+  - `_stamp` (function, line 68) `def _stamp()`
+  - `publish_banner` (function, line 73) `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)`
+  - `publish_cve` (function, line 115) `def publish_cve(title, description, operator, risk, sessions_dir)`
+  - `append_note` (function, line 155) `def append_note(line, sessions_dir)`
+  - `register_loot_event` (function, line 184) `def register_loot_event(name, path_glob, description, event_config)`
+  - `refresh_session_report` (function, line 229) `def refresh_session_report(timeout)`
+  - `severity_to_risk` (function, line 251) `def severity_to_risk(severity)`
+  - `_normalize_task_title` (function, line 256) `def _normalize_task_title(title)`
+  - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
+- Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
+- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
+
+
+Next: [KB_modules_p3.md](KB_modules_p3.md)

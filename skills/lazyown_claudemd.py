@@ -13,14 +13,12 @@ Only project and local files are scanned per session (path-sensitive).
 """
 
 from pathlib import Path
-from typing import Optional
 
-
-_MANAGED_PATH  = Path("/etc/lazyown/CLAUDE.md")
-_USER_PATH     = Path.home() / ".lazyown" / "CLAUDE.md"
-_LOCAL_SUFFIX  = "CLAUDE.local.md"
+_MANAGED_PATH = Path("/etc/lazyown/CLAUDE.md")
+_USER_PATH = Path.home() / ".lazyown" / "CLAUDE.md"
+_LOCAL_SUFFIX = "CLAUDE.local.md"
 _PROJECT_FILES = ["CLAUDE.md", ".lazyown/CLAUDE.md"]
-_RULES_GLOB    = ".lazyown/rules/*.md"
+_RULES_GLOB = ".lazyown/rules/*.md"
 
 
 class ClaudeMdLoader:
@@ -31,7 +29,7 @@ class ClaudeMdLoader:
     contains it (avoids scanning unrelated paths).
     """
 
-    def __init__(self, cwd: Optional[Path] = None):
+    def __init__(self, cwd: Path | None = None):
         self.cwd = cwd or Path.cwd()
 
     def load(self) -> str:
@@ -94,7 +92,7 @@ class ClaudeMdLoader:
         found: list[dict] = []
         candidates = [
             ("managed", _MANAGED_PATH),
-            ("user",    _USER_PATH),
+            ("user", _USER_PATH),
         ]
         for rel in _PROJECT_FILES:
             candidates.append(("project", self.cwd / rel))
@@ -120,8 +118,7 @@ class ClaudeMdLoader:
         _USER_PATH.write_text(content)
         return f"Written: {_USER_PATH}"
 
-    def create_project_file(self, content: str,
-                            local: bool = False) -> str:
+    def create_project_file(self, content: str, local: bool = False) -> str:
         """Create CLAUDE.md (or CLAUDE.local.md) in cwd."""
         target = self.cwd / (_LOCAL_SUFFIX if local else "CLAUDE.md")
         target.write_text(content)

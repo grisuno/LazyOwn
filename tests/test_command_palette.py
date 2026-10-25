@@ -31,9 +31,10 @@ import ast
 import json
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 import pytest
 
@@ -88,16 +89,12 @@ class PaletteSuiteConfig:
         "from cli.palette import load_index as _load_command_index",
         "from cli.palette_command import PaletteCompleter as _PaletteCompleter",
         "from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig",
-        "from cli.palette_command import render as _render_palette",
     )
-    expected_lazyown_methods: frozenset[str] = frozenset({"do_palette", "complete_palette"})
+    required_migrated_imports: tuple[str, ...] = ("from cli.palette_command import render as _render_palette",)
+    expected_lazyown_methods: frozenset[str] = frozenset({"complete_palette"})
     lazyown_shell_class_name: str = "LazyOwnShell"
-    known_duplicate_lines: dict[str, frozenset[int]] = field(
-        default_factory=lambda: {
-            "do_shellshock": frozenset({11623, 14970}),
-            "do_download_c2": frozenset({992, 25317, 26780}),
-        }
-    )
+    palette_command_module: str = "cli/commands/misc_migrated.py"
+    known_duplicate_lines: dict[str, frozenset[int]] = field(default_factory=dict)
     invalid_index_payload: str = "{not json"
     case_sensitive_invariant_phase_index: int = 0
     mcp_tool_name: str = "lazyown_palette"
@@ -112,7 +109,7 @@ class PaletteSuiteConfig:
         "from cli.palette import load_index as _palette_load_index",
         "from cli.palette_command import build_palette_view as _palette_build_view",
     )
-    c2_route_decorator: str = "@app.route('/palette', methods=['GET'])"
+    c2_route_decorator: str = '@app.route("/palette", methods=["GET"])'
     c2_route_function: str = "palette_view"
     c2_template_filename: str = "palette.html"
     c2_template_required_markers: tuple[str, ...] = (
@@ -136,7 +133,7 @@ class PaletteSuiteConfig:
         "cmd-runs",
         "cmdk-section",
     )
-    api_palette_route_decorator: str = "@app.route('/api/palette', methods=['GET'])"
+    api_palette_route_decorator: str = '@app.route("/api/palette", methods=["GET"])'
     api_palette_route_function: str = "palette_api"
     api_palette_rate_limit_marker: str = "@limiter.limit(_PALETTE_API_RATE_LIMIT)"
     api_palette_rate_limit_constant: str = "_PALETTE_API_RATE_LIMIT"
@@ -238,12 +235,32 @@ def _iter_command_modules(config: PaletteSuiteConfig) -> Iterable[Path]:
 
 
 def _collect_do_method_names(path: Path, prefix: str) -> set[str]:
-    """Return every direct ``do_*`` method name in any class in ``path``."""
+    """Return every direct ``do_*`` method name in any class in ``path``.
+
+    Nested ``http.server`` request handlers expose ``do_GET``/``do_POST``
+    style methods that are not operator commands, so their classes are
+    skipped to mirror the production ``scripts/build_command_index.py``
+    scanner.
+    """
+    handler_bases = frozenset(
+        {
+            "BaseHTTPRequestHandler",
+            "SimpleHTTPRequestHandler",
+            "CGIHTTPRequestHandler",
+            "StreamRequestHandler",
+        }
+    )
     src = path.read_text(encoding="utf-8")
     tree = ast.parse(src, filename=str(path))
     out: set[str] = set()
     for node in ast.walk(tree):
         if not isinstance(node, ast.ClassDef):
+            continue
+        if any(
+            (isinstance(base, ast.Name) and base.id in handler_bases)
+            or (isinstance(base, ast.Attribute) and base.attr in handler_bases)
+            for base in node.bases
+        ):
             continue
         for child in node.body:
             if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) and child.name.startswith(prefix):
@@ -1002,13 +1019,27 @@ class TestLazyOwnWiring:
         """The full text of ``lazyown.py``."""
         return suite_config.lazyown_path.read_text(encoding="utf-8")
 
+    @pytest.fixture(scope="class")
+    def palette_src(self, suite_config: PaletteSuiteConfig) -> str:
+        """The full text of the module that now defines ``do_palette``.
+
+        The monolith split moved ``do_palette`` into a phase ``CommandSet``
+        while ``complete_palette`` stayed on ``LazyOwnShell``.
+        """
+        return (suite_config.repo_root / suite_config.palette_command_module).read_text(encoding="utf-8")
+
     def test_required_imports_present(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """Every import that the wiring depends on appears in the file."""
         for line in suite_config.required_lazyown_imports:
             assert line in src, f"missing import: {line}"
 
+    def test_migrated_imports_present(self, palette_src: str, suite_config: PaletteSuiteConfig) -> None:
+        """The migrated ``do_palette`` module keeps its renderer import."""
+        for line in suite_config.required_migrated_imports:
+            assert line in palette_src, f"missing import: {line}"
+
     def test_methods_defined_on_lazyown_shell(self, src: str, suite_config: PaletteSuiteConfig) -> None:
-        """``do_palette`` and ``complete_palette`` belong to ``LazyOwnShell``."""
+        """``complete_palette`` still belongs to ``LazyOwnShell``."""
         tree = ast.parse(src)
         defined: set[str] = set()
         for node in ast.walk(tree):
@@ -1019,15 +1050,15 @@ class TestLazyOwnWiring:
         for name in suite_config.expected_lazyown_methods:
             assert name in defined, f"{name} not defined on {suite_config.lazyown_shell_class_name}"
 
-    def test_do_palette_loads_index_and_renders(self, src: str) -> None:
+    def test_do_palette_loads_index_and_renders(self, palette_src: str) -> None:
         """``do_palette`` body delegates to the loader and the renderer."""
-        body = _extract_method_body(src, "do_palette")
+        body = _extract_method_body(palette_src, "do_palette")
         assert "_load_command_index(" in body
         assert "_render_palette(" in body
 
-    def test_do_palette_handles_index_error(self, src: str) -> None:
+    def test_do_palette_handles_index_error(self, palette_src: str) -> None:
         """``do_palette`` body recovers gracefully from a missing index."""
-        body = _extract_method_body(src, "do_palette")
+        body = _extract_method_body(palette_src, "do_palette")
         assert "_CommandIndexError" in body
 
     def test_complete_palette_uses_completer(self, src: str) -> None:
@@ -1425,7 +1456,7 @@ class TestC2PaletteRoute:
     def test_route_renders_palette_template(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """The handler renders the dedicated palette template."""
         body = _extract_method_body(src, suite_config.c2_route_function)
-        assert f"render_template('{suite_config.c2_template_filename}'" in body
+        assert f'render_template("{suite_config.c2_template_filename}"' in body
 
     def test_route_handles_missing_index(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """The handler returns a non-200 status when the index is missing."""

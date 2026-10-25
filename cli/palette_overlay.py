@@ -26,8 +26,9 @@ Design (SOLID):
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
 from cli.palette_command import PaletteIndexQuery
 from cli.themes import Theme, theme_from_payload
@@ -127,10 +128,9 @@ class PaletteOverlayState:
         return 0.0
 
     def _truncate(self, value: str, max_chars: int) -> str:
-        if len(value) <= max_chars:
-            return value
-        keep = max(1, max_chars - len(self.config.truncation_suffix))
-        return value[:keep] + self.config.truncation_suffix
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, max_chars, marker=self.config.truncation_suffix)
 
 
 def _load_recents() -> tuple[str, ...]:

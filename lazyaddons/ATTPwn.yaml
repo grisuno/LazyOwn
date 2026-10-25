@@ -13,6 +13,7 @@ description: 'ATTPwn is a computer security tool designed to emulate adversaries
 author: Telefonica
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

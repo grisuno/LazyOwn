@@ -8,7 +8,7 @@ business logic of its own — every interaction either mutates the active
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from PySide6.QtCore import QByteArray, QSize, Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence
@@ -28,13 +28,14 @@ from lazygui.services.event_log import EventLog
 from lazygui.services.models import EventLevel, EventRecord, Operator
 from lazygui.theme.manager import ThemeManager
 from lazygui.theme.tokens import ThemeTokens
+from lazygui.widgets.beacon_command_modal import BeaconCommandModal
 from lazygui.widgets.command_palette_list import CommandPaletteAction
 from lazygui.widgets.status_badge import StatusBadge
 from lazygui.windows.command_palette_window import CommandPaletteWindow
 
 
 class MainWindow(QMainWindow):
-    """Top-level operator window."""
+    """Top-level operator window with Cobalt Strike-inspired layout."""
 
     def __init__(
         self,
@@ -67,7 +68,8 @@ class MainWindow(QMainWindow):
             event_log=event_log,
             parent=self,
         )
-        self._install_panels()
+        self._central_widget: QWidget | None = None
+        self._install_layout()
         self._install_menu_bar()
         self._install_toolbar()
         self._install_statusbar()
@@ -77,17 +79,22 @@ class MainWindow(QMainWindow):
             actions=self._build_palette_actions(),
             parent=self,
         )
+        self._beacon_modal = BeaconCommandModal(
+            backend=backend,
+            parent=self,
+        )
 
         backend.status_changed.connect(self._status_badge.set_status)
         backend.operator_changed.connect(self._on_operator_changed)
         backend.event_logged.connect(self._on_event_logged)
         theme_manager.theme_changed.connect(self._on_theme_changed)
 
+        self._panels.graph.graph_view.node_selected.connect(self._panels.terminal.set_target_session)
+        self._panels.sessions.session_selected.connect(lambda s: self._panels.terminal.set_target_session(s.identifier))
+
         self._restore_geometry_and_state()
         self._status_badge.set_status(backend.status)
         self._on_theme_changed(theme_manager.active_tokens)
-
-    # --- Lifecycle --------------------------------------------------------
 
     def closeEvent(self, event) -> None:
         """Persist geometry, layout and theme before closing."""
@@ -98,16 +105,28 @@ class MainWindow(QMainWindow):
             pass
         super().closeEvent(event)
 
-    # --- Layout setup -----------------------------------------------------
-
-    def _install_panels(self) -> None:
-        """Place dock widgets in their default positions."""
+    def _install_layout(self) -> None:
+        """Build Cobalt Strike-style layout: graph center, tabs left, terminal right, log bottom."""
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.sessions)
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.listeners)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.killchain)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.credentials)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.marketplace)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.campaign)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.cve)
         self.tabifyDockWidget(self._panels.sessions, self._panels.listeners)
+        self.tabifyDockWidget(self._panels.listeners, self._panels.killchain)
+        self.tabifyDockWidget(self._panels.killchain, self._panels.credentials)
+        self.tabifyDockWidget(self._panels.credentials, self._panels.marketplace)
+        self.tabifyDockWidget(self._panels.marketplace, self._panels.campaign)
+        self.tabifyDockWidget(self._panels.campaign, self._panels.cve)
         self._panels.sessions.raise_()
+        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self._panels.graph)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self._panels.terminal)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._panels.event_log_panel)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._panels.history)
+        self.tabifyDockWidget(self._panels.event_log_panel, self._panels.history)
+        self._panels.event_log_panel.raise_()
 
     def _install_menu_bar(self) -> None:
         """Build a minimal File / View / Theme menu bar."""
@@ -117,6 +136,10 @@ class MainWindow(QMainWindow):
         connect_action.setShortcut(QKeySequence(self._constants.keys.open_connect_dialog))
         connect_action.triggered.connect(self._emit_request_connect)
         file_menu.addAction(connect_action)
+        beacon_cmd_action = QAction("&Beacon Command...", self)
+        beacon_cmd_action.setShortcut(QKeySequence(self._constants.keys.beacon_command))
+        beacon_cmd_action.triggered.connect(self._show_beacon_command_modal)
+        file_menu.addAction(beacon_cmd_action)
         file_menu.addSeparator()
         quit_action = QAction("&Quit", self)
         quit_action.setShortcut(QKeySequence(self._constants.keys.quit_application))
@@ -157,22 +180,32 @@ class MainWindow(QMainWindow):
         connect_action.triggered.connect(self._emit_request_connect)
         toolbar.addAction(connect_action)
         toolbar.addSeparator()
+        graph_fit = QAction("Fit Graph", self)
+        graph_fit.triggered.connect(self._panels.graph.graph_view.fit_to_content)
+        toolbar.addAction(graph_fit)
+        toolbar.addSeparator()
         palette_action = QAction("Command palette", self)
         palette_action.triggered.connect(self._show_command_palette)
         toolbar.addAction(palette_action)
+        beacon_cmd_tb = QAction("Beacon Cmd", self)
+        beacon_cmd_tb.triggered.connect(self._show_beacon_command_modal)
+        toolbar.addAction(beacon_cmd_tb)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
     def _install_statusbar(self) -> None:
-        """Build a status bar with backend badge, operator label and clock."""
+        """Build a status bar with backend badge, beacon count, operator label and clock."""
         status_bar = QStatusBar(self)
         self.setStatusBar(status_bar)
         self._status_badge = StatusBadge(status_bar)
+        self._beacon_count_label = QLabel("beacons: 0", status_bar)
+        self._beacon_count_label.setObjectName("SubtitleLabel")
         self._operator_label = QLabel("operator: -", status_bar)
         self._operator_label.setObjectName("SubtitleLabel")
         self._theme_label = QLabel("theme: -", status_bar)
         self._theme_label.setObjectName("AccentLabel")
         self._clock_label = QLabel("--:--:--", status_bar)
         status_bar.addWidget(self._status_badge)
+        status_bar.addWidget(self._beacon_count_label)
         status_bar.addWidget(self._operator_label, stretch=1)
         status_bar.addPermanentWidget(self._theme_label)
         status_bar.addPermanentWidget(self._clock_label)
@@ -181,6 +214,8 @@ class MainWindow(QMainWindow):
         self._clock_timer.timeout.connect(self._tick_clock)
         self._clock_timer.start()
         self._tick_clock()
+        self._backend.sessions_changed.connect(self._on_sessions_count_changed)
+        self._backend.dashboard_updated.connect(self._on_dashboard_updated)
 
     def _install_shortcuts(self) -> None:
         """Bind global shortcuts not already attached to menu actions."""
@@ -198,13 +233,13 @@ class MainWindow(QMainWindow):
             (self._constants.keys.toggle_sessions_panel, self._panels.sessions),
             (self._constants.keys.toggle_listeners_panel, self._panels.listeners),
             (self._constants.keys.toggle_event_log_panel, self._panels.event_log_panel),
+            (self._constants.keys.toggle_killchain_panel, self._panels.killchain),
+            (self._constants.keys.toggle_credentials_panel, self._panels.credentials),
         ):
             action = QAction(self)
             action.setShortcut(QKeySequence(shortcut))
             action.triggered.connect(self._make_panel_toggle(panel))
             self.addAction(action)
-
-    # --- Persistence ------------------------------------------------------
 
     def _persist_geometry_and_state(self) -> None:
         """Encode current geometry/layout into settings."""
@@ -222,8 +257,6 @@ class MainWindow(QMainWindow):
             self.restoreGeometry(QByteArray.fromBase64(geometry.encode("ascii")))
         if isinstance(state, str) and state:
             self.restoreState(QByteArray.fromBase64(state.encode("ascii")))
-
-    # --- Slot helpers -----------------------------------------------------
 
     def _build_palette_actions(self) -> Iterable[CommandPaletteAction]:
         """Build the palette catalog from menu and panel toggles."""
@@ -294,8 +327,12 @@ class MainWindow(QMainWindow):
         """Surface the most recent event as a transient status bar message."""
 
     def _on_theme_changed(self, tokens: ThemeTokens) -> None:
-        """Update the theme label when a new palette is applied."""
+        """Update the theme label and graph colours when a new palette is applied."""
         self._theme_label.setText(f"theme: {tokens.display_name}")
+        self._panels.graph.graph_view.set_theme_colors(
+            bg_color=tokens.background_base,
+            edge_color=tokens.border_subtle,
+        )
 
     def _on_theme_menu_action(self) -> None:
         """Apply the theme stored in the triggering action's data field."""
@@ -304,6 +341,22 @@ class MainWindow(QMainWindow):
             identifier = sender.data()
             if isinstance(identifier, str):
                 self._theme_manager.apply(identifier)
+
+    def _on_sessions_count_changed(self, sessions: list) -> None:
+        """Update the beacon count badge in the status bar."""
+        count = len(sessions)
+        self._beacon_count_label.setText(f"beacons: {count}")
+
+    def _on_dashboard_updated(self, dashboard) -> None:
+        """Update status bar from dashboard payload."""
+        self._beacon_count_label.setText(f"beacons: {dashboard.beacon_count}")
+
+    def _show_beacon_command_modal(self) -> None:
+        """Open the beacon command dialog."""
+        self._beacon_modal.show()
+        self._beacon_modal.raise_()
+        self._beacon_modal.activateWindow()
+        self._beacon_modal.focus_input()
 
     def _show_command_palette(self) -> None:
         """Show and centre the command palette."""

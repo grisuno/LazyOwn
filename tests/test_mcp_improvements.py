@@ -46,6 +46,7 @@ from lazyown_mcp_helpers import (  # noqa: E402
 
 # ── is_likely_credential ─────────────────────────────────────────────────────
 
+
 @pytest.mark.parametrize(
     "value,expect_real,expect_reason",
     [
@@ -63,7 +64,8 @@ from lazyown_mcp_helpers import (  # noqa: E402
         ("admin:admin", True, "user_pass"),
         (
             "aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0",
-            True, "ntlm_pair",
+            True,
+            "ntlm_pair",
         ),
         ("a1b2c3d4e5f67890", True, "hex_hash"),
         ("admin", True, "unknown"),
@@ -85,6 +87,7 @@ def test_is_likely_credential_handles_non_string():
 
 
 # ── parse_task_value ─────────────────────────────────────────────────────────
+
 
 def test_parse_task_value_complete():
     title = (
@@ -110,18 +113,13 @@ def test_parse_task_value_no_payload():
 
 # ── audit_tasks ──────────────────────────────────────────────────────────────
 
+
 def test_audit_tasks_drops_timestamps_and_urls():
     tasks = [
         {"id": 0, "status": "Done", "title": "Recon 127.0.0.1"},
-        {"id": 1, "status": "New", "title": (
-            'Leverage new credential: {"value": "j.fleischman:J0elTHEM4n1990"}'
-        )},
-        {"id": 2, "status": "New", "title": (
-            'Leverage new credential: {"value": "12:09:08", "host": "127.0.0.1"}'
-        )},
-        {"id": 3, "status": "New", "title": (
-            'Leverage new credential: {"value": "http://127.0.0.1"}'
-        )},
+        {"id": 1, "status": "New", "title": ('Leverage new credential: {"value": "j.fleischman:J0elTHEM4n1990"}')},
+        {"id": 2, "status": "New", "title": ('Leverage new credential: {"value": "12:09:08", "host": "127.0.0.1"}')},
+        {"id": 3, "status": "New", "title": ('Leverage new credential: {"value": "http://127.0.0.1"}')},
         {"id": 4, "status": "New", "title": "Enumerate newly discovered host 10.0.0.1"},
         {"id": 5, "status": "New", "title": "Enumerate newly discovered host 10.0.0.1"},
     ]
@@ -142,9 +140,7 @@ def test_audit_tasks_drops_timestamps_and_urls():
 
 def test_audit_tasks_respects_min_confidence():
     tasks = [
-        {"id": 9, "status": "New", "title": (
-            'Leverage new credential: {"value": "admin"}'
-        )},
+        {"id": 9, "status": "New", "title": ('Leverage new credential: {"value": "admin"}')},
     ]
     high_bar = audit_tasks(tasks, min_confidence=0.5)
     low_bar = audit_tasks(tasks, min_confidence=0.2)
@@ -153,6 +149,7 @@ def test_audit_tasks_respects_min_confidence():
 
 
 # ── evidence_freshness ───────────────────────────────────────────────────────
+
 
 def test_evidence_freshness_missing(tmp_path):
     fresh = evidence_freshness(tmp_path / "absent.txt")
@@ -180,6 +177,7 @@ def test_evidence_freshness_stale(tmp_path):
 
 
 # ── build_target_context ─────────────────────────────────────────────────────
+
 
 def _seed_sessions(tmp_path: Path) -> Path:
     s = tmp_path / "sessions"
@@ -225,6 +223,7 @@ def test_build_target_context_no_port_returns_all(tmp_path):
 
 # ── evidence_grep ────────────────────────────────────────────────────────────
 
+
 def test_evidence_grep_finds_in_loot_scope(tmp_path):
     s = tmp_path / "sessions"
     s.mkdir()
@@ -232,8 +231,7 @@ def test_evidence_grep_finds_in_loot_scope(tmp_path):
     (s / "scan_10.0.0.1.nmap").write_text("admin: ignore me\n")
     result = evidence_grep("admin", s, scope="loot")
     assert result["match_count"] >= 1
-    assert all("credentials.txt" in m["path"] or "loot" in m["path"]
-               for m in result["matches"])
+    assert all("credentials.txt" in m["path"] or "loot" in m["path"] for m in result["matches"])
 
 
 def test_evidence_grep_invalid_regex(tmp_path):
@@ -253,6 +251,7 @@ def test_evidence_grep_truncates(tmp_path):
 
 
 # ── preflight_command ────────────────────────────────────────────────────────
+
 
 def test_preflight_detects_duplicate(tmp_path):
     s = tmp_path / "sessions"
@@ -293,6 +292,7 @@ def test_preflight_os_mismatch(tmp_path):
 
 
 # ── JobStore ─────────────────────────────────────────────────────────────────
+
 
 def test_jobstore_runs_command_and_reports_done():
     store = JobStore()
@@ -349,6 +349,7 @@ def test_jobstore_list_orders_newest_first():
 
 # ── snapshots / diff ─────────────────────────────────────────────────────────
 
+
 def test_diff_first_run_reports_first_run(tmp_path):
     s = tmp_path / "sessions"
     s.mkdir()
@@ -375,13 +376,10 @@ def test_diff_picks_up_changes(tmp_path):
 
 # ── confirmation gate ────────────────────────────────────────────────────────
 
+
 def test_confirmation_required_for_destructive_command():
-    assert needs_confirmation(
-        "lazyown_run_command", {"command": "rm -rf /tmp/foo"}
-    ) is True
-    assert needs_confirmation(
-        "lazyown_run_command", {"command": "rm -rf /tmp/foo", "confirm": True}
-    ) is False
+    assert needs_confirmation("lazyown_run_command", {"command": "rm -rf /tmp/foo"}) is True
+    assert needs_confirmation("lazyown_run_command", {"command": "rm -rf /tmp/foo", "confirm": True}) is False
 
 
 def test_confirmation_skipped_for_benign():
@@ -394,6 +392,7 @@ def test_confirmation_required_for_destructive_tools():
 
 
 # ── MCP handler integration smoke (target_context, tasks_cleanup) ────────────
+
 
 def _fresh_mcp_module(tmp_path: Path):
     """Reload skills.lazyown_mcp pointing at an isolated SESSIONS_DIR."""
@@ -408,6 +407,7 @@ def _fresh_mcp_module(tmp_path: Path):
     if "lazyown_mcp" in sys.modules:
         importlib.reload(sys.modules["lazyown_mcp"])
     import lazyown_mcp as mod
+
     return mod, sessions
 
 
@@ -423,12 +423,8 @@ def test_handler_tasks_cleanup_dry_run(tmp_path):
     s.mkdir()
     tasks = [
         {"id": 0, "status": "Done", "title": "Recon 127.0.0.1"},
-        {"id": 1, "status": "New", "title": (
-            'Leverage new credential: {"value": "12:09:08"}'
-        )},
-        {"id": 2, "status": "New", "title": (
-            'Leverage new credential: {"value": "alice:pw1"}'
-        )},
+        {"id": 1, "status": "New", "title": ('Leverage new credential: {"value": "12:09:08"}')},
+        {"id": 2, "status": "New", "title": ('Leverage new credential: {"value": "alice:pw1"}')},
     ]
     (s / "tasks.json").write_text(json.dumps(tasks))
     audited = audit_tasks(tasks)

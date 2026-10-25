@@ -1,0 +1,111 @@
+# readmenator.toml -- per-project configuration (v4).
+# Created automatically on `readmenator <dir> --rebuild` when missing.
+# This file is the source of truth for project-specific choices;
+# generic tuning still lives in readmenator/_config.py.
+# CLI flags always win over values set here.
+
+[project]
+# Human-readable project name used in page titles. Empty = directory name.
+name = ""
+
+[branding]
+# Project identity shown in every HTML page: footer icons link to
+# the analysed project's GitHub and published site, the home icon
+# points at the deployed readmenator-maps home, and the accent
+# colors re-skin all pages (also editable live in the Config modal).
+# All URLs must be absolute http(s) links; empty values hide the item.
+author = ""
+description = ""
+github_url = ""
+pages_url = ""
+home_url = ""
+logo_url = ""
+accent = "#22d3ee"
+accent2 = "#f472b6"
+
+[outputs]
+# Which deliverables are built (enabled) and under which directory/file names.
+agent_enabled = true
+agent_dir = "readmenator-agent"
+wiki_enabled = true
+wiki_dir = "readmenator-wiki"
+apidocs_enabled = true
+apidocs_dir = "readmenator-apidocs"
+graphrag_enabled = true
+graphrag_dir = "readmenator-graphrag"
+maps_dir = "readmenator-maps"
+pages_dir = "docs"
+components_enabled = true
+components_dir = "readmenator-diagrams"
+rules_enabled = true
+rules_dir = "readmenator-rules"
+forcegraph_enabled = true
+forcegraph_file = "graph-force.html"
+bundle_enabled = true
+bundle_file = "graph-bundle.html"
+flows_file = "flows.html"
+diagrams_enabled = true
+video_enabled = true
+video_file = "readmenator.mp4"
+sarif_enabled = false
+
+[features]
+# Analysis features + GitHub wiki publishing for this project.
+security_enabled = false
+privacy_mode = false
+gitignore_aware = true
+gh_wiki_enabled = true
+gh_wiki_remote = ""
+memory_enabled = true
+skills_enabled = true
+concept_enabled = true
+hotspots_enabled = true
+taint_enabled = true
+linter_enabled = true
+
+[viewer]
+# Look-and-feel of readmenator-maps/* pages. Editable live via the
+# Config button in every map; use Copy TOML there to persist back here.
+theme = "dark"
+preset = "classic"
+motion_enabled = true
+mode = "2d"
+label_top_n = 30
+label_zoom = 1.6
+charge = -300
+link_distance = 120
+link_strength = 0.3
+hulls_enabled = true
+particles = 4
+bundle_beta = 0.85
+html_style = "dark"
+
+[scan]
+# What gets scanned in this project.
+include_dirs = []
+exclude_patterns = []
+max_file_mb = 10.0
+max_depth = 20
+
+[maps]
+# Budgets for the readmenator-maps explorers: how many files embed
+# their source for the View button (2D/3D graphs) and the total char
+# budget across them. Files over budget show a "cut by SOURCEVIEW
+# budgets" note instead of source. Raise both and rebuild for big repos.
+sourceview_max_files = 2500
+sourceview_max_total_chars = 20000000
+
+[messages]
+# Overrides for the automated texts readmenator injects into projects
+# (README section, agent files, folder READMEs). Empty = built-in
+# default. Also editable from the Config modal in any map (Copy TOML).
+# Multi-line values use \n escapes.
+readme_heading = ""
+readme_intro = ""
+readme_agents_line = ""
+readme_developers_line = ""
+readme_regen_command = ""
+agent_heading = ""
+agent_intro = ""
+agent_extra = ""
+folder_notice = ""

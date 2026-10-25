@@ -1,0 +1,23 @@
+name: artex_traffic
+description: Inspect ARTEX v0.3.12 traffic-recording proxy (default 127.0.0.1:8788) in
+  English. Needs artex up and assign url http://127.0.0.1:8787. Lists capture hosts.
+  Query via free args against /api/traffic, save blobs with -o sessions/artex_traffic.json.
+author: Hinln (fork of Autumn-27)
+version: 0.3.12
+enabled: true
+update: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: ARTEX base URL, e.g. http://127.0.0.1:8787. Set with assign url.
+os: any
+trigger: []
+category: 16. Artificial Intelligence
+tool:
+  name: ARTEX Traffic
+  repo_url: https://github.com/Hinln/ARTEX.git
+  install_path: external/.exploit/artex
+  install_command: git fetch --all --tags && git checkout 0ec51e3 && go build -tags
+    embedui -o artex ./cmd/artex
+  execute_command: curl -sSf {url}/api/traffic/hosts

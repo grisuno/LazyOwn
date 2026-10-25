@@ -1,23 +1,38 @@
-# Symbols (page 5 of 44)
+# Symbols (page 5 of 45)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `on_button_pressed` | method | `cli/lazy_orchestrator.py:385` | `def on_button_pressed(self, event)` |
-| `on_mount` | method | `cli/lazy_orchestrator.py:260` | `def on_mount(self)` |
-| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:324` | `def remove_auto_verb(self, name)` |
-| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:994` | `def run_orchestrator_console(task_id, shell)` |
-| `toggle_stage` | method | `cli/lazy_orchestrator.py:276` | `def toggle_stage(self, name)` |
-| `toggle_verb` | method | `cli/lazy_orchestrator.py:285` | `def toggle_verb(self, name)` |
-| `update_param` | method | `cli/lazy_orchestrator.py:480` | `def update_param(self, name, default, description)` |
+| `_resolve_task` | method | `cli/lazy_orchestrator.py:348` | `def _resolve_task(self)` |
+| `_selected_row` | method | `cli/lazy_orchestrator.py:586` | `def _selected_row(self, table_id)` |
+| `_submit_config_save` | method | `cli/lazy_orchestrator.py:415` | `def _submit_config_save(self)` |
+| `_submit_harness_save` | method | `cli/lazy_orchestrator.py:431` | `def _submit_harness_save(self)` |
+| `action_add_item` | method | `cli/lazy_orchestrator.py:642` | `def action_add_item(self)` |
+| `action_delete_item` | method | `cli/lazy_orchestrator.py:953` | `def action_delete_item(self)` |
+| `action_edit_item` | method | `cli/lazy_orchestrator.py:874` | `def action_edit_item(self)` |
+| `action_refresh` | method | `cli/lazy_orchestrator.py:454` | `def action_refresh(self)` |
+| `action_save_config` | method | `cli/lazy_orchestrator.py:625` | `def action_save_config(self)` |
+| `action_toggle_item` | method | `cli/lazy_orchestrator.py:595` | `def action_toggle_item(self)` |
+| `add_auto_verb` | method | `cli/lazy_orchestrator.py:317` | `def add_auto_verb(self, name, keywords, needs_target, description, phases)` |
+| `command_descriptions` | function | `cli/lazy_orchestrator.py:99` | `def command_descriptions()` |
+| `compose` | method | `cli/lazy_orchestrator.py:208` | `def compose(self)` |
+| `create_param` | method | `cli/lazy_orchestrator.py:491` | `def create_param(self, name, kind, default, description, category)` |
+| `delete_param` | method | `cli/lazy_orchestrator.py:563` | `def delete_param(self, name)` |
+| `discover_shell_commands` | function | `cli/lazy_orchestrator.py:66` | `def discover_shell_commands()` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:401` | `def on_button_pressed(self, event)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:274` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:340` | `def remove_auto_verb(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:1045` | `def run_orchestrator_console(task_id, shell)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:292` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:301` | `def toggle_verb(self, name)` |
+| `update_param` | method | `cli/lazy_orchestrator.py:531` | `def update_param(self, name, default, description)` |
 | `verb_candidates` | function | `cli/lazy_orchestrator.py:113` | `def verb_candidates()` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
-| `_atomic_write_json` | function | `cli/lazynmap_post.py:263` | `def _atomic_write_json(path, data, mode)` |
 | `_default_engine_factory` | function | `cli/lazynmap_post.py:180` | `def _default_engine_factory(payload, cfg)` |
-| `_emit_event` | function | `cli/lazynmap_post.py:213` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
+| `_emit_event` | function | `cli/lazynmap_post.py:212` | `def _emit_event(cfg, target, plan, plan_path, clock_fn)` |
 | `_enabled` | function | `cli/lazynmap_post.py:164` | `def _enabled(payload, cfg)` |
-| `_safe_log` | function | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
+| `_safe_log` | function | `cli/lazynmap_post.py:262` | `def _safe_log(console, message)` |
 | `_update_world_model_phase` | function | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
 | `run_post_scan` | function | `cli/lazynmap_post.py:94` | `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` |
 | `AddonInfo` | class | `cli/marketplace_config.py:134` | `class AddonInfo` |
@@ -86,58 +101,59 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `toggle_enabled` | method | `cli/marketplace_config.py:299` | `def toggle_enabled(self)` |
 | `toggleable` | method | `cli/marketplace_config.py:221` | `def toggleable(self)` |
 | `validate_text` | method | `cli/marketplace_config.py:238` | `def validate_text(self, text)` |
-| `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
-| `_bucket` | function | `cli/ops_commands.py:861` | `def _bucket(node)` |
+| `LootEntry` | class | `cli/ops_commands.py:552` | `class LootEntry` |
+| `_bucket` | function | `cli/ops_commands.py:868` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
-| `_count_glob` | function | `cli/ops_commands.py:450` | `def _count_glob(pattern)` |
+| `_count_glob` | function | `cli/ops_commands.py:457` | `def _count_glob(pattern)` |
 | `_count_pivots` | function | `cli/ops_commands.py:385` | `def _count_pivots(sessions_dir)` |
-| `_cred_node` | function | `cli/ops_commands.py:758` | `def _cred_node(value)` |
-| `_cred_outcomes_for_host` | function | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
+| `_cred_node` | function | `cli/ops_commands.py:765` | `def _cred_node(value)` |
+| `_cred_outcomes_for_host` | function | `cli/ops_commands.py:738` | `def _cred_outcomes_for_host(world, host)` |
 | `_engagement_phase_to_cli` | function | `cli/ops_commands.py:292` | `def _engagement_phase_to_cli(phase_value)` |
 | `_glob_count` | function | `cli/ops_commands.py:375` | `def _glob_count(sessions_dir, pattern)` |
 | `_highlight_match` | function | `cli/ops_commands.py:265` | `def _highlight_match(line, rx)` |
-| `_host_label` | function | `cli/ops_commands.py:864` | `def _host_label(node)` |
-| `_human_age` | function | `cli/ops_commands.py:1474` | `def _human_age(seconds)` |
-| `_human_size` | function | `cli/ops_commands.py:1484` | `def _human_size(n)` |
-| `_join` | function | `cli/ops_commands.py:901` | `def _join(items)` |
-| `_load_tasks` | function | `cli/ops_commands.py:1059` | `def _load_tasks()` |
-| `_loot_provenance` | function | `cli/ops_commands.py:657` | `def _loot_provenance(query, sessions_dir)` |
+| `_host_label` | function | `cli/ops_commands.py:871` | `def _host_label(node)` |
+| `_human_age` | function | `cli/ops_commands.py:1481` | `def _human_age(seconds)` |
+| `_human_size` | function | `cli/ops_commands.py:1491` | `def _human_size(n)` |
+| `_join` | function | `cli/ops_commands.py:908` | `def _join(items)` |
+| `_load_tasks` | function | `cli/ops_commands.py:1066` | `def _load_tasks()` |
+| `_loot_provenance` | function | `cli/ops_commands.py:664` | `def _loot_provenance(query, sessions_dir)` |
 | `_os_identified` | function | `cli/ops_commands.py:367` | `def _os_identified(sessions_dir)` |
 | `_phase_rank` | function | `cli/ops_commands.py:287` | `def _phase_rank(phase)` |
-| `_print_next_steps` | function | `cli/ops_commands.py:1386` | `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)` |
+| `_print_next_steps` | function | `cli/ops_commands.py:1393` | `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)` |
 | `_read_json` | function | `cli/ops_commands.py:425` | `def _read_json(path)` |
-| `_read_plan` | function | `cli/ops_commands.py:1453` | `def _read_plan()` |
+| `_read_plan` | function | `cli/ops_commands.py:1460` | `def _read_plan()` |
+| `_read_world_model` | function | `cli/ops_commands.py:433` | `def _read_world_model(path)` |
 | `_render_progress_bar` | function | `cli/ops_commands.py:359` | `def _render_progress_bar(ratio)` |
-| `_render_steps` | function | `cli/ops_commands.py:1448` | `def _render_steps(steps)` |
+| `_render_steps` | function | `cli/ops_commands.py:1455` | `def _render_steps(steps)` |
 | `_report_artifact_exists` | function | `cli/ops_commands.py:380` | `def _report_artifact_exists(sessions_dir)` |
-| `_save_tasks` | function | `cli/ops_commands.py:1066` | `def _save_tasks(tasks)` |
+| `_save_tasks` | function | `cli/ops_commands.py:1073` | `def _save_tasks(tasks)` |
 | `_search_csv` | function | `cli/ops_commands.py:211` | `def _search_csv(rx, hits, limit)` |
 | `_search_logs` | function | `cli/ops_commands.py:236` | `def _search_logs(rx, hits, limit, sessions_dir)` |
 | `_search_transcript_jsonl` | function | `cli/ops_commands.py:177` | `def _search_transcript_jsonl(rx, hits, limit)` |
-| `_write_json_atomic` | function | `cli/ops_commands.py:433` | `def _write_json_atomic(path, data)` |
-| `gather_loot` | function | `cli/ops_commands.py:571` | `def gather_loot(sessions_dir)` |
-| `loot_graph` | function | `cli/ops_commands.py:847` | `def loot_graph(sessions_dir)` |
-| `loot_mark` | function | `cli/ops_commands.py:945` | `def loot_mark(selector, outcome, host, sessions_dir)` |
-| `loot_reuse` | function | `cli/ops_commands.py:763` | `def loot_reuse(rhost, sessions_dir)` |
-| `loot_search` | function | `cli/ops_commands.py:686` | `def loot_search(query, sessions_dir)` |
-| `loot_show` | function | `cli/ops_commands.py:614` | `def loot_show(sessions_dir)` |
-| `note_add` | function | `cli/ops_commands.py:468` | `def note_add(text, rhost, phase)` |
-| `note_list` | function | `cli/ops_commands.py:493` | `def note_list(rhost, limit)` |
+| `_write_json_atomic` | function | `cli/ops_commands.py:440` | `def _write_json_atomic(path, data)` |
+| `gather_loot` | function | `cli/ops_commands.py:578` | `def gather_loot(sessions_dir)` |
+| `loot_graph` | function | `cli/ops_commands.py:854` | `def loot_graph(sessions_dir)` |
+| `loot_mark` | function | `cli/ops_commands.py:952` | `def loot_mark(selector, outcome, host, sessions_dir)` |
+| `loot_reuse` | function | `cli/ops_commands.py:770` | `def loot_reuse(rhost, sessions_dir)` |
+| `loot_search` | function | `cli/ops_commands.py:693` | `def loot_search(query, sessions_dir)` |
+| `loot_show` | function | `cli/ops_commands.py:621` | `def loot_show(sessions_dir)` |
+| `note_add` | function | `cli/ops_commands.py:475` | `def note_add(text, rhost, phase)` |
+| `note_list` | function | `cli/ops_commands.py:500` | `def note_list(rhost, limit)` |
 | `phase_progress` | function | `cli/ops_commands.py:393` | `def phase_progress(world, sessions_dir)` |
-| `pivot_add` | function | `cli/ops_commands.py:987` | `def pivot_add(new_ip, via_ip, note)` |
-| `pivot_list` | function | `cli/ops_commands.py:1013` | `def pivot_list()` |
+| `pivot_add` | function | `cli/ops_commands.py:994` | `def pivot_add(new_ip, via_ip, note)` |
+| `pivot_list` | function | `cli/ops_commands.py:1020` | `def pivot_list()` |
 | `print_ctx` | function | `cli/ops_commands.py:74` | `def print_ctx(payload, sessions_dir)` |
 | `print_phase` | function | `cli/ops_commands.py:317` | `def print_phase()` |
 | `read_phase` | function | `cli/ops_commands.py:279` | `def read_phase()` |
-| `resolve_cred_value` | function | `cli/ops_commands.py:917` | `def resolve_cred_value(selector, entries)` |
-| `scans_list` | function | `cli/ops_commands.py:1189` | `def scans_list(rhost, sessions_dir)` |
-| `sitrep` | function | `cli/ops_commands.py:1242` | `def sitrep(payload, sessions_dir)` |
-| `tasks_add` | function | `cli/ops_commands.py:1125` | `def tasks_add(title, operator)` |
-| `tasks_done` | function | `cli/ops_commands.py:1146` | `def tasks_done(task_id)` |
-| `tasks_list` | function | `cli/ops_commands.py:1070` | `def tasks_list(status_filter, limit)` |
-| `tasks_start` | function | `cli/ops_commands.py:1166` | `def tasks_start(task_id)` |
+| `resolve_cred_value` | function | `cli/ops_commands.py:924` | `def resolve_cred_value(selector, entries)` |
+| `scans_list` | function | `cli/ops_commands.py:1196` | `def scans_list(rhost, sessions_dir)` |
+| `sitrep` | function | `cli/ops_commands.py:1249` | `def sitrep(payload, sessions_dir)` |
+| `tasks_add` | function | `cli/ops_commands.py:1132` | `def tasks_add(title, operator)` |
+| `tasks_done` | function | `cli/ops_commands.py:1153` | `def tasks_done(task_id)` |
+| `tasks_list` | function | `cli/ops_commands.py:1077` | `def tasks_list(status_filter, limit)` |
+| `tasks_start` | function | `cli/ops_commands.py:1173` | `def tasks_start(task_id)` |
 | `tgrep` | function | `cli/ops_commands.py:115` | `def tgrep(pattern)` |
-| `value` | method | `cli/ops_commands.py:561` | `def value(self)` |
+| `value` | method | `cli/ops_commands.py:568` | `def value(self)` |
 | `write_phase` | function | `cli/ops_commands.py:302` | `def write_phase(phase)` |
 | `ConfigField` | class | `cli/orchestrator_assets_tabs.py:21` | `class ConfigField` |
 | `OrchestratorAssetsMixin` | class | `cli/orchestrator_assets_tabs.py:60` | `class OrchestratorAssetsMixin` |
@@ -145,13 +161,15 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_coerce` | function | `cli/orchestrator_assets_tabs.py:43` | `def _coerce(raw)` |
 | `_edit_gym` | method | `cli/orchestrator_assets_tabs.py:357` | `def _edit_gym(self, gym_id)` |
 | `_edit_playbook` | method | `cli/orchestrator_assets_tabs.py:198` | `def _edit_playbook(self, filename)` |
+| `_load_guardrails_into_form` | method | `cli/orchestrator_assets_tabs.py:937` | `def _load_guardrails_into_form(self)` |
 | `_load_payload` | method | `cli/orchestrator_assets_tabs.py:713` | `def _load_payload(self)` |
 | `_load_payload_into_form` | method | `cli/orchestrator_assets_tabs.py:723` | `def _load_payload_into_form(self)` |
 | `_playbooks_dir` | method | `cli/orchestrator_assets_tabs.py:63` | `def _playbooks_dir(self)` |
 | `_refresh_chains` | method | `cli/orchestrator_assets_tabs.py:553` | `def _refresh_chains(self)` |
-| `_refresh_guard` | method | `cli/orchestrator_assets_tabs.py:821` | `def _refresh_guard(self)` |
+| `_refresh_guard` | method | `cli/orchestrator_assets_tabs.py:846` | `def _refresh_guard(self)` |
 | `_refresh_gyms` | method | `cli/orchestrator_assets_tabs.py:279` | `def _refresh_gyms(self)` |
-| `_refresh_models` | method | `cli/orchestrator_assets_tabs.py:800` | `def _refresh_models(self)` |
+| `_refresh_harness` | method | `cli/orchestrator_assets_tabs.py:957` | `def _refresh_harness(self)` |
+| `_refresh_models` | method | `cli/orchestrator_assets_tabs.py:825` | `def _refresh_models(self)` |
 | `_refresh_playbooks` | method | `cli/orchestrator_assets_tabs.py:163` | `def _refresh_playbooks(self)` |
 | `_refresh_profiles` | method | `cli/orchestrator_assets_tabs.py:427` | `def _refresh_profiles(self)` |
 | `_refresh_stages` | method | `cli/orchestrator_assets_tabs.py:673` | `def _refresh_stages(self)` |
@@ -167,7 +185,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_validate` | function | `cli/orchestrator_assets_tabs.py:211` | `def _validate(raw)` |
 | `_validate` | function | `cli/orchestrator_assets_tabs.py:367` | `def _validate(raw)` |
 | `activate_profile` | method | `cli/orchestrator_assets_tabs.py:416` | `def activate_profile(self, name)` |
-| `add_guard_rule` | method | `cli/orchestrator_assets_tabs.py:784` | `def add_guard_rule(self, pattern, action, reason)` |
+| `add_guard_rule` | method | `cli/orchestrator_assets_tabs.py:809` | `def add_guard_rule(self, pattern, action, reason)` |
 | `add_model_member` | method | `cli/orchestrator_assets_tabs.py:756` | `def add_model_member(self, name, model, priority)` |
 | `add_trigger` | method | `cli/orchestrator_assets_tabs.py:655` | `def add_trigger(self, kind, every_sec, arg)` |
 | `chain_rows` | method | `cli/orchestrator_assets_tabs.py:476` | `def chain_rows(self)` |
@@ -182,12 +200,15 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `playbook_preview` | method | `cli/orchestrator_assets_tabs.py:95` | `def playbook_preview(self, filename, limit)` |
 | `playbook_rows` | method | `cli/orchestrator_assets_tabs.py:71` | `def playbook_rows(self)` |
 | `profile_rows` | method | `cli/orchestrator_assets_tabs.py:391` | `def profile_rows(self)` |
+| `rearm_harness` | method | `cli/orchestrator_assets_tabs.py:926` | `def rearm_harness(self)` |
 | `remove_chain` | method | `cli/orchestrator_assets_tabs.py:527` | `def remove_chain(self, name)` |
-| `remove_guard_rule` | method | `cli/orchestrator_assets_tabs.py:792` | `def remove_guard_rule(self, pattern)` |
+| `remove_guard_rule` | method | `cli/orchestrator_assets_tabs.py:817` | `def remove_guard_rule(self, pattern)` |
 | `remove_model_member` | method | `cli/orchestrator_assets_tabs.py:764` | `def remove_model_member(self, name)` |
 | `remove_trigger` | method | `cli/orchestrator_assets_tabs.py:647` | `def remove_trigger(self, trigger_id)` |
 | `save_config` | method | `cli/orchestrator_assets_tabs.py:734` | `def save_config(self, values)` |
+| `save_guardrails` | method | `cli/orchestrator_assets_tabs.py:868` | `def save_guardrails(self, values)` |
 | `save_playbook_text` | method | `cli/orchestrator_assets_tabs.py:125` | `def save_playbook_text(self, filename, text)` |
+| `set_harness` | method | `cli/orchestrator_assets_tabs.py:784` | `def set_harness(self, enabled)` |
 | `set_model_priority` | method | `cli/orchestrator_assets_tabs.py:772` | `def set_model_priority(self, name, priority)` |
 | `start_gym` | method | `cli/orchestrator_assets_tabs.py:333` | `def start_gym(self, gym_id, target)` |
 | `stop_gym` | method | `cli/orchestrator_assets_tabs.py:341` | `def stop_gym(self, selector)` |
@@ -195,6 +216,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `toggle_gym` | method | `cli/orchestrator_assets_tabs.py:349` | `def toggle_gym(self, gym_id)` |
 | `toggle_trigger` | method | `cli/orchestrator_assets_tabs.py:637` | `def toggle_trigger(self, trigger_id)` |
 | `trigger_kind_options` | method | `cli/orchestrator_assets_tabs.py:667` | `def trigger_kind_options(self)` |
+| `warm_restart_harness` | method | `cli/orchestrator_assets_tabs.py:914` | `def warm_restart_harness(self)` |
 | `OutputMode` | class | `cli/output_mode.py:33` | `class OutputMode` |
 | `OutputModeConfig` | class | `cli/output_mode.py:20` | `class OutputModeConfig` |
 | `dry_run_line` | function | `cli/output_mode.py:98` | `def dry_run_line(command)` |
@@ -398,43 +420,43 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `category_for` | method | `cli/recommendation.py:227` | `def category_for(self, action)` |
 | `propose` | method | `cli/recommendation.py:187` | `def propose(self, ctx)` |
 | `recommend` | method | `cli/recommendation.py:258` | `def recommend(self, ctx)` |
-| `GraphSignal` | class | `cli/recommendation_signals.py:110` | `class GraphSignal` |
-| `GraphTopologySignal` | class | `cli/recommendation_signals.py:531` | `class GraphTopologySignal` |
-| `KillChainSignal` | class | `cli/recommendation_signals.py:224` | `class KillChainSignal` |
-| `KillchainGapSignal` | class | `cli/recommendation_signals.py:386` | `class KillchainGapSignal` |
-| `PlaybookSignal` | class | `cli/recommendation_signals.py:337` | `class PlaybookSignal` |
-| `PolicySignal` | class | `cli/recommendation_signals.py:148` | `class PolicySignal` |
-| `ReconPlanSignal` | class | `cli/recommendation_signals.py:185` | `class ReconPlanSignal` |
-| `__init__` | method | `cli/recommendation_signals.py:115` | `def __init__(self, advisor)` |
-| `__init__` | method | `cli/recommendation_signals.py:153` | `def __init__(self, policy)` |
-| `__init__` | method | `cli/recommendation_signals.py:190` | `def __init__(self, engine, builder)` |
-| `__init__` | method | `cli/recommendation_signals.py:229` | `def __init__(self, next_table, phase_table)` |
-| `__init__` | method | `cli/recommendation_signals.py:346` | `def __init__(self, playbook_engine)` |
-| `__init__` | method | `cli/recommendation_signals.py:406` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `cli/recommendation_signals.py:542` | `def __init__(self, sessions_dir)` |
-| `_build_killchain_signal` | function | `cli/recommendation_signals.py:785` | `def _build_killchain_signal()` |
-| `_compute_centrality` | method | `cli/recommendation_signals.py:603` | `def _compute_centrality(graph_data)` |
-| `_gap_creds_no_lateral` | method | `cli/recommendation_signals.py:507` | `def _gap_creds_no_lateral(self, wm_data, hosts)` |
-| `_gap_exploited_no_privesc` | method | `cli/recommendation_signals.py:425` | `def _gap_exploited_no_privesc(self, hosts)` |
-| `_gap_owned_no_creds` | method | `cli/recommendation_signals.py:465` | `def _gap_owned_no_creds(self, hosts, wm_data)` |
-| `_gap_scan_no_enum` | method | `cli/recommendation_signals.py:485` | `def _gap_scan_no_enum(self, hosts, recent)` |
-| `_load_world_model` | function | `cli/recommendation_signals.py:67` | `def _load_world_model(sessions_dir)` |
-| `_rank_weight` | function | `cli/recommendation_signals.py:90` | `def _rank_weight(index, total)` |
-| `_try_build_graph_signal` | function | `cli/recommendation_signals.py:742` | `def _try_build_graph_signal(graph_path)` |
-| `_try_build_playbook_signal` | function | `cli/recommendation_signals.py:638` | `def _try_build_playbook_signal()` |
-| `_try_build_policy_signal` | function | `cli/recommendation_signals.py:756` | `def _try_build_policy_signal()` |
-| `_try_build_recon_signal` | function | `cli/recommendation_signals.py:772` | `def _try_build_recon_signal(payload)` |
-| `build_context` | function | `cli/recommendation_signals.py:308` | `def build_context(payload, sessions_dir, target, limit)` |
-| `build_default_engine` | function | `cli/recommendation_signals.py:649` | `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` |
-| `propose` | method | `cli/recommendation_signals.py:125` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:162` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:200` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:243` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:355` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:409` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:545` | `def propose(self, ctx)` |
-| `read_recent_commands` | function | `cli/recommendation_signals.py:275` | `def read_recent_commands(sessions_dir, window)` |
-| `recommend_with_evidence` | function | `cli/recommendation_signals.py:705` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
+| `GraphSignal` | class | `cli/recommendation_signals.py:111` | `class GraphSignal` |
+| `GraphTopologySignal` | class | `cli/recommendation_signals.py:532` | `class GraphTopologySignal` |
+| `KillChainSignal` | class | `cli/recommendation_signals.py:225` | `class KillChainSignal` |
+| `KillchainGapSignal` | class | `cli/recommendation_signals.py:387` | `class KillchainGapSignal` |
+| `PlaybookSignal` | class | `cli/recommendation_signals.py:338` | `class PlaybookSignal` |
+| `PolicySignal` | class | `cli/recommendation_signals.py:149` | `class PolicySignal` |
+| `ReconPlanSignal` | class | `cli/recommendation_signals.py:186` | `class ReconPlanSignal` |
+| `__init__` | method | `cli/recommendation_signals.py:116` | `def __init__(self, advisor)` |
+| `__init__` | method | `cli/recommendation_signals.py:154` | `def __init__(self, policy)` |
+| `__init__` | method | `cli/recommendation_signals.py:191` | `def __init__(self, engine, builder)` |
+| `__init__` | method | `cli/recommendation_signals.py:230` | `def __init__(self, next_table, phase_table)` |
+| `__init__` | method | `cli/recommendation_signals.py:347` | `def __init__(self, playbook_engine)` |
+| `__init__` | method | `cli/recommendation_signals.py:407` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `cli/recommendation_signals.py:543` | `def __init__(self, sessions_dir)` |
+| `_build_killchain_signal` | function | `cli/recommendation_signals.py:786` | `def _build_killchain_signal()` |
+| `_compute_centrality` | method | `cli/recommendation_signals.py:604` | `def _compute_centrality(graph_data)` |
+| `_gap_creds_no_lateral` | method | `cli/recommendation_signals.py:508` | `def _gap_creds_no_lateral(self, wm_data, hosts)` |
+| `_gap_exploited_no_privesc` | method | `cli/recommendation_signals.py:426` | `def _gap_exploited_no_privesc(self, hosts)` |
+| `_gap_owned_no_creds` | method | `cli/recommendation_signals.py:466` | `def _gap_owned_no_creds(self, hosts, wm_data)` |
+| `_gap_scan_no_enum` | method | `cli/recommendation_signals.py:486` | `def _gap_scan_no_enum(self, hosts, recent)` |
+| `_load_world_model` | function | `cli/recommendation_signals.py:68` | `def _load_world_model(sessions_dir)` |
+| `_rank_weight` | function | `cli/recommendation_signals.py:91` | `def _rank_weight(index, total)` |
+| `_try_build_graph_signal` | function | `cli/recommendation_signals.py:743` | `def _try_build_graph_signal(graph_path)` |
+| `_try_build_playbook_signal` | function | `cli/recommendation_signals.py:639` | `def _try_build_playbook_signal()` |
+| `_try_build_policy_signal` | function | `cli/recommendation_signals.py:757` | `def _try_build_policy_signal()` |
+| `_try_build_recon_signal` | function | `cli/recommendation_signals.py:773` | `def _try_build_recon_signal(payload)` |
+| `build_context` | function | `cli/recommendation_signals.py:309` | `def build_context(payload, sessions_dir, target, limit)` |
+| `build_default_engine` | function | `cli/recommendation_signals.py:650` | `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` |
+| `propose` | method | `cli/recommendation_signals.py:126` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:163` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:201` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:244` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:356` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:410` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:546` | `def propose(self, ctx)` |
+| `read_recent_commands` | function | `cli/recommendation_signals.py:276` | `def read_recent_commands(sessions_dir, window)` |
+| `recommend_with_evidence` | function | `cli/recommendation_signals.py:706` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
 | `ReconPlan` | class | `cli/recon_plan.py:119` | `class ReconPlan` |
 | `ReconPlanConfig` | class | `cli/recon_plan.py:62` | `class ReconPlanConfig` |
 | `ReconPlanItem` | class | `cli/recon_plan.py:94` | `class ReconPlanItem` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_parse_network` | function | `cli/scope_guard.py:202` | `def _parse_network(value)` |
 | `build_offensive_commands` | function | `cli/scope_guard.py:147` | `def build_offensive_commands(command_categories)` |
 | `evaluate` | method | `cli/scope_guard.py:283` | `def evaluate(self, command, target)` |
-| `from_value` | method | `cli/scope_guard.py:105` | `def from_value(cls, value)` |
-| `normalize_scope` | function | `cli/scope_guard.py:163` | `def normalize_scope(entries)` |
-| `target_in_scope` | function | `cli/scope_guard.py:218` | `def target_in_scope(target, entries)` |
-| `SessionBriefConfig` | class | `cli/session_brief.py:35` | `class SessionBriefConfig` |
-| `_redirect_world_model_env` | function | `cli/session_brief.py:55` | `def _redirect_world_model_env(payload)` |
-| `_task_line` | function | `cli/session_brief.py:94` | `def _task_line(rows)` |
-| `_trigger_line` | function | `cli/session_brief.py:115` | `def _trigger_line()` |
-| `_verb_line` | function | `cli/session_brief.py:104` | `def _verb_line()` |
-| `_world_line` | function | `cli/session_brief.py:68` | `def _world_line(payload)` |
-| `brief_enabled` | function | `cli/session_brief.py:47` | `def brief_enabled(payload)` |
-| `build_session_brief` | function | `cli/session_brief.py:127` | `def build_session_brief(payload, tasks)` |
-| `fetch_task_rows` | function | `cli/session_brief.py:84` | `def fetch_task_rows()` |
-| `print_session_brief` | function | `cli/session_brief.py:163` | `def print_session_brief(console, payload)` |
-| `HudConfig` | class | `cli/session_hud.py:25` | `class HudConfig` |
-| `HudSnapshot` | class | `cli/session_hud.py:50` | `class HudSnapshot` |
-| `_engagement_facts` | function | `cli/session_hud.py:135` | `def _engagement_facts()` |
-| `build_snapshot` | function | `cli/session_hud.py:155` | `def build_snapshot(params, config)` |
-| `count_csv_rows` | function | `cli/session_hud.py:83` | `def count_csv_rows(path)` |
-| `count_lines_in_globs` | function | `cli/session_hud.py:62` | `def count_lines_in_globs(root, patterns)` |
-| `format_elapsed` | function | `cli/session_hud.py:100` | `def format_elapsed(seconds)` |
-| `phase_bar` | function | `cli/session_hud.py:115` | `def phase_bar(phase, width)` |
-| `render_snapshot` | function | `cli/session_hud.py:180` | `def render_snapshot(snapshot, config)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

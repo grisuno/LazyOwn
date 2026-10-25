@@ -1,8 +1,35 @@
-# Symbols (page 11 of 44)
+# Symbols (page 11 of 45)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `to_api_format` | method | `modules/agent_runner.py:77` | `def to_api_format(self)` |
+| `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
+| `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
+| `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
+| `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
+| `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
+| `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
+| `adapt_chain` | method | `modules/ai_exploit_chain.py:428` | `def adapt_chain(self, context, new_info)` |
+| `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
+| `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
+| `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
+| `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
+| `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
+| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
+| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
+| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
+| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
+| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
+| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
+| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
+| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
+| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
+| `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
+| `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
+| `GroqModel` | class | `modules/ai_model.py:129` | `class GroqModel(AIModel)` |
+| `LlamaCppModel` | class | `modules/ai_model.py:313` | `class LlamaCppModel(AIModel)` |
+| `OllamaModel` | class | `modules/ai_model.py:244` | `class OllamaModel(AIModel)` |
 | `OpenAIModel` | class | `modules/ai_model.py:434` | `class OpenAIModel(AIModel)` |
 | `_LazyImporter` | class | `modules/ai_model.py:97` | `class _LazyImporter` |
 | `__init__` | method | `modules/ai_model.py:137` | `def __init__(self, api_key, model)` |
@@ -101,43 +128,43 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `enrich` | function | `modules/atomic_enricher.py:173` | `def enrich(force)` |
 | `load_enriched` | function | `modules/atomic_enricher.py:215` | `def load_enriched()` |
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
-| `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:70` | `class ExploitCommand` |
-| `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:78` | `class ExploitSpec` |
-| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:627` | `class _ShellSession` |
-| `__init__` | method | `modules/atomic_exploit_bridge.py:635` | `def __init__(self, target, port, sock, owner)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:962` | `def _adopt_live_shell(spec, target, port)` |
-| `_claim_port` | function | `modules/atomic_exploit_bridge.py:722` | `def _claim_port(spec_id, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:889` | `def _destroy_gym(container)` |
-| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:482` | `def _install_missing_binaries(names)` |
-| `_read_until` | method | `modules/atomic_exploit_bridge.py:666` | `def _read_until(self, marker, timeout)` |
-| `_release_port` | function | `modules/atomic_exploit_bridge.py:740` | `def _release_port(target, port)` |
-| `_string_list` | function | `modules/atomic_exploit_bridge.py:128` | `def _string_list(value)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:988` | `def _wait_port_closed(target, port, timeout)` |
-| `alive` | method | `modules/atomic_exploit_bridge.py:645` | `def alive(self, timeout)` |
-| `auto` | function | `modules/atomic_exploit_bridge.py:323` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
-| `build_commands` | function | `modules/atomic_exploit_bridge.py:452` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:831` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
-| `close` | method | `modules/atomic_exploit_bridge.py:694` | `def close(self)` |
-| `close_sessions` | function | `modules/atomic_exploit_bridge.py:793` | `def close_sessions(target)` |
-| `detect_shell` | function | `modules/atomic_exploit_bridge.py:470` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:1076` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:907` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1021` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
-| `live_sessions` | function | `modules/atomic_exploit_bridge.py:774` | `def live_sessions()` |
-| `load_all` | function | `modules/atomic_exploit_bridge.py:212` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1198` | `def main()` |
-| `match_score` | function | `modules/atomic_exploit_bridge.py:267` | `def match_score(spec, service, product, version)` |
-| `open_shell` | function | `modules/atomic_exploit_bridge.py:592` | `def open_shell(target, services, lhost, exploits_dir, attempts)` |
-| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:286` | `def parse_scan_xml(xml_path)` |
-| `rank` | function | `modules/atomic_exploit_bridge.py:421` | `def rank(services, exploits_dir)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1110` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
-| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:745` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1003` | `def remote_exec(spec, target, command, lhost)` |
-| `run` | method | `modules/atomic_exploit_bridge.py:652` | `def run(self, command, timeout)` |
-| `run_spec` | function | `modules/atomic_exploit_bridge.py:512` | `def run_spec(spec, rhost, lhost, lport, port)` |
-| `severity_rank` | method | `modules/atomic_exploit_bridge.py:103` | `def severity_rank(self)` |
-| `to_dict` | method | `modules/atomic_exploit_bridge.py:107` | `def to_dict(self)` |
-| `validate_spec` | function | `modules/atomic_exploit_bridge.py:136` | `def validate_spec(data, filename)` |
+| `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:84` | `class ExploitCommand` |
+| `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:92` | `class ExploitSpec` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:662` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:670` | `def __init__(self, target, port, sock, owner)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:997` | `def _adopt_live_shell(spec, target, port)` |
+| `_claim_port` | function | `modules/atomic_exploit_bridge.py:757` | `def _claim_port(spec_id, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:924` | `def _destroy_gym(container)` |
+| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:496` | `def _install_missing_binaries(names)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:701` | `def _read_until(self, marker, timeout)` |
+| `_release_port` | function | `modules/atomic_exploit_bridge.py:775` | `def _release_port(target, port)` |
+| `_string_list` | function | `modules/atomic_exploit_bridge.py:142` | `def _string_list(value)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1023` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:680` | `def alive(self, timeout)` |
+| `auto` | function | `modules/atomic_exploit_bridge.py:337` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:466` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:866` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:729` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:828` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:484` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1111` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:942` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1056` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `live_sessions` | function | `modules/atomic_exploit_bridge.py:809` | `def live_sessions()` |
+| `load_all` | function | `modules/atomic_exploit_bridge.py:226` | `def load_all(exploits_dir)` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1233` | `def main()` |
+| `match_score` | function | `modules/atomic_exploit_bridge.py:281` | `def match_score(spec, service, product, version)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:606` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
+| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:300` | `def parse_scan_xml(xml_path)` |
+| `rank` | function | `modules/atomic_exploit_bridge.py:435` | `def rank(services, exploits_dir)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1145` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:780` | `def record_shell_outcome(target, via)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1038` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:687` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:526` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `severity_rank` | method | `modules/atomic_exploit_bridge.py:117` | `def severity_rank(self)` |
+| `to_dict` | method | `modules/atomic_exploit_bridge.py:121` | `def to_dict(self)` |
+| `validate_spec` | function | `modules/atomic_exploit_bridge.py:150` | `def validate_spec(data, filename)` |
 | `AtomicResolver` | class | `modules/atomic_resolver.py:219` | `class AtomicResolver` |
 | `AtomicTest` | class | `modules/atomic_resolver.py:131` | `class AtomicTest` |
 | `__init__` | method | `modules/atomic_resolver.py:226` | `def __init__(self, atomics_dir)` |
@@ -266,30 +293,30 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
 | `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
 | `AutoVerb` | class | `modules/auto_registry.py:102` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:864` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:871` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:881` | `def __init__(self, observer)` |
+| `ShellResult` | class | `modules/auto_registry.py:877` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:884` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:894` | `def __init__(self, observer)` |
 | `_apt_chain_steps` | function | `modules/auto_registry.py:726` | `def _apt_chain_steps(embedded, target, strict)` |
 | `_atomic_steps` | function | `modules/auto_registry.py:692` | `def _atomic_steps(verb, text)` |
 | `_cli_verb_allowed` | function | `modules/auto_registry.py:371` | `def _cli_verb_allowed(name)` |
-| `_invoke` | function | `modules/auto_registry.py:922` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:1074` | `def _kill()` |
+| `_invoke` | function | `modules/auto_registry.py:935` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:1087` | `def _kill()` |
 | `_looks_like_target` | function | `modules/auto_registry.py:37` | `def _looks_like_target(value)` |
 | `_parse_trigger_lines` | function | `modules/auto_registry.py:462` | `def _parse_trigger_lines(lines, start)` |
 | `_playbook_steps` | function | `modules/auto_registry.py:711` | `def _playbook_steps(text)` |
-| `_register_process` | function | `modules/auto_registry.py:997` | `def _register_process(process)` |
+| `_register_process` | function | `modules/auto_registry.py:1010` | `def _register_process(process)` |
 | `_repo_base` | function | `modules/auto_registry.py:399` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:933` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:1003` | `def _unregister_process(process)` |
+| `_target` | function | `modules/auto_registry.py:946` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:1016` | `def _unregister_process(process)` |
 | `_verb_row` | function | `modules/auto_registry.py:287` | `def _verb_row(name)` |
 | `_verb_rows` | function | `modules/auto_registry.py:243` | `def _verb_rows()` |
 | `addon_hits_for` | function | `modules/auto_registry.py:552` | `def addon_hits_for(service_text, limit)` |
 | `auto_verb_target` | function | `modules/auto_registry.py:66` | `def auto_verb_target(command)` |
 | `binary_available` | function | `modules/auto_registry.py:406` | `def binary_available(name)` |
 | `build_command` | function | `modules/auto_registry.py:651` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:1019` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:899` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:1042` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:1032` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:912` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:1055` | `def execute_streaming(command, on_output, timeout_sec)` |
 | `is_routable_command` | function | `modules/auto_registry.py:604` | `def is_routable_command(line)` |
 | `is_shell_verb` | function | `modules/auto_registry.py:627` | `def is_shell_verb(token)` |
 | `iter_addon_triggers` | function | `modules/auto_registry.py:493` | `def iter_addon_triggers()` |
@@ -299,60 +326,60 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `propose_intents` | function | `modules/auto_registry.py:668` | `def propose_intents(goal, target, finding_texts)` |
 | `service_tokens` | function | `modules/auto_registry.py:451` | `def service_tokens(service_text)` |
 | `steps_for` | function | `modules/auto_registry.py:754` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:1009` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:1014` | `def untrack_process(process)` |
+| `track_process` | function | `modules/auto_registry.py:1022` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:1027` | `def untrack_process(process)` |
 | `verb_available` | function | `modules/auto_registry.py:446` | `def verb_available(verb)` |
 | `verb_enabled` | function | `modules/auto_registry.py:296` | `def verb_enabled(name)` |
 | `verb_gap` | function | `modules/auto_registry.py:434` | `def verb_gap(verb)` |
 | `verbs` | function | `modules/auto_registry.py:622` | `def verbs()` |
 | `verbs_for` | function | `modules/auto_registry.py:662` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:886` | `def write(self, data)` |
+| `write` | method | `modules/auto_registry.py:899` | `def write(self, data)` |
 | `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
 | `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
 | `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
 | `TargetProfile` | class | `modules/autonomous_exploit_engine.py:59` | `class TargetProfile` |
 | `__init__` | method | `modules/autonomous_exploit_engine.py:114` | `def __init__(self)` |
-| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1728` | `def _apply_stealth_delay(self)` |
+| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1730` | `def _apply_stealth_delay(self)` |
 | `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1176` | `def _build_command_chain(self, candidate, profile)` |
-| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:2028` | `def _check_known_cves(self, profile)` |
+| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:2030` | `def _check_known_cves(self, profile)` |
 | `_check_success` | method | `modules/autonomous_exploit_engine.py:1328` | `def _check_success(self, output, candidate)` |
 | `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
-| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1615` | `def _detect_os_from_payload(self)` |
+| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1617` | `def _detect_os_from_payload(self)` |
 | `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1421` | `def _detect_shell(self, output)` |
 | `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1449` | `def _determine_access_level(self, ip, credentials)` |
-| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2549` | `def _discover_internal_interfaces(self, profile)` |
-| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2384` | `def _execute_privesc(self, technique, profile, session_id)` |
-| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1800` | `def _extract_cves_from_text(self, text)` |
+| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2551` | `def _discover_internal_interfaces(self, profile)` |
+| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2386` | `def _execute_privesc(self, technique, profile, session_id)` |
+| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1802` | `def _extract_cves_from_text(self, text)` |
 | `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:284` | `def _filter_placeholder_creds(credentials)` |
-| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1712` | `def _get_os_type(self, profile)` |
-| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2655` | `def _get_stealth_scan_flags(self)` |
+| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1714` | `def _get_os_type(self, profile)` |
+| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2657` | `def _get_stealth_scan_flags(self)` |
 | `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:512` | `def _heuristic_match(self, service, product, version)` |
 | `_is_placeholder` | function | `modules/autonomous_exploit_engine.py:299` | `def _is_placeholder(value)` |
-| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1633` | `def _load_from_nmap_xml(self, target)` |
+| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1635` | `def _load_from_nmap_xml(self, target)` |
 | `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1507` | `def _load_payload_config(self)` |
 | `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1518` | `def _load_world_model(self, target)` |
 | `_match_by_port` | method | `modules/autonomous_exploit_engine.py:1016` | `def _match_by_port(self, port, os_type)` |
 | `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:474` | `def _match_exploit_db(self, service, product, version)` |
-| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2194` | `def _match_privesc_techniques(self, findings, os_type)` |
-| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1848` | `def _match_service_banners(self, profile)` |
-| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1765` | `def _parse_nse_output(self, target_ip)` |
+| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2196` | `def _match_privesc_techniques(self, findings, os_type)` |
+| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1850` | `def _match_service_banners(self, profile)` |
+| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1767` | `def _parse_nse_output(self, target_ip)` |
 | `_register_session` | method | `modules/autonomous_exploit_engine.py:1479` | `def _register_session(self, ip, output)` |
 | `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1159` | `def _resolve_port(self, candidate, profile)` |
 | `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1113` | `def _run_exploit(self, candidate, profile)` |
-| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2082` | `def _run_linux_privesc_checks(self, profile, session_id)` |
-| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2151` | `def _run_windows_privesc_checks(self, profile, session_id)` |
+| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2084` | `def _run_linux_privesc_checks(self, profile, session_id)` |
+| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2153` | `def _run_windows_privesc_checks(self, profile, session_id)` |
 | `_scorer` | method | `modules/autonomous_exploit_engine.py:1073` | `def _scorer(self, exploit, service, product, version)` |
-| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2054` | `def chain_privesc(self, profile, session_id)` |
-| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2610` | `def enable_stealth(self, stealth_level)` |
+| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2056` | `def chain_privesc(self, profile, session_id)` |
+| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2612` | `def enable_stealth(self, stealth_level)` |
 | `execute_candidate` | method | `modules/autonomous_exploit_engine.py:412` | `def execute_candidate(self, candidate, profile)` |
-| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2674` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
+| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2676` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
 | `get_instance` | method | `modules/autonomous_exploit_engine.py:134` | `def get_instance(cls)` |
 | `hunt` | method | `modules/autonomous_exploit_engine.py:145` | `def hunt(self, target, max_exploits, profile)` |
 | `profile` | method | `modules/autonomous_exploit_engine.py:328` | `def profile(self, target)` |
 | `rank_exploits` | method | `modules/autonomous_exploit_engine.py:389` | `def rank_exploits(self, profile)` |
 | `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:184` | `def retry_with_credentials(self, target, credentials)` |
-| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1739` | `def scan_vulnerabilities(self, profile)` |
-| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2484` | `def trigger_pivot(self, profile, session_id)` |
+| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1741` | `def scan_vulnerabilities(self, profile)` |
+| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2486` | `def trigger_pivot(self, profile, session_id)` |
 | `AWSAttackEngine` | class | `modules/aws_attacks.py:80` | `class AWSAttackEngine` |
 | `AWSConfig` | class | `modules/aws_attacks.py:58` | `class AWSConfig` |
 | `__init__` | method | `modules/aws_attacks.py:91` | `def __init__(self, config)` |
@@ -392,6 +419,12 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `records_path` | function | `modules/beacon_history.py:145` | `def records_path(client_id, config)` |
 | `sanitize_client_id` | function | `modules/beacon_history.py:70` | `def sanitize_client_id(client_id)` |
 | `sessions_dir` | method | `modules/beacon_history.py:39` | `def sessions_dir(self)` |
+| `_append_discovery_ledger` | function | `modules/beacon_recon.py:264` | `def _append_discovery_ledger(primary_ip, discovered, sessions_dir)` |
+| `_looks_like_ip` | function | `modules/beacon_recon.py:42` | `def _looks_like_ip(value)` |
+| `_ports_from` | function | `modules/beacon_recon.py:111` | `def _ports_from(value)` |
+| `ingest_beacon_recon` | function | `modules/beacon_recon.py:169` | `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)` |
+| `parse_beacon_portscan` | function | `modules/beacon_recon.py:94` | `def parse_beacon_portscan(raw, default_host)` |
+| `parse_discovered_ips` | function | `modules/beacon_recon.py:50` | `def parse_discovered_ips(raw)` |
 | `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
 | `main` | function | `modules/bin2img.py:54` | `def main()` |
 | `BitMState` | class | `modules/bitm_engine.py:85` | `class BitMState` |
@@ -455,46 +488,13 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
 | `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
 | `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
-| `C2Server` | class | `modules/c2_agent.py:548` | `class C2Server` |
-| `__init__` | method | `modules/c2_agent.py:551` | `def __init__(self, port, user, password)` |
-| `_api` | function | `modules/c2_agent.py:662` | `def _api(path, data)` |
-| `_ensure_key` | function | `modules/c2_agent.py:375` | `def _ensure_key()` |
-| `_pid` | method | `modules/c2_agent.py:556` | `def _pid(self)` |
-| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:406` | `def _restore_key_from_snapshot()` |
-| `_snapshot_key` | function | `modules/c2_agent.py:429` | `def _snapshot_key(aes_hex)` |
-| `_sync_credentials_file` | function | `modules/c2_agent.py:50` | `def _sync_credentials_file(user, password)` |
-| `_unverified_context` | function | `modules/c2_agent.py:75` | `def _unverified_context()` |
-| `build_agent` | function | `modules/c2_agent.py:354` | `def build_agent(c2_url, client_id, aes_hex, route, sleep)` |
-| `client_id_for` | function | `modules/c2_agent.py:85` | `def client_id_for(target)` |
-| `deploy` | function | `modules/c2_agent.py:446` | `def deploy(target, c2_base, route, lhost, sleep)` |
-| `ensure_http_listener` | method | `modules/c2_agent.py:654` | `def ensure_http_listener(self, http_port, auth)` |
-| `read_aes_hex` | function | `modules/c2_agent.py:441` | `def read_aes_hex()` |
-| `read_records` | function | `modules/c2_agent.py:517` | `def read_records(client_id, limit)` |
-| `start` | method | `modules/c2_agent.py:600` | `def start(self)` |
-| `status` | method | `modules/c2_agent.py:568` | `def status(self)` |
-| `stop` | method | `modules/c2_agent.py:631` | `def stop(self)` |
-| `validate_client_id` | function | `modules/c2_agent.py:91` | `def validate_client_id(raw)` |
-| `wait_record` | function | `modules/c2_agent.py:534` | `def wait_record(client_id, command, since, timeout)` |
-| `C2Builder` | class | `modules/c2_builder.py:392` | `class C2Builder` |
-| `C2Profile` | class | `modules/c2_builder.py:76` | `class C2Profile` |
-| `__init__` | method | `modules/c2_builder.py:395` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
-| `_build_compile_commands` | function | `modules/c2_builder.py:310` | `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...` |
-| `_build_context` | function | `modules/c2_builder.py:361` | `def _build_context(sessions_dir)` |
-| `_command_output` | function | `modules/c2_builder.py:249` | `def _command_output(argv, timeout)` |
-| `_ensure_garble_toolchain` | method | `modules/c2_builder.py:413` | `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)` |
-| `_ensure_go` | function | `modules/c2_builder.py:59` | `def _ensure_go(cmd_fn)` |
-| `_garble_matches_toolchain` | function | `modules/c2_builder.py:287` | `def _garble_matches_toolchain(go_bin, garble_bin)` |
-| `_go_build_version` | function | `modules/c2_builder.py:268` | `def _go_build_version(go_bin, target)` |
-| `_go_string_list` | function | `modules/c2_builder.py:220` | `def _go_string_list(urls)` |
-| `_parse_go_version` | function | `modules/c2_builder.py:234` | `def _parse_go_version(text)` |
-| `_preflight` | function | `modules/c2_builder.py:160` | `def _preflight(profile)` |
-| `_read` | function | `modules/c2_builder.py:641` | `def _read(path_)` |
-| `_read_required` | function | `modules/c2_builder.py:648` | `def _read_required(path_)` |
-| `_render_template` | function | `modules/c2_builder.py:169` | `def _render_template(content, context)` |
-| `_replacer` | function | `modules/c2_builder.py:173` | `def _replacer(match)` |
-| `_resolve_fallback_urls` | function | `modules/c2_builder.py:180` | `def _resolve_fallback_urls(params)` |
-| `_resolve_go_bin` | function | `modules/c2_builder.py:44` | `def _resolve_go_bin()` |
-| `_write` | function | `modules/c2_builder.py:652` | `def _write(path_, content)` |
-| `run` | method | `modules/c2_builder.py:453` | `def run(self, line, choice, use_tunnel)` |
+| `C2Server` | class | `modules/c2_agent.py:634` | `class C2Server` |
+| `__init__` | method | `modules/c2_agent.py:637` | `def __init__(self, port, user, password)` |
+| `_api` | function | `modules/c2_agent.py:748` | `def _api(path, data)` |
+| `_ensure_key` | function | `modules/c2_agent.py:426` | `def _ensure_key()` |
+| `_pid` | method | `modules/c2_agent.py:642` | `def _pid(self)` |
+| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:457` | `def _restore_key_from_snapshot()` |
+| `_snapshot_key` | function | `modules/c2_agent.py:480` | `def _snapshot_key(aes_hex)` |
+| `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

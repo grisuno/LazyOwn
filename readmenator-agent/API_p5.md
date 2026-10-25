@@ -1,6 +1,46 @@
 # API (page 5 of 24)
 Previous: [API_p4.md](API_p4.md)
 
+## cli/reasoning_stream.py
+Depends on: `core/text_utils.py`
+Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
+- `read_raw_events` (function) `cli/reasoning_stream.py:91` `def read_raw_events(path, limit)` -- Return the last ``limit`` well-formed events from the JSONL log.
+- `event_to_entry` (function) `cli/reasoning_stream.py:183` `def event_to_entry(event)` -- Convert a raw daemon event into a :class:`ReasoningEntry`.
+- `latest_reasoning` (function) `cli/reasoning_stream.py:216` `def latest_reasoning(path, limit)` -- Return the most recent daemon decisions as reasoning entries.
+- `latest_hint` (function) `cli/reasoning_stream.py:229` `def latest_hint(events_path)` -- Return the newest human-readable reasoning line for spinners.
+
+## cli/recommendation.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
+- `RecommendationSignal.propose` (method) `cli/recommendation.py:187` `def propose(self, ctx)` -- Return zero or more :class:`Proposal` objects for ``ctx``.
+- `CategoryResolver.__init__` (method) `cli/recommendation.py:201` `def __init__(self, index_path, loader)` -- Build the resolver from the command index.
+- `CategoryResolver.category_for` (method) `cli/recommendation.py:227` `def category_for(self, action)` -- Return the kill-chain category for ``action`` or an empty string.
+- `RecommendationEngine.__init__` (method) `cli/recommendation.py:240` `def __init__(self, signals, resolver, weights)` -- Wire the engine with its signals and fusion parameters.
+- `RecommendationEngine.recommend` (method) `cli/recommendation.py:258` `def recommend(self, ctx)` -- Return the fused, ranked recommendations for ``ctx``.
+- `_Accumulator.add` (method) `cli/recommendation.py:374` `def add(self, source, contribution, proposal)` -- Fold one signal's proposal into the running total.
+- `_Accumulator.build` (method) `cli/recommendation.py:386` `def build(self)` -- Freeze the slot into an immutable :class:`Recommendation`.
+
+## cli/recommendation_signals.py
+Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+- `GraphSignal.__init__` (method) `cli/recommendation_signals.py:116` `def __init__(self, advisor)` -- Store the graph advisor facade.
+- `GraphSignal.propose` (method) `cli/recommendation_signals.py:126` `def propose(self, ctx)` -- Return graph-adjacent command proposals for ``ctx``.
+- `PolicySignal.__init__` (method) `cli/recommendation_signals.py:154` `def __init__(self, policy)` -- Store the policy integration facade.
+- `PolicySignal.propose` (method) `cli/recommendation_signals.py:163` `def propose(self, ctx)` -- Return category-prior proposals for ``ctx``.
+- `ReconPlanSignal.__init__` (method) `cli/recommendation_signals.py:191` `def __init__(self, engine, builder)` -- Store the exploration engine and the plan builder callable.
+- `ReconPlanSignal.propose` (method) `cli/recommendation_signals.py:201` `def propose(self, ctx)` -- Return trigger-matched addon/tool/command proposals for ``ctx``.
+- `KillChainSignal.__init__` (method) `cli/recommendation_signals.py:230` `def __init__(self, next_table, phase_table)` -- Store the adjacency and phase-priority tables.
+- `KillChainSignal.propose` (method) `cli/recommendation_signals.py:244` `def propose(self, ctx)` -- Return adjacency- and phase-derived proposals for ``ctx``.
+- `read_recent_commands` (function) `cli/recommendation_signals.py:276` `def read_recent_commands(sessions_dir, window)` -- Return the last ``window`` command verbs from the session transcript.
+- `build_context` (function) `cli/recommendation_signals.py:309` `def build_context(payload, sessions_dir, target, limit)` -- Assemble a :class:`RecommendationContext` from live engagement state.
+- `PlaybookSignal.__init__` (method) `cli/recommendation_signals.py:347` `def __init__(self, playbook_engine)` -- Store an optional playbook engine facade.
+- `PlaybookSignal.propose` (method) `cli/recommendation_signals.py:356` `def propose(self, ctx)` -- Return playbook-based proposals for the current context.
+- `KillchainGapSignal.__init__` (method) `cli/recommendation_signals.py:407` `def __init__(self, sessions_dir)`
+- `KillchainGapSignal.propose` (method) `cli/recommendation_signals.py:410` `def propose(self, ctx)` -- Return gap-detection proposals for ``ctx``.
+- `GraphTopologySignal.__init__` (method) `cli/recommendation_signals.py:543` `def __init__(self, sessions_dir)`
+- `GraphTopologySignal.propose` (method) `cli/recommendation_signals.py:546` `def propose(self, ctx)` -- Return lateral movement and topology proposals from network graph.
+- `build_default_engine` (function) `cli/recommendation_signals.py:650` `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` -- Wire every available deterministic signal into one engine.
+- `recommend_with_evidence` (function) `cli/recommendation_signals.py:706` `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` -- Return fused, ranked recommendations carrying reason and score for display.
+
 ## cli/recon_plan.py
 Depends on: `cli/exploration.py`, `modules/killchain.py`
 Imported by: `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
@@ -56,10 +96,10 @@ Imported by: `cli/commands/ux.py`
 - `render_snapshot` (function) `cli/session_hud.py:180` `def render_snapshot(snapshot, config)` -- Render the session counters as two plain lines.
 
 ## cli/session_resumer.py
-Depends on: `core/console.py`, `core/logging.py`
+Depends on: `core/console.py`, `core/logging.py`, `modules/world_model.py`
 Imported by: `cli/commands/session_ops.py`
-- `SessionResumer.__init__` (method) `cli/session_resumer.py:58` `def __init__(self, config)`
-- `SessionResumer.render_startup_panel` (method) `cli/session_resumer.py:129` `def render_startup_panel(self)` -- Render the resume panel and return the selected target IP, or None.
+- `SessionResumer.__init__` (method) `cli/session_resumer.py:57` `def __init__(self, config)`
+- `SessionResumer.render_startup_panel` (method) `cli/session_resumer.py:130` `def render_startup_panel(self)` -- Render the resume panel and return the selected target IP, or None.
 
 ## cli/sessions_browser.py
 Depends on: `cli/commands/containers.py`, `cli/themes.py`
@@ -94,7 +134,7 @@ Imported by: `lazyown.py`, `tests/test_tui_splash.py`
 - `render_splash` (function) `cli/splash.py:166` `def render_splash(console, lines, payload, config, effect_name)` -- Render the splash overlay and optionally clear the screen.
 
 ## cli/status_bar.py
-Depends on: `cli/reactive_hints.py`, `cli/themes.py`
+Depends on: `cli/reactive_hints.py`, `cli/themes.py`, `modules/world_model.py`
 Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status_bar_operators.py`
 - `StatusBarConfig.from_payload` (method) `cli/status_bar.py:99` `def from_payload(cls, payload)` -- Return a config with overrides applied from a ``payload.json`` mapping.
 - `IStatusSource.collect` (method) `cli/status_bar.py:146` `def collect(self)` -- Return the field value for this source as a plain string.
@@ -107,25 +147,25 @@ Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status
 - `PayloadTargetSource.collect` (method) `cli/status_bar.py:283` `def collect(self)` -- Return the first non-empty target key from ``payload.json``.
 - `WorldModelPhaseSource.__init__` (method) `cli/status_bar.py:295` `def __init__(self, config, reader, payload)` -- Bind to config, sessions reader and payload mapping.
 - `WorldModelPhaseSource.collect` (method) `cli/status_bar.py:306` `def collect(self)` -- Return the active phase from ``world_model.json`` then payload then default.
-- `SessionFindingSource.__init__` (method) `cli/status_bar.py:322` `def __init__(self, config, reader)` -- Bind to config and sessions reader.
-- `SessionFindingSource.collect` (method) `cli/status_bar.py:327` `def collect(self)` -- Return a short description of the freshest credential / vuln / note.
-- `CommandHintSuggestionSource.__init__` (method) `cli/status_bar.py:426` `def __init__(self, config, reader, phase_provider, hint_provider)` -- Bind to config, reader and the current-phase callable.
-- `CommandHintSuggestionSource.collect` (method) `cli/status_bar.py:451` `def collect(self)` -- Return the top kill-chain suggestion or the configured fallback.
-- `GraphSuggestionSource.__init__` (method) `cli/status_bar.py:511` `def __init__(self, config, reader, advisor_factory)` -- Bind to config, reader, and an optional advisor factory.
-- `GraphSuggestionSource.collect` (method) `cli/status_bar.py:530` `def collect(self)` -- Return a one-token suggestion.
-- `CollabPresenceSource.__init__` (method) `cli/status_bar.py:601` `def __init__(self, config, reader, clock)` -- Bind to the active config, reader, and an injectable clock.
-- `CollabPresenceSource.collect` (method) `cli/status_bar.py:622` `def collect(self)` -- Return the active-operator count formatted as a short string.
-- `StatusBarRenderer.__init__` (method) `cli/status_bar.py:659` `def __init__(self, config)` -- Bind to the active configuration.
-- `StatusBarRenderer.render_plain` (method) `cli/status_bar.py:664` `def render_plain(self, ctx)` -- Return the line without ANSI colour or readline markers.
-- `StatusBarRenderer.render_prompt` (method) `cli/status_bar.py:687` `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` -- Return ``base_prompt`` with the status line prefixed.
-- `StatusBarManager.__init__` (method) `cli/status_bar.py:752` `def __init__(self, config, sources, renderer, payload)` -- Bind config, sources, renderer and a payload mapping.
-- `StatusBarManager.enabled` (method) `cli/status_bar.py:783` `def enabled(self)` -- Return ``True`` when the bar should render on this shell.
-- `StatusBarManager.collect_context` (method) `cli/status_bar.py:798` `def collect_context(self)` -- Return a fresh :class:`StatusContext` by polling every source.
-- `StatusBarManager.render_prompt` (method) `cli/status_bar.py:811` `def render_prompt(self, base_prompt, readline_safe)` -- Return the prompt with the status line prefixed when enabled.
-- `StatusBarManager.render_plain_line` (method) `cli/status_bar.py:833` `def render_plain_line(self, ctx)` -- Return the rendered status line without ANSI / readline markers.
-- `StatusBarManager.set_enabled` (method) `cli/status_bar.py:847` `def set_enabled(self, enabled)` -- Persist a new enabled state in the payload-backed flag.
-- `StatusBarManager.install` (method) `cli/status_bar.py:857` `def install(self, shell, base_prompt_attribute, prompt_attribute)` -- Wire the manager into ``shell`` via a precommand hook.
-- `build_default_manager` (function) `cli/status_bar.py:969` `def build_default_manager(payload, sessions_dir, advisor_factory, config)` -- Wire the canonical multi-source manager used by the live shell.
+- `SessionFindingSource.__init__` (method) `cli/status_bar.py:324` `def __init__(self, config, reader)` -- Bind to config and sessions reader.
+- `SessionFindingSource.collect` (method) `cli/status_bar.py:329` `def collect(self)` -- Return a short description of the freshest credential / vuln / note.
+- `CommandHintSuggestionSource.__init__` (method) `cli/status_bar.py:428` `def __init__(self, config, reader, phase_provider, hint_provider)` -- Bind to config, reader and the current-phase callable.
+- `CommandHintSuggestionSource.collect` (method) `cli/status_bar.py:453` `def collect(self)` -- Return the top kill-chain suggestion or the configured fallback.
+- `GraphSuggestionSource.__init__` (method) `cli/status_bar.py:513` `def __init__(self, config, reader, advisor_factory)` -- Bind to config, reader, and an optional advisor factory.
+- `GraphSuggestionSource.collect` (method) `cli/status_bar.py:532` `def collect(self)` -- Return a one-token suggestion.
+- `CollabPresenceSource.__init__` (method) `cli/status_bar.py:603` `def __init__(self, config, reader, clock)` -- Bind to the active config, reader, and an injectable clock.
+- `CollabPresenceSource.collect` (method) `cli/status_bar.py:624` `def collect(self)` -- Return the active-operator count formatted as a short string.
+- `StatusBarRenderer.__init__` (method) `cli/status_bar.py:661` `def __init__(self, config)` -- Bind to the active configuration.
+- `StatusBarRenderer.render_plain` (method) `cli/status_bar.py:666` `def render_plain(self, ctx)` -- Return the line without ANSI colour or readline markers.
+- `StatusBarRenderer.render_prompt` (method) `cli/status_bar.py:689` `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` -- Return ``base_prompt`` with the status line prefixed.
+- `StatusBarManager.__init__` (method) `cli/status_bar.py:754` `def __init__(self, config, sources, renderer, payload)` -- Bind config, sources, renderer and a payload mapping.
+- `StatusBarManager.enabled` (method) `cli/status_bar.py:785` `def enabled(self)` -- Return ``True`` when the bar should render on this shell.
+- `StatusBarManager.collect_context` (method) `cli/status_bar.py:800` `def collect_context(self)` -- Return a fresh :class:`StatusContext` by polling every source.
+- `StatusBarManager.render_prompt` (method) `cli/status_bar.py:813` `def render_prompt(self, base_prompt, readline_safe)` -- Return the prompt with the status line prefixed when enabled.
+- `StatusBarManager.render_plain_line` (method) `cli/status_bar.py:835` `def render_plain_line(self, ctx)` -- Return the rendered status line without ANSI / readline markers.
+- `StatusBarManager.set_enabled` (method) `cli/status_bar.py:849` `def set_enabled(self, enabled)` -- Persist a new enabled state in the payload-backed flag.
+- `StatusBarManager.install` (method) `cli/status_bar.py:859` `def install(self, shell, base_prompt_attribute, prompt_attribute)` -- Wire the manager into ``shell`` via a precommand hook.
+- `build_default_manager` (function) `cli/status_bar.py:971` `def build_default_manager(payload, sessions_dir, advisor_factory, config)` -- Wire the canonical multi-source manager used by the live shell.
 
 ## cli/style.py
 Depends on: `cli/themes.py`
@@ -187,7 +227,7 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
 - `_TimelineBrowserApp.action_close` (method) `cli/timeline_browser.py:263` `def action_close(self)`
 
 ## cli/tips_engine.py
-Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/world_model.py`
 Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
 - `TipsEngine.__init__` (method) `cli/tips_engine.py:194` `def __init__(self, config, autosuggest_engine)` -- Wire the engine with its configuration and optional autosuggest handle.
 - `TipsEngine.enabled` (method) `cli/tips_engine.py:221` `def enabled(self)` -- Whether the engine renders any output.
@@ -197,45 +237,46 @@ Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain
 - `TipsEngine.get_state_snapshot` (method) `cli/tips_engine.py:440` `def get_state_snapshot(self)` -- Return a read-only snapshot of current engagement state.
 - `TipsEngine.reset_session` (method) `cli/tips_engine.py:455` `def reset_session(self)` -- Reset session counters without clearing cross-session progress.
 - `TipsEngine.heal_commands_seen` (method) `cli/tips_engine.py:460` `def heal_commands_seen(self, known)` -- Purge non-command entries from persisted ``commands_seen``.
-- `build_default_tips_config` (function) `cli/tips_engine.py:1240` `def build_default_tips_config()` -- Build a :class:`TipsConfig` populated from the live framework tables.
+- `build_default_tips_config` (function) `cli/tips_engine.py:1242` `def build_default_tips_config()` -- Build a :class:`TipsConfig` populated from the live framework tables.
 
 ## cli/toast_bus.py
 Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
 Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazy_sentinel4.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`, `tests/test_toastr_unify.py`
-- `ToastState.__init__` (method) `cli/toast_bus.py:130` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
-- `ToastState.path` (method) `cli/toast_bus.py:145` `def path(self)` -- Return the resolved state-file path.
-- `ToastState.get` (method) `cli/toast_bus.py:149` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
-- `ToastState.set` (method) `cli/toast_bus.py:154` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
-- `ToastState.reset` (method) `cli/toast_bus.py:160` `def reset(self)` -- Forget every persisted offset (force replay on next read).
-- `ToastState.flush` (method) `cli/toast_bus.py:165` `def flush(self)` -- Persist the current offsets atomically.
-- `ToastReader.__init__` (method) `cli/toast_bus.py:207` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
-- `ToastReader.root` (method) `cli/toast_bus.py:218` `def root(self)` -- Return the resolved events root directory.
-- `ToastReader.read_unseen` (method) `cli/toast_bus.py:222` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
-- `toastr_severity_style` (function) `cli/toast_bus.py:373` `def toastr_severity_style(severity)` -- Resolve one severity into the shared border/text style pair.
-- `rich_toastr_panel` (function) `cli/toast_bus.py:380` `def rich_toastr_panel(message, severity, terminal_width, config)` -- Build the adaptive toastr panel used by the cmd2 shell.
-- `shell_hint_bypass` (function) `cli/toast_bus.py:433` `def shell_hint_bypass(console, message, severity)` -- Print the flat bypass line used when UI hints are off.
-- `sentinel_toast_panel` (function) `cli/toast_bus.py:452` `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` -- Build the yara sentinel popup with the shared styling.
-- `ToastFormatter.__init__` (method) `cli/toast_bus.py:490` `def __init__(self, config, theme)` -- Bind to config and the active theme.
-- `ToastFormatter.format` (method) `cli/toast_bus.py:495` `def format(self, event)` -- Return a single themed line for ``event``.
-- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:507` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
-- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:517` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
-- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:534` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
-- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:562` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
-- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:587` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
-- `ToastFormatter.format_many` (method) `cli/toast_bus.py:595` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
-- `ToastBus.__init__` (method) `cli/toast_bus.py:675` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
-- `ToastBus.collect` (method) `cli/toast_bus.py:690` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
-- `ToastBus.render` (method) `cli/toast_bus.py:702` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
-- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:731` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
-- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:738` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
-- `toasts_enabled` (function) `cli/toast_bus.py:836` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
-- `build_default_bus` (function) `cli/toast_bus.py:859` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
-- `render_toasts` (function) `cli/toast_bus.py:888` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
-- `ephemeral_enabled` (function) `cli/toast_bus.py:912` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
-- `render_ephemeral_toasts` (function) `cli/toast_bus.py:928` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
-- `emit_toast` (function) `cli/toast_bus.py:958` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
-- `read_recent_toasts` (function) `cli/toast_bus.py:1003` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
-- `build_toast_renderable` (function) `cli/toast_bus.py:1047` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
+- `ToastState.__init__` (method) `cli/toast_bus.py:131` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
+- `ToastState.path` (method) `cli/toast_bus.py:146` `def path(self)` -- Return the resolved state-file path.
+- `ToastState.get` (method) `cli/toast_bus.py:150` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
+- `ToastState.set` (method) `cli/toast_bus.py:155` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
+- `ToastState.reset` (method) `cli/toast_bus.py:161` `def reset(self)` -- Forget every persisted offset (force replay on next read).
+- `ToastState.flush` (method) `cli/toast_bus.py:166` `def flush(self)` -- Persist the current offsets atomically.
+- `ToastReader.__init__` (method) `cli/toast_bus.py:208` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
+- `ToastReader.root` (method) `cli/toast_bus.py:219` `def root(self)` -- Return the resolved events root directory.
+- `ToastReader.read_unseen` (method) `cli/toast_bus.py:223` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
+- `ToastReader.resolve_sources` (method) `cli/toast_bus.py:255` `def resolve_sources(self, names)` -- Expand glob source entries against the sessions root.
+- `toastr_severity_style` (function) `cli/toast_bus.py:449` `def toastr_severity_style(severity)` -- Resolve one severity into the shared border/text style pair.
+- `rich_toastr_panel` (function) `cli/toast_bus.py:456` `def rich_toastr_panel(message, severity, terminal_width, config)` -- Build the adaptive toastr panel used by the cmd2 shell.
+- `shell_hint_bypass` (function) `cli/toast_bus.py:509` `def shell_hint_bypass(console, message, severity)` -- Print the flat bypass line used when UI hints are off.
+- `sentinel_toast_panel` (function) `cli/toast_bus.py:528` `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` -- Build the yara sentinel popup with the shared styling.
+- `ToastFormatter.__init__` (method) `cli/toast_bus.py:566` `def __init__(self, config, theme)` -- Bind to config and the active theme.
+- `ToastFormatter.format` (method) `cli/toast_bus.py:571` `def format(self, event)` -- Return a single themed line for ``event``.
+- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:584` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
+- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:594` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
+- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:616` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
+- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:644` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
+- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:669` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
+- `ToastFormatter.format_many` (method) `cli/toast_bus.py:677` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
+- `ToastBus.__init__` (method) `cli/toast_bus.py:757` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
+- `ToastBus.collect` (method) `cli/toast_bus.py:772` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
+- `ToastBus.render` (method) `cli/toast_bus.py:785` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
+- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:814` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
+- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:822` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
+- `toasts_enabled` (function) `cli/toast_bus.py:920` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
+- `build_default_bus` (function) `cli/toast_bus.py:943` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
+- `render_toasts` (function) `cli/toast_bus.py:972` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
+- `ephemeral_enabled` (function) `cli/toast_bus.py:996` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
+- `render_ephemeral_toasts` (function) `cli/toast_bus.py:1012` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
+- `emit_toast` (function) `cli/toast_bus.py:1042` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
+- `read_recent_toasts` (function) `cli/toast_bus.py:1087` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
+- `build_toast_renderable` (function) `cli/toast_bus.py:1131` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
 
 ## cli/tui_forms.py
 Depends on: `cli/commands/containers.py`
@@ -453,31 +494,6 @@ Depends on: `core/logging.py`
 - `process_packet` (function) `contrib/legacy/lazyhoneypot.py:137` `def process_packet(packet)`
 - `alert_admin` (function) `contrib/legacy/lazyhoneypot.py:147` `def alert_admin(message)`
 - `main` (function) `contrib/legacy/lazyhoneypot.py:165` `def main()`
-
-## contrib/legacy/lazyhttpreverseshell.py
-Depends on: `modules/backdoor/server.c`
-- `encrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:14` `def encrypt(data)`
-- `decrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:17` `def decrypt(data)`
-- `compress` (function) `contrib/legacy/lazyhttpreverseshell.py:20` `def compress(data)`
-- `decompress` (function) `contrib/legacy/lazyhttpreverseshell.py:23` `def decompress(data)`
-- `reverse_http_shell_client` (function) `contrib/legacy/lazyhttpreverseshell.py:26` `def reverse_http_shell_client(lhost, rhost, rport)`
-- `reverse_http_shell_server` (function) `contrib/legacy/lazyhttpreverseshell.py:50` `def reverse_http_shell_server(lhost, lport)`
-- `RequestHandler.do_GET` (method) `contrib/legacy/lazyhttpreverseshell.py:52` `def do_GET(self)`
-- `RequestHandler.do_POST` (method) `contrib/legacy/lazyhttpreverseshell.py:65` `def do_POST(self)`
-- `parse_arguments` (function) `contrib/legacy/lazyhttpreverseshell.py:88` `def parse_arguments(args)`
-
-## contrib/legacy/lazykeygen.py
-- `pad` (function) `contrib/legacy/lazykeygen.py:8` `def pad(s)`
-- `encrypt` (function) `contrib/legacy/lazykeygen.py:11` `def encrypt(plaintext, key)`
-- `decrypt` (function) `contrib/legacy/lazykeygen.py:17` `def decrypt(ciphertext, key)`
-- `generate_key` (function) `contrib/legacy/lazykeygen.py:23` `def generate_key(length)`
-- `main` (function) `contrib/legacy/lazykeygen.py:26` `def main()`
-
-## contrib/legacy/lazylfi2rce.py
-- `signal_handler` (function) `contrib/legacy/lazylfi2rce.py:29` `def signal_handler(sig, frame)`
-- `check_lfi_success` (function) `contrib/legacy/lazylfi2rce.py:35` `def check_lfi_success(response_text)`
-- `check_rfi_success` (function) `contrib/legacy/lazylfi2rce.py:39` `def check_rfi_success(response_text)`
-- `main` (function) `contrib/legacy/lazylfi2rce.py:43` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

@@ -1,6 +1,26 @@
 # API (page 11 of 24)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/cross_cloud.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
+- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
+- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
+- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
+- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
+- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
+- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
+- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
+
+## modules/ctf_capture.py
+Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+- `output_dir` (function) `modules/ctf_capture.py:28` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `capture` (function) `modules/ctf_capture.py:99` `def capture(vuln_id, target, output, sessions_dir)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:175` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:201` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:219` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:242` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+
 ## modules/custom_tools.py
 Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
@@ -272,42 +292,42 @@ Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/
 - `split_lan_targets` (function) `modules/estorides_fusion.py:323` `def split_lan_targets(est)` -- Split a LAN payload into intel (all) and attack (hosts) views.
 
 ## modules/estorides_importer.py
-Depends on: `core/logging.py`, `modules/db.py`
+Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
 Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 - `ImportResult.success` (method) `modules/estorides_importer.py:110` `def success(self)`
 - `ImportResult.to_dict` (method) `modules/estorides_importer.py:113` `def to_dict(self)`
 - `SeedResult.new_assets` (method) `modules/estorides_importer.py:139` `def new_assets(self)`
 - `extract_seeds_from_world_model` (function) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
-- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:175` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
-- `extract_seeds_from_db` (function) `modules/estorides_importer.py:203` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
-- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:242` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
-- `run_estorides_discover` (function) `modules/estorides_importer.py:272` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
-- `run_estorides_run` (function) `modules/estorides_importer.py:332` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
-- `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:388` `def __init__(self, db_path)`
-- `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:393` `def available(self)`
-- `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:402` `def list_cases(self, limit)`
-- `EstoridesCaseReader.get_entities` (method) `modules/estorides_importer.py:414` `def get_entities(self, case_id, entity_types, limit)` -- Fetch entities from the case store.
-- `EstoridesCaseReader.get_host_entities` (method) `modules/estorides_importer.py:469` `def get_host_entities(self, case_id)` -- Get entities of host-related types (ipv4, ipv6, domain, url, asn).
-- `EstoridesCaseReader.get_all_entities` (method) `modules/estorides_importer.py:473` `def get_all_entities(self, case_id)`
-- `EstoridesCaseReader.stats` (method) `modules/estorides_importer.py:476` `def stats(self)`
-- `EstoridesCaseReader.close` (method) `modules/estorides_importer.py:489` `def close(self)`
-- `EstoridesStixParser.__init__` (method) `modules/estorides_importer.py:511` `def __init__(self, stix_path)`
-- `EstoridesStixParser.available` (method) `modules/estorides_importer.py:515` `def available(self)`
-- `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:518` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
-- `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:552` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
-- `find_lan_bundle_files` (function) `modules/estorides_importer.py:586` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
-- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:632` `def __init__(self, lan_dir)`
-- `LanBundleReader.available` (method) `modules/estorides_importer.py:636` `def available(self)`
-- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:639` `def read_devices(self)` -- Return raw device dicts from the inventory file.
-- `LanBundleReader.parse` (method) `modules/estorides_importer.py:652` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
-- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:683` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
-- `ensure_directories` (function) `modules/estorides_importer.py:694` `def ensure_directories()` -- Ensure sessions/ directories exist.
-- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:703` `def __init__(self, db_path, config_path)`
-- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:711` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
-- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:834` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
-- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:892` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-- `FeedbackLoop.run` (method) `modules/estorides_importer.py:908` `def run(self, seed_methods)` -- Run the feedback loop.
-- `export_combined_graph` (function) `modules/estorides_importer.py:1027` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
+- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:177` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
+- `extract_seeds_from_db` (function) `modules/estorides_importer.py:205` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
+- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:244` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
+- `run_estorides_discover` (function) `modules/estorides_importer.py:274` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
+- `run_estorides_run` (function) `modules/estorides_importer.py:334` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
+- `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:390` `def __init__(self, db_path)`
+- `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:395` `def available(self)`
+- `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:404` `def list_cases(self, limit)`
+- `EstoridesCaseReader.get_entities` (method) `modules/estorides_importer.py:416` `def get_entities(self, case_id, entity_types, limit)` -- Fetch entities from the case store.
+- `EstoridesCaseReader.get_host_entities` (method) `modules/estorides_importer.py:471` `def get_host_entities(self, case_id)` -- Get entities of host-related types (ipv4, ipv6, domain, url, asn).
+- `EstoridesCaseReader.get_all_entities` (method) `modules/estorides_importer.py:475` `def get_all_entities(self, case_id)`
+- `EstoridesCaseReader.stats` (method) `modules/estorides_importer.py:478` `def stats(self)`
+- `EstoridesCaseReader.close` (method) `modules/estorides_importer.py:491` `def close(self)`
+- `EstoridesStixParser.__init__` (method) `modules/estorides_importer.py:513` `def __init__(self, stix_path)`
+- `EstoridesStixParser.available` (method) `modules/estorides_importer.py:517` `def available(self)`
+- `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:520` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
+- `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:554` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
+- `find_lan_bundle_files` (function) `modules/estorides_importer.py:588` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
+- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:634` `def __init__(self, lan_dir)`
+- `LanBundleReader.available` (method) `modules/estorides_importer.py:638` `def available(self)`
+- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:641` `def read_devices(self)` -- Return raw device dicts from the inventory file.
+- `LanBundleReader.parse` (method) `modules/estorides_importer.py:654` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
+- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:685` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
+- `ensure_directories` (function) `modules/estorides_importer.py:696` `def ensure_directories()` -- Ensure sessions/ directories exist.
+- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:705` `def __init__(self, db_path, config_path)`
+- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:713` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
+- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:836` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
+- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:896` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+- `FeedbackLoop.run` (method) `modules/estorides_importer.py:912` `def run(self, seed_methods)` -- Run the feedback loop.
+- `export_combined_graph` (function) `modules/estorides_importer.py:1031` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
 
 ## modules/evasion_engine.py
 Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
@@ -365,17 +385,17 @@ Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/
 - `publish_event` (function) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
 
 ## modules/event_consumers.py
-Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
+Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`, `modules/world_model.py`
 Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
-- `PhaseTracker.__init__` (method) `modules/event_consumers.py:156` `def __init__(self)`
-- `PhaseTracker.__call__` (method) `modules/event_consumers.py:159` `def __call__(self, event)`
-- `AutoRecommender.__init__` (method) `modules/event_consumers.py:204` `def __init__(self)`
-- `AutoRecommender.__call__` (method) `modules/event_consumers.py:207` `def __call__(self, event)`
-- `CredentialReactor.__call__` (method) `modules/event_consumers.py:282` `def __call__(self, event)`
-- `SoulSync.__call__` (method) `modules/event_consumers.py:323` `def __call__(self, event)`
-- `DashboardPusher.__call__` (method) `modules/event_consumers.py:361` `def __call__(self, event)`
-- `wire_all_consumers` (function) `modules/event_consumers.py:380` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
-- `unwire_all_consumers` (function) `modules/event_consumers.py:409` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
+- `PhaseTracker.__init__` (method) `modules/event_consumers.py:146` `def __init__(self)`
+- `PhaseTracker.__call__` (method) `modules/event_consumers.py:149` `def __call__(self, event)`
+- `AutoRecommender.__init__` (method) `modules/event_consumers.py:194` `def __init__(self)`
+- `AutoRecommender.__call__` (method) `modules/event_consumers.py:197` `def __call__(self, event)`
+- `CredentialReactor.__call__` (method) `modules/event_consumers.py:272` `def __call__(self, event)`
+- `SoulSync.__call__` (method) `modules/event_consumers.py:313` `def __call__(self, event)`
+- `DashboardPusher.__call__` (method) `modules/event_consumers.py:351` `def __call__(self, event)`
+- `wire_all_consumers` (function) `modules/event_consumers.py:370` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
+- `unwire_all_consumers` (function) `modules/event_consumers.py:399` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
 
 ## modules/event_engine.py
 Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
@@ -466,6 +486,14 @@ Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_
 - `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
 - `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
 - `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
+
+## modules/factsio.py
+Depends on: `core/logging.py`
+Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
+- `load_policy_facts` (function) `modules/factsio.py:39` `def load_policy_facts(path)` -- Load ``policy_facts.json`` into canonical host-keyed form.
+- `canonical_policy_facts` (function) `modules/factsio.py:61` `def canonical_policy_facts(data)` -- Project any legacy or canonical facts document to host-keyed form.
+- `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
+- `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
 
 
 Next: [API_p12.md](API_p12.md)

@@ -707,8 +707,9 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
         wm_path = os.path.join(sessions_path, "world_model.json")
         if rhost and os.path.isfile(wm_path):
             try:
-                with open(wm_path, encoding="utf-8") as handle:
-                    wm = json.load(handle)
+                from modules.world_model import read_state_dict
+
+                wm = read_state_dict(wm_path)
                 hosts = wm.get("hosts", {})
                 host = hosts.get(rhost, {})
                 os_hint = (host.get("os_hint") or "").lower()

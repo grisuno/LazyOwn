@@ -3968,16 +3968,14 @@ def receive_result(client_id):
                             # Update world_model.json os_hint for this host.
                             _wm_path = os.path.join(SESSIONS_DIR, "world_model.json")
                             try:
-                                _wm = {}
-                                if os.path.isfile(_wm_path):
-                                    with open(_wm_path) as _wmf:
-                                        _wm = _j.load(_wmf)
+                                from modules.world_model import read_state_dict, write_state_dict
+
+                                _wm = read_state_dict(_wm_path)
                                 _hosts = _wm.setdefault("hosts", {})
                                 _h = _hosts.setdefault(primary_ip, {})
                                 if not _h.get("os_hint"):
                                     _h["os_hint"] = _os_name.lower()
-                                    with open(_wm_path, "w") as _wmf:
-                                        _j.dump(_wm, _wmf, indent=2)
+                                    write_state_dict(_wm_path, _wm)
                                     logging.info(
                                         f"[c2-bidir] world_model.json os_hint={_os_name.lower()} host={primary_ip}"
                                     )
@@ -7238,12 +7236,9 @@ def api_surface_live():
     response = decoy()
     if response:
         return response
-    world_path = os.path.join(SESSIONS_DIR, "world_model.json")
-    try:
-        with open(world_path, "r", encoding="utf-8") as fh:
-            world = json.load(fh)
-    except (OSError, json.JSONDecodeError):
-        world = {}
+    from modules.world_model import read_state_dict
+
+    world = read_state_dict(os.path.join(SESSIONS_DIR, "world_model.json"))
     return jsonify(build_live_graph(world))
 
 

@@ -1,5 +1,103 @@
-# Subsystem: tests (page 11 of 19)
+# Subsystem: tests (page 11 of 20)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
+
+## tests/test_killchain_unified_v2.py
+- Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestKillChainConfig` (class, line 32) `class TestKillChainConfig`
+  - `TestKillChainCurrentPhase` (class, line 104) `class TestKillChainCurrentPhase`
+  - `TestKillChainAdvancePhase` (class, line 185) `class TestKillChainAdvancePhase`
+  - `TestKillChainGetProgress` (class, line 296) `class TestKillChainGetProgress`
+  - `TestKillChainHelpers` (class, line 364) `class TestKillChainHelpers`
+  - `TestPhaseStatusDataclass` (class, line 411) `class TestPhaseStatusDataclass`
+  - `test_phases_is_8_tuple` (method, line 35) `def test_phases_is_8_tuple(self)`
+  - `test_phases_are_in_correct_kill_chain_order` (method, line 41) `def test_phases_are_in_correct_kill_chain_order(self)`
+  - `test_compact_phases_are_in_correct_order` (method, line 45) `def test_compact_phases_are_in_correct_order(self)`
+  - `test_all_phases_have_labels` (method, line 49) `def test_all_phases_have_labels(self)`
+  - `test_all_phases_have_colors` (method, line 54) `def test_all_phases_have_colors(self)`
+  - `test_all_phases_have_rich_colors` (method, line 59) `def test_all_phases_have_rich_colors(self)`
+  - `test_engagement_to_cli_covers_all_engagement_phases` (method, line 63) `def test_engagement_to_cli_covers_all_engagement_phases(self)`
+  - `test_cli_to_host_state_returns_expected` (method, line 71) `def test_cli_to_host_state_returns_expected(self)`
+  - `test_phase_index_valid_and_invalid` (method, line 81) `def test_phase_index_valid_and_invalid(self)`
+  - `test_is_valid_phase` (method, line 87) `def test_is_valid_phase(self)`
+  - `test_compact_phases_and_labels` (method, line 92) `def test_compact_phases_and_labels(self)`
+  - `test_world_model_path` (method, line 97) `def test_world_model_path(self)`
+  - `_reset_wm_singleton` (method, line 108) `def _reset_wm_singleton(self)`
+  - `test_returns_recon_when_no_world_model_exists` (method, line 119) `def test_returns_recon_when_no_world_model_exists(self)`
+  - `test_reads_from_world_model_host_state` (method, line 126) `def test_reads_from_world_model_host_state(self)`
+  - `test_raw_json_override_wins_when_higher_rank` (method, line 141) `def test_raw_json_override_wins_when_higher_rank(self)`
+  - `test_raw_json_override_ignored_when_lower_rank` (method, line 157) `def test_raw_json_override_ignored_when_lower_rank(self)`
+  - `test_falls_back_to_legacy_phase_key` (method, line 173) `def test_falls_back_to_legacy_phase_key(self)`
+  - `_reset_wm_singleton` (method, line 189) `def _reset_wm_singleton(self)`
+  - `test_advance_writes_current_phase_and_phase_keys` (method, line 200) `def test_advance_writes_current_phase_and_phase_keys(self)`
+  - `test_advance_tracks_completed_phases` (method, line 216) `def test_advance_tracks_completed_phases(self)`
+  - `test_advance_invalid_phase_returns_false` (method, line 234) `def test_advance_invalid_phase_returns_false(self)`
+  - `test_advance_advances_world_model_hosts` (method, line 244) `def test_advance_advances_world_model_hosts(self)`
+  - `test_advance_with_host_does_not_touch_unrelated_hosts` (method, line 261) `def test_advance_with_host_does_not_touch_unrelated_hosts(self)`
+  - `test_advance_does_not_downgrade_cached_world_model_state` (method, line 277) `def test_advance_does_not_downgrade_cached_world_model_state(self)`
+  - `_reset_wm_singleton` (method, line 300) `def _reset_wm_singleton(self)`
+  - `test_all_pending_when_nothing_done` (method, line 311) `def test_all_pending_when_nothing_done(self)`
+  - `test_progress_reflects_completed_and_active` (method, line 324) `def test_progress_reflects_completed_and_active(self)`
+  - `test_progress_has_colors_and_labels` (method, line 348) `def test_progress_has_colors_and_labels(self)`
+  - `test_phases_for_display_returns_triples` (method, line 367) `def test_phases_for_display_returns_triples(self)`
+  - `test_compact_progress_returns_string` (method, line 377) `def test_compact_progress_returns_string(self)`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 383) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_all` (method, line 392) `def test_cli_phase_to_host_state_maps_all(self)`
+  - `test_get_killchain_returns_class` (method, line 400) `def test_get_killchain_returns_class(self)`
+  - `test_phase_index_returns_correct` (method, line 404) `def test_phase_index_returns_correct(self)`
+  - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
+  - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
+- Depends on: `modules/killchain.py`, `modules/world_model.py`
+
+## tests/test_lab_target_visibility.py
+- Doc: Lab target visibility: start/status always show the container IP.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
+  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
+- Depends on: `cli/commands/lab.py`
+
+## tests/test_lazy_agent.py
+- Doc: Agentic tool-calling: worker agent path, resume and main sessions.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_tool_call` (function, line 13) `def _tool_call(tool_id, name, arguments)`
+  - `_message` (function, line 19) `def _message(content, tool_calls)`
+  - `_Completions` (class, line 23) `class _Completions`
+  - `fake_model` (function, line 37) `def fake_model(script)`
+  - `_sandbox` (function, line 43) `def _sandbox(tmp_path, monkeypatch)`
+  - `_worker` (function, line 50) `def _worker(loop, engine, task_id, graph)`
+  - `test_worker_agentic_tool_calling` (function, line 63) `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)`
+  - `test_worker_agentic_resume_seeds_prior_turns` (function, line 104) `def test_worker_agentic_resume_seeds_prior_turns(tmp_path, monkeypatch)`
+  - `test_main_session_persists_and_resumes` (function, line 138) `def test_main_session_persists_and_resumes(tmp_path, monkeypatch)`
+  - `test_model_keepalive_tick_while_waiting` (function, line 152) `def test_model_keepalive_tick_while_waiting(tmp_path, monkeypatch)`
+  - `test_tool_calling_flag_honors_payload` (function, line 175) `def test_tool_calling_flag_honors_payload(tmp_path, monkeypatch)`
+  - `test_external_opencode_degrades_without_binary` (function, line 184) `def test_external_opencode_degrades_without_binary(monkeypatch)`
+  - `test_lazy_agent_command_session_lifecycle` (function, line 194) `def test_lazy_agent_command_session_lifecycle(tmp_path, monkeypatch)`
+  - `__init__` (method, line 26) `def __init__(self, script)`
+  - `create` (method, line 30) `def create(self)`
+  - `_executor` (function, line 85) `def _executor(command)`
+  - `_Completions` (class, line 162) `class _Completions`
+  - `create` (method, line 163) `def create(self)`
+- Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_lazy_bridge_traffic.py
+- Doc: Incremental LAZY traffic mirroring (stall regression).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
+  - `_append` (function, line 29) `def _append(path, rows)`
+  - `_exchanges` (function, line 35) `def _exchanges(sessions_dir)`
+  - `test_traffic_mirror_is_incremental` (function, line 39) `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)`
+  - `test_partial_line_is_retried` (function, line 61) `def test_partial_line_is_retried(tmp_path, monkeypatch)`
+  - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
+  - `_boom` (function, line 83) `def _boom(_text)`
+- Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
 
 ## tests/test_lazy_engine.py
 - Doc: Lazy engine (LAZY-faithful) regression tests with stub executor.
@@ -371,130 +469,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `executor` (function, line 95) `def executor(command)`
   - `_fake_execute` (function, line 122) `def _fake_execute(self, node, executor, timeout_sec)`
 - Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `utils.py`
-
-## tests/test_lazygui_backend.py
-- Doc: Tests for lazygui backend services.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBackendDescriptor` (class, line 26) `class TestBackendDescriptor`
-  - `TestBackendStatus` (class, line 41) `class TestBackendStatus`
-  - `TestTeamserverCredentials` (class, line 52) `class TestTeamserverCredentials`
-  - `TestBackendSignals` (class, line 77) `class TestBackendSignals`
-  - `ConcreteBackend` (class, line 151) `class ConcreteBackend(Backend)`
-  - `TestTeamserverBackendConstruction` (class, line 173) `class TestTeamserverBackendConstruction`
-  - `TestTeamserverPayloadParsing` (class, line 206) `class TestTeamserverPayloadParsing`
-  - `TestTeamserverBackendLifecycle` (class, line 302) `class TestTeamserverBackendLifecycle`
-  - `TestTopologyDataContract` (class, line 328) `class TestTopologyDataContract`
-  - `TestTopologyBuilderFromPayload` (class, line 344) `class TestTopologyBuilderFromPayload`
-  - `test_construction` (method, line 29) `def test_construction(self)`
-  - `test_immutable` (method, line 35) `def test_immutable(self)`
-  - `test_values` (method, line 44) `def test_values(self)`
-  - `test_construction` (method, line 55) `def test_construction(self)`
-  - `test_default_tls` (method, line 67) `def test_default_tls(self)`
-  - `test_immutable` (method, line 71) `def test_immutable(self)`
-  - `test_signals_exist` (method, line 80) `def test_signals_exist(self)`
-  - `test_initial_status_is_disconnected` (method, line 93) `def test_initial_status_is_disconnected(self)`
-  - `test_status_transition` (method, line 97) `def test_status_transition(self)`
-  - `test_status_no_duplicate_emit` (method, line 104) `def test_status_no_duplicate_emit(self)`
-  - `test_descriptor_read_only` (method, line 113) `def test_descriptor_read_only(self)`
-  - `test_known_sessions_defaults` (method, line 118) `def test_known_sessions_defaults(self)`
-  - `test_known_topology_default` (method, line 123) `def test_known_topology_default(self)`
-  - `test_known_campaigns_default` (method, line 129) `def test_known_campaigns_default(self)`
-  - `test_world_model_default` (method, line 133) `def test_world_model_default(self)`
-  - `test_session_state_default` (method, line 138) `def test_session_state_default(self)`
-  - `_make_backend` (method, line 146) `def _make_backend()`
-  - `start` (method, line 154) `def start(self)`
-  - `stop` (method, line 157) `def stop(self)`
-  - `send_command` (method, line 160) `def send_command(self, command, target_session)`
-  - `refresh` (method, line 163) `def refresh(self)`
-  - `resize_terminal` (method, line 166) `def resize_terminal(self, columns, rows)`
-  - `feed_terminal_input` (method, line 169) `def feed_terminal_input(self, data)`
-  - `test_construction` (method, line 176) `def test_construction(self)`
-  - `test_construction_with_parent` (method, line 184) `def test_construction_with_parent(self)`
-  - `test_build_url` (method, line 191) `def test_build_url(self)`
-  - `test_build_url_no_trailing_slash` (method, line 198) `def test_build_url_no_trailing_slash(self)`
-  - `test_update_from_empty_payload` (method, line 209) `def test_update_from_empty_payload(self)`
-  - `test_non_mapping_payload` (method, line 216) `def test_non_mapping_payload(self)`
-  - `test_parse_graph_nodes_from_valid_payload` (method, line 223) `def test_parse_graph_nodes_from_valid_payload(self)`
-  - `test_parse_graph_edges_from_valid_payload` (method, line 242) `def test_parse_graph_edges_from_valid_payload(self)`
-  - `test_parse_empty_graph_payload` (method, line 259) `def test_parse_empty_graph_payload(self)`
-  - `test_update_operator` (method, line 267) `def test_update_operator(self)`
-  - `test_update_operator_no_username` (method, line 285) `def test_update_operator_no_username(self)`
-  - `test_update_sessions_empty` (method, line 294) `def test_update_sessions_empty(self)`
-  - `test_stop_without_start` (method, line 305) `def test_stop_without_start(self)`
-  - `test_stop_sets_disconnected` (method, line 312) `def test_stop_sets_disconnected(self)`
-  - `test_send_command_does_not_raise` (method, line 321) `def test_send_command_does_not_raise(self)`
-  - `test_construct_and_compare` (method, line 331) `def test_construct_and_compare(self)`
-  - `test_none_converted` (method, line 338) `def test_none_converted(self)`
-  - `make_backend` (method, line 347) `def make_backend(self)`
-  - `test_builds_c2_node` (method, line 354) `def test_builds_c2_node(self)`
-  - `test_builds_beacon_nodes` (method, line 362) `def test_builds_beacon_nodes(self)`
-  - `test_builds_edges_c2_to_beacon` (method, line 379) `def test_builds_edges_c2_to_beacon(self)`
-  - `test_builds_host_nodes_from_discovered` (method, line 396) `def test_builds_host_nodes_from_discovered(self)`
-  - `test_builds_port_nodes` (method, line 412) `def test_builds_port_nodes(self)`
-  - `test_builds_connected_hosts` (method, line 428) `def test_builds_connected_hosts(self)`
-  - `test_topology_emitted_on_change` (method, line 439) `def test_topology_emitted_on_change(self)`
-  - `test_topology_not_emitted_on_no_change` (method, line 455) `def test_topology_not_emitted_on_no_change(self)`
-- Depends on: `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
-
-## tests/test_lazygui_graph_widget.py
-- Doc: Tests for lazygui graph widget contracts.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_get_qapp` (function, line 36) `def _get_qapp()`
-  - `TestColorResolution` (class, line 43) `class TestColorResolution`
-  - `TestRadiusResolution` (class, line 79) `class TestRadiusResolution`
-  - `TestColorMap` (class, line 106) `class TestColorMap`
-  - `TestGraphNodeItem` (class, line 114) `class TestGraphNodeItem`
-  - `TestGraphEdgeItem` (class, line 181) `class TestGraphEdgeItem`
-  - `TestGraphScene` (class, line 212) `class TestGraphScene`
-  - `TestGraphView` (class, line 307) `class TestGraphView`
-  - `TestGraphViewWithDatabaseFixture` (class, line 333) `class TestGraphViewWithDatabaseFixture`
-  - `TestGraphNodeItemWithIcon` (class, line 360) `class TestGraphNodeItemWithIcon`
-  - `test_c2_color` (method, line 46) `def test_c2_color(self)`
-  - `test_beacon_color` (method, line 50) `def test_beacon_color(self)`
-  - `test_host_color` (method, line 54) `def test_host_color(self)`
-  - `test_port_color` (method, line 58) `def test_port_color(self)`
-  - `test_windows_os_hint` (method, line 62) `def test_windows_os_hint(self)`
-  - `test_linux_os_hint` (method, line 66) `def test_linux_os_hint(self)`
-  - `test_macos_os_hint` (method, line 70) `def test_macos_os_hint(self)`
-  - `test_unknown_default` (method, line 74) `def test_unknown_default(self)`
-  - `test_c2_radius` (method, line 82) `def test_c2_radius(self)`
-  - `test_beacon_radius` (method, line 86) `def test_beacon_radius(self)`
-  - `test_host_radius` (method, line 91) `def test_host_radius(self)`
-  - `test_port_radius` (method, line 96) `def test_port_radius(self)`
-  - `test_default_radius` (method, line 101) `def test_default_radius(self)`
-  - `test_all_keys_present` (method, line 109) `def test_all_keys_present(self)`
-  - `test_construction` (method, line 117) `def test_construction(self)`
-  - `test_identifiers` (method, line 127) `def test_identifiers(self)`
-  - `test_selection_behaviour` (method, line 134) `def test_selection_behaviour(self)`
-  - `test_callback_on_selected` (method, line 144) `def test_callback_on_selected(self)`
-  - `test_callback_on_context_menu` (method, line 157) `def test_callback_on_context_menu(self)`
-  - `test_node_without_callbacks_does_not_raise` (method, line 173) `def test_node_without_callbacks_does_not_raise(self)`
-  - `test_construction_with_nodes` (method, line 184) `def test_construction_with_nodes(self)`
-  - `test_update_position` (method, line 198) `def test_update_position(self)`
-  - `test_construction` (method, line 215) `def test_construction(self)`
-  - `test_set_topology_with_data` (method, line 221) `def test_set_topology_with_data(self)`
-  - `test_set_empty_topology` (method, line 235) `def test_set_empty_topology(self)`
-  - `test_force_layout_single_node` (method, line 243) `def test_force_layout_single_node(self)`
-  - `test_selected_node_id_none_when_empty` (method, line 252) `def test_selected_node_id_none_when_empty(self)`
-  - `test_physics_completion` (method, line 258) `def test_physics_completion(self)`
-  - `test_physics_stops_without_nodes` (method, line 273) `def test_physics_stops_without_nodes(self)`
-  - `test_node_selected_signal` (method, line 280) `def test_node_selected_signal(self)`
-  - `test_node_context_menu_signal` (method, line 289) `def test_node_context_menu_signal(self)`
-  - `test_construction` (method, line 310) `def test_construction(self)`
-  - `test_set_topology` (method, line 316) `def test_set_topology(self)`
-  - `test_fit_to_content` (method, line 325) `def test_fit_to_content(self)`
-  - `test_full_pipeline` (method, line 336) `def test_full_pipeline(self)`
-  - `test_node_with_icon` (method, line 363) `def test_node_with_icon(self)`
-  - `test_hover_behavior` (method, line 369) `def test_hover_behavior(self)`
-  - `test_movable_flag` (method, line 375) `def test_movable_flag(self)`
-  - `_cb` (function, line 149) `def _cb(nid)`
-  - `_cb` (function, line 163) `def _cb(nid, pos)`
-  - `_capture` (function, line 296) `def _capture(nid, pos)`
-- Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`, `lazygui/widgets/graph_view.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

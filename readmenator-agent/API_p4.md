@@ -1,6 +1,42 @@
 # API (page 4 of 24)
 Previous: [API_p3.md](API_p3.md)
 
+## cli/dashboard_tui.py
+Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`, `modules/world_model.py`
+Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
+- `CommandRequested.__init__` (method) `cli/dashboard_tui.py:100` `def __init__(self, command)`
+- `PhaseSelected.__init__` (method) `cli/dashboard_tui.py:108` `def __init__(self, phase)`
+- `dispatch_command` (function) `cli/dashboard_tui.py:113` `def dispatch_command(command, timeout)` -- Run one LazyOwn command headlessly and capture its output.
+- `TargetPanel.get_selection` (method) `cli/dashboard_tui.py:337` `def get_selection(self, selection)` -- Override to prevent IndexError when selection offsets exceed text length.
+- `TargetPanel.render_content` (method) `cli/dashboard_tui.py:350` `def render_content(self, payload, world)`
+- `TargetPanel.update_data` (method) `cli/dashboard_tui.py:376` `def update_data(self, payload, world)`
+- `KillChainPanel.__init__` (method) `cli/dashboard_tui.py:395` `def __init__(self)`
+- `KillChainPanel.update_data` (method) `cli/dashboard_tui.py:399` `def update_data(self, progress)` -- Render kill-chain progress.
+- `KillChainPanel.on_click` (method) `cli/dashboard_tui.py:420` `def on_click(self, event)` -- Select the phase whose row was clicked.
+- `ConfigPanel.update_data` (method) `cli/dashboard_tui.py:444` `def update_data(self, payload)`
+- `CommandsPanel.update_data` (method) `cli/dashboard_tui.py:474` `def update_data(self, commands)`
+- `ReasoningPanel.update_data` (method) `cli/dashboard_tui.py:509` `def update_data(self, entries)` -- Render the most recent daemon decisions, newest first.
+- `OpsPanel.update_data` (method) `cli/dashboard_tui.py:546` `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
+- `HintBar.__init__` (method) `cli/dashboard_tui.py:612` `def __init__(self)`
+- `HintBar.compose` (method) `cli/dashboard_tui.py:617` `def compose(self)`
+- `HintBar.update_data` (method) `cli/dashboard_tui.py:621` `def update_data(self, hints)` -- Replace the hint buttons with one button per suggestion.
+- `HintBar.on_button_pressed` (method) `cli/dashboard_tui.py:646` `def on_button_pressed(self, event)` -- Run the clicked suggestion as if it had been typed.
+- `ToastPanel.update_data` (method) `cli/dashboard_tui.py:673` `def update_data(self, payload, sessions_dir, width)` -- Render the latest notifications for the active theme.
+- `NextStepsPanel.update_data` (method) `cli/dashboard_tui.py:720` `def update_data(self, recommendations)`
+- `LazyOwnDashboard.__init__` (method) `cli/dashboard_tui.py:809` `def __init__(self, payload_path, sessions_dir)`
+- `LazyOwnDashboard.compose` (method) `cli/dashboard_tui.py:838` `def compose(self)`
+- `LazyOwnDashboard.on_mount` (method) `cli/dashboard_tui.py:857` `def on_mount(self)`
+- `LazyOwnDashboard.on_input_submitted` (method) `cli/dashboard_tui.py:862` `def on_input_submitted(self, event)` -- Run the typed command and clear the input.
+- `LazyOwnDashboard.on_command_requested` (method) `cli/dashboard_tui.py:874` `def on_command_requested(self, event)` -- Dispatch a command in a worker so the UI never blocks.
+- `LazyOwnDashboard.on_phase_selected` (method) `cli/dashboard_tui.py:914` `def on_phase_selected(self, event)` -- Filter the center panel to a phase chosen by clicking the kill chain.
+- `LazyOwnDashboard.action_refresh_data` (method) `cli/dashboard_tui.py:925` `def action_refresh_data(self)`
+- `LazyOwnDashboard.action_toggle_compact` (method) `cli/dashboard_tui.py:928` `def action_toggle_compact(self)` -- Toggle the compact single-column layout for narrow terminals.
+- `LazyOwnDashboard.action_screenshot` (method) `cli/dashboard_tui.py:958` `def action_screenshot(self)` -- Save an SVG screenshot next to the sessions directory.
+- `LazyOwnDashboard.action_export_snapshot` (method) `cli/dashboard_tui.py:969` `def action_export_snapshot(self)` -- Export the current dashboard data as JSON for automation.
+- `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:989` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
+- `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:993` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
+- `launch` (function) `cli/dashboard_tui.py:1066` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
+
 ## cli/doctor.py
 Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
 Imported by: `cli/commands/help_ui.py`
@@ -192,32 +228,32 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_runner.py`, `modules/tool
 
 ## cli/lazy_orchestrator.py
 Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/param_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
+Imported by: `cli/commands/lazyloop.py`, `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
 - `discover_shell_commands` (function) `cli/lazy_orchestrator.py:66` `def discover_shell_commands()` -- Return every routable shell command name.
 - `command_descriptions` (function) `cli/lazy_orchestrator.py:99` `def command_descriptions()` -- Return ``{command: summary}`` from the palette index when available.
 - `verb_candidates` (function) `cli/lazy_orchestrator.py:113` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
 - `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:174` `def __init__(self, payload_path, task_id, shell, param_root)` -- Bind the console to a payload file and an optional task.
 - `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:208` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:260` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:276` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:285` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:301` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:324` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:385` `def on_button_pressed(self, event)` -- Handle the config save button.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:403` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.create_param` (method) `cli/lazy_orchestrator.py:440` `def create_param(self, name, kind, default, description, category)` -- Declare a reusable parameter and publish it to the live shell.
-- `LazyOrchestratorApp.update_param` (method) `cli/lazy_orchestrator.py:480` `def update_param(self, name, default, description)` -- Update a declared parameter and repaint the table.
-- `LazyOrchestratorApp.delete_param` (method) `cli/lazy_orchestrator.py:512` `def delete_param(self, name)` -- Delete an operator parameter and drop it from the live shell.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:544` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:574` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:591` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:823` `def action_edit_item(self)` -- Edit the selected playbook YAML, LLM member priority or parameter.
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:902` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:994` `def run_orchestrator_console(task_id, shell)` -- Launch the admin console (attach mode).
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:274` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:292` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:301` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:317` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:340` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:401` `def on_button_pressed(self, event)` -- Handle the config and harness buttons.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:454` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.create_param` (method) `cli/lazy_orchestrator.py:491` `def create_param(self, name, kind, default, description, category)` -- Declare a reusable parameter and publish it to the live shell.
+- `LazyOrchestratorApp.update_param` (method) `cli/lazy_orchestrator.py:531` `def update_param(self, name, default, description)` -- Update a declared parameter and repaint the table.
+- `LazyOrchestratorApp.delete_param` (method) `cli/lazy_orchestrator.py:563` `def delete_param(self, name)` -- Delete an operator parameter and drop it from the live shell.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:595` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:625` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:642` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:874` `def action_edit_item(self)` -- Edit the selected playbook YAML, LLM member priority or parameter.
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:953` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:1045` `def run_orchestrator_console(task_id, shell)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
-Depends on: `cli/exploration.py`, `cli/recon_plan.py`
-Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`
+Depends on: `cli/exploration.py`, `cli/recon_plan.py`, `modules/killchain.py`
+Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`, `tests/test_single_source_of_truth.py`
 - `run_post_scan` (function) `cli/lazynmap_post.py:94` `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` -- Generate the plan, bump the world model and emit an event.
 
 ## cli/marketplace_config.py
@@ -273,27 +309,27 @@ Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/co
 - `write_phase` (function) `cli/ops_commands.py:302` `def write_phase(phase)` -- Set the current kill-chain phase via the unified killchain module.
 - `print_phase` (function) `cli/ops_commands.py:317` `def print_phase()` -- Print the current phase and the full kill-chain progress bar.
 - `phase_progress` (function) `cli/ops_commands.py:393` `def phase_progress(world, sessions_dir)` -- Return per-phase completion ratios from the unified kill-chain progress.
-- `note_add` (function) `cli/ops_commands.py:468` `def note_add(text, rhost, phase)` -- Append a timestamped operator note to sessions/notes.jsonl.
-- `note_list` (function) `cli/ops_commands.py:493` `def note_list(rhost, limit)` -- Print recent operator notes, optionally filtered by rhost.
-- `LootEntry.value` (method) `cli/ops_commands.py:561` `def value(self)` -- Return the canonical ``user:secret`` credential value.
-- `gather_loot` (function) `cli/ops_commands.py:571` `def gather_loot(sessions_dir)` -- Parse every credentials*.txt and hash*.txt under ``sessions_dir``.
-- `loot_show` (function) `cli/ops_commands.py:614` `def loot_show(sessions_dir)` -- Print a unified table of all captured credentials and hashes.
-- `loot_search` (function) `cli/ops_commands.py:686` `def loot_search(query, sessions_dir)` -- Search captured loot for ``query`` across users and secrets.
-- `loot_reuse` (function) `cli/ops_commands.py:763` `def loot_reuse(rhost, sessions_dir)` -- Suggest captured credentials worth trying against ``rhost``.
-- `loot_graph` (function) `cli/ops_commands.py:847` `def loot_graph(sessions_dir)` -- Render the credential-centric view of the network graph.
-- `resolve_cred_value` (function) `cli/ops_commands.py:917` `def resolve_cred_value(selector, entries)` -- Resolve a user/secret ``selector`` to a canonical credential value.
-- `loot_mark` (function) `cli/ops_commands.py:945` `def loot_mark(selector, outcome, host, sessions_dir)` -- Record that a credential worked or was rejected against ``host``.
-- `pivot_add` (function) `cli/ops_commands.py:987` `def pivot_add(new_ip, via_ip, note)` -- Record a newly discovered pivot target.
-- `pivot_list` (function) `cli/ops_commands.py:1013` `def pivot_list()` -- Print the pivot chain discovered so far.
-- `tasks_list` (function) `cli/ops_commands.py:1070` `def tasks_list(status_filter, limit)` -- Print tasks from sessions/tasks.json.
-- `tasks_add` (function) `cli/ops_commands.py:1125` `def tasks_add(title, operator)` -- Append a new task to sessions/tasks.json.
-- `tasks_done` (function) `cli/ops_commands.py:1146` `def tasks_done(task_id)` -- Mark a task as Done.
-- `tasks_start` (function) `cli/ops_commands.py:1166` `def tasks_start(task_id)` -- Mark a task as Started.
-- `scans_list` (function) `cli/ops_commands.py:1189` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
-- `sitrep` (function) `cli/ops_commands.py:1242` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
+- `note_add` (function) `cli/ops_commands.py:475` `def note_add(text, rhost, phase)` -- Append a timestamped operator note to sessions/notes.jsonl.
+- `note_list` (function) `cli/ops_commands.py:500` `def note_list(rhost, limit)` -- Print recent operator notes, optionally filtered by rhost.
+- `LootEntry.value` (method) `cli/ops_commands.py:568` `def value(self)` -- Return the canonical ``user:secret`` credential value.
+- `gather_loot` (function) `cli/ops_commands.py:578` `def gather_loot(sessions_dir)` -- Parse every credentials*.txt and hash*.txt under ``sessions_dir``.
+- `loot_show` (function) `cli/ops_commands.py:621` `def loot_show(sessions_dir)` -- Print a unified table of all captured credentials and hashes.
+- `loot_search` (function) `cli/ops_commands.py:693` `def loot_search(query, sessions_dir)` -- Search captured loot for ``query`` across users and secrets.
+- `loot_reuse` (function) `cli/ops_commands.py:770` `def loot_reuse(rhost, sessions_dir)` -- Suggest captured credentials worth trying against ``rhost``.
+- `loot_graph` (function) `cli/ops_commands.py:854` `def loot_graph(sessions_dir)` -- Render the credential-centric view of the network graph.
+- `resolve_cred_value` (function) `cli/ops_commands.py:924` `def resolve_cred_value(selector, entries)` -- Resolve a user/secret ``selector`` to a canonical credential value.
+- `loot_mark` (function) `cli/ops_commands.py:952` `def loot_mark(selector, outcome, host, sessions_dir)` -- Record that a credential worked or was rejected against ``host``.
+- `pivot_add` (function) `cli/ops_commands.py:994` `def pivot_add(new_ip, via_ip, note)` -- Record a newly discovered pivot target.
+- `pivot_list` (function) `cli/ops_commands.py:1020` `def pivot_list()` -- Print the pivot chain discovered so far.
+- `tasks_list` (function) `cli/ops_commands.py:1077` `def tasks_list(status_filter, limit)` -- Print tasks from sessions/tasks.json.
+- `tasks_add` (function) `cli/ops_commands.py:1132` `def tasks_add(title, operator)` -- Append a new task to sessions/tasks.json.
+- `tasks_done` (function) `cli/ops_commands.py:1153` `def tasks_done(task_id)` -- Mark a task as Done.
+- `tasks_start` (function) `cli/ops_commands.py:1173` `def tasks_start(task_id)` -- Mark a task as Started.
+- `scans_list` (function) `cli/ops_commands.py:1196` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
+- `sitrep` (function) `cli/ops_commands.py:1249` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
 
 ## cli/orchestrator_assets_tabs.py
-Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
+Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
 Imported by: `cli/lazy_orchestrator.py`
 - `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:71` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
 - `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:95` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
@@ -322,8 +358,12 @@ Imported by: `cli/lazy_orchestrator.py`
 - `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:756` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
 - `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:764` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
 - `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:772` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:784` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:792` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `OrchestratorAssetsMixin.set_harness` (method) `cli/orchestrator_assets_tabs.py:784` `def set_harness(self, enabled)` -- Toggle the deterministic harness from the orchestrator UI.
+- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:809` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:817` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `OrchestratorAssetsMixin.save_guardrails` (method) `cli/orchestrator_assets_tabs.py:868` `def save_guardrails(self, values)` -- Merge harness settings into payload and reconfigure the harness.
+- `OrchestratorAssetsMixin.warm_restart_harness` (method) `cli/orchestrator_assets_tabs.py:914` `def warm_restart_harness(self)` -- Run the harness warm restart and repaint the table.
+- `OrchestratorAssetsMixin.rearm_harness` (method) `cli/orchestrator_assets_tabs.py:926` `def rearm_harness(self)` -- Re-arm suspended features and clear advisories.
 
 ## cli/output_mode.py
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
@@ -454,46 +494,6 @@ Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashb
 - `read_run_commands` (function) `cli/reactive_hints.py:443` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
 - `render_command_hints` (function) `cli/reactive_hints.py:514` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
 - `command_hints` (function) `cli/reactive_hints.py:549` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
-
-## cli/reasoning_stream.py
-Depends on: `core/text_utils.py`
-Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
-- `read_raw_events` (function) `cli/reasoning_stream.py:91` `def read_raw_events(path, limit)` -- Return the last ``limit`` well-formed events from the JSONL log.
-- `event_to_entry` (function) `cli/reasoning_stream.py:183` `def event_to_entry(event)` -- Convert a raw daemon event into a :class:`ReasoningEntry`.
-- `latest_reasoning` (function) `cli/reasoning_stream.py:216` `def latest_reasoning(path, limit)` -- Return the most recent daemon decisions as reasoning entries.
-- `latest_hint` (function) `cli/reasoning_stream.py:229` `def latest_hint(events_path)` -- Return the newest human-readable reasoning line for spinners.
-
-## cli/recommendation.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
-- `RecommendationSignal.propose` (method) `cli/recommendation.py:187` `def propose(self, ctx)` -- Return zero or more :class:`Proposal` objects for ``ctx``.
-- `CategoryResolver.__init__` (method) `cli/recommendation.py:201` `def __init__(self, index_path, loader)` -- Build the resolver from the command index.
-- `CategoryResolver.category_for` (method) `cli/recommendation.py:227` `def category_for(self, action)` -- Return the kill-chain category for ``action`` or an empty string.
-- `RecommendationEngine.__init__` (method) `cli/recommendation.py:240` `def __init__(self, signals, resolver, weights)` -- Wire the engine with its signals and fusion parameters.
-- `RecommendationEngine.recommend` (method) `cli/recommendation.py:258` `def recommend(self, ctx)` -- Return the fused, ranked recommendations for ``ctx``.
-- `_Accumulator.add` (method) `cli/recommendation.py:374` `def add(self, source, contribution, proposal)` -- Fold one signal's proposal into the running total.
-- `_Accumulator.build` (method) `cli/recommendation.py:386` `def build(self)` -- Freeze the slot into an immutable :class:`Recommendation`.
-
-## cli/recommendation_signals.py
-Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
-- `GraphSignal.__init__` (method) `cli/recommendation_signals.py:115` `def __init__(self, advisor)` -- Store the graph advisor facade.
-- `GraphSignal.propose` (method) `cli/recommendation_signals.py:125` `def propose(self, ctx)` -- Return graph-adjacent command proposals for ``ctx``.
-- `PolicySignal.__init__` (method) `cli/recommendation_signals.py:153` `def __init__(self, policy)` -- Store the policy integration facade.
-- `PolicySignal.propose` (method) `cli/recommendation_signals.py:162` `def propose(self, ctx)` -- Return category-prior proposals for ``ctx``.
-- `ReconPlanSignal.__init__` (method) `cli/recommendation_signals.py:190` `def __init__(self, engine, builder)` -- Store the exploration engine and the plan builder callable.
-- `ReconPlanSignal.propose` (method) `cli/recommendation_signals.py:200` `def propose(self, ctx)` -- Return trigger-matched addon/tool/command proposals for ``ctx``.
-- `KillChainSignal.__init__` (method) `cli/recommendation_signals.py:229` `def __init__(self, next_table, phase_table)` -- Store the adjacency and phase-priority tables.
-- `KillChainSignal.propose` (method) `cli/recommendation_signals.py:243` `def propose(self, ctx)` -- Return adjacency- and phase-derived proposals for ``ctx``.
-- `read_recent_commands` (function) `cli/recommendation_signals.py:275` `def read_recent_commands(sessions_dir, window)` -- Return the last ``window`` command verbs from the session transcript.
-- `build_context` (function) `cli/recommendation_signals.py:308` `def build_context(payload, sessions_dir, target, limit)` -- Assemble a :class:`RecommendationContext` from live engagement state.
-- `PlaybookSignal.__init__` (method) `cli/recommendation_signals.py:346` `def __init__(self, playbook_engine)` -- Store an optional playbook engine facade.
-- `PlaybookSignal.propose` (method) `cli/recommendation_signals.py:355` `def propose(self, ctx)` -- Return playbook-based proposals for the current context.
-- `KillchainGapSignal.__init__` (method) `cli/recommendation_signals.py:406` `def __init__(self, sessions_dir)`
-- `KillchainGapSignal.propose` (method) `cli/recommendation_signals.py:409` `def propose(self, ctx)` -- Return gap-detection proposals for ``ctx``.
-- `GraphTopologySignal.__init__` (method) `cli/recommendation_signals.py:542` `def __init__(self, sessions_dir)`
-- `GraphTopologySignal.propose` (method) `cli/recommendation_signals.py:545` `def propose(self, ctx)` -- Return lateral movement and topology proposals from network graph.
-- `build_default_engine` (function) `cli/recommendation_signals.py:649` `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` -- Wire every available deterministic signal into one engine.
-- `recommend_with_evidence` (function) `cli/recommendation_signals.py:705` `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` -- Return fused, ranked recommendations carrying reason and score for display.
 
 
 Next: [API_p5.md](API_p5.md)

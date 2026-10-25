@@ -1,4 +1,4 @@
-# LazyOwn — RedTeam Framework with AI agents, Linux BOF beacon, YARA+Nuclei marketplace
+# LazyOwn RedTeam Framework with AI agents, Linux BOF beacon, YARA+Nuclei marketplace
 
 ![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
 
@@ -78,7 +78,7 @@ Full table: [`COMPARISON.md`](COMPARISON.md). Found an error? Open an issue, we 
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
 
- # LazyOwn RedTeam Framework v0.2.161
+ # LazyOwn RedTeam Framework v 0.4.10
 
 LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 837 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
@@ -137,7 +137,7 @@ cd lazyown-docker
 
 ### Autonomous loop and chains
 
-The generic golden path — no lab, no containers, one authorized target:
+The generic golden path no lab, no containers, one authorized target:
 
 ```bash
 lazy_loop --target 10.10.10.5 --rounds 6 "gain initial access"
@@ -204,7 +204,7 @@ ping            # confirm the target is up and detect its OS
 lazynmap        # full port + service scan
 ```
 
-If `doctor` reports a blocking failure (red), fix it before going further — it
+If `doctor` reports a blocking failure (red), fix it before going further   it
 tells you the exact `pip install` / `apt install` command for whatever is
 missing. Warnings (yellow) are optional features you can ignore for now.
 
@@ -243,7 +243,7 @@ Full documentation: [`docs/autonomous-loop.md`](docs/autonomous-loop.md).
 # Core Architecture
 LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.
 
-# LazyOwn Skills — MCP Integration
+# LazyOwn Skills   MCP Integration
 
 Connect AI agents to the framework via the Model Context Protocol (MCP). The MCP server
 (`skills/lazyown_mcp.py`) exposes 173 tools covering the full engagement lifecycle.
@@ -257,13 +257,13 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Key Features
 
-1. **837 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **837 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD   recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
-3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
-4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
-5. **Unified Post-Command Tips Engine**: Smart suggestions (kill-chain hints, protips, curiosity, autosuggest) with ELO rating, badges (First Blood, Arsenal Master, Kill Chain Master), and VRI rewards — gamified operator experience.
+3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons   all browsable via curses TUI.
+4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon   `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
+5. **Unified Post-Command Tips Engine**: Smart suggestions (kill-chain hints, protips, curiosity, autosuggest) with ELO rating, badges (First Blood, Arsenal Master, Kill Chain Master), and VRI rewards   gamified operator experience.
 6. **Automatic Session Crypto**: `auto_crypto` encrypts sensitive session files on exit and decrypts on startup (PBKDF2HMAC + Fernet), transparent to the operator.
-7. **AI-Native Architecture**: MoE (Mixture of Experts) router, RL training, SWAN orchestrator, Hive Mind multi-agent system, ACI (Autonomous Campaign Intelligence) planner — the first C2 that plans, executes, and learns autonomously.
+7. **AI-Native Architecture**: MoE (Mixture of Experts) router, RL training, SWAN orchestrator, Hive Mind multi-agent system, ACI (Autonomous Campaign Intelligence) planner   the first C2 that plans, executes, and learns autonomously.
 8. **Multi-Stage Obfuscated Go Implants**: Two-stage XOR-encoded beacon delivery with C stubs, AES-256 encrypted C2 channels, VM/sandbox/debugger evasion, polymorphism, and LOLBAS-based stagers. Tested on Kernel 6.12 and Windows 10.0.20348.
 9. **Linux BOF (Beacon Object Files)**: First open-source C2 framework with BOF support for Linux via ELF `dlopen` runtime. Source-compatible `datap` API with Windows BOF contract. Direct syscalls and `io_uring` support.
 10. **Decoy Blue Team Trap**: Flask decoy website records video/audio and captures images of unauthorized visitors (blue team operators probing the C2), stored in `sessions/captured_images`.
@@ -367,9 +367,9 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 837-command reference and [`ESSENT
 
 ## Full references (auto-generated, standalone)
 
-- [`COMMANDS.md`](COMMANDS.md) — full 837-command reference
-- [`UTILS.md`](UTILS.md) — helper-function reference for `utils.py`
-- [`CHANGELOG.md`](CHANGELOG.md) — release history
+- [`COMMANDS.md`](COMMANDS.md)   full 837-command reference
+- [`UTILS.md`](UTILS.md)   helper-function reference for `utils.py`
+- [`CHANGELOG.md`](CHANGELOG.md)   release history
 
 ## Media
 
@@ -377,7 +377,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 837-command reference and [`ESSENT
 
 ## License
 
-LazyOwn is free software under the GNU General Public License v3 — see [`LICENSE`](LICENSE). Comes with ABSOLUTELY NO WARRANTY.
+LazyOwn is free software under the GNU General Public License v3   see [`LICENSE`](LICENSE). Comes with ABSOLUTELY NO WARRANTY.
 
 ## Acknowledgments
 

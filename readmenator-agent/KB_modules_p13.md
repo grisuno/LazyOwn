@@ -194,25 +194,27 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `RedTeamReportGenerator` (class, line 114) `class RedTeamReportGenerator`
   - `__init__` (method, line 173) `def __init__(self, include_credentials)`
   - `collect_data` (method, line 179) `def collect_data(self)`
-  - `classify_findings` (method, line 217) `def classify_findings(self, data)`
-  - `generate` (method, line 244) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
-  - `_generate_html` (method, line 298) `def _generate_html(self, out_path, timestamp)`
-  - `_generate_markdown` (method, line 450) `def _generate_markdown(self, out_path, timestamp)`
-  - `_generate_json` (method, line 513) `def _generate_json(self, out_path, timestamp)`
-  - `_html_to_pdf` (method, line 552) `def _html_to_pdf(self, html_path)`
-  - `_classify_services` (method, line 585) `def _classify_services(self, services, hosts)`
-  - `_classify_vulnerabilities` (method, line 640) `def _classify_vulnerabilities(self, vulns, hosts)`
-  - `_classify_credentials` (method, line 682) `def _classify_credentials(self, credentials, hosts)`
-  - `_classify_sessions` (method, line 758) `def _classify_sessions(self, sessions, hosts)`
-  - `_load_json` (method, line 805) `def _load_json(self, filename)`
-  - `_extract_scope` (method, line 822) `def _extract_scope(self, data)`
-  - `collect_command_history` (method, line 841) `def collect_command_history(self, max_entries)`
-  - `collect_loot_summary` (method, line 865) `def collect_loot_summary(self)`
-  - `_accumulate_loot` (method, line 893) `def _accumulate_loot(self, summary, path)`
-  - `generate_executive_summary` (method, line 911) `def generate_executive_summary(self, data, with_ai, ai_backend)`
-  - `_ai_draft_summary` (method, line 956) `def _ai_draft_summary(self, data, fallback, backend)`
-- Depends on: `modules/llm_factory.py`
-- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+  - `classify_findings` (method, line 219) `def classify_findings(self, data)`
+  - `generate` (method, line 247) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
+  - `_generate_html` (method, line 301) `def _generate_html(self, out_path, timestamp)`
+  - `_generate_markdown` (method, line 453) `def _generate_markdown(self, out_path, timestamp)`
+  - `_generate_json` (method, line 516) `def _generate_json(self, out_path, timestamp)`
+  - `_html_to_pdf` (method, line 555) `def _html_to_pdf(self, html_path)`
+  - `_classify_services` (method, line 588) `def _classify_services(self, services, hosts)`
+  - `_classify_vulnerabilities` (method, line 643) `def _classify_vulnerabilities(self, vulns, hosts)`
+  - `_classify_credentials` (method, line 685) `def _classify_credentials(self, credentials, hosts)`
+  - `_classify_ctf_captures` (method, line 761) `def _classify_ctf_captures(self, captures)`
+  - `_classify_sessions` (method, line 806) `def _classify_sessions(self, sessions, hosts)`
+  - `_collect_ctf_captures` (method, line 853) `def _collect_ctf_captures(self)`
+  - `_load_json` (method, line 872) `def _load_json(self, filename)`
+  - `_extract_scope` (method, line 893) `def _extract_scope(self, data)`
+  - `collect_command_history` (method, line 912) `def collect_command_history(self, max_entries)`
+  - `collect_loot_summary` (method, line 936) `def collect_loot_summary(self)`
+  - `_accumulate_loot` (method, line 964) `def _accumulate_loot(self, summary, path)`
+  - `generate_executive_summary` (method, line 982) `def generate_executive_summary(self, data, with_ai, ai_backend)`
+  - `_ai_draft_summary` (method, line 1027) `def _ai_draft_summary(self, data, fallback, backend)`
+- Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
 
 ## modules/r.sh
 - Doc: Obtener la versión del kernel actual
@@ -415,7 +417,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `newest_failed_checkpoint` (function, line 180) `def newest_failed_checkpoint(chain, run_id)`
   - `resolve_sudo_consent` (function, line 204) `def resolve_sudo_consent(confirmer, want_sudo)`
 - Depends on: `modules/chain_state.py`
-- Imported by: `cli/retry_support.py`, `tests/test_retry_session.py`
+- Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
 
 ## modules/reverse-shell.c
 - Doc: reverse_shell_init: call_usermodehelper function is used to create user mode processes from...

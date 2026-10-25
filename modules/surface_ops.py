@@ -49,11 +49,10 @@ def discovery_targets(sessions_dir: str | Path = SESSIONS_DIR) -> list[str]:
 
 def write_world_model_hosts(document: dict, sessions: str | Path) -> int:
     """Append unknown estorides host IPs to world_model.json hosts."""
+    from modules.world_model import read_state_dict, write_state_dict
+
     path = Path(str(sessions)) / "world_model.json"
-    try:
-        world = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        world = {}
+    world = read_state_dict(path)
     if not isinstance(world, dict):
         world = {}
     hosts = world.get("hosts", {}) or {}
@@ -72,8 +71,7 @@ def write_world_model_hosts(document: dict, sessions: str | Path) -> int:
         ip = str(node.get("value", ""))
         if not is_ipv4(ip) or ip in known:
             continue
-        record = {"ip": ip, "state": "estorides", "os_hint": "",
-                  "services": {}, "source": "estorides"}
+        record = {"ip": ip, "state": "estorides", "os_hint": "", "services": {}, "source": "estorides"}
         if as_list:
             hosts.append(record)
         else:
@@ -82,7 +80,7 @@ def write_world_model_hosts(document: dict, sessions: str | Path) -> int:
         added += 1
     if added:
         world["hosts"] = hosts
-        path.write_text(json.dumps(world, indent=2))
+        write_state_dict(path, world)
     return added
 
 

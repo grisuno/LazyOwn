@@ -2,8 +2,8 @@
 Previous: [API_p9.md](API_p9.md)
 
 ## modules/auto_registry.py
-Depends on: `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+Depends on: `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:66` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
 - `verb_enabled` (function) `modules/auto_registry.py:296` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
 - `binary_available` (function) `modules/auto_registry.py:406` `def binary_available(name)` -- Return True when a command token can actually execute here.
@@ -22,16 +22,16 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyo
 - `verbs_for` (function) `modules/auto_registry.py:662` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
 - `propose_intents` (function) `modules/auto_registry.py:668` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
 - `steps_for` (function) `modules/auto_registry.py:754` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:881` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:886` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:899` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1009` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1014` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1019` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1042` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:894` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:899` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:912` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1022` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1027` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1032` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1055` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
-Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`
+Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
 - `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:114` `def __init__(self)`
 - `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:134` `def get_instance(cls)`
@@ -40,11 +40,11 @@ Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_e
 - `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:328` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
 - `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:389` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
 - `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:412` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1739` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2054` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2484` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2610` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2674` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1741` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2056` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2486` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2612` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2676` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -96,6 +96,13 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`,
 - `append_record` (function) `modules/beacon_history.py:82` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
 - `read_records` (function) `modules/beacon_history.py:116` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
 - `records_path` (function) `modules/beacon_history.py:145` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
+
+## modules/beacon_recon.py
+Depends on: `core/logging.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Imported by: `lazyc2.py`, `tests/test_beacon_recon_sink.py`
+- `parse_discovered_ips` (function) `modules/beacon_recon.py:50` `def parse_discovered_ips(raw)` -- Extract clean IP strings from a beacon discovery payload.
+- `parse_beacon_portscan` (function) `modules/beacon_recon.py:94` `def parse_beacon_portscan(raw, default_host)` -- Normalise any known port-scan payload into ``(host, port)`` pairs.
+- `ingest_beacon_recon` (function) `modules/beacon_recon.py:169` `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)` -- Fold beacon discovery and port-scan payloads into the state layer.
 
 ## modules/bin2img.py
 - `binario_a_imagen` (function) `modules/bin2img.py:7` `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
@@ -151,18 +158,18 @@ Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 ## modules/c2_agent.py
 Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 Imported by: `cli/commands/c2_session.py`
-- `client_id_for` (function) `modules/c2_agent.py:85` `def client_id_for(target)` -- Derive a stable, file-safe client id from a target IP.
-- `validate_client_id` (function) `modules/c2_agent.py:91` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
-- `build_agent` (function) `modules/c2_agent.py:354` `def build_agent(c2_url, client_id, aes_hex, route, sleep)` -- Render the agent script for a target (pure function, no I/O).
-- `read_aes_hex` (function) `modules/c2_agent.py:441` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
-- `deploy` (function) `modules/c2_agent.py:446` `def deploy(target, c2_base, route, lhost, sleep)` -- Deliver + launch the agent on *target* via a working shell primitive.
-- `read_records` (function) `modules/c2_agent.py:517` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
-- `wait_record` (function) `modules/c2_agent.py:534` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
-- `C2Server.__init__` (method) `modules/c2_agent.py:551` `def __init__(self, port, user, password)`
-- `C2Server.status` (method) `modules/c2_agent.py:568` `def status(self)` -- Report server liveness and listener reachability.
-- `C2Server.start` (method) `modules/c2_agent.py:600` `def start(self)` -- Start lazyc2 headless (no-op when already running).
-- `C2Server.stop` (method) `modules/c2_agent.py:631` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
-- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:654` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
+- `client_id_for` (function) `modules/c2_agent.py:88` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
+- `validate_client_id` (function) `modules/c2_agent.py:113` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
+- `build_agent` (function) `modules/c2_agent.py:376` `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
+- `read_aes_hex` (function) `modules/c2_agent.py:492` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
+- `deploy` (function) `modules/c2_agent.py:497` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
+- `read_records` (function) `modules/c2_agent.py:603` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
+- `wait_record` (function) `modules/c2_agent.py:620` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
+- `C2Server.__init__` (method) `modules/c2_agent.py:637` `def __init__(self, port, user, password)`
+- `C2Server.status` (method) `modules/c2_agent.py:654` `def status(self)` -- Report server liveness and listener reachability.
+- `C2Server.start` (method) `modules/c2_agent.py:686` `def start(self)` -- Start lazyc2 headless (no-op when already running).
+- `C2Server.stop` (method) `modules/c2_agent.py:717` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
+- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:740` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
 
 ## modules/c2_builder.py
 Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
@@ -263,19 +270,24 @@ Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_
 
 ## modules/chain_distill.py
 Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_codeql_alert_fixes.py`
 - `locate_traces` (function) `modules/chain_distill.py:89` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
-- `DistillReport.kept` (method) `modules/chain_distill.py:361` `def kept(self)` -- Count decisions turned into steps.
-- `DistillReport.dropped` (method) `modules/chain_distill.py:366` `def dropped(self)` -- Count decisions rejected with a reason.
-- `DistillReport.to_dict` (method) `modules/chain_distill.py:370` `def to_dict(self)` -- Return a JSON-serializable report.
-- `DistillReport.render` (method) `modules/chain_distill.py:397` `def render(self, verbose)` -- Return printable report lines.
-- `build_chain_data` (function) `modules/chain_distill.py:428` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
-- `note` (function) `modules/chain_distill.py:452` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
-- `distill` (function) `modules/chain_distill.py:537` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
+- `DistillReport.kept` (method) `modules/chain_distill.py:374` `def kept(self)` -- Count decisions turned into steps.
+- `DistillReport.dropped` (method) `modules/chain_distill.py:379` `def dropped(self)` -- Count decisions rejected with a reason.
+- `DistillReport.to_dict` (method) `modules/chain_distill.py:383` `def to_dict(self)` -- Return a JSON-serializable report.
+- `DistillReport.render` (method) `modules/chain_distill.py:410` `def render(self, verbose)` -- Return printable report lines.
+- `build_chain_data` (function) `modules/chain_distill.py:441` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
+- `note` (function) `modules/chain_distill.py:465` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
+- `distill` (function) `modules/chain_distill.py:550` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
+
+## modules/chain_facts.py
+Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
+- `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 - `ChainStep.identifier` (method) `modules/chain_registry.py:84` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:107` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
 - `evaluate_when` (function) `modules/chain_registry.py:220` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
@@ -289,7 +301,7 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 
 ## modules/chain_runner.py
 Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/verb_manifest.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 - `StepOutcome.ok` (method) `modules/chain_runner.py:63` `def ok(self)` -- Return True for success, dry-run and skipped steps.
 - `StepOutcome.to_dict` (method) `modules/chain_runner.py:67` `def to_dict(self)` -- Return a JSON-serializable view.
 - `ChainRunResult.to_dict` (method) `modules/chain_runner.py:106` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -334,7 +346,7 @@ Imported by: `cli/commands/cicd.py`
 
 ## modules/cli_auth.py
 Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
 - `user_exists` (function) `modules/cli_auth.py:122` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
 - `register` (function) `modules/cli_auth.py:145` `def register(username, password)` -- Register a new operator in users.json.
 - `verify_password` (function) `modules/cli_auth.py:214` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
@@ -421,8 +433,8 @@ Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kern
 - `get_executor` (function) `modules/command_executor.py:426` `def get_executor()`
 
 ## modules/compliance.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`
+Depends on: `core/logging.py`, `modules/factsio.py`
+Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
 - `EvidenceChain.__init__` (method) `modules/compliance.py:357` `def __init__(self, sessions_dir)`
 - `EvidenceChain.add_file` (method) `modules/compliance.py:383` `def add_file(self, filepath, operator, description)`
 - `EvidenceChain.verify` (method) `modules/compliance.py:410` `def verify(self)`
@@ -434,9 +446,9 @@ Imported by: `lazyc2.py`
 - `ComplianceEngine.__init__` (method) `modules/compliance.py:635` `def __init__(self, sessions_dir)`
 - `ComplianceEngine.map_findings_to_compliance` (method) `modules/compliance.py:639` `def map_findings_to_compliance(self, findings, frameworks)` -- Map findings to compliance framework controls.
 - `ComplianceEngine.generate_compliance_report` (method) `modules/compliance.py:710` `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` -- Generate a full compliance report with evidence chain and optional SIEM export.
-- `ComplianceEngine.export_pdf` (method) `modules/compliance.py:831` `def export_pdf(self, report, output_path)`
-- `ComplianceEngine.add_evidence` (method) `modules/compliance.py:901` `def add_evidence(self, filepath, operator, description)`
-- `ComplianceEngine.verify_evidence_chain` (method) `modules/compliance.py:904` `def verify_evidence_chain(self)`
+- `ComplianceEngine.export_pdf` (method) `modules/compliance.py:857` `def export_pdf(self, report, output_path)`
+- `ComplianceEngine.add_evidence` (method) `modules/compliance.py:927` `def add_evidence(self, filepath, operator, description)`
+- `ComplianceEngine.verify_evidence_chain` (method) `modules/compliance.py:930` `def verify_evidence_chain(self)`
 
 ## modules/conditional_hooks.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
@@ -479,17 +491,6 @@ Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beaco
 - `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
 - `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
 - `get_credential_reuse_engine` (function) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
-
-## modules/cross_cloud.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
-- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
-- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
-- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
-- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
-- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
-- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
-- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
 
 
 Next: [API_p11.md](API_p11.md)

@@ -267,30 +267,31 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `_fallback_profile` (function, line 161) `def _fallback_profile()`
   - `_merge_stage` (function, line 175) `def _merge_stage(base, override)`
   - `_merge_profile` (function, line 191) `def _merge_profile(parent, child)`
-  - `_resolve_profile` (function, line 211) `def _resolve_profile(name, raw_profiles, stack)`
-  - `profiles` (function, line 226) `def profiles()`
-  - `_default_profile_name` (function, line 241) `def _default_profile_name(data)`
-  - `active_profile` (function, line 251) `def active_profile()`
-  - `profile_config` (function, line 263) `def profile_config(name)`
-  - `set_profile` (function, line 270) `def set_profile(name)`
-  - `limits` (function, line 294) `def limits()`
-  - `budget` (function, line 301) `def budget()`
-  - `chain_defaults` (function, line 308) `def chain_defaults()`
-  - `sinks` (function, line 317) `def sinks()`
-  - `stages` (function, line 328) `def stages()`
-  - `stage_enabled` (function, line 358) `def stage_enabled(name)`
-  - `stage_params` (function, line 364) `def stage_params(name)`
-  - `set_stage` (function, line 369) `def set_stage(name, enabled)`
-  - `effective_verbs` (function, line 394) `def effective_verbs()`
-  - `_catalog_verbs` (function, line 448) `def _catalog_verbs(seen, overrides)`
-  - `verb_config` (function, line 485) `def verb_config(name)`
-  - `verb_enabled` (function, line 494) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 500) `def upsert_verb(name)`
-  - `remove_verb` (function, line 557) `def remove_verb(name)`
-  - `reset` (function, line 578) `def reset()`
-  - `validate_config` (function, line 585) `def validate_config(data)`
+  - `_resolve_profile` (function, line 213) `def _resolve_profile(name, raw_profiles, stack)`
+  - `profiles` (function, line 228) `def profiles()`
+  - `_default_profile_name` (function, line 243) `def _default_profile_name(data)`
+  - `active_profile` (function, line 253) `def active_profile()`
+  - `profile_config` (function, line 265) `def profile_config(name)`
+  - `set_profile` (function, line 272) `def set_profile(name)`
+  - `set_harness` (function, line 296) `def set_harness(enabled)`
+  - `limits` (function, line 328) `def limits()`
+  - `budget` (function, line 335) `def budget()`
+  - `chain_defaults` (function, line 342) `def chain_defaults()`
+  - `sinks` (function, line 351) `def sinks()`
+  - `stages` (function, line 362) `def stages()`
+  - `stage_enabled` (function, line 392) `def stage_enabled(name)`
+  - `stage_params` (function, line 398) `def stage_params(name)`
+  - `set_stage` (function, line 403) `def set_stage(name, enabled)`
+  - `effective_verbs` (function, line 428) `def effective_verbs()`
+  - `_catalog_verbs` (function, line 482) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 519) `def verb_config(name)`
+  - `verb_enabled` (function, line 528) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 534) `def upsert_verb(name)`
+  - `remove_verb` (function, line 591) `def remove_verb(name)`
+  - `reset` (function, line 612) `def reset()`
+  - `validate_config` (function, line 619) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -317,25 +318,25 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `OutcomeEvent` (class, line 71) `class OutcomeEvent`
-  - `OutcomeBus` (class, line 149) `class OutcomeBus`
-  - `get_bus` (function, line 265) `def get_bus()`
-  - `reset_bus` (function, line 274) `def reset_bus()`
-  - `record` (function, line 279) `def record(event, sinks)`
-  - `record_event` (function, line 284) `def record_event()`
-  - `severity_for_event` (function, line 289) `def severity_for_event(severity)`
-  - `category_for_event` (function, line 294) `def category_for_event(kind)`
-  - `host_value` (method, line 99) `def host_value(self)`
-  - `key` (method, line 103) `def key(self)`
-  - `to_dict` (method, line 121) `def to_dict(self)`
-  - `__init__` (method, line 152) `def __init__(self, ledger_path, sink_map)`
-  - `reset` (method, line 165) `def reset(self)`
-  - `_sink` (method, line 171) `def _sink(self, name)`
-  - `_enabled_sinks` (method, line 186) `def _enabled_sinks(self, requested)`
-  - `record` (method, line 197) `def record(self, event, sinks)`
-  - `_append_ledger` (method, line 244) `def _append_ledger(self, event, statuses)`
+  - `OutcomeEvent` (class, line 73) `class OutcomeEvent`
+  - `OutcomeBus` (class, line 151) `class OutcomeBus`
+  - `get_bus` (function, line 267) `def get_bus()`
+  - `reset_bus` (function, line 276) `def reset_bus()`
+  - `record` (function, line 281) `def record(event, sinks)`
+  - `record_event` (function, line 286) `def record_event()`
+  - `severity_for_event` (function, line 291) `def severity_for_event(severity)`
+  - `category_for_event` (function, line 296) `def category_for_event(kind)`
+  - `host_value` (method, line 101) `def host_value(self)`
+  - `key` (method, line 105) `def key(self)`
+  - `to_dict` (method, line 123) `def to_dict(self)`
+  - `__init__` (method, line 154) `def __init__(self, ledger_path, sink_map)`
+  - `reset` (method, line 167) `def reset(self)`
+  - `_sink` (method, line 173) `def _sink(self, name)`
+  - `_enabled_sinks` (method, line 188) `def _enabled_sinks(self, requested)`
+  - `record` (method, line 199) `def record(self, event, sinks)`
+  - `_append_ledger` (method, line 246) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
 
 ## modules/payload_factory.py
 - Doc: Native payload generation framework — stagers, stages, singles, formats.

@@ -29,9 +29,9 @@
   - `known_topology` (method, line 136) `def known_topology(self)`
   - `known_campaigns` (method, line 140) `def known_campaigns(self)`
   - `request_world_model` (method, line 144) `def request_world_model(self)`
-  - `request_beacon_history` (method, line 158) `def request_beacon_history(self, client_id)`
-  - `request_session_state` (method, line 172) `def request_session_state(self)`
-- Depends on: `cli/commands/enum.py`, `lazygui/services/models.py`
+  - `request_beacon_history` (method, line 154) `def request_beacon_history(self, client_id)`
+  - `request_session_state` (method, line 168) `def request_session_state(self)`
+- Depends on: `cli/commands/enum.py`, `lazygui/services/models.py`, `modules/world_model.py`
 - Imported by: `lazygui/app.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`
 
 ## lazygui/services/event_log.py
